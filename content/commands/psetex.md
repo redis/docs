@@ -58,7 +58,7 @@ summary: Sets both string value and expiration time in milliseconds of a key. Th
 syntax_fmt: PSETEX key milliseconds value
 title: PSETEX
 ---
-`PSETEX` works exactly like [`SETEX`]({{< relref "/commands/setex" >}}) with the sole difference that the expire
+`PSETEX` works exactly like [`SETEX`](/content/commands/setex.md) with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
 
 ## Required arguments
@@ -84,9 +84,12 @@ The value to set.
 ## Examples
 
 {{% redis-cli %}}
-PSETEX mykey 1000 "Hello"
-PTTL mykey
-GET mykey
+redis> PSETEX mykey 1000 "Hello"
+OK
+redis> PTTL mykey
+(integer) 1000
+redis> GET mykey
+"Hello"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

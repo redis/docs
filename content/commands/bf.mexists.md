@@ -35,7 +35,7 @@ title: BF.MEXISTS
 ---
 Determines whether one or more items were added to a Bloom filter.
 
-This command is similar to [`BF.EXISTS`]({{< relref "commands/bf.exists/" >}}), except that more than one item can be checked.
+This command is similar to [`BF.EXISTS`](/content/commands/bf.exists.md), except that more than one item can be checked.
 
 ## Required arguments
 
@@ -52,7 +52,7 @@ One or more items to check.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.MADD bf item1 item2
 1) (integer) 1
 2) (integer) 1
@@ -60,7 +60,7 @@ redis> BF.MEXISTS bf item1 item2 item3
 1) (integer) 1
 2) (integer) 1
 3) (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -75,13 +75,13 @@ redis> BF.MEXISTS bf item1 item2 item3
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
+* An [array](/content/develop/reference/protocol-spec.md#arrays) of [integers](/content/develop/reference/protocol-spec.md#integers), where each element corresponds to an item in the request. A value of `1` means the item was probably already added to the filter. A value of `0` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [boolean replies]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.
+* An [array](/content/develop/reference/protocol-spec.md#arrays) of [booleans](/content/develop/reference/protocol-spec.md#booleans), where each element corresponds to an item in the request. A value of `true` means the item was probably already added to the filter. A value of `false` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 {{< /multitabs >}}

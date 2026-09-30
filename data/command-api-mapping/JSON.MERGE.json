@@ -368,6 +368,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_merge(key, path, value, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath (must be \"$\" when creating a new key)"
+          },
+          {
+            "name": "value",
+            "type": "Object",
+            "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat value as an already-encoded JSON string and send it as-is"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the raw \"OK\" reply"
+        }
+      }
     ]
   }
 }

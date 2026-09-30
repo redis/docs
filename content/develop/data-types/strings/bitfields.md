@@ -50,4 +50,4 @@ Suppose you want to maintain two metrics for various bicycles: the current price
 
 ## Performance
 
-[`BITFIELD`]({{< relref "/commands/bitfield" >}}) is O(n), where _n_ is the number of counters accessed.
+[`BITFIELD`](/content/commands/bitfield.md) is O(n), where _n_ is the number of counters accessed.

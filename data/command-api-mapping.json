@@ -6485,7 +6485,7 @@
           ],
           "returns": {
             "type": "*StatusCmd",
-            "description": ""
+            "description": "Call on a connection from rdb.Conn(), not the pooled Client"
           }
         },
         {
@@ -6509,7 +6509,7 @@
           ],
           "returns": {
             "type": "*StatusCmd",
-            "description": ""
+            "description": "Call on a connection from rdb.Conn(), not the pooled Client"
           }
         }
       ],
@@ -6534,9 +6534,111 @@
           }
         }
       ],
-      "lettuce_sync": [],
-      "lettuce_async": [],
-      "lettuce_reactive": [],
+      "lettuce_sync": [
+        {
+          "signature": "String auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<String> auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
       "php": [
@@ -34184,6 +34286,51 @@
             "description": "The aggregation results"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "aggregate(query, *args)",
+          "params": [
+            {
+              "name": "query",
+              "type": "Search::AggregateRequest, Search::Cursor, String",
+              "description": "an aggregate request, a cursor to read, or a raw query string followed by raw pipeline args"
+            },
+            {
+              "name": "args",
+              "type": "Array",
+              "description": "raw pipeline tokens when query is a String"
+            }
+          ],
+          "returns": {
+            "type": "Search::AggregateResult",
+            "description": "the result rows (each a Hash) and the cursor id (or nil)"
+          }
+        },
+        {
+          "signature": "ft_aggregate(index_name, query, *args)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "query",
+              "type": "Search::AggregateRequest, Search::Cursor, String",
+              "description": "an aggregate request, a cursor to read, or a raw query string followed by raw pipeline args"
+            },
+            {
+              "name": "args",
+              "type": "Array",
+              "description": "raw pipeline tokens when query is a String, e.g. \"GROUPBY\", 1, \"@x\", \"REDUCE\", \"COUNT\", 0, \"AS\", \"n\""
+            }
+          ],
+          "returns": {
+            "type": "Search::AggregateResult",
+            "description": "the result rows (each a Hash) and the cursor id (or nil)"
+          }
+        }
       ]
     }
   },
@@ -34341,6 +34488,27 @@
             "description": "OK on success"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_aliasadd(alias_name, index_name)",
+          "params": [
+            {
+              "name": "alias_name",
+              "type": "String",
+              "description": "the alias"
+            },
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index the alias points to"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        }
       ]
     }
   },
@@ -34466,6 +34634,22 @@
           "returns": {
             "type": "Status",
             "description": "OK on success"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_aliasdel(alias_name)",
+          "params": [
+            {
+              "name": "alias_name",
+              "type": "String",
+              "description": "the alias"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
           }
         }
       ]
@@ -34623,6 +34807,27 @@
           "returns": {
             "type": "Status",
             "description": "OK on success"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_aliasupdate(alias_name, index_name)",
+          "params": [
+            {
+              "name": "alias_name",
+              "type": "String",
+              "description": "the alias"
+            },
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index the alias should point to"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
           }
         }
       ]
@@ -34819,6 +35024,27 @@
           "returns": {
             "type": "Status",
             "description": "OK on success"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_alter(index_name, field_or_args)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "field_or_args",
+              "type": "Search::Field, Array",
+              "description": "a Search::Field (rendered via #to_args) or a raw token array"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
           }
         }
       ]
@@ -35075,6 +35301,131 @@
             "description": "OK on success"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "create_index(name, schema, storage_type: \"hash\", prefix: nil, stopwords: nil, max_text_fields: false, skip_initial_scan: false, definition: nil)",
+          "params": [
+            {
+              "name": "name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "schema",
+              "type": "Search::Schema",
+              "description": "the field schema, built with Search::Schema.build"
+            },
+            {
+              "name": "storage_type",
+              "type": "String",
+              "description": "the data type to index (\"hash\" or \"json\")"
+            },
+            {
+              "name": "prefix",
+              "type": "String",
+              "description": "key prefix for indexed/added documents"
+            },
+            {
+              "name": "stopwords",
+              "type": "Array<String>",
+              "description": "custom stopword list"
+            },
+            {
+              "name": "max_text_fields",
+              "type": "Boolean",
+              "description": "emit MAXTEXTFIELDS"
+            },
+            {
+              "name": "skip_initial_scan",
+              "type": "Boolean",
+              "description": "emit SKIPINITIALSCAN (do not backfill existing keys)"
+            },
+            {
+              "name": "definition",
+              "type": "Search::IndexDefinition",
+              "description": "a prebuilt ON/PREFIX/FILTER clause; takes precedence over storage_type/prefix"
+            }
+          ],
+          "returns": {
+            "type": "Search::Index",
+            "description": "a stateful index bound to the client, exposing #add/#search/#aggregate/#drop"
+          }
+        },
+        {
+          "signature": "ft_create(index_name, schema, storage_type = nil, prefix: nil, stopwords: nil, max_text_fields: false, skip_initial_scan: false, definition: nil, temporary: nil, no_term_offsets: false, no_highlight: false, no_field_flags: false, no_term_frequencies: false)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "schema",
+              "type": "Search::Schema",
+              "description": "the field schema; the SCHEMA clause is rendered from it"
+            },
+            {
+              "name": "storage_type",
+              "type": "String, Symbol",
+              "description": "the data type to index, e.g. \"HASH\" or \"JSON\" (ON <type>); ignored when definition is given"
+            },
+            {
+              "name": "prefix",
+              "type": "String",
+              "description": "index keys whose name starts with \"<prefix>:\"; ignored when definition is given"
+            },
+            {
+              "name": "stopwords",
+              "type": "Array<String>",
+              "description": "a custom stopword list (STOPWORDS)"
+            },
+            {
+              "name": "max_text_fields",
+              "type": "Boolean",
+              "description": "emit MAXTEXTFIELDS"
+            },
+            {
+              "name": "skip_initial_scan",
+              "type": "Boolean",
+              "description": "emit SKIPINITIALSCAN"
+            },
+            {
+              "name": "definition",
+              "type": "Search::IndexDefinition",
+              "description": "a prebuilt ON/PREFIX/FILTER clause; takes precedence over storage_type/prefix"
+            },
+            {
+              "name": "temporary",
+              "type": "Integer",
+              "description": "index lifetime in seconds (TEMPORARY <seconds>)"
+            },
+            {
+              "name": "no_term_offsets",
+              "type": "Boolean",
+              "description": "emit NOOFFSETS"
+            },
+            {
+              "name": "no_highlight",
+              "type": "Boolean",
+              "description": "emit NOHL"
+            },
+            {
+              "name": "no_field_flags",
+              "type": "Boolean",
+              "description": "emit NOFIELDS"
+            },
+            {
+              "name": "no_term_frequencies",
+              "type": "Boolean",
+              "description": "emit NOFREQS"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\" on success"
+          }
+        }
       ]
     }
   },
@@ -35220,6 +35571,27 @@
           "returns": {
             "type": "Status",
             "description": "OK on success"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_cursor_del(index_name, cursor_id)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "cursor_id",
+              "type": "Integer",
+              "description": "the cursor id"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
           }
         }
       ]
@@ -35404,6 +35776,27 @@
             "description": "The next batch of aggregation results"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_cursor_read(index_name, cursor_id)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "cursor_id",
+              "type": "Integer",
+              "description": "the cursor id returned by a previous WITHCURSOR aggregation"
+            }
+          ],
+          "returns": {
+            "type": "Search::AggregateResult",
+            "description": "the next rows, with #cursor set to the next cursor id (0 when exhausted)"
+          }
+        }
       ]
     }
   },
@@ -35564,6 +35957,27 @@
           "returns": {
             "type": "int",
             "description": "Number of terms added"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_dictadd(dict_name, *terms)",
+          "params": [
+            {
+              "name": "dict_name",
+              "type": "String",
+              "description": "the dictionary name"
+            },
+            {
+              "name": "terms",
+              "type": "Array<String>",
+              "description": "the terms to add"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of new terms added"
           }
         }
       ]
@@ -35728,6 +36142,27 @@
             "description": "Number of terms deleted"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_dictdel(dict_name, *terms)",
+          "params": [
+            {
+              "name": "dict_name",
+              "type": "String",
+              "description": "the dictionary name"
+            },
+            {
+              "name": "terms",
+              "type": "Array<String>",
+              "description": "the terms to remove"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of terms removed"
+          }
+        }
       ]
     }
   },
@@ -35853,6 +36288,22 @@
           "returns": {
             "type": "array",
             "description": "All terms in the dictionary"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_dictdump(dict_name)",
+          "params": [
+            {
+              "name": "dict_name",
+              "type": "String",
+              "description": "the dictionary name"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the terms in the dictionary"
           }
         }
       ]
@@ -36040,6 +36491,41 @@
             "description": "OK on success"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "drop(delete_documents: false)",
+          "params": [
+            {
+              "name": "delete_documents",
+              "type": "Boolean",
+              "description": "also delete the indexed documents (DD)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        },
+        {
+          "signature": "ft_dropindex(index_name, delete_documents: false)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "delete_documents",
+              "type": "Boolean",
+              "description": "also delete the indexed documents (DD)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        }
       ]
     }
   },
@@ -36215,6 +36701,27 @@
           "returns": {
             "type": "string",
             "description": "Query execution plan"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_explain(index_name, query)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "query",
+              "type": "String",
+              "description": "the query string"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "a human-readable description of the query plan"
           }
         }
       ]
@@ -36456,6 +36963,52 @@
             "description": "Hybrid search results"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_hybrid_search(index_name, query:, combine_method: nil, post_processing: nil, params_substitution: nil, timeout: nil, cursor: nil)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "query",
+              "type": "Search::HybridQuery",
+              "description": "the combined SEARCH + VSIM query"
+            },
+            {
+              "name": "combine_method",
+              "type": "Search::CombineResultsMethod",
+              "description": "the fusion strategy (RRF/LINEAR)"
+            },
+            {
+              "name": "post_processing",
+              "type": "Search::HybridPostProcessingConfig",
+              "description": "a post-fusion pipeline"
+            },
+            {
+              "name": "params_substitution",
+              "type": "Hash",
+              "description": "query parameter substitutions (PARAMS)"
+            },
+            {
+              "name": "timeout",
+              "type": "Integer",
+              "description": "query timeout in milliseconds (TIMEOUT)"
+            },
+            {
+              "name": "cursor",
+              "type": "Search::HybridCursorQuery",
+              "description": "cursor/pagination config (WITHCURSOR)"
+            }
+          ],
+          "returns": {
+            "type": "Search::HybridResult",
+            "description": "the fused result rows, total, warnings and execution time (or, for a WITHCURSOR query, the per-leg cursor ids)"
+          }
+        }
       ]
     }
   },
@@ -36575,6 +37128,22 @@
           "returns": {
             "type": "array",
             "description": "Index information"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_info(index_name)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            }
+          ],
+          "returns": {
+            "type": "Hash",
+            "description": "index metadata (e.g. \"index_name\", \"num_docs\", \"attributes\")"
           }
         }
       ]
@@ -36870,6 +37439,27 @@
             "description": "Query results and profiling information"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_profile(index_name, *args)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "args",
+              "type": "Array",
+              "description": "the profile arguments, e.g. \"SEARCH\", \"QUERY\", \"<query>\""
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "the raw profile reply (results plus a profiling tree)"
+          }
+        }
       ]
     }
   },
@@ -37093,6 +37683,81 @@
           "returns": {
             "type": "array",
             "description": "Search results"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "search(query = nil, return_fields: nil, nocontent: nil, sort_by: nil, asc: nil, dialect: nil, with_scores: nil, params: nil)",
+          "params": [
+            {
+              "name": "query",
+              "type": "String, Search::Query",
+              "description": "a query string or a Search::Query object; a block builds a Query via the predicate DSL"
+            },
+            {
+              "name": "return_fields",
+              "type": "Array<String>",
+              "description": "only return these fields (RETURN)"
+            },
+            {
+              "name": "nocontent",
+              "type": "Boolean",
+              "description": "return ids only (NOCONTENT)"
+            },
+            {
+              "name": "sort_by",
+              "type": "String",
+              "description": "sort field (SORTBY); pair with asc:"
+            },
+            {
+              "name": "asc",
+              "type": "Boolean",
+              "description": "sort ascending (default); pass false for descending"
+            },
+            {
+              "name": "dialect",
+              "type": "Integer",
+              "description": "query dialect version (DIALECT); defaults to 2"
+            },
+            {
+              "name": "with_scores",
+              "type": "Boolean",
+              "description": "include the relevance score on each document (WITHSCORES)"
+            },
+            {
+              "name": "params",
+              "type": "Hash",
+              "description": "query parameter substitutions (PARAMS)"
+            }
+          ],
+          "returns": {
+            "type": "Search::SearchResult",
+            "description": "the total count and the matching Search::Document objects"
+          }
+        },
+        {
+          "signature": "ft_search(index_name, query, **options)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index (or alias) name"
+            },
+            {
+              "name": "query",
+              "type": "String",
+              "description": "the query string"
+            },
+            {
+              "name": "options",
+              "type": "Hash",
+              "description": "search options translated to FT.SEARCH tokens (:no_content, :with_scores, :limit, :sortby, :filter, :geo_filter, :return, :params, :dialect, ...)"
+            }
+          ],
+          "returns": {
+            "type": "Search::SearchResult",
+            "description": "the total count and the matching Search::Document objects"
           }
         }
       ]
@@ -37338,6 +38003,42 @@
           "returns": {
             "type": "array",
             "description": "Spell check suggestions"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_spellcheck(index_name, query, distance: nil, include: nil, exclude: nil)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "query",
+              "type": "String",
+              "description": "the query whose terms are checked"
+            },
+            {
+              "name": "distance",
+              "type": "Integer",
+              "description": "maximum Levenshtein distance for suggestions (DISTANCE)"
+            },
+            {
+              "name": "include",
+              "type": "String",
+              "description": "a custom dictionary to include terms from (TERMS INCLUDE)"
+            },
+            {
+              "name": "exclude",
+              "type": "String",
+              "description": "a custom dictionary to exclude terms from (TERMS EXCLUDE)"
+            }
+          ],
+          "returns": {
+            "type": "Hash",
+            "description": "each misspelled term mapped to an array of { \"suggestion\" => String, \"score\" => Numeric }"
           }
         }
       ]
@@ -37620,6 +38321,37 @@
             "description": "The current size of the suggestion dictionary"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_sugadd(key, string, score, options = {})",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the suggestion dictionary key"
+            },
+            {
+              "name": "string",
+              "type": "String",
+              "description": "the suggestion text"
+            },
+            {
+              "name": "score",
+              "type": "Numeric",
+              "description": "the suggestion weight"
+            },
+            {
+              "name": "options",
+              "type": "Hash",
+              "description": "accepts :incr (increment the existing score, INCR) and :payload (opaque payload, PAYLOAD)"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the current size of the suggestion dictionary"
+          }
+        }
       ]
     }
   },
@@ -37780,6 +38512,27 @@
           "returns": {
             "type": "int",
             "description": "1 if deleted, 0 if not found"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_sugdel(key, string)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the suggestion dictionary key"
+            },
+            {
+              "name": "string",
+              "type": "String",
+              "description": "the suggestion text to delete"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "1 if the suggestion existed and was deleted, 0 otherwise"
           }
         }
       ]
@@ -38125,6 +38878,32 @@
             "description": "List of suggestions"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_sugget(key, prefix, options = {})",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the suggestion dictionary key"
+            },
+            {
+              "name": "prefix",
+              "type": "String",
+              "description": "the prefix to complete"
+            },
+            {
+              "name": "options",
+              "type": "Hash",
+              "description": "accepts :fuzzy (FUZZY), :with_scores (WITHSCORES), :with_payloads (WITHPAYLOADS) and :max (MAX)"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the suggestions, interleaved with scores/payloads when requested"
+          }
+        }
       ]
     }
   },
@@ -38252,6 +39031,22 @@
             "description": "The number of suggestions in the dictionary"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_suglen(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the suggestion dictionary key"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of suggestions"
+          }
+        }
       ]
     }
   },
@@ -38371,6 +39166,22 @@
           "returns": {
             "type": "array",
             "description": "Synonym groups and their terms"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_syndump(index_name)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            }
+          ],
+          "returns": {
+            "type": "Hash",
+            "description": "each term mapped to the synonym group ids it belongs to"
           }
         }
       ]
@@ -38590,6 +39401,37 @@
             "description": "OK on success"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_synupdate(index_name, group_id, *terms, skip_initial_scan: false)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "group_id",
+              "type": "String",
+              "description": "the synonym group id"
+            },
+            {
+              "name": "terms",
+              "type": "Array<String>",
+              "description": "the terms to add to the group"
+            },
+            {
+              "name": "skip_initial_scan",
+              "type": "Boolean",
+              "description": "do not re-scan existing documents (SKIPINITIALSCAN)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        }
       ]
     }
   },
@@ -38745,6 +39587,27 @@
           "returns": {
             "type": "array",
             "description": "Distinct tag values"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ft_tagvals(index_name, field_name)",
+          "params": [
+            {
+              "name": "index_name",
+              "type": "String",
+              "description": "the index name"
+            },
+            {
+              "name": "field_name",
+              "type": "String",
+              "description": "the TAG field name"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the distinct tag values (normalized to lowercase unless the field is case-sensitive)"
           }
         }
       ]
@@ -66988,6 +67851,37 @@
             "description": "The array length after the append operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrappend(key, path, *values, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "*values",
+              "type": "Array<Object>",
+              "description": "one or more JSON values to append"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s); an Array for a JSONPath, a single Integer for a legacy path (nil for a match that is not an array)"
+          }
+        }
       ]
     }
   },
@@ -67656,6 +68550,47 @@
             "description": "The index of the first matching element in the requested range."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrindex(key, path, value, start: nil, stop: nil, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "the scalar JSON value to search for"
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "optional inclusive start index"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "optional exclusive stop index"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the index/indices of the first match (-1 if not found)"
+          }
+        }
       ]
     }
   },
@@ -68127,6 +69062,42 @@
             "description": "The array length after the insert operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrinsert(key, path, index, *values, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "the position to insert before"
+            },
+            {
+              "name": "*values",
+              "type": "Array<Object>",
+              "description": "one or more JSON values to insert"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s)"
+          }
+        }
       ]
     }
   },
@@ -68440,6 +69411,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The length of the JSON array at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the array length(s); nil for a match that is not an array, or when the key/path does not exist"
           }
         }
       ]
@@ -68907,6 +69899,37 @@
             "description": "The removed JSON element."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrpop(key, path = nil, index = nil, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath to the target array (defaults to the root \"$\")"
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "an optional position to pop from (defaults to -1, the last element)"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON string(s) instead of parsed Ruby objects"
+            }
+          ],
+          "returns": {
+            "type": "Array, Object, nil",
+            "description": "the popped value(s); an Array for a JSONPath, a single value for a legacy path, nil for an empty array or a non-array match"
+          }
+        }
       ]
     }
   },
@@ -69261,6 +70284,37 @@
             "description": "The length of the array after trimming."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrtrim(key, path, start, stop)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "inclusive index of the first element to keep"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "inclusive index of the last element to keep"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s)"
+          }
+        }
       ]
     }
   },
@@ -69590,6 +70644,27 @@
             "description": "The number of values cleared."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_clear(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values cleared"
+          }
+        }
       ]
     }
   },
@@ -69693,6 +70768,27 @@
           "returns": {
             "type": "long",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_debug_memory(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the size(s) in bytes: an Array for a JSONPath, a single integer for a legacy path or when no path is given (0 for a missing key)"
           }
         }
       ]
@@ -70024,6 +71120,27 @@
             "description": "The number of paths deleted."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_del(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values deleted"
+          }
+        }
       ]
     }
   },
@@ -70094,6 +71211,27 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_forget(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values deleted (alias of json_del)"
           }
         }
       ]
@@ -70523,6 +71661,32 @@
             "description": "The JSON value at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_get(key, *paths, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*paths",
+              "type": "Array<String>",
+              "description": "zero or more JSONPath expressions; with none the whole document is returned"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON string instead of a parsed Ruby object"
+            }
+          ],
+          "returns": {
+            "type": "Object, String, nil",
+            "description": "the parsed JSON value (or the raw JSON string when raw is true), or nil if the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -70896,6 +72060,37 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_merge(key, path, value, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath (must be \"$\" when creating a new key)"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "the raw \"OK\" reply"
+          }
+        }
       ]
     }
   },
@@ -71236,6 +72431,32 @@
             "description": "The JSON values found at the requested path across the requested keys."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_mget(*keys, path, raw: false)",
+          "params": [
+            {
+              "name": "*keys",
+              "type": "Array<String>",
+              "description": "one or more keys to read"
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a single JSONPath applied to every key"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON strings instead of parsed Ruby objects"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "one value per key (nil for a missing key/path)"
+          }
+        }
       ]
     }
   },
@@ -71403,6 +72624,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The status reply for the multi-set operation."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_mset(*args, raw: false)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "a flat list of key, path, value triplets"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "the raw \"OK\" reply"
           }
         }
       ]
@@ -71724,6 +72966,32 @@
             "description": "The updated numeric value."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_numincrby(key, path, number)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the numeric value(s)"
+            },
+            {
+              "name": "number",
+              "type": "Numeric",
+              "description": "the amount to add"
+            }
+          ],
+          "returns": {
+            "type": "Array<Numeric>, Numeric, nil",
+            "description": "the new value(s): an Array for a JSONPath, a single number for a legacy path; nil (or nil element) for a non-numeric match"
+          }
+        }
       ]
     }
   },
@@ -72039,6 +73307,27 @@
             "description": "The keys contained in the JSON object at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_objkeys(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "an array of key-name arrays (JSONPath) or a single array of key names (legacy path); nil for a non-object match"
+          }
+        }
       ]
     }
   },
@@ -72352,6 +73641,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The number of keys in the JSON object at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_objlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the key count(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-object match"
           }
         }
       ]
@@ -73170,6 +74480,47 @@
             "description": "The status reply for the set operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_set(key, path, value, nx: false, xx: false, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath, e.g. \"$\" for the document root"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": "only set when the path does not already exist"
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": "only set when the path already exists"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "Boolean, String",
+            "description": "when nx or xx is given, true on success and false when the condition was not met; otherwise the raw \"OK\" reply"
+          }
+        }
       ]
     }
   },
@@ -73694,6 +75045,37 @@
             "description": "The string length after the append operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_strappend(key, path, value, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target string(s)"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "the string to append"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the new string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
+          }
+        }
       ]
     }
   },
@@ -74009,6 +75391,27 @@
             "description": "The length of the JSON string at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_strlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
+          }
+        }
       ]
     }
   },
@@ -74266,6 +75669,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The toggled boolean value."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_toggle(key, path)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target boolean(s)"
+            }
+          ],
+          "returns": {
+            "type": "Array, Object, nil",
+            "description": "1/0 for the new true/false value(s): an Array for a JSONPath, a single value for a legacy path; nil for a non-boolean match"
           }
         }
       ]
@@ -74581,6 +76005,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The JSON type at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_type(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>, String, nil",
+            "description": "the type name(s): an Array for a JSONPath, a single string for a legacy path"
           }
         }
       ]

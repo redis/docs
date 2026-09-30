@@ -25,7 +25,7 @@ To create a custom reader:
 
 ## Custom reader example
 
-The implementation of the [`KeysOnlyReader`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/keysonlyreader" >}}) class shows how to create a custom reader with `JavaReader`:
+The implementation of the [`KeysOnlyReader`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/keysonlyreader.md) class shows how to create a custom reader with `JavaReader`:
 
 ```java
 import java.util.Iterator;

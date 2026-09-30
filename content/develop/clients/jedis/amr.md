@@ -30,7 +30,7 @@ in the Microsoft docs to learn how to configure Azure to use Entra ID authentica
 
 ## Install
 
-Install [`jedis`]({{< relref "/develop/clients/jedis" >}}) first,
+Install [`jedis`](/content/develop/clients/jedis/_index.md) first,
 if you have not already done so.
 
 If you are using Maven, add
@@ -137,7 +137,7 @@ The example below shows how to include the `TokenAuthConfig` details in a
 The connection uses
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
 which is recommended and enabled by default for managed identities. See
-[Connect to your production Redis with TLS]({{< relref "/develop/clients/jedis/connect#connect-to-your-production-redis-with-tls" >}}) for more information about
+[Connect to your production Redis with TLS](/content/develop/clients/jedis/connect.md#connect-to-your-production-redis-with-tls) for more information about
 TLS connections, including the implementation of the `createSslSocketFactory()`
 method used in the example.
 

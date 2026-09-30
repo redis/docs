@@ -12,6 +12,37 @@ min-version-rs: blah
 weight: 40
 ---
 
+## Redis Open Source 8.4.6 (August 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2026-62356) Miscalculated buffer size in `CMSketch` RDB loading may lead to heap OOB write.
+- Out-of-bounds access in TopK heap cleanup path (MOD-15410).
+- Use-after-free in the TLS pending-data list when a command closes another pending connection.
+- [#15478](https://github.com/redis/redis/pull/15478) ACL key permission bypass in `SORT`, `GEORADIUS`/`GEORADIUSBYMEMBER` and `XREAD`/`XREADGROUP`: the keys validated by ACL could differ from the keys the command actually accesses.
+- [#14847](https://github.com/redis/redis/pull/14847) Out-of-bounds `argv` access during key extraction when checking ACL permissions of a `KEYNUM keyspec` command (for example, `EVAL`) with wrong arity.
+- A malicious RDB payload with an out-of-range `SLOT_INFO slot id` causes memory corruption during RDB loading, which may lead to Remote Code Execution.
+- Vector Sets: missing node level validation when loading a vector set from RDB may lead to out-of-bounds access.
+- Vector Sets: use-after-free when `VREM` mutates the HNSW graph while background `VSIM` threads are still running.
+- Vector Sets: a negative `hnsw_search()` return was treated as a huge unsigned count, reading past the end of the result arrays.
+- [#15594](https://github.com/redis/redis/pull/15594) Use-after-free in the blocked-client list when reprocessing a command evicts another client blocked on the same key.
+
+## Redis Open Source 8.4.5 (July 2026)
+
+SECURITY: There are security fixes in the release.
+
+### Security fixes
+
+- Use-after-free when loading a stream consumer group via `RESTORE` may lead to Remote Code Execution.
+- RedisBloom/RedisBloom[#1039](https://github.com/redisbloom/redisbloom/pull/1039) Crafted RESTORE payloads in RedisBloom and TDigest may trigger out-of-bounds writes, potentially leading to remote code execution.
+
+### Bug fixes
+
+- RedisBloom/RedisBloom[#1020](https://github.com/redisbloom/redisbloom/pull/1020) Replicate `CF.LOADCHUNK` data chunks to prevent silent Cuckoo Filter data loss on failover.
+
+
 ## Redis Open Source 8.4.4 (June 2026)
 
 Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.

@@ -79,12 +79,19 @@ One or more members to remove from the set.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SREM myset "one"
-SREM myset "four"
-SMEMBERS myset
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "two"
+(integer) 1
+redis> SADD myset "three"
+(integer) 1
+redis> SREM myset "one"
+(integer) 1
+redis> SREM myset "four"
+(integer) 0
+redis> SMEMBERS myset
+1) "two"
+2) "three"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

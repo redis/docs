@@ -11,10 +11,9 @@ weight: 35
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 24.04 (Noble).
 
-{{< note >}}
-Docker images used to produce these build notes:
-- ubuntu:24.04
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - ubuntu:24.04
 
 ## 1. Install required dependencies
 
@@ -97,10 +96,13 @@ To start Redis, use the following command:
 
 ```bash
 cd /usr/src/redis-<version>
-./src/redis-server redis-full.conf
+./src/redis-server redis.conf
 ```
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+> [!NOTE]
+> Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
+
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>

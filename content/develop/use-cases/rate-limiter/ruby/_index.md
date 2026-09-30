@@ -14,7 +14,7 @@ title: Token bucket rate limiter with Redis and Ruby
 weight: 7
 ---
 
-This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Ruby with the [`redis-rb`]({{< relref "/develop/clients/ruby" >}}) client library.
+This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Ruby with the [`redis-rb`](/content/develop/clients/ruby/_index.md) client library.
 
 ## Overview
 
@@ -25,7 +25,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Ruby implementation using the [`redis-rb`]({{< relref "/develop/clients/ruby" >}}) gem.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Ruby implementation using the [`redis-rb`](/content/develop/clients/ruby/_index.md) gem.
 
 ## How it works
 
@@ -97,12 +97,12 @@ return {allowed, tokens}
 
 ### Script breakdown
 
-1. **State retrieval**: Uses [`HMGET`]({{< relref "/commands/hmget" >}}) to fetch the current token count and last refill time from a hash
+1. **State retrieval**: Uses [`HMGET`](/content/commands/hmget.md) to fetch the current token count and last refill time from a hash
 2. **Initialization**: On first use, sets tokens to full capacity
 3. **Token refill calculation**: Computes how many tokens should be added based on elapsed time
 4. **Capacity enforcement**: Uses `math.min()` to ensure tokens never exceed capacity
 5. **Token consumption**: Decrements the token count if available
-6. **State update**: Uses [`HMSET`]({{< relref "/commands/hmset" >}}) to save the new state
+6. **State update**: Uses [`HMSET`](/content/commands/hmset.md) to save the new state
 7. **Return value**: Returns both the decision (allowed/denied) and remaining tokens
 
 ### Why atomicity matters
@@ -113,7 +113,7 @@ Without atomic execution, race conditions could occur:
 * **Lost updates**: Concurrent updates could overwrite each other's changes
 * **Inconsistent state**: Token count and refill time could become desynchronized
 
-Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
+Using [`EVAL`](/content/commands/eval.md) or [`EVALSHA`](/content/commands/evalsha.md) ensures the entire operation executes atomically, making it safe for distributed systems.
 
 ## Installation
 
@@ -176,7 +176,7 @@ Ruby's keyword arguments make the constructor parameters self-documenting, and t
 * **refill_interval**: Time in seconds between refills
 
 For example:
-* `capacity: 10, refill_rate: 1, refill_interval: 1.0` allows 10 requests per second with bursts up to 10
+* `capacity: 10, refill_rate: 1, refill_interval: 1.0` allows 1 request per second with bursts up to 10
 * `capacity: 100, refill_rate: 10, refill_interval: 1.0` allows 10 requests per second with bursts up to 100
 * `capacity: 60, refill_rate: 1, refill_interval: 60.0` allows 1 request per minute with bursts up to 60
 
@@ -191,7 +191,7 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ### Script caching with EVALSHA
 
-The Ruby implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal performance. On first use, the Lua script is loaded into Redis with `SCRIPT LOAD`, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the module automatically falls back to [`EVAL`]({{< relref "/commands/eval" >}}) and reloads the script.
+The Ruby implementation uses [`EVALSHA`](/content/commands/evalsha.md) for optimal performance. On first use, the Lua script is loaded into Redis with `SCRIPT LOAD`, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the module automatically falls back to [`EVAL`](/content/commands/eval.md) and reloads the script.
 
 ```ruby
 # The module handles script caching automatically.
@@ -300,12 +300,232 @@ rescue Redis::BaseError => e
 end
 ```
 
+## Alternative rate limiting algorithms
+
+The token bucket algorithm above handles most use cases but Redis supports
+other rate limiter patterns that might fit your requirements better. The table
+below lists four other algorithms alongside token bucket and summarizes
+their features:
+
+| Algorithm | Memory | Accuracy | Burst behavior | Best for |
+|---|---|---|---|---|
+| [Token bucket](#how-it-works) | 1 key (hash) | Exact | Controlled bursts | APIs with bursty traffic |
+| [Fixed window counter](#fixed-window-counter) | 1 key (string) | Approximate | 2x burst at boundaries | Simple API limits |
+| [Sliding window log](#sliding-window-log) | O(n) entries | Exact | No bursts | High-value APIs, audit trails |
+| [Sliding window counter](#sliding-window-counter) | 2 keys (string) | Near-exact | Smoothed boundaries | General-purpose APIs |
+| [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
+
+The sections below give example implementations of these other algorithms.
+The three time-based algorithms call `redis.call('TIME')` inside the Lua
+script to derive the current timestamp from the Redis server clock. This
+eliminates clock drift when the limiter runs across multiple application
+servers. The fixed window counter reads no clock: the key's TTL defines
+the window.
+
+### Fixed window counter
+
+Counts requests within discrete, non-overlapping time intervals.
+Simplest algorithm — one key per window, one `EVAL` round trip.
+
+```ruby
+require "redis"
+
+FIXED_WINDOW_SCRIPT = <<~LUA
+  local key    = KEYS[1]
+  local limit  = tonumber(ARGV[1])
+  local window = tonumber(ARGV[2])
+
+  local count = redis.call('INCR', key)
+  if count == 1 then
+      redis.call('EXPIRE', key, window)
+  end
+
+  local ttl = redis.call('PTTL', key)
+
+  if count > limit then
+      return {0, ttl}
+  end
+  return {1, ttl}
+LUA
+
+# Returns a hash with :allowed and :retry_after_ms keys.
+def fixed_window_allow(redis, key, limit, window_seconds)
+  allowed, ttl = redis.eval(FIXED_WINDOW_SCRIPT,
+                            keys: [key], argv: [limit, window_seconds])
+
+  { allowed: allowed == 1, retry_after_ms: allowed == 1 ? 0 : ttl }
+end
+```
+
+**Trade-off**: A client can make 2x requests by sending `limit` requests
+at the end of one window and `limit` requests at the start of the next.
+
+### Sliding window log
+
+Records the exact timestamp of every request in a sorted set.
+Provides a true rolling window with no boundary bursts.
+
+```ruby
+require "redis"
+require "securerandom"
+
+SLIDING_WINDOW_LOG_SCRIPT = <<~LUA
+  local key    = KEYS[1]
+  local limit  = tonumber(ARGV[1])
+  local window = tonumber(ARGV[2])
+  local member = ARGV[3]
+
+  local t      = redis.call('TIME')
+  local now    = tonumber(t[1]) + tonumber(t[2]) / 1e6
+  local cutoff = now - window
+
+  redis.call('ZREMRANGEBYSCORE', key, '-inf', cutoff)
+
+  local count = redis.call('ZCARD', key)
+
+  if count < limit then
+      redis.call('ZADD', key, now, member)
+      redis.call('EXPIRE', key, window * 2)
+      return {1, 0}
+  end
+
+  local oldest = redis.call('ZRANGE', key, 0, 0, 'WITHSCORES')
+  local retry_after_ms = 0
+  if oldest[2] then
+      retry_after_ms = math.floor((tonumber(oldest[2]) + window - now) * 1000)
+  end
+
+  return {0, retry_after_ms}
+LUA
+
+def sliding_window_log_allow(redis, key, limit, window_seconds)
+  allowed, retry_after_ms = redis.eval(SLIDING_WINDOW_LOG_SCRIPT,
+                                       keys: [key],
+                                       argv: [limit, window_seconds, SecureRandom.uuid])
+
+  { allowed: allowed == 1, retry_after_ms: retry_after_ms }
+end
+```
+
+**Trade-off**: Memory grows O(n) with request volume. Not ideal for
+high-volume, high-cardinality rate limiting.
+
+### Sliding window counter
+
+Blends two fixed-window counters using a weighted average to approximate
+a true sliding window. Near-exact accuracy with the same low memory
+footprint as a fixed window. The two keys use hash tags so they map
+to the same slot in Redis Cluster.
+
+```ruby
+require "redis"
+
+SLIDING_WINDOW_COUNTER_SCRIPT = <<~LUA
+  local base   = KEYS[1]
+  local limit  = tonumber(ARGV[1])
+  local window = tonumber(ARGV[2])
+
+  local t   = redis.call('TIME')
+  local now = tonumber(t[1]) + tonumber(t[2]) / 1e6
+
+  local window_num = math.floor(now / window)
+  local elapsed     = (now % window) / window
+
+  local curr_key = base .. ':' .. window_num
+  local prev_key = base .. ':' .. (window_num - 1)
+
+  local prev = tonumber(redis.call('GET', prev_key) or 0)
+  local curr = tonumber(redis.call('GET', curr_key) or 0)
+
+  local estimate = prev * (1 - elapsed) + curr
+
+  if estimate >= limit then
+      return {0, 0}
+  end
+
+  local new_count = redis.call('INCR', curr_key)
+  if new_count == 1 then
+      redis.call('EXPIRE', curr_key, window * 2)
+  end
+
+  return {1, 0}
+LUA
+
+def sliding_window_counter_allow(redis, key, limit, window_seconds)
+  allowed, = redis.eval(SLIDING_WINDOW_COUNTER_SCRIPT,
+                        keys: ["{#{key}}"], argv: [limit, window_seconds])
+
+  { allowed: allowed == 1 }
+end
+```
+
+**Trade-off**: The weighted estimate may let slightly more or fewer
+requests through than the exact limit. Negligible for most apps.
+
+### Leaky bucket (policing)
+
+A virtual bucket fills with incoming requests and drains at a fixed rate.
+If the bucket is full, requests are rejected immediately. This is the
+policing variant — requests are allowed or denied instantly with no delay.
+
+```ruby
+require "redis"
+
+LEAKY_BUCKET_SCRIPT = <<~LUA
+  local key       = KEYS[1]
+  local capacity  = tonumber(ARGV[1])
+  local leak_rate = tonumber(ARGV[2])
+
+  local t   = redis.call('TIME')
+  local now = tonumber(t[1]) + tonumber(t[2]) / 1e6
+
+  local data      = redis.call('HGETALL', key)
+  local level     = 0
+  local last_leak = now
+
+  if #data > 0 then
+      for i = 1, #data, 2 do
+          if data[i] == 'level' then
+              level = tonumber(data[i+1])
+          elseif data[i] == 'last_leak' then
+              last_leak = tonumber(data[i+1])
+          end
+      end
+  end
+
+  local elapsed = now - last_leak
+  level = math.max(0, level - elapsed * leak_rate)
+
+  if level + 1 > capacity then
+      return {0, math.floor((level + 1 - capacity) / leak_rate * 1000)}
+  end
+
+  level = level + 1
+  local ttl = math.ceil(capacity / leak_rate) + 1
+
+  redis.call('HSET', key, 'level', level, 'last_leak', now)
+  redis.call('EXPIRE', key, ttl)
+
+  return {1, 0}
+LUA
+
+def leaky_bucket_allow(redis, key, capacity, leak_rate)
+  allowed, retry_after_ms = redis.eval(LEAKY_BUCKET_SCRIPT,
+                                       keys: [key], argv: [capacity, leak_rate])
+
+  { allowed: allowed == 1, retry_after_ms: retry_after_ms }
+end
+```
+
+**Trade-off**: Overflow traffic is rejected immediately. Clients must
+handle `429 Too Many Requests` and retry with backoff.
+
 ## Learn more
 
-* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
-* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
-* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
-* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
-* [Ruby client]({{< relref "/develop/clients/ruby" >}}) - Redis Ruby client documentation
+* [EVAL command](/content/commands/eval.md) - Execute Lua scripts
+* [EVALSHA command](/content/commands/evalsha.md) - Execute cached Lua scripts
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Introduction to Redis Lua scripting
+* [HMGET command](/content/commands/hmget.md) - Get multiple hash fields
+* [HMSET command](/content/commands/hmset.md) - Set multiple hash fields
+* [Ruby client](/content/develop/clients/ruby/_index.md) - Redis Ruby client documentation
 

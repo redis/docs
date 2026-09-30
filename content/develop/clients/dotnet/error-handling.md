@@ -17,8 +17,8 @@ documentation often omit error handling for brevity, but it is essential in prod
 This page explains how error handling works in `StackExchange.Redis` and how to apply common
 error handling patterns.
 
-For an overview of error types and handling strategies, see [Error handling]({{< relref "/develop/clients/error-handling" >}}).
-See also [Production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
+For an overview of error types and handling strategies, see [Error handling](/content/develop/clients/error-handling.md).
+See also [Production usage](/content/develop/clients/dotnet/produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -33,19 +33,19 @@ app reliability.
 | `RedisCommandException` | Invalid command or arguments | ❌ | Fix the command or arguments |
 | `RedisServerException` | Invalid operation on server | ❌ | Fix the operation or data |
 
-See [Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
+See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 ## Applying error handling patterns
 
-The [Error handling]({{< relref "/develop/clients/error-handling" >}}) overview
+The [Error handling](/content/develop/clients/error-handling.md) overview
 describes four main patterns. The sections below show how to implement them in
 `StackExchange.Redis`:
 
 ### Pattern 1: Fail fast
 
 Catch specific exceptions that represent unrecoverable errors and re-throw them (see
-[Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
+[Pattern 1: Fail fast](/content/develop/clients/error-handling.md#pattern-1-fail-fast)
 for a full description):
 
 ```csharp
@@ -66,7 +66,7 @@ try {
 ### Pattern 2: Graceful degradation
 
 Catch specific errors and fall back to an alternative, where possible (see
-[Pattern 2: Graceful degradation]({{< relref "/develop/clients/error-handling#pattern-2-graceful-degradation" >}})
+[Pattern 2: Graceful degradation](/content/develop/clients/error-handling.md#pattern-2-graceful-degradation)
 for a full description):
 
 ```csharp
@@ -84,7 +84,7 @@ try {
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors such as timeouts (see
-[Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
+[Pattern 3: Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff)
 for a full description):
 
 ```csharp
@@ -105,13 +105,13 @@ for (int attempt = 0; attempt < maxRetries; attempt++) {
 }
 ```
 
-See also [Timeouts]({{< relref "/develop/clients/dotnet/produsage#timeouts" >}})
+See also [Timeouts](/content/develop/clients/dotnet/produsage.md#timeouts)
 for more information on configuring timeouts in `StackExchange.Redis`.
 
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
-[Pattern 4: Log and continue]({{< relref "/develop/clients/error-handling#pattern-4-log-and-continue" >}})
+[Pattern 4: Log and continue](/content/develop/clients/error-handling.md#pattern-4-log-and-continue)
 for a full description):
 
 ```csharp
@@ -151,5 +151,5 @@ async Task<string> GetWithFallbackAsync(string key) {
 
 ## See also
 
-- [Error handling]({{< relref "/develop/clients/error-handling" >}})
-- [Production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
+- [Error handling](/content/develop/clients/error-handling.md)
+- [Production usage](/content/develop/clients/dotnet/produsage.md)

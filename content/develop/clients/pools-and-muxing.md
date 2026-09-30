@@ -27,13 +27,13 @@ code by making as few separate connections as possible.
 Managing connections in your own code can be tricky, so the Redis
 client libraries give you some help. The two basic approaches to
 connection management are called *connection pooling* and *multiplexing*.
-The [`redis-py`]({{< relref "/develop/clients/redis-py" >}}),
-[`jedis`]({{< relref "/develop/clients/jedis" >}}), and
-[`go-redis`]({{< relref "/develop/clients/go" >}}) clients support
+The [`redis-py`](/content/develop/clients/redis-py/_index.md),
+[`jedis`](/content/develop/clients/jedis/_index.md), and
+[`go-redis`](/content/develop/clients/go/_index.md) clients support
 connection pooling, while
-[`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}})
+[`StackExchange.Redis`](/content/develop/clients/dotnet/_index.md)
 supports multiplexing.
-[`Lettuce`]({{< relref "/develop/clients/lettuce" >}})
+[`Lettuce`](/content/develop/clients/lettuce/_index.md)
 supports both approaches.
 
 ## Connection pooling
@@ -41,19 +41,19 @@ supports both approaches.
 When you initialize a connection pool, the client opens a small number
 of connections and adds them to the pool.
 
-{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg" >}}
+![](/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg)
 
 Each time you "open" a connection
 from the pool, the client returns one of these existing
 connections and notes the fact that it is in use.
 
-{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg" >}}
+![](/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg)
 
 When you later "close"
 the connection, the client puts it back into the pool of available
 connections without actually closing it.
 
-{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg" >}}
+![](/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg)
 
 If all connections in the pool are in use but the app needs more, then
 the client can simply open new connections as necessary. In this way, the client
@@ -67,15 +67,15 @@ single connection open and uses it for all traffic between the
 client and the server. The "connections" returned to your code are
 used to identify where to send the response data from your commands.
 
-{{< image filename="/images/dev/connect/pool-and-mux/ConnMux.drawio.svg" >}}
+![](/images/dev/connect/pool-and-mux/ConnMux.drawio.svg)
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a
-[pipeline]({{< relref "/develop/using-commands/pipelining" >}}), which
+[pipeline](/content/develop/using-commands/pipelining.md), which
 improves efficiency.
 
 Multiplexing offers high efficiency but works transparently without requiring
 any special code to enable it in your app. The main disadvantage of multiplexing compared to
 connection pooling is that it can't support the blocking "pop" commands (such as
-[`BLPOP`]({{< relref "/commands/blpop" >}})) since these would stall the
+[`BLPOP`](/content/commands/blpop.md)) since these would stall the
 connection for all callers.

@@ -20,11 +20,11 @@ weight: 37
 
 When searching, documents are scored based on their relevance to the query. The score is a floating point number between 0.0 and 1.0, where 1.0 is the highest score. The score is returned as part of the search results and can be used to sort the results.
 
-Redis Open Source comes with a few scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use [sortable fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting" >}}). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
+Redis Open Source comes with a few scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use [sortable fields](/content/develop/ai/search-and-query/advanced-concepts/sorting.md). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search query.
 
-If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
+If you prefer a custom scoring function, it is possible to add more functions using the [extension API](/content/develop/ai/search-and-query/administration/extensions.md).
 
-The following is a list of the pre-bundled scoring functions available in Redis and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}).
+The following is a list of the pre-bundled scoring functions available in Redis and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`](/content/commands/ft.search.md).
 
 ## TFIDF
 
@@ -85,9 +85,8 @@ A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more in
 
 The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
 
-{{< note >}}
-The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
-{{< /note >}}
+> [!NOTE]
+> The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
 
 ```
 FT.SEARCH myIndex "foo" SCORER BM25STD

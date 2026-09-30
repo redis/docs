@@ -78,7 +78,7 @@ Headlines:
 - Compression added which can reduce memory up to 98% and improve read performance up to 50%.
 - Stable ingestion time independent of the number of the data points on a time-series.
 - Reviewed API with performance improvements and removed ambiguity.
-- Extended [client support]({{<relref "/develop/data-types/timeseries/">}})
+- Extended [client support](/content/develop/data-types/timeseries/_index.md)
 
 (we will blog about this release soon including performance improvements results and the link here)
 
@@ -120,6 +120,5 @@ Full details:
     - #[320](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/320) Delete the existing key prior to restoring it.
     - #[323](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/323) Empty first sample on aggregation.
 
-{{< note >}}
-The version inside Redis will be 10202 or 1.2.2 in semantic versioning.
-{{< /note >}}
+> [!NOTE]
+> The version inside Redis will be 10202 or 1.2.2 in semantic versioning.

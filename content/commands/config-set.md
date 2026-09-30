@@ -49,17 +49,17 @@ title: CONFIG SET
 ---
 CONFIG SET reconfigures Redis at runtime without restarting the server. You can use it to change simple configuration parameters or switch between persistence options.
 
-Run [CONFIG GET *]({{< relref "/commands/config-get" >}}) to list the configuration parameters that CONFIG SET supports.
+Run [CONFIG GET *](/content/commands/config-get.md) to list the configuration parameters that CONFIG SET supports.
 
 All the configuration parameters set using `CONFIG SET` are immediately loaded
 by Redis and will take effect starting with the next command executed.
 
 All the supported parameters have the same meaning of the equivalent
-configuration parameter used in the [redis.conf]({{< relref "/operate/oss_and_stack/management/config/" >}}) file. The provided link has links to the `redis.conf` files for Redis version 6.2 and greater. See the [Redis souce code repo](https://github.com/redis/redis) for earlier versions.
+configuration parameter used in the [redis.conf](/content/operate/oss_and_stack/management/config.md) file. The provided link has links to the `redis.conf` files for Redis version 6.2 and greater. See the [Redis souce code repo](https://github.com/redis/redis) for earlier versions.
 
 It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
-See the [persistence page]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for more information.
+See the [persistence page](/content/operate/oss_and_stack/management/persistence.md) for more information.
 
 ```
 CONFIG SET appendonly yes
@@ -85,7 +85,7 @@ One or more configuration parameter-value pairs to set.
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.](/content/operate/rs/references/compatibility/config-settings.md) |
 
 ## Return information
 

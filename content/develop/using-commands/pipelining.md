@@ -104,7 +104,7 @@ call. Consequently, the number of total queries performed per second
 initially increases almost linearly with longer pipelines, and eventually
 reaches 10 times the baseline obtained without pipelining, as shown in this figure.
 
-{{< image filename="/images/dev/reference/pipeline_iops.webp" alt="Pipeline size and IOPs" >}}
+![Pipeline size and IOPs](/images/dev/reference/pipeline_iops.webp)
 
 ## A real world code example
 
@@ -155,11 +155,11 @@ As you can see, using pipelining, we improved the transfer by a factor of five.
 
 ## Pipelining vs Scripting
 
-Using [Redis scripting]({{< relref "/commands/eval" >}}), available since Redis 2.6, a number of use cases for pipelining can be addressed more efficiently using scripts that perform a lot of the work needed at the server side.
+Using [Redis scripting](/content/commands/eval.md), available since Redis 2.6, a number of use cases for pipelining can be addressed more efficiently using scripts that perform a lot of the work needed at the server side.
 A big advantage of scripting is that it is able to both read and write data with minimal latency, making operations like *read, compute, write* very fast (pipelining can't help in this scenario since the client needs the reply of the read command before it can call the write command).
 
-Sometimes the application may also want to send [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) commands in a pipeline. 
-This is entirely possible and Redis explicitly supports it with the [SCRIPT LOAD]({{< relref "/commands/script-load" >}}) command (it guarantees that [`EVALSHA`]({{< relref "/commands/evalsha" >}}) can be called without the risk of failing).
+Sometimes the application may also want to send [`EVAL`](/content/commands/eval.md) or [`EVALSHA`](/content/commands/evalsha.md) commands in a pipeline. 
+This is entirely possible and Redis explicitly supports it with the [SCRIPT LOAD](/content/commands/script-load.md) command (it guarantees that [`EVALSHA`](/content/commands/evalsha.md) can be called without the risk of failing).
 
 ## Appendix: Why are busy loops slow even on the loopback interface?
 

@@ -45,7 +45,8 @@ The message to echo back.
 ## Examples
 
 {{% redis-cli %}}
-ECHO "Hello World!"
+redis> ECHO "Hello World!"
+"Hello World!"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

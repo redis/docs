@@ -10,7 +10,7 @@ description: Describes how to apply resource tags to Redis Cloud Bring your own 
 weight: $weight
 ---
 
-For Redis Cloud [Bring Your Own Cloud (BYOC)]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) deployments, Redis Cloud provisions infrastructure directly within your Cloud Provider account. Many organizations enforce tagging policies for cost allocation, governance, and compliance. In some environments, resource creation may fail if required tags are not present at creation time. 
+For Redis Cloud [Bring Your Own Cloud (BYOC)](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) deployments, Redis Cloud provisions infrastructure directly within your Cloud Provider account. Many organizations enforce tagging policies for cost allocation, governance, and compliance. In some environments, resource creation may fail if required tags are not present at creation time. 
 
 To address this, Redis Cloud allows you to define resource tags at the subscription level, ensuring consistent tagging across all infrastructure resources created under that subscription.
 
@@ -38,7 +38,7 @@ BYOC Resource tags are applied to the following AWS resources:
 
 To add resource tags when you create a new BYOC subscription:
 
-1. [Create a new Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **Custom settings**.
+1. [Create a new Pro subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md) and select **Custom settings**.
 
 1. On the **Setup** step, go to **Advanced options > Deployment account** to see the **AWS Resource tags** section.
 
@@ -96,6 +96,5 @@ You can add, edit, or remove resource tags on an existing BYOC subscription at a
 
 1. Select **Save tags** to save your changes.
 
-{{< note >}}
-Redis Cloud applies resource tags only to resources created after you add or update the tags. Existing resources keep their previous tags.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud applies resource tags only to resources created after you add or update the tags. Existing resources keep their previous tags.

@@ -69,18 +69,16 @@ syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
 title: TS.MGET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
 Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.
 
-{{< note >}}
-This command will reply only if the current user has read access to all keys that match the filter.
-Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
-{{< /note >}}
+> [!NOTE]
+> This command will reply only if the current user has read access to all keys that match the filter.
+> Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
 
 [Examples](#examples)
 
@@ -89,20 +87,9 @@ Otherwise, it will reply with "*(error): current user doesn't have read permissi
 <details open>
 <summary><code>FILTER filterExpr...</code></summary>
 
-filters time series based on their labels and label values. Each filter expression has one of the following syntaxes:
+filters time series based on their labels and label values.
 
-  - `label!=` - the time series has a label named `label`
-  - `label=value` - the time series has a label named `label` with a value equal to `value`
-  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list
-  - `label=` - the time series does not have a label named `label`
-  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`
-  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list
-
-  <note><b>Notes:</b>
-   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.
-   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.
-   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x="y y"` or `x='(y y,z z)'`.
-   </note>
+{{< embed-md "ts-filter-expr.md" >}}
 </details>
 
 ## Optional arguments
@@ -132,7 +119,7 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 </details>
 
-<note><b>Note:</b> The [`MGET`]({{< relref "/commands/mget" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>
+<note><b>Note:</b> The [`MGET`](/content/commands/mget.md) command cannot be part of a transaction when running on a Redis cluster.</note>
 
 ## Examples
 
@@ -141,27 +128,27 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 Create time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV
+{{% redis-cli %}}
+redis> TS.CREATE temp:TLV LABELS type temp location TLV
 OK
-127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM
+redis> TS.CREATE temp:JLM LABELS type temp location JLM
 OK
-127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40
+redis> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40
 1) (integer) 1000
 2) (integer) 1010
 3) (integer) 1020
 4) (integer) 1030
-127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40
+redis> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40
 1) (integer) 1005
 2) (integer) 1015
 3) (integer) 1025
 4) (integer) 1035
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Get all the labels associated with the last sample.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp
+{{% redis-cli %}}
+redis> TS.MGET WITHLABELS FILTER type=temp
 1) 1) "temp:JLM"
    2) 1) 1) "type"
          2) "temp"
@@ -176,12 +163,12 @@ Get all the labels associated with the last sample.
          2) "TLV"
    3) 1) (integer) 1030
       2) 40
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp
+{{% redis-cli %}}
+redis> TS.MGET SELECTED_LABELS location FILTER type=temp
 1) 1) "temp:JLM"
    2) 1) 1) "location"
          2) "JLM"
@@ -192,7 +179,7 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
          2) "TLV"
    3) 1) (integer) 1030
       2) 40
-{{< / highlight >}}
+{{% /redis-cli %}}
 </details>
 
 ## Redis Software and Redis Cloud compatibility
@@ -207,31 +194,31 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings))
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}))
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single timestamp-value pair ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings))
 
 -tab-sep-
 
-[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+[Map reply](/content/develop/reference/protocol-spec.md#maps): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Map reply](/content/develop/reference/protocol-spec.md#maps) or [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}))
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single timestamp-value pair ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles))
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
+[`TS.MRANGE`](/content/commands/ts.mrange.md) | [`TS.RANGE`](/content/commands/ts.range.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)
 

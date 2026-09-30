@@ -79,11 +79,16 @@ One or more string values to store at consecutive indices beginning at `index`. 
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "hello"
-ARGET myarray 0
-ARSET myarray 2 "a" "b" "c"
-ARGET myarray 2
-ARGET myarray 4
+redis> ARSET myarray 0 "hello"
+(integer) 1
+redis> ARGET myarray 0
+"hello"
+redis> ARSET myarray 2 "a" "b" "c"
+(integer) 3
+redis> ARGET myarray 2
+"a"
+redis> ARGET myarray 4
+"c"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -663,6 +663,47 @@
           "description": "The index of the first matching element in the requested range."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrindex(key, path, value, start: nil, stop: nil, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target array"
+          },
+          {
+            "name": "value",
+            "type": "Object",
+            "description": "the scalar JSON value to search for"
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "optional inclusive start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "optional exclusive stop index"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat value as an already-encoded JSON string"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer",
+          "description": "the index/indices of the first match (-1 if not found)"
+        }
+      }
     ]
   }
 }

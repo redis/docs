@@ -168,7 +168,7 @@ Headlines:
 
 - Several performance improvements increasing full-text search queries up to 60% and aggregation queries up to 73%.
 - Support for aliasing of indices.
-- Low-level API in C (and [Rust bindings](https://github.com/RediSearch/redisearch-api-rs)) to make RediSearch embeddable in other Redis modules. [RedisGraph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) is the first GA consumer.
+- Low-level API in C (and [Rust bindings](https://github.com/RediSearch/redisearch-api-rs)) to make RediSearch embeddable in other Redis modules. [RedisGraph](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/_index.md) is the first GA consumer.
 - Forked process Garbage Collection (FORK GC) allows for stable read latencies.
 
 Full details:

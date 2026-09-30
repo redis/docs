@@ -14,22 +14,22 @@ title: Redis semantic cache with Predis
 weight: 4
 ---
 
-This guide shows you how to build a small Redis-backed semantic cache for LLM responses in PHP with [Predis]({{< relref "/develop/clients/php" >}}) and [TransformersPHP](https://transformers.codewithkyrian.com/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on ONNX Runtime. It includes a local web server built with PHP's built-in development HTTP server so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
+This guide shows you how to build a small Redis-backed semantic cache for LLM responses in PHP with [Predis](/content/develop/clients/php/_index.md) and [TransformersPHP](https://transformers.codewithkyrian.com/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on ONNX Runtime. It includes a local web server built with PHP's built-in development HTTP server so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
 
 ## Overview
 
-Each cache entry is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the embedding field and every metadata field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
+Each cache entry is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers the embedding field and every metadata field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
 
-The lookup is thresholded: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distanceThreshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
+The lookup is thresholded: [`FT.SEARCH`](/content/commands/ft.search.md) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distanceThreshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
 
-The embedder is [TransformersPHP](https://transformers.codewithkyrian.com/) running the [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) ONNX export — the same 384-dimensional encoder the [Node.js example]({{< relref "/develop/use-cases/semantic-cache/nodejs" >}}) uses. The library is the established choice for vector embeddings in PHP (see [Index and query vectors]({{< relref "/develop/clients/php/vecsearch" >}}) for the precedent). Cosine distances differ from the Python and Jedis ports by only a few thousandths because of small numerical differences between ONNX Runtime and PyTorch, so a cache populated by one demo can be queried by another against the same Redis instance with very nearly the same hit/miss behaviour.
+The embedder is [TransformersPHP](https://transformers.codewithkyrian.com/) running the [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) ONNX export — the same 384-dimensional encoder the [Node.js example](/content/develop/use-cases/semantic-cache/nodejs/_index.md) uses. The library is the established choice for vector embeddings in PHP (see [Index and query vectors](/content/develop/clients/php/vecsearch.md) for the precedent). Cosine distances differ from the Python and Jedis ports by only a few thousandths because of small numerical differences between ONNX Runtime and PyTorch, so a cache populated by one demo can be queried by another against the same Redis instance with very nearly the same hit/miss behaviour.
 
 That gives you:
 
-* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Tens of milliseconds on a hit vs. a multi-second LLM call on a miss; the embedding step is the bottleneck either way, and that's a model-side cost, not a Redis one.
 * Tenant, locale, and model-version isolation enforced inside the query, not in application code — a write under one tenant cannot be served to another.
-* Bounded memory: every entry has an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL, and a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LRU / LFU) caps the cache size under pressure.
+* Bounded memory: every entry has an [`EXPIRE`](/content/commands/expire.md) TTL, and a database-level [eviction policy](/content/develop/reference/eviction/index.md) (LRU / LFU) caps the cache size under pressure.
 
 ## How it works
 
@@ -38,8 +38,8 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 ### Hit path (the goal)
 
 1. The application calls `$embedder->encodeOne($prompt)` to turn the incoming text into a 384-element `float` array.
-2. `$cache->lookup($queryVec, tenant: ..., locale: ..., modelVersion: ...)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
-3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also issues an [`HINCRBY`]({{< relref "/commands/hincrby" >}}) on `hit_count` and an [`EXPIRE`]({{< relref "/commands/expire" >}}) refresh inside a [`MULTI/EXEC`]({{< relref "/commands/multi" >}}), so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
+2. `$cache->lookup($queryVec, tenant: ..., locale: ..., modelVersion: ...)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
+3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also issues an [`HINCRBY`](/content/commands/hincrby.md) on `hit_count` and an [`EXPIRE`](/content/commands/expire.md) refresh inside a [`MULTI/EXEC`](/content/commands/multi.md), so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
 4. The LLM is not called at all. The application returns the cached response to the user.
 
 ### Miss path
@@ -47,7 +47,7 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 When the distance is above the threshold — or there is no candidate in scope at all — the helper returns a `CacheMiss` instead, carrying the distance of the nearest candidate (if any) for logging. The application then:
 
 1. Calls the LLM with the prompt.
-2. Calls `$cache->put($prompt, $response, $embedding, tenant: ..., locale: ..., modelVersion: ...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`]({{< relref "/commands/hset" >}}) and an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL inside a single [`MULTI/EXEC`]({{< relref "/commands/multi" >}}) so the entry never lands without a TTL on a partial failure.
+2. Calls `$cache->put($prompt, $response, $embedding, tenant: ..., locale: ..., modelVersion: ...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`](/content/commands/hset.md) and an [`EXPIRE`](/content/commands/expire.md) TTL inside a single [`MULTI/EXEC`](/content/commands/multi.md) so the entry never lands without a TTL on a partial failure.
 3. Returns the LLM's response to the user. The next semantically similar prompt under the same metadata scope will be a hit.
 
 ## The cache helper
@@ -165,7 +165,7 @@ $raw = $client->ftsearch(
 
 `distance` is the cosine *distance* (0 means identical, 2 means opposite). The result is sorted ascending, so the top row is the closest candidate. The application inspects `distance` against the threshold and decides hit or miss in user code — Redis returns the row either way, and treating it as a hit or a miss is a policy decision the cache helper owns, not a server-side filter.
 
-Predis 3.x defaults to query dialect 2; the cache helper sets it explicitly so the code reads correctly against earlier versions too. See [Index and query vectors]({{< relref "/develop/clients/php/vecsearch" >}}) for more on Predis's vector-search helpers.
+Predis 3.x defaults to query dialect 2; the cache helper sets it explicitly so the code reads correctly against earlier versions too. See [Index and query vectors](/content/develop/clients/php/vecsearch.md) for more on Predis's vector-search helpers.
 
 ## The mock LLM
 
@@ -246,8 +246,8 @@ PHP's CLI flag parsing is awkward, so the demo reads configuration from environm
     ```
 
 2.  Make sure a Redis instance with the Redis Search module is running locally on
-    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-    [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+    port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+    [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 
 3.  Install the PHP dependencies with [Composer](https://getcomposer.org/). This step also
     downloads the prebuilt TransformersPHP native libraries (ONNX Runtime, OpenBLAS, Rindow's matlib FFI shim) for your platform — about 90 MB on macOS arm64:

@@ -13,4 +13,4 @@ weight: 40
 
 For complete control over failover and failback, you can implement disaster recovery mechanisms directly in the application server.
 
-For more information, see [Application failover with Active-Active databases]({{<relref "/operate/rs/databases/active-active/develop/app-failover-active-active">}}).
+For more information, see [Application failover with Active-Active databases](/content/operate/rs/databases/active-active/develop/app-failover-active-active.md).

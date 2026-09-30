@@ -41,14 +41,12 @@ which presents the considerations in a straightforward question-and-answer forma
 ```decision-tree
 ```
 
-<!-- {{/* embed-md "rdi-when-to-use.md" */}} -->
-<!-- NOTE: Replace this with the original embed when Flink is available in Redis Cloud -->
 ### When to use RDI
 
 RDI is a good fit when:
 
 - You want your app/micro-services to read from Redis to scale reads at speed.
-- You want to transfer data to Redis from a *single* source database.
+- You want to transfer data to Redis from one or more source databases.
 - You must use a slow database as the system of record for the app.
 - The app must always *write* its data to the slow database.
 - Your app can tolerate *eventual* consistency of data in the Redis cache.
@@ -84,13 +82,17 @@ RDI is not a good fit when:
 - You need complex stream processing of data (aggregations, sliding window processing, complex 
   custom logic).
 - You need to write data to multiple targets from the same pipeline (Redis supports other
-  ways to replicate data across Redis databases such as replicaOf and  Active Active).
+  ways to replicate data across Redis databases such as replicaOf).
+- Your target Redis database is configured with Active-Active topology. Active-Active is not supported as an RDI Cloud target database.
 - Your database administrator has rejected RDI's requirements for the source database.
-<!-- End of embed replacement -->
 
 ## Data pipeline architecture
 
-An RDI data pipeline sits between your source database and your target Redis database. Initially, the pipeline reads all of the data and imports it into the target database during the *initial sync* phase. After this initial sync is complete, the data pipeline enters the *streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. The data pipeline translates relational database rows to Redis hashes or JSON documents. 
+An RDI data pipeline connects one or more source databases to one target Redis database. Sources can use the same or different supported database types. Each source has its own collector, connectivity, credentials, and selection of tables and columns. All sources share the pipeline's processor and target.
+
+Each source first imports its selected data during the *initial sync* phase, then captures changes during the *streaming* phase. The pipeline transforms the captured records and writes them to Redis. You can monitor and manage each source from the pipeline dashboard.
+
+RDI Cloud uses the Flink processor for all pipelines.
 
 For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
 
@@ -98,7 +100,7 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
 
-Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+Configure connectivity separately for each source. A source can use a public endpoint or [AWS PrivateLink](https://aws.amazon.com/privatelink/), subject to the source-specific requirements in [Prerequisites](#prerequisites). See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
 
 RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
@@ -107,14 +109,15 @@ RDI encrypts all network connections with TLS. The pipeline will process data fr
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
-- One supported source database that is publicly accessible or hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
+- One or more supported source databases that are publicly accessible or hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
 
 | Database | Versions | AWS RDS  Versions |
 |:---|:---|:---|
 | Oracle | 19c, 21c | 19c, 21c |
 | MariaDB | 10.5, 11.4.3 | 10.4 to 10.11, 11.4.3 |
 | MySQL | 5.7, 8.0.x, 8.2 | 8.0.x |
-| PostgreSQL | 10, 11, 12, 13, 14, 15, 16 | 11, 12, 13, 14, 15, 16 |
+| PostgreSQL | 10, 11, 12, 13, 14, 15, 16, 17, 18 | 11, 12, 13, 14, 15, 16, 17, 18 |
+| Supabase (uses PostgreSQL) | 10, 11, 12, 13, 14, 15, 16, 17 | - |
 | AWS Aurora PostgreSQL | 15 | 15 |
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 |
 | MongoDB | 6.0, 7.0, 8.0 | - |
@@ -130,7 +133,7 @@ Please be aware of the following limitations:
 - The target database can use TLS, but can not use mutual TLS.
 - If your source database is not publicly accessible, or if it is a MongoDB Atlas or Snowflake database, it must be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
-- One source database can only be synced to one target database.
+- Each pipeline has one target database shared by all of its sources.
 - If the source database is not publicly accessible, you must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 - Mutual TLS is not supported for AWS RDS and AWS Aurora source databases.
 {{< /note >}} 
@@ -142,7 +145,19 @@ To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<
 To create a new data pipeline, you need to:
 
 1. [Create a Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for your Pro subscription.
-1. [Prepare your source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
+1. [Prepare each source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
 1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
+
+For complete production setups, including SQL Server failover handling, see [Production use cases]({{<relref "/operate/rc/rdi/use-cases">}}).
+
+## Billing and common questions
+
+See the [RDI Cloud FAQ]({{< relref "/operate/rc/rdi/faq" >}}) for billing examples, reset and flush behavior, and working with multiple sources.
+
+## Maintenance windows
+
+RDI Cloud maintenance follows the same subscription-wide maintenance window as your Redis Cloud Pro subscription. During a maintenance window, your data pipeline may experience brief interruptions as Redis applies updates.
+
+To control when maintenance occurs, [set a manual maintenance window]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) for your Redis Cloud Pro subscription. Any maintenance window you configure applies to both your databases and your RDI data pipeline.

@@ -90,10 +90,17 @@ The member whose score to increment. It is added with the increment as its score
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZINCRBY myzset 2 "one"
-ZRANGE myzset 0 -1 WITHSCORES
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZINCRBY myzset 2 "one"
+"3"
+redis> ZRANGE myzset 0 -1 WITHSCORES
+1) "two"
+2) "2"
+3) "one"
+4) "3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

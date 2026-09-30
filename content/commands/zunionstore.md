@@ -89,9 +89,8 @@ syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX | COUNT>]"
 title: ZUNIONSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Computes the union of `numkeys` sorted sets given by the specified keys, and
@@ -167,13 +166,25 @@ How to combine the scores of members that exist in multiple sets: `SUM` (the def
 ## Examples
 
 {{% redis-cli %}}
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZADD zset2 3 "three"
-ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
-ZRANGE out 0 -1 WITHSCORES
+redis> ZADD zset1 1 "one"
+(integer) 1
+redis> ZADD zset1 2 "two"
+(integer) 1
+redis> ZADD zset2 1 "one"
+(integer) 1
+redis> ZADD zset2 2 "two"
+(integer) 1
+redis> ZADD zset2 3 "three"
+(integer) 1
+redis> ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
+(integer) 3
+redis> ZRANGE out 0 -1 WITHSCORES
+1) "one"
+2) "5"
+3) "three"
+4) "9"
+5) "two"
+6) "10"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -54,16 +54,40 @@ provider = RedisVLCacheProvider(
 No local vectorizer needed. Embeddings are generated server-side.
 
 ```python
+import os
+
 from adk_redis.cache import LangCacheProvider, LangCacheProviderConfig
 
 provider = LangCacheProvider(
     config=LangCacheProviderConfig(
-        cache_id="your-cache-id",
-        api_key="your-api-key",
+        cache_id=os.environ["LANGCACHE_CACHE_ID"],
+        api_key=os.environ["LANGCACHE_API_KEY"],
+        server_url="https://aws-us-east-1.langcache.redis.io",
         ttl=3600,
     )
 )
 ```
+
+Set `server_url` to the endpoint for your LangCache region.
+
+## Cache entry IDs and targeted invalidation
+
+Both providers return a `CacheEntry` from `check()` and an entry ID from
+`store()`. When the backend exposes a stable identifier, `CacheEntry.entry_id`
+carries it, and you can retire exactly that entry with `delete_by_id()` instead
+of clearing the whole cache.
+
+```python
+entry = await provider.check(prompt="What is the return policy?")
+
+if entry is not None and entry.entry_id is not None:
+    # Retire one stale answer without touching unrelated entries
+    await provider.delete_by_id(entry.entry_id)
+```
+
+`CacheEntry` also carries the matched `prompt`, the cached `response`, the match
+`distance`, and any `metadata` stored alongside the entry. `entry_id` is `None`
+when the backend does not expose an identifier.
 
 ## LLM response cache
 

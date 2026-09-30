@@ -10,7 +10,7 @@ aliases:
 
 ## Semantic Router
 
-### `class SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs={})`
+### `class SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs={}, create_index=True)`
 
 Semantic Router for managing and querying route vectors.
 
@@ -26,10 +26,29 @@ Initialize the SemanticRouter.
   * **overwrite** (*bool* *,* *optional*) – Whether to overwrite existing index. Defaults to False.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
+  * **create_index** (*bool* *,* *optional*) – Whether RedisVL creates and validates
+    the index. When False the constructor issues no index command at
+    all and writes nothing: the index must already exist, already
+    hold the reference vectors for `routes`, and already have its
+    stored config, since none of that is written or verified.
+    `routes` must match what is indexed, because each route’s
+    distance threshold is applied from this local list – and
+    [add_route](#add_route) rewrites the stored config from that same list,
+    so attaching with a partial set and then adding a route
+    truncates the config every other client reads. See
+    [`SemanticCache`]({{< relref "cache/#semanticcache" >}}) for a worked
+    example of the flag, and [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the
+    ACL details. Defaults to True.
+* **Raises:**
+  **ValueError** – If both create_index is False and overwrite is True.
 
 #### `add_route(route)`
 
 Add a new route to the SemanticRouter.
+
+Note that this replaces the router’s stored config with this instance’s
+route list, so a router constructed with a subset of the indexed routes
+will drop the rest from the config that [from_existing](#from_existing) reads.
 
 Embeds the route’s references, writes them to the Redis index,
 appends the route to `self.routes`, and persists the updated router
@@ -61,7 +80,17 @@ Add a reference(s) to an existing route.
 
 #### `clear()`
 
-Flush all routes from the semantic router index.
+Delete every route reference, leaving the index in place.
+
+Clears by index membership. Available under `create_index=False`;
+dropping the index is [delete](#delete).
+
+{{< warning >}}
+The stored `route_config` is left as it was, here and on the
+default path. A separate process calling [from_existing](#from_existing)
+afterwards will report routes whose reference vectors are gone.
+[remove_route](#remove_route) keeps the two in step.
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -70,6 +99,9 @@ Flush all routes from the semantic router index.
 
 Delete the semantic router index and its persisted route config.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the route references and leave the index standing.
 * **Return type:**
   None
 
@@ -115,6 +147,12 @@ router = SemanticRouter.from_dict(router_data)
 #### `classmethod from_existing(name, redis_client=None, redis_url='redis://localhost:6379', **kwargs)`
 
 Return SemanticRouter instance from existing index.
+
+Reads the stored route config with `JSON.GET`, so unlike
+`SearchIndex.from_existing()` this needs no `FT.INFO`. Pass
+`create_index=False` to keep it that way through construction, which
+makes this the way to attach to a router with a credential that cannot
+run index-metadata commands.
 
 * **Parameters:**
   * **name** (*str*)
@@ -183,6 +221,11 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 #### `remove_route(route_name)`
 
 Remove a route and all references from the semantic router.
+
+Like [add_route](#add_route), this replaces the router’s stored config with
+this instance’s route list, so removing one route from a router holding
+only a subset drops the rest from the config [from_existing](#from_existing)
+reads.
 
 * **Parameters:**
   **route_name** (*str*) – Name of the route to remove.

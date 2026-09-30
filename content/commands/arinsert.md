@@ -64,18 +64,23 @@ The name of the key that holds the array.
 
 <details open><summary><code>value</code></summary>
 
-One or more string values to insert at consecutive indices, beginning at the current insert cursor position. The cursor advances by one for each value inserted. Use [`ARNEXT`]({{< relref "/commands/arnext" >}}) to inspect the current cursor position and [`ARSEEK`]({{< relref "/commands/arseek" >}}) to reposition it.
+One or more string values to insert at consecutive indices, beginning at the current insert cursor position. The cursor advances by one for each value inserted. Use [`ARNEXT`](/content/commands/arnext.md) to inspect the current cursor position and [`ARSEEK`](/content/commands/arseek.md) to reposition it.
 
 </details>
 
 ## Examples
 
 {{% redis-cli %}}
-ARINSERT myarray "alpha"
-ARINSERT myarray "beta"
-ARINSERT myarray "gamma"
-ARGET myarray 1
-ARNEXT myarray
+redis> ARINSERT myarray "alpha"
+(integer) 0
+redis> ARINSERT myarray "beta"
+(integer) 1
+redis> ARINSERT myarray "gamma"
+(integer) 2
+redis> ARGET myarray 1
+"beta"
+redis> ARNEXT myarray
+(integer) 3
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

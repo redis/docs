@@ -29,8 +29,8 @@ During a search, the query system also tokenizes the
 query text and then simply compares the tokens from the query against the tokens stored
 for each document. Finding a match like this is much more efficient than pattern-matching on
 the whole text and also lets you use
-[stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}}) and
-[stop words]({{< relref "/develop/ai/search-and-query/advanced-concepts/stopwords" >}})
+[stemming](/content/develop/ai/search-and-query/advanced-concepts/stemming.md) and
+[stop words](/content/develop/ai/search-and-query/advanced-concepts/stopwords.md)
 to improve the search even further. See this article about
 [Tokenization](https://queryunderstanding.com/tokenization-c8cdd6aef7ff)
 for a general introduction to the concepts.
@@ -39,7 +39,7 @@ Redis uses a very simple tokenizer for documents and a slightly more sophisticat
 
 The sections below describe the rules for tokenizing text fields and queries.
 Note that
-[Tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}) 
+[Tag fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md) 
 are essentially text fields but they use a simpler form of tokenization, as described
 separately in the
 [Tokenization rules for tag fields](#tokenization-rules-for-tag-fields) section.
@@ -60,9 +60,9 @@ separately in the
 
 ## Tokenization rules for tag fields
 
-[Tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}) interpret
+[Tag fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md) interpret
 a text field as a list of *tags* delimited by a
-[separator]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags#creating-a-tag-field" >}})
+[separator](/content/develop/ai/search-and-query/advanced-concepts/tags.md#creating-a-tag-field)
 character (which is a comma "," by
 default). The tokenizer simply splits the text wherever it finds the separator and so most
 punctuation marks and whitespace are valid characters within each tag token. The only
@@ -70,12 +70,12 @@ changes that the tokenizer makes to the tags are:
 
 -   Trimming whitespace at the start and end of the tag. Other whitespace in the tag text is left intact.
 -   Converting Latin alphabet characters to lowercase. You can override this by adding the
-    [`CASESENSITIVE`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#tag-fields" >}}) option in the indexing schema for the tag field.
+    [`CASESENSITIVE`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#tag-fields) option in the indexing schema for the tag field.
 
 This means that when you define a tag field, you don't need to escape any characters, except
 in the unusual case where you want leading or trailing spaces to be part of the tag text.
 However, you do need to escape certain characters in a *query* against a tag field. See the
-[Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) and
-[Exact match]({{< relref "/develop/ai/search-and-query/query/exact-match" >}}) pages for more information about escaping
-and how to use [DIALECT 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}), which is required for
+[Query syntax](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md#tag-filters) and
+[Exact match](/content/develop/ai/search-and-query/query/exact-match.md) pages for more information about escaping
+and how to use [DIALECT 2](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2), which is required for
 exact match queries involving tags.

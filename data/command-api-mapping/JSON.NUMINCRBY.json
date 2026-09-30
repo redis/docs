@@ -314,6 +314,32 @@
           "description": "The updated numeric value."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_numincrby(key, path, number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the numeric value(s)"
+          },
+          {
+            "name": "number",
+            "type": "Numeric",
+            "description": "the amount to add"
+          }
+        ],
+        "returns": {
+          "type": "Array<Numeric>, Numeric, nil",
+          "description": "the new value(s): an Array for a JSONPath, a single number for a legacy path; nil (or nil element) for a non-numeric match"
+        }
+      }
     ]
   }
 }

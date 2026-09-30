@@ -76,10 +76,14 @@ One or more `index value` pairs. Each `index` is a zero-based integer specifying
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "alpha" 5 "beta" 100 "gamma"
-ARGET myarray 0
-ARGET myarray 5
-ARGET myarray 100
+redis> ARMSET myarray 0 "alpha" 5 "beta" 100 "gamma"
+(integer) 3
+redis> ARGET myarray 0
+"alpha"
+redis> ARGET myarray 5
+"beta"
+redis> ARGET myarray 100
+"gamma"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

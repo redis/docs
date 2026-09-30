@@ -1,6 +1,8 @@
 ---
 Title: map
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/map/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/map/
 alwaysopen: false
 categories:
   - docs

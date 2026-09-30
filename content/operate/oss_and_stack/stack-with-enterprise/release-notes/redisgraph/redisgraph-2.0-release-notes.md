@@ -74,7 +74,7 @@ Details:
     - #[1226](https://github.com/RedisGraph/RedisGraph/pull/1226) Let RediSearch perform document deletion when replacing a document
 - Bug Fixes:
     - #[1223](https://github.com/RedisGraph/RedisGraph/pull/1223) Resolve race condition in accessing/updating attribute maps.
-    - #[1196](https://github.com/RedisGraph/RedisGraph/pull/1196) Enable RediSearch [Garbage Collection]({{<relref "/develop/ai/search-and-query/administration/gc">}})
+    - #[1196](https://github.com/RedisGraph/RedisGraph/pull/1196) Enable RediSearch [Garbage Collection](/content/develop/ai/search-and-query/administration/gc.md)
 
 ## v2.0.15 (25 June 2020)
 
@@ -250,7 +250,7 @@ Full details:
 
 - Major features
     - #[339](https://github.com/RedisGraph/RedisGraph/issues/339) Full Graph Response.  RedisGraph now allows to return Graph entities such as Nodes and Relationships.  This feature also enables graph visualisation.
-    - #[558](https://github.com/RedisGraph/RedisGraph/issues/558) Indexing functionality replaced by [RediSearch](redisearch.io). This results in support for
+    - #[558](https://github.com/RedisGraph/RedisGraph/issues/558) Indexing functionality replaced by [RediSearch](https://redisearch.io). This results in support for
         - compound indices
         - full text search
         - graph-aided search
@@ -308,6 +308,5 @@ Full details:
     - #[607](https://github.com/RedisGraph/RedisGraph/issues/607) All ops NULL-set variables in their free routines (memory).
     - #[893](https://github.com/RedisGraph/RedisGraph/issues/893) Preserve the children array order when replacing operations.
 
-{{< note >}}
-The version inside Redis will be 20001 or 2.0.1 in semantic versioning.
-{{< /note >}}
+> [!NOTE]
+> The version inside Redis will be 20001 or 2.0.1 in semantic versioning.

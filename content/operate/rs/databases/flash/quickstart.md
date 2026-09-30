@@ -13,12 +13,12 @@ aliases: /operate/rs/databases/auto-tiering/quickstart/
 ---
 
 {{<banner-article>}}
-This article includes a quick start for Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases]({{<relref "/operate/rs/flex">}}) section instead.
+This article includes a quick start for Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases](/content/operate/rs/flex/_index.md) section instead.
 {{</banner-article>}}
 
-This page guides you through a quick setup of [Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
+This page guides you through a quick setup of [Flex and Auto Tiering](/content/operate/rs/databases/flash/_index.md) with a single node for testing and demo purposes.
 
-For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
+For production environments, you can find more detailed installation instructions in the [install and setup](/content/operate/rs/installing-upgrading/_index.md) section.
 
 The steps to set up a Redis Software cluster using Flex
 with a single node are:
@@ -28,6 +28,16 @@ with a single node are:
 1. Set up a Redis Software cluster with Flex.
 1. Create a new database with Flex enabled.
 1. Connect to your new database.
+
+## Before deployment
+
+Before you set up a flash-enabled cluster and create a Flex or Auto Tiering database, consider the following:
+
+- Avoid a large number of keys or long key names. With Auto Tiering, all key names are stored in RAM regardless of whether their values are on flash. High key count alone can exhaust the RAM limit even when individual key names are short.
+
+- Avoid large collection types (hashes, sets, or lists with millions of elements) whose total serialized size approaches or exceeds the RAM limit. Unlike scalar values, large collections cannot be partially offloaded to flash and must fit in RAM when accessed.
+
+- Databases cannot store keys or values larger than 4GB in flash storage. Keys or values larger than 4GB are stored in RAM only. If oversized keys consume the shard's available RAM, the shard can return out-of-memory errors even when flash storage has free space remaining.
 
 ## Install Redis Software
 
@@ -81,10 +91,10 @@ sudo lsblk
 1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Software Cluster Manager UI.
 
-    {{<note>}}
-Depending on your browser, you may see a certificate error.
-Choose "continue to the website" to go to the setup screen.
-    {{</note>}}
+    > [!NOTE]
+    > Depending on your browser, you may see a certificate error.
+    > Choose "continue to the website" to go to the setup screen.
+    >
 
 1. Select **Create new cluster**.
 
@@ -121,8 +131,8 @@ You now have a database with Flex enabled!
 
 ## Connect to your database
 
-After you create the database, you can connect to it and store data. See [Test client connection]({{<relref "/operate/rs/databases/connect/test-client-connectivity">}}) for connection options and examples.
+After you create the database, you can connect to it and store data. See [Test client connection](/content/operate/rs/databases/connect/test-client-connectivity.md) for connection options and examples.
 
 ## Next steps
 
-To see the true performance and scale of Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).
+To see the true performance and scale of Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Flex and Auto Tiering](/content/operate/rs/databases/flash/_index.md).

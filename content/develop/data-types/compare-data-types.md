@@ -18,35 +18,35 @@ weight: 1
 Redis provides a wide range of data types to store your data.
 The following are highly specialized for precise purposes:
 
--   [Geospatial]({{< relref "/develop/data-types/geospatial" >}}):
+-   [Geospatial](/content/develop/data-types/geospatial.md):
     store strings with associated coordinates for geospatial queries.
--   [Probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}):
+-   [Probabilistic data types](/content/develop/data-types/probabilistic/_index.md):
     keep approximate counts and other statistics for large datasets.
--   [Time series]({{< relref "/develop/data-types/timeseries" >}}):
+-   [Time series](/content/develop/data-types/timeseries/_index.md):
     store real-valued data points along with the time they were collected.
--   [Vector sets]({{< relref "/develop/data-types/vector-sets" >}}):
+-   [Vector sets](/content/develop/data-types/vector-sets/_index.md):
     store strings with associated vector data (and optional metadata)
     for vector similarity queries.
 
 The remaining data types are more general-purpose:
 
--   [Strings]({{< relref "/develop/data-types/strings" >}}):
+-   [Strings](/content/develop/data-types/strings/_index.md):
     store text or binary data.
--   [Arrays]({{< relref "/develop/data-types/arrays" >}}):
+-   [Arrays](/content/develop/data-types/arrays.md):
     store strings addressed by integer index, with support for sparse
     indices and server-side aggregation.
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}):
+-   [Hashes](/content/develop/data-types/hashes.md):
     store key-value pairs within a single key.
--   [JSON]({{< relref "/develop/data-types/json" >}}):
+-   [JSON](/content/develop/data-types/json/_index.md):
     store structured, hierarchical arrays and key-value objects that match
     the popular [JSON](https://www.json.org/json-en.html) text file format.
--   [Lists]({{< relref "/develop/data-types/lists" >}}):
+-   [Lists](/content/develop/data-types/lists.md):
     store a simple sequence of strings.
--   [Sets]({{< relref "/develop/data-types/sets" >}}):
+-   [Sets](/content/develop/data-types/sets.md):
     store a collection of unique strings.
--   [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}):
+-   [Sorted sets](/content/develop/data-types/sorted-sets.md):
     store a collection of unique strings with associated scores.
--   [Streams]({{< relref "/develop/data-types/streams" >}}):
+-   [Streams](/content/develop/data-types/streams/_index.md):
     store a sequence of entries, each with a set of field-value pairs.
 
 The general-purpose data types have some overlap among their features
@@ -77,9 +77,9 @@ in the string to use as bit sets, integers, or floating-point numbers.
 -   **Operations**: get, set, delete, range read, range scan, sequential insert, aggregate.
 -   **Suitable for**: Event logs, ring buffers, sensor readings, and other append-heavy or sparse sequences.
 
-Arrays store values addressed by integer index, making random access O(1) regardless of the array's logical size. Because arrays are sparse, setting an element at index 1,000,000 does not allocate memory for the million empty slots in between, so large index gaps are inexpensive. Arrays distinguish between *logical length* (the highest set index plus one, returned by [`ARLEN`]({{< relref "/commands/arlen" >}})) and *element count* (the number of non-empty slots, returned by [`ARCOUNT`]({{< relref "/commands/arcount" >}})).
+Arrays store values addressed by integer index, making random access O(1) regardless of the array's logical size. Because arrays are sparse, setting an element at index 1,000,000 does not allocate memory for the million empty slots in between, so large index gaps are inexpensive. Arrays distinguish between *logical length* (the highest set index plus one, returned by [`ARLEN`](/content/commands/arlen.md)) and *element count* (the number of non-empty slots, returned by [`ARCOUNT`](/content/commands/arcount.md)).
 
-In addition to direct index access, arrays support sequential insertion via [`ARINSERT`]({{< relref "/commands/arinsert" >}}), which advances an internal cursor automatically. The cursor can be repositioned with [`ARSEEK`]({{< relref "/commands/arseek" >}}), enabling flexible append patterns. [`ARRING`]({{< relref "/commands/arring" >}}) makes the ring buffer pattern explicit: it inserts values modulo a fixed size, wrapping around and overwriting the oldest entries when the buffer is full. [`AROP`]({{< relref "/commands/arop" >}}) performs single-pass aggregations (sum, min, max, bitwise operations, value matching) over a range without fetching each element individually.
+In addition to direct index access, arrays support sequential insertion via [`ARINSERT`](/content/commands/arinsert.md), which advances an internal cursor automatically. The cursor can be repositioned with [`ARSEEK`](/content/commands/arseek.md), enabling flexible append patterns. [`ARRING`](/content/commands/arring.md) makes the ring buffer pattern explicit: it inserts values modulo a fixed size, wrapping around and overwriting the oldest entries when the buffer is full. [`AROP`](/content/commands/arop.md) performs single-pass aggregations (sum, min, max, bitwise operations, value matching) over a range without fetching each element individually.
 
 ### Hashes
 
@@ -95,7 +95,7 @@ The field values are strings, but hashes provide commands to treat
 them as integers or floating-point numbers and perform simple arithmetic
 operations on them. You can set expirations on individual hash fields
 and you can also index and query hash documents using
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}}).
+[Redis Search](/content/develop/ai/search-and-query/_index.md).
 
 ### JSON
 
@@ -107,7 +107,7 @@ and you can also index and query hash documents using
 JSON provides rich data modeling capabilities with nested fields and arrays.
 You can use a simple path syntax to access any subset of the data within
 a JSON document. JSON also has more powerful and flexible
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
 features compared to hashes.
 
 ### Lists

@@ -1,6 +1,7 @@
 ---
 Title: Write-behind transformation examples
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/data-transformation/transformation-examples/
 alwaysopen: false
 categories:
 - docs

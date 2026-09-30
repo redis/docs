@@ -22,14 +22,14 @@ weight: 5
 The sections below explain how to install `ioredis` and connect your application
 to a Redis database.
 
-{{< note >}}Redis actively maintains and supports `ioredis` since it is in widespread use, but
-for new projects, we recommend using our newer Node.js client
-[`node-redis`]({{< relref "/develop/clients/nodejs" >}}). See
-[Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})
-if you are interested in converting an existing `ioredis` project to `node-redis`.
-{{< /note >}}
+> [!NOTE]
+> Redis actively maintains and supports `ioredis` since it is in widespread use, but
+> for new projects, we recommend using our newer Node.js client
+> [`node-redis`](/content/develop/clients/nodejs/_index.md). See
+> [Migrate from ioredis](/content/develop/clients/nodejs/migration.md)
+> if you are interested in converting an existing `ioredis` project to `node-redis`.
 
-`ioredis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`ioredis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 

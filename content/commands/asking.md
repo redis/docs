@@ -31,7 +31,7 @@ This is normally done automatically by cluster clients.
 
 If an `-ASK` redirect is received during a transaction, only one ASKING command needs to be sent to the target node before sending the complete transaction to the target node.
 
-See [ASK redirection in the Redis Cluster Specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) for details.
+See [ASK redirection in the Redis Cluster Specification](/content/operate/oss_and_stack/reference/cluster-spec.md#ask-redirection) for details.
 
 ## Redis Software and Redis Cloud compatibility
 

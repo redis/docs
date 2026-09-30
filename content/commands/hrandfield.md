@@ -62,7 +62,7 @@ title: HRANDFIELD
 When called with just the `key` argument, return a random field from the hash value stored at `key`.
 
 If the provided `count` argument is positive, return an array of **distinct fields**.
-The array's length is either `count` or the hash's number of fields ([`HLEN`]({{< relref "/commands/hlen" >}})), whichever is lower.
+The array's length is either `count` or the hash's number of fields ([`HLEN`](/content/commands/hlen.md)), whichever is lower.
 
 If called with a negative `count`, the behavior changes and the command is allowed to return the **same field multiple times**.
 In this case, the number of returned fields is the absolute value of the specified `count`.
@@ -94,10 +94,11 @@ Also return the value of each selected field. Can only be used together with `co
 ## Examples
 
 {{% redis-cli %}}
-HSET coin heads obverse tails reverse edge null
-HRANDFIELD coin
-HRANDFIELD coin
-HRANDFIELD coin -5 WITHVALUES
+redis> HSET coin heads obverse tails reverse edge null
+(integer) 3
+redis> HRANDFIELD coin
+redis> HRANDFIELD coin
+redis> HRANDFIELD coin -5 WITHVALUES
 {{% /redis-cli %}}
 
 ## Specification of the behavior when count is passed

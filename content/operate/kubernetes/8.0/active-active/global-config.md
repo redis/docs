@@ -15,7 +15,7 @@ url: '/operate/kubernetes/8.0/active-active/global-config/'
 
 The Redis Enterprise Active-Active database (REAADB) custom resource contains the field `.spec.globalConfigurations`. This field sets configurations for the Active-Active database across all participating clusters, such as memory size, shard count, and the global database secrets.
 
-The [REAADB API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api">}}) contains a full list of available fields.
+The [REAADB API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api.md) contains a full list of available fields.
 
 ## Edit global configurations
 
@@ -47,7 +47,7 @@ The [REAADB API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redi
 
 ## Edit global configuration secrets
 
-This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api">}}).
+This section edits the secrets under the REAADB `.spec.globalConfigurations` section. For more information and all available fields, see the [REAADB API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api.md).
 
 1. On an existing participating cluster, generate a YAML file containing the database secret with the relevant data.
 
@@ -109,7 +109,8 @@ This section edits the secrets under the REAADB `.spec.globalConfigurations` sec
 
 You can configure role-based access control (RBAC) permissions for Active-Active databases using the `rolesPermissions` field in the REAADB `.spec.globalConfigurations` section. The role permissions configuration is propagated across all participating clusters, but the underlying roles and Redis ACLs must be manually created on each cluster.
 
-{{<note>}}You must manually create the specified roles and Redis ACLs on all participating clusters before configuring role permissions. The operator only propagates the role permissions configuration—it does not create the underlying roles and ACLs. If roles or ACLs are missing on any cluster, the operator will log errors and dispatch an Event associated with the REAADB object until they are manually created.{{</note>}}
+> [!NOTE]
+> You must manually create the specified roles and Redis ACLs on all participating clusters before configuring role permissions. The operator only propagates the role permissions configuration—it does not create the underlying roles and ACLs. If roles or ACLs are missing on any cluster, the operator will log errors and dispatch an Event associated with the REAADB object until they are manually created.
 
 ### Prerequisites
 
@@ -119,7 +120,8 @@ Before configuring role permissions:
 2. Ensure role and ACL names match exactly across all clusters (names are case-sensitive).
 3. Verify that roles and ACLs are properly configured on each cluster.
 
-{{<warning>}}The operator does not automatically create or synchronize roles and ACLs across clusters. You are responsible for manually creating identical roles and ACLs on each participating cluster.{{</warning>}}
+> [!WARNING]
+> The operator does not automatically create or synchronize roles and ACLs across clusters. You are responsible for manually creating identical roles and ACLs on each participating cluster.
 
 ### Add role permissions to REAADB
 
@@ -161,7 +163,7 @@ Before configuring role permissions:
     '{"spec": {"globalConfigurations": {"rolesPermissions": [{"role": "<role-name>", "acl": "<acl-name>", "type": "redis-enterprise"}]}}}'
     ```
 
-3. After the REAADB is active and its replication status is "Up", verify role permissions are applied to the local database using the Redis Enterprise REST API. See [Database requests]({{<relref "/operate/rs/references/rest-api/requests/bdbs#get-bdbs">}}) for details.
+3. After the REAADB is active and its replication status is "Up", verify role permissions are applied to the local database using the Redis Enterprise REST API. See [Database requests](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#get-bdbs) for details.
 
 ### Troubleshooting role permissions
 
@@ -171,4 +173,4 @@ If you encounter issues with role permissions:
 - **Permission propagation failures**: Verify that the roles and ACLs are properly configured and accessible on each cluster. Remember that you must manually create identical roles and ACLs on every participating cluster.
 - **Case sensitivity issues**: Verify that role and ACL names match exactly, including capitalization, across all clusters.
 
-For more details on the `rolesPermissions` field structure, see the [REAADB API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api#specglobalconfigurationsrolespermissions">}}).
+For more details on the `rolesPermissions` field structure, see the [REAADB API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api.md#specglobalconfigurationsrolespermissions).

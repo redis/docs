@@ -40,7 +40,7 @@ Node-Redis provides [multiple events to handle various scenarios](https://github
 
 This event is triggered whenever an error occurs within the client, and
 it is very important to set a handler to listen for it.
-See [Error events]({{< relref "/develop/clients/nodejs/error-handling#error-events" >}})
+See [Error events](/content/develop/clients/nodejs/error-handling.md#error-events)
 for more information and an example of setting an error handler.
 
 ### Handling reconnections
@@ -50,7 +50,7 @@ the client can automatically restore the connection.  A simple
 [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy
 for reconnection is enabled by default, but you can replace this with your
 own custom strategy. See
-[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+[Reconnect after disconnection](/content/develop/clients/nodejs/connect.md#reconnect-after-disconnection)
 for more information.
 
 ### Timeouts
@@ -119,7 +119,7 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
+[Connect using Smart client handoffs](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.

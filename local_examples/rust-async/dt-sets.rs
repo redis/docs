@@ -133,6 +133,13 @@ mod tests {
         // STEP_END
 
         // STEP_START smismember
+        // Recreate the set so this example runs on its own.
+        let _: usize = r.del("bikes:racing:france").await.unwrap_or(0);
+        let _: usize = r
+            .sadd("bikes:racing:france", &["bike:1", "bike:2", "bike:3"])
+            .await
+            .unwrap_or(0);
+
         if let Ok(res) = r.sismember("bikes:racing:france", "bike:1").await {
             let res: bool = res;
             println!("{}", i32::from(res)); // >>> 1

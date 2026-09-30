@@ -15,11 +15,12 @@ weight: 3
 
 ## Prepare source database
 
-Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
+Prepare every source database before adding it to a pipeline. Each source needs its own change data capture (CDC) configuration, connectivity, and credentials. See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) for a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - [MongoDB Atlas]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb">}})
 - [Snowflake]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake">}})
+- [Supabase]({{<relref "/operate/rc/rdi/supabase">}})
 - Hosted on an AWS EC2 instance:
     - [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
     - [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})
@@ -36,32 +37,24 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 Before you can set up your source connectivity and secrets, you need the AWS Account ID for your Redis Cloud cluster so that you can give it access to your connectivity and secrets. 
 
-1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
-1. Select **Add pipeline**.
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
-1. Select your source database type. The following database types are supported:
-    - MySQL
-    - mariaDB
-    - Oracle
-    - SQL Server
-    - PostgreSQL
-    - MongoDB
-    - Snowflake
-    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
-1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
-1. Select **Continue to source** to move to the **Source configuration** step.
+1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab.
+1. Select **Add pipeline**, or resume an existing draft. To add a source to a running pipeline, select **Add source** on its **Dashboard**.
 
-    {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
 
-1. Under **Source connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
+1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources]({{< relref "/operate/rc/rdi/define#pipeline-setup" >}}) for naming rules.
+1. Select **Continue** to open **Configure source**.
+1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
 
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The Private Link Role ARN and availability zones." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The source connectivity Role ARN and availability zones." width=80% >}}
 
-    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
+    The account ID is the number after `arn:aws:iam::`. For example, `arn:aws:iam::123456789012:role/redis-data-pipeline` contains account ID `123456789012`.
 
-1. If your source database is accessible via the public endpoint and you want to use public connectivity for your data pipeline, select **Public endpoint** and save the **Redis Cloud outbound IP address** to add to your source database's allow list. 
+1. For a source using **Public Endpoint**, also copy the Redis Cloud outbound IP address to add to the source database's allowlist.
+1. Select **Save & exit** to return to setup after preparing connectivity and secrets.
 
-Select **Save & exit** to exit pipeline setup. You'll come back here when you [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
+Repeat the preparation for each source. Keep track of which endpoint service and secrets belong to each source; configuring one source does not configure the others.
 
 ## Set up AWS Private Link connectivity {#set-up-connectivity}
 
@@ -69,7 +62,7 @@ Select **Save & exit** to exit pipeline setup. You'll come back here when you [d
 If your source database is accessible via a public endpoint and you want to use public connectivity for your data pipeline, proceed to [Share source database credentials](#share-source-database-credentials).
 {{< /note >}} 
 
-If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it.
+If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it. For how traffic flows over PrivateLink, how to connect to an on-premises database over AWS Direct Connect, and how to keep the connection available during failover, see the [AWS PrivateLink reference]({{<relref "/operate/rc/rdi/networking/aws-privatelink">}}).
 
 The following diagrams show the network setup for the different database setups:
 
@@ -85,7 +78,8 @@ Select the steps for your database setup.
 
 {{< multitabs id="rdi-cloud-connectivity"
       tab1="EC2 instance"
-      tab2="AWS RDS or Aurora" >}}
+      tab2="AWS RDS or Aurora"
+      tab3="MongoDB Atlas" >}}
 
 To set up PrivateLink for a database hosted on an EC2 instance:
 
@@ -317,11 +311,54 @@ See the [AWS RDS PrivateLink Failover Example](https://github.com/redis/rdi-clou
 For custom implementations, refer to the AWS documentation:
 [Access Amazon RDS across VPCs using AWS PrivateLink and Network Load Balancer](https://aws.amazon.com/blogs/database/access-amazon-rds-across-vpcs-using-aws-privatelink-and-network-load-balancer/)
 
+--tab-sep--
+
+To set up Private Link for a MongoDB Atlas source database:
+
+MongoDB Atlas manages its own endpoint service. The flow is a two-way handshake — you get an endpoint service ID from Atlas, give it to Redis Cloud, and then take the VPC Endpoint ID that Redis Cloud returns back to Atlas to complete the connection.
+
+{{< note >}}
+Create the Atlas private endpoint in the same AWS region as your Redis Cloud target database.
+{{< /note >}}
+
+### Create a private endpoint in MongoDB Atlas
+
+1. In the [MongoDB Atlas UI](https://cloud.mongodb.com/), go to **Security** > **Network Access**.
+1. Select the **Private Endpoint** tab, then select **Dedicated Cluster**.
+1. Select **Add Private Endpoint**.
+    - Select **AWS** as the cloud provider.
+    - Select the AWS region that matches your Redis Cloud target database.
+    - Select **Next**.
+1. Atlas displays an **Endpoint Service ID** (for example, `vpce-svc-xxxxxxxxxxxxxxxxx`). Copy this value.
+
+### Register the endpoint service with Redis Cloud
+
+1. In the Redis Cloud console, in the pipeline creation flow, go to the **Source connectivity** step.
+1. In the **Private Link service name** field, paste the Endpoint Service ID you copied from Atlas.
+1. Redis Cloud creates a VPC endpoint and displays a **VPC Endpoint ID** (for example, `vpce-xxxxxxxxxxxxxxxxx`). Copy this value.
+
+### Complete the connection in MongoDB Atlas
+
+1. Return to the **Add Private Endpoint** page in the Atlas UI. In the **Your VPC Endpoint ID** field, enter the VPC Endpoint ID you copied from the Redis Cloud console. Select **Create**.
+1. Wait for the endpoint status to show as **Available**. This can take a few minutes.
+1. In the Atlas UI, go to your cluster and select **Connect** > **Private Endpoint**.
+1. Choose the private endpoint you just registered (the `vpce-` ID you entered above).
+1. Choose a connection method, then select **Shell**.
+1. Copy the connection string shown.
+
+    {{< note >}}
+Copy the connection string from the **Private Endpoint** connection method only. The standard connection string does not route traffic through the private endpoint.
+    {{< /note >}}
+
+### Finish pipeline setup
+
+1. Return to the Redis Cloud pipeline creation flow and paste the connection string into the **Source configuration** section.
+
 {{< /multitabs >}}
 
 ## Share source database credentials
 
-You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
+Share the credentials and certificates for each source through AWS Secrets Manager. Enter the matching secret ARNs when you configure that source in the console.
 
 To do this, you need to:
 1. [Create an encryption key](#create-encryption-key) using AWS Key Management Service with the right permissions.
@@ -448,6 +485,4 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
-
-{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}
+After you have prepared connectivity and credentials for each source, resume your pipeline draft from the workspace and complete **Configure source**. Continue with [Create data pipeline]({{<relref "/operate/rc/rdi/define">}}).

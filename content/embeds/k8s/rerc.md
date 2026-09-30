@@ -17,7 +17,7 @@ spec:
 
   # The database URL suffix, will be used for the active-active
   # database replication endpoint and replication endpoint SNI.
-  dbFqdnSuffix: .example-new-york-1-ns1.redislabs.com
+  dbFqdnSuffix: -example-new-york-1-ns1.redislabs.com
 
   # The name of the secret containing cluster credentials.
   # Needs to be formatted as: "redis-enterprise-<RERC name>"

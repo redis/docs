@@ -48,7 +48,7 @@ title: EXPIRETIME
 ---
 Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which the given key will expire.
 
-See also the [`PEXPIRETIME`]({{< relref "/commands/pexpiretime" >}}) command which returns the same information with milliseconds resolution.
+See also the [`PEXPIRETIME`](/content/commands/pexpiretime.md) command which returns the same information with milliseconds resolution.
 
 ## Required arguments
 
@@ -61,9 +61,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-EXPIREAT mykey 33177117420
-EXPIRETIME mykey
+redis> SET mykey "Hello"
+OK
+redis> EXPIREAT mykey 33177117420
+(integer) 1
+redis> EXPIRETIME mykey
+(integer) 33177117420
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

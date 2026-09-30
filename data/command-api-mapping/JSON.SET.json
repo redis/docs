@@ -744,6 +744,47 @@
           "description": "The status reply for the set operation."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_set(key, path, value, nx: false, xx: false, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath, e.g. \"$\" for the document root"
+          },
+          {
+            "name": "value",
+            "type": "Object",
+            "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "only set when the path does not already exist"
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "only set when the path already exists"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat value as an already-encoded JSON string and send it as-is"
+          }
+        ],
+        "returns": {
+          "type": "Boolean, String",
+          "description": "when nx or xx is given, true on success and false when the condition was not met; otherwise the raw \"OK\" reply"
+        }
+      }
     ]
   }
 }

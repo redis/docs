@@ -1,0 +1,110 @@
+{{- /* Site-wide redirect map, published as /redirects.json.
+
+  Every alias any published page declares, mapped to the page it resolves to.
+  Rendered from `.Aliases`, which is the same data Hugo uses to emit its own
+  redirect stubs, so the map and the site's real behavior cannot drift and there
+  is no generated file to keep in step.
+
+  Entries the site does not honor are separated out too. An alias whose path a real
+  page occupies is never written as a stub, because Hugo will not overwrite a page:
+  that URL keeps serving its own content. Listing it as a redirect would send a
+  consumer away from a live page, so those go in `shadowed` -- 10 of them -- which
+  also means every key in `redirects` has a stub and a tombstone behind it.
+
+  Ambiguity is separated out rather than resolved. Two pages can declare the same
+  alias -- 27 keys in a full build, each naming two or more targets --
+  and Hugo settles that by emitting one stub and picking a winner arbitrarily.
+  Publishing one of those targets as though it were the answer would hand
+  consumers data the site does not honor, so those keys go in `ambiguous` with
+  every candidate listed, and `redirects` contains only keys with exactly one
+  target. An alias declared twice with the same target is simply deduplicated.
+
+  Two caveats a consumer needs, both documented on ai-agent-resources:
+
+  - `from` is normalized to a leading slash and no trailing slash. Authors write
+    both forms -- 918 of 929 entries carry a leading slash, and the trailing slash
+    is an even split -- so normalizing here saves every consumer doing it. `to` is
+    absolute, matching the `url` field every per-page record already publishes.
+  - This is an *alias* map, not a move log. Many entries are vanity or legacy paths
+    that were never a page's location, so only the ones git can date carry a
+    `moved_on`.
+
+  Only pages Hugo publishes appear, so drafts contribute nothing -- which matches
+  the site, since Hugo emits no stub for a draft's aliases either.
+
+  See DOC-6951.
+*/ -}}
+{{- /* Every URL a real page occupies. Hugo refuses to write an alias stub over a
+       page, so an alias naming one of these is declared but never honored: the URL
+       keeps serving its own page. Publishing it as a redirect would send a consumer
+       away from a live page, which is worse than omitting it, so those go in
+       `shadowed` instead. 10 in a full build. */ -}}
+{{- /* RelPermalink carries the baseURL's path, which is empty in a local build and
+       /docs/latest in production -- while Hugo writes alias stubs relative to the
+       publish directory, with no such prefix. Comparing or publishing RelPermalink
+       directly therefore works locally and silently breaks in production: keys stop
+       matching, so nothing is ever detected as shadowed, and a slash-less alias is
+       published at /docs/latest/... where no stub exists. Reproduced against Hugo
+       0.143.1 with a prefixed baseURL. Everything below works in publish-relative
+       paths. */ -}}
+{{- $basePath := (urls.Parse site.BaseURL).Path | strings.TrimSuffix "/" -}}
+{{- $occupied := newScratch -}}
+{{- range .Site.Pages -}}
+  {{- $occupied.SetInMap "url"
+        (strings.TrimPrefix $basePath (.RelPermalink | strings.TrimSuffix "/")) true -}}
+{{- end -}}
+{{- $seen := newScratch -}}
+{{- range .Site.Pages -}}
+  {{- $page := . -}}
+  {{- $to := .Permalink -}}
+  {{- range .Aliases -}}
+    {{- $from := . | strings.TrimSuffix "/" -}}
+    {{- if not (hasPrefix $from "/") -}}
+      {{- /* Hugo resolves a slash-less alias relative to the declaring page's
+             parent directory, not to the site root: `docs` on a page at
+             /develop/tools/ publishes its stub at /develop/docs/. Verified against
+             Hugo 0.143.1. Prepending a slash instead would name a location the
+             redirect is not at, which is worse than omitting it -- and 11 entries in
+             this corpus are written that way. */ -}}
+      {{- $rel := strings.TrimPrefix $basePath (strings.TrimSuffix "/" $page.RelPermalink) -}}
+      {{- $parent := path.Dir $rel -}}
+      {{- $from = path.Join (cond (eq $parent ".") "/" $parent) $from -}}
+    {{- end -}}
+    {{- $targets := index ($seen.Get "map" | default dict) $from | default slice -}}
+    {{- $seen.SetInMap "map" $from ($targets | append $to | uniq) -}}
+  {{- end -}}
+{{- end -}}
+{{- /* Move dates, written into data/ before the build by
+       build/generate_page_moves.py, because git records when a page moved and
+       frontmatter does not. Absent when the site is built with bare `hugo` rather
+       than `make`, so every lookup tolerates a missing file: a date is extra
+       information, never a precondition. Only moves have one -- a vanity or legacy
+       alias was never a page's location, so there is no date to give. */ -}}
+{{- $movedOn := index (index site.Data "page-moves" | default dict) "moved_on" | default dict -}}
+{{- $redirects := slice -}}
+{{- $ambiguous := slice -}}
+{{- $shadowed := slice -}}
+{{- range $from, $targets := ($seen.Get "map" | default dict) -}}
+  {{- if index ($occupied.Get "url" | default dict) $from -}}
+    {{- $shadowed = $shadowed | append (dict "from" $from "declared" (sort $targets)) -}}
+  {{- else if eq (len $targets) 1 -}}
+    {{- $entry := dict "from" $from "to" (index $targets 0) -}}
+    {{- with index $movedOn $from -}}
+      {{- $entry = merge $entry (dict "moved_on" .) -}}
+    {{- end -}}
+    {{- $redirects = $redirects | append $entry -}}
+  {{- else -}}
+    {{- $ambiguous = $ambiguous | append (dict "from" $from "candidates" (sort $targets)) -}}
+  {{- end -}}
+{{- end -}}
+{{ dict
+     "schema_version" site.Params.aiSchemaVersion
+     "base_url" site.BaseURL
+     "generated" (now.Format "2006-01-02T15:04:05Z07:00")
+     "count" (len $redirects)
+     "ambiguous_count" (len $ambiguous)
+     "shadowed_count" (len $shadowed)
+     "redirects" (sort $redirects "from")
+     "ambiguous" (sort $ambiguous "from")
+     "shadowed" (sort $shadowed "from")
+   | jsonify (dict "indent" "  ") }}

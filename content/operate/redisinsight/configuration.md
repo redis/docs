@@ -6,6 +6,9 @@ categories:
 linkTitle: Configuration settings
 title: Redis Insight configuration settings
 weight: 5
+aliases:
+- /operate/redisinsight/install/env-variables/
+- /operate/oss_and_stack/install/install-redis-insight/env-variables/
 ---
 ## Configuration environment variables
 

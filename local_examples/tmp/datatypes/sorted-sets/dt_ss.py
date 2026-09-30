@@ -73,6 +73,13 @@ assert r.zcard("racer_scores") == 3
 # REMOVE_END
 
 # STEP_START zrank
+# Recreate the three remaining racers so this example runs on its own.
+r.delete("racer_scores")
+r.zadd(
+    "racer_scores",
+    {"Norem": 10, "Royce": 10, "Prickett": 14},
+)
+
 res11 = r.zrank("racer_scores", "Norem")
 print(res11)  # >>> 0
 

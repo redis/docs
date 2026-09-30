@@ -85,7 +85,7 @@ syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  l
   \ member ...]"
 title: GEOADD
 ---
-Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) command.
+Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`](/content/commands/geosearch.md) command.
 
 The command takes arguments in the standard format x,y so the longitude must be specified before the latitude. There are limits to the coordinates that can be indexed: areas very near to the poles are not indexable.
 
@@ -96,7 +96,7 @@ The exact limits, as specified by EPSG:900913 / EPSG:3785 / OSGEO:41001 are the 
 
 The command will report an error when the user attempts to index coordinates outside the specified ranges.
 
-**Note:** there is no **GEODEL** command because you can use [`ZREM`]({{< relref "/commands/zrem" >}}) to remove elements. The Geo index structure is just a sorted set.
+**Note:** there is no **GEODEL** command because you can use [`ZREM`](/content/commands/zrem.md) to remove elements. The Geo index structure is just a sorted set.
 
 ## Required arguments
 
@@ -154,10 +154,15 @@ However, in the worst case, the error may be up to 0.5%, so you may want to cons
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEORADIUS Sicily 15 37 100 km
-GEORADIUS Sicily 15 37 200 km
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEODIST Sicily Palermo Catania
+"166274.1516"
+redis> GEORADIUS Sicily 15 37 100 km
+1) "Catania"
+redis> GEORADIUS Sicily 15 37 200 km
+1) "Palermo"
+2) "Catania"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

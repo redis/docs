@@ -62,7 +62,7 @@ title: SPOP
 ---
 Removes and returns one or more random members from the set value store at `key`.
 
-This operation is similar to [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}), that returns one or more random elements from a set but does not remove it.
+This operation is similar to [`SRANDMEMBER`](/content/commands/srandmember.md), that returns one or more random elements from a set but does not remove it.
 
 By default, the command pops a single member from the set. When provided with
 the optional `count` argument, the reply will consist of up to `count` members,
@@ -87,15 +87,23 @@ The number of members to pop. Without it, a single member is popped.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SPOP myset
-SMEMBERS myset
-SADD myset "four"
-SADD myset "five"
-SPOP myset 3
-SMEMBERS myset
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "two"
+(integer) 1
+redis> SADD myset "three"
+(integer) 1
+redis> SPOP myset
+redis> SMEMBERS myset
+1) "one"
+2) "three"
+redis> SADD myset "four"
+(integer) 1
+redis> SADD myset "five"
+(integer) 1
+redis> SPOP myset 3
+redis> SMEMBERS myset
+1) "three"
 {{% /redis-cli %}}
 
 ## Details

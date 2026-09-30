@@ -43,7 +43,7 @@ Assume you select an error rate of 0.1% (0.001) with a certainty of 99.8% (0.998
 > CMS.INITBYPROB bikes:profit 0.001 0.002
 OK
 > CMS.INCRBY bikes:profit "Smokey Mountain Striker" 100
-(integer) 100
+1) (integer) 100
 > CMS.INCRBY bikes:profit "Rocky Mountain Racer" 200 "Cloudy City Cruiser" 150
 1) (integer) 200
 2) (integer) 150
@@ -105,7 +105,7 @@ or
 error = threshold/total_count
 ```
 
-where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`]({{< relref "commands/cms.info/" >}}) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
+where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`](/content/commands/cms.info.md) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
 
 Since the threshold is a function of the total count in the filter it's very important to note that it will grow as  the count grows, but knowing the total count we can always dynamically calculate the threshold. If a result is below it - it can be discarded.
 

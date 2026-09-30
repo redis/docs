@@ -1,118 +1,56 @@
 ---
 Title: redis-di deploy
 linkTitle: redis-di deploy
-description: Deploys the RDI configurations including target
+description: Deploys a pipeline with the specified configuration
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
 ---
+
+Deploys a pipeline, creating it or updating it from the configuration in the `--dir` directory. The
+API validates the configuration and rejects an invalid one. By default, the command starts the
+pipeline after deploying and waits for it to reach the expected state. `set` is an alias for this
+command.
+
+Pass `--empty` instead of `--dir` to deploy an empty configuration, which clears the pipeline. See
+[Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline) for
+what clearing a pipeline removes and what it keeps.
 
 ## Usage
 
 ```
-Usage: redis-di deploy [OPTIONS]
+redis-di deploy [pipeline] [flags]
 ```
+
+The pipeline name is an optional argument that defaults to `default`.
 
 ## Options
 
-- `log_level`:
-  - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-  - Default: `info`
-  - Usage: `--log-level
--l`
+| Option              | Description                                                                          |
+| :------------------ | :----------------------------------------------------------------------------------- |
+| `--dir`             | Directory containing the pipeline configuration (default `.`).                       |
+| `--empty`           | Deploy an empty configuration instead of loading one from a directory. Cannot be combined with `--dir`. |
+| `--dry-run`         | Validate the configuration without deploying.                                        |
+| `--validate-tables` | Validate the configuration against the source and target databases (default `true`). |
+| `--validate-cdc`    | Validate the CDC configuration of the source databases.                              |
+| `--start`           | Start the pipeline after deploying (default `true`, or `false` with `--empty`).      |
+| `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                  |
+| `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).    |
 
-- `rdi_host` (REQUIRED):
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-host`
+This command also accepts the
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
-  Host/IP of RDI Database
+## Example
 
-- `rdi_port` (REQUIRED):
-  - Type: <IntRange 1<=x<=65535>
-  - Default: `none`
-  - Usage: `--rdi-port`
+```bash
+# Deploy the configuration in the current directory
+redis-di deploy
 
-  Port of RDI Database
+# Validate a configuration folder without deploying it
+redis-di deploy --dir /opt/rdi/config --dry-run
 
-- `rdi_user`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-user`
-
-  RDI Database Username
-
-- `rdi_password`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-password`
-
-  RDI Database Password
-
-- `rdi_key`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key`
-
-  Private key file to authenticate with
-
-- `rdi_cert`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cert`
-
-  Client certificate file to authenticate with
-
-- `rdi_cacert`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cacert`
-
-  CA certificate file to verify with
-
-- `rdi_key_password`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key-password`
-
-  Password for unlocking an encrypted private key
-
-- `directory`:
-  - Type: STRING
-  - Default: `.`
-  - Usage: `--dir`
-
-  Directory containing RDI configuration
-
-- `help`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
-
-  Show this message and exit.
-
-## CLI help
-
-```
-Usage: redis-di deploy [OPTIONS]
-
-  Deploys the RDI configurations including target
-
-Options:
-  -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
-                                  [default: INFO]
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
-                                  required]
-  --rdi-user TEXT                 RDI Database Username
-  --rdi-password TEXT             RDI Database Password
-  --rdi-key TEXT                  Private key file to authenticate with
-  --rdi-cert TEXT                 Client certificate file to authenticate with
-  --rdi-cacert TEXT               CA certificate file to verify with
-  --rdi-key-password TEXT         Password for unlocking an encrypted private
-                                  key
-  --dir TEXT                      Directory containing RDI configuration
-                                  [default: .]
-  --help                          Show this message and exit.
+# Clear the pipeline by deploying an empty configuration
+redis-di deploy --empty
 ```

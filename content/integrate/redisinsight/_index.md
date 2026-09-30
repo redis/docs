@@ -31,11 +31,11 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 Redis Insight is available for multiple platforms:
 
-- [Install on Desktop]({{< relref "/operate/redisinsight/install/install-on-desktop" >}}) - Windows, macOS, Linux
-- [Install on Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}) - Container deployment
-- [Install on Kubernetes]({{< relref "/operate/redisinsight/install/install-on-k8s" >}}) - K8s clusters
-- [Install on AWS]({{< relref "/operate/redisinsight/install/install-on-aws" >}}) - Amazon Web Services
+- [Install on Desktop](/content/operate/redisinsight/install/install-on-desktop.md) - Windows, macOS, Linux
+- [Install on Docker](/content/operate/redisinsight/install/install-on-docker.md) - Container deployment
+- [Install on Kubernetes](/content/operate/redisinsight/install/install-on-k8s.md) - K8s clusters
+- [Install on AWS](/content/operate/redisinsight/install/install-on-aws.md) - Amazon Web Services
 
 ## Getting Started
 
-Refer to the complete [Redis Insight guide]({{< relref "/develop/tools/insight" >}}) to install, connect, and use Redis Insight for data visualization and database management.
+Refer to the complete [Redis Insight guide](/content/develop/tools/insight/_index.md) to install, connect, and use Redis Insight for data visualization and database management.

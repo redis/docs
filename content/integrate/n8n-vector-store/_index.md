@@ -21,7 +21,7 @@ graph represents a task, and the edges represent the data flow between tasks.
 
 The
 [Redis vector store](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreredis/)
-node lets you access [vector search]({{< relref "/develop/ai/search-and-query/vectors" >}}) capabilities from
+node lets you access [vector search](/content/develop/ai/search-and-query/vectors/_index.md) capabilities from
 your n8n workflows. Some typical usage patterns include:
 
 -   **Use as a regular node to insert and retrieve documents**: Use the Redis Vector Store as a
@@ -49,8 +49,8 @@ for more information.
 ## Prerequisites
 
 To use the Redis vector store node, you need a Redis server with Redis Search enabled.
-See the [Redis Cloud quickstart guide]({{< relref "/operate/rc/rc-quickstart" >}})
-or the [Redis Open Source installation guide]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+See the [Redis Cloud quickstart guide](/content/operate/rc/rc-quickstart.md)
+or the [Redis Open Source installation guide](/content/operate/oss_and_stack/install/install-stack/_index.md)
 to learn how to set up a suitable Redis server within minutes.
 
 ## Available operations

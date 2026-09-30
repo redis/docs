@@ -1,0 +1,3 @@
+# transient: cached per-language projects/deps and run logs
+work/
+results/

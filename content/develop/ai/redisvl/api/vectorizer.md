@@ -12,7 +12,8 @@ available in the `redisvl.utils.vectorize.text` module for backwards
 compatibility:
 
 - `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
-- `VertexAITextVectorizer` → Use `VertexAIVectorizer` instead
+- `VertexAITextVectorizer` → Use `GoogleGenAIVectorizer` instead
+  (`VertexAIVectorizer` is itself deprecated; see below)
 - `BedrockTextVectorizer` → Use `BedrockVectorizer` instead
 - `CustomTextVectorizer` → Use `CustomVectorizer` instead
 
@@ -305,9 +306,13 @@ Return the type of vectorizer.
 <a id="vertexaivectorizer-api"></a>
 
 {{< note >}}
-For backwards compatibility, an alias `VertexAITextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
+`VertexAIVectorizer` is **deprecated**. It uses Google’s Vertex AI
+model-garden SDK, which Google has deprecated with a scheduled removal. Use
+[GoogleGenAIVectorizer](#googlegenaivectorizer) for text
+embeddings on the supported `google-genai` SDK. The alias
+`VertexAITextVectorizer` (in `redisvl.utils.vectorize.text`) is likewise
+deprecated. Multimodal (image/video) migration is tracked in
+[issue #620](https://github.com/redis/redis-vl-python/issues/620).
 {{< /note >}}
 
 ### `class VertexAIVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
@@ -419,6 +424,123 @@ Embed a video (from its path on disk) using a VertexAI multimodal model.
 #### `property is_multimodal: bool`
 
 Whether a multimodal model has been configured.
+
+#### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
+
+Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `property type: str`
+
+Return the type of vectorizer.
+
+## GoogleGenAIVectorizer
+
+<a id="googlegenaivectorizer-api"></a>
+
+### `class GoogleGenAIVectorizer(model='gemini-embedding-001', api_config=None, dtype='float32', cache=None, task_type=None, output_dimensionality=None, *, dims=None)`
+
+Bases: `BaseVectorizer`
+
+The GoogleGenAIVectorizer creates embeddings with Google’s google-genai
+SDK, the supported replacement for the deprecated Vertex AI model-garden SDK
+used by `VertexAIVectorizer`.
+
+One client, two backends. google-genai reaches both of Google’s embedding
+backends; this vectorizer auto-selects one from your config/environment (or an
+explicit override):
+
+- **Vertex AI / Gemini Enterprise** (GCP project auth) — for existing Vertex users.
+- **Gemini Developer API** (a single API key) — the simplest way to get started.
+
+Credentials are resolved in this order (explicit beats ambient):
+
+1. Explicit override — `api_config={"backend": "vertex" | "gemini"}`.
+2. Explicit creds in `api_config` — `api_key` selects Gemini; `project_id`
+   (+ `location`) selects Vertex.
+3. Environment — a project (`GOOGLE_CLOUD_PROJECT` | `GCP_PROJECT_ID` with
+   `GOOGLE_CLOUD_LOCATION` | `GCP_LOCATION` and Application Default
+   Credentials via `GOOGLE_APPLICATION_CREDENTIALS`) selects Vertex; otherwise
+   `GEMINI_API_KEY` | `GOOGLE_API_KEY` selects Gemini. If both a project and a
+   key are present, Vertex wins.
+
+Install the client with `pip install redisvl[google-genai]`.
+
+{{< note >}}
+The default model `gemini-embedding-001` returns **3072-dimensional**
+vectors (≈4× the width of the legacy `textembedding-gecko`, so ≈4× the
+index memory). A reduced `output_dimensionality` returns shorter vectors that
+Google does **not** re-normalize; this is invisible under the COSINE metric
+(scale-invariant) but matters for inner-product / L2 — normalize yourself if your
+index needs it. Embeddings from different models (or dimensions) are not
+interchangeable — reindex when you change them.
+{{< /note >}}
+
+```python
+# Vertex AI backend
+from redisvl.utils.vectorize import GoogleGenAIVectorizer
+
+vectorizer = GoogleGenAIVectorizer(
+    model="gemini-embedding-001",
+    api_config={
+        "project_id": "your-gcp-project",  # or set GOOGLE_CLOUD_PROJECT
+        "location": "us-central1",         # or set GOOGLE_CLOUD_LOCATION
+    },
+)
+embedding = vectorizer.embed("Hello, world!")
+
+# Gemini Developer API backend
+vectorizer = GoogleGenAIVectorizer(
+    model="gemini-embedding-001",
+    api_config={"api_key": "your-gemini-api-key"},  # or set GEMINI_API_KEY
+)
+
+# Reduced dimensions (Matryoshka) + caching
+from redisvl.extensions.cache.embeddings import EmbeddingsCache
+
+vectorizer = GoogleGenAIVectorizer(
+    model="gemini-embedding-001",
+    output_dimensionality=768,
+    cache=EmbeddingsCache(name="genai_embeddings_cache"),
+)
+
+# Asynchronous batch embedding
+embeddings = await vectorizer.aembed_many(
+    ["Hello, world!", "How are you?"], batch_size=2
+)
+```
+
+Initialize the Google GenAI vectorizer.
+
+* **Parameters:**
+  * **model** (*str*) – The embedding model to use. Defaults to
+    ‘gemini-embedding-001’, which works on both backends.
+  * **api_config** (*Optional* *[* *Dict* *]*) – Auth/client configuration. Recognized keys:
+    `backend` ("vertex"|"gemini"), `project_id`, `location`,
+    `credentials` (Vertex), and `api_key` (Gemini). Model-behavior
+    options are the `task_type`/`output_dimensionality` arguments
+    below, not `api_config` keys. Defaults to None.
+  * **dtype** (*str*) – The default datatype to use when embedding text as byte
+    arrays. Used when setting `as_buffer=True`. Defaults to ‘float32’.
+  * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional cache for repeated inputs.
+  * **task_type** (*Optional* *[* *str* *]*) – Default embedding task type (e.g.
+    ‘RETRIEVAL_DOCUMENT’, ‘RETRIEVAL_QUERY’). Overridable per call.
+  * **output_dimensionality** (*Optional* *[* *int* *]*) – Request shorter (Matryoshka)
+    embeddings of this width; sets `dims` accordingly. Fixed for the
+    vectorizer’s lifetime (cannot be overridden per call). Note Google does
+    not re-normalize reduced vectors.
+  * **\*\*kwargs** – Additional arguments forwarded to `google.genai.Client`
+    (e.g. `http_options`).
+  * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
+* **Raises:**
+  * **ImportError** – If the google-genai library is not installed.
+  * **ValueError** – If a backend cannot be resolved, or an invalid dtype is given.
+
+#### `property backend: str`
+
+‘vertex’ or ‘gemini’.
+
+* **Type:**
+  The resolved backend
 
 #### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
@@ -728,8 +850,15 @@ Bases: `BaseVectorizer`
 The VoyageAIVectorizer class utilizes VoyageAI’s API to generate
 embeddings for text and multimodal (text / image / video) data.
 
-This vectorizer is designed to interact with VoyageAI’s /embed and /multimodal_embed APIs,
-requiring an API key for authentication. The key can be provided
+This vectorizer is designed to interact with VoyageAI’s /embed, /multimodal_embed,
+and /contextualized_embed APIs. Any model identifier accepted by VoyageAI can be
+passed via `model` - for example the general-purpose `voyage-4-large` /
+`voyage-4` / `voyage-4-lite` / `voyage-4-nano` family, domain models such
+as `voyage-code-4`, contextualized `voyage-context-4` / `voyage-context-3`
+models, and multimodal `voyage-multimodal-*` models.
+See [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings) for the current catalog.
+
+It requires an API key for authentication. The key can be provided
 directly in the api_config dictionary or through the VOYAGE_API_KEY
 environment variable. User must obtain an API key from VoyageAI’s website
 ([https://dash.voyageai.com/](https://dash.voyageai.com/)). Additionally, the voyageai python
@@ -757,6 +886,25 @@ query_embedding = vectorizer.embed(
 doc_embeddings = vectorizer.embed_many(
     contents=["your document text", "more document text"],
     input_type="document"
+)
+
+# Contextualized embeddings (voyage-context-* models) - requires voyageai>=0.5.0
+# Each input string is treated as its own document (auto-chunked) and
+# embedded independently: inputs do not influence one another, which keeps
+# the one-embedding-per-input contract and cache determinism intact.
+context_vectorizer = VoyageAIVectorizer(
+    model="voyage-context-4",
+    api_config={"api_key": "your-voyageai-api-key"}
+)
+context_embeddings = context_vectorizer.embed_many(
+    contents=["chunk one", "chunk two", "chunk three"],
+    input_type="document"
+)
+# Retrieval queries use input_type="query"; auto-chunking is a
+# document-only feature, so query inputs are embedded as-is.
+context_query = context_vectorizer.embed(
+    content="your query text here",
+    input_type="query"
 )
 
 # Multimodal usage - requires Pillow and voyageai>=0.3.6
@@ -819,6 +967,17 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 
 - Multimodal models require voyageai>=0.3.6 to be installed for video embeddings, as well as
   : ffmpeg installed on the system. Image embeddings require pillow to be installed.
+- Contextualized (`voyage-context-*`) models require voyageai>=0.5.0. Each input
+  : string is sent as its own document with auto-chunking, so inputs are embedded
+    independently (no cross-input contextualization) and the one-embedding-per-input
+    contract and cache determinism are preserved. A document longer than `chunk_size`
+    (32000 tokens) auto-chunks into multiple chunks but only the first chunk’s embedding
+    is kept; the rest are dropped. `truncation` is not forwarded to the contextualized
+    API (it does not accept it), so it is silently ignored for these models.
+- The plain text embedding path (`embed`/`embed_many` for non-context,
+  : non-multimodal models) uses token-aware batching: inputs are grouped into requests
+    bounded by both the per-model item cap and the model’s per-request token limit, so
+    large inputs are packed efficiently without exceeding VoyageAI’s token budget.
 
 #### `embed_image(image_path, **kwargs)`
 
@@ -839,6 +998,16 @@ Requires voyageai>=0.3.6 to be installed, as well as ffmpeg to be installed on t
   **video_path** (*str*)
 * **Return type:**
   list[float] | bytes
+
+#### `property is_context: bool`
+
+Whether a contextualized-embedding model (voyage-context-
+
+```
+*
+```
+
+) has been configured.
 
 #### `property is_multimodal: bool`
 

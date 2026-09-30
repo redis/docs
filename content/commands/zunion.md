@@ -78,15 +78,14 @@ syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGG
   <SUM | MIN | MAX | COUNT>] [WITHSCORES]"
 title: ZUNION
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
+This command is similar to [`ZUNIONSTORE`](/content/commands/zunionstore.md), but instead of storing the resulting
 sorted set, it is returned to the client.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/content/commands/zunionstore.md).
 
 ## Required arguments
 
@@ -125,13 +124,27 @@ Also return the score of each member.
 ## Examples
 
 {{% redis-cli %}}
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZADD zset2 3 "three"
-ZUNION 2 zset1 zset2
-ZUNION 2 zset1 zset2 WITHSCORES
+redis> ZADD zset1 1 "one"
+(integer) 1
+redis> ZADD zset1 2 "two"
+(integer) 1
+redis> ZADD zset2 1 "one"
+(integer) 1
+redis> ZADD zset2 2 "two"
+(integer) 1
+redis> ZADD zset2 3 "three"
+(integer) 1
+redis> ZUNION 2 zset1 zset2
+1) "one"
+2) "three"
+3) "two"
+redis> ZUNION 2 zset1 zset2 WITHSCORES
+1) "one"
+2) "2"
+3) "three"
+4) "3"
+5) "two"
+6) "4"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

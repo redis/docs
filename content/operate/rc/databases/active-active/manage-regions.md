@@ -10,7 +10,7 @@ linkTitle: Manage regions
 weight: 10
 ---
 
-You can add and edit regions for an Active-Active deployment after it has been created by going to the **Regions** tab of the [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}). 
+You can add and edit regions for an Active-Active deployment after it has been created by going to the **Regions** tab of the [subscription page](/content/operate/rc/subscriptions/view-pro-subscription.md). 
 
 {{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
 
@@ -28,7 +28,7 @@ To add a new region to an Active-Active deployment:
 
     1. Select the desired region from the **Region** list.
 
-    1. If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can define the VPC ID for the new region. Select **In existing VPC** and the set the VPC ID for the region.
+    1. If you chose to deploy your Active-Active database to an existing [Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) account, you can define the VPC ID for the new region. Select **In existing VPC** and the set the VPC ID for the region.
 
     1. Enter a unique CIDR address for the region.  
     

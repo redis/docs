@@ -133,6 +133,11 @@ func ExampleClient_timeseries_add() {
 	// REMOVE_END
 
 	// STEP_START madd
+	// Recreate the thermometer series so this example runs on its own.
+	rdb.Del(ctx, "thermometer:1", "thermometer:2")
+	rdb.TSCreate(ctx, "thermometer:1")
+	rdb.TSAdd(ctx, "thermometer:2", 1, 10.8)
+
 	res1, err := rdb.TSMAdd(ctx, [][]interface{}{
 		{"thermometer:1", 1, 9.2},
 		{"thermometer:1", 2, 9.9},
@@ -146,6 +151,10 @@ func ExampleClient_timeseries_add() {
 	// STEP_END
 
 	// STEP_START get
+	// Recreate the thermometer:2 series so this example runs on its own.
+	rdb.Del(ctx, "thermometer:2")
+	rdb.TSAdd(ctx, "thermometer:2", 1, 10.8)
+	rdb.TSAdd(ctx, "thermometer:2", 2, 10.3)
 	// The last recorded temperature for thermometer:2
 	// was 10.3 at time 2.
 	res2, err := rdb.TSGet(ctx, "thermometer:2").Result()
@@ -249,6 +258,17 @@ func ExampleClient_timeseries_range() {
 	// STEP_END
 
 	// STEP_START range_filter
+	// Recreate the rg:1 series so this example runs on its own.
+	rdb.Del(ctx, "rg:1")
+	rdb.TSCreate(ctx, "rg:1")
+	rdb.TSMAdd(ctx, [][]interface{}{
+		{"rg:1", 0, 18},
+		{"rg:1", 1, 14},
+		{"rg:1", 2, 22},
+		{"rg:1", 3, 18},
+		{"rg:1", 4, 24},
+	})
+
 	res8, err := rdb.TSRangeWithArgs(
 		ctx,
 		"rg:1",
@@ -651,6 +671,17 @@ func ExampleClient_timeseries_aggregation() {
 	}
 
 	// STEP_START agg
+	// Recreate the rg:2 series so this example runs on its own.
+	rdb.Del(ctx, "rg:2")
+	rdb.TSCreate(ctx, "rg:2")
+	rdb.TSMAdd(ctx, [][]interface{}{
+		{"rg:2", 0, 1.8},
+		{"rg:2", 1, 2.1},
+		{"rg:2", 2, 2.3},
+		{"rg:2", 3, 1.9},
+		{"rg:2", 4, 1.78},
+	})
+
 	res32, err := rdb.TSRangeWithArgs(
 		ctx,
 		"rg:2",
@@ -749,6 +780,19 @@ func ExampleClient_timeseries_agg_bucket() {
 	// STEP_END
 
 	// STEP_START agg_align
+	// Recreate the sensor3 series so this example runs on its own.
+	rdb.Del(ctx, "sensor3")
+	rdb.TSCreate(ctx, "sensor3")
+	rdb.TSMAdd(ctx, [][]interface{}{
+		{"sensor3", 10, 1000},
+		{"sensor3", 20, 2000},
+		{"sensor3", 30, 3000},
+		{"sensor3", 40, 4000},
+		{"sensor3", 50, 5000},
+		{"sensor3", 60, 6000},
+		{"sensor3", 70, 7000},
+	})
+
 	res4, err := rdb.TSRangeWithArgs(
 		ctx,
 		"sensor3",
@@ -1040,6 +1084,12 @@ func ExampleClient_timeseries_compaction() {
 	// STEP_END
 
 	// STEP_START comp_add
+	// Recreate the compaction rule so this example runs on its own.
+	rdb.Del(ctx, "hyg:1", "hyg:compacted")
+	rdb.TSCreate(ctx, "hyg:1")
+	rdb.TSCreate(ctx, "hyg:compacted")
+	rdb.TSCreateRule(ctx, "hyg:1", "hyg:compacted", redis.Min, 3)
+
 	res50, err := rdb.TSMAdd(ctx, [][]interface{}{
 		{"hyg:1", 0, 75},
 		{"hyg:1", 1, 77},
@@ -1111,6 +1161,11 @@ func ExampleClient_timeseries_delete() {
 	// REMOVE_END
 
 	// STEP_START del
+	// Recreate the thermometer:1 series so this example runs on its own.
+	rdb.Del(ctx, "thermometer:1")
+	rdb.TSAdd(ctx, "thermometer:1", 1, 9.2)
+	rdb.TSAdd(ctx, "thermometer:1", 2, 9.9)
+
 	res54, err := rdb.TSInfo(ctx, "thermometer:1").Result()
 	if err != nil {
 		panic(err)

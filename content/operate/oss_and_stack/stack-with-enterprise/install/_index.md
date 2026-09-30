@@ -11,12 +11,12 @@ linkTitle: Install and upgrade modules
 weight: 4
 ---
 
-Several modules that provide additional Redis capabilities, such as Redis Search, JSON, time series, and probabilistic data structures, come packaged with [Redis Software]({{< relref "/operate/rs" >}}). As of version 8.0, Redis Software includes multiple feature sets, compatible with different Redis database versions.
+Several modules that provide additional Redis capabilities, such as Redis Search, JSON, time series, and probabilistic data structures, come packaged with [Redis Software](/content/operate/rs/_index.md). As of version 8.0, Redis Software includes multiple feature sets, compatible with different Redis database versions.
 
 However, if you want to use additional modules or upgrade a module to a more recent version, you need to:
 
-1. [Install a module package]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) on the cluster.
-1. [Enable a module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) for a new database or [upgrade a module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) in an existing database.
+1. [Install a module package](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md) on the cluster.
+1. [Enable a module](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) for a new database or [upgrade a module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) in an existing database.
 
 ## Automatically enabled capabilities in Redis 8
 

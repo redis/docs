@@ -1,6 +1,7 @@
 ---
 Title: redis-di reset
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-reset/
 alwaysopen: false
 categories:
   - docs

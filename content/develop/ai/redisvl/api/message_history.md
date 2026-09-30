@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-message-history-api"></a>
 
-### `class SemanticMessageHistory(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
+### `class SemanticMessageHistory(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, **kwargs)`
 
 Bases: `BaseMessageHistory`
 
@@ -37,6 +37,16 @@ responses.
     for the redis client. Defaults to empty {}.
   * **overwrite** (*bool*) – Whether or not to force overwrite the schema for
     the semantic message index. Defaults to false.
+  * **create_index** (*bool*) – Whether RedisVL creates and validates the index.
+    When False the constructor issues no index command at all: the
+    index must already exist with a compatible schema, and a live
+    index whose prefix or storage type differs is not detected –
+    which produces empty results rather than an error. See
+    [`SemanticCache`]({{< relref "cache/#semanticcache" >}}) for a worked
+    example, and [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details.
+    Defaults to True.
+* **Raises:**
+  **ValueError** – If both create_index is False and overwrite is True.
 
 The proposed schema will support a single vector embedding constructed
 from either the prompt or response in a single string.
@@ -69,7 +79,17 @@ in sequential ordering after retrieval.
 
 #### `clear()`
 
-Clears the message history.
+Delete every message, leaving the index in place.
+
+Clears by index membership, so it removes the documents the live index
+covers. Available under `create_index=False`; dropping the index is
+[delete](#delete).
+
+{{< warning >}}
+Under `create_index=False` the live index is unverified, so if its
+prefix differs from this instance’s it removes documents this
+instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -84,8 +104,11 @@ Count the number of messages in the conversation history.
 
 #### `delete()`
 
-Clear all message keys and remove the search index.
+Remove every message and drop the search index.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the messages and leave the index standing.
 * **Return type:**
   None
 
@@ -180,7 +203,7 @@ Returns the full message history.
 
 <a id="message-history-api"></a>
 
-### `class MessageHistory(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, **kwargs)`
+### `class MessageHistory(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, create_index=True, **kwargs)`
 
 Bases: `BaseMessageHistory`
 
@@ -202,6 +225,16 @@ responses.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
+  * **create_index** (*bool*) – Whether RedisVL creates the index. When False
+    the constructor issues no index command at all: the index must
+    already exist over this name and prefix. This class never
+    validates an existing index’s schema, so nothing further is
+    verified either way – and as elsewhere, a live index whose
+    prefix or storage type differs from this one is not detected and
+    produces empty results rather than an error. See
+    [`SemanticCache`]({{< relref "cache/#semanticcache" >}}) for a worked
+    example, and [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details.
+    Defaults to True.
 
 #### `add_message(message, session_tag=None)`
 
@@ -231,7 +264,17 @@ in sequential ordering after retrieval.
 
 #### `clear()`
 
-Clears the conversation message history.
+Delete every message, leaving the index in place.
+
+Clears by index membership, so it removes the documents the live index
+covers. Available under `create_index=False`; dropping the index is
+[delete](#delete).
+
+{{< warning >}}
+Under `create_index=False` the live index is unverified, so if its
+prefix differs from this instance’s it removes documents this
+instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -246,8 +289,11 @@ Count the number of messages in the conversation history.
 
 #### `delete()`
 
-Clear all conversation keys and remove the search index.
+Remove every message and drop the search index.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the messages and leave the index standing.
 * **Return type:**
   None
 

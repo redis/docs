@@ -58,7 +58,7 @@ If the key does not exist, it is initialized with a value of `0` before performi
 If the key's value is not of the correct type or cannot be represented as an integer, an error is returned.
 This operation is limited to 64-bit signed integers.
 
-See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
+See [`INCR`](/content/commands/incr.md) for extra information on increment/decrement operations.
 
 ## Required arguments
 
@@ -77,8 +77,10 @@ The integer amount to subtract from the value.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-DECRBY mykey 3
+redis> SET mykey "10"
+OK
+redis> DECRBY mykey 3
+(integer) 7
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

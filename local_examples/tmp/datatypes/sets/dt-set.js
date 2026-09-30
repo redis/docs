@@ -53,7 +53,7 @@ assert.equal(res5, 1)
 assert.equal(res6, 0)
 // REMOVE_END
 
-// STEP_START sinster
+// STEP_START sinter
 // HIDE_START
 await client.del('bikes:racing:france')
 await client.del('bikes:racing:usa')
@@ -61,7 +61,7 @@ await client.sAdd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 await client.sAdd('bikes:racing:usa', ['bike:1', 'bike:4'])
 // HIDE_END
 const res7 = await client.sInter(['bikes:racing:france', 'bikes:racing:usa'])
-console.log(res7)  // >>> {'bike:1'}
+console.log(res7)  // >>> ['bike:1']
 // STEP_END
 
 // REMOVE_START
@@ -97,6 +97,10 @@ assert.deepEqual(res10.sort(), ['bike:1', 'bike:2', 'bike:3'])
 // REMOVE_END
 
 // STEP_START smIsMember
+// Recreate the set so this example runs on its own.
+await client.del('bikes:racing:france')
+await client.sAdd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
+
 const res11 = await client.sIsMember('bikes:racing:france', 'bike:1')
 console.log(res11)  // >>> 1
 

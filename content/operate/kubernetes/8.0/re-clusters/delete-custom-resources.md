@@ -52,7 +52,8 @@ To delete the operator from your K8s cluster, you can delete the operator bundle
 
 This will remove the operator and its custom resource definitions (CRDs) from your K8s cluster.
 
-{{< warning >}} The Redis Enterprise CRDs are non-namespaced resources, meaning they are shared across your entire K8s cluster. Deleting CRDs in one namespace will delete custom resources in every other namespace across the K8s cluster.{{</warning>}}
+> [!WARNING]
+>  The Redis Enterprise CRDs are non-namespaced resources, meaning they are shared across your entire K8s cluster. Deleting CRDs in one namespace will delete custom resources in every other namespace across the K8s cluster.
 
 ### Delete operator from one namespace
 
@@ -68,7 +69,7 @@ kubectl delete -f admission-service.yaml
 kubectl delete -f operator.yaml
 ```
 
-You will also need to remove [the `namespaceSelector` section from the validating webhook]({{< relref "/operate/kubernetes/8.0/deployment/quick-start#webhook" >}}).
+You will also need to remove [the `namespaceSelector` section from the validating webhook](/content/operate/kubernetes/8.0/deployment/quick-start.md#webhook).
 
 ## Delete an Active-Active database (REAADB)
 
@@ -110,7 +111,8 @@ If the operator isn't running, or some other fatal error occurs, the finalizer i
 
 If this happens, you can remove the finalizer manually.
 
-{{<warning>}} If you remove the finalizer manually, there is no guarantee that the underlying REDB has been deleted. This may cause resource issues and require manual intervention. {{</warning>}}
+> [!WARNING]
+>  If you remove the finalizer manually, there is no guarantee that the underlying REDB has been deleted. This may cause resource issues and require manual intervention. 
 
 ```sh
 kubectl patch redb <your-db-name> --type=json -p \
@@ -125,7 +127,8 @@ If the operator isn't running, or some other fatal error occurs, the finalizer i
 
 If this happens, you can remove the finalizer manually.
 
-{{<warning>}} If you remove the finalizer manually, there is no guarantee that the underlying REC has been deleted. This may cause resource issues and require manual intervention. {{</warning>}}
+> [!WARNING]
+>  If you remove the finalizer manually, there is no guarantee that the underlying REC has been deleted. This may cause resource issues and require manual intervention. 
 
 ```sh
 kubectl patch rec <your-rec-name> --type=json -p \

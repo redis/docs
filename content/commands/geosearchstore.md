@@ -176,14 +176,13 @@ syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONL
   \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but it stores the result in the provided `destination`.
+This command is similar to [`GEOSEARCH`](/content/commands/geosearch.md), but it stores the result in the provided `destination`.
 
-This command replaces the now deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}).
+This command replaces the now deprecated [`GEORADIUS`](/content/commands/georadius.md) and [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md).
 
 By default, it stores the results in the `destination` sorted set with their geospatial information.
 
@@ -254,12 +253,37 @@ Store the distance from the center as the sorted-set score, instead of the geoha
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOADD Sicily 12.758489 38.788135 "edge1"   17.241510 38.788135 "edge2" 
-GEOSEARCHSTORE key1 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3
-GEOSEARCH key1 FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST WITHHASH
-GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDIST
-ZRANGE key2 0 -1 WITHSCORES
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEOADD Sicily 12.758489 38.788135 "edge1"   17.241510 38.788135 "edge2"
+(integer) 2
+redis> GEOSEARCHSTORE key1 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3
+(integer) 3
+redis> GEOSEARCH key1 FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST WITHHASH
+1) 1) "Catania"
+   2) "56.4413"
+   3) (integer) 3479447370796909
+   4) 1) "15.087267458438873"
+      2) "37.50266842333162"
+2) 1) "Palermo"
+   2) "190.4424"
+   3) (integer) 3479099956230698
+   4) 1) "13.361389338970184"
+      2) "38.1155563954963"
+3) 1) "edge2"
+   2) "279.7403"
+   3) (integer) 3481342659049484
+   4) 1) "17.241510450839996"
+      2) "38.78813451624225"
+redis> GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDIST
+(integer) 3
+redis> ZRANGE key2 0 -1 WITHSCORES
+1) "Catania"
+2) "56.4412578701582"
+3) "Palermo"
+4) "190.44242984775784"
+5) "edge2"
+6) "279.7403417843143"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

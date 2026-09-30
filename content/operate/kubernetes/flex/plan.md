@@ -117,5 +117,5 @@ The `flashStorageEngine` field is deprecated. Use `bigStoreDriver` instead.
 
 ## Next steps
 
-- [Get started]({{< relref "/operate/kubernetes/flex/get-started" >}}): Configure Redis Flex on your cluster.
-- [Scale your deployment]({{< relref "/operate/kubernetes/flex/scale" >}}): Learn scaling strategies.
+- [Get started](/content/operate/kubernetes/flex/get-started.md): Configure Redis Flex on your cluster.
+- [Scale your deployment](/content/operate/kubernetes/flex/scale.md): Learn scaling strategies.

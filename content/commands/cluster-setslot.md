@@ -99,16 +99,16 @@ This subcommand is the reverse of `MIGRATING`. It prepares the destination node 
 
 When a slot is in the `importing` state, the node handles commands for that slot as follows:
 
-1. If the command is not preceded by [`ASKING`]({{< relref "/commands/asking" >}}), Redis rejects the command and returns a `MOVED` redirection.
-2. If the command is preceded by [`ASKING`]({{< relref "/commands/asking" >}}), Redis executes the command on the importing node.
+1. If the command is not preceded by [`ASKING`](/content/commands/asking.md), Redis rejects the command and returns a `MOVED` redirection.
+2. If the command is preceded by [`ASKING`](/content/commands/asking.md), Redis executes the command on the importing node.
 
-When a migrating node returns an `ASK` redirection, the client contacts the target node, sends [`ASKING`]({{< relref "/commands/asking" >}}), and then sends the redirected command. This lets the target node process commands for keys that do not exist on the source node, as well as keys that have already migrated.
+When a migrating node returns an `ASK` redirection, the client contacts the target node, sends [`ASKING`](/content/commands/asking.md), and then sends the redirected command. This lets the target node process commands for keys that do not exist on the source node, as well as keys that have already migrated.
 
 This behavior provides three guarantees:
 
 1. Redis creates new keys on the target node, so the migration only needs to move existing keys.
 2. Redis processes commands for already-migrated keys on the target node, which is becoming the new hash slot owner.
-3. Without [`ASKING`]({{< relref "/commands/asking" >}}), Redis continues to return `MOVED` redirections. This prevents clients with stale or incorrect hash slot mappings from accidentally writing to the target node and creating a second version of a key that has not migrated yet.
+3. Without [`ASKING`](/content/commands/asking.md), Redis continues to return `MOVED` redirections. This prevents clients with stale or incorrect hash slot mappings from accidentally writing to the target node and creating a second version of a key that has not migrated yet.
 
 ### `STABLE`
 
@@ -139,7 +139,7 @@ The `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in ord
 
 1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.
 2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.
-3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]({{< relref "/commands/cluster-getkeysinslot" >}}) command and move them into the destination node using the [`MIGRATE`]({{< relref "/commands/migrate" >}}) command.
+3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`](/content/commands/cluster-getkeysinslot.md) command and move them into the destination node using the [`MIGRATE`](/content/commands/migrate.md) command.
 4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.
 5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.
 6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).

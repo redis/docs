@@ -1,6 +1,7 @@
 ---
 Title: redis-di upgrade
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-upgrade/
 alwaysopen: false
 categories:
   - docs

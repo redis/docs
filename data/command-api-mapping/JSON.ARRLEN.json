@@ -310,6 +310,27 @@
           "description": "The length of the JSON array at the requested path."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrlen(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root \"$\")"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer, nil",
+          "description": "the array length(s); nil for a match that is not an array, or when the key/path does not exist"
+        }
+      }
     ]
   }
 }

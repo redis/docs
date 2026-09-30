@@ -287,7 +287,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td><a href="#specrolespermissions">rolesPermissions</a></td>
         <td>[]object</td>
         <td>
-          List of Redis Enteprise ACL and Role bindings to apply<br/>
+          Deprecated: List of Redis Enterprise ACL and Role bindings to apply. This field is deprecated and is ignored when the cluster's spec.accessControl.policy.allowREDBRolesPermissions is set to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -318,6 +318,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
           Shard placement strategy: "dense" or "sparse". dense: Shards reside on as few nodes as possible. sparse: Shards are distributed across as many nodes as possible.<br/>
           <br/>
             <i>Enum</i>: dense, sparse<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>tags</td>
+        <td>map[string]string</td>
+        <td>
+          Tags to apply to the database, as a map of key to value. Tags are merged into the BDB's tags on the cluster. If a key here collides with an existing BDB tag, the value from spec.tags wins. Removing a key from spec.tags after it was previously synced (recorded in status.managedTags) will remove it from the BDB. Operator-reserved keys (managed_by, redb_name, redb_namespace, db_service_port, oss_cluster_access) are not allowed and will be rejected.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -894,13 +901,158 @@ Database auditing configuration.
         </tr>
     </thead>
     <tbody><tr>
+        <td>auditMode</td>
+        <td>enum</td>
+        <td>
+          Scope used for database auditing.
+"disabled" - auditing is disabled.
+"connection" - audit connection, authentication and disconnection events only.
+"connection_and_crud" - audit connection events and data operations (CRUD).
+The cluster-level auditing configuration must be set before enabling auditing on a database.
+Defaults to "disabled" when not set; removing the auditing configuration disables auditing.<br/>
+          <br/>
+            <i>Enum</i>: disabled, connection, connection_and_crud<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>dbConnsAuditing</td>
         <td>boolean</td>
         <td>
-          Enables auditing of database connection and authentication events.
+          Deprecated: use auditMode instead.
+Enables auditing of database connection and authentication events.
 When enabled, connection, authentication, and disconnection events are tracked and sent
 to the configured audit listener (configured at the cluster level).
-The cluster-level auditing configuration must be set before enabling this on a database.<br/>
+The cluster-level auditing configuration must be set before enabling this on a database.
+Setting dbConnsAuditing to true is equivalent to auditMode "connection".
+If both dbConnsAuditing and auditMode are set, auditMode takes precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specauditingsourceipfilter">sourceIpFilter</a></td>
+        <td>object</td>
+        <td>
+          Filters data operation auditing events by client source IP address.
+Only relevant when auditMode is "connection_and_crud".
+Note: source IP filtering may not work as expected for Redis clients running outside
+of the Kubernetes cluster. The operator does not automatically customize the
+LoadBalancer service or ingress/route to preserve the client source IP, so connections
+may be seen with a translated (NAT'd) address. If you choose to use this filter, it is
+your responsibility to ensure source IP preservation is configured and to verify that
+auditing behaves as expected in your environment.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specauditingusernamefilter">usernameFilter</a></td>
+        <td>object</td>
+        <td>
+          Filters data operation auditing events by client usernames.
+Only relevant when auditMode is "connection_and_crud".<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.auditing.sourceIpFilter
+<sup><sup>[↩ Parent](#specauditing)</sup></sup>
+
+Filters data operation auditing events by client source IP address.
+Only relevant when auditMode is "connection_and_crud".
+Note: source IP filtering may not work as expected for Redis clients running outside
+of the Kubernetes cluster. The operator does not automatically customize the
+LoadBalancer service or ingress/route to preserve the client source IP, so connections
+may be seen with a translated (NAT'd) address. If you choose to use this filter, it is
+your responsibility to ensure source IP preservation is configured and to verify that
+auditing behaves as expected in your environment.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>cidrRanges</td>
+        <td>[]string</td>
+        <td>
+          List of CIDR ranges (IPv4 and/or IPv6) to filter by.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether the source IP filter is active.
+When enabled, at least one entry must be provided across ipAddresses and cidrRanges.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>filterType</td>
+        <td>enum</td>
+        <td>
+          Filter type to use for the source IP filter.
+"inclusive" - only audit events from the listed addresses/ranges.
+"exclusive" - audit events from all addresses/ranges except the listed ones.
+The combined number of ipAddresses and cidrRanges may not exceed 512.<br/>
+          <br/>
+            <i>Enum</i>: inclusive, exclusive<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ipAddresses</td>
+        <td>[]string</td>
+        <td>
+          List of IP addresses (IPv4 and/or IPv6) to filter by.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.auditing.usernameFilter
+<sup><sup>[↩ Parent](#specauditing)</sup></sup>
+
+Filters data operation auditing events by client usernames.
+Only relevant when auditMode is "connection_and_crud".
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether the username filter is active.
+When enabled, usernames must contain at least one entry.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>filterType</td>
+        <td>enum</td>
+        <td>
+          Filter type to use for the username filter.
+"inclusive" - only audit events from the listed usernames.
+"exclusive" - audit events from all usernames except the listed ones.<br/>
+          <br/>
+            <i>Enum</i>: inclusive, exclusive<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>usernames</td>
+        <td>[]string</td>
+        <td>
+          List of usernames to filter by.
+Each username must be 1-255 printable ASCII characters and may not contain
+the characters '&', '<', '>' or '"'. At most 512 usernames are allowed.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1591,6 +1743,20 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         </td>
         <td>false</td>
       </tr><tr>
+        <td>managedFields</td>
+        <td>[]string</td>
+        <td>
+          List of optional spec fields the operator has taken ownership of after the user configured them at least once, so removing such a field resets the BDB to its default instead of leaving the inherited value in place.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>managedTags</td>
+        <td>[]string</td>
+        <td>
+          List of user-declared tag keys (from spec.tags) that were last successfully reconciled to the BDB. Used to detect tag deletions on the next reconcile: keys present here but absent from the current spec.tags are removed from the BDB. Operator-internal keys (managed_by, redb_name, etc.) are not tracked here.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>observedGeneration</td>
         <td>integer</td>
         <td>
@@ -1611,6 +1777,16 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         <td>[]object</td>
         <td>
           ReplicaSource statuses<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusrolespermissions">rolesPermissions</a></td>
+        <td>[]object</td>
+        <td>
+          The set of role-permission tuples associated with this database.
+Populated from spec.rolesPermissions (deprecated), RedisEnterpriseRole objects whose
+scopes reference this database, and RedisEnterpriseClusterRole objects (whose ACLs
+apply to every database in the Redis Enterprise Cluster).<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1837,6 +2013,104 @@ Information on the database's periodic backup
         <td>string</td>
         <td>
           Sync status of this source<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.rolesPermissions[]
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+RolePermissionStatus is an observed role-ACL binding on the database.
+Role kind: RedisEnterpriseRole, RedisEnterpriseClusterRole, or role; ACL kind:
+RedisEnterpriseACL or redis_acl.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#statusrolespermissionsacl">acl</a></td>
+        <td>object</td>
+        <td>
+          Reference to the ACL.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td><a href="#statusrolespermissionsrole">role</a></td>
+        <td>object</td>
+        <td>
+          Reference to the role.<br/>
+        </td>
+        <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### status.rolesPermissions[].acl
+<sup><sup>[↩ Parent](#statusrolespermissions)</sup></sup>
+
+Reference to the ACL.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>kind</td>
+        <td>string</td>
+        <td>
+          Kind of the referent.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the referent.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.rolesPermissions[].role
+<sup><sup>[↩ Parent](#statusrolespermissions)</sup></sup>
+
+Reference to the role.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>kind</td>
+        <td>string</td>
+        <td>
+          Kind of the referent.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the referent.<br/>
         </td>
         <td>false</td>
       </tr></tbody>

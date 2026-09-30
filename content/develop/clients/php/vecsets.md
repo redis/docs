@@ -21,18 +21,18 @@ topics:
 - vectors
 ---
 
-A Redis [vector set]({{< relref "/develop/data-types/vector-sets" >}}) lets
+A Redis [vector set](/content/develop/data-types/vector-sets/_index.md) lets
 you store a set of unique keys, each with its own associated vector.
 You can then retrieve keys from the set according to the similarity between
 their stored vectors and a query vector that you specify.
 
 You can use vector sets to store any type of numeric vector but they are
 particularly optimized to work with text embedding vectors (see
-[Redis for AI]({{< relref "/develop/ai" >}}) to learn more about text
+[Redis for AI](/content/develop/ai/_index.md) to learn more about text
 embeddings). The example below shows how to use the
 [TransformersPHP](https://transformers.codewithkyrian.com/) library to
 generate text embeddings and then store and retrieve them using a vector set
-with [`Predis`]({{< relref "/develop/clients/php" >}}).
+with [`Predis`](/content/develop/clients/php/_index.md).
 
 ## Initialize
 
@@ -68,9 +68,9 @@ The next step is to connect to Redis and add the data to a new vector set.
 
 The code below iterates through the array, uses the embedding pipeline to
 generate a `float` vector from each description, and then adds the result to a
-vector set called `famousPeople` with [`vadd()`]({{< relref "/commands/vadd" >}}).
+vector set called `famousPeople` with [`vadd()`](/content/commands/vadd.md).
 It then stores the `born` and `died` values as element attributes using
-[`vsetattr()`]({{< relref "/commands/vsetattr" >}}), so you can use the metadata
+[`vsetattr()`](/content/commands/vsetattr.md), so you can use the metadata
 later during queries.
 
 {{< clients-example set="home_vecsets" step="add_data" lang_filter="PHP" description="Foundational: Add embedding vectors to a vector set and attach metadata attributes for later filtering" difficulty="beginner" >}}
@@ -80,7 +80,7 @@ later during queries.
 
 You can now query the data in the set. The basic approach is to generate
 another embedding vector from the query text and pass it to
-[`vsim()`]({{< relref "/commands/vsim" >}}), which returns elements ranked in
+[`vsim()`](/content/commands/vsim.md), which returns elements ranked in
 order of similarity to that query vector.
 
 Start with a simple query for "actors":
@@ -123,7 +123,7 @@ followed by the mathematicians:
 ```
 
 You can also use
-[filter expressions]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
+[filter expressions](/content/develop/data-types/vector-sets/filtered-search.md)
 with `vsim()` to restrict the search further. For example, repeat the
 "science" query, but this time limit the results to people who died before the
 year 2000:
@@ -133,16 +133,16 @@ year 2000:
 
 ## More information
 
-See the [vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+See the [vector sets](/content/develop/data-types/vector-sets/_index.md)
 docs for more information and code examples. See the
-[Redis for AI]({{< relref "/develop/ai" >}}) section for more details
+[Redis for AI](/content/develop/ai/_index.md) section for more details
 about text embeddings and other AI techniques you can use with Redis.
 
 You may also be interested in
-[vector search]({{< relref "/develop/clients/php/vecsearch" >}}).
+[vector search](/content/develop/clients/php/vecsearch.md).
 This is a feature of
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
 that lets you retrieve
-[JSON]({{< relref "/develop/data-types/json" >}}) and
-[hash]({{< relref "/develop/data-types/hashes" >}}) documents based on
+[JSON](/content/develop/data-types/json/_index.md) and
+[hash](/content/develop/data-types/hashes.md) documents based on
 vector data stored in their fields.

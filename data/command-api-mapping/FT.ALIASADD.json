@@ -152,6 +152,27 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_aliasadd(alias_name, index_name)",
+        "params": [
+          {
+            "name": "alias_name",
+            "type": "String",
+            "description": "the alias"
+          },
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index the alias points to"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }

@@ -36,8 +36,8 @@ title: SCRIPT LOAD
 ---
 Load a script into the scripts cache, without executing it.
 After the specified command is loaded into the script cache it will be callable
-using [`EVALSHA`]({{< relref "/commands/evalsha" >}}) with the correct SHA1 digest of the script, exactly like after
-the first successful invocation of [`EVAL`]({{< relref "/commands/eval" >}}).
+using [`EVALSHA`](/content/commands/evalsha.md) with the correct SHA1 digest of the script, exactly like after
+the first successful invocation of [`EVAL`](/content/commands/eval.md).
 
 The script is guaranteed to stay in the script cache forever (unless `SCRIPT
 FLUSH` is called).
@@ -45,7 +45,7 @@ FLUSH` is called).
 The command works in the same way even if the script was already present in the
 script cache.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts please see [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Required arguments
 

@@ -14,9 +14,9 @@ weight: 10
 
 Before you create other users:
 
-1. Review the [access control overview]({{<relref "/operate/rs/security/access-control">}}) to learn how to use role-based access control (RBAC) to manage users' cluster access and database access.
+1. Review the [access control overview](/content/operate/rs/security/access-control/_index.md) to learn how to use role-based access control (RBAC) to manage users' cluster access and database access.
 
-1. Create roles you can assign to users. See [Create roles with cluster access only]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}), [Create roles with database access only]({{<relref "/operate/rs/security/access-control/create-db-roles">}}), or [Create roles with combined access]({{<relref "/operate/rs/security/access-control/create-combined-roles">}}) for instructions.
+1. Create roles you can assign to users. See [Create roles with cluster access only](/content/operate/rs/security/access-control/create-cluster-roles.md), [Create roles with database access only](/content/operate/rs/security/access-control/create-db-roles.md), or [Create roles with combined access](/content/operate/rs/security/access-control/create-combined-roles.md) for instructions.
 
 ## Add users
 
@@ -28,11 +28,11 @@ To add a user to the cluster:
 
 1. Enter the name, email, and password of the new user.
 
-    {{< note >}}
-- Usernames must contain ASCII characters only.
-
-- To use [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}), users must have email addresses.
-    {{< /note >}}
+    > [!NOTE]
+    > - Usernames must contain ASCII characters only.
+    >
+    > - To use [single sign-on (SSO)](/content/operate/rs/security/access-control/saml-sso.md), users must have email addresses.
+    >     
 
     {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
 
@@ -74,8 +74,8 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
 Depending on the type of the user's assigned role (cluster management role or data access role), the user can now:
 
-- [Connect to a database]({{< relref "/operate/rs/databases/connect" >}}) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
+- [Connect to a database](/content/operate/rs/databases/connect/_index.md) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
 
 - Sign in to the Redis Software Cluster Manager UI.
 
-- Make a [REST API]({{< relref "/operate/rs/references/rest-api" >}}) request.
+- Make a [REST API](/content/operate/rs/references/rest-api/_index.md) request.

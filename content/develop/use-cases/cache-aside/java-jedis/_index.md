@@ -15,7 +15,7 @@ title: Redis cache-aside with Jedis
 weight: 4
 ---
 
-This guide shows you how to implement a Redis cache-aside layer in Java with the [Jedis]({{< relref "/develop/clients/jedis" >}}) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can see cache hits, misses, invalidation on write, and stampede protection in action.
+This guide shows you how to implement a Redis cache-aside layer in Java with the [Jedis](/content/develop/clients/jedis/_index.md) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can see cache hits, misses, invalidation on write, and stampede protection in action.
 
 ## Overview
 
@@ -84,12 +84,12 @@ cache:product:p-001
 
 The implementation uses:
 
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to read the cached record
-* [`HSET`]({{< relref "/commands/hset" >}}) plus [`EXPIRE`]({{< relref "/commands/expire" >}}) to repopulate after a miss
-* [`DEL`]({{< relref "/commands/del" >}}) to invalidate on writes
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining staleness in the demo UI
-* [`EVAL`]({{< relref "/commands/eval" >}}) for the Lua single-flight lock that prevents stampedes
-* [`WATCH`]({{< relref "/commands/watch" >}})/[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) for the conditional field update path
+* [`HGETALL`](/content/commands/hgetall.md) to read the cached record
+* [`HSET`](/content/commands/hset.md) plus [`EXPIRE`](/content/commands/expire.md) to repopulate after a miss
+* [`DEL`](/content/commands/del.md) to invalidate on writes
+* [`TTL`](/content/commands/ttl.md) to surface remaining staleness in the demo UI
+* [`EVAL`](/content/commands/eval.md) for the Lua single-flight lock that prevents stampedes
+* [`WATCH`](/content/commands/watch.md)/[`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) for the conditional field update path
 
 ## Cache-aside reads
 
@@ -352,10 +352,10 @@ redis-cli TTL cache:product:p-001
 
 ## Learn more
 
-* [Jedis guide]({{< relref "/develop/clients/jedis" >}}) - Install and use the Jedis Redis client
-* [SET command]({{< relref "/commands/set" >}}) - Set a string with TTL options (`EX`, `PX`, `NX`)
-* [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [DEL command]({{< relref "/commands/del" >}}) - Delete a key on invalidation
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Atomic single-flight locks and stampede mitigation
+* [Jedis guide](/content/develop/clients/jedis/_index.md) - Install and use the Jedis Redis client
+* [SET command](/content/commands/set.md) - Set a string with TTL options (`EX`, `PX`, `NX`)
+* [HSET command](/content/commands/hset.md) - Write hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read every field of a hash
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration in seconds
+* [DEL command](/content/commands/del.md) - Delete a key on invalidation
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Atomic single-flight locks and stampede mitigation

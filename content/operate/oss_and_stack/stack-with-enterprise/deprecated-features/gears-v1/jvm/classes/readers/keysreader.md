@@ -16,9 +16,8 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 
 Creates records from the keys and values stored in a Redis database.
 
-{{<note>}}
- Currently only supports string and hash data types. For other data types, it will only extract the key name.
-{{</note>}}
+> [!NOTE]
+>  Currently only supports string and hash data types. For other data types, it will only extract the key name.
 
 ## Constructors
 
@@ -50,7 +49,7 @@ public KeysReader(String pattern,
 | Name | Type | Default value | Description |
 |------|------|---------------|-------------|
 | commands | array of strings | null | The commands that this reader is registered on |
-| eventTypes | array of strings | null | The [event types]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/register-events#event-types" >}}) to register on (usually the command name) |
+| eventTypes | array of strings | null | The [event types](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/register-events.md#event-types) to register on (usually the command name) |
 | keyTypes | array of strings | null | The key types to register on |
 | noScan | boolean | false | Whether or not to scan the key space or just read the pattern as is |
 | pattern/prefix | string | "\*" (match all keys) | The reader will get all keys that match this pattern |

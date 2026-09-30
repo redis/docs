@@ -34,12 +34,12 @@ arguments:
     name: ifdeq-digest
     since: 8.4.0
     token: IFDEQ
-    type: integer
+    type: string
   - display_text: ifdne-digest
     name: ifdne-digest
     since: 8.4.0
     token: IFDNE
-    type: integer
+    type: string
   name: condition
   optional: true
   since: 2.6.12
@@ -229,39 +229,39 @@ Retain the time to live associated with the key.
 
 </details>
 
-Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/commands/setnx" >}}), [`SETEX`]({{< relref "/commands/setex" >}}), [`PSETEX`]({{< relref "/commands/psetex" >}}), [`GETSET`]({{< relref "/commands/getset" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
+Note: Since the `SET` command options can replace [`SETNX`](/content/commands/setnx.md), [`SETEX`](/content/commands/setex.md), [`PSETEX`](/content/commands/psetex.md), [`GETSET`](/content/commands/getset.md), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
 
 ## Examples
 
-{{% redis-cli %}}
-SET mykey "Hello"
-GET mykey
-
-SET anotherkey "will expire in a minute" EX 60
-{{% /redis-cli %}}
-&nbsp;
-{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" >}}
+> SET mykey "Hello"
+OK
+> GET mykey
+"Hello"
+> SET anotherkey "will expire in a minute" EX 60
+OK
+{{< /clients-example >}}
 
 ## Details
 
 ### Hash digest
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`](/content/commands/digest.md) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`](/content/commands/delex.md) command's `IFDEQ` and `IFDNE` options.
 
 ### Patterns
 
-Note: The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+Note: The following pattern is discouraged in favor of [the Redlock algorithm](/content/develop/clients/patterns/distributed-locks.md) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 
 The command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.
 
-A client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]({{< relref "/commands/del" >}}).
+A client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`](/content/commands/del.md).
 
 The lock will be auto-released after the expire time is reached.
 
 It is possible to make this system more robust modifying the unlock schema as follows:
 
 * Instead of setting a fixed string, set a non-guessable large random string, called token.
-* Instead of releasing the lock with [`DEL`]({{< relref "/commands/del" >}}), send a script that only removes the key if the value matches.
+* Instead of releasing the lock with [`DEL`](/content/commands/del.md), send a script that only removes the key if the value matches.
 
 This avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.
 

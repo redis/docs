@@ -113,15 +113,15 @@ VRANGE mykey - + -1
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of elements in lexicographical order within the specified range.
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) (empty array) if the key doesn't exist.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) of elements in lexicographical order within the specified range.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) (empty array) if the key doesn't exist.
 
 -tab-sep-
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of elements in lexicographical order within the specified range.
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) (empty array) if the key doesn't exist.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) of elements in lexicographical order within the specified range.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) (empty array) if the key doesn't exist.
 
 {{< /multitabs >}}
 
@@ -130,3 +130,7 @@ One of the following:
 - **Iteration guarantees**: Each range will produce exactly the elements that were present in the range at the moment the `VRANGE` command was executed.
 - **Concurrent modifications**: Elements removed or added during iteration may or may not be returned, depending on when they were modified.
 - **Empty key**: If the key doesn't exist, returns an empty array.
+
+## Related topics
+
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)

@@ -35,4 +35,4 @@ go-redis is a type-safe, Redis client library for Go that supports Redis 6.0+ fe
 
 ## Getting Started
 
-Refer to the complete [Go guide]({{< relref "/develop/clients/go" >}}) to install, connect, and use go-redis with detailed examples and best practices.
+Refer to the complete [Go guide](/content/develop/clients/go/_index.md) to install, connect, and use go-redis with detailed examples and best practices.

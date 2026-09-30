@@ -12,9 +12,9 @@ weight: 80
 url: '/operate/rs/7.4/databases/auto-tiering/quickstart/'
 aliases: /operate/rs/7.4/databases/flash/quickstart/
 ---
-This page guides you through a quick setup of [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering/" >}}) with a single node for testing and demo purposes. 
+This page guides you through a quick setup of [Auto Tiering](/content/operate/rs/7.4/databases/auto-tiering/_index.md) with a single node for testing and demo purposes. 
 
-For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) section.
+For production environments, you can find more detailed installation instructions in the [install and setup](/content/operate/rs/7.4/installing-upgrading/_index.md) section.
 
 The steps to set up a Redis Enterprise Software cluster using Auto Tiering
 with a single node are:
@@ -24,6 +24,16 @@ with a single node are:
 1. Set up a Redis Enterprise Software cluster with Auto Tiering.
 1. Create a new database with Auto Tiering enabled.
 1. Connect to your new database.
+
+## Before deployment
+
+Before you set up a flash-enabled cluster and create an Auto Tiering database, consider the following:
+
+- Avoid a large number of keys or long key names. With Auto Tiering, all key names are stored in RAM regardless of whether their values are on flash. High key count alone can exhaust the RAM limit even when individual key names are short.
+
+- Avoid large collection types (hashes, sets, or lists with millions of elements) whose total serialized size approaches or exceeds the RAM limit. Unlike scalar values, large collections cannot be partially offloaded to flash and must fit in RAM when accessed.
+
+- Databases cannot store keys or values larger than 4GB in flash storage. Keys or values larger than 4GB are stored in RAM only. If oversized keys consume the shard's available RAM, the shard can return out-of-memory errors even when flash storage has free space remaining.
 
 ## Install Redis Enterprise Software
 
@@ -77,10 +87,10 @@ sudo lsblk
 1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Enterprise Software Cluster Manager UI.
 
-    {{<note>}}
-Depending on your browser, you may see a certificate error.
-Choose "continue to the website" to go to the setup screen.
-    {{</note>}}
+    > [!NOTE]
+    > Depending on your browser, you may see a certificate error.
+    > Choose "continue to the website" to go to the setup screen.
+    >
 
 1. Select **Create new cluster**.
 
@@ -117,11 +127,11 @@ You now have a  database with Auto Tiering enabled!
 
 ## Connect to your database
 
-You are ready to connect to your database to store data. See the [test connectivity]({{< relref "/operate/rs/7.4/databases/connect/test-client-connectivity.md" >}}) page to learn how to connect to your database.
+You are ready to connect to your database to store data. See the [test connectivity](/content/operate/rs/7.4/databases/connect/test-client-connectivity.md) page to learn how to connect to your database.
 
 ## Next steps
 
 If you want to generate load against the
-database or add a bunch of data for cluster testing, see the [memtier_benchmark quick start]({{< relref "/operate/rs/7.4/clusters/optimize/memtier-benchmark.md" >}}) for help.
+database or add a bunch of data for cluster testing, see the [memtier_benchmark quick start](/content/operate/rs/7.4/clusters/optimize/memtier-benchmark.md) for help.
 
-To see the true performance and scale of Auto Tiering, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering/" >}}).
+To see the true performance and scale of Auto Tiering, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Auto Tiering](/content/operate/rs/7.4/databases/auto-tiering/_index.md).

@@ -20,7 +20,7 @@ weight: 40
 
 ### Pro subscription version upgrade
 
-You can now upgrade all databases in your Pro subscription from your [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}). 
+You can now upgrade all databases in your Pro subscription from your [subscription page](/content/operate/rc/subscriptions/view-pro-subscription.md). 
 
 Select **Version upgrade** to request to upgrade your subscription and databases if there is a later version available.
 
@@ -30,6 +30,6 @@ Select the version to upgrade your databases from the list and select **Upgrade*
 
 {{<image filename="images/rc/version-upgrade-request.png" width=80% alt="Version upgrade request list with version 7.4 selected." >}}
 
-The upgrade will start one week from your request, according to your subscription's [maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). 
+The upgrade will start one week from your request, according to your subscription's [maintenance windows](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md). 
 
-Review the [7.2 breaking changes]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) or [7.4 breaking changes]({{< relref "/operate/rc/changelog/2024/july-2024#redis-74-breaking-changes" >}}) before you request to upgrade.
+Review the [7.2 breaking changes](/content/operate/rc/changelog/2023/june-2023.md#redis-72-breaking-changes) or [7.4 breaking changes](/content/operate/rc/changelog/2024/july-2024.md#redis-74-breaking-changes) before you request to upgrade.

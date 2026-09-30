@@ -19,7 +19,7 @@ Use this skill when:
 
 Do NOT use this skill for:
 
-- Single-language code samples (use [`generate-tce-examples`](../generate-tce-examples/SKILL.md) for tabbed multi-language examples within a single doc page).
+- Single-language code samples (use [`tce-examples`](../../../.claude/skills/tce-examples/SKILL.md) for tabbed multi-language examples within a single doc page).
 - Bug fixes on an existing use case (one targeted edit doesn't need the fan-out).
 - Cross-cutting refactors that touch many use cases at once (handle per-use-case, in sequence).
 
@@ -116,7 +116,7 @@ Goal: catch bugs the structured audits missed by handing the codebase to a fresh
 
 Phase 4's targeted audits work well for known bug classes (the rows in `audit-checklist.md`). They're less good at the unknown unknowns — bugs where the *shape* of the audit prompt anchors the auditor to a false-positive answer. The pub/sub project's first Phase 4 said all 8 sibling ports passed the subscribe-ack check; an independent Codex review then found that Jedis returned its Subscription before the spawned thread had even sent the SUBSCRIBE, PHP's `waitForSubscription` silently fell through on timeout, PHP's Linux branch recorded the wrong PID, and Rust's duplicate-name check released its lock across the await. All four were real correctness bugs that Phase 4 had cleared.
 
-Run an independent reviewer (different model, fresh context — the [`codex:rescue`](../../codex/) skill is a good fit, with a prompt that lists files plus the specific concerns: correctness bugs, cross-client divergence, doc drift) **before** declaring Phase 4 done. Treat its findings as candidates for the Phase 5 retrofit, with the orchestrator triaging which to accept (some "race conditions" are safe by accident — e.g. redis-py and go-redis subscribe-ack — because the synchronous socket write closes the window before the helper returns).
+Run an independent reviewer (different model, fresh context — the [`claude-review`](../../../.codex/skills/claude-review/) Codex skill is a good fit, with a prompt that lists files plus the specific concerns: correctness bugs, cross-client divergence, doc drift) **before** declaring Phase 4 done. Treat its findings as candidates for the Phase 5 retrofit, with the orchestrator triaging which to accept (some "race conditions" are safe by accident — e.g. redis-py and go-redis subscribe-ack — because the synchronous socket write closes the window before the helper returns).
 
 **Verify each finding against the current file before fixing it.** Independent reviewers occasionally work from a stale snapshot — the file they reviewed was correct when they started, but a parallel agent kept editing it during the review window. Several of the Jedis and PHP findings on the semantic-cache project turned out to be the agent re-discovering a fix that had already landed minutes earlier (the EXISTS-race comment, the 1 MiB body cap, the docs paragraph about classpath resources). `grep` the finding's described pattern against the current file before opening an Edit — a one-second sanity check saves an inadvertent revert.
 

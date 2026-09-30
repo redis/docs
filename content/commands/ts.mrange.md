@@ -101,6 +101,11 @@ arguments:
   name: groupby
   optional: true
   type: block
+- name: EXCLUDEEMPTY
+  optional: true
+  since: 8.10.0
+  token: EXCLUDEEMPTY
+  type: pure-token
 categories:
 - docs
 - develop
@@ -125,27 +130,25 @@ summary: Query a range across multiple time series by filters in forward directi
 syntax: "TS.MRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
   \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label...>]\n  [COUNT\
   \ count]\n  [[ALIGN align] AGGREGATION aggregators bucketDuration [BUCKETTIMESTAMP\
-  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
+  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n  [EXCLUDEEMPTY]\n"
 syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp\n\
   \  [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS |\n  SELECTED_LABELS label1\
   \ [label1 ...]] [COUNT\_count] [[ALIGN\_value]\n  AGGREGATION\ aggregators bucketDuration\
   \ [BUCKETTIMESTAMP]\n  [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n\
   \  l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>\
-  \ [GROUPBY label REDUCE reducer]"
+  \ [GROUPBY label REDUCE reducer] [EXCLUDEEMPTY]"
 title: TS.MRANGE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
 Query a range across multiple time series by filters in the forward direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).
 
-{{< note >}}
-This command will reply only if the current user has read access to all keys that match the filter.
-Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
-{{< /note >}}
+> [!NOTE]
+> This command will reply only if the current user has read access to all keys that match the filter.
+> Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
 
 [Examples](#examples)
 
@@ -166,20 +169,9 @@ is the end timestamp for the range query (integer Unix timestamp in milliseconds
 <details open>
 <summary><code>FILTER filterExpr...</code></summary>
 
-filters time series based on their labels and label values. Each filter expression has one of the following syntaxes:
+filters time series based on their labels and label values.
 
-  - `label!=` - the time series has a label named `label`
-  - `label=value` - the time series has a label named `label` with a value equal to `value`
-  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list
-  - `label=` - the time series does not have a label named `label`
-  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`
-  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list
-
-  <note><b>Notes:</b>
-   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.
-   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.
-   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x="y y"` or `x='(y y,z z)'`.
-   </note>
+{{< embed-md "ts-filter-expr.md" >}}
 </details>
 
 ## Optional arguments
@@ -345,6 +337,16 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
     - `__source__`, the list of time series keys used to compute the grouped series (e.g., `"key1,key2,key3"`)
 </note>
 
+</details>
+
+<details open>
+<summary><code>EXCLUDEEMPTY</code> (since Redis 8.10)</summary>
+
+excludes from the reply any time series that has no samples in the requested range. By default, every time series that passes `FILTER filterExpr...` is reported, even those with no samples in the range (reported with an empty samples list).
+
+A time series whose only samples in the range are NaN is not considered empty and is still reported.
+
+`EXCLUDEEMPTY` cannot be used together with `GROUPBY label REDUCE reducer`; combining them replies with an error.
 </details>
 
 <note><b>Note:</b> An `MRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>
@@ -543,6 +545,73 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 {{< / highlight >}}
 </details>
 
+<details open>
+<summary><b>Exclude empty time series from the reply</b></summary>
+
+Create three time series that share the label `s=1`, then add samples so that only two of them have data in the `- 500` range.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.CREATE s LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.CREATE t LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.CREATE u LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.MADD s 100 100 t 100 100 s 200 200 t 300 300 s 400 400 t 400 400 u 2000 2000
+1) (integer) 100
+2) (integer) 100
+3) (integer) 200
+4) (integer) 300
+5) (integer) 400
+6) (integer) 400
+7) (integer) 2000
+{{< / highlight >}}
+
+Query the `- 500` range with `EXCLUDEEMPTY`. Time series `u`, whose only sample is at timestamp `2000`, has no samples in the range and is omitted from the reply.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.MRANGE - 500 WITHLABELS EXCLUDEEMPTY FILTER s=1
+1) 1) "s"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) 1) 1) (integer) 100
+         2) 100
+      2) 1) (integer) 200
+         2) 200
+      3) 1) (integer) 400
+         2) 400
+2) 1) "t"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) 1) 1) (integer) 100
+         2) 100
+      2) 1) (integer) 300
+         2) 300
+      3) 1) (integer) 400
+         2) 400
+{{< / highlight >}}
+
+Without `EXCLUDEEMPTY`, `u` is also reported, with an empty samples list.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.MRANGE - 500 WITHLABELS FILTER s=1
+1) 1) "s"
+   ...
+2) 1) "t"
+   ...
+3) 1) "u"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) (empty array)
+{{< / highlight >}}
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -557,51 +626,51 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings))
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range:
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each group of time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) with the format `label=value` where `label` is the `GROUPBY` label argument
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)):
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, the `GROUPBY` label argument and value are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined or label does not have the same value for all grouped time series)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): either a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value, or empty array
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range:
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): either a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)): the `GROUPBY` label argument and value, or empty array
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)):  the string `__reducer__` and the reducer argument
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)): the string `__source__` and the time series key names separated by ","
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value...)
 
 -tab-sep-
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+[Map reply](/content/develop/reference/protocol-spec.md#maps): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Map reply](/content/develop/reference/protocol-spec.md#maps) or [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs
   - By default, an empty map is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)
 - Additional metadata including aggregators information
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range:
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Double reply](/content/develop/reference/protocol-spec.md#doubles)) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 
@@ -611,8 +680,8 @@ Similar structure as RESP2 but with map-based organization for labels and metada
 
 ## See also
 
-[`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
+[`TS.RANGE`](/content/commands/ts.range.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

@@ -12,6 +12,9 @@ weight: 4
 
 ## Install Redis Open Source on Ubuntu Linux using Snap
 
+> [!NOTE]
+> If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
+
 To install Redis via snap, run the following commands:
 
 {{< highlight bash >}}

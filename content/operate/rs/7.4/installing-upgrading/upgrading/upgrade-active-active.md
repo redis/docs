@@ -11,7 +11,7 @@ weight: 70
 url: '/operate/rs/7.4/installing-upgrading/upgrading/upgrade-active-active/'
 ---
 
-When you upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/7.4/databases/active-active" >}}), you can also upgrade the CRDB protocol version and feature version.
+When you upgrade an [Active-Active (CRDB) database](/content/operate/rs/7.4/databases/active-active/_index.md), you can also upgrade the CRDB protocol version and feature version.
 
 ## CRDB protocol version guidelines
 
@@ -53,7 +53,7 @@ Follow these upgrade guidelines:
 
 To upgrade an Active-Active database (CRDB) instance:
 
-1. [Upgrade Redis Enterprise Software]({{< relref "/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster" >}}) on each node in the clusters where the Active-Active instances are located.
+1. [Upgrade Redis Enterprise Software](/content/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster.md) on each node in the clusters where the Active-Active instances are located.
 
 1. To see the status of your Active-Active instances, run: 
 
@@ -77,7 +77,7 @@ To upgrade an Active-Active database (CRDB) instance:
         rladmin upgrade db <database_name | database_ID>
         ```
     
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) for more details.
+    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for more details.
 
     If the protocol version is old, read the warning message carefully and confirm.
 
@@ -88,7 +88,7 @@ To upgrade an Active-Active database (CRDB) instance:
     Use the `keep_crdt_protocol_version` option to upgrade the database feature version 
 without upgrading the CRDB protocol version.
 
-    If you use this option, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}) command.
+    If you use this option, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`](/content/operate/rs/7.4/references/cli-utilities/rladmin/upgrade.md#upgrade-db) command.
 
     You must upgrade the CRDB protocol before you update the CRDB feature set version.
 

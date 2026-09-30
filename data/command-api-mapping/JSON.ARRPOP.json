@@ -460,6 +460,37 @@
           "description": "The removed JSON element."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrpop(key, path = nil, index = nil, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath to the target array (defaults to the root \"$\")"
+          },
+          {
+            "name": "index",
+            "type": "Integer",
+            "description": "an optional position to pop from (defaults to -1, the last element)"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return the unparsed JSON string(s) instead of parsed Ruby objects"
+          }
+        ],
+        "returns": {
+          "type": "Array, Object, nil",
+          "description": "the popped value(s); an Array for a JSONPath, a single value for a legacy path, nil for an empty array or a non-array match"
+        }
+      }
     ]
   }
 }

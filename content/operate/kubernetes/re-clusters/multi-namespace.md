@@ -14,21 +14,21 @@ weight: 17
 
 Multiple Redis Enterprise database resources (REDBs) can be associated with a single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options](/content/operate/kubernetes/architecture/deployment-options.md).
 
-{{<note>}}
-Multi-namespace installations now support Active-Active databases (REAADB) with certain configuration requirements. For details, see [Multi-namespace Active-Active databases](#multi-namespace-active-active-databases).
-{{</note>}}
+> [!NOTE]
+> Multi-namespace installations now support Active-Active databases (REAADB) with certain configuration requirements. For details, see [Multi-namespace Active-Active databases](#multi-namespace-active-active-databases).
 
 ## Prerequisites
 
-Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/deployment/quick-start" >}}). See more information in the [deployment]({{< relref "/operate/kubernetes/deployment/" >}}) section.
+Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)](/content/operate/kubernetes/deployment/quick-start.md). See more information in the [deployment](/content/operate/kubernetes/deployment/_index.md) section.
 
 ## Create role and role binding for managed namespaces
 
 Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `consumer_role.yaml` and `consumer_role_binding.yaml` file within the managed namespace, as shown in the examples below.
 
-{{<note>}}These will need to be reapplied each time you [upgrade]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}). {{</note>}}
+> [!NOTE]
+> These will need to be reapplied each time you [upgrade](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md). 
 
 Replace `<rec-namespace>` with the namespace the REC resides in.
 Replace `<service-account-name>` with your own value (defaults to the REC name).
@@ -41,14 +41,13 @@ Replace `<service-account-name>` with your own value (defaults to the REC name).
 
 {{<embed-yaml "k8s/multi-ns_role_binding.md" "consumer_role_binding.yaml">}}
 
-{{<note>}}
-**Alternative approach**: Instead of creating individual `Role` objects for each namespace, you can create a single `ClusterRole` and bind it with multiple `RoleBinding` objects. This reduces the number of objects and simplifies role management.
-
-To use this approach:
-1. Change `kind: Role` to `kind: ClusterRole` in the role definition above
-2. Change `roleRef.kind: Role` to `roleRef.kind: ClusterRole` in the role binding definition above
-3. Apply the ClusterRole once globally, then apply a RoleBinding in each managed namespace
-{{</note>}}
+> [!NOTE]
+> **Alternative approach**: Instead of creating individual `Role` objects for each namespace, you can create a single `ClusterRole` and bind it with multiple `RoleBinding` objects. This reduces the number of objects and simplifies role management.
+>
+> To use this approach:
+> 1. Change `kind: Role` to `kind: ClusterRole` in the role definition above
+> 2. Change `roleRef.kind: Role` to `roleRef.kind: ClusterRole` in the role binding definition above
+> 3. Apply the ClusterRole once globally, then apply a RoleBinding in each managed namespace
 
 Apply the files, replacing `<managed-namespace>` with your own values:
 
@@ -57,9 +56,8 @@ kubectl apply -f consumer_role.yaml -n <managed-namespace>
 kubectl apply -f consumer_role_binding.yaml -n <managed-namespace>
 ```
 
-{{<note>}}
-If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
-{{</note>}}
+> [!NOTE]
+> If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
 
 ## Update Redis Enterprise operator ConfigMap
 
@@ -70,9 +68,8 @@ There are two methods of updating the operator ConfigMap (`operator-environment-
 
 You can create this ConfigMap manually before deployment, or it will be created automatically after the operator was deployed.
 
-{{<warning>}}
-Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.
-{{</warning>}}
+> [!WARNING]
+> Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.
 
 ### Method 1: Namespace label (available in versions 6.4.2-4 or later)
 
@@ -109,9 +106,8 @@ Only configure the operator to watch a namespace after the namespace is created 
   kubectl label namespace <managed-namespace> <label-name>=<label-value>
   ```
 
-{{<note>}}
-The operator restarts when it detects a namespace label was added or removed.
-{{</note>}}
+> [!NOTE]
+> The operator restarts when it detects a namespace label was added or removed.
 
 ### Method 2: Explicit namespace list
 
@@ -131,13 +127,12 @@ You can also deploy `RedisEnterpriseActiveActiveDatabase` (REAADB) objects in co
 To do this:
 
 1. Configure each participating cluster’s operator to watch the relevant consumer namespace. See [multi-namespace operator setup](#update-redis-enterprise-operator-configmap).
-2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active]({{<relref "/operate/kubernetes/active-active/create-reaadb/">}}).
+2. Ensure all Active-Active prerequisites are met as described in [Configure Active-Active](/content/operate/kubernetes/active-active/create-reaadb.md).
 3. In your REAADB custom resource, specify the target consumer namespace using `metadata.namespace`. For each participating cluster, use the `namespace` field under `spec.participatingClusters` to indicate the namespace where the REAADB should be deployed.
-4. If you are using a [global database secret]({{<relref "operate/kubernetes/active-active/global-db-secret/">}}), deploy the secret in each consumer namespace.
+4. If you are using a [global database secret](/content/operate/kubernetes/active-active/global-db-secret.md), deploy the secret in each consumer namespace.
 
-{{<note>}}
-Apply the REAADB object to only one Kubernetes cluster. Based on the specified participating clusters and namespaces, the operator automatically creates the necessary resources in the other clusters.
-{{</note>}}
+> [!NOTE]
+> Apply the REAADB object to only one Kubernetes cluster. Based on the specified participating clusters and namespaces, the operator automatically creates the necessary resources in the other clusters.
 
 For example:
 
@@ -156,6 +151,5 @@ spec:
     <your global configurations>
 ```
 
-{{<warning>}}
-Configure the operator to watch a namespace only after the namespace exists and the required `Role` and `RoleBinding` resources have been applied. If the operator is configured to watch a namespace that lacks these permissions or does not exist, it will fail and halt normal operations.
-{{</warning>}}
+> [!WARNING]
+> Configure the operator to watch a namespace only after the namespace exists and the required `Role` and `RoleBinding` resources have been applied. If the operator is configured to watch a namespace that lacks these permissions or does not exist, it will fail and halt normal operations.

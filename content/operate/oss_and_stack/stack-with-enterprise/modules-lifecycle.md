@@ -9,7 +9,7 @@ description: null
 linkTitle: Module lifecycle
 weight: 7
 ---
-Redis Software follows the [Redis Software lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}).  (For complete details, see the Redis Software [subscription agreement](https://redis.com/software-subscription-agreement).)
+Redis Software follows the [Redis Software lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md).  (For complete details, see the Redis Software [subscription agreement](https://redis.com/software-subscription-agreement).)
 
 The lifecycle model for modules changed with Redis 8.0. This page is organized into two sections accordingly:
 
@@ -18,13 +18,13 @@ The lifecycle model for modules changed with Redis 8.0. This page is organized i
 
 ## Redis 8.0 and later
 
-Starting with Redis 8.0, the capabilities that were previously distributed as separate modules—Redis Search (RediSearch), JSON (RedisJSON), Time series (RedisTimeSeries), and Probabilistic (RedisBloom)—are built into Redis Open Source. [Redis 8 in Redis Open Source replaces Redis Stack]({{< relref "/operate/oss_and_stack" >}}), so there is no separate module to install or version.
+Starting with Redis 8.0, the capabilities that were previously distributed as separate modules—Redis Search (RediSearch), JSON (RedisJSON), Time series (RedisTimeSeries), and Probabilistic (RedisBloom)—are built into Redis Open Source. [Redis 8 in Redis Open Source replaces Redis Stack](/content/operate/oss_and_stack/_index.md), so there is no separate module to install or version.
 
 As a result:
 
 - **Modules are versioned in lockstep with Redis.** Redis 8.0 ships all of these capabilities as version 8.0, and each Redis version requires the exact matching module version. Redis X.Y requires modules of version X.Y.
 
-- **Modules share the Redis lifecycle.** Because the whole feature set (Redis X.Y plus its modules X.Y) ships and is supported as a single unit, the end-of-life for the modules follows the Redis lifecycle rather than a separate per-module schedule. For Redis Software, this is the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}), where the end-of-life for each major release occurs 24 months after the formal release of the subsequent major version.
+- **Modules share the Redis lifecycle.** Because the whole feature set (Redis X.Y plus its modules X.Y) ships and is supported as a single unit, the end-of-life for the modules follows the Redis lifecycle rather than a separate per-module schedule. For Redis Software, this is the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md), where the end-of-life for each major release occurs 24 months after the formal release of the subsequent major version.
 
 The module APIs continue to follow [semantic versioning](https://semver.org/).
 

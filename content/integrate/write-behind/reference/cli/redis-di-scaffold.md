@@ -1,6 +1,7 @@
 ---
 Title: redis-di scaffold
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-scaffold/
 alwaysopen: false
 categories:
   - docs

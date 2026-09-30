@@ -25,13 +25,13 @@ To view the details of a database:
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
-- Recent activity via a "[slowlog]({{< relref "/commands/slowlog" >}})," which lists queries that exceed a certain execution time.
+- Recent activity via a "[slowlog](/content/commands/slowlog.md)," which lists queries that exceed a certain execution time.
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 
 ## Configuration tab
 
-The **Configuration** screen is divided into sections, each dedicated to a specific category.  Note that not every section or setting is available to every [subscription plan]({{< relref "/operate/rc/subscriptions/" >}}).
+The **Configuration** screen is divided into sections, each dedicated to a specific category.  Note that not every section or setting is available to every [subscription plan](/content/operate/rc/subscriptions/_index.md).
 
 The Configuration tab is organized differently for Essentials and Pro databases. Select your plan type below.
 
@@ -47,11 +47,11 @@ The **Performance & availability** section defines the plan and backup settings 
 
 | Setting name | Editable | Description |
 |---|---|---|
-| **Plan** | <span title="Yes">&#x2705; Yes</span> | The plan for your database. <br><br/>Your Essentials plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}). |
-| **High Availability** | <span title="Yes">&#x2705; Yes</span> | Whether and how your data replicates across multiple nodes; see [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) |
-| **Data persistence** | <span title="Yes">&#x2705; Yes</span> | Defines whether (and how) data is saved to disk; see [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}})  |
-| **Remote backup**  | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). |
-| **Data eviction policy** | <span title="Yes">&#x2705; Yes</span> | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit |
+| **Plan** | <span title="Yes">&#x2705; Yes</span> | The plan for your database. <br><br/>Your Essentials plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans](/content/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details.md). |
+| **High Availability** | <span title="Yes">&#x2705; Yes</span> | Whether and how your data replicates across multiple nodes; see [available options](/content/operate/rc/databases/configuration/high-availability.md) |
+| **Data persistence** | <span title="Yes">&#x2705; Yes</span> | Defines whether (and how) data is saved to disk; see [available options](/content/operate/rc/databases/configuration/data-persistence.md)  |
+| **Remote backup**  | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a location and interval for [data backups](/content/operate/rc/databases/back-up-data.md). |
+| **Data eviction policy** | <span title="Yes">&#x2705; Yes</span> | Configures which [policy](/content/operate/rc/databases/configuration/data-eviction-policies.md) is applied when your database reaches its memory limit |
 
 ### Access
 
@@ -62,7 +62,7 @@ The **Access** section shows the connection information for your database.
 Here, you can: 
 - View the number of active connections to your database.
 - View the Public endpoint of your database.
-- Select **Connect** to [connect to your database]({{< relref "/operate/rc/databases/connect" >}})
+- Select **Connect** to [connect to your database](/content/operate/rc/databases/connect/_index.md)
 
 ### Data
 
@@ -70,8 +70,8 @@ In the **Data** section, you can:
 
 <img src="../../../../images/rc/database-details-configuration-tab-data-essentials.png" alt="The Data section for an Essentials database." width=40%>
 
-- [Import data]({{< relref "/operate/rc/databases/import-data" >}}) into your database
-- Open [Redis Insight]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}) to explore your data.
+- [Import data](/content/operate/rc/databases/import-data.md) into your database
+- Open [Redis Insight](/content/operate/rc/databases/connect/insight-cloud.md) to explore your data.
 
 ### Security
 
@@ -81,9 +81,9 @@ The **Security** section helps you control access to your database.
 
 | Setting name | Editable | Description |
 |---|---|---|
-| **Default user** | <span title="Yes">&#x2705; Yes</span> | When **On**, permits access using the `default` username with a simple password. Select **Configure** to turn off the default user or change the password. See [Default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) for more information. |
-| **CIDR allow list** | <span title="Yes">&#x2705; Yes</span> | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. Select **Configure** to edit the CIDR allow list. |
-| **Transport layer security (TLS)** | <span title="Yes">&#x2705; Yes</span> | Select **Configure** to turn on [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. |
+| **Default user** | <span title="Yes">&#x2705; Yes</span> | When **On**, permits access using the `default` username with a simple password. Select **Configure** to turn off the default user or change the password. See [Default user](/content/operate/rc/security/access-control/data-access-control/default-user.md) for more information. |
+| **CIDR allow list** | <span title="Yes">&#x2705; Yes</span> | [Allow list](/content/operate/rc/security/cidr-whitelist.md) of IP addresses/security groups permitted to access the database. Select **Configure** to edit the CIDR allow list. |
+| **Transport layer security (TLS)** | <span title="Yes">&#x2705; Yes</span> | Select **Configure** to turn on [transport layer security](/content/operate/rc/security/database-security/tls-ssl.md) (TLS) encryption for database access. |
 
 ### Database info
 
@@ -97,10 +97,10 @@ The **Database info** section defines basic properties about your database.
 | **ID** | <span title="No">&#x274c; No</span> | The database's numeric ID |
 | **Creation** | <span title="No">&#x274c; No</span> | Date the database was created |
 | **Last changed** | <span title="No">&#x274c; No</span> | Date of last update |
-| **Advanced Capabilities** | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database |
-| **Architecture** | <span title="No">&#x274c; No</span> | Shows whether the database runs in **RAM** or is a [**Flex**]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) database |
+| **Advanced Capabilities** | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability](/content/operate/rc/databases/configuration/advanced-capabilities.md) is enabled for a database |
+| **Architecture** | <span title="No">&#x274c; No</span> | Shows whether the database runs in **RAM** or is a [**Flex**](/content/operate/rc/databases/create-database/create-flex-database.md) database |
 | **Version** | <span title="Yes">&#x2705; Yes</span> | The Redis version your database uses |
-| **Protocol** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
+| **Protocol** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol](/content/develop/reference/protocol-spec.md#resp-versions) for details |
 
 -tab-sep-
 
@@ -116,19 +116,19 @@ The available settings vary according to your cloud provider and design choices.
 |:--------------------------|:---------|:------------|
 | **Database Name**         | <span title="Yes">&#x2705; Yes</span> | The name given to your database                                                                                                                             |
 | **Subscription Name**     | <span title="No">&#x274c; No</span> | The name for the subscription your database is a part of                                                                                                    |
-| **Public endpoint**       | <span title="No">&#x274c; No</span> | Public URI used by any application or client to access the database. You can [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).                                                  |
+| **Public endpoint**       | <span title="No">&#x274c; No</span> | Public URI used by any application or client to access the database. You can [block the public endpoint](/content/operate/rc/security/database-security/block-public-endpoints.md).                                                  |
 | **Private endpoint**      | <span title="No">&#x274c; No</span> | Private endpoint URI available to approved clients; use CIDR allow list, VPC peering, or other connectivity options to enable access. |
-| **Tags**                  | <span title="Yes">&#x2705; Yes</span> | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
+| **Tags**                  | <span title="Yes">&#x2705; Yes</span> | A list of the [tags](/content/operate/rc/databases/tag-database.md) associated with the database. Select [Manage tags](/content/operate/rc/databases/tag-database.md#configuration-tab) to manage the database tags. |
 | **Vendor**                | <span title="No">&#x274c; No</span> | The Cloud vendor hosting your database: AWS, Google Cloud, or Azure.                                                   |
 | **Region**                | <span title="No">&#x274c; No</span> | The Cloud vendor region hosting your database                                                  |
 | **Type**                  | <span title="No">&#x274c; No</span> | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | <span title="No">&#x274c; No</span> | Redis version of the database                                                                                                                  |
 | **Auto Tiering**          | <span title="No">&#x274c; No</span> | Checked when the subscription supports Auto Tiering                                                               |
-| **Active-Active Redis**   | <span title="No">&#x274c; No</span> | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship                                                                                         |
+| **Active-Active Redis**   | <span title="No">&#x274c; No</span> | Checked when the database is part of an [Active-Active](/content/operate/rc/databases/active-active/_index.md) relationship                                                                                         |
 | **Creation time**         | <span title="No">&#x274c; No</span> | Date and time the database was created                                                                                                                      |
 | **Last changed**          | <span title="No">&#x274c; No</span> | Date and time of last update                                                                                                                                |
-| **Supported Protocol(s)** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
-| **Advanced Capabilities**  | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
+| **Supported Protocol(s)** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol](/content/develop/reference/protocol-spec.md#resp-versions) for details |
+| **Advanced Capabilities**  | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability](/content/operate/rc/databases/configuration/advanced-capabilities.md) is enabled for a database                                                  |
 
 ### Performance section
 
@@ -138,14 +138,14 @@ The **Performance** section describes the memory size, throughput, and hashing p
 
 | Setting name          | Editable | Description |
 |:----------------------|:---------|:------------|
-| **Dataset size** | <span title="Yes">&#x2705; Yes</span> | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).  |
-| **Throughput**        | <span title="Yes">&#x2705; Yes</span> | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database. |
+| **Dataset size** | <span title="Yes">&#x2705; Yes</span> | Maximum size (in GB) for your dataset. See [Dataset size](/content/operate/rc/databases/configuration/sizing.md#dataset-size).  |
+| **Throughput**        | <span title="Yes">&#x2705; Yes</span> | Defines [throughput](/content/operate/rc/databases/configuration/sizing.md#throughput) in terms of maximum operations per second for the database. |
 | **Memory used**       | <span title="No">&#x274c; No</span> | Memory currently used for your database.  |
-| **High availability**    | <span title="Yes">&#x2705; Yes</span> | Replicates your data across multiple nodes; see [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}})  |
-| **Hashing policy**    | <span title="Yes">&#x2705; Yes</span> | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API**       | <span title="Yes">&#x2705; Yes</span> | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
+| **High availability**    | <span title="Yes">&#x2705; Yes</span> | Replicates your data across multiple nodes; see [available options](/content/operate/rc/databases/configuration/high-availability.md)  |
+| **Hashing policy**    | <span title="Yes">&#x2705; Yes</span> | Defines the [hashing policy](/content/operate/rc/databases/configuration/clustering.md#manage-the-hashing-policy).  |
+| **OSS Cluster API**       | <span title="Yes">&#x2705; Yes</span> | Enables the [Cluster API](/content/operate/rc/databases/configuration/clustering.md#oss-cluster-api) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
-To learn more about these settings and when to use them, see [Sizing]({{< relref "/operate/rc/databases/configuration/sizing" >}}) and [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
+To learn more about these settings and when to use them, see [Sizing](/content/operate/rc/databases/configuration/sizing.md) and [Database clustering](/content/operate/rc/databases/configuration/clustering.md).
 
 ### Durability section
 
@@ -155,10 +155,10 @@ The Durability section helps protect your data when problems occur.  These setti
 
 | Setting name             | Editable | Description |
 |:-------------------------|:---------|:------------|
-| **Data persistence**     | <span title="Yes">&#x2705; Yes</span> | Defines whether (and how) data is saved to disk; see [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) |
-| **Data eviction policy** | <span title="Yes">&#x2705; Yes</span> | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit        |
-| **Remote backup**        | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}).                |
-| **Active-Passive Redis** | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a path to the [linked database]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).                                                               |
+| **Data persistence**     | <span title="Yes">&#x2705; Yes</span> | Defines whether (and how) data is saved to disk; see [available options](/content/operate/rc/databases/configuration/data-persistence.md) |
+| **Data eviction policy** | <span title="Yes">&#x2705; Yes</span> | Configures which [policy](/content/operate/rc/databases/configuration/data-eviction-policies.md) is applied when your database reaches its memory limit        |
+| **Remote backup**        | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a location and interval for [data backups](/content/operate/rc/databases/back-up-data.md).                |
+| **Active-Passive Redis** | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a path to the [linked database](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive).                                                               |
 
 ### Security section
 
@@ -169,9 +169,9 @@ The **Security** section helps you control access to your database.
 |Setting name| Editable | Description |
 |:-----------|:---------|:------------|
 | **Default user** | <span title="Yes">&#x2705; Yes</span> | When enabled, permits access using a simple password                                                                                                                           |
-| **Default user password** | <span title="Yes">&#x2705; Yes</span> | Password for default user. A default password is assigned to the database on creation and may be updated. If you [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}), you can also turn on passwordless authentication for the default user here.  |
-| **CIDR allow list** | <span title="Yes">&#x2705; Yes</span> | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database.                    |
-| **Transport layer security (TLS)** | <span title="Yes">&#x2705; Yes</span> | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access.  |
+| **Default user password** | <span title="Yes">&#x2705; Yes</span> | Password for default user. A default password is assigned to the database on creation and may be updated. If you [block the public endpoint](/content/operate/rc/security/database-security/block-public-endpoints.md), you can also turn on passwordless authentication for the default user here.  |
+| **CIDR allow list** | <span title="Yes">&#x2705; Yes</span> | [Allow list](/content/operate/rc/security/cidr-whitelist.md) of IP addresses/security groups permitted to access the database.                    |
+| **Transport layer security (TLS)** | <span title="Yes">&#x2705; Yes</span> | Enables [transport layer security](/content/operate/rc/security/database-security/tls-ssl.md) (TLS) encryption for database access.  |
 
 ### Alerts section
 
@@ -180,7 +180,7 @@ The **Alerts** section defines notification emails sent to your account and the 
 
 <img src="../../../../images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions.">
 
-The available alerts vary according to the plan type. See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
+The available alerts vary according to the plan type. See [Configure alerts](/content/operate/rc/databases/monitor-performance.md#configure-metric-alerts) for more information.
 
 ### Danger zone
 
@@ -190,10 +190,10 @@ Actions in the **Danger Zone** are permanent and should not be taken lightly.
 
 Here, you can:
 
-- Delete the database. Databases must be active before they can be deleted.  To learn more, see [Delete a database]({{< relref "/operate/rc/databases/delete-database.md" >}}).
+- Delete the database. Databases must be active before they can be deleted.  To learn more, see [Delete a database](/content/operate/rc/databases/delete-database.md).
 - Flush the database (_Active-Active databases only_).
 
-For best results, we recommend [backing up data]({{< relref "/operate/rc/databases/back-up-data" >}}) before any danger zone actions.
+For best results, we recommend [backing up data](/content/operate/rc/databases/back-up-data.md) before any danger zone actions.
 
 {{< /multitabs >}}
 
@@ -201,11 +201,11 @@ For best results, we recommend [backing up data]({{< relref "/operate/rc/databas
 
 The **View Database** screen also has tabs that let you view:
 
-- **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) for more information.
+- **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance](/content/operate/rc/databases/monitor-performance.md) for more information.
 
-- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+- **Slowlog**: a log showing recent [slow queries](/content/commands/slowlog.md) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
-- **Alerts** (_Essentials databases only_): the notification emails sent to your account and the conditions that trigger them.  See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
+- **Alerts** (_Essentials databases only_): the notification emails sent to your account and the conditions that trigger them.  See [Configure alerts](/content/operate/rc/databases/monitor-performance.md#configure-metric-alerts) for more information.
 
 
 ## Edit database details

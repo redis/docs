@@ -32,8 +32,8 @@ syntax_fmt: LASTSAVE
 title: LASTSAVE
 ---
 Return the UNIX TIME of the last DB save executed with success.
-A client may check if a [`BGSAVE`]({{< relref "/commands/bgsave" >}}) command succeeded reading the `LASTSAVE` value,
-then issuing a [`BGSAVE`]({{< relref "/commands/bgsave" >}}) command and checking at regular intervals every N
+A client may check if a [`BGSAVE`](/content/commands/bgsave.md) command succeeded reading the `LASTSAVE` value,
+then issuing a [`BGSAVE`](/content/commands/bgsave.md) command and checking at regular intervals every N
 seconds if `LASTSAVE` changed. Redis considers the database saved successfully at startup.
 
 ## Redis Software and Redis Cloud compatibility

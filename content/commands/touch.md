@@ -51,9 +51,8 @@ summary: Returns the number of existing keys out of those specified after updati
 syntax_fmt: TOUCH key [key ...]
 title: TOUCH
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Alters the last access time of one or more keys.
@@ -70,9 +69,12 @@ One or more keys whose last-access time to update.
 ## Examples
 
 {{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-TOUCH key1 key2
+redis> SET key1 "Hello"
+OK
+redis> SET key2 "World"
+OK
+redis> TOUCH key1 key2
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

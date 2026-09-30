@@ -71,7 +71,7 @@ title: SHUTDOWN
 The command behavior is the following:
 
 * If there are any replicas lagging behind in replication:
-  * Pause clients attempting to write by performing a [`CLIENT PAUSE`]({{< relref "/commands/client-pause" >}}) with the `WRITE` option.
+  * Pause clients attempting to write by performing a [`CLIENT PAUSE`](/content/commands/client-pause.md) with the `WRITE` option.
   * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up the replication offset.
 * Stop all the clients.
 * Perform a blocking SAVE if at least one **save point** is configured.
@@ -87,7 +87,7 @@ usually you don't want Redis instances used only for caching to block on when
 shutting down.
 
 Also note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.
-See also [Signal Handling]({{< relref "/operate/oss_and_stack/reference/signals" >}}).
+See also [Signal Handling](/content/operate/oss_and_stack/reference/signals.md).
 
 ## Optional arguments
 
@@ -146,7 +146,7 @@ The second command will not have any problem to execute since the AOF is no long
 Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.
 This provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.
 Before version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.
-To minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]({{< relref "/commands/failover" >}}) (or [`CLUSTER FAILOVER`]({{< relref "/commands/cluster-failover" >}})) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.
+To minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`](/content/commands/failover.md) (or [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md)) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -27,6 +27,7 @@ progress in implementing the recommendations.
 ```checklist {id="lettuceprodlist"}
 - [ ] [Timeouts](#timeouts)
 - [ ] [Cluster topology refresh](#cluster-topology-refresh)
+- [ ] [Warm up cluster connections](#warm-up-cluster-connections)
 - [ ] [DNS cache and Redis](#dns-cache-and-redis)
 - [ ] [Exception handling](#exception-handling)
 - [ ] [Connection and execution reliability](#connection-and-execution-reliability)
@@ -162,7 +163,7 @@ public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBui
 
 The Redis Cluster configuration is dynamic and can change at runtime. 
 New nodes may be added, and the primary node for a specific slot can shift.
-Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
+Lettuce automatically handles [MOVED](/content/operate/oss_and_stack/reference/cluster-spec.md#moved-redirection) and [ASK](/content/operate/oss_and_stack/reference/cluster-spec.md#ask-redirection) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
 
 ```java
 RedisURI redisURI = RedisURI.Builder
@@ -210,6 +211,92 @@ try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {
 }
 ```
 Learn more about topology refresh configuration settings in [the reference guide](https://redis.github.io/lettuce/ha-sharding/#redis-cluster).
+
+
+## Warm up cluster connections
+
+With a Redis Cluster, Lettuce opens connections to individual nodes *lazily* -
+the connection to a given shard is created the first time a command is routed
+to it. This keeps the connection footprint minimal, but it means the *first*
+requests after startup each pay the cost of establishing a new connection
+(a TCP connection plus, when TLS is enabled, a TLS handshake) to a node that
+has not been contacted yet. On a TLS cluster with several shards, this can add
+a noticeable latency spike to a freshly started application's first burst of
+traffic. Under constrained CPU (for example, a container that is CPU-throttled
+during startup) that spike can be large enough to breach command timeouts.
+
+To avoid this, open the per-node connections *before* your application starts
+serving traffic. The `upstream()` node selection targets every primary node;
+sending a `PING` to the selection forces each per-node connection to be
+established:
+
+```java
+RedisURI redisURI = RedisURI.Builder
+        .redis("localhost")
+        .withSsl(true)
+        .build();
+
+try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {
+
+    StatefulRedisClusterConnection<String, String> connection = clusterClient.connect();
+
+    // Warm up: open a connection to every primary node before serving traffic.
+    // upstream() selects all primaries; the PING forces each per-node connection to open.
+    connection.sync().upstream().commands().ping();
+
+    // If you read from replicas (ReadFrom.REPLICA / REPLICA_PREFERRED),
+    // warm the replica connections too:
+    // connection.sync()
+    //         .readonly(node -> node.is(RedisClusterNode.NodeFlag.REPLICA))
+    //         .commands().ping();
+
+    System.out.println(connection.sync().ping());
+}
+```
+
+Because the cluster topology can change at runtime, connections to *new* nodes
+are still opened lazily after a topology change. If you want those warmed as
+well, re-run the warm-up when the topology changes (for example, from a
+`ClusterTopologyChangedEvent` listener).
+
+### Warming up connections in Spring Data Redis
+
+With [Spring Data Redis](/content/integrate/spring-framework-cache/_index.md), run the warm-up once at startup, before the instance is
+marked ready. Obtain the shared native cluster connection from the
+`LettuceConnectionFactory` and warm it with the same `upstream()` call:
+
+```java
+@Component
+class RedisClusterWarmUp {
+
+    private final LettuceConnectionFactory factory;
+
+    RedisClusterWarmUp(RedisConnectionFactory factory) {
+        this.factory = (LettuceConnectionFactory) factory;
+    }
+
+    // Runs after the context starts. To keep traffic off the instance until the
+    // warm-up completes, gate your readiness probe on it (for example, with a
+    // HealthIndicator that reports "up" only after this method succeeds).
+    @EventListener(ApplicationStartedEvent.class)
+    void warmUp() {
+        try (RedisClusterConnection clusterConnection = factory.getClusterConnection()) {
+            @SuppressWarnings("unchecked")
+            StatefulRedisClusterConnection<byte[], byte[]> connection =
+                    ((RedisAdvancedClusterAsyncCommands<byte[], byte[]>) clusterConnection.getNativeConnection())
+                            .getStatefulConnection();
+            connection.sync().upstream().commands().ping();
+        }
+    }
+}
+```
+
+> [!NOTE]
+> The `LettuceConnectionFactory` `eagerInitialization` option is not
+> sufficient on its own. It establishes the cluster topology and a single
+> connection at startup, but the remaining per-node connections are still opened
+> lazily on first use. Use the warm-up shown above to open connections to all
+> nodes.
 
 
 ## DNS cache and Redis
@@ -267,10 +354,10 @@ client.setOptions(ClientOptions.builder()
 If you need finer control over which commands you want to execute in which mode, you can
 configure a *replay filter* to choose the commands that should retry after a disconnection.
 The example below shows a filter that retries all commands except for
-[`DECR`]({{< relref "/commands/decr" >}})
+[`DECR`](/content/commands/decr.md)
 (this command is not [idempotent](https://en.wikipedia.org/wiki/Idempotence) and
 so you might need to avoid executing it more than once). Note that
-replay filters are only available in in Lettuce v6.6 and above.
+replay filters are only available in Lettuce v6.6 and above.
 
 ```java
 Predicate<RedisCommand<?, ?, ?> > filter =
@@ -292,7 +379,7 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
+[Connect using Smart client handoffs](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.

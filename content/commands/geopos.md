@@ -52,7 +52,7 @@ title: GEOPOS
 ---
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.
 
-Given a sorted set representing a geospatial index, populated using the [`GEOADD`]({{< relref "/commands/geoadd" >}}) command, it is often useful to obtain back the coordinates of specified members. When the geospatial index is populated via [`GEOADD`]({{< relref "/commands/geoadd" >}}) the coordinates are converted into a 52 bit geohash, so the coordinates returned may not be exactly the ones used in order to add the elements, but small errors may be introduced.
+Given a sorted set representing a geospatial index, populated using the [`GEOADD`](/content/commands/geoadd.md) command, it is often useful to obtain back the coordinates of specified members. When the geospatial index is populated via [`GEOADD`](/content/commands/geoadd.md) the coordinates are converted into a 52 bit geohash, so the coordinates returned may not be exactly the ones used in order to add the elements, but small errors may be introduced.
 
 The command can accept a variable number of arguments so it always returns an array of positions even when a single element is specified.
 
@@ -73,8 +73,14 @@ One or more members whose longitude and latitude to return.
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOPOS Sicily Palermo Catania NonExisting
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEOPOS Sicily Palermo Catania NonExisting
+1) 1) "13.361389338970184"
+   2) "38.1155563954963"
+2) 1) "15.087267458438873"
+   2) "37.50266842333162"
+3) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

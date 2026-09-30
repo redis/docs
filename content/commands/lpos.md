@@ -159,9 +159,14 @@ When `MAXLEN` is used, it is possible to specify 0 as the maximum number of comp
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist a b c d 1 2 3 4 3 3 3
-LPOS mylist 3
-LPOS mylist 3 COUNT 0 RANK 2
+redis> RPUSH mylist a b c d 1 2 3 4 3 3 3
+(integer) 11
+redis> LPOS mylist 3
+(integer) 6
+redis> LPOS mylist 3 COUNT 0 RANK 2
+1) (integer) 8
+2) (integer) 9
+3) (integer) 10
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

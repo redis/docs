@@ -196,7 +196,7 @@ api_key = os.environ.get("VOYAGE_API_KEY") or getpass.getpass("Enter your Voyage
 ```python
 from redisvl.utils.rerank import VoyageAIReranker
 
-reranker = VoyageAIReranker(model="rerank-lite-1", limit=3, api_config={"api_key": api_key})
+reranker = VoyageAIReranker(model="rerank-2.5", limit=3, api_config={"api_key": api_key})
 # Please check the available models at https://docs.voyageai.com/docs/reranker
 ```
 

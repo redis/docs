@@ -30,7 +30,7 @@ Get Cluster Manager UI settings.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_info]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_cluster_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_info](/content/operate/rs/7.22/references/rest-api/permissions.md#view_cluster_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -49,7 +49,7 @@ GET /v1/cm_settings
 
 ### Response {#get-response}
 
-Returns a [cm_settings object]({{<relref "/operate/rs/7.22/references/rest-api/objects/cm_settings">}}).
+Returns a [cm_settings object](/content/operate/rs/7.22/references/rest-api/objects/cm_settings.md).
 
 #### Example JSON body
 
@@ -77,7 +77,7 @@ Update Cluster Manager UI settings.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.22/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.22/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#put-request}
 
@@ -105,11 +105,11 @@ PUT /v1/cm_settings
 
 #### Body
 
-Include a [cm_settings object]({{<relref "/operate/rs/7.22/references/rest-api/objects/cm_settings">}}) with updated fields in the request body.
+Include a [cm_settings object](/content/operate/rs/7.22/references/rest-api/objects/cm_settings.md) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns a [cm_settings object]({{<relref "/operate/rs/7.22/references/rest-api/objects/cm_settings">}}) with the updated fields.
+Returns a [cm_settings object](/content/operate/rs/7.22/references/rest-api/objects/cm_settings.md) with the updated fields.
 
 #### Example JSON body
 

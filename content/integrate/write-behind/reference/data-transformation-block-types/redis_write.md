@@ -1,6 +1,8 @@
 ---
 Title: redis.write
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/redis_write/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/redis_write/
 alwaysopen: false
 categories:
   - docs

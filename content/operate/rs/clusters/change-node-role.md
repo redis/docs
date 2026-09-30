@@ -40,14 +40,14 @@ To demote the primary node to a secondary node using the Cluster Manager UI:
 
 To demote the primary node to a secondary node using `rladmin`:
 
-1. Identify the primary node's ID with [`rladmin cluster master`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/master">}}):
+1. Identify the primary node's ID with [`rladmin cluster master`](/content/operate/rs/references/cli-utilities/rladmin/cluster/master.md):
 
     ```sh
     $ rladmin cluster master
     Node <primary-node-id> is the cluster master node
     ```
 
-1. Run [`rladmin node enslave`]({{<relref "/operate/rs/references/cli-utilities/rladmin/node/enslave/#node-enslave">}}) with the `demote_node` option:
+1. Run [`rladmin node enslave`](/content/operate/rs/references/cli-utilities/rladmin/node/enslave.md#node-enslave) with the `demote_node` option:
 
     ```sh
     rladmin node <primary-node-ID> enslave demote_node
@@ -78,7 +78,7 @@ To promote a secondary node to become the primary node using the Cluster Manager
 
 To promote a secondary node to become the primary node using `rladmin`:
 
-1. To find the IDs of secondary nodes, run [`rladmin status nodes`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes">}}):
+1. To find the IDs of secondary nodes, run [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes):
 
     ```sh
     $ rladmin status nodes
@@ -91,7 +91,7 @@ To promote a secondary node to become the primary node using `rladmin`:
 
     Nodes with the `slave` role are secondary nodes.
 
-1. Run [`rladmin cluster master set`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/master">}}):
+1. Run [`rladmin cluster master set`](/content/operate/rs/references/cli-utilities/rladmin/cluster/master.md):
 
     ```sh
     rladmin cluster master set <secondary-node-ID>

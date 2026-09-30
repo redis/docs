@@ -23,7 +23,7 @@ This example shows:
 - Operator namespace: `redis-enterprise-operator` (where the operator and REC run)
 - Consumer namespaces: `app-production`, `app-staging` (where REDB resources are created)
 
-For complete deployment instructions, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/8.0.18/re-clusters/multi-namespace" >}}).
+For complete deployment instructions, see [Manage databases in multiple namespaces](/content/operate/kubernetes/8.0.18/re-clusters/multi-namespace.md).
 
 ## Operator service account
 
@@ -57,12 +57,12 @@ Consumer namespace configuration:
 
 ## Next steps
 
-- [Configure networking across namespaces]({{< relref "/operate/kubernetes/8.0.18/networking" >}})
-- [Set up monitoring for multi-namespace deployment]({{< relref "/operate/kubernetes/8.0.18/re-clusters/connect-prometheus-operator" >}})
-- [Learn about resource management]({{< relref "/operate/kubernetes/8.0.18/recommendations" >}})
+- [Configure networking across namespaces](/content/operate/kubernetes/8.0.18/networking/_index.md)
+- [Set up monitoring for multi-namespace deployment](/content/operate/kubernetes/8.0.18/re-clusters/connect-prometheus-operator.md)
+- [Learn about resource management](/content/operate/kubernetes/8.0.18/recommendations/_index.md)
 
 ## Related documentation
 
-- [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/8.0.18/re-clusters/multi-namespace" >}})
-- [RBAC configuration]({{< relref "/operate/kubernetes/8.0.18/security" >}})
+- [Manage databases in multiple namespaces](/content/operate/kubernetes/8.0.18/re-clusters/multi-namespace.md)
+- [RBAC configuration](/content/operate/kubernetes/8.0.18/security/_index.md)
 - [Kubernetes namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)

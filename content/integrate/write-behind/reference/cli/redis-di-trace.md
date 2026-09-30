@@ -1,6 +1,7 @@
 ---
 Title: redis-di trace
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-trace/
 alwaysopen: false
 categories:
   - docs

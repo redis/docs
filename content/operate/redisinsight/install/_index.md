@@ -8,6 +8,8 @@ linkTitle: Install Redis Insight
 title: Install Redis Insight
 weight: 3
 hideListLinks: true
+aliases:
+- /operate/oss_and_stack/install/install-redis-insight/
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 max-w-2xl">

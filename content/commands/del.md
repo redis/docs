@@ -52,9 +52,8 @@ summary: Deletes one or more keys.
 syntax_fmt: DEL key [key ...]
 title: DEL
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Removes the specified keys.
@@ -72,20 +71,12 @@ One or more keys to delete.
 
 {{< clients-example set="cmds_generic" step="del" description="Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)" difficulty="beginner" >}}
 > SET key1 "Hello"
-"OK"
+OK
 > SET key2 "World"
-"OK"
+OK
 > DEL key1 key2 key3
 (integer) 2
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

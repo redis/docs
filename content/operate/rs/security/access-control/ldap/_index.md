@@ -13,9 +13,9 @@ title: LDAP authentication
 weight: 50
 ---
 
-Redis Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
+Redis Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls](/content/operate/rs/security/access-control/_index.md) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
 
-You can configure LDAP roles using the Redis Software Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
+You can configure LDAP roles using the Redis Software Cluster Manager UI or [REST API](/content/operate/rs/references/rest-api/requests/ldap_mappings/_index.md).
 
 ## How it works
 
@@ -56,26 +56,26 @@ Before you enable LDAP in Redis Software, you need:
 
 1. The LDAP groups that correspond to the levels of access you wish to authorize.  Each LDAP group will be mapped to a Redis Software access control role.
 
-1. A Redis Software access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).
+1. A Redis Software access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls](/content/operate/rs/security/access-control/_index.md) (RBAC).
 
 ## Enable LDAP
 
 To enable LDAP:
 
-1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}).
+1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md).
 
     {{<image filename="images/rs/screenshots/access-control/7-22-updates/ldap-config.png" alt="Configure LDAP screen" >}}
 
-2.  Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
+2.  Map LDAP groups to [access control roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md).
 
-3.  Update database access control lists (ACLs) to [authorize role access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}}).  
+3.  Update database access control lists (ACLs) to [authorize role access](/content/operate/rs/security/access-control/ldap/update-database-acls.md).  
 
 If you already have appropriate roles, you can update them to include LDAP groups.
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Enable and configure [role-based LDAP](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md)
+- Map LDAP groups to [access control roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Software [security and practices](/content/operate/rs/security/_index.md)
 

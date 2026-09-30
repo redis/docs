@@ -20,7 +20,7 @@ mod cmds_string_tests {
         };
 
         // REMOVE_START
-        let _: Result<i32, _> = r.del(&["key1", "key2", "nonexisting"]);
+        let _: Result<i32, _> = r.del(&["key1", "key2", "mykey", "nonexisting"]);
         // REMOVE_END
 
         // STEP_START mget
@@ -49,8 +49,44 @@ mod cmds_string_tests {
         }
         // STEP_END
 
+        // STEP_START incr
+        if let Ok(res) = r.set("mykey", "10") {
+            let res: String = res;
+            println!("{res}");    // >>> OK
+            // REMOVE_START
+            assert_eq!(res, "OK");
+            // REMOVE_END
+        }
+
+        match r.incr("mykey", 1) {
+            Ok(incr_result) => {
+                let incr_result: i64 = incr_result;
+                println!("{incr_result}");    // >>> 11
+                // REMOVE_START
+                assert_eq!(incr_result, 11);
+                // REMOVE_END
+            }
+            Err(e) => {
+                println!("Error incrementing value: {e}");
+            }
+        }
+
+        match r.get("mykey") {
+            Ok(get_result) => {
+                let get_result: String = get_result;
+                println!("{get_result}");    // >>> 11
+                // REMOVE_START
+                assert_eq!(get_result, "11");
+                // REMOVE_END
+            }
+            Err(e) => {
+                println!("Error getting value: {e}");
+            }
+        }
+        // STEP_END
+
         // REMOVE_START
-        let _: Result<i32, _> = r.del(&["key1", "key2", "nonexisting"]);
+        let _: Result<i32, _> = r.del(&["key1", "key2", "mykey", "nonexisting"]);
         // REMOVE_END
     }
 }

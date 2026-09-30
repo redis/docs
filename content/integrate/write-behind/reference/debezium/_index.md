@@ -1,6 +1,8 @@
 ---
 Title: Debezium Server configuration file
-aliases: /integrate/redis-data-integration/write-behind/reference/debezium/
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/debezium/
+- /integrate/redis-data-integration/reference/debezium/
 alwaysopen: false
 categories:
   - docs

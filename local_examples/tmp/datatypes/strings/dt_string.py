@@ -24,6 +24,9 @@ assert res2 == "Deimos"
 # REMOVE_END
 
 # STEP_START setnx_xx
+# Recreate the bike:1 key so this example runs on its own.
+r.set("bike:1", "Deimos")
+
 res3 = r.set("bike:1", "bike", nx=True)
 print(res3)  # None
 print(r.get("bike:1"))  # Deimos

@@ -50,7 +50,7 @@ Databases provide various approaches to address some of these concerns:
 
 - **Active-Passive geo-distributed deployments**: With active-passive
     distributions, all writes go to an active cluster. Redis Sofware
-    provides a [Replica Of]({{<relref "/operate/rs/databases/import-export/replica-of/">}}) capability that provides a similar approach.
+    provides a [Replica Of](/content/operate/rs/databases/import-export/replica-of/_index.md) capability that provides a similar approach.
     This can be employed when the workload is heavily balanced toward
     reads and few writes. However, WAN performance and availability
     can be unreliable, and traveling large distances for writes takes away
@@ -98,9 +98,9 @@ execute them in script-replication mode.
 
 ## Eviction
 
-The default policy for Active-Active databases is _noeviction_ mode. Redis Software version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) (previously known as Redis on Flash) is enabled.
+The default policy for Active-Active databases is _noeviction_ mode. Redis Software version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering](/content/operate/rs/databases/flash/_index.md) (previously known as Redis on Flash) is enabled.
 
-For details, see [eviction for Active-Active databases (Redis Software)]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}) or [eviction for Active-Active databases (Redis Cloud)]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
+For details, see [eviction for Active-Active databases (Redis Software)](/content/operate/rs/databases/memory-performance/eviction-policy.md#active-active-database-eviction) or [eviction for Active-Active databases (Redis Cloud)](/content/operate/rc/databases/configuration/data-eviction-policies.md#active-active-replication-considerations).
 
 ## Expiration
 
@@ -145,9 +145,9 @@ Furthermore, a replica that is not the owner of the expired value:
 - Expires it (sending a DEL) before making any modifications if a user
     attempts to access it in WRITE mode.
     
-    {{< note >}}
-Expiration values are in the range of [0,&nbsp;2^49] for Active-Active databases and [0,&nbsp;2^64] for regular databases.
-    {{< /note >}}
+    > [!NOTE]
+    > Expiration values are in the range of [0,&nbsp;2^49] for Active-Active databases and [0,&nbsp;2^64] for regular databases.
+    >
 
 ## Tombstones
 

@@ -33,4 +33,4 @@ You can:
 
 ## Get system logs using REST API
 
-Use [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) to get the system logs using the REST API. See [Audit system logs]({{< relref "/operate/rc/api/examples/audit-system-logs" >}}) for more information.
+Use [`GET /logs`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getAccountSystemLogs) to get the system logs using the REST API. See [Audit system logs](/content/operate/rc/api/examples/audit-system-logs.md) for more information.

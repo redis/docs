@@ -63,12 +63,11 @@ summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
 title: SUNIONSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
+This command is equal to [`SUNION`](/content/commands/sunion.md), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
@@ -90,14 +89,26 @@ One or more set keys to union.
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SUNIONSTORE key key1 key2
-SMEMBERS key
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SUNIONSTORE key key1 key2
+(integer) 5
+redis> SMEMBERS key
+1) "a"
+2) "b"
+3) "c"
+4) "d"
+5) "e"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -119,3 +130,7 @@ SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of the elements in the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SUNION`](/content/commands/sunion.md) | [`SUNIONCARD`](/content/commands/sunioncard.md)

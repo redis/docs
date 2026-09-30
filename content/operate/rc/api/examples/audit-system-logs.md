@@ -14,11 +14,11 @@ To view the log, sign in to the [Redis Cloud console](https://cloud.redis.io/) a
 
 {{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud console menu to view your subscription system log." width="100%">}} 
 
-To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
+To learn more, see [System logs](/content/operate/rc/logs-reports/system-logs.md).
 
 ## Get system logs via REST API
 
-The REST API operation for querying the system log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).  Your account must have the **Owner**, **Viewer**, or **Logs viewer** role to query this endpoint.
+The REST API operation for querying the system log is [`GET /logs`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getAccountSystemLogs).  Your account must have the **Owner**, **Viewer**, or **Logs viewer** role to query this endpoint.
 
 The `/logs` API operation accepts the following parameters:
 

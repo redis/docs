@@ -14,9 +14,9 @@ bannerText: Specific identity provider details may be different than shown in th
 
 This guide shows how to configure [PingIdentity](https://docs.pingidentity.com/) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+Before completing this guide, you must [verify ownership of any domains](/content/operate/rc/security/access-control/saml-sso/_index.md#verify-domain) you want to associate with your SAML setup.
 
 ## Step 1: Set up your identity provider (IdP)
 
@@ -52,7 +52,7 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
     * **redisAccountMapping**: `{accountID}={role}`
      
-    **accountID** is the account ID from [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) and **role** represents the role that the user will be assigned in Redis Cloud console (owner, member, manager, billing_admin, or viewer):
+    **accountID** is the account ID from [account settings](/content/operate/rc/accounts/account-settings.md) and **role** represents the role that the user will be assigned in Redis Cloud console (owner, member, manager, billing_admin, or viewer):
 
     {{<image filename="images/rc/saml/ping_identity_saml_6.png" >}}
 

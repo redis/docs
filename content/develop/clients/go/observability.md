@@ -19,7 +19,7 @@ weight: 75
 instrumentation to collect metrics. This can be very helpful for
 diagnosing problems and improving the performance and connection resiliency of
 your application. See the
-[Observability overview]({{< relref "/develop/clients/observability" >}})
+[Observability overview](/content/develop/clients/observability.md)
 for an introduction to Redis client observability and a reference guide for the
 available metrics.
 
@@ -71,7 +71,7 @@ The available option methods for `redisotel.Config` are described in the table b
 | Method | Type | Description |
 | --- | --- | --- |
 | `WithEnabled` | `bool` | Enable or disable OTel instrumentation. Default is `false`, so you must enable it explicitly. |
-| `WithMetricGroups` | `MetricGroupFlag` | Bitmap of metric groups to enable. By default, all metrics are enabled (equivalent to `MetricGroupAll`). See [Redis metric groups]({{< relref "/develop/clients/observability#redis-metric-groups" >}}) for a list of available groups. |
+| `WithMetricGroups` | `MetricGroupFlag` | Bitmap of metric groups to enable. By default, all metrics are enabled (equivalent to `MetricGroupAll`). See [Redis metric groups](/content/develop/clients/observability.md#redis-metric-groups) for a list of available groups. |
 | `WithIncludeCommands` | `[]string` | List of Redis commands to track. If set, only these commands will be tracked. Note that you should use the Redis command name rather than the Go method name (for example `LPOP` rather than `LPopCount`). |
 | `WithExcludeCommands` | `[]string` | List of Redis commands to exclude from tracking. If set, all commands except these will be tracked. Note that you should use the Redis command name rather than the Go method name (for example `LPOP` rather than `LPopCount`). |
 | `WithHidePubSubChannelNames` | `bool` | If true, channel names in pub/sub metrics will be hidden. |

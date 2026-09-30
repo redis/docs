@@ -94,7 +94,7 @@ The zero-based stop index (inclusive). Negative indexes count from the tail.
 
 ## Examples
 
-A common use of `LTRIM` is to use it with [`LPUSH`]({{< relref "/commands/lpush" >}}) or [`RPUSH`]({{< relref "/commands/rpush" >}}).
+A common use of `LTRIM` is to use it with [`LPUSH`](/content/commands/lpush.md) or [`RPUSH`](/content/commands/rpush.md).
 For example:
 
 ```
@@ -111,11 +111,17 @@ list.
 
 
 {{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LTRIM mylist 1 -1
-LRANGE mylist 0 -1
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> LTRIM mylist 1 -1
+OK
+redis> LRANGE mylist 0 -1
+1) "two"
+2) "three"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

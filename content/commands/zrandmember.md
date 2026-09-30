@@ -62,7 +62,7 @@ title: ZRANDMEMBER
 When called with just the `key` argument, return a random element from the sorted set value stored at `key`.
 
 If the provided `count` argument is positive, return an array of distinct elements.
-The array's length is either `count` or the sorted set's cardinality ([`ZCARD`]({{< relref "/commands/zcard" >}})), whichever is lower.
+The array's length is either `count` or the sorted set's cardinality ([`ZCARD`](/content/commands/zcard.md)), whichever is lower.
 
 If called with a negative `count`, the behavior changes and the command is allowed to return the same element multiple times.
 In this case, the number of returned elements is the absolute value of the specified `count`.
@@ -94,10 +94,11 @@ Also return the score of each returned member. Can only be used together with `c
 ## Examples
 
 {{% redis-cli %}}
-ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei
-ZRANDMEMBER dadi
-ZRANDMEMBER dadi
-ZRANDMEMBER dadi -5 WITHSCORES
+redis> ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei
+(integer) 6
+redis> ZRANDMEMBER dadi
+redis> ZRANDMEMBER dadi
+redis> ZRANDMEMBER dadi -5 WITHSCORES
 {{% /redis-cli %}}
 
 ## Details

@@ -64,12 +64,11 @@ summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
 title: SINTERSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is equal to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the resulting set,
+This command is equal to [`SINTER`](/content/commands/sinter.md), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
@@ -91,14 +90,22 @@ One or more set keys to intersect.
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTERSTORE key key1 key2
-SMEMBERS key
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SINTERSTORE key key1 key2
+(integer) 1
+redis> SMEMBERS key
+1) "c"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -120,3 +127,7 @@ SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the result set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTER`](/content/commands/sinter.md) | [`SINTERCARD`](/content/commands/sintercard.md)

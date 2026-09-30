@@ -16,17 +16,17 @@ type: integration
 weight: $weight
 ---
 
-Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}}) to create a Redis Cloud Pro subscription and a database using Python.
+Here, you'll learn how to use the [Redis Cloud Pulumi provider](/content/integrate/pulumi-provider-for-redis-cloud/_index.md) to create a Redis Cloud Pro subscription and a database using Python.
 
 ## Prerequisites
 
 1. [Install Pulumi](https://www.pulumi.com/docs/install/) and [create a Pulumi account](https://app.pulumi.com/signin) if you do not have one already.
 
-1. [Create a Redis Cloud account]({{< relref "/operate/rc/rc-quickstart#create-an-account" >}}) if you do not have one already.
+1. [Create a Redis Cloud account](/content/operate/rc/rc-quickstart.md#create-an-account) if you do not have one already.
 
-1. [Enable the Redis Cloud API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}}).
+1. [Enable the Redis Cloud API](/content/operate/rc/api/get-started/enable-the-api.md).
 
-1. Get your Redis Cloud [API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}).
+1. Get your Redis Cloud [API keys](/content/operate/rc/api/get-started/manage-api-keys.md).
 
 ## Install the Pulumi provider files
 

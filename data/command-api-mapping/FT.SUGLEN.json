@@ -122,6 +122,22 @@
           "description": "The number of suggestions in the dictionary"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_suglen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of suggestions"
+        }
+      }
     ]
   }
 }

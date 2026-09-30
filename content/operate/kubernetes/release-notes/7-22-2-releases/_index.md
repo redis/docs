@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 7.22.2 release notes
 weight: 90
 ---
 
-Redis Enterprise for Kubernetes 7.22.2 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.2-40 with support for Redis Enterprise Software version 7.22.2-133.
+Redis Enterprise for Kubernetes 7.22.2 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.2-42 with support for Redis Enterprise Software version 7.22.2-170.
 
 ## Detailed release notes
 
@@ -94,6 +94,6 @@ As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise L
 
 For detailed steps, see the relevant upgrade page:
 
-- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+- [OpenShift CLI](/content/operate/kubernetes/upgrade/openshift-cli.md)
+- [OpenShift OperatorHub](/content/operate/kubernetes/upgrade/upgrade-olm.md)
+- [Kubernetes](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md)

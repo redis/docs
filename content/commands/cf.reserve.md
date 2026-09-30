@@ -65,7 +65,7 @@ The filter can grow up to 32 times.
 
 <details open><summary><code>key</code></summary>
 
-is key name for the the cuckoo filter to be created.
+is key name for the cuckoo filter to be created.
 </details>
 
 <details open><summary><code>capacity</code></summary>
@@ -108,7 +108,7 @@ Expansion is rounded to the next `2^n` number.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> CF.RESERVE cf 1000
 OK
 
@@ -117,7 +117,7 @@ redis> CF.RESERVE cf 1000
 
 redis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
 OK
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -132,13 +132,13 @@ OK
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the filter was created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or the key already exists.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the filter was created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or the key already exists.
 
 {{< /multitabs >}}

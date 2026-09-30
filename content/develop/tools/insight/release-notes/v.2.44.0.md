@@ -4,6 +4,8 @@ linkTitle: v2.44.0 (February 2024)
 date: 2024-02-29 00:00:00 +0000
 description: RedisInsight v2.44
 weight: 1
+aliases:
+- /develop/connect/insight/release-notes/v.2.44.0/
 ---
 ## 2.44 (February 2024)
 This is the General Availability (GA) release of RedisInsight 2.44.

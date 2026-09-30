@@ -26,6 +26,12 @@
                 description: "A RAG agent that ingests documents, uses Redis-native hybrid retrieval (text pre-filter + vector search), semantic caching, and session memory to answer questions with citations.",
                 features: ["Document ingestion with chunking", "Hybrid vector + full-text search", "Semantic caching", "Citations"],
                 keywords: ["rag", "knowledge", "documents", "search", "retrieval", "qa", "question answering", "citations", "hybrid"]
+            },
+            iris: {
+                name: "Redis Iris Conversational Assistant",
+                description: "A conversational assistant whose memory is managed by Redis Iris Agent Memory. It stores session events and semantically searches long-term memory through the managed service — no vector index or embeddings to build.",
+                features: ["Managed Agent Memory service", "Session (short-term) memory", "Semantic long-term memory search", "Cross-session recall"],
+                keywords: ["iris", "context engine", "agent memory"]
             }
         },
         languages: {
@@ -293,7 +299,7 @@
 
         switch (conversationState.step) {
             case 'agent-type': {
-                const agentIcons = { recommendation: '🛍️', conversational: '💬', rag: '🔍' };
+                const agentIcons = { recommendation: '🛍️', conversational: '💬', rag: '🔍', iris: '🧠' };
                 suggestions = Object.entries(CONFIG.agentTypes).map(([key, config]) => ({
                     value: key,
                     label: config.name,
@@ -400,7 +406,8 @@
             const defaultNames = {
                 recommendation: 'RecommendationEngine',
                 conversational: 'ConversationalAgent',
-                rag: 'KnowledgeAssistant'
+                rag: 'KnowledgeAssistant',
+                iris: 'IrisConversationalAssistant'
             };
             conversationState.selections.agentName = defaultNames[selectedType] || 'RedisAgent';
 
@@ -418,7 +425,8 @@
             addMessage("I didn't understand that. Please choose one of the agent types:", 'bot', [
                 { value: 'recommendation', label: '🛍️ Recommendation Engine' },
                 { value: 'conversational', label: '💬 Conversational Assistant' },
-                { value: 'rag', label: '🔍 Knowledge Assistant' }
+                { value: 'rag', label: '🔍 Knowledge Assistant' },
+                { value: 'iris', label: '🧠 Redis Iris Conversational Assistant' }
             ]);
         }
     }

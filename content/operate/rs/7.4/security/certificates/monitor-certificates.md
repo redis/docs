@@ -15,7 +15,7 @@ You can monitor certificates used by Redis Enterprise Software.
 
 ### Monitor certificates with Prometheus
 
-Redis Enterprise Software exposes the expiration time (in seconds) of each certificate on each node. To learn how to monitor Redis Enterprise Software metrics using Prometheus, see the [Prometheus integration quick start]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
+Redis Enterprise Software exposes the expiration time (in seconds) of each certificate on each node. To learn how to monitor Redis Enterprise Software metrics using Prometheus, see the [Prometheus integration quick start](/content/integrate/prometheus-with-redis-enterprise/_index.md).
 
 Here are some examples of the `node_cert_expiration_seconds` metric:
 
@@ -27,7 +27,7 @@ node_cert_expiration_seconds{cluster="mycluster.local",logical_name="metrics_exp
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="syncer",node="1",path="/etc/opt/redislabs/syncer_cert.pem"} 31104000.0
 ```
 
-The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/7.4/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Enterprise Software:
+The following certificates relate to [internode communication TLS encryption](/content/operate/rs/7.4/security/encryption/internode-encryption.md) and are automatically rotated by Redis Enterprise Software:
 
 ```sh
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="ccs_internode_encryption",node="1",path="/etc/opt/redislabs/ccs_internode_encryption_cert.pem"} 2592000.0

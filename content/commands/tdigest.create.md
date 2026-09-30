@@ -69,14 +69,14 @@ OK
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect key type or incorrect keyword.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect key type or incorrect keyword.
 
 -tab-sep-
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect key type or incorrect keyword.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect key type or incorrect keyword.
 
 {{< /multitabs >}}

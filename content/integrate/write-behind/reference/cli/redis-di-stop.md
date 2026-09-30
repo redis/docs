@@ -1,6 +1,7 @@
 ---
 Title: redis-di stop
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-stop/
 alwaysopen: false
 categories:
   - docs

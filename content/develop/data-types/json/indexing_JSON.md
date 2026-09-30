@@ -15,8 +15,8 @@ title: Index/Search JSON documents
 weight: 2
 ---
 
-In addition to storing JSON documents, you can also index them using the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) feature. This enables full-text search capabilities and document retrieval based on their content.
+In addition to storing JSON documents, you can also index them using the [Redis Search](/content/develop/ai/search-and-query/_index.md) feature. This enables full-text search capabilities and document retrieval based on their content.
 
-To use these features, install [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}).
+To use these features, install [Redis Open Source](/content/operate/oss_and_stack/_index.md).
 
-See the [tutorial]({{< relref "/develop/ai/search-and-query/indexing/" >}}) to learn how to search and query your JSON.
+See the [tutorial](/content/develop/ai/search-and-query/indexing/_index.md) to learn how to search and query your JSON.

@@ -33,7 +33,7 @@ A shard is defined as a collection of nodes that serve the same set of slots and
 A shard may only have a single master at a given time, but may have multiple or no replicas.
 It is possible for a shard to not be serving any slots while still having replicas.
 
-This command replaces the [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) command, by providing a more efficient and extensible representation of the cluster. 
+This command replaces the [`CLUSTER SLOTS`](/content/commands/cluster-slots.md) command, by providing a more efficient and extensible representation of the cluster. 
 
 The command is suitable to be used by Redis Cluster client libraries in order to understand the topology of the cluster.
 A client should issue this command on startup in order to retrieve the map associating cluster *hash slots* with actual node information.
@@ -186,7 +186,7 @@ Clients may treat the empty string in the same way as NULL, that is the same end
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). |
 
 ## Return information
 

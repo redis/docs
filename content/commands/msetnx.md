@@ -55,9 +55,8 @@ summary: Atomically modifies the string values of one or more keys only when all
 syntax_fmt: MSETNX key value [key value ...]
 title: MSETNX
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Sets the given keys to their respective values.
@@ -83,9 +82,14 @@ One or more key-value pairs to set. No keys are set if any of them already exist
 ## Examples
 
 {{% redis-cli %}}
-MSETNX key1 "Hello" key2 "there"
-MSETNX key2 "new" key3 "world"
-MGET key1 key2 key3
+redis> MSETNX key1 "Hello" key2 "there"
+(integer) 1
+redis> MSETNX key2 "new" key3 "world"
+(integer) 0
+redis> MGET key1 key2 key3
+1) "Hello"
+2) "there"
+3) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

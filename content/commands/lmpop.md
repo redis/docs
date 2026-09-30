@@ -70,19 +70,18 @@ summary: Returns multiple elements from a list after removing them. Deletes the 
 syntax_fmt: "LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: LMPOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Pops one or more elements from the first non-empty list key from the list of provided key names.
 
-`LMPOP` and [`BLMPOP`]({{< relref "/commands/blmpop" >}}) are similar to the following, more limited, commands:
+`LMPOP` and [`BLMPOP`](/content/commands/blmpop.md) are similar to the following, more limited, commands:
 
-- [`LPOP`]({{< relref "/commands/lpop" >}}) or [`RPOP`]({{< relref "/commands/rpop" >}}) which take only one key, and can return multiple elements.
-- [`BLPOP`]({{< relref "/commands/blpop" >}}) or [`BRPOP`]({{< relref "/commands/brpop" >}}) which take multiple keys, but return only one element from just one key.
+- [`LPOP`](/content/commands/lpop.md) or [`RPOP`](/content/commands/rpop.md) which take only one key, and can return multiple elements.
+- [`BLPOP`](/content/commands/blpop.md) or [`BRPOP`](/content/commands/brpop.md) which take multiple keys, but return only one element from just one key.
 
-See [`BLMPOP`]({{< relref "/commands/blmpop" >}}) for the blocking variant of this command.
+See [`BLMPOP`](/content/commands/blmpop.md) for the blocking variant of this command.
 
 Elements are popped from either the left or right of the first non-empty list based on the passed argument.
 The number of returned elements is limited to the lower between the non-empty list's length, and the count argument (which defaults to 1).
@@ -118,18 +117,49 @@ The number of elements to pop. Defaults to 1.
 ## Examples
 
 {{% redis-cli %}}
-LMPOP 2 non1 non2 LEFT COUNT 10
-LPUSH mylist "one" "two" "three" "four" "five"
-LMPOP 1 mylist LEFT
-LRANGE mylist 0 -1
-LMPOP 1 mylist RIGHT COUNT 10
-LPUSH mylist "one" "two" "three" "four" "five"
-LPUSH mylist2 "a" "b" "c" "d" "e"
-LMPOP 2 mylist mylist2 right count 3
-LRANGE mylist 0 -1
-LMPOP 2 mylist mylist2 right count 5
-LMPOP 2 mylist mylist2 right count 10
-EXISTS mylist mylist2
+redis> LMPOP 2 non1 non2 LEFT COUNT 10
+(nil)
+redis> LPUSH mylist "one" "two" "three" "four" "five"
+(integer) 5
+redis> LMPOP 1 mylist LEFT
+1) "mylist"
+2) 1) "five"
+redis> LRANGE mylist 0 -1
+1) "four"
+2) "three"
+3) "two"
+4) "one"
+redis> LMPOP 1 mylist RIGHT COUNT 10
+1) "mylist"
+2) 1) "one"
+   2) "two"
+   3) "three"
+   4) "four"
+redis> LPUSH mylist "one" "two" "three" "four" "five"
+(integer) 5
+redis> LPUSH mylist2 "a" "b" "c" "d" "e"
+(integer) 5
+redis> LMPOP 2 mylist mylist2 right count 3
+1) "mylist"
+2) 1) "one"
+   2) "two"
+   3) "three"
+redis> LRANGE mylist 0 -1
+1) "five"
+2) "four"
+redis> LMPOP 2 mylist mylist2 right count 5
+1) "mylist"
+2) 1) "four"
+   2) "five"
+redis> LMPOP 2 mylist mylist2 right count 10
+1) "mylist2"
+2) 1) "a"
+   2) "b"
+   3) "c"
+   4) "d"
+   5) "e"
+redis> EXISTS mylist mylist2
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

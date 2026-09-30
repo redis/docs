@@ -18,28 +18,28 @@ Configure security settings for your Redis Enterprise deployment on Kubernetes. 
 
 Manage cluster credentials and authentication settings:
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/8.0.18/security/manage-rec-credentials" >}}) - Configure and manage Redis Enterprise cluster credentials
-- [Configuration secrets]({{< relref "/operate/kubernetes/8.0.18/security/configuration-secrets" >}}) - Store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management
-- [LDAP authentication]({{< relref "/operate/kubernetes/8.0.18/security/ldap" >}}) - Integrate with LDAP for centralized authentication
-- [SSO authentication]({{< relref "/operate/kubernetes/8.0.18/security/sso" >}}) - Enable SAML-based single sign-on for Cluster Manager UI access
+- [Manage REC credentials](/content/operate/kubernetes/8.0.18/security/manage-rec-credentials.md) - Configure and manage Redis Enterprise cluster credentials
+- [Configuration secrets](/content/operate/kubernetes/8.0.18/security/configuration-secrets.md) - Store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management
+- [LDAP authentication](/content/operate/kubernetes/8.0.18/security/ldap.md) - Integrate with LDAP for centralized authentication
+- [SSO authentication](/content/operate/kubernetes/8.0.18/security/sso.md) - Enable SAML-based single sign-on for Cluster Manager UI access
 
 ## Certificates and encryption
 
 Configure TLS certificates and encryption for secure communications:
 
-- [Manage REC certificates]({{< relref "/operate/kubernetes/8.0.18/security/manage-rec-certificates" >}}) - Configure cluster certificates for TLS encryption
-- [cert-manager integration]({{< relref "/operate/kubernetes/8.0.18/security/cert-manager" >}}) - Automate TLS certificate management with cert-manager
-- [Add client certificates]({{< relref "/operate/kubernetes/8.0.18/security/add-client-certificates" >}}) - Set up client certificate authentication for databases
-- [Internode encryption]({{< relref "/operate/kubernetes/8.0.18/security/internode-encryption" >}}) - Enable encryption between cluster nodes and configure custom certificates
+- [Manage REC certificates](/content/operate/kubernetes/8.0.18/security/manage-rec-certificates.md) - Configure cluster certificates for TLS encryption
+- [cert-manager integration](/content/operate/kubernetes/8.0.18/security/cert-manager.md) - Automate TLS certificate management with cert-manager
+- [Add client certificates](/content/operate/kubernetes/8.0.18/security/add-client-certificates.md) - Set up client certificate authentication for databases
+- [Internode encryption](/content/operate/kubernetes/8.0.18/security/internode-encryption.md) - Enable encryption between cluster nodes and configure custom certificates
 
 ## Secret management
 
 Configure external secret management systems:
 
-- [HashiCorp Vault integration]({{< relref "/operate/kubernetes/8.0.18/security/vault" >}}) - Configure HashiCorp Vault as the centralized secret management system for Redis Enterprise for Kubernetes
+- [HashiCorp Vault integration](/content/operate/kubernetes/8.0.18/security/vault.md) - Configure HashiCorp Vault as the centralized secret management system for Redis Enterprise for Kubernetes
 
 ## Resource management
 
 Configure security-related resource settings:
 
-- [Allow resource adjustment]({{< relref "/operate/kubernetes/8.0.18/security/allow-resource-adjustment" >}}) - Enable automatic adjustment of system resources for security compliance
+- [Allow resource adjustment](/content/operate/kubernetes/8.0.18/security/allow-resource-adjustment.md) - Enable automatic adjustment of system resources for security compliance

@@ -20,7 +20,7 @@ The [Redis Cloud Vercel integration](https://vercel.com/marketplace/redis-cloud)
 1. Navigate to the **Storage** tab. Under **Marketplace Database Providers**, find **Redis** and select **Create**.
     {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="The Redis database provider in the Vercel Storage tab.">}}
 
-1. In the **Install integration** dialog under **Configuration and plan**, select your region and [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) settings.
+1. In the **Install integration** dialog under **Configuration and plan**, select your region and [high availability](/content/operate/rc/databases/configuration/high-availability.md) settings.
 
     {{<image filename="/images/rc/vercel-create-db-select-plan.png" alt="Vercel Region and high availability settings">}}
 
@@ -36,7 +36,7 @@ After creation, you will see your database details. After provisioning is comple
 
 {{<image filename="/images/rc/vercel-status-available.png" alt="Vercel database details">}}
 
-You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "operate/rc/databases/connect">}}).
+You can use the connection string shown under **Quickstart** to [connect to your database](/content/operate/rc/databases/connect/_index.md).
 
 ## Link database to your project
 
@@ -63,10 +63,10 @@ From the database detail page, select **Open in Redis**.
 
 Your Redis Cloud account is linked to your Vercel account. All your team's Redis databases will be listed under **Databases** in Redis Cloud.
 
-{{< warning >}}
-Anybody on your team that has a [Vercel access role](https://vercel.com/docs/rbac/access-roles) other than **Pro Viewer**, **Enterprise Viewer**, or **Billing**, can make changes to your database configuration on the Redis Cloud console as if they were an **Owner** on Redis Cloud. See [Team management roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) for more information.
-{{</ warning >}}
+> [!WARNING]
+> Anybody on your team that has a [Vercel access role](https://vercel.com/docs/rbac/access-roles) other than **Pro Viewer**, **Enterprise Viewer**, or **Billing**, can make changes to your database configuration on the Redis Cloud console as if they were an **Owner** on Redis Cloud. See [Team management roles](/content/operate/rc/security/access-control/access-management.md#team-management-roles) for more information.
 
 Select your new database to make configuration changes such as passwords or the eviction policy.
 
-{{<note>}} The [eviction policy]({{<relref "/operate/rc/databases/configuration/data-eviction-policies">}}) defaults to `no eviction` for new databases.  You can change this by [editing the database details]({{<relref "/operate/rc/databases/view-edit-database">}}).{{</note>}}
+> [!NOTE]
+>  The [eviction policy](/content/operate/rc/databases/configuration/data-eviction-policies.md) defaults to `no eviction` for new databases.  You can change this by [editing the database details](/content/operate/rc/databases/view-edit-database.md).

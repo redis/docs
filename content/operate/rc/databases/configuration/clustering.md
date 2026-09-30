@@ -6,7 +6,8 @@ categories:
 - operate
 - rc
 description: Redis Cloud uses clustering to manage very large databases (25 GB and
-  larger).  Here, you'll learn how to manage clustering and how to use hashing policies
+  larger) or high-throughput databases (25,000 ops/sec and higher).  Here, you'll
+  learn how to manage clustering and how to use hashing policies
   to control how data is managed.
 linkTitle: Clustering
 weight: $weight
@@ -21,7 +22,7 @@ For very large databases, Redis Cloud distributes database data to different clo
 
 - The operations performed against the database are CPU intensive enough to degrade performance.
 
-    Clustering distributes operational load, whether to instances on the same server or across multiple servers.
+    Multiple shards should be used when throughput grows to 25,000 ops/sec. Clustering distributes operational load, whether to instances on the same server or across multiple servers.
 
 This distribution is called _clustering_ because it manages the way data is distributed throughout the cluster of nodes that support the database.
 
@@ -76,7 +77,9 @@ are supported, with the following limitations:
     mapped to the same hash slot.
 1. **Variadic commands**: The use of (MGET, MSET, HMGET, HMSET, etc..)
     and pipelining are supported with Redis Cloud cluster
-    like if it were a non-cluster DB.
+    as if it were a non-cluster DB.
+
+    [Active-Active databases](/content/operate/rc/databases/active-active/_index.md) have stricter rules: multi-key write commands (DEL, MSET, UNLINK) can only run on keys in the same slot. Only MGET, EXISTS, and TOUCH are allowed across slots. See [Multi-key operations on Active-Active databases](/content/develop/using-commands/multi-key-operations.md#active-active-databases) for details.
 
 ## Hashing policies and hash tags {#manage-the-hashing-policy}
 
@@ -94,13 +97,13 @@ Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when
 
 ### Redis hashing policy
 
-The Redis hashing policy is identical to the [hashing policy used by Redis Open Source]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
+The Redis hashing policy is identical to the [hashing policy used by Redis Open Source](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.
 - You are migrating data from Redis Open Source or other Redis-managed platforms.
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 
-The Redis hashing policy allows for faster scaling where available.
+The Redis hashing policy allows for [Smooth Scaling](#smooth-scaling) where available.
 
 ### Standard hashing policy
 
@@ -118,19 +121,17 @@ In some cases, the Standard hashing policy behaves differently from the Redis ha
     - Standard hashing policy: substrings "foo}bar" and "foo}qux" will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
     - Redis hashing policy: the substring "foo" will be used for both keys, hashing them to the same slot.
 
-{{< note >}}
-To allow seamless transition between hashing policies, the following techniques are not recommended:
-- Using empty hashtags to hash different keys to the same hashslot
-- Using multiple curly brackets within a key’s name 
-{{< /note >}}
+> [!NOTE]
+> To allow seamless transition between hashing policies, the following techniques are not recommended:
+> - Using empty hashtags to hash different keys to the same hashslot
+> - Using multiple curly brackets within a key’s name 
 
 ### Custom hashing policy
 
-{{< note >}}
-The custom hashing policy is not available for accounts created after March 31, 2025.
-
-For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
-{{< /note >}}
+> [!NOTE]
+> The custom hashing policy is not available for accounts created after March 31, 2025.
+>
+> For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
 
 A Redis Cloud  cluster can be configured to use a custom hashing
 policy. A custom hashing policy is required when different keys need to
@@ -156,18 +157,17 @@ default RegEx rules that implement the standard hashing policy are:
 You can modify existing rules, add new ones, delete rules, or change
 their order to suit your application's requirements.
 
-{{< warning >}}
-If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
-(using [`FLUSHDB`]({{< relref "/commands/flushdb" >}})) before they're applied. 
-
-These changes include:
-
-1. Changing the hashing policy, either from standard to custom or vice versa.
-1. Changing the order of custom hashing policy rules.
-1. Adding rules before existing ones in the custom hashing policy.
-1. Deleting rules from the custom hashing policy.
-1. Disabling clustering for the database.
-{{< /warning >}}
+> [!WARNING]
+> If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
+> (using [`FLUSHDB`](/content/commands/flushdb.md)) before they're applied. 
+>
+> These changes include:
+>
+> 1. Changing the hashing policy, either from standard to custom or vice versa.
+> 1. Changing the order of custom hashing policy rules.
+> 1. Adding rules before existing ones in the custom hashing policy.
+> 1. Deleting rules from the custom hashing policy.
+> 1. Disabling clustering for the database.
 
 ### Custom hashing policy notes and limitations
 
@@ -192,6 +192,34 @@ The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enab
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
+The OSS Cluster API is supported when a database uses the [standard hashing policy](#standard-hashing-policy) or the [Redis hashing policy](#redis-hashing-policy).
 
-Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API architecture](/content/operate/rs/clusters/optimize/oss-cluster-api.md) to determine if you should enable this feature for your database.
+
+## Smooth scaling {#smooth-scaling}
+
+Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to traditional resharding, it is significantly faster and reduces latency spikes and disconnects during scaling.
+
+> [!NOTE]
+> Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
+
+### Prerequisites
+
+Smooth scaling is used automatically when a database meets all of the following conditions:
+
+| Requirement | Detail |
+|---|---|
+| Hashing policy | Must use the [Redis hashing policy](#redis-hashing-policy). Databases using the Standard or Custom hashing policy use traditional scaling instead. |
+| Database version | Redis 8.4 or later. |
+
+### Not supported
+
+Smooth scaling is not available for:
+
+- Active-Active databases
+- Flex (Auto Tiering) databases
+- Existing databases that use the Standard or Custom hashing policy
+
+### Backward compatibility
+
+You do not need to make any changes to your application code. The changes related to smooth scaling are implemented internally and do not affect RESP commands or how clients connect to and communicate with the database.

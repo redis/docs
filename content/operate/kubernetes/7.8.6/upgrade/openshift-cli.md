@@ -26,7 +26,7 @@ See the [troubleshooting](#troubleshooting) section for details on recovering a 
 
 #### Kubernetes version
 
-Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/7.8.6/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
+Check [Supported Kubernetes distributions](/content/operate/kubernetes/7.8.6/reference/supported_k8s_distributions.md) to make sure your Kubernetes distribution is supported. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
 
 #### Redis operator version
 
@@ -34,7 +34,7 @@ Your Redis Enterprise clusters must be running version 7.4.2-2 or later before u
 
 #### Redis database version
 
-Your Redis databases must be running version 7.2 or later before upgrading your cluster version. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api#redisversion" >}}).
+Your Redis databases must be running version 7.2 or later before upgrading your cluster version. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field](/content/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api.md#redisversion).
 
 #### RHEL9-compatible modules
 
@@ -52,7 +52,7 @@ To see which modules are currently in use, run:
 curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/bdbs | jq -r '.[].module_list | map(.module_name + "-" + .semantic_version) | .[]'
 ```
 
-See [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}) for details on how to upgrade modules with the `rladmin` tool.
+See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for details on how to upgrade modules with the `rladmin` tool.
 
 #### Valid license
 
@@ -78,10 +78,9 @@ If you need a different release, replace `VERSION` in the above with a specific 
 
 Apply the bundle to deploy the new operator binary. This will also apply any changes in the new release to custom resource definitions, roles, role binding, or operator service accounts.
 
-{{< note >}}
-If you are not pulling images from Docker Hub, update the operator image spec to point to your private repository.
-If you have made changes to the role, role binding, RBAC, or custom resource definition (CRD) in the previous version, merge them with the updated declarations in the new version files.
-{{< /note >}}
+> [!NOTE]
+> If you are not pulling images from Docker Hub, update the operator image spec to point to your private repository.
+> If you have made changes to the role, role binding, RBAC, or custom resource definition (CRD) in the previous version, merge them with the updated declarations in the new version files.
 
 If you are using OpenShift, run this instead:
 
@@ -104,9 +103,8 @@ deployment.apps/redis-enterprise-operator configured
 
 If you have the admission controller enabled, you need to manually reapply the `ValidatingWebhookConfiguration`.
 
-{{<note>}}
-{{< embed-md "k8s-642-redb-admission-webhook-name-change.md" >}}
-{{</note>}}
+> [!NOTE]
+> {{< embed-md "k8s-642-redb-admission-webhook-name-change.md" >}}
 
 {{< embed-md "k8s-admission-webhook-cert.md"  >}}
 
@@ -125,13 +123,12 @@ NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
 redis-enterprise-operator   1/1     1            1           0m36s
 ```
 
-{{< warning >}}
- We recommend upgrading the REC as soon as possible after updating the operator. After the operator upgrade completes, the operator suspends the management of the REC and its associated REDBs, until the REC upgrade completes.
- {{< /warning >}}
+> [!WARNING]
+>  We recommend upgrading the REC as soon as possible after updating the operator. After the operator upgrade completes, the operator suspends the management of the REC and its associated REDBs, until the REC upgrade completes.
 
 ### Reapply the SCC
 
-If you are using OpenShift, you will also need to manually reapply the [security context constraints](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`]({{< relref "/operate/kubernetes/7.8.6/deployment/openshift/openshift-cli#deploy-the-operator" >}})) and bind it to your service account.
+If you are using OpenShift, you will also need to manually reapply the [security context constraints](https://docs.openshift.com/container-platform/4.8/authentication/managing-security-context-constraints.html) file ([`scc.yaml`](/content/operate/kubernetes/7.8.6/deployment/openshift/openshift-cli.md#deploy-the-operator)) and bind it to your service account.
 
 ```sh
 oc apply -f openshift/scc.yaml
@@ -146,15 +143,14 @@ If you are upgrading from operator version 6.4.2-6 or before, see the ["after up
 
 ## Upgrade the Redis Enterprise Cluster 
 
-{{<warning>}}
-Verify your license is valid before upgrading. Invalid licenses will cause the upgrade to fail.
-
-Use `oc get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
-{{</warning>}}
+> [!WARNING]
+> Verify your license is valid before upgrading. Invalid licenses will cause the upgrade to fail.
+>
+> Use `oc get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
 
 The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
-Before beginning the upgrade of the Redis Enterprise cluster, check the K8s operator [release notes]({{<relref "/operate/kubernetes/release-notes">}}) to find the Redis Enterprise image tag.
+Before beginning the upgrade of the Redis Enterprise cluster, check the K8s operator [release notes](/content/operate/kubernetes/release-notes/_index.md) to find the Redis Enterprise image tag.
 
 After the operator upgrade is complete, you can upgrade Redis Enterprise cluster (REC).
 
@@ -180,7 +176,7 @@ After the operator upgrade is complete, you can upgrade Redis Enterprise cluster
 
 ### Reapply roles and role bindings
 
-If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings]({{< relref "/operate/kubernetes/7.8.6/re-clusters/multi-namespace#create-role-and-role-binding-for-managed-namespaces" >}}) for each managed namespace. See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/7.8.6/re-clusters/multi-namespace" >}}) for more details.
+If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings](/content/operate/kubernetes/7.8.6/re-clusters/multi-namespace.md#create-role-and-role-binding-for-managed-namespaces) for each managed namespace. See [Manage databases in multiple namespaces](/content/operate/kubernetes/7.8.6/re-clusters/multi-namespace.md) for more details.
 
 ### Monitor the upgrade
 
@@ -206,7 +202,7 @@ oc rollout status sts <REC_name>
 
 After the cluster is upgraded, you can upgrade your databases. Specify your new database version in the `spec.redisVersion` field for your REDB and REAADB custom resources. Supported database versions include `"7.2"` and `"7.4"` (note this value is a string).
 
-Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
+Note that if your cluster [`redisUpgradePolicy`](/content/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api.md#redisupgradepolicy) or your database [`redisVersion`](/content/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api.md#redisversion) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy](/content/operate/rs/installing-upgrading/upgrading/_index.md#redis-upgrade-policy) for more details.
 
 ## Troubleshooting
 

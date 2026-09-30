@@ -62,19 +62,25 @@ The name of the key that holds the array.
 
 <details open><summary><code>index</code></summary>
 
-The zero-based integer index to set as the new insert cursor position for subsequent [`ARINSERT`]({{< relref "/commands/arinsert" >}}) calls.
+The zero-based integer index to set as the new insert cursor position for subsequent [`ARINSERT`](/content/commands/arinsert.md) calls.
 
 </details>
 
 ## Examples
 
 {{% redis-cli %}}
-ARINSERT myarray "a"
-ARINSERT myarray "b"
-ARNEXT myarray
-ARSEEK myarray 10
-ARINSERT myarray "c"
-ARNEXT myarray
+redis> ARINSERT myarray "a"
+(integer) 0
+redis> ARINSERT myarray "b"
+(integer) 1
+redis> ARNEXT myarray
+(integer) 2
+redis> ARSEEK myarray 10
+(integer) 1
+redis> ARINSERT myarray "c"
+(integer) 10
+redis> ARNEXT myarray
+(integer) 11
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

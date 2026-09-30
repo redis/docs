@@ -57,7 +57,7 @@ In a cluster, you must run `CONFIG SET` and `CONFIG REWRITE` on each node separa
 In Redis 8.0, new names for the time series configuration parameters were introduced to align the naming with the Redis configuration parameters.
 You must use the new names when using the `CONFIG` command.
 
-See also [Redis configuration]({{< relref "/operate/oss_and_stack/management/config" >}}).
+See also [Redis configuration](/content/operate/oss_and_stack/management/config.md).
 
 ## Time series configuration parameters
 
@@ -88,7 +88,7 @@ Valid range: `[48 .. 1048576]`; must be a multiple of 8
 
 Because the chunk size can be provided at different levels, the actual precedence of the chunk size is:
 
-1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `CHUNK_SIZE` optional argument.
+1. Key-level policy, as set with [`TS.CREATE`](/content/commands/ts.create.md)'s and [`TS.ALTER`](/content/commands/ts.alter.md)'s `CHUNK_SIZE` optional argument.
 1. The `ts-chunk-size-bytes` configuration parameter.
 1. The hard-coded default: `4096`
 
@@ -110,11 +110,11 @@ redis> CONFIG SET ts-chunk-size-bytes 1024
 
 ### COMPACTION_POLICY / ts-compaction-policy
 
-Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "/commands/ts.incrby/" >}}), and  [`TS.DECRBY`]({{< relref "/commands/ts.decrby/" >}}).
+Default compaction rules for newly created keys with [`TS.ADD`](/content/commands/ts.add.md), [`TS.INCRBY`](/content/commands/ts.incrby.md), and  [`TS.DECRBY`](/content/commands/ts.decrby.md).
 
 Type: string
 
-Note that this configuration parameter does not affect keys you create with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand why, consider the following scenario: Suppose you define a default compaction policy but then want to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})), which requires you to first create an empty destination key (using `TS.CREATE`). This approach creates a problem: the default compaction policy would cause Redis to automatically create undesired compactions for the destination key.
+Note that this configuration parameter does not affect keys you create with [`TS.CREATE`](/content/commands/ts.create.md). To understand why, consider the following scenario: Suppose you define a default compaction policy but then want to manually create an additional compaction rule (using [`TS.CREATERULE`](/content/commands/ts.createrule.md)), which requires you to first create an empty destination key (using `TS.CREATE`). This approach creates a problem: the default compaction policy would cause Redis to automatically create undesired compactions for the destination key.
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
@@ -166,9 +166,8 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
 
   Ensure that there is a bucket that starts at exactly _alignTimestamp_ after the Epoch and align all other buckets accordingly. Default value: 0 (aligned with the Epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
 
-{{% warning %}}
-In a clustered environment, if you set this configuration parameter, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
-{{% /warning %}}
+> [!WARNING]
+> In a clustered environment, if you set this configuration parameter, you must use [hash tags](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
 
 When a compaction policy is defined, compaction rules are created automatically for newly created time series, and the compaction key name would be:
   
@@ -208,7 +207,7 @@ redis> CONFIG SET ts-compaction-policy max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:
 
 ### DUPLICATE_POLICY / ts-duplicate-policy
 
-The default policy for handling insertion ([`TS.ADD`]({{< relref "/commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "/commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
+The default policy for handling insertion ([`TS.ADD`](/content/commands/ts.add.md) and [`TS.MADD`](/content/commands/ts.madd.md)) of multiple samples with identical timestamps, with one of the following values:
 
   | policy     | description                                                      |
   | ---------- | ---------------------------------------------------------------- |
@@ -227,8 +226,8 @@ Type: string
 
 Because the duplication policy can be provided at different levels, the actual precedence of the duplication policy is:
 
-1. [`TS.ADD`]({{< relref "/commands/ts.add/" >}})'s `ON_DUPLICATE_POLICY` optional argument.
-1. Key-level policy, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument.
+1. [`TS.ADD`](/content/commands/ts.add.md)'s `ON_DUPLICATE_POLICY` optional argument.
+1. Key-level policy, as set with [`TS.CREATE`](/content/commands/ts.create.md)'s and [`TS.ALTER`](/content/commands/ts.alter.md)'s `DUPLICATE_POLICY` optional argument.
 1. The `ts-duplicate-policy` configuration parameter.
 1. The hard-coded default: `BLOCK`
 
@@ -236,7 +235,7 @@ Because the duplication policy can be provided at different levels, the actual p
 
 The default retention period, in milliseconds, for newly created keys.
 
-The retention period is the maximum age of samples compared to the highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls.
+The retention period is the maximum age of samples compared to the highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`](/content/commands/ts.add.md), [`TS.MADD`](/content/commands/ts.madd.md), [`TS.INCRBY`](/content/commands/ts.incrby.md), and [`TS.DECRBY`](/content/commands/ts.decrby.md) calls.
 
 Type: integer
 
@@ -250,7 +249,7 @@ When both `COMPACTION_POLICY` / `ts-compaction-policy` and `RETENTION_POLICY` / 
 
 Because the retention can be provided at different levels, the actual precedence of the retention is:
 
-1. Key-level retention, as set with [`TS.CREATE`]({{< relref "/commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "/commands/ts.alter/" >}})'s `RETENTION` optional argument.
+1. Key-level retention, as set with [`TS.CREATE`](/content/commands/ts.create.md)'s and [`TS.ALTER`](/content/commands/ts.alter.md)'s `RETENTION` optional argument.
 1. The `ts-retention-policy` configuration parameter.
 1. No retention.
 
@@ -346,7 +345,7 @@ redis> CONFIG SET ts-ignore-max-time-diff 10 ts-ignore-max-val-diff 0.1
 
 ### NUM_THREADS / ts-num-threads
 
-The maximum number of per-shard threads for cross-key queries when using cluster mode ([`TS.MRANGE`]({{< relref "/commands/ts.mrange/" >}}), [`TS.MREVRANGE`]({{< relref "/commands/ts.mrevrange/" >}}), [`TS.MGET`]({{< relref "/commands/ts.mget/" >}}), and [`TS.QUERYINDEX`]({{< relref "/commands/ts.queryindex/" >}})). The value must be equal to or greater than `1`. Note that increasing this value may either increase or decrease the performance!
+The maximum number of per-shard threads for cross-key queries when using cluster mode ([`TS.MRANGE`](/content/commands/ts.mrange.md), [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md), [`TS.MGET`](/content/commands/ts.mget.md), and [`TS.QUERYINDEX`](/content/commands/ts.queryindex.md)). The value must be equal to or greater than `1`. Note that increasing this value may either increase or decrease the performance!
 
 Type: integer
 

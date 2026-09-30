@@ -33,7 +33,7 @@ title: CF.SCANDUMP
 ---
 Begins an incremental save of the cuckoo filter.
 
-This command is useful for large cuckoo filters that cannot fit into the [`DUMP`]({{< relref "/commands/dump" >}}) and [`RESTORE`]({{< relref "/commands/restore" >}}) model.
+This command is useful for large cuckoo filters that cannot fit into the [`DUMP`](/content/commands/dump.md) and [`RESTORE`](/content/commands/restore.md) model.
 
 The first time this command is called, the value of `iter` should be 0. 
 
@@ -53,29 +53,29 @@ Iterator value; either 0 or the iterator from a previous invocation of this comm
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> CF.RESERVE cf 8
 OK
 redis> CF.ADD cf item1
 (integer) 1
 redis> CF.SCANDUMP cf 0
 1) (integer) 1
-2) "\x01\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14\x00\x01\x008\x9a\xe0\xd8\xc3\x7f\x00\x00"
+2) "\x01\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14\x00\x01\x00"
 redis> CF.SCANDUMP cf 1
 1) (integer) 9
 2) "\x00\x00\x00\x00\a\x00\x00\x00"
 redis> CF.SCANDUMP cf 9
 1) (integer) 0
-2) (nil)
-redis> DEL bf
+2) (nil) 
+redis> DEL cf
 (integer) 1
-redis> CF.LOADCHUNK cf 1 "\x01\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14\x00\x01\x008\x9a\xe0\xd8\xc3\x7f\x00\x00"
+redis> CF.LOADCHUNK cf 1 "\x01\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14\x00\x01\x00"
 OK
 redis> CF.LOADCHUNK cf 9 "\x00\x00\x00\x00\a\x00\x00\x00"
 OK
 redis> CF.EXISTS cf item1
 (integer) 1
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Python code:
 {{< highlight bash >}}
@@ -107,21 +107,21 @@ for chunk in chunks:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (_Iterator_) and a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) (_Data_).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `CF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-The iterator-data pair should also be passed to [`CF.LOADCHUNK`]({{< relref "commands/cf.loadchunk/" >}}) when restoring the filter.
+The iterator-data pair should also be passed to [`CF.LOADCHUNK`](/content/commands/cf.loadchunk.md) when restoring the filter.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (_Iterator_) and a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) (_Data_).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `CF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-The iterator-data pair should also be passed to [`CF.LOADCHUNK`]({{< relref "commands/cf.loadchunk/" >}}) when restoring the filter.
+The iterator-data pair should also be passed to [`CF.LOADCHUNK`](/content/commands/cf.loadchunk.md) when restoring the filter.
 
 {{< /multitabs >}}

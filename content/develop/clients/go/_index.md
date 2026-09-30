@@ -23,7 +23,7 @@ weight: 7
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.
 The sections below explain how to install `go-redis` and connect your application to a Redis database.
 
-`go-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`go-redis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -67,12 +67,12 @@ client := redis.NewClient(opt)
 ```
 
 After connecting, you can test the connection by  storing and retrieving
-a simple [string]({{< relref "/develop/data-types/strings" >}}):
+a simple [string](/content/develop/data-types/strings/_index.md):
 
 {{< clients-example set="landing" step="set_get_string" lang_filter="Go" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
+You can also easily store and retrieve a [hash](/content/develop/data-types/hashes.md):
 
 {{< clients-example set="landing" step="set_get_hash" lang_filter="Go" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" >}}
 {{< /clients-example >}}

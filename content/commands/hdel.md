@@ -78,21 +78,13 @@ One or more fields to delete from the hash.
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hdel" description="Foundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)" difficulty="beginner" >}}
-HSET myhash field1 "foo"
+> HSET myhash field1 "foo"
 (integer) 1
-HDEL myhash field1
+> HDEL myhash field1
 (integer) 1
-HDEL myhash field2
+> HDEL myhash field2
 (integer) 0
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "foo"
-HDEL myhash field1
-HDEL myhash field2
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

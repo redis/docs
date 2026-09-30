@@ -83,11 +83,18 @@ When present, returns elements in reverse chronological order (most recent first
 ## Examples
 
 {{% redis-cli %}}
-ARINSERT log "first"
-ARINSERT log "second"
-ARINSERT log "third"
-ARLASTITEMS log 2
-ARLASTITEMS log 2 REV
+redis> ARINSERT log "first"
+(integer) 0
+redis> ARINSERT log "second"
+(integer) 1
+redis> ARINSERT log "third"
+(integer) 2
+redis> ARLASTITEMS log 2
+1) "second"
+2) "third"
+redis> ARLASTITEMS log 2 REV
+1) "third"
+2) "second"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

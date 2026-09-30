@@ -19,17 +19,16 @@ weight: 9
 
 A combined query is a combination of several query types, such as:
 
-* [Exact match]({{< relref "/develop/ai/search-and-query/query/exact-match" >}})
-* [Range]({{< relref "/develop/ai/search-and-query/query/range" >}})
-* [Full-text]({{< relref "/develop/ai/search-and-query/query/full-text" >}})
-* [Geospatial]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
-* [Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+* [Exact match](/content/develop/ai/search-and-query/query/exact-match.md)
+* [Range](/content/develop/ai/search-and-query/query/range.md)
+* [Full-text](/content/develop/ai/search-and-query/query/full-text.md)
+* [Geospatial](/content/develop/ai/search-and-query/query/geo-spatial.md)
+* [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 
 You can use logical query operators to combine query expressions for numeric, tag, and text fields. For vector fields, you can combine a KNN query with a pre-filter.
 
-{{% alert title="Note" color="warning" %}}
-The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article]({{< relref "/develop/ai/search-and-query/administration/configuration#search-default-dialect" >}}) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}). 
-{{% /alert  %}}
+> [!NOTE]
+> The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article](/content/develop/ai/search-and-query/administration/configuration.md#search-default-dialect) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md). 
 
 The examples in this article use the following schema:
 
@@ -74,9 +73,9 @@ You can use the binary operator `|` (vertical bar) to perform a union.
 FT.SEARCH index "(expr1) | (expr2)"
 ```
 
-{{% alert title="Note" color="warning" %}}
-The logical `AND` takes precedence over `OR` when using dialect version two. The expression `expr1 expr2 | expr3 expr4` means `(expr1 expr2) | (expr3 expr4)`. Version one of the query dialect behaves differently. Using parentheses in query strings is advised to ensure the order is clear.
- {{% /alert  %}}
+> [!NOTE]
+> The logical `AND` takes precedence over `OR` when using dialect version two. The expression `expr1 expr2 | expr3 expr4` means `(expr1 expr2) | (expr3 expr4)`. Version one of the query dialect behaves differently. Using parentheses in query strings is advised to ensure the order is clear.
+>  
 
 
 If you want to perform the union based on multiple values within a single tag or text field, then you should use the following simplified notion:
@@ -123,13 +122,13 @@ FT.SEARCH idx:bicycle "@price:[500 1000] -@condition:{new}"
 
 ## Numeric filter
 
-The [FT.SEARCH]({{< relref "commands/ft.search" >}}) command allows you to combine any query expression with a numeric filter.
+The [FT.SEARCH](/content/commands/ft.search.md) command allows you to combine any query expression with a numeric filter.
 
 ```
 FT.SEARCH index "expr" FILTER numeric_field start end
 ```
 
-Please see the [range query article]({{< relref "/develop/ai/search-and-query/query/range" >}}) to learn more about numeric range queries and such filters.
+Please see the [range query article](/content/develop/ai/search-and-query/query/range.md) to learn more about numeric range queries and such filters.
 
 
 ## Pre-filter for a KNN  vector query
@@ -146,4 +145,4 @@ Here is an example:
 FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." DIALECT 2
 {{< /clients-example >}}
 
-The [vector search article]({{< relref "/develop/ai/search-and-query/query/vector-search" >}}) provides further details about vector queries in general.
+The [vector search article](/content/develop/ai/search-and-query/query/vector-search.md) provides further details about vector queries in general.

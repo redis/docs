@@ -4,6 +4,8 @@ linkTitle: v2.6.0 (July 2022)
 date: 2022-07-25 00:00:00 +0000
 description: RedisInsight v2.6.0
 weight: 8
+aliases:
+- /develop/connect/insight/release-notes/v.2.6.0/
 ---
 
 ## 2.6.0 (July 2022)

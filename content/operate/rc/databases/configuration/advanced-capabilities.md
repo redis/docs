@@ -18,7 +18,7 @@ Available options depend on your database plan and **Type**.
 
 ## Redis Cloud Essentials {#essentials}
 
-All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities.
+All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack](/content/operate/oss_and_stack/_index.md), which enables the most frequently used capabilities.
 
 {{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis." width="75%">}}
 
@@ -28,11 +28,11 @@ When the database **Type** is set to _Redis_, the Advanced capabilities section 
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default.
 
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/_index.md). For more information about Redis Cloud version management, see [Redis version management](/content/operate/rc/databases/version-management/_index.md).
 
 ## Redis Cloud Pro {#pro}
 
-By default, Redis Cloud Pro databases load all supported advanced capabilities. For versions prior to Redis 8.0, you can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
+By default, Redis Cloud Pro databases load all supported advanced capabilities. For versions prior to Redis 8.0, you can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings](/content/operate/rc/databases/create-database/create-pro-database-new.md) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
 
 {{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilities included in your database." width="75%">}}
 
@@ -45,17 +45,17 @@ You can select more than one advanced capability for a database, though there ar
     - Time series
     - Probabilistic
 
-- [Active-Active databases]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) only support JSON and Search and query.
+- [Active-Active databases](/content/operate/rc/databases/active-active/create-active-active-database.md) only support JSON and Search and query.
 
 To remove a selected capability, clear its checkbox.
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default. 
 
-To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
+To learn more, see [Redis Stack](/content/develop/get-started/_index.md) and [Redis Stack and Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/_index.md). For more information about Redis Cloud version management, see [Redis version management](/content/operate/rc/databases/version-management/_index.md).
 
 ### Search and query sizing
 
-When you create a Pro database with [Search and Query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), you must consider the sizing and throughput requirements for search and query when you define the dataset size and throughput for your database. 
+When you create a Pro database with [Search and Query](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md), you must consider the sizing and throughput requirements for search and query when you define the dataset size and throughput for your database. 
 
 Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements.
 
@@ -69,8 +69,8 @@ The query performance factor adds extra compute power specifically for search an
 
 {{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="50%">}}
 
-We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
+We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database](/content/operate/rc/databases/create-database/_index.md) with the desired performance factor and [migrate data](/content/operate/rc/databases/migrate-databases.md) from the test database to your new database.
 
-For more info on how to use scalable search, see [Best practices for scalable Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}).
+For more info on how to use scalable search, see [Best practices for scalable Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices.md).
 
 The query performance factor is available for Redis Cloud Pro databases on Redis 7.2 and later.

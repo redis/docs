@@ -38,7 +38,7 @@ This screen contains up to three sections, including:
 
     If you're using single sign-on authentication, you cannot change the password using the *User Profile* screen.  Such accounts are managed by an identity provider (IdP).  For help changing (or recovering) the passwords for these accounts, consult your identity provider docs.
 
-- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for the current user account.  
+- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings](/content/operate/rc/security/access-control/multi-factor-authentication.md) for the current user account.  
 
     When you activate a mobile device, you can use SMS MFA as a second authentication factor.
 
@@ -56,9 +56,8 @@ When your user account is authorized to manage multiple Redis Cloud accounts, ea
 
 To switch accounts, select the desired account from the list shown in the Profile control.
 
-{{< note >}}
-To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) again with a plus address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
-{{< /note >}}
+> [!NOTE]
+> To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud](/content/operate/rc/rc-quickstart.md) again with a plus address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
 
 ## Save or discard changes
 

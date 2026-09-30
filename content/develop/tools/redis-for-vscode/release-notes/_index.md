@@ -14,6 +14,8 @@ linkTitle: Release notes
 title: Redis for VS Code release notes
 weight: 7
 hideListLinks: true
+aliases:
+- /develop/connect/redis-for-vscode/release-notes/
 ---
 
 Here are the most recent changes for Redis for VS Code:

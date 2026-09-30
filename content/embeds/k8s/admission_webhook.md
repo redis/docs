@@ -30,6 +30,10 @@ webhooks:
           - redisenterprisedatabases
           - redisenterpriseactiveactivedatabases
           - redisenterpriseremoteclusters
+          - redisenterpriseacls
+          - redisenterpriseclusterroles
+          - redisenterpriseusers
+          - redisenterpriseroles
     sideEffects: None
     timeoutSeconds: 30
 ```

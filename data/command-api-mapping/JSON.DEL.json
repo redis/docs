@@ -324,6 +324,27 @@
           "description": "The number of paths deleted."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_del(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root \"$\")"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of values deleted"
+        }
+      }
     ]
   }
 }

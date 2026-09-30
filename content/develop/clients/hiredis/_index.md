@@ -25,7 +25,7 @@ client for Redis.
 The sections below explain how to install `hiredis` and connect your application
 to a Redis database.
 
-`hiredis` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`hiredis` requires a running Redis or [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) server. See [Getting started](/content/operate/oss_and_stack/install/_index.md) for Redis installation instructions.
 
 ## Build and install
 
@@ -38,8 +38,8 @@ project folder or run `sudo make install` to install it to `/usr/local/lib`.
 ## Connect and test
 
 The code in the example below connects to the server, stores and retrieves
-a string key using [`SET`]({{< relref "/commands/set" >}}) and
-[`GET`]({{< relref "/commands/get" >}}), and then finally closes the
+a string key using [`SET`](/content/commands/set.md) and
+[`GET`](/content/commands/get.md), and then finally closes the
 connection. An explanation of the code follows the example.
 
 {{< jupyter-example set="landing" step="connect" lang_filter="C" description="Foundational: Connect to a Redis server, set and retrieve string values using SET and GET, then close the connection" difficulty="beginner" />}}
@@ -65,7 +65,7 @@ Reply: bar
 
 The code first uses `redisConnect()` to open the connection for
 all subsequent commands to use. See
-[Connect]({{< relref "/develop/clients/hiredis/connect" >}}) for
+[Connect](/content/develop/clients/hiredis/connect.md) for
 more information about connecting to Redis.
 
 The `redisCommand()` function
@@ -74,8 +74,8 @@ issues commands to the server, each of which returns a
 access using the `str` field of the reply. The `redisCommand()`
 call allocates memory for the reply, so you should free this
 with `freeReplyObject()` when you have finished using it.
-See [Issue commands]({{< relref "/develop/clients/hiredis/issue-commands" >}})
-and [Handle replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+See [Issue commands](/content/develop/clients/hiredis/issue-commands.md)
+and [Handle replies](/content/develop/clients/hiredis/handle-replies.md)
 for more information.
 
 Finally, you should close the connection to Redis with a

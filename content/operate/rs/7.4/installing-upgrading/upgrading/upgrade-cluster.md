@@ -17,23 +17,23 @@ url: '/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster/'
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/7.4/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Enterprise Software product lifecycle](/content/operate/rs/7.4/installing-upgrading/product-lifecycle.md) for more information about release numbers and the end-of-life schedule.
 
 ## Upgrade prerequisites
 
 Before upgrading a cluster:
 
-- Verify access to [rlcheck]({{< relref "/operate/rs/7.4/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands.
+- Verify access to [rlcheck](/content/operate/rs/7.4/references/cli-utilities/rlcheck/_index.md) and [rladmin](/content/operate/rs/7.4/references/cli-utilities/rladmin/_index.md#use-the-rladmin-shell) commands.
 
-- Run [rlcheck]({{< relref "/operate/rs/7.4/references/cli-utilities/rlcheck/" >}}) on each node and verify there are no issues:
+- Run [rlcheck](/content/operate/rs/7.4/references/cli-utilities/rlcheck/_index.md) on each node and verify there are no issues:
 
     ```sh
     rlcheck
     ```
 
-- Verify [maintenance mode]({{< relref "/operate/rs/7.4/clusters/maintenance-mode" >}}) is not enabled:
+- Verify [maintenance mode](/content/operate/rs/7.4/clusters/maintenance-mode.md) is not enabled:
 
-    1. On a node in the cluster, run [`rladmin status`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status" >}}):
+    1. On a node in the cluster, run [`rladmin status`](/content/operate/rs/7.4/references/cli-utilities/rladmin/status.md):
 
         ```sh
         rladmin status
@@ -43,7 +43,7 @@ Before upgrading a cluster:
 
         {{< image filename="/images/rs/maintenance_mode.png" >}}
 
-    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/node/maintenance-mode#node-maintenance_mode-off">}}) command. See [Deactivate maintenance mode]({{<relref "/operate/rs/7.4/clusters/maintenance-mode#deactivate-maintenance-mode">}}) for additional details.
+    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`](/content/operate/rs/7.4/references/cli-utilities/rladmin/node/maintenance-mode.md#node-maintenance_mode-off) command. See [Deactivate maintenance mode](/content/operate/rs/7.4/clusters/maintenance-mode.md#deactivate-maintenance-mode) for additional details.
 
         ```sh
         rladmin node <node_id> maintenance_mode off
@@ -57,9 +57,9 @@ Before upgrading a cluster:
 
     - **Nodes** screen in the new Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later)
 
-    - [`rladmin status nodes`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-nodes" >}}) command
+    - [`rladmin status nodes`](/content/operate/rs/7.4/references/cli-utilities/rladmin/status.md#status-nodes) command
     
-    - [`GET /nodes/status`]({{< relref "/operate/rs/7.4/references/rest-api/requests/nodes/status#get-all-nodes-status" >}}) REST API request
+    - [`GET /nodes/status`](/content/operate/rs/7.4/references/rest-api/requests/nodes/status.md#get-all-nodes-status) REST API request
 
 ## Upgrade cluster
 
@@ -80,11 +80,11 @@ Starting with the primary (master) node, follow these steps for every node in th
     tar vxf <tarfile name>
     ```
 
-    {{<note>}}
-You cannot change the installation path or the user during the upgrade.
-    {{</note>}}
+    > [!NOTE]
+    > You cannot change the installation path or the user during the upgrade.
+    >
 
-1.  Run the install command. See [installation script options]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command:
+1.  Run the install command. See [installation script options](/content/operate/rs/7.4/installing-upgrading/install/install-script.md) for a list of command-line options you can add to the following command:
 
     ``` shell
     sudo ./install.sh

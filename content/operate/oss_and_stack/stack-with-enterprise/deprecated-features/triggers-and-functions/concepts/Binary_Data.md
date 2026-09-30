@@ -21,12 +21,12 @@ By default, triggers and functions will decode all data as a string and will rai
 
 1. Binary function arguments
 2. Binary command results
-3. Binary key names on [keyspace triggers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Keyspace_Triggers" >}})
-4. Binary data on [stream triggers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Stream_Triggers" >}})
+3. Binary key names on [keyspace triggers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/KeySpace_Triggers.md)
+4. Binary data on [stream triggers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Stream_Triggers.md)
 
 ### Binary function arguments
 
-It is possible to instruct triggers and functions not to decode function arguments as `JS` `Strings` using the [redis.functionFlags.RAW_ARGUMENTS]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Function_Flags" >}}) function flag. In this case, the function arguments will be given as `JS` `ArrayBuffer`. Example:
+It is possible to instruct triggers and functions not to decode function arguments as `JS` `Strings` using the [redis.functionFlags.RAW_ARGUMENTS](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Function_Flags.md) function flag. In this case, the function arguments will be given as `JS` `ArrayBuffer`. Example:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -80,7 +80,7 @@ Notice that a `JS` `ArrayBuffer` can be returned by a function, it will be retur
 
 ### Binary keys names on database triggers
 
-On [keyspace triggers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Keyspace_Triggers" >}}), if the key name that triggered the event is binary, the `data.key` field will be NULL. The `data.key_raw` field is always provided as a `JS` `ArrayBuffer` and can be used as in the following example:
+On [keyspace triggers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/KeySpace_Triggers.md), if the key name that triggered the event is binary, the `data.key` field will be NULL. The `data.key_raw` field is always provided as a `JS` `ArrayBuffer` and can be used as in the following example:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -116,11 +116,11 @@ OK
 3) "\xaa"
 ```
 
-For more information see [keyspace triggers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Keyspace_Triggers" >}}).
+For more information see [keyspace triggers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/KeySpace_Triggers.md).
 
 ### Binary data on stream consumers
 
-On [stream triggers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Stream_Triggers" >}}), if the key name is binary. The `data.stream_name` field will be NULL. The `data.stream_name_raw` field is always provided as a `JS` `ArrayBuffer` and can be used in this case. In addition, if the content of the steam is binary, it will also appear as `null` under `data.record`. In this case, it is possible to use `data.record` (which always exists) and contains the data as a `JS` `ArrayBuffer`. Example:
+On [stream triggers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/triggers/Stream_Triggers.md), if the key name is binary. The `data.stream_name` field will be NULL. The `data.stream_name_raw` field is always provided as a `JS` `ArrayBuffer` and can be used in this case. In addition, if the content of the steam is binary, it will also appear as `null` under `data.record`. In this case, it is possible to use `data.record` (which always exists) and contains the data as a `JS` `ArrayBuffer`. Example:
 
 ```js
 #!js api_version=1.0 name=lib

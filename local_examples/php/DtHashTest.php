@@ -57,6 +57,15 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START hmget
+        // Recreate the bike:1 hash so this example runs on its own.
+        $r->del('bike:1');
+        $r->hmset('bike:1', [
+            'model' => 'Deimos',
+            'brand' => 'Ergonom',
+            'type' => 'Enduro bikes',
+            'price' => 4972,
+        ]);
+
         $res5 = $r->hmget('bike:1', ['model', 'price']);
         echo json_encode($res5) . PHP_EOL;
         // >>> ["Deimos","4972"]
@@ -66,6 +75,15 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START hincrby
+        // Recreate the bike:1 hash so this example runs on its own.
+        $r->del('bike:1');
+        $r->hmset('bike:1', [
+            'model' => 'Deimos',
+            'brand' => 'Ergonom',
+            'type' => 'Enduro bikes',
+            'price' => 4972,
+        ]);
+
         $res6 = $r->hincrby('bike:1', 'price', 100);
         echo $res6 . PHP_EOL;
         // >>> 5072
@@ -116,6 +134,72 @@ extends PredisTestCase
         $this->assertEquals(1, $res12);
         $this->assertEquals(3, $res13);
         $this->assertEquals([1, 1], $res14);
+        // REMOVE_END
+
+        // STEP_START hexpire
+        $r->del('sensor:sensor1');
+        $r->hmset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set a TTL of 60 seconds on two fields of the hash.
+        $res15 = $r->hexpire('sensor:sensor1', 60, ['air_quality', 'battery_level']);
+        echo json_encode($res15) . PHP_EOL;
+        // >>> [1,1]
+
+        // Retrieve the remaining TTL for those fields.
+        $res16 = $r->httl('sensor:sensor1', ['air_quality', 'battery_level']);
+        echo count($res16) . PHP_EOL;
+        // >>> 2
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(2, count($res15));
+        $this->assertEquals(2, count($res16));
+        // REMOVE_END
+
+        // STEP_START hpexpire
+        $r->del('sensor:sensor1');
+        $r->hmset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set the TTL of the 'air_quality' field in milliseconds.
+        $res17 = $r->hpexpire('sensor:sensor1', 60000, ['air_quality']);
+        echo json_encode($res17) . PHP_EOL;
+        // >>> [1]
+
+        // Retrieve the remaining TTL in milliseconds.
+        $res18 = $r->hpttl('sensor:sensor1', ['air_quality']);
+        echo count($res18) . PHP_EOL;
+        // >>> 1
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(1, count($res17));
+        $this->assertEquals(1, count($res18));
+        // REMOVE_END
+
+        // STEP_START hexpireat
+        $r->del('sensor:sensor1');
+        $r->hmset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set the expiration of 'air_quality' to a Unix time 24 hours from now.
+        $res19 = $r->hexpireat('sensor:sensor1', time() + 24 * 60 * 60, ['air_quality']);
+        echo json_encode($res19) . PHP_EOL;
+        // >>> [1]
+
+        // Retrieve the expiration time as a Unix timestamp in seconds.
+        $res20 = $r->hexpiretime('sensor:sensor1', ['air_quality']);
+        echo count($res20) . PHP_EOL;
+        // >>> 1
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(1, count($res19));
+        $this->assertEquals(1, count($res20));
         // REMOVE_END
     }
 }

@@ -25,17 +25,17 @@ weight: 4
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
 
-{{< note >}}node-redis is the recommended client library for Node.js/JavaScript,
-but we also support and document our older JavaScript client
-[`ioredis`]({{< relref "/develop/clients/ioredis" >}}). See
-[Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})
-if you are interested in converting an existing `ioredis` project to `node-redis`.
-{{< /note >}}
+> [!NOTE]
+> node-redis is the recommended client library for Node.js/JavaScript,
+> but we also support and document our older JavaScript client
+> [`ioredis`](/content/develop/clients/ioredis/_index.md). See
+> [Migrate from ioredis](/content/develop/clients/nodejs/migration.md)
+> if you are interested in converting an existing `ioredis` project to `node-redis`.
 
-`node-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`node-redis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
-[RedisOM for Node.js]({{< relref "/integrate/redisom-for-node-js" >}})
+[RedisOM for Node.js](/content/integrate/redisom-for-node-js/_index.md)
 for more information.
 
 ## Install

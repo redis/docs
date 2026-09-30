@@ -220,34 +220,34 @@ redis> JSON.SET nonexistentkey $.x 5
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Null reply](/content/develop/reference/protocol-spec.md#nulls): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) expected ...` - if the value is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) Error occurred on position ... expected ...` - if the path is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Null reply](/content/develop/reference/protocol-spec.md#nulls): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) expected ...` - if the value is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) Error occurred on position ... expected ...` - if the path is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
+[`JSON.GET`](/content/commands/json.get.md) | [`JSON.MGET`](/content/commands/json.mget.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

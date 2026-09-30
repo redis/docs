@@ -21,14 +21,14 @@ topics:
 - vectors
 ---
 
-A Redis [vector set]({{< relref "/develop/data-types/vector-sets" >}}) lets
+A Redis [vector set](/content/develop/data-types/vector-sets/_index.md) lets
 you store a set of unique keys, each with its own associated vector.
 You can then retrieve keys from the set according to the similarity between
 their stored vectors and a query vector that you specify.
 
 You can use vector sets to store any type of numeric vector but they are
 particularly optimized to work with text embedding vectors (see
-[Redis for AI]({{< relref "/develop/ai" >}}) to learn more about text
+[Redis for AI](/content/develop/ai/_index.md) to learn more about text
 embeddings). The example below shows how to use the
 [`@xenova/transformers`](https://www.npmjs.com/package/@xenova/transformers)
 library to generate vector embeddings and then
@@ -36,7 +36,7 @@ store and retrieve them using a vector set with `node-redis`.
 
 ## Initialize
 
-Start by [installing]({{< relref "/develop/clients/nodejs#install" >}}) `node-redis`
+Start by [installing](/content/develop/clients/nodejs/_index.md#install) `node-redis`
 if you haven't already done so. Also, install `@xenova/transformers`:
 
 ```bash
@@ -86,11 +86,11 @@ and adds corresponding elements to a vector set called `famousPeople`.
 Use the `pipe()` function created above to generate the
 embedding and then use `Array.from()` to convert the embedding to an array
 of `float32` values that you can pass to the
-[`vAdd()`]({{< relref "/commands/vadd" >}}) command to set the embedding.
+[`vAdd()`](/content/commands/vadd.md) command to set the embedding.
 
 The call to `vAdd()` also adds the `born` and `died` values from the
 `peopleData` object as attribute data. You can access this during a query
-or by using the [`vGetAttr()`]({{< relref "/commands/vgetattr" >}}) method.
+or by using the [`vGetAttr()`](/content/commands/vgetattr.md) method.
 
 {{< clients-example set="home_vecsets" step="add_data" lang_filter="Node.js" description="Practical pattern: Generate embeddings and add elements to a vector set with vAdd() and attribute metadata" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -100,7 +100,7 @@ or by using the [`vGetAttr()`]({{< relref "/commands/vgetattr" >}}) method.
 You can now query the data in the set. The basic approach is to use the
 `pipe()` function to generate another embedding vector for the query text.
 (This is the same method used to add the elements to the set.) Then, pass
-the query vector to [`vSim()`]({{< relref "/commands/vsim" >}}) to return elements
+the query vector to [`vSim()`](/content/commands/vsim.md) to return elements
 of the set, ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
@@ -149,7 +149,7 @@ mathematicians. This seems reasonable given the connection between mathematics
 and science.
 
 You can also use
-[filter expressions]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
+[filter expressions](/content/develop/data-types/vector-sets/filtered-search.md)
 with `vSim()` to restrict the search further. For example,
 repeat the "science" query, but this time limit the results to people
 who died before the year 2000:
@@ -166,16 +166,16 @@ elements that have already been filtered out of the search.
 
 ## More information
 
-See the [vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+See the [vector sets](/content/develop/data-types/vector-sets/_index.md)
 docs for more information and code examples. See the
-[Redis for AI]({{< relref "/develop/ai" >}}) section for more details
+[Redis for AI](/content/develop/ai/_index.md) section for more details
 about text embeddings and other AI techniques you can use with Redis.
 
 You may also be interested in
-[vector search]({{< relref "/develop/clients/nodejs/vecsearch" >}}).
+[vector search](/content/develop/clients/nodejs/vecsearch.md).
 This is a feature of
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
 that lets you retrieve
-[JSON]({{< relref "/develop/data-types/json" >}}) and
-[hash]({{< relref "/develop/data-types/hashes" >}}) documents based on
+[JSON](/content/develop/data-types/json/_index.md) and
+[hash](/content/develop/data-types/hashes.md) documents based on
 vector data stored in their fields.

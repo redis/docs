@@ -14,9 +14,9 @@ bannerText: Specific identity provider details may be different than shown in th
 
 This guide shows how to configure [AWS IAM Identity Center](https://aws.amazon.com/iam/identity-center/) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+Before completing this guide, you must [verify ownership of any domains](/content/operate/rc/security/access-control/saml-sso/_index.md#verify-domain) you want to associate with your SAML setup.
 
 ## Step 1: Setup your identity provider (IdP)
 
@@ -52,9 +52,8 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
 Note down or copy the URLs and select **Download** to download the certification information.
 
-{{< note >}}
-Both the IAM Identity Center sign-in URL and the IAM Identity Center SAML issuer URL are the same value. This is expected.
-{{< /note >}}
+> [!NOTE]
+> Both the IAM Identity Center sign-in URL and the IAM Identity Center SAML issuer URL are the same value. This is expected.
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_6.png" >}}
 
@@ -121,7 +120,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the `
    * **LastName**: `${user:familyName}`, `unspecified`
    * **redisAccountMapping**: `XXXXXXX=owner`, `unspecified`
 
-The `redisAccountMapping` key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
+The `redisAccountMapping` key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings](/content/operate/rc/accounts/account-settings.md).
 
 {{<image filename="images/rc/saml/aws_iam_identity_center_saml_14.png" >}}
 

@@ -66,7 +66,7 @@ Returns the specified range of elements in the sorted set stored at `key`.
 The elements are considered to be ordered from the highest to the lowest score.
 Descending lexicographical order is used for elements with equal score.
 
-Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]({{< relref "/commands/zrange" >}}).
+Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`](/content/commands/zrange.md).
 
 ## Required arguments
 
@@ -99,12 +99,21 @@ Also return the score of each member.
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREVRANGE myzset 0 -1
-ZREVRANGE myzset 2 3
-ZREVRANGE myzset -2 -1
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZADD myzset 3 "three"
+(integer) 1
+redis> ZREVRANGE myzset 0 -1
+1) "three"
+2) "two"
+3) "one"
+redis> ZREVRANGE myzset 2 3
+1) "one"
+redis> ZREVRANGE myzset -2 -1
+1) "two"
+2) "one"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

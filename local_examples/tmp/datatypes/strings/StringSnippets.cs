@@ -49,6 +49,9 @@ public class StringSnippets
         //REMOVE_END
 
         //STEP_START setnx_xx
+        // Recreate the bike:1 key so this example runs on its own.
+        db.StringSet("bike:1", "Deimos");
+
         var res3 = db.StringSet("bike:1", "bike", when: When.NotExists);
         Console.WriteLine(res3); // false
         Console.WriteLine(db.StringGet("bike:1"));
