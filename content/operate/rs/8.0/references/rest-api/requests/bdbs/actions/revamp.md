@@ -28,7 +28,7 @@ Updates the topology-related configurations of an active database and optimizes 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_bdb_with_action]({{< relref "/operate/rs/8.0/references/rest-api/permissions#update_bdb_with_action" >}}) | admin<br />cluster_member<br />db_member |
+| [update_bdb_with_action](/content/operate/rs/8.0/references/rest-api/permissions.md#update_bdb_with_action) | admin<br />cluster_member<br />db_member |
 
 ### Request {#put-request}
 
@@ -78,7 +78,7 @@ PUT /v1/bdbs/1/actions/revamp?dry_run=true
 
 ### Response {#put-response}
 
-- If `dry_run` is `false`, returns an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/8.0/references/rest-api/requests/actions#get-action">}}) request.
+- If `dry_run` is `false`, returns an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`](/content/operate/rs/8.0/references/rest-api/requests/actions/_index.md#get-action) request.
 
 - If `dry_run` is `true`, returns a blueprint of the database update.
 

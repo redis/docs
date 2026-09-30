@@ -62,7 +62,7 @@ summary: Iterates over members and scores of a sorted set.
 syntax_fmt: "ZSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 title: ZSCAN
 ---
-See [`SCAN`]({{< relref "/commands/scan" >}}) for `ZSCAN` documentation.
+See [`SCAN`](/content/commands/scan.md) for `ZSCAN` documentation.
 
 ## Required arguments
 

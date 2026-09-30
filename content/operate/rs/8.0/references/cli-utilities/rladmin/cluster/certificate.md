@@ -25,13 +25,13 @@ rladmin cluster certificate set <certificate_name>
         [ key_file <filepath> ]
 ```
 
-To set a certificate for a specific service, use the corresponding certificate name. See the [certificates table]({{< relref "/operate/rs/8.0/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+To set a certificate for a specific service, use the corresponding certificate name. See the [certificates table](/content/operate/rs/8.0/security/certificates/_index.md) for the list of cluster certificates and their descriptions.
 
 ### Parameters
 
 | Parameter | Type/Value | Description |
 |-----------|------------|-------------|
-| certificate_name | 'cm'<br /> 'api'<br /> 'proxy'<br /> 'syncer'<br /> 'metrics_exporter' | Name of the certificate to update. See the [certificates table]({{< relref "/operate/rs/8.0/security/certificates" >}}) for descriptions. |
+| certificate_name | 'cm'<br /> 'api'<br /> 'proxy'<br /> 'syncer'<br /> 'metrics_exporter' | Name of the certificate to update. See the [certificates table](/content/operate/rs/8.0/security/certificates/_index.md) for descriptions. |
 | certificate_file | filepath | Path to the certificate file |
 | key_file | filepath | Path to the key file (optional) |
 
@@ -51,7 +51,7 @@ Set proxy certificate to contents of file /tmp/proxy.pem
 
 ## `cluster certificate set internal`
 
-Sets [customer-provided internode encryption certificates]({{<relref "/operate/rs/8.0/security/encryption/internode-encryption#customer-provided-certificates">}}).
+Sets [customer-provided internode encryption certificates](/content/operate/rs/8.0/security/encryption/internode-encryption.md#customer-provided-certificates).
 
 ```sh
 rladmin cluster certificate set internal
@@ -76,7 +76,7 @@ Reports that the internal certificates were set to the specified files. Returns 
 
 ### Example
 
-Set up [customer-provided internode encryption certificates]({{<relref "/operate/rs/8.0/security/encryption/internode-encryption#customer-provided-certificates">}}):
+Set up [customer-provided internode encryption certificates](/content/operate/rs/8.0/security/encryption/internode-encryption.md#customer-provided-certificates):
 
 ```sh
 $ rladmin cluster certificate set internal \

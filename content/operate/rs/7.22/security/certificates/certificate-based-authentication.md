@@ -11,7 +11,7 @@ weight: 70
 url: '/operate/rs/7.22/security/certificates/certificate-based-authentication/'
 ---
 
-You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Enterprise Software [REST API]({{<relref "/operate/rs/7.22/references/rest-api">}}) and databases.
+You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Enterprise Software [REST API](/content/operate/rs/7.22/references/rest-api/_index.md) and databases.
 
 ## Set up certificate-based authentication
 
@@ -27,7 +27,7 @@ To set up certificate-based authentication:
 
 ### Add mtls_trusted_ca certificate {#add-cert}
 
-To add a trusted CA certificate `mtls_trusted_ca` to the cluster, use an [update cluster certificates]({{<relref "/operate/rs/7.22/references/rest-api/requests/cluster/certificates">}}) request.
+To add a trusted CA certificate `mtls_trusted_ca` to the cluster, use an [update cluster certificates](/content/operate/rs/7.22/references/rest-api/requests/cluster/certificates/_index.md) request.
 
 For Redis Enterprise Software versions 7.22.2 and later, use:
 
@@ -55,7 +55,7 @@ PUT /v1/cluster/update_cert
 
 ### Configure cluster settings {#config-cluster}
 
-[Update cluster settings]({{<relref "/operate/rs/7.22/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration.
+[Update cluster settings](/content/operate/rs/7.22/references/rest-api/requests/cluster/_index.md#put-cluster) with mutual TLS configuration.
 
 For certificate validation by Subject Alternative Name (SAN), use:
 
@@ -92,11 +92,11 @@ Replace the placeholder values `<>` with your client certificate's subject value
 
 ### Enable mutual TLS for databases {#enable-mtls-dbs}
 
-Before you can connect to a database using certificate-based authentication, you must enable mutual TLS (mTLS). See [Enable TLS]({{<relref "/operate/rs/7.22/security/encryption/tls/enable-tls">}}) for detailed instructions.
+Before you can connect to a database using certificate-based authentication, you must enable mutual TLS (mTLS). See [Enable TLS](/content/operate/rs/7.22/security/encryption/tls/enable-tls.md) for detailed instructions.
 
 ### Create certificate auth_method users {#create-cert-users}
 
-When you [create new users]({{<relref "/operate/rs/7.22/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
+When you [create new users](/content/operate/rs/7.22/references/rest-api/requests/users/_index.md#post-user), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
 
 ```sh
 POST /v1/users
@@ -108,25 +108,24 @@ POST /v1/users
 
 Replace the placeholder values `<>` with your client certificate's subject values.
 
-{{<note>}}
-The `certificate_subject_line` must:
-
-- Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
-
-- List the attributes in reverse order, starting with the Common Name (`CN`).
-
-- Not contain spaces after the commas that separate attributes.
-
-- Exactly match the certificate's RFC 2253 subject.
-
-- Contain only one Organizational Unit (`OU`) value.
-{{</note>}}
+> [!NOTE]
+> The `certificate_subject_line` must:
+>
+> - Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
+>
+> - List the attributes in reverse order, starting with the Common Name (`CN`).
+>
+> - Not contain spaces after the commas that separate attributes.
+>
+> - Exactly match the certificate's RFC 2253 subject.
+>
+> - Contain only one Organizational Unit (`OU`) value.
 
 ## Authenticate REST API requests
 
 To use the REST API with certificate-based authentication, you must provide a client certificate, signed by the trusted CA `mtls_trusted_ca`, and a private key.
 
-The following example uses [cURL](https://curl.se/) to send a [REST API request]({{<relref "/operate/rs/7.22/references/rest-api/requests">}}):
+The following example uses [cURL](https://curl.se/) to send a [REST API request](/content/operate/rs/7.22/references/rest-api/requests/_index.md):
 
 ```sh
 curl --request <METHOD> --url https://<hostname-or-IP-address>:9443/<API-version>/<API-path> --cert client.pem --key client.key
@@ -134,9 +133,9 @@ curl --request <METHOD> --url https://<hostname-or-IP-address>:9443/<API-version
 
 ## Authenticate database connections
 
-To connect to a database with certificate-based authentication, you must provide a client certificate, signed by a trusted CA, and a private key. The client certificate must either be one you previously added to the database to [enable mutual TLS]({{<relref "/operate/rs/7.22/security/encryption/tls/enable-tls#enable-mutual-tls">}}) (`authentication_ssl_client_certs` in the REST API), or be signed by one of these certificates.
+To connect to a database with certificate-based authentication, you must provide a client certificate, signed by a trusted CA, and a private key. The client certificate must either be one you previously added to the database to [enable mutual TLS](/content/operate/rs/7.22/security/encryption/tls/enable-tls.md#enable-mutual-tls) (`authentication_ssl_client_certs` in the REST API), or be signed by one of these certificates.
 
-The following example shows how to connect to a Redis database with [`redis-cli`]({{<relref "/operate/rs/7.22/references/cli-utilities/redis-cli">}}):
+The following example shows how to connect to a Redis database with [`redis-cli`](/content/operate/rs/7.22/references/cli-utilities/redis-cli/_index.md):
 
 ```sh
 redis-cli -h <hostname-or-IP-address> -p <port> --tls --cacert <redis_cert>.pem --cert redis_user.crt --key redis_user_private.key

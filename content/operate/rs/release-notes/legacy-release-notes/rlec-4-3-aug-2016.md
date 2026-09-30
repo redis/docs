@@ -11,7 +11,7 @@ weight: 96
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md)
 before running through the upgrade process.
 
 You can upgrade to this version from any 4.2 version. If you have a
@@ -23,7 +23,7 @@ upgrade to this version.
 - Various improvements to internal performance and stability were
     implemented.
 - RLEC Flash functionality added. For additional details, refer to
-    [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})
+    [Auto Tiering](/content/operate/rs/databases/flash/_index.md)
     and contact <support@redislabs.com> if you are interested in this
     functionality.
 - Support for Redis version 3.0 added. When you install or upgrade the
@@ -31,12 +31,12 @@ upgrade to this version.
     when you upgrade the databases they will be updated to this version.
     If you would like to change the default version to Redis 2.8 refer
     to the instruction in the [Upgrading
-    databases]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+    databases](/content/operate/rs/installing-upgrading/upgrading/_index.md)
     section. If you would like to upgrade existing databases to the
     latest 2.8 minor version, refer to the Known Issues section below.
 - Complete cluster failure recovery instructions added. For additional
     details, refer to [Cluster
-    Recovery]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}).
+    Recovery](/content/operate/rs/clusters/cluster-recovery.md).
 - Major improvements made to database replication performance process
     by using diskless replication between master and replica shards. The
     data between the master and replica shards is streamed directly,
@@ -48,14 +48,14 @@ upgrade to this version.
 - rlcheck installation verification utility added to facilitate
     checking node health. For additional details, refer to [rlcheck
     installation verification
-    utility]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}).
+    utility](/content/operate/rs/references/cli-utilities/rlcheck/_index.md).
 - Added the ability to allow the user to configure how machine IP
     addresses are used in Node Configuration setup in the management UI.
     For additional details, refer to [Initial setup - creating a new
-    cluster.]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
+    cluster.](/content/operate/rs/clusters/new-cluster-setup.md)
 - Connection to database endpoint can now be encrypted with SSL. For
     additional details, refer to [Securing client connection with
-    SSL]({{< relref "/operate/rs/security/encryption/tls" >}}).
+    SSL](/content/operate/rs/security/encryption/tls/_index.md).
 - Added support for running the cluster on the following operating
     systems and versions: RHEL/CentOS 6.6, 7.1, 7.2, RHEL 6.7, Oracle
     Linux 6.5.
@@ -65,7 +65,7 @@ upgrade to this version.
 - Environment configuration profile with name "default" has been
     changed to "cloud" and the default value has been changed to
     "local-network". For additional details, refer to [Performance
-    optimization]({{< relref "/operate/rs/clusters/optimize/optimization.md" >}})
+    optimization](/content/operate/rs/clusters/optimize/optimization.md)
     section.
 - In the REST API, when creating a database and not setting the
     database replication parameter to "true", the default value assigned

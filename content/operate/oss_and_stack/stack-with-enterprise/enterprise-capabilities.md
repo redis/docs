@@ -19,13 +19,13 @@ The following table shows which Redis Open Source features are supported by Redi
 
 | Feature | Redis<br/>Software | Redis<br/>Cloud |
 |:-------|:-------------------------|:-----------------------|
-| [Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})   | &#x2705; Supported | &#x2705; Supported |
-| [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1" >}}) | &#x2705; Supported | &#x274c; Not supported |
-| [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
-| [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
+| [Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md) | &#x2705; Supported | &#x2705; Supported |
+| [JSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md)   | &#x2705; Supported | &#x2705; Supported |
+| [Time series](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/_index.md) | &#x2705; Supported | &#x2705; Supported |
+| [Probabilistic](/content/operate/oss_and_stack/stack-with-enterprise/bloom/_index.md) | &#x2705; Supported | &#x2705; Supported |
+| [Gears](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/_index.md) | &#x2705; Supported | &#x274c; Not supported |
+| [Triggers and functions](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/_index.md) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
+| [Graph](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/_index.md) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 
 
 ## Feature compatibility
@@ -36,7 +36,7 @@ Version numbers indicate when the feature was first supported.  If you're using 
 
 For details about individual features, see the corresponding documentation.
 
-| Feature name/capability   | [Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})    | 
+| Feature name/capability   | [Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md) | [JSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md)    | 
 |---------------------------|:--------------:|:------------:|
 | Active-Active (CRDB)[^5]  | Yes (v2.0)     | Yes (v2.2)   |
 | Backup/Restore            | Yes (v1.4)     | Yes (v1.0)   |
@@ -57,7 +57,7 @@ For details about individual features, see the corresponding documentation.
 
 [^2]: RediSearch version 1.6 supported Replica Of only between databases with the same number of shards.  This limitation was fixed in v2.0. 
 
-[^3]: You cannot use Redis Search with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Software version 8.0.
+[^3]: You cannot use Redis Search with the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). This limitation was fixed in Redis Software version 8.0.
 
 [^4]: You currently cannot combine Auto Tiering with Redis Open Source features in Redis Cloud. 
 
@@ -65,7 +65,7 @@ For details about individual features, see the corresponding documentation.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
-| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1" >}}) |
+| Feature name/capability | [Time series](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/_index.md) | [Probabilistic](/content/operate/oss_and_stack/stack-with-enterprise/bloom/_index.md) | [Gears](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/_index.md) |
 |--------------------------|:--------------:|:------------:|:----------:|
 | Active-Active (CRDB)[^5] | No             | No           | Yes (v1.0) |
 | Backup/Restore           | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |

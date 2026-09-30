@@ -24,7 +24,7 @@ Continuous event flows pushed through primary databases or ad-hoc queues add lat
 -   **A dedicated streaming platform** (Kafka, Pulsar) solves all of this but adds significant
     operational overhead — separate clusters, partition management, consumer rebalancing — that's
     disproportionate when retention windows are hours or days, not months.
--   **Pub/sub** ([Redis Pub/Sub]({{< relref "/develop/pubsub" >}}), MQTT) is fire-and-forget
+-   **Pub/sub** ([Redis Pub/Sub](/content/develop/pubsub/_index.md), MQTT) is fire-and-forget
     transport: messages are delivered to whoever is connected and discarded, with no persistence,
     replay, or consumer tracking.
 -   **Polling a primary database for new rows** generates constant load on the system of record,
@@ -34,10 +34,10 @@ A workable streaming layer needs an ordered, durable log, independent consumer t
 acknowledgment, at-least-once delivery, and retention controls — all without introducing a
 separate broker for moderate-scale workloads.
 
-This pattern is distinct from [pub/sub]({{< relref "/develop/use-cases/pub-sub" >}}), which is
+This pattern is distinct from [pub/sub](/content/develop/use-cases/pub-sub/_index.md), which is
 at-most-once transport with no history: a subscriber that's offline when a message is published
 misses it for good. It is also distinct from a
-[job queue]({{< relref "/develop/use-cases/job-queue" >}}), where each task is claimed by exactly
+[job queue](/content/develop/use-cases/job-queue/_index.md), where each task is claimed by exactly
 one worker and discarded after it completes. Streaming retains the ordered history, so many
 independent consumer groups can read the same events at their own pace and replay from any point.
 
@@ -64,39 +64,39 @@ You can:
 ## How Redis supports the solution
 
 In practice, producers append events to a stream with
-[`XADD`]({{< relref "/commands/xadd" >}}) and Redis assigns each entry an auto-generated,
+[`XADD`](/content/commands/xadd.md) and Redis assigns each entry an auto-generated,
 time-ordered ID. Consumers either read the stream directly with
-[`XREAD`]({{< relref "/commands/xread" >}}), or join a *consumer group* and read with
-[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}). Each consumer gets its own
+[`XREAD`](/content/commands/xread.md), or join a *consumer group* and read with
+[`XREADGROUP`](/content/commands/xreadgroup.md). Each consumer gets its own
 pending-entries list of in-flight messages, while the group as a whole tracks a single
 `last-delivered-id` cursor that advances as entries are handed out to any consumer. Once a consumer finishes processing an
-entry, it acknowledges it with [`XACK`]({{< relref "/commands/xack" >}}); entries left
+entry, it acknowledges it with [`XACK`](/content/commands/xack.md); entries left
 unacknowledged past a timeout can be reassigned to a healthy consumer with
-[`XCLAIM`]({{< relref "/commands/xclaim" >}}) or
-[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
+[`XCLAIM`](/content/commands/xclaim.md) or
+[`XAUTOCLAIM`](/content/commands/xautoclaim.md).
 
 Redis provides the following features that make it a good fit for streaming:
 
--   [Streams]({{< relref "/develop/data-types/streams" >}})
-    ([`XADD`]({{< relref "/commands/xadd" >}}),
-    [`XLEN`]({{< relref "/commands/xlen" >}})) provide an append-only log with auto-generated
+-   [Streams](/content/develop/data-types/streams/_index.md)
+    ([`XADD`](/content/commands/xadd.md),
+    [`XLEN`](/content/commands/xlen.md)) provide an append-only log with auto-generated
     time-ordered IDs, so ordering is intrinsic to the data structure rather than something the
     application has to maintain.
--   [Consumer groups]({{< relref "/develop/data-types/streams#consumer-groups" >}})
-    ([`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}),
-    [`XACK`]({{< relref "/commands/xack" >}})) give at-least-once delivery with per-consumer
+-   [Consumer groups](/content/develop/data-types/streams/_index.md#consumer-groups)
+    ([`XREADGROUP`](/content/commands/xreadgroup.md),
+    [`XACK`](/content/commands/xack.md)) give at-least-once delivery with per-consumer
     cursors and acknowledgment, so workers in a group share the stream's work and multiple groups
     read the same stream independently.
--   [`XRANGE`]({{< relref "/commands/xrange" >}}) and
-    [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) support replay and range queries —
+-   [`XRANGE`](/content/commands/xrange.md) and
+    [`XREVRANGE`](/content/commands/xrevrange.md) support replay and range queries —
     bootstrap a new projection from the start of the stream, audit recent events, or run
     point-in-time reads by ID range.
--   [`XPENDING`]({{< relref "/commands/xpending" >}}),
-    [`XCLAIM`]({{< relref "/commands/xclaim" >}}), and
-    [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) recover messages a crashed consumer
+-   [`XPENDING`](/content/commands/xpending.md),
+    [`XCLAIM`](/content/commands/xclaim.md), and
+    [`XAUTOCLAIM`](/content/commands/xautoclaim.md) recover messages a crashed consumer
     left in flight, so no event sits invisibly past its processing window.
--   Retention controls — [`XADD ... MAXLEN ~ n`]({{< relref "/commands/xadd" >}}) and
-    [`XTRIM MINID ~ id`]({{< relref "/commands/xtrim" >}}) — bound stream size by length or by
+-   Retention controls — [`XADD ... MAXLEN ~ n`](/content/commands/xadd.md) and
+    [`XTRIM MINID ~ id`](/content/commands/xtrim.md) — bound stream size by length or by
     oldest event, so memory stays bounded as the stream rolls forward.
 -   Sub-millisecond reads and writes from memory, so streaming runs on the same Redis instance
     already handling cache, sessions, or rate limiting at zero marginal cost.
@@ -112,10 +112,10 @@ The following libraries and frameworks use Redis Streams for event-driven worklo
     [`ioredis`](https://github.com/redis/ioredis) for stream producers and consumers in
     event-driven APIs.
 -   **Python**: [`redis-py`](https://redis.readthedocs.io/) with
-    [FastAPI]({{< relref "/integrate/fastapi" >}}) or [Django](https://www.djangoproject.com/) for
+    [FastAPI](/content/integrate/fastapi/_index.md) or [Django](https://www.djangoproject.com/) for
     microservice event pipelines.
 -   **Infrastructure**:
-    [Active-Active geo-distribution]({{< relref "/operate/rs/databases/active-active" >}}) on
+    [Active-Active geo-distribution](/content/operate/rs/databases/active-active/_index.md) on
     Redis Enterprise / Redis Cloud for cross-region stream replication;
     [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis) with
     [Azure Functions](https://azure.microsoft.com/en-us/products/functions) for serverless event
@@ -128,12 +128,12 @@ consumer groups. Each guide includes a runnable interactive demo that lets you p
 scale consumers within a group, replay history from any point, and watch independent groups
 read the same stream at their own pace.
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/streaming/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/streaming/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/streaming/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/streaming/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/streaming/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/streaming/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/streaming/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/streaming/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/streaming/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/streaming/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/streaming/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/streaming/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/streaming/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/streaming/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/streaming/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/streaming/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/streaming/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/streaming/rust/_index.md)

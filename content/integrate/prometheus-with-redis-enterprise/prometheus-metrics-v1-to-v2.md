@@ -14,7 +14,7 @@ weight: 49
 tocEmbedHeaders: true
 ---
 
-You can [integrate Redis Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
+You can [integrate Redis Software with Prometheus and Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md) to create dashboards for important metrics.
 
 As of Redis Software version 7.8.2, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available. V1 metrics are deprecated but still available.
 
@@ -36,9 +36,8 @@ scrape_configs:
       - targets: ["<cluster_name>:8070"]
 ```
 
-{{< note >}}
-**Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
-{{< /note >}}
+> [!NOTE]
+> **Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
 
 The reason for a single target changed in v2. On v1, only the cluster master served the metrics endpoint and other nodes returned a redirect, so the protocol effectively forced one target. On v2, every node returns the full cluster view and no redirects are involved. If your v1 configuration listed multiple node targets, reduce it to one.
 
@@ -46,6 +45,6 @@ If you prefer a per-node scrape topology, scrape `/v2/node`, which returns only 
 
 It is possible to scrape both v1 and v2 endpoints simultaneously during the transition period to prepare dashboards and ensure a smooth transition.
 
-You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 PromQL metrics, see [Prometheus metrics v2]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions">}}).
+You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 PromQL metrics, see [Prometheus metrics v2](/content/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions.md).
 
 {{<embed-md "rs-prometheus-metrics-transition-plan.md">}}

@@ -9,9 +9,8 @@ description: Redis Software file installation locations.
 linkTitle: File locations
 weight: 60
 ---
-{{<warning>}}
-To ensure that Redis Software functions properly, be careful with the files in the application directories. If you modify or delete the application files, Redis Software might not work as expected.
-{{</warning>}}
+> [!WARNING]
+> To ensure that Redis Software functions properly, be careful with the files in the application directories. If you modify or delete the application files, Redis Software might not work as expected.
 
 ## Application directories
 
@@ -20,7 +19,7 @@ The directories that Redis Software installs into are:
 | **Path** | **Description** |
 |------------|-----------------|
 | /opt/redislabs | Main installation directory for all Redis Software binaries |
-| /opt/redislabs/bin | Binaries for all the utilities for command-line access and management, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) |
+| /opt/redislabs/bin | Binaries for all the utilities for command-line access and management, such as [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) |
 | /opt/redislabs/config | System configuration files |
 | /opt/redislabs/lib | System library files |
 | /opt/redislabs/sbin | System binaries for tweaking provisioning |
@@ -39,9 +38,8 @@ The default directories that Redis Software uses for data and metadata are:
 
 You can change these file locations for:
 
-- [Ephemeral and persistence storage]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}) during cluster setup
-- [Socket files]({{< relref "/operate/rs/installing-upgrading/configuring/change-location-socket-files.md" >}}) after cluster setup
+- [Ephemeral and persistence storage](/content/operate/rs/clusters/new-cluster-setup.md) during cluster setup
+- [Socket files](/content/operate/rs/installing-upgrading/configuring/change-location-socket-files.md) after cluster setup
 
-{{< note >}}
-To specify custom paths for ephemeral and persistent storage during cluster setup, you must install Redis Software using [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}). If you use the default installation, you cannot specify custom storage paths and will receive a "path not mounted" error.
-{{< /note >}}
+> [!NOTE]
+> To specify custom paths for ephemeral and persistent storage during cluster setup, you must install Redis Software using [custom installation directories](/content/operate/rs/installing-upgrading/install/customize-install-directories.md). If you use the default installation, you cannot specify custom storage paths and will receive a "path not mounted" error.

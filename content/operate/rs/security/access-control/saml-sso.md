@@ -22,7 +22,7 @@ When single sign-on is activated, users can sign in to the Redis Software Cluste
 
 Before users can sign in to the Cluster Manager UI with SSO, the identity provider admin needs to set up these users on the IdP side with matching email addresses.
 
-With just-in-time (JIT) user provisioning, Redis Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control]({{<relref "/operate/rs/security/access-control/">}}) during account creation.
+With just-in-time (JIT) user provisioning, Redis Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control](/content/operate/rs/security/access-control/_index.md) during account creation.
 
 ### IdP-initiated SSO
 
@@ -72,7 +72,7 @@ To set up SAML single sign-on for a Redis Software cluster:
 
 ### Upload SP certificate
 
-1. Create a service provider certificate for Redis Software. See [Create certificates ]({{<relref "/operate/rs/security/certificates/create-certificates#create-certificates">}}) for instructions.
+1. Create a service provider certificate for Redis Software. See [Create certificates ](/content/operate/rs/security/certificates/create-certificates.md#create-certificates) for instructions.
 
 1. Upload the service provider certificate and key to the Redis Software cluster:
 
@@ -94,7 +94,7 @@ To set up SAML single sign-on for a Redis Software cluster:
 
 -tab-sep-
 
-To upload a certificate using the REST API, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates">}}) request.
+To upload a certificate using the REST API, use an [update cluster certificates](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-certificates) request.
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
@@ -141,7 +141,7 @@ To download the service provider's metadata using the Cluster Manager UI:
 
 -tab-sep-
 
-To download the service provider's metadata using the REST API, use a [get SAML service provider metadata]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#get-cluster-sso-saml-metadata">}}) request.
+To download the service provider's metadata using the REST API, use a [get SAML service provider metadata](/content/operate/rs/references/rest-api/requests/cluster/sso.md#get-cluster-sso-saml-metadata) request.
 
 ```sh
 GET https://<host>:<port>/v1/cluster/sso/saml/metadata/sp
@@ -175,9 +175,8 @@ See [Metadata for the OASIS Security
 Assertion Markup Language (SAML)
 V2.0](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf) for more information about the metadata fields.
 
-{{< note >}}
-Redis Software metadata expiration time is equivalent to the SSO service certificate's expiration time. The service provider metadata will only change if the service address used for the Assertion Consumer Service (ACS) and the single logout (SLO) URL is modified.
-{{< /note >}}
+> [!NOTE]
+> Redis Software metadata expiration time is equivalent to the SSO service certificate's expiration time. The service provider metadata will only change if the service address used for the Assertion Consumer Service (ACS) and the single logout (SLO) URL is modified.
 
 ### Set up SAML app {#set-up-app}
 
@@ -206,9 +205,9 @@ Set up a SAML app to integrate Redis Software with your identity provider:
 
 1. Optionally, you can enable single log-out (SLO) to allow users to automatically sign out of the the identity provider when they sign out of the Redis Software Cluster Manager UI. Copy the **Single Logout Service** from the **Access Control > Single Sign-On** page in the Cluster Manager UI (`https://<cluster-FQDN>:8443/cluster/sso/saml/slo`) and configure it in the SAML app.
 
-    {{< note >}}
-Redis Software only supports SP-initiated logout, where the user logs out from the Redis Software Cluster Manager UI. IdP-initiated logout requests are not supported.
-    {{< /note >}}
+    > [!NOTE]
+    > Redis Software only supports SP-initiated logout, where the user logs out from the Redis Software Cluster Manager UI. IdP-initiated logout requests are not supported.
+    >     
 
 1. Set up your SAML service provider app so the SAML assertion contains the following attributes:
 
@@ -219,9 +218,9 @@ Redis Software only supports SP-initiated logout, where the user logs out from t
     | email | User's email address (used as the username in the Redis Software Cluster Manager UI and must contain ASCII characters only.) |
     | redisRoleMapping | String array that includes the role UID for role-based access control in Redis Software. Only used for just-in-time (JIT) user provisioning. If a user already exists in Redis Software, this attribute is ignored and their existing roles are preserved. |
 
-    {{<note>}}
-To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
-    {{</note>}}
+    > [!NOTE]
+    > To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
+    >     
 
 1. Set up any additional configuration required by your identity provider to ensure you can configure the `redisRoleMapping` attribute for SAML users.
 
@@ -262,7 +261,7 @@ tab2="REST API" >}}
 
 -tab-sep-
 
-1. Upload your SAML app's assertion signing certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates">}}) REST API request.
+1. Upload your SAML app's assertion signing certificate using an [update cluster certificates](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-certificates) REST API request.
 
     ```sh
     PUT https://<host>:<port>/v1/cluster/certificates
@@ -277,7 +276,7 @@ tab2="REST API" >}}
     }
     ```
 
-1. Configure the identity provider metadata using an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) REST API request.
+1. Configure the identity provider metadata using an [update SSO configuration](/content/operate/rs/references/rest-api/requests/cluster/sso.md#put-cluster-sso) REST API request.
 
     ```sh
     PUT https://<host>:<port>/v1/cluster/sso
@@ -299,9 +298,9 @@ In the identity provider's admin console:
 
 1. Create user profiles in the identity provider for existing Redis Software users. Make sure each user's email address matches in the identity provider and Redis Software.
 
-    {{<note>}}
-You do not need to configure the `redisRoleMapping` attribute for existing Redis Software users. Their current roles will be preserved, and the `redisRoleMapping` attribute is ignored if provided.
-    {{</note>}}
+    > [!NOTE]
+    > You do not need to configure the `redisRoleMapping` attribute for existing Redis Software users. Their current roles will be preserved, and the `redisRoleMapping` attribute is ignored if provided.
+    >     
 
 2. Assign the new SAML integration app to each user.
 
@@ -323,7 +322,7 @@ To activate single sign-on using the Cluster Manager UI:
 
 -tab-sep-
 
-To activate single sign-on using the REST API, use an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) request.
+To activate single sign-on using the REST API, use an [update SSO configuration](/content/operate/rs/references/rest-api/requests/cluster/sso.md#put-cluster-sso) request.
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/sso
@@ -342,13 +341,13 @@ After single sign-on is activated for Redis Software, you can create new Redis S
 
 1. Configure the `redisRoleMapping` and assign a Redis Software role UID to the user.
 
-    {{<note>}}
-To see a list of available role UIDs in your cluster, use a REST API request to [get all roles]({{<relref "/operate/rs/references/rest-api/requests/roles#get-all-roles">}}):
-
-```sh
-GET https://<host>:<port>/v1/roles
-```
-    {{</note>}}
+    > [!NOTE]
+    > To see a list of available role UIDs in your cluster, use a REST API request to [get all roles](/content/operate/rs/references/rest-api/requests/roles/_index.md#get-all-roles):
+    >
+    > ```sh
+    > GET https://<host>:<port>/v1/roles
+    > ```
+    >     
 
 1. Assign the new SAML integration app to the user.
 
@@ -377,7 +376,7 @@ To enforce single sign-on using the Cluster Manager UI:
 
 -tab-sep-
 
-To enforce single sign-on using the REST API, use an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) request.
+To enforce single sign-on using the REST API, use an [update SSO configuration](/content/operate/rs/references/rest-api/requests/cluster/sso.md#put-cluster-sso) request.
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/sso
@@ -400,11 +399,10 @@ If you change certain metadata or configuration settings after you set up SSO, s
 
 If your deployment's default service provider address is not accessible to external identity providers, you can change it to an external hostname.
 
-{{<warning>}}
-If you change the service address, the existing SSO integration will break because the metadata file, SP login and logout URLs, and entity ID will change to match the new address. You must update the service provider configuration on the identity provider's side after this change.
-{{</warning>}}
+> [!WARNING]
+> If you change the service address, the existing SSO integration will break because the metadata file, SP login and logout URLs, and entity ID will change to match the new address. You must update the service provider configuration on the identity provider's side after this change.
 
-To change the service provider address, use an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) REST API request:
+To change the service provider address, use an [update SSO configuration](/content/operate/rs/references/rest-api/requests/cluster/sso.md#put-cluster-sso) REST API request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/sso
@@ -431,7 +429,7 @@ To deactivate single sign-on using the Cluster Manager UI:
 
 -tab-sep-
 
-To deactivate single sign-on using the REST API, use an [update SSO configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/sso#put-cluster-sso">}}) request.
+To deactivate single sign-on using the REST API, use an [update SSO configuration](/content/operate/rs/references/rest-api/requests/cluster/sso.md#put-cluster-sso) request.
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/sso

@@ -19,7 +19,7 @@ bannerChildren: true
 
 A reader extracts data from the database and creates records.
 
-The [`GearsBuilder.CreateGearsBuilder(reader)`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder" >}}) function takes a reader as a parameter and passes the generated records through a pipeline of RedisGears functions.
+The [`GearsBuilder.CreateGearsBuilder(reader)`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder.md) function takes a reader as a parameter and passes the generated records through a pipeline of RedisGears functions.
 
 ## Classes
 

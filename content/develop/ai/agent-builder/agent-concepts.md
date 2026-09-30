@@ -113,6 +113,30 @@ Create intelligent recommendation systems that:
 </div>
 
 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<h3 class="no-toc">Knowledge assistants (RAG)</h3>
+
+Build retrieval-augmented generation agents that:
+- Ingest documents and answer questions with citations
+- Combine vector search with semantic caching for fast, grounded responses
+- Reduce hallucinations by retrieving relevant context before generating answers
+- Scale to large document collections
+
+[Build a knowledge assistant →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<h3 class="no-toc">Redis Iris conversational assistants</h3>
+
+Build conversational agents backed by managed Redis Iris Agent Memory that:
+- Get session and long-term memory without building a vector index
+- Persist user preferences and context across conversations
+- Extract durable memories automatically in the background
+- Run on Redis Cloud as a fully managed service
+
+[Build a Redis Iris agent →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Task automation agents</h3>
 
 Automate complex workflows and business processes:
@@ -323,6 +347,7 @@ Production-ready agents include built-in reliability features:
 - Access controls: Implement proper authentication and authorization
 - Data retention: Automatic cleanup of personal data per regulations
 - Audit logging: Track all data access and modifications
+- Memory integrity: Validate content before it is written to agent memory and verify protected records on read. Memory written from tool results, web pages, or other agents can carry instructions that are replayed into later prompts ([OWASP Top 10 for Agentic Applications, ASI06](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/); [MITRE ATLAS AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000)). [OWASP Agent Memory Guard](https://github.com/OWASP/www-project-agent-memory-guard) is an open-source guard for this with adapters for LangChain, OpenAI Agents SDK, AutoGen, CrewAI, and mem0
 
 ### Scaling Strategies
 

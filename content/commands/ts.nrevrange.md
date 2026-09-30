@@ -174,9 +174,8 @@ title: TS.NREVRANGE
 ---
 Query a range across an explicit list of time series in the reverse direction. `TS.NREVRANGE` groups results by timestamp: for each timestamp, it returns the timestamp followed by one value per time series, in the order the keys are given. With `AGGREGATION`, a time series can contribute more than one value per timestamp — one for each aggregator requested. A time series with no sample at a given timestamp returns `NaN` for that timestamp.
 
-{{< note >}}
-In a Redis cluster, all specified keys must map to the same hash slot. `TS.NREVRANGE` is a [single hash slot]({{< relref "/operate/oss_and_stack/reference/cluster-spec#key-distribution-model" >}}) command; it does not split a request across shards or merge replies from multiple hash slots.
-{{< /note >}}
+> [!NOTE]
+> In a Redis cluster, all specified keys must map to the same hash slot. `TS.NREVRANGE` is a [single hash slot](/content/operate/oss_and_stack/reference/cluster-spec.md#key-distribution-model) command; it does not split a request across shards or merge replies from multiple hash slots.
 
 [Examples](#examples)
 
@@ -259,7 +258,7 @@ aggregates samples into time buckets.
 
 Provide one or more aggregators per key, as a separate argument in the same order as the keys: the first argument applies to the first key, and so on. The number of these arguments must equal `numkeys`, and all keys share the same `bucketDuration`.
 
-Each per-key argument is either a single aggregator or a comma-separated list of aggregators (for example `avg,max`), exactly as in [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}); no whitespace is allowed. A key contributes one value for each aggregator you list for it, and a key's values appear together in the reply, in the order you list its aggregators. To compute several aggregations for one series, give that key a comma-separated list such as `min,max`.
+Each per-key argument is either a single aggregator or a comma-separated list of aggregators (for example `avg,max`), exactly as in [`TS.REVRANGE`](/content/commands/ts.revrange.md); no whitespace is allowed. A key contributes one value for each aggregator you list for it, and a key's values appear together in the reply, in the order you list its aggregators. To compute several aggregations for one series, give that key a comma-separated list such as `min,max`.
 
   - each `aggregator` is one of the following:
 
@@ -403,7 +402,7 @@ redis> TS.NREVRANGE 2 {sensor}:3 {sensor}:4 - + AGGREGATION avg,max sum 1000
 
 ### Semantics
 
-`TS.NREVRANGE` behaves like running a compatible [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) over each input key and then performing a server-side outer join by timestamp. Rows are returned from the highest timestamp to the lowest.
+`TS.NREVRANGE` behaves like running a compatible [`TS.REVRANGE`](/content/commands/ts.revrange.md) over each input key and then performing a server-side outer join by timestamp. Rows are returned from the highest timestamp to the lowest.
 
 In raw mode (no `AGGREGATION`):
 
@@ -443,21 +442,21 @@ A `NaN` value can mean that a key had no sample at that timestamp or no samples 
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with one entry per timestamp, ordered by decreasing timestamp. Each entry is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) with one entry per timestamp, ordered by decreasing timestamp. Each entry is an [Array reply](/content/develop/reference/protocol-spec.md#arrays) composed of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (the timestamp) and a flat [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with one entry per timestamp, ordered by decreasing timestamp. Each entry is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) with one entry per timestamp, ordered by decreasing timestamp. Each entry is an [Array reply](/content/develop/reference/protocol-spec.md#arrays) composed of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (the timestamp) and a flat [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [Double reply](/content/develop/reference/protocol-spec.md#doubles) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.NRANGE`]({{< relref "commands/ts.nrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}})
+[`TS.NRANGE`](/content/commands/ts.nrange.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

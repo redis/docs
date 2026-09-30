@@ -66,9 +66,8 @@ summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
 title: SMOVE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Move `member` from the set at `source` to the set at `destination`.

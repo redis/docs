@@ -69,15 +69,15 @@ QUIT
 Connection closed by foreign host.
 ```
 
-Manually issue the [`QUIT`]({{< relref "/commands/quit" >}}) or [`RESET`]({{< relref "/commands/reset" >}}) commands to stop a `MONITOR` stream running
+Manually issue the [`QUIT`](/content/commands/quit.md) or [`RESET`](/content/commands/reset.md) commands to stop a `MONITOR` stream running
 via `telnet`.
 
 ## Commands not logged by MONITOR
 
 Because of security concerns, no administrative commands are logged
-by `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`]({{< relref "/commands/auth" >}}).
+by `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`](/content/commands/auth.md).
 
-Furthermore, the command [`QUIT`]({{< relref "/commands/quit" >}}) is also not logged.
+Furthermore, the command [`QUIT`](/content/commands/quit.md) is also not logged.
 
 ## Cost of running MONITOR
 
@@ -113,9 +113,9 @@ Running more `MONITOR` clients will reduce throughput even more.
 
 ## Behavior change history
 
-*   `>= 6.0.0`: [`AUTH`]({{< relref "/commands/auth" >}}) excluded from the command's output.
-*   `>= 6.2.0`: "[`RESET`]({{< relref "/commands/reset" >}}) can be called to exit monitor mode.
-*   `>= 6.2.4`: "[`AUTH`]({{< relref "/commands/auth" >}}), [`HELLO`]({{< relref "/commands/hello" >}}), [`EVAL`]({{< relref "/commands/eval" >}}), [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA`]({{< relref "/commands/evalsha" >}}) and [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}) included in the command's output.
+*   `>= 6.0.0`: [`AUTH`](/content/commands/auth.md) excluded from the command's output.
+*   `>= 6.2.0`: "[`RESET`](/content/commands/reset.md) can be called to exit monitor mode.
+*   `>= 6.2.4`: "[`AUTH`](/content/commands/auth.md), [`HELLO`](/content/commands/hello.md), [`EVAL`](/content/commands/eval.md), [`EVAL_RO`](/content/commands/eval_ro.md), [`EVALSHA`](/content/commands/evalsha.md) and [`EVALSHA_RO`](/content/commands/evalsha_ro.md) included in the command's output.
 
 ## Redis Software and Redis Cloud compatibility
 

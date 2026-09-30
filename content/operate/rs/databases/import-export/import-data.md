@@ -9,15 +9,14 @@ description: You can import export or backup files of a specific Redis Software 
 linktitle: Import data
 weight: 10
 ---
-You can import, [export]({{< relref "/operate/rs/databases/import-export/export-data" >}}),
-or [backup]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}})
+You can import, [export](/content/operate/rs/databases/import-export/export-data.md),
+or [backup](/content/operate/rs/databases/import-export/schedule-backups.md)
 files of a specific Redis Software database to restore data.
 You can either import from a single file or from multiple files,
 such as when you want to import from a backup of a clustered database.
 
-{{< warning >}}
-Importing data erases all existing content in the database.
-{{< /warning >}}
+> [!WARNING]
+> Importing data erases all existing content in the database.
 
 ## Import data into a database
 
@@ -35,7 +34,7 @@ To import data into a database using the Cluster Manager UI:
 
 ### REST API method
 
-To import data into a database using the REST API, send an [import database request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+To import data into a database using the REST API, send an [import database request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -72,7 +71,7 @@ See the following storage location sections for REST API request examples for ea
 
 Data can be imported from a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Software, `redislabs:redislabs` by default.  
+When importing from a local mount point or a cloud provider, import locations need to be available to [the group and user](/content/operate/rs/installing-upgrading/install/customize-user-and-group.md) running Redis Software, `redislabs:redislabs` by default.  
 
 Redis Software needs the ability to view objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
@@ -105,7 +104,7 @@ Example: `ftp://username:password@10.1.1.1/home/backups/<filename>.rdb`
 
 Select **Add path** to add another import file path.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -149,7 +148,7 @@ As of version 6.2.12, Redis Software reads files directly from the mount point u
 
 Select **Add path** to add another import file path.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -201,7 +200,7 @@ Example: `sftp://username:password@10.1.1.1/home/backups/[filename].rdb`
 
 Select **Add path** to add another import file path.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -236,7 +235,7 @@ You can also connect to a storage service that uses the S3 protocol but is not h
 
 To connect to an S3-compatible storage location:
 
-1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+1. Configure the S3 URL with [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md): 
 
     ```sh
     rladmin cluster config s3_url <URL>
@@ -252,7 +251,7 @@ To connect to an S3-compatible storage location:
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -293,7 +292,7 @@ In the Redis Software Cluster Manager UI, when you enter the import location det
 - In the **Private key** field, enter the `private_key` from the service account key.
     Replace `\n` with new lines.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -335,7 +334,7 @@ In the Redis Software Cluster Manager UI, when you enter the import location det
 
 - In the **Azure Account Key** field, enter the storage account key.
 
-Example [import database REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}):
+Example [import database REST API request](/content/operate/rs/references/rest-api/requests/bdbs/actions/import.md):
 
 ```sh
 POST /v1/bdbs/<database-id>/actions/import
@@ -357,7 +356,7 @@ POST /v1/bdbs/<database-id>/actions/import
 
 When importing data into an Active-Active database, there are two options:
 
-- [Flush all data]({{< relref "/operate/rs/databases/import-export/flush#flush-data-from-an-active-active-database" >}}) from the Active-Active database, then import the data into the database.
+- [Flush all data](/content/operate/rs/databases/import-export/flush.md#flush-data-from-an-active-active-database) from the Active-Active database, then import the data into the database.
 - Import data but merge it into the existing database.
 
 Because Active-Active databases have a numeric counter data type,

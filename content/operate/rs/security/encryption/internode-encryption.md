@@ -41,7 +41,7 @@ To enable internode encryption for a database (also called _data internode encry
 
 - Use the Cluster Manager UI to enable the **Internode Encryption** setting from the database **Security** screen.
 
--  Use the `rladmin` command-line utility to set the [data_internode_encryption]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}) setting for the database:
+-  Use the `rladmin` command-line utility to set the [data_internode_encryption](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db) setting for the database:
 
     ``` shell
     rladmin tune db <database_id> data_internode_encryption enabled
@@ -74,13 +74,13 @@ To enable internode encryption for new databases by default, use one of the foll
 
     1. Select **Save**.
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster): 
     
     ```sh
     rladmin tune cluster data_internode_encryption enabled
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -172,13 +172,13 @@ tab3="REST API" >}}
 
 -tab-sep-
 
-To use the same certificate for data and control plane internode encryption, run the following [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate#cluster-certificate-set-internal" >}}) command:
+To use the same certificate for data and control plane internode encryption, run the following [`rladmin cluster certificate`](/content/operate/rs/references/cli-utilities/rladmin/cluster/certificate.md#cluster-certificate-set-internal) command:
 
 ```sh
 rladmin cluster certificate set internal dpine_certificate_file <path-to-shared-cert> dpine_key_file <path-to-shared-key> cpine_certificate_file <path-to-shared-cert> cpine_key_file <path-to-shared-key>
 ```
 
-To use separate certificates for data and control plane internode encryption, run the following [`rladmin cluster certificate`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate#cluster-certificate-set-internal" >}}) command:
+To use separate certificates for data and control plane internode encryption, run the following [`rladmin cluster certificate`](/content/operate/rs/references/cli-utilities/rladmin/cluster/certificate.md#cluster-certificate-set-internal) command:
 
 ```sh
 rladmin cluster certificate set internal dpine_certificate_file <path-to-dpine-cert> dpine_key_file <path-to-dpine-key> cpine_certificate_file <path-to-cpine-cert> cpine_key_file <path-to-cpine-key>
@@ -186,7 +186,7 @@ rladmin cluster certificate set internal dpine_certificate_file <path-to-dpine-c
 
 -tab-sep-
 
-To use the same certificate for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
+To use the same certificate for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-certificates) request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
@@ -206,7 +206,7 @@ PUT https://<host>:<port>/v1/cluster/certificates
 }
 ```
 
-To use separate certificates for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`]({{< relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates" >}}) request:
+To use separate certificates for data and control plane internode encryption, send a [`PUT /v1/cluster/certificates`](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-certificates) request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
@@ -233,7 +233,7 @@ PUT https://<host>:<port>/v1/cluster/certificates
 
 Customer-provided internode encryption certificates are not rotated automatically. To prevent possible issues with cluster and database unavailability caused by expired internode encryption certificates:
 
-- You should monitor the certificates' expiration dates and [renew them]({{<relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates">}}) before they expire.
+- You should monitor the certificates' expiration dates and [renew them](/content/operate/rs/security/certificates/updating-certificates.md#how-to-update-certificates) before they expire.
 
 - In case you do not renew the customer-managed certificates before they expire, Redis Software automatically replaces them with self-signed certificates 5 days before expiration. You can upload new customer-provided certificates to replace these certificates anytime.
 

@@ -13,13 +13,13 @@ weight: 45
 
 Redis Cloud Essentials supports low throughput workflows. It supports a range of availability, persistence, and backup options, and can be great for testing and prototyping. However, if your databases need higher throughput, or you're missing features that are not available with Redis Cloud Essentials, you may want to upgrade Redis Cloud Essentials to Redis Cloud Pro.
 
-For more information about the different subscription plans, see [Subscription plans]({{< relref "/operate/rc/subscriptions#subscription-plans" >}}).
+For more information about the different subscription plans, see [Subscription plans](/content/operate/rc/subscriptions/_index.md#subscription-plans).
 
-To upgrade your Essentials plan to another essential plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}).
+To upgrade your Essentials plan to another essential plan, see [Upgrade subscription plan](/content/operate/rc/subscriptions/view-essentials-subscription/_index.md#upgrade-plan).
 
 ## Upgrade Essentials subscription to Pro
 
-To follow the steps in this guide, you must have a database with [Redis Cloud Essentials]({{< relref "/operate/rc/subscriptions/view-essentials-subscription" >}}) that you want to upgrade to Redis Cloud Pro.
+To follow the steps in this guide, you must have a database with [Redis Cloud Essentials](/content/operate/rc/subscriptions/view-essentials-subscription/_index.md) that you want to upgrade to Redis Cloud Pro.
 
 To upgrade your Essentials database to Redis Cloud Pro:
 
@@ -31,24 +31,23 @@ To upgrade your Essentials database to Redis Cloud Pro:
 
 ### Create Redis Cloud Pro database {#create-rcp}
 
-[Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) with the following specifications:
+[Create a new database](/content/operate/rc/databases/create-database/create-pro-database-new.md) with the following specifications:
 
 - Select **Redis Cloud Pro** for your subscription type.
-- In the [**Sizing tab**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}), create your databases with the following specifications:
-    - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
+- In the [**Sizing tab**](/content/operate/rc/databases/create-database/create-pro-database-new.md#sizing-tab), create your databases with the following specifications:
+    - Set the memory limit to comply with [Active-Passive memory requirements](/content/operate/rc/databases/migrate-databases.md#active-passive-memory-requirements) if you want to migrate your database using [Active-Passive](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive).
     - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints. You can find the port in the endpoint of your database on the **Configuration** tab of your database.
 
 ### Migrate data
 
-You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro subscription using any method in the [Migrate databases]({{< relref "/operate/rc/databases/migrate-databases" >}}) guide. This guide uses [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) to migrate databases between subscriptions in the same account.
+You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro subscription using any method in the [Migrate databases](/content/operate/rc/databases/migrate-databases.md) guide. This guide uses [Active-Passive](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive) to migrate databases between subscriptions in the same account.
 
-{{< note >}}
-Before you follow this guide, be aware of the following limitations:
-
-- This guide is for migrating databases between subscriptions in the same Redis Cloud console account. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
-
-- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). We recommend that you turn off Active-Passive after the databases are synced. 
-{{< /note >}}
+> [!NOTE]
+> Before you follow this guide, be aware of the following limitations:
+>
+> - This guide is for migrating databases between subscriptions in the same Redis Cloud console account. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
+>
+> - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy](/content/operate/rc/databases/configuration/data-eviction-policies.md). We recommend that you turn off Active-Passive after the databases are synced. 
 
 1. Select the database you want to migrate your data to. This will be your target database.
 
@@ -92,9 +91,8 @@ Before you follow this guide, be aware of the following limitations:
 
 Redirecting your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
 
-{{< note >}}
-See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information on the limitations and requirements for endpoint redirection.
-{{< /note >}}
+> [!NOTE]
+> See [Redirect dynamic endpoints](/content/operate/rc/databases/redirect-endpoints.md) for more information on the limitations and requirements for endpoint redirection.
 
 To redirect your database endpoints:
 
@@ -111,11 +109,11 @@ To redirect your database endpoints:
     {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
 
     You must have a private connectivity method set up to be able to select the **Private** endpoint, such as:
-    - [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
-    - [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) _(Google Cloud only)_
-    - [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) _(AWS only)_
+    - [VPC peering](/content/operate/rc/security/vpc-peering.md)
+    - [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md) _(Google Cloud only)_
+    - [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) or [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) _(AWS only)_
 
-1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
+1. If you want to assign the same [Role-based Access Control (RBAC) roles](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
     {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
 
@@ -133,4 +131,4 @@ After the 24-hour window, you can no longer revert to the endpoint to the origin
 
 ### Delete Essentials database
 
-After you migrate your data and redirect your endpoints, [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
+After you migrate your data and redirect your endpoints, [delete the source database](/content/operate/rc/databases/delete-database.md).

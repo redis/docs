@@ -12,23 +12,22 @@ aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
          /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
 ---
 
-Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/ai/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
+Query performance factors are intended to increase the performance of queries, including [vector search](/content/develop/ai/search-and-query/query/vector-search.md). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
 
-{{<note>}}
-Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with Redis Search will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
-{{</note>}}
+> [!NOTE]
+> Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with Redis Search will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
 
 ## Prerequisites
 
 Redis Search requires a cluster running Redis Software version 7.4.2-54 or later. For the simplified configuration experience (no shard restart required, new UI, and new REST API), Redis Software version 8.x or later is required.
 
-If you do not have a cluster that supports Redis Search, [install Redis Software]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+If you do not have a cluster that supports Redis Search, [install Redis Software](/content/operate/rs/installing-upgrading/install/install-on-linux.md) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster](/content/operate/rs/installing-upgrading/upgrading/upgrade-cluster.md).
 
 ## Sizing
 
 1. Calculate the hardware requirements for your Redis database:
 
-    1. Use the [hardware requirements documentation]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements">}}) to derive the overall cluster architecture.
+    1. Use the [hardware requirements documentation](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) to derive the overall cluster architecture.
 
     1. Calculate the RAM requirements using the [Index Size Calculator](https://redis.io/redisearch-sizing-calculator/). The total RAM required is the sum of the dataset and index sizes.
 
@@ -81,7 +80,7 @@ Starting with Redis Software 8.x, configuring the query performance factor is si
 
 To configure the query performance factor:
 
-1. In the Cluster Manager UI, [create a new database]({{<relref "/operate/rs/databases/create">}}) or [edit an existing database]({{<relref "/operate/rs/databases/configure#edit-database-settings">}}).
+1. In the Cluster Manager UI, [create a new database](/content/operate/rs/databases/create.md) or [edit an existing database](/content/operate/rs/databases/configure/_index.md#edit-database-settings).
 
 1. In the **Capabilities** section, click **Add parameters**.
 
@@ -107,7 +106,7 @@ To manually configure the query performance factor in Redis Software versions pr
 
 #### Configure query performance factor parameters {#config-db-ui-params}
 
-You can use the Cluster Manager UI to configure the query performance factor when you [create a new database]({{<relref "/operate/rs/databases/create">}}) or [edit an existing database]({{<relref "/operate/rs/databases/configure#edit-database-settings">}}) with search enabled.
+You can use the Cluster Manager UI to configure the query performance factor when you [create a new database](/content/operate/rs/databases/create.md) or [edit an existing database](/content/operate/rs/databases/configure/_index.md#edit-database-settings) with search enabled.
 
 1. In the **Capabilities** section of the database configuration screen, click **Parameters**.
 
@@ -135,7 +134,7 @@ You can use the Cluster Manager UI to configure the query performance factor whe
 
 After you update the query performance factor for an existing database, restart all shards to apply the new settings. You can migrate shards to restart them. Newly created databases can skip this step.
 
-1. Use [`rladmin status shards db <db-name>`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards">}}) to list all shards for your database:
+1. Use [`rladmin status shards db <db-name>`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards) to list all shards for your database:
 
     ```sh
     rladmin status shards db db-name
@@ -155,7 +154,7 @@ After you update the query performance factor for an existing database, restart 
     - `NODE`: the node on which the shard currently resides.
     - `ROLE`: `master` is a primary shard; `slave` is a replica shard.
 
-1. For each replica shard, use [`rladmin migrate shard`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate">}}) to move it to a different node and restart it:
+1. For each replica shard, use [`rladmin migrate shard`](/content/operate/rs/references/cli-utilities/rladmin/migrate.md) to move it to a different node and restart it:
 
     ```sh
     rladmin migrate shard <shard_id> target_node <node_id>
@@ -182,11 +181,11 @@ After you update the query performance factor for an existing database, restart 
 
 ### Redis Software 8.x and later {#rest-api-v8}
 
-Starting with Redis Software 8.x, you can configure the query performance factor using the [`query_performance_factor`]({{<relref "/operate/rs/references/rest-api/objects/bdb/query_performance_factor">}}) object in the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). You no longer need to manually set `sched_policy`, `conns`, or module `WORKERS` parameters. Changes take effect immediately without restarting shards.
+Starting with Redis Software 8.x, you can configure the query performance factor using the [`query_performance_factor`](/content/operate/rs/references/rest-api/objects/bdb/query_performance_factor.md) object in the [BDB object](/content/operate/rs/references/rest-api/objects/bdb/_index.md). You no longer need to manually set `sched_policy`, `conns`, or module `WORKERS` parameters. Changes take effect immediately without restarting shards.
 
 #### Create a new database {#create-db-rest-api-v8}
 
-To create a database with the query performance factor enabled, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with the `query_performance_factor` field:
+To create a database with the query performance factor enabled, use the [create database REST API endpoint](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1) with the `query_performance_factor` field:
 
 ```json
 {
@@ -220,7 +219,7 @@ curl -k -u "<user>:<password>" https://<host>:9443/v1/bdbs -H "Content-Type:appl
 
 #### Update an existing database {#update-db-rest-api-v8}
 
-To configure the query performance factor for an existing database, use the [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) endpoint with the `query_performance_factor` field:
+To configure the query performance factor for an existing database, use the [update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) endpoint with the `query_performance_factor` field:
 
 ```sh
 curl -k -u "<user>:<password>" -X PUT https://<host>:9443/v1/bdbs/<DB_ID> -H "Content-Type:application/json" -d '{
@@ -240,15 +239,15 @@ No shard restart is required. The new configuration applies automatically.
 | active | boolean (default:&nbsp;false) | If true, enables query performance factor for the database |
 | scaling_factor | integer (range:&nbsp;0-16) (default:&nbsp;0) | Scales the magnitude of the query performance factor |
 
-See the [`query_performance_factor` object reference]({{<relref "/operate/rs/references/rest-api/objects/bdb/query_performance_factor">}}) for more details.
+See the [`query_performance_factor` object reference](/content/operate/rs/references/rest-api/objects/bdb/query_performance_factor.md) for more details.
 
 ### Prior to Redis Software 8 {#rest-api-prior}
 
-You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Software [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Software [REST API](/content/operate/rs/references/rest-api/_index.md).
 
 #### Create new database with the REST API {#create-db-rest-api}
 
-To create a database and configure the query performance factor, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
+To create a database and configure the query performance factor, use the [create database REST API endpoint](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1) with a [BDB object](/content/operate/rs/references/rest-api/objects/bdb/_index.md) that includes the following parameters:
 
 ```json
 {
@@ -299,14 +298,13 @@ curl -k -u "<user>:<password>" https://<host>:9443/v1/bdbs -H "Content-Type:appl
 
 To configure the query performance factor for an existing database, use the following REST API requests:
 
-- [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) to modify the DMC proxy.
+- [Update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) to modify the DMC proxy.
 
-- [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s query performance factor.
+- [Upgrade module](/content/operate/rs/references/rest-api/requests/bdbs/modules/upgrade.md#post-bdb-modules-upgrade) to set the search module’s query performance factor.
 
-{{<note>}}
-- Because this procedure also restarts the database shards, you should perform it during a maintenance period.
-- This procedure overwrites any existing module configuration parameters.
-{{</note>}}
+> [!NOTE]
+> - Because this procedure also restarts the database shards, you should perform it during a maintenance period.
+> - This procedure overwrites any existing module configuration parameters.
 
 The following example script uses both endpoints to configure a 4x query performance factor:
 
@@ -339,7 +337,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
 
 To monitor a database with a query performance factor configured:
 
-1. Integrate your Redis Software deployment with Prometheus. See [Prometheus and Grafana with Redis Software]({{<relref "/integrate/prometheus-with-redis-enterprise">}}) for instructions.
+1. Integrate your Redis Software deployment with Prometheus. See [Prometheus and Grafana with Redis Software](/content/integrate/prometheus-with-redis-enterprise/_index.md) for instructions.
 
 1. Monitor the `redis_process_cpu_usage_percent` shard metric.
 

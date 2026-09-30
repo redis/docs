@@ -45,7 +45,7 @@ Get information about all shards in the cluster.
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [shard objects]({{<relref "/operate/rs/7.22/references/rest-api/objects/shard">}}).
+Returns a JSON array of [shard objects](/content/operate/rs/7.22/references/rest-api/objects/shard/_index.md).
 
 #### Example JSON body
 
@@ -115,7 +115,7 @@ Gets information about a single shard.
 
 ### Response {#get-response} 
 
-Returns a [shard object]({{<relref "/operate/rs/7.22/references/rest-api/objects/shard">}}).
+Returns a [shard object](/content/operate/rs/7.22/references/rest-api/objects/shard/_index.md).
 
 #### Example JSON body
 

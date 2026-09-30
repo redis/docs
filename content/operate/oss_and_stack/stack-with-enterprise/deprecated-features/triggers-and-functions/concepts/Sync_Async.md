@@ -59,7 +59,7 @@ Running this function will return a `pong` reply:
 
 Notice that this time, in order to invoke the function, we used `TFCALLASYNC`. **We can only invoke async functions using `TFCALLASYNC`**.
 
-Now let's look at a more complex example. Assume we want to write a function that counts the number of hashes in Redis that have a `name` property with some value. As a first attempt, we'll write a synchronous function that uses the [`SCAN`]({{< relref "/commands/scan" >}}) command to scan the key space:
+Now let's look at a more complex example. Assume we want to write a function that counts the number of hashes in Redis that have a `name` property with some value. As a first attempt, we'll write a synchronous function that uses the [`SCAN`](/content/commands/scan.md) command to scan the key space:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -105,7 +105,7 @@ redis.registerAsyncFunction('test', async function(async_client, expected_name){
 });
 ```
 
-Both implementations return the same result, but the second function runs in the background and blocks Redis just to analyze the next batch of keys that are returned from the [`SCAN`]({{< relref "/commands/scan" >}}) command. Other commands will be processed in between [`SCAN`]({{< relref "/commands/scan" >}}) batches. Notice that the coroutine approach allows the key space to be changed while the scanning it. The function writer will need to decide if this is acceptable.
+Both implementations return the same result, but the second function runs in the background and blocks Redis just to analyze the next batch of keys that are returned from the [`SCAN`](/content/commands/scan.md) command. Other commands will be processed in between [`SCAN`](/content/commands/scan.md) batches. Notice that the coroutine approach allows the key space to be changed while the scanning it. The function writer will need to decide if this is acceptable.
 
 # Start sync and move to async
 
@@ -198,7 +198,7 @@ redis.registerAsyncFunction('test', function(client, expected_name){
 
 # Call blocking commands
 
-Redis has a few commands that blocks the client and executed asynchronously when some condition holds (commands like [blpop]({{< relref "/commands/blpop" >}})). In general, such commands are not suppose to be called inside a script and calling them will result in running their none blocking logic. For example, [blpop]({{< relref "/commands/blpop" >}}) will basically runs lpop and return empty result if the list it empty.
+Redis has a few commands that blocks the client and executed asynchronously when some condition holds (commands like [blpop](/content/commands/blpop.md)). In general, such commands are not suppose to be called inside a script and calling them will result in running their none blocking logic. For example, [blpop](/content/commands/blpop.md) will basically runs lpop and return empty result if the list it empty.
 
 RedisGears allows running blocking commands using `client.callAsync` API. `client.callAsync` will execute the blocking command and return a promise object which will be resolved when the command invocation finished (notice that `client.callAsync` allow calling any command and not just blocking but it will always return a promise object that will be resolve later, so **using it for regular commands is less efficient**). 
 
@@ -228,7 +228,7 @@ RedisGears also provided `client.callAsyncRaw` API, which is the same as `client
 
 Blocking Redis might fail for a few reasons:
 
-* Redis reached OOM state and the `redis.functionFlags.NO_WRITES` or `redis.functionFlags.ALLOW_OOM` flags are not set (see [functions flags]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Function_Flags" >}}) for more information)
+* Redis reached OOM state and the `redis.functionFlags.NO_WRITES` or `redis.functionFlags.ALLOW_OOM` flags are not set (see [functions flags](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Function_Flags.md) for more information)
 * `redis.functionFlags.NO_WRITES` flag is not set and the Redis instance changed roles and is now a replica.
 * The ACL user that invoked the function was deleted.
 
@@ -236,7 +236,7 @@ The failure will result in an exception that the function writer can choose to h
 
 # Block Redis timeout
 
-Blocking Redis for a long time is discouraged and is considered an unsafe operation. The triggers and functions feature attempts to protect the function writer and will time out the blocking function if it continues for too long. The timeout can be set as a [module configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration" >}}) along side the fatal failure policy that indicates how to handle the timeout. Policies can be one of the following:
+Blocking Redis for a long time is discouraged and is considered an unsafe operation. The triggers and functions feature attempts to protect the function writer and will time out the blocking function if it continues for too long. The timeout can be set as a [module configuration](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration.md) along side the fatal failure policy that indicates how to handle the timeout. Policies can be one of the following:
 
 * Abort - Stop the function invocation even at the cost of losing the atomicity property.
 * Kill - Keep the atomicity property and do not stop the function invocation. In this case there is a risk of an external process killing the Redis server, thinking that the shard is not responding.

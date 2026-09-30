@@ -18,11 +18,11 @@ bannerChildren: true
 
 The `GearsFuture` class allows asynchronous processing of records in another thread.
 
-You can use a `GearsFuture` object with the following [`GearsBuilder`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder" >}}) functions:
+You can use a `GearsFuture` object with the following [`GearsBuilder`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/_index.md) functions:
 
-- [`asyncFilter`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncfilter" >}})
-- [`asyncForeach`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncforeach" >}})
-- [`asyncMap`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncmap" >}})
+- [`asyncFilter`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncfilter.md)
+- [`asyncForeach`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncforeach.md)
+- [`asyncMap`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/asyncmap.md)
 
 ## Functions
 

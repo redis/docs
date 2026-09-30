@@ -52,4 +52,4 @@ Replica Of capabilities in Redis Software.
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "/operate/rs/8.0/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/8.0/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Software.
+each supported data type](/content/operate/rs/8.0/databases/active-active/develop/data-types/_index.md) and [how to develop applications](/content/operate/rs/8.0/databases/active-active/develop/develop-for-aa.md) with them on Redis Software.

@@ -29,13 +29,12 @@ Data can be persisted in one of two ways:
 AOF files provide greater protection (durability) than snapshots at the cost of resources and recovery time. 
 Although snapshot recovery is faster, the risk of data loss is higher, depending on the time between failure and the most recent snapshot.
 
-{{<warning>}}
-If you turn off data persistence, data is lost when the database goes down.
-{{</warning>}}
+> [!WARNING]
+> If you turn off data persistence, data is lost when the database goes down.
 
 ## Configure data persistence 
 
-In Redis Cloud, data persistence is a database configuration setting that can be changed by [editing your database]({{< relref "/operate/rc/databases/view-edit-database.md" >}}) settings.
+In Redis Cloud, data persistence is a database configuration setting that can be changed by [editing your database](/content/operate/rc/databases/view-edit-database.md) settings.
 
 The availability of the setting depends on your plan:
 

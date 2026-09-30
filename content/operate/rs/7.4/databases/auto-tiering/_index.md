@@ -25,7 +25,7 @@ Redis Enterprise’s auto tiering is based on a high-performance storage engine 
 
 Just like all-RAM databases, databases with Auto Tiering enabled are compatible with existing Redis applications.
 
-Auto Tiering is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
+Auto Tiering is also supported on [Redis Cloud](/content/operate/rc/_index.md) and [Redis Enterprise Software for Kubernetes](/content/operate/kubernetes/_index.md).
 
 ## Use cases
 
@@ -59,7 +59,8 @@ All data is accessed through RAM. If a value in flash memory is accessed, it bec
 
 Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
-{{<note>}} When using Auto Tiering with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
+> [!NOTE]
+>  When using Auto Tiering with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.
 
 ## RAM to Flash ratio
 
@@ -77,7 +78,8 @@ Implementing Auto Tiering requires pre planning around memory and sizing. Consid
 - For the best performance, the SSDs should be NVMe based, but SATA can also be used.
 - The available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).
 
-{{<note>}} The Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached. {{</note>}}
+> [!NOTE]
+>  The Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached. 
 
 Once these requirements are met, you can create and manage both databases with Auto Tiering enabled and
 all-RAM databases in the same cluster.
@@ -92,8 +94,8 @@ When running in a cloud environment:
 - Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
-{{<note>}}
-We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://aws.amazon.com/ec2/instance-types/#storage-optimized)" because of the performance of NVMe for flash memory. {{</note>}}
+> [!NOTE]
+> We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://aws.amazon.com/ec2/instance-types/#storage-optimized)" because of the performance of NVMe for flash memory. 
 
 ### On-premises environments
 
@@ -102,14 +104,16 @@ When you begin planning the deployment of Auto Tiering in production, we recomme
 On-premises environments support more deployment options than other environments such as:
 
 - Using Redis Stack features:
-  - [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) 
-  - [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
-  - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
-  - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
+  - [Search and query](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md) 
+  - [JSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md)
+  - [Time series](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/_index.md)
+  - [Probabilistic data structures](/content/operate/oss_and_stack/stack-with-enterprise/bloom/_index.md)
 
-{{<note>}} Enabling Auto Tiering for Active-Active distributed databases requires validating and getting the Redis technical team's approval first . {{</note>}}
+> [!NOTE]
+>  Enabling Auto Tiering for Active-Active distributed databases requires validating and getting the Redis technical team's approval first . 
 
-{{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
+> [!WARNING]
+>  Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. 
 
 ## Size limits for keys and values
 
@@ -125,8 +129,8 @@ If oversized keys consume the shard's available RAM, the shard can return out-of
 
 ## Next steps
 
-- [Auto Tiering metrics]({{< relref "/operate/rs/7.4/references/metrics/auto-tiering" >}})
-- [Auto Tiering quick start]({{< relref "/operate/rs/7.4/databases/auto-tiering/quickstart.md" >}})
+- [Auto Tiering metrics](/content/operate/rs/7.4/references/metrics/auto-tiering.md)
+- [Auto Tiering quick start](/content/operate/rs/7.4/databases/auto-tiering/quickstart.md)
 
-- [Ephemeral and persistent storage]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-- [Hardware requirements]({{< relref "/operate/rs/7.4/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
+- [Ephemeral and persistent storage](/content/operate/rs/7.4/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage.md)
+- [Hardware requirements](/content/operate/rs/7.4/installing-upgrading/install/plan-deployment/hardware-requirements.md)

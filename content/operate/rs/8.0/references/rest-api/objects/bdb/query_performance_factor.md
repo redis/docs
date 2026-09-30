@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/8.0/references/rest-api/objects/bdb/query_performance_factor/'
 ---
 
-Configures [query performance factor]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) and related fields.
+Configures [query performance factor](/content/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor.md) and related fields.
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|

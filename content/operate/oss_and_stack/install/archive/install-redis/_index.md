@@ -14,17 +14,17 @@ weight: 1
 
 This is a an installation guide. You'll learn how to install, run, and experiment with the Redis server process.
 
-While you can install Redis on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer tool that works with Redis.
+While you can install Redis on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). You can also download [Redis Insight](/content/operate/redisinsight/install/_index.md), a free developer tool that works with Redis.
 
 ## Install Redis Open Source
 
 How you install Redis depends on your operating system. See the guide below that best fits your needs:
 
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-windows" >}})
+* [Install Redis on Linux](/content/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux.md)
+* [Install Redis on macOS](/content/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os.md)
+* [Install Redis on Windows](/content/operate/oss_and_stack/install/archive/install-redis/install-redis-on-windows.md)
 
-Refer to [Redis Administration]({{< relref "/operate/oss_and_stack/management/admin" >}}) for detailed setup tips.
+Refer to [Redis Administration](/content/operate/oss_and_stack/management/admin.md) for detailed setup tips.
 
 ## Test if you can connect using the CLI
 
@@ -55,7 +55,7 @@ By default Redis binds to **all the interfaces** and has no authentication at al
 
 1. Make sure the port Redis uses to listen for connections (by default 6379 and additionally 16379 if you run Redis in cluster mode, plus 26379 for Sentinel) is firewalled, so that it is not possible to contact Redis from the outside world.
 2. Use a configuration file where the `bind` directive is set in order to guarantee that Redis listens on only the network interfaces you are using. For example, only the loopback interface (127.0.0.1) if you are accessing Redis locally from the same computer.
-3. Use the `requirepass` option to add an additional layer of security so that clients will be required to authenticate using the [`AUTH`](/commands/auth) command.
+3. Use the `requirepass` option to add an additional layer of security so that clients will be required to authenticate using the [`AUTH`](/content/commands/auth.md) command.
 4. Use [spiped](http://www.tarsnap.com/spiped.html) or another SSL tunneling software to encrypt traffic between Redis servers and Redis clients if your environment requires encryption.
 
 Note that a Redis instance exposed to the internet without any security [is very simple to exploit](http://antirez.com/news/96), so make sure you understand the above and apply **at least** a firewall layer. After the firewall is in place, try to connect with `redis-cli` from an external host to confirm that the instance is not reachable.
@@ -64,18 +64,18 @@ Note that a Redis instance exposed to the internet without any security [is very
 
 Of course using Redis just from the command line interface is not enough as the goal is to use it from your application. To do so, you need to download and install a Redis client library for your programming language.
 
-You'll find a [full list of supported clients for different languages in this page]({{< relref "develop/clients/" >}}).
+You'll find a [full list of supported clients for different languages in this page](/content/develop/clients/_index.md).
 
 
 ## Redis persistence
 
-You can learn [how Redis persistence works on this page]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It is important to understand that, if you start Redis with the default configuration, Redis will spontaneously save the dataset only from time to time. For example, after at least five minutes if you have at least 100 changes in your data. If you want your database to persist and be reloaded after a restart make sure to call the **SAVE** command manually every time you want to force a data set snapshot. Alternatively, you can save the data on disk before quitting by using the **SHUTDOWN** command:
+You can learn [how Redis persistence works on this page](/content/operate/oss_and_stack/management/persistence.md). It is important to understand that, if you start Redis with the default configuration, Redis will spontaneously save the dataset only from time to time. For example, after at least five minutes if you have at least 100 changes in your data. If you want your database to persist and be reloaded after a restart make sure to call the **SAVE** command manually every time you want to force a data set snapshot. Alternatively, you can save the data on disk before quitting by using the **SHUTDOWN** command:
 
 ```
 $ redis-cli shutdown
 ```
 
-This way, Redis will save the data on disk before quitting. Reading the [persistence page]({{< relref "/operate/oss_and_stack/management/persistence" >}}) is strongly suggested to better understand how Redis persistence works.
+This way, Redis will save the data on disk before quitting. Reading the [persistence page](/content/operate/oss_and_stack/management/persistence.md) is strongly suggested to better understand how Redis persistence works.
 
 ## Install Redis properly
 
@@ -86,13 +86,11 @@ Running Redis from the command line is fine just to hack a bit or for developmen
 
 A proper install using an init script is strongly recommended. 
 
-{{% alert title="Note" color="warning" %}}
-The available packages for supported Linux distributions already include the capability of starting the Redis server from `/etc/init`.
-{{% /alert  %}}
+> [!NOTE]
+> The available packages for supported Linux distributions already include the capability of starting the Redis server from `/etc/init`.
 
-{{% alert title="Note" color="warning" %}}
-The remainder of this section assumes you've [installed Redis from its source code]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}}).
-{{% /alert  %}}
+> [!NOTE]
+> The remainder of this section assumes you've [installed Redis from its source code](/content/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source.md).
 
 The following instructions can be used to perform a proper installation using the init script shipped with the Redis source code, `/path/to/redis-stable/utils/redis_init_script`.
 
@@ -153,13 +151,12 @@ sudo /etc/init.d/redis_6379 start
 
 Make sure that everything is working as expected:
 
-1. Try pinging your instance within a `redis-cli` session using the [`PING`](/commands/ping) command.
+1. Try pinging your instance within a `redis-cli` session using the [`PING`](/content/commands/ping.md) command.
 2. Do a test save with `redis-cli save` and check that a dump file is correctly saved to `/var/redis/6379/dump.rdb`.
 3. Check that your Redis instance is logging to the `/var/log/redis_6379.log` file.
 4. If it's a new machine where you can try it without problems, make sure that after a reboot everything is still working.
 
-{{% alert title="Note" color="warning" %}}
-The above instructions don't include all of the Redis configuration parameters that you could change. For example, to use AOF persistence instead of RDB persistence, or to set up replication, and so forth. Further details can be found in the [configuration article on this site]({{< relref "/operate/oss_and_stack/management/config" >}}).
-{{% /alert  %}}
+> [!NOTE]
+> The above instructions don't include all of the Redis configuration parameters that you could change. For example, to use AOF persistence instead of RDB persistence, or to set up replication, and so forth. Further details can be found in the [configuration article on this site](/content/operate/oss_and_stack/management/config.md).
 
 <hr>

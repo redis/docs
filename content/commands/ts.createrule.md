@@ -93,9 +93,8 @@ syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |\
   \ [alignTimestamp]"
 title: TS.CREATERULE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
@@ -145,14 +144,13 @@ aggregates results into time buckets.
 
 - Only new samples that are added into the source series after the creation of the rule will be aggregated.
 - Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), or [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`](/content/commands/ts.add.md), [`TS.MADD`](/content/commands/ts.madd.md), [`TS.INCRBY`](/content/commands/ts.incrby.md), or [`TS.DECRBY`](/content/commands/ts.decrby.md)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 - If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.
 - The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.
 - Deleting `destKey` will cause the compaction rule to be deleted as well.
 
-{{% warning %}}
-In a clustered environment, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.
-{{% /warning %}}
+> [!WARNING]
+> In a clustered environment, you must use [hash tags](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.
   
 </note>
 
@@ -207,21 +205,21 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the compaction rule is created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the compaction rule is created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.DELETERULE`]({{< relref "commands/ts.deleterule/" >}}) 
+[`TS.DELETERULE`](/content/commands/ts.deleterule.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

@@ -89,9 +89,8 @@ There are many additional improvements, including new command arguments, securit
 - Developers can now match `TAG` fields without needing to escape special characters, making the onboarding process and use of the query syntax simpler.
 - Geospatial search capabilities have been expanded with new `INTERSECT` and `DISJOINT` operators, and ergonomics have been improved by providing better reporting of the memory consumed by the index and exposing the Full-text scoring in the aggregation pipeline.
 
-{{< warning >}}
-If one or more fields of a hash key expire after a query begins (using FT.SEARCH or FT.AGGREGATE), Redis does not account for these lazily expired fields. As a result, keys with expired fields may still be included in the query results, leading to potentially incorrect or inconsistent results.
-{{< /warning >}}
+> [!WARNING]
+> If one or more fields of a hash key expire after a query begins (using FT.SEARCH or FT.AGGREGATE), Redis does not account for these lazily expired fields. As a result, keys with expired fields may still be included in the query results, leading to potentially incorrect or inconsistent results.
 
 **Removal of triggers and functions**
 

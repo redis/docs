@@ -10,7 +10,7 @@ linkTitle: Slow log
 weight: $weight
 ---
 
-[Redis slow log]({{<relref "/commands/slowlog">}}) is one of the best
+[Redis slow log](/content/commands/slowlog.md) is one of the best
 tools for debugging and tracing your Redis database, especially if you
 experience high latency and high CPU usage with Redis operations.
 Because Redis is based on a single threaded architecture, Redis slow log
@@ -30,9 +30,9 @@ execution times of the same command, observe spikes in CPU usage, and
 more.
 
 This is especially useful with complex commands such as
-[ZUNIONSTORE]({{<relref "/commands/zunionstore">}}),
-[ZINTERSTORE]({{<relref "/commands/zinterstore">}}), and
-[ZRANGEBYSCORE]({{<relref "/commands/zrangebyscore">}}).
+[ZUNIONSTORE](/content/commands/zunionstore.md),
+[ZINTERSTORE](/content/commands/zinterstore.md), and
+[ZRANGEBYSCORE](/content/commands/zrangebyscore.md).
 
 The enhanced Redis Software slow log adds the **Complexity info** field to the
 output data.
@@ -77,7 +77,7 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 - Cluster Manager UI:
 
-    1. To access the slow log in the Cluster Manager UI, your [cluster management role]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}) must be Admin, Cluster Member, or DB Member.
+    1. To access the slow log in the Cluster Manager UI, your [cluster management role](/content/operate/rs/security/access-control/create-cluster-roles.md) must be Admin, Cluster Member, or DB Member.
     
     1. Select a database from the **Databases** list.
 
@@ -85,7 +85,7 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 - Command line:
 
-    Use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to run [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}):
+    Use [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to run [`SLOWLOG GET`](/content/commands/slowlog-get.md):
 
     ```sh
     redis-cli -h <endpoint> -p <port> SLOWLOG GET <count>
@@ -93,15 +93,15 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 ## Change slow log threshold
 
-The slow log includes all database commands that take longer than ten milliseconds (10,000 microseconds) by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change this threshold.
+The slow log includes all database commands that take longer than ten milliseconds (10,000 microseconds) by default. You can use [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to view or change this threshold.
 
-To check the current threshold, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
+To check the current threshold, run [`CONFIG GET`](/content/commands/config-get.md):
 
 ```sh
 redis-cli -h <endpoint> -p <port> CONFIG GET slowlog-log-slower-than
 ```
 
-To change the threshold, run [`CONFIG SET`]({{<relref "/commands/config-set">}}):
+To change the threshold, run [`CONFIG SET`](/content/commands/config-set.md):
 
 ```sh
 redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-log-slower-than <value_in_microseconds>
@@ -109,15 +109,15 @@ redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-log-slower-than <value_in_m
 
 ## Change maximum entries
 
-The slow log retains the last 128 entries by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change the maximum number of entries.
+The slow log retains the last 128 entries by default. You can use [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to view or change the maximum number of entries.
 
-To check the current maximum, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
+To check the current maximum, run [`CONFIG GET`](/content/commands/config-get.md):
 
 ```sh
 redis-cli -h <endpoint> -p <port> CONFIG GET slowlog-max-len
 ```
 
-To change the maximum, run [`CONFIG SET`]({{<relref "/commands/config-set">}}):
+To change the maximum, run [`CONFIG SET`](/content/commands/config-set.md):
 
 ```sh
 redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-max-len <value>

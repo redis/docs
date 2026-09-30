@@ -20,7 +20,7 @@ weight: 42
 
 ### Redis 7.4 Preview on Redis Cloud Pro
 
-A preview of Redis 7.4 is now available on [Redis Cloud Pro databases]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
+A preview of Redis 7.4 is now available on [Redis Cloud Pro databases](/content/operate/rc/databases/create-database/create-pro-database-new.md).
 
 Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
 

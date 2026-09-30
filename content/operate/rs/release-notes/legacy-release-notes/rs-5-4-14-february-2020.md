@@ -14,17 +14,17 @@ This release bundles OSS Redis 5.0.7 and includes new Redis Modules versions, se
 
 ## Overview
 
-Follow these [instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) for upgrading to RS 5.4.14 from RS 5.0.2 and above.
+Follow these [instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md) for upgrading to RS 5.4.14 from RS 5.0.2 and above.
 
 ## New features
 
 - Version [5.0.7](https://raw.githubusercontent.com/antirez/redis/5.0/00-RELEASENOTES) of OSS Redis is merged into RS 5.4.14.
 - The following GA releases of Redis Modules are bundled in RS 5.4.14:
-    - [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version 2.2.1 (updated, [release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}release-notes/redisbloom/redisbloom-2.2-release-notes.md#redisbloom-221-january-2020))
-    - [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version 2.0.1 (updated, [release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}release-notes/redisgraph/redisgraph-2.0-release-notes.md#redisgraph-20-ga-201---january-2020))
-    - [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version 1.0.4 (update, [release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}release-notes/redisjson/redisjson-1.0-release-notes))
-    - [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version 1.4.25 (updated, [release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}release-notes/redisearch/redisearch-1.4-release-notes.md#redisearch-1425-march-2020))
-    - [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version 1.2.3 (updated, [release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}release-notes/redistimeseries/redistimeseries-1.2-release-notes))
+    - [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version 2.2.1 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md#redisbloom-221-january-2020))
+    - [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version 2.0.1 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.0-release-notes.md#redisgraph-20-ga-201---january-2020))
+    - [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version 1.0.4 (update, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-1.0-release-notes.md))
+    - [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version 1.4.25 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-1.4-release-notes.md#redisearch-1425-march-2020))
+    - [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version 1.2.3 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.2-release-notes.md))
 
 ## Additional capabilities
 
@@ -66,7 +66,7 @@ Follow these [instructions]({{< relref "/operate/rs/installing-upgrading/upgradi
 
 - End of Life (EOL) for Redis Enterprise Software 5.4, as well as for Redis Modules and previous RS versions, can be found [here](https://docs.redis.com/latest/rs/installing-upgrading/product-lifecycle).
 - Google Chrome browser on macOS Catalina requires self-signed certificate generated after June 2019 to include the extendedKeyUsage field in order to connect to the RS admin console.
-    If you use a self-signed certificate that does not include this field, [update the self-signed certificate]({{< relref "operate/rs/security/certificates/updating-certificates" >}}).
+    If you use a self-signed certificate that does not include this field, [update the self-signed certificate](/content/operate/rs/security/certificates/updating-certificates.md).
 - When you upgrade an Active-Active Redis with active AOF from version RS 5.4.2 or lower to version RS 5.4.4 or higher:
     - If replication is enabled, you must run the BGREWRITEAOF command on all replica shards after the upgrade.
     - If replication is not enabled, you must run the BGREWRITEAOF command on all shards after the upgrade.
@@ -84,15 +84,15 @@ Follow these [instructions]({{< relref "/operate/rs/installing-upgrading/upgradi
 ### Upgrade
 
 - When you upgrade a cluster from version 5.0.2-20 to version 5.4.14, you must first upgrade to version 5.2.2 and then to version 5.4.14.
-- [RS 5.4.2]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md" >}}) introduced new Active-Active Redis (CRDB) capabilities
+- [RS 5.4.2](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md) introduced new Active-Active Redis (CRDB) capabilities
     that improve its compatibility with open source Redis.
     Now the string data-type in Active-Active Redis (CRDB) is implicitly and dynamically typed, just like open source Redis.
     To use the new capabilities on nodes that are upgraded from version RS 5.4.2 or lower,
-    you must [upgrade the CRDB protocol]({{< relref "/operate/rs/installing-upgrading/upgrading#upgrading-crdbs" >}}).
+    you must [upgrade the CRDB protocol](/content/operate/rs/installing-upgrading/upgrading/_index.md#upgrading-crdbs).
 - Before you upgrade a database with RediSearch Module to Redis 5.0,
-    you must [upgrade the RediSearch Module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) to version 1.4.2 or above.
+    you must [upgrade the RediSearch Module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to version 1.4.2 or above.
 - Node upgrade fails if the SSL certificates were configured in version 5.0.2 or above
-    by manually updating the certificates on the disk instead of [updating them through the API]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
+    by manually updating the certificates on the disk instead of [updating them through the API](/content/operate/rs/security/certificates/updating-certificates.md).
     For assistance with this issue, [contact Redis support](https://redislabs.com/company/support/).
 - We recommend that you test module upgrade commands in a test environment before you upgrade modules in a production environment.
     The module upgrade arguments are not validated during the upgrade process and incorrect arguments can cause unexpected downtime.
@@ -106,7 +106,7 @@ Follow these [instructions]({{< relref "/operate/rs/installing-upgrading/upgradi
 
 ### Discovery service
 
-- For [Redis Sentinel (Discovery Service)]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), every database name must be unique across the cluster.
+- For [Redis Sentinel (Discovery Service)](/content/operate/rs/databases/durability-ha/discovery-service.md), every database name must be unique across the cluster.
 
 ### Redis commands
 

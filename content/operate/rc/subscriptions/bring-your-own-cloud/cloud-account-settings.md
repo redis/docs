@@ -24,11 +24,10 @@ To do this, you need:
 1. A programmatic user with an access key and a secret access key for that user.
 1. A console role that allows administrative access to the cloud account.
 
-You need to create these resources before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
+You need to create these resources before adding the cloud account to your subscription.  To learn more, see [Create IAM resources](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/_index.md).
 
-{{<warning>}}
-After an AWS account has been configured as a cloud account, you **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud#avoid-service-disruption" >}}) for more details.
-{{</warning>}}
+> [!WARNING]
+> After an AWS account has been configured as a cloud account, you **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md#avoid-service-disruption) for more details.
 
 ## View cloud account settings
 
@@ -79,7 +78,7 @@ If the **Add account** button is inactive, verify that:
 - The resources exist in your AWS account
 - Each resource provides the required level of access
 
-For help, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
+For help, see [Create IAM resources](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/_index.md).
 
 ## Edit cloud account details
 
@@ -112,4 +111,4 @@ To remove a cloud account from your Redis cloud subscription, select the cloud a
 
 We strongly recommend using dedicated identity and access management (IAM) resources to manage your AWS cloud accounts.  These resources should not be shared with any other task, account, or process.
 
-To learn more, see [Create IAM resources for AWS cloud accounts]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
+To learn more, see [Create IAM resources for AWS cloud accounts](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/_index.md).

@@ -61,7 +61,7 @@ title: BF.INSERT
 ---
 Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.
 
-This command is similar to [`BF.MADD`]({{< relref "commands/bf.madd/" >}}), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) and [`BF.MADD`]({{< relref "commands/bf.madd/" >}}).
+This command is similar to [`BF.MADD`](/content/commands/bf.madd.md), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`](/content/commands/bf.reserve.md) and [`BF.MADD`](/content/commands/bf.madd.md).
 
 ## Required arguments
 
@@ -92,14 +92,14 @@ It is an error to specify `NOCREATE` together with either `CAPACITY` or `ERROR`.
 Specifies the desired `capacity` for the filter to be created.
 This parameter is ignored if the filter already exists.
 If the filter is automatically created and this parameter is absent, then the module-level `capacity` is used.
-See [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) for more information about the impact of this value.
+See [`BF.RESERVE`](/content/commands/bf.reserve.md) for more information about the impact of this value.
 </details>
 
 <details open><summary><code>ERROR error</code></summary>
     
 Specifies the `error` ratio of the newly created filter if it does not yet exist.
 If the filter is automatically created and `error` is not specified then the module-level error rate is used.
-See [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}}) for more information about the format of this value.
+See [`BF.RESERVE`](/content/commands/bf.reserve.md) for more information about the format of this value.
 </details>
 
 <details open><summary><code>NONSCALING</code></summary>
@@ -156,17 +156,17 @@ redis> BF.INSERT filter NOCREATE ITEMS foo bar
     tab2="RESP3" >}}
 
 One of the following: where each element is one of these options:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
-  * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
-  * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays), where each element is one of the following options:
+  * [Integer reply](/content/develop/reference/protocol-spec.md#integers) `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
+  * [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
 
 -tab-sep-
 
 One of the following: where each element is one of these options:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is one of the following options:
-  * [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
-  * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings">}}) when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays), where each element is one of the following options:
+  * [Boolean reply](/content/develop/reference/protocol-spec.md#booleans) `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
+  * [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
 
 {{< /multitabs >}}

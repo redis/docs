@@ -34,7 +34,7 @@ List available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_modules](/content/operate/rs/7.8/references/rest-api/permissions.md#view_cluster_modules) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#list-request}
 
@@ -53,7 +53,7 @@ GET /v1/modules
 
 ### Response {#list-response}
 
-Returns a JSON array of [module objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/module" >}}).
+Returns a JSON array of [module objects](/content/operate/rs/7.8/references/rest-api/objects/module.md).
 
 #### Status codes {#list-status-codes}
 
@@ -73,7 +73,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_modules](/content/operate/rs/7.8/references/rest-api/permissions.md#view_cluster_modules) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -98,7 +98,7 @@ GET /v1/modules/1
 
 ### Response {#get-response}
 
-Returns a [module object]({{< relref "/operate/rs/7.8/references/rest-api/objects/module" >}}).
+Returns a [module object](/content/operate/rs/7.8/references/rest-api/objects/module.md).
 
 ### Status codes {#get-status-codes}
 
@@ -113,22 +113,21 @@ Returns a [module object]({{< relref "/operate/rs/7.8/references/rest-api/object
 POST /v1/modules
 ```
 
-{{<note>}}
-`POST /v1/modules` is deprecated as of Redis Enterprise Software version 7.2. Use [`POST /v2/modules`](#post-module-v2) instead.
-{{</note>}}
+> [!NOTE]
+> `POST /v1/modules` is deprecated as of Redis Enterprise Software version 7.2. Use [`POST /v2/modules`](#post-module-v2) instead.
 
 Uploads a new module to the cluster.
 
 The request must contain a Redis module, bundled using [RedisModule
 Packer](https://github.com/RedisLabs/RAMP). For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/).
 
-See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) for more information.
+See [Install a module on a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) for more information.
 
 #### Permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.8/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#post-request}
 
@@ -214,13 +213,13 @@ Asynchronously uploads a new module to the cluster.
 
 The request must contain a Redis module bundled using [RedisModule Packer](https://github.com/RedisLabs/RAMP).
 
-For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/). See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) for more information.
+For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/). See [Install a module on a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) for more information.
 
 #### Permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.8/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#post-request-v2}
 
@@ -242,7 +241,7 @@ POST /v2/modules
 
 ### Response {#post-response-v2}
 
-Returns a [module object]({{< relref "/operate/rs/7.8/references/rest-api/objects/module" >}}) with an additional `action_uid` field.
+Returns a [module object](/content/operate/rs/7.8/references/rest-api/objects/module.md) with an additional `action_uid` field.
 
 You can use the `action_uid` to track the progress of the module upload.
 
@@ -314,9 +313,8 @@ Possible `error_code` values include [`/v1/modules` error codes](#post-error-cod
 DELETE /v1/modules/{string: uid}
 ```
 
-{{<note>}}
-`DELETE /v1/modules` is deprecated as of Redis Enterprise Software version 7.2. Use [`DELETE /v2/modules`](#delete-module-v2) instead.
-{{</note>}}
+> [!NOTE]
+> `DELETE /v1/modules` is deprecated as of Redis Enterprise Software version 7.2. Use [`DELETE /v2/modules`](#delete-module-v2) instead.
 
 Delete a module.
 
@@ -324,7 +322,7 @@ Delete a module.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.8/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#delete-request}
 
@@ -377,7 +375,7 @@ Delete a module.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.8/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#delete-request-v2}
 

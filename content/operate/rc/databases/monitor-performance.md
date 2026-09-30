@@ -58,24 +58,24 @@ Several metric graphs are available:
 
 | **Metric** | **Description** |
 |------------|-----------------|
-| [Ops/sec]({{< relref "/operate/rs/references/metrics/database-operations#opssec" >}}) | The number of overall operations per sec for all Redis commands |
-| [Reads/sec]({{< relref "/operate/rs/references/metrics/database-operations#readssec" >}}) | The number of read operations per second |
-| [Writes/sec]({{< relref "/operate/rs/references/metrics/database-operations#writessec" >}}) | The number of write operations per second |
-| [Other cmds/sec]({{< relref "/operate/rs/references/metrics/database-operations#other-commandssec" >}}) | The number of other Redis commands per second |
-| [Latency]({{< relref "/operate/rs/references/metrics/database-operations#latency" >}}) | Latency per operation, in milliseconds |
-| [Reads latency]({{< relref "/operate/rs/references/metrics/database-operations#reads-latency" >}}) | Latency per read operation, in milliseconds |
-| [Writes latency]({{< relref "/operate/rs/references/metrics/database-operations#writes-latency" >}}) | Latency per write operation, in milliseconds |
-| [Other latency]({{< relref "/operate/rs/references/metrics/database-operations#other-commands-latency" >}}) | Latency of other commands, in milliseconds |
-| [Used memory]({{< relref "/operate/rs/references/metrics/resource-usage#used-memory" >}}) | Amount of memory used by the database |
-| [Total keys]({{< relref "/operate/rs/references/metrics/database-operations#total-keys" >}}) | Total number of keys in the database |
-| [Connections]({{< relref "/operate/rs/references/metrics/resource-usage#connections" >}}) | Total number of connections to the endpoint |
-| [Evicted objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#evicted-objectssec" >}}) | Number of objects evicted from the database per second. |
-| [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
-| [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
+| [Ops/sec](/content/operate/rs/references/metrics/database-operations.md#opssec) | The number of overall operations per sec for all Redis commands |
+| [Reads/sec](/content/operate/rs/references/metrics/database-operations.md#readssec) | The number of read operations per second |
+| [Writes/sec](/content/operate/rs/references/metrics/database-operations.md#writessec) | The number of write operations per second |
+| [Other cmds/sec](/content/operate/rs/references/metrics/database-operations.md#other-commandssec) | The number of other Redis commands per second |
+| [Latency](/content/operate/rs/references/metrics/database-operations.md#latency) | Latency per operation, in milliseconds |
+| [Reads latency](/content/operate/rs/references/metrics/database-operations.md#reads-latency) | Latency per read operation, in milliseconds |
+| [Writes latency](/content/operate/rs/references/metrics/database-operations.md#writes-latency) | Latency per write operation, in milliseconds |
+| [Other latency](/content/operate/rs/references/metrics/database-operations.md#other-commands-latency) | Latency of other commands, in milliseconds |
+| [Used memory](/content/operate/rs/references/metrics/resource-usage.md#used-memory) | Amount of memory used by the database |
+| [Total keys](/content/operate/rs/references/metrics/database-operations.md#total-keys) | Total number of keys in the database |
+| [Connections](/content/operate/rs/references/metrics/resource-usage.md#connections) | Total number of connections to the endpoint |
+| [Evicted objects/sec](/content/operate/rs/references/metrics/database-operations.md#evicted-objectssec) | Number of objects evicted from the database per second. |
+| [Expired objects/sec](/content/operate/rs/references/metrics/database-operations.md#expired-objectssec) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
+| [Hit ratio](/content/operate/rs/references/metrics/database-operations.md#hit-ratio) | Percent of operations on existing keys out of the total number database operations |
 | Network Ingress bytes/sec | Amount of traffic in bytes per second entering the database network |
 | Network Egress bytes/sec | Amount of traffic in bytes per second exiting the database network |
 
-For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/tools/insight" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
+For more detailed analysis, consider using [Redis Insight](/content/develop/tools/insight/_index.md) or [Prometheus and Grafana](/content/integrate/prometheus-with-redis-cloud/_index.md).
 
 ## Configure alerts {#configure-metric-alerts}
 
@@ -100,7 +100,7 @@ Alert settings are specific to each database. Make sure you've configured alerts
 
 Any member of the account team can receive alert emails.
 
-To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
+To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management](/content/operate/rc/security/access-control/access-management.md).
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.
 
@@ -110,7 +110,7 @@ Redis Cloud exposes a Prometheus endpoint for Redis Cloud Pro databases. You can
 
 {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
-For more information on how to connect Prometheus to Redis Cloud, see [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
+For more information on how to connect Prometheus to Redis Cloud, see [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md).
 
 ## Continue learning with Redis University
 

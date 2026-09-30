@@ -523,10 +523,9 @@ Performs hybrid search combining text search and vector similarity with configur
 
 `FT.HYBRID` provides a unified interface for combining traditional full-text and vector-based search within a single query. It supports hybrid retrieval use cases such as semantic search, Retrieval-Augmented Generation (RAG), and intelligent agent applications. The command builds on the familiar query syntax of `FT.SEARCH` and `FT.AGGREGATE`, simplifying hybrid query construction while enabling flexible post-processing through aggregation capabilities.
 
-{{< note >}}
-This command will only return document IDs (`keyid`) and scores to which the user has read access.
-To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> field...`.
-{{< /note >}}
+> [!NOTE]
+> This command will only return document IDs (`keyid`) and scores to which the user has read access.
+> To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> field...`.
 
 [Examples](#examples)
 
@@ -535,13 +534,13 @@ To retrieve entire documents, use projections with `LOAD *` or `LOAD <count> fie
 <details open>
 <summary><code>index</code></summary>
 
-is the name of the index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is the name of the index. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
 <summary><code>SEARCH "search-expression"</code></summary>
 
-defines the text search component of the hybrid query. The search expression uses the same syntax as [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) queries, supporting all text search capabilities including field-specific searches, boolean operations, and phrase matching.
+defines the text search component of the hybrid query. The search expression uses the same syntax as [`FT.SEARCH`](/content/commands/ft.search.md) queries, supporting all text search capabilities including field-specific searches, boolean operations, and phrase matching.
 </details>
 
 <details open>
@@ -569,7 +568,7 @@ assigns an alias to the search score for use in post-processing operations like 
 <details open>
 <summary><code>KNN count K top-k [EF_RUNTIME ef-value] [SHARD_K_RATIO shard-k-ratio] [YIELD_SCORE_AS name]</code></summary>
 
-configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value. See the [vector search]({{< relref "/develop/ai/search-and-query/vectors#cluster-optimization-examples" >}}) documentation for more information about `SHARD_K_RATIO`.
+configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value. See the [vector search](/content/develop/ai/search-and-query/vectors/_index.md#cluster-optimization-examples) documentation for more information about `SHARD_K_RATIO`.
 </details>
 
 <details open>
@@ -581,13 +580,13 @@ configures range-based vector search within a specified radius. The `count` para
 <details open>
 <summary><code>FILTER "filter-expression"</code></summary>
 
-applies pre-filtering to vector search results or post-filtering when used after the `COMBINE` step as post-processing. This filter affects which documents are considered for vector similarity but doesn't impact scoring. In contrast, the `SEARCH` component affects both filtering and scoring. The `FILTER` syntax uses a search expression with the same syntax as [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}), supporting all text search capabilities including field-specific searches, boolean operations, and phrase matching
+applies pre-filtering to vector search results or post-filtering when used after the `COMBINE` step as post-processing. This filter affects which documents are considered for vector similarity but doesn't impact scoring. In contrast, the `SEARCH` component affects both filtering and scoring. The `FILTER` syntax uses a search expression with the same syntax as [`FT.SEARCH`](/content/commands/ft.search.md), supporting all text search capabilities including field-specific searches, boolean operations, and phrase matching
 </details>
 
 <details open>
 <summary><code>POLICY [ADHOC_BF|BATCHES] [BATCH_SIZE batch-size-value]</code></summary>
 
-controls the pre-filtering policy for vector queries. `ADHOC_BF` processes filters on-demand and `BATCHES` processes in configurable batch sizes. See the [pre-filtering policy]({{< relref "/develop/ai/search-and-query/vectors#filters" >}}) for more information.
+controls the pre-filtering policy for vector queries. `ADHOC_BF` processes filters on-demand and `BATCHES` processes in configurable batch sizes. See the [pre-filtering policy](/content/develop/ai/search-and-query/vectors/_index.md#filters) for more information.
 </details>
 
 <details open>
@@ -687,7 +686,7 @@ FT.HYBRID provides sensible defaults to ease onboarding:
 - **Default RRF WINDOW**: 20
 - **Default RRF CONSTANT**: 60
 - **Default EF_RUNTIME**: 10 (as vector KNN [default](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#hnsw-index))
-- **Default EPSILON**: 0.01 (as the vector RANGE [default]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}))
+- **Default EPSILON**: 0.01 (as the vector RANGE [default](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index))
 ## Parameter count convention
 
 All multi-parameter options use a count prefix that contains ALL tokens that follow:
@@ -801,27 +800,27 @@ FT.HYBRID complexity depends on both the text search and vector similarity compo
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by document IDs and their field-value pairs as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) with the first element being the total number of results, followed by document IDs and their field-value pairs as [arrays](/content/develop/reference/protocol-spec.md#arrays).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
-    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
-    - `execution_time`: [double]({{< relref "/develop/reference/protocol-spec#doubles" >}}) containing hybrid query execution time
-    - `warnings`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS`, out-of-memory conditions, and `TIMEOUT` reached
-    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with the following fields:
+    - `total_results`: [Integer](/content/develop/reference/protocol-spec.md#integers) - total number of results
+    - `execution_time`: [double](/content/develop/reference/protocol-spec.md#doubles) containing hybrid query execution time
+    - `warnings`: [Array](/content/develop/reference/protocol-spec.md#arrays) of warning messages indicating partial results due to index errors or `MAXPREFIXEXPANSIONS`, out-of-memory conditions, and `TIMEOUT` reached
+    - `results`: [Array](/content/develop/reference/protocol-spec.md#arrays) of [maps](/content/develop/reference/protocol-spec.md#maps) containing document information
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
+[`FT.CREATE`](/content/commands/ft.create.md) | [`FT.SEARCH`](/content/commands/ft.search.md) | [`FT.AGGREGATE`](/content/commands/ft.aggregate.md)
 
 ## Related topics
 
-- [Vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}})
-- [Combined search]({{< relref "/develop/ai/search-and-query/query/combined/" >}})
-- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+- [Vector search concepts](/content/develop/ai/search-and-query/vectors/_index.md)
+- [Combined search](/content/develop/ai/search-and-query/query/combined.md)
+- [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)

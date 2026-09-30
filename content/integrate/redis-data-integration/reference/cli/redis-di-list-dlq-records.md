@@ -13,8 +13,11 @@ Lists the rejected records of a single dead-letter queue (DLQ), taking the queue
 and paging with `--limit`, `--offset`, and `--sort-order`. The operation code is shown by name
 (create, update, delete, read). `get-rejected` is an alias for this command.
 
-Use [`list-dlqs`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs" >}})
+Use [`list-dlqs`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs.md)
 to see all the pipeline's dead-letter queues and their record counts.
+
+The DLQ name is its source-qualified table name, `<source>.<qualified_table_name>`, as
+reported by [`list-dlqs`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs.md).
 
 ## Usage
 
@@ -42,14 +45,14 @@ deprecated:
 | `--oldest`        | `--sort-order asc`                |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 
 ```bash
 # Newest 20 rejected records of a queue
-redis-di list-dlq-records inventory.customers
+redis-di list-dlq-records mysql.inventory.customers
 
 # Oldest 100 records, as JSON
-redis-di list-dlq-records inventory.customers --limit 100 --sort-order asc -o json
+redis-di list-dlq-records mysql.inventory.customers --limit 100 --sort-order asc -o json
 ```

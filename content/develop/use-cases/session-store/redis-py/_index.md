@@ -14,7 +14,7 @@ title: Redis session store with redis-py
 weight: 1
 ---
 
-This guide shows you how to implement a Redis-backed session store in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}). It includes a small local web server built with the Python standard library so you can see the session lifecycle end to end.
+This guide shows you how to implement a Redis-backed session store in Python with [`redis-py`](/content/develop/clients/redis-py/_index.md). It includes a small local web server built with the Python standard library so you can see the session lifecycle end to end.
 
 ## Overview
 
@@ -83,12 +83,12 @@ session:abc123...
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to create and update session fields
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to load the session
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to update counters
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
-* [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
-* [`TTL`]({{< relref "/commands/ttl" >}}) to read the remaining session lifetime
+* [`HSET`](/content/commands/hset.md) to create and update session fields
+* [`HGETALL`](/content/commands/hgetall.md) to load the session
+* [`HINCRBY`](/content/commands/hincrby.md) to update counters
+* [`EXPIRE`](/content/commands/expire.md) to implement sliding expiration
+* [`DEL`](/content/commands/del.md) to remove a session on logout
+* [`TTL`](/content/commands/ttl.md) to read the remaining session lifetime
 
 The store defines `created_at`, `last_accessed_at`, and `session_ttl` as `RESERVED_SESSION_FIELDS` so caller-provided session data cannot overwrite them.
 
@@ -175,7 +175,7 @@ def get_session(
                 continue
 ```
 
-The `increment_field()` method uses [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to atomically increment a numeric field and also refreshes `last_accessed_at` and the TTL in the same `WATCH`/`MULTI`/`EXEC` block:
+The `increment_field()` method uses [`HINCRBY`](/content/commands/hincrby.md) to atomically increment a numeric field and also refreshes `last_accessed_at` and the TTL in the same `WATCH`/`MULTI`/`EXEC` block:
 
 ```python
 def increment_field(
@@ -282,7 +282,7 @@ def set_session_ttl(self, session_id: str, ttl: int) -> bool:
                 continue
 ```
 
-The `get_ttl()` method returns the remaining lifetime of a session in seconds, read directly from Redis using [`TTL`]({{< relref "/commands/ttl" >}}):
+The `get_ttl()` method returns the remaining lifetime of a session in seconds, read directly from Redis using [`TTL`](/content/commands/ttl.md):
 
 ```python
 def get_ttl(self, session_id: str) -> int:
@@ -403,8 +403,8 @@ redis-cli TTL session:<session_id>
 
 ## Learn more
 
-* [redis-py guide]({{< relref "/develop/clients/redis-py" >}}) - Install and use the Python Redis client
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration
-* [HSET command]({{< relref "/commands/hset" >}}) - Set hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read a full session hash
-* [HINCRBY command]({{< relref "/commands/hincrby" >}}) - Increment counters in a session
+* [redis-py guide](/content/develop/clients/redis-py/_index.md) - Install and use the Python Redis client
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration
+* [HSET command](/content/commands/hset.md) - Set hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read a full session hash
+* [HINCRBY command](/content/commands/hincrby.md) - Increment counters in a session

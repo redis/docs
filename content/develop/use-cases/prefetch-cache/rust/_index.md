@@ -38,7 +38,7 @@ The flow has three independent paths:
 2. **On every read**, the application calls `cache.get(entity_id).await`, which runs `HGETALL` against Redis only. A miss is treated as an error, not a trigger to query the primary.
 3. **On every primary mutation**, the primary appends a change event to an in-process `tokio::sync::mpsc` channel. The sync worker task drains the channel and calls `cache.apply_change(event).await`. For an `upsert`, the helper rewrites the cache hash and refreshes the safety-net TTL; for a `delete`, it removes the cache key.
 
-In a real system the in-process change channel is replaced by a CDC pipeline — [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}), Debezium plus a lightweight consumer, or an equivalent tool that tails the source's binlog/WAL and pushes events into Redis.
+In a real system the in-process change channel is replaced by a CDC pipeline — [Redis Data Integration](/content/integrate/redis-data-integration/_index.md), Debezium plus a lightweight consumer, or an equivalent tool that tails the source's binlog/WAL and pushes events into Redis.
 
 ## The prefetch-cache helper
 
@@ -84,11 +84,11 @@ cache:category:cat-001
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) + [`EXPIRE`]({{< relref "/commands/expire" >}}), pipelined, for the bulk load and every sync event
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) on the read path
-* [`DEL`]({{< relref "/commands/del" >}}) for sync-delete events and explicit invalidation
-* [`SCAN`]({{< relref "/commands/scan" >}}) to enumerate the cached keyspace and to clear the prefix
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining safety-net time in the demo UI
+* [`HSET`](/content/commands/hset.md) + [`EXPIRE`](/content/commands/expire.md), pipelined, for the bulk load and every sync event
+* [`HGETALL`](/content/commands/hgetall.md) on the read path
+* [`DEL`](/content/commands/del.md) for sync-delete events and explicit invalidation
+* [`SCAN`](/content/commands/scan.md) to enumerate the cached keyspace and to clear the prefix
+* [`TTL`](/content/commands/ttl.md) to surface remaining safety-net time in the demo UI
 
 ## Bulk load on startup
 
@@ -148,7 +148,7 @@ pub async fn get(&self, entity_id: &str) -> RedisResult<GetResult> {
 }
 ```
 
-This is the key behavioural difference from [cache-aside]({{< relref "/develop/use-cases/cache-aside" >}}): the request path never touches the primary, so reference-data reads cannot contribute to primary database load.
+This is the key behavioural difference from [cache-aside](/content/develop/use-cases/cache-aside/_index.md): the request path never touches the primary, so reference-data reads cannot contribute to primary database load.
 
 ## Applying sync events
 
@@ -401,10 +401,10 @@ If a key is missing for an ID that still exists in the primary, the prefetch did
 ## Learn more
 
 * [redis-rs crate](https://crates.io/crates/redis) - Install and use the Rust Redis client
-* [`HSET`]({{< relref "/commands/hset" >}}) - Write hash fields
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [`DEL`]({{< relref "/commands/del" >}}) - Delete a key on invalidation or sync-delete
-* [`SCAN`]({{< relref "/commands/scan" >}}) - Iterate the cached keyspace without blocking the server
-* [`TTL`]({{< relref "/commands/ttl" >}}) - Inspect remaining safety-net time on a key
-* [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}) - Configuration-driven CDC into Redis on Redis Enterprise and Redis Cloud
+* [`HSET`](/content/commands/hset.md) - Write hash fields
+* [`HGETALL`](/content/commands/hgetall.md) - Read every field of a hash
+* [`EXPIRE`](/content/commands/expire.md) - Set key expiration in seconds
+* [`DEL`](/content/commands/del.md) - Delete a key on invalidation or sync-delete
+* [`SCAN`](/content/commands/scan.md) - Iterate the cached keyspace without blocking the server
+* [`TTL`](/content/commands/ttl.md) - Inspect remaining safety-net time on a key
+* [Redis Data Integration](/content/integrate/redis-data-integration/_index.md) - Configuration-driven CDC into Redis on Redis Enterprise and Redis Cloud

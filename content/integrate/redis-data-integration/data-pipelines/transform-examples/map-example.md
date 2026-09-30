@@ -16,14 +16,14 @@ weight: 40
 ---
 
 By default, RDI adds fields to
-[hash]({{< relref "/develop/data-types/hashes" >}}) or
-[JSON]({{< relref "/develop/data-types/json" >}}) objects in the target
+[hash](/content/develop/data-types/hashes.md) or
+[JSON](/content/develop/data-types/json/_index.md) objects in the target
 database that closely match the columns of the source table.
 If you just want to limit the set fields in the output and/or rename some of them, you can use the
-[`output mapping`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/remapping-the-output" >}}) configuration option.
+[`output mapping`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/remapping-the-output.md) configuration option.
 
 For situations where you want to create a new object structure with multiple levels or use calculations for the field values, you can use the
-[`map`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/map" >}})
+[`map`](/content/integrate/redis-data-integration/reference/data-transformation/map.md)
 transformation, as described in the following sections.
 
 ## Creating multilevel JSON objects
@@ -109,7 +109,7 @@ Formatted in the usual JSON style, the output looks like the sample below:
 
 ## Creating hash structure
 
-This example creates a new [hash]({{< relref "/develop/data-types/hashes" >}})
+This example creates a new [hash](/content/develop/data-types/hashes.md)
 object structure for items from the `track` table. Here, the `map` transformation uses
 [SQL](https://en.wikipedia.org/wiki/SQL) for the expression because this is often
 more suitable for hashes or "flat"

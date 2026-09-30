@@ -23,10 +23,9 @@ When finished, you'll have a simple cluster with a single node:
 
 1. [Connect to your Redis database](#connect-to-your-database)
 
-{{< note >}}
-**This quickstart is designed for local testing only.**
-For production environments, see the [install and setup]({{< relref "/operate/rs/installing-upgrading#install-redis-enterprise-software" >}}) guide for deployment options and instructions.
-{{< /note >}}
+> [!NOTE]
+> **This quickstart is designed for local testing only.**
+> For production environments, see the [install and setup](/content/operate/rs/installing-upgrading/_index.md#install-redis-enterprise-software) guide for deployment options and instructions.
 
 ## Ensure port availability
 
@@ -64,9 +63,8 @@ To install Redis Software:
 1. Download the installation files from the [Redis Software Download Center](https://redis.io/downloads/#Redis_Software)
 and copy the download package to a machine with a Linux-based OS. 
 
-    {{< note >}}
-You are required to create a free account to access the download center.
-    {{< /note >}}
+    > [!NOTE]
+    > You are required to create a free account to access the download center.
 
 1. Extract the installation files:
 
@@ -93,7 +91,7 @@ To set up your machine as a Redis Software cluster:
 ## Connect to your database
 
 After you create the Redis database, you can connect to it and store data.
-See [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}) for connection options and examples.
+See [Test client connection](/content/operate/rs/databases/connect/test-client-connectivity.md) for connection options and examples.
 
 ## Supported web browsers
 

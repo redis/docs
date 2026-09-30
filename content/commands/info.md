@@ -132,11 +132,11 @@ Here is the meaning of all fields in the **clients** section:
     `cluster_connections`.
 *   `client_recent_max_input_buffer`: Biggest input buffer among current client connections
 *   `client_recent_max_output_buffer`: Biggest output buffer among current client connections
-*   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`]({{< relref "/commands/blpop" >}}),
-     [`BRPOP`]({{< relref "/commands/brpop" >}}), [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`BLMOVE`]({{< relref "/commands/blmove" >}}), [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}), [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}))
-*   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}))
-*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 7.4
-*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 7.4
+*   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`](/content/commands/blpop.md),
+     [`BRPOP`](/content/commands/brpop.md), [`BRPOPLPUSH`](/content/commands/brpoplpush.md), [`BLMOVE`](/content/commands/blmove.md), [`BZPOPMIN`](/content/commands/bzpopmin.md), [`BZPOPMAX`](/content/commands/bzpopmax.md))
+*   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`](/content/commands/client-tracking.md))
+*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`](/content/commands/subscribe.md), [`PSUBSCRIBE`](/content/commands/psubscribe.md), [`SSUBSCRIBE`](/content/commands/ssubscribe.md)). Added in Redis 7.4
+*   `watching_clients`: Number of clients in watching mode ([`WATCH`](/content/commands/watch.md)). Added in Redis 7.4
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
 *   `total_watched_keys`: Number of watched keys. Added in Redis 7.4.
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
@@ -196,7 +196,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `rss_overhead_bytes`: Delta between `used_memory_rss` (the process RSS) and `allocator_resident`
 *   `allocator_allocated`: Total bytes allocated form the allocator, including internal-fragmentation. Normally the same as `used_memory`.
 *   `allocator_active`: Total bytes in the allocator active pages, this includes external-fragmentation.
-*   `allocator_resident`: Total bytes resident (RSS) in the allocator, this includes pages that can be released to the OS (by [`MEMORY PURGE`]({{< relref "/commands/memory-purge" >}}), or just waiting).
+*   `allocator_resident`: Total bytes resident (RSS) in the allocator, this includes pages that can be released to the OS (by [`MEMORY PURGE`](/content/commands/memory-purge.md), or just waiting).
 *   `allocator_muzzy`: Total bytes of 'muzzy' memory (RSS) in the allocator. Muzzy memory is memory that has been freed, but not yet fully returned to the operating system. It can be reused immediately when needed or reclaimed by the OS when system pressure increases.
 *   `mem_not_counted_for_evict`: Used memory that's not counted for key eviction. This is basically transient replica and AOF buffers.
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
@@ -212,7 +212,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 7.4.
 *   `active_defrag_running`: When `activedefrag` is enabled, this indicates whether defragmentation is currently active, and the CPU percentage it intends to utilize.
 *   `lazyfree_pending_objects`: The number of objects waiting to be freed (as a
-     result of calling [`UNLINK`]({{< relref "/commands/unlink" >}}), or [`FLUSHDB`]({{< relref "/commands/flushdb" >}}) and [`FLUSHALL`]({{< relref "/commands/flushall" >}}) with the **ASYNC**
+     result of calling [`UNLINK`](/content/commands/unlink.md), or [`FLUSHDB`](/content/commands/flushdb.md) and [`FLUSHALL`](/content/commands/flushall.md) with the **ASYNC**
      option)
 *   `lazyfreed_objects`: The number of objects that have been lazy freed.
 
@@ -235,7 +235,7 @@ used and released by Redis, but not given back to the system. The
 `used_memory_peak` value is generally useful to check this point.
 
 Additional introspective information about the server's memory can be obtained
-by referring to the [`MEMORY STATS`]({{< relref "/commands/memory-stats" >}}) command and the [`MEMORY DOCTOR`]({{< relref "/commands/memory-doctor" >}}).
+by referring to the [`MEMORY STATS`](/content/commands/memory-stats.md) command and the [`MEMORY DOCTOR`](/content/commands/memory-doctor.md).
 
 Here is the meaning of all fields in the **persistence** section:
 
@@ -281,8 +281,8 @@ Here is the meaning of all fields in the **persistence** section:
 *   `rdb_saves`: Number of RDB snapshots performed since startup
 
 `rdb_changes_since_last_save` refers to the number of operations that produced
-some kind of changes in the dataset since the last time either [`SAVE`]({{< relref "/commands/save" >}}) or
-[`BGSAVE`]({{< relref "/commands/bgsave" >}}) was called.
+some kind of changes in the dataset since the last time either [`SAVE`](/content/commands/save.md) or
+[`BGSAVE`](/content/commands/bgsave.md) was called.
 
 If AOF is activated, these additional fields will be added:
 
@@ -342,7 +342,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `expire_cycle_cpu_milliseconds`: The cumulative amount of time spent on active expiry cycles
 *   `evicted_keys`: Number of evicted keys due to `maxmemory` limit
 *   `evicted_clients`: Number of evicted clients due to `maxmemory-clients` limit. Added in Redis 7.0.
-*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`]({{< relref "/commands/eval" >}}) for more details. Added in Redis 7.4.
+*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`](/content/commands/eval.md) for more details. Added in Redis 7.4.
 *   `total_eviction_exceeded_time`:  Total time `used_memory` was greater than `maxmemory` since server startup, in milliseconds
 *   `current_eviction_exceeded_time`: The time passed since `used_memory` last rose above `maxmemory`, in milliseconds
 *   `keyspace_hits`: Number of successful lookup of keys in the main dictionary
@@ -356,7 +356,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `pubsubshard_channels`: Global number of pub/sub shard channels with client subscriptions. Added in Redis 7.0.3
 *   `latest_fork_usec`: Duration of the latest fork operation in microseconds
 *   `total_forks`: Total number of fork operations since the server start
-*   `migrate_cached_sockets`: The number of sockets open for [`MIGRATE`]({{< relref "/commands/migrate" >}}) purposes
+*   `migrate_cached_sockets`: The number of sockets open for [`MIGRATE`](/content/commands/migrate.md) purposes
 *   `slave_expires_tracked_keys`: The number of keys tracked for expiry purposes
      (applicable only to writable replicas)
 *   `active_defrag_hits`: Number of value reallocations performed by active the
@@ -656,7 +656,7 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Software, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Software, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts](/content/develop/programmability/_index.md). |
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 

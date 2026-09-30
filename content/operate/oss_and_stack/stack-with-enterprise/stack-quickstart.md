@@ -14,9 +14,9 @@ you can sign up for a free [Redis Cloud](https://cloud.redis.io/#/sign-up) subsc
 
 Alternatively, you can use one of these methods:
 
-- [Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
-- Redis Software in a [Docker container]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
-- [Other platforms]({{< relref "/operate/kubernetes" >}}) for Redis Software
+- [Redis Software](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
+- Redis Software in a [Docker container](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md)
+- [Other platforms](/content/operate/kubernetes/_index.md) for Redis Software
 
 ## Set up a Redis Cloud database
 
@@ -28,7 +28,7 @@ To set up a Redis Cloud database with Redis Stack features, follow these steps:
 
 1. [Connect to the database](#connect-to-the-database).
 
-For more details, see the Redis Cloud [quick start]({{< relref "/operate/rc/rc-quickstart" >}}).
+For more details, see the Redis Cloud [quick start](/content/operate/rc/rc-quickstart.md).
 
 ### Create a subscription
 
@@ -75,13 +75,13 @@ After creating the database, you can view its **Configuration** settings. You wi
 - **Public endpoint**: The host address of the database
 - **Redis password**/**Default user password**: The password used to authenticate with the database
 
-With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [Redis Insight](https://redislabs.com/redisinsight/).
+With this information, you can connect to your database with the [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) command-line tool, an application, or [Redis Insight](https://redislabs.com/redisinsight/).
 
 ## Try Redis Open Source features
 
 To try out Redis Open Source features, follow the examples provided by the corresponding guides:
 
-- [Redis Search quick start]({{< relref "/develop/get-started/search-tutorial" >}})
-- [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
-- [Time series quick start]({{< relref "/develop/data-types/timeseries" >}})
-- [Probabilistic data structures quick start]({{< relref "/develop/data-types/probabilistic/" >}})
+- [Redis Search quick start](/content/develop/get-started/search-tutorial/_index.md)
+- [JSON quick start](/content/develop/data-types/json/_index.md#use-redisjson)
+- [Time series quick start](/content/develop/data-types/timeseries/_index.md)
+- [Probabilistic data structures quick start](/content/develop/data-types/probabilistic/_index.md)

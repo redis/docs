@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Sets the node's local recovery path, which specifies the directory where [persistence files]({{< relref "/operate/rs/databases/configure/database-persistence" >}}) are stored. You can use these persistence files to [recover a failed database]({{< relref "/operate/rs/databases/recover" >}}).
+Sets the node's local recovery path, which specifies the directory where [persistence files](/content/operate/rs/databases/configure/database-persistence.md) are stored. You can use these persistence files to [recover a failed database](/content/operate/rs/databases/recover.md).
 
 ```sh
 rladmin node <ID> recovery_path set <path>

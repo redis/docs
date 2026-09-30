@@ -3,7 +3,7 @@
 RDI is a good fit when:
 
 - You want your app/micro-services to read from Redis to scale reads at speed.
-- You want to transfer data to Redis from a *single* source database.
+- You want to transfer data to Redis from one or more source databases.
 - You must use a slow database as the system of record for the app.
 - The app must always *write* its data to the slow database.
 - Your app can tolerate *eventual* consistency of data in the Redis cache.

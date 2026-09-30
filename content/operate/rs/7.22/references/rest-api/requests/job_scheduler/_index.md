@@ -30,7 +30,7 @@ Get job scheduler information.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_info]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_cluster_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_info](/content/operate/rs/7.22/references/rest-api/permissions.md#view_cluster_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -49,7 +49,7 @@ GET /v1/job_scheduler
 
 ### Response {#get-response}
 
-Returns a [job_scheduler object]({{<relref "/operate/rs/7.22/references/rest-api/objects/job_scheduler">}}).
+Returns a [job_scheduler object](/content/operate/rs/7.22/references/rest-api/objects/job_scheduler/_index.md).
 
 #### Example JSON body
 
@@ -107,7 +107,7 @@ Update job scheduler settings.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/7.22/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/7.22/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#put-request}
 
@@ -137,11 +137,11 @@ PUT /v1/job_scheduler
 
 #### Body
 
-Include a [job_scheduler object]({{<relref "/operate/rs/7.22/references/rest-api/objects/job_scheduler">}}) with updated fields in the request body.
+Include a [job_scheduler object](/content/operate/rs/7.22/references/rest-api/objects/job_scheduler/_index.md) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns a [job_scheduler object]({{<relref "/operate/rs/7.22/references/rest-api/objects/job_scheduler">}}) with the updated fields.
+Returns a [job_scheduler object](/content/operate/rs/7.22/references/rest-api/objects/job_scheduler/_index.md) with the updated fields.
 
 #### Example JSON body
 

@@ -26,7 +26,7 @@ Upgrades module version on a specific BDB.
 
 | Permission name |
 |-----------------|
-| [edit_bdb_module]({{< relref "/operate/rs/8.0/references/rest-api/permissions#edit_bdb_module" >}}) |
+| [edit_bdb_module](/content/operate/rs/8.0/references/rest-api/permissions.md#edit_bdb_module) |
 
 ### Request {#post-request} 
 
@@ -67,7 +67,7 @@ Upgrades module version on a specific BDB.
 
 ### Response {#post-response} 
 
-Returns the upgraded [module object]({{< relref "/operate/rs/8.0/references/rest-api/objects/module" >}}).
+Returns the upgraded [module object](/content/operate/rs/8.0/references/rest-api/objects/module.md).
 
 #### Example JSON body
 

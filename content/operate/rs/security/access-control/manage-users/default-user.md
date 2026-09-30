@@ -11,7 +11,7 @@ toc: 'true'
 weight: 60
 ---
 
-When you [create a database]({{< relref "/operate/rs/databases/create" >}}), default user database access is enabled by default (**Unauthenticated access** is selected). This gives the default user full access to the database and enables compatibility with versions of Redis before Redis 6.
+When you [create a database](/content/operate/rs/databases/create.md), default user database access is enabled by default (**Unauthenticated access** is selected). This gives the default user full access to the database and enables compatibility with versions of Redis before Redis 6.
 
 Select **Password-only authentication**, then enter and confirm a default database password to require authentication for connections to the database.
 
@@ -19,7 +19,7 @@ Select **Password-only authentication**, then enter and confirm a default databa
 
 ## Authenticate as default user
 
-When you configure a password for your database, all connections to the database must authenticate using the [AUTH]({{< relref "/commands/auth" >}}) command. See Redis security's [authentication]({{<relref "/operate/oss_and_stack/management/security/#authentication">}}) section for more information.
+When you configure a password for your database, all connections to the database must authenticate using the [AUTH](/content/commands/auth.md) command. See Redis security's [authentication](/content/operate/oss_and_stack/management/security/_index.md#authentication) section for more information.
 
 ```sh
 AUTH <default-database-password>
@@ -39,13 +39,12 @@ To change the default user's password:
 
 ## Deactivate default user
 
-If you set up [role-based access control]({{< relref "/operate/rs/security/access-control" >}}) with [access control lists]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}).
+If you set up [role-based access control](/content/operate/rs/security/access-control/_index.md) with [access control lists](/content/operate/rs/security/access-control/create-db-roles.md) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user](/content/operate/rs/security/access-control/manage-users/default-user.md).
 
-{{<warning>}}
-- Before you deactivate default user access, make sure the role associated with the database is [assigned to a user]({{< relref "/operate/rs/security/access-control/create-users" >}}). Otherwise, the database will be inaccessible.
-
-- If you enabled the default database password during the creation of an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}), you should not turn off the default database password because it could prevent the removal of participating database instances.
-{{</warning>}}
+> [!WARNING]
+> - Before you deactivate default user access, make sure the role associated with the database is [assigned to a user](/content/operate/rs/security/access-control/create-users.md). Otherwise, the database will be inaccessible.
+>
+> - If you enabled the default database password during the creation of an [Active-Active database](/content/operate/rs/databases/active-active/_index.md), you should not turn off the default database password because it could prevent the removal of participating database instances.
 
 To deactivate the default user:
 

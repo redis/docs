@@ -18,7 +18,7 @@ Before you can use RedisGears, you have to install the RedisGears module on your
 ## Minimum requirements
 
 - Redis Software 6.0.12 or later
-- The [cluster is setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) and all of the nodes are joined to the cluster
+- The [cluster is setup](/content/operate/rs/clusters/new-cluster-setup.md) and all of the nodes are joined to the cluster
 
 ## Install RedisGears
 
@@ -30,19 +30,19 @@ Offline installation requires you to manually upload dependencies to the primary
 
 1. Download the **RedisGears** package from the Redis Software [download center](https://cloud.redis.io/#/rlec-downloads).
 
-    {{<note>}}
-For offline installation of RedisGears v1.2 and later, you also need to download the **RedisGears Dependencies** packages for both Python and Java.
-<br/>
-For RedisGears v1.0, you only need the Python dependency package.
-    {{</note>}}
+    > [!NOTE]
+    > For offline installation of RedisGears v1.2 and later, you also need to download the **RedisGears Dependencies** packages for both Python and Java.
+    > <br/>
+    > For RedisGears v1.0, you only need the Python dependency package.
+    >     
 
 1. Upload the RedisGears package to a node in the cluster.
 
 1. For offline installation only, copy the dependencies to the primary node.
 
-    {{<note>}}
-Skip this step unless your cluster does not have internet access.
-    {{</note>}}
+    > [!NOTE]
+    > Skip this step unless your cluster does not have internet access.
+    >     
 
     1. For versions 7.2.4 and later, copy the dependencies to `$modulesdatadir/rg/<version-integer>/<OS_name>/<architecture>/deps/`:
 
@@ -67,7 +67,7 @@ Skip this step unless your cluster does not have internet access.
     - `<OS_name>`: the operating system's name
     - `<architecture>`: the node's architecture
 
-1. Add RedisGears to the cluster with a `POST` request to the primary node's [`/v2/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#post-module-v2" >}}) REST API endpoint:
+1. Add RedisGears to the cluster with a `POST` request to the primary node's [`/v2/modules`](/content/operate/rs/references/rest-api/requests/modules/_index.md#post-module-v2) REST API endpoint:
 
     ```sh
     POST https://[host][:port]/v2/modules
@@ -82,13 +82,13 @@ After the install is complete, RedisGears will appear in the list of available m
 
 After installation, create a new database and enable RedisGears:
 
-- [With Python]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install" >}})
+- [With Python](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install.md)
 
-- [With the JVM]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/install" >}})
+- [With the JVM](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/install.md)
 
 ## Upgrade RedisGears for existing databases
 
-To upgrade RedisGears for an existing database after installing a new version, use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
+To upgrade RedisGears for an existing database after installing a new version, use [`rladmin upgrade db`](/content/operate/rs/references/cli-utilities/rladmin/upgrade.md#upgrade-db):
 
 ```sh
 rladmin upgrade db <database-name-or-ID> and module module_name rg version <new_version_integer> module_args "<module arguments>"
@@ -100,10 +100,9 @@ The following example shows how to upgrade a database named `shopping-cart` to R
 rladmin upgrade db shopping-cart and module module_name rg version 10209 module_args keep_args
 ```
 
-{{<note>}}
-These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}).
-{{</note>}}
+> [!NOTE]
+> These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
 
 ## Uninstall RedisGears
 
-To uninstall RedisGears, make a [`DELETE` request to the `/v2/modules` REST API endpoint]({{< relref "/operate/rs/references/rest-api/requests/modules#delete-module-v2" >}}).
+To uninstall RedisGears, make a [`DELETE` request to the `/v2/modules` REST API endpoint](/content/operate/rs/references/rest-api/requests/modules/_index.md#delete-module-v2).

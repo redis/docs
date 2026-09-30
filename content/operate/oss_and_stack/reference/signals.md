@@ -18,18 +18,18 @@ The information in this document **only applies to Redis version 2.6 or greater*
 
 The `SIGTERM` and `SIGINT` signals tell Redis to shut down gracefully. When the server receives this signal,
 it does not immediately exit. Instead, it schedules
-a shutdown similar to the one performed by the [`SHUTDOWN`](/commands/shutdown) command. The scheduled shutdown starts as soon as possible, specifically as long as the
+a shutdown similar to the one performed by the [`SHUTDOWN`](/content/commands/shutdown.md) command. The scheduled shutdown starts as soon as possible, specifically as long as the
 current command in execution terminates (if any), with a possible additional
 delay of 0.1 seconds or less.
 
 If the server is blocked by a long-running Lua script,
-kill the script with [`SCRIPT KILL`](/commands/script-kill) if possible. The scheduled shutdown will
+kill the script with [`SCRIPT KILL`](/content/commands/script-kill.md) if possible. The scheduled shutdown will
 run just after the script is killed or terminates spontaneously.
 
 This shutdown process includes the following actions:
 
 * If there are any replicas lagging behind in replication:
-  * Pause clients attempting to write with [`CLIENT PAUSE`](/commands/client-pause) and the `WRITE` option.
+  * Pause clients attempting to write with [`CLIENT PAUSE`](/content/commands/client-pause.md) and the `WRITE` option.
   * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up with the master's replication offset.
 * If a background child is saving the RDB file or performing an AOF rewrite, the child process is killed.
 * If the AOF is active, Redis calls the `fsync` system call on the AOF file descriptor to flush the buffers on disk.
@@ -40,12 +40,12 @@ This shutdown process includes the following actions:
 
 IF the RDB file can't be saved, the shutdown fails, and the server continues to run in order to ensure no data loss.
 Likewise, if the user just turned on AOF, and the server triggered the first AOF rewrite in order to create the initial AOF file but this file can't be saved, the shutdown fails and the server continues to run.
-Since Redis 2.6.11, no further attempt to shut down will be made unless a new `SIGTERM` is received or the [`SHUTDOWN`](/commands/shutdown) command is issued.
+Since Redis 2.6.11, no further attempt to shut down will be made unless a new `SIGTERM` is received or the [`SHUTDOWN`](/content/commands/shutdown.md) command is issued.
 
 Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, 10 seconds by default, before shutting down.
 This provides a best effort to minimize the risk of data loss in a situation where no save points are configured and AOF is deactivated.
 Before version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.
-To minimize the risk of data loss in such setups, trigger a manual [`FAILOVER`](/commands/failover) (or [`CLUSTER FAILOVER`](/commands/cluster-failover)) to demote the master to a replica and promote one of the replicas to a new master before shutting down a master node.
+To minimize the risk of data loss in such setups, trigger a manual [`FAILOVER`](/content/commands/failover.md) (or [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md)) to demote the master to a replica and promote one of the replicas to a new master before shutting down a master node.
 
 ## SIGSEGV, SIGBUS, SIGFPE and SIGILL
 

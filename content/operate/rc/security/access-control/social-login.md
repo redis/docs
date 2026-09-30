@@ -14,9 +14,8 @@ Redis Cloud supports the following social logins:
 - [GitHub](https://github.com/)
 - [Google](https://accounts.google.com/)
 
-{{<note>}}
-If your Google and GitHub accounts share an email address (such as Gmail), you can use either one to sign in to the same Redis Cloud account.
-{{</note>}}
+> [!NOTE]
+> If your Google and GitHub accounts share an email address (such as Gmail), you can use either one to sign in to the same Redis Cloud account.
 
 ## Create a new account with social login
 
@@ -32,17 +31,15 @@ To set up GitHub login:
 2. Sign in with the Github account you would like to use.
 3. Select **Authorize** on the **Authorize Redis Okta Auth Github** prompt.
 
-{{<note>}}
-If the email address associated with your GitHub account is not public, you will see an error message that your sign in attempt failed. You need to [make your email address public](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences) on GitHub before you try again.
-{{</note>}}
+> [!NOTE]
+> If the email address associated with your GitHub account is not public, you will see an error message that your sign in attempt failed. You need to [make your email address public](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences) on GitHub before you try again.
 
 ## Migrate an existing account to social login
 
 If you already have a Redis Cloud account that requires an email address and password to sign in, you can migrate your existing account to use a social login associated with that same email address instead.
 
-{{<warning>}}
-Once you migrate your account to use social login, you cannot revert to your old email/password sign in method.
-{{</warning>}}
+> [!WARNING]
+> Once you migrate your account to use social login, you cannot revert to your old email/password sign in method.
 
 To migrate your account to Google social login:
 

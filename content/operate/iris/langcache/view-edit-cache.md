@@ -60,7 +60,7 @@ To generate a new service key:
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
+    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
 
     {{<warning>}}
 After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>

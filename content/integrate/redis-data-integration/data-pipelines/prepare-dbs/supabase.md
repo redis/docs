@@ -19,16 +19,15 @@ PostgreSQL platform. RDI can connect to a hosted Supabase project
 through any direct PostgreSQL endpoint as long as it is reachable from the RDI
 deployment and supports logical replication.
 
-{{< note >}}
-RDI supports hosted Supabase projects running an
-[RDI-supported PostgreSQL version]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
-The integration was validated with RDI 1.19.0 and hosted Supabase PostgreSQL
-17.6. For self-hosted Supabase deployments, follow the general
-[PostgreSQL preparation guide]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql" >}}).
-This page describes Supabase setup for a self-managed RDI deployment. For the
-managed service, see
-[Use Supabase with RDI on Redis Cloud]({{< relref "/operate/rc/rdi/supabase" >}}).
-{{< /note >}}
+> [!NOTE]
+> RDI supports hosted Supabase projects running an
+> [RDI-supported PostgreSQL version](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
+> The integration was validated with RDI 1.19.0 and hosted Supabase PostgreSQL
+> 17.6. For self-hosted Supabase deployments, follow the general
+> [PostgreSQL preparation guide](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md).
+> This page describes Supabase setup for a self-managed RDI deployment. For the
+> managed service, see
+> [Use Supabase with RDI on Redis Cloud](/content/operate/rc/rdi/supabase.md).
 
 Supabase differs from a typical self-managed PostgreSQL source in the following
 ways:
@@ -102,11 +101,10 @@ CREATE ROLE rdi_replication
   WITH LOGIN REPLICATION PASSWORD '<strong-password>';
 ```
 
-{{< warning >}}
-Don't use the Supabase `postgres` administrator account for the RDI connection.
-The RDI role's credentials provide continuous access to captured data, so grant
-the role only the permissions it needs.
-{{< /warning >}}
+> [!WARNING]
+> Don't use the Supabase `postgres` administrator account for the RDI connection.
+> The RDI role's credentials provide continuous access to captured data, so grant
+> the role only the permissions it needs.
 
 ## 4. Grant access to source tables
 
@@ -163,12 +161,13 @@ In the Supabase dashboard, go to
 1. Enable **Enforce SSL on incoming connections**.
 1. Download the Supabase CA certificate.
 
-Store the database username, password, and CA certificate as RDI secrets:
+Store the database username, password, and CA certificate as RDI secrets. Pass the
+source name with `--db` (the source configured in the example below is named `supabase`):
 
 ```bash
-redis-di set-secret SOURCE_DB_USERNAME rdi_replication
-redis-di set-secret SOURCE_DB_PASSWORD '<strong-password>'
-redis-di set-secret SOURCE_DB_CACERT /path/to/prod-ca-2021.crt
+redis-di set-secret USERNAME --db supabase rdi_replication
+redis-di set-secret PASSWORD --db supabase '<strong-password>'
+redis-di set-secret CACERT --db supabase /path/to/prod-ca-2021.crt
 ```
 
 RDI verifies that the direct endpoint hostname matches the certificate.
@@ -187,8 +186,8 @@ sources:
       host: db.<project-ref>.supabase.co
       port: 5432
       database: postgres
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${SUPABASE_DB_USERNAME}
+      password: ${SUPABASE_DB_PASSWORD}
     schemas:
       - public
     tables:

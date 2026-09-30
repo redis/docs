@@ -31,7 +31,7 @@ the old way to configure a password, using the **requirepass** configuration
 directive, still works as expected. However, it now
 sets a password for the default user.
 
-The Redis [`AUTH`](/commands/auth) command was extended in Redis 6, so now it is possible to
+The Redis [`AUTH`](/content/commands/auth.md) command was extended in Redis 6, so now it is possible to
 use it in the two-arguments form:
 
     AUTH <username> <password>
@@ -51,7 +51,7 @@ accomplish by implementing this layer of protection. Normally there are
 two main goals that are well served by ACLs:
 
 1. You want to improve security by restricting the access to commands and keys, so that untrusted clients have no access and trusted clients have just the minimum access level to the database in order to perform the work needed. For instance, certain clients may just be able to execute read only commands.
-2. You want to improve operational safety, so that processes or humans accessing Redis are not allowed to damage the data or the configuration because of software errors or manual mistakes. For example, a worker that fetches delayed jobs from Redis does not need permission to call [`FLUSHALL`]({{< relref "/commands/flushall" >}}), [`FLUSHDB`]({{< relref "/commands/flushdb" >}}), or [`SWAPDB`]({{< relref "/commands/swapdb" >}}).
+2. You want to improve operational safety, so that processes or humans accessing Redis are not allowed to damage the data or the configuration because of software errors or manual mistakes. For example, a worker that fetches delayed jobs from Redis does not need permission to call [`FLUSHALL`](/content/commands/flushall.md), [`FLUSHDB`](/content/commands/flushdb.md), or [`SWAPDB`](/content/commands/swapdb.md).
 
 Another typical usage of ACLs is related to managed Redis instances. Redis is
 often provided as a managed service both by internal company teams that handle
@@ -68,7 +68,7 @@ first to the last, left-to-right, because sometimes the order of the rules is
 important to understand what the user is really able to do.
 
 By default there is a single user defined, called *default*. We
-can use the [`ACL LIST`](/commands/acl-list) command in order to check the currently active ACLs
+can use the [`ACL LIST`](/content/commands/acl-list.md) command in order to check the currently active ACLs
 and verify what the configuration of a freshly started, defaults-configured
 Redis instance is:
 
@@ -87,7 +87,7 @@ call every possible command (`+@all`).
 
 Also, in the special case of the default user, having the *nopass* rule means
 that new connections are automatically authenticated with the default user
-without any explicit [`AUTH`](/commands/auth) call needed.
+without any explicit [`AUTH`](/content/commands/auth.md) call needed.
 
 ## ACL rules
 
@@ -100,13 +100,13 @@ so forth.
 Enable and disallow users:
 
 * `on`: Enable the user: it is possible to authenticate as this user.
-* `off`: Disallow the user: it's no longer possible to authenticate with this user; however, previously authenticated connections will still work. Note that if the default user is flagged as *off*, new connections will start as not authenticated and will require the user to send [`AUTH`](/commands/auth) or [`HELLO`](/commands/hello) with the AUTH option in order to authenticate in some way, regardless of the default user configuration.
+* `off`: Disallow the user: it's no longer possible to authenticate with this user; however, previously authenticated connections will still work. Note that if the default user is flagged as *off*, new connections will start as not authenticated and will require the user to send [`AUTH`](/content/commands/auth.md) or [`HELLO`](/content/commands/hello.md) with the AUTH option in order to authenticate in some way, regardless of the default user configuration.
 
 Allow and disallow commands:
 
 * `+<command>`: Add the command to the list of commands the user can call. Can be used with `|` for allowing subcommands (e.g "+config|get").
 * `-<command>`: Remove the command to the list of commands the user can call. Starting Redis 7.0, it can be used with `|` for blocking subcommands (e.g "-config|set").
-* `+@<category>`: Add all the commands in such category to be called by the user, with valid categories being like @admin, @set, @sortedset, ... and so forth, see the full list by calling the [`ACL CAT`](/commands/acl-cat) command. The special category @all means all the commands, both the ones currently present in the server, and the ones that will be loaded in the future via modules.
+* `+@<category>`: Add all the commands in such category to be called by the user, with valid categories being like @admin, @set, @sortedset, ... and so forth, see the full list by calling the [`ACL CAT`](/content/commands/acl-cat.md) command. The special category @all means all the commands, both the ones currently present in the server, and the ones that will be loaded in the future via modules.
 * `-@<category>`: Like `+@<category>` but removes the commands from the list of commands the client can call.
 * `+<command>|first-arg`: Allow a specific first argument of an otherwise disabled command. It is only supported on commands with no sub-commands, and is not allowed as negative form like -SELECT|1, only additive starting with "+". This feature is deprecated and may be removed in the future.
 * `allcommands`: Alias for +@all. Note that it implies the ability to execute all the future commands loaded via the modules system.
@@ -114,7 +114,7 @@ Allow and disallow commands:
 
 Allow and disallow certain keys and key permissions:
 
-* `~<pattern>`: Add a pattern of keys that can be mentioned as part of commands. For instance `~*` allows all the keys. The pattern is a glob-style pattern like the one of [`KEYS`](/commands/keys). It is possible to specify multiple patterns.
+* `~<pattern>`: Add a pattern of keys that can be mentioned as part of commands. For instance `~*` allows all the keys. The pattern is a glob-style pattern like the one of [`KEYS`](/content/commands/keys.md). It is possible to specify multiple patterns.
 * `%R~<pattern>`: (Available in Redis 7.0 and later) Add the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions](#key-permissions) for more information.
 * `%W~<pattern>`: (Available in Redis 7.0 and later) Add the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions](#key-permissions) for more information.
 * `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`. 
@@ -123,7 +123,7 @@ Allow and disallow certain keys and key permissions:
 
 Allow and disallow Pub/Sub channels:
 
-* `&<pattern>`: (Available in Redis 6.2 and later) Add a glob style pattern of Pub/Sub channels that can be accessed by the user. It is possible to specify multiple channel patterns. Note that pattern matching is done only for channels mentioned by [`PUBLISH`](/commands/publish) and [`SUBSCRIBE`](/commands/subscribe), whereas [`PSUBSCRIBE`](/commands/psubscribe) requires a literal match between its channel patterns and those allowed for user.
+* `&<pattern>`: (Available in Redis 6.2 and later) Add a glob style pattern of Pub/Sub channels that can be accessed by the user. It is possible to specify multiple channel patterns. Note that pattern matching is done only for channels mentioned by [`PUBLISH`](/content/commands/publish.md) and [`SUBSCRIBE`](/content/commands/subscribe.md), whereas [`PSUBSCRIBE`](/content/commands/psubscribe.md) requires a literal match between its channel patterns and those allowed for user.
 * `allchannels`: Alias for `&*` that allows the user to access all Pub/Sub channels.
 * `resetchannels`: Flush the list of allowed channel patterns and disconnect the user's Pub/Sub clients if these are no longer able to access their respective channels and/or channel patterns.
 
@@ -151,20 +151,20 @@ Reset the user:
 
 Users can be created and modified in two main ways:
 
-1. Using the ACL command and its [`ACL SETUSER`](/commands/acl-setuser) subcommand.
-2. Modifying the server configuration, where users can be defined, and restarting the server. With an *external ACL file*, just call [`ACL LOAD`](/commands/acl-load).
+1. Using the ACL command and its [`ACL SETUSER`](/content/commands/acl-setuser.md) subcommand.
+2. Modifying the server configuration, where users can be defined, and restarting the server. With an *external ACL file*, just call [`ACL LOAD`](/content/commands/acl-load.md).
 
-In this section we'll learn how to define users using the [`ACL`](/commands/acl) command.
+In this section we'll learn how to define users using the [`ACL`](/content/commands/acl.md) command.
 With such knowledge, it will be trivial to do the same things via the
 configuration files. Defining users in the configuration deserves its own
 section and will be discussed later separately.
 
-To start, try the simplest [`ACL SETUSER`](/commands/acl-setuser) command call:
+To start, try the simplest [`ACL SETUSER`](/content/commands/acl-setuser.md) command call:
 
     > ACL SETUSER alice
     OK
 
-The [`ACL SETUSER`](/commands/acl-setuser) command takes the username and a list of ACL rules to apply
+The [`ACL SETUSER`](/content/commands/acl-setuser.md) command takes the username and a list of ACL rules to apply
 to the user. However the above example did not specify any rule at all.
 This will just create the user if it did not exist, using the defaults for new
 users. If the user already exists, the command above will do nothing at all.
@@ -177,9 +177,9 @@ Check the default user status:
 
 The new user "alice" is:
 
-* In the off status, so [`AUTH`](/commands/auth) will not work for the user "alice".
+* In the off status, so [`AUTH`](/content/commands/auth.md) will not work for the user "alice".
 * The user also has no passwords set.
-* Cannot access any command. Note that the user is created by default without the ability to access any command, so the `-@all` in the output above could be omitted; however, [`ACL LIST`](/commands/acl-list) attempts to be explicit rather than implicit.
+* Cannot access any command. Note that the user is created by default without the ability to access any command, so the `-@all` in the output above could be omitted; however, [`ACL LIST`](/content/commands/acl-list.md) attempts to be explicit rather than implicit.
 * There are no key patterns that the user can access.
 * There are no Pub/Sub channels that the user can access.
 
@@ -189,7 +189,7 @@ From 7.0, The `acl-pubsub-default` value is set to `resetchannels` to restrict t
 The default can be set to `allchannels` via the `acl-pubsub-default` configuration directive to be compatible with previous versions.
 
 Such user is completely useless. Let's try to define the user so that
-it is active, has a password, and can access with only the [`GET`](/commands/get) command
+it is active, has a password, and can access with only the [`GET`](/content/commands/get.md) command
 to key names starting with the string "cached:".
 
     > ACL SETUSER alice on >p1pp0 ~cached:* +get
@@ -208,8 +208,8 @@ Now the user can do something, but will refuse to do other things:
 
 Things are working as expected. In order to inspect the configuration of the
 user alice (remember that user names are case sensitive), it is possible to
-use an alternative to [`ACL LIST`](/commands/acl-list) which is designed to be more suitable for
-computers to read, while [`ACL GETUSER`](/commands/acl-getuser) is more human readable.
+use an alternative to [`ACL LIST`](/content/commands/acl-list.md) which is designed to be more suitable for
+computers to read, while [`ACL GETUSER`](/content/commands/acl-getuser.md) is more human readable.
 
     > ACL GETUSER alice
     1) "flags"
@@ -225,7 +225,7 @@ computers to read, while [`ACL GETUSER`](/commands/acl-getuser) is more human re
     11) "selectors"
     12) (empty array)
 
-The [`ACL GETUSER`](/commands/acl-getuser) returns a field-value array that describes the user in more parsable terms. The output includes the set of flags, a list of key patterns, passwords, and so forth. The output is probably more readable if we use RESP3, so that it is returned as a map reply:
+The [`ACL GETUSER`](/content/commands/acl-getuser.md) returns a field-value array that describes the user in more parsable terms. The output includes the set of flags, a list of key patterns, passwords, and so forth. The output is probably more readable if we use RESP3, so that it is returned as a map reply:
 
     > ACL GETUSER alice
     1# "flags" => 1~ "on"
@@ -237,7 +237,7 @@ The [`ACL GETUSER`](/commands/acl-getuser) returns a field-value array that desc
 
 *Note: from now on, we'll continue using the Redis default protocol, version 2*
 
-Using another [`ACL SETUSER`](/commands/acl-setuser) command (from a different user, because alice cannot run the [`ACL`](/commands/acl) command), we can add multiple patterns to the user:
+Using another [`ACL SETUSER`](/content/commands/acl-setuser.md) command (from a different user, because alice cannot run the [`ACL`](/content/commands/acl.md) command), we can add multiple patterns to the user:
 
     > ACL SETUSER alice ~objects:* ~items:* ~public:*
     OK
@@ -249,8 +249,8 @@ The user representation in memory is now as we expect it to be.
 
 ## Multiple calls to ACL SETUSER
 
-It is very important to understand what happens when [`ACL SETUSER`](/commands/acl-setuser) is called
-multiple times. What is critical to know is that every [`ACL SETUSER`](/commands/acl-setuser) call will
+It is very important to understand what happens when [`ACL SETUSER`](/content/commands/acl-setuser.md) is called
+multiple times. What is critical to know is that every [`ACL SETUSER`](/content/commands/acl-setuser.md) call will
 NOT reset the user, but will just apply the ACL rules to the existing user.
 The user is reset only if it was not known before. In that case, a brand new
 user is created with zeroed-ACLs. The user cannot do anything, is
@@ -264,7 +264,7 @@ the following sequence:
     > ACL SETUSER myuser +get
     OK
 
-Will result in myuser being able to call both [`GET`](/commands/get) and [`SET`](/commands/set):
+Will result in myuser being able to call both [`GET`](/content/commands/get.md) and [`SET`](/content/commands/set.md):
 
     > ACL LIST
     1) "user default on nopass ~* &* +@all"
@@ -288,7 +288,7 @@ you should be absolutely sure that you won't include what you did not mean to.
 The following is a list of command categories and their meanings:
 
 * <a id="admin"></a>**admin** - Administrative commands. Normal applications will never need to use
-  these. Includes [`REPLICAOF`](/commands/replicaof), [`CONFIG`](/commands/config), [`DEBUG`](/commands/debug), [`SAVE`](/commands/save), [`MONITOR`](/commands/monitor), [`ACL`](/commands/acl), [`SHUTDOWN`](/commands/shutdown), etc.
+  these. Includes [`REPLICAOF`](/content/commands/replicaof.md), [`CONFIG`](/content/commands/config.md), [`DEBUG`](/content/commands/debug.md), [`SAVE`](/content/commands/save.md), [`MONITOR`](/content/commands/monitor.md), [`ACL`](/content/commands/acl.md), [`SHUTDOWN`](/content/commands/shutdown.md), etc.
 * <a id="array"></a>**array** - Data type: all array related commands.
 * <a id="bitmap"></a>**bitmap** - Data type: all bitmap related commands.
 * <a id="blocking"></a>**blocking** - Potentially blocking the connection until released by another
@@ -296,19 +296,19 @@ The following is a list of command categories and their meanings:
 * <a id="bloom"></a>**bloom** - Data type: all Bloom filter related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="cms"></a>**cms** - Data type: count-min sketch related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="connection"></a>**connection** - Commands affecting the connection or other connections.
-  This includes [`AUTH`](/commands/auth), [`SELECT`](/commands/select), [`COMMAND`](/commands/command), [`CLIENT`](/commands/client), [`ECHO`](/commands/echo), [`PING`](/commands/ping), etc.
+  This includes [`AUTH`](/content/commands/auth.md), [`SELECT`](/content/commands/select.md), [`COMMAND`](/content/commands/command.md), [`CLIENT`](/content/commands/client.md), [`ECHO`](/content/commands/echo.md), [`PING`](/content/commands/ping.md), etc.
 * <a id="cuckoo"></a>**cuckoo** - Data type: all Cuckoo filter related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="dangerous"></a>**dangerous** - Potentially dangerous commands (each should be considered with care for
-  various reasons). This includes [`FLUSHALL`](/commands/flushall), [`MIGRATE`](/commands/migrate), [`RESTORE`](/commands/restore), [`SORT`](/commands/sort), [`KEYS`](/commands/keys),
-  [`CLIENT`](/commands/client), [`DEBUG`](/commands/debug), [`INFO`](/commands/info), [`CONFIG`](/commands/config), [`SAVE`](/commands/save), [`REPLICAOF`](/commands/replicaof), etc.
+  various reasons). This includes [`FLUSHALL`](/content/commands/flushall.md), [`MIGRATE`](/content/commands/migrate.md), [`RESTORE`](/content/commands/restore.md), [`SORT`](/content/commands/sort.md), [`KEYS`](/content/commands/keys.md),
+  [`CLIENT`](/content/commands/client.md), [`DEBUG`](/content/commands/debug.md), [`INFO`](/content/commands/info.md), [`CONFIG`](/content/commands/config.md), [`SAVE`](/content/commands/save.md), [`REPLICAOF`](/content/commands/replicaof.md), etc.
 * <a id="fast"></a>**fast** - Fast O(1) commands. May loop on the number of arguments, but not the number of elements in the key.
 * <a id="geo"></a>**geo** - Data type: all geospatial index related commands.
 * <a id="hash"></a>**hash** - Data type: all hash related commands.
 * <a id="hyperloglog"></a>**hyperloglog** - Data type: all hyperloglog related commands.
 * <a id="json"></a>**json** - Data type: all JSON related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="keyspace"></a>**keyspace** - Writing or reading from keys, databases, or their metadata
-  in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
-  [`KEYS`](/commands/keys), [`SCAN`](/commands/scan), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
+  in a type agnostic way. Includes [`DEL`](/content/commands/del.md), [`RESTORE`](/content/commands/restore.md), [`DUMP`](/content/commands/dump.md), [`RENAME`](/content/commands/rename.md), [`EXISTS`](/content/commands/exists.md), [`DBSIZE`](/content/commands/dbsize.md),
+  [`KEYS`](/content/commands/keys.md), [`SCAN`](/content/commands/scan.md), [`EXPIRE`](/content/commands/expire.md), [`TTL`](/content/commands/ttl.md), [`FLUSHALL`](/content/commands/flushall.md), etc. Commands that may modify the keyspace,
   key, or metadata will also have the `write` category. Commands that only read
   the keyspace, key, or metadata will have the `read` category.
 * <a id="list"></a>**list** - Data type: all list related commands.
@@ -324,12 +324,12 @@ The following is a list of command categories and their meanings:
 * <a id="tdigest"></a>**tdigest** - Data type: all t-digest related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="timeseries"></a>**timeseries** - Data type: all time series related commands. <sup>[1](#cmd-note-1)</sup>
 * <a id="topk"></a>**topk** - Data type: all top-k related commands. <sup>[1](#cmd-note-1)</sup>
-* <a id="transaction"></a>**transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
+* <a id="transaction"></a>**transaction** - [`WATCH`](/content/commands/watch.md) / [`MULTI`](/content/commands/multi.md) / [`EXEC`](/content/commands/exec.md) related commands.
 * <a id="write"></a>**write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
-1. <a name="cmd-note-1"></a> See the [Redis 8 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for more information about these command categories, which may introduce breaking changes to your Redis deployments.
+1. <a name="cmd-note-1"></a> See the [Redis 8 release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes.md#potentially-breaking-changes-to-acls) for more information about these command categories, which may introduce breaking changes to your Redis deployments.
 
-NOTE: Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. 
+NOTE: Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/content/commands/acl-cat.md) command. 
 It can be used in two forms:
 
     ACL CAT -- Will just list all the categories available
@@ -405,14 +405,14 @@ DEBUG subcommands, see the next section.
 **Note: This feature is deprecated since Redis 7.0 and may be removed in the future.**
 
 Sometimes the ability to exclude or include a command or a subcommand as a whole is not enough.
-Many deployments may not be happy providing the ability to execute a [`SELECT`](/commands/select) for any DB, but may
+Many deployments may not be happy providing the ability to execute a [`SELECT`](/content/commands/select.md) for any DB, but may
 still want to be able to run `SELECT 0`.
 
 In such case we could alter the ACL of a user in the following way:
 
     ACL SETUSER myuser -select +select|0
 
-First, remove the [`SELECT`](/commands/select) command and then add the allowed
+First, remove the [`SELECT`](/content/commands/select.md) command and then add the allowed
 first-arg. Note that **it is not possible to do the reverse** since first-args
 can be only added, not excluded. It is safer to specify all the first-args
 that are valid for some user since it is possible that
@@ -456,7 +456,7 @@ The key permission rules take the form of `%(<permission>)~<pattern>`.
 Permissions are defined as individual characters that map to the following key permissions:
 
 * W (Write): The data stored within the key may be updated or deleted. 
-* R (Read): User supplied data from the key is processed, copied or returned. Note that this does not include metadata such as size information (example [`STRLEN`](/commands/strlen)), type information (example [`TYPE`](/commands/type)) or information about whether a value exists within a collection (example [`SISMEMBER`](/commands/sismember)). 
+* R (Read): User supplied data from the key is processed, copied or returned. Note that this does not include metadata such as size information (example [`STRLEN`](/content/commands/strlen.md)), type information (example [`TYPE`](/content/commands/type.md)) or information about whether a value exists within a collection (example [`SISMEMBER`](/content/commands/sismember.md)). 
 
 Permissions can be composed together by specifying multiple characters. 
 Specifying the permission as 'RW' is considered full access and is analogous to just passing in `~<pattern>`.
@@ -464,16 +464,16 @@ Specifying the permission as 'RW' is considered full access and is analogous to 
 For a concrete example, consider a user with ACL rules `+@all ~app1:* (+@read ~app2:*)`.
 This user has full access on `app1:*` and readonly access on `app2:*`.
 However, some commands support reading data from one key, doing some transformation, and storing it into another key.
-One such command is the [`COPY`](/commands/copy) command, which copies the data from the source key into the destination key.
+One such command is the [`COPY`](/content/commands/copy.md) command, which copies the data from the source key into the destination key.
 The example set of ACL rules is unable to handle a request copying data from `app2:user` into `app1:user`, since neither the root permission nor the selector fully matches the command.
 However, using key selectors you can define a set of ACL rules that can handle this request `+@all ~app1:* %R~app2:*`.
 The first pattern is able to match `app1:user` and the second pattern is able to match `app2:user`.
 
-Which type of permission is required for a command is documented through [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}).
+Which type of permission is required for a command is documented through [key specifications](/content/develop/reference/key-specs.md#logical-operation-flags).
 The type of permission is based off the keys logical operation flags. 
 The insert, update, and delete flags map to the write key permission. 
 The access flag maps to the read key permission.
-If the key has no logical operation flags, such as [`EXISTS`](/commands/exists), the user still needs either key read or key write permissions to execute the command. 
+If the key has no logical operation flags, such as [`EXISTS`](/content/commands/exists.md), the user still needs either key read or key write permissions to execute the command. 
 
 Note: Side channels to accessing user data are ignored when it comes to evaluating whether read permissions are required to execute a command.
 This means that some write commands that return metadata about the modified key only require write permission on the key to execute.
@@ -484,11 +484,10 @@ For example, consider the following two commands:
 
 If an application needs to make sure no data is accessed from a key, including side channels, it's recommended to not provide any access to the key.
 
-{{< note >}}
-Key patterns only restrict commands that operate on specific keys named in the command's arguments. Commands that operate on an entire database or the whole keyspace, and therefore take no key arguments, are not limited by key patterns. Such commands are governed only by command and [category](#command-categories) rules.
-{{< /note >}}
+> [!NOTE]
+> Key patterns only restrict commands that operate on specific keys named in the command's arguments. Commands that operate on an entire database or the whole keyspace, and therefore take no key arguments, are not limited by key patterns. Such commands are governed only by command and [category](#command-categories) rules.
 
-This includes commands that can destroy or replace data beyond a user's key patterns, such as [`FLUSHALL`]({{< relref "/commands/flushall" >}}), [`FLUSHDB`]({{< relref "/commands/flushdb" >}}), and [`SWAPDB`]({{< relref "/commands/swapdb" >}}).
+This includes commands that can destroy or replace data beyond a user's key patterns, such as [`FLUSHALL`](/content/commands/flushall.md), [`FLUSHDB`](/content/commands/flushdb.md), and [`SWAPDB`](/content/commands/swapdb.md).
 
 For example, a user defined with `~tenant1:* +@all` can still run `FLUSHALL` to delete every key in the database, even though its key pattern only matches `tenant1:*`. To prevent this, remove those commands explicitly:
 
@@ -497,7 +496,7 @@ For example, a user defined with `~tenant1:* +@all` can still run `FLUSHALL` to 
 ## How passwords are stored internally
 
 Redis internally stores passwords hashed with SHA256. If you set a password
-and check the output of [`ACL LIST`](/commands/acl-list) or [`ACL GETUSER`](/commands/acl-getuser), you'll see a long hex
+and check the output of [`ACL LIST`](/content/commands/acl-list.md) or [`ACL GETUSER`](/content/commands/acl-getuser.md), you'll see a long hex
 string that looks pseudo random. Here is an example, because in the previous
 examples, for the sake of brevity, the long hex string was trimmed:
 
@@ -518,7 +517,7 @@ examples, for the sake of brevity, the long hex string was trimmed:
 ```
 
 Using SHA256 provides the ability to avoid storing the password in clear text
-while still allowing for a very fast [`AUTH`](/commands/auth) command, which is a very important
+while still allowing for a very fast [`AUTH`](/content/commands/auth.md) command, which is a very important
 feature of Redis and is coherent with what clients expect from Redis.
 
 However ACL *passwords* are not really passwords. They are shared secrets
@@ -534,7 +533,7 @@ algorithm that uses time and space to make password cracking hard,
 is a very poor choice. What we suggest instead is to generate strong
 passwords, so that nobody will be able to crack it using a
 dictionary or a brute force attack even if they have the hash. To do so, there is a special ACL
-command [`ACL GENPASS`](/commands/acl-genpass) that generates passwords using the system cryptographic pseudorandom
+command [`ACL GENPASS`](/content/commands/acl-genpass.md) that generates passwords using the system cryptographic pseudorandom
 generator:
 
     > ACL GENPASS
@@ -573,15 +572,15 @@ the configuration directive called `aclfile`, like this:
     aclfile /etc/redis/users.acl
 
 When you are just specifying a few users directly inside the `redis.conf`
-file, you can use [`CONFIG REWRITE`](/commands/config-rewrite) in order to store the new user configuration
+file, you can use [`CONFIG REWRITE`](/content/commands/config-rewrite.md) in order to store the new user configuration
 inside the file by rewriting it.
 
 The external ACL file however is more powerful. You can do the following:
 
-* Use [`ACL LOAD`](/commands/acl-load) if you modified the ACL file manually and you want Redis to reload the new configuration. Note that this command is able to load the file *only if all the users are correctly specified*. Otherwise, an error is reported to the user, and the old configuration will remain valid.
-* Use [`ACL SAVE`](/commands/acl-save) to save the current ACL configuration to the ACL file.
+* Use [`ACL LOAD`](/content/commands/acl-load.md) if you modified the ACL file manually and you want Redis to reload the new configuration. Note that this command is able to load the file *only if all the users are correctly specified*. Otherwise, an error is reported to the user, and the old configuration will remain valid.
+* Use [`ACL SAVE`](/content/commands/acl-save.md) to save the current ACL configuration to the ACL file.
 
-Note that [`CONFIG REWRITE`](/commands/config-rewrite) does not also trigger [`ACL SAVE`](/commands/acl-save). When you use
+Note that [`CONFIG REWRITE`](/content/commands/config-rewrite.md) does not also trigger [`ACL SAVE`](/content/commands/acl-save.md). When you use
 an ACL file, the configuration and the ACLs are handled separately.
 
 Starting with Redis 8.8, the `ACL LOAD` command will allow comment lines starting with the `#` character. Any such comment lines are stripped when the ACL file is loaded and they are not persisted across `ACL LOAD`/`ACL SAVE` commands.
@@ -596,7 +595,7 @@ For Sentinel, allow the user to access the following commands both in the master
 
 * AUTH, CLIENT, SUBSCRIBE, SCRIPT, PUBLISH, PING, INFO, MULTI, SLAVEOF, CONFIG, CLIENT, EXEC.
 
-Sentinel does not need to access any key in the database but does use Pub/Sub, so the ACL rule would be the following (note: [`AUTH`](/commands/auth) is not needed since it is always allowed):
+Sentinel does not need to access any key in the database but does use Pub/Sub, so the ACL rule would be the following (note: [`AUTH`](/content/commands/auth.md) is not needed since it is always allowed):
 
     ACL SETUSER sentinel-user on >somepassword allchannels +multi +slaveof +ping +exec +subscribe +config|rewrite +role +publish +info +client|setname +client|kill +script|kill
 

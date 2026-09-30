@@ -11,7 +11,7 @@ weight: 15
 url: '/operate/rs/7.22/security/access-control/create-db-roles/'
 ---
 
-Roles with database access grant the ability to access and interact with a database's data. Database access privileges are determined by defining [Redis ACLs]({{<relref "/operate/rs/7.22/security/access-control/redis-acl-overview">}}) and adding them to roles.
+Roles with database access grant the ability to access and interact with a database's data. Database access privileges are determined by defining [Redis ACLs](/content/operate/rs/7.22/security/access-control/redis-acl-overview.md) and adding them to roles.
 
 To create a role that grants database access without granting access to the Redis Enterprise Cluster Manager UI and REST API:
 
@@ -37,13 +37,13 @@ To define a Redis ACL rule using the Cluster Manager UI:
 
 1. Enter a descriptive name for the Redis ACL. This will be used to associate the ACL rule with the role.
 
-1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/7.22/security/access-control/redis-acl-overview">}}).
+1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview](/content/operate/rs/7.22/security/access-control/redis-acl-overview.md).
 
 1. Click **Save**.
 
 -tab-sep-
 
-To define a Redis ACL rule using the REST API, use a [create Redis ACL]({{<relref "/operate/rs/7.22/references/rest-api/requests/redis_acls#post-redis_acl">}}) request. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/7.22/security/access-control/redis-acl-overview">}}).
+To define a Redis ACL rule using the REST API, use a [create Redis ACL](/content/operate/rs/7.22/references/rest-api/requests/redis_acls/_index.md#post-redis_acl) request. For more information about Redis ACL rules and syntax, see the [Redis ACL overview](/content/operate/rs/7.22/security/access-control/redis-acl-overview.md).
 
 Example request:
 
@@ -69,9 +69,8 @@ To associate the Redis ACL with a role and database, use the `uid` from the resp
 
 {{< /multitabs >}}
 
-{{<note>}}
-For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
-{{</note>}}
+> [!NOTE]
+> For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 
 ## Create roles with ACLs
 
@@ -109,7 +108,7 @@ To define a role for database access using the Cluster Manager UI:
 
 To define a role for database access using the REST API:
 
-1. Use a [create role]({{<relref "/operate/rs/7.22/references/rest-api/requests/roles#post-role">}}) request:
+1. Use a [create role](/content/operate/rs/7.22/references/rest-api/requests/roles/_index.md#post-role) request:
 
     ```sh
     POST /v1/roles
@@ -131,7 +130,7 @@ To define a role for database access using the REST API:
 
     To associate the role with a Redis ACL and database, use the `uid` from the response as the `role_uid` when you add `roles_permissions` to the database.
 
-1. [Update a database's configuration]({{<relref "/operate/rs/7.22/references/rest-api/requests/bdbs#put-bdbs">}}) to add `roles_permissions` with the role and Redis ACL:
+1. [Update a database's configuration](/content/operate/rs/7.22/references/rest-api/requests/bdbs/_index.md#put-bdbs) to add `roles_permissions` with the role and Redis ACL:
 
     ```sh
     POST /v1/bdbs/<database-id>
@@ -148,4 +147,4 @@ To define a role for database access using the REST API:
 
 {{< /multitabs >}}
 
-You can [assign the new role to users]({{<relref "/operate/rs/7.22/security/access-control/create-users#assign-roles-to-users">}}) to grant database access.
+You can [assign the new role to users](/content/operate/rs/7.22/security/access-control/create-users.md#assign-roles-to-users) to grant database access.

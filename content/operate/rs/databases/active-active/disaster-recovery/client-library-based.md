@@ -41,19 +41,19 @@ The following diagram shows a client library-based disaster recovery approach:
 <img src="../../../../../../images/active-active-disaster-recovery/client-library.svg" alt="Diagram of client libraries routing traffic to Active-Active database members" width="50%">
 </div>
 
-The following diagram shows a client-based disaster recovery approach that also uses [connection pooling]({{<relref "/develop/clients/pools-and-muxing#connection-pooling">}}):
+The following diagram shows a client-based disaster recovery approach that also uses [connection pooling](/content/develop/clients/pools-and-muxing.md#connection-pooling):
 
 <div class="flex justify-center">
 <img src="../../../../../../images/active-active-disaster-recovery/client-library-connection-pool.svg" alt="Diagram of client libraries with connection pooling routing traffic to Active-Active database members" width="50%">
 </div>
 
 For additional information, see the the introduction to
-[Client-side geographic failover]({{<relref "/develop/clients/failover">}})
+[Client-side geographic failover](/content/develop/clients/failover.md)
 and also the following client library guides for failover and failback:
 
-- [Jedis (Java)]({{<relref "/develop/clients/jedis/failover">}})
+- [Jedis (Java)](/content/develop/clients/jedis/failover.md)
 
-- [Lettuce (Java)]({{<relref "/develop/clients/lettuce/failover">}})
+- [Lettuce (Java)](/content/develop/clients/lettuce/failover.md)
 
-- [redis-py (Python)]({{<relref "/develop/clients/redis-py/failover">}})
+- [redis-py (Python)](/content/develop/clients/redis-py/failover.md)
 

@@ -1597,7 +1597,7 @@ python3 build/local_examples.py  # Rebuild to remove from metadata
 
 ### Purpose and Motivation
 
-The CLI Command Extraction feature automatically extracts Redis CLI commands from code examples and enriches them with metadata from `data/commands_core.json`. This metadata is exposed to AI agents and documentation systems to better understand what each code example demonstrates.
+The CLI Command Extraction feature automatically extracts Redis CLI commands from code examples and enriches them with metadata from `data/commands.json`. This metadata is exposed to AI agents and documentation systems to better understand what each code example demonstrates.
 
 **Why this matters**:
 - **AI Understanding**: AI agents can understand the semantic intent of code examples by knowing which Redis commands are being used
@@ -1628,7 +1628,7 @@ The CLI Command Extraction feature automatically extracts Redis CLI commands fro
 │                           ▼                                       │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │ 3. Enrich with Command Metadata                          │   │
-│  │    - Look up in data/commands_core.json                  │   │
+│  │    - Look up in data/commands.json                  │   │
 │  │    - Extract: summary, group, complexity, since          │   │
 │  │    - Generate command reference link                     │   │
 │  └──────────────────────────────────────────────────────────┘   │
@@ -1694,7 +1694,7 @@ Return sorted list of unique commands
 **Location**: New module `build/components/command_enricher.py`
 
 **Responsibilities**:
-- Load `data/commands_core.json`
+- Load `data/commands.json`
 - For each extracted command name, look up metadata
 - Handle command aliases and variations
 - Generate command reference link
@@ -1849,7 +1849,7 @@ examples_data[example_id][client_name] = example_metadata
 ```
 
 **Multi-word command detection**:
-- Check if first two tokens together form a known command in `commands_core.json`
+- Check if first two tokens together form a known command in `commands.json`
 - If yes, use both tokens
 - If no, use only first token
 - Examples: `ACL CAT`, `SCRIPT LOAD`, `CLIENT LIST`, `CONFIG GET`
@@ -1891,7 +1891,7 @@ examples_data[example_id][client_name] = example_metadata
 **Deprecated Commands**:
 - Some commands are deprecated (e.g., `HMSET` is deprecated in favor of `HSET`)
 - If a deprecated command is found, include it but note the deprecation
-- Include the `replaced_by` field from `commands_core.json` if available
+- Include the `replaced_by` field from `commands.json` if available
 
 **Command Aliases**:
 - Some commands have aliases (e.g., `SUBSTR` is an alias for `GETRANGE`)
@@ -1899,7 +1899,7 @@ examples_data[example_id][client_name] = example_metadata
 - Store the canonical name in metadata
 
 **Handling Missing Commands**:
-- If a command is not found in `commands_core.json`, still include it
+- If a command is not found in `commands.json`, still include it
 - Use a minimal metadata object with just the name
 - Log a warning for documentation purposes
 - Example: Custom commands or module commands not in core
@@ -1937,7 +1937,7 @@ Extracted commands:
 
 **Step 2: Enrich with Metadata**
 ```
-Lookup in commands_core.json:
+Lookup in commands.json:
   HSET → {summary: "Creates or modifies...", group: "hash", ...}
   HGET → {summary: "Returns the value...", group: "hash", ...}
   HGETALL → {summary: "Returns all fields...", group: "hash", ...}
@@ -2260,7 +2260,7 @@ document.querySelectorAll('.commands-toggle').forEach(button => {
 
 ### Overview
 
-This section documents patterns and best practices for enhancing the UI with metadata that's already available in the command data files (e.g., `data/commands_core.json`). This approach allows for rich, contextual UI features without requiring changes to the build pipeline.
+This section documents patterns and best practices for enhancing the UI with metadata that's already available in the command data files (e.g., `data/commands.json`). This approach allows for rich, contextual UI features without requiring changes to the build pipeline.
 
 **Real-world example**: Adding ACL category information to the commands display with individual links to category definitions.
 
@@ -2273,7 +2273,7 @@ When you want to display metadata from command data files and make it linkable, 
 First, understand what metadata is available in your data files:
 
 ```json
-// data/commands_core.json
+// data/commands.json
 {
   "HSET": {
     "name": "HSET",
@@ -2291,10 +2291,10 @@ First, understand what metadata is available in your data files:
 
 #### 2. Make the Metadata Accessible in Templates
 
-The command data is already loaded in Hugo as `site.Data.commands_core`, `site.Data.commands_redisearch`, etc. You can access it directly in templates:
+The command data is already loaded in Hugo as `site.Data.commands`. You can access it directly in templates:
 
 ```hugo
-{{ $cmdData := (index site.Data.commands_core $cmdName) }}
+{{ $cmdData := (index site.Data.commands $cmdName) }}
 {{ if $cmdData.acl_categories }}
   {{ range $cmdData.acl_categories }}
     {{ . }}  <!-- e.g., "@keyspace", "@write", "@fast" -->

@@ -53,13 +53,13 @@ Write-behind currently supports these target data stores:
 
 The only prerequisite for running Write-behind is [Redis Gears Python](https://redis.com/modules/redis-gears/) >= 1.2.6 installed on the Redis Enterprise Cluster and enabled for the database you want to mirror to the downstream data store.
 For more information, see
-[RedisGears installation]({{< relref "/integrate/write-behind/installation/install-redis-gears" >}}).
+[RedisGears installation](/content/integrate/write-behind/installation/install-redis-gears.md).
 
 ## Preparing the write-behind pipeline
 
-- Install [Write-behind CLI]({{< relref "/integrate/write-behind/installation/install-rdi-cli" >}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
-- Run the [`configure`]({{< relref "/integrate/write-behind/reference/cli/redis-di-configure" >}}) command to install the Write-behind Engine on your Redis database, if you have not used this Redis database with Write-behind before.
-- Run the [`scaffold`]({{< relref "/integrate/write-behind/reference/cli/redis-di-scaffold" >}}) command with the type of data store you want to use, for example:
+- Install [Write-behind CLI](/content/integrate/write-behind/installation/install-rdi-cli.md) on a Linux host that has connectivity to your Redis Enterprise Cluster.
+- Run the [`configure`](/content/integrate/write-behind/reference/cli/redis-di-configure.md) command to install the Write-behind Engine on your Redis database, if you have not used this Redis database with Write-behind before.
+- Run the [`scaffold`](/content/integrate/write-behind/reference/cli/redis-di-scaffold.md) command with the type of data store you want to use, for example:
 
   ```bash
   redis-di scaffold --strategy write_behind --dir . --db-type mysql
@@ -161,7 +161,7 @@ The `redis` section is common for every pipeline initiated by an event in Redis,
 
 - The `row_format` attribute can be used with the value `full` to receive both the `before` and `after` sections of the payload. Note that for write-behind events the `before` value of the key is never provided.
 
- > Note: Write-behind does not support the [`expired`]({{< relref "/develop/pubsub/keyspace-notifications" >}}#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
+ > Note: Write-behind does not support the [`expired`](/content/develop/pubsub/keyspace-notifications.md#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
 > Notes: The `redis` attribute is a breaking change replacing the `keyspace` attribute. The `key_pattern` attribute replaces the `pattern` attribute. The `exclude_commands` attributes replaces the `exclude-commands` attribute. If you upgrade to version 0.105 and beyond, you must edit your existing jobs and redeploy them.
 
 ### Output section
@@ -171,7 +171,7 @@ The `output` section is critical. It specifies a reference to a connection from 
 - The `uses` attribute specifies the type of **writer** Write-behind will use to prepare and write the data to the target.
   In this example, it is `relational.write`, a writer that translates the data into a SQL statement with the specific dialect of the downstream relational database.
   For a full list of supported writers, see
-  [data transformation block types]({{< relref "/integrate/write-behind/reference/data-transformation-block-types" >}}).
+  [data transformation block types](/content/integrate/write-behind/reference/data-transformation-block-types/_index.md).
 
 - The `schema` attribute specifies the schema/database to use (different database have different names for schema in the object hierarchy).
 
@@ -191,7 +191,7 @@ The Write-behind jobs can apply filters and transformations to the data before i
 
 Use filters to skip some of the data and not apply it to target.
 Filters can apply simple or complex expressions that take as arguments the Redis entry key, fields, and even the change op code (create, delete, update, etc.).
-See [Filter]({{< relref "/integrate/write-behind/reference/data-transformation-block-types/filter" >}}) for more information.
+See [Filter](/content/integrate/write-behind/reference/data-transformation-block-types/filter.md) for more information.
 
 #### Transformations
 
@@ -203,7 +203,7 @@ Transformations manipulate the data in one of the following ways:
 - Mapping source fields to use in output
 
 To learn more about transformations, see
-[data transformation pipeline]({{< relref "/integrate/write-behind/data-transformation/data-transformation-pipeline" >}}).
+[data transformation pipeline](/content/integrate/write-behind/data-transformation/data-transformation-pipeline.md).
 
 ## Provide target's secrets
 
@@ -212,14 +212,14 @@ The target's secrets (such as TLS certificates) can be read from a path on the R
 ## Deploy the write-behind pipeline
 
 To start the pipeline, run the
-[`deploy`]({{< relref "/integrate/write-behind/reference/cli/redis-di-deploy" >}}) command:
+[`deploy`](/content/integrate/write-behind/reference/cli/redis-di-deploy.md) command:
 
 ```bash
 redis-di deploy
 ```
 
 You can check that the pipeline is running, receiving, and writing data using the
-[`status`]({{< relref "/integrate/write-behind/reference/cli/redis-di-status" >}}) command:
+[`status`](/content/integrate/write-behind/reference/cli/redis-di-status.md) command:
 
 ```bash
 redis-di status
@@ -242,7 +242,7 @@ The Write-behind pipeline collects the following metrics:
 
 To use the metrics you can either:
 
-- Run the [`status`]({{< relref "/integrate/write-behind/reference/cli/redis-di-status" >}}) command:
+- Run the [`status`](/content/integrate/write-behind/reference/cli/redis-di-status.md) command:
 
   ```bash
   redis-di status
@@ -253,7 +253,7 @@ To use the metrics you can either:
 ## Upgrading
 
 If you need to upgrade Write-behind, you should use the
-[`upgrade`]({{< relref "/integrate/write-behind/reference/cli/redis-di-upgrade" >}}) command that provides for a zero downtime upgrade:
+[`upgrade`](/content/integrate/write-behind/reference/cli/redis-di-upgrade.md) command that provides for a zero downtime upgrade:
 
 ```bash
 redis-di upgrade ...

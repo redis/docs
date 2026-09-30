@@ -148,9 +148,9 @@ Details:
 
 - Minor additions:
     - #[1696](https://github.com/redisearch/redisearch/issues/1696) The maximum number of results produced by `FT.AGGREGATE` is now configurable: `MAXAGGREGATERESULTS`.
-    - #[1708](https://github.com/redisearch/redisearch/issues/1708) [Stemming]({{<relref "/develop/ai/search-and-query/advanced-concepts/stemming">}}) updated with support of new languages: Basque, Catalan, Greek, Indonesian, Irish, Lithuanian, Nepali.
+    - #[1708](https://github.com/redisearch/redisearch/issues/1708) [Stemming](/content/develop/ai/search-and-query/advanced-concepts/stemming.md) updated with support of new languages: Basque, Catalan, Greek, Indonesian, Irish, Lithuanian, Nepali.
 - Minor bugfixes:
-    - #[1668](https://github.com/redisearch/redisearch/issues/1668) Fixes support of stop words in [tag fields]({{<relref "/develop/ai/search-and-query/advanced-concepts/tags">}}). Solves also the following related issues: #[166](https://github.com/redisearch/redisearch/issues/166),  #[984](https://github.com/redisearch/redisearch/issues/984), #[1237](https://github.com/redisearch/redisearch/issues/1237), #[1294](https://github.com/redisearch/redisearch/issues/1294).
+    - #[1668](https://github.com/redisearch/redisearch/issues/1668) Fixes support of stop words in [tag fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md). Solves also the following related issues: #[166](https://github.com/redisearch/redisearch/issues/166),  #[984](https://github.com/redisearch/redisearch/issues/984), #[1237](https://github.com/redisearch/redisearch/issues/1237), #[1294](https://github.com/redisearch/redisearch/issues/1294).
     - #[1689](https://github.com/redisearch/redisearch/issues/1689) Consistency fix and performance improvement when using `FT.SUGGET` with [RSCoordinator](https://github.com/RediSearch/RSCoordinator).
     - #[1774](https://github.com/redisearch/redisearch/issues/1774) `MINPREFIX` and `MAXFILTEREXPANSION` configuration options can be changed at runtime.
     - #[1745](https://github.com/redisearch/redisearch/issues/1745) Enforce 0 value for `REDUCER COUNT`.
@@ -253,7 +253,7 @@ You can read more details in [the RediSearch 2.0 announcement blog post](https:/
 - [#1384](https://github.com/RediSearch/RediSearch/pull/1384): `FT.DROPINDEX`, which by default does not delete documents underlying the index (see deprecated `FT.DROP`).
 - [#1385](https://github.com/RediSearch/RediSearch/pull/1385): Add index definition to `FT.INFO` response.
 - [#1097](https://github.com/RediSearch/RediSearch/pull/1097): Add Hindi snowball stemmer.
-- The `FT._LIST` command returns a list of all available indices.  Note that this is a temporary command, as indicated by the `_` in the name, so it's not documented. We're working on a [`SCAN`]({{< relref "/commands/scan" >}}-like command for databases with many indexes.
+- The `FT._LIST` command returns a list of all available indices.  Note that this is a temporary command, as indicated by the `_` in the name, so it's not documented. We're working on a [`SCAN`](/commands/scan)-like command for databases with many indexes.
 - The RediSearch version will appear in Redis as `20000`, which is equivalent to 2.0.0 in semantic versioning. Since the version of a module in Redis is numeric, we cannot explicitly add an GA flag.
 - RediSearch 2.x requires Redis 6.0 or later.
 
@@ -268,7 +268,7 @@ and index name and a synonym group ID. This ID can be any ASCII string.
 - RediSearch will not index hashes whose fields do not match an existing index schema. You can see the number of hashes not indexed using `FT.INFO` - `hash_indexing_failures `.  The requirement for adding support for partially indexing and blocking is captured here: [#1455](https://github.com/RediSearch/RediSearch/pull/1455).
 - Removed support for `NOSAVE`.
 - RDB loading will take longer due to the index not being persisted.
-- Field names in the [query syntax]({{<relref "/develop/ai/search-and-query/advanced-concepts/query_syntax">}}) are now case-sensitive.
+- Field names in the [query syntax](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md) are now case-sensitive.
 - Deprecated commands:
     - `FT.DROP` (replaced by `FT.DROPINDEX`, which by default keeps the documents)
     - `FT.ADD` (mapped to `HSET` for backward compatibility)

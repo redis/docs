@@ -16,8 +16,8 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 
 The `CommandReader` allows you to run RedisGears functions on command when you:
 
-1. Pass the `CommandReader` to the [`GearsBuilder.CreateGearsBuilder()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder" >}}) function in your Java code.
-1. Call the [`register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}) function.
+1. Pass the `CommandReader` to the [`GearsBuilder.CreateGearsBuilder()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder.md) function in your Java code.
+1. Call the [`register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md) function.
 1. Run `RG.JEXECUTE` to register your code.
 1. Use `RG.TRIGGER` to run your code on command:
 

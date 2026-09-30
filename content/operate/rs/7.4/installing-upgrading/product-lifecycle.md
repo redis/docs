@@ -14,7 +14,7 @@ url: '/operate/rs/7.4/installing-upgrading/product-lifecycle/'
 The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
 
-Redis Enterprise modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
+Redis Enterprise modules follow the [modules lifecycle](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md).
 
 ## Release numbers
 
@@ -54,4 +54,4 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster](/content/operate/rs/7.4/installing-upgrading/upgrading/upgrade-cluster.md).

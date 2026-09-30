@@ -16,17 +16,17 @@ For this quick start tutorial, you need:
 
 - A Redis database with the RedisGraph module enabled. You can use either:
 
-    - A [Redis Cloud]({{< relref "/operate/oss_and_stack/stack-with-enterprise/stack-quickstart" >}}) database
+    - A [Redis Cloud](/content/operate/oss_and_stack/stack-with-enterprise/stack-quickstart.md) database
 
-    - A [Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
+    - A [Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) database
 
-- [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool
+- [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) command-line tool
 
 - [`redis-py`](https://github.com/redis/redis-py) client library v4.1.0 or later
 
 ## Graph with `redis-cli`
 
-To begin, [connect to your database]({{< relref "/operate/rs/references/cli-utilities/redis-cli#connect-to-a-database" >}}) with `redis-cli`.
+To begin, [connect to your database](/content/operate/rs/references/cli-utilities/redis-cli/_index.md#connect-to-a-database) with `redis-cli`.
 
 ### Create a graph
 
@@ -215,9 +215,9 @@ Alex's updated friend count: [[1]]
 
 ## Visualize graphs with Redis Insight
 
-You can use the [Redis Insight]({{< relref "/develop/tools/insight" >}}) workbench to visualize the relationships between the nodes of your graph.
+You can use the [Redis Insight](/content/develop/tools/insight/_index.md) workbench to visualize the relationships between the nodes of your graph.
 
-1. Connect to your database with Redis Insight. You can [connect manually]({{< relref "develop/tools/insight#add-a-standalone-redis-database" >}}) or use the [auto-discovery]({{< relref "develop/tools/insight#auto-discovery-for-redis-cloud-databases" >}}) feature.
+1. Connect to your database with Redis Insight. You can [connect manually](/content/develop/tools/insight/_index.md#add-a-standalone-redis-database) or use the [auto-discovery](/content/develop/tools/insight/_index.md#auto-discovery-for-redis-cloud-databases) feature.
 
 1. Select the **Workbench** button.
 
@@ -237,6 +237,6 @@ After you run a query, the output log displays a visual representation of your g
 
 ## More info
 
-- [Graph commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands" >}})
+- [Graph commands](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands.md)
 - [RedisGraph client libraries](https://github.com/RedisGraph/RedisGraph/blob/master/docs/docs/clients.md)
 - [RedisGraph documentation on GitHub](https://github.com/RedisGraph/RedisGraph/tree/master/docs/docs)

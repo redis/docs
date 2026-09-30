@@ -26,13 +26,12 @@ With the [Redis Cloud Resource Provider](https://www.pulumi.com/registry/package
 * Go
 * YAML
 
-The Redis Cloud Pulumi provider is based on the [Redis Cloud Terraform provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}).
+The Redis Cloud Pulumi provider is based on the [Redis Cloud Terraform provider](/content/integrate/terraform-provider-for-redis-cloud/_index.md).
 
-{{<note>}}
-The Redis Cloud Pulumi Redis Cloud provider supports Redis Cloud Pro. It does not support Redis Cloud Essentials.
-{{</note>}}
+> [!NOTE]
+> The Redis Cloud Pulumi Redis Cloud provider supports Redis Cloud Pro. It does not support Redis Cloud Essentials.
 
-See [Get started with Pulumi]({{< relref "/integrate/pulumi-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Pulumi provider with Python.
+See [Get started with Pulumi](/content/integrate/pulumi-provider-for-redis-cloud/get-started.md) for an example of how to use the Pulumi provider with Python.
 
 ## Resources and functions
 
@@ -45,23 +44,21 @@ The Redis Cloud Pulumi provider allows for the following resources:
 * [`SubscriptionPeering`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/subscriptionpeering/): A VPC peering connection (AWS or GCP) to a specific Redis Cloud subscription.
 * [`CloudAccount`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/cloudaccount/): Represents an AWS account in which you want to deploy Redis Cloud infrastructure components.
 
-    {{<note>}}
-The "bring your own AWS account" option for Redis Cloud has been deprecated. The `CloudAccount` resource is only available for legacy Redis Cloud integrations.
-    {{</note>}}
+    > [!NOTE]
+    > The "bring your own AWS account" option for Redis Cloud has been deprecated. The `CloudAccount` resource is only available for legacy Redis Cloud integrations.
 
 * [`ActiveActiveSubscription`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/activeactivesubscription/): The basic building block of an active-active Redis Cloud subscription.
 * [`ActiveActiveSubscriptionDatabase`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/activeactivesubscriptiondatabase/): Represents a Redis database which belongs to a specific Redis Cloud active-active subscription.
 * [`ActiveActiveSubscriptionRegions`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/activeactivesubscriptionregions/): The different regions where the active-active subscription will be deployed.
 * [`ActiveActiveSubscriptionPeering`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/activeactivesubscriptionpeering/): A VPC peering connection (AWS or GCP) to a specific Redis Cloud active-active subscription.
-* [`AclRule`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/aclrule/), [`AclRole`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/aclrole/), and [`AclUser`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/acluser/): Rules, Roles, and Users for [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}).
+* [`AclRule`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/aclrule/), [`AclRole`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/aclrole/), and [`AclUser`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/acluser/): Rules, Roles, and Users for [Role-based access control](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md).
 
 It also allows for the following functions:
 
 * [`GetCloudAccount`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getcloudaccount/): Get the information related to the AWS account.
 
-    {{<note>}}
-The "bring your own AWS account" option for Redis Cloud has been deprecated. The `CloudAccount` resource is only available for legacy Redis Cloud integrations.
-    {{</note>}}
+    > [!NOTE]
+    > The "bring your own AWS account" option for Redis Cloud has been deprecated. The `CloudAccount` resource is only available for legacy Redis Cloud integrations.
 
 * [`GetDataPersistence`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getdatapersistence/): Get the type of database persistence.
 * [`GetDatabase`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getdatabase/): Get the information related to a specific database.
@@ -70,10 +67,10 @@ The "bring your own AWS account" option for Redis Cloud has been deprecated. The
 * [`GetRegions`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getregions/): Get the regions related to an active-active subscription
 * [`GetSubscription`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getsubscription/): Get the information related to a specific subscription.
 * [`GetSubscriptionPeerings`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getsubscriptionpeerings/): Get the VPC peerings (AWS or GCP) related to a specific subscription.
-* [`GetAclRule`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getaclrule/), [`GetAclRole`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getaclrole/), and [`GetAclUser`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getacluser/): Get the Rules, Roles, and Users for [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}).
+* [`GetAclRule`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getaclrule/), [`GetAclRole`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getaclrole/), and [`GetAclUser`](https://www.pulumi.com/registry/packages/rediscloud/api-docs/getacluser/): Get the Rules, Roles, and Users for [Role-based access control](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md).
 
 ## More info
 
-- [Get started with Pulumi]({{< relref "/integrate/pulumi-provider-for-redis-cloud/get-started" >}})
+- [Get started with Pulumi](/content/integrate/pulumi-provider-for-redis-cloud/get-started.md)
 - [Redis Cloud Pulumi registry](https://www.pulumi.com/registry/packages/rediscloud/)
 - [Pulumi documentation](https://www.pulumi.com/docs/)

@@ -21,6 +21,8 @@ When an agent needs context during execution, it calls the MCP tools Context Ret
 
 For more details, see the [Redis Context Retriever overview]({{< relref "/develop/ai/context-engine/context-retriever" >}}).
 
+To deploy Context Retriever on your own Kubernetes infrastructure instead of Redis Cloud, see [self-managed Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}).
+
 ## Get started with Context Retriever on Redis Cloud
 
 {{< embed-md "rc-context-retriever-get-started.md" >}}

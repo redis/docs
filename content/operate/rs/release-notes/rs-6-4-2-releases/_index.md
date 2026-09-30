@@ -15,17 +15,16 @@ toc: 'true'
 weight: 72
 ---
 
-{{< warning >}}
-Redis Software 6.4 reached end of life on August 31, 2025. It no longer
-receives security patches, bug fixes, or maintenance releases.
-Support for 6.4-specific issues is limited per your subscription agreement,
-and you may be asked to upgrade before an issue can be investigated.
-
-Upgrade to a supported version. Reaching the latest version may require an
-intermediate upgrade first — see the
-[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
-and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Software 6.4 reached end of life on August 31, 2025. It no longer
+> receives security patches, bug fixes, or maintenance releases.
+> Support for 6.4-specific issues is limited per your subscription agreement,
+> and you may be asked to upgrade before an issue can be investigated.
+>
+> Upgrade to a supported version. Reaching the latest version may require an
+> intermediate upgrade first — see the
+> [supported upgrade paths](/content/operate/rs/references/upgrade-paths.md)
+> and the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule).
 
 ​[​Redis Enterprise Software version 6.4.2](https://redis.io/downloads/#software) is now available!
 
@@ -55,7 +54,7 @@ Ubuntu 16 support is considered deprecated and will be removed in a future relea
 
 ### Active-Active database persistence
 
-The RDB snapshot option for [Active-Active database persistence]({{< relref "/operate/rs/databases/active-active/manage#data-persistence" >}}) is deprecated and will be removed in a future release.
+The RDB snapshot option for [Active-Active database persistence](/content/operate/rs/databases/active-active/manage.md#data-persistence) is deprecated and will be removed in a future release.
 
 Please plan to reconfigure any Active-Active databases to use append-only file (AOF) persistence with the following command:
 
@@ -80,11 +79,11 @@ Certain operating systems, such as RHEL 8, have already removed support for 3DES
 
 ### Feature limitations
 
-- RS97971 - [Resharding fails for rack-aware databases with no replication](#resharding-fails-for-rack-aware-databases-with-no-replication) (fixed and resolved as part of [v6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}})).
+- RS97971 - [Resharding fails for rack-aware databases with no replication](#resharding-fails-for-rack-aware-databases-with-no-replication) (fixed and resolved as part of [v6.4.2-61](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61.md)).
 
-- RS101204 - High memory consumption caused by the `persistence_mgr` service when AOF persistence is configured for every second (fixed and resolved as part of [v6.4.2-81]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-81" >}})).
+- RS101204 - High memory consumption caused by the `persistence_mgr` service when AOF persistence is configured for every second (fixed and resolved as part of [v6.4.2-81](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-81.md)).
 
-- RS40641 - API requests are redirected to an internal IP in case the request arrives from a node which is not the master. To avoid this issue, use [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) to configure `handle_redirects` or `handle_metrics_redirects`.
+- RS40641 - API requests are redirected to an internal IP in case the request arrives from a node which is not the master. To avoid this issue, use [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md) to configure `handle_redirects` or `handle_metrics_redirects`.
 
 - RS51144, RS102128 - Active-Active: To start successfully, the syncer (`crdt-syncer`) must connect to all sources. In multi-cluster configurations (more than 2 A-A clusters participating), in some cases, if one or more of the clusters is not available, A-A replication will be down.
 
@@ -94,9 +93,9 @@ Certain operating systems, such as RHEL 8, have already removed support for 3DES
 
 #### Resharding fails for rack-aware databases with no replication
 
-When a database is configured as [rack-aware]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness" >}}) and replication is turned off, the resharding operation fails.
+When a database is configured as [rack-aware](/content/operate/rs/clusters/configure/rack-zone-awareness.md) and replication is turned off, the resharding operation fails.
 
-RS97971 - This limitation was fixed and resolved as part of [v6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}}).   
+RS97971 - This limitation was fixed and resolved as part of [v6.4.2-61](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61.md).   
 
 Workaround:
 
@@ -114,7 +113,7 @@ curl -k -u "<user>:<password>" -H "Content-type: application/json" -d '{"rack_aw
 
 ### Installation limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
+Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories](/content/operate/rs/installing-upgrading/install/customize-install-directories.md).
 
 As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
 
@@ -136,7 +135,7 @@ Before you upgrade a cluster that hosts Active-Active databases with modules to 
 
 1. If one or more of the modules/versions are missing or if you need help, [contact Redis support](https://redis.com/company/support/) before taking additional steps.
 
-This limitation has been fixed and resolved as of [v6.4.2-43]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-43" >}}).
+This limitation has been fixed and resolved as of [v6.4.2-43](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-43.md).
 
 ### Operating system limitations
 
@@ -151,7 +150,7 @@ $ yum install -y chrpath
 $ find $installdir -name "crdt.so" | xargs -n1 -I {} /bin/bash -c 'chrpath -r ${libdir} {}'
 ```
 
-This limitation has been fixed and resolved as of [v6.4.2-61]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61" >}}).
+This limitation has been fixed and resolved as of [v6.4.2-61](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-61.md).
 
 #### RHEL 8
 
@@ -163,4 +162,4 @@ By default, you cannot use the SHA1 hash algorithm ([OpenSSL’s default securit
 
 #### Modules not supported for Amazon Linux 2 release candidate
 
-A database with modules cannot reside on an Amazon Linux 2 (release candidate) node. Support was added as part of [v6.4.2-69]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-69" >}}).
+A database with modules cannot reside on an Amazon Linux 2 (release candidate) node. Support was added as part of [v6.4.2-69](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-69.md).

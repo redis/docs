@@ -28,13 +28,12 @@ To create a new database using the Cluster Manager UI:
 
 1. If you did not specify a port number for the database, you can find the port number in the **Endpoint** field in the **Databases > Configuration > General** section.
 
-1. [Test client connectivity]({{< relref "/operate/rs/7.22/databases/connect/test-client-connectivity" >}}).
+1. [Test client connectivity](/content/operate/rs/7.22/databases/connect/test-client-connectivity.md).
 
 
-{{< note >}}
-For databases with Active-Active replication for geo-distributed locations,
-see [Create an Active-Active database]({{< relref "/operate/rs/7.22/databases/active-active/create.md" >}}). To create and manage Active-Active databases, use the legacy UI.
-{{< /note >}}
+> [!NOTE]
+> For databases with Active-Active replication for geo-distributed locations,
+> see [Create an Active-Active database](/content/operate/rs/7.22/databases/active-active/create.md). To create and manage Active-Active databases, use the legacy UI.
 
 ### Quick database
 
@@ -56,7 +55,7 @@ To quickly create a database and skip additional configuration options during in
 
     - Capabilities (previously modules) to enable
 
-1. Optionally select **Full options** to configure [additional settings]({{< relref "/operate/rs/7.22/databases/configure#config-settings" >}}).
+1. Optionally select **Full options** to configure [additional settings](/content/operate/rs/7.22/databases/configure/_index.md#config-settings).
 
 1. Select **Create**.
 
@@ -78,11 +77,10 @@ To create a new database and configure additional settings:
 
     - **Single Region**
 
-    - **Active-Active database** - Multiple participating Redis Enterprise clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/7.22/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
+    - **Active-Active database** - Multiple participating Redis Enterprise clusters can host instances of the same [Active-Active database](/content/operate/rs/7.22/databases/active-active/_index.md) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
 
-    {{<note>}}
-For Active-Active databases, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.22/databases/active-active/create" >}}).
-    {{</note>}}
+    > [!NOTE]
+    > For Active-Active databases, see [Create an Active-Active geo-replicated database](/content/operate/rs/7.22/databases/active-active/create.md).
 
 1. Select a Redis version from the **Database version** list.
 
@@ -98,13 +96,13 @@ For Active-Active databases, see [Create an Active-Active geo-replicated databas
 
 1. To configure additional database settings, expand each relevant section to make changes.
 
-    See [Configuration settings]({{< relref "/operate/rs/7.22/databases/configure#config-settings" >}}) for more information about each setting.
+    See [Configuration settings](/content/operate/rs/7.22/databases/configure/_index.md#config-settings) for more information about each setting.
 
 1. Select **Create**.
 
 ## REST API method
 
-To [create a database]({{<relref "/operate/rs/7.22/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using a REST API request:
+To [create a database](/content/operate/rs/7.22/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1) using a REST API request:
 
 ```sh
 POST https://<host>:<port>/v1/bdbs
@@ -116,7 +114,7 @@ POST https://<host>:<port>/v1/bdbs
 }
 ```
 
-For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/7.22/references/rest-api/objects/bdb">}}) reference.
+For additional database configuration fields, see the [BDB object](/content/operate/rs/7.22/references/rest-api/objects/bdb/_index.md) reference.
 
 ## Continue learning with Redis University
 

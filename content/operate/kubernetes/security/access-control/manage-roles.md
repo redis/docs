@@ -15,14 +15,14 @@ A role defines a reusable set of Redis Software permissions — Cluster Manager 
 - `RedisEnterpriseRole` — applies to one or more REDBs selected by `spec.scopes`. Use when you want to grant access to a specific database or set of databases.
 - `RedisEnterpriseClusterRole` — applies cluster-wide, across every REDB. Use for administrative access or for permissions you want everywhere.
 
-For details on how roles and bindings work together, see [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}). To assign a role to a user, see [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}).
+For details on how roles and bindings work together, see [Roles and bindings](/content/operate/kubernetes/security/access-control/_index.md#roles-and-bindings). To assign a role to a user, see [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md).
 
 ## Before you start
 
 - Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - The role resource must live in the operator namespace. Database scopes resolve to REDBs in that namespace.
 - Decide whether you need [management permissions](#choose-a-management-role), [data-path permissions](#attach-an-acl), or both.
-- If the role references one or more `RedisEnterpriseACL` resources, create those first. See [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}).
+- If the role references one or more `RedisEnterpriseACL` resources, create those first. See [Manage ACLs](/content/operate/kubernetes/security/access-control/manage-acls.md).
 
 ## Choose a management role
 
@@ -33,7 +33,7 @@ For details on how roles and bindings work together, see [Roles and bindings]({{
 | `RedisEnterpriseRole` | `DBMember`, `DBViewer`, `None` |
 | `RedisEnterpriseClusterRole` | `Admin`, `ClusterMember`, `ClusterViewer`, `DBMember`, `DBViewer`, `UserManager`, `None` |
 
-`None` grants no management permissions and is the default when `managementRole` is omitted. For what each Redis Software role grants, see [Cluster-scoped role definitions]({{< relref "/operate/rs/security/access-control/create-cluster-roles" >}}) and [Database-scoped role definitions]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}).
+`None` grants no management permissions and is the default when `managementRole` is omitted. For what each Redis Software role grants, see [Cluster-scoped role definitions](/content/operate/rs/security/access-control/create-cluster-roles.md) and [Database-scoped role definitions](/content/operate/rs/security/access-control/create-db-roles.md).
 
 ## Create a database role
 
@@ -170,7 +170,7 @@ For cluster roles, replace `redisenterpriserolebinding` with `redisenterpriseclu
 
 ## Delete a role
 
-Delete any bindings that reference the role first, then delete the role. Find the bindings with the recipes in [Find bindings that reference a role or user]({{< relref "/operate/kubernetes/security/access-control/manage-bindings#find-bindings-that-reference-a-role-or-user" >}}), delete each by name, then delete the role:
+Delete any bindings that reference the role first, then delete the role. Find the bindings with the recipes in [Find bindings that reference a role or user](/content/operate/kubernetes/security/access-control/manage-bindings.md#find-bindings-that-reference-a-role-or-user), delete each by name, then delete the role:
 
 ```sh
 kubectl delete redisenterpriserolebinding alice-orders-viewer
@@ -188,12 +188,12 @@ Watch reconciliation events with `kubectl describe redisenterpriserole <name>` (
 - **Permissions don't reach the database** — Check `status.uid` on the role, the matching REDB's `status.rolesPermissions`, and confirm a binding assigns the role to the user.
 - **`RoleDeletionBlocked`** — A binding still references the role in Redis Software. Delete the binding first.
 
-For full field details, see the [`RedisEnterpriseRole`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_role_api" >}}) and [`RedisEnterpriseClusterRole`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_role_api" >}}) API reference.
+For full field details, see the [`RedisEnterpriseRole`](/content/operate/kubernetes/reference/api/redis_enterprise_role_api.md) and [`RedisEnterpriseClusterRole`](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_role_api.md) API reference.
 
 ## Related topics
 
-- [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}) — the conceptual model.
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign a role to a user.
-- [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) — define the data-path permissions a role references.
-- [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create the users that bindings target.
-- [Migrate from REDB rolesPermissions]({{< relref "/operate/kubernetes/security/access-control/migrate-rolespermissions" >}}) — move from the deprecated `RedisEnterpriseDatabase.spec.rolesPermissions` field to the new CRD model.
+- [Roles and bindings](/content/operate/kubernetes/security/access-control/_index.md#roles-and-bindings) — the conceptual model.
+- [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md) — assign a role to a user.
+- [Manage ACLs](/content/operate/kubernetes/security/access-control/manage-acls.md) — define the data-path permissions a role references.
+- [Manage users](/content/operate/kubernetes/security/access-control/manage-users.md) — create the users that bindings target.
+- [Migrate from REDB rolesPermissions](/content/operate/kubernetes/security/access-control/migrate-rolespermissions.md) — move from the deprecated `RedisEnterpriseDatabase.spec.rolesPermissions` field to the new CRD model.

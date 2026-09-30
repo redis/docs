@@ -85,7 +85,7 @@ The elements having the same score are returned in reverse lexicographical
 order.
 
 Apart from the reversed ordering, `ZREVRANGEBYSCORE` is similar to
-[`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}).
+[`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md).
 
 ## Required arguments
 

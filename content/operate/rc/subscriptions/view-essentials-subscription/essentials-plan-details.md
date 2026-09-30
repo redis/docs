@@ -19,7 +19,7 @@ Our paid plans start at 250 MB and offer extra features, like high availability 
 
 Essentials plans have bandwidth and throughput limits described in the tables below. We will notify you before limiting your database usage if you exceed these limits.
 
-If you need additional resources, you can [upgrade your subscription]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}) at any time.
+If you need additional resources, you can [upgrade your subscription](/content/operate/rc/subscriptions/view-essentials-subscription/_index.md#upgrade-plan) at any time.
 
 ## Current plans
 
@@ -36,7 +36,7 @@ These plans are currently offered for all new and upgraded Essentials subscripti
 | **Maximum<br/> throughput<sup>[3](#table-note-3)</sup>** | 100&nbsp;ops/sec | 1000&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
 {{</table-scrollable>}}
 
-1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact](/content/operate/rc/databases/configuration/high-availability.md#dataset-size) for more information.
 
 2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies to the entire plan. All databases in the plan share the allocated bandwidth limit.
 
@@ -53,7 +53,7 @@ These plans are currently offered for all new and upgraded Essentials subscripti
 | **Maximum<br/> throughput<sup>[2](#table-note-2-flex)</sup>** | 200&nbsp;ops/sec | 500&nbsp;ops/sec | 1000&nbsp;ops/sec | 2400&nbsp;ops/sec | 5000&nbsp;ops/sec | 10000&nbsp;ops/sec | 20000&nbsp;ops/sec |
 {{</table-scrollable>}}
 
-1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact](/content/operate/rc/databases/configuration/high-availability.md#dataset-size) for more information.
 
 2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
 
@@ -69,7 +69,7 @@ These plans were available before November 2023.
 | **Maximum<br/> throughput<sup>[3](#table-note-3-legacy)</sup>**                                                       | 100&nbsp;ops/sec | 500&nbsp;ops/sec | 1000&nbsp;ops/sec | 1500&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
 {{</table-scrollable>}}
 
-1. <a name="table-note-1-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
+1. <a name="table-note-1-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact](/content/operate/rc/databases/configuration/high-availability.md#dataset-size) for more information.
 
 2. <a name="table-note-2-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies to the entire plan. All databases in the plan share the allocated bandwidth limit.
 

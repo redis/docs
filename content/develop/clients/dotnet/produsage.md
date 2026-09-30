@@ -58,6 +58,11 @@ docs for the full list of supported events). For example, you could
 inform users who try to connect that service is temporarily unavailable
 rather than letting them run into errors.
 
+The same event also carries
+[Smart client handoffs](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch)
+(SCH) notifications, which are a different, Redis Cloud- and Redis Software-specific
+mechanism. Check the runtime type of the event arguments to tell the two apart.
+
 ```cs
 using StackExchange.Redis;
 

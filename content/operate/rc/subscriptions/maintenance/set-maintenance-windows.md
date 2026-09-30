@@ -12,17 +12,15 @@ toc: 'true'
 weight: $weight
 ---
 
-By default, Redis will maintain your Redis Cloud subscriptions and databases as needed. During maintenance, you may notice some latency when connecting to your databases. For more information about the types of maintenance and how Redis maintains your subscriptions, see [Maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}).
+By default, Redis will maintain your Redis Cloud subscriptions and databases as needed. During maintenance, you may notice some latency when connecting to your databases. For more information about the types of maintenance and how Redis maintains your subscriptions, see [Maintenance](/content/operate/rc/subscriptions/maintenance/_index.md).
 
-{{< note >}}
-If your subscription includes an [RDI data pipeline]({{< relref "/operate/rc/rdi#data-pipeline-architecture" >}}), maintenance windows apply to the pipeline as well. The pipeline may experience brief interruptions during the configured maintenance window.
-{{< /note >}}
+> [!NOTE]
+> If your subscription includes an [RDI data pipeline](/content/operate/rc/rdi/_index.md#data-pipeline-architecture), maintenance windows apply to the pipeline as well. The pipeline may experience brief interruptions during the configured maintenance window.
 
 For Redis Cloud Pro plans, Redis will perform maintenance automatically while limiting service disruption as much as possible. If you want to control when Redis performs maintenance for a Redis Cloud Pro subscription, you can [set manual maintenance windows](#set-manual-maintenance-windows) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
 
-{{<note>}}
-You can only set manual maintenance windows for Redis Cloud Pro plans. A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
-{{</note>}}
+> [!NOTE]
+> You can only set manual maintenance windows for Redis Cloud Pro plans. A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance](/content/operate/rc/subscriptions/maintenance/_index.md#redis-cloud-essentials) for more information.
 
 ## Set manual maintenance windows
 
@@ -46,9 +44,9 @@ To set manual maintenance windows for a single Redis Cloud Pro subscription:
     - Select **+ Time Frame** to add another time frame for maintenance.
     - Select **Advance notification** if you want to be notified of maintenance in advance.
 
-    {{<note>}}
-You must [contact support](https://redis.io/support/) to request and be approved for advance maintenance notifications, otherwise skip this step as the this option does not appear by default.
-    {{</note>}}
+    > [!NOTE]
+    > You must [contact support](https://redis.io/support/) to request and be approved for advance maintenance notifications, otherwise skip this step as the this option does not appear by default.
+    >
 
     Redis recommends allowing maintenance on at least two different days for 8 hours on each day.
 
@@ -68,6 +66,6 @@ To skip maintenance temporarily for a subscription:
 
 You will only be allowed to skip maintenance once per month. 
 
-During the skipped maintenance period, Redis will not perform any minor or major upgrades. Redis may perform [urgent maintenance]({{< relref "/operate/rc/subscriptions/maintenance#urgent-maintenance" >}}) on your subscription, but only if it is absolutely necessary.
+During the skipped maintenance period, Redis will not perform any minor or major upgrades. Redis may perform [urgent maintenance](/content/operate/rc/subscriptions/maintenance/_index.md#urgent-maintenance) on your subscription, but only if it is absolutely necessary.
 
 

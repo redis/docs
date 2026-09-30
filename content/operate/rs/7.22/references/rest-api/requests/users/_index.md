@@ -33,7 +33,7 @@ Get a list of all users.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_users_info]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_all_users_info" >}}) | admin<br />user_manager |
+| [view_all_users_info](/content/operate/rs/7.22/references/rest-api/permissions.md#view_all_users_info) | admin<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -52,7 +52,7 @@ GET /v1/users
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [user objects]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}).
+Returns a JSON array of [user objects](/content/operate/rs/7.22/references/rest-api/objects/user.md).
 
 #### Example JSON body
 
@@ -100,7 +100,7 @@ Get a single user's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_user_info]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_user_info" >}}) | admin<br />user_manager |
+| [view_user_info](/content/operate/rs/7.22/references/rest-api/permissions.md#view_user_info) | admin<br />user_manager |
 
 ### Request {#get-request}
 
@@ -125,7 +125,7 @@ GET /v1/users/1
 
 ### Response {#get-response}
 
-Returns a [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}) that contains the details for the specified user ID.
+Returns a [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md) that contains the details for the specified user ID.
 
 #### Example JSON body
 
@@ -163,7 +163,7 @@ Update an existing user's configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_user]({{< relref "/operate/rs/7.22/references/rest-api/permissions#update_user" >}}) | admin<br />user_manager |
+| [update_user](/content/operate/rs/7.22/references/rest-api/permissions.md#update_user) | admin<br />user_manager |
 
 Any user can change their own name, password, or alert preferences.
 
@@ -195,7 +195,7 @@ PUT /v1/users/1
 
 | Field   | Type | Description |
 |---------|------|---------------|
-| dry_run |  | Validate the updated [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}) but don't apply the update. |
+| dry_run |  | Validate the updated [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md) but don't apply the update. |
 
 #### URL parameters
 
@@ -206,11 +206,11 @@ PUT /v1/users/1
 
 #### Request body
 
-Include a [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}) with updated fields in the request body.
+Include a [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns the updated [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}).
+Returns the updated [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md).
 
 #### Example JSON body
 
@@ -227,9 +227,8 @@ Returns the updated [user object]({{< relref "/operate/rs/7.22/references/rest-a
 }
 ```
 
-{{<note>}}
-For [RBAC-enabled clusters]({{< relref "/operate/rs/7.22/security/access-control" >}}), the returned user details include `role_uids` instead of `role`.
-{{</note>}}
+> [!NOTE]
+> For [RBAC-enabled clusters](/content/operate/rs/7.22/security/access-control/_index.md), the returned user details include `role_uids` instead of `role`.
 
 ### Error codes {#put-error-codes}
 
@@ -263,7 +262,7 @@ Create a new user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_new_user]({{< relref "/operate/rs/7.22/references/rest-api/permissions#create_new_user" >}}) | admin<br />user_manager |
+| [create_new_user](/content/operate/rs/7.22/references/rest-api/permissions.md#create_new_user) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -284,15 +283,14 @@ POST /v1/users
 
 | Field   | Type | Description |
 |---------|------|---------------|
-| dry_run |  | Validate the new [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}) but don't apply the update. |
+| dry_run |  | Validate the new [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md) but don't apply the update. |
 
 #### Body
 
-Include a single [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}) in the request body. The user object must have an email, password, and role.
+Include a single [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md) in the request body. The user object must have an email, password, and role.
 
-{{<note>}}
-For [RBAC-enabled clusters]({{< relref "/operate/rs/7.22/security/access-control" >}}), use `role_uids` instead of `role` in the request body.
-{{</note>}}
+> [!NOTE]
+> For [RBAC-enabled clusters](/content/operate/rs/7.22/security/access-control/_index.md), use `role_uids` instead of `role` in the request body.
 
 `email_alerts` can be configured either as:
 
@@ -316,7 +314,7 @@ For [RBAC-enabled clusters]({{< relref "/operate/rs/7.22/security/access-control
 
 ### Response {#post-response}
 
-Returns the newly created [user object]({{< relref "/operate/rs/7.22/references/rest-api/objects/user" >}}).
+Returns the newly created [user object](/content/operate/rs/7.22/references/rest-api/objects/user.md).
 
 #### Example JSON body
 
@@ -417,7 +415,7 @@ Delete a user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_user]({{< relref "/operate/rs/7.22/references/rest-api/permissions#delete_user" >}}) | admin<br />user_manager |
+| [delete_user](/content/operate/rs/7.22/references/rest-api/permissions.md#delete_user) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

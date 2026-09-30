@@ -265,13 +265,13 @@ after the SCHEMA keyword, declares which fields to index:
 
  - `TEXT` - Allows full-text search queries against the value in this attribute.
 
- - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+ - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md).
 
- - `NUMERIC` - Allows numeric range queries against the value in this attribute. See [query syntax docs]({{< relref "/develop/ai/search-and-query/query/" >}}) for details on how to use numeric ranges.
+ - `NUMERIC` - Allows numeric range queries against the value in this attribute. See [query syntax docs](/content/develop/ai/search-and-query/query/_index.md) for details on how to use numeric ranges.
 
  - `GEO` - Allows radius range queries against the value (point) in this attribute. The value of the attribute must be a string containing a longitude (first) and latitude separated by a comma.
 
- - `VECTOR` - Allows vector queries against the value in this attribute. This requires [query dialect 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3)). For more information, see [Vector Fields]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+ - `VECTOR` - Allows vector queries against the value in this attribute. This requires [query dialect 2](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2) or above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3)). For more information, see [Vector Fields](/content/develop/ai/search-and-query/vectors/_index.md).
 
  - `GEOSHAPE`- Allows polygon queries against the value in this attribute. The value of the attribute must follow a [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) list of 2D points representing the polygon edges `POLYGON((x1 y1, x2 y2, ...)` separated by a comma. A `GEOSHAPE` field type can be followed by one of the following coordinate systems:
    - `SPHERICAL` for Geographic longitude and latitude coordinates
@@ -283,7 +283,7 @@ after the SCHEMA keyword, declares which fields to index:
 
  Field options are:
 
- - `SORTABLE` - `NUMERIC`, `TAG`, `TEXT`, or `GEO` attributes can have an optional **SORTABLE** argument. As the user [sorts the results by the value of this attribute]({{< relref "/develop/ai/search-and-query/advanced-concepts/sorting" >}}), the results are available with very low latency. Note that his adds memory overhead, so consider not declaring it on large text attributes. You can sort an attribute without the `SORTABLE` option, but the latency is not as good as with `SORTABLE`.
+ - `SORTABLE` - `NUMERIC`, `TAG`, `TEXT`, or `GEO` attributes can have an optional **SORTABLE** argument. As the user [sorts the results by the value of this attribute](/content/develop/ai/search-and-query/advanced-concepts/sorting.md), the results are available with very low latency. Note that his adds memory overhead, so consider not declaring it on large text attributes. You can sort an attribute without the `SORTABLE` option, but the latency is not as good as with `SORTABLE`.
 
  - `UNF` - By default, for hashes (not with JSON) `SORTABLE` applies a normalization to the indexed value (characters set to lowercase, removal of diacritics). When using the unnormalized form (UNF), you can disable the normalization and keep the original form of the value. With JSON, `UNF` is implicit with `SORTABLE` (normalization is disabled).
 
@@ -298,7 +298,7 @@ after the SCHEMA keyword, declares which fields to index:
    - `dm:pt` - Double metaphone for Portuguese
    - `dm:es` - Double metaphone for Spanish
 
-   For more information, see [Phonetic Matching]({{< relref "/develop/ai/search-and-query/advanced-concepts/phonetic_matching" >}}).
+   For more information, see [Phonetic Matching](/content/develop/ai/search-and-query/advanced-concepts/phonetic_matching.md).
 
   - `WEIGHT {weight}` for `TEXT` attributes, declares the importance of this attribute when calculating result accuracy. This is a multiplication factor, and defaults to 1 if not specified.
 
@@ -319,7 +319,7 @@ after the SCHEMA keyword, declares which fields to index:
 <a name="ON"></a><details open>
 <summary><code>ON {data_type}</code></summary>
 
-currently supports HASH (default) and JSON. To index JSON, you must have the [RedisJSON]({{< relref "/develop/data-types/json/" >}}) module installed.
+currently supports HASH (default) and JSON. To index JSON, you must have the [RedisJSON](/content/develop/data-types/json/_index.md) module installed.
 </details>
 
 <a name="PREFIX"></a><details open>
@@ -350,7 +350,7 @@ languages are `arabic`, `armenian`, `basque`, `catalan`, `chinese` (see below), 
 `hungarian`, `indonesian`, `irish`, `italian`, `lithuanian`, `malay`, `nepali`, `norwegian`, `portuguese`, `romanian`, `russian`, `serbian`,
 `spanish`, `swedish`, `tagalog`, `tamil`, `turkish`, and `yiddish`.
 
-When adding Chinese language documents, set `LANGUAGE chinese` for the indexer to properly tokenize the terms. If you use the default language, then search terms are extracted based on punctuation characters and whitespace. The Chinese language tokenizer makes use of a segmentation algorithm (via [Friso](https://github.com/lionsoul2014/friso)), which segments text and checks it against a predefined dictionary. See [Stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}}) for more information.
+When adding Chinese language documents, set `LANGUAGE chinese` for the indexer to properly tokenize the terms. If you use the default language, then search terms are extracted based on punctuation characters and whitespace. The Chinese language tokenizer makes use of a segmentation algorithm (via [Friso](https://github.com/lionsoul2014/friso)), which segments text and checks it against a predefined dictionary. See [Stemming](/content/develop/ai/search-and-query/advanced-concepts/stemming.md) for more information.
 </details>
 
 <a name="SCORE"></a><details open>
@@ -374,7 +374,7 @@ is document attribute that you use as a binary safe payload string to the docume
 <a name="MAXTEXTFIELDS"></a><details open>
 <summary><code>MAXTEXTFIELDS</code></summary> 
 
-forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`]({{< relref "commands/ft.alter/" >}}). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
+forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`](/content/commands/ft.alter.md). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
 </details>
 
 <a name="NOOFFSETS"></a><details open>
@@ -388,15 +388,13 @@ does not store term offsets for documents. It saves memory, but does not allow e
 
 creates a lightweight temporary index that expires after a specified period of inactivity, in seconds. The internal idle timer is reset whenever the index is searched or added to. Because such indexes are lightweight, you can create thousands of such indexes without negative performance implications and, therefore, you should consider using `SKIPINITIALSCAN` to avoid costly scanning.
 
-{{% alert title="Warning" color="warning" %}}
- 
-When temporary indexes expire, they drop all the records associated with them.
-[`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
-However, for temporary indexes, documents are deleted along with the index.
-Historically, RediSearch used an FT.ADD command, which made a connection between the document and the index. Then, FT.DROP, also a hystoric command, deleted documents by default.
-In version 2.x, RediSearch indexes hashes and JSONs, and the dependency between the index and documents no longer exists. 
-
-{{% /alert %}}
+> [!NOTE] Warning
+>  
+> When temporary indexes expire, they drop all the records associated with them.
+> [`FT.DROPINDEX`](/content/commands/ft.dropindex.md) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
+> However, for temporary indexes, documents are deleted along with the index.
+> Historically, RediSearch used an FT.ADD command, which made a connection between the document and the index. Then, FT.DROP, also a hystoric command, deleted documents by default.
+> In version 2.x, RediSearch indexes hashes and JSONs, and the dependency between the index and documents no longer exists. 
 
 </details>
 
@@ -522,26 +520,26 @@ The following example uses data similar to the hash examples above but uses JSON
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: index already exists, invalid schema syntax.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: index already exists, invalid schema syntax.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: index already exists, invalid schema syntax.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.ALTER`]({{< relref "commands/ft.alter/" >}}) | [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex/" >}}) 
+[`FT.ALTER`](/content/commands/ft.alter.md) | [`FT.DROPINDEX`](/content/commands/ft.dropindex.md) 
 
 ## Related topics
 
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-- [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)
+- [RedisJSON](/content/develop/data-types/json/_index.md)
 - [Friso](https://github.com/lionsoul2014/friso)
-- [Stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}})
-- [Phonetic Matching]({{< relref "/develop/ai/search-and-query/advanced-concepts/phonetic_matching" >}})
+- [Stemming](/content/develop/ai/search-and-query/advanced-concepts/stemming.md)
+- [Phonetic Matching](/content/develop/ai/search-and-query/advanced-concepts/phonetic_matching.md)
 - [RSCoordinator](https://github.com/RedisLabsModules/RSCoordinator)

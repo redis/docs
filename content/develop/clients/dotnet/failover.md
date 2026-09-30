@@ -31,7 +31,8 @@ see the main [Client-side geographic failover](/content/develop/clients/failover
 
 ## Failover configuration
 
-Failover support is available in StackExchange.Redis v3.1.0 and later. The failover
+Failover support is available in StackExchange.Redis v3.1.0 and later, and the
+`SER007` experimental marker was retired in v3.3.0. The failover
 types live in the `StackExchange.Redis.Availability` namespace, so you should add the following
 `using` directives to your source file:
 
@@ -39,26 +40,6 @@ types live in the `StackExchange.Redis.Availability` namespace, so you should ad
 using StackExchange.Redis;
 using StackExchange.Redis.Availability;
 ```
-
-> [!NOTE]
-> The failover feature is fully supported and intended for production use.
-> However, because it is a large, new API surface, the types in the
-> `StackExchange.Redis.Availability` namespace are marked with the `[Experimental]`
-> attribute so that the library can reserve the right to adjust them without the usual
-> backwards-compatibility guarantees. (This marker is expected to be removed in a later
-> 3.1.x release.) As a result, the compiler reports the `SER007` diagnostic when you use
-> these types. Suppressing this diagnostic is the normal way to use the feature. To do so,
-> either add the following to your `.csproj` file:
->
-> ```xml
-> <NoWarn>$(NoWarn);SER007</NoWarn>
-> ```
->
-> or suppress it locally in your source file:
->
-> ```csharp
-> #pragma warning disable SER007
-> ```
 
 The example below shows a simple case with a list of two servers,
 `redis-east` and `redis-west`, where `redis-east` is the preferred

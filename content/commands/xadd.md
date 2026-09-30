@@ -184,9 +184,9 @@ The producer-id identifies the source of the message, while the idempotent-id en
 
 Both modes can only be specified when the entry ID is `*` (auto-generated).
 
-Use [`XCFGSET`]({{< relref "/commands/xcfgset" >}}) to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).
+Use [`XCFGSET`](/content/commands/xcfgset.md) to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).
 
-See [Idempotent message processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
+See [Idempotent message processing](/content/develop/data-types/streams/idempotency.md) for more information.
 
 </details>
 
@@ -241,13 +241,12 @@ Limits the number of entries to examine during trimming. Available since Redis 6
   
 Each entry consists of a list of field-value pairs.
 Redis stores the field-value pairs in the same order you provide them.
-Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), return the fields and values in exactly the same order you added them with `XADD`.
+Commands that read the stream, such as [`XRANGE`](/content/commands/xrange.md) or [`XREAD`](/content/commands/xread.md), return the fields and values in exactly the same order you added them with `XADD`.
 
-{{< note >}}
-`XADD` is the only Redis command that can add data to a stream. However,
-other commands, such as [`XDEL`]({{< relref "/commands/xdel" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}), can
-remove data from a stream.
-{{< /note >}}
+> [!NOTE]
+> `XADD` is the only Redis command that can add data to a stream. However,
+> other commands, such as [`XDEL`](/content/commands/xdel.md) and [`XTRIM`](/content/commands/xtrim.md), can
+> remove data from a stream.
 
 ## Examples
 
@@ -321,7 +320,7 @@ When you specify an explicit ID to `XADD`, the minimum valid ID is `0-1`, and yo
 
 ### Capped streams
 
-`XADD` incorporates the same semantics as the [`XTRIM`]({{< relref "/commands/xtrim" >}}) command - refer to its documentation page for more information.
+`XADD` incorporates the same semantics as the [`XTRIM`](/content/commands/xtrim.md) command - refer to its documentation page for more information.
 This allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.
 Although exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).
 
@@ -334,7 +333,7 @@ This adds a new entry but also evicts old entries so that the stream contains on
 ### Additional information about streams
 
 For more information about Redis streams, see the
-[introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
+[introduction to Redis Streams document](/content/develop/data-types/streams/_index.md).
 
 ## Redis Software and Redis Cloud compatibility
 

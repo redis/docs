@@ -27,9 +27,8 @@ To build Redis with all the data structures (including JSON, time series, Bloom 
 make BUILD_WITH_MODULES=yes
 ```
 
-{{< note >}}
-`BUILD_WITH_MODULES=yes` is not supported on 32 bit systems.
-{{< /note >}}
+> [!NOTE]
+> `BUILD_WITH_MODULES=yes` is not supported on 32 bit systems.
 
 ### Build with just the core data structures
 
@@ -155,13 +154,12 @@ Please consult the [TLS.md](https://github.com/redis/redis/blob/unstable/TLS.md)
 
 ## Running Redis with the Redis Search and optional proprietary Intel SVS-VAMANA optimizations
 
-{{< note >}}
-**License disclaimer**
-
-If you are using Redis Open Source under AGPLv3 or SSPLv1, you cannot use it together with the Intel optimizations (LeanVec and LVQ binaries). The reason is that the Intel SVS license is not compatible with those licenses.
-
-The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license. For more details, please refer to the information provided by Intel [here](https://github.com/intel/ScalableVectorSearch).
-{{< /note >}}
+> [!NOTE]
+> **License disclaimer**
+>
+> If you are using Redis Open Source under AGPLv3 or SSPLv1, you cannot use it together with the Intel optimizations (LeanVec and LVQ binaries). The reason is that the Intel SVS license is not compatible with those licenses.
+>
+> The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license. For more details, please refer to the information provided by Intel [here](https://github.com/intel/ScalableVectorSearch).
 
 By default, Redis with Redis Search supports the SVS-VAMANA index with global 8-bit quantization. To compile Redis with the Intel SVS-VAMANA optimizations, LeanVec and LVQ, use the following:
 

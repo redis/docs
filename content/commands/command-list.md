@@ -54,7 +54,7 @@ Return an array of the Redis server's command names.
 
 <details open><summary><code>FILTERBY MODULE module-name | ACLCAT category | PATTERN pattern</code></summary>
 
-Filter the listed commands by module (`MODULE`), [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) (`ACLCAT`), or a glob-style name pattern (`PATTERN`).
+Filter the listed commands by module (`MODULE`), [ACL category](/content/operate/oss_and_stack/management/security/acl.md#command-categories) (`ACLCAT`), or a glob-style name pattern (`PATTERN`).
 
 </details>
 

@@ -195,7 +195,7 @@ When `XNACK` executes successfully, the entry:
 * is marked as unowned (its last consumer is set to an empty string).
 * is assigned a last delivery time of `0`.
 * is placed at the end of the NACKed portion of the PEL.
-* is available for immediate re-delivery via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) CLAIM, [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
+* is available for immediate re-delivery via [`XREADGROUP`](/content/commands/xreadgroup.md) CLAIM, [`XCLAIM`](/content/commands/xclaim.md), or [`XAUTOCLAIM`](/content/commands/xautoclaim.md).
 
 The head of the PEL is reserved for all NACKed messages, ordered as a FIFO list, followed by pending messages that were neither ACKed nor NACKed in their existing order.
 
@@ -206,7 +206,7 @@ Notes:
 - `XNACK` will only process message IDs that exist in the consumer group's PEL. Messages that are not pending will be ignored and not counted in the return value.
 - Released messages occupy a dedicated zone at the head of the PEL (called the *XNACKed portion of the PEL*), ensuring they are prioritized for re-delivery over other pending entries.
 - Released messages have their delivery time set to 0, making them immediately claimable regardless of the `min-idle-time` parameter in claiming commands.
-- Unlike [`XACK`]({{< relref "/commands/xack" >}}), this command does not remove messages from the PEL but instead makes them available for other consumers.
+- Unlike [`XACK`](/content/commands/xack.md), this command does not remove messages from the PEL but instead makes them available for other consumers.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -220,18 +220,18 @@ Notes:
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The number of messages successfully released back to the group PEL. Messages that are not in the consumer group PEL will not be counted.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): The number of messages successfully released back to the group PEL. Messages that are not in the consumer group PEL will not be counted.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The number of messages successfully released back to the consumer group PEL. Messages that are not in the consumer group PEL will not be counted.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): The number of messages successfully released back to the consumer group PEL. Messages that are not in the consumer group PEL will not be counted.
 
 {{< /multitabs >}}
 
 ## See also
 
-- [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}): Read messages from a consumer group
-- [`XACK`]({{< relref "/commands/xack" >}}): Acknowledge processed messages
-- [`XCLAIM`]({{< relref "/commands/xclaim" >}}): Claim pending messages from other consumers
-- [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}): Automatically claim idle pending messages
-- [`XPENDING`]({{< relref "/commands/xpending" >}}): Inspect pending messages in a consumer group
+- [`XREADGROUP`](/content/commands/xreadgroup.md): Read messages from a consumer group
+- [`XACK`](/content/commands/xack.md): Acknowledge processed messages
+- [`XCLAIM`](/content/commands/xclaim.md): Claim pending messages from other consumers
+- [`XAUTOCLAIM`](/content/commands/xautoclaim.md): Automatically claim idle pending messages
+- [`XPENDING`](/content/commands/xpending.md): Inspect pending messages in a consumer group

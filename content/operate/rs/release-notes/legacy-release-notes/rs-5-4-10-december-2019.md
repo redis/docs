@@ -15,13 +15,13 @@ This release includes an improved synchronization mechanism for Active-Active Re
 
 ## Overview
 
-Follow these [instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) for upgrading to RS 5.4.10 from RS 5.0 and above.
+Follow these [instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md) for upgrading to RS 5.4.10 from RS 5.0 and above.
 
 ## New features
 
 ### Synchronization mechanism in Active-Active Redis and Replica-of
 
-RS 5.4.10 incorporates the improved [Redis synchronization mechanism]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process) ([PSYNC2]({{< relref "/operate/oss_and_stack/management/replication" >}})) for Active-Active Redis (CRDB) and Replica-of.
+RS 5.4.10 incorporates the improved [Redis synchronization mechanism](/content/operate/rs/databases/active-active/_index.md#syncer-process) ([PSYNC2](/content/operate/oss_and_stack/management/replication.md)) for Active-Active Redis (CRDB) and Replica-of.
 
 As a result, failure scenarios in any A-A replica (and the source database of Replica-of), require only partial synchronization between the cross-region replicas instead of full synchronization that can be costly in time and bandwidth.
 
@@ -57,7 +57,7 @@ If you see this error, upgrade to OpenSSL 1.0.2 or higher before you install RS.
 
 - End of Life (EOL) for Redis Enterprise Software 5.4, as well as for Redis Modules and previous RS versions, can be found [here](https://docs.redis.com/latest/rs/installing-upgrading/product-lifecycle).
 - Google Chrome browser on macOS Catalina requires self-signed certificate generated after June 2019 to include the extendedKeyUsage field in order to connect to the RS admin console.
-    If you use a self-signed certificate that does not include this field, [update the self-signed certificate]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
+    If you use a self-signed certificate that does not include this field, [update the self-signed certificate](/content/operate/rs/security/certificates/updating-certificates.md).
 - When you upgrade an Active-Active Redis with active AOF from version RS 5.4.2 or lower to version RS 5.4.4 or higher:
     - If replication is enabled, you must run the BGREWRITEAOF command on all replica shards after the upgrade.
     - If replication is not enabled, you must run the BGREWRITEAOF command on all shards after the upgrade.
@@ -84,15 +84,15 @@ If you see this error, upgrade to OpenSSL 1.0.2 or higher before you install RS.
 
 ### Upgrade
 
-- [RS 5.4.2]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md" >}}) introduced new Active-Active Redis (CRDB) capabilities
+- [RS 5.4.2](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md) introduced new Active-Active Redis (CRDB) capabilities
     that improve its compatibility with open source Redis.
     Now the string data-type in Active-Active Redis (CRDB) is implicitly and dynamically typed, just like open source Redis.
     To use the new capabilities on nodes that are upgraded from version RS 5.4.2 or lower,
-    you must [upgrade the CRDB protocol]({{< relref "/operate/rs/installing-upgrading/upgrading#upgrading-crdbs" >}}).
+    you must [upgrade the CRDB protocol](/content/operate/rs/installing-upgrading/upgrading/_index.md#upgrading-crdbs).
 - Before you upgrade a database with RediSearch Module to Redis 5.0,
-    you must [upgrade the RediSearch Module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) to version 1.4.2 or above.
+    you must [upgrade the RediSearch Module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to version 1.4.2 or above.
 - Node upgrade fails if the SSL certificates were configured in version 5.0.2 or above
-    by manually updating the certificates on the disk instead of [updating them through the API]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
+    by manually updating the certificates on the disk instead of [updating them through the API](/content/operate/rs/security/certificates/updating-certificates.md).
     For assistance with this issue, [contact Redis support](https://redislabs.com/company/support/).
 - We recommend that you test module upgrade commands in a test environment before you upgrade modules in a production environment.
     The module upgrade arguments are not validated during the upgrade process and incorrect arguments can cause unexpected downtime.
@@ -106,7 +106,7 @@ If you see this error, upgrade to OpenSSL 1.0.2 or higher before you install RS.
 
 ### Discovery service
 
-- For [Redis Sentinel (Discovery Service)]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), every database name must be unique across the cluster.
+- For [Redis Sentinel (Discovery Service)](/content/operate/rs/databases/durability-ha/discovery-service.md), every database name must be unique across the cluster.
 
 ### Redis commands
 

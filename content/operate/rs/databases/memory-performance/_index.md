@@ -16,11 +16,11 @@ architecture to help optimize storage and performance.
 
 ## Memory limits
 
-Database memory limits define the maximum size your database can reach across all database replicas and [shards]({{< relref "/glossary#letter-s" >}}) on the cluster. Your memory limit will also determine the number of shards you'll need.
+Database memory limits define the maximum size your database can reach across all database replicas and [shards](/content/glossary/_index.md#letter-s) on the cluster. Your memory limit will also determine the number of shards you'll need.
 
 Besides your dataset, the memory limit must also account for replication, Active-Active overhead, and module overhead, and a number of other factors. These can significantly increase your database size, sometimes increasing it by four times or more.
 
-For more information on memory limits, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+For more information on memory limits, see [Database memory limits](/content/operate/rs/databases/memory-performance/memory-limit.md).
 
 ## Eviction policies
 
@@ -28,7 +28,7 @@ When a database exceeds its memory limit, eviction policies determine which data
 
 The default eviction policy for databases is `volatile-lru` which evicts the least recently used keys out of all keys with the `expire` field set. The default for Active-Active databases is `noeviction`.
 
-For more information, see [eviction policies]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
+For more information, see [eviction policies](/content/operate/rs/databases/memory-performance/eviction-policy.md).
 
 ## Database persistence
 
@@ -40,13 +40,13 @@ Append-only files (AoF) keep a record of data changes and writes each change to 
 
 Snapshots capture all the data as it exists in one moment in time and writes it to disk, allowing you to recover the entire dataset as it existed at that moment in time.
 
-For more info on data persistence see [Database persistence with Redis Software]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
+For more info on data persistence see [Database persistence with Redis Software](/content/operate/rs/databases/configure/database-persistence.md) or [Durable Redis](https://redis.com/redis-enterprise/technology/durable-redis/).
 
 ## Auto Tiering 
 
-By default, Redis Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Redis Flex tiers both keys and values to flash storage, ensuring that warm (infrequently accessed) data does not consume RAM. Auto Tiering stores keys in RAM but manages the location of their values. Frequently used (hot) data is stored in RAM, but infrequently used (warm) data is moved to flash memory. This saves on expensive RAM space, which gives you comparable performance at a lower cost for large datasets.
+By default, Redis Software stores your data entirely in [RAM](https://en.wikipedia.org/wiki/Random-access_memory) for improved performance. [Redis Flex and Auto Tiering](/content/operate/rs/databases/flash/_index.md) enable your data to span both RAM and [SSD](https://en.wikipedia.org/wiki/Solid-state_drive) storage ([flash memory](https://en.wikipedia.org/wiki/Flash_memory)). Redis Flex tiers both keys and values to flash storage, ensuring that warm (infrequently accessed) data does not consume RAM. Auto Tiering stores keys in RAM but manages the location of their values. Frequently used (hot) data is stored in RAM, but infrequently used (warm) data is moved to flash memory. This saves on expensive RAM space, which gives you comparable performance at a lower cost for large datasets.
 
-For more info, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).
+For more info, see [Redis Flex and Auto Tiering](/content/operate/rs/databases/flash/_index.md).
 
 ## Shard placement
 
@@ -59,7 +59,7 @@ Redis Software has two shard placement policies available:
 - **dense**: puts as many shards as possible on the smallest number of nodes
 - **sparse**: spread the shards across as many nodes as possible
 
-For more info about the shard placement policy, see [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md" >}})
+For more info about the shard placement policy, see [Shard placement policy](/content/operate/rs/databases/memory-performance/shard-placement-policy.md)
 
 ## Metrics
 
@@ -67,7 +67,7 @@ From the Redis Software Cluster Manager UI, you can monitor the performance of y
 
 With the Redis Software API, you can also integrate Redis Software metrics into other monitoring environments, such as Prometheus.
 
-For more info about monitoring with Redis Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
+For more info about monitoring with Redis Software, see [Monitoring with metrics and alerts](/content/operate/rs/monitoring/_index.md), and [Memory statistics](/content/operate/rs/databases/memory-performance/memory-limit.md#memory-metrics).
 
 ## Scaling databases
 
@@ -108,6 +108,6 @@ accesses to the same value is fast, once the value is in RAM.
 
 ## Client-side caching
 
-Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database. When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database. For more information about client-side caching, see the [client-side caching introduction]({{<relref "/develop/clients/client-side-caching">}}).
+Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database. When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database. For more information about client-side caching, see the [client-side caching introduction](/content/develop/clients/client-side-caching.md).
 
-Redis Software supports client-side caching for databases with Redis versions 7.4 and later. See [Client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}) for more information about compatibility and configuration options.
+Redis Software supports client-side caching for databases with Redis versions 7.4 and later. See [Client-side caching compatibility with Redis Software](/content/operate/rs/references/compatibility/client-side-caching.md) for more information about compatibility and configuration options.

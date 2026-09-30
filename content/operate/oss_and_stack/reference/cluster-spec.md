@@ -45,7 +45,7 @@ manual resharding, multi-key operations may become unavailable for some time
 while single-key operations are always available.
 
 Redis Cluster does not support multiple databases like the standalone version
-of Redis. We only support database `0`; the [`SELECT`](/commands/select) command is not allowed.
+of Redis. We only support database `0`; the [`SELECT`](/content/commands/select.md) command is not allowed.
 
 ## Client and Server roles in the Redis cluster protocol
 
@@ -119,7 +119,7 @@ In Redis Cluster nodes don't proxy commands to the right node in charge for a gi
 
 Eventually clients obtain an up-to-date representation of the cluster and which node serves which subset of keys, so during normal operations clients directly contact the right nodes in order to send a given command.
 
-Because of the use of asynchronous replication, nodes do not wait for other nodes' acknowledgment of writes (if not explicitly requested using the [`WAIT`](/commands/wait) command).
+Because of the use of asynchronous replication, nodes do not wait for other nodes' acknowledgment of writes (if not explicitly requested using the [`WAIT`](/content/commands/wait.md) command).
 
 Also, because multi-key commands are only limited to *near* keys, data is never moved between nodes except when resharding.
 
@@ -208,7 +208,7 @@ Examples:
 
 #### Glob-style patterns
 
-Commands accepting a glob-style pattern, including [`KEYS`](/commands/keys), [`SCAN`](/commands/scan) and [`SORT`](/commands/sort), are optimized for patterns that imply a single slot.
+Commands accepting a glob-style pattern, including [`KEYS`](/content/commands/keys.md), [`SCAN`](/content/commands/scan.md) and [`SORT`](/content/commands/sort.md), are optimized for patterns that imply a single slot.
 This means that if all keys that can match a pattern must belong to a specific slot, only this slot is searched for keys matching the pattern.
 The pattern slot optimization is introduced in Redis 8.0.
 
@@ -270,7 +270,7 @@ node is started (usually using /dev/urandom).
 The node will save its ID in the node configuration file, and will use the
 same ID forever, or at least as long as the node configuration file is not
 deleted by the system administrator, or a *hard reset* is requested
-via the [`CLUSTER RESET`](/commands/cluster-reset) command.
+via the [`CLUSTER RESET`](/content/commands/cluster-reset.md) command.
 
 The node ID is used to identify every node across the whole cluster.
 It is possible for a given node to change its IP address without any need
@@ -292,11 +292,11 @@ the node was pinged and the last time the pong was received, the current
 *configuration epoch* of the node (explained later in this specification),
 the link state and finally the set of hash slots served.
 
-A detailed [explanation of all the node fields]({{< relref "/commands/cluster-nodes" >}}) is described in the [`CLUSTER NODES`](/commands/cluster-nodes) documentation.
+A detailed [explanation of all the node fields](/content/commands/cluster-nodes.md) is described in the [`CLUSTER NODES`](/content/commands/cluster-nodes.md) documentation.
 
-The [`CLUSTER NODES`](/commands/cluster-nodes) command can be sent to any node in the cluster and provides the state of the cluster and the information for each node according to the local view the queried node has of the cluster.
+The [`CLUSTER NODES`](/content/commands/cluster-nodes.md) command can be sent to any node in the cluster and provides the state of the cluster and the information for each node according to the local view the queried node has of the cluster.
 
-The following is sample output of the [`CLUSTER NODES`](/commands/cluster-nodes) command sent to a master
+The following is sample output of the [`CLUSTER NODES`](/content/commands/cluster-nodes.md) command sent to a master
 node in a small cluster of three nodes.
 
     $ redis-cli cluster nodes
@@ -355,8 +355,8 @@ sending node is not considered part of the cluster.
 
 A node will accept another node as part of the cluster only in two ways:
 
-* If a node presents itself with a `MEET` message ([`CLUSTER MEET`](/commands/cluster-meet) command). A meet message is exactly
-like a [`PING`](/commands/ping) message, but forces the receiver to accept the node as part of
+* If a node presents itself with a `MEET` message ([`CLUSTER MEET`](/content/commands/cluster-meet.md) command). A meet message is exactly
+like a [`PING`](/content/commands/ping.md) message, but forces the receiver to accept the node as part of
 the cluster. Nodes will send `MEET` messages to other nodes **only if** the system administrator requests this via the following command:
 
     CLUSTER MEET ip port
@@ -404,7 +404,7 @@ be issued it can compute the hash slot of the target key and have a
 greater chance of choosing the right node.
 
 An alternative is to just refresh the whole client-side cluster layout
-using the [`CLUSTER SHARDS`](/commands/cluster-shards), or the deprecated [`CLUSTER SLOTS`](/commands/cluster-slots), command
+using the [`CLUSTER SHARDS`](/content/commands/cluster-shards.md), or the deprecated [`CLUSTER SLOTS`](/content/commands/cluster-slots.md), command
 when a MOVED redirection is received. When a redirection is encountered, it
 is likely multiple slots were reconfigured rather than just one, so updating
 the client configuration as soon as possible is often the best strategy.
@@ -435,18 +435,18 @@ what Redis Cluster really does during *resharding* is to move keys from
 an instance to another instance. Moving a hash slot means moving all the keys
 that happen to hash into this hash slot.
 
-To understand how this works we need to show the [`CLUSTER`](/commands/cluster) subcommands
+To understand how this works we need to show the [`CLUSTER`](/content/commands/cluster.md) subcommands
 that are used to manipulate the slots translation table in a Redis Cluster node.
 
 The following subcommands are available (among others not useful in this case):
 
-* [`CLUSTER ADDSLOTS`](/commands/cluster-addslots) slot1 [slot2] ... [slotN]
-* [`CLUSTER DELSLOTS`](/commands/cluster-delslots) slot1 [slot2] ... [slotN]
-* [`CLUSTER ADDSLOTSRANGE`](/commands/cluster-addslotsrange) start-slot1 end-slot1 [start-slot2 end-slot2] ... [start-slotN end-slotN]
-* [`CLUSTER DELSLOTSRANGE`](/commands/cluster-delslotsrange) start-slot1 end-slot1 [start-slot2 end-slot2] ... [start-slotN end-slotN]
-* [`CLUSTER SETSLOT`](/commands/cluster-setslot) slot NODE node
-* [`CLUSTER SETSLOT`](/commands/cluster-setslot) slot MIGRATING node
-* [`CLUSTER SETSLOT`](/commands/cluster-setslot) slot IMPORTING node
+* [`CLUSTER ADDSLOTS`](/content/commands/cluster-addslots.md) slot1 [slot2] ... [slotN]
+* [`CLUSTER DELSLOTS`](/content/commands/cluster-delslots.md) slot1 [slot2] ... [slotN]
+* [`CLUSTER ADDSLOTSRANGE`](/content/commands/cluster-addslotsrange.md) start-slot1 end-slot1 [start-slot2 end-slot2] ... [start-slotN end-slotN]
+* [`CLUSTER DELSLOTSRANGE`](/content/commands/cluster-delslotsrange.md) start-slot1 end-slot1 [start-slot2 end-slot2] ... [start-slotN end-slotN]
+* [`CLUSTER SETSLOT`](/content/commands/cluster-setslot.md) slot NODE node
+* [`CLUSTER SETSLOT`](/content/commands/cluster-setslot.md) slot MIGRATING node
+* [`CLUSTER SETSLOT`](/content/commands/cluster-setslot.md) slot IMPORTING node
 
 The first four commands, `ADDSLOTS`, `DELSLOTS`, `ADDSLOTSRANGE` and `DELSLOTSRANGE`, are simply used to assign
 (or remove) slots to a Redis node. Assigning a slot means to tell a given
@@ -475,7 +475,7 @@ exists, otherwise the query is forwarded using a `-ASK` redirection to the
 node that is target of the migration.
 * When a slot is set as IMPORTING, the node will accept all queries that
 are about this hash slot, but only if the request is
-preceded by an [`ASKING`](/commands/asking) command. If the [`ASKING`](/commands/asking) command was not given
+preceded by an [`ASKING`](/content/commands/asking.md) command. If the [`ASKING`](/content/commands/asking.md) command was not given
 by the client, the query is redirected to the real hash slot owner via
 a `-MOVED` redirection error, as would happen normally.
 
@@ -502,22 +502,22 @@ This is performed using the following command:
     CLUSTER GETKEYSINSLOT slot count
 
 The above command will return `count` keys in the specified hash slot.
-For keys returned, `redis-cli` sends node "A" a [`MIGRATE`](/commands/migrate) command, that
+For keys returned, `redis-cli` sends node "A" a [`MIGRATE`](/content/commands/migrate.md) command, that
 will migrate the specified keys from A to B in an atomic way (both instances
 are locked for the time (usually very small time) needed to migrate keys so
-there are no race conditions). This is how [`MIGRATE`](/commands/migrate) works:
+there are no race conditions). This is how [`MIGRATE`](/content/commands/migrate.md) works:
 
     MIGRATE target_host target_port "" target_database id timeout KEYS key1 key2 ...
 
-[`MIGRATE`](/commands/migrate) will connect to the target instance, send a serialized version of
+[`MIGRATE`](/content/commands/migrate.md) will connect to the target instance, send a serialized version of
 the key, and once an OK code is received, the old key from its own dataset
 will be deleted. From the point of view of an external client a key exists
 either in A or B at any given time.
 
 In Redis Cluster there is no need to specify a database other than 0, but
-[`MIGRATE`](/commands/migrate) is a general command that can be used for other tasks not
+[`MIGRATE`](/content/commands/migrate.md) is a general command that can be used for other tasks not
 involving Redis Cluster.
-[`MIGRATE`](/commands/migrate) is optimized to be as fast as possible even when moving complex
+[`MIGRATE`](/content/commands/migrate.md) is optimized to be as fast as possible even when moving complex
 keys such as long lists, but in Redis Cluster reconfiguring the
 cluster where big keys are present is not considered a wise procedure if
 there are latency constraints in the application using the database.
@@ -561,7 +561,7 @@ a problem since it will not send the ASKING command before issuing the query,
 so B will redirect the client to A using a MOVED redirection error.
 
 Slots migration is explained in similar terms but with different wording
-(for the sake of redundancy in the documentation) in the [`CLUSTER SETSLOT`](/commands/cluster-setslot)
+(for the sake of redundancy in the documentation) in the [`CLUSTER SETSLOT`](/content/commands/cluster-setslot.md)
 command documentation.
 
 ### Client connections and redirection handling
@@ -584,10 +584,10 @@ replica is promoted to master, all of the slots served by the old master will
 be remapped). It is much simpler to react to a `MOVED` redirection by
 fetching the full map of slots to nodes from scratch.
 
-Client can issue a [`CLUSTER SLOTS`](/commands/cluster-slots) command to retrieve an array of slot
+Client can issue a [`CLUSTER SLOTS`](/content/commands/cluster-slots.md) command to retrieve an array of slot
 ranges and the associated master and replica nodes serving the specified ranges.
 
-The following is an example of output of [`CLUSTER SLOTS`](/commands/cluster-slots):
+The following is an example of output of [`CLUSTER SLOTS`](/content/commands/cluster-slots.md):
 
 ```
 127.0.0.1:7000> cluster slots
@@ -621,7 +621,7 @@ The first element in the output above says that slots from 5461 to 10922
 (start and end included) are served by 127.0.0.1:7001, and it is possible
 to scale read-only load contacting the replica at 127.0.0.1:7004.
 
-[`CLUSTER SLOTS`](/commands/cluster-slots) is not guaranteed to return ranges that cover the full
+[`CLUSTER SLOTS`](/content/commands/cluster-slots.md) is not guaranteed to return ranges that cover the full
 16384 slots if the cluster is misconfigured, so clients should initialize the
 slots configuration map filling the target nodes with NULL objects, and
 report an error if the user tries to execute commands about keys
@@ -656,9 +656,9 @@ multi-key operations are available again for that hash slot.
 
 Normally replica nodes will redirect clients to the authoritative master for
 the hash slot involved in a given command, however clients can use replicas
-in order to scale reads using the [`READONLY`](/commands/readonly) command.
+in order to scale reads using the [`READONLY`](/content/commands/readonly.md) command.
 
-[`READONLY`](/commands/readonly) tells a Redis Cluster replica node that the client is ok reading
+[`READONLY`](/content/commands/readonly.md) tells a Redis Cluster replica node that the client is ok reading
 possibly stale data and is not interested in running write queries.
 
 When the connection is in readonly mode, the cluster will send a redirection
@@ -671,7 +671,7 @@ by the replica's master node. This may happen because:
 When this happens the client should update its hash slot map as explained in
 the previous sections.
 
-The readonly state of the connection can be cleared using the [`READWRITE`](/commands/readwrite) command.
+The readonly state of the connection can be cleared using the [`READWRITE`](/content/commands/readwrite.md) command.
 
 ## Fault Tolerance
 
@@ -942,7 +942,7 @@ So if we receive a heartbeat from node A claiming to serve hash slots 1 and 2 wi
 16383 -> NULL
 ```
 
-When a new cluster is created, a system administrator needs to manually assign (using the [`CLUSTER ADDSLOTS`](/commands/cluster-addslots) command, via the redis-cli command line tool, or by any other means) the slots served by each master node only to the node itself, and the information will rapidly propagate across the cluster.
+When a new cluster is created, a system administrator needs to manually assign (using the [`CLUSTER ADDSLOTS`](/content/commands/cluster-addslots.md) command, via the redis-cli command line tool, or by any other means) the slots served by each master node only to the node itself, and the information will rapidly propagate across the cluster.
 
 However this rule is not enough. We know that hash slot mapping can change
 during two events:
@@ -1102,7 +1102,7 @@ created in an unsafe way, just incrementing the local `currentEpoch` of
 the local node and hoping there are no conflicts at the same time.
 Both the events are system-administrator triggered:
 
-1. [`CLUSTER FAILOVER`](/commands/cluster-failover) command with `TAKEOVER` option is able to manually promote a replica node into a master *without the majority of masters being available*. This is useful, for example, in multi data center setups.
+1. [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md) command with `TAKEOVER` option is able to manually promote a replica node into a master *without the majority of masters being available*. This is useful, for example, in multi data center setups.
 2. Migration of slots for cluster rebalancing also generates new configuration epochs inside the local node without agreement for performance reasons.
 
 Specifically, during manual resharding, when a hash slot is migrated from
@@ -1148,7 +1148,7 @@ If there are any set of nodes with the same `configEpoch`, all the nodes but the
 
 This mechanism also guarantees that after a fresh cluster is created, all
 nodes start with a different `configEpoch` (even if this is not actually
-used) since `redis-cli` makes sure to use [`CLUSTER SET-CONFIG-EPOCH`](/commands/cluster-set-config-epoch) at startup.
+used) since `redis-cli` makes sure to use [`CLUSTER SET-CONFIG-EPOCH`](/content/commands/cluster-set-config-epoch.md) at startup.
 However if for some reason a node is left misconfigured, it will update
 its configuration to a different configuration epoch automatically.
 
@@ -1160,7 +1160,7 @@ operations, in testing, and in cloud environments where a given node can
 be reprovisioned to join a different set of nodes to enlarge or create a new
 cluster.
 
-In Redis Cluster nodes are reset using the [`CLUSTER RESET`](/commands/cluster-reset) command. The
+In Redis Cluster nodes are reset using the [`CLUSTER RESET`](/content/commands/cluster-reset.md) command. The
 command is provided in two variants:
 
 * `CLUSTER RESET SOFT`
@@ -1177,7 +1177,7 @@ The following is a list of operations performed by a reset:
 4. Hard reset only: `currentEpoch`, `configEpoch`, and `lastVoteEpoch` are set to 0.
 5. Hard reset only: the Node ID is changed to a new random ID.
 
-Master nodes with non-empty data sets can't be reset (since normally you want to reshard data to the other nodes). However, under special conditions when this is appropriate (e.g. when a cluster is totally destroyed with the intent of creating a new one), [`FLUSHALL`](/commands/flushall) must be executed before proceeding with the reset.
+Master nodes with non-empty data sets can't be reset (since normally you want to reshard data to the other nodes). However, under special conditions when this is appropriate (e.g. when a cluster is totally destroyed with the intent of creating a new one), [`FLUSHALL`](/content/commands/flushall.md) must be executed before proceeding with the reset.
 
 ### Removing nodes from a cluster
 
@@ -1197,7 +1197,7 @@ The command does two things:
 
 The second operation is needed because Redis Cluster uses gossip in order to auto-discover nodes, so removing the node X from node A, could result in node B gossiping about node X to A again. Because of the 60 second ban, the Redis Cluster administration tools have 60 seconds in order to remove the node from all the nodes, preventing the re-addition of the node due to auto discovery.
 
-Further information is available in the [`CLUSTER FORGET`](/commands/cluster-forget) documentation.
+Further information is available in the [`CLUSTER FORGET`](/content/commands/cluster-forget.md) documentation.
 
 ## Publish/Subscribe
 

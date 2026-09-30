@@ -58,7 +58,7 @@ like the following to the **redis.conf** file:
     bind 127.0.0.1
 
 Failing to protect the Redis port from the outside can have a big security
-impact because of the nature of Redis. For instance, a single [`FLUSHALL`](/commands/flushall) command can be used by an external attacker to delete the whole data set.
+impact because of the nature of Redis. For instance, a single [`FLUSHALL`](/content/commands/flushall.md) command can be used by an external attacker to delete the whole data set.
 
 ## Protected mode
 
@@ -80,7 +80,7 @@ disable protected mode or manually bind all the interfaces.
 
 Redis provides two ways to authenticate clients.
 The recommended authentication method, introduced in Redis 6, is via Access Control Lists, allowing named users to be created and assigned fine-grained permissions.
-Read more about Access Control Lists [here]({{< relref "/operate/oss_and_stack/management/security/acl" >}}).
+Read more about Access Control Lists [here](/content/operate/oss_and_stack/management/security/acl.md).
 
 The legacy authentication method is enabled by editing the **redis.conf** file, and providing a database password using the `requirepass` setting.
 This password is then used by all clients.
@@ -101,7 +101,7 @@ redundancy. If firewalling or any other system implemented to protect Redis
 from external attackers fails, an external client will still not be able to
 access the Redis instance without knowledge of the authentication password.
 
-Since the [`AUTH`](/commands/auth) command, like every other Redis command, is sent unencrypted, it
+Since the [`AUTH`](/content/commands/auth.md) command, like every other Redis command, is sent unencrypted, it
 does not protect against an attacker who has enough access to the network to
 perform eavesdropping.
 
@@ -112,10 +112,9 @@ client connections, replication links, and the Redis Cluster bus protocol.
 
 ## Disallowing specific commands
 
-{{< warning >}}
-The method is deprecated and may be removed in future versions.
-Instead, use [ACL rules](/operate/oss_and_stack/management/security/acl/) to disallow specific commands.
-{{< /warning >}}
+> [!WARNING]
+> The method is deprecated and may be removed in future versions.
+> Instead, use [ACL rules](/content/operate/oss_and_stack/management/security/acl.md) to disallow specific commands.
 
 It is possible to disallow commands in Redis or to rename them as an unguessable
 name, so that normal clients are limited to a specified set of commands.
@@ -159,7 +158,7 @@ The Redis protocol has no concept of string escaping, so injection
 is impossible under normal circumstances using a normal client library.
 The protocol uses prefixed-length strings and is completely binary safe.
 
-Since Lua scripts executed by the [`EVAL`](/commands/eval) and [`EVALSHA`](/commands/evalsha) commands follow the
+Since Lua scripts executed by the [`EVAL`](/content/commands/eval.md) and [`EVALSHA`](/content/commands/evalsha.md) commands follow the
 same rules, those commands are also safe.
 
 While it would be a strange use case, the application should avoid composing the body of the Lua script from strings obtained from untrusted sources.

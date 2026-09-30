@@ -13,13 +13,13 @@ url: '/operate/rs/8.0/installing-upgrading/upgrading/upgrade-database/'
 
 ## Default Redis database versions {#default-db-versions}
 
-When you upgrade an existing database, it uses the latest bundled Redis version unless you specify a different version with the `redis_version` option in the [REST API]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs" >}}) or [`rladmin upgrade db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}).
+When you upgrade an existing database, it uses the latest bundled Redis version unless you specify a different version with the `redis_version` option in the [REST API](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md) or [`rladmin upgrade db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/upgrade.md#upgrade-db).
 
 To view available Redis database versions:
 
 - In the Cluster Manager UI, see **Redis database versions** on the **Cluster > Configuration** screen.
 
-- Send a [`GET /nodes` REST API request]({{< relref "/operate/rs/8.0/references/rest-api/requests/nodes" >}}) and see `supported_database_versions` in the response.
+- Send a [`GET /nodes` REST API request](/content/operate/rs/8.0/references/rest-api/requests/nodes/_index.md) and see `supported_database_versions` in the response.
 
 The default Redis database version differs between Redis Software releases as follows:
 
@@ -30,7 +30,7 @@ The default Redis database version differs between Redis Software releases as fo
 
 Before upgrading a database:
 
-- Review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+- Review the relevant [release notes](/content/operate/rs/release-notes/_index.md) for any preparation instructions.
 
 - Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Software version.
 
@@ -38,7 +38,7 @@ Before upgrading a database:
 
     - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 
-    - _(Optional)_ Use the [`rladmin status extra all`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/status" >}}) command to display configuration details:
+    - _(Optional)_ Use the [`rladmin status extra all`](/content/operate/rs/8.0/references/cli-utilities/rladmin/status.md) command to display configuration details:
 
         ```sh
         rladmin status extra all
@@ -50,15 +50,15 @@ Before upgrading a database:
 
     Use the Cluster Manager UI to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
 
-- For [Replica Of databases]({{< relref "/operate/rs/8.0/databases/import-export/replica-of/" >}}), upgrade the destination database before the source database.
+- For [Replica Of databases](/content/operate/rs/8.0/databases/import-export/replica-of/_index.md), upgrade the destination database before the source database.
 
 - Check client compatibility with the database version.
 
-    If you run Redis Stack commands with Go-Redis versions 9 and later or Lettuce versions 6 and later, set the client’s protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes. See [Client prerequisites for Redis 7.2 upgrade]({{< relref "/operate/rs/8.0/references/compatibility/resp#client-prerequisites-for-redis-72-upgrade" >}}) for more details and examples.
+    If you run Redis Stack commands with Go-Redis versions 9 and later or Lettuce versions 6 and later, set the client’s protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes. See [Client prerequisites for Redis 7.2 upgrade](/content/operate/rs/8.0/references/compatibility/resp.md#client-prerequisites-for-redis-72-upgrade) for more details and examples.
 
-- To avoid data loss during the upgrade, [back up your data]({{< relref "/operate/rs/8.0/databases/import-export/schedule-backups" >}}).  
+- To avoid data loss during the upgrade, [back up your data](/content/operate/rs/8.0/databases/import-export/schedule-backups.md).  
 
-    You can [export the data]({{< relref "/operate/rs/8.0/databases/import-export/export-data" >}}) to an external location, [enable replication]({{< relref "/operate/rs/8.0/databases/durability-ha/replication" >}}), or [enable persistence]({{< relref "/operate/rs/8.0/databases/configure/database-persistence" >}}).
+    You can [export the data](/content/operate/rs/8.0/databases/import-export/export-data.md) to an external location, [enable replication](/content/operate/rs/8.0/databases/durability-ha/replication.md), or [enable persistence](/content/operate/rs/8.0/databases/configure/database-persistence.md).
 
     When choosing how to back up data, keep the following in mind:
 
@@ -117,7 +117,7 @@ To upgrade a database:
 
 1. Optionally, back up the database to minimize the risk of data loss.
 
-1. Upgrade the database using [`rladmin upgrade db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/upgrade" >}}). During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+1. Upgrade the database using [`rladmin upgrade db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/upgrade.md). During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
 
     To upgrade a database and its modules:
 
@@ -143,9 +143,9 @@ To upgrade a database:
     rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
     ```
 
-    For module upgrade options, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
+    For module upgrade options, see [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
 
-1. Use [`rladmin status databases extra all`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
+1. Use [`rladmin status databases extra all`](/content/operate/rs/8.0/references/cli-utilities/rladmin/status.md#status-databases) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
 
     ```sh
     rladmin status databases extra all
@@ -157,7 +157,7 @@ To upgrade a database:
 
 1. Optionally, back up the database to minimize the risk of data loss.
 
-1. Use an [upgrade database]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs/upgrade" >}}) REST API request. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+1. Use an [upgrade database](/content/operate/rs/8.0/references/rest-api/requests/bdbs/upgrade.md) REST API request. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
 
     ```sh
     POST https://<host>:<port>/v1/bdbs/<database_id>/upgrade
@@ -167,6 +167,6 @@ To upgrade a database:
     }
     ```
 
-    For additional database upgrade options, see the [request body]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs/upgrade#request-body">}}) section of the database upgrade requests reference.
+    For additional database upgrade options, see the [request body](/content/operate/rs/8.0/references/rest-api/requests/bdbs/upgrade.md#request-body) section of the database upgrade requests reference.
 
 {{< /multitabs >}}

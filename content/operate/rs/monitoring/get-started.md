@@ -32,13 +32,13 @@ You can use Prometheus integrations to:
 
 You can integrate Redis Software with Prometheus and one of the following tools to collect and visualize your deployment's metrics:
 
-- [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
+- [Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md)
 
-- [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}})
+- [Datadog](/content/integrate/datadog-with-redis-enterprise/_index.md)
 
-- [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}})
+- [Dynatrace](/content/integrate/dynatrace-with-redis-enterprise/_index.md)
 
-- [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}})
+- [New Relic](/content/integrate/new-relic-with-redis-enterprise/_index.md)
 
 {{<embed-md "rs-monitoring-best-practices.md">}}
 
@@ -129,15 +129,13 @@ scrape_configs:
 ```
     {{< /multitabs >}}
 
-    {{< note >}}
-**Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
-    {{< /note >}}
+    > [!NOTE]
+    > **Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
 
 1. Set up your Prometheus server.
 
-    {{< note >}}
-We recommend running Prometheus in Docker only for development and testing.
-    {{< /note >}}
+    > [!NOTE]
+    > We recommend running Prometheus in Docker only for development and testing.
 
     To set up Prometheus on Docker:
 

@@ -13,14 +13,14 @@ weight: 10
 
 Try out Redis Software using one of the following quickstarts:
 
-- [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Software quickstart](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
 
-- [Docker quickstart for Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Docker quickstart for Redis Software](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md)
 
 Additional quickstart guides are available to help you:
 
-- Set up a [Redis Flex or Auto Tiering cluster]({{< relref "/operate/rs/databases/flash/quickstart" >}}) to optimize  memory resources.
+- Set up a [Redis Flex or Auto Tiering cluster](/content/operate/rs/databases/flash/quickstart.md) to optimize  memory resources.
 
-- Set up an [Active-Active cluster]({{< relref "/operate/rs/databases/active-active/get-started.md" >}}) to enable high availability.
+- Set up an [Active-Active cluster](/content/operate/rs/databases/active-active/get-started.md) to enable high availability.
 
-- [Benchmark]({{< relref "/operate/rs/clusters/optimize/memtier-benchmark.md" >}}) Redis Software performance.
+- [Benchmark](/content/operate/rs/clusters/optimize/memtier-benchmark.md) Redis Software performance.

@@ -12,11 +12,10 @@ weight: 80
 
 [Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
 
-{{< note >}}
-Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
-{{< /note >}}
+> [!NOTE]
+> Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
 
-You can use PrivateLink as an alternative to Layer 3 connectivity options like [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
+You can use PrivateLink as an alternative to Layer 3 connectivity options like [VPC peering](/content/operate/rc/security/vpc-peering.md) and [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md).
 
 AWS PrivateLink provides the following benefits:
 
@@ -51,7 +50,7 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
 Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you must have:
 
-- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and the **Owner** or **Manager** role for your Redis Cloud account.
+- A [Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) and the **Owner** or **Manager** role for your Redis Cloud account.
 - An [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with the following:
     - A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/creating-security-groups.html) that allows ingress traffic to the following ports: 
         - The database port range (port 10000-19999)
@@ -177,13 +176,12 @@ The script returns a list of database endpoints that you can connect to from you
 ]
 ```
 
-You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC. You can also connect to the metrics endpoint with services like [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) by using the metrics `private-dns-entry` and `port`.
+You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC. You can also connect to the metrics endpoint with services like [Prometheus and Grafana](/content/integrate/prometheus-with-redis-cloud/_index.md) by using the metrics `private-dns-entry` and `port`.
 
-After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard]({{< relref "/operate/rc/databases/connect" >}}) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
+After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard](/content/operate/rc/databases/connect/_index.md) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
 
-{{< note >}}
-The connection wizard and other parts of the console show your database's [public endpoint]({{< relref "/operate/rc/databases/connect" >}}), which is different from the `private-dns-entry` the discovery script returns. The public endpoint hostname is publicly resolvable and, by default, returns your database's address inside the Redis-managed VPC. That's correct behavior, and it's what [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) consumers rely on. For PrivateLink, that address is overridden only inside your consumer VPC, by the private hosted zone that AWS creates there. Resolving the public endpoint hostname from anywhere else — including from on-premises over Direct Connect or a VPN — returns the unreachable Redis-managed VPC address, not an error. Use the database's `private-dns-entry` from your consumer VPC, or see [Connect from on-premises](#connect-from-on-premises) if you're connecting from outside it.
-{{< /note >}}
+> [!NOTE]
+> The connection wizard and other parts of the console show your database's [public endpoint](/content/operate/rc/databases/connect/_index.md), which is different from the `private-dns-entry` the discovery script returns. The public endpoint hostname is publicly resolvable and, by default, returns your database's address inside the Redis-managed VPC. That's correct behavior, and it's what [VPC peering](/content/operate/rc/security/vpc-peering.md) and [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) consumers rely on. For PrivateLink, that address is overridden only inside your consumer VPC, by the private hosted zone that AWS creates there. Resolving the public endpoint hostname from anywhere else — including from on-premises over Direct Connect or a VPN — returns the unreachable Redis-managed VPC address, not an error. Use the database's `private-dns-entry` from your consumer VPC, or see [Connect from on-premises](#connect-from-on-premises) if you're connecting from outside it.
 
 ## Connect from on-premises
 

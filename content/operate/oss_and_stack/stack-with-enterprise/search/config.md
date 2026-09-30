@@ -11,13 +11,13 @@ toc: 'false'
 weight: 15
 ---
 
-To configure Redis Search in [Redis Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
+To configure Redis Search in [Redis Software](/content/operate/rs/_index.md) or [Redis Cloud](/content/operate/rc/_index.md), use one of the following methods instead of [`FT.CONFIG SET`](/content/commands/ft.config-set.md).
 
 ## Configure search in Redis Cloud
 
 For Redis Cloud:
 
-- _Flexible or Annual [subscriptions]({{< relref "/operate/rc/subscriptions" >}})_: contact [support](https://redis.com/company/support/) to request a configuration change.
+- _Flexible or Annual [subscriptions](/content/operate/rc/subscriptions/_index.md)_: contact [support](https://redis.com/company/support/) to request a configuration change.
     
 - _Free or Fixed subscriptions_: you cannot change Redis Search configuration.
 
@@ -35,7 +35,7 @@ For Redis Software, use one of the following methods:
 
   1. Enter the setting name and setting value in the **RediSearch** box.
   
-      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Search in Redis Software]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) for more information.
+      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Search in Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor.md) for more information.
 
       {{<image filename="images/rs/screenshots/databases/rs-config-search-params.png" alt="The Parameters dialog includes sections to edit RediSearch settings and the Query Performance Factor settings.">}}
 
@@ -43,14 +43,14 @@ For Redis Software, use one of the following methods:
 
   1. Click **Save**.
 
-- [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
+- [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db):
 
     ```sh
     $ rladmin tune db db:<ID|name> module_name search \
         module_config_params "setting-name setting-value"
     ```
 
-- [Configure module]({{< relref "/operate/rs/references/rest-api/requests/modules/config" >}}) REST API request:
+- [Configure module](/content/operate/rs/references/rest-api/requests/modules/config.md) REST API request:
 
     ```sh
     POST /v1/modules/config/bdb/<ID>
@@ -66,4 +66,4 @@ For Redis Software, use one of the following methods:
 
 ## Configuration settings
 
-See [configuration parameters]({{< relref "/develop/ai/search-and-query/administration/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.
+See [configuration parameters](/content/develop/ai/search-and-query/administration/configuration.md) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.

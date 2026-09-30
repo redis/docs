@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/8.0/references/rest-api/objects/ldap_mapping/'
 ---
 
-An API object that represents an [LDAP mapping]({{< relref "/operate/rs/8.0/security/access-control/ldap/map-ldap-groups-to-roles" >}}) between an LDAP group and [roles]({{< relref "/operate/rs/8.0/references/rest-api/objects/role" >}}).
+An API object that represents an [LDAP mapping](/content/operate/rs/8.0/security/access-control/ldap/map-ldap-groups-to-roles.md) between an LDAP group and [roles](/content/operate/rs/8.0/references/rest-api/objects/role.md).
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

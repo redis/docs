@@ -44,11 +44,11 @@ The following tabs are available:
 
     {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
 
-    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
+    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
 
-    {{< note >}}
-If your account has more than one stored credit card, Redis Cloud shows a banner on login and on the Payment Methods page asking you to remove any cards you're not using: "Please remove any unused cards from your account. You can manage your credit cards anytime from the Billing & Payments page." You can dismiss this banner and continue using the console.
-    {{< /note >}}
+    > [!NOTE]
+    > If your account has more than one stored credit card, Redis Cloud shows a banner on login and on the Payment Methods page asking you to remove any cards you're not using: "Please remove any unused cards from your account. You can manage your credit cards anytime from the Billing & Payments page." You can dismiss this banner and continue using the console.
+    >
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
@@ -92,9 +92,9 @@ To add a new credit card:
 
     {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
 
-    {{< note >}}
-If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
-    {{< /note >}}
+    > [!NOTE]
+    > If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
+    >
 
 ## Set the default credit card
 
@@ -126,7 +126,7 @@ If your account has only one stored credit card, **Remove** is unavailable, beca
 
 ## Add marketplace account
 
-If you have a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account already associated with another Redis Account that you own, you can add it to your current account. 
+If you have a [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account already associated with another Redis Account that you own, you can add it to your current account. 
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
 
@@ -144,17 +144,16 @@ Coupons apply credits to your Redis Cloud account.  To redeem a coupon:
 
 For help, contact [Support](https://redis.io/support/).
 
-{{< note >}}
-Generally, charges are non-refundable.
-
-For any special circumstances that may warrant a refund, please contact [Support](https://redis.io/support/) and be sure to provide detail about the reasons for the refund request.
-{{< /note >}}
+> [!NOTE]
+> Generally, charges are non-refundable.
+>
+> For any special circumstances that may warrant a refund, please contact [Support](https://redis.io/support/) and be sure to provide detail about the reasons for the refund request.
 
 ## Download cost report
 
 {{< embed-md "rc-cost-report-csv.md" >}}
 
-See [Cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
+See [Cost report](/content/operate/rc/billing-and-payments/cost-report.md) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
 
 ## Troubleshoot
 

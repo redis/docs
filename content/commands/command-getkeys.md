@@ -41,7 +41,7 @@ title: COMMAND GETKEYS
 from the provided Redis `command`.
 
 
-[`COMMAND`]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use COMMAND GETKEYS or [`COMMAND GETKEYSANDFLAGS`]({{< relref "/commands/command-getkeysandflags" >}}) to get the key names directly from the Redis command parser.
+[`COMMAND`](/content/commands/command.md) describes how Redis identifies key names for each command, including `firstkey`, [key specifications](/content/develop/reference/key-specs.md#logical-operation-flags), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use COMMAND GETKEYS or [`COMMAND GETKEYSANDFLAGS`](/content/commands/command-getkeysandflags.md) to get the key names directly from the Redis command parser.
 
 ## Required arguments
 

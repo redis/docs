@@ -14,7 +14,7 @@ Roles with cluster access allow access to the Cluster Management UI and REST API
 
 ## Default management roles
 
-Redis Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+Redis Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API](/content/operate/rs/references/rest-api/_index.md).
 
 1. **DB Viewer** - Read database settings
 1. **DB Member** - Administer databases
@@ -24,7 +24,7 @@ Redis Software includes five predefined roles that determine a user's level of a
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions](/content/operate/rs/references/rest-api/permissions.md).
 
 ## Cluster Manager UI permissions
 
@@ -77,7 +77,7 @@ To create a role that grants cluster access using the Cluster Manager UI:
 
 -tab-sep-
 
-To [create a role]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) that grants cluster access using the REST API:
+To [create a role](/content/operate/rs/references/rest-api/requests/roles/_index.md#post-role) that grants cluster access using the REST API:
 
 ```sh
 POST /v1/roles
@@ -88,13 +88,13 @@ POST /v1/roles
 ```
 {{< /multitabs >}}
 
-You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.
+You can [assign the new role to users](/content/operate/rs/security/access-control/create-users.md#assign-roles-to-users) to grant cluster access.
 
 ## Scope a role to specific databases
 
 By default, the `db_member` and `db_viewer` [management roles](#default-management-roles) grant access to every database in the cluster. In a shared or multi-tenant cluster, you can scope one of these roles to specific databases so that users assigned the role can view or manage only those databases.
 
-To scope a role, add the `resources` field when you [create]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) or [update]({{<relref "/operate/rs/references/rest-api/requests/roles#put-role">}}) a role with the REST API. The `resources` field is a list of resource scopes; each scope has a `type` (currently only `db`) and a `uids` array of the database IDs the role applies to.
+To scope a role, add the `resources` field when you [create](/content/operate/rs/references/rest-api/requests/roles/_index.md#post-role) or [update](/content/operate/rs/references/rest-api/requests/roles/_index.md#put-role) a role with the REST API. The `resources` field is a list of resource scopes; each scope has a `type` (currently only `db`) and a `uids` array of the database IDs the role applies to.
 
 For example, the following request creates a `db_member` role scoped to databases `1` and `2`:
 
@@ -109,7 +109,7 @@ POST /v1/roles
 }
 ```
 
-When you [assign this role to a user]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}):
+When you [assign this role to a user](/content/operate/rs/security/access-control/create-users.md#assign-roles-to-users):
 
 - The user can view or manage only the databases listed in the role's `resources` scope.
 
@@ -117,6 +117,5 @@ When you [assign this role to a user]({{<relref "/operate/rs/security/access-con
 
 To return a role to cluster-wide scope, update it with an empty `resources` list or omit the field. Roles without a `resources` scope apply to all databases, so existing roles are unaffected.
 
-{{<note>}}
-Database scoping applies to the `db_member` and `db_viewer` management roles.
-{{</note>}}
+> [!NOTE]
+> Database scoping applies to the `db_member` and `db_viewer` management roles.

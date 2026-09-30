@@ -57,7 +57,7 @@ Before enabling auditing on any database, configure the audit destination using 
     tab1="REST API"
     tab2="rladmin" >}}
 
-To configure the audit destination using the REST API, use an [update database auditing]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}}) cluster request:
+To configure the audit destination using the REST API, use an [update database auditing](/content/operate/rs/references/rest-api/requests/cluster/auditing-db-conns.md#put-cluster-audit-db-conns) cluster request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/auditing/db_conns
@@ -149,15 +149,14 @@ After you configure the audit destination for your cluster, you can enable comma
 
 You can filter by usernames, source IP addresses, or both to manage data volume and avoid capturing irrelevant traffic. If both filters are configured, only requests matching both criteria are audited.
 
-{{<note>}}
-Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
-{{</note>}}
+> [!NOTE]
+> Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
 
 {{< multitabs id="enable-command-connection-auditing"
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable command and connection auditing and configure filters, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+To enable command and connection auditing and configure filters, use an [update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
 ```
 PUT https://<host>:<port>/v1/bdbs/<database-id>
@@ -275,7 +274,7 @@ After you configure the audit destination for your cluster, you can enable conne
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable connection auditing only using the REST API, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request:
+To enable connection auditing only using the REST API, use an [update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) request:
 
 ```
 PUT https://<host>:<port>/v1/bdbs/<database-id>
@@ -296,9 +295,8 @@ rladmin tune db db:<id|name> audit_settings audit_mode connection
 
 {{< /multitabs >}}
 
-{{<note>}}
-The legacy `db_conns_auditing` field enables connection auditing only; it does not enable command (CRUD) auditing. To audit commands, set `audit_settings.audit_mode` to `connection_and_crud`. If both are set, `audit_settings.audit_mode` takes precedence.
-{{</note>}}
+> [!NOTE]
+> The legacy `db_conns_auditing` field enables connection auditing only; it does not enable command (CRUD) auditing. To audit commands, set `audit_settings.audit_mode` to `connection_and_crud`. If both are set, `audit_settings.audit_mode` takes precedence.
 
 ## Set policy defaults for new databases
 
@@ -308,7 +306,7 @@ To audit connections for new databases by default, use one of the following meth
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable auditing connections for new databases by default using the REST API, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
+To enable auditing connections for new databases by default using the REST API, use an [update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) request:
 
 ```
 PUT /v1/cluster/policy
@@ -502,9 +500,8 @@ Here's what's reported when a database connection is closed:
 
 All audit records follow a unified JSON structure that is backward compatible with the existing authentication request format used for connection auditing.
 
-{{<note>}}
-Command audit records never include the payload value associated with a key. Only the key name is recorded.
-{{</note>}}
+> [!NOTE]
+> Command audit records never include the payload value associated with a key. Only the key name is recorded.
 
 ### Record types
 
@@ -622,7 +619,7 @@ Audit delivery is best effort—database operations are never delayed or rejecte
 
 ### Available metrics
 
-You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
+You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation](/content/operate/rs/monitoring/metrics_stream_engine/_index.md).
 
 | Metric | Description |
 |--------|---|

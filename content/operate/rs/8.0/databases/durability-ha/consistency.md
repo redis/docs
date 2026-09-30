@@ -12,7 +12,7 @@ url: '/operate/rs/8.0/databases/durability-ha/consistency/'
 ---
 Redis Software comes with the ability to replicate data
 to another database instance for high availability and persist in-memory data on
-disk permanently for durability. With the [`WAIT`]({{<relref "/commands/wait">}}) command, you can
+disk permanently for durability. With the [`WAIT`](/content/commands/wait.md) command, you can
 control the consistency and durability guarantees for the replicated and
 persisted database.
 
@@ -33,7 +33,7 @@ Any updates that are issued to the database are typically performed with the fol
 
 ## Blocking write operation on replication
 
-With the [`WAIT`]({{<relref "/commands/wait">}}) or [`WAITAOF`]({{<relref "/commands/waitaof">}}) commands, applications can ask to wait for
+With the [`WAIT`](/content/commands/wait.md) or [`WAITAOF`](/content/commands/waitaof.md) commands, applications can ask to wait for
 acknowledgments only after replication or persistence is confirmed on
 the replica. The flow of a write operation with `WAIT` or `WAITAOF` is:
 
@@ -49,4 +49,4 @@ The application only gets the acknowledgment from the write after durability is 
 
 The `WAIT` command always returns the number of replicas that acknowledged the write commands sent by the current client before the `WAIT` command, both in the case where the specified number of replicas are reached, or when the timeout is reached. In Redis Software, the number of replicas for HA enabled databases is always 1.
 
-See the [`WAITAOF`]({{<relref "/commands/waitaof">}}) command for details for enhanced data safety and durability capabilities introduced with Redis 7.2.
+See the [`WAITAOF`](/content/commands/waitaof.md) command for details for enhanced data safety and durability capabilities introduced with Redis 7.2.

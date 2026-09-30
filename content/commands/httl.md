@@ -61,7 +61,7 @@ Returns the remaining TTL (time to live) of a hash key's field(s) that have a se
 This introspection capability allows you to check how many seconds a
 given hash field will continue to be part of the hash key.
 
-See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns the same information with millisecond resolution.
+See also the [`HPTTL`](/content/commands/hpttl.md) command that returns the same information with millisecond resolution.
 
 ## Required arguments
 

@@ -204,14 +204,14 @@ Sorted sets are sorted by their score in an ascending way.
 The same element only exists a single time, no repeated elements are
 permitted. The score can be modified both by `ZADD` that will update the
 element score, and as a side effect, its position on the sorted set, and
-by [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) that can be used in order to update the score relatively to its
+by [`ZINCRBY`](/content/commands/zincrby.md) that can be used in order to update the score relatively to its
 previous value.
 
-The current score of an element can be retrieved using the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command,
+The current score of an element can be retrieved using the [`ZSCORE`](/content/commands/zscore.md) command,
 that can also be used to verify if an element already exists or not.
 
 For an introduction to sorted sets, see the data types page on [sorted
-sets]({{< relref "/develop/data-types#sorted-sets" >}}).
+sets](/content/develop/data-types/_index.md#sorted-sets).
 
 ### Elements with the same score
 
@@ -220,7 +220,7 @@ is unique, it is possible to add multiple different elements *having the same sc
 
 The lexicographic ordering used is binary, it compares strings as array of bytes.
 
-If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}})).
+If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`](/content/commands/zrangebylex.md) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md)).
 
 
 ## Redis Software and Redis Cloud compatibility

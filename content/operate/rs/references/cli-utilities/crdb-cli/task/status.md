@@ -26,7 +26,7 @@ crdb-cli task status --task-id <task_id>
 
 The `--verbose` and `--no-verbose` options are mutually incompatible; specify one or the other.
 
-The `404 Not Found` error indicates an invalid task ID.  Use the [`task list`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/task/list" >}}) command to determine available task IDs.
+The `404 Not Found` error indicates an invalid task ID.  Use the [`task list`](/content/operate/rs/references/cli-utilities/crdb-cli/task/list.md) command to determine available task IDs.
 
 ### Returns
 

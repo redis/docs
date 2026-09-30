@@ -20,9 +20,9 @@ weight: 38
 
 ### Logs Viewer role
 
-You can now add a user with the **Logs Viewer** role in the [Access Management]({{< relref "/operate/rc/security/access-control/access-management" >}}) screen. Logs Viewers can only use the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint. 
+You can now add a user with the **Logs Viewer** role in the [Access Management](/content/operate/rc/security/access-control/access-management.md) screen. Logs Viewers can only use the [Redis Cloud API](/content/operate/rc/api/_index.md) [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint. 
 
-See [Team Management roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) to see an overview of user roles and their permissions.
+See [Team Management roles](/content/operate/rc/security/access-control/access-management.md#team-management-roles) to see an overview of user roles and their permissions.
 
 ### Redis Flex preview on Redis Cloud Essentials
 
@@ -30,4 +30,4 @@ Redis Flex is now available in Preview on Redis Cloud Essentials.
 
 Redis Flex databases have a tiered solid state drive (SSD) and RAM architecture. Using SSDs instead of RAM significantly reduces infrastructure costs, which means developers can build applications that require large datasets using the same Redis API.
 
-See [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) for more info.
+See [Create a Redis Flex database](/content/operate/rc/databases/create-database/create-flex-database.md) for more info.

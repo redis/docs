@@ -35,7 +35,7 @@ For example, the default job can streamline tasks such as adding a prefix or pos
 Currently, the default job is supported for ingest pipelines only.
 
 ### Example
-This example demonstrates the process of adding an `app_code` field with a value of `foo` using the [add_field]({{<relref "/integrate/write-behind/reference/data-transformation-block-types/add_field">}}) block to all tables that lack explicitly defined jobs. Additionally, it appends an `aws` prefix and a `gcp` postfix to every generated hash key.
+This example demonstrates the process of adding an `app_code` field with a value of `foo` using the [add_field](/content/integrate/write-behind/reference/data-transformation-block-types/add_field.md) block to all tables that lack explicitly defined jobs. Additionally, it appends an `aws` prefix and a `gcp` postfix to every generated hash key.
 
 default.yaml
 ```yaml
@@ -62,7 +62,7 @@ output:
 
 Each job is defined in a separate YAML file. All of these files will be uploaded to Write-behind using the `deploy` command.
 For more information, see [deploy configuration](#deploy-configuration)). If you are using the
-[scaffold]({{< relref "/integrate/write-behind/reference/cli/redis-di-scaffold" >}}) command,
+[scaffold](/content/integrate/write-behind/reference/cli/redis-di-scaffold.md) command,
 place the job files in the `jobs` folder.
 
 ### Job YAML structure
@@ -89,8 +89,8 @@ place the job files in the `jobs` folder.
 
   This section includes a series of blocks that define how the data will be transformed.
   For more information, see
-  [supported blocks]({{< relref "/integrate/write-behind/reference/data-transformation-block-types" >}})
-  and [JMESPath custom functions]({{< relref "/integrate/write-behind/reference/jmespath-custom-functions.md" >}}).
+  [supported blocks](/content/integrate/write-behind/reference/data-transformation-block-types/_index.md)
+  and [JMESPath custom functions](/content/integrate/write-behind/reference/jmespath-custom-functions.md).
 
 - `output`:
 

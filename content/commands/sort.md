@@ -123,10 +123,10 @@ syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pat
   \  ...]] [ASC | DESC] [ALPHA] [STORE\_destination]"
 title: SORT
 ---
-Returns or stores the elements contained in the [list]({{< relref "/develop/data-types#lists" >}}), [set]({{< relref "/develop/data-types#set" >}}) or
-[sorted set]({{< relref "/develop/data-types#sorted-sets" >}}) at `key`.
+Returns or stores the elements contained in the [list](/content/develop/data-types/_index.md#lists), [set](/content/develop/data-types/_index.md#set) or
+[sorted set](/content/develop/data-types/_index.md#sorted-sets) at `key`.
 
-There is also the [`SORT_RO`]({{< relref "/commands/sort_ro" >}}) read-only variant of this command.
+There is also the [`SORT_RO`](/content/commands/sort_ro.md) read-only variant of this command.
 
 By default, sorting is numeric and elements are compared by their value
 interpreted as double precision floating point number.
@@ -274,15 +274,15 @@ SORT mylist BY weight_* GET object_* GET #
 
 ### Restrictions for using external keys
 
-Before 7.4, when enabling `Redis cluster-mode` there is no way to guarantee the existence of the external keys on the node which the command is processed on. In this case, any use of [`GET`]({{< relref "/commands/get" >}}) or `BY` which reference external key pattern will cause the command to fail with an error.
+Before 7.4, when enabling `Redis cluster-mode` there is no way to guarantee the existence of the external keys on the node which the command is processed on. In this case, any use of [`GET`](/content/commands/get.md) or `BY` which reference external key pattern will cause the command to fail with an error.
 
-Starting from 7.4, pattern with hash tag can be mapped to a slot, and so in `Redis cluster-mode`, the use of `BY` or [`GET`]({{< relref "/commands/get" >}}) is allowed when pattern contains hash tag and implies a specific slot which the key is also in, which means any key matching this pattern must be in the same slot as the key, and therefore in the same node. For example, in cluster mode, `{mylist}weight_*` is acceptable as a pattern when sorting `mylist`, while pattern `{abc}weight_*` will be denied, causing the command to fail with an error.
+Starting from 7.4, pattern with hash tag can be mapped to a slot, and so in `Redis cluster-mode`, the use of `BY` or [`GET`](/content/commands/get.md) is allowed when pattern contains hash tag and implies a specific slot which the key is also in, which means any key matching this pattern must be in the same slot as the key, and therefore in the same node. For example, in cluster mode, `{mylist}weight_*` is acceptable as a pattern when sorting `mylist`, while pattern `{abc}weight_*` will be denied, causing the command to fail with an error.
 
-To use pattern with hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}) for more information.
+To use pattern with hash tag, see [Hash tags](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags) for more information.
 
-Starting from Redis 7.0, any use of [`GET`]({{< relref "/commands/get" >}}) or `BY` which reference external key pattern will only be allowed in case the current user running the command has full key read permissions.
+Starting from Redis 7.0, any use of [`GET`](/content/commands/get.md) or `BY` which reference external key pattern will only be allowed in case the current user running the command has full key read permissions.
 Full key read permissions can be set for the user by, for example, specifying `'%R~*'` or `'~*` with the relevant command access rules.
-You can check the [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}}) command manual for more information on setting ACL access rules.
+You can check the [`ACL SETUSER`](/content/commands/acl-setuser.md) command manual for more information on setting ACL access rules.
 If full key read permissions aren't set, the command will fail with an error.
 
 ### Storing the result of a SORT operation
@@ -296,7 +296,7 @@ SORT mylist BY weight_* STORE resultkey
 ```
 
 An interesting pattern using `SORT ... STORE` consists in associating an
-[`EXPIRE`]({{< relref "/commands/expire" >}}) timeout to the resulting key so that in applications where the result
+[`EXPIRE`](/content/commands/expire.md) timeout to the resulting key so that in applications where the result
 of a `SORT` operation can be cached for some time.
 Other clients will use the cached list instead of calling `SORT` for every
 request.
@@ -305,7 +305,7 @@ calling `SORT ... STORE` again.
 
 Note that for correctly implementing this pattern it is important to avoid
 multiple clients rebuilding the cache at the same time.
-Some kind of locking is needed here (for instance using [`SETNX`]({{< relref "/commands/setnx" >}})).
+Some kind of locking is needed here (for instance using [`SETNX`](/content/commands/setnx.md)).
 
 ### Using hashes in `BY` and `GET`
 

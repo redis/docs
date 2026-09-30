@@ -13,15 +13,15 @@ weight: 92
 
 To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can connect your [Prometheus](https://prometheus.io/) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.
 
-To expose database tags as metric labels so you can filter and group metrics by attributes such as environment or team, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
+To expose database tags as metric labels so you can filter and group metrics by attributes such as environment or team, see [Enrich database metrics with tags](/content/operate/kubernetes/re-databases/enrich-metrics-with-tags.md).
 
 ## Prerequisites
 
 Before connecting Redis Enterprise to Prometheus on your Kubernetes cluster, make sure you've done the following:
 
-- [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) (version 6.2.10-4 or newer)
+- [Deploy Redis Enterprise for Kubernetes](/content/operate/kubernetes/deployment/quick-start.md) (version 6.2.10-4 or newer)
 - [Deploy the Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/introduction.md) (version 0.19.0 or newer)
-- [Create a Redis Enterprise cluster]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}})
+- [Create a Redis Enterprise cluster](/content/operate/kubernetes/deployment/quick-start.md#create-a-redis-enterprise-cluster-rec)
 
 ## Create a `ServiceMonitor` custom resource
 
@@ -36,7 +36,8 @@ You'll need to configure the following fields to connect Prometheus to Redis Ent
 | `spec.selector` | `matchLabels` | REC service label (`app: redis.io/service=prom-metrics`) |
 
 Apply the file in the same namespace as your Redis Enterprise cluster (REC).
-    {{<note>}}If Redis Enterprise and Prometheus are deployed in different namespaces, you'll also need to add the [`serviceMonitorNamespaceSelector`](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md) field to your Prometheus resource. See the [Prometheus operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/running-exporters.md) for more details on cross-namespace `ServiceMonitor` configuration.{{</note>}}
+    > [!NOTE]
+    > If Redis Enterprise and Prometheus are deployed in different namespaces, you'll also need to add the [`serviceMonitorNamespaceSelector`](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md) field to your Prometheus resource. See the [Prometheus operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/running-exporters.md) for more details on cross-namespace `ServiceMonitor` configuration.
 
 
 ```YAML
@@ -68,5 +69,5 @@ For more info about configuring the `ServiceMonitor` resource, see the [`Service
   - [Running exporters](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/running-exporters.md)
   - [Troubleshooting ServiceMonitor changes](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/troubleshooting.md#troubleshooting-servicemonitor-changes)
 - redis.io/docs
-  - [Metrics in Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}})
-  - [Monitoring and metrics]({{< relref "/operate/rs/monitoring/" >}})
+  - [Metrics in Prometheus](/content/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions.md)
+  - [Monitoring and metrics](/content/operate/rs/monitoring/_index.md)

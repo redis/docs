@@ -64,7 +64,7 @@
             {{- /* Build command objects with ACL categories and complexity */ -}}
             {{- range $cmdName := $commands -}}
               {{- /* Try to find command in multiple data files */ -}}
-              {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+              {{- $cmdData := index $.Site.Data.commands $cmdName -}}
               {{- $cmdObj := dict "name" $cmdName -}}
               {{- if $cmdData -}}
                 {{- if $cmdData.acl_categories -}}

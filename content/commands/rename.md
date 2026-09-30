@@ -65,14 +65,13 @@ summary: Renames a key and overwrites the destination.
 syntax_fmt: RENAME key newkey
 title: RENAME
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
-If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit [`DEL`]({{< relref "/commands/del" >}}) operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
+If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit [`DEL`](/content/commands/del.md) operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
 
 In Cluster mode, both `key` and `newkey` must be in the same **hash slot**, meaning that in practice only keys that have the same hash tag can be reliably renamed in cluster.
 

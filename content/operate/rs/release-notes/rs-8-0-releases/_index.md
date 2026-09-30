@@ -49,7 +49,7 @@ For more detailed release notes, select a build version from the following table
 
 ## Version changes
 
-- [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
+- [`POST /v1/cluster/actions/change_master`](/content/operate/rs/references/rest-api/requests/cluster/actions.md#post-cluster-action) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
 
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
@@ -57,15 +57,15 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
-- Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33]({{<relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33">}}).
+- Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33](/content/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33.md).
 
 - For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
 
 - Redis Software installation script changes:
 
-    - Changed the `--skip-updating-env-path` option to `--update-env-path` when running [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
+    - Changed the `--skip-updating-env-path` option to `--update-env-path` when running [`install.sh`](/content/operate/rs/installing-upgrading/install/install-script.md).
 
-    - Changed the `skip_updating_env_path` parameter to `update_env_path` in the [installation answers file]({{<relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer">}}).
+    - Changed the `skip_updating_env_path` parameter to `update_env_path` in the [installation answers file](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md#configure-file-to-answer).
 
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
@@ -73,7 +73,7 @@ When new major versions of Redis Open Source change existing commands, upgrading
 
 #### ACL behavior changes
 
-Before Redis 8, the existing [ACL]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) categories `@read`, `@write`, `@dangerous`, `@admin`, `@slow`, and `@fast` did not include commands for Redis Search and the JSON, time series, and probabilistic data structures.
+Before Redis 8, the existing [ACL](/content/operate/rs/security/access-control/redis-acl-overview.md) categories `@read`, `@write`, `@dangerous`, `@admin`, `@slow`, and `@fast` did not include commands for Redis Search and the JSON, time series, and probabilistic data structures.
 
 Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
 
@@ -89,7 +89,7 @@ As a result:
 
   - For example, a user with `+@all -@write` will not be able to execute `JSON.SET`.
 
-  - Explicit inclusion of new [command categories]({{<relref "/operate/oss_and_stack/management/security/acl#command-categories">}}) is required to maintain access. The new categories are: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
+  - Explicit inclusion of new [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories) is required to maintain access. The new categories are: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@topk`, `@cms`, and `@tdigest`.
 
 - ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
 
@@ -165,15 +165,15 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software](/content/operate/rs/networking/port-configurations.md#ports-and-port-ranges-used-by-redis-software) for a complete list.
 
 ### Deprecations
 
 #### API deprecations
 
-- Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
+- Deprecated the `policy` field for [bootstrap](/content/operate/rs/references/rest-api/requests/bootstrap/_index.md) REST API requests. Use [`PUT /v1/cluster/policy`](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) to change cluster policies after cluster creation instead.
 
-- Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
+- Deprecated the `module_args` field for [database](/content/operate/rs/references/rest-api/requests/bdbs/_index.md) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
 
 - Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
 
@@ -191,15 +191,15 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
-The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
+The existing [internal monitoring engine](/content/operate/rs/monitoring/v1_monitoring.md) is deprecated. We recommend transitioning to the new [metrics stream engine](/content/operate/rs/monitoring/metrics_stream_engine/_index.md) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
-V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#grafana-dashboards-for-redis-software">}}).
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide](/content/operate/rs/references/metrics/prometheus-metrics-v1-to-v2.md) or use [new preconfigured dashboards](/content/integrate/prometheus-with-redis-enterprise/_index.md#grafana-dashboards-for-redis-software).
 
-As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
+As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan](/content/operate/rs/references/alerts/alerts-v1-to-v2.md) for guidance.
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference](/content/operate/rs/references/supported-platforms.md) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
@@ -208,7 +208,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| [**End-of-life date**](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -227,9 +227,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 2. <a name="table-note-2"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
 
-3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation](/content/operate/kubernetes/reference/supported_k8s_distributions.md) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -241,7 +241,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
 
-    As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
+    As a workaround, configure an LDAP client certificate using an [update cluster certificates](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md) REST API request:
 
     ```sh
     PUT https://<host>:<port>/v1/cluster/certificates
@@ -256,7 +256,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
     }
     ```
     
-    See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
+    See [Create certificates](/content/operate/rs/security/certificates/create-certificates.md) and [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md) for more detailed instructions.
 
     This issue was fixed in Redis Software version 8.0.18.
 
@@ -298,7 +298,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 - Purge an Active-Active instance.
 
-    Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
+    Use [`crdb-cli crdb purge-instance`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance.md) instead.
 
 - Search and export the log.
 

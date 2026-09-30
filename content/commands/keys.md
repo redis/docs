@@ -36,9 +36,8 @@ summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern
 title: KEYS
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Returns all keys matching `pattern`.
@@ -60,15 +59,14 @@ fairly low.
 For example, Redis running on an entry level laptop can scan a 1 million key
 database in 40 milliseconds.
 
-{{< warning >}}
-Use extreme care when using this command in production environments.
-It may ruin performance when it is executed against large databases.
-This command is intended for debugging and special operations, such as changing
-your keyspace layout.
-Don't use `KEYS` in your regular application code.
-If you're looking for a way to find keys in a subset of your keyspace, consider
-using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets]({{< relref "/develop/data-types/sets" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Use extreme care when using this command in production environments.
+> It may ruin performance when it is executed against large databases.
+> This command is intended for debugging and special operations, such as changing
+> your keyspace layout.
+> Don't use `KEYS` in your regular application code.
+> If you're looking for a way to find keys in a subset of your keyspace, consider
+> using [`SCAN`](/content/commands/scan.md) or [sets](/content/develop/data-types/sets.md).
 
 Supported glob-style patterns:
 
@@ -80,12 +78,12 @@ Supported glob-style patterns:
 
 Use `\` to escape special characters if you want to match them verbatim.
 
-When using [Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}), the search is optimized for patterns that imply a single slot.
+When using [Redis Cluster](/content/operate/oss_and_stack/management/scaling.md), the search is optimized for patterns that imply a single slot.
 If a pattern can only match keys of one slot,
 Redis only iterates over keys in that slot, rather than the whole database,
 when searching for keys matching the pattern.
 For example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.
-To use pattern with a hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}) in the Cluster specification for more information.
+To use pattern with a hash tag, see [Hash tags](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags) in the Cluster specification for more information.
 
 ## Examples
 

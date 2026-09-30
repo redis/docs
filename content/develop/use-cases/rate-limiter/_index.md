@@ -38,21 +38,21 @@ In practice, a Redis rate limiter is a single shared store that every service in
 
 Redis provides the following features that make it a good fit for rate limiting:
 
--   [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}})
+-   [`INCR`](/content/commands/incr.md) and [`EXPIRE`](/content/commands/expire.md)
     give you atomic fixed-window counters with automatic time-window cleanup.
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}),
-    [sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}), and
-    [strings]({{< relref "/develop/data-types/strings" >}}) cover the data shapes needed for
+-   [Hashes](/content/develop/data-types/hashes.md),
+    [sorted sets](/content/develop/data-types/sorted-sets.md), and
+    [strings](/content/develop/data-types/strings/_index.md) cover the data shapes needed for
     sliding window and token bucket algorithms.
 -   Hash field expiration in Redis 8
-    ([`HEXPIRE`]({{< relref "/commands/hexpire" >}})) further simplifies time-bound
+    ([`HEXPIRE`](/content/commands/hexpire.md)) further simplifies time-bound
     rate limiting at the field level.
--   [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) with
-    [`EVAL`]({{< relref "/commands/eval" >}}) keeps the read-decide-update cycle atomic, so
+-   [Lua scripting](/content/develop/programmability/eval-intro.md) with
+    [`EVAL`](/content/commands/eval.md) keeps the read-decide-update cycle atomic, so
     concurrent requests cannot double-spend tokens or lose counter updates.
 -   Sub-millisecond latency means the rate check sits on the synchronous request path
     without adding meaningful delay, even at millions of requests per second.
--   [Active-Active replication]({{< relref "/operate/rs/databases/active-active" >}})
+-   [Active-Active replication](/content/operate/rs/databases/active-active/_index.md)
     provides CRDT-based global consistency for rate limits enforced across regions.
 
 ## Ecosystem
@@ -77,12 +77,12 @@ The following libraries and frameworks provide Redis-backed rate limiting:
 The following guides show how to build a token bucket rate limiter with Redis and Lua scripts.
 Each guide includes a runnable interactive demo for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/rate-limiter/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/rate-limiter/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/rate-limiter/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/rate-limiter/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/rate-limiter/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/rate-limiter/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/rate-limiter/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/rate-limiter/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/rate-limiter/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/rate-limiter/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/rate-limiter/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/rate-limiter/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/rate-limiter/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/rate-limiter/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/rate-limiter/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/rate-limiter/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/rate-limiter/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/rate-limiter/rust/_index.md)

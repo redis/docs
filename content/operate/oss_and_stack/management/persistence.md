@@ -19,7 +19,7 @@ Persistence refers to the writing of data to durable storage, such as a solid-st
 * **No persistence**: You can disable persistence completely. This is sometimes used when caching.
 * **RDB + AOF**: You can also combine both AOF and RDB in the same instance.
 
-If you'd rather not think about the tradeoffs between these different persistence strategies, you may want to consider [Redis Software's persistence options]({{< relref "/operate/rs/databases/configure/database-persistence" >}}), which can be pre-configured using a UI.
+If you'd rather not think about the tradeoffs between these different persistence strategies, you may want to consider [Redis Software's persistence options](/content/operate/rs/databases/configure/database-persistence.md), which can be pre-configured using a UI.
 
 To learn more about how to evaluate your Redis persistence strategy, read on.
 
@@ -29,7 +29,7 @@ To learn more about how to evaluate your Redis persistence strategy, read on.
 * RDB is very good for disaster recovery, being a single compact file that can be transferred to far data centers, or onto Amazon S3 (possibly encrypted).
 * RDB maximizes Redis performances since the only work the Redis parent process needs to do in order to persist is forking a child that will do all the rest. The parent process will never perform disk I/O or alike.
 * RDB allows faster restarts with big datasets compared to AOF.
-* On replicas, RDB supports [partial resynchronizations after restarts and failovers]({{< relref "/operate/oss_and_stack/management/replication#partial-resynchronizations-after-restarts-and-failovers" >}}).
+* On replicas, RDB supports [partial resynchronizations after restarts and failovers](/content/operate/oss_and_stack/management/replication.md#partial-resynchronizations-after-restarts-and-failovers).
 
 ## RDB disadvantages
 
@@ -41,7 +41,7 @@ To learn more about how to evaluate your Redis persistence strategy, read on.
 * Using AOF Redis is much more durable: you can have different fsync policies: no fsync at all, fsync every second, fsync at every query. With the default policy of fsync every second, write performance is still great. fsync is performed using a background thread and the main thread will try hard to perform writes when no fsync is in progress, so you can only lose one second worth of writes.
 * The AOF log is an append-only log, so there are no seeks, nor corruption problems if there is a power outage. Even if the log ends with a half-written command for some reason (disk full or other reasons) the redis-check-aof tool is able to fix it easily.
 * Redis is able to automatically rewrite the AOF in background when it gets too big. The rewrite is completely safe as while Redis continues appending to the old file, a completely new one is produced with the minimal set of operations needed to create the current data set, and once this second file is ready Redis switches the two and starts appending to the new one.
-* AOF contains a log of all the operations one after the other in an easy to understand and parse format. You can even easily export an AOF file. For instance even if you've accidentally flushed everything using the [`FLUSHALL`](/commands/flushall) command, as long as no rewrite of the log was performed in the meantime, you can still save your data set just by stopping the server, removing the latest command, and restarting Redis again.
+* AOF contains a log of all the operations one after the other in an easy to understand and parse format. You can even easily export an AOF file. For instance even if you've accidentally flushed everything using the [`FLUSHALL`](/content/commands/flushall.md) command, as long as no rewrite of the log was performed in the meantime, you can still save your data set just by stopping the server, removing the latest command, and restarting Redis again.
 
 ## AOF disadvantages
 
@@ -74,7 +74,7 @@ The following sections will illustrate a few more details about the two persiste
 By default Redis saves snapshots of the dataset on disk, in a binary
 file called `dump.rdb`. You can configure Redis to have it save the
 dataset every N seconds if there are at least M changes in the dataset,
-or you can manually call the [`SAVE`](/commands/save) or [`BGSAVE`](/commands/bgsave) commands.
+or you can manually call the [`SAVE`](/content/commands/save.md) or [`BGSAVE`](/content/commands/bgsave.md) commands.
 
 For example, this configuration will make Redis automatically dump the
 dataset to disk every 60 seconds if at least 1000 keys changed:
@@ -113,7 +113,7 @@ You can turn on the AOF in your configuration file:
     appendonly yes
 
 From now on, every time Redis receives a command that changes the
-dataset (e.g. [`SET`](/commands/set)) it will append it to the AOF.  When you restart
+dataset (e.g. [`SET`](/content/commands/set.md)) it will append it to the AOF.  When you restart
 Redis it will re-play the AOF to rebuild the state.
 
 Since Redis 7.0.0, Redis uses a multi part AOF mechanism.
@@ -136,9 +136,9 @@ and once this second file is ready Redis switches the two and starts appending t
 
 So Redis supports an interesting feature: it is able to rebuild the AOF
 in the background without interrupting service to clients. Whenever
-you issue a [`BGREWRITEAOF`](/commands/bgrewriteaof), Redis will write the shortest sequence of
+you issue a [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md), Redis will write the shortest sequence of
 commands needed to rebuild the current dataset in memory.  If you're
-using the AOF with Redis 2.2 you'll need to run [`BGREWRITEAOF`](/commands/bgrewriteaof) from time to
+using the AOF with Redis 2.2 you'll need to run [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md) from time to
 time. Since Redis 2.4 is able to trigger log rewriting automatically (see the
 example configuration file for more information).
 
@@ -276,7 +276,7 @@ Switch to AOF on live database:
 * Enable AOF: `redis-cli config set appendonly yes`
 * Optionally disable RDB: `redis-cli config set save ""`
 * Make sure writes are appended to the append only file correctly.
-* **IMPORTANT:** Update your `redis.conf` (potentially through [`CONFIG REWRITE`](/commands/config-rewrite)) and ensure that it matches the configuration above.
+* **IMPORTANT:** Update your `redis.conf` (potentially through [`CONFIG REWRITE`](/content/commands/config-rewrite.md)) and ensure that it matches the configuration above.
   If you forget this step, when you restart the server, the configuration changes will be lost and the server will start again with the old configuration, resulting in a loss of your data.
 
 Next time you restart the server:
@@ -300,12 +300,12 @@ Next time you restart the server:
 ## Interactions between AOF and RDB persistence
 
 Redis >= 2.4 makes sure to avoid triggering an AOF rewrite when an RDB
-snapshotting operation is already in progress, or allowing a [`BGSAVE`](/commands/bgsave) while the
+snapshotting operation is already in progress, or allowing a [`BGSAVE`](/content/commands/bgsave.md) while the
 AOF rewrite is in progress. This prevents two Redis background processes
 from doing heavy disk I/O at the same time.
 
 When snapshotting is in progress and the user explicitly requests a log
-rewrite operation using [`BGREWRITEAOF`](/commands/bgrewriteaof) the server will reply with an OK
+rewrite operation using [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md) the server will reply with an OK
 status code telling the user the operation is scheduled, and the rewrite
 will start once the snapshotting is completed.
 
@@ -337,14 +337,14 @@ During normal operation all you need to do is copy/tar the files in this directo
 To work around this you must disable AOF rewrites during the backup:
 
 1. Turn off automatic rewrites with<br/>
-   [`CONFIG SET`](/commands/config-set) `auto-aof-rewrite-percentage 0`<br/>
-   Make sure you don't manually start a rewrite (using [`BGREWRITEAOF`](/commands/bgrewriteaof)) during this time.
+   [`CONFIG SET`](/content/commands/config-set.md) `auto-aof-rewrite-percentage 0`<br/>
+   Make sure you don't manually start a rewrite (using [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md)) during this time.
 2. Check there's no current rewrite in progress using<br/>
-   [`INFO`](/commands/info) `persistence`<br/>
+   [`INFO`](/content/commands/info.md) `persistence`<br/>
    and verifying `aof_rewrite_in_progress` is 0. If it's 1, then you'll need to wait for the rewrite to complete.
 3. Now you can safely copy the files in the `appenddirname` directory.
 4. Re-enable rewrites when done:<br/>
-   [`CONFIG SET`](/commands/config-set) `auto-aof-rewrite-percentage <prev-value>`
+   [`CONFIG SET`](/content/commands/config-set.md) `auto-aof-rewrite-percentage <prev-value>`
 
 **Note:** If you want to minimize the time AOF rewrites are disabled you may create hard links to the files in `appenddirname` (in step 3 above) and then re-enable rewrites (step 4) after the hard links are created.
 Now you can copy/tar the hardlinks and delete them when done. This works because Redis guarantees that it
@@ -352,31 +352,31 @@ only appends to files in this directory, or completely replaces them if necessar
 consistent at any given point in time.
 
 
-**Note:** If you want to handle the case of the server being restarted during the backup and make sure no rewrite will automatically start after the restart you can change step 1 above to also persist the updated configuration via [`CONFIG REWRITE`](/commands/config-rewrite).
-Just make sure to re-enable automatic rewrites when done (step 4) and persist it with another [`CONFIG REWRITE`](/commands/config-rewrite).
+**Note:** If you want to handle the case of the server being restarted during the backup and make sure no rewrite will automatically start after the restart you can change step 1 above to also persist the updated configuration via [`CONFIG REWRITE`](/content/commands/config-rewrite.md).
+Just make sure to re-enable automatic rewrites when done (step 4) and persist it with another [`CONFIG REWRITE`](/content/commands/config-rewrite.md).
 
 Prior to version 7.0.0 backing up the AOF file can be done simply by copying the aof file (like backing up the RDB snapshot). The file may lack the final part
 but Redis will still be able to load it (see the previous sections about [truncated AOF files](#what-should-i-do-if-my-aof-gets-truncated)).
 
 ### Online backups with the BACKUP command family
 
-Since Redis 8.10.0, the [`BACKUP`](/commands/backup) command family produces a self-contained, restorable backup without stopping writes or manually managing AOF rewrites. A backup reuses the [multi-part AOF](#append-only-file) format, so it is an MP-AOF–compatible artifact set consisting of three files:
+Since Redis 8.10.0, the [`BACKUP`](/content/commands/backup.md) command family produces a self-contained, restorable backup without stopping writes or manually managing AOF rewrites. A backup reuses the [multi-part AOF](#append-only-file) format, so it is an MP-AOF–compatible artifact set consisting of three files:
 
 * **BASE** — a point-in-time snapshot (`appendonly.aof.N.base.rdb`).
 * **INCR** — the incremental writes appended after the snapshot (`appendonly.aof.N.incr.aof`).
 * **Manifest** — a standalone manifest describing the file set (`appendonly.aof.manifest`).
 
-Because backup creation is separated from backup finalization, a control plane can stagger [`BACKUP START`](/commands/backup-start) across the nodes of a cluster so that they do not all `fork` at the same time. Each node produces its BASE independently, keeps appending to its INCR, and is later frozen with [`BACKUP SEAL`](/commands/backup-seal). A restore loads `BASE + INCR`, so the restored dataset reflects the state at the seal boundary, not merely the earlier BASE snapshot.
+Because backup creation is separated from backup finalization, a control plane can stagger [`BACKUP START`](/content/commands/backup-start.md) across the nodes of a cluster so that they do not all `fork` at the same time. Each node produces its BASE independently, keeps appending to its INCR, and is later frozen with [`BACKUP SEAL`](/content/commands/backup-seal.md). A restore loads `BASE + INCR`, so the restored dataset reflects the state at the seal boundary, not merely the earlier BASE snapshot.
 
 The typical workflow on a node is:
 
-1. [`BACKUP START`](/commands/backup-start) — open a backup window and produce a fresh BASE snapshot. This works whether or not AOF persistence is enabled.
-2. [`BACKUP LIST`](/commands/backup-list) — get the absolute paths of the immutable files pinned so far. The data plane can begin copying the BASE file while Redis keeps accumulating INCR data.
-3. [`BACKUP SEAL`](/commands/backup-seal) — freeze the backup, hard-linking the INCR and writing the manifest. After sealing, `BACKUP LIST` also includes the INCR and manifest files.
+1. [`BACKUP START`](/content/commands/backup-start.md) — open a backup window and produce a fresh BASE snapshot. This works whether or not AOF persistence is enabled.
+2. [`BACKUP LIST`](/content/commands/backup-list.md) — get the absolute paths of the immutable files pinned so far. The data plane can begin copying the BASE file while Redis keeps accumulating INCR data.
+3. [`BACKUP SEAL`](/content/commands/backup-seal.md) — freeze the backup, hard-linking the INCR and writing the manifest. After sealing, `BACKUP LIST` also includes the INCR and manifest files.
 4. Copy the sealed files reported by `BACKUP LIST` to your backup storage.
-5. [`BACKUP CLEANUP`](/commands/backup-cleanup) — remove the sealed files and release the pinned artifacts after the copy is complete.
+5. [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md) — remove the sealed files and release the pinned artifacts after the copy is complete.
 
-Use [`BACKUP STATUS`](/commands/backup-status) at any point to inspect the current backup state, and [`BACKUP ABORT`](/commands/backup-abort) to cancel a backup that has not been sealed yet.
+Use [`BACKUP STATUS`](/content/commands/backup-status.md) at any point to inspect the current backup state, and [`BACKUP ABORT`](/content/commands/backup-abort.md) to cancel a backup that has not been sealed yet.
 
 The backup files are written to the directory named by the `backupdirname` configuration setting (default `backupdir`), resolved under the Redis working directory `dir`. `backupdirname` is a startup-only setting. The `backup-sealed-ttl` setting controls how long, in seconds, Redis keeps a sealed backup before cleaning it up automatically; a value of `0` (the default) disables automatic cleanup so the files remain pinned until `BACKUP CLEANUP` is called.
 

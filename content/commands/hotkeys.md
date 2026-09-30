@@ -36,7 +36,7 @@ The general workflow is for the user to initiate a hotkeys tracking process whic
 
 Available subcommands:
 
-- [`HOTKEYS START`]({{< relref "/commands/hotkeys-start" >}}) - Starts hotkeys tracking with specified metrics.
-- [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) - Stops hotkeys tracking but preserves data.
-- [`HOTKEYS GET`]({{< relref "/commands/hotkeys-get" >}}) - Returns tracking results and metadata.
-- [`HOTKEYS RESET`]({{< relref "/commands/hotkeys-reset" >}}) - Releases resources used for tracking.
+- [`HOTKEYS START`](/content/commands/hotkeys-start.md) - Starts hotkeys tracking with specified metrics.
+- [`HOTKEYS STOP`](/content/commands/hotkeys-stop.md) - Stops hotkeys tracking but preserves data.
+- [`HOTKEYS GET`](/content/commands/hotkeys-get.md) - Returns tracking results and metadata.
+- [`HOTKEYS RESET`](/content/commands/hotkeys-reset.md) - Releases resources used for tracking.

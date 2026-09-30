@@ -10,16 +10,15 @@ title: Install redis-cli
 weight: 8
 ---
 
-If you only need the [Redis CLI]({{< relref "/develop/tools/cli" >}}) (`redis-cli`) to connect to a remote Redis server, you can install it on its own, without installing the full Redis Open Source distribution or building it from source.
+If you only need the [Redis CLI](/content/develop/tools/cli.md) (`redis-cli`) to connect to a remote Redis server, you can install it on its own, without installing the full Redis Open Source distribution or building it from source.
 
 The installer downloads a single, statically linked `redis-cli` binary, so it works even on minimal images (such as Amazon Linux, openSUSE, or distroless). It requires only `curl` or `wget`.
 
-{{< note >}}
-This installation method is supported on **Linux** and **macOS** only, on `x86_64`/`amd64` and `arm64`/`aarch64` processors. It does not run on native Windows. You have two options:
-
-1. You can run it under the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/).
-1. You can use it with Docker; see [Run Redis Open Source on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}) for more information.
-{{< /note >}}
+> [!NOTE]
+> This installation method is supported on **Linux** and **macOS** only, on `x86_64`/`amd64` and `arm64`/`aarch64` processors. It does not run on native Windows. You have two options:
+>
+> 1. You can run it under the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/).
+> 1. You can use it with Docker; see [Run Redis Open Source on Docker](/content/operate/oss_and_stack/install/install-stack/docker.md) for more information.
 
 ## Install redis-cli
 
@@ -31,9 +30,8 @@ curl -fsSL https://packages.redis.io/redis-cli/install.sh | sh
 
 The script detects your operating system and architecture, downloads the matching `redis-cli` binary, verifies its SHA-256 checksum, and installs it to `/usr/local/bin` (using `sudo` if required). If `/usr/local/bin` is not writable, it installs to `~/.local/bin` instead.
 
-{{< note >}}
-As with any `curl ... | sh` command, review the [install script](https://packages.redis.io/redis-cli/install.sh) before running it if you want to see exactly what it does.
-{{< /note >}}
+> [!NOTE]
+> As with any `curl ... | sh` command, review the [install script](https://packages.redis.io/redis-cli/install.sh) before running it if you want to see exactly what it does.
 
 ### Install a specific version
 
@@ -76,5 +74,5 @@ PONG
 
 ## Next steps
 
-- Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}}).
-- If you need a full Redis installation, see the other [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack" >}}).
+- Try the [Redis CLI tutorial](/content/develop/tools/cli.md).
+- If you need a full Redis installation, see the other [installation guides](/content/operate/oss_and_stack/install/install-stack/_index.md).

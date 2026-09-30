@@ -12,33 +12,32 @@ linkTitle: Redis Insight on Redis Cloud
 weight: 1
 ---
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
+[Redis Insight](/content/develop/tools/insight/_index.md) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
 
-You can either [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer, or you can open your database in Redis Insight directly on Redis Cloud.
+You can either [install Redis Insight](/content/develop/tools/insight/_index.md) on your computer, or you can open your database in Redis Insight directly on Redis Cloud.
 
-{{< note >}}
-Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer and [open Redis Insight]({{< relref "/operate/rc/databases/connect#ri-app" >}}) from the database page.
-{{< /note >}}
+> [!NOTE]
+> Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [install Redis Insight](/content/develop/tools/insight/_index.md) on your computer and [open Redis Insight](/content/operate/rc/databases/connect/_index.md#ri-app) from the database page.
 
-To open your database with Redis Insight on Redis Cloud, select **Open with Redis Insight** on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
+To open your database with Redis Insight on Redis Cloud, select **Open with Redis Insight** on the [database screen](/content/operate/rc/databases/view-edit-database.md).
 
 {{<image filename="images/rc/rc-ri-open.png" alt="Open with Redis Insight" width=400px >}}
 
 Redis Insight will open in a new tab. 
 
-This browser-based version of Redis Insight has a subset of the features of Redis Insight. For other Redis Insight features, [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer and [open Redis Insight]({{< relref "/operate/rc/databases/connect#ri-app" >}}) from the database page.
+This browser-based version of Redis Insight has a subset of the features of Redis Insight. For other Redis Insight features, [install Redis Insight](/content/develop/tools/insight/_index.md) on your computer and [open Redis Insight](/content/operate/rc/databases/connect/_index.md#ri-app) from the database page.
 
 ## Browse
 
 The **Browse** tab lets you browse, filter, and visualize your Redis data structures.
 
-- Create, read, update, and delete lists, hashes, strings, sets, sorted sets, streams, and [JSON]({{< relref "/develop/data-types/json/" >}})
+- Create, read, update, and delete lists, hashes, strings, sets, sorted sets, streams, and [JSON](/content/develop/data-types/json/_index.md)
 - Filter keys by key name or pattern, and by key type
 - Group keys according to their namespaces
     {{<image filename="images/rc/rc-ri-browser-group.png" alt="Keys in a database grouped by namespace." width=50% >}}
 - View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII)
     {{<image filename="images/rc/rc-ri-browser-view.png" alt="Human-readable view of a hash key." width=50% >}}
-- Search by key values using your [search indexes]({{< relref "/develop/ai/search-and-query" >}})
+- Search by key values using your [search indexes](/content/develop/ai/search-and-query/_index.md)
     {{<image filename="images/rc/rc-ri-browser-search.png" alt="Search for keys using a search index." width=50% >}}
 
 If you don't have any Redis data yet, you can select **Load sample data** to add sample data into your database.

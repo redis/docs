@@ -37,13 +37,12 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Use the **Connect account** button to confirm your choice.
 
-    {{< note >}}
-You must complete this step to bill your Redis Cloud resources to your AWS Marketplace account.
-    {{< /note >}}
+    > [!NOTE]
+    > You must complete this step to bill your Redis Cloud resources to your AWS Marketplace account.
 
 1.  Once your Redis account is mapped to your AWS Marketplace account, your AWS Marketplace account will be charged for all your Redis Cloud resources going forward.
 
-At this point, you can create a new database using the [standard workflow]({{< relref "/operate/rc/databases/create-database" >}}), with one important change. You don't need to enter a payment method, as it's automatically assigned to your AWS Marketplace account.
+At this point, you can create a new database using the [standard workflow](/content/operate/rc/databases/create-database/_index.md), with one important change. You don't need to enter a payment method, as it's automatically assigned to your AWS Marketplace account.
 
 To confirm this, review the payment method associated with your subscription.
 

@@ -44,7 +44,7 @@ rladmin cluster join
 | accept_servers | 'enabled'<br />'disabled' | Allows allocation of resources on the new node when enabled (optional) |
 | addr | IP address | Sets a node's internal IP address. If not provided, the node sets the address automatically. (optional) |
 | ccs_persistent_path | filepath (default:&nbsp;/var/opt/redislabs/persist) | Path to the CCS snapshot location (the default is the same as persistent_path) (optional) |
-| client_cert | filepath | Path to a file containing the client certificate in PEM format. Use either a username and password or certificate credentials to join a node. Required with `client_key`. See [Certificate-based authentication for cluster management]({{<relref "/operate/rs/security/certificates/certificate-based-authentication#certificate-based-authentication-for-cluster-management">}}). |
+| client_cert | filepath | Path to a file containing the client certificate in PEM format. Use either a username and password or certificate credentials to join a node. Required with `client_key`. See [Certificate-based authentication for cluster management](/content/operate/rs/security/certificates/certificate-based-authentication.md#certificate-based-authentication-for-cluster-management). |
 | client_key | filepath | Path to a file containing the client certificate's private key in PEM format. Required with `client_cert`. |
 | cnm_http_port | integer | Joins a cluster that has a non-default cnm_http_port (optional) |
 | ephemeral_path | filepath | Path to the ephemeral storage location (optional) |

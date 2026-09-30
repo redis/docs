@@ -17,9 +17,8 @@ When MFA is enabled, users must enter their username, password, and an authentic
 
 To further increase the security of the account, the account owner can [require MFA enforcement for all users](#enforcing).
 
-{{< note >}}
-Once you enable MFA, it will be required to access every account that belongs to you. Deactivating MFA enforcement on an account does not deactivate MFA enforcement for other users of that account that have defined a phone number. To deactivate MFA enforcement for other users, those users will each need to deactivate MFA enforcement for their own user accounts.
-{{< /note >}}
+> [!NOTE]
+> Once you enable MFA, it will be required to access every account that belongs to you. Deactivating MFA enforcement on an account does not deactivate MFA enforcement for other users of that account that have defined a phone number. To deactivate MFA enforcement for other users, those users will each need to deactivate MFA enforcement for their own user accounts.
 
 ### Enable MFA
 
@@ -42,9 +41,8 @@ To configure MFA for your user account:
 
 Your account is now configured for MFA.
 
-{{< note >}}
-We recommend that you also [configure MFA for an authenticator app](#app) as an additional factor.
-{{< /note >}}
+> [!NOTE]
+> We recommend that you also [configure MFA for an authenticator app](#app) as an additional factor.
 
 If you cannot sign in to your account because of MFA, please [contact support](https://redis.io/support/).
 
@@ -86,9 +84,8 @@ You can deactivate MFA for your user account. To deactivate MFA, go to your prof
 Account owner users can enable MFA enforcement for all users in their account.
 After MFA is enforced for the account, all users who do not have MFA enabled will be required to configure MFA the next time they sign in to the Redis Cloud console.
 
-{{< note >}}
-Redis Cloud does not enforce MFA for [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) users since the identity provider handles MFA management and enforcement.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud does not enforce MFA for [SAML SSO](/content/operate/rc/security/access-control/saml-sso/_index.md) users since the identity provider handles MFA management and enforcement.
 
 To enable MFA enforcement for all user accounts:
 
@@ -103,6 +100,5 @@ To enable MFA enforcement for all user accounts:
 
 4. Select **Save changes** to save your changes.
 
-{{< tip >}}
-Notify all of your Redis Cloud console users before enabling MFA enforcement.
-{{< /tip >}}
+> [!TIP]
+> Notify all of your Redis Cloud console users before enabling MFA enforcement.

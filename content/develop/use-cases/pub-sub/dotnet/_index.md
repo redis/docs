@@ -103,12 +103,12 @@ Subscription                            (in-process, one per subscriber)
 
 The implementation uses:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a JSON-encoded message out to every subscriber of a channel
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) for exact-match subscribers (via `RedisChannel.Literal`)
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) for glob-style pattern subscribers (via `RedisChannel.Pattern`)
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list the channels with at least one active exact-match subscriber
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per channel
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide
+* [`PUBLISH`](/content/commands/publish.md) to fan a JSON-encoded message out to every subscriber of a channel
+* [`SUBSCRIBE`](/content/commands/subscribe.md) for exact-match subscribers (via `RedisChannel.Literal`)
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) for glob-style pattern subscribers (via `RedisChannel.Pattern`)
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list the channels with at least one active exact-match subscriber
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per channel
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide
 * `ConnectionMultiplexer`'s shared subscribe connection: every subscription added via `ISubscriber.Subscribe(...)` rides on the same socket, so adding a fifth subscriber doesn't open a fifth connection
 
 ## Publishing messages
@@ -271,7 +271,7 @@ If your Redis server is running elsewhere, pass `--redis-host` and `--redis-port
 
 ### Pub/sub is at-most-once — pair it with durable state if you need replay
 
-A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams]({{< relref "/develop/data-types/streams" >}}) with consumer groups.
+A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams](/content/develop/data-types/streams/_index.md) with consumer groups.
 
 ### One ConnectionMultiplexer for the whole process
 
@@ -297,7 +297,7 @@ The demo caps each subscription's in-memory message buffer at 50. That's right f
 
 ### Sharded pub/sub on a Redis Cluster
 
-On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. StackExchange.Redis exposes the sharded variants via `ISubscriber.Publish(..., flags: CommandFlags.None)` on a cluster-aware multiplexer once your topology is sharded; pick channel names whose hash distribution matches your traffic.
+On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. StackExchange.Redis exposes the sharded variants via `ISubscriber.Publish(..., flags: CommandFlags.None)` on a cluster-aware multiplexer once your topology is sharded; pick channel names whose hash distribution matches your traffic.
 
 ### Inspect pub/sub state directly in Redis
 
@@ -323,11 +323,11 @@ redis-cli psubscribe 'orders:*'
 
 This example uses the following Redis commands:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a message out to every subscriber of a channel.
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) for exact-match topic subscriptions.
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) for glob-style pattern subscriptions.
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list channels with at least one active exact-match subscriber.
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per named channel.
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide.
+* [`PUBLISH`](/content/commands/publish.md) to fan a message out to every subscriber of a channel.
+* [`SUBSCRIBE`](/content/commands/subscribe.md) and [`UNSUBSCRIBE`](/content/commands/unsubscribe.md) for exact-match topic subscriptions.
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) and [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) for glob-style pattern subscriptions.
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list channels with at least one active exact-match subscriber.
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per named channel.
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide.
 
 See the [StackExchange.Redis documentation](https://seredis.dev/) for full client reference, including the [`ISubscriber` interface](https://seredis.dev/PubSubOrder.html) and the multiplexer's shared subscribe-connection model.

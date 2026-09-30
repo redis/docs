@@ -23,7 +23,7 @@ Computing a single entity's rank in a relational database requires an `ORDER BY`
 
 Local in-process data structures break behind load balancers because no single instance holds the complete ranking. A dedicated OLAP or leaderboard service could solve the ranking problem but adds operational overhead for what is fundamentally a single sorted data structure.
 
-This use case is also distinct from [Redis Streams]({{< relref "/develop/data-types/streams" >}}) (which record event history but don't maintain ranked state) and from the probabilistic [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}}) data structure (which approximates heavy hitters but cannot return exact ranks or neighborhood queries).
+This use case is also distinct from [Redis Streams](/content/develop/data-types/streams/_index.md) (which record event history but don't maintain ranked state) and from the probabilistic [Top-K](/content/develop/data-types/probabilistic/top-k.md) data structure (which approximates heavy hitters but cannot return exact ranks or neighborhood queries).
 
 ## What you can expect from a Redis solution
 
@@ -42,18 +42,18 @@ In practice, the leaderboard is stored as a Redis sorted set — one key per boa
 
 Redis provides the following features that make it a good fit for leaderboards:
 
--   [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}) maintain rank order automatically, with
-    [`ZADD`]({{< relref "/commands/zadd" >}}), [`ZRANGE`]({{< relref "/commands/zrange" >}}), and
-    [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) all running in O(log N) regardless of set size.
--   [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) updates scores atomically in place — no
+-   [Sorted sets](/content/develop/data-types/sorted-sets.md) maintain rank order automatically, with
+    [`ZADD`](/content/commands/zadd.md), [`ZRANGE`](/content/commands/zrange.md), and
+    [`ZREVRANK`](/content/commands/zrevrank.md) all running in O(log N) regardless of set size.
+-   [`ZINCRBY`](/content/commands/zincrby.md) updates scores atomically in place — no
     read-modify-write cycle and no cache invalidation.
--   [`ZRANGE`]({{< relref "/commands/zrange" >}}) with `REV` and `LIMIT` serves both top-N and
+-   [`ZRANGE`](/content/commands/zrange.md) with `REV` and `LIMIT` serves both top-N and
     "around me" neighborhood queries in a single command.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) on a per-window key cleans up daily, weekly,
+-   [`EXPIRE`](/content/commands/expire.md) on a per-window key cleans up daily, weekly,
     and monthly boards automatically, and
-    [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}) aggregates windows without
+    [`ZUNIONSTORE`](/content/commands/zunionstore.md) aggregates windows without
     application-level coordination.
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) store entity metadata so the sorted set
+-   [Hashes](/content/develop/data-types/hashes.md) store entity metadata so the sorted set
     stays small and fast.
 -   Sub-millisecond latency on reads and writes means the leaderboard sits on the request path
     without adding meaningful delay. If Redis is already in the stack, the leaderboard adds zero
@@ -69,7 +69,7 @@ The following libraries and frameworks provide Redis sorted set integrations sui
     [redis-om-python](https://github.com/redis/redis-om-python)
 -   **Node.js**: [ioredis](https://github.com/redis/ioredis),
     [node-redis](https://github.com/redis/node-redis)
--   **Infrastructure**: [Redis Cloud]({{< relref "/operate/rc" >}})
+-   **Infrastructure**: [Redis Cloud](/content/operate/rc/_index.md)
     (Active-Active for multi-region with conflict-free replicated sorted sets)
 
 ## Code examples to build your own Redis leaderboard
@@ -77,12 +77,12 @@ The following libraries and frameworks provide Redis sorted set integrations sui
 The following guides show how to build a simple Redis-backed leaderboard.
 Each guide includes a runnable interactive demo for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/leaderboard/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/leaderboard/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/leaderboard/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/leaderboard/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/leaderboard/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/leaderboard/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/leaderboard/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/leaderboard/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/leaderboard/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/leaderboard/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/leaderboard/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/leaderboard/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/leaderboard/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/leaderboard/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/leaderboard/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/leaderboard/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/leaderboard/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/leaderboard/rust/_index.md)

@@ -30,7 +30,7 @@ interface CommandMapping {
 }
 
 /**
- * All string and hash commands from commands_core.json
+ * All string and hash commands from commands.json
  */
 const STRING_HASH_COMMANDS = [
   // String commands
@@ -45,7 +45,7 @@ const STRING_HASH_COMMANDS = [
 ];
 
 /**
- * All list commands from commands_core.json (group: "list")
+ * All list commands from commands.json (group: "list")
  */
 const LIST_COMMANDS = [
   'BLMOVE', 'BLMPOP', 'BLPOP', 'BRPOP', 'BRPOPLPUSH',
@@ -55,7 +55,7 @@ const LIST_COMMANDS = [
 ];
 
 /**
- * All set commands from commands_core.json (group: "set")
+ * All set commands from commands.json (group: "set")
  */
 const SET_COMMANDS = [
   'SADD', 'SCARD', 'SDIFF', 'SDIFFSTORE',
@@ -66,7 +66,7 @@ const SET_COMMANDS = [
 ];
 
 /**
- * All sorted set commands from commands_core.json (group: "sorted_set")
+ * All sorted set commands from commands.json (group: "sorted_set")
  */
 const SORTED_SET_COMMANDS = [
   'BZMPOP', 'BZPOPMAX', 'BZPOPMIN',
@@ -81,7 +81,7 @@ const SORTED_SET_COMMANDS = [
 ];
 
 /**
- * All stream commands from commands_core.json (group: "stream")
+ * All stream commands from commands.json (group: "stream")
  */
 const STREAM_COMMANDS = [
   'XACK', 'XACKDEL', 'XADD', 'XAUTOCLAIM', 'XCFGSET', 'XCLAIM',
@@ -102,7 +102,7 @@ const VECTOR_SET_COMMANDS = [
 ];
 
 /**
- * All JSON commands from commands_redisjson.json
+ * All JSON commands from commands.json (group: "json")
  */
 const JSON_COMMANDS = [
   'JSON.SET', 'JSON.GET', 'JSON.DEL', 'JSON.MGET', 'JSON.MSET', 'JSON.MERGE',
@@ -114,7 +114,7 @@ const JSON_COMMANDS = [
 ];
 
 /**
- * All geo commands from commands_core.json (group: "geo")
+ * All geo commands from commands.json (group: "geo")
  */
 const GEO_COMMANDS = [
   'GEOADD', 'GEODIST', 'GEOHASH', 'GEOPOS',
@@ -123,7 +123,7 @@ const GEO_COMMANDS = [
 ];
 
 /**
- * All bitmap commands from commands_core.json (group: "bitmap")
+ * All bitmap commands from commands.json (group: "bitmap")
  * Note: BITOP is implemented differently across clients:
  * - Some use a single bitop(operation, ...) method
  * - Others use separate methods like bitopAnd, bitopOr, bit_and, bit_or, etc.
@@ -133,7 +133,7 @@ const BITMAP_COMMANDS = [
 ];
 
 /**
- * All time series commands from commands_redistimeseries.json
+ * All time series commands from commands.json (group: "timeseries")
  * These are RedisTimeSeries module commands
  */
 const TIMESERIES_COMMANDS = [

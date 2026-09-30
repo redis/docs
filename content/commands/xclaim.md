@@ -100,23 +100,23 @@ of a pending message, so that the new owner is the consumer specified as the
 command argument. Normally this is what happens:
 
 1. There is a stream with an associated consumer group.
-2. Some consumer A reads a message via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) from a stream, in the context of that consumer group.
-3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]({{< relref "/commands/xack" >}}).
+2. Some consumer A reads a message via [`XREADGROUP`](/content/commands/xreadgroup.md) from a stream, in the context of that consumer group.
+3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`](/content/commands/xack.md).
 4. Then suddenly that consumer fails forever.
-5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) command to automatically scan and claim stale pending messages.
+5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`](/content/commands/xpending.md) command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`](/content/commands/xautoclaim.md) command to automatically scan and claim stale pending messages.
 
-This dynamic is clearly explained in the [Stream intro documentation]({{< relref "/develop/data-types/streams" >}}).
+This dynamic is clearly explained in the [Stream intro documentation](/content/develop/data-types/streams/_index.md).
 
 Note that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).
 
-Messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}) are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
+Messages that have been released back to the group using [`XNACK`](/content/commands/xnack.md) are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
 
 Moreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.
 
 `XCLAIM` will not claim a message in the following cases:
 
 1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)
-2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]({{< relref "/commands/xdel" >}}))
+2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`](/content/commands/xdel.md))
 
 In both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).
 In the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.

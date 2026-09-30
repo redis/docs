@@ -91,7 +91,7 @@ For example, here's how to use the `REDIS_ARGS` environment variable to pass the
 docker run -e REDIS_ARGS="--requirepass redis-stack" redis/redis-stack:latest
 {{< / highlight >}}
 
-An example of setting [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}):
+An example of setting [Redis persistence](/content/operate/oss_and_stack/management/persistence.md):
 {{< highlight bash >}}
 docker run -e REDIS_ARGS="--save 60 1000 --appendonly yes" redis/redis-stack:latest
 {{< / highlight >}}

@@ -132,7 +132,7 @@ Redis 8.10 introduces new features and performance improvements.
     - `FAIL` — reject timed-out queries. With `search-workers > 0` (the default), the timeout is enforced preemptively
     - `RETURN` (default) — return best-effort partial results, without enforcing strictness during post-processing
     - `RETURN_STRICT` (new) — return best-effort partial results while enforcing the timeout through the post-processing (result) pipeline. Available when `search-workers > 0`
-  - Queries executed on the main thread (i.e., when `search-workers` is 0) are capped by [`search-_max-foreground-timeout-limit`]({{< relref "/develop/ai/search-and-query/administration/configuration#search-_max-foreground-timeout-limit" >}}) (default `60000` ms).
+  - Queries executed on the main thread (i.e., when `search-workers` is 0) are capped by [`search-_max-foreground-timeout-limit`](/content/develop/ai/search-and-query/administration/configuration.md#search-_max-foreground-timeout-limit) (default `60000` ms).
 - [#J1602](https://github.com/RedisJSON/RedisJSON/pull/1602), [#J1603](https://github.com/RedisJSON/RedisJSON/pull/1603), [#J1604](https://github.com/RedisJSON/RedisJSON/pull/1604), [#J1607](https://github.com/RedisJSON/RedisJSON/pull/1607), [#J1618](https://github.com/RedisJSON/RedisJSON/pull/1618) JSONPath extensions (MOD-16274, MOD-16275):
   - Projection expressions at the top level of a JSONPath query
   - `==` and `!=` can now compare any literal, including array and object literals

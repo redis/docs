@@ -14,11 +14,11 @@ weight: 6
 
 ## Install Redis Open Source on macOS using Homebrew
 
-{{< note >}}Installation using Homebrew is only supported on macOS.{{< /note >}}
+> [!NOTE]
+> Installation using Homebrew is only supported on macOS.
 &nbsp;
-{{< note >}}
-If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
-{{< /note >}}
+> [!NOTE]
+> If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
 
 To install Redis Open Source on macOS, use the [Homebrew](https://brew.sh/) formula called `redis`.
 Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before you start.
@@ -35,9 +35,8 @@ brew install redis
 
 This installs the latest Redis Open Source release, including Redis Search and the JSON, time series, probabilistic, and vector set data structures.
 
-{{< note >}}
-The formula always installs the latest Redis Open Source release. Support for Redis Search and the additional data structures was added to the formula in Redis Open Source 8.10.1, so earlier versions installed through the formula do not include them. To install an earlier version, use one of the other [installation methods]({{< relref "/operate/oss_and_stack/install/install-stack" >}}).
-{{< /note >}}
+> [!NOTE]
+> The formula always installs the latest Redis Open Source release. Support for Redis Search and the additional data structures was added to the formula in Redis Open Source 8.10.1, so earlier versions installed through the formula do not include them. To install an earlier version, use one of the other [installation methods](/content/operate/oss_and_stack/install/install-stack/_index.md).
 
 If you already have Redis installed through Homebrew, see [Upgrade an existing installation](#upgrade-an-existing-installation) instead.
 
@@ -236,9 +235,8 @@ brew uninstall redis
 
 ## Alternative: install using the Redis cask {#alternative-install-using-the-redis-cask}
 
-{{< note >}}
-The Homebrew formula described in [Install using Homebrew](#install-using-homebrew) is the preferred way to install Redis Open Source on macOS.
-{{< /note >}}
+> [!NOTE]
+> The Homebrew formula described in [Install using Homebrew](#install-using-homebrew) is the preferred way to install Redis Open Source on macOS.
 
 Redis also provides a Homebrew cask. First, tap the Redis Homebrew cask:
 
@@ -264,9 +262,8 @@ Start the server with the configuration file that the cask installs:
 redis-server $(brew --prefix)/etc/redis.conf
 {{< /highlight >}}
 
-{{< note >}}
-Because Redis is installed using a Homebrew cask with the `brew tap` command, it is not integrated with the `brew services` command.
-{{< /note >}}
+> [!NOTE]
+> Because Redis is installed using a Homebrew cask with the `brew tap` command, it is not integrated with the `brew services` command.
 
 To uninstall the cask, run:
 
@@ -279,6 +276,6 @@ brew untap redis/redis
 
 Once you have a running Redis instance, you may want to:
 
-* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
-* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
-* Connect using [Redis Insight]({{< relref "/develop/tools/insight" >}})
+* Try the [Redis CLI tutorial](/content/develop/tools/cli.md)
+* Connect using one of the [Redis clients](/content/develop/clients/_index.md)
+* Connect using [Redis Insight](/content/develop/tools/insight/_index.md)

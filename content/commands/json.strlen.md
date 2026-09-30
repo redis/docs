@@ -88,44 +88,44 @@ redis> JSON.STRLEN doc $..a
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not a string.
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the length of the string.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if the match is not a string.
+  - An [integer reply](/content/develop/reference/protocol-spec.md#integers): the length of the string.
 
 If `path` is a legacy path expression:
 
-- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the length of the string at the first match.
+- [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if `key` does not exist.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not a string.
+- An [integer reply](/content/develop/reference/protocol-spec.md#integers): the length of the string at the first match.
 
 -tab-sep-
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not a string.  
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the length of the string.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#nulls) if the match is not a string.  
+  - An [integer reply](/content/develop/reference/protocol-spec.md#integers): the length of the string.
 
 If `path` is a legacy path expression:
 
-- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the length of the string at the first match.
+- [`nil`](/content/develop/reference/protocol-spec.md#nulls) if `key` does not exist.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not a string.
+- An [integer reply](/content/develop/reference/protocol-spec.md#integers): the length of the string at the first match.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) | [`JSON.OBJLEN`]({{< relref "commands/json.objlen/" >}}) 
+[`JSON.STRAPPEND`](/content/commands/json.strappend.md) | [`JSON.ARRLEN`](/content/commands/json.arrlen.md) | [`JSON.OBJLEN`](/content/commands/json.objlen.md) 
 
 ## Related topics
 
-* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
-* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [The JSON data type](/content/develop/data-types/json/_index.md)
+* [JSONPath](/content/develop/data-types/json/path.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

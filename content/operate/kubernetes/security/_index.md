@@ -15,24 +15,24 @@ Configure security settings for Redis for Kubernetes. Security covers access con
 
 ## Access control
 
-- [Access control]({{< relref "/operate/kubernetes/security/access-control" >}}) — manage Redis Software users, roles, ACLs, and role bindings as Kubernetes custom resources.
+- [Access control](/content/operate/kubernetes/security/access-control/_index.md) — manage Redis Software users, roles, ACLs, and role bindings as Kubernetes custom resources.
 
 ## Authentication
 
-- [Authentication]({{< relref "/operate/kubernetes/security/authentication" >}}) — manage cluster credentials, LDAP, SAML SSO, and configuration secrets.
+- [Authentication](/content/operate/kubernetes/security/authentication/_index.md) — manage cluster credentials, LDAP, SAML SSO, and configuration secrets.
 
 ## Certificates and encryption
 
-- [Certificates and encryption]({{< relref "/operate/kubernetes/security/certificates" >}}) — provision TLS certificates, integrate cert-manager, add client certificates, and enable internode encryption.
+- [Certificates and encryption](/content/operate/kubernetes/security/certificates/_index.md) — provision TLS certificates, integrate cert-manager, add client certificates, and enable internode encryption.
 
 ## Secret management
 
-- [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}}) — use HashiCorp Vault as the centralized secret store for Redis for Kubernetes.
+- [HashiCorp Vault integration](/content/operate/kubernetes/security/vault.md) — use HashiCorp Vault as the centralized secret store for Redis for Kubernetes.
 
 ## Resource management
 
-- [Allow resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}) — enable automatic adjustment of system resources for security compliance.
+- [Allow resource adjustment](/content/operate/kubernetes/security/allow-resource-adjustment.md) — enable automatic adjustment of system resources for security compliance.
 
 ## Compliance
 
-- [FIPS compliance]({{< relref "/operate/kubernetes/security/fips" >}}) — run your cluster in FIPS 140-3 compliance mode.
+- [FIPS compliance](/content/operate/kubernetes/security/fips.md) — run your cluster in FIPS 140-3 compliance mode.

@@ -25,7 +25,7 @@ To view the details of a Redis Cloud Pro subscription:
 
 From here, you can:
 
-- Select **Create database in this subscription** to [add a database to your subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
+- Select **Create database in this subscription** to [add a database to your subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md).
 
     {{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
 
@@ -33,7 +33,7 @@ From here, you can:
 
     {{<image filename="images/rc/icon-database-status-active.png#no-click" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png#no-click" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
-Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and then [migrate the existing data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the new databases.
+Because subscriptions represent active deployments, there aren't many details you can change.  If your needs change, [create a new subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md) and then [migrate the existing data](/content/operate/rc/databases/migrate-databases.md) to the new databases.
 
 In addition, you can view and edit the following subscription details:
 
@@ -93,7 +93,7 @@ The **Overview** summarizes the options used to create the subscription.
     | **Active-Active Redis** | Checked when Active-Active Redis is enabled for your subscription |
     | **Region** | Describes the region your subscription is deployed to |
     | **Availability Zones** | The availability zones your subscription is deployed in (Visible if you selected availability zones on creation) |
-    | **AWS Resource tags** | The tags applied to your resources in your BYOC account. Select the **Edit** button to manage your resource tags. See [Resource tags]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/resource-tags" >}}) for more information.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
+    | **AWS Resource tags** | The tags applied to your resources in your BYOC account. Select the **Edit** button to manage your resource tags. See [Resource tags](/content/operate/rc/subscriptions/bring-your-own-cloud/resource-tags.md) for more information.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) is enabled) |
 
 
 - The **Price** panel shows the monthly cost of your Redis Cloud Pro subscription.
@@ -106,9 +106,9 @@ The **Overview** summarizes the options used to create the subscription.
 
     Select **Add credit card** to add a new credit card.
 
-- The **Maintenance Window** panel shows your current [maintenance window settings]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
+- The **Maintenance Window** panel shows your current [maintenance window settings](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md).
 
-    See [Maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) for more information about subscription maintenance on Redis Cloud.
+    See [Maintenance](/content/operate/rc/subscriptions/maintenance/_index.md) for more information about subscription maintenance on Redis Cloud.
 
 - The **Provisioned cloud resources** panel shows the storage resources used by your subscription.
 
@@ -118,7 +118,7 @@ The **Overview** summarizes the options used to create the subscription.
 
 ## **Data Integration** tab
 
-The **Data integration** tab displays your Data integration workspace and pipelines. See [Data integration]({{< relref "/operate/rc/rdi" >}}) for more information.
+The **Data integration** tab displays your Data integration workspace and pipelines. See [Data integration](/content/operate/rc/rdi/_index.md) for more information.
 
 ## **Connectivity** tab
 
@@ -128,11 +128,11 @@ The **Connectivity** tabs helps secure your subscription.
 
 Here, you can:
 
-- Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual private cloud (VPC) hosting your subscription and another VPC.
+- Set up a [VPC peering](/content/operate/rc/security/vpc-peering.md) relationship between the virtual private cloud (VPC) hosting your subscription and another VPC.
 
-- Set up a [CIDR allow list]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist" >}}) containing IP addresses or security groups permitted to access your subscription (_[Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) only_).
+- Set up a [CIDR allow list](/content/operate/rc/subscriptions/bring-your-own-cloud/subscription-whitelist.md) containing IP addresses or security groups permitted to access your subscription (_[Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) only_).
 
-- Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*), or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) (*AWS only*).
+- Set up [Private Service Connect](/content/operate/rc/security/private-service-connect.md) (*Google Cloud only*), [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) (*AWS only*), or [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) (*AWS only*).
 
 See the individual links to learn more.
 
@@ -140,7 +140,7 @@ See the individual links to learn more.
 
 The **Security** tab lets you set security settings for the databases in your subscription.
 
-Here, you can [block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for all databases in the subscription.
+Here, you can [block public endpoints](/content/operate/rc/security/database-security/block-public-endpoints.md) for all databases in the subscription.
 
 ## **Regions** tab
 
@@ -148,4 +148,4 @@ The **Regions** tab is only available for Active-Active subscriptions.  It lets 
 
 {{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
 
-See [Manage regions for an Active-Active database]({{< relref "/operate/rc/databases/active-active/manage-regions" >}}) for more information.
+See [Manage regions for an Active-Active database](/content/operate/rc/databases/active-active/manage-regions.md) for more information.

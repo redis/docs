@@ -19,11 +19,11 @@ Use the copy button to copy the password to the clipboard:
 
 {{<image filename="images/rc/button-copy.png"  alt="Use the Copy button to copy the default user password." >}}
 
-You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database]({{< relref "/operate/rc/databases/connect" >}}) for more info.
+You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database](/content/operate/rc/databases/connect/_index.md) for more info.
 
-If you have [blocked the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for your Redis Cloud Pro subscription, you can also turn on passwordless authentication for the default user. See [Block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints#turn-on-passwordless-authentication-for-the-default-user" >}}) for more info.
+If you have [blocked the public endpoint](/content/operate/rc/security/database-security/block-public-endpoints.md) for your Redis Cloud Pro subscription, you can also turn on passwordless authentication for the default user. See [Block public endpoints](/content/operate/rc/security/database-security/block-public-endpoints.md#turn-on-passwordless-authentication-for-the-default-user) for more info.
 
-See your [Redis client's documentation]({{< relref "/develop/clients" >}}) to learn how to provide your password when connecting.
+See your [Redis client's documentation](/content/develop/clients/_index.md) to learn how to provide your password when connecting.
 
 ## Change password
 
@@ -55,7 +55,7 @@ How you change the default user password depends on your plan.
 
 ## Turn off default user
 
-After you set up [role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to limit who can access your database, we recommend that you turn off default user access.
+After you set up [role-based access control](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) to limit who can access your database, we recommend that you turn off default user access.
 
 How you turn off the default user depends on your plan.
 

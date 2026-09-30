@@ -17,6 +17,6 @@ You can use the OSS Cluster API along with other Redis Enterprise Software high 
 to get high performance with low latency
 and let applications stay current with cluster topology changes, including add node, remove node, and node failover.
 
-For more about working with the OSS Cluster API in Redis Enterprise Software, see [Enable OSS Cluster API]({{< relref "/operate/rs/7.4/databases/configure/oss-cluster-api" >}}). 
+For more about working with the OSS Cluster API in Redis Enterprise Software, see [Enable OSS Cluster API](/content/operate/rs/7.4/databases/configure/oss-cluster-api.md). 
 
-To learn how to enable OSS Cluster API in Redis Cloud, see [Clustering Redis databases]({{< relref "/operate/rc/databases/configuration/clustering#cluster-api" >}}).
+To learn how to enable OSS Cluster API in Redis Cloud, see [Clustering Redis databases](/content/operate/rc/databases/configuration/clustering.md#cluster-api).
