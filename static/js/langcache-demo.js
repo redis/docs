@@ -301,7 +301,9 @@
       notes.push("Miss. Nothing in the cache is similar enough: the closest entry, " + quote(last.near.entry.prompt) + ", scores " + f2(last.near.sim) +
         ". The app calls its LLM, replies, and stores the answer for the next customer who asks something similar.");
     }
-    if (phase == null && items.length === QUESTIONS.length) {
+    /* Every in-flight frame returned above, so the last request is complete:
+       this is its final frame, or a later redraw. */
+    if (items.length === QUESTIONS.length) {
       var m = metrics(items);
       notes.push("All six questions are answered: " + m.hits + " from the cache and " + m.llm + " from the LLM, a " + m.ratio +
         "% hit ratio. A new cache starts with misses, and its hit ratio rises as it fills with answers to common questions.");
