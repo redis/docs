@@ -33,7 +33,11 @@ The encryption key must be hosted by the same cloud provider as your database an
 
 Refer to the provider's documentation to create a key:
 - [Amazon Web Services - Create a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
-- [Google Cloud - Create a key](https://cloud.google.com/kms/docs/create-key)
+- [Google Cloud - Create a key](https://docs.cloud.google.com/kms/docs/create-key)
+
+{{< note >}}
+Active-Active databases span multiple regions. You can use a single multi-region key that covers all regions, or a separate key for each region. Each key must be hosted by the same cloud provider and available in the region where it's used.
+{{< /note >}}
 
 ## Set up self-managed encryption
 
@@ -75,7 +79,11 @@ To activate self-managed encryption on an existing Redis Cloud Pro subscription:
 
 ### Grant key permissions
 
-After you activate self-managed encryption, you must grant Redis access to your encryption key on your cloud provider so we can use it for storage encryption. 
+After you activate self-managed encryption, you must grant Redis access to your encryption key on your cloud provider so we can use it for storage encryption and for recovery. 
+
+For Active-Active databases, you must grant Redis access to a key for each region. After you've granted the required permissions for Redis to access your encryption keys, provide the key resource name for each region. If you have a multi-region key, you can use the same key for each region.
+
+{{<image filename="images/rc/cmek-permission.png" alt="For an Active-Active subscription, the Provide the resource name of your customer managed key section has a Key resource name field for each region." width=80% >}}
 
 Follow the steps for your cloud provider:
 - [Amazon Web Services](#amazon-web-services)
@@ -113,8 +121,8 @@ To grant Redis access to a key on Google Cloud:
 
 3. Add the provided service account as a principal for your key, with one of the following Role options:
 
-    - Add the pre-defined IAM roles [Cloud KMS CryptoKey Encrypter/Decrypter](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.cryptoKeyEncrypterDecrypter) and [Cloud KMS Viewer](https://cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.viewer), OR
-    - [Create a custom IAM role](https://cloud.google.com/iam/docs/creating-custom-roles#creating) with the following minimal permissions needed to use the key, and then assign that custom role to the principal:
+    - Add the pre-defined IAM roles [Cloud KMS CryptoKey Encrypter/Decrypter](https://docs.cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.cryptoKeyEncrypterDecrypter) and [Cloud KMS Viewer](https://docs.cloud.google.com/kms/docs/reference/permissions-and-roles#cloudkms.viewer), OR
+    - [Create a custom IAM role](https://docs.cloud.google.com/iam/docs/creating-custom-roles#creating) with the following minimal permissions needed to use the key, and then assign that custom role to the principal:
         - cloudkms.cryptoKeyVersions.useToDecrypt
         - cloudkms.cryptoKeyVersions.useToEncrypt
         - cloudkms.cryptoKeys.get
@@ -127,11 +135,24 @@ At this point, Redis Cloud will check to see if it can access your key. If it ca
 
 {{< embed-md "rc-cmek-final-steps.md" >}}
 
+## Rotate your encryption key
+
+You can rotate your key material or key version on your cloud provider independently of Redis:
+
+- **Amazon Web Services**: The key ARN stays the same, and only the underlying key material is rotated.
+- **Google Cloud**: The key stays the same, and your cloud provider creates a new key version.
+
+Your cloud provider manages the key rotation and encryption process. Any node provisioned after the rotation uses the new key material or version.
+
+### Change to a different key
+
+You can't replace the configured key with a different key. Changing the key ARN isn't supported. You can only rotate the key material or version, as described in [Rotate your encryption key](#rotate-your-encryption-key).
+
 ## Revoke key access
 
 When you have set up self-managed encryption, you can revoke Redis's access to your encryption key at any time through your cloud provider. 
 
-If you selected **Immediate** as the deletion grace period, Redis will immediately delete your database if we lose access to your key. If you selected **Alert only (No deletion, limited SLA)**, Redis will notify you but will not delete your database.
+If you selected **Immediate** as the deletion grace period, Redis will immediately delete your database if we lose access to your key. If you selected a timed grace period, such as **1 hour**, Redis will notify you and delete your database if access isn't restored before that period ends. If you selected **Alert only (No deletion, limited SLA)**, Redis will notify you but will not delete your database.
 
 {{<warning>}}
 If you selected **Alert only (No deletion, limited SLA)**, Redis will not be able to make changes to your database if we lose access to your key. This includes database upgrades, failovers to persistent storage, and other operations that require access to your key. Because of this, Redis will not be able to meet its [Service Level Agreement (SLA)](https://redis.io/legal/redis-cloud-service-level-agreement/) if we lose access to your key.
