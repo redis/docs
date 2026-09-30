@@ -40,16 +40,16 @@
   RDI database is clustered (but note that the target database *can* be clustered without
   any problems).
 
-  If the **Database clustering** option is checked when you create the RDI database (as shown below),
-  you must *uncheck* it before proceeding.
+  When you create the RDI database, expand the **Clustering** section and make sure the
+  **Sharding** option is *unchecked* (as shown below).
 
-  {{< image filename="images/rdi/ingest/RDIClusterSetting.webp" alt="Uncluster the RDI database." >}}
+  {{< image filename="images/rdi/ingest/RDIClusterSetting.webp" alt="The Sharding option is unchecked in the Clustering section of the create database form." >}}
 
   You can check if your RDI database is clustered from its **Configuration** tab in the
-  Redis Enterprise console. The **Database clustering** option should be set to **None**,
+  Cluster Manager UI. In the **Clustering** section, **Sharding** should be set to **Disabled**,
   as shown in the following screenshot:
 
-  {{< image filename="images/rdi/ingest/RDICheckUnclustered.webp" alt="Check that the RDI database is not clustered." >}}
+  {{< image filename="images/rdi/ingest/RDICheckUnclustered.webp" alt="The Clustering section of the database Configuration tab shows Sharding: Disabled." >}}
 
   If you find the database has been clustered by mistake, you must create a new database with
-  clustering disabled before continuing with the RDI installation.
+  sharding disabled before continuing with the RDI installation.
