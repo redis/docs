@@ -4,6 +4,7 @@ alwaysopen: false
 categories:
 - docs
 - operate
+- rdi
 description: Keep Redis in sync with a primary database in near real time.
 linkTitle: Redis Data Integration (RDI)
 weight: 60

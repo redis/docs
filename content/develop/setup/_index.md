@@ -7,8 +7,7 @@ weight: 5
 ---
 
 Redis can be used as a database, cache, streaming engine, message broker, context engine, feature platform, and more.
-
-In this guide, you'll learn how to create a Redis deployment in Redis Cloud, Redis Software, or Redis Open Source. Then, you'll learn how to create an application that connects to your deployment.
+In this guide, you'll learn how to create a Redis deployment in Redis Open Source, Redis Cloud, or Redis Software. Then, you'll learn how to create an application that connects to your deployment.
 
 ## Create a Redis deployment
 
@@ -16,17 +15,13 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
 1. Install dependencies
 
-   Before you begin, install the following dependencies in your development environment:
-
-   - **[`redis-cli`](/content/develop/tools/cli.md)**: command-line tool that connects to a deployment and runs Redis commands
-   - **[Docker](https://docs.docker.com/get-docker/)**: platform that runs software in containers, including local Redis deployments
-
-   Select the tab corresponding to your deployment method to see which of these you need.
-
    {{< multitabs id="getting-started-prereqs"
-       tab1="Redis Cloud"
-       tab2="Redis Software"
-       tab3="Redis Open Source" >}}
+       tab1="Redis Open Source"
+       tab2="Redis Cloud"
+       tab3="Redis Software" >}}
+   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) for its own system requirements.
+   -tab-sep-
+
 
    - A web browser, to sign up and manage your database in the [Redis Cloud console](https://cloud.redis.io).
    - `redis-cli` installed locally, to connect to your database in step 3:
@@ -42,20 +37,24 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see the [Redis Software on Linux quick start](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md) for its own system requirements.
    - A command-line HTTP client such as `curl`, if you want to create a database with the REST API in step 2.
 
-   -tab-sep-
-
-   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) for its own system requirements.
 
    {{< /multitabs >}}
 
 2. Set up a fully-featured deployment
 
-   Select the tab corresponding to your deployment method and follow its instructions to deploy Redis and create a database.
-
    {{< multitabs id="getting-started-deploy"
-       tab1="Redis Cloud"
-       tab2="Redis Software"
-       tab3="Redis Open Source" >}}
+       tab1="Redis Open Source"
+       tab2="Redis Cloud"
+       tab3="Redis Software" >}}
+   [Redis Open Source](/content/operate/oss_and_stack/_index.md) is the free, self-managed core Redis server. The fastest way to run it is with Docker:
+
+   ```sh
+   docker run -d --name redis -p 6379:6379 redis:latest
+   ```
+
+   Starting the server creates your database — there's no separate create step. See [Run Redis on Docker](/content/operate/oss_and_stack/install/install-stack/docker.md) for the full procedure, or [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) to install without Docker.
+   -tab-sep-
+
 
    [Sign up and create your database](https://redis.io/try-free/). Signing up creates a free 30 MB database for you.
 
@@ -88,26 +87,24 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    See [Create a database](/content/operate/rs/databases/create.md) for the full procedure, including the console method and additional configuration fields.
 
-   -tab-sep-
-
-   [Redis Open Source](/content/operate/oss_and_stack/_index.md) is the free, self-managed core Redis server. The fastest way to run it is with Docker:
-
-   ```sh
-   docker run -d --name redis -p 6379:6379 redis:latest
-   ```
-
-   Starting the server creates your database — there's no separate create step. See [Run Redis on Docker](/content/operate/oss_and_stack/install/install-stack/docker.md) for the full procedure, or [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) to install without Docker.
 
    {{< /multitabs >}}
 
 3. Connect to your deployment
 
-   You can connect to your deployment with `redis-cli`. Select the tab corresponding to your deployment method.
-
    {{< multitabs id="getting-started-connect"
-       tab1="Redis Cloud"
-       tab2="Redis Software"
-       tab3="Redis Open Source" >}}
+       tab1="Redis Open Source"
+       tab2="Redis Cloud"
+       tab3="Redis Software" >}}
+   If you started Redis with the `docker run` command from step 2 then you can connect to the database with the following command:
+
+   ```sh
+   docker exec -it redis redis-cli
+   ```
+
+   See [Redis CLI](/content/develop/tools/cli.md) for the full procedure, including non-Docker installs and [Redis Insight](/content/develop/tools/insight/_index.md) as a GUI alternative to the CLI.
+   -tab-sep-
+
 
    Get your database's host, port, and password from the connection wizard in the [Redis Cloud console](https://cloud.redis.io), then connect with `redis-cli`:
 
@@ -127,15 +124,6 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    See [Connect to a Redis Software database](/content/operate/rs/databases/connect/_index.md) for the full procedure and for further options, including Redis Insight and client library connections.
 
-   -tab-sep-
-
-   If you started Redis with the `docker run` command from step 2 then you can connect to the database with the following command:
-
-   ```sh
-   docker exec -it redis redis-cli
-   ```
-
-   See [Redis CLI](/content/develop/tools/cli.md) for the full procedure, including non-Docker installs and [Redis Insight](/content/develop/tools/insight/_index.md) as a GUI alternative to the CLI.
 
    {{< /multitabs >}}
 
@@ -147,13 +135,7 @@ In the next section, you'll learn how to create an application that connects to 
 
 To connect to your Redis deployment in an application, you can use one of the official [Redis client libraries](/content/develop/clients/_index.md).
 
-Select your preferred programming language from the tabs in each step below.
-
-1. Load sample data
-
-   Unlike some databases, Redis doesn't need a separate sample-data load step. The `SET` and `GET` commands in step 3 both create and read the sample data directly — there's no dataset to restore first.
-
-2. Initialize your application
+1. Initialize your application
 
    {{< multitabs id="getting-started-init"
        tab1="Python"
@@ -270,7 +252,7 @@ Select your preferred programming language from the tabs in each step below.
 
    {{< /multitabs >}}
 
-3. Create your application
+2. Create your application
 
    {{< multitabs id="getting-started-create-app"
        tab1="Python"
@@ -483,9 +465,9 @@ Select your preferred programming language from the tabs in each step below.
 
    {{< /multitabs >}}
 
-4. Add your connection string
+3. Add your connection string
 
-   The examples in step 3 connect to `localhost:6379`. Replace that with your actual deployment's host, port, and password — from the [Redis Cloud connection wizard](https://cloud.redis.io), the [Redis Software connection details](/content/operate/rs/databases/connect/_index.md), or `localhost:6379` if you're already running Redis Open Source locally.
+   The examples in step 2 connect to `localhost:6379`, which works as is if you're running Redis Open Source locally. Otherwise, replace it with your deployment's host, port, and password from the [Redis Cloud connection wizard](https://cloud.redis.io) or the [Redis Software connection details](/content/operate/rs/databases/connect/_index.md).
 
    {{< multitabs id="getting-started-connstring"
        tab1="Python"
@@ -579,7 +561,7 @@ Select your preferred programming language from the tabs in each step below.
 
    {{< /multitabs >}}
 
-5. Run your application
+4. Run your application
 
    {{< multitabs id="getting-started-run"
        tab1="Python"
@@ -656,7 +638,7 @@ Select your preferred programming language from the tabs in each step below.
 
    Each program prints `Process 134` — the value you stored and then retrieved. (RedisVL's example instead confirms the index was created.)
 
-6. Explore a use case
+5. Explore a use case
 
    Each of the following quick starts shows a complete example application for a specific use case:
 
