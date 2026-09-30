@@ -13,7 +13,7 @@ tocEmbedHeaders: true
 
 Flex allows your dataset to span both high-performance RAM and cost-efficient dedicated Flash memory. Flex automatically manages data placement between the two tiers, keeping frequently accessed (“hot”) data in RAM for sub-millisecond latency, while moving less active (“warm”) data to Flash to optimize capacity and cost. This dual memory architecture delivers predictable performance at scale, enabling larger datasets without compromising speed or operational simplicity.
 
-Flex databases are currently compatible with most existing Redis applications, except for applications that use Time Series. [Search and Query](/content/develop/ai/search-and-query/_index.md) is available on Flex databases on Redis Cloud Pro as a Preview feature; see [Search and Query on Flex](#search-and-query-on-flex-preview).
+Flex databases are currently compatible with most existing Redis applications, except for applications that use Time Series. [Search and Query](/content/develop/ai/search-and-query/_index.md) is available on Flex databases on Redis Cloud Pro as a beta feature; see [Search and Query on Flex](#search-and-query-on-flex-beta).
 
 Flex is available on both Redis Cloud Essentials and Redis Cloud Pro.
 
@@ -34,13 +34,13 @@ For workloads that require durability and recovery across restarts or failures, 
 
 ## Best practices and limitations
 
-### Search and Query on Flex (Preview)
+### Search and Query on Flex (Beta)
 
-[Search and Query](/content/develop/ai/search-and-query/_index.md) on Flex databases is available as a Preview feature on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
+[Search and Query](/content/develop/ai/search-and-query/_index.md) on Flex databases is available as a beta feature on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
 
 To use it, enable the beta flag for Search and Query on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with a Search and Query index on tiered storage.
 
-The Preview supports:
+The beta supports:
 
 - HASH documents
 - `TEXT` fields, including prefix, infix, suffix, wildcard, and fuzzy matching
