@@ -1,6 +1,7 @@
 ---
 aliases:
 - /operate/oss_and_stack/install/install-redis/install-redis-on-linux
+- /getting-started/installation/install-redis-on-linux/
 categories:
 - docs
 - operate

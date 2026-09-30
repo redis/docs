@@ -1,6 +1,7 @@
 ---
 aliases:
 - /install/
+- /getting-started/installation/
 categories:
 - docs
 - operate

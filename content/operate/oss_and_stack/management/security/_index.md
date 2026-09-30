@@ -9,6 +9,7 @@ linkTitle: Security
 title: Redis security
 aliases:
 - /management/security/
+- /manual/security/
 weight: 1
 ---
 

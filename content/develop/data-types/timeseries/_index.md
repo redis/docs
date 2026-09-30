@@ -8,6 +8,7 @@ aliases:
 - /develop/data-types/timeseries/development/
 - /data-types/timeseries/
 - /manual/data-types/timeseries/
+- /stack/timeseries/
 categories:
 - docs
 - develop
