@@ -38,19 +38,22 @@ To upgrade a single-region Redis Cloud database:
 
 1. Choose your database from the **Databases** list to open your database page. Select **More actions > Version upgrade**.
 
-    {{< image filename="/images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." width=40% >}}
+    ![The More Actions menu on the Database page.](/images/rc/databases-more-actions-menu.png)
+    {width="40%"}
     
     You can also select **More actions > Version upgrade** from the database list.
 
 1. Select the target version from the **Select version** list.
 
-    {{< image filename="/images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." width=80% >}}
+    ![The Redis version upgrade screen.](/images/rc/database-version-upgrade.png)
+    {width="80%"}
 
     If your database has not been backed up before, we recommend that you back up your database. Select **Go to backup** to go to the [backup settings](/content/operate/rc/databases/back-up-data.md).
 
 1. Select **Upgrade Now** to start the upgrade.
 
-    {{< image filename="/images/rc/button-upgrade-now.png" alt="The upgrade button." width=100px >}}
+    ![The upgrade button.](/images/rc/button-upgrade-now.png)
+    {width="100px"}
 
 The database will start upgrading to the selected version immediately. The upgrade may take a few minutes. 
 
