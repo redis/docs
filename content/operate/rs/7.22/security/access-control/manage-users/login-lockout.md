@@ -43,7 +43,7 @@ To change the user login lockout settings using the Cluster Manager UI:
 
 1. In the **Lockout threshold** section, make sure the checkbox is selected.
 
-    {{<image filename="images/rs/screenshots/cluster/security-preferences-lockout-threshold.png" alt="The Lockout threshold configuration section" >}}
+    ![The Lockout threshold configuration section](/images/rs/screenshots/cluster/security-preferences-lockout-threshold.png)
 
 1. Configure the following **Lockout threshold** settings:
 
