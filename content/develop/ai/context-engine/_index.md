@@ -23,6 +23,8 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
   {{< tile-card color="bg-rose-300" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
 </div>
 
+Explore the [Agent Playbooks documentation draft]({{< relref "/develop/ai/context-engine/agent-playbooks" >}}) to publish approved answers and procedures for agents.
+
 ## What is Redis Iris?
 
 Redis Iris is a production-ready context engine for AI agents that:

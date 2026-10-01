@@ -1,0 +1,2 @@
+redis-agent-playbook==0.1.0a2
+mcp==1.30.0

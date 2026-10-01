@@ -1,0 +1,13 @@
+{
+  "sdk_repository": "git@github.com:redis/iris-sdks",
+  "sdk_revision": "5a8b901f2167016f272eaf138b3c82de9b07504f",
+  "python_package": "redis-agent-playbook==0.1.0a2",
+  "sdk_generator_version": "0.1.0-alpha.2",
+  "sdk_contract_path": "openapi-playbook.json",
+  "data_plane_contract_sha256": "a0ec8f45ce3e3a9ae5455f51b49709ba318d6f6c5c25b7f4eaec8c2a2447243f",
+  "sdk_example_overlay_path": ".speakeasy/playbook/overlay-code-samples.yaml",
+  "sdk_example_overlay_sha256": "8fc077efef1e3f71d2eff43ddc7a9771d451ca58d58ab73af58c7e961850d4d8",
+  "service_revision": "5d06fa953f7cc961730f40d9ee019808d65a19d2",
+  "helm_release_pr": "https://github.com/redislabsdev/iris/pull/1497",
+  "helm_release_revision": "7e7618449253fd2c17fe81d0a78c965e1203dba8"
+}
