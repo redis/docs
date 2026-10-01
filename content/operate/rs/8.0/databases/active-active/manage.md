@@ -95,15 +95,15 @@ Replace the placeholders `<placeholder>` with your own values.
 
 In the Cluster Manager UI, an Active-Active database's **Global** configuration tab indicates when a local configuration differs from the global configuration:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-warning.png" alt="On the global configuration tab, a warning is visible that says: 'This Active Active mesh contains local configurations which will not be affected by the global settings'." >}}
+![On the global configuration tab, a warning is visible that says: 'This Active Active mesh contains local configurations which will not be affected by the global settings'.](/images/rs/screenshots/databases/active-active-databases/local-config-warning.png)
 
 If a warning symbol appears next to a setting on the **Global** configuration tab, point to the warning symbol to show details about the local configuration differences:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-warning-details.png" alt="An example that shows memory eviction is set to noeviction globally but allkeys-lru locally." >}}
+![An example that shows memory eviction is set to noeviction globally but allkeys-lru locally.](/images/rs/screenshots/databases/active-active-databases/local-config-warning-details.png)
 
 On the **Local** configuration tab, any locally configured settings that differ from the global settings are marked with a **Local configuration** label:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-tag.png" alt="A local configuration label appears next to Memory eviction allkeys-lru." >}}
+![A local configuration label appears next to Memory eviction allkeys-lru.](/images/rs/screenshots/databases/active-active-databases/local-config-tag.png)
 
 ## Participating clusters
 
@@ -132,7 +132,7 @@ To add a new participating cluster to an existing Active-Active configuration us
 
 1. In the **Add cluster** configuration panel, enter the new cluster's URL, port number, and the admin username and password for the new participating cluster:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png" alt="Add cluster panel.">}}
+    ![Add cluster panel.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png)
 
 1. Click **Join cluster** to add the cluster to the list of participating clusters. 
 
@@ -156,7 +156,7 @@ To remove a participating cluster using the Cluster Manager UI:
 
 1. In the **Participating clusters** section, point to the cluster you want to delete in the **Other participating clusters** list:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png" alt="Edit and delete buttons appear when you point to an entry in the Other participating clusters list.">}}
+    ![Edit and delete buttons appear when you point to an entry in the Other participating clusters list.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png)
 
 1. Click {{< image filename="/images/rs/buttons/delete-button.png#no-click" alt="The Delete button" width="25px" class="inline" >}} to remove the cluster.
 
