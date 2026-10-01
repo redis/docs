@@ -26,26 +26,28 @@ To configure a Redis ACL that you can assign to a data access role:
 
 1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
-    {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
+    ![Menu for database access control.](/images/rc/data-access-control-menu.png)
+    {width="200px"}
 
 1. Select the **Redis ACLs** tab.
 
-    {{<image filename="images/rc/data-access-control-redis-acls.png" alt="Redis ACLs area." >}}
+    ![Redis ACLs area.](/images/rc/data-access-control-redis-acls.png)
 
 1. Either select `+` to create a new Redis ACL or point to an existing ACL and select the pencil icon to edit it.
 
-    {{<image filename="images/rc/data-access-control-redis-acls-add-or-update.png" width="400px" alt="Add or Update Redis ACL." >}}
+    ![Add or Update Redis ACL.](/images/rc/data-access-control-redis-acls-add-or-update.png)
+    {width="400px"}
 
     > [!NOTE]
     > The built-in Redis ACLs can't be edited.
 
 1. Provide a descriptive name and create the ACL rule [using ACL syntax](#define-permissions-with-acl-syntax).
 
-    {{<image filename="images/rc/data-access-control-redis-acls-add.png" alt="Add Redis ACL." >}}
+    ![Add Redis ACL.](/images/rc/data-access-control-redis-acls-add.png)
 
 1. Select the check mark to save your changes.  Your new Redis ACL should appear in the list.
 
-    {{<image filename="images/rc/data-access-control-redis-acls-saved.png" alt="Saved Redis ACL." >}}
+    ![Saved Redis ACL.](/images/rc/data-access-control-redis-acls-saved.png)
 
 After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fully verified until they are assigned to a role. For more information, see [Create roles](/content/operate/rc/security/access-control/data-access-control/create-roles.md) or [Active-Active access roles](/content/operate/rc/security/access-control/data-access-control/active-active-roles.md) for an [Active-Active database](/content/operate/rc/databases/active-active/_index.md).
 

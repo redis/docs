@@ -24,7 +24,7 @@ For help managing API keys, see [Manage API keys](/content/operate/rc/api/get-st
 
 The **Team** tab lets you manage the people allowed to access your account. Each authorized person is assigned to a role that specifies their privileges.
 
-{{<image filename="images/rc/access-management-team-tab.png" alt="The Access management tab helps you manage the people allowed to access your subscription." >}}
+![The Access management tab helps you manage the people allowed to access your subscription.](/images/rc/access-management-team-tab.png)
 
 The list contains one entry summarizing the team settings for each user in your team. By default, the list includes the account owner.
 
@@ -43,7 +43,8 @@ You can also use the list search to find a specific user or filter by **Role**, 
 
 When you add a member to your team, the **Add user** dialog appears.  
 
-{{<image filename="images/rc/access-mgmt-add-user-dialog.png" width="50%" alt="Use the Add User dialog to specify the details for your new user." >}}
+![Use the Add User dialog to specify the details for your new user.](/images/rc/access-mgmt-add-user-dialog.png)
+{width="50%"}
 
 Use the dialog to specify these values.
 
@@ -67,7 +68,8 @@ Redis will send an activation email to the user once their details are saved. Af
 To edit user team details, select the user from the list and then select the **Edit** button.
 The **Edit user** dialog displays the details you can change.  
 
-{{<image filename="images/rc/access-mgmt-edit-user-dialog.png" width="50%" alt="Use the Edit User dialog to change the details for a user" >}}
+![Use the Edit User dialog to change the details for a user](/images/rc/access-mgmt-edit-user-dialog.png)
+{width="50%"}
 
 You can change any detail except the team member's email address.
 
@@ -77,7 +79,8 @@ Select **Save user** to save your changes.
 
 To remove a member from your team, select them from the list and then select the **Delete** button. A confirmation dialog appears.  
 
-{{<image filename="images/rc/access-management-delete-user-dialog.png" width="50%" alt="Confirm that you want to remove a user from your team" >}}
+![Confirm that you want to remove a user from your team](/images/rc/access-management-delete-user-dialog.png)
+{width="50%"}
 
 Select **Delete user** to confirm removal. This is a permanent action that cannot be undone.
 

@@ -77,17 +77,21 @@ In this step, you will associate the Redis Cloud resource share with an AWS Acco
 
 1. In the **Resource Share** section, select **Manage Principals** to open the **Manage Principals** window.
 
-    {{<image filename="images/rc/privatelink-resource-share.png" width="80%" alt="The Resource Share section, with the manage principals button." >}}
+    ![The Resource Share section, with the manage principals button.](/images/rc/privatelink-resource-share.png)
+    {width="80%"}
 
-    {{<image filename="images/rc/privatelink-manage-principals.png" width="80%" alt="The Manage Principals window lets you add and remove principals from the resource share." >}}
+    ![The Manage Principals window lets you add and remove principals from the resource share.](/images/rc/privatelink-manage-principals.png)
+    {width="80%"}
 
 1. Select the **Add** button in the **AWS consumer principals** section to add a principal to the resource share.
 
-    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add button adds principals to the resource share." >}}
+    ![The Add button adds principals to the resource share.](/images/rc/icon-add.png)
+    {width="30px"}
 
 1. Enter the account's ID in the **AWS Account** field. You can also add an optional alias in the **AWS principal alias** field.
 
-    {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
+    ![The AWS consumer principals section with an AWS account added as a principal.](/images/rc/privatelink-aws-consumer-principals.png)
+    {width="80%"}
 
 1. Select **Share** to share the resource share with the principal. The first resource share may take a few minutes.
 
@@ -95,7 +99,8 @@ In this step, you will associate the Redis Cloud resource share with an AWS Acco
 
 After you accept the resource share, the Redis Cloud console will show the principal as **Accepted**.
 
-{{<image filename="images/rc/privatelink-principal-accepted.png" width="80%" alt="The Consumer Principals section, with the consumer principal shown as accepted." >}}
+![The Consumer Principals section, with the consumer principal shown as accepted.](/images/rc/privatelink-principal-accepted.png)
+{width="80%"}
 
 You can add additional principals to the resource share at any time.
 
@@ -105,7 +110,8 @@ In this step, you will add a connection from your consumer account using a VPC r
 
 From the **Connectivity > PrivateLink** tab in your Redis Cloud subscription, open the **Add connection** section.
 
-{{<image filename="images/rc/privatelink-add-connection.png" width="80%" alt="The Add connection section." >}}
+![The Add connection section.](/images/rc/privatelink-add-connection.png)
+{width="80%"}
 
 Here, choose whether you want to connect to Redis using a **Resource endpoint** or a **Service network**. 
 
@@ -152,7 +158,8 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, you can find the endpoints for your databases and cluster metrics in the AWS UI by going to the **Associations** tab for your endpoint or service network and viewing the Private DNS entries. You will have one entry for each database and one entry for the metrics endpoint.
 
-{{<image filename="images/rc/privatelink-aws-endpoint-associations.png" width="80%" alt="The Associations tab for a VPC resource endpoint, showing the Private DNS entries for the databases and metrics endpoint." >}}
+![The Associations tab for a VPC resource endpoint, showing the Private DNS entries for the databases and metrics endpoint.](/images/rc/privatelink-aws-endpoint-associations.png)
+{width="80%"}
 
 To view them on Redis Cloud, download the **Discovery script** from the Redis Cloud console and run it in your consumer VPC to discover the database endpoints.
 
@@ -218,7 +225,8 @@ To disassociate a PrivateLink connection:
 
 1. In the **Connections** section, select **Disassociate** button next to the connection you want to disassociate.
 
-    {{<image filename="images/rc/privatelink-disassociate-connection.png" width="80%" alt="The Disassociate button next to a VPC endpoint connection." >}}
+    ![The Disassociate button next to a VPC endpoint connection.](/images/rc/privatelink-disassociate-connection.png)
+    {width="80%"}
 
 1. Select **Disassociate VPC endpoint** or **Disassociate service network** to confirm.
 
@@ -232,10 +240,12 @@ To remove PrivateLink as a connectivity option from your database:
 
 1. Select **More Actions > Remove Private Link**.
 
-    {{<image filename="images/rc/privatelink-remove-menu.png" width="200px" alt="The Remove Private Link option in the More Actions menu." >}}
+    ![The Remove Private Link option in the More Actions menu.](/images/rc/privatelink-remove-menu.png)
+    {width="200px"}
 
 1. Select the **Remove Private Link** button to confirm.
 
-    {{<image filename="images/rc/privatelink-remove-confirm.png" width="50%" alt="The Remove Private Link confirmation pop-up." >}}
+    ![The Remove Private Link confirmation pop-up.](/images/rc/privatelink-remove-confirm.png)
+    {width="50%"}
 
 All connections that depend on PrivateLink will be immediately rejected as when you remove it from your subscription.
