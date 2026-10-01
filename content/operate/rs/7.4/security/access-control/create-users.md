@@ -28,15 +28,16 @@ To add a user to the cluster:
 
 1. From the **Access Control > Users** tab in the Cluster Manager UI, select **+ Add user**.
 
-    {{<image filename="images/rs/access-control-user-panel.png" alt="Add role with name" >}}
+    ![Add role with name](/images/rs/access-control-user-panel.png)
 
 1. Enter the name, email, and password of the new user.
 
-    {{<image filename="images/rs/access-control-user-add.png" alt="Add role with name" >}}
+    ![Add role with name](/images/rs/access-control-user-add.png)
 
 1. Assign a **Role** to the user to grant permissions for cluster management and data access.
 
-    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
+    ![Add role to user.](/images/rs/access-control-user-role-select.png)
+    {width="300px"}
 
 1. Select the **Alerts** the user should receive by email:
 
@@ -58,7 +59,8 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
 1. Select a role to assign to the user.
 
-    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
+    ![Add role to user.](/images/rs/access-control-user-role-select.png)
+    {width="300px"}
 
 1. Select **Save**.
 
