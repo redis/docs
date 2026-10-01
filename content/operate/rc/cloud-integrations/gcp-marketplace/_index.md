@@ -32,7 +32,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 
 1.  Search Google Cloud Marketplace for [Redis® Cloud Cache and Vector Database](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan).
 
-    {{<image filename="images/rc/gcp-marketplace-rc-payg-plan.png" alt="The Redis Cloud - Pay as You Go plan listing on Google Cloud Marketplace" >}}
+    ![The Redis Cloud - Pay as You Go plan listing on Google Cloud Marketplace](/images/rc/gcp-marketplace-rc-payg-plan.png)
 
     Alternatively, in the navigation panel, select **View all products** and select **Redis Cloud** under **Databases**. You can pin Redis Cloud for easy access.
 
@@ -48,7 +48,8 @@ Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 
 1.  Select the Redis account to be mapped to your GCP Marketplace account and confirm that your Marketplace account will pay for your Redis Cloud resources going forward.
 
-    {{<image filename="images/rc/gcp-marketplace-map-account-dialog.png" alt="Use the GCP Marketplace dialog to map your Redis Cloud account to your Google Cloud Marketplace account." width="75%">}}
+    ![Use the GCP Marketplace dialog to map your Redis Cloud account to your Google Cloud Marketplace account.](/images/rc/gcp-marketplace-map-account-dialog.png)
+    {width="75%"}
 
 1.  Select **Connect account** to confirm your choice.
 
@@ -59,7 +60,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud marketplace:
 
 1. On the Google Cloud Marketplace listing, select **Manage on provider** to go to the [Redis Cloud console](https://cloud.redis.io).
 
-    {{<image filename="images/rc/gcp-marketplace-manage-on-provider.png" alt="The Manage on Provider button" >}}
+    ![The Manage on Provider button](/images/rc/gcp-marketplace-manage-on-provider.png)
 
 At this point, you can create a new database using the [standard workflow](/content/operate/rc/databases/create-database/_index.md), with one important change. You don't need to enter a payment method, as it automatically uses your Google Cloud Marketplace account.
 

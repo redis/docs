@@ -36,11 +36,12 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
 1. If the allow list is empty, select **Add allow list**.
 
-    {{<image filename="images/rc/button-subscription-allow-list-add.png" alt="Use the Add allow list button to create an allow list." width="140px">}}
+    ![Use the Add allow list button to create an allow list.](/images/rc/button-subscription-allow-list-add.png)
+    {width="140px"}
 
 1. Select an entry **Type** from the list:
 
-    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" alt="Select the type of entry to add to the allow list from the Type list. You can choose between IP address and AWS security group." >}}
+    ![Select the type of entry to add to the allow list from the Type list. You can choose between IP address and AWS security group.](/images/rc/subscription-connectivity-allow-list-type-dropdown.png)
 
 1. In the **Value** box, enter one of these options:
 
@@ -54,11 +55,12 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
     1. Select **Add** to add a new entry.
 
-    {{<image filename="images/rc/icon-add.png" alt="The Add button adds new entries to the allow list." width="36px">}}
+    ![The Add button adds new entries to the allow list.](/images/rc/icon-add.png)
+    {width="36px"}
 
     1. Select the new entry's **Type**, enter the **Value**, and select the check to add it to the allow list.
 
-        {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}
+        ![Define the new entry and select the Submit entry button to add it to the allow list.](/images/rc/subscription-connectivity-allow-list-add-entry.png)
     
     You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
@@ -66,4 +68,5 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
     
 1. Select **Apply all changes** to apply the allow list updates.
 
-    {{<image filename="images/rc/button-subscription-allow-list-apply-all.png" alt="The Apply all changes button saves your allow list changes." width="140px">}}
+    ![The Apply all changes button saves your allow list changes.](/images/rc/button-subscription-allow-list-apply-all.png)
+    {width="140px"}

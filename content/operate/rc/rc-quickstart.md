@@ -36,7 +36,7 @@ To create a new account with a free database:
 
 1. You'll go to the [create database](/content/operate/rc/databases/create-database/_index.md) page with the **Free** plan selected.
 
-    {{<image filename="images/rc/create-database-subscription-free.png" alt="The Subscription selection panel with Free selected.">}}
+    ![The Subscription selection panel with Free selected.](/images/rc/create-database-subscription-free.png)
 
     > [!NOTE]
     > If you want to create a different type of database, see the following guides:
@@ -47,7 +47,7 @@ To create a new account with a free database:
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field. 
 
-    {{<image filename="images/rc/create-database-free-settings.png" alt="The database name, cloud vendor, and region settings.">}}
+    ![The database name, cloud vendor, and region settings.](/images/rc/create-database-free-settings.png)
 
 1. Select the **Database version** you want to use.
 
@@ -57,7 +57,8 @@ To create a new account with a free database:
 
 1. Select **Create database**.
 
-    {{<image filename="images/rc/button-create-db.png" width="140px" alt="Select the Create database button to create your new database." >}}
+    ![Select the Create database button to create your new database.](/images/rc/button-create-db.png)
+    {width="140px"}
 
     When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
@@ -75,11 +76,12 @@ At this point, you're viewing the **Configuration** details for your new databas
 
 To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select **Default user > Configure** and then select the eye icon to view your password.    
 
-{{<image filename="images/rc/database-essentials-default-user.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
+![The Security section of the Configuration tab of the database details page.](/images/rc/database-essentials-default-user.png)
+{width="75%"}
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
-{{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
+![Connect button.](/images/rc/button-connect.png#no-click)
 
 The connection wizard provides the following database connection methods:
 
@@ -90,7 +92,8 @@ The connection wizard provides the following database connection methods:
 - [Redis client](#using-redis-client) for your preferred programming language
 
 
-{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." width=500px >}}
+![The connection wizard.](/images/rc/connection-wizard.png)
+{width="500px"}
 
 ### Redis Insight{#using-redisinsight}
 
@@ -109,11 +112,13 @@ You can connect to your database with Redis Insight in two ways:
 
 Select **Launch Redis Insight web** from the connection wizard to open it.
 
-{{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
+![Launch Redis Insight web from the Connection Wizard.](/images/rc/rc-ri-wizard-launch.png)
+{width="500px"}
 
 You can also select **Launch** from the database page under **View and manage data with Redis Insight** to open Redis Insight in your browser.
 
-{{<image filename="images/rc/rc-ri-open.png" alt="Launch Redis Insight web from the database page." width=500px >}}
+![Launch Redis Insight web from the database page.](/images/rc/rc-ri-open.png)
+{width="500px"}
 
 Redis Insight will open in a new tab. 
 
@@ -152,7 +157,8 @@ The connection wizard provides code snippets to connect to your database with th
 - Go using [go-redis](/content/develop/clients/go/_index.md)
 - PHP using [Predis](/content/develop/clients/php/_index.md)
 
-{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." width=500px >}}
+![The connection wizard clients.](/images/rc/connection-wizard-clients.png)
+{width="500px"}
 
 See [Clients](/content/develop/clients/_index.md) to learn how to connect with the official Redis clients.
 

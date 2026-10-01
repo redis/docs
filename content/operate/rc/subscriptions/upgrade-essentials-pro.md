@@ -53,33 +53,38 @@ You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro
 
 1. From the **Configuration** tab of the target database, select **Edit**.
 
-    {{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." width=100px >}}
+    ![The Edit database button lets you change selected database properties.](/images/rc/button-database-edit.png)
+    {width="100px"}
 
 1. In the **Durability** section, enable **Active-Passive Redis** and then select **Add Source**.
 
-    {{<image filename="images/rc/migrate-data-active-passive-enable.png" alt="Active-Passive settings are located in the **Durability** section of the database **Configuration** tab." >}}
+    ![Active-Passive settings are located in the **Durability** section of the database **Configuration** tab.](/images/rc/migrate-data-active-passive-enable.png)
 
-    {{<image filename="images/rc/button-database-uri-add.png" alt="Use the **Add Source** button to specify the source of the Active-Passive replica." width="150px">}}
+    ![Use the **Add Source** button to specify the source of the Active-Passive replica.](/images/rc/button-database-uri-add.png)
+    {width="150px"}
 
 1. This will open the **Add Active-Passive Redis** screen. Select **Current account** to connect a database in your current account.
 
-    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
+    ![The Add Active-Passive Redis screen.](/images/rc/migrate-data-add-active-passive.png)
+    {width="70%"}
 
 1. Select your Redis Cloud Essentials database from the **Source database** list. This will be your source database. You can type in the database's name to find it.
 
-    {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
+    ![Select the Source database from the database list.](/images/rc/database-add-account-path-list.png)
+    {width="70%"}
 
 1. Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
+    ![Use the **Save Database** button to save your changes, deploy the database, and to start data migration.](/images/rc/button-database-save.png)
+    {width="150px"}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
-    {{<image filename="images/rc/icon-database-update-status-pending.png" alt="When the status is 'Pending', your changes are still being deployed.">}}
+    ![When the status is 'Pending', your changes are still being deployed.](/images/rc/icon-database-update-status-pending.png)
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
+    ![When the status becomes 'Active', data begins to sync.](/images/rc/icon-database-status-active.png)
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
@@ -100,13 +105,13 @@ To redirect your database endpoints:
 
 1. In the **General** section of the **Configuration** tab, select **Redirect endpoints**.
 
-    {{<image filename="images/rc/databases-configuration-redirect-endpoints.png" alt="Use the **Redirect endpoints** button to change the target database for the source database endpoints." >}}
+    ![Use the **Redirect endpoints** button to change the target database for the source database endpoints.](/images/rc/databases-configuration-redirect-endpoints.png)
 
 1. Select the target Redis Cloud Pro database from the **Target database** list. You can type in the database's name to find it.
 
     You can choose whether to map the original endpoint to the **Public** or the **Private** endpoint. 
 
-    {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
+    ![Choose whether to map the original endpoint to the Public or Private endpoint.](/images/rc/migrate-data-redirect-essentials-endpoints.png)
 
     You must have a private connectivity method set up to be able to select the **Private** endpoint, such as:
     - [VPC peering](/content/operate/rc/security/vpc-peering.md)
@@ -115,17 +120,17 @@ To redirect your database endpoints:
 
 1. If you want to assign the same [Role-based Access Control (RBAC) roles](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
-    {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
+    ![Select **Assign the same ACLs to the target database** to assign the same roles to the target database.](/images/rc/migrate-data-redirect-assign-acls.png)
 
 1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
 
-    {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
+    ![The **Redirect endpoints** button redirects the source database endpoints to the target database.](/images/rc/migrate-data-redirect-acknowledge.png)
 
 After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. 
 
 You can revert endpoint migration within 24 hours to restore the original endpoints. Select **Revert** to revert endpoint migration.
 
-{{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
+![The **Revert** button reverts endpoint migration.](/images/rc/migrate-data-redirect-revert.png)
 
 After the 24-hour window, you can no longer revert to the endpoint to the original database.
 
