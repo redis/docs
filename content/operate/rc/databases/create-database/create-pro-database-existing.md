@@ -22,31 +22,34 @@ To create a database in an already existing Pro subscription:
 
 2. Select the **New database** button.
 
-    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
+    ![The New Database button creates a new database.](/images/rc/button-database-new.png)
+    {width="120px"}
 
     This displays the **Create database** screen.
 
 1. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Existing subscription**, and then select your existing Pro subscription from the list.
 
-    {{<image filename="images/rc/create-database-subscription-pro-existing.png" alt="The Subscription selection panel with Pro selected and an existing subscription selected.">}}
+    ![The Subscription selection panel with Pro selected and an existing subscription selected.](/images/rc/create-database-subscription-pro-existing.png)
 
 After you select your existing subscription from the list, select **Continue** to go to the **New database** page.
 
 You can also select your subscription from the [subscription list](/content/operate/rc/subscriptions/view-pro-subscription.md) and select **Create database in this subscription**.
 
-{{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
+![The Create database in this subscription button.](/images/rc/button-add-new-to-pro.png)
+{width="400px"}
 
 The **New database** page is divided into sections, each dedicated to a specific category of settings. The following sections provide more details.
 
 When you've configured your new database, click the **Activate database** button to create and activate it.
 
-{{<image filename="images/rc/button-database-activate.png" alt="Use the Activate database button to create and activate your database." width="150px">}}
+![Use the Activate database button to create and activate your database.](/images/rc/button-database-activate.png)
+{width="150px"}
 
 ## General section
 
 The **General** section defines basic properties about your database.
 
-{{<image filename="images/rc/database-new-flexible.png" alt="The general section of the New Database screen.">}}
+![The general section of the New Database screen.](/images/rc/database-new-flexible.png)
 
 The available settings vary according to your subscription plan:
 
@@ -65,7 +68,7 @@ The available settings vary according to your subscription plan:
 
 The **Performance** section lets you manage the maximum size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
+![Use the Performance section to control the size, throughput, and hashing policy for a database.](/images/rc/database-new-flexible-scalability.png)
 
 | Setting name        | Description                                                                                                                                                                                                                                                                                                                                   |
 |:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -80,7 +83,7 @@ The **Performance** section lets you manage the maximum size, throughput, and ha
 
 The **Durability** section helps you keep your database (and your data) available when problems occur.
 
-{{<image filename="images/rc/database-new-flexible-durability.png" alt="Use the Durability settings to keep your database (and data) available when problems occur." >}}
+![Use the Durability settings to keep your database (and data) available when problems occur.](/images/rc/database-new-flexible-durability.png)
 
 
 | Setting name             | Description                                                                                                                                                                |
@@ -94,11 +97,12 @@ The **Durability** section helps you keep your database (and your data) availabl
 
 The **Tags** section lets you add [tags](/content/operate/rc/databases/tag-database.md) to the database.
 
-{{<image filename="images/rc/database-new-tags.png" alt="Use the Tag settings to add tags to the database." >}}
+![Use the Tag settings to add tags to the database.](/images/rc/database-new-tags.png)
 
 Select **Add tag** to add a tag.
 
-{{<image filename="images/rc/tags-button-add-tag.png" alt="The Add tag button." width=100px >}}
+![The Add tag button.](/images/rc/tags-button-add-tag.png)
+{width="100px"}
 
 {{< embed-md "rc-tags-tag-module.md" >}}
 
@@ -106,7 +110,7 @@ Select **Add tag** to add a tag.
 
 The **Security** section helps you control access to your database.
 
-{{<image filename="images/rc/database-new-flexible-security.png" alt="Use the Security settings to control access to your database." >}}
+![Use the Security settings to control access to your database.](/images/rc/database-new-flexible-security.png)
 
 
 | Setting name                       | Description                                                                                                                                                                           |
@@ -121,7 +125,7 @@ The **Security** section helps you control access to your database.
 
 The **Alerts** section defines notification emails sent to your account and the conditions that trigger them.
 
-{{<image filename="images/rc/database-new-flexible-alerts.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
+![The Alerts section defines the notification emails and their triggering conditions.](/images/rc/database-new-flexible-alerts.png)
 
 The available alerts vary according to the plan type. See [Configure alerts](/content/operate/rc/databases/monitor-performance.md#configure-metric-alerts) for more information.
 

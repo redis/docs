@@ -19,7 +19,7 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
 
 3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Essentials**.
 
-    {{<image filename="images/rc/create-database-subscription-essentials.png" alt="The Subscription selection panel with Essentials selected.">}}
+    ![The Subscription selection panel with Essentials selected.](/images/rc/create-database-subscription-essentials.png)
 
     > [!NOTE]
     > This guide shows how to create a paid Essentials database.
@@ -30,13 +30,13 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
     
     After you select **Essentials**, the rest of the database details will appear.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
+    ![The database name, cloud vendor, version, region, type, and durability settings.](/images/rc/create-database-essentials-cloud-vendor.png)
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
 1. Choose a **Cloud vendor** for your database from the list. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
+    ![The list of available cloud vendors.](/images/rc/create-database-essentials-cloud-vendor-list.png)
 
 1. Choose a **Region** from the list. See [Supported regions](/content/operate/rc/supported-regions.md) for a list of supported regions by cloud vendor.
 
@@ -46,7 +46,7 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
 
 1. Select your desired plan.
 
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
+    ![Available Essentials plans.](/images/rc/subscription-new-fixed-tiers.png)
 
     The plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans](/content/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details.md).
 
@@ -78,13 +78,15 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
+    ![The Add credit card icon.](/images/rc/icon-add.png)
+    {width="30px"}
 
     {{< embed-md "rc-credit-card-add.md" >}}
 
 1. Select **Confirm & pay** to create your database.
 
-{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
+![Select Confirm & Pay to create your new database.](/images/rc/button-create-db-confirm-pay.png)
+{width="140px"}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 

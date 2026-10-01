@@ -55,7 +55,7 @@ If you install [Redis Insight](/content/develop/tools/insight/_index.md) and [ad
 
 3.  In the command area, enter `flushall` and then select the green **run** arrow.
 
-    {{<image filename="images/rc/redisinsight-cli-flushall-example.png" alt="You can use Redis Insight to issue commands to a database." >}}
+    ![You can use Redis Insight to issue commands to a database.](/images/rc/redisinsight-cli-flushall-example.png)
 
     The 'OK' response indicates that the command executed properly.
 <!--
