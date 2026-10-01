@@ -27,7 +27,7 @@ deployment and supports logical replication.
 > [PostgreSQL preparation guide](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md).
 > This page describes Supabase setup for a self-managed RDI deployment. For the
 > managed service, see
-> [Use Supabase with RDI on Redis Cloud](/content/operate/rc/rdi/supabase.md).
+> [Prepare source database: Supabase]({{< relref "/operate/rc/rdi/setup#supabase" >}}).
 
 Supabase differs from a typical self-managed PostgreSQL source in the following
 ways:
