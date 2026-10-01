@@ -35,7 +35,7 @@ Depending on which Redis Software services you want to access outside the cluste
 One or more virtual IPs (VIPs) are defined on the load balancer to expose Redis Software services.
 The architecture is shown in the following diagram with a 3-node Redis Software cluster with one database (DB1) configured on port 12000:
 
-{{< image filename="/images/rs/cluster-behind-load-balancer-top-down.png" alt="cluster-behind-load-balancer-top-down" >}}
+![cluster-behind-load-balancer-top-down](/images/rs/cluster-behind-load-balancer-top-down.png)
 
 ## Set up a cluster with load balancers
 

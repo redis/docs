@@ -16,7 +16,7 @@ When you [create a database](/content/operate/rs/8.0/databases/create.md), defau
 
 Select **Password-only authentication**, then enter and confirm a default database password to require authentication for connections to the database.
 
-{{<image filename="images/rs/screenshots/databases/security-access-control-password-only.png" alt="Select Password-only authentication to require a password to access the database." >}}
+![Select Password-only authentication to require a password to access the database.](/images/rs/screenshots/databases/security-access-control-password-only.png)
 
 ## Authenticate as default user
 
@@ -53,7 +53,7 @@ To deactivate the default user:
 
 1. In the **Access Control** section, select **Using ACL only** as the **Access method**.
 
-    {{<image filename="images/rs/screenshots/databases/security-access-control-acl-only.png" alt="Select Using ACL only to deactivate default user access to the database." >}}
+    ![Select Using ACL only to deactivate default user access to the database.](/images/rs/screenshots/databases/security-access-control-acl-only.png)
 
 1. Choose at least one role and Redis ACL to access the database.
 
