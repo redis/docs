@@ -48,7 +48,7 @@ To add a new participating cluster to an existing Active-Active configuration us
 
 1. In the **Add cluster** configuration panel, enter the new cluster's URL, port number, and the admin username and password for the new participating cluster:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png" alt="Add cluster panel.">}}
+    ![Add cluster panel.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png)
 
 1. Click **Join cluster** to add the cluster to the list of participating clusters. 
 
@@ -72,7 +72,7 @@ To remove a participating cluster using the Cluster Manager UI:
 
 1. In the **Participating clusters** section, point to the cluster you want to delete in the **Other participating clusters** list:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png" alt="Edit and delete buttons appear when you point to an entry in the Other participating clusters list.">}}
+    ![Edit and delete buttons appear when you point to an entry in the Other participating clusters list.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png)
 
 1. Click {{< image filename="/images/rs/buttons/delete-button.png#no-click" alt="The Delete button" width="25px" class="inline" >}} to remove the cluster.
 

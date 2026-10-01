@@ -19,7 +19,7 @@ To grant LDAP users access to a database, assign the mapped access role to the a
 
 1.  In the **Access Control List** section, select **+ Add ACL**.
 
-    {{<image filename="images/rs/screenshots/databases/security-access-control-acl-only.png" alt="Updating a database access control list (ACL)" >}}
+    ![Updating a database access control list (ACL)](/images/rs/screenshots/databases/security-access-control-acl-only.png)
 
 1.  Select the appropriate roles and then save your changes.
 
