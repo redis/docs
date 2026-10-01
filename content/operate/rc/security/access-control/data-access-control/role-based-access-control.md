@@ -27,15 +27,15 @@ There are three tabs on this screen: **Users**, **Roles**, and **Redis ACLs**.
 
 In the **Redis ACLs** tab, you [define named *permissions*](/content/operate/rc/security/access-control/data-access-control/configure-acls.md) for specific Redis commands, keys, and pub/sub channels.
 
-{{<image filename="images/rc/data-access-control-acls.png" alt="Data access control screen." >}}
+![Data access control screen.](/images/rc/data-access-control-acls.png)
 
 In the **Roles** tab, you [create roles](/content/operate/rc/security/access-control/data-access-control/create-roles.md). Each role consists of a set of permissions for one or more Redis Cloud databases.
 
-{{<image filename="images/rc/data-access-control-roles.png" alt="Data access control screen." >}}
+![Data access control screen.](/images/rc/data-access-control-roles.png)
 
 Finally, in the **Users** tab, you [create users](/content/operate/rc/security/access-control/data-access-control/create-assign-users.md) and [assign each user a role](/content/operate/rc/security/access-control/data-access-control/create-assign-users.md#assign-roles-to-existing-users).
 
-{{<image filename="images/rc/data-access-control-users.png" alt="Data access control screen." >}}
+![Data access control screen.](/images/rc/data-access-control-users.png)
 
 > [!NOTE]
 > Database access users are different from account access users. To learn more, see [Access management](/content/operate/rc/security/access-control/_index.md).
