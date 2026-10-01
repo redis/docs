@@ -4,6 +4,8 @@ linkTitle: Get started
 description: Get Redis running and connect your first application, however you deploy it.
 hideListLinks: true
 weight: 5
+aliases:
+- /develop/getting-started/
 ---
 
 Redis can be used as a database, cache, streaming engine, message broker, context engine, feature platform, and more.
