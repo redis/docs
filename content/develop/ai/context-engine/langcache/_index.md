@@ -94,6 +94,8 @@ Imagine you’re using an LLM to build an agent to answer questions about your c
 
 These prompts may have slight variations, but they essentially ask the same question. LangCache can help you avoid calling the LLM for each of these prompts by caching the response to the first prompt and returning it for any similar prompts.
 
+To watch a cache answer paraphrased questions, try the [interactive demo](/content/develop/ai/context-engine/langcache/interactive-demo.md).
+
 Using LangCache as a semantic caching service has the following benefits:
 
 - **Lower LLM costs**:  Reduce costly LLM calls by easily storing the most frequently-requested responses.
