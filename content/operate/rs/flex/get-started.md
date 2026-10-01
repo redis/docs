@@ -112,7 +112,8 @@ On the **Databases** screen:
 
 1. Verify **Flash** is selected for **Runs on**.
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-flash-7-8-2.png" width="350px" alt="Create a quick database with Runs on Flash selected." >}}
+    ![Create a quick database with Runs on Flash selected.](/images/rs/screenshots/databases/quick-db-flash-7-8-2.png)
+    {width="350px"}
 
 1. Enter `12000` for the endpoint **Port** number.
 

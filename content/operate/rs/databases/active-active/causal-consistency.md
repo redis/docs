@@ -22,13 +22,13 @@ When you create an Active-Active database, you can enable causal consistency in 
 
 1. In the **Participating clusters** section of the **Create Active-Active database** screen, locate **Causal Consistency**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/create-a-a-db-participating-clusters.png" alt="The Participating clusters section of the Create Active-Active database screen.">}}
+    ![The Participating clusters section of the Create Active-Active database screen.](/images/rs/screenshots/databases/active-active-databases/create-a-a-db-participating-clusters.png)
 
 1. Click **Change** to open the **Causal Consistency** dialog.
 
 1. Select **Enabled**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-causal-consistency.png" alt="Enabled is selected in the Causal Consistency dialog.">}}
+    ![Enabled is selected in the Causal Consistency dialog.](/images/rs/screenshots/databases/active-active-databases/enable-causal-consistency.png)
 
 1. Click **Change** to confirm your selection.
 

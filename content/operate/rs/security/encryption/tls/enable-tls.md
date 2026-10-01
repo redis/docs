@@ -213,7 +213,7 @@ To enable TLS for Active-Active cluster connections using the Cluster Manager UI
 
 1. Select **On** to enable TLS.
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png" alt="TLS is enabled on the Cluster Manager UI screen.">}}
+    ![TLS is enabled on the Cluster Manager UI screen.](/images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png)
 
 1. Click **Create**.
 
