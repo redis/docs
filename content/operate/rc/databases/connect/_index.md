@@ -23,7 +23,7 @@ To connect to the database, you need the following information:
 
 The database endpoints are listed in the **Configuration** tab for your database: in the **Access** section for Essentials databases, or the **General** section for Pro databases.
 
-{{<image filename="images/rc/databases-configuration-general-endpoints.png" alt="The General section of the Configuration tab of the Pro database details page." >}}
+![The General section of the Configuration tab of the Pro database details page.](/images/rc/databases-configuration-general-endpoints.png)
 
 {{<image filename="images/rc/database-details-configuration-tab-access-essentials.png" alt="The Access section for an Essentials database." width=50%" >}}
 
@@ -52,7 +52,7 @@ If you've turned on [Role-based access control](/content/operate/rc/security/acc
 
 Select **Connect** to open the connection wizard.
 
-{{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
+![Connect button.](/images/rc/button-connect.png#no-click)
 
 > [!NOTE]
 > For [Active-Active databases](/content/operate/rc/databases/active-active/_index.md), you connect to one of the database instances. Choose the region you want to connect to from the region selection to access the connection information for that instance.
@@ -65,7 +65,8 @@ The connection wizard provides the following database connection methods:
 
 - [Redis client](#using-redis-client) for your preferred programming language
 
-{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." width=500px >}}
+![The connection wizard.](/images/rc/connection-wizard.png)
+{width="500px"}
 
 ### Redis Insight {#using-redisinsight}
 
@@ -84,11 +85,13 @@ You can connect to your database with Redis Insight in two ways:
 
 If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
 
-{{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
+![Launch Redis Insight web from the Connection Wizard.](/images/rc/rc-ri-wizard-launch.png)
+{width="500px"}
 
 You can also select **Launch** from the database page under **View and manage data with Redis Insight** to open Redis Insight in your browser.
 
-{{<image filename="images/rc/rc-ri-open.png" alt="Launch Redis Insight web from the database page." width=500px >}}
+![Launch Redis Insight web from the database page.](/images/rc/rc-ri-open.png)
+{width="500px"}
 
 Redis Insight will open in a new tab. 
 
@@ -121,7 +124,8 @@ The connection wizard provides code snippets to connect to your database with th
 - Go using [go-redis](/content/develop/clients/go/_index.md)
 - PHP using [Predis](/content/develop/clients/php/_index.md)
 
-{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." width=500px >}}
+![The connection wizard clients.](/images/rc/connection-wizard-clients.png)
+{width="500px"}
 
 If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 

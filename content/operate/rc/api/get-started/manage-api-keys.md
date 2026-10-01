@@ -21,11 +21,12 @@ Use the **API Keys** tab of the **Access Management** screen to manage your keys
 
 1. From the menu, choose **Access Management** and then select the **API Keys** tab.
 
-    {{<image filename="images/rc/access-management-api-keys-tab.png" width="75%" alt="Use the **API Keys** tab of the **Access Management** screen to manage your REST API keys." >}}
+    ![Use the **API Keys** tab of the **Access Management** screen to manage your REST API keys.](/images/rc/access-management-api-keys-tab.png)
+    {width="75%"}
 
 If an **Enable API** button appears, select it to [enable the REST API](/content/operate/rc/api/get-started/enable-the-api.md) for your account.
 
-{{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}
+![Use the **Enable API** button to enable the REST API for your account.](/images/rc/button-access-management-enable-api.png)
 
 ## API account key
 
@@ -37,7 +38,7 @@ By default, the **API account key** is masked; that is, it is obscured for secur
 
 The **Copy** button copies the account key to the Clipboard.
 
-{{<image filename="images/rc/button-copy.png" alt="The **Copy** button copies the account key to the Clipboard." >}}
+![The **Copy** button copies the account key to the Clipboard.](/images/rc/button-copy.png)
 
 ## API user keys
 
@@ -51,11 +52,12 @@ Users can have more than one user key; however, users should not share user keys
 
 Use the **Add** button to create a new user key.
 
-{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the **Add** button to begin creating a new user key." >}}
+![Use the **Add** button to begin creating a new user key.](/images/rc/icon-add.png)
+{width="30px"}
 
 When you do this, you're prompted for the **Key name** and the associated **User name**.
 
-{{<image filename="images/rc/access-management-user-key-add.png" alt="When you add a user key, you're prompted to specify the name of the key and the asscoiated user." >}}
+![When you add a user key, you're prompted to specify the name of the key and the asscoiated user.](/images/rc/access-management-user-key-add.png)
 
 The key name:
 
@@ -66,7 +68,7 @@ The selected user must have an owner, viewer, billing admin, or logs viewer role
 
 Select **Create** to create the new key.  
 
-{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the **Create** button to create the new user key." >}}
+![Use the **Create** button to create the new user key.](/images/rc/button-access-management-user-key-create.png)
 
 When you do this, the **API user key** dialog appears.
 
@@ -88,7 +90,8 @@ To delete a user key:
 
 2.  Select the **Delete** button.
 
-    {{<image filename="images/rc/icon-delete-teal.png" width="36px" alt="Select the **Delete** button to begin deleting the selected user key." >}}
+    ![Select the **Delete** button to begin deleting the selected user key.](/images/rc/icon-delete-teal.png)
+    {width="36px"}
 
 3.  This displays the **Delete API secret key** dialog box.  
 
@@ -104,19 +107,21 @@ To manage the CIDR allow list:
 
 1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key. Hover over the key to display the **Manage** link.
 
-    {{<image filename="images/rc/access-management-api-user-key-delete.png" alt="The **Manage** link appears to the right of the user name for the selected user key." >}}
+    ![The **Manage** link appears to the right of the user name for the selected user key.](/images/rc/access-management-api-user-key-delete.png)
 
 2.  Select the **Manage** link in the **CIDR allow list** column; this displays the **Manage CIDR allow list** dialog box.
 
-    {{<image filename="images/rc/access-management-user-key-manage-cidr.png" width="50%" alt="Select the **Manage** link to define the **CIDR allow list** dialog." >}}
+    ![Select the **Manage** link to define the **CIDR allow list** dialog.](/images/rc/access-management-user-key-manage-cidr.png)
+    {width="50%"}
 
 3.  Enter each allowed IP address in [CIDR format](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation) (example: `127.1.0.0/24`) and then select the **Save** button.
 
-    {{<image filename="images/rc/button-access-management-cidr-rule-save.png" width="36px" alt="Use the **Save** button to save a CIDR allow list rule." >}}
+    ![Use the **Save** button to save a CIDR allow list rule.](/images/rc/button-access-management-cidr-rule-save.png)
+    {width="36px"}
 
     Use the **Add CIDR rule** button to add additional addresses to the list.
 
-    {{<image filename="images/rc/button-access-management-cidr-rule-add.png" alt="Use the **Add Rule** button to add a new address to the CIDR allow list." >}}
+    ![Use the **Add Rule** button to add a new address to the CIDR allow list.](/images/rc/button-access-management-cidr-rule-add.png)
 
     Use the **Edit** button to change the address for a rule or the **Delete button** to remove a rule.
 

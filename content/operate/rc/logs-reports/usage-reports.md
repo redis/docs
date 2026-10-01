@@ -12,7 +12,7 @@ weight: 70
 
 The **Usage Report** shows the daily memory usage and shard usage of all databases from the subscriptions associated with your account.
 
-{{< image filename="/images/rc/usage-report-memory-usage.png" >}}
+![](/images/rc/usage-report-memory-usage.png)
 
 To filter the data, you can:
 * Select a month and year from the **View Statement For** list to view the daily memory usage during a specific month.

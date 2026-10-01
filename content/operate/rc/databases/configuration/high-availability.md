@@ -67,18 +67,21 @@ To specify the availability zone(s) for your cluster, [create your Pro database 
 
 For Google Cloud clusters and [Redis Cloud BYOC](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md), select an availability zone from the **Zone name** list.
 
-{{<image filename="images/rc/availability-zones-no-multi-az.png" width="95%" alt="Select one availability zone when Multi-AZ is turned off." >}}
+![Select one availability zone when Multi-AZ is turned off.](/images/rc/availability-zones-no-multi-az.png)
+{width="95%"}
 
 For all other AWS clusters, select an availability zone ID from the **Zone IDs** list. For more information on how to find an availability zone ID, see the [AWS docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones).
 
-{{<image filename="images/rc/availability-zones-aws-hosted-no-multi-az.png" width="80%" alt="For hosted AWS clusters, select availability zone IDs from the Zone IDs list." >}}
+![For hosted AWS clusters, select availability zone IDs from the Zone IDs list.](/images/rc/availability-zones-aws-hosted-no-multi-az.png)
+{width="80%"}
 
 > [!NOTE]
 > Multi-AZ requires a region with at least three availability zones. Regions with fewer than three availability zones don't support Multi-AZ deployments.
 
 If **Multi-AZ** is enabled, you must select three availability zones from the list.
 
-{{<image filename="images/rc/availability-zones-multi-az.png" width="80%" alt="Select Manual selection to select three availability zones when Multi-AZ is enabled." >}}
+![Select Manual selection to select three availability zones when Multi-AZ is enabled.](/images/rc/availability-zones-multi-az.png)
+{width="80%"}
 
 For more information on availability zones, see the [Google Cloud docs](https://cloud.google.com/compute/docs/regions-zones/#available) or the [AWS docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones).
 
