@@ -62,13 +62,13 @@ To create a role that grants cluster access:
 
     - Select **+ Add role** to create a new role.
 
-    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}
+    ![Add role with name](/images/rs/access-control-role-panel.png)
 
 1. Enter a descriptive name for the role.
 
 1. Choose a **Cluster management role** to determine cluster management permissions.
 
-    {{<image filename="images/rs/screenshots/access-control/rbac-create-role-cluster-only.png" alt="Select a cluster management role to set the level of cluster management permissions for the new role." >}}
+    ![Select a cluster management role to set the level of cluster management permissions for the new role.](/images/rs/screenshots/access-control/rbac-create-role-cluster-only.png)
     
 1. To prevent database access when using this role, do not add any ACLs.
 

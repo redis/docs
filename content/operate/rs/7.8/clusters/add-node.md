@@ -88,7 +88,7 @@ We recommend that you verify the node is functioning properly using one of the f
     
     1. Select **Verify node** from the list.
 
-    {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
+    ![Click the more actions button for a node to access node actions.](/images/rs/screenshots/nodes/secondary-nodes-more-actions.png)
 
 - Command-line method:
 
