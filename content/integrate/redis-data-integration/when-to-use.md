@@ -31,6 +31,13 @@ Use the information in the sections below to determine whether RDI is a good fit
 
 {{< embed-md "rdi-when-to-use.md" >}}
 
+{{< note >}}The throughput and data-size limits above apply to the
+[Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}),
+which RDI 1.18.0 introduced and which is the default processor from RDI 2.0.0.
+The classic processor supports about half of each limit.{{< /note >}}
+
+{{< embed-md "rdi-when-not-to-use.md" >}}
+
 ### Decision tree for using RDI
 
 Use the decision tree below to determine whether RDI is a good fit for your architecture:
