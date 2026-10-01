@@ -24,4 +24,4 @@ Possible status values:
 | 'syncing' | Sync process is in progress | 'in-sync' <br />'out-of-sync' |
 | 'in-sync' | Sync process finished successfully, and new commands are syncing on a regular basis | 'syncing' <br />'out-of-sync'
 
-{{< image filename="/images/rs/rest-api-replica-sources-status.png#no-click" alt="Replica sources status" >}}
+![Replica sources status](/images/rs/rest-api-replica-sources-status.png#no-click)

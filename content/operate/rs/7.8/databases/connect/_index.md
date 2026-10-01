@@ -16,7 +16,8 @@ After you [set up a cluster](/content/operate/rs/7.8/clusters/new-cluster-setup.
 
 To connect to your database, you need the database endpoint, which includes the cluster name (FQDN) and the database port. To view and copy public and private endpoints for a database in the cluster, see the database’s **Configuration > General** section in the Cluster Manager UI.
 
-{{<image filename="images/rs/screenshots/databases/config-general-endpoints.png" width="75%" alt="View public and private endpoints from the General section of the database's Configuration screen." >}}
+![View public and private endpoints from the General section of the database's Configuration screen.](/images/rs/screenshots/databases/config-general-endpoints.png)
+{width="75%"}
 
 If you try to connect with the FQDN, and the database does not respond, try connecting with the IP address. If this succeeds, DNS is not properly configured. To set up DNS, see [Configure cluster DNS](/content/operate/rs/7.8/networking/cluster-dns.md).
 
