@@ -1,0 +1,14 @@
+{{- $script := .Get "script" -}}
+{{- if not $script -}}
+  {{- errorf "diagram-3d: missing script parameter (%s)" .Position -}}
+{{- end -}}
+<link rel="stylesheet" href="{{ "css/diagram-3d.css" | relURL }}">
+<div class="diagram-3d-container" data-diagram="{{ $script }}" data-base-path="{{ "/" | relURL }}">
+  <div class="diagram-3d-stage">
+    <canvas class="diagram-3d-canvas"></canvas>
+    <span class="diagram-3d-hint">Drag to rotate. Pinch to zoom. Click, then scroll to pan.</span>
+  </div>
+  <div class="context-map-controls diagram-3d-controls"></div>
+  <div class="context-map-panel" aria-live="polite" hidden></div>
+</div>
+<script type="module" src="{{ printf "js/diagrams/%s.js" $script | relURL }}"></script>

@@ -1,0 +1,66 @@
+.diagram-3d-container {
+  margin: 1.5rem 0;
+}
+
+.diagram-3d-stage {
+  position: relative;
+  height: 440px;
+  border: 1px solid #E8EBEC;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(#FFFFFF, #F1F3F4);
+}
+
+.diagram-3d-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.diagram-3d-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.diagram-3d-hint {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.5rem;
+  font-size: 11px;
+  color: #5C707A;
+  pointer-events: none;
+}
+
+.diagram-3d-label {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #091A23;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #B9C2C6;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.diagram-3d-label--edge {
+  white-space: pre;
+  text-align: center;
+  color: #5C707A;
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.diagram-3d-label.is-selected {
+  border-color: #FF4438;
+}
+
+.diagram-3d-label.is-path-active {
+  border-color: #16A34A;
+}
+
+.diagram-3d-label.is-dimmed {
+  opacity: 0.3;
+}
