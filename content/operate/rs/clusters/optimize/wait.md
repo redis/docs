@@ -31,7 +31,7 @@ replication acknowledges the write back to the primary shard. These are steps 5 
 Independently, the write to a replica is also persisted to disk and
 acknowledged within the replica. These are steps 7 and 8.
 
-{{< image filename="/images/rs/weak-consistency.png" >}}
+![](/images/rs/weak-consistency.png)
 
 ## Blocking write operation on replication
 
@@ -47,7 +47,7 @@ the replica. The flow of a write operation with `WAIT` or `WAITAOF` is:
 
 The application only gets the acknowledgment from the write after durability is achieved with replication to the replica for `WAIT` or `WAITAOF` and to the persistent storage for `WAITAOF` only.
 
-{{< image filename="/images/rs/strong-consistency.png" >}}
+![](/images/rs/strong-consistency.png)
 
 The `WAIT` command always returns the number of replicas that acknowledged the write commands sent by the current client before the `WAIT` command, both in the case where the specified number of replicas are reached, or when the timeout is reached. In Redis Software, the number of replicas is always 1 for databases with high availability enabled.
 

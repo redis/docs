@@ -24,7 +24,7 @@ To edit default database configuration using the Cluster Manager UI:
 
 1. Configure [database defaults](#db-defaults).
 
-    {{<image filename="images/rs/screenshots/databases/db-defaults.png" alt="Database defaults configuration panel.">}}
+    ![Database defaults configuration panel.](/images/rs/screenshots/databases/db-defaults.png)
 
 1. Select **Save**.
 
@@ -53,7 +53,7 @@ To configure the default database proxy policy using the Cluster Manager UI:
 
 1. Select a predefined [**Endpoint Configuration**](#endpoint-configuration) to use a recommended database proxy policy, or choose **Custom** to set the policy manually. Changing the database proxy default in the Cluster Manager UI affects both sharded and non-sharded proxy policies.
 
-    {{<image filename="images/rs/screenshots/databases/db-defaults-endpoint-config-custom.png" alt="The Database defaults panel lets you select Database proxy and Shards placement if Endpoint Configuration is set to Custom.">}}
+    ![The Database defaults panel lets you select Database proxy and Shards placement if Endpoint Configuration is set to Custom.](/images/rs/screenshots/databases/db-defaults-endpoint-config-custom.png)
 
 #### Non-sharded proxy policy
 
@@ -107,7 +107,7 @@ To configure default shard placement, use one of the following methods:
 
     1. Select a predefined [**Endpoint Configuration**](#endpoint-configuration) to use a recommended shards placement policy, or choose **Custom** to set the policy manually.
 
-        {{<image filename="images/rs/screenshots/databases/db-defaults-endpoint-config-custom.png" alt="The Database defaults panel lets you select Database proxy and Shards placement if Endpoint Configuration is set to Custom.">}}
+        ![The Database defaults panel lets you select Database proxy and Shards placement if Endpoint Configuration is set to Custom.](/images/rs/screenshots/databases/db-defaults-endpoint-config-custom.png)
 
 - [rladmin tune cluster](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster): 
     

@@ -168,7 +168,7 @@ scrape_configs:
 
     1. Select **Status** and then **Targets** to check that Prometheus is collecting data from your Redis Software cluster.
 
-        {{<image filename="images/rs/prometheus-target.png" alt="The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.">}}
+        ![The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.](/images/rs/prometheus-target.png)
 
         If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 

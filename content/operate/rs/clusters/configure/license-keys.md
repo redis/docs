@@ -83,7 +83,7 @@ When the license is expired:
 
 By default, a cluster license alert is scheduled to occur 7 days before the cluster license expiration date.
 
-{{<image filename="images/rs/screenshots/cluster/cluster-license-expiration-alert.png" alt="An alert appears in the Cluster Manager UI that says 'Your license will expire on day-month-year time. Contact support to renew your license.'" >}}
+![An alert appears in the Cluster Manager UI that says 'Your license will expire on day-month-year time. Contact support to renew your license.'](/images/rs/screenshots/cluster/cluster-license-expiration-alert.png)
 
 You can adjust the threshold value of the cluster license expiration alert based on how far in advance you want to be notified of the license expiration. The value should be within a reasonable range that allows your organization enough time to take action, such as renewing the license, before it expires.
 
@@ -97,7 +97,7 @@ To change the cluster license alert settings, use one of the following methods:
 
     1. In the **Cluster utilization** section, enable the alert setting "License expiry notifications will be sent \<value\> days before the license expires" and enter a new value in the box.
 
-        {{<image filename="images/rs/screenshots/cluster/cluster-config-alert-settings-utilization.png" alt="Cluster utilization alert settings." >}}
+        ![Cluster utilization alert settings.](/images/rs/screenshots/cluster/cluster-config-alert-settings-utilization.png)
 
     1. Click **Save**.
 
