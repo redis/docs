@@ -88,7 +88,7 @@ To define a role for database access using the Cluster Manager UI:
 
     - Click **+ Add role** to create a new role.
 
-    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/roles-screen.png" alt="Add role with name">
+    ![Add role with name](/images/rs/screenshots/access-control/7-22-updates/roles-screen.png)
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
@@ -98,7 +98,7 @@ To define a role for database access using the Cluster Manager UI:
 
 1.  Choose a Redis ACL and databases to associate with the role.
 
-    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/create-role-db-access-only.png" alt="Add databases to access">
+    ![Add databases to access](/images/rs/screenshots/access-control/7-22-updates/create-role-db-access-only.png)
 
 1. Click the check mark to confirm.
 

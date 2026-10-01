@@ -85,19 +85,19 @@ To define a role for combined access using the Cluster Manager UI:
 
     - Click **+ Add role** to create a new role.
 
-    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/roles-screen.png" alt="Add role with name">
+    ![Add role with name](/images/rs/screenshots/access-control/7-22-updates/roles-screen.png)
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
 1. Choose a **Management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions](/content/operate/rs/security/access-control/create-cluster-roles.md#cluster-manager-ui-permissions) and [REST API permissions](/content/operate/rs/references/rest-api/permissions.md).
 
-    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/create-role-combined-access-select-management-role.png" alt="Add role with name">
+    ![Add role with name](/images/rs/screenshots/access-control/7-22-updates/create-role-combined-access-select-management-role.png)
     
 1. Click **+ Add ACL**.
 
 1.  Choose a Redis ACL and databases to associate with the role.
 
-    <img src="../../../../../images/rs/screenshots/access-control/7-22-updates/create-role-combined-access-select-db.png" alt="Add databases to access">
+    ![Add databases to access](/images/rs/screenshots/access-control/7-22-updates/create-role-combined-access-select-db.png)
 
 1. Click the check mark to confirm.
 
