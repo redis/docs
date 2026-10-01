@@ -3,6 +3,8 @@ linkTitle: Cache llm responses
 title: Cache LLM Responses
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/03_llmcache
+- /integrate/redisvl/user_guide/llmcache/
+- /develop/ai/redisvl/user_guide/llmcache/
 weight: 03
 ---
 

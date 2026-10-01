@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Overview
 title: Redis Agent Memory overview
 weight: 3
+aliases:
+- /develop/ai/context-engine/agent-memory/concepts/
 ---
 
 ## Background summarization and extraction
