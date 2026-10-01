@@ -25,6 +25,8 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
   {{< tile-card icon="images/dev/icons/icon-redis-langcache-64-duotone.png" title="LangCache" description="Create, configure, and monitor semantic caches for AI applications" url="/operate/iris/langcache" >}}
 </div>
 
+Review the [Agent Playbooks operator documentation draft]({{< relref "/operate/iris/agent-playbooks" >}}) for provisioning, access, and self-managed deployment preparation.
+
 ## Deployment options
 
 Redis Iris services are available as managed services on Redis Cloud. All Redis Iris services are also available for self-managed deployment.

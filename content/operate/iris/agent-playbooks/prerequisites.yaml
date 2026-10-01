@@ -1,0 +1,81 @@
+# Example only. Do not commit real Redis URLs, credentials, tokens, or licenses.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-storage
+type: Opaque
+stringData:
+  playbook-storage.yaml: |
+    storage:
+      metadata:
+        urls:
+          - rediss://<metadata-user>:<metadata-password>@<metadata-host>:6379
+      content:
+        urls:
+          - rediss://<content-user>:<content-password>@<content-host>:6379
+  identity-service-metadata.yaml: |
+    metadata:
+      urls:
+        - rediss://<identity-user>:<identity-password>@<metadata-host>:6379
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-controlplane-admin
+type: Opaque
+stringData:
+  token: <distinct-controlplane-admin-token>
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-controlplane-internal
+type: Opaque
+stringData:
+  token: <distinct-controlplane-internal-token>
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-identity-control
+type: Opaque
+stringData:
+  token: <distinct-identity-control-token>
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-identity-runtime
+type: Opaque
+stringData:
+  token: <distinct-identity-runtime-token>
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-license
+type: Opaque
+stringData:
+  license: <redis-playbook-license>
+---
+# Required for non-noop providers. This Secret is mounted only into the data
+# plane. Keep the provider/model/dimensions identical to Helm values and add
+# the provider client configuration here.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: playbook-inference
+type: Opaque
+stringData:
+  inference.yaml: |
+    inference:
+      models:
+        - provider: openai
+          model: text-embedding-3-small
+          dimensions: 1536
+          client:
+            endpoint:
+              base_url: https://api.openai.com/v1
+            credentials:
+              type: static
+              api_key: <provider-api-key>
