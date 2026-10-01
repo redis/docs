@@ -180,6 +180,28 @@ To connect to an S3-compatible storage location:
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
+#### Encrypt an export with a customer-provided key (SSE-C)
+
+To encrypt data exported to S3 or an S3-compatible location with a customer-provided key ([SSE-C](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html)), add an `encryption` object to `export_location` in an [export database request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/export">}}):
+
+```json
+{
+    "export_location": {
+        "type": "s3",
+        "bucket_name": "backups",
+        "access_key_id": "XXXXXXXXXXXXX",
+        "secret_access_key": "XXXXXXXXXXXXXXXX",
+        "encryption": {
+            "type": "sse-c",
+            "sse_customer_key": "<base64-encoded 32-byte key>"
+        }
+    }
+}
+```
+
+- `sse_customer_key` must be a base64-encoded string that decodes to exactly 32 bytes (AES-256).
+- SSE-C encryption is only available for S3 and S3-compatible storage locations, and only for this one export request. You can't add `encryption` to a database's persisted [backup_location]({{<relref "/operate/rs/references/rest-api/objects/bdb/backup_location">}}) configuration, so SSE-C isn't available for [scheduled backups]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).
+
 ### Google Cloud Storage
 
 To export to a [Google Cloud](https://developers.google.com/console/) storage bucket:
