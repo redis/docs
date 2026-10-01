@@ -25,11 +25,12 @@ After you open the [tag manager](#tag-manager), you can use it to add, edit, or 
 
 To learn how to navigate to your database, see [View and edit databases](/content/operate/rc/databases/view-edit-database.md). Select the **Configuration** tab to view the tags that are set for your database. For Essentials databases, the **Manage tags** button is at the top of the tab; for Pro databases, go to the **General** section.
 
-{{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
+![The Configuration tab of the Database details screen.](/images/rc/database-details-configuration-tab-general-flexible.png)
 
 Select **Manage Tags** to open the [tag manager](#tag-manager).
 
-{{<image filename="images/rc/tags-button-manage-tags.png" width=120px alt="The Manage tags button." >}}
+![The Manage tags button.](/images/rc/tags-button-manage-tags.png)
+{width="120px"}
 
 ### Open tag manager from the database list {#database-list}
 
@@ -37,7 +38,7 @@ Using the database list allows you to manage tags for multiple databases without
 
 To get to the database list, select **Databases** from the main menu. 
 
-{{<image filename="images/rc/tags-database-list.png" alt="The database list with databases that are tagged." >}}
+![The database list with databases that are tagged.](/images/rc/tags-database-list.png)
 
 Hover over the database and select **Manage tags**, or select **More actions** > **Manage tags** to open the [tag manager](#tag-manager).
 
@@ -48,10 +49,11 @@ Hover over the database and select **Manage tags**, or select **More actions** >
 
 The tag manager shows any tags that are associated with the database and allows you to create, edit, or delete tags.
 
-{{<image filename="images/rc/tags-tag-manager.png" alt="The tag manager." >}}
+![The tag manager.](/images/rc/tags-tag-manager.png)
 
 {{< embed-md "rc-tags-tag-module.md" >}}
 
 Select **Save tags** to save your changes.
 
-{{<image filename="images/rc/tags-button-save-tags.png" width=100px alt="The Save tags button." >}}
+![The Save tags button.](/images/rc/tags-button-save-tags.png)
+{width="100px"}

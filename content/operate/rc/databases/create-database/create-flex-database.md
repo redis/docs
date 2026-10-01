@@ -77,11 +77,11 @@ Flex databases cannot store keys or values larger than 4 GB in Flash storage. Ke
 
 3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Essentials**.
 
-    {{<image filename="images/rc/create-database-subscription-essentials.png" alt="The Subscription selection panel with Essentials selected.">}}
+    ![The Subscription selection panel with Essentials selected.](/images/rc/create-database-subscription-essentials.png)
 
     After you select **Essentials**, the rest of the database details will appear. Select **Flex (RAM + SSD)** to use Flex.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
+    ![The database name, cloud vendor, version, region, type, and durability settings.](/images/rc/create-database-essentials-cloud-vendor.png)
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
@@ -91,7 +91,7 @@ Flex databases cannot store keys or values larger than 4 GB in Flash storage. Ke
 
 1. Select your desired memory limit. 
 
-    {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Flex plans." >}}
+    ![Available Flex plans.](/images/rc/subscription-new-flex-tiers.png)
 
     For a comparison of available plans, see [Redis Cloud Essentials plans](/content/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details.md).
 
@@ -122,13 +122,15 @@ Flex databases cannot store keys or values larger than 4 GB in Flash storage. Ke
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
+    ![The Add credit card icon.](/images/rc/icon-add.png)
+    {width="30px"}
 
     {{< embed-md "rc-credit-card-add.md" >}}
 
 1. Select **Confirm & pay** to create your database.
 
-{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
+![Select Confirm & Pay to create your new database.](/images/rc/button-create-db-confirm-pay.png)
+{width="140px"}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
@@ -138,11 +140,13 @@ To create a Flex database on Redis Cloud Pro, [create a new Pro database with cu
 
 In the **Advanced options** of the **Setup** tab, select **Redis Flex**.
 
-{{<image filename="images/rc/pro-flex-on.png" width="75%" alt="The Flex setting selected." >}}
+![The Flex setting selected.](/images/rc/pro-flex-on.png)
+{width="75%"}
 
 During the **Sizing** step, when you are provisioning your databases, you can select the RAM percentage for your database. The default is 20%, but you can select a percentage between 10% and 50%. Lower RAM percentages reduce cost but may increase latency, while higher RAM percentages improve throughput and latency at higher cost. See [Choosing the right RAM ratio](https://support.redislabs.com/hc/en-us/articles/36437338181522-Redis-Flex-V2-Choosing-the-Right-RAM-Ratio-and-Troubleshooting-Performance) to choose the right RAM percentage for your database.
 
-{{<image filename="images/rc/pro-flex-ram-percentage.png" width="75%" alt="The RAM percentage setting." >}}
+![The RAM percentage setting.](/images/rc/pro-flex-ram-percentage.png)
+{width="75%"}
 
 Continue with the instructions to [create your database](/content/operate/rc/databases/create-database/create-pro-database-new.md#custom-settings).
 

@@ -64,25 +64,28 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
 1.  Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and select the target database in the list.
 
-    {{<image filename="images/rc/migrate-database-select-source.png" alt="Select the target database from the database list." >}}
+    ![Select the target database from the database list.](/images/rc/migrate-database-select-source.png)
 
 1.  From the **Configuration** tab of the target database, select **Edit**.
 
-    {{<image filename="images/rc/migrate-data-target-edit.png" alt="Use the **Edit Database** button to change the configuration of the target database." >}}
+    ![Use the **Edit Database** button to change the configuration of the target database.](/images/rc/migrate-data-target-edit.png)
 
 1.  In the **Durability** section, enable **Active-Passive Redis** and then select **Add Source**.
 
-    {{<image filename="images/rc/migrate-data-active-passive-enable.png" alt="Active-Passive settings are located in the **Durability** section of the database **Configuration** tab." >}}
+    ![Active-Passive settings are located in the **Durability** section of the database **Configuration** tab.](/images/rc/migrate-data-active-passive-enable.png)
 
-    {{<image filename="images/rc/button-database-uri-add.png" alt="Use the **Add Source** button to specify the source of the Active-Passive replica." width="150px">}}
+    ![Use the **Add Source** button to specify the source of the Active-Passive replica.](/images/rc/button-database-uri-add.png)
+    {width="150px"}
 
 1. This will open the **Add Active-Passive Redis** screen. Select where the source database is located.
 
-    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
+    ![The Add Active-Passive Redis screen.](/images/rc/migrate-data-add-active-passive.png)
+    {width="70%"}
 
     - **Source database in this Redis Cloud account**: select **Current account**, then select the source database from the **Source database** list. You can type in the database's name to find it.
 
-        {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
+        ![Select the Source database from the database list.](/images/rc/database-add-account-path-list.png)
+        {width="70%"}
 
     - **Source database not hosted on Redis Cloud** (for example, a self-managed Redis deployment): select **External**.
 
@@ -92,43 +95,49 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
         1.  In the **Enter the source URI** field, type `redis://` and then paste in the public endpoint details. 
 
-            {{<image filename="images/rc/migrate-data-specify-source-uri.png" alt="The source URI must be specified using the 'redis://' protocol." width=70% >}}
+            ![The source URI must be specified using the 'redis://' protocol.](/images/rc/migrate-data-specify-source-uri.png)
+            {width="70%"}
 
         1. Select if the source database requires Transport Layer Security (TLS).
         
             - If the source database requires TLS, select **TLS** and enter the public server certificate in the **Server Certificate** field.
 
-            {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
+            ![The Server Certificate field.](/images/rc/migrate-data-tls-server-cert.png)
+            {width="70%"}
 
             - If the source database requires client authentication, select **Mutual TLS**.
 
                 1. Enter the public server certificate in the **Server Certificate** field.
 
-                    {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
+                    ![The Server Certificate field.](/images/rc/migrate-data-tls-server-cert.png)
+                    {width="70%"}
 
                 1. Select **Download** to download the client certificate. 
 
-                    {{<image filename="images/rc/migrate-data-tls-client-cert.png" alt="The Client Certificate field. Select Download to download the client certificate." width=70% >}}
+                    ![The Client Certificate field. Select Download to download the client certificate.](/images/rc/migrate-data-tls-client-cert.png)
+                    {width="70%"}
 
                 1. Configure the source database to accept the client certificate.
 
 1. Select **Save Active-Passive** to save your Active-Passive settings.
 
-    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save Active-Passive** button saves the active-passive settings." width="150px">}}
+    ![The **Save Active-Passive** button saves the active-passive settings.](/images/rc/icon-database-save-active-passive.png)
+    {width="150px"}
 
     For an external database, we'll verify the endpoint at this step. If the endpoint can't be verified, make sure that you've copied the details directly from the source database and that the value you entered starts with `redis://`.
 
 1.  Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
+    ![Use the **Save Database** button to save your changes, deploy the database, and to start data migration.](/images/rc/button-database-save.png)
+    {width="150px"}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
-    {{<image filename="images/rc/icon-database-update-status-pending.png" alt="When the status is 'Pending', your changes are still being deployed.">}}
+    ![When the status is 'Pending', your changes are still being deployed.](/images/rc/icon-database-update-status-pending.png)
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
+    ![When the status becomes 'Active', data begins to sync.](/images/rc/icon-database-status-active.png)
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
