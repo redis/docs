@@ -17,17 +17,19 @@ To view the details of a Redis Cloud Pro subscription:
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 
-    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." width=50% >}}
+    ![The Subscription list shows your current subscriptions.](/images/rc/subscription-list-select.png)
+    {width="50%"}
 
 1.  Your subscription details appear, along with a summary of your database details.
 
-    {{<image filename="images/rc/subscription-flexible-databases-tab-pending.png" alt="The Databases tab of the subscription details page is the default view." >}}
+    ![The Databases tab of the subscription details page is the default view.](/images/rc/subscription-flexible-databases-tab-pending.png)
 
 From here, you can:
 
 - Select **Create database in this subscription** to [add a database to your subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md).
 
-    {{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
+    ![The Create database in this subscription button.](/images/rc/button-add-new-to-pro.png)
+    {width="400px"}
 
 - View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated yellow circle.
 
@@ -55,7 +57,7 @@ The following sections provide more info.
 
 The **Databases** tab summarizes the databases in your subscription.  
 
-{{<image filename="images/rc/subscription-flexible-databases-tab-pending.png" alt="The Databases tab of the subscription details page is the default view." >}}
+![The Databases tab of the subscription details page is the default view.](/images/rc/subscription-flexible-databases-tab-pending.png)
 
 The following details are provided:
 
@@ -75,13 +77,13 @@ To view full details of a database, click its name in the list.
 
 The **Overview** summarizes the options used to create the subscription.
 
-{{<image filename="images/rc/subscription-details-overview-flexible.png" alt="The Overview tab displays the settings used to create your Redis Cloud Pro subscription." >}}
+![The Overview tab displays the settings used to create your Redis Cloud Pro subscription.](/images/rc/subscription-details-overview-flexible.png)
 
 - The general settings panel describes the cloud vendor, region, and high-availability settings for your subscription.
 
     Select **Edit** to change the name of the subscription.
 
-    {{<image filename="images/rc/icon-edit-subscription-name.png" alt="Use the **Edit** button to change the subscription name." >}}
+    ![Use the **Edit** button to change the subscription name.](/images/rc/icon-edit-subscription-name.png)
 
 
     | Setting | Description |
@@ -102,7 +104,8 @@ The **Overview** summarizes the options used to create the subscription.
 
     Select the **Edit payment method** button to change the credit card associated with this subscription.
 
-    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing a credit card." width=400px >}}
+    ![The edit payment method button, selected and showing a credit card.](/images/rc/icon-subscription-detail-change-payment-flexible.png)
+    {width="400px"}
 
     Select **Add credit card** to add a new credit card.
 
@@ -124,7 +127,7 @@ The **Data integration** tab displays your Data integration workspace and pipeli
 
 The **Connectivity** tabs helps secure your subscription.  
 
-{{<image filename="images/rc/subscription-details-connectivity-tab-flexible.png" alt="The Connectivity tab helps you secure your subscription." >}}
+![The Connectivity tab helps you secure your subscription.](/images/rc/subscription-details-connectivity-tab-flexible.png)
 
 Here, you can:
 
@@ -146,6 +149,6 @@ Here, you can [block public endpoints](/content/operate/rc/security/database-sec
 
 The **Regions** tab is only available for Active-Active subscriptions.  It lets you manage the regions in your Active-Active subscription.
 
-{{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
+![The Regions tab lets you manage the regions in your Active-Active subscription.](/images/rc/subscription-details-regions-tab.png)
 
 See [Manage regions for an Active-Active database](/content/operate/rc/databases/active-active/manage-regions.md) for more information.
