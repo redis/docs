@@ -57,6 +57,7 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
+- Try the [LangCache interactive demo]({{< relref "/develop/ai/context-engine/langcache/interactive-demo" >}}) to see how the similarity threshold changes hits and misses.
 - [Create a LangCache service]({{< relref "/operate/iris/langcache/create-service" >}}) on Redis Cloud.
 - [Deploy LangCache self-managed]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}) on your own Kubernetes infrastructure.
 - [Use the LangCache API and SDK]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) to search and populate a cache.

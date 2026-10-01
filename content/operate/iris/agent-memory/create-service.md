@@ -250,4 +250,6 @@ If an error occurs, verify that your database is active. For help, [contact supp
 
 After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
 
+To generate a conversational agent that connects to your service, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
+
 You can also [view and edit the service]({{< relref "/operate/iris/agent-memory/view-service" >}}).

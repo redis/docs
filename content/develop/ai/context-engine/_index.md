@@ -17,10 +17,10 @@ Give your AI agents the context layer they need to reliably act on business data
 Redis Iris eliminates the infrastructure burden of building context-aware AI agents: persistent memory, semantic caching, governed data access, and live data sync, fully managed on Redis Cloud or self-managed on your own infrastructure.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
-  {{< tile-card color="bg-violet-300" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
-  {{< tile-card color="bg-teal-300" title="LangCache" description="Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
-  {{< tile-card color="bg-rose-300" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-langcache-64-duotone.png" title="LangCache" description="Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
 </div>
 
 ## What is Redis Iris?

@@ -18,10 +18,10 @@ Give your agents structured, governed access to business data, without building 
 Context Retriever lets you define your data model once. It automatically generates the retrieval tools agents call at runtime, so agents always work with accurate, live data through a controlled interface rather than guessing at SQL or calling databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Concepts" description="Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="Python SDK & CLI" description="Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
-  {{< tile-card color="bg-teal-300" title="Manage Access" description="Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Python SDK & CLI" description="Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Manage Access" description="Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
 </div>
 
 ## What is Context Retriever?
