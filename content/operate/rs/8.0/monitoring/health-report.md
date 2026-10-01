@@ -104,7 +104,7 @@ On the **Nodes** screen, click **Verify all nodes**.
     
 1. Select **Verify node** from the list.
 
-<img src="../../../../images/rs/screenshots/nodes/primary-node-more-actions-8-0.png" alt="Click the more actions button for a node to access node actions.">
+![Click the more actions button for a node to access node actions.](/images/rs/screenshots/nodes/primary-node-more-actions-8-0.png)
 
 {{< /multitabs >}}
 

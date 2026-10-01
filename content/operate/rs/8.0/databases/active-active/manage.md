@@ -39,7 +39,7 @@ To make global configuration changes in the Cluster Manager UI:
 
 1. While on the **Global** tab, click **Edit**.
 
-    <img src="../../../../../images/rs/screenshots/databases/active-active-databases/global-config-tab.png" alt="The global configuration tab is selected.">
+    ![The global configuration tab is selected.](/images/rs/screenshots/databases/active-active-databases/global-config-tab.png)
 
 1. Make your configuration changes.
 
@@ -73,7 +73,7 @@ To change the local configuration in the Cluster Manager UI:
 
 1. Go to the **Local** tab.
 
-    <img src="../../../../../images/rs/screenshots/databases/active-active-databases/local-config-tab.png" alt="The local configuration tab is selected.">
+    ![The local configuration tab is selected.](/images/rs/screenshots/databases/active-active-databases/local-config-tab.png)
 
 1. Click **Edit**, then make your configuration changes.
 

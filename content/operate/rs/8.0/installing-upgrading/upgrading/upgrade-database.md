@@ -85,7 +85,7 @@ To upgrade a database:
 
     1. Expand the database in the **Databases** list to show details.
 
-        <img src="../../../../../images/rs/screenshots/databases/expand-db-details.png" alt="The database details are expanded, including an upgrade option.">
+        ![The database details are expanded, including an upgrade option.](/images/rs/screenshots/databases/expand-db-details.png)
 
     1. Click **Upgrade**.
 
@@ -103,7 +103,7 @@ To upgrade a database:
 
     1. Select **Upgrade version** from the list.
 
-        <img src="../../../../../images/rs/screenshots/databases/db-more-actions-upgrade-version.png" alt="The upgrade version option is selected in the more actions list.">
+        ![The upgrade version option is selected in the more actions list.](/images/rs/screenshots/databases/db-more-actions-upgrade-version.png)
 
     1. For **Select version**, choose the Redis version for the database upgrade from the list.
 
