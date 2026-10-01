@@ -19,7 +19,7 @@ Internode encryption is supported for the _data plane_, which encrypts communica
 
 The following diagram shows how this works.
 
-{{<image filename="images/rs/internode-encryption.png" alt="A diagram showing the interaction between data internode encryption, control plane encryption, and various elements of a cluster." >}}
+![A diagram showing the interaction between data internode encryption, control plane encryption, and various elements of a cluster.](/images/rs/internode-encryption.png)
 
 Data internode encryption is disabled by default for individual databases in order to optimize for performance.  Encryption adds latency and overhead; the impact is measurable and varies according to the database, its field types, and the details of the underlying use case. 
 

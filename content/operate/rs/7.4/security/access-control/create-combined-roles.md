@@ -50,26 +50,26 @@ To create a role that grants database access privileges and allows access to the
 
     - Select **+ Add role** to create a new role.
 
-    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name">}}
+    ![Add role with name](/images/rs/access-control-role-panel.png)
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
 1. Choose a **Cluster management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions](/content/operate/rs/7.4/security/access-control/create-cluster-roles.md#cluster-manager-ui-permissions) and [REST API permissions](/content/operate/rs/7.4/references/rest-api/permissions.md).
 
-    {{<image filename="images/rs/screenshots/access-control/rbac-create-combined-role-select-cm-role.png" alt="Add role with name">}}
+    ![Add role with name](/images/rs/screenshots/access-control/rbac-create-combined-role-select-cm-role.png)
     
 1. Select **+ Add ACL**.
 
-    {{<image filename="images/rs/access-control-role-acl.png" alt="Add role database acl">}}
+    ![Add role database acl](/images/rs/access-control-role-acl.png)
 
 1.  Choose a Redis ACL and databases to associate with the role.
 
-    {{<image filename="images/rs/screenshots/access-control/access-control-role-databases.png" alt="Add databases to access">}}
+    ![Add databases to access](/images/rs/screenshots/access-control/access-control-role-databases.png)
 
 1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
 
 1. Select **Save**.
 
-    {{<image filename="images/rs/screenshots/access-control/rbac-save-combined-role.png" alt="Add databases to access">}}
+    ![Add databases to access](/images/rs/screenshots/access-control/rbac-save-combined-role.png)
 
 You can [assign the new role to users](/content/operate/rs/7.4/security/access-control/create-users.md#assign-roles-to-users) to grant database access and access to the Cluster Manager UI and REST API.

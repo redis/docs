@@ -67,7 +67,7 @@ To upgrade an Active-Active database (CRDB) instance:
     - `OLD CRDB PROTOCOL VERSION`
     - `OLD CRBD FEATURESET VERSION`
 
-    {{< image filename="/images/rs/crdb-upgrade-node.png" >}}
+    ![](/images/rs/crdb-upgrade-node.png)
 
 1. To upgrade each Active-Active instance, including the Redis version and CRDB protocol version, run:
 
@@ -81,7 +81,7 @@ To upgrade an Active-Active database (CRDB) instance:
 
     If the protocol version is old, read the warning message carefully and confirm.
 
-    {{< image filename="/images/rs/crdb-upgrade-protocol.png" >}}
+    ![](/images/rs/crdb-upgrade-protocol.png)
 
     The Active-Active instance uses the new Redis version and CRDB protocol version.
 

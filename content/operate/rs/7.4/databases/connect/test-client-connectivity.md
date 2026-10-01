@@ -20,7 +20,8 @@ To test client connectivity:
 
     To view and copy endpoints for a database in the cluster, see the database’s **Configuration > General** section in the Cluster Manager UI:
 
-    {{<image filename="images/rs/screenshots/databases/config-general-endpoints.png" width="75%" alt="View public and private endpoints from the General section of the database's Configuration screen." >}}
+    ![View public and private endpoints from the General section of the database's Configuration screen.](/images/rs/screenshots/databases/config-general-endpoints.png)
+    {width="75%"}
 
 1. Try to connect to the database endpoint from your client of choice,
     and run database commands.
