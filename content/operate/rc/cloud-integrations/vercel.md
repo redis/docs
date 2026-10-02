@@ -18,7 +18,8 @@ The [Redis Cloud Vercel integration](https://vercel.com/marketplace/redis-cloud)
 1. Log in to your Vercel account (or create a new one).
 
 1. Navigate to the **Storage** tab. Under **Marketplace Database Providers**, find **Redis** and select **Create**.
-    {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="The Redis database provider in the Vercel Storage tab.">}}
+
+    ![The Redis database provider in the Vercel Storage tab.](/images/rc/vercel-storage-create-database-button.png)
 
 1. In the **Install integration** dialog under **Configuration and plan**, select your region and [high availability](/content/operate/rc/databases/configuration/high-availability.md) settings.
 
@@ -43,9 +44,12 @@ You can use the connection string shown under **Quickstart** to [connect to your
 1. Navigate to the **Storage** tab.
 1. Find your new database in the list of your team's databases.
 1. Select **Connect Project**.
-    {{<image filename="/images/rc/vercel-connect-project-button.png" alt="Connect Project button">}}
+
+    ![Connect Project button](/images/rc/vercel-connect-project-button.png)
+
 1. Choose your project and environments and select **Connect**.
-    {{<image filename="/images/rc/vercel-connect-project.png" alt="Connect project">}}
+
+    ![Connect project](/images/rc/vercel-connect-project.png)
 
 ## Manage your database
 

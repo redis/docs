@@ -6,7 +6,8 @@ that connect to Redis Software. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
 The screenshot below shows a dashboard with relevant statistics for a node:
-{{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
+
+![Dashboard showing relevant statistics for a Node](/images/node_summary.png)
 
 To effectively monitor a Redis Software cluster you need to observe
 core cluster resources and key database performance indicators as described in the following sections for this guide.
@@ -27,7 +28,8 @@ Key database performance indicators include:
 * Proxy Performance
 
 Dashboard showing an overview of cluster metrics:
-{{< image filename="/images/cluster_overview.png" alt="Dashboard showing an overview of cluster metrics" >}}
+
+![Dashboard showing an overview of cluster metrics](/images/cluster_overview.png)
 
 In addition to manually monitoring these resources and indicators, it is best practice to set up alerts.
 
@@ -49,7 +51,8 @@ in a multi-database cluster.
 | Memory usage percentage metric | Percentage of used memory relative to the configured memory limit for a given database | Percentage |
 
 Dashboard displaying high-level cluster metrics - [Cluster Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/cluster_dashboard_v9-11.json)
-{{< image filename="/images/playbook_used-memory.png" alt="Dashboard displaying high-level cluster metrics" >}}
+
+![Dashboard displaying high-level cluster metrics](/images/playbook_used-memory.png)
 
 ### Thresholds
 
@@ -184,7 +187,8 @@ In the dashboard, shard CPU is the CPU utilization of the processes that make up
 When diagnosing performance issues, start by looking at shard CPU.
 
 Dashboard displaying CPU usage - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
-{{< image filename="/images/playbook_database-cpu-shard.png" alt="Dashboard displaying CPU usage" >}}
+
+![Dashboard displaying CPU usage](/images/playbook_database-cpu-shard.png)
 
 ### Thresholds
 
@@ -193,7 +197,8 @@ In general, we define high CPU as any CPU utilization above 80% of total capacit
 Shard CPU should remain below 80%. Shards are single-threaded, so a shard CPU of 100% means that the shard is fully utilized.
 
 Display showing Proxy CPU usage - [Proxy Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/proxy_dashboard_v9-11.json)
-{{< image filename="/images/playbook_proxy-cpu-usage.png" alt="Display showing Proxy CPU usage" >}}
+
+![Display showing Proxy CPU usage](/images/playbook_proxy-cpu-usage.png)
 
 Proxy CPU should remain below 80% of total capacity.
 The proxy is a multi-threaded process that handles client connections and forwards requests to the appropriate shard.
@@ -202,7 +207,8 @@ A proxy configured with 6 threads can reach 600% CPU utilization, so in this cas
 keeping utilization below 80% means keeping the total proxy CPU usage below 480%.
 
 Dashboard displaying an ensemble of Node CPU usage data - [Node Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/node_dashboard_v9-11.json)
-{{< image filename="/images/node_cpu.png" alt="Dashboard displaying an ensemble of Node CPU usage data" >}}
+
+![Dashboard displaying an ensemble of Node CPU usage data](/images/node_cpu.png)
 
 Node CPU should also remain below 80% of total capacity. As with the proxy, the node CPU is variable depending
 on the CPU capacity of the node. You will need to calibrate your alerting based on the number of cores in your nodes.
@@ -240,7 +246,8 @@ This number should remain relatively constant over time.
 
 
 Dashboard displaying connections - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
-{{< image filename="/images/playbook_database-used-connections.png" alt="Dashboard displaying connections" >}}
+
+![Dashboard displaying connections](/images/playbook_database-used-connections.png)
 
 ### Network ingress/egress
 
@@ -273,7 +280,8 @@ The syncer keeps a replication backlog, which stores changes to the dataset that
 The syncer uses partial syncs to keep replicas up to date with changes, or a full sync in the event a replica or primary is lost.
 
 Dashboard displaying connection metrics between zones - [Synchronization Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/synchronization_dashboard_v9-11.json)
-{{< image filename="/images/playbook_network-connectivity.png" alt="Dashboard displaying connection metrics between zones" >}}
+
+![Dashboard displaying connection metrics between zones](/images/playbook_network-connectivity.png)
 
 CRDT provides three fundamental benefits over other geo-distributed solutions:
 
@@ -299,7 +307,8 @@ latency in terms of microseconds. Businesses regularly achieve, and sometimes re
 microseconds.
 
 Dashboard display of latency metrics - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
-{{< image filename="/images/playbook_database-cluster-latency.png" alt="Dashboard display of latency metrics" >}}
+
+![Dashboard display of latency metrics](/images/playbook_database-cluster-latency.png)
 
 The metrics distinguish between read and write latency. Understanding whether high latency is due
 to read or writes can help you to isolate the underlying issue.
@@ -308,7 +317,8 @@ Note that these latency metrics do not include network round trip time or applic
 which is why it's essential to measure request latency at the application, as well.
 
 Display showing a noticeable spike in latency
-{{< image filename="/images/latency_spike.png" alt="Display showing a noticeable spike in latency" >}}
+
+![Display showing a noticeable spike in latency](/images/latency_spike.png)
 
 ### Troubleshooting
 
@@ -333,7 +343,8 @@ the exact ideal cache hit rate can vary greatly depending on the application and
 is already populated.
 
 Dashboard showing the cache hit ratio along with read/write misses - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
-{{< image filename="/images/playbook_cache-hit.png" alt="Dashboard showing the cache hit ratio along with read/write misses" >}}
+
+![Dashboard showing the cache hit ratio along with read/write misses](/images/playbook_cache-hit.png)
 
 **Note:** Redis Software actually reports four different cache hit / miss metrics.
 These are defined as follows:
@@ -360,7 +371,8 @@ They **key eviction rate** is rate at which objects are being evicted from the d
 See [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) for a discussion of key eviction and its relationship with memory usage.
 
 Dashboard displaying object evictions - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
-{{< image filename="/images/playbook_eviction-expiration.png" alt="Dashboard displaying object evictions">}}
+
+![Dashboard displaying object evictions](/images/playbook_eviction-expiration.png)
 
 ## Proxy performance
 
@@ -376,7 +388,8 @@ Redis Software provides high-performance data access through a proxy process tha
 |All Nodes | There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as using a load balancer. |
 
 Dashboard displaying proxy thread activity - [Proxy Thread Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-proxy-dashboard_v9-11.json)
-{{< image filename="/images/proxy-thread-dashboard.png" alt="Dashboard displaying proxy thread activity" >}}
+
+![Dashboard displaying proxy thread activity](/images/proxy-thread-dashboard.png)
 
 If you need to, you can tune the number of proxy threads using the [`rladmin tune proxy`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-proxy" >}}) command to make the proxy use more CPU cores.
 Cores used by the proxy won't be available for Redis, therefore we need to take into account the number of Redis nodes on the host and the total number of available cores.
@@ -449,7 +462,8 @@ The slow log is available in the Redis Software and Redis Cloud consoles:
 * [Redis Cloud slow log docs]({{< relref "/operate/rc/databases/view-edit-database#other-actions-and-info" >}})
 
 Redis Cloud dashboard showing slow database operations
-{{< image filename="/images/slow_log.png" alt="Redis Cloud dashboard showing slow database operations" >}}
+
+![Redis Cloud dashboard showing slow database operations](/images/slow_log.png)
 
 | Issue | Remediation |
 | ------ | :------ |
