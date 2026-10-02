@@ -12,15 +12,34 @@
 .iris .iris-svc-rdi { --svc: #336791; --svc-bg: rgba(51, 103, 145, .1); }
 
 /* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
-.iris-stage { position: relative; aspect-ratio: 893 / 570; margin-bottom: 12px; border-radius: 11px; overflow: hidden; background: #0D212C; }
-/* The four published versions of the drawing, stacked. A step fades in the ones it needs; the script sets how they blend. */
-.iris .iris-art { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; margin: 0; opacity: 0; transition: opacity .45s; pointer-events: none; user-select: none; }
+.iris-stagewrap { position: relative; margin-bottom: 12px; }
+.iris-stage { position: relative; aspect-ratio: 893 / 570; border-radius: 11px; overflow: hidden; background: #0D212C; }
+/* The four published versions of the drawing, stacked twice. In a stack, a step shows the versions it needs and the
+   script sets how they blend; isolation keeps that blend inside the stack. The new stack fades in over the old one. */
+.iris-artset { position: absolute; inset: 0; isolation: isolate; opacity: 0; transition: opacity .45s; }
+.iris .iris-art { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; margin: 0; opacity: 0; pointer-events: none; user-select: none; }
 .iris .iris-art.is-on { opacity: 1; }
 .iris-over { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .iris-route { fill: none; stroke: none; }
 .iris-hit { fill: transparent; cursor: pointer; }
 .iris-pk-glow { fill: #ff4438; opacity: .9; }
 .iris-pk-core { fill: #fff; }
+/* Maya, the user, in the drawing's own style. Her link to the agent is dimmed, as the drawing dims a link, except on the steps she's part of. */
+.iris-maya { pointer-events: none; }
+.iris-maya-name { font-family: "Space Mono", var(--rcr-mono); font-size: 8.4px; letter-spacing: .3px; fill: #fff; }
+.iris-maya-link { opacity: .4; transition: opacity .45s; }
+.iris-maya-link circle { opacity: 0; transition: opacity .45s; }
+.iris-maya-link.is-lit, .iris-maya-link.is-lit circle { opacity: 1; }
+/* The Data Integration gear, turning as on redis.io/iris, in the drawing's own colors. Dimmed like the drawing dims it. */
+.iris-gear { pointer-events: none; }
+.iris-gear-patch { fill: #0D212C; }
+.iris-gear-back, .iris-gear-walls path { fill: #351D22; }
+.iris-gear-face { fill: #89302E; }
+.iris-gear-walls path, .iris-gear-face { stroke: #FF4438; stroke-width: .84px; stroke-linejoin: round; stroke-linecap: round; }
+.iris-gear-body, .iris-gear-ahead { transition: opacity .45s; }
+.iris-gear:not(.is-lit) .iris-gear-body { opacity: .4; }
+.iris-gear-ahead.is-dim, .iris-gear:not(.is-lit) .iris-gear-ahead.is-lit { opacity: 0; }
+.iris-gear:not(.is-lit) .iris-gear-ahead.is-dim { opacity: 1; }
 .iris-tag {
   position: absolute; pointer-events: none; white-space: nowrap; font-family: var(--rcr-mono); font-size: 10px; font-weight: 600;
   color: #091a23; background: #fff; border-radius: 6px; padding: 3px 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
@@ -28,6 +47,94 @@
 }
 .iris-tag.is-on { opacity: 1; }
 @container (max-width: 400px) { .rcr .iris-tag { font-size: 9px; padding: 2px 6px; } }
+
+/* ---- POSTGRES and the Redis logo: a button shaped like each, and a ring on its own outline that pulses on the step where the data changes ---- */
+.iris .iris-databtn { position: absolute; z-index: 1; margin: 0; border: 0; padding: 0; background: transparent; cursor: pointer; }
+.iris .iris-databtn:focus { outline: none; }
+.iris-ring {
+  fill: none; stroke: #FF4438; stroke-width: 2px; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none;
+  transform-box: fill-box; transform-origin: center;
+}
+.iris-stage.is-step-rdi .iris-pulse { animation: iris-pulse 1.8s ease-out infinite; }
+.iris-stagewrap:has(.iris-pgbtn:hover) .iris-ring[data-src="pg"]:not(.iris-pulse),
+.iris-stagewrap:has(.iris-redisbtn:hover) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; }
+.iris-stagewrap:has(.iris-pgbtn:focus-visible) .iris-ring[data-src="pg"]:not(.iris-pulse),
+.iris-stagewrap:has(.iris-redisbtn:focus-visible) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; stroke: #fff; stroke-width: 2.5px; }
+@keyframes iris-pulse { 0% { opacity: .95; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
+
+/* ---- the PostgreSQL data window, over the diagram only, styled like it ---- */
+.iris-modal { position: absolute; inset: 0; z-index: 2; border-radius: 11px; overflow: hidden; }
+/* Fades and blurs the diagram behind the window, in the diagram's own navy. */
+.iris-backdrop {
+  position: absolute; inset: 0; background: rgba(13, 33, 44, .7); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  animation: iris-fade .25s ease-out;
+}
+@keyframes iris-fade { from { opacity: 0; } to { opacity: 1; } }
+.iris-window {
+  position: absolute; inset: 8px; display: flex; flex-direction: column;
+  background: #0D212C; border: 1px solid #3d5866; border-radius: 11px; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); color: #d8e3e8; overflow: hidden;
+  animation: iris-pop .25s ease-out;
+}
+@keyframes iris-pop { from { opacity: 0; transform: translateY(6px) scale(.985); } to { opacity: 1; transform: none; } }
+.iris-winhead { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-bottom: 1px solid #163341; }
+.iris-winlbl {
+  font-family: var(--rcr-mono); font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
+  background: #163341; border: 1px solid #8A99A0; border-radius: 4px; padding: 3px 8px;
+}
+.iris-winsub { font-family: var(--rcr-mono); font-size: 11px; color: #8A99A0; }
+.iris .iris-close {
+  margin-left: auto; flex: none; width: 26px; height: 26px; border-radius: 6px; border: 1px solid #3d5866; background: transparent;
+  color: #d8e3e8; font-size: 18px; line-height: 1; cursor: pointer;
+}
+.iris .iris-close:hover { border-color: #8A99A0; background: #163341; }
+.iris .iris-close:focus-visible, .iris .iris-wintab:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 68, 56, .8); }
+.iris-wintabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px 0; }
+.iris .iris-wintab {
+  font-family: var(--rcr-mono); font-size: 10.5px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer;
+  color: #8A99A0; background: transparent; border: 1px solid #3d5866; border-radius: 999px; padding: 3px 10px;
+}
+.iris .iris-wintab[aria-selected="true"] { color: #fff; background: #163341; border-color: #8A99A0; }
+.iris-wincount { color: #5C707A; margin-left: 2px; }
+.iris-wintab[aria-selected="true"] .iris-wincount { color: #B9C2C6; }
+.iris-winbody { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 8px 10px 9px; gap: 7px; }
+.iris-tablewrap { flex: 0 1 auto; overflow: auto; min-height: 0; border: 1px solid #163341; border-radius: 8px; }
+.iris-tablewrap:focus-visible { outline: 2px solid #FF4438; outline-offset: 2px; }
+.iris-pgtable { border-collapse: separate; border-spacing: 0; margin: 0; width: 100%; font-family: var(--rcr-mono); font-size: 10.5px; white-space: nowrap; }
+.iris-pgtable th {
+  position: sticky; top: 0; z-index: 1; text-align: left; font-weight: 600; font-size: 10px; letter-spacing: .5px; text-transform: uppercase;
+  color: #8A99A0; background: #102a37; padding: 5px 8px; border-bottom: 1px solid #163341;
+}
+.iris-pgtable td { padding: 4px 8px; border-bottom: 1px solid #12303e; color: #B9C2C6; background: #0D212C; }
+/* id stays pinned on the left while the rest scrolls, and name too when there's room (is-pin2). */
+.iris-pgtable tr > :first-child, .iris-pgtable.is-pin2 tr > :nth-child(2) { position: sticky; left: 0; z-index: 1; }
+.iris-pgtable thead tr > :first-child, .iris-pgtable.is-pin2 thead tr > :nth-child(2) { z-index: 2; }
+.iris-tablewrap.is-scrolled .iris-pgtable:not(.is-pin2) tr > :first-child,
+.iris-tablewrap.is-scrolled .iris-pgtable.is-pin2 tr > :nth-child(2) { box-shadow: 6px 0 8px -6px rgba(0, 0, 0, .6); }
+.iris-pgtable .is-num { text-align: right; }
+.iris-pgtable tr:last-child td { border-bottom: 0; }
+.iris-pgtable tr.is-used td { color: #fff; background: #2a2329; }
+.iris-pgtable tr.is-used td:first-child { box-shadow: inset 3px 0 0 #FF4438; }
+.iris-tablewrap.is-scrolled .iris-pgtable:not(.is-pin2) tr.is-used td:first-child { box-shadow: inset 3px 0 0 #FF4438, 6px 0 8px -6px rgba(0, 0, 0, .6); }
+.iris-pgtable tr.is-changed td { background: #3a242a; }
+.iris-old { color: #5C707A; text-decoration: line-through; }
+.iris-new { color: #fff; font-weight: 700; border-radius: 3px; padding: 0 3px; }
+.iris-flip.is-before .iris-old { display: none; }
+.iris-flip.is-flipped .iris-new { animation: iris-cell .9s ease-out; }
+@keyframes iris-cell { from { background: #FF4438; } to { background: transparent; } }
+.iris-winnote { flex: none; font-size: 12px; line-height: 1.4; color: #B9C2C6; }
+/* On a phone the window has the diagram's small height to work with. */
+@container (max-width: 400px) {
+  .rcr .iris-window { inset: 5px; }
+  .rcr .iris-winhead { padding: 5px 8px; }
+  .rcr .iris-winsub { display: none; }
+  .rcr .iris-wintabs { gap: 4px; padding: 6px 8px 0; flex-wrap: nowrap; }
+  .rcr .iris-wintab { font-size: 9.5px; padding: 2px 7px; }
+  .rcr .iris-winbody { padding: 6px 8px 7px; gap: 5px; }
+  .rcr .iris-pgtable { font-size: 10px; }
+  .rcr .iris-pgtable th { font-size: 9px; letter-spacing: .3px; }
+  .rcr .iris-pgtable td, .rcr .iris-pgtable th { padding: 3px 6px; }
+  .rcr .iris-winnote { font-size: 11px; line-height: 1.35; }
+}
 
 /* ---- the step ---- */
 .iris .iris-stepcard { border-top: 3px solid var(--svc, var(--rcr-ink)); }
@@ -106,6 +213,8 @@
 .iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
 
 @media (prefers-reduced-motion: reduce) {
-  .iris .iris-art, .iris-tag { transition: none; }
+  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle { transition: none; }
+  .iris-window, .iris-backdrop, .iris-flip.is-flipped .iris-new { animation: none; }
+  .iris-stage.is-step-rdi .iris-pulse { animation: none; opacity: 1; }
   .iris-chip.is-new { animation: none; }
 }
