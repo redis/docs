@@ -11,6 +11,6 @@ linkTitle: Networking
 weight: 4
 ---
 
-Your Data Integration pipeline runs on Redis Cloud and connects to your source database over [AWS PrivateLink]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}). The following guides explain how the network path works and how to keep it available:
+Your Data Integration pipeline runs on Redis Cloud and connects to your source database over [AWS PrivateLink](/content/operate/rc/rdi/setup.md#set-up-connectivity). The following guides explain how the network path works and how to keep it available:
 
-- [AWS PrivateLink reference]({{<relref "/operate/rc/rdi/networking/aws-privatelink">}}): How traffic flows between the pipeline and your database, which address each component sees, and how to keep the connection available when your database fails over.
+- [AWS PrivateLink reference](/content/operate/rc/rdi/networking/aws-privatelink.md): How traffic flows between the pipeline and your database, which address each component sees, and how to keep the connection available when your database fails over.

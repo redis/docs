@@ -13,7 +13,7 @@ hideListLinks: true
 weight: 4
 ---
 
-After you have [prepared each source database]({{<relref "/operate/rc/rdi/setup">}}) and [created a workspace]({{<relref "/operate/rc/rdi/create-workspace">}}), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target.
+After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target.
 
 In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
 
@@ -35,7 +35,7 @@ To create a pipeline:
     {{<image filename="images/rc/rdi/rdi-choose-target.png" alt="The target database list in pipeline Settings." width=80% >}}
 
 1. Select **Hash** or **JSON** as the **Default data structure**. Transformation jobs can override how individual records are written.
-1. If needed, configure **Processor properties**. These apply to the whole pipeline, not to an individual source. See the [processor configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}).
+1. If needed, configure **Processor properties**. These apply to the whole pipeline, not to an individual source. See the [processor configuration reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors-data-processing-configuration).
 
     {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
 
@@ -66,9 +66,9 @@ Complete the sections and select **Test source**. Correct any reported errors be
 
 ### Source connectivity
 
-Choose **AWS Private Link** or **Public Endpoint** for the selected source, according to its [connectivity requirements]({{<relref "/operate/rc/rdi#prerequisites">}}).
+Choose **AWS Private Link** or **Public Endpoint** for the selected source, according to its [connectivity requirements](/content/operate/rc/rdi/_index.md#prerequisites).
 
-- For **AWS Private Link**, enter the **Private Link service name** from your [endpoint service]({{< relref "/operate/rc/rdi/setup#set-up-connectivity" >}}). Select **Connect to Private Link** and wait for connectivity to complete. If the connection fails, check the service name and its allowed principal.
+- For **AWS Private Link**, enter the **Private Link service name** from your [endpoint service](/content/operate/rc/rdi/setup.md#set-up-connectivity). Select **Connect to Private Link** and wait for connectivity to complete. If the connection fails, check the service name and its allowed principal.
 
     {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png" alt="AWS Private Link connectivity with the service name and Connect to Private Link control." width=80% >}}
 
@@ -80,7 +80,7 @@ Configure connectivity for each source separately. Sources in the same pipeline 
 
 ### Secrets
 
-Enter the Amazon Resource Name (ARN) of the selected source's [database credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in **Credentials Secret ARN**.
+Enter the Amazon Resource Name (ARN) of the selected source's [database credentials secret](/content/operate/rc/rdi/setup.md#create-database-credentials-secrets) in **Credentials Secret ARN**.
 
 {{<image filename="images/rc/rdi/rdi-source-configuration-secrets.png" alt="The Credentials Secret ARN field, transit security options, and Validate control." width=80% >}}
 
@@ -99,7 +99,7 @@ Under **Transit security**, select the mode required by your source:
 
     {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="mTLS transit security with certificate, private key, and optional password secret ARN fields." width=80% >}}
 
-Select **Validate** to check access to the selected source's secrets. Repeat this for each source. The AWS secret contents and permissions are described in [Share source database credentials]({{< relref "/operate/rc/rdi/setup#share-source-database-credentials" >}}).
+Select **Validate** to check access to the selected source's secrets. Repeat this for each source. The AWS secret contents and permissions are described in [Share source database credentials](/content/operate/rc/rdi/setup.md#share-source-database-credentials).
 
 ### Source configuration {#source-configuration-section}
 
@@ -113,7 +113,7 @@ Enter the selected source's database settings. The fields depend on the database
 
 {{<image filename="images/rc/rdi/rdi-2-source-configuration.png" alt="Source-specific database, port, and collector properties." width=80% >}}
 
-Use **Collector properties** for additional source and sink settings. These settings apply to the selected source. See the [collector source properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsource-advanced-source-settings" >}}) and [collector sink properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsink-rdi-collector-stream-writer-configuration" >}}).
+Use **Collector properties** for additional source and sink settings. These settings apply to the selected source. See the [collector source properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings) and [collector sink properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsink-rdi-collector-stream-writer-configuration).
 
 {{<image filename="images/rc/rdi/rdi-source-configuration-collector-properties.png" alt="The Edit advanced properties control under Collector properties." width=500px >}}
 
@@ -123,9 +123,8 @@ Use **Collector properties** for additional source and sink settings. These sett
 
 Select each source in the **Sources** list and choose the data to ingest from that source.
 
-{{< warning >}}
-Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery]({{< relref "/operate/rc/rdi/faq#data-recovery" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery](/content/operate/rc/rdi/faq.md#data-recovery).
 
 1. Select a schema in **Schemas** to see its tables.
 1. Select the tables to ingest in **Tables**.
@@ -150,7 +149,7 @@ The available schema, table, and column controls depend on the source type. Each
 
 Transformation jobs are optional. Without a matching job, RDI writes records using the pipeline's default data structure.
 
-1. Select **Upload jobs** to upload the [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) needed for your selected tables.
+1. Select **Upload jobs** to upload the [transformation job files](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md) needed for your selected tables.
 1. Check the **Source name** assignment for each job. In a multi-source pipeline, `source.server_name` identifies the source the job reads from. Select the source name you chose during setup.
 1. Review each job's validation status and correct errors.
 
@@ -158,7 +157,7 @@ Transformation jobs are optional. Without a matching job, RDI writes records usi
 
 1. Select **Continue to review & deploy**.
 
-For the Flink processor, source matchers can use lists or entries prefixed with `regex:` to select several tables. Jobs must not overlap on the same table. See [Transformation examples]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}).
+For the Flink processor, source matchers can use lists or entries prefixed with `regex:` to select several tables. Jobs must not overlap on the same table. See [Transformation examples](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md).
 
 ## Review and deploy {#review-and-deploy}
 
@@ -168,4 +167,4 @@ Select **Deploy pipeline** to start the pipeline. Each source performs its initi
 
 {{<image filename="images/rc/rdi/rdi-confirm-deploy.png" alt="The Deploy pipeline button." width=175px >}}
 
-Open the pipeline's [Dashboard and Metrics tabs]({{<relref "/operate/rc/rdi/view-edit">}}) to follow progress for each source.
+Open the pipeline's [Dashboard and Metrics tabs](/content/operate/rc/rdi/view-edit.md) to follow progress for each source.

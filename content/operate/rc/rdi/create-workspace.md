@@ -38,9 +38,8 @@ There, you'll see your workspace and its pipelines. The **Sources** column lists
 
 ## Delete workspace
 
-{{< warning >}}
-Make sure to [delete your data pipeline]({{<relref "/operate/rc/rdi/view-edit#delete-pipeline">}}) before deleting your workspace.
-{{< /warning >}}
+> [!WARNING]
+> Make sure to [delete your data pipeline](/content/operate/rc/rdi/view-edit.md#delete-pipeline) before deleting your workspace.
 
 To delete your workspace, select **Workspace actions > Delete workspace** from your workspace.
 
