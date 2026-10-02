@@ -34,7 +34,7 @@ Before you run this command, upgrade Redis Software to version 8.0.18 or later o
 | crdb-guid \<guid\> | string | GUID of the Active-Active database (required) |
 | redis-version \<version\> | string | Upgrades the database to the specified Redis version instead of the latest version bundled with Redis Software |
 | preserve-roles | | Preserves the shards' primary and replica roles. Requires an extra failover. |
-| parallel-shards-upgrade \<number\> | integer | Maximum number of shards to upgrade in parallel (default: all shards) |
+| parallel-shards-upgrade \<number\> | integer or `all` | Maximum number of shards to upgrade in parallel (default: all) |
 | keep-crdt-protocol-version | | Keeps the current CRDB protocol version. See [CRDB protocol version guidelines](/content/operate/rs/installing-upgrading/upgrading/upgrade-active-active.md#crdb-protocol-version-guidelines). |
 | keep-crdt-featureset-version | | Keeps the current CRDB feature set version. See [Feature set version guidelines](/content/operate/rs/installing-upgrading/upgrading/upgrade-active-active.md#feature-set-version-guidelines). |
 | discard-data | | Discards data in a non-replicated, non-persistent database |

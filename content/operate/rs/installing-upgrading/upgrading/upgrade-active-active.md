@@ -18,7 +18,7 @@ The Active-Active database upgrade:
 
 - Updates the module information in the Active-Active database configuration to match the upgraded databases.
 
-- Upgrades the CRDB featureset version after the database is upgraded on all participating clusters.
+- Upgrades the CRDB feature set version after the database is upgraded on all participating clusters.
 
 ## Default Redis database versions {#default-db-versions}
 
@@ -78,7 +78,7 @@ To upgrade an Active-Active database:
     crdb-cli crdb upgrade --crdb-guid <CRDB-GUID> --redis-version <version> --preserve-roles
     ```
 
-    For additional options, see [Upgrade options](#upgrade-options).
+    For additional options, see the [`crdb-cli crdb upgrade` parameters]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/upgrade#parameters" >}}).
 
     By default, the command waits for the upgrade to finish and reports status changes:
 
@@ -118,7 +118,7 @@ To upgrade an Active-Active database:
     }
     ```
 
-    For additional options, see [Upgrade options](#upgrade-options) and the [request body]({{< relref "/operate/rs/references/rest-api/requests/crdbs/upgrade#request-body" >}}) section of the Active-Active database upgrade requests reference.
+    For additional options, see the [request body]({{< relref "/operate/rs/references/rest-api/requests/crdbs/upgrade#request-body" >}}) section of the Active-Active database upgrade requests reference.
 
 1. Check the upgrade's progress with the ID of the [CRDB task]({{< relref "/operate/rs/references/rest-api/requests/crdb_tasks#get-crdb_task" >}}) returned by the upgrade request:
 
@@ -129,7 +129,6 @@ To upgrade an Active-Active database:
     The task's `status` is `finished` when the upgrade is complete.
 
 {{< /multitabs >}}
-
 
 ## Check database status
 
@@ -145,9 +144,9 @@ The statuses of the Active-Active database on the cluster can indicate:
 
 - `OLD REDIS VERSION`: The database is running a Redis version that is outdated or not fully compatible with the current Redis Software cluster version. [Upgrade the Active-Active database](#upgrade-an-active-active-database) to a later version of Redis bundled with the cluster's current Redis Software version.
 
-- `OLD CRDB PROTOCOL VERSION`: The database uses an older CRDB protocol. The upgrade updates the CRDB protocol version unless you use the `keep_crdt_protocol_version` option. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
+- `OLD CRDB PROTOCOL VERSION`: The database uses an older CRDB protocol. The upgrade updates the CRDB protocol version unless you use the `--keep-crdt-protocol-version` option (`keep_crdt_protocol_version` in the REST API). See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
-- `OLD CRDB FEATURESET VERSION`: The database feature set version is outdated. The upgrade updates the feature set version after the database is upgraded on all participating clusters, unless you use the `keep_crdt_featureset_version` option. See [Feature set version guidelines](#feature-set-version-guidelines) for more information.
+- `OLD CRDB FEATURESET VERSION`: The database feature set version is outdated. The upgrade updates the feature set version after the database is upgraded on all participating clusters, unless you use the `--keep-crdt-featureset-version` option (`keep_crdt_featureset_version` in the REST API). See [Feature set version guidelines](#feature-set-version-guidelines) for more information.
 
 ### CRDB protocol version guidelines
 
