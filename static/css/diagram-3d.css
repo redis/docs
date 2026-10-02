@@ -32,6 +32,16 @@
   pointer-events: none;
 }
 
+.diagram-3d-description {
+  margin-top: 0.75rem;
+}
+
+.diagram-3d-description summary {
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #5C707A;
+}
+
 .diagram-3d-label {
   font-family: "Space Mono", monospace;
   font-size: 11px;

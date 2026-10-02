@@ -6,7 +6,15 @@ linkTitle: Diagram 3D scratch
 
 Experimental 3D version of the request-flow diagram:
 
-{{< diagram-3d script="iris-request-flow-3d" >}}
+{{< diagram-3d script="iris-request-flow-3d" alt="Interactive 3D diagram of how a request flows through Redis Iris." >}}
+An agent sends a prompt, which can draw on any combination of three capabilities before the model call:
+
+- **LangCache** checks whether a similar prompt is already cached. On a cache hit, it returns the cached response directly, skipping the model call.
+- **Agent Memory** recalls session history and long-term facts about the user or task.
+- **Context Retriever** calls governed tools over the Model Context Protocol (MCP) to fetch the business data the agent needs. **Data Integration** keeps that data fresh by capturing changes from your source database and streaming them into Redis.
+
+The model call generates the response that returns to the caller. The app then writes a session event back to Agent Memory.
+{{< /diagram-3d >}}
 
 The original 2D version, for comparison:
 

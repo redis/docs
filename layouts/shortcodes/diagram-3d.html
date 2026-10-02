@@ -1,14 +1,26 @@
 {{- $script := .Get "script" -}}
+{{- $alt := .Get "alt" -}}
 {{- if not $script -}}
   {{- errorf "diagram-3d: missing script parameter (%s)" .Position -}}
 {{- end -}}
+{{- if not $alt -}}
+  {{- errorf "diagram-3d: missing alt parameter (%s)" .Position -}}
+{{- end -}}
+{{- $description := strings.TrimSpace .Inner -}}
+{{- $descriptionId := printf "diagram-3d-%d-description" .Ordinal -}}
 <link rel="stylesheet" href="{{ "css/diagram-3d.css" | relURL }}">
 <div class="diagram-3d-container" data-diagram="{{ $script }}" data-base-path="{{ "/" | relURL }}">
   <div class="diagram-3d-stage">
-    <canvas class="diagram-3d-canvas"></canvas>
+    <canvas class="diagram-3d-canvas" role="img" aria-label="{{ $alt }}"{{ with $description }} aria-describedby="{{ $descriptionId }}"{{ end }}></canvas>
     <span class="diagram-3d-hint">Drag to rotate. Pinch to zoom. Click, then scroll to pan.</span>
   </div>
   <div class="context-map-controls diagram-3d-controls"></div>
   <div class="context-map-panel" aria-live="polite" hidden></div>
+  {{- with $description }}
+  <details class="diagram-3d-description">
+    <summary>Diagram description</summary>
+    <div id="{{ $descriptionId }}">{{ $.Page.RenderString (dict "display" "block") . }}</div>
+  </details>
+  {{- end }}
 </div>
 <script type="module" src="{{ printf "js/diagrams/%s.js" $script | relURL }}"></script>
