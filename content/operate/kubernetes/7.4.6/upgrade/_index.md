@@ -28,7 +28,7 @@ When upgrading, both your Kubernetes version and Redis operator version need to 
 
 The flow chart below can help you decide if your upgrade requires multiple steps.
 
-{{< image filename="/images/k8s/upgrade-flowchart.jpg" alt="Upgrade flowchart" >}}
+![Upgrade flowchart](/images/k8s/upgrade-flowchart.jpg)
 
 ## How does the REC upgrade work?
 
