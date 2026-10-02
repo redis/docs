@@ -36,7 +36,7 @@ Before upgrading a database:
 
     To determine the current database version:
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select ![The About database button](/images/rs/icons/info-icon.png#no-click) **About**.
 
     - _(Optional)_ Use the [`rladmin status extra all`](/content/operate/rs/8.0/references/cli-utilities/rladmin/status.md) command to display configuration details:
 

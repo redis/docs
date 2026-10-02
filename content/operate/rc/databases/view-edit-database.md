@@ -272,7 +272,7 @@ You can:
 
 - Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
 
-    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
+    ![Use the arrows in the list header to sort the list.](/images/rc/icon-list-sort-asc.png#no-click) ![The direction of the arrow corresponds to the direction of the sort.](/images/rc/icon-list-sort-desc.png#no-click)
 
     Select the arrow icon to change the sort order.  One sort order can be active at any given time.
 

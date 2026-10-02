@@ -4,6 +4,6 @@
 
     By default, the address is: `https://<RS_address>:8443`
 
-1. In **databases**, click {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}}.
+1. In **databases**, click ![Add](/images/rs/icon_add.png#no-click).
 
     If you do not have any databases on the node, you are prompted to create a database.

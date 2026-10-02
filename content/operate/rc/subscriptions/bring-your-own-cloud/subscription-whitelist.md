@@ -64,7 +64,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
     
     You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
-    {{<image filename="images/rc/icon-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
+    ![The Edit button updates an entry in the allow list.](/images/rc/icon-edit.png#no-click)&nbsp;![The Delete button removes an entry from the allow list.](/images/rc/icon-delete-lb.png#no-click)
     
 1. Select **Apply all changes** to apply the allow list updates.
 

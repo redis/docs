@@ -64,7 +64,7 @@ To create a new account with a free database:
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-    {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" width="30px" >}} {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" width="30px">}}</nobr>
+    ![Pending database status](/images/rc/icon-database-update-status-pending.png#no-click) ![Active database status](/images/rc/icon-database-status-active.png#no-click)</nobr>
 
     Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 

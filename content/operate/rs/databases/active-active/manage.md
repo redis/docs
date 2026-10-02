@@ -157,7 +157,7 @@ To remove a participating cluster using the Cluster Manager UI:
 
     ![Edit and delete buttons appear when you point to an entry in the Other participating clusters list.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png)
 
-1. Click {{< image filename="/images/rs/buttons/delete-button.png#no-click" alt="The Delete button" width="25px" class="inline" >}} to remove the cluster.
+1. Click ![The Delete button](/images/rs/buttons/delete-button.png#no-click) to remove the cluster.
 
 1. Click **Save**.
 

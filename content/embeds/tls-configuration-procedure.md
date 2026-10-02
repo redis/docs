@@ -32,14 +32,14 @@ To enable TLS for Replica Of communication only on the source database:
         1. In the syncer certificates box, copy the full text of the certificate to the Clipboard.
 
     1. Select the **Add** button to open the certificate dialog.  
-    {{< image filename="/images/rs/icon_add.png#no-click" alt="Add button" >}} 
+    ![Add button](/images/rs/icon_add.png#no-click) 
 
         {{< image filename="/images/rs/database-tls-replica-certs.png" alt="Database TLS Configuration" >}}
 
     1. Enter the copied certificate text into the text box below the **Enforce client authentication** checkbox.
 
     1. Use the **Save** button to save the certificates.  
-    {{< image filename="/images/rs/icon_save.png#no-click" alt="Save button" >}}
+    ![Save button](/images/rs/icon_save.png#no-click)
 
     You can also clear **Enforce client authentication** so that all clusters or
     clients can connect to your database without authentication.
@@ -76,13 +76,13 @@ To enable TLS for Replica Of and client communication on the source database:
         1. In the syncer certificates box, copy the full text of the certificate to the Clipboard.
 
     1. Use the **Add** button to open the certificate dialog.  
-    {{< image filename="/images/rs/icon_add.png#no-click" alt="Add button" >}}
+    ![Add button](/images/rs/icon_add.png#no-click)
 
         {{< image filename="/images/rs/database-tls-replica-certs.png" alt="Database TLS Configuration" >}}
 
     1. Enter the copied certificate text into the text box below the **Enforce client authentication** checkbox.
     1. Use the **Save** button to save your changes.  
-    {{< image filename="/images/rs/icon_save.png#no-click" alt="Save button" >}} 
+    ![Save button](/images/rs/icon_save.png#no-click) 
 
     You can also clear the **Enforce client authentication** checkbox to allow 
     client connections without authentication.
