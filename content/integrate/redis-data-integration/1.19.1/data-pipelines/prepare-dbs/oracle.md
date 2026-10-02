@@ -1178,7 +1178,7 @@ After you run an initial
 [snapshot](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle),
 the XML data appears in your Redis target database:
 
-{{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}
+![](/images/rdi/ingest/xmltype-example.webp)
 
 ## FAQ
 

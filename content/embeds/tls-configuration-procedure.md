@@ -10,7 +10,7 @@ To enable TLS for Replica Of communication only on the source database:
 
 1. Enable **TLS**.
 
-    {{< image filename="/images/rs/database-tls-config.png" alt="Database TLS Configuration" >}}
+    ![Database TLS Configuration](/images/rs/database-tls-config.png)
 
 1. Select the communication that you want to secure:
 
@@ -34,7 +34,7 @@ To enable TLS for Replica Of communication only on the source database:
     1. Select the **Add** button to open the certificate dialog.  
     ![Add button](/images/rs/icon_add.png#no-click) 
 
-        {{< image filename="/images/rs/database-tls-replica-certs.png" alt="Database TLS Configuration" >}}
+        ![Database TLS Configuration](/images/rs/database-tls-replica-certs.png)
 
     1. Enter the copied certificate text into the text box below the **Enforce client authentication** checkbox.
 
@@ -58,7 +58,7 @@ To enable TLS for Replica Of and client communication on the source database:
 
 1. Enable **TLS** and select **Require TLS for all communications**.
 
-    {{< image filename="/images/rs/database-tls-all.png" alt="database-tls-all" >}}
+    ![database-tls-all](/images/rs/database-tls-all.png)
 
     By default, client authentication is enforced so you must enter the syncer
     certificates of the clusters that host the destination databases.
@@ -78,7 +78,7 @@ To enable TLS for Replica Of and client communication on the source database:
     1. Use the **Add** button to open the certificate dialog.  
     ![Add button](/images/rs/icon_add.png#no-click)
 
-        {{< image filename="/images/rs/database-tls-replica-certs.png" alt="Database TLS Configuration" >}}
+        ![Database TLS Configuration](/images/rs/database-tls-replica-certs.png)
 
     1. Enter the copied certificate text into the text box below the **Enforce client authentication** checkbox.
     1. Use the **Save** button to save your changes.  

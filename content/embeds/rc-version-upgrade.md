@@ -1,10 +1,12 @@
 Select **Version upgrade** to request to upgrade your subscription and databases if there is a later version available.
 
-{{<image filename="images/rc/button-version-upgrade.png" width=150px alt="Version upgrade button." >}}
+![Version upgrade button.](/images/rc/button-version-upgrade.png)
+{width="150px"}
 
 Select the version to upgrade your databases from the list and select **Upgrade** to submit the upgrade request.
 
-{{<image filename="images/rc/version-upgrade-request.png" width=80% alt="Version upgrade request list with version 7.4 selected." >}}
+![Version upgrade request list with version 7.4 selected.](/images/rc/version-upgrade-request.png)
+{width="80%"}
 
 The upgrade will start one week from your request, according to your subscription's [maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). 
 

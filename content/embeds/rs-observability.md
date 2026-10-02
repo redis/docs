@@ -565,7 +565,7 @@ The built-in configuration, `error_rules.yml`, has a single alert: Critical Conn
 If you open the Prometheus console, by default located at port 9090, and select the Alert tab,
 you will see this alert, as well as the alerts in any other file you have included as a rules file.
 
-{{< image filename="/images/playbook_prometheus-alerts.png" alt="prometheus alerts image" >}}
+![prometheus alerts image](/images/playbook_prometheus-alerts.png)
 
 The following is a list of alerts contained in the `alerts.yml` file. There are several points to consider:
 
