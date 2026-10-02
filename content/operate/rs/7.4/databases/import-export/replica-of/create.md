@@ -173,7 +173,7 @@ To enable TLS for Replica Of in the destination database:
 
 1. Expand the **Replica Of** section.
 
-1. Point to the source database entry and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit it.
+1. Point to the source database entry and select ![The Edit button](/images/rs/buttons/edit-button.png#no-click) to edit it.
 
 1. Paste or upload the source proxy certificate, then select **Done**.
 

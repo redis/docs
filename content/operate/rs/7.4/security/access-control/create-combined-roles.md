@@ -23,7 +23,7 @@ To define a Redis ACL rule that you can assign to a role:
 
 1. From **Access Control > Redis ACLs**, you can either:
 
-    - Point to a Redis ACL and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing Redis ACL.
+    - Point to a Redis ACL and select ![The Edit button](/images/rs/buttons/edit-button.png#no-click) to edit an existing Redis ACL.
 
     - Select **+ Add Redis ACL** to create a new Redis ACL.
 
@@ -46,7 +46,7 @@ To create a role that grants database access privileges and allows access to the
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
+    - Point to a role and select ![The Edit button](/images/rs/buttons/edit-button.png#no-click) to edit an existing role.
 
     - Select **+ Add role** to create a new role.
 
@@ -66,7 +66,7 @@ To create a role that grants database access privileges and allows access to the
 
     ![Add databases to access](/images/rs/screenshots/access-control/access-control-role-databases.png)
 
-1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
+1. Select the check mark ![The Check button](/images/rs/buttons/checkmark-button.png#no-click) to confirm.
 
 1. Select **Save**.
 

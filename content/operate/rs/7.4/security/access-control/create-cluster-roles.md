@@ -54,7 +54,7 @@ To create a role that grants cluster access but does not grant access to any dat
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
+    - Point to a role and select ![The Edit button](/images/rs/buttons/edit-button.png#no-click) to edit an existing role.
 
     - Select **+ Add role** to create a new role.
 
