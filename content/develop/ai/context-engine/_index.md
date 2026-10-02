@@ -35,6 +35,8 @@ Redis Iris is a production-ready context engine for AI agents that:
 
 See [how Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md) for the mental model before you start building.
 
+To watch all four services handle one request together, try the [interactive demo](/content/develop/ai/context-engine/interactive-demo.md).
+
 ## Why use Redis Iris?
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">

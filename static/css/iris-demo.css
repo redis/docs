@@ -1,0 +1,111 @@
+/* =========================================================================
+   Redis Iris scripted demo: a guided tour of one request
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the Iris demos share one look. Scoped under `.iris`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+/* One colour per service, used by its map node, its step, and the parts of the reply it supplied. */
+.iris .iris-svc-cache { --svc: #b35900; --svc-bg: rgba(179, 89, 0, .09); }
+.iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
+.iris .iris-svc-retriever { --svc: #5961ff; --svc-bg: rgba(89, 97, 255, .09); }
+.iris .iris-svc-rdi { --svc: #336791; --svc-bg: rgba(51, 103, 145, .1); }
+
+/* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
+.iris-stage { position: relative; aspect-ratio: 893 / 570; margin-bottom: 12px; border-radius: 11px; overflow: hidden; background: #0D212C; }
+/* The four published versions of the drawing, stacked. A step fades in the ones it needs; the script sets how they blend. */
+.iris .iris-art { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; margin: 0; opacity: 0; transition: opacity .45s; pointer-events: none; user-select: none; }
+.iris .iris-art.is-on { opacity: 1; }
+.iris-over { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.iris-route { fill: none; stroke: none; }
+.iris-hit { fill: transparent; cursor: pointer; }
+.iris-pk-glow { fill: #ff4438; opacity: .9; }
+.iris-pk-core { fill: #fff; }
+.iris-tag {
+  position: absolute; pointer-events: none; white-space: nowrap; font-family: var(--rcr-mono); font-size: 10px; font-weight: 600;
+  color: #091a23; background: #fff; border-radius: 6px; padding: 3px 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+  opacity: 0; transition: opacity .25s;
+}
+.iris-tag.is-on { opacity: 1; }
+@container (max-width: 400px) { .rcr .iris-tag { font-size: 9px; padding: 2px 6px; } }
+
+/* ---- the step ---- */
+.iris .iris-stepcard { border-top: 3px solid var(--svc, var(--rcr-ink)); }
+.iris-stephead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: 11.5px; color: var(--rcr-faint); }
+.iris-count { font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--svc, var(--rcr-muted)); }
+.iris .iris-clock { font-size: 11.5px; }
+.iris-title { font-size: 17px; font-weight: 700; line-height: 1.3; margin: 4px 0 6px; color: var(--rcr-ink); }
+.iris-text { font-size: 14px; line-height: 1.55; color: var(--rcr-muted); max-width: 68ch; }
+.iris-fact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 10px; padding: 9px 11px; border-radius: 8px; background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); font-size: 13px; }
+.iris-factrow { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 2px 10px; align-items: baseline; }
+.iris-factlbl { font-size: 10.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--rcr-faint); }
+.iris .iris-fact code { white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; }
+.iris-kv { font-family: var(--rcr-mono); font-size: 11.5px; color: var(--rcr-muted); }
+.iris-kv b { color: var(--rcr-ink); }
+.iris-more { color: var(--rcr-faint); font-size: 12px; }
+.iris-memtype {
+  justify-self: start; font-size: 9.5px; font-weight: 700; letter-spacing: .3px; border-radius: 4px; padding: 0 5px;
+  border: 1px solid var(--rcr-line); background: #fff; color: var(--rcr-ok);
+}
+.iris-tool { grid-template-columns: minmax(0, 1fr); gap: 1px; }
+.iris .iris-toolname { justify-self: start; color: var(--svc); font-weight: 700; }
+.iris-toolres { font-weight: 600; color: var(--rcr-ink); }
+.iris .iris-askmsg { justify-self: end; max-width: 92%; }
+.iris .iris-depth { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--svc, var(--rcr-accent-2)); text-decoration: none; }
+.iris .iris-depth:hover { text-decoration: underline; }
+
+/* ---- what the agent knows so far ---- */
+.iris-tray { margin-top: 10px; }
+.iris .iris-tray > .rcr-lbl { display: block; margin-bottom: 5px; }
+.iris-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris-chip { font-size: 12.5px; border-radius: 6px; padding: 2px 8px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); color: var(--rcr-ink); }
+.iris-chip.is-new { animation: iris-in .9s ease-out; }
+@keyframes iris-in { from { box-shadow: inset 0 -2px 0 var(--src), 0 0 0 3px var(--src-bg); transform: translateY(2px); } to { transform: none; } }
+
+/* ---- the reply, credited by source ---- */
+.iris-reply { display: grid; gap: 6px; justify-items: start; }
+.iris .iris-replymsg { max-width: 100%; line-height: 1.65; background: #fff; }
+.iris-src { border-radius: 3px; padding: 1px 2px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); }
+.iris-src-memory { --src: #1a7f4b; --src-bg: rgba(26, 127, 75, .12); }
+.iris-src-retriever { --src: #5961ff; --src-bg: rgba(89, 97, 255, .12); }
+.iris-src-rdi { --src: #336791; --src-bg: rgba(51, 103, 145, .14); }
+.iris-src-cache { --src: #b35900; --src-bg: rgba(179, 89, 0, .11); }
+.iris-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11.5px; color: var(--rcr-muted); }
+.iris-key { display: inline-flex; align-items: center; gap: 6px; }
+.iris-key::before { content: ""; width: 12px; height: 10px; border-radius: 2px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); }
+.iris-totals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-size: 13px; color: var(--rcr-muted); }
+.iris-totals b { color: var(--rcr-ink); }
+
+/* ---- what if a service were missing ---- */
+.iris-whatif { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
+.iris-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris .iris-pick.is-on { color: #fff; background: var(--svc); border-color: var(--svc); }
+.iris .iris-pickhint { margin: 0; }
+.iris-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+@container (min-width: 560px) { .rcr .iris-compare { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.iris-with, .iris-without { border: 1px solid var(--rcr-line); border-left-width: 3px; border-radius: 8px; padding: 7px 10px; font-size: 13px; background: #fff; }
+.iris-with { border-left-color: var(--rcr-ok); }
+.iris-without { border-left-color: var(--rcr-bad); background: rgba(198, 40, 40, .03); }
+.iris-cmplbl { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--rcr-faint); margin-bottom: 2px; }
+.iris-check { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; align-items: start; border: 1px solid var(--rcr-line); border-radius: 8px; padding: 7px 9px; font-size: 13px; background: #fff; }
+.iris-checkmark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
+.iris-check.is-ok .iris-checkmark { background: var(--rcr-ok); }
+.iris-check.is-slow .iris-checkmark, .iris-check.is-warn .iris-checkmark { background: #b35900; }
+.iris-check.is-bad .iris-checkmark { background: var(--rcr-bad); }
+.iris-check.is-bad { background: rgba(198, 40, 40, .05); border-color: rgba(198, 40, 40, .25); }
+.iris-checklabel { display: block; font-weight: 600; }
+.iris-checktext { display: block; font-size: 12px; color: var(--rcr-muted); }
+.iris .iris-why { margin: 0; font-size: 13.5px; color: var(--rcr-muted); }
+
+/* ---- navigation ---- */
+.iris-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin-top: 14px; }
+.iris .rcr-btn:disabled { opacity: .5; cursor: default; }
+.iris-dots { display: flex; justify-content: center; gap: 6px; }
+.iris .iris-dot { width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; background: var(--rcr-line-strong); cursor: pointer; }
+.iris .iris-dot.is-done { background: var(--rcr-faint); }
+.iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  .iris .iris-art, .iris-tag { transition: none; }
+  .iris-chip.is-new { animation: none; }
+}
