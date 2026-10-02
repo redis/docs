@@ -94,10 +94,10 @@ server {
 
 ### Login page
 
-{{< image filename="/images/ri/ri-reverse-proxy-login.png" alt="RedisInsight login page" >}}
+![RedisInsight login page](/images/ri/ri-reverse-proxy-login.png)
 
 
 ### After login
 
-{{< image filename="/images/ri/ri-reverse-proxy-post-login.png" alt="RedisInsight after login" >}}
+![RedisInsight after login](/images/ri/ri-reverse-proxy-post-login.png)
 

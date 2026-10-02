@@ -91,7 +91,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    Radar shows an activation command and a daemon command.
 
-   {{<image filename="images/radar/activate-managed-agent.png" alt="The Activate managed agent dialog, showing the activation command and the daemon command" width="75%">}}
+   ![The Activate managed agent dialog, showing the activation command and the daemon command](/images/radar/activate-managed-agent.png)
+   {width="75%"}
 
    <br>
 
@@ -115,7 +116,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 3. In Radar, find the request under **Pending activations**, confirm the activation code matches, and select **Approve**.
 
-   {{<image filename="images/radar/settings-agents.png" alt="The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list" width="90%">}}
+   ![The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list](/images/radar/settings-agents.png)
+   {width="90%"}
 
    The activation expires 15 minutes after the command prints the code, so approve it while the command is still waiting.
 
@@ -157,7 +159,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    Manage these tokens later under **Settings > Access keys**.
 
-   {{<image filename="images/radar/settings-access-keys.png" alt="The Access keys tab, listing credential keys with their creation date, last use, and Revoke action" width="90%">}}
+   ![The Access keys tab, listing credential keys with their creation date, last use, and Revoke action](/images/radar/settings-access-keys.png)
+   {width="90%"}
 
    <br>
 
@@ -317,7 +320,8 @@ The exported file holds sanitized telemetry only. It never contains your Radar t
 
 Every agent appears in Radar under **Settings > Agents** and in the **Connected agents** list on the Connections page. Radar shows each agent's mode, platform, version, and last heartbeat, along with the combined health of the sources it collects from.
 
-{{<image filename="images/radar/connections-with-agents.png" alt="The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status" width="90%">}}
+![The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status](/images/radar/connections-with-agents.png)
+{width="90%"}
 
 To expose health and metrics endpoints on the agent host, pass `--metrics-addr` when you start the daemon:
 

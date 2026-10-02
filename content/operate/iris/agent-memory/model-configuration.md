@@ -63,7 +63,7 @@ To configure your own model provider key:
 
 1. Complete the other service settings, then select **Create**.
 
-{{<image filename="images/rc/agent-memory-ai-model-create.png" alt="The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings." >}}
+![The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings.](/images/rc/agent-memory-ai-model-create.png)
 
 The key is used for both the LLM and embedding calls. Redis stores the key securely and does not show it again after you create the service.
 
@@ -81,7 +81,7 @@ To view the configuration:
 
 1. On the **Configuration** tab, find **AI model and credentials**.
 
-{{<image filename="images/rc/agent-memory-ai-model-details.png" alt="The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status." >}}
+![The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status.](/images/rc/agent-memory-ai-model-details.png)
 
 The **User-managed** status confirms that the service uses your provider key. Redis does not display or return the saved value.
 
@@ -99,7 +99,7 @@ To update the service:
 
 1. Select **Save**.
 
-{{<image filename="images/rc/agent-memory-ai-model-edit.png" alt="The AI model and credentials section in edit mode. The provider and embedding model are read-only. The LLM model and Replace API key settings are editable." >}}
+![The AI model and credentials section in edit mode. The provider and embedding model are read-only. The LLM model and Replace API key settings are editable.](/images/rc/agent-memory-ai-model-edit.png)
 
 After the update completes, new operations use the replacement key. Operations that were already in progress can continue to use the previous key. The replacement applies to both LLM and embedding calls.
 
