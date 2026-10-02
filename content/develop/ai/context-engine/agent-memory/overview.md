@@ -66,6 +66,6 @@ Both paths are supported. Use direct writes for bulk imports or external knowled
 
 ## Next steps
 
-- Try the [Agent Memory interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) to watch session memory and long-term memory change during a conversation.
+- Try the [Agent Memory interactive demo](content/develop/ai/context-engine/agent-memory/interactive-demo.md) to watch session memory and long-term memory change during a conversation.
 - [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
 - [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}), [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}), or [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to see session memory, extraction, and summarization in action.
