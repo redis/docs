@@ -22,8 +22,15 @@ instead, under the same checks. Their relative `../` paths break in version
 snapshots, which publish one directory deeper than the page they were copied
 from.
 
+With --inline-icons, converts `#no-click` icon shortcodes that are NOT their
+own paragraph (in a sentence, a table cell, or several to a line) to inline
+Markdown images, `![Alt](/images/x.png#no-click)`. Their width and class are
+dropped: render-image.html marks inline #no-click images img-inline, and CSS
+sizes them to the text. An image without #no-click is left alone, because inline sizing
+would shrink a screenshot to text height.
+
 Usage:
-  build/migrate_image_shortcodes.py [--dry-run] [--raw-img] <file>...
+  build/migrate_image_shortcodes.py [--dry-run] [--raw-img | --inline-icons] <file>...
 
 Prints one line per skipped shortcode and a summary. Idempotent.
 """
@@ -144,15 +151,81 @@ def convert_file(path, dry_run, skips, counts, raw_img=False):
             open(path, "w", encoding="utf-8", newline="").write("\n".join(out))
 
 
+def convert_inline_icons(path, dry_run, skips, counts):
+    text = open(path, encoding="utf-8", newline="").read()
+    lines = text.split("\n")
+    changed = False
+    fence = None
+    for i, line in enumerate(lines):
+        fm = re.match(r'(?:[ \t>]*)(`{3,}|~{3,})', line)
+        if fm:
+            marker = fm.group(1)
+            if fence is None:
+                fence = marker[0]
+            elif marker[0] == fence:
+                fence = None
+            continue
+        if fence or "image" not in line:
+            continue
+        matches = list(SHORTCODE_RX.finditer(line))
+        if not matches:
+            continue
+        where = f"{os.path.relpath(path, REPO)}:{i + 1}"
+        prefix = PREFIX_RX.match(line).group(1)
+        alone = (len(matches) == 1 and not line[len(prefix):matches[0].start()].strip()
+                 and not line[matches[0].end():].strip())
+        if alone and (i == 0 or is_boundary(lines[i - 1])) and (
+                i == len(lines) - 1 or is_boundary(lines[i + 1])):
+            continue  # its own paragraph: a block image, for the default mode
+
+        def repl(m):
+            attrs = {k: q if q or not u else u for k, q, u in ATTR_RX.findall(m.group(1))}
+            leftover = ATTR_RX.sub("", m.group(1)).strip()
+            fname, alt = attrs.get("filename", ""), attrs.get("alt", "")
+            reason = None
+            if "#no-click" not in fname:
+                reason = "no #no-click (not an icon)"
+            elif leftover or set(attrs) - KNOWN_KEYS:
+                reason = "unparsed attributes"
+            elif UNSAFE_ALT_RX.search(alt):
+                reason = "alt text needs escaping"
+            elif UNSAFE_PATH_RX.search(fname):
+                reason = "path needs escaping"
+            rel = re.sub(r'^(?:\.{1,2}/|/)+', "", fname)
+            if not reason and not os.path.isfile(os.path.join(REPO, "static", rel.split("#")[0])):
+                reason = "file not in static/"
+            if reason:
+                skips.append(f"{where}: {reason}: {m.group(0)[:140]}")
+                counts["skipped:" + reason] += 1
+                return m.group(0)
+            counts["converted"] += 1
+            if "width" in attrs:
+                counts["width dropped (CSS sizes icons)"] += 1
+            return f"![{alt}](/{rel})"
+
+        new = SHORTCODE_RX.sub(repl, line)
+        if new != line:
+            lines[i] = new
+            changed = True
+    if changed:
+        counts["files changed"] += 1
+        if not dry_run:
+            open(path, "w", encoding="utf-8", newline="").write("\n".join(lines))
+
+
 def main(argv):
     dry_run = "--dry-run" in argv
     raw_img = "--raw-img" in argv
-    files = [a for a in argv if a not in ("--dry-run", "--raw-img")]
-    if not files:
+    inline_icons = "--inline-icons" in argv
+    files = [a for a in argv if a not in ("--dry-run", "--raw-img", "--inline-icons")]
+    if not files or (raw_img and inline_icons):
         sys.exit(__doc__)
     skips, counts = [], collections.Counter()
     for f in files:
-        convert_file(f, dry_run, skips, counts, raw_img)
+        if inline_icons:
+            convert_inline_icons(f, dry_run, skips, counts)
+        else:
+            convert_file(f, dry_run, skips, counts, raw_img)
     for s in skips:
         print("SKIP", s)
     for k, v in sorted(counts.items()):

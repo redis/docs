@@ -18,7 +18,7 @@ You can:
 
 * Sort the list by a specific field in descending or ascending order. Supported fields include *Time*, *Originator*, *Database name*, *API key name*, and *Activity*.
 
-    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}}&nbsp;{{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}    
+    ![Use the arrows in the list header to sort the list.](/images/rc/icon-list-sort-asc.png#no-click)&nbsp;![The direction of the arrow corresponds to the direction of the sort.](/images/rc/icon-list-sort-desc.png#no-click)    
     
     Select the arrow icon to change the sort order.  You can only sort by one field at a time.
 

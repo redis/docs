@@ -66,6 +66,9 @@ around a literal, rewrite the sentence.
   `{width="..." class="..."}` line directly after an image that is its own paragraph.
   Paths are site-root (files live in `static/images/`). Never use a raw `<img>` with a
   relative `../` path: it breaks when the page is copied into a version snapshot.
+  A UI icon inside a sentence or table cell is an inline image with `#no-click` and no
+  attributes, `Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**`;
+  CSS sizes it to the text. Screenshots are always their own paragraph.
 - **Preserve shortcodes, frontmatter, and code fences verbatim.** Do not reformat them.
 - **Frontmatter**: copy the shape from a sibling page in the same directory rather than
   composing one. `title` and `linkTitle` are effectively universal; `description`,

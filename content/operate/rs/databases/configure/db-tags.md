@@ -43,7 +43,7 @@ To edit a database's existing tags using the Cluster Manager UI:
 
 1. Go to the database's **Configuration** screen, then click **Edit**.
 
-1. Next to the existing **Tags**, click {{< image filename="/images/rs/buttons/edit-db-tags-button.png#no-click" alt="Edit tags button" width="22px" class="inline" >}}.
+1. Next to the existing **Tags**, click ![Edit tags button](/images/rs/buttons/edit-db-tags-button.png#no-click).
 
     ![The Edit tags button on the database configuration screen.](/images/rs/screenshots/databases/edit-db-tags-button-location.png)
 

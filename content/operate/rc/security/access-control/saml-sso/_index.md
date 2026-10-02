@@ -105,7 +105,7 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
     ![Add domain button](/images/rc/saml-button-add-domain.png)
     {width="120px"}
 
-1. Enter the domain name and select {{<image filename="images/rc/saml-button-confirm.png#no-click" width="20px" alt="Confirm domain" class="inline">}} to save it, or select {{<image filename="images/rc/saml-button-cancel.png#no-click" width="20px" alt="Cancel" class="inline">}} to cancel.
+1. Enter the domain name and select ![Confirm domain](/images/rc/saml-button-confirm.png#no-click) to save it, or select ![Cancel](/images/rc/saml-button-cancel.png#no-click) to cancel.
 
     ![Enter domain name in the Domain field.](/images/rc/saml-enter-domain.png)
     {width="80%"}
@@ -117,7 +117,7 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
     We'll check the domain's DNS records for the provided TXT record. If the TXT record does not exist or we can't resolve your domain, we won't be able to verify the domain and users with that domain won't be able to sign in using SAML SSO. 
     
-    Select {{<image filename="images/rc/icon-delete-teal.png#no-click" width="25px" alt="delete domain" class="inline">}} to delete a domain if it was added by mistake.
+    Select ![delete domain](/images/rc/icon-delete-teal.png#no-click) to delete a domain if it was added by mistake.
 
     If we find the TXT record, the domain's status will change to **Verified**.
 

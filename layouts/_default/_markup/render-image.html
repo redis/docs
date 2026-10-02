@@ -30,9 +30,15 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
+{{- $class := .Attributes.class -}}
+{{- /* A #no-click image inside running text is an icon; img-inline sizes it to the text.
+       Requiring #no-click keeps a screenshot that shares a paragraph with text full size. */ -}}
+{{- if and (not .IsBlock) (strings.HasPrefix $dest "/") (not (strings.HasPrefix $dest "//")) (strings.Contains $dest "#no-click") -}}
+  {{- $class = "img-inline" -}}
+{{- end -}}
 <img src="{{ $src | safeURL }}"
   {{- with .Attributes.width }} width="{{ . }}"{{ end }}
   {{- with .PlainText }} alt="{{ . }}"{{ end }}
-  {{- with .Attributes.class }} class="{{ . }}"{{ end }}
+  {{- with $class }} class="{{ . }}"{{ end }}
   {{- range $k, $v := .Attributes }}{{ if not (in (slice "width" "class") $k) }} {{ $k }}="{{ $v }}"{{ end }}{{ end }}
   {{- with .Title }} title="{{ . }}"{{ end }}>

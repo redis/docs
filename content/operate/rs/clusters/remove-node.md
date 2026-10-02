@@ -71,7 +71,7 @@ You can migrate resources by using the `rladmin` command-line interface
 
 To remove a node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to remove.
+1. On the **Nodes** screen, click ![More actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) for the node you want to remove.
 
     ![Click the more actions button for a node to access node actions.](/images/rs/screenshots/nodes/secondary-nodes-more-actions.png)
 

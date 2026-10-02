@@ -82,7 +82,7 @@ We recommend that you verify the node is functioning properly using one of the f
 
 - Cluster Manager UI method:
 
-    1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify.
+    1. On the **Nodes** screen, click ![More actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) for the node you want to verify.
     
     1. Select **Verify node** from the list.
 
