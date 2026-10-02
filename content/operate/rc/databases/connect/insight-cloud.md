@@ -35,11 +35,19 @@ The **Browse** tab lets you browse, filter, and visualize your Redis data struct
 - Create, read, update, and delete lists, hashes, strings, sets, sorted sets, streams, and [JSON](/content/develop/data-types/json/_index.md)
 - Filter keys by key name or pattern, and by key type
 - Group keys according to their namespaces
-    {{<image filename="images/rc/rc-ri-browser-group.png" alt="Keys in a database grouped by namespace." width=50% >}}
+
+    ![Keys in a database grouped by namespace.](/images/rc/rc-ri-browser-group.png)
+    {width="50%"}
+
 - View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII)
-    {{<image filename="images/rc/rc-ri-browser-view.png" alt="Human-readable view of a hash key." width=50% >}}
+
+    ![Human-readable view of a hash key.](/images/rc/rc-ri-browser-view.png)
+    {width="50%"}
+
 - Search by key values using your [search indexes](/content/develop/ai/search-and-query/_index.md)
-    {{<image filename="images/rc/rc-ri-browser-search.png" alt="Search for keys using a search index." width=50% >}}
+
+    ![Search for keys using a search index.](/images/rc/rc-ri-browser-search.png)
+    {width="50%"}
 
 If you don't have any Redis data yet, you can select **Load sample data** to add sample data into your database.
 

@@ -125,9 +125,13 @@ Redis Insight will open in a new tab.
 From there, you can:
 
 - Select **Load sample data** to add sample data into your database.
-    {{<image filename="images/rc/rc-ri-load-data.png" alt="Load Sample Data button" width=300px >}}
+
+    ![Load Sample Data button](/images/rc/rc-ri-load-data.png)
+    {width="300px"}
+
 - Select **Insights** to learn how to use Redis.
-    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Insights icon" >}}
+
+    ![The Insights icon](/images/rc/rc-ri-explore-icon.png)
 
 For more information on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud](/content/operate/rc/databases/connect/insight-cloud.md).
 
