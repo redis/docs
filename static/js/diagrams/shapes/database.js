@@ -4,8 +4,9 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/+esm";
 // - Export createModel({ color, accent }) returning a THREE.Group, with no
 //   side effects on the scene.
 // - Import three from exactly the URL above, so every module shares one copy.
-// - Fit within 1.1 x 1.1 units across and 1.1 high, origin at the bottom
-//   center, +Y up, front facing +Z (toward the default camera).
+// - Stay within 0.65 units of the origin horizontally and 1.1 high, origin at
+//   the bottom center, +Y up, front facing +Z (toward the default camera).
+//   Labels and arrowheads start just beyond that radius.
 // - Use MeshStandardMaterial only, created fresh on each call: the diagram
 //   changes material opacity and emissive per node to dim and highlight.
 // - No lights or cameras.

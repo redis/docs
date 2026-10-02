@@ -3,8 +3,9 @@ import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.180.0/exampl
 import { CSS2DRenderer, CSS2DObject } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/renderers/CSS2DRenderer.js/+esm";
 import { createModel as createDatabase } from "./shapes/database.js";
 import { createModel as createRdi } from "./shapes/rdi.js";
+import { createModel as createRedis } from "./shapes/redis.js";
 
-const MODELS = { database: createDatabase, rdi: createRdi };
+const MODELS = { database: createDatabase, rdi: createRdi, redis: createRedis };
 
 // Graph copied from the context-map block in develop/ai/context-engine/concepts/request-flow.md,
 // plus a Source database node that the 2D version doesn't have.
@@ -40,7 +41,7 @@ const NODES = {
     links: [{ label: "Prepare source databases", url: "/integrate/redis-data-integration/data-pipelines/prepare-dbs" }],
   },
   cachedResponse: {
-    label: "Cached response", type: "terminal", col: 2, row: 0, labelSide: "back",
+    label: "Cached response", type: "terminal", model: "redis", col: 2, row: 0, labelSide: "back",
     description: "Return cached response: on a cache hit, LangCache returns the stored response directly, skipping the model call.",
     links: [],
   },
@@ -239,8 +240,10 @@ function init(container) {
     visual.traverse((object) => {
       if (!object.isMesh) return;
       object.castShadow = true;
-      object.material.transparent = true;
-      materials.push(object.material);
+      for (const material of [].concat(object.material)) {
+        material.transparent = true;
+        materials.push(material);
+      }
     });
     holder.add(visual);
 
