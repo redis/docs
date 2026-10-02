@@ -14,9 +14,9 @@ hideListLinks: true
 Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/ai/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/ai/search-and-query/query" >}}).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card color="bg-redis-yellow-500" title="RedisVL" description="Redis vector Python client library documentation" url="/develop/ai/redisvl/" >}}
-  {{< tile-card color="bg-blue-300" title="Search & Query" description="Use Redis Search to search data" url="/develop/ai/search-and-query/" >}}
-  {{< tile-card color="bg-violet-300" title="Context Engine" description="Give AI agents the context engine they need with Redis Iris" url="/develop/ai/context-engine/" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Iris context engine" description="Give AI agents the context engine they need with Redis Iris" url="/develop/ai/context-engine/" >}}
+  {{< tile-card icon="images/icon_logo/icon-text-search-64-midnight.png" title="Search & Query" description="Use Redis Search to search data" url="/develop/ai/search-and-query/" >}}
+  {{< tile-card icon="images/dev/icons/icon-redisvl.svg" title="RedisVL" description="Redis vector Python client library documentation" url="/develop/ai/redisvl/" >}}
 </div>
 
 ## What is Redis for AI and search?
@@ -97,11 +97,11 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 Learn to perform vector search, build AI agents, and use semantic caching and memory in your AI/ML projects.
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 my-8">
-  {{< tile-card color="bg-blue-300" title="Vector Search" description="Vector search guide" url="/develop/ai/search-and-query/query/vector-search" >}}
-  {{< tile-card color="bg-violet-300" title="AI Agents" description="How AI agents work with Redis" url="/develop/ai/agent-builder/agent-concepts" >}}
-  {{< tile-card color="bg-teal-300" title="LLM Memory" description="Store memory for LLMs" url="https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/" >}}
-  {{< tile-card color="bg-rose-300" title="Caching" description="Semantic caching for faster, smarter LLM apps" url="https://redis.io/blog/what-is-semantic-caching" >}}
-  {{< tile-card color="bg-redis-red-500" title="AI Gateways" description="Deploy an enhanced gateway with Redis" url="https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/" >}}
+  {{< tile-card icon="images/icon_logo/icon-text-search-64-midnight.png" title="Vector Search" description="Vector search guide" url="/develop/ai/search-and-query/query/vector-search" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="AI Agents" description="How AI agents work with Redis" url="/develop/ai/agent-builder/agent-concepts" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="LLM Memory" description="Store memory for LLMs" url="https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-langcache-64-duotone.png" title="Caching" description="Semantic caching for faster, smarter LLM apps" url="https://redis.io/blog/what-is-semantic-caching" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="AI Gateways" description="Deploy an enhanced gateway with Redis" url="https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/" >}}
 </div>
 
 ## Quickstarts

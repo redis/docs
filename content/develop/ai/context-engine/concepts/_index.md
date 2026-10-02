@@ -88,3 +88,4 @@ Run all three fully managed on Redis Cloud, or self-managed on your own infrastr
 - [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
+- Interactive demos for [LangCache]({{< relref "/develop/ai/context-engine/langcache/interactive-demo" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser

@@ -17,9 +17,9 @@ Redis Iris context engine provides managed and self-managed services for buildin
 Use this section to deploy, configure, and operate Redis Iris services. Developer guides and API integration documentation remain under [Develop with Redis]({{< relref "/develop/ai/context-engine" >}}).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card color="bg-violet-300" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
-  {{< tile-card color="bg-rose-300" title="Redis Context Retriever" description="Create and manage governed retrieval tools for AI agents" url="/operate/iris/context-retriever" >}}
-  {{< tile-card color="bg-teal-300" title="LangCache" description="Create, configure, and monitor semantic caches for AI applications" url="/operate/iris/langcache" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Redis Context Retriever" description="Create and manage governed retrieval tools for AI agents" url="/operate/iris/context-retriever" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-langcache-64-duotone.png" title="LangCache" description="Create, configure, and monitor semantic caches for AI applications" url="/operate/iris/langcache" >}}
 </div>
 
 ## Deployment options
