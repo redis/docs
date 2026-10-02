@@ -42,22 +42,23 @@ RDI is a good fit when:
 - You want a self-managed solution or AWS based solution.
 - The source data changes frequently in small increments.
 - The source database has no more than 10K changes per second.
-- RDI throughput during [full sync]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
+- RDI throughput during [full sync](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle)
   stays below 30K records per second, assuming an average record size of 1KB and a pipeline without transformations.
-- RDI throughput during [CDC]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
+- RDI throughput during [CDC](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle)
   stays below 10K records per second, assuming an average record size of 1KB and a pipeline without transformations.
 - The total data size is no larger than 100GB, so a full sync completes in under an hour without exceeding the throughput
   limits above.
 - You don’t need to perform join operations on the data from several tables
-  into a [nested Redis JSON object]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization#joining-one-to-many-relationships" >}}).
-- RDI supports the [data transformations]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) you need for your app.
+  into a [nested Redis JSON object](/content/integrate/redis-data-integration/1.19.1/data-pipelines/data-denormalization.md#joining-one-to-many-relationships).
+- RDI supports the [data transformations](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md) you need for your app.
 - Your data caching needs are too complex or demanding to implement and maintain yourself.
 - Your database administrator has reviewed RDI's requirements for the source database and
   confirmed that they are acceptable.
 
-{{< note >}}The throughput and data-size limits above assume the
-[classic processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}).
-The Flink processor roughly doubles each limit.{{< /note >}}
+> [!NOTE]
+> The throughput and data-size limits above assume the
+> [classic processor](/content/integrate/redis-data-integration/1.19.1/architecture/classic-vs-flink.md).
+> The Flink processor roughly doubles each limit.
 
 ### When not to use RDI
 
