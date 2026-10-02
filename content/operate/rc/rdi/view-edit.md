@@ -30,13 +30,16 @@ Use the **Sources** list in **Metrics**, **Configuration**, and **Dataset** to s
 
 The **Dashboard** shows pipeline health, processor and target status, throughput, pending records, record health, and processor load. It also shows the number of sources, selected tables, and transformation jobs.
 
-{{<image filename="images/rc/rdi/rdi-2-dashboard.png" alt="Pipeline dashboard with throughput, pending records, record health, and processor load." width=100% >}}
+![Pipeline dashboard with throughput, pending records, record health, and processor load.](/images/rc/rdi/rdi-2-dashboard.png)
+{width="100%"}
 
 Each source has a card showing its database type, name, activity, and status. Expand a card for more details. Open the source's **More actions** menu to view its configuration, edit its dataset or transformations, or manage the source.
 
-{{<image filename="images/rc/rdi/rdi-2-sources.png" alt="Three source cards: one PostgreSQL source and two MySQL sources, all streaming." width=460px >}}
+![Three source cards: one PostgreSQL source and two MySQL sources, all streaming.](/images/rc/rdi/rdi-2-sources.png)
+{width="460px"}
 
-{{<image filename="images/rc/rdi/rdi-2-source-actions.png" alt="Source actions for configuration, dataset, transformations, stop, reset, and deletion." width=350px >}}
+![Source actions for configuration, dataset, transformations, stop, reset, and deletion.](/images/rc/rdi/rdi-2-source-actions.png)
+{width="350px"}
 
 A pipeline can be streaming, stopped, or in an error or transitional state. If there is a problem, you can use the source cards and **Metrics** tab to identify the affected source before taking remedial action. Pipeline health and individual source status can differ, for example when one source is stopped.
 
@@ -47,7 +50,8 @@ A pipeline can be streaming, stopped, or in an error or transitional state. If t
 1. Complete **Configure source**, **Select data**, and **Add transformations** for the new source. See [Create data pipeline]({{< relref "/operate/rc/rdi/define" >}}) for the configuration steps.
 1. Review the changes in **Review & deploy** and select **Deploy pipeline**.
 
-{{<image filename="images/rc/rdi/rdi-2-add-sources.png" alt="Add-source wizard showing existing sources and the Add source control." width=100% >}}
+![Add-source wizard showing existing sources and the Add source control.](/images/rc/rdi/rdi-2-add-sources.png)
+{width="100%"}
 
 Adding a source keeps the existing pipeline's shared target and settings, so the wizard starts at **Add sources**. A source with an incomplete setup appears with **Pending setup** in the workspace. You can resume an existing draft setup at any time to complete it. If you remove a source, wait for the removal process to finish before adding another source.
 
@@ -68,7 +72,8 @@ Resetting one source starts a new snapshot and reprocesses its selected data.
 1. Select **Reset source**.
 1. Review the effect and confirm with **Reset source**.
 
-{{<image filename="images/rc/rdi/rdi-2-reset-source.png" alt="Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops." width=600px >}}
+![Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops.](/images/rc/rdi/rdi-2-reset-source.png)
+{width="600px"}
 
 The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?]({{< relref "/operate/rc/rdi/faq#reset-one-source" >}}).
 
@@ -80,7 +85,8 @@ Before deleting a source, remove or reassign transformation jobs that refer to i
 1. Select **Delete source**.
 1. Review the confirmation and select **Delete source**.
 
-{{<image filename="images/rc/rdi/rdi-2-delete-source.png" alt="Delete source confirmation for the selected PostgreSQL source." width=600px >}}
+![Delete source confirmation for the selected PostgreSQL source.](/images/rc/rdi/rdi-2-delete-source.png)
+{width="600px"}
 
 Deleting a source removes its data selection and internal RDI state, including streams, offsets, schema history, rejected records, and processing counters. Records already written to the target Redis database remain there. Other sources retain their data. The whole pipeline stops while RDI cleans up the removed source and starts again afterwards.
 
@@ -100,7 +106,8 @@ All sources share the new target. Changing the target restarts the pipeline but 
 
 Select a source in the **Sources** list to see its connection status, snapshot progress, queue usage, errors, and table-level record counts. Available collector diagnostics depend on the source type. Expand **Diagnostics** to see additional metrics for the selected source.
 
-{{<image filename="images/rc/rdi/rdi-2-metrics.png" alt="Metrics for the selected PostgreSQL source, including collector diagnostics and table-level counts." width=100% >}}
+![Metrics for the selected PostgreSQL source, including collector diagnostics and table-level counts.](/images/rc/rdi/rdi-2-metrics.png)
+{width="100%"}
 
 | Metric | Description |
 |--------|-------------|
@@ -150,11 +157,13 @@ For more information about why records are rejected and how RDI stores them, see
 
 The **Settings** tab contains the default data structure (**Hash** or **JSON**) and advanced processor properties. These settings apply to all sources in the pipeline.
 
-{{<image filename="images/rc/rdi/rdi-2-settings.png" alt="Pipeline-wide Settings tab with default data structure and processor properties." width=100% >}}
+![Pipeline-wide Settings tab with default data structure and processor properties.](/images/rc/rdi/rdi-2-settings.png)
+{width="100%"}
 
 Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. RDI Cloud uses the Flink processor. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them.
 
-{{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
+![The processor advanced properties editor with key and value fields.](/images/rc/rdi/rdi-processor-advanced-properties.png)
+{width="80%"}
 
 ## Configuration
 
@@ -166,7 +175,8 @@ Select a source in the **Sources** list to view its connectivity, secret referen
 1. Select **Edit collector properties**.
 1. Update the [collector source properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsource-advanced-source-settings" >}}) or [collector sink properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsink-rdi-collector-stream-writer-configuration" >}}) for that source.
 
-    {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties dialog with separate collector source and sink properties." width=80% >}}
+    ![The advanced properties dialog with separate collector source and sink properties.](/images/rc/rdi/rdi-advanced-properties.png)
+    {width="80%"}
 
 1. Save the properties and review the restart confirmation before applying the changes.
 
@@ -174,23 +184,29 @@ Select a source in the **Sources** list to view its connectivity, secret referen
 
 Select a source in the **Sources** list to view the schemas, tables, columns, and keys selected for ingestion from that source.
 
-{{<image filename="images/rc/rdi/rdi-2-dataset.png" alt="Dataset tab with a source selector and selected schema, tables, and columns." width=100% >}}
+![Dataset tab with a source selector and selected schema, tables, and columns.](/images/rc/rdi/rdi-2-dataset.png)
+{width="100%"}
 
 ### Edit dataset
 
 1. Select the source, then select **Edit**.
 
-    {{<image filename="images/rc/rdi/rdi-view-edit-button.png" alt="The Edit button." width=100px >}}
+    ![The Edit button.](/images/rc/rdi/rdi-view-edit-button.png)
+    {width="100px"}
 
 1. Select the schemas, tables, and columns to ingest. Review the record key for each selected table and correct any missing-key warnings.
 
-    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="Selecting a schema shows its tables for ingestion." width=75% >}}
+    ![Selecting a schema shows its tables for ingestion.](/images/rc/rdi/rdi-dataset-schema-selected.png)
+    {width="75%"}
 
-    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="Selecting a table shows its columns and the columns selected for ingestion." width=75% >}}
+    ![Selecting a table shows its columns and the columns selected for ingestion.](/images/rc/rdi/rdi-select-columns.png)
+    {width="75%"}
 
-    {{<image filename="images/rc/rdi/rdi-dataset-missing-unique-key.png" alt="The missing unique key warning with the affected table and its columns." width=75% >}}
+    ![The missing unique key warning with the affected table and its columns.](/images/rc/rdi/rdi-dataset-missing-unique-key.png)
+    {width="75%"}
 
-    {{<image filename="images/rc/rdi/rdi-unique-key-selected.png" alt="The key control beside the column used to identify a record." width=500px >}}
+    ![The key control beside the column used to identify a record.](/images/rc/rdi/rdi-unique-key-selected.png)
+    {width="500px"}
 
 1. Select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
@@ -201,7 +217,8 @@ Dataset changes belong to the selected source. Applying changes restarts the pip
 
 The **Transformations** tab lists the pipeline's jobs, their source assignments, matching databases, schemas and tables, and validation status.
 
-{{<image filename="images/rc/rdi/rdi-2-transformation-jobs.png" alt="Transformation jobs assigned to three different sources, with verified status." width=100% >}}
+![Transformation jobs assigned to three different sources, with verified status.](/images/rc/rdi/rdi-2-transformation-jobs.png)
+{width="100%"}
 
 ### Edit transformations
 
