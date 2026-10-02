@@ -84,11 +84,11 @@ To configure the query performance factor:
 
 1. In the **Capabilities** section, click **Add parameters**.
 
-    {{<image filename="images/rs/screenshots/databases/rs-qpf-add-parameters-v8.png" alt="The Create database screen with the Add parameters button in the Capabilities section.">}}
+    ![The Create database screen with the Add parameters button in the Capabilities section.](/images/rs/screenshots/databases/rs-qpf-add-parameters-v8.png)
 
 1. In the **Parameters** dialog, use the **Query performance factor** dropdown to select the performance factor value (Standard, 2x, 4x, 6x, 8x, 10x, 12x, 14x, or 16x).
 
-    {{<image filename="images/rs/screenshots/databases/rs-qpf-select-factor-v8.png" alt="The Parameters dialog with the Query performance factor dropdown showing available scaling options.">}}
+    ![The Parameters dialog with the Query performance factor dropdown showing available scaling options.](/images/rs/screenshots/databases/rs-qpf-select-factor-v8.png)
 
 1. Click **Done** to close the parameter editor.
 
@@ -124,7 +124,7 @@ You can use the Cluster Manager UI to configure the query performance factor whe
 
     - `32` for **Connections limit**
 
-    {{<image filename="images/rs/screenshots/databases/rs-config-query-performance-factor.png" alt="Configure search parameters and query performance factor.">}}
+    ![Configure search parameters and query performance factor.](/images/rs/screenshots/databases/rs-config-query-performance-factor.png)
     
 1. Click **Done** to close the parameter editor.
 
@@ -349,4 +349,4 @@ To monitor a database with a query performance factor configured:
 
     - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x query performance factor (6 CPUs per shard).
 
-    {{<image filename="images/rs/screenshots/monitor-rs-scalable-search-cpu-usage.png" alt="The Prometheus graph shows three spikes for redis_process_cpu_usage_percent: 100%, another 100%, then 600%.">}}
+    ![The Prometheus graph shows three spikes for redis_process_cpu_usage_percent: 100%, another 100%, then 600%.](/images/rs/screenshots/monitor-rs-scalable-search-cpu-usage.png)

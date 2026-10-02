@@ -14,7 +14,8 @@ You can use Prometheus and Grafana to:
 
 - Display Redis Software metrics alongside data from other systems
 
-{{<image filename="images/rs/grafana-prometheus.png" alt="Graphic showing how Prometheus and Grafana collect and display data from a Redis Software Cluster. Prometheus collects metrics from the Redis Software cluster, and Grafana queries those metrics for visualization." width="80%" class="mx-auto block my-6 p-4 border border-redis-pen-300 rounded-lg shadow-sm">}}
+![Graphic showing how Prometheus and Grafana collect and display data from a Redis Software Cluster. Prometheus collects metrics from the Redis Software cluster, and Grafana queries those metrics for visualization.](/images/rs/grafana-prometheus.png)
+{width="80%" class="mx-auto block my-6 p-4 border border-redis-pen-300 rounded-lg shadow-sm"}
 
 To get started with Prometheus and Grafana, see the following [quick start](#quick-start) or see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana) for a more detailed tutorial.
 
@@ -197,7 +198,7 @@ We recommend running Prometheus in Docker only for development and testing.
 
     1. Select **Status** and then **Targets** to check that Prometheus is collecting data from your Redis Software cluster.
 
-        {{<image filename="images/rs/prometheus-target.png" alt="The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.">}}
+        ![The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.](/images/rs/prometheus-target.png)
 
         If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 
@@ -216,14 +217,14 @@ We recommend running Prometheus in Docker only for development and testing.
 
     1. Select **Prometheus** from the list of data source types.
 
-        {{<image filename="images/rs/prometheus-datasource.png" alt="The Prometheus data source in the list of data sources on Grafana.">}}
+        ![The Prometheus data source in the list of data sources on Grafana.](/images/rs/prometheus-datasource.png)
 
     1. Enter the Prometheus configuration information:
 
         - Name: `redis-enterprise`
         - URL: `http://<your prometheus server name>:9090`
 
-        {{<image filename="images/rs/prometheus-connection.png" alt="The Prometheus connection form in Grafana.">}}
+        ![The Prometheus connection form in Grafana.](/images/rs/prometheus-connection.png)
 
     {{< note >}}
 

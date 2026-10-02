@@ -233,7 +233,7 @@ You can use the [Redis Insight](/content/develop/tools/insight/_index.md) workbe
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 
-{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with Redis Insight workbench.">}}
+![Visualize a graph with Redis Insight workbench.](/images/modules/visualize-graph.png)
 
 ## More info
 

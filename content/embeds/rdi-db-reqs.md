@@ -43,13 +43,13 @@
   When you create the RDI database, expand the **Clustering** section and make sure the
   **Sharding** option is *unchecked* (as shown below).
 
-  {{< image filename="images/rdi/ingest/RDIClusterSetting.webp" alt="The Sharding option is unchecked in the Clustering section of the create database form." >}}
+  ![The Sharding option is unchecked in the Clustering section of the create database form.](/images/rdi/ingest/RDIClusterSetting.webp)
 
   You can check if your RDI database is clustered from its **Configuration** tab in the
   Cluster Manager UI. In the **Clustering** section, **Sharding** should be set to **Disabled**,
   as shown in the following screenshot:
 
-  {{< image filename="images/rdi/ingest/RDICheckUnclustered.webp" alt="The Clustering section of the database Configuration tab shows Sharding: Disabled." >}}
+  ![The Clustering section of the database Configuration tab shows Sharding: Disabled.](/images/rdi/ingest/RDICheckUnclustered.webp)
 
   If you find the database has been clustered by mistake, you must create a new database with
   sharding disabled before continuing with the RDI installation.

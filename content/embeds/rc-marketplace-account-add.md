@@ -6,12 +6,14 @@ To do this:
 
 1. Select **Add Marketplace account**.
 
-    {{<image filename="images/rc/add-marketplace-account.png" width="300px" alt="The Add marketplace account button." >}}
+    ![The Add marketplace account button.](/images/rc/add-marketplace-account.png)
+    {width="300px"}
 
 1. Select the marketplace account you want to connect and confirm that it will pay for your Redis Cloud resources going forward.
 
 1. Select **Connect account**.
 
-    {{<image filename="images/rc/button-connect-account.png" width="150px" alt="The Connect account button." >}}
+    ![The Connect account button.](/images/rc/button-connect-account.png)
+    {width="150px"}
 
 Your marketplace account is now connected to your Redis Cloud account. If you would like to disconnect your marketplace account from your Redis Cloud account, select **Disconnect**.
