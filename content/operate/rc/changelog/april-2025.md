@@ -20,7 +20,8 @@ weight: 76
 
 The Redis Cloud console has a refreshed user interface! You can now choose between light mode and dark mode when using the Redis Cloud console.
 
-![Mode selection toggle with light mode selected.](/images/rc/mode-select-light.png#no-click)&nbsp;
+![Mode selection toggle with light mode selected.](/images/rc/mode-select-light.png#no-click)
+
 ![Mode selection toggle with dark mode selected.](/images/rc/mode-select-dark.png#no-click)
 
 The new user interface and dark mode are currently available for selected accounts and will be gradually rolled out to new accounts over time.

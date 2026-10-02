@@ -31,8 +31,9 @@
   {{- end -}}
 {{- end -}}
 {{- $class := .Attributes.class -}}
-{{- /* A local image inside running text is an icon; img-inline sizes it to the text. */ -}}
-{{- if and (not .IsBlock) (strings.HasPrefix $dest "/") (not (strings.HasPrefix $dest "//")) -}}
+{{- /* A #no-click image inside running text is an icon; img-inline sizes it to the text.
+       Requiring #no-click keeps a screenshot that shares a paragraph with text full size. */ -}}
+{{- if and (not .IsBlock) (strings.HasPrefix $dest "/") (not (strings.HasPrefix $dest "//")) (strings.Contains $dest "#no-click") -}}
   {{- $class = "img-inline" -}}
 {{- end -}}
 <img src="{{ $src | safeURL }}"

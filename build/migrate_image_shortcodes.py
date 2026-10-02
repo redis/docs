@@ -25,8 +25,8 @@ from.
 With --inline-icons, converts `#no-click` icon shortcodes that are NOT their
 own paragraph (in a sentence, a table cell, or several to a line) to inline
 Markdown images, `![Alt](/images/x.png#no-click)`. Their width and class are
-dropped: render-image.html marks inline images img-inline, and CSS sizes them
-to the text. An image without #no-click is left alone, because inline sizing
+dropped: render-image.html marks inline #no-click images img-inline, and CSS
+sizes them to the text. An image without #no-click is left alone, because inline sizing
 would shrink a screenshot to text height.
 
 Usage:
