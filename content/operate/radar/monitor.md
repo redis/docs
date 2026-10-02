@@ -155,7 +155,7 @@ To download the diagnostic logs:
 
 Radar downloads a ZIP file named `mcm-diagnostic-logs-<timestamp>.zip`. It holds CSV files covering the last 30 days of connections, collection requests and runs, connection actions, audit events, and errors.
 
-The file does not include credentials or other secrets. It also does not include Radar's service process logs or a Redis Software support package. To get diagnostics from a cluster, [download a support package](#download-a-support-package) instead.
+It does not include stored credentials or a Redis Software support package. It does include usernames, IP addresses, connection names, and warning and error messages from Radar's services. To get diagnostics from a cluster, [download a support package](#download-a-support-package) instead.
 
 ## Next steps
 
