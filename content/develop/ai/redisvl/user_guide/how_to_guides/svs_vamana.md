@@ -3,7 +3,6 @@ linkTitle: Optimize indexes with svs-vamana
 title: Optimize Indexes with SVS-VAMANA
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/09_svs_vamana
-- /develop/ai/redisvl/user_guide/svs_vamana/
 weight: 09
 ---
 

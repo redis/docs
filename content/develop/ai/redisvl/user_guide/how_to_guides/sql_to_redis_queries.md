@@ -3,7 +3,6 @@ linkTitle: Write sql queries for redis
 title: Write SQL Queries for Redis
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/12_sql_to_redis_queries
-- /develop/ai/redisvl/user_guide/sql_to_redis_queries/
 weight: 12
 ---
 
