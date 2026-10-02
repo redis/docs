@@ -41,50 +41,9 @@ which presents the considerations in a straightforward question-and-answer forma
 ```decision-tree
 ```
 
-### When to use RDI
+{{< embed-md "rdi-when-to-use.md" >}}
 
-RDI is a good fit when:
-
-- You want your app/micro-services to read from Redis to scale reads at speed.
-- You want to transfer data to Redis from one or more source databases.
-- You must use a slow database as the system of record for the app.
-- The app must always *write* its data to the slow database.
-- Your app can tolerate *eventual* consistency of data in the Redis cache.
-- You want a self-managed solution or AWS based solution.
-- The source data changes frequently in small increments.
-- The source database has no more than 20K changes per second.
-- RDI throughput during [full sync]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
-  stays below 60K records per second, assuming an average record size of 1KB and a pipeline without transformations.
-- RDI throughput during [CDC]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
-  stays below 20K records per second, assuming an average record size of 1KB and a pipeline without transformations.
-- The total data size is no larger than 200GB, so a full sync completes in under an hour without exceeding the throughput
-  limits above. RDI can ingest larger datasets, but it will take longer than an hour.
-- You don’t need to perform join operations on the data from several tables
-  into a [nested Redis JSON object]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization#joining-one-to-many-relationships" >}}).
-- RDI supports the [data transformations]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) you need for your app.
-- Your data caching needs are too complex or demanding to implement and maintain yourself.
-- Your database administrator has reviewed RDI's requirements for the source database and
-  confirmed that they are acceptable.
-
-### When not to use RDI
-
-RDI is not a good fit when:
-
-- You are migrating an existing data set into Redis only once.
-- Your app needs *immediate* cache consistency (or a hard limit on latency) rather
-  than *eventual* consistency.
-- You need *transactional* consistency between the source and target databases.
-- The app must *write* data to the Redis cache, which then updates the source database
-  (write-behind/write-through patterns).
-- Your data set will only ever be small.
-- Your data is updated by some batch or ETL process with long and large transactions - RDI will fail
-  processing these changes.
-- You need complex stream processing of data (aggregations, sliding window processing, complex 
-  custom logic).
-- You need to write data to multiple targets from the same pipeline (Redis supports other
-  ways to replicate data across Redis databases such as replicaOf).
-- Your target Redis database is configured with Active-Active topology. Active-Active is not supported as an RDI Cloud target database.
-- Your database administrator has rejected RDI's requirements for the source database.
+{{< embed-md "rdi-when-not-to-use.md" >}}
 
 ## Data pipeline architecture
 
@@ -131,6 +90,7 @@ Please be aware of the following limitations:
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
 - The target database must use [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). It can use either single-zone or multi-zone high availability.
 - The target database can use TLS, but can not use mutual TLS.
+- The target database can't use Active-Active topology.
 - If your source database is not publicly accessible, or if it is a MongoDB Atlas or Snowflake database, it must be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - Each pipeline has one target database shared by all of its sources.
