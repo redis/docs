@@ -37,17 +37,20 @@ From the [Redis Cloud console](https://cloud.redis.io/), select **LangCache** fr
 
 If you have not already created a LangCache service, you'll see a page with an introduction to LangCache. Otherwise, select **New service** to go to the LangCache introduction page.
 
-{{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
+![The New service button.](/images/rc/langcache-new-service.png)
+{width="150px"}
 
 From here: 
 
 - Select **Quick create** to create a LangCache service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the LangCache service for you.
 
-    {{<image filename="images/rc/langcache-quick-create.png" alt="The Quick create button." width="150px" >}}
+    ![The Quick create button.](/images/rc/langcache-quick-create.png)
+    {width="150px"}
 
     After Redis Cloud creates your LangCache service, a window containing your LangCache service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
+    ![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
+    {width="37.5%"}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
@@ -61,7 +64,8 @@ If you lose the service key value, you will need to [generate a new service key]
 
 - If you want to customize your LangCache service, select **Create custom service**.
 
-    {{<image filename="images/rc/langcache-custom-service.png" alt="The Create custom service button." width="150px" >}}
+    ![The Create custom service button.](/images/rc/langcache-custom-service.png)
+    {width="150px"}
 
     This takes you to the **Create LangCache service** page. The page is divided into the following sections:
 
@@ -73,7 +77,7 @@ If you lose the service key value, you will need to [generate a new service key]
 
 The **General settings** section defines basic properties of your service.
 
-{{<image filename="images/rc/langcache-general-settings.png" alt="The General settings section." >}}
+![The General settings section.](/images/rc/langcache-general-settings.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -86,7 +90,7 @@ The **General settings** section defines basic properties of your service.
 
 The **Embedding settings** section defines the embedding model used by your service.
 
-{{<image filename="images/rc/langcache-embedding-settings.png" alt="The Embedding settings section." >}}
+![The Embedding settings section.](/images/rc/langcache-embedding-settings.png)
 
 Required settings depend on the embedding provider you select. 
 
@@ -104,35 +108,39 @@ Attributes provide powerful scoping capabilities for your LangCache operations. 
 
 The **Attributes settings** section allows you to define attributes for your service. It is collapsed by default.
 
-{{<image filename="images/rc/langcache-attribute-settings.png" alt="The Attributes settings section." >}}
+![The Attributes settings section.](/images/rc/langcache-attribute-settings.png)
 
 LangCache allows you to define up to 5 custom attributes that align with your specific use case. To add a new attribute:
 
 1. Select **Add attribute**.
 
-    {{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." width="150px" >}}
+    ![The Add attribute button.](/images/rc/langcache-add-attribute.png)
+    {width="150px"}
 
 1. Give your custom attribute a descriptive name and select the check mark button to save it.
 
-    {{<image filename="images/rc/langcache-custom-attributes.png" alt="The custom attributes section. Select the Confirm add attribute button to save your attribute." >}}
+    ![The custom attributes section. Select the Confirm add attribute button to save your attribute.](/images/rc/langcache-custom-attributes.png)
 
 After you save your custom attribute, it will appear in the list of custom attributes. Use the **Delete** button to remove it.
 
-{{<image filename="images/rc/icon-delete-lb.png" width="36px" alt="Select the Delete button to delete the selected attribute." >}}
+![Select the Delete button to delete the selected attribute.](/images/rc/icon-delete-lb.png)
+{width="36px"}
 
 You can also select **Add attribute** again to add an additional attribute.
 
-{{<image filename="images/rc/langcache-add-attribute.png" alt="The Add attribute button." width="150px" >}}
+![The Add attribute button.](/images/rc/langcache-add-attribute.png)
+{width="150px"}
 
 ### Create service
 
 When you are done setting the details of your LangCache service, select **Create** to create it.
 
-{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create a LangCache service." >}}
+![Use the Create button to create a LangCache service.](/images/rc/button-access-management-user-key-create.png)
 
 A window containing your LangCache service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-{{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
+![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
+{width="37.5%"}
 
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
@@ -142,7 +150,7 @@ If you lose the service key value, you will need to [generate a new service key]
 
 You'll be taken to your LangCache service's **Configuration** page. You'll also be able to see your LangCache service in the LangCache service list.
 
-{{<image filename="images/rc/langcache-service-list.png" alt="The LangCache service in the LangCache service list." >}}
+![The LangCache service in the LangCache service list.](/images/rc/langcache-service-list.png)
 
 If an error occurs, verify that:
 - Your database is active.
