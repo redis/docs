@@ -15,7 +15,7 @@ You can import an existing dataset into your Redis Cloud instance from an existi
 > Data imported into an existing database overwrites existing data. 
 > - If you import a dataset into the target database of an [Active-Passive setup](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive), the dataset will be overwritten by any changes to the source database.
 > - If you import a dataset into one region in an [Active-Active database](/content/operate/rc/databases/active-active/_index.md), the dataset will also be replicated across regions.
-<br/>
+
 > [!NOTE]
 > Expired keys are not imported.
 > As a result, the number of keys in the source and destination databases can be different after the import is complete.
