@@ -16,17 +16,16 @@ weight: 1
 
 The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database.
 
-{{< note >}}
-This guide is for demonstration purposes only. It is not recommended for production use.
-{{< /note >}}
+> [!NOTE]
+> This guide is for demonstration purposes only. It is not recommended for production use.
 
 ## Prerequisites
 
 To follow this guide, you need to:
 
-1. Create a [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS).
+1. Create a [Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) hosted on Amazon Web Services (AWS).
 
-    Turn on Multi-AZ replication and [manually select the availability zones]({{< relref "/operate/rc/databases/configuration/high-availability#availability-zones" >}}) when creating the database.
+    Turn on Multi-AZ replication and [manually select the availability zones](/content/operate/rc/databases/configuration/high-availability.md#availability-zones) when creating the database.
 
 1. Install the [AWS CLI](https://aws.amazon.com/cli/) and set up [credentials for the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
 
@@ -34,13 +33,13 @@ To follow this guide, you need to:
 
 ## Create a data integration workspace
 
-Before you can create your first Data Integration pipeline for a Redis Cloud subscription, you must first deploy the cloud infrastructure needed to host the pipeline and run the workers associated with the pipeline. In Redis Cloud, this is called a **Workspace**. See [Create and manage Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for more information.
+Before you can create your first Data Integration pipeline for a Redis Cloud subscription, you must first deploy the cloud infrastructure needed to host the pipeline and run the workers associated with the pipeline. In Redis Cloud, this is called a **Workspace**. See [Create and manage Data Integration workspace](/content/operate/rc/rdi/create-workspace.md) for more information.
 
 {{< embed-md "rc-rdi-create-rdi-workspace.md" >}}
 
 ## Get required ARNs
 
-This example creates one PostgreSQL source. You can [add more sources]({{< relref "/operate/rc/rdi/view-edit#add-source" >}}) after the pipeline is running.
+This example creates one PostgreSQL source. You can [add more sources](/content/operate/rc/rdi/view-edit.md#add-source) after the pipeline is running.
 
 1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**.
 
@@ -144,13 +143,12 @@ The following example shows the metrics for one selected source in a pipeline wi
 
 {{<image filename="images/rc/rdi/rdi-2-metrics.png" alt="Metrics for one selected source in a pipeline, including snapshot progress and per-table record counts." width=80% >}}
 
-See [View and edit data pipeline]({{<relref "/operate/rc/rdi/view-edit">}}) for source actions, dataset changes, and monitoring.
+See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring.
 
 ## Delete sample resources
 
-{{< warning >}}
-Make sure to [delete your data pipeline]({{<relref "/operate/rc/rdi/view-edit#delete-pipeline">}}) before deleting the sample resources.
-{{< /warning >}}
+> [!WARNING]
+> Make sure to [delete your data pipeline](/content/operate/rc/rdi/view-edit.md#delete-pipeline) before deleting the sample resources.
 
 To delete the sample resources created by Terraform, run:
 

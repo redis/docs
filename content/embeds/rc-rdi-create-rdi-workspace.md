@@ -1,4 +1,4 @@
-To create a Data Integration workspace for an existing [Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}):
+To create a Data Integration workspace for an existing [Pro subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md):
 
 1. From the Redis Cloud console, select **Data Integration** from the left-hand menu. If you don't have any workspaces yet, select **Create workspace** to go to the **Create workspace** page.
 
@@ -33,4 +33,4 @@ To create a Data Integration workspace for an existing [Pro subscription]({{< re
 
     {{<image filename="images/rc/rdi/rdi-create-workspace-button.png" alt="The create workspace button." width=200px >}}
 
-Your workspace will be created in the background. You can select **Create pipeline** to [create your pipeline]({{<relref "/operate/rc/rdi/define">}}) while the workspace is provisioning, or you can select **Create pipeline later** to go back to the Redis Cloud console.
+Your workspace will be created in the background. You can select **Create pipeline** to [create your pipeline](/content/operate/rc/rdi/define.md) while the workspace is provisioning, or you can select **Create pipeline later** to go back to the Redis Cloud console.

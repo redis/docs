@@ -44,7 +44,7 @@ A pipeline can be streaming, stopped, or in an error or transitional state. If t
 
 1. On **Dashboard**, select **Add source**.
 1. In **Add sources**, select **Add source** in the **Sources** list, choose the new database type, and enter a unique source name. Existing sources remain listed with their connection details read-only.
-1. Complete **Configure source**, **Select data**, and **Add transformations** for the new source. See [Create data pipeline]({{< relref "/operate/rc/rdi/define" >}}) for the configuration steps.
+1. Complete **Configure source**, **Select data**, and **Add transformations** for the new source. See [Create data pipeline](/content/operate/rc/rdi/define.md) for the configuration steps.
 1. Review the changes in **Review & deploy** and select **Deploy pipeline**.
 
 {{<image filename="images/rc/rdi/rdi-2-add-sources.png" alt="Add-source wizard showing existing sources and the Add source control." width=100% >}}
@@ -58,7 +58,7 @@ When extending an older single-source pipeline, preserve the original source nam
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Stop source**, then confirm with **Stop source**.
 
-Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?]({{< relref "/operate/rc/rdi/faq#stopping-and-billing" >}}).
+Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
 
 ### Reset a source {#reset-source}
 
@@ -70,7 +70,7 @@ Resetting one source starts a new snapshot and reprocesses its selected data.
 
 {{<image filename="images/rc/rdi/rdi-2-reset-source.png" alt="Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops." width=600px >}}
 
-The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?]({{< relref "/operate/rc/rdi/faq#reset-one-source" >}}).
+The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
 
 ### Remove a source {#remove-source}
 
@@ -84,7 +84,7 @@ Before deleting a source, remove or reassign transformation jobs that refer to i
 
 Deleting a source removes its data selection and internal RDI state, including streams, offsets, schema history, rejected records, and processing counters. Records already written to the target Redis database remain there. Other sources retain their data. The whole pipeline stops while RDI cleans up the removed source and starts again afterwards.
 
-Source deletion cannot be undone. To remove its records from the target, see [Can I flush data for a single source?]({{< relref "/operate/rc/rdi/faq#flush-one-source" >}}).
+Source deletion cannot be undone. To remove its records from the target, see [Can I flush data for a single source?](/content/operate/rc/rdi/faq.md#flush-one-source).
 
 ### Change target database
 
@@ -117,13 +117,12 @@ Select a source in the **Sources** list to see its connection status, snapshot p
 
 On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
 
-Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
+Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering](/content/operate/rc/security/vpc-peering.md) or [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md). See [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md) for more information.
 
-{{< note >}}
-VPC peering and AWS Transit Gateway are the tested and supported methods for accessing Prometheus endpoints. AWS PrivateLink support for this feature is under evaluation and is not currently supported.
-{{< /note >}}
+> [!NOTE]
+> VPC peering and AWS Transit Gateway are the tested and supported methods for accessing Prometheus endpoints. AWS PrivateLink support for this feature is under evaluation and is not currently supported.
 
-For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
+For more information about available RDI metrics, see [Observability](/content/integrate/redis-data-integration/observability.md).
 
 
 ## Rejected records
@@ -136,14 +135,14 @@ The view shows:
 - The number of affected tables.
 - The affected tables and their rejected counts.
 - Rejected record IDs and rejection times.
-- Safe troubleshooting metadata, such as the rejection reason, operation, affected table, and transformation job details when available. See [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}) for the operation labels.
+- Safe troubleshooting metadata, such as the rejection reason, operation, affected table, and transformation job details when available. See [Using the operation code](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example.md) for the operation labels.
 
 Redis Cloud uses the RDI DLQ API to show a sanitized view of rejected records. It
 does not show the original source record payload or every field stored in the
 DLQ stream. To inspect the full DLQ entry, connect to the RDI database and read
 the corresponding DLQ stream directly.
 
-For more information about why records are rejected and how RDI stores them, see [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}).
+For more information about why records are rejected and how RDI stores them, see [Rejected records](/content/integrate/redis-data-integration/data-pipelines/rejected-records.md).
 
 
 ## Settings
@@ -152,7 +151,7 @@ The **Settings** tab contains the default data structure (**Hash** or **JSON**) 
 
 {{<image filename="images/rc/rdi/rdi-2-settings.png" alt="Pipeline-wide Settings tab with default data structure and processor properties." width=100% >}}
 
-Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. RDI Cloud uses the Flink processor. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them.
+Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. RDI Cloud uses the Flink processor. Review [processor properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors-data-processing-configuration) before changing them.
 
 {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
 
@@ -164,7 +163,7 @@ Select a source in the **Sources** list to view its connectivity, secret referen
 
 1. Select the source in **Configuration**.
 1. Select **Edit collector properties**.
-1. Update the [collector source properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsource-advanced-source-settings" >}}) or [collector sink properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsink-rdi-collector-stream-writer-configuration" >}}) for that source.
+1. Update the [collector source properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings) or [collector sink properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsink-rdi-collector-stream-writer-configuration) for that source.
 
     {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties dialog with separate collector source and sink properties." width=80% >}}
 
@@ -206,7 +205,7 @@ The **Transformations** tab lists the pipeline's jobs, their source assignments,
 ### Edit transformations
 
 1. Select **Edit** on **Transformations**.
-1. Add, upload, or edit the [transformation jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) needed for your tables.
+1. Add, upload, or edit the [transformation jobs](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md) needed for your tables.
 1. Select the **Source name** for each job.
 1. Resolve job validation errors and select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
@@ -215,7 +214,7 @@ The Flink processor accepts lists and `regex:` entries in source selection patte
 
 ## Reset data pipeline
 
-Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts and takes a new snapshot for every source. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?]({{< relref "/operate/rc/rdi/faq#reset-pipeline" >}}).
+Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts and takes a new snapshot for every source. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?](/content/operate/rc/rdi/faq.md#reset-pipeline).
 
 1. Open **Pipeline actions** and select **Reset pipeline**.
 1. Review the confirmation and select **Reset data pipeline**.
@@ -227,7 +226,7 @@ To re-run the snapshot for just one source while preserving other sources' inter
 1. Open **Pipeline actions** and select **Stop pipeline**.
 1. Confirm with **Stop pipeline**.
 
-Stopping the pipeline pauses processing for all sources. To resume, open **Pipeline actions**, select **Start pipeline**, and confirm with **Start pipeline**. Use the [source actions](#stop-and-start-source) to control an individual source separately. Stopping all sources individually leaves the processor running. See [Billing]({{< relref "/operate/rc/rdi/faq#billing" >}}) for the difference in charges.
+Stopping the pipeline pauses processing for all sources. To resume, open **Pipeline actions**, select **Start pipeline**, and confirm with **Start pipeline**. Use the [source actions](#stop-and-start-source) to control an individual source separately. Stopping all sources individually leaves the processor running. See [Billing](/content/operate/rc/rdi/faq.md#billing) for the difference in charges.
 
 ## Flush the target database
 
@@ -237,18 +236,17 @@ Flushing permanently deletes **all data** from the target database, including re
 1. Open **Pipeline actions** and select **Flush target database**. This action is disabled while the pipeline is running.
 1. Check the target database and confirm with **Flush target database**.
 
-To refill the target, follow [How do I reload data after a flush?]({{< relref "/operate/rc/rdi/faq#reload-after-flush" >}}).
+To refill the target, follow [How do I reload data after a flush?](/content/operate/rc/rdi/faq.md#reload-after-flush).
 
 ## Delete pipeline
 
-{{< note >}}
-You cannot delete a pipeline while the target database's Redis Cloud cluster is
-in maintenance mode. Wait until maintenance is complete, then delete the
-pipeline.
-{{< /note >}}
+> [!NOTE]
+> You cannot delete a pipeline while the target database's Redis Cloud cluster is
+> in maintenance mode. Wait until maintenance is complete, then delete the
+> pipeline.
 
 1. Return to the workspace list on the **Data Integration** page or your database's **Data Integration** tab.
 1. Open the pipeline's actions menu and select **Delete pipeline**.
 1. Review and confirm the deletion.
 
-Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. You can then [delete the workspace]({{<relref "/operate/rc/rdi/create-workspace#delete-workspace">}}) when it is no longer needed.
+Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. You can then [delete the workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when it is no longer needed.
