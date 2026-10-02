@@ -16,7 +16,7 @@ weight: 7
 
 [Railway](https://railway.com?utm_medium=integration&utm_source=docs&utm_campaign=redis) simplifies your infrastructure stack from databases to servers to observability with a single, scalable, easy-to-use platform. Companies of all sizes deploy full-stack applications on Railway and benefit from highly performant networking, intuitive vertical and horizontal scaling, and isolated environments with pull request deploys. Railway's template marketplace includes thousands of one-click deploy templates, including Redis.
 
-{{< image filename="/images/rc/railway-redis-canvas.png" >}}
+![](/images/rc/railway-redis-canvas.png)
 
 This is a guide to deploying Redis on Railway, using the official template.
 
@@ -26,7 +26,7 @@ Navigate to a new Railway project at [railway.com/new](https://railway.com/new?u
 
 You can also deploy it via the [template](https://railway.com/deploy/redis) from the Railway template marketplace.
 
-{{< image filename="/images/rc/railway-redis-add.gif" >}}
+![](/images/rc/railway-redis-add.gif)
 
 Upon deployment, you will have a Redis service running in your project, deployed from the [redis](https://hub.docker.com/_/redis) Docker image.
 

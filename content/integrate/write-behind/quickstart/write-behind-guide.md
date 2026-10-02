@@ -33,7 +33,7 @@ The **target** data store to which the write-behind pipeline connects and writes
 
 The write-behind pipeline is composed of one or more **jobs**. Each job is responsible for capturing change for one key pattern in Redis and mapping it to one or more tables in the downstream data store. Each job is defined in a YAML file.
 
-{{< image filename="/images/rdi/redis-di-write-behind.png" >}}
+![](/images/rdi/redis-di-write-behind.png)
 
 ## Supported data stores
 
