@@ -84,7 +84,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 
 ### Managed agent context with Redis Iris
 
-You can build each part of an agent's context layer yourself from Redis data structures, or use the [Redis Iris context engine](/content/develop/ai/context-engine/_index.md) services for it. Each service runs fully managed on Redis Cloud, or self-managed on your own infrastructure, and has a REST API.
+You can build each part of an agent's context layer yourself from Redis data structures, or use the [Redis Iris context engine](/content/develop/ai/context-engine/_index.md) services as a pre-built solution. Each service runs fully managed on Redis Cloud, or self-managed on your own infrastructure, and has a REST API.
 
 | Agent need | Build it yourself with Redis | Redis Iris service |
 |:--|:--|:--|
