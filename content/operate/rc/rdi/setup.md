@@ -142,14 +142,16 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
 1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab.
 1. Select **Add pipeline**, or resume an existing draft. To add a source to a running pipeline, select **Add source** on its **Dashboard**.
 
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
+    ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
+    {width="80%"}
 
 1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
 1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources](/content/operate/rc/rdi/define.md#pipeline-setup) for naming rules.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
 
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The source connectivity Role ARN and availability zones." width=80% >}}
+    ![The source connectivity Role ARN and availability zones.](/images/rc/rdi/rdi-setup-connectivity-arn.png)
+    {width="80%"}
 
     The account ID is the number after `arn:aws:iam::`. For example, `arn:aws:iam::123456789012:role/redis-data-pipeline` contains account ID `123456789012`.
 
@@ -169,11 +171,13 @@ The following diagrams show the network setup for the different database setups:
 
 - Database hosted on an AWS EC2 instance:
 
-    {{<image filename="images/rc/rdi/rdi-setup-diagram-ec2.png" alt="The network setup for a database hosted on an AWS EC2 instance." width=80% >}}
+    ![The network setup for a database hosted on an AWS EC2 instance.](/images/rc/rdi/rdi-setup-diagram-ec2.png)
+    {width="80%"}
 
 - Database hosted on AWS RDS or AWS Aurora:
 
-    {{<image filename="images/rc/rdi/rdi-setup-diagram-aurora.png" alt="The network setup for a database hosted on AWS RDS or AWS Aurora." width=80% >}}
+    ![The network setup for a database hosted on AWS RDS or AWS Aurora.](/images/rc/rdi/rdi-setup-diagram-aurora.png)
+    {width="80%"}
 
 Select the steps for your database setup.
 
