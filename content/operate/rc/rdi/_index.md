@@ -16,6 +16,9 @@ tocEmbedHeaders: true
 
 Redis Cloud now supports [Redis Data Integration (RDI)](/content/integrate/redis-data-integration/_index.md), a fast and simple way to bring your data into Redis from other types of primary databases.
 
+![The Data Integration page in the Redis Cloud console, with the Create workspace button and supported source databases.](/images/rc/rdi-get-started.png)
+{width="75%" class="border border-redis-pen-300 rounded-lg"}
+
 A relational database usually handles queries much more slowly than a Redis database. If your application uses a relational database and makes many more reads than writes (which is the typical case) then you can improve performance by using Redis as a cache to handle the read queries quickly. Redis Cloud uses [ingest](/content/integrate/redis-data-integration/_index.md) to help you offload all read queries from the application database to Redis automatically.
 
 Using a data pipeline lets you have a cache that is always ready for queries. RDI Data pipelines ensure that any changes made to your primary database are captured in your Redis cache within a few seconds, preventing cache misses and stale data within the cache. 
@@ -98,9 +101,6 @@ Before you can create a data pipeline, you must have:
 > - Mutual TLS is not supported for AWS RDS and AWS Aurora source databases. 
 
 ## Get started
-
-![The Data Integration page in the Redis Cloud console, with the Create workspace button and supported source databases.](/images/rc/rdi-get-started.png)
-{width="75%" class="border border-redis-pen-300 rounded-lg"}
 
 To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start](/content/operate/rc/rdi/quick-start.md) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
 

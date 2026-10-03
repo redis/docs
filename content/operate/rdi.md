@@ -12,6 +12,9 @@ weight: 60
 
 Redis Data Integration (RDI) is a [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC) system that tracks changes to the data in a non-Redis source database and makes corresponding changes to a Redis target database. You can use the target as a cache to improve performance because it will typically handle read queries much faster than the source.
 
+![The Data Integration page in the Redis Cloud console, with the Create workspace button and supported source databases.](/images/rc/rdi-get-started.png)
+{width="75%" class="border border-redis-pen-300 rounded-lg"}
+
 See the main [RDI docs section]({{< relref "/integrate/redis-data-integration" >}})
 under [Libraries and tools]({{< relref "/integrate" >}}) to learn how to install and use RDI on your own servers.  See the
 [Redis Cloud RDI guide]({{< relref "/operate/rc/rdi" >}}) to learn how to set up RDI for a cloud database.
