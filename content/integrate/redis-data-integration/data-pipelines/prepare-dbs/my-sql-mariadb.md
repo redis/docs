@@ -125,6 +125,8 @@ You can run the query above again to check that `log-bin` is now `ON`.
 > If you don't enable automated backups first then the settings above will have no
 > effect.
 
+&nbsp;
+
 > [!NOTE]
 > If you are using [Google Cloud SQL for MySQL](https://cloud.google.com/sql/docs/mysql),
 > you enable binary logging and set `binlog_row_image` through Cloud SQL instead of the

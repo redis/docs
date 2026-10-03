@@ -15,12 +15,12 @@ weight: 12
 ---
 
 [Google Cloud SQL for MySQL](https://cloud.google.com/sql/docs/mysql) is a
-managed MySQL service on Google Cloud. RDI captures changes from a Cloud SQL
-for MySQL instance through its binary log (binlog), in the same way as for a
+managed MySQL service on Google Cloud. RDI captures changes from an instance of Cloud SQL
+for MySQL through its binary log (binlog), in the same way it would for a
 self-managed MySQL server.
 
 > [!NOTE]
-> This page describes Cloud SQL for MySQL setup for a self-managed RDI
+> This page describes Cloud SQL for MySQL configured for a self-managed RDI
 > deployment (VM or Kubernetes). The integration was validated with RDI 2.0.0
 > and Cloud SQL for MySQL 8.0 on a Regional (high availability) instance, using
 > a public IP connection with encrypted connections enforced. See
@@ -41,7 +41,7 @@ Cloud SQL differs from a self-managed MySQL source in the following ways:
   reconnects automatically, as described in
   [Failover on Regional instances](#failover-on-regional-instances).
 
-The following checklist summarizes the setup:
+The following checklist summarizes the steps to prepare Cloud SQL for MySQL to work with RDI:
 
 ```checklist {id="cloudsqlmysqllist"}
 - [ ] [Enable binary logging](#1-enable-binary-logging)
@@ -59,7 +59,7 @@ logging is enabled. Binary logging requires automated backups.
 
 To enable binary logging when you create an instance, pass `--enable-bin-log` to
 [`gcloud sql instances create`](https://cloud.google.com/sdk/gcloud/reference/sql/instances/create).
-The following example also sets the binlog row image flag from
+The following example shows how to do this and also sets the binlog row image flag from
 [step 2](#2-set-the-binlog-row-image) and enforces encrypted connections:
 
 ```bash
@@ -81,7 +81,7 @@ gcloud sql instances patch <instance-name> --enable-bin-log
 
 In the Google Cloud console, binary logging is part of
 [point-in-time recovery](https://cloud.google.com/sql/docs/mysql/backup-recovery/pitr).
-Enable point-in-time recovery for the instance to enable binary logging.
+You must therefore enable point-in-time recovery for the instance to enable binary logging.
 
 ## 2. Set the binlog row image
 
@@ -92,7 +92,7 @@ RDI requires the full row image. Set the `binlog_row_image` database flag to
 gcloud sql instances patch <instance-name> --database-flags=binlog_row_image=full
 ```
 
-The flag value must be lowercase. Cloud SQL rejects `binlog_row_image=FULL`
+The flag value must be lowercase. Cloud SQL rejects `binlog_row_image=FULL` (that is with `FULL` in uppercase)
 with the error `FULL was not an expected string`. MySQL reports the value as
 `FULL` after you set it.
 
@@ -160,7 +160,7 @@ gcloud sql users create <username> \
   --password=<password>
 ```
 
-The `%` host lets the user connect from any client address. To restrict the user
+The value of `%` for `host` lets the user connect from any client address. To restrict the user
 to the RDI host, use that host's IP address instead.
 
 Then connect to the instance as an administrator user, such as `root`, and grant
@@ -172,9 +172,9 @@ GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *
 FLUSH PRIVILEGES;
 ```
 
-If the `GRANT` statement fails with
-`ERROR 1410 (42000): You are not allowed to create a user with GRANT`, the user
-doesn't exist with that host. Cloud SQL's administrator user can't create a user
+Note that the `GRANT` statement might fail with
+`ERROR 1410 (42000): You are not allowed to create a user with GRANT`. This happens when the user
+doesn't exist with that host, since Cloud SQL's administrator user can't create a user
 implicitly with `GRANT`. Check the user's host with
 `gcloud sql users list --instance=<instance-name>`, and either grant to the host
 shown there or recreate the user with the `--host` value you want.
@@ -213,7 +213,7 @@ sources:
 If you don't set `database.ssl.mode` and the instance only accepts encrypted
 connections, the pipeline deployment fails with an error like
 `Access denied for user '<username>'@'<ip-address>' (using password: YES)`. This
-error looks like a credentials problem, but Cloud SQL is rejecting the
+error looks like a credentials problem, but Cloud SQL is actually rejecting the
 unencrypted connection.
 
 The `required` mode encrypts the connection but doesn't verify the server
@@ -225,11 +225,11 @@ to the instance's server CA certificate and choose a verifying mode, as describe
 
 A Regional (high availability) Cloud SQL instance has a standby in a second
 zone. During a failover, Cloud SQL promotes the standby to primary and keeps the
-same IP address. Expect the following behavior:
+same IP address. Expect the following behavior when this happens:
 
 - Clients, including your application, can't connect to the instance for up to
   about a minute while the failover runs. Use connection retry logic in your
-  application.
+  application to handle this.
 - RDI doesn't need a restart or any manual step. The RDI collector detects that
   its binlog connection is no longer working, reconnects to the new primary, and
   then captures the changes that were committed while it was disconnected.
