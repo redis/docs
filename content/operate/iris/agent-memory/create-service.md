@@ -21,13 +21,7 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-{{< note >}}
-Redis Agent Memory does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- Databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-{{< /note >}}
+During public preview, Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
 
 ## Create an Agent Memory service
 

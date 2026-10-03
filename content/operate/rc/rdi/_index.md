@@ -99,6 +99,9 @@ Before you can create a data pipeline, you must have:
 
 ## Get started
 
+![The Data Integration page in the Redis Cloud console, with the Create workspace button and supported source databases.](/images/rc/rdi-get-started.png)
+{width="75%" class="border border-redis-pen-300 rounded-lg"}
+
 To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start](/content/operate/rc/rdi/quick-start.md) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
 
 To create a new data pipeline, you need to:

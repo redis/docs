@@ -20,14 +20,7 @@ Redis LangCache provides vector search capabilities and efficient caching for AI
 
 To create a LangCache service, you will need:
 
-- A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
-
-    {{< note >}}
-LangCache does not support the following databases during public preview:
-- Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-    {{< /note >}}
+- A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). During public preview, LangCache doesn't support databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}), [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
 
 - An API key for your embedding provider, if not using the default Redis embedding provider. LangCache supports [OpenAI](https://platform.openai.com/api-keys) and the Redis embedding provider during public preview.
 
