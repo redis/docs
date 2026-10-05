@@ -13,7 +13,7 @@ aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/api-examples/
 ---
 
-These examples show self-managed Control Plane and Data Plane requests.
+These examples show self-managed Control Plane, Identity Service, and Data Plane requests.
 
 They assume either an auth-disabled private Data Plane or agent-key auth
 configured as described in [Authentication and authorization]({{< relref "/operate/iris/agent-memory/self-managed/authentication" >}}).
@@ -126,27 +126,44 @@ Exclusions fields:
 | Field | Notes |
 | ----- | ----- |
 | `enabled` | Required. Gates all three mechanisms. Turning it off stops enforcement without discarding what you configured. |
+| `builtInDetectors.enabled` | Required. |
 | `builtInDetectors.detectors[].id` | Required. A detector ID from `/v1/detectors`. |
+| `customDetectors.enabled` | Required. |
 | `customDetectors.detectors[].name` | Required. 1-64 characters, starting with a letter, followed by letters, digits, underscores, or dashes. Unique within the store, and not a built-in detector ID. |
+| `detectors[].enabled` | Required on every built-in and custom detector. |
 | `matcher.kind` | Required. Use `regex`. |
 | `matcher.regex.pattern` | Required when `kind` is `regex`. 1-512 characters, using [RE2 syntax](https://github.com/google/re2/wiki/Syntax), so lookaround is unavailable. Rejected if it does not compile, or if it can match without consuming text. |
 | `action` | Optional on any detector. Use `redact` to replace the matched text or `drop` to discard the memory. Defaults to `redact`. |
+| `semantic.enabled` | Required. |
 | `semantic.prompt` | Required when `semantic.enabled` is `true`. Up to 2,000 characters. |
 
 A store may define at most 32 custom detectors. Update an existing store's policy by sending `longTermMemoryExclusions` on a store update.
 
 For what each mechanism does, how a match is handled, and which memory paths exclusions apply to, see [exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
 
+## Identity Service API examples
+
+Manage agent keys with the Identity Service, using the Identity Service control token.
+
+Set variables:
+
+```bash
+IDS_URL="http://localhost:9200"
+IDS_CONTROL_TOKEN="<identity-service-control-token>"
+```
+
 Mint an agent key:
 
 ```bash
-curl -sS -X POST "$CP_URL/v1/api-keys" \
-  -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
+curl -sS -X POST "$IDS_URL/v1/api-keys" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-agent-key",
     "grants": [
       {
+        "tenant": "<your-tenant-id>",
+        "product": "memory",
         "resourceType": "mem-store",
         "resourceId": "<store-id>",
         "actions": ["read", "write"]
@@ -172,10 +189,78 @@ Agent-key fields:
 | Endpoint | Use `/v1/api-keys`. |
 | `name` | Required. |
 | `grants` | Required. |
+| `tenant` | Your tenant ID. Use the same tenant on every grant of a key. |
+| `product` | Use `memory`. |
 | `resourceType` | Use `mem-store`. |
 | `resourceId` | Set to the store ID. |
 | `actions` | Use `read`, `write`, or both. |
+| `expiresAt` | Optional. Unix seconds after which the key stops authenticating. `0` or omitted means never. |
 | Token | Returned only when you mint or rotate a key. Store it immediately. |
+
+List agent keys:
+
+```bash
+curl -sS "$IDS_URL/v1/api-keys" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
+```
+
+Get one agent key:
+
+```bash
+curl -sS "$IDS_URL/v1/api-keys/<key-id>" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
+```
+
+Update an agent key's grants:
+
+```bash
+curl -sS -X PATCH "$IDS_URL/v1/api-keys/<key-id>" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grants": [
+      {
+        "tenant": "<your-tenant-id>",
+        "product": "memory",
+        "resourceType": "mem-store",
+        "resourceId": "<store-id>",
+        "actions": ["read", "write"]
+      }
+    ]
+  }'
+```
+
+Rotate an agent key:
+
+```bash
+curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate?graceSeconds=3600" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
+```
+
+Response:
+
+```json
+{
+  "createdAt": 1780000000,
+  "keyId": "fedcba9876543210fedcba9876543210",
+  "oldExpiresAt": 1780003600,
+  "token": "<new-agent-key>"
+}
+```
+
+Rotation returns a new `keyId` with the new token. Use the new `keyId` for later updates,
+rotations, and revocations. The old key stays valid for `graceSeconds`, which defaults to 3600 and
+has a chart maximum of 604800 (`identityService.apiKeys.maxRotateGraceSeconds`). `oldExpiresAt` is
+when the old key stops working. Revoking the old `keyId` ends its grace period early.
+
+Revoke an agent key:
+
+```bash
+curl -sS -X DELETE "$IDS_URL/v1/api-keys/<key-id>" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
+```
+
+A revoked key stops working within up to 5 minutes.
 
 ## Data Plane API examples
 
