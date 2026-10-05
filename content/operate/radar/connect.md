@@ -18,7 +18,7 @@ After installing Redis Radar, it's time to connect your clusters. Add each clust
 |---|---|---|
 | [Redis Software](#connect-a-redis-software-cluster) | The cluster REST API, over HTTPS on port 9443 | A hostname or IP address, plus an account on the cluster |
 | [Redis Open Source](#connect-a-redis-open-source-instance) | Direct access to the Redis instance | A hostname and port, plus credentials if the instance requires them |
-| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An account key and a user secret |
+| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An API account key and an API user key |
 | [Amazon ElastiCache](#connect-amazon-elasticache) | The AWS control-plane APIs | Read-only AWS credentials and the regions to scan |
 | [Google Memorystore](#connect-google-memorystore) | The Google Cloud APIs | A read-only service account, plus the project and regions to scan |
 
@@ -83,7 +83,7 @@ Connect a Redis Cloud account, Amazon ElastiCache, or Google Memorystore. These 
 
 For every connection you need:
 
-- **API credentials for the provider.** A Redis Cloud account key and user secret, read-only AWS credentials, or a read-only Google Cloud service account. Radar never writes to your Redis Cloud subscription or provider account.
+- **API credentials for the provider.** A Redis Cloud API account key and API user key, read-only AWS credentials, or a read-only Google Cloud service account. Radar never writes to your Redis Cloud subscription or provider account.
 - **The regions to scan, for Amazon ElastiCache and Google Memorystore.** Radar only scans the regions you list.
 - **Network access from Radar to the provider's API.** Radar connects outbound only.
 
@@ -91,11 +91,11 @@ For every connection you need:
 
 A Redis Cloud connection uses the Redis Cloud API, so it covers every subscription and database in the account at once.
 
-1. Create a Redis Cloud API key. You need both the **account key** and a **user secret**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
+1. Create a Redis Cloud API key. You need both the **API account key** and an **API user key**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
 2. In Radar, select **Add connection**.
 3. Set the **connection type** to **Redis Cloud**.
 4. Enter a **display name**.
-5. Enter the **account key** and the **user secret**.
+5. Enter the **API account key** and the **API user key**.
 6. Select **Add connection**.
 
 ![The Add connection dialog set to connection type Redis Cloud](/images/radar/add-connection-redis-cloud.png)

@@ -284,6 +284,17 @@ To install from a chart package file instead, such as on a cluster with no inter
    **For a private or air-gapped registry**, mirror the images listed in the release notes for your version, keeping each image's repository path, then point the chart at your registry. Save these values to a file, such as `registry-values.yaml`, and add `-f registry-values.yaml` to the `helm install` command.
 
    ```yaml
+   global:
+     imageRegistry: registry.example.com
+     imagePullSecrets:
+       - name: registry-creds
+   ```
+
+   `global.imageRegistry` applies to every image the chart pulls, including `busybox` and the bundled PostgreSQL container. `global.imagePullSecrets` applies to every pod, including the `helm test` pod. To use a different registry for some images, set `image.registry` for the API server, worker, and migration images together, `dbWaitInitContainer.image.registry` for `busybox`, or `postgresql.image.registry` for PostgreSQL.
+
+   In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting. Use these values instead, and if you use the bundled PostgreSQL container, also set `postgresql.image.registry`:
+
+   ```yaml
    image:
      registry: registry.example.com
    dbWaitInitContainer:
@@ -294,9 +305,7 @@ To install from a chart package file instead, such as on a cluster with no inter
        - name: registry-creds
    ```
 
-   Set `image.registry` rather than `global.imageRegistry`. In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting, so its repository includes the registry. If you use the chart's bundled PostgreSQL container, also set `postgresql.image.registry`.
-
-   In the same chart versions, the `helm test` pod doesn't receive `global.imagePullSecrets` and runs as the namespace's `default` service account. If your registry requires authentication, attach the pull secret to that service account so `helm test` can pull `busybox`. On OpenShift:
+   In those versions, the `helm test` pod also doesn't receive `global.imagePullSecrets`. If your registry requires authentication, attach the pull secret to the namespace's `default` service account, which the test pod runs as, so `helm test` can pull `busybox`. On OpenShift:
 
    ```bash
    oc secrets link default registry-creds --for=pull -n radar
