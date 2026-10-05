@@ -60,6 +60,8 @@ RDI pipelines are defined through configuration. You specify which source databa
 
 See the [RDI quick start](/content/operate/rc/rdi/quick-start.md) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
 
+To watch a pipeline sync a PostgreSQL database without setting one up, try the [interactive demo](/content/develop/ai/context-engine/data-integration/interactive-demo.md).
+
 ## Redis Data Integration overview
 
 AI agents are only as reliable as the data they work with. RDI solves the freshness problem by using [Change Data Capture (CDC)](https://en.wikipedia.org/wiki/Change_data_capture) to detect changes in your source database and propagate them to Redis within seconds. Agents interact only with Redis, which is fast, predictable, and always current.
