@@ -16,3 +16,5 @@ bannerChildren: true
 ---
 
 [Redis Software](/content/operate/rs/_index.md) and [Redis Cloud](/content/operate/rc/_index.md) support all [Redis Open Source](/content/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities.md) features. Some of the capabilities Redis Open Source provides include querying, indexing, and full-text search and support for JSON, time series, and probabilistic data structures.
+
+To install, enable, or upgrade modules in Redis Software, see [Install and upgrade modules](/content/operate/rs/installing-upgrading/modules/_index.md).

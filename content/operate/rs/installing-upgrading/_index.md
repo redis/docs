@@ -48,6 +48,18 @@ If you already installed Redis Software, you can:
 
 - [Upgrade an Active-Active database](/content/operate/rs/installing-upgrading/upgrading/upgrade-active-active.md)
 
+## Install and upgrade modules
+
+To add capabilities with modules, you can:
+
+- [Install a module on a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md)
+
+- [Enable a module for a database](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md)
+
+- [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md)
+
+For module versioning and end-of-life dates, see [Module lifecycle](/content/operate/rs/installing-upgrading/modules-lifecycle.md).
+
 ## Uninstall Redis Software
 
 - [Uninstall existing deployment](/content/operate/rs/installing-upgrading/uninstalling.md)
