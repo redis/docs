@@ -230,6 +230,10 @@ tls:
 - The chart writes the agent-key introspection settings and the Control Plane internal token for you.
 - Image tags are not set, so the chart defaults (`0.7.0`) apply.
 
+{{< note >}}
+No external model provider? To try the API with local models, see [Evaluate locally](#evaluate-locally).
+{{< /note >}}
+
 ## Before you install: check your values
 
 Check each value in `ram-values.yaml` before you install. If one is wrong, you see the symptom in
@@ -361,3 +365,107 @@ runs at the end of a clock-aligned 300-second window. To shorten the wait, set
 
 - [API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md) for the full API.
 - [Operations](/content/operate/iris/agent-memory/self-managed/operations.md) for key rotation.
+
+## Evaluate locally
+
+This setup runs with no external model provider. The `noop` embedder produces meaningless vectors,
+and a small local model produces rough extractions. Use it to try the API, not to judge quality or
+for production.
+
+Save this Deployment and Service as `ollama.yaml`. Replace `<ollama-version>` with 0.13.3 or later:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+        - name: ollama
+          image: ollama/ollama:<ollama-version>   # 0.13.3 or later
+          env:
+            - name: OLLAMA_CONTEXT_LENGTH
+              value: "8192"
+          command: ["/bin/sh", "-c"]
+          args: ["ollama serve & until ollama list >/dev/null 2>&1; do sleep 1; done; ollama pull qwen2.5:3b; wait"]
+          ports:
+            - containerPort: 11434
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+          volumeMounts:
+            - name: models
+              mountPath: /root/.ollama
+      volumes:
+        - name: models
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+spec:
+  selector:
+    app: ollama
+  ports:
+    - port: 11434
+      targetPort: 11434
+```
+
+Deploy it in the release namespace:
+
+```bash
+kubectl -n <namespace-name> apply -f ollama.yaml
+```
+
+The first start downloads about 2 GB.
+
+In `ram-values.yaml`, replace the provider blocks with:
+
+```yaml
+memory:
+  embedding:
+    provider: noop
+    models:
+      default_embedding_model: noop
+      dimensions: 384
+  embedders_connection_details:
+    noop:
+      protocol: noop
+  inference_providers:
+    ollama:
+      protocol: openai
+      endpoint:
+        base_url: http://ollama:11434/v1
+        timeout: 300s
+      http_client:
+        timeout: 300s
+  promote_session_memory:
+    strategies:
+      instruct:
+        llm:
+          provider: ollama
+          credentials:
+            type: static
+            api_key: ollama
+          models:
+            default_chat_model: qwen2.5:3b
+controlplane:
+  configData:
+    embedding:
+      dimensions: 384
+```
+
+`api_key: ollama` is a placeholder. The client requires a key, and Ollama ignores it.
+
+In `overlay.yaml`, remove `embedders_connection_details.openai` and both `api_key` entries.
