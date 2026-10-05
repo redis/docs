@@ -12,6 +12,9 @@ aliases:
 Stops a pipeline. By default, the command waits for the pipeline to reach the `stopped` state before
 returning.
 
+An [external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#operate-an-external-source)
+cannot be stopped with `--source`. Stopping its pipeline does not stop the external writer.
+
 ## Usage
 
 ```

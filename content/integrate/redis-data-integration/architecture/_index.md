@@ -115,6 +115,10 @@ RDI supports the following database sources using [Debezium Server](https://debe
 
 {{< embed-md "rdi-supported-source-versions.md" >}}
 
+For a proof of concept with your own collector, see
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md).
+This approach is not recommended for production deployments.
+
 ## How RDI is deployed
 
 RDI is designed with three *planes* that provide its services.

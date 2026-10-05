@@ -256,7 +256,10 @@ redis-di reset --source mysql
 
 A source runs only while its pipeline runs, so starting one source does not start a stopped
 pipeline. Generally, stopping one source leaves the others running, and when one source fails, the other sources keep capturing changes. The only exception to this is a source of type
-`external`. RDI creates no collector for this, so you cannot start or stop it.
+`external`. RDI creates no collector for this, so you cannot start, stop, or reset it
+with `--source`. See
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#operate-an-external-source)
+for command behavior and operating responsibilities.
 
 Stopping a source scales its collector down to zero replicas and leaves the rest of the
 source's resources in place. RDI records a captured position for each source, so when you restart a collector, it resumes from where it stopped.
