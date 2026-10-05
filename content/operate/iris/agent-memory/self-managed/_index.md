@@ -9,6 +9,8 @@ description: Deploy, configure, secure, and operate Redis Agent Memory on a self
 linkTitle: Self-managed
 weight: 40
 hideListLinks: true
+bannerText: Redis Agent Memory self-managed is currently in private preview and subject to change. A license key is required to deploy. Contact your Redis representative or [contact sales](https://redis.io/contact/).
+bannerChildren: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/
 ---
@@ -24,11 +26,6 @@ The [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory
 is the shared Data Plane API for Redis Cloud and self-managed deployments. The
 [Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}})
 documents the self-managed admin endpoints for stores and agent keys.
-
-> [!NOTE]
-> Self-managed Redis Agent Memory is available as a private preview. You need a
-> license key to deploy it. Contact your Redis representative or
-> [contact sales](https://redis.io/contact/).
 
 ## What you are deploying
 
