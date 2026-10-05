@@ -90,18 +90,23 @@ The following needs to be taken into account when using `relref`: The reference 
 
 ### Images
 
-The image shortcode doesn't need to be closed anymore. Here is an example;
+Images are Markdown, with site-root paths. The files live in `static/images/`, and `layouts/_default/_markup/render-image.html` renders them:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png" alt="Database update" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
 ```
 
-The `filename` property value can be any file name path which is relative to the site's base path.
-
-We added a new property `class` which allows you to override the CSS class of the image. Images have by default a `block` display in Tailwind. You can change this by setting the class property to `inline`. The following example shows two images that are in a single line:
+To set a width or class, put an attribute line directly after an image that is its own paragraph:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
+{width="50%"}
+```
+
+A UI icon inside a sentence or table cell is an inline image with `#no-click` and no attributes. CSS sizes it to the surrounding text:
+
+```
+Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**.
 ```
 
 ### Templating
