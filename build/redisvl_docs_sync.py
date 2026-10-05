@@ -607,9 +607,9 @@ def _end_alert_blockquotes(text: str) -> str:
 
     A shortcode's closing tag used to end the callout. A blockquote has no
     closing tag: a plain line right after it is a lazy continuation and renders
-    inside the callout. A following list item, heading, fence, or HTML line
-    starts its own block, so it's left alone (a blank line there would loosen
-    a list).
+    inside the callout, and so does a second alert directly after it. A
+    following list item, heading, fence, or HTML line starts its own block, so
+    it's left alone (a blank line there would loosen a list).
     """
     lines = text.split("\n")
     out: list[str] = []
@@ -620,8 +620,11 @@ def _end_alert_blockquotes(text: str) -> str:
         # also starts with `>`.
         in_alert = bool(_ALERT_HEADER_RE.match(line) or (in_alert and _QUOTED_RE.match(line)))
         nxt = lines[i + 1] if i + 1 < len(lines) else ""
-        if (in_alert and nxt.strip() and not _QUOTED_RE.match(nxt)
-                and not _BLOCK_START_RE.match(nxt)):
+        # A second alert straight after the first is a quoted line too, so it
+        # would join the first blockquote as body text.
+        if in_alert and nxt.strip() and (
+                _ALERT_HEADER_RE.match(nxt)
+                or (not _QUOTED_RE.match(nxt) and not _BLOCK_START_RE.match(nxt))):
             out.append("")
     return "\n".join(out)
 
