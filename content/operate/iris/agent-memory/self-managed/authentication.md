@@ -20,6 +20,19 @@ The Control Plane uses an admin token for management endpoints. The Data Plane
 can run behind infrastructure controls with Redis Agent Memory auth disabled, or it
 can validate Redis Agent Memory agent keys and enforce store-level grants.
 
+## Credentials
+
+| Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
+| --- | --- | --- | --- | --- |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store management: `/v1/stores`, `/v1/detectors` |
+| Control Plane internal token | Identity Service → Control Plane | `redis-agent-memory-controlplane-internal-token` / `token` | Yes (`controlplane.internalToken.autoGenerate`) | Checking that the store in a grant exists. Chart-managed; you handle it only with bring-your-own (BYO) configuration |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `redis-agent-memory-identity-service-control-token` / `token` | Yes (`identityService.controlToken.autoGenerate`) | Creating, listing, updating, rotating and revoking agent keys |
+| Data Plane service credential | Data Plane → Identity Service | `redis-agent-memory-identity-service-runtime-memory-dp` / `token` | Yes (`identityService.runtime.serviceCredentials`) | Checking agent keys for `memory`. Chart-managed; you handle it only with bring-your-own (BYO) configuration |
+| Agent key | Application → Data Plane (`:9000`) | None; returned once when minted or rotated | No | The Data Plane operations its grants allow |
+
+Each generated Secret keeps its value across upgrades (`helm.sh/resource-policy: keep`). To bring
+your own, set `existingSecret` on the matching value.
+
 ## Control Plane admin token
 
 Control Plane management endpoints require:
