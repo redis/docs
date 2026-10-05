@@ -1,10 +1,12 @@
 ---
 Title: Enable a module for a database
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 linkTitle: Enable for a database
 toc: 'true'

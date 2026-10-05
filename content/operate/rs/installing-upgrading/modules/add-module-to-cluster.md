@@ -1,10 +1,12 @@
 ---
 Title: Install a module on a cluster
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 linkTitle: Install on a cluster
 weight: 10

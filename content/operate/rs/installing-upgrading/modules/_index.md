@@ -1,14 +1,16 @@
 ---
 Title: Install and upgrade modules
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/install/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 hideListLinks: true
 linkTitle: Install and upgrade modules
-weight: 4
+weight: 50
 ---
 
 Several modules that provide additional Redis capabilities, such as Redis Search, JSON, time series, and probabilistic data structures, come packaged with [Redis Software](/content/operate/rs/_index.md). As of version 8.0, Redis Software includes multiple feature sets, compatible with different Redis database versions.

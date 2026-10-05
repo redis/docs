@@ -1,10 +1,12 @@
 ---
 Title: Upgrade modules
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/install/upgrade-module/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 linkTitle: Upgrade modules
 weight: 50

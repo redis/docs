@@ -1,13 +1,15 @@
 ---
 Title: Module lifecycle
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/modules-lifecycle/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 linkTitle: Module lifecycle
-weight: 7
+weight: 105
 ---
 Redis Software follows the [Redis Software lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md).  (For complete details, see the Redis Software [subscription agreement](https://redis.com/software-subscription-agreement).)
 
