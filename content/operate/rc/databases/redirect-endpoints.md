@@ -102,19 +102,19 @@ To redirect your database endpoints:
 
 1. In the **General** section of the **Configuration** tab, select **Redirect endpoints**.
 
-    {{<image filename="images/rc/databases-configuration-redirect-endpoints.png" alt="Use the **Redirect endpoints** button to change the target database for the source database endpoints." >}}
+    ![Use the **Redirect endpoints** button to change the target database for the source database endpoints.](/images/rc/databases-configuration-redirect-endpoints.png)
 
 1. Select the target Redis Cloud Pro database from the **Target database** list. You can type in the database's name to find it.
 
-    {{<image filename="images/rc/migrate-data-redirect-pro-endpoints.png" alt="Select the target database from the database list." >}}
+    ![Select the target database from the database list.](/images/rc/migrate-data-redirect-pro-endpoints.png)
 
 1. If you want to assign the same [Role-based Access Control (RBAC) roles](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
-    {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
+    ![Select **Assign the same ACLs to the target database** to assign the same roles to the target database.](/images/rc/migrate-data-redirect-assign-acls.png)
 
 1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
 
-    {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
+    ![The **Redirect endpoints** button redirects the source database endpoints to the target database.](/images/rc/migrate-data-redirect-acknowledge.png)
 
 After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database for at least 5 minutes to ensure all clients have reconnected to the target database. After 5 minutes, you can  [unblock traffic to the source database](#unblock-database-traffic). You can also [revert the redirection](#revert-endpoint-redirection) within 24 hours to restore the original endpoints.
 
@@ -122,7 +122,7 @@ After you redirect your database endpoints, you can go to the **Configuration** 
 
 You can revert endpoint redirection within 24 hours to restore the original endpoints. From either database's **Configuration** tab, select **Revert** to revert endpoint migration.
 
-{{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
+![The **Revert** button reverts endpoint migration.](/images/rc/migrate-data-redirect-revert.png)
 
 After the 24-hour window, you can no longer revert to the original endpoints. You can redirect them back to the source database if the source database is a Redis Cloud Pro database. However, doing this will create new endpoints for the target database.
 
@@ -132,11 +132,11 @@ After you revert endpoint redirection, Redis Cloud will unblock traffic to the s
 
 After you redirect your database endpoints, Redis Cloud will block all traffic to the source database for at least 5 minutes to ensure all clients have reconnected to the target database. If you revert endpoint redirection, Redis Cloud will unblock traffic to the source database and block traffic to the target database for at least 5 minutes to ensure all clients have reconnected to the source database. If Redis Cloud has blocked traffic to a database, the database will display a **Traffic blocked** badge in the Redis Cloud console.
 
-{{<image filename="images/rc/migrate-data-traffic-blocked.png" alt="The **Traffic blocked** badge indicates that Redis Cloud has blocked traffic to the database." >}}
+![The **Traffic blocked** badge indicates that Redis Cloud has blocked traffic to the database.](/images/rc/migrate-data-traffic-blocked.png)
 
 You will not be able to unblock traffic to a database until 5 minutes after you redirect your database endpoints or revert endpoint redirection. Before you unblock traffic to a database, make sure that all clients have reconnected to the correct database.
 
 To unblock traffic to a database, from the database's **Configuration** tab, select **Unblock traffic**.
 
-{{<image filename="images/rc/migrate-data-redirect-unblock.png" alt="The **Unblock traffic** button unblocks traffic to the source database." >}}
+![The **Unblock traffic** button unblocks traffic to the source database.](/images/rc/migrate-data-redirect-unblock.png)
 

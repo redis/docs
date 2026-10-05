@@ -18,7 +18,7 @@ After you have [created your first LangCache service]({{< relref "/operate/iris/
 
 This page displays a list of all LangCache services associated with your account.
 
-{{<image filename="images/rc/langcache-service-list.png" alt="The LangCache service in the LangCache service list." >}}
+![The LangCache service in the LangCache service list.](/images/rc/langcache-service-list.png)
 
 Select your LangCache service from the list to view the service's details.
 
@@ -34,7 +34,7 @@ The **Configuration** tab lets you view the details of your LangCache service. I
 
 The **Connectivity** section provides the connection details for your LangCache service. 
 
-{{<image filename="images/rc/langcache-view-connectivity.png" alt="The connectivity settings for the LangCache service." >}}
+![The connectivity settings for the LangCache service.](/images/rc/langcache-view-connectivity.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -54,27 +54,27 @@ To generate a new service key:
 
 1. Select **Generate key**.
 
-    {{<image filename="images/rc/langcache-replace-key.png" alt="The Generate Key button." >}}
+    ![The Generate Key button.](/images/rc/langcache-replace-key.png)
 
 1. A confirmation dialog will appear. Select **Confirm** to confirm.
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
+    ![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
+    {width="37.5%"}
 
-    {{<warning>}}
-After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>
-
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
-
-If you lose the service key value, you will need to generate a new key again.
-    {{</warning>}}
+    > [!WARNING]
+    > After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>
+    >
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
+    >
+    > If you lose the service key value, you will need to generate a new key again.
 
 ### General
 
 The **General** section provides configuration details for your LangCache service.
 
-{{<image filename="images/rc/langcache-view-general.png" alt="The general settings for the LangCache service." >}}
+![The general settings for the LangCache service.](/images/rc/langcache-view-general.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -92,7 +92,7 @@ Some of these settings can be changed after cache creation. To do so, select the
 
 The **Attributes** section provides the custom attributes defined for your LangCache service.
 
-{{<image filename="images/rc/langcache-view-attributes.png" alt="The custom attributes for the LangCache service." >}}
+![The custom attributes for the LangCache service.](/images/rc/langcache-view-attributes.png)
 
 You can not edit custom attributes after cache creation.
 
@@ -100,7 +100,7 @@ You can not edit custom attributes after cache creation.
 
 The **Actions** section lets you flush or delete your LangCache service.
 
-{{<image filename="images/rc/langcache-view-actions.png" alt="The actions for the LangCache service." >}}
+![The actions for the LangCache service.](/images/rc/langcache-view-actions.png)
 
 #### Flush cache
 

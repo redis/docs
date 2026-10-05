@@ -17,6 +17,6 @@ To delete a database from the Cluster Manager UI:
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 
-1. Select {{< image filename="/images/rs/icons/delete-icon.png#no-click" alt="Delete button" width="22px" class="inline" >}} **Delete**.
+1. Select ![Delete button](/images/rs/icons/delete-icon.png#no-click) **Delete**.
 
 1. In the **Delete database** dialog, confirm deletion.

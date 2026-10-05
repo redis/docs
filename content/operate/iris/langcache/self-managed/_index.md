@@ -24,11 +24,10 @@ is the shared Data Plane API for Redis Cloud and self-managed deployments. The
 [Control Plane API reference]({{< relref "/operate/iris/langcache/self-managed/control-plane-api-reference" >}})
 documents the self-managed admin endpoints for caches.
 
-{{< note >}}
-Self-managed LangCache is available as a private preview. You need a license
-key to deploy it. Contact your Redis representative or
-[contact sales](https://redis.io/contact/).
-{{< /note >}}
+> [!NOTE]
+> Self-managed LangCache is available as a private preview. You need a license
+> key to deploy it. Contact your Redis representative or
+> [contact sales](https://redis.io/contact/).
 
 ## What you are deploying
 

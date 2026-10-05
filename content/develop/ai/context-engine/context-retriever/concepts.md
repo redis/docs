@@ -72,6 +72,7 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
+- Try the [Context Retriever interactive demo]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) to see a data model become the tools an agent calls.
 - [Create a Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}) on Redis Cloud.
 - [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) on your own Kubernetes infrastructure.
 - Follow the [quickstart]({{< relref "/develop/ai/context-engine/context-retriever/quickstart" >}}) to model entities, generate tools, and call one with the `ctxctl` CLI.

@@ -15,14 +15,19 @@ bannerChildren: true
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. It models the entities, fields, keys, and relationships that matter to an agent workflow, then presents that context through a governed tool surface the agent can call at runtime. Context Retriever helps an AI agent understand what business objects exist, how they connect, and which paths are safe to use.
 
+![The Context Retriever page in the Redis Cloud console, with Create with CLI and Create custom service options.](/images/rc/context-retriever-get-started.png)
+{width="75%" class="border border-redis-pen-300 rounded-lg"}
+
 When you set up Redis Context Retriever, you model the objects that matter to your agent workflow and connect the relationships between them. You can do this through the UI, the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/), or the `ctxctl` CLI (available when you install the Python client). Context Retriever uses those relationships to automatically create and deploy retrieval tools from your entity model.
 
 When an agent needs context during execution, it calls the MCP tools Context Retriever exposes. Instead of guessing which tool to use or generating SQL, the agent follows the defined entity paths and gets back structured, live, operational context.
 
 For more details, see the [Redis Context Retriever overview]({{< relref "/develop/ai/context-engine/context-retriever" >}}).
 
-To deploy Context Retriever on your own Kubernetes infrastructure instead of Redis Cloud, see [self-managed Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}).
-
 ## Get started with Context Retriever on Redis Cloud
 
 {{< embed-md "rc-context-retriever-get-started.md" >}}
+
+## Get started with self-managed Context Retriever
+
+To deploy Context Retriever on your own Kubernetes infrastructure instead of Redis Cloud, see [self-managed Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}).

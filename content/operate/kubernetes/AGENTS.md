@@ -27,7 +27,7 @@ _This section is transitional. Once the rebrand pass is complete and the legacy 
 longer appears in this directory, delete it and keep only the name itself._
 
 When linking to a page whose `title` still carries the legacy name, use the current
-name in your link text — `relref` resolves by path, not by title.
+name in your link text — the link resolves by path, not by title.
 
 ## Identifiers that never change
 

@@ -91,7 +91,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    Radar shows an activation command and a daemon command.
 
-   {{<image filename="images/radar/activate-managed-agent.png" alt="The Activate managed agent dialog, showing the activation command and the daemon command" width="75%">}}
+   ![The Activate managed agent dialog, showing the activation command and the daemon command](/images/radar/activate-managed-agent.png)
+   {width="75%"}
 
    <br>
 
@@ -115,7 +116,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 3. In Radar, find the request under **Pending activations**, confirm the activation code matches, and select **Approve**.
 
-   {{<image filename="images/radar/settings-agents.png" alt="The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list" width="90%">}}
+   ![The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list](/images/radar/settings-agents.png)
+   {width="90%"}
 
    The activation expires 15 minutes after the command prints the code, so approve it while the command is still waiting.
 
@@ -145,9 +147,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 To change an agent's sources later, go to **Settings > Agents**, find the agent under **Registered agents**, and select **Edit connections**.
 
-{{< note >}}
-Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
-{{< /note >}}
+> [!NOTE]
+> Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
 
 ## Set up a static agent
 
@@ -157,7 +158,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    Manage these tokens later under **Settings > Access keys**.
 
-   {{<image filename="images/radar/settings-access-keys.png" alt="The Access keys tab, listing credential keys with their creation date, last use, and Revoke action" width="90%">}}
+   ![The Access keys tab, listing credential keys with their creation date, last use, and Revoke action](/images/radar/settings-access-keys.png)
+   {width="90%"}
 
    <br>
 
@@ -229,9 +231,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
    sudo systemctl enable --now radar-agent.service
    ```
 
-{{< note >}}
-Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
-{{< /note >}}
+> [!NOTE]
+> Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
 
 ### Configuration reference
 
@@ -317,16 +318,16 @@ The exported file holds sanitized telemetry only. It never contains your Radar t
 
 Every agent appears in Radar under **Settings > Agents** and in the **Connected agents** list on the Connections page. Radar shows each agent's mode, platform, version, and last heartbeat, along with the combined health of the sources it collects from.
 
-{{<image filename="images/radar/connections-with-agents.png" alt="The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status" width="90%">}}
+![The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status](/images/radar/connections-with-agents.png)
+{width="90%"}
 
 To expose health and metrics endpoints on the agent host, pass `--metrics-addr` when you start the daemon:
 
 - `GET /healthz` returns a health snapshot: `200` when the agent is healthy, `503` when a source is failing.
 - `GET /metrics` returns per-source collection, submission, and failure counters in Prometheus format.
 
-{{< warning >}}
-These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
-{{< /warning >}}
+> [!WARNING]
+> These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
 
 The daemon writes a local health snapshot only when you start it with `--health-file`, and the `health` command needs that same path. Add `--health-file /var/lib/radar-agent/health.json` to `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env`, restart the service, then read it:
 

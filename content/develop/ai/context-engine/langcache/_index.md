@@ -20,10 +20,10 @@ Cut LLM costs and improve response times with semantic caching.
 LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly: no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
-  {{< tile-card color="bg-teal-300" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
 </div>
 
 ## What is LangCache?

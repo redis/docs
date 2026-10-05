@@ -32,11 +32,11 @@ Before completing this guide, you must [verify ownership of any domains](/conten
     > Depending how they are created, users can have different profiles. 
     >
 
-    {{<image filename="images/rc/saml/auth0_saml_1.png" >}}
+    ![](/images/rc/saml/auth0_saml_1.png)
 
 1. Add `user_metadata` to fulfill the SAML assertion, then select **Save**. 
    
-   {{<image filename="images/rc/saml/auth0_saml_2.png" >}}
+   ![](/images/rc/saml/auth0_saml_2.png)
 
    The key-value pair of `redisAccountMapping` consists of a lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings](/content/operate/rc/accounts/account-settings.md).
 
@@ -50,15 +50,15 @@ Before completing this guide, you must [verify ownership of any domains](/conten
 
 1. Open **Actions > Triggers** and select **`post-login`**.
 
-    {{<image filename="images/rc/saml/auth0_saml_3.png" >}}
+    ![](/images/rc/saml/auth0_saml_3.png)
 
 1. Select **Create Action** to create a new custom action.
 
-    {{<image filename="images/rc/saml/auth0_saml_add-action.png" >}}
+    ![](/images/rc/saml/auth0_saml_add-action.png)
 
 1. Provide a **name** for the action and select **Create**.
 
-    {{<image filename="images/rc/saml/auth0_saml_create-action.png" >}}
+    ![](/images/rc/saml/auth0_saml_create-action.png)
 
 1. Add the following code to the action:
 
@@ -86,11 +86,11 @@ Before completing this guide, you must [verify ownership of any domains](/conten
 
 1. Select **Deploy** to save and deploy the action.
 
-    {{<image filename="images/rc/saml/auth0_saml_4.png" >}}
+    ![](/images/rc/saml/auth0_saml_4.png)
 
 1. Return to the **`post-login`** trigger and drag the action you just created to the trigger.
 
-    {{<image filename="images/rc/saml/auth0_saml_action-trigger.png" >}}
+    ![](/images/rc/saml/auth0_saml_action-trigger.png)
 
     Select **Apply** to save your changes.
 
@@ -98,23 +98,23 @@ Before completing this guide, you must [verify ownership of any domains](/conten
 
 1. Open **Applications > Applications** and select **Create Application**.
 
-    {{<image filename="images/rc/saml/auth0_saml_5.png" >}}
+    ![](/images/rc/saml/auth0_saml_5.png)
 
 1. Provide a **name** for the Application and select **Single Page Web Applications**. Select **Create**.
 
-    {{<image filename="images/rc/saml/auth0_saml_6.png" >}}
+    ![](/images/rc/saml/auth0_saml_6.png)
 
 1. From the newly created application, go to **Settings > Advanced Settings > Certificates**.
 
     * Copy and save the **Signing Certificate**. You will need this information to configure SAML in admin console.
 
-    {{<image filename="images/rc/saml/auth0_saml_7.png" >}}
+    ![](/images/rc/saml/auth0_saml_7.png)
 
     * We suggest that you update the default logo of the application to the Redis icon for better visibility. 
 
 1. From the newly created application, go to **Addons** and enable **SAML 2 WEB APP**.
 
-    {{<image filename="images/rc/saml/auth0_saml_8.png" >}}
+    ![](/images/rc/saml/auth0_saml_8.png)
 
 1. From the **Usage** tab:
 
@@ -123,7 +123,7 @@ Before completing this guide, you must [verify ownership of any domains](/conten
     
     You will need both of these values, along with the certificate value you copied in the previous step, to configure SAML in the Redis Cloud console.
 
-    {{<image filename="images/rc/saml/auth0_saml_9.png" >}}
+    ![](/images/rc/saml/auth0_saml_9.png)
 
 ## Step 2: Configure SAML support in Redis Cloud
 
@@ -143,29 +143,29 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
     * **IdP server URL**: Identity Provider Login URL from Auth0
     * **Assertion signing certificate**: Certificate value from Auth0
 
-    {{<image filename="images/rc/saml/sm_saml_1.png" >}}
+    ![](/images/rc/saml/sm_saml_1.png)
 
     Once you click **Enable**, wait a few seconds for the status to change.
 
 1. Download the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
+    ![](/images/rc/saml/sm_saml_3.png)
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
     * **EntityID**: The unique name of the service provider (SP)
 
-    {{<image filename="images/rc/saml/sm_saml_4.png" >}}
+    ![](/images/rc/saml/sm_saml_4.png)
 
     * **Location** : The location of the assertion consumer service
 
-    {{<image filename="images/rc/saml/sm_saml_5.png" >}}
+    ![](/images/rc/saml/sm_saml_5.png)
 
 ## Step 3: Finish SAML configuration in Auth0
 
 1. Return to the Auth0 SAML application and select **Addons > SAML 2 Web App > Settings**:
 
-    {{<image filename="images/rc/saml/auth0_saml_10.png" >}}
+    ![](/images/rc/saml/auth0_saml_10.png)
 
     * Paste the **Location** link in **Application Callback URL** field.
 
@@ -196,16 +196,17 @@ To use IdP-initiated SSO with certain identity providers, you also need to set t
 
 1. Return to the Redis Cloud console and select **Activate**.
 
-    {{<image filename="images/rc/saml/sm_saml_8.png" >}}
+    ![](/images/rc/saml/sm_saml_8.png)
 
    A popup appears, explaining that, in order to test the SAML connection, we need to login with credentials of a user defined in Auth0. Select **Continue** to go to the Auth0 login screen.
 
 1. The Auth0 login screen appears. Enter the credentials and select **Sign In**.
 
-    {{<image filename="images/rc/saml/auth0_saml_12.png" >}}
+    ![](/images/rc/saml/auth0_saml_12.png)
 
 If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
+![Sign in with SSO button](/images/rc/button-sign-in-sso.png)
+{width="50px"}

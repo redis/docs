@@ -10,7 +10,7 @@ linkTitle: Replace node
 weight: 90
 url: '/operate/rs/8.0/clusters/replace-node/'
 ---
-A failed node will appear as `Down` ({{< image filename="/images/rs/icons/node-down-icon.png#no-click" alt="Node down icon" class="inline" >}}) in the **Nodes** list.
+A failed node will appear as `Down` (![Node down icon](/images/rs/icons/node-down-icon.png#no-click)) in the **Nodes** list.
 
 To replace a failed node: 
 

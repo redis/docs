@@ -54,7 +54,7 @@ To enable the OSS Cluster API for an existing database in the Cluster Manager UI
 
 1. Select **OSS Cluster API**.
 
-    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-22.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
+    ![Use the *OSS Cluster API* setting to enable the API for the selected database.](/images/rs/screenshots/databases/config-clustering-oss-cluster-api-7-22.png)
 
 1. Click **Save**.
 
@@ -122,7 +122,7 @@ To enable the OSS Cluster API for an existing Active-Active database in the Clus
 
 1. Select **OSS Cluster API**.
 
-    <img src="../../../../../images/rs/screenshots/databases/config-clustering-oss-cluster-api-active-active-7-22.png" alt="Use the *OSS Cluster API* setting to enable the API for the selected database.">
+    ![Use the *OSS Cluster API* setting to enable the API for the selected database.](/images/rs/screenshots/databases/config-clustering-oss-cluster-api-active-active-7-22.png)
 
 1. Click **Save**.
 

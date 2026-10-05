@@ -17,8 +17,20 @@ Every path is rewritten to site-root form (`/images/...`); the bare
 (`images/...`) and dot-relative (`../images/...`) forms the shortcode tolerated
 are normalized. A path is converted only if the file exists under static/.
 
+With --raw-img, converts raw HTML `<img src=... alt=... width=...>` tags
+instead, under the same checks. Their relative `../` paths break in version
+snapshots, which publish one directory deeper than the page they were copied
+from.
+
+With --inline-icons, converts `#no-click` icon shortcodes that are NOT their
+own paragraph (in a sentence, a table cell, or several to a line) to inline
+Markdown images, `![Alt](/images/x.png#no-click)`. Their width and class are
+dropped: render-image.html marks inline #no-click images img-inline, and CSS
+sizes them to the text. An image without #no-click is left alone, because inline sizing
+would shrink a screenshot to text height.
+
 Usage:
-  build/migrate_image_shortcodes.py [--dry-run] <file>...
+  build/migrate_image_shortcodes.py [--dry-run] [--raw-img | --inline-icons] <file>...
 
 Prints one line per skipped shortcode and a summary. Idempotent.
 """
@@ -33,6 +45,8 @@ SHORTCODE_RX = re.compile(r'\{\{[<%]\s*image\s+(.*?)\s*[%>]\}\}', re.S)
 # Hugo also accepts unquoted values (`width=80%`, ~130 in the corpus). A value
 # with a stray quote (`width=50%"`) is left unparsed and so skipped.
 ATTR_RX = re.compile(r'(\w+)\s*=\s*(?:"([^"]*)"|([^\s"]+)(?=\s|$))')
+# Quoted values are consumed whole: alts like "Access Control > Users" contain `>`.
+RAW_IMG_RX = re.compile(r'<img\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*?)\s*/?>', re.I)
 KNOWN_KEYS = {"filename", "alt", "width", "class"}
 # Characters that would need Markdown escaping in `![...]`. The hook reads
 # .PlainText, which keeps backslash escapes verbatim, so escaping would leak
@@ -52,7 +66,8 @@ def is_boundary(line):
             or re.match(r'[ \t>]*#{1,6}(\s|$)', s) is not None)
 
 
-def convert_file(path, dry_run, skips, counts):
+def convert_file(path, dry_run, skips, counts, raw_img=False):
+    rx, trigger = (RAW_IMG_RX, "<img") if raw_img else (SHORTCODE_RX, "image")
     # newline="" keeps any \r\n intact; the default would silently convert it.
     text = open(path, encoding="utf-8", newline="").read()
     lines = text.split("\n")
@@ -70,12 +85,12 @@ def convert_file(path, dry_run, skips, counts):
                 fence = None
             out.append(line)
             continue
-        if fence or "image" not in line or not SHORTCODE_RX.search(line):
+        if fence or trigger not in line.lower() or not rx.search(line):
             out.append(line)
             continue
 
         where = f"{os.path.relpath(path, REPO)}:{i + 1}"
-        m = SHORTCODE_RX.search(line)
+        m = rx.search(line)
         prefix = PREFIX_RX.match(line).group(1)
         rest_before = line[len(prefix):m.start()]
         rest_after = line[m.end():]
@@ -84,7 +99,7 @@ def convert_file(path, dry_run, skips, counts):
             skips.append(f"{where}: {reason}: {stripped[:140]}")
             counts["skipped:" + reason] += 1
 
-        if len(SHORTCODE_RX.findall(line)) > 1:
+        if len(rx.findall(line)) > 1:
             skip("several images on one line"); out.append(line); continue
         if rest_before.strip() or rest_after.strip():
             ctx = "table cell" if "|" in rest_before and "|" in rest_after else "inline in text"
@@ -96,6 +111,11 @@ def convert_file(path, dry_run, skips, counts):
 
         attrs = {k: q if q or not u else u for k, q, u in ATTR_RX.findall(m.group(1))}
         leftover = ATTR_RX.sub("", m.group(1)).strip()
+        if raw_img:
+            if "filename" in attrs:
+                skip("unexpected filename attribute"); out.append(line); continue
+            if "src" in attrs:
+                attrs["filename"] = attrs.pop("src")
         unknown = set(attrs) - KNOWN_KEYS
         if leftover or unknown:
             skip(f"unparsed attributes {sorted(unknown) or leftover!r}"); out.append(line); continue
@@ -131,14 +151,81 @@ def convert_file(path, dry_run, skips, counts):
             open(path, "w", encoding="utf-8", newline="").write("\n".join(out))
 
 
+def convert_inline_icons(path, dry_run, skips, counts):
+    text = open(path, encoding="utf-8", newline="").read()
+    lines = text.split("\n")
+    changed = False
+    fence = None
+    for i, line in enumerate(lines):
+        fm = re.match(r'(?:[ \t>]*)(`{3,}|~{3,})', line)
+        if fm:
+            marker = fm.group(1)
+            if fence is None:
+                fence = marker[0]
+            elif marker[0] == fence:
+                fence = None
+            continue
+        if fence or "image" not in line:
+            continue
+        matches = list(SHORTCODE_RX.finditer(line))
+        if not matches:
+            continue
+        where = f"{os.path.relpath(path, REPO)}:{i + 1}"
+        prefix = PREFIX_RX.match(line).group(1)
+        alone = (len(matches) == 1 and not line[len(prefix):matches[0].start()].strip()
+                 and not line[matches[0].end():].strip())
+        if alone and (i == 0 or is_boundary(lines[i - 1])) and (
+                i == len(lines) - 1 or is_boundary(lines[i + 1])):
+            continue  # its own paragraph: a block image, for the default mode
+
+        def repl(m):
+            attrs = {k: q if q or not u else u for k, q, u in ATTR_RX.findall(m.group(1))}
+            leftover = ATTR_RX.sub("", m.group(1)).strip()
+            fname, alt = attrs.get("filename", ""), attrs.get("alt", "")
+            reason = None
+            if "#no-click" not in fname:
+                reason = "no #no-click (not an icon)"
+            elif leftover or set(attrs) - KNOWN_KEYS:
+                reason = "unparsed attributes"
+            elif UNSAFE_ALT_RX.search(alt):
+                reason = "alt text needs escaping"
+            elif UNSAFE_PATH_RX.search(fname):
+                reason = "path needs escaping"
+            rel = re.sub(r'^(?:\.{1,2}/|/)+', "", fname)
+            if not reason and not os.path.isfile(os.path.join(REPO, "static", rel.split("#")[0])):
+                reason = "file not in static/"
+            if reason:
+                skips.append(f"{where}: {reason}: {m.group(0)[:140]}")
+                counts["skipped:" + reason] += 1
+                return m.group(0)
+            counts["converted"] += 1
+            if "width" in attrs:
+                counts["width dropped (CSS sizes icons)"] += 1
+            return f"![{alt}](/{rel})"
+
+        new = SHORTCODE_RX.sub(repl, line)
+        if new != line:
+            lines[i] = new
+            changed = True
+    if changed:
+        counts["files changed"] += 1
+        if not dry_run:
+            open(path, "w", encoding="utf-8", newline="").write("\n".join(lines))
+
+
 def main(argv):
     dry_run = "--dry-run" in argv
-    files = [a for a in argv if a != "--dry-run"]
-    if not files:
+    raw_img = "--raw-img" in argv
+    inline_icons = "--inline-icons" in argv
+    files = [a for a in argv if a not in ("--dry-run", "--raw-img", "--inline-icons")]
+    if not files or (raw_img and inline_icons):
         sys.exit(__doc__)
     skips, counts = [], collections.Counter()
     for f in files:
-        convert_file(f, dry_run, skips, counts)
+        if inline_icons:
+            convert_inline_icons(f, dry_run, skips, counts)
+        else:
+            convert_file(f, dry_run, skips, counts, raw_img)
     for s in skips:
         print("SKIP", s)
     for k, v in sorted(counts.items()):

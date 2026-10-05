@@ -16,9 +16,9 @@ Stream live business data into Redis so agents always work with accurate, up-to-
 Redis Data Integration (RDI) keeps your Redis Cloud database in sync with your existing relational databases using [Change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC). Agents query Redis at full speed without ever querying your production databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
-  {{< tile-card color="bg-violet-300" title="Define Pipeline" description="Configure which tables to sync and how to map them to Redis" url="/operate/rc/rdi/define" >}}
-  {{< tile-card color="bg-teal-300" title="RDI Documentation" description="Installation, configuration, and advanced pipeline options" url="/integrate/redis-data-integration" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Define Pipeline" description="Configure which tables to sync and how to map them to Redis" url="/operate/rc/rdi/define" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-data-integration-64-duotone.png" title="RDI Documentation" description="Installation, configuration, and advanced pipeline options" url="/integrate/redis-data-integration" >}}
 </div>
 
 ## What is Redis Data Integration?
@@ -59,6 +59,8 @@ Redis Data Integration (RDI) is a pipeline service, available fully managed on R
 RDI pipelines are defined through configuration. You specify which source database tables to sync, how to map each row to a Redis key, and what transformations to apply. No custom code is required.
 
 See the [RDI quick start](/content/operate/rc/rdi/quick-start.md) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
+
+To watch a pipeline sync a PostgreSQL database without setting one up, try the [interactive demo](/content/develop/ai/context-engine/data-integration/interactive-demo.md).
 
 ## Redis Data Integration overview
 

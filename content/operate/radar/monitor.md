@@ -51,7 +51,8 @@ The **Overview** answers one question for a fleet too large to check by hand: is
 - **Alerts.** The most severe alerts currently raised. See [Alerts](#alerts).
 - **Running actions.** Operations in progress on your clusters.
 
-{{<image filename="images/radar/overview.png" alt="The Radar Overview page, showing fleet status, inventory, database health, and alerts" width="90%">}}
+![The Radar Overview page, showing fleet status, inventory, database health, and alerts](/images/radar/overview.png)
+{width="90%"}
 
 ## Clusters
 
@@ -74,13 +75,15 @@ The **Clusters** list is one row per cluster, whichever deployment type it came 
 
 Sort by **Name** or **Memory**; the other columns are display-only.
 
-{{<image filename="images/radar/clusters.png" alt="The Radar Clusters page, listing clusters with their type, status, memory, and database counts" width="90%">}}
+![The Radar Clusters page, listing clusters with their type, status, memory, and database counts](/images/radar/clusters.png)
+{width="90%"}
 
 Select any cluster to open its detail view, which carries that cluster's nodes, databases, and configuration.
 
 For Redis Software clusters, select a row's **More options** menu and choose **Open cluster UI** to jump straight to that cluster's own management console in a new tab.
 
-{{<image filename="images/radar/cluster-detail-enterprise.png" alt="A cluster detail view for a Redis Software cluster, showing its overview, nodes, databases, and alerts" width="90%">}}
+![A cluster detail view for a Redis Software cluster, showing its overview, nodes, databases, and alerts](/images/radar/cluster-detail-enterprise.png)
+{width="90%"}
 
 ## Databases
 
@@ -97,11 +100,13 @@ The **Databases** list crosses cluster boundaries, so you can find a database wi
 | Memory | Memory in use. |
 | Last Seen | When Radar last collected this database's state. |
 
-{{<image filename="images/radar/databases.png" alt="The Radar Databases page, listing databases across clusters with their type, status, and version" width="90%">}}
+![The Radar Databases page, listing databases across clusters with their type, status, and version](/images/radar/databases.png)
+{width="90%"}
 
 Select a database to open its detail view.
 
-{{<image filename="images/radar/database-detail-enterprise.png" alt="A database detail view for a Redis Software database" width="90%">}}
+![A database detail view for a Redis Software database](/images/radar/database-detail-enterprise.png)
+{width="90%"}
 
 ### Active-Active databases
 
@@ -130,7 +135,8 @@ Radar reads alerts from each cluster's own alert endpoints, at the cluster and n
 
 Filter by severity or search by alert, cluster, or FQDN. Select the cluster name in an alert to open that cluster's detail view.
 
-{{<image filename="images/radar/alerts.png" alt="The Radar Alerts page, listing alerts by severity, category, and affected resource" width="90%">}}
+![The Radar Alerts page, listing alerts by severity, category, and affected resource](/images/radar/alerts.png)
+{width="90%"}
 
 ## Download a support package
 

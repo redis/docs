@@ -57,7 +57,7 @@ outside the Redis
 Enterprise cluster where the target database is kept. However, RDI keeps
 its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
-{{< image filename="images/rdi/ingest/ingest-dataflow.webp" >}}
+![](/images/rdi/ingest/ingest-dataflow.webp)
 
 When you first start RDI, the target database is empty and so all
 of the data in the source databases is essentially "change" data.
@@ -141,7 +141,7 @@ with the control plane.
 
 The diagram below shows all RDI components and the interactions between them:
 
-{{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
+![](/images/rdi/ingest/ingest-control-plane.webp)
 
 ## Stream processor implementations
 
@@ -170,7 +170,7 @@ The two operators running on both VMs use a leader election algorithm to decide 
 VM is the active one (the "leader").
 The diagram below shows this configuration:
 
-{{< image filename="images/rdi/ingest/ingest-active-passive-vms.webp" >}}
+![](/images/rdi/ingest/ingest-active-passive-vms.webp)
 
 See [Install on VMs](/content/integrate/redis-data-integration/installation/install-vm.md)
 for more information.
