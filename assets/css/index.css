@@ -306,6 +306,11 @@ section.prose {
   @apply m-0;
 }
 
+/* Back-to-back callouts otherwise touch, which led authors to add spacer lines that break the Markdown. */
+.alert + .alert {
+  @apply mt-4;
+}
+
 select {
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
