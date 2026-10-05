@@ -25,11 +25,10 @@ is the shared Data Plane API for Redis Cloud and self-managed deployments. The
 [Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}})
 documents the self-managed admin endpoints for stores and agent keys.
 
-{{< note >}}
-Self-managed Redis Agent Memory is available as a private preview. You need a
-license key to deploy it. Contact your Redis representative or
-[contact sales](https://redis.io/contact/).
-{{< /note >}}
+> [!NOTE]
+> Self-managed Redis Agent Memory is available as a private preview. You need a
+> license key to deploy it. Contact your Redis representative or
+> [contact sales](https://redis.io/contact/).
 
 ## What you are deploying
 
@@ -100,11 +99,10 @@ metadata in the same Data Plane config. Static stores do not use Metadata Redis.
 Control Plane managed stores use `metadata.source: live` and require Metadata
 Redis.
 
-{{< warning >}}
-Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
-mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any caller that
-can reach the API can read or write memory for configured stores. Use that mode
-only when Kubernetes NetworkPolicy, private service exposure, ingress/gateway
-policy, service mesh, or equivalent controls restrict access to trusted
-components.
-{{< /warning >}}
+> [!WARNING]
+> Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
+> mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any caller that
+> can reach the API can read or write memory for configured stores. Use that mode
+> only when Kubernetes NetworkPolicy, private service exposure, ingress/gateway
+> policy, service mesh, or equivalent controls restrict access to trusted
+> components.

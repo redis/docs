@@ -259,9 +259,8 @@ spec:
 kubectl apply -f redisinsight.yaml
 ```
 
-{{< alert title="Note" >}}
-If the deployment will be exposed by a service whose name is 'redisinsight', set `RI_APP_HOST` and `RI_APP_PORT` environment variables to override the environment variables created by the service.
-{{< /alert >}}
+> [!NOTE]
+> If the deployment will be exposed by a service whose name is 'redisinsight', set `RI_APP_HOST` and `RI_APP_PORT` environment variables to override the environment variables created by the service.
 
 ## Run Redis Insight
 

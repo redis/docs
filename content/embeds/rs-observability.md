@@ -532,9 +532,8 @@ The Redis Software observability package includes a suite of alerts and their as
 
 - [Alerts for the v2 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2)
 
-{{<note>}}
-Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.
-{{</note>}}
+> [!NOTE]
+> Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.
 
 The alerts are packaged with a series of tests
 that validate the individual triggers. You can use these tests to validate your modifications to these alerts for specific environments and use cases.

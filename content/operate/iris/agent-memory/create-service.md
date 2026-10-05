@@ -21,13 +21,12 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-{{< note >}}
-Redis Agent Memory does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- Databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-{{< /note >}}
+> [!NOTE]
+> Redis Agent Memory does not support the following databases during public preview:
+> - [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
+> - Databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity
+> - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
+> - Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
 
 ## Create an Agent Memory service
 
@@ -50,11 +49,10 @@ From here:
     ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
     {width="40%"}
 
-    {{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+    >
+    > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
 
     After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
 
@@ -169,9 +167,8 @@ The **Sensitive-data exclusions** section lets you define information that shoul
 
 Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
 
-{{< note >}}
-Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
-{{< /note >}}
+> [!NOTE]
+> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
 ![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
 
@@ -228,9 +225,8 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-{{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
-{{</warning>}}
+> [!WARNING]
+> Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 
 ### Create service
 
@@ -243,11 +239,10 @@ A window containing your Agent Memory service key will appear. Select **Copy** t
 ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
 {width="40%"}
 
-{{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
-{{</warning>}}
+> [!WARNING]
+> This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+>
+> If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
 

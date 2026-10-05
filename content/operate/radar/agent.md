@@ -147,9 +147,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 To change an agent's sources later, go to **Settings > Agents**, find the agent under **Registered agents**, and select **Edit connections**.
 
-{{< note >}}
-Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
-{{< /note >}}
+> [!NOTE]
+> Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
 
 ## Set up a static agent
 
@@ -232,9 +231,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
    sudo systemctl enable --now radar-agent.service
    ```
 
-{{< note >}}
-Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
-{{< /note >}}
+> [!NOTE]
+> Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
 
 ### Configuration reference
 
@@ -328,9 +326,8 @@ To expose health and metrics endpoints on the agent host, pass `--metrics-addr` 
 - `GET /healthz` returns a health snapshot: `200` when the agent is healthy, `503` when a source is failing.
 - `GET /metrics` returns per-source collection, submission, and failure counters in Prometheus format.
 
-{{< warning >}}
-These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
-{{< /warning >}}
+> [!WARNING]
+> These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
 
 The daemon writes a local health snapshot only when you start it with `--health-file`, and the `health` command needs that same path. Add `--health-file /var/lib/radar-agent/health.json` to `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env`, restart the service, then read it:
 

@@ -52,9 +52,8 @@ To install **all** optional dependencies at once:
 $ pip install redisvl[all]
 ```
 
-{{< note >}}
-The core RedisVL package supports Python 3.9+, but the `redisvl[mcp]` extra requires Python 3.10 or newer because the MCP server depends on `fastmcp`.
-{{< /note >}}
+> [!NOTE]
+> The core RedisVL package supports Python 3.9+, but the `redisvl[mcp]` extra requires Python 3.10 or newer because the MCP server depends on `fastmcp`.
 
 ## Install RedisVL from Source
 

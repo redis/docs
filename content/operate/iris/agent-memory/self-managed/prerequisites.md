@@ -20,10 +20,9 @@ Plane, Redis Agent Memory workers, and optionally the Redis Agent Memory Control
 You provide the Redis databases, provider credentials, Kubernetes exposure, and
 license material used by the deployment.
 
-{{< note >}}
-This guide is for system administrators deploying Redis Agent Memory on a self-managed
-Kubernetes cluster.
-{{< /note >}}
+> [!NOTE]
+> This guide is for system administrators deploying Redis Agent Memory on a self-managed
+> Kubernetes cluster.
 
 ## What you need
 

@@ -22,12 +22,11 @@ To create a LangCache service, you will need:
 
 - A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-    {{< note >}}
-LangCache does not support the following databases during public preview:
-- Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-    {{< /note >}}
+    > [!NOTE]
+    > LangCache does not support the following databases during public preview:
+    > - Databases with a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}})
+    > - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
+    > - Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
 
 - An API key for your embedding provider, if not using the default Redis embedding provider. LangCache supports [OpenAI](https://platform.openai.com/api-keys) and the Redis embedding provider during public preview.
 
@@ -52,11 +51,10 @@ From here:
     ![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
     {width="37.5%"}
 
-    {{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+    >
+    > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
 
     After your cache is created, you can [use the LangCache API]({{< relref "/operate/iris/langcache/use-langcache" >}}) from your client app.
 
@@ -142,11 +140,10 @@ A window containing your LangCache service key will appear. Select **Copy** to c
 ![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
 {width="37.5%"}
 
-{{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
-{{</warning>}}
+> [!WARNING]
+> This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+>
+> If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
 
 You'll be taken to your LangCache service's **Configuration** page. You'll also be able to see your LangCache service in the LangCache service list.
 

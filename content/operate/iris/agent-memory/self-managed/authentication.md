@@ -61,11 +61,10 @@ auth:
 Use this only when hosting controls restrict Data Plane access to trusted
 components.
 
-{{< warning >}}
-Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
-mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any
-caller that can reach the API can read or write memory for configured stores.
-{{< /warning >}}
+> [!WARNING]
+> Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
+> mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any
+> caller that can reach the API can read or write memory for configured stores.
 
 ### Agent-key authentication
 

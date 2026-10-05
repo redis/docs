@@ -19,11 +19,10 @@ Redis Context Retriever helps teams expose operational context to AI agents thro
 
 To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). If your source data lives in a relational database, use [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) to ingest it into a Redis Cloud database first.
 
-{{< note >}}
-Redis Context Retriever does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-{{< /note >}}
+> [!NOTE]
+> Redis Context Retriever does not support the following databases during public preview:
+> - [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
+> - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
 
 ## Create a Context Retriever service
 
@@ -89,9 +88,8 @@ From here, you can either:
 
     You'll need to agree to let the model scan your key names and schemas to automatically populate the fields. 
 
-    {{< note >}}
-If you use Auto-detect fields, make sure that the fields and relationships that the model generates are accurate. 
-    {{< /note >}}
+    > [!NOTE]
+    > If you use Auto-detect fields, make sure that the fields and relationships that the model generates are accurate. 
 
 - Select **Manually enter fields** to manually enter the fields yourself.
 

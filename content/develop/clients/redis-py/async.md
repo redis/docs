@@ -66,12 +66,11 @@ Tune `max_connections` to the maximum number of concurrent Redis operations
 you expect from the process. If you'd rather block on pool exhaustion than
 raise an error, construct the client with a `BlockingConnectionPool`.
 
-{{% alert title="Note" %}}
-Don't share a single `ConnectionPool` across multiple `Redis(connection_pool=...)`
-instances. Closing any one of those clients also closes the shared pool,
-which silently invalidates the connections held by every other client using
-it. Share the `Redis` client object instead.
-{{% /alert %}}
+> [!NOTE]
+> Don't share a single `ConnectionPool` across multiple `Redis(connection_pool=...)`
+> instances. Closing any one of those clients also closes the shared pool,
+> which silently invalidates the connections held by every other client using
+> it. Share the `Redis` client object instead.
 
 ## Awaiting commands
 

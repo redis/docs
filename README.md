@@ -66,42 +66,44 @@ The build pipeline that is defined within `.github/workflows/main.yml` builds th
 
 ## Hugo specifics
 
-### Relative links
+### Links
 
-We are using the following syntax for Hugo relrefs:
-
-```
-[Link title]({{< relref "link relative to the site's base url" >}})
-```
-
-Here is an example:
+Link to another page with a plain Markdown link to its source file, using a path from the repository root:
 
 ```
-[Data structure store]({{< relref "/develop/get-started/data-store" >}})
+[Data structure store](/content/develop/get-started/data-store.md)
 ```
 
-It's strongly advised to use `relref` because it provides the following advantages:
+To link to a section page, link to its `_index.md` file, for example `/content/develop/get-started/_index.md`. You can add an anchor (`#anchor`) or a query string (`?group=`) after the file name.
 
-1. Links are checked at build time. Any broken references within the site are reported, stopping the build.
-2. References are prefixed with the site's base URL, which means that they work in builds with a different base URL.
+The link render hook (`layouts/_default/_markup/render-link.html`) turns these links into the target page's published URL. This gives you the following advantages:
 
+1. Links work in the published site, in builds with a different base URL, and in the GitHub and VS Code Markdown previews.
+2. Links are checked at build time. The build logs a `render-link: unresolved link` warning for any internal link that doesn't resolve to a page.
 
-The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` aren't the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Otherwise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
+Many pages still use the `relref` shortcode (`[Link title]({{< relref "/develop/get-started/data-store" >}})`). It still works, but use plain Markdown links in new content.
 
 ### Images
 
-The image shortcode doesn't need to be closed anymore. Here is an example;
+Add an image with a Markdown image whose path is relative to the `static` folder:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png" alt="Database update" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
 ```
 
-The `filename` property value can be any file name path which is relative to the site's base path.
+The image render hook (`layouts/_default/_markup/render-image.html`) also accepts the repository-root form `/static/images/...`, so images show in the GitHub and VS Code Markdown previews. The build logs a warning for an image path that isn't in `static`.
 
-We added a new property `class` which allows you to override the CSS class of the image. Images have by default a `block` display in Tailwind. You can change this by setting the class property to `inline`. The following example shows two images that are in a single line:
+To set the width or another attribute of an image that is in its own paragraph, add an attribute block on the next line:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
+{width="300px"}
+```
+
+Attribute blocks don't work for an image inside a sentence. To show a small icon inline with text, add `#no-click` to the path. The icon is sized to match the text, and clicking it doesn't open a full-size view:
+
+```
+The database status changes from ![Pending database status](/images/rc/icon-database-update-status-pending.png#no-click) to ![Active database status](/images/rc/icon-database-status-active.png#no-click).
 ```
 
 ### Templating

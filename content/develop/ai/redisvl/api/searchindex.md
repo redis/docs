@@ -111,13 +111,12 @@ NOTE: This method requires custom behavior for Redis Cluster because
 here, we can’t easily give control of the keys we’re clearing to the
 user so they can separate them based on hash tag.
 
-{{< note >}}
-The sweep enumerates through the index, so it removes only what the
-index currently returns, and it can stop early – against an index
-still being backfilled, or when a page’s keys cannot be deleted. The
-returned count is the only signal, and `0` does not distinguish an
-empty index from a sweep that deleted nothing. Re-running is safe.
-{{< /note >}}
+> [!NOTE]
+> The sweep enumerates through the index, so it removes only what the
+> index currently returns, and it can stop early – against an index
+> still being backfilled, or when a page’s keys cannot be deleted. The
+> returned count is the only signal, and `0` does not distinguish an
+> empty index from a sweep that deleted nothing. Re-running is safe.
 
 * **Returns:**
   Count of records deleted from Redis.
@@ -226,19 +225,17 @@ this re-queries from offset 0 each round (the same strategy as
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
-/ [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
-{{< /note >}}
+> [!NOTE]
+> [update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
+> / [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each key is
-unlinked atomically, but batches are applied incrementally with no
-rollback, so a crash or connection error mid-run leaves the already
--deleted documents gone and the rest in place. Deletes are
-idempotent: re-running the same call after a failure removes only
-whatever still matches, converging on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each key is
+> unlinked atomically, but batches are applied incrementally with no
+> rollback, so a crash or connection error mid-run leaves the already
+> -deleted documents gone and the rest in place. Deletes are
+> idempotent: re-running the same call after a failure removes only
+> whatever still matches, converging on the intended state.
 
 #### `drop_documents(ids, batch_size=500)`
 
@@ -485,30 +482,27 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause on a
-**unique** field. Redis documents that `LIMIT` without sorting is
-non-deterministic, so pages may otherwise repeat or miss documents.
-Very deep pagination is also bounded server-side by
-`search-max-search-results` (1,000,000 by default, but 10,000 on
-some managed tiers), past which the search errors rather than ending.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
 
-{{< note >}}
-A yielded batch may contain fewer than `page_size` documents, and an
-empty batch is never yielded. On Redis 8+ a matched document whose
-data expires while the search is running is skipped; each batch
-reports how many were skipped via `dropped_count` (and
-`complete`), including skips inherited from a page that was dropped
-in its entirety. Pagination still runs to the end of the result set in
-that case.
-{{< /note >}}
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `query(query)`
 
@@ -612,20 +606,18 @@ search-and-indexing concepts guide).
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
-upsert by key).
-{{< /note >}}
+> [!NOTE]
+> [drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
+> upsert by key).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each
-document is updated atomically (one `HSET`/`JSON.MERGE`), but
-batches use a non-transactional pipeline and are applied
-incrementally with no rollback, so a crash or connection error
-mid-run can leave some documents updated and others not. Because
-the update is a fixed field set, it is idempotent: re-running the
-same call after a failure converges on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each
+> document is updated atomically (one `HSET`/`JSON.MERGE`), but
+> batches use a non-transactional pipeline and are applied
+> incrementally with no rollback, so a crash or connection error
+> mid-run can leave some documents updated and others not. Because
+> the update is a fixed field set, it is idempotent: re-running the
+> same call after a failure converges on the intended state.
 
 Keys are resolved before writing, so a document may be deleted by
 another client in between. Each write is conditional on the key
@@ -1118,30 +1110,27 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause on a
-**unique** field. Redis documents that `LIMIT` without sorting is
-non-deterministic, so pages may otherwise repeat or miss documents.
-Very deep pagination is also bounded server-side by
-`search-max-search-results` (1,000,000 by default, but 10,000 on
-some managed tiers), past which the search errors rather than ending.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
 
-{{< note >}}
-A yielded batch may contain fewer than `page_size` documents, and an
-empty batch is never yielded. On Redis 8+ a matched document whose
-data expires while the search is running is skipped; each batch
-reports how many were skipped via `dropped_count` (and
-`complete`), including skips inherited from a page that was dropped
-in its entirety. Pagination still runs to the end of the result set in
-that case.
-{{< /note >}}
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `async query(query)`
 

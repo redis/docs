@@ -19,10 +19,9 @@ Identity Service or a connection to an external Identity Service.
 You provide the Redis databases, embedding provider credentials, Kubernetes
 exposure, and license material used by the deployment.
 
-{{< note >}}
-This guide is for system administrators deploying LangCache on a self-managed
-Kubernetes cluster.
-{{< /note >}}
+> [!NOTE]
+> This guide is for system administrators deploying LangCache on a self-managed
+> Kubernetes cluster.
 
 ## What you need
 
