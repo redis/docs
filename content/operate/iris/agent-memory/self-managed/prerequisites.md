@@ -111,7 +111,7 @@ The chart generates four more Secrets for the tokens and service credentials lis
 [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
 
 To supply a complete configuration file in your own Secret instead, see
-[Configuration](/content/operate/iris/agent-memory/self-managed/configuration.md).
+[Bring-your-own (BYO) configuration](/content/operate/iris/agent-memory/self-managed/configuration.md#bring-your-own-byo-configuration).
 
 ## Release artifacts and image tags
 
