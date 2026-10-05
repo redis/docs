@@ -25,7 +25,8 @@ The database endpoints are listed in the **Configuration** tab for your database
 
 ![The General section of the Configuration tab of the Pro database details page.](/images/rc/databases-configuration-general-endpoints.png)
 
-{{<image filename="images/rc/database-details-configuration-tab-access-essentials.png" alt="The Access section for an Essentials database." width=50%" >}}
+![The Access section for an Essentials database.](/images/rc/database-details-configuration-tab-access-essentials.png)
+{width="50%"}
 
 Redis Cloud Pro and Redis Cloud Essentials databases have a public endpoint, which you can access from the public internet. Redis Cloud Pro databases also have a private endpoint. You can connect to the private endpoint from a private network. Before you can connect to the private endpoint, you must set up a private connectivity method, such as:
 - [VPC peering](/content/operate/rc/security/vpc-peering.md)

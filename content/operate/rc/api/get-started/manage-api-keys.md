@@ -72,7 +72,8 @@ Select **Create** to create the new key.
 
 When you do this, the **API user key** dialog appears.
 
-{{<image filename="images/rc/access-management-create-user-key.png" width="75%" alt="The **API user key** dialog lets you copy the value of the new key to the Clipboard." >}}<br/>
+![The **API user key** dialog lets you copy the value of the new key to the Clipboard.](/images/rc/access-management-create-user-key.png)
+{width="75%"}
 
 > [!WARNING]
 > This is the only time the value of the user key is available.  Save it to a secure location before closing the dialog box.  <br/><br/>
@@ -86,7 +87,7 @@ To delete a user key:
 
 1.  Use the **API Keys** tab of the **Access Management** screen to locate the target key. Hover over the key to display the **Delete** button.
 
-    {{<image filename="images/rc/access-management-api-user-key-delete.png" alt="The **Delete** button appears to the right of the selected user key." >}}<br/>
+    ![The **Delete** button appears to the right of the selected user key.](/images/rc/access-management-api-user-key-delete.png)
 
 2.  Select the **Delete** button.
 
@@ -95,7 +96,8 @@ To delete a user key:
 
 3.  This displays the **Delete API secret key** dialog box.  
 
-    {{<image filename="images/rc/access-management-delete-api-secret-key.png" width="50%" alt="The **Delete** button appears to the right of the selected user key." >}}<br/>
+    ![The **Delete** button appears to the right of the selected user key.](/images/rc/access-management-delete-api-secret-key.png)
+    {width="50%"}
 
     Select the **Delete** button to confirm.
 
