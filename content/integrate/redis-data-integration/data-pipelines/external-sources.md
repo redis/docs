@@ -158,11 +158,25 @@ snapshot is complete.
 
 ## Set up a PoC
 
+> [!WARNING]
+> RDI 2.0.0 rejects this example during deployment validation with
+> `Unsupported database type: None`. The setup requires the external-source
+> deployment validation fix. Before following these steps, confirm that your RDI
+> version includes the fix. Keep the source connectionless; adding a database
+> connection does not represent your external writer.
+
 Before you start, [install RDI 2.0](/content/integrate/redis-data-integration/installation/_index.md)
 and connect the [`redis-di` command-line interface (CLI)](/content/integrate/redis-data-integration/reference/cli/redis-di.md)
 to its management API. Use an isolated installation and target database for this
 example. You also need Python 3, `redis-cli`, and network access to the RDI database
 from the writer.
+
+Use the same `config.yaml`, jobs, and `redis-di deploy` command on VMs and
+Kubernetes. On a VM, connect the CLI to that VM's management API and create your
+pipeline directory after installation. The VM installer generates templates for
+managed database sources; it has no external collector template. Replace that
+template with the configuration in this guide. You do not set source database
+secrets for `custom` or configure your writer through the installer.
 
 1. Obtain the RDI database's Redis host, port, and credentials from your
    installation configuration. Give the writer permission to run `XADD` on the
@@ -226,9 +240,28 @@ from the writer.
    for reads, creates, and updates, and `before` for deletes. Include `id` in both
    row images so the job can compute the same target key for a deletion.
 
-1. Set the target's `USERNAME` and `PASSWORD` secrets with `--db target`, then
-   [deploy the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md).
-   Configure any target TLS secrets before deployment.
+1. Create the pipeline before setting its secrets. This also works on an
+   installation that has no default pipeline. Use `--wait=false` because the
+   target credentials are not configured yet:
+
+   ```bash
+   redis-di deploy --dir '<pipeline-directory>' --wait=false
+   ```
+
+1. Set the target's secrets. Use `--wait=false` while the configuration is
+   incomplete:
+
+   ```bash
+   redis-di set-secret USERNAME --db target '<target-username>' --wait=false
+   redis-di set-secret PASSWORD --db target '<target-password>' --wait=false
+   ```
+
+   Configure any target TLS secrets as described in
+   [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets).
+   These are the target's credentials, not the writer's RDI database credentials.
+
+1. [Deploy the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
+   and wait for it to become ready:
 
    ```bash
    redis-di deploy --dir '<pipeline-directory>'
