@@ -133,19 +133,13 @@ scrape_configs:
 ```
     {{< /multitabs >}}
 
-    {{< note >}}
-
-**Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
-
-    {{< /note >}}
+    > [!NOTE]
+    > **Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
 
 1. Set up your Prometheus and Grafana servers. See the official [Prometheus installation](https://prometheus.io/docs/prometheus/latest/installation/) and [Grafana installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) documentation for help.
 
-    {{< note >}}
-
-We recommend running Prometheus in Docker only for development and testing.
-
-    {{< /note >}}
+    > [!NOTE]
+    > We recommend running Prometheus in Docker only for development and testing.
 
     To set up Prometheus and Grafana on Docker, follow these steps. For additional help, see the official [Prometheus](https://prometheus.io/docs/prometheus/latest/installation/#using-docker) and [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/) Docker image documentation.
 
@@ -226,12 +220,9 @@ We recommend running Prometheus in Docker only for development and testing.
 
         ![The Prometheus connection form in Grafana.](/images/rs/prometheus-connection.png)
 
-    {{< note >}}
-
-- If the network port is not accessible to the Grafana server, select the **Browser** option from the Access menu.
-- In a testing environment, you can select **Skip TLS verification**.
-
-    {{< /note >}}
+    > [!NOTE]
+    > - If the network port is not accessible to the Grafana server, select the **Browser** option from the Access menu.
+    > - In a testing environment, you can select **Skip TLS verification**.
 
 1. Add dashboards for cluster, database, node, and shard metrics.
     To add preconfigured dashboards:
@@ -275,9 +266,8 @@ For v1 metrics alerts:
 
 Redis publishes preconfigured dashboards for Redis Software and Grafana.
 
-{{< note >}}
-V1 dashboards are not compatible with the v2 metrics exporter endpoint. Make sure to use the correct dashboard version for your metrics endpoint.
-{{< /note >}}
+> [!NOTE]
+> V1 dashboards are not compatible with the v2 metrics exporter endpoint. Make sure to use the correct dashboard version for your metrics endpoint.
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Software observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/).
 

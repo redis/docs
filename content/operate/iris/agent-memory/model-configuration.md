@@ -41,9 +41,8 @@ Before you use your own key, make sure:
 - The provider account can use the models that you select.
 - You understand the provider's billing, service terms, and data-handling policies. The selected LLM processes session content used for extraction and summarization. The embedding model processes the text needed to create embeddings for long-term-memory storage and search.
 
-{{< note >}}
-The model provider API key is different from an Agent Memory service API key. Applications use a service API key to call the Agent Memory API. Agent Memory uses the model provider API key to call the selected AI models.
-{{< /note >}}
+> [!NOTE]
+> The model provider API key is different from an Agent Memory service API key. Applications use a service API key to call the Agent Memory API. Agent Memory uses the model provider API key to call the selected AI models.
 
 ## Use your own key when you create a service
 
@@ -67,9 +66,8 @@ To configure your own model provider key:
 
 The key is used for both the LLM and embedding calls. Redis stores the key securely and does not show it again after you create the service.
 
-{{<warning>}}
-The credential source, provider, and embedding model are fixed after you create the service. A service created with Redis-managed credentials cannot later use your provider key. A service created with your key cannot switch to Redis-managed credentials.
-{{</warning>}}
+> [!WARNING]
+> The credential source, provider, and embedding model are fixed after you create the service. A service created with Redis-managed credentials cannot later use your provider key. A service created with your key cannot switch to Redis-managed credentials.
 
 ## View the current model configuration
 

@@ -52,11 +52,10 @@ To generate a new admin key:
     ![The Context Retriever admin key window. Use the Copy button to save the admin key to the clipboard.](/images/rc/context-retriever-admin-key.png)
     {width="40%"}
 
-    {{<warning>}}
-This is the only time the value of the admin key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the admin key value, you will need to generate a new admin key.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the admin key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+    >
+    > If you lose the admin key value, you will need to generate a new admin key.
 
 ## Delete an admin key
 

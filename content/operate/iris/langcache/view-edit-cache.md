@@ -63,13 +63,12 @@ To generate a new service key:
     ![The LangCache service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/langcache-service-key.png)
     {width="37.5%"}
 
-    {{<warning>}}
-After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>
-
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
-
-If you lose the service key value, you will need to generate a new key again.
-    {{</warning>}}
+    > [!WARNING]
+    > After you generate a new service key, calls to the LangCache API with the old key will fail. <br/><br/>
+    >
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
+    >
+    > If you lose the service key value, you will need to generate a new key again.
 
 ### General
 

@@ -85,11 +85,10 @@ Clears by index membership, so it removes the documents the live index
 covers. Available under `create_index=False`; dropping the index is
 [delete](#delete).
 
-{{< warning >}}
-Under `create_index=False` the live index is unverified, so if its
-prefix differs from this instance’s it removes documents this
-instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Under `create_index=False` the live index is unverified, so if its
+> prefix differs from this instance’s it removes documents this
+> instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 * **Return type:**
   None
@@ -270,11 +269,10 @@ Clears by index membership, so it removes the documents the live index
 covers. Available under `create_index=False`; dropping the index is
 [delete](#delete).
 
-{{< warning >}}
-Under `create_index=False` the live index is unverified, so if its
-prefix differs from this instance’s it removes documents this
-instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Under `create_index=False` the live index is unverified, so if its
+> prefix differs from this instance’s it removes documents this
+> instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 * **Return type:**
   None
