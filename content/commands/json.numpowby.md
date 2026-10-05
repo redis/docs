@@ -22,19 +22,19 @@ categories:
 - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
-description: Increments the numeric value at path by a value
+description: Raises the numeric value at path to the power of a value
 group: json
 hidden: false
-linkTitle: JSON.NUMINCRBY
+linkTitle: JSON.NUMPOWBY
 module: JSON
-railroad_diagram: /images/railroad/json.numincrby.svg
-since: 1.0.0
+railroad_diagram: /images/railroad/json.numpowby.svg
+since: 2.0.0
 stack_path: docs/data-types/json
-summary: Increments the numeric value at path by a value
-syntax_fmt: JSON.NUMINCRBY key path value
-title: JSON.NUMINCRBY
+summary: Raises the numeric value at path to the power of a value
+syntax_fmt: JSON.NUMPOWBY key path value
+title: JSON.NUMPOWBY
 ---
-Increment the number value stored at `path` by `value`
+Raise the number value stored at `path` to the power of `value`
 
 [Examples](#examples)
 
@@ -52,36 +52,29 @@ is JSONPath to specify.
 
 <details open><summary><code>value</code></summary> 
 
-is number value to increment. 
+is number value to use as the exponent.
 </details>
 
 ## Examples
 
-<details open>
-<summary><b>Increment number values</b></summary>
-
-Create a document.
-
 {{< highlight bash >}}
 redis> JSON.SET doc . '{"a":"b","b":[{"a":2}, {"a":5}, {"a":"c"}]}'
 OK
-{{< / highlight >}}
-
-Increment a value of `a` object by 2. The command fails to find a number and returns `null`.
-
-{{< highlight bash >}}
-redis> JSON.NUMINCRBY doc $.a 2
+redis> JSON.NUMPOWBY doc $.a 2
 "[null]"
+redis> JSON.NUMPOWBY doc $..a 2
+"[null,4,25,null]"
 {{< / highlight >}}
 
-Recursively find and increment a value of all `a` objects. The command increments numbers it finds and returns `null` for nonnumber values.
+## Details
 
-{{< highlight bash >}}
-redis> JSON.NUMINCRBY doc $..a 2
-"[null,4,7,null]"
-{{< / highlight >}}
+If both the stored value and `value` are integers, the result is an integer. It must fit in a 64-bit signed integer, or the command fails with a `numeric overflow` error.
 
-</details>
+A negative integer exponent with an integer stored value also fails with `numeric overflow`. To get a fractional result, write the exponent as a floating-point number: raising `2` to `-1.0` returns `0.5`.
+
+If either number is a floating-point number, the command uses floating-point arithmetic. A result that isn't a finite real number, such as `0` raised to `-1.0` or `-8` raised to `0.5`, fails with a `result is not a number` error.
+
+When the command fails, the stored value doesn't change.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -91,7 +84,7 @@ redis> JSON.NUMINCRBY doc $..a 2
 
 ## Return information
 
-{{< multitabs id="json-numincrby-return-info"
+{{< multitabs id="json-numpowby-return-info"
     tab1="RESP2"
     tab2="RESP3" >}}
 
@@ -111,7 +104,7 @@ The path syntax doesn't change the reply. [Array reply](/content/develop/referen
 
 ## See also
 
-[`JSON.ARRINDEX`](/content/commands/json.arrindex.md) | [`JSON.ARRINSERT`](/content/commands/json.arrinsert.md) 
+[`JSON.NUMINCRBY`](/content/commands/json.numincrby.md) | [`JSON.NUMMULTBY`](/content/commands/json.nummultby.md) 
 
 ## Related topics
 
