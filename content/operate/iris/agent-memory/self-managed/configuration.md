@@ -11,6 +11,7 @@ weight: 30
 hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/data-plane-configuration/
+- /operate/iris/agent-memory/self-managed/data-plane-configuration/
 ---
 
 The Data Plane reads `memory-dataplane.config.yaml` from a Kubernetes Secret.

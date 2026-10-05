@@ -12,6 +12,10 @@ hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/control-plane/
 - /develop/ai/context-engine/agent-memory/self-managed/deploy-control-plane/
+- /operate/iris/agent-memory/self-managed/deploy-control-plane/
+- /develop/ai/context-engine/agent-memory/self-managed/install-k8s/
+- /develop/ai/context-engine/agent-memory/self-managed/deploy-static/
+- /operate/iris/agent-memory/self-managed/deploy-static/
 ---
 
 Use Control Plane managed stores when operators need to create stores or agent
@@ -20,7 +24,7 @@ from Metadata Redis.
 
 Before you begin, review [prerequisites]({{< relref "/operate/iris/agent-memory/self-managed/prerequisites" >}})
 and create `memory-dataplane.config.yaml` from the
-[Control Plane managed stores example]({{< relref "/operate/iris/agent-memory/self-managed/data-plane-configuration#control-plane-managed-stores-example" >}}).
+[Control Plane managed stores example]({{< relref "/operate/iris/agent-memory/self-managed/configuration#control-plane-managed-stores-example" >}}).
 
 ## Create the namespace
 
@@ -211,6 +215,12 @@ Check Data Plane health:
 curl http://localhost:9000/health
 curl http://localhost:9000/health/liveness
 curl http://localhost:9000/health/readiness
+```
+
+Expected `/health` response:
+
+```json
+{"status":"healthy"}
 ```
 
 Port-forward the Control Plane:

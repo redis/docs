@@ -11,6 +11,8 @@ weight: 20
 hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/prerequisites/
+- /develop/ai/context-engine/agent-memory/self-managed/plan-deployment/
+- /operate/iris/agent-memory/self-managed/plan-deployment/
 ---
 
 Redis Agent Memory is distributed as container images on Docker Hub plus a Helm
@@ -85,6 +87,9 @@ Do not combine static `metadata.stores` with Control Plane managed store
 metadata for the same Data Plane. Static stores do not use Metadata Redis.
 Control Plane managed stores require Metadata Redis and are required for
 agent-key authentication.
+
+Agent-key authentication requires Control Plane managed stores because the Data
+Plane reads agent-key records and store grants from Metadata Redis.
 
 For a lab deployment, the Redis roles required by your chosen mode can point to
 the same Redis endpoint if it has the required modules and capacity. For
@@ -238,7 +243,8 @@ Do not use reduced replica counts as the production HA recommendation.
 
 The walkthroughs use `redis-agent-memory` as the Helm release name. The
 generated service and deployment names in the verification steps assume that
-release name.
+release name. If you choose a different release name, update release-derived service and
+deployment names in the verification commands.
 
 {{< table-scrollable >}}
 | Area | Values | Use when |

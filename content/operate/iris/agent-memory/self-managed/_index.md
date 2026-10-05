@@ -81,15 +81,15 @@ Redis Agent Memory stores the record as `semantic`; built-in names include `sema
 
 ## Deployment modes
 
-Start with [Plan a deployment]({{< relref "/operate/iris/agent-memory/self-managed/plan-deployment" >}})
+Start with [Plan a deployment]({{< relref "/operate/iris/agent-memory/self-managed/prerequisites" >}})
 to choose between static stores and Control Plane managed stores.
 
 | If you need to | Go to |
 | --- | --- |
 | Review software, Redis, network, Secret, image, and sizing requirements | [Prerequisites]({{< relref "/operate/iris/agent-memory/self-managed/prerequisites" >}}) |
-| Prepare `memory-dataplane.config.yaml` for either deployment mode | [Data Plane configuration]({{< relref "/operate/iris/agent-memory/self-managed/data-plane-configuration" >}}) |
-| Deploy a first-install or single-store setup without the Control Plane | [Deploy with static stores]({{< relref "/operate/iris/agent-memory/self-managed/deploy-static" >}}) |
-| Deploy runtime store and agent-key administration | [Deploy with Control Plane managed stores]({{< relref "/operate/iris/agent-memory/self-managed/deploy-control-plane" >}}) |
+| Prepare `memory-dataplane.config.yaml` for either deployment mode | [Data Plane configuration]({{< relref "/operate/iris/agent-memory/self-managed/configuration" >}}) |
+| Deploy a first-install or single-store setup without the Control Plane | [Deploy with static stores]({{< relref "/operate/iris/agent-memory/self-managed/deploy" >}}) |
+| Deploy runtime store and agent-key administration | [Deploy with Control Plane managed stores]({{< relref "/operate/iris/agent-memory/self-managed/deploy" >}}) |
 
 Do not combine static `metadata.stores` with Control Plane managed store
 metadata in the same Data Plane config. Static stores do not use Metadata Redis.
