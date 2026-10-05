@@ -85,25 +85,23 @@ Many pages still use the `relref` shortcode (`[Link title]({{< relref "/develop/
 
 ### Images
 
-Add an image with a Markdown image whose path is relative to the `static` folder:
+Images are Markdown, with site-root paths. The files live in `static/images/`, and `layouts/_default/_markup/render-image.html` renders them:
 
 ```
 ![Database update](/images/rc/icon-database-update-status-pending.png)
 ```
 
-The image render hook (`layouts/_default/_markup/render-image.html`) also accepts the repository-root form `/static/images/...`, so images show in the GitHub and VS Code Markdown previews. The build logs a warning for an image path that isn't in `static`.
-
-To set the width or another attribute of an image that is in its own paragraph, add an attribute block on the next line:
+To set a width or class, put an attribute line directly after an image that is its own paragraph:
 
 ```
 ![Database update](/images/rc/icon-database-update-status-pending.png)
-{width="300px"}
+{width="50%"}
 ```
 
-Attribute blocks don't work for an image inside a sentence. To show a small icon inline with text, add `#no-click` to the path. The icon is sized to match the text, and clicking it doesn't open a full-size view:
+A UI icon inside a sentence or table cell is an inline image with `#no-click` and no attributes. CSS sizes it to the surrounding text:
 
 ```
-The database status changes from ![Pending database status](/images/rc/icon-database-update-status-pending.png#no-click) to ![Active database status](/images/rc/icon-database-status-active.png#no-click).
+Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**.
 ```
 
 ### Templating
