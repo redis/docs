@@ -8,8 +8,8 @@
 /* One colour per service, used by its map node, its step, and the parts of the reply it supplied. */
 .iris .iris-svc-cache { --svc: #b35900; --svc-bg: rgba(179, 89, 0, .09); }
 .iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
-.iris .iris-svc-retriever { --svc: #5961ff; --svc-bg: rgba(89, 97, 255, .09); }
-.iris .iris-svc-rdi { --svc: #336791; --svc-bg: rgba(51, 103, 145, .1); }
+.iris .iris-svc-retriever { --svc: #6a4cff; --svc-bg: rgba(106, 76, 255, .09); }
+.iris .iris-svc-rdi { --svc: #0b7a99; --svc-bg: rgba(11, 122, 153, .09); }
 
 /* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
 .iris-stagewrap { position: relative; margin-bottom: 12px; }
@@ -172,14 +172,27 @@
 /* ---- the reply, credited by source ---- */
 .iris-reply { display: grid; gap: 6px; justify-items: start; }
 .iris .iris-replymsg { max-width: 100%; line-height: 1.65; background: #fff; }
-.iris-src { border-radius: 3px; padding: 1px 2px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); }
-.iris-src-memory { --src: #1a7f4b; --src-bg: rgba(26, 127, 75, .12); }
-.iris-src-retriever { --src: #5961ff; --src-bg: rgba(89, 97, 255, .12); }
-.iris-src-rdi { --src: #336791; --src-bg: rgba(51, 103, 145, .14); }
-.iris-src-cache { --src: #b35900; --src-bg: rgba(179, 89, 0, .11); }
-.iris-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11.5px; color: var(--rcr-muted); }
-.iris-key { display: inline-flex; align-items: center; gap: 6px; }
-.iris-key::before { content: ""; width: 12px; height: 10px; border-radius: 2px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); }
+/* A highlighter in four clearly different hues, so each part reads as its service at a glance. */
+.iris-src { border-radius: 3px; padding: 1px 3px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.iris-src-rdi { --src: #0b7a99; --src-bg: #cdebf4; }
+.iris-src-retriever { --src: #6a4cff; --src-bg: #e3ddff; }
+.iris-src-memory { --src: #1a7f4b; --src-bg: #cfeedd; }
+.iris-src-cache { --src: #b35900; --src-bg: #fde0c2; }
+/* The key: one chip per service, styled like its parts of the reply. */
+.iris-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.iris-legend .rcr-lbl { flex-basis: 100%; }
+.iris .iris-key {
+  margin: 0; border: 0; border-radius: 4px; padding: 3px 9px; font: inherit; font-size: 12.5px; font-weight: 600; line-height: 1.35; cursor: pointer;
+  color: color-mix(in srgb, var(--src) 85%, #000); background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); transition: background .15s, color .15s;
+}
+.iris .iris-key.is-on { background: color-mix(in srgb, var(--src) 32%, #fff); }
+.iris .iris-key[aria-pressed="true"] { color: #fff; background: var(--src); }
+.iris .iris-key:focus-visible { outline: 2px solid var(--src); outline-offset: 2px; }
+/* Picking a service fades the rest of the reply and strengthens its parts. */
+.iris-replymsg, .iris-src { transition: color .15s, background .15s, box-shadow .15s; }
+.iris-reply.is-picking .iris-replymsg { color: #a3adb2; }
+.iris-reply.is-picking .iris-src { background: transparent; box-shadow: none; }
+.iris-reply.is-picking .iris-src.is-on { color: var(--rcr-ink); background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src), 0 0 0 1px var(--src); }
 .iris-totals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-size: 13px; color: var(--rcr-muted); }
 .iris-totals b { color: var(--rcr-ink); }
 

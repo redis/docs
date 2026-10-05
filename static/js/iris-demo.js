@@ -879,13 +879,40 @@
       return f;
     }
     var SOURCES = { rdi: "Data Integration", retriever: "Context Retriever", memory: "Agent Memory", cache: "LangCache" };
+    /* The key comes first, styled like the parts of the reply, so the colors mean something before you read.
+       Pointing at a key or at a part of the reply shows only that service's parts; selecting a key keeps it so. */
     function replyBubble(segments) {
-      var wrap = el("div", "iris-reply");
-      wrap.appendChild(el("div", "rcr-msg rcr-agent iris-replymsg", segments.map(function (x) {
-        return x.src ? '<span class="iris-src iris-src-' + x.src + '" title="From ' + SOURCES[x.src] + '">' + esc(x.t.trim()) + "</span>" + (/\s$/.test(x.t) ? " " : "") : esc(x.t);
-      }).join("")));
-      wrap.appendChild(el("div", "iris-legend", ["rdi", "retriever", "memory", "cache"].map(function (k) {
-        return '<span class="iris-key iris-src-' + k + '">From ' + SOURCES[k] + "</span>"; }).join("")));
+      var wrap = el("div", "iris-reply"), legend = el("div", "iris-legend"), keys = {}, pinned = null;
+      legend.appendChild(el("div", "rcr-lbl", "Where each part came from"));
+      ["rdi", "retriever", "memory", "cache"].forEach(function (k) {
+        var b = keys[k] = el("button", "iris-key iris-src-" + k, esc(SOURCES[k]));
+        b.type = "button";
+        b.setAttribute("aria-pressed", "false");
+        legend.appendChild(b);
+      });
+      var msg = el("div", "rcr-msg rcr-agent iris-replymsg", segments.map(function (x) {
+        return x.src ? '<span class="iris-src iris-src-' + x.src + '" data-src="' + x.src + '" title="From ' + SOURCES[x.src] + '">' + esc(x.t.trim()) + "</span>" + (/\s$/.test(x.t) ? " " : "") : esc(x.t);
+      }).join(""));
+      wrap.appendChild(legend);
+      wrap.appendChild(msg);
+      function pick(k) {
+        wrap.classList.toggle("is-picking", !!k);
+        Object.keys(keys).forEach(function (x) { keys[x].classList.toggle("is-on", x === k); });
+        Array.prototype.forEach.call(msg.querySelectorAll(".iris-src"), function (n) { n.classList.toggle("is-on", n.getAttribute("data-src") === k); });
+      }
+      function hover(node, k) {
+        node.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") pick(k); });
+        node.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") pick(pinned); });
+      }
+      Object.keys(keys).forEach(function (k) {
+        keys[k].addEventListener("click", function () {
+          pinned = pinned === k ? null : k;
+          Object.keys(keys).forEach(function (x) { keys[x].setAttribute("aria-pressed", x === pinned ? "true" : "false"); });
+          pick(pinned);
+        });
+        hover(keys[k], k);
+      });
+      Array.prototype.forEach.call(msg.querySelectorAll(".iris-src"), function (n) { hover(n, n.getAttribute("data-src")); });
       return wrap;
     }
     /* What the agent knows so far, one chip per fact, in its service's colour. */
