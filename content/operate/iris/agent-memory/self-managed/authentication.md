@@ -16,9 +16,9 @@ aliases:
 Self-managed Redis Agent Memory uses separate authentication models for the Control
 Plane and Data Plane.
 
-The Control Plane uses an admin token for management endpoints. The Data Plane
-can run behind infrastructure controls with Redis Agent Memory auth disabled, or it
-can validate Redis Agent Memory agent keys and enforce store-level grants.
+The Control Plane uses an admin token for management endpoints. The Data Plane checks each agent
+key with the Identity Service, using the Data Plane service credential, and enforces store-level
+grants.
 
 ## Credentials
 
@@ -57,88 +57,18 @@ does not require a Control Plane redeploy.
 
 ## Data Plane auth modes
 
-Choose the Data Plane auth mode based on how callers reach the Data Plane.
-
-| Mode | Config | Use when |
-| --- | --- | --- |
-| Auth-disabled Data Plane | `auth.method: none` | The Data Plane is reachable only by trusted internal components. |
-| Agent-key authentication | `auth.method: agent_key` | Redis Agent Memory should validate keys and enforce per-store grants. |
-
-### Auth-disabled Data Plane
-
-```yaml
-auth:
-  method: none
-```
-
-Use this only when hosting controls restrict Data Plane access to trusted
-components.
-
-> [!WARNING]
-> Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
-> mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any
-> caller that can reach the API can read or write memory for configured stores.
+The Data Plane defaults to agent-key authentication whenever no auth method is set.
 
 ### Agent-key authentication
 
-Agent-key auth requires Control Plane managed stores. The Data Plane must be
-able to load both store records and agent-key records from Metadata Redis.
+The [`deploy` walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md) uses agent-key
+authentication from the start. In the chart-rendered configuration, the chart writes the agent-key
+introspection settings for you, so you add nothing more.
 
-Starting from static store configuration, make these changes:
-
-1. Replace static `metadata.stores` with `metadata.source: live`.
-2. Configure `metadata.live.urls`, `metadata.live.namespace`, and
-   `metadata.live.store_db.urls`.
-3. Set `auth.method: agent_key`.
-4. Add the `embedding` selection block.
-5. Keep `embedders_connection_details` for the embedder endpoint and
-   credentials.
-6. If Redis Agent Memory workers are enabled, configure worker identity as described in
-   [Worker callbacks](#worker-callbacks) so worker-to-Data Plane calls carry an
-   accepted credential.
-
-Working Data Plane config shape for Control Plane managed stores:
-
-```yaml
-metadata:
-  source: live
-  live:
-    urls:
-      - redis://default:<password>@<metadata-host>:<metadata-port>
-    namespace: iris:memory
-    store_db:
-      urls:
-        - redis://default:<password>@<store-host>:<store-port>
-
-auth:
-  method: agent_key
-
-embedding:
-  provider: openai
-  models:
-    default_embedding_model: text-embedding-3-large
-    dimensions: 3072
-
-embedders_connection_details:
-  openai:
-    base_url: https://api.openai.com
-    credentials:
-      type: static
-      api_key: "<openai-api-key>"
-    batching:
-      embeddings:
-        enabled: true
-        max_batch_size: 10
-        max_wait_time: 20ms
-        num_workers: 10
-        queue_size: 1000
-```
-
-When the Data Plane uses `metadata.source: live`, Redis Agent Memory defaults to
-`auth.method: agent_key` when no auth method is configured. Set it explicitly in
-production values so the intended security posture is visible in review. If
-agent-key auth is enabled without `metadata.source: live`, the Data Plane fails
-startup with a validation error.
+A bring-your-own (BYO) Data Plane configuration needs the `auth.agent_keys.introspection` block,
+including a BYO configuration without `auth`. See
+[Bring-your-own (BYO) configuration](/content/operate/iris/agent-memory/self-managed/configuration.md#bring-your-own-byo-configuration).
+The `MEM_AUTH_METHOD` environment variable overrides the method.
 
 Clients send agent keys as Bearer credentials:
 
@@ -148,14 +78,45 @@ Authorization: Bearer <agent-key>
 
 Treat agent keys as opaque credentials. Do not parse their contents.
 
+### Auth-disabled Data Plane
+
+Use auth-disabled mode for development and testing only:
+
+```yaml
+auth:
+  method: none
+```
+
+> [!WARNING]
+> Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
+> mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any
+> caller that can reach the API can read or write memory for configured stores.
+
 ## Store authorization and grants
 
 For agent-key requests, Redis Agent Memory checks both identity and resource
 authorization:
 
-1. The key exists in metadata Redis and its secret validates.
+1. The Data Plane asks the Identity Service whether the key is valid, and caches the answer per pod.
 2. The key has a grant for the requested store resource.
 3. The grant includes the permission required by the operation.
+
+Because of the cache, a revoked key stops working within up to 5 minutes (180 seconds soft, 300
+seconds hard). If the Identity Service can't be reached, keys that aren't cached get `503`.
+
+A grant names the tenant, product, store, and actions:
+
+```json
+{
+  "tenant": "<your-tenant-id>",
+  "product": "memory",
+  "resourceType": "mem-store",
+  "resourceId": "<store-id>",
+  "actions": ["read", "write"]
+}
+```
+
+Use the same tenant on every grant of a key.
 
 Grant actions:
 
@@ -163,6 +124,7 @@ Grant actions:
 | --- | --- |
 | `read` | Read and search memory data. |
 | `write` | Mutate memory data. `write` implies `read`. |
+| `full` | `full` implies `write`. |
 
 Operation mapping:
 
@@ -177,6 +139,10 @@ Operation mapping:
 
 Redis Agent Memory workers consume background jobs and call the Data Plane to read
 session events and write extracted long-term memories.
+
+The [`deploy` values](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+already enable worker callbacks. Each platform also needs the setup in
+[Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
 
 For deployments where Redis Agent Memory Data Plane auth is enabled, workers should
 authenticate with Kubernetes projected service-account tokens. The Helm
@@ -247,8 +213,8 @@ Configure worker identity to:
 
 The Helm ServiceAccount/token settings only provide the Kubernetes credential.
 Redis Agent Memory authorization still comes from the server-side
-`auth.worker_identity` subject grants. If worker auth is not configured, keep
-the Data Plane auth-disabled and reachable only by trusted internal components.
+`auth.worker_identity` subject grants. With agent-key authentication, you must configure worker
+identity.
 
 ## Gateway and identity provider integration
 
