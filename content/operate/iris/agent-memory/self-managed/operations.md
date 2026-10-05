@@ -15,8 +15,9 @@ aliases:
 
 ## Backups
 
-- Back up metadata Redis. Losing metadata removes Control Plane store records
-  and agent-key records.
+- Back up Metadata Redis. Losing it removes Control Plane store records.
+- Back up the Identity Service Metadata Redis, which may be a separate
+  database. Losing it removes agent-key records.
 - Back up Store Redis according to the customer's memory-retention policy.
 - Back up Job Redis if background job replay or delayed-job preservation is
   required by the deployment's recovery policy.
@@ -25,20 +26,29 @@ aliases:
 - For Job Redis, use persistent storage where supported and a non-volatile /
   `noeviction` policy. OOM can still lose jobs or leave worker state invalid;
   capacity alerts and compatibility checks should make that caveat visible.
-- For Metadata Redis, use persistent storage and an eviction policy that does
-  not evict store or agent-key records under memory pressure.
+- For Metadata Redis and the Identity Service Metadata Redis, use persistent
+  storage and an eviction policy that does not evict store or agent-key records
+  under memory pressure.
 
 ## Secret rotation
 
-Rotate Redis Agent Memory agent keys through the Control Plane API:
+Rotate Redis Agent Memory agent keys through the Identity Service API:
 
 ```bash
-curl -sS -X POST "$CP_URL/v1/api-keys/<key-id>/rotate" \
-  -H "Authorization: Bearer $RAM_ADMIN_TOKEN"
+curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate?graceSeconds=3600" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
 ```
 
-The response contains the new credential. Store it immediately; credentials are
-returned only when a key is minted or rotated.
+The response contains the new token. Store it immediately; tokens are returned
+only when a key is minted or rotated.
+
+Rotation returns a new `keyId` with the new token. Use the new `keyId` for later
+updates, rotations, and revocations. The old key stays valid for `graceSeconds`,
+which defaults to 3600 and has a chart maximum of 604800
+(`identityService.apiKeys.maxRotateGraceSeconds`). The response adds
+`oldExpiresAt`, the time the old key stops working. Revoking the old `keyId`
+ends its grace period early. For the full request and response, see
+[API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#identity-service-api-examples).
 
 Rotate the Control Plane admin token by updating `ram-controlplane-admin-token`.
 The Control Plane reads the token on use, so changing the token value does not
@@ -52,7 +62,8 @@ kubectl -n <namespace-name> create secret generic ram-controlplane-admin-token \
 ```
 
 Rotate the Redis Agent Memory license by updating the license Secret and changing
-`license.existingSecretChecksum` so Helm rolls the Data Plane and worker pods.
+`license.existingSecretChecksum` so Helm rolls the Data Plane, worker, and
+Control Plane pods.
 Redis Agent Memory reads and validates the license file during process startup; updating only
 the Secret data is not sufficient.
 
@@ -89,7 +100,7 @@ license:
   existingSecretChecksum: "<new-license-checksum>"
 ```
 
-Apply the updated values and verify both workloads rolled:
+Apply the updated values and verify the workloads rolled:
 
 ```bash
 helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
@@ -99,14 +110,24 @@ helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
 
 kubectl -n <namespace-name> rollout status deploy/redis-agent-memory
 kubectl -n <namespace-name> rollout status deploy/redis-agent-memory-worker
+kubectl -n <namespace-name> rollout status deploy/redis-agent-memory-controlplane
 ```
 
 For immutable license Secrets, create a new Secret name instead, then update
 both `license.existingSecret` and `license.existingSecretChecksum`.
 
-Rotate the shared Data Plane config by updating the config Secret and changing
-`config.existingSecretChecksum`. Rotate the Control Plane config by updating the
-config Secret and changing `controlplane.config.existingSecretChecksum`.
+Config that the chart renders from your values rolls the pods on its own when
+you run `helm upgrade`. If you bring your own config Secrets, rotate the shared
+Data Plane config by updating the config Secret and changing
+`config.existingSecretChecksum`, and rotate the Control Plane config by updating
+the config Secret and changing `controlplane.config.existingSecretChecksum`.
+
+If you change an overlay Secret (`secrets.*`) in place, restart the
+deployments, because the chart does not track the Secret contents:
+
+```bash
+kubectl -n <namespace-name> rollout restart deployment
+```
 
 ## Updates
 
@@ -171,18 +192,22 @@ security:
   profile: fips
 ```
 
-You can also apply the bundled FIPS values overlay with the normal values file:
+You can also apply the bundled FIPS values overlay with the normal values file.
+Download the chart to get `values-fips.yaml` from the chart root:
 
 ```bash
+helm pull redis-ai/redis-agent-memory --version 0.7.0 --untar
+
 helm upgrade --install redis-agent-memory redis-ai/redis-agent-memory \
   --version <chart-version> \
   --namespace <namespace-name> \
   -f ram-values.yaml \
-  -f deployment/redis-agent-memory/values-fips.yaml
+  -f redis-agent-memory/values-fips.yaml
 ```
 
-When enabled, the chart sets `MEM_SECURITY_PROFILE=fips` on the Data Plane,
-worker, and Control Plane pods and enables FIPS-oriented runtime checks.
+When enabled, the chart sets `GODEBUG=fips140=on` on the Data Plane, worker,
+Control Plane, and Identity Service pods and enables FIPS-oriented runtime
+checks. The Identity Service also gets `IDS_SECURITY_PROFILE`.
 
 This is not a formal FIPS 140 compliance or validation claim. Treat it as a
 deployment posture and guardrail that must still be reviewed against the
@@ -194,7 +219,7 @@ When the posture is active, the Data Plane and worker reject config that:
 - uses non-`rediss://` URLs for Redis connections covered by the posture.
 
 The Control Plane runs under the same posture and rejects non-`rediss://`
-`metadata.urls` or `store_db.urls`.
+`metadata.urls` or `databases."1".urls`.
 
 The Redis Agent Memory API listener itself speaks HTTP inside the cluster. Edge TLS termination
 is owned by the hosting environment, such as ingress, service mesh, or external
@@ -206,7 +231,7 @@ Verify the runtime posture with:
 
 ```bash
 kubectl -n <namespace-name> get deploy redis-agent-memory \
-  -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="MEM_SECURITY_PROFILE")].value}'
+  -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="GODEBUG")].value}'
 
 kubectl -n <namespace-name> logs deploy/redis-agent-memory | grep -i 'FIPS security profile'
 ```
@@ -220,15 +245,16 @@ For auth-disabled Data Plane deployments, restrict access to trusted callers.
 For agent-key deployments behind a gateway, prevent direct bypass paths unless
 the direct caller also has a valid Redis Agent Memory credential.
 
-The chart includes `deployment/redis-agent-memory/networkpolicy.reference.yaml`
-as a reference manifest. It is not templated because allowed callers are
+The chart includes `networkpolicy.reference.yaml` at the chart root as a
+reference manifest. Get it with
+`helm pull redis-ai/redis-agent-memory --version 0.7.0 --untar`. It is not templated because allowed callers are
 environment-specific.
 
 Customize the placeholders before applying it:
 
 - `<namespace>`: namespace where Redis Agent Memory is installed.
-- `redis-agent-memory`: Helm release name used in this guide. If you use a
-  different release name, update release-derived service and deployment names.
+- `<release-name>`: Helm release name. This guide uses `redis-agent-memory`.
+  The release name also prefixes release-derived service and deployment names.
   `nameOverride` and `fullnameOverride` change rendered resource names, but the
   `app.kubernetes.io/instance` selector remains the Helm release name.
 - `<caller-namespace>` and caller pod labels: ingress controller, service mesh
@@ -236,6 +262,14 @@ Customize the placeholders before applying it:
 
 The reference policy default-denies ingress to Redis Agent Memory chart pods, then allows TCP
 traffic to server pods on port `9000` from approved callers and the worker
-Deployment. It also includes a Control Plane stanza for port `9100` when
-`controlplane.enabled=true`. Review the manifest against the customer's CNI,
+Deployment. It also includes a Control Plane stanza for port `9100`, which
+always applies.
+
+The reference policy has no Identity Service stanza. Under default-deny, add
+rules that allow:
+
+- Data Plane to Identity Service on port `9200`, for agent-key checks.
+- Identity Service to Control Plane on port `9100`.
+
+Review the manifest against the customer's CNI,
 ingress path, and service mesh behavior before production use.

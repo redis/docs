@@ -82,8 +82,8 @@ critical. Use persistent storage, Redis authentication, network isolation, and
 TLS where required.
 
 In FIPS-oriented deployments, Redis URLs covered by the posture must use
-`rediss://`. Avoid eviction of metadata keys; losing metadata removes Control
-Plane store records and agent-key records.
+`rediss://`. Avoid eviction of metadata keys. Losing Metadata Redis removes Control
+Plane store records, and losing the Identity Service Metadata Redis removes agent-key records.
 
 ## Network access
 
