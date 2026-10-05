@@ -230,6 +230,22 @@ tls:
 - The chart writes the agent-key introspection settings and the Control Plane internal token for you.
 - Image tags are not set, so the chart defaults (`0.7.0`) apply.
 
+## Before you install: check your values
+
+Check each value in `ram-values.yaml` before you install. If one is wrong, you see the symptom in
+its row.
+
+{{< table-scrollable >}}
+| Row | Check | Symptom | Fix |
+| --- | --- | --- | --- |
+| <a id="cl-1"></a>CL-1 | `memory.license.license_path` is set | Server and worker pods `CrashLoopBackOff`; log: `initialize license enforcement: license validation failed; refusing to start: invalid license format` | Set `memory.license.license_path: /etc/redis-agent-memory/license` |
+| <a id="cl-2"></a>CL-2 | `memory.promote_session_memory.strategies.instruct.llm` is set | Worker pods `CrashLoopBackOff` (server stays Ready); log: `promote_session_memory: Strategies: strategies.instruct.llm is required.` | Add the `instruct.llm` block |
+| <a id="cl-3"></a>CL-3 | Each `llm.provider` names an `inference_providers` entry | Server and worker pods `CrashLoopBackOff`; log: `panic: config validation failed: promote_session_memory.strategies.instruct.llm: provider "<name>" is not defined in inference_providers (defined: <names>)` | Add `memory.inference_providers.<name>` or fix the name |
+| <a id="cl-4"></a>CL-4 | `memory.dataplane_client.base_url` is `http://redis-agent-memory:9000` | Pods Ready, but no memories appear; worker log: `getting session memory: Get "http://<wrong-host>:9000/v1/stores/<store-id>/session-memory/..."` … `dial tcp: lookup <wrong-host>` (the rest depends on the cluster DNS) | Set `http://redis-agent-memory:9000` |
+| <a id="cl-5"></a>CL-5 | No image tag is set, or it exists on Docker Hub | Server and worker pods `ImagePullBackOff`; event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Remove `*.image.tag` (defaults `0.7.0`) |
+| <a id="cl-6"></a>CL-6 | `auth.worker_identity` matches the worker (issuer, audience, subject with your namespace) | Pods Ready, but no memories appear; worker log: `memory-dataplane API error: status 401`; the Data Plane logs `401` on `GET /v1/stores/<store-id>/session-memory/<session-id>` with no reason | Fix `issuer` from `/.well-known/openid-configuration` and the namespace in `subject`. The same symptom appears when the Data Plane cannot fetch the cluster JWKS, so also check [worker identity for your platform](#prepare-worker-identity-for-your-platform) |
+{{< /table-scrollable >}}
+
 ## 4. Install
 
 ```bash
