@@ -24,8 +24,10 @@ events to Redis streams in the RDI database. RDI processes these events, applies
 your transformation jobs, and writes the results to the target Redis database.
 RDI does not create or manage collector resources for a source with `type: external`.
 
-This guide covers self-managed RDI 2.0 with the Flink
-processor. It uses a new source named `custom`.
+This guide covers self-managed RDI 2.0 on
+[virtual machines (VMs)](/content/integrate/redis-data-integration/installation/install-vm.md)
+and [Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md),
+using the Flink processor. It uses a new source named `custom`.
 
 ## When to use an external collector
 
