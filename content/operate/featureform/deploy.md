@@ -346,9 +346,8 @@ rbac:
       verbs: ["get"]
 ```
 
-{{< note >}}
-These `rbac.*` values configure Kubernetes permissions. Feature Form application roles are configured separately in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
-{{< /note >}}
+> [!NOTE]
+> These `rbac.*` values configure Kubernetes permissions. Feature Form application roles are configured separately in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
 
 ## Configure observability
 

@@ -136,9 +136,8 @@ If the response returns a failed status code, you should retry updating the cert
 PUT /v1/cluster/update_cert
 ```
 
-{{<note>}}
-This REST API path is deprecated as of Redis Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
-{{</note>}}
+> [!NOTE]
+> This REST API path is deprecated as of Redis Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
 
 Replaces an existing certificate on all nodes within the cluster with a new certificate. The new certificate must pass validation before it can replace the old certificate.
 

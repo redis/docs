@@ -15,7 +15,7 @@ You can import an existing dataset into your Redis Cloud instance from an existi
 > Data imported into an existing database overwrites existing data. 
 > - If you import a dataset into the target database of an [Active-Passive setup](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive), the dataset will be overwritten by any changes to the source database.
 > - If you import a dataset into one region in an [Active-Active database](/content/operate/rc/databases/active-active/_index.md), the dataset will also be replicated across regions.
-<br/>
+
 > [!NOTE]
 > Expired keys are not imported.
 > As a result, the number of keys in the source and destination databases can be different after the import is complete.
@@ -30,7 +30,10 @@ To import a dataset from any publicly available Redis Open Source server:
 
 1. Select **Databases** from the Redis Cloud console menu and then select the target database from the database list.
 1. Select **Import**.
-    {{<image filename="images/rc/database-configuration-import.png" alt="The Import dataset section and Import button." width="50%" >}}
+
+    ![The Import dataset section and Import button.](/images/rc/database-configuration-import.png)
+    {width="50%"}
+
 1. Enter the source database details:
     - Source type - Select **Redis**.
     - Redis Hostname/IP Address - Enter the hostname or the public IP address of the source Redis server. Do not include the port number in the hostname.

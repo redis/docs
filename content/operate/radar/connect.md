@@ -57,9 +57,8 @@ Radar always reaches the REST API over HTTPS.
 ![The Add connection dialog set to connection type Redis Software](/images/radar/add-connection-redis-software.png)
 {width="75%"}
 
-{{< note >}}
-Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
-{{< /note >}}
+> [!NOTE]
+> Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
 
 ### Connect a Redis Open Source instance
 
@@ -155,9 +154,8 @@ Both the API server and the worker need outbound HTTPS on port 443 to the AWS co
 ![The Add connection dialog set to connection type Amazon ElastiCache](/images/radar/add-connection-amazon-elasticache.png)
 {width="75%"}
 
-{{< note >}}
-Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
-{{< /note >}}
+> [!NOTE]
+> Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
 
 ### Connect Google Memorystore
 
@@ -237,9 +235,8 @@ To remove a connection:
 
 Removing a connection permanently deletes the health and usage data Radar collected through it. It does not affect the underlying Redis deployment or cloud account, and it cannot be undone.
 
-{{< warning >}}
-For a Redis Cloud account connection, removing it removes every subscription discovered through that account, not just one database.
-{{< /warning >}}
+> [!WARNING]
+> For a Redis Cloud account connection, removing it removes every subscription discovered through that account, not just one database.
 
 ## Next steps
 

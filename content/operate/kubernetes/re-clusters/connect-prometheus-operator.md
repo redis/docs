@@ -36,8 +36,9 @@ You'll need to configure the following fields to connect Prometheus to Redis Ent
 | `spec.selector` | `matchLabels` | REC service label (`app: redis.io/service=prom-metrics`) |
 
 Apply the file in the same namespace as your Redis Enterprise cluster (REC).
-    > [!NOTE]
-    > If Redis Enterprise and Prometheus are deployed in different namespaces, you'll also need to add the [`serviceMonitorNamespaceSelector`](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md) field to your Prometheus resource. See the [Prometheus operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/running-exporters.md) for more details on cross-namespace `ServiceMonitor` configuration.
+
+> [!NOTE]
+> If Redis Enterprise and Prometheus are deployed in different namespaces, you'll also need to add the [`serviceMonitorNamespaceSelector`](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md) field to your Prometheus resource. See the [Prometheus operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/running-exporters.md) for more details on cross-namespace `ServiceMonitor` configuration.
 
 
 ```YAML

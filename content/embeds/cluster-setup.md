@@ -22,9 +22,8 @@
 
     ![Configure the cluster FQDN.](/images/rs/screenshots/cluster/setup/config-cluster.png)
 
-    {{< warning >}}
-If the FQDN is `cluster.local`, you cannot configure DNS. You cannot change the FQDN after cluster creation.
-    {{< /warning >}}
+    > [!WARNING]
+    > If the FQDN is `cluster.local`, you cannot configure DNS. You cannot change the FQDN after cluster creation.
 
 1. On the node setup screen, select **Create cluster** to accept the defaults.
 

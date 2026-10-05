@@ -469,14 +469,15 @@ _BROKEN_API_CLI_LINK = re.compile(
 )
 # MyST/Sphinx admonition directives (```{warning} ... ```) survive nbconvert as
 # fenced blocks whose `{name}` info string Hugo's goldmark tries to parse as
-# Markdown attributes, breaking the build. Convert them to the site's alert
-# shortcodes instead.
+# Markdown attributes, breaking the build. Convert them to the site's
+# `> [!NOTE]` alert blockquotes (layouts/_default/_markup/render-blockquote.html)
+# instead.
 _MYST_ADMONITION = re.compile(
     r"^(`{3,})\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
     r"[^\n]*\n(.*?)\n\1[ \t]*$",
     re.DOTALL | re.MULTILINE,
 )
-_ADMONITION_SHORTCODE = {
+_ADMONITION_ALERT = {
     "note": "note", "important": "note",
     "warning": "warning", "caution": "warning", "danger": "warning",
     "attention": "warning", "error": "warning",
@@ -484,9 +485,25 @@ _ADMONITION_SHORTCODE = {
 }
 
 
+def _alert_blockquote(indent: str, kind: str, body: list[str]) -> list[str]:
+    """Render an admonition as a `> [!KIND]` alert blockquote.
+
+    The `> ` marker goes after `indent`, so an admonition nested in a list item
+    stays inside it. Body lines carry that indent already; it's moved in front
+    of the marker rather than doubled. A blank body line becomes a bare `>` so
+    the blockquote doesn't end there.
+    """
+    out = [f"{indent}> [!{kind.upper()}]"]
+    for line in body:
+        if line.startswith(indent):
+            line = line[len(indent):]
+        out.append(f"{indent}> {line}" if line.strip() else f"{indent}>")
+    return out
+
+
 def _myst_admonition_repl(m: re.Match) -> str:
-    sc = _ADMONITION_SHORTCODE[m.group(2)]
-    return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
+    kind = _ADMONITION_ALERT[m.group(2)]
+    return "\n".join(_alert_blockquote("", kind, m.group(3).split("\n")))
 
 
 # Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
@@ -507,14 +524,14 @@ def _myst_admonition_repl(m: re.Match) -> str:
 # that follow are autodoc scaffolding (Parameters/Returns/Raises), not note body.
 # Admonitions nested in a list item are indented by the builder ("  #### NOTE"),
 # so the heading may carry leading whitespace; we capture that indent and re-emit
-# the shortcode at the same level to keep it inside the list item.
+# the blockquote at the same level to keep it inside the list item.
 _SPHINX_BOX = re.compile(
     r"^([ \t]*)#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
     r"[ \t]*\n(.+?)"
     r"(?=\n[ \t]*\n|\n[ \t]*#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
     re.DOTALL | re.MULTILINE,
 )
-_SPHINX_BOX_SHORTCODE = {
+_SPHINX_BOX_ALERT = {
     "WARNING": "warning", "CAUTION": "warning", "DANGER": "warning",
     "ATTENTION": "warning", "ERROR": "warning",
     "NOTE": "note", "IMPORTANT": "note", "SEE ALSO": "note",
@@ -524,9 +541,9 @@ _SPHINX_BOX_SHORTCODE = {
 
 def _sphinx_box_repl(m: re.Match) -> str:
     indent = m.group(1)
-    sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+    kind = _SPHINX_BOX_ALERT[m.group(2)]
     body = m.group(3).rstrip()
-    return f"{indent}{{{{< {sc} >}}}}\n{body}\n{indent}{{{{< /{sc} >}}}}"
+    return "\n".join(_alert_blockquote(indent, kind, body.split("\n")))
 
 
 _SPHINX_BOX_TITLE_RE = re.compile(
@@ -538,7 +555,7 @@ _SENTINEL_LINE_RE = re.compile(r"^[ \t]*" + re.escape(_ADMONITION_SENTINEL) + r"
 
 
 def _convert_sentinel_boxes(text: str) -> str:
-    """Wrap sentinel-tagged admonitions (from mark_rst_admonitions) in shortcodes.
+    """Turn sentinel-tagged admonitions (from mark_rst_admonitions) into alert blockquotes.
 
     Walks line by line: at each bare "#### TITLE" heading, scans ahead for the
     sentinel that marks the end of that admonition's body. The scan stops at the
@@ -546,7 +563,7 @@ def _convert_sentinel_boxes(text: str) -> str:
     reach a later note's sentinel (each tagged note renders its own "#### TITLE"
     immediately above its sentinel) — those headings are left untouched for the
     first-paragraph _SPHINX_BOX fallback. When a sentinel is found, the whole
-    body up to it is emitted inside the shortcode and the sentinel line dropped.
+    body up to it is emitted inside the blockquote and the sentinel line dropped.
     """
     lines = text.split("\n")
     out: list[str] = []
@@ -571,14 +588,44 @@ def _convert_sentinel_boxes(text: str) -> str:
             i += 1
             continue
         indent = m.group(1)
-        sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+        kind = _SPHINX_BOX_ALERT[m.group(2)]
         body = lines[i + 1:sidx]
         while body and not body[-1].strip():
             body.pop()
-        out.append(f"{indent}{{{{< {sc} >}}}}")
-        out.extend(body)
-        out.append(f"{indent}{{{{< /{sc} >}}}}")
+        out.extend(_alert_blockquote(indent, kind, body))
         i = sidx + 1
+    return "\n".join(out)
+
+
+_QUOTED_RE = re.compile(r"^[ \t]*>")
+_ALERT_HEADER_RE = re.compile(r"^[ \t]*> \[!(NOTE|WARNING|TIP)\]$")
+_BLOCK_START_RE = re.compile(r"^[ \t]*([-*+][ \t]|[0-9]+[.)][ \t]|#{1,6}[ \t]|`{3,}|~{3,}|<)")
+
+
+def _end_alert_blockquotes(text: str) -> str:
+    """Put a blank line after an alert blockquote that runs straight into text.
+
+    A shortcode's closing tag used to end the callout. A blockquote has no
+    closing tag: a plain line right after it is a lazy continuation and renders
+    inside the callout, and so does a second alert directly after it. A
+    following list item, heading, fence, or HTML line starts its own block, so
+    it's left alone (a blank line there would loosen a list).
+    """
+    lines = text.split("\n")
+    out: list[str] = []
+    in_alert = False
+    for i, line in enumerate(lines):
+        out.append(line)
+        # Only blockquotes this script emitted: a `>>>` prompt in a code block
+        # also starts with `>`.
+        in_alert = bool(_ALERT_HEADER_RE.match(line) or (in_alert and _QUOTED_RE.match(line)))
+        nxt = lines[i + 1] if i + 1 < len(lines) else ""
+        # A second alert straight after the first is a quoted line too, so it
+        # would join the first blockquote as body text.
+        if in_alert and nxt.strip() and (
+                _ALERT_HEADER_RE.match(nxt)
+                or (not _QUOTED_RE.match(nxt) and not _BLOCK_START_RE.match(nxt))):
+            out.append("")
     return "\n".join(out)
 
 
@@ -636,6 +683,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     # Defensive: drop any sentinel that survived (e.g. a tagged admonition whose
     # heading sphinx rendered unexpectedly) so the marker never leaks into output.
     text = "\n".join(l for l in text.split("\n") if not _SENTINEL_LINE_RE.match(l))
+    text = _end_alert_blockquotes(text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
@@ -650,7 +698,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
         text = moved_re.sub(r'relref "\1/how_to_guides/\2"', text)
         text = _rewrite_bare_relref_for_moved_layout(text, src, staging, moved_slugs)
     text = _IMAGE_STATIC.sub(
-        lambda m: f'{{{{< image filename="/images/redisvl/{m.group(2)}" alt="{m.group(1)}" >}}}}',
+        lambda m: f'![{m.group(1)}](/images/redisvl/{m.group(2)})',
         text,
     )
     # Upstream `user_guide/cli.ipynb` links to `../api/cli.rst`, but no such

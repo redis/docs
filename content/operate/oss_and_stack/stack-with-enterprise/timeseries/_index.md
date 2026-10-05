@@ -36,7 +36,7 @@ Redis Open Source provides a new data type that uses chunks of memory of fixed s
 
 | Before Downsampling | After Downsampling |
 | --- | --- |
-| {{< image filename="/images/rs/TimeSeries-downsampling1.png" >}} | {{< image filename="/images/rs/TimeSeries-downsampling2.png" >}} |
+| ![](/images/rs/TimeSeries-downsampling1.png) | ![](/images/rs/TimeSeries-downsampling2.png) |
 
 If you want to keep all of your raw data points indefinitely, your data set grows linearly over time. However, if your use case allows you to have less fine-grained data further back in time, downsampling can be applied. This allows you to keep fewer historical data points by aggregating raw data for a given time window using a given aggregation function. Time series support [downsampling](/content/develop/data-types/timeseries/_index.md#aggregation) with the following aggregations: avg, sum, min, max, range, count, first, and last.  
 

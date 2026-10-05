@@ -41,7 +41,9 @@ On the right-hand side of the figure (marked #2), Redis Enterprise uses network-
 
 Redis Enterprise is not only great as an in-memory database but also extremely efficient in the way it uses persistent storage, even when the user chooses to configure Redis Enterprise to write every change to the disk. Compared to a disk-based database that requires multiple interactions (in most cases) with a storage device for every read or write operation, Redis Enterprise uses a single IOPS, in most cases, for a write operation and zero IOPS for a read operation. As a result, significant performance improvements are seen in typical Kubernetes environments, as illustrated in the figures below:
 
-{{< image filename="/images/k8s/kubernetes-overview-performance-improvements-read.png" >}}{{< image filename="/images/k8s/kubernetes-overview-performance-improvements-write.png" >}}
+![](/images/k8s/kubernetes-overview-performance-improvements-read.png)
+
+![](/images/k8s/kubernetes-overview-performance-improvements-write.png)
 
 ## Multiple services on each pod
 

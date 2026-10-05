@@ -16,9 +16,8 @@ accessible only on that subpath. The default routes are given the
 provided prefix subpath. There isn’t any way to add another proxy behind
 this one unless the same subpath is used for the new one.
 
-{{<note>}}
-Once you set the static subpath environment variable, Redis Insight is only reachable on the provided subpath. The default endpoint won't work.
-{{</note>}}
+> [!NOTE]
+> Once you set the static subpath environment variable, Redis Insight is only reachable on the provided subpath. The default endpoint won't work.
 
 ## Using Redis Insight behind a reverse proxy
 

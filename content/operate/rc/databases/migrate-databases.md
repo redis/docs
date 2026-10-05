@@ -141,7 +141,8 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
-    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
+    ![When the data is migrated, the target database status displays Synced.](/images/rc/migrate-data-status-synced.png)
+    {width="100px"}
 
 Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.
 

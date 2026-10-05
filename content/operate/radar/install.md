@@ -70,9 +70,8 @@ Use `sslmode=require` or stricter to encrypt the connection. Radar passes your c
 
 Radar encrypts the cluster credentials you supply. Each tenant gets its own data key, and all of those keys are wrapped by one key-encryption key (KEK) that you supply. The key must be **32 raw bytes**, not base64 or hex.
 
-{{< warning >}}
-Back up the KEK alongside the database and store the two backups separately. Neither is usable without the other. Radar cannot decrypt stored credentials if the API server and the worker read different keys, or if a restored database is paired with the wrong key. It fails closed rather than losing them silently.
-{{< /warning >}}
+> [!WARNING]
+> Back up the KEK alongside the database and store the two backups separately. Neither is usable without the other. Radar cannot decrypt stored credentials if the API server and the worker read different keys, or if a restored database is paired with the wrong key. It fails closed rather than losing them silently.
 
 ### FIPS mode
 
@@ -96,9 +95,8 @@ Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its se
 
 The RPM installs native binaries and needs no container runtime. It also installs the `radar` diagnostics command.
 
-{{< note >}}
-The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
-{{< /note >}}
+> [!NOTE]
+> The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
 
 1. Install the package.
 
@@ -206,9 +204,8 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    `radar doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
 
-   {{< warning >}}
-   Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
-   {{< /warning >}}
+   > [!WARNING]
+   > Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
 
    <br>
 
@@ -259,9 +256,8 @@ To install from a chart package file instead, such as on a cluster with no inter
    shred -u kek.bin
    ```
 
-   {{< note >}}
-   Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. If the random key contains a zero byte, command substitution truncates it there, so the key would be shorter than 32 bytes.
-   {{< /note >}}
+   > [!NOTE]
+   > Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. If the random key contains a zero byte, command substitution truncates it there, so the key would be shorter than 32 bytes.
 
    The secret must contain a key named `CREDENTIAL_KEK`. Without it, the pods stay in `ContainerCreating` rather than starting with no encryption key.
 

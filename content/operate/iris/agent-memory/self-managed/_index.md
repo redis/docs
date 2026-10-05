@@ -96,11 +96,10 @@ metadata in the same Data Plane config. Static stores do not use Metadata Redis.
 Control Plane managed stores use `metadata.source: live` and require Metadata
 Redis.
 
-{{< warning >}}
-Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
-mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any caller that
-can reach the API can read or write memory for configured stores. Use that mode
-only when Kubernetes NetworkPolicy, private service exposure, ingress/gateway
-policy, service mesh, or equivalent controls restrict access to trusted
-components.
-{{< /warning >}}
+> [!WARNING]
+> Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
+> mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any caller that
+> can reach the API can read or write memory for configured stores. Use that mode
+> only when Kubernetes NetworkPolicy, private service exposure, ingress/gateway
+> policy, service mesh, or equivalent controls restrict access to trusted
+> components.
