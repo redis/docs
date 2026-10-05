@@ -129,7 +129,11 @@ The example configuration contains the following data:
 - `type`: The collector to use for the pipeline. Use `cdc` for MariaDB, MySQL,
   MongoDB, Oracle, PostgreSQL, or SQL Server. Use `flink` for Google Cloud
   Spanner. Use `riotx` for Snowflake. Use `external` when you provide and manage
-  the collector. RDI doesn't create collector resources for an `external` source,
+  the collector for a proof of concept. This approach is not recommended for
+  production deployments. See
+  [Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md)
+  for the event format, setup, and limitations.
+  RDI doesn't create collector resources for an `external` source,
   so omit the other properties in the source section.
 - `connection`: The connection details for the source database: `type`, `host`, `port`,
   and credentials (`user` and `password`).
