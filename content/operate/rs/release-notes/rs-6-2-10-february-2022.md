@@ -58,7 +58,7 @@ Redis Enterprise Software v6.0.x will reach end of life (EOF) on May 31, 2022.
 
 To learn more, see the Redis Enterprise Software [product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md), which details the release number and the end-of-life schedule for Redis Enterprise Software.
 
-For Redis modules information and lifecycle, see [Module lifecycle](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md).
+For Redis modules information and lifecycle, see [Module lifecycle](/content/operate/rs/installing-upgrading/modules-lifecycle.md).
 
 ## Redis modules 
 
@@ -78,7 +78,7 @@ Starting with Redis Enterprise Software v6.2.10 build 121, the included modules 
 - [RedisGraph v2.8.12](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/_index.md)
 - [RedisTimeSeries v1.6.9](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/_index.md)
 
-For help upgrading a module, see [Add a module to a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#upgrading-the-module-for-the-database). 
+For help upgrading a module, see [Add a module to a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md#upgrading-the-module-for-the-database). 
 
 ## Interface enhancements
 

@@ -27,8 +27,8 @@ You can only add modules to a database when you first create it. You cannot add 
 
 ### Prerequisites
 
-- [Installed the module on the cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md)
-- [Upgraded the module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to the latest version
+- [Installed the module on the cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md)
+- [Upgraded the module](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) to the latest version
 
 ### Create a database and enable capabilities
 

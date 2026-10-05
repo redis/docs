@@ -142,7 +142,7 @@ To upgrade a database:
     rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
     ```
 
-    For module upgrade options, see [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
+    For module upgrade options, see [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md).
 
 1. Use [`rladmin status databases extra all`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-databases) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
 

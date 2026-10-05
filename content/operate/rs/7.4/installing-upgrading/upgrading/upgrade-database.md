@@ -102,7 +102,7 @@ To upgrade a database:
         Done
         ```
 
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for more details.
+    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) for more details.
 
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 

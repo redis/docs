@@ -77,7 +77,7 @@ To upgrade an Active-Active database (CRDB) instance:
         rladmin upgrade db <database_name | database_ID>
         ```
     
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for more details.
+    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) for more details.
 
     If the protocol version is old, read the warning message carefully and confirm.
 

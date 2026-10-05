@@ -247,7 +247,7 @@ To create your vector index in Redis Insight:
 
 ### `redis-cli`
 
-The [`redis-cli`](/content/develop/tools/cli.md) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis](/content/operate/oss_and_stack/stack-with-enterprise/install/_index.md).
+The [`redis-cli`](/content/develop/tools/cli.md) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis](/content/operate/rs/installing-upgrading/modules/_index.md).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 

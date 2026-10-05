@@ -9,7 +9,7 @@ description: Search and query Active-Active databases.
 linkTitle: Search Active-Active databases
 weight: 30
 ---
-Starting with RediSearch 2.x, supported in Redis Software (RS) 6.0 and later, you can [enable Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) for [Active-Active databases](/content/operate/rs/databases/active-active/_index.md) at the time of creation.
+Starting with RediSearch 2.x, supported in Redis Software (RS) 6.0 and later, you can [enable Redis Search](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md) for [Active-Active databases](/content/operate/rs/databases/active-active/_index.md) at the time of creation.
 
 You can run search operations on any instance of an Active-Active database.
 

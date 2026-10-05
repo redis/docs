@@ -352,5 +352,5 @@ For RedisGears, follow these [installation instructions](/content/operate/oss_an
 
 ## Next steps
 
-- Create a database and [enable the new module](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md).
-- [Upgrade a module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to the new version.
+- Create a database and [enable the new module](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md).
+- [Upgrade a module](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) to the new version.
