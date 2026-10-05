@@ -131,7 +131,7 @@ The example configuration contains the following data:
   Spanner. Use `riotx` for Snowflake. Use `external` when you provide and manage
   the collector for a proof of concept. This approach is not recommended for
   production deployments. See
-  [Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md)
+  [Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md)
   for the event format, setup, and limitations.
   RDI doesn't create collector resources for an `external` source,
   so omit the other properties in the source section.

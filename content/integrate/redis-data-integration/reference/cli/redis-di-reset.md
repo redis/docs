@@ -16,7 +16,7 @@ state before returning.
 With `--source`, only the specified source is reset. See
 [Start, stop, and reset a single source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source) for more information.
 
-An [external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#operate-an-external-source)
+An [external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md#operate-an-external-source)
 cannot be reset with `--source`. A whole-pipeline reset resets managed processing state but does not
 make the external writer take a new snapshot.
 

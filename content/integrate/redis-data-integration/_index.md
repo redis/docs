@@ -97,7 +97,7 @@ RDI can capture data from any of the following sources:
 {{< embed-md "rdi-supported-source-versions.md" >}}
 
 For a proof of concept with your own collector, see
-[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md).
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md).
 This approach is not recommended for production deployments.
 
 ## Continue learning with Redis University

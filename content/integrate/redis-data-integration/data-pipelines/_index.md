@@ -95,7 +95,7 @@ to the snapshot phase. When this is complete, the pipeline continues with CDC as
 Follow the steps described in the sections below to prepare and run an RDI pipeline.
 
 For a proof of concept with your own collector, see
-[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md).
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md).
 This approach is not recommended for production deployments.
 
 The following example uses a single-source pipeline. See

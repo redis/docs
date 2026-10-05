@@ -12,7 +12,7 @@ aliases:
 Starts a pipeline. By default, the command waits for the pipeline to reach the `started` state before
 returning.
 
-An [external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#operate-an-external-source)
+An [external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md#operate-an-external-source)
 cannot be started with `--source`. Starting its pipeline does not start the external writer.
 
 ## Usage

@@ -27,7 +27,7 @@ name in `config.yaml`, or the target. You name that database with the `--db` opt
 [`redis-di set-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-secret.md)
 command.
 
-For an [external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#set-up-a-poc),
+For an [external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md#set-up-a-poc),
 set only the target database secrets here. Manage the writer's credentials for
 the RDI database separately. Create the pipeline before setting its secrets if
 your installation has no default pipeline, as described in the external collector guide.

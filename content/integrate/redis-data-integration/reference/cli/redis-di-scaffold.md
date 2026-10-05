@@ -15,7 +15,7 @@ before overwriting existing files unless `--force` is set. Without `--dir`, it p
 configuration to standard output.
 
 There is no scaffold template for an external collector. See
-[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/external-sources.md#set-up-a-poc)
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md#set-up-a-poc)
 for a proof of concept configuration.
 
 ## Usage
