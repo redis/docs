@@ -650,7 +650,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
         text = moved_re.sub(r'relref "\1/how_to_guides/\2"', text)
         text = _rewrite_bare_relref_for_moved_layout(text, src, staging, moved_slugs)
     text = _IMAGE_STATIC.sub(
-        lambda m: f'{{{{< image filename="/images/redisvl/{m.group(2)}" alt="{m.group(1)}" >}}}}',
+        lambda m: f'![{m.group(1)}](/images/redisvl/{m.group(2)})',
         text,
     )
     # Upstream `user_guide/cli.ipynb` links to `../api/cli.rst`, but no such
