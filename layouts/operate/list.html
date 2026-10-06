@@ -13,7 +13,8 @@
         </h1>
 
         {{ with .Params.description }}<p class="text-lg -mt-2 mb-2">{{ . | markdownify }}</p>{{ end }}
-        {{ if .Params.categories }}
+        {{/* No category badges in the Redis Iris docs space */}}
+        {{ if and .Params.categories (not (partial "is-iris-page.html" .)) }}
 <div class="post-categories" style="display: table;">
   <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
     <thead>
