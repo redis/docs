@@ -146,6 +146,23 @@ Download it from the cluster's detail view, or from the **Support** page if you'
 
 The download runs in your browser, so it might take several minutes to prepare the package for a large cluster. The download will continue while you navigate elsewhere in Radar, but will cancel if the tab is closed or reloaded.
 
+To send Redis Support information about Radar itself rather than a cluster, see [Download Radar diagnostic logs](#download-radar-diagnostic-logs).
+
+## Download Radar diagnostic logs
+
+On a self-managed install, you can download Radar's own diagnostic data to attach to a Redis Support ticket. Only administrators can do this. This option is not available in Radar on Redis Cloud.
+
+To download the diagnostic logs:
+
+1. Open **Settings**.
+2. Select **Download logs** in the page header.
+
+**Download logs** is also on the **Data & Monitoring** tab, under **Diagnostic Export**.
+
+Radar downloads a ZIP file named `mcm-diagnostic-logs-<timestamp>.zip`. It holds CSV files covering the last 30 days of connections, collection requests and runs, connection actions, audit events, and errors.
+
+It does not include stored credentials or a Redis Software support package. It does include usernames, IP addresses, connection names, and warning and error messages from Radar's services. To get diagnostics from a cluster, [download a support package](#download-a-support-package) instead.
+
 ## Next steps
 
 - [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}})
