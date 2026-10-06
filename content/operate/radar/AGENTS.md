@@ -46,6 +46,7 @@ self-managed, and hosted changes go in the Cloud changelog.
 | --- | --- | --- |
 | Redis Radar | Radar (alone) | First mention on a page, and in `title` and `description`. |
 | Radar | Redis Radar | Every later mention on that page. |
+| Redis Software | Redis Enterprise | Every mention, including with a version: Redis Software 7.4. |
 
 **"Multi Cluster Manager" and "MCM" are not product names.** They are the project's
 origin, they appear in no published page, and they do not belong in prose. This says
@@ -70,6 +71,58 @@ to Clusters for either provider sends them somewhere the resource does not appea
   version** — `## 2026.10.1`. Hosted Radar rolls out automatically, so the heading
   identifies the release rather than a build to download. Do not fold a hosted change
   into a versioned self-managed note.
+- **A release pull request updates the files for each mode the release changes.** Put the
+  newest release first in each.
+  - **Self-managed**: a new versioned note, named for the version, and a row in the
+    release table in `release-notes/_index.md` with the support track and a one-line
+    summary. Copy the note's frontmatter from the previous note and set `weight` one
+    lower than that note's, so the newest release sorts first.
+  - **Hosted**: a section in the Cloud changelog. Anything that affects hosted Radar goes
+    there, including changes and known limitations that also apply to self-managed,
+    which go in the versioned note too.
+- **A release that changes something a published page describes**, such as a setting, a
+  UI label, or an install step, needs that page updated too. Either update it in a
+  docs pull request, or note the change in the release ticket for docs to pick up. File
+  a DOC ticket instead when it's more than a small edit, such as a new step, section, or
+  procedure.
+- **Each versioned note opens with a summary and its support track.**
+- **Sections go in this order**, and any section that would be empty is left out:
+  `## Enhancements`, `## Resolved issues`, `## Breaking changes`, `## Downloads`,
+  `## Known limitations`. Every versioned note has Downloads.
+  - **Enhancements**: new features, plus performance, maintenance, and documentation
+    changes.
+  - **Resolved issues**: bug fixes.
+  - **Breaking changes**: anything the reader has to change before upgrading, such as
+    configuration the chart no longer accepts, and what to change it to. An enhancement
+    or fix that causes one links here.
+  - **Known limitations**: what the reader can't do in this release and how to work
+    around it. State the constraint and the remedy, not the internal cause. End each
+    limitation with its RED ticket in an HTML comment, such as `<!--RED-12345-->`, so
+    it can be tracked.
+- **Downloads opens with the supported platform**, then has one `###` section per
+  artifact, each a list of bold-labeled values: `### Helm chart` (chart name, version,
+  and repository), `### Container images` (one bullet per image), and `### RPM` and
+  `### Agent` (package name and a Download Center link). Take the chart version and
+  image tags from the published chart and the package names from the Download Center,
+  not from the repository. Add or remove an image when the chart's image list changes.
+- **A Cloud changelog section opens with a one-sentence summary**, then lists the
+  changes as bullets. Group them under `###` headings only when the list is long
+  enough to need it, and name the groups after the versioned note's sections:
+  `### Enhancements`, `### Resolved issues`, `### Breaking changes`, and
+  `### Known limitations`. It has no Downloads and no support track.
+- **Leave out changes a reader can't see or act on**, such as release tooling, CI, test
+  infrastructure, and Radar's internal tracing and metrics.
+- **Each item is one change**, opening with a bold label ending in a period: a short
+  phrase naming the feature or the symptom, not the ticket title. Split unrelated
+  changes into separate items, even when they share a ticket.
+- **Say what the reader can now do or see.** Name the exact setting, its default, and
+  the product versions it applies to. Quantify rather than qualify: "retries once", not
+  "a bounded retry".
+- **Describe a fix by what the reader saw**, in their terms, not by its internal cause:
+  "Certificates that expire within 24 hours now show as **Expiring** instead of
+  **Valid**."
+- **Bold UI names exactly as they appear on screen**, including paths such as
+  **Settings > Agents**.
 
 ## Document current behavior only
 
