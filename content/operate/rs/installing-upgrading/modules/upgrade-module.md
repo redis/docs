@@ -1,10 +1,12 @@
 ---
 Title: Upgrade modules
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/install/upgrade-module/
 alwaysopen: false
 categories:
 - docs
 - operate
-- stack
+- rs
 description: null
 linkTitle: Upgrade modules
 weight: 50
@@ -19,7 +21,7 @@ Upgrade a module in Redis Software to get the latest features and fixes.
 
 ## Prerequisites
 
-Before you upgrade a module enabled in a database, [install the new version of the module on the cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md).
+Before you upgrade a module enabled in a database, [install the new version of the module on the cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md).
 
 ## Upgrade a module for a database
 

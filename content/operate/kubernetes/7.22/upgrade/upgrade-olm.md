@@ -52,7 +52,7 @@ To see which modules are currently in use, run:
 curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/bdbs | jq -r '.[].module_list | map(.module_name + "-" + .semantic_version) | .[]'
 ```
 
-See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for details on how to upgrade modules with the `rladmin` tool.
+See [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) for details on how to upgrade modules with the `rladmin` tool.
 
 ### Valid license
 

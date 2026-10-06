@@ -342,7 +342,7 @@ kubectl get rec <cluster-name> -o jsonpath='{.spec.userDefinedModules}' | jq
 
 ### Redis Software documentation
 
-- [Add modules to a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md) - Install module packages on Redis Enterprise Software clusters
-- [Enable modules for a database](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) - Add modules to databases in Redis Enterprise Software
-- [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) - Upgrade module versions in Redis Enterprise Software
-- [Module lifecycle](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md) - Module versioning and end-of-life schedule
+- [Add modules to a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md) - Install module packages on Redis Enterprise Software clusters
+- [Enable modules for a database](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md) - Add modules to databases in Redis Enterprise Software
+- [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) - Upgrade module versions in Redis Enterprise Software
+- [Module lifecycle](/content/operate/rs/installing-upgrading/modules-lifecycle.md) - Module versioning and end-of-life schedule
