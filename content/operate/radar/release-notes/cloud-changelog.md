@@ -34,7 +34,7 @@ Radar adds readable alert descriptions and a complete usage export, and fixes st
 
 ### Performance and maintenance
 
-- Radar skips health reads that Active-Active details don't need.
+- Radar skips health reads that aren't needed by Active-Active.
 - Updated backend, frontend, and build dependencies.
 
 ## 2026.9.2
