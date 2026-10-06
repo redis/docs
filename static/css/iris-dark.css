@@ -190,10 +190,17 @@ body.iris-dark main article img.h-4 {
   filter: invert(1) hue-rotate(180deg);
 }
 
-/* Screenshots. Matches the rounded-lg a few pages already set. Inline UI icons
-   (img-inline), tile card icons, and demo artwork stay as they are. */
-body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img) {
+/* Screenshots of the light console. Matches the rounded-lg a few pages already
+   set, and dims them slightly so they don't glare on the dark page. Inline UI
+   icons (img-inline), tile card icons, demo artwork, and the concept diagrams
+   (which have their own filter) are excluded. */
+body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img):not([src*="/images/ai/context-engine/"]) {
   border-radius: 0.5rem;
+  filter: brightness(0.9);
+}
+/* A border sets off full-size screenshots; small button crops go without. */
+body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img):not([src*="/images/ai/context-engine/"]):not([width="36px"]):not([width="150px"]) {
+  border: 1px solid var(--iris-border);
 }
 
 /* Concept diagrams are Mermaid SVG exports with a white background baked in.
@@ -288,6 +295,74 @@ body.iris-dark main .iris .iris-fact code {
 }
 body.iris-dark main .iris .iris-reply.is-picking .iris-replymsg {
   color: #6f8189;
+}
+
+/* Context map (```context-map code blocks, drawn by static/js/context-map.js),
+   used for the request flow diagram. */
+body.iris-dark main .context-map-shape {
+  fill: var(--iris-surface);
+}
+body.iris-dark main #context-map-border-gradient stop:last-child {
+  stop-color: #5c707a;
+}
+body.iris-dark main .context-map-label {
+  fill: var(--iris-text);
+}
+body.iris-dark main .context-map-node.is-selected .context-map-shape {
+  fill: #3a1c1f;
+}
+body.iris-dark main .context-map-node.is-path-active .context-map-shape {
+  fill: #0f2e22;
+  stroke: #22c55e;
+}
+body.iris-dark main .context-map-edge {
+  stroke: #5c707a;
+}
+body.iris-dark main .context-map-arrowhead {
+  fill: #5c707a;
+}
+body.iris-dark main .context-map-edge.is-path-active {
+  stroke: #22c55e;
+}
+body.iris-dark main .context-map-arrowhead.context-map-arrowhead--active {
+  fill: #22c55e;
+}
+body.iris-dark main .context-map-edge-label-bg {
+  fill: var(--iris-bg);
+}
+body.iris-dark main .context-map-edge-label {
+  fill: var(--iris-muted);
+}
+body.iris-dark main .context-map-path-button {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+  color: var(--iris-muted);
+}
+body.iris-dark main .context-map-path-button:hover {
+  border-color: var(--iris-muted);
+  color: var(--iris-heading);
+}
+body.iris-dark main .context-map-path-button.is-active {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+body.iris-dark main .context-map-panel {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+}
+body.iris-dark main .context-map-panel--path {
+  border-color: #22c55e;
+}
+body.iris-dark main .context-map-panel-kind,
+body.iris-dark main .context-map-panel p {
+  color: var(--iris-muted);
+}
+body.iris-dark main .context-map-panel strong {
+  color: var(--iris-heading);
+}
+body.iris-dark main .context-map-panel a {
+  color: var(--iris-accent);
 }
 
 /* Download documentation dialog. It renders inside the sidebar, so the text and
