@@ -26,7 +26,7 @@ Radar adds readable alert descriptions and a complete usage export, and fixes st
 
 ### Bug fixes
 
-- **Freshness reporting.** Cluster and Overview freshness now follows each source's collection interval, so fewer clusters show as stale when they aren't. Amazon ElastiCache freshness metrics stay consistent across worker replicas.
+- **Freshness reporting.** Cluster and Overview freshness now follows each source's collection interval. Amazon ElastiCache freshness metrics stay consistent across worker replicas.
 - **Redis Cloud discovery.** Fixed a pagination issue that could make a Redis Cloud Pro subscription with databases appear empty.
 - **Collection reliability.** Radar retries a Redis Cloud API read once when it fails with a transient error. A slow Redis Software alert request no longer interrupts health collection.
 - **Interface and observability.** The Redis Cloud connection fields are now labeled **API account key** and **API user key**. The nonfunctional Telemetry settings are removed. Agent gRPC observability outcomes are corrected.
