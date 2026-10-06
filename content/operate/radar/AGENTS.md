@@ -70,6 +70,42 @@ to Clusters for either provider sends them somewhere the resource does not appea
   version** — `## 2026.10.1`. Hosted Radar rolls out automatically, so the heading
   identifies the release rather than a build to download. Do not fold a hosted change
   into a versioned self-managed note.
+- **A release pull request updates the files for each mode the release changes.** Put the
+  newest release first in each.
+  - **Self-managed**: a new versioned note, named for the version, and a row in the
+    release table in `release-notes/_index.md` with the support track and a one-line
+    summary. Copy the note's frontmatter from the previous note and set `weight` one
+    lower than that note's, so the newest release sorts first.
+  - **Hosted**: a section in the Cloud changelog.
+- **Each versioned note opens with a summary and its support track.**
+- **Sections go in this order**, and any section that would be empty is left out:
+  `## Enhancements`, `## Resolved issues`, `## Breaking changes`, `## Downloads`,
+  `## Known limitations`. Every versioned note has Downloads.
+  - **Enhancements**: new features, plus performance, maintenance, and documentation
+    changes.
+  - **Resolved issues**: bug fixes.
+  - **Breaking changes**: anything the reader has to change before upgrading, such as
+    configuration the chart no longer accepts, and what to change it to. An enhancement
+    or fix that causes one links here.
+  - **Known limitations**: what the reader can't do in this release and how to work
+    around it. State the constraint and the remedy, not the internal cause. End each
+    limitation with its RED ticket in an HTML comment, such as `<!--RED-12345-->`, so
+    it can be tracked.
+- **Downloads opens with the supported platform**, then has one `###` section per
+  artifact, each a list of bold-labeled values: `### Helm chart` (chart name, version,
+  and repository), `### Container images` (one bullet per image), and `### RPM` and
+  `### Agent` (package name and a Download Center link). Take the chart version and
+  image tags from the published chart and the package names from the Download Center,
+  not from the repository. Add or remove an image when the chart's image list changes.
+- **A Cloud changelog section opens with a one-sentence summary**, then lists the
+  changes as bullets. Group them under `###` headings only when the list is long
+  enough to need it. It has no Downloads and no support track.
+- **Leave out changes a reader can't see or act on**, such as release tooling, CI, and
+  test infrastructure.
+- **Feature and fix items open with a bold label ending in a period**, then say what
+  the reader can now do or see. Name the exact setting, its default, and the versions
+  it applies to. Describe a fix by the behavior the reader saw, not by its internal
+  cause.
 
 ## Document current behavior only
 
