@@ -1,14 +1,14 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Redis Agent Memory Control Plane API reference",
+        "title": "Redis Agent Memory Control Plane API",
         "version": "1.0.0",
-        "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: every endpoint requires `Authorization: Bearer <admin-token>`. This is distinct from the agent keys used by the Data Plane. Operational endpoints (health, build-info) are served separately and are unauthenticated.\n\nSelf-managed deployments use a shared store database. Embedding configuration is resolved server-side from deployment config rather than supplied in Control Plane requests.\n"
+        "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: every endpoint requires a single static operator token, sent by default as\n`Authorization: Bearer <admin-token>`. The header and scheme are configurable with\n`auth.admin_token.header` and `auth.admin_token.scheme`; the security scheme shown is the\ndefault. This token is distinct from the agent keys used by the Data Plane. Operational\nendpoints (health, build-info) are served separately and are unauthenticated.\n\nThere is no per-store database, subscription, or endpoint binding: self-managed deployments use\na single shared store database. Embedding configuration is resolved server-side from deployment\nconfig rather than supplied here.\n"
     },
     "paths": {
         "/v1/detectors": {
             "get": {
-                "description": "List the built-in sensitive-data detectors a store may select in its\n`longTermMemoryExclusions.builtInDetectors` configuration.\n\nUse this endpoint to discover which detector IDs exist. A selection that names an ID this endpoint\ndoes not list is rejected on write.\n\nThis is read-only reference data with no store scope. Selecting a detector is a store configuration change.",
+                "description": "List the built-in sensitive-data detectors a store may select in its\n`longTermMemoryExclusions.builtInDetectors` configuration.\n\nThis is the only supported way to discover which detector ids exist. Use this\nendpoint rather than a fixed list: a selection naming an id this endpoint does not\nlist is rejected on write.\n\nThis is read-only reference data with no store scope. Listing a detector does not\nenable it; selecting one is a store configuration change.",
                 "operationId": "ListBuiltInDetectors",
                 "responses": {
                     "200": {
@@ -1346,17 +1346,16 @@
             }
         },
         "securitySchemes": {
-            "bearerAuth": {
+            "smithy.api.httpBearerAuth": {
                 "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "admin-token",
-                "description": "Control Plane admin token."
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
             }
         }
     },
     "security": [
         {
-            "bearerAuth": []
+            "smithy.api.httpBearerAuth": []
         }
     ]
 }
