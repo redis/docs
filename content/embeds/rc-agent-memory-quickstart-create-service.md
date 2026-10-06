@@ -41,12 +41,10 @@
 1. Select **Create**.
 1. Copy the Redis Agent Memory API key and store it securely.
 
-{{< warning >}}
-Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
 
 These settings keep the background stages short enough to observe during the quickstart. For screenshots and configuration details, see [create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).
 
-{{< warning >}}
-Sensitive-data exclusions guide the extraction model but do not guarantee exclusion. Sensitive session content still reaches the model provider. Exclusions do not apply when an application creates long-term memories directly.
-{{< /warning >}}
+> [!WARNING]
+> Sensitive-data exclusions guide the extraction model but do not guarantee exclusion. Sensitive session content still reaches the model provider. Exclusions do not apply when an application creates long-term memories directly.

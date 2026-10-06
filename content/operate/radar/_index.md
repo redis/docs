@@ -13,6 +13,9 @@ weight: 47
 
 Redis Radar give you one place to view the status of every Redis cluster in your fleet. Instead of checking the status of your clusters individually, get a complete view of them all with Redis Radar.
 
+![The Radar Overview page, showing fleet status, inventory, database health, alerts, certificates, and version distribution](/images/radar/radar-overview.png)
+{width="100%" class="border border-redis-pen-300 rounded-lg"}
+
 Radar connects to each cluster, collects its state, and presents one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore. Radar is primarily a visibility tool. Connecting a cluster to Radar does not change how that cluster runs on its own.
 
 ## How you run Radar
@@ -20,7 +23,7 @@ Radar connects to each cluster, collects its state, and presents one fleet-wide 
 Radar runs two ways:
 
 - **[Redis Cloud]({{< relref "/operate/rc/radar" >}}).** Sign in with your existing Redis Cloud credentials. Redis Cloud hosts and manages the Radar deployment for you.
-- **[Self-managed]({{< relref "/operate/radar/install" >}}).** Install Radar on your own infrastructure with a Helm chart, an RPM, or Docker Compose.
+- **[Self-managed]({{< relref "/operate/radar/install" >}}).** Install Radar on your own infrastructure with a Helm chart or an RPM.
 
 ## What Radar shows you
 

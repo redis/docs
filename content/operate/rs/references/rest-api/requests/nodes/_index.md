@@ -181,9 +181,8 @@ Currently, you can edit the following attributes:
 | recovery_path | string | Recovery files path |
 | second_rack_id | string | Second rack ID where node is installed |
 
-{{<note>}}
-You can only update the `addr` attribute for offline nodes. Otherwise, the request returns an error.
-{{</note>}}
+> [!NOTE]
+> You can only update the `addr` attribute for offline nodes. Otherwise, the request returns an error.
 
 ### Permissions
 

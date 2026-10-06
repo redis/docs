@@ -15,9 +15,8 @@ VPC peering uses private IP addresses to allow network connections between two [
 
 You can connect your VPC in the Redis Cloud subscription to the VPC of your application. This lets your application connect securely to your Redis Cloud database using VPC peering to optimize the performance of your application.
 
-{{< note >}}
-VPC peering is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
-{{< /note >}}
+> [!NOTE]
+> VPC peering is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
 
 VPC peering configuration requires you to initiate VPC peering on your Redis Cloud subscription and then accept the VPC peering request for the AWS VPC that you want to peer with.
 
@@ -57,12 +56,14 @@ To set up VPC peering:
     1. Select **Add CIDR**.
     1. Enter additional CIDR-formatted IP address in the box:
 
-        {{<image filename="images/rc/subscription-connectivity-vpc-peering-add-multiple-cidrs.png" width="300px" alt="Select the Add CIDR button to add another VPC CIDR." >}}
+        ![Select the Add CIDR button to add another VPC CIDR.](/images/rc/subscription-connectivity-vpc-peering-add-multiple-cidrs.png)
+        {width="300px"}
 
 1. Select **Initiate peering**.
 1. Note the **Peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}} 
+    ![View VPC peering list.](/images/rc/subscription-connectivity-vpc-peering-aws.png)
+    {width="350px"}
 
 ### Approve VPC peering request {#approve-aws-vpc-peering}
 
@@ -72,7 +73,8 @@ After you set up and intitiate VPC peering, you need to approve the VPC peering 
 
 1. After you accept the peering request, select **Modify my route tables now**. This button can be found in the green header once the peering connection is **active**.
 
-{{<image filename="images/rc/modify_route_tables_aws.png" width="800px" alt="Modify Route Table." >}}
+![Modify Route Table.](/images/rc/modify_route_tables_aws.png)
+{width="800px"}
 
 ### Update route tables {#update-route-tables}
 
@@ -86,9 +88,8 @@ To finish VPC peering setup, [update your route tables for the peering connectio
 
 Once VPC peering is established, we recommend switching your application connection string to the private endpoint.
 
-{{< note >}}
-{{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
 
 ## Google Cloud VPC peering {#gcp-vpc-peering}
 
@@ -117,16 +118,17 @@ To set up VPC peering:
 
 1. Copy the **Google cloud command** after you enter the other VPC peering settings. You need this command to accept the peering request later:
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcloud-command.png" width="350px" alt="The Initiate peering button creates a VPC peering request." >}}
+    ![The Initiate peering button creates a VPC peering request.](/images/rc/subscription-connectivity-vpc-peering-gcloud-command.png)
+    {width="350px"}
 
 1. Select **Initiate peering**.
 1. Note the **Cloud peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcp.png" width="350px" alt="View VPC peering list." >}}
+    ![View VPC peering list.](/images/rc/subscription-connectivity-vpc-peering-gcp.png)
+    {width="350px"}
 
-{{< note >}}
-Redis Cloud enables **Import custom routes** by default on its side of the peering connection. If you want Redis Cloud to import custom routes from your application VPC (for example, to reach Redis Cloud from other networks connected to your application VPC), you must also enable **Export custom routes** on your application VPC. Otherwise, custom routes from your application VPC aren't imported and you may experience connectivity issues.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud enables **Import custom routes** by default on its side of the peering connection. If you want Redis Cloud to import custom routes from your application VPC (for example, to reach Redis Cloud from other networks connected to your application VPC), you must also enable **Export custom routes** on your application VPC. Otherwise, custom routes from your application VPC aren't imported and you may experience connectivity issues.
 
 ### Approve VPC peering request {#approve-gcp-vpc-peering}
 
@@ -134,9 +136,8 @@ To approve the VPC peering request between Redis Cloud and Google Cloud, use the
 
 Once VPC peering is established, we recommend switching your application connection string to the private endpoint.
 
-{{< note >}}
-{{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
 
 ## Continue learning with Redis University
 

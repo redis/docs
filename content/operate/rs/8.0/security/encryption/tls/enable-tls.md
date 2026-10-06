@@ -75,7 +75,7 @@ To enable mutual TLS using the Cluster Manager UI:
 
 1. Select **Mutual TLS (Client authentication)**.
 
-    <img src="../../../../../../images/rs/screenshots/databases/security-mtls-clients-7-8-2.png" alt="Mutual TLS authentication configuration.">
+    ![Mutual TLS authentication configuration.](/images/rs/screenshots/databases/security-mtls-clients-7-8-2.png)
 
 1. For all clients, upload a client certificate, an intermediary certificate, or a trusted client CA certificate.
 
@@ -112,7 +112,8 @@ To enable mutual TLS using the Cluster Manager UI:
 
         You can only enter a single value for each field, except for the _Organizational Unit (OU)_ field. If your client certificate has a `Subject` with multiple  _Organizational Unit (OU)_ values, press the `Enter` or `Return` key after entering each value to add multiple Organizational Units.
 
-        <img src="../../../../../../images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">
+        ![An example that shows adding a certificate validation with multiple organizational units.](/images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png)
+        {width="350px"}
 
         **Breaking change:** If you use the [REST API](/content/operate/rs/8.0/references/rest-api/_index.md) instead of the Cluster Manager UI to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Software v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md) for more details.
 
@@ -214,7 +215,7 @@ To enable TLS for Active-Active cluster connections using the Cluster Manager UI
 
 1. Select **On** to enable TLS.
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png" alt="TLS is enabled on the Cluster Manager UI screen.">}}
+    ![TLS is enabled on the Cluster Manager UI screen.](/images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png)
 
 1. Click **Create**.
 

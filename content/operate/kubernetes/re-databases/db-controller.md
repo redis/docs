@@ -25,18 +25,17 @@ If valid, the controller combines the values specified in
 the custom resource with default values to create a full specification. It then uses this full specification to create the
 database on the specified Redis Enterprise cluster (REC).
 
-{{< note >}}
-The admission controller prevents duplicate database names when databases are created via the Kubernetes operator.
-{{< /note >}}
+> [!NOTE]
+> The admission controller prevents duplicate database names when databases are created via the Kubernetes operator.
 
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
-If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-clusters/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
+If the database [custom resource is deleted](/content/operate/kubernetes/re-clusters/delete-custom-resources.md), the database and its services are deleted from the cluster.
 
 ### Flexible deployment options
 
-Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
+Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces](/content/operate/kubernetes/re-clusters/multi-namespace.md).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options](/content/operate/kubernetes/architecture/deployment-options.md).
 
 ## Create a database
 
@@ -88,7 +87,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}). 
+    For more details, see [Options for Redis Enterprise databases](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md). 
 
 1. Monitor the status to see when the changes take effect:
 
@@ -98,7 +97,7 @@ To modify the database:
 
     When the status is `active`, the database is ready for use.
 
-To add tags to a database and expose them as metric labels, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
+To add tags to a database and expose them as metric labels, see [Enrich database metrics with tags](/content/operate/kubernetes/re-databases/enrich-metrics-with-tags.md).
 
 ## Delete a database
 
@@ -123,4 +122,4 @@ For comprehensive information about connecting to your database, including:
 - In-cluster and external access methods
 - Connection examples and troubleshooting
 
-See [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}).
+See [Database connectivity](/content/operate/kubernetes/networking/database-connectivity.md).

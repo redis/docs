@@ -48,6 +48,11 @@
       "x-order": "20"
     },
     {
+      "name": "Agent Memory - Stores",
+      "description": "All operations related to Agent Memory store lifecycle",
+      "x-order": "20"
+    },
+    {
       "name": "Endpoint Redirections",
       "description": "Dynamic endpoint redirection operations.",
       "x-order": "21"
@@ -91,7 +96,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_1",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -156,148 +161,6 @@
         }
       },
       "put": {
-        "tags": [
-          "Data Integration"
-        ],
-        "summary": "Proxy a Data Integration workspace request",
-        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JsonNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonNode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Data Integration"
-        ],
-        "summary": "Proxy a Data Integration workspace request",
-        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JsonNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonNode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      },
-      "delete": {
         "tags": [
           "Data Integration"
         ],
@@ -368,13 +231,155 @@
           }
         }
       },
-      "patch": {
+      "post": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
         "tags": [
           "Data Integration"
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
         "operationId": "proxyDataIntegrationWorkspace_3",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -447,7 +452,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_6",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -512,148 +517,6 @@
         }
       },
       "put": {
-        "tags": [
-          "Data Integration"
-        ],
-        "summary": "Proxy a Data Integration workspace request",
-        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JsonNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonNode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Data Integration"
-        ],
-        "summary": "Proxy a Data Integration workspace request",
-        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_5",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription ID.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JsonNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JsonNode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      },
-      "delete": {
         "tags": [
           "Data Integration"
         ],
@@ -724,13 +587,155 @@
           }
         }
       },
-      "patch": {
+      "post": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_6",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
         "tags": [
           "Data Integration"
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
         "operationId": "proxyDataIntegrationWorkspace_8",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_5",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -8330,6 +8335,286 @@
         }
       }
     },
+    "/v1/memory-stores": {
+      "get": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "List memory stores",
+        "description": "List the Agent Memory stores for the account",
+        "operationId": "listMemoryStores",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "Memory stores returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreListResponse"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Create memory store",
+        "description": "Create an Agent Memory store on the database identified by database Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response",
+        "operationId": "createMemoryStore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoryStoreCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/memory-stores/{storeId}/api-keys": {
+      "get": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "List memory store API keys",
+        "description": "List the API keys of the Agent Memory store identified by store Id. Key values are obfuscated",
+        "operationId": "listMemoryStoreApiKeys",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Create memory store API key",
+        "description": "Create an API key for the Agent Memory store identified by store Id. The generated key value is returned once and cannot be retrieved again",
+        "operationId": "createMemoryStoreApiKey",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoryStoreApiKeyCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "201": {
+            "description": "API key created. The generated key value is returned once in the response body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreApiKeyCreateResponse"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/v1/fixed/subscriptions": {
       "get": {
         "tags": [
@@ -9751,6 +10036,226 @@
           },
           "422": {
             "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/memory-stores/{storeId}": {
+      "get": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Get memory store",
+        "description": "Get the Agent Memory store identified by store Id",
+        "operationId": "getMemoryStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "Memory store returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreResponse"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Delete memory store",
+        "description": "Delete the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response",
+        "operationId": "deleteMemoryStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          },
+          {
+            "name": "flush",
+            "in": "query",
+            "description": "Whether to flush all data from the database before deleting the memory store",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Update memory store",
+        "description": "Update the configuration of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response",
+        "operationId": "updateMemoryStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoryStoreUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
           },
           "429": {
             "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
@@ -12121,10 +12626,244 @@
           }
         }
       }
+    },
+    "/v1/memory-stores/{storeId}/session-memory": {
+      "delete": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Empty memory store session memory",
+        "description": "Clear the session (working) memory of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response",
+        "operationId": "emptyMemoryStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/memory-stores/{storeId}/entries": {
+      "delete": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Flush memory store entries",
+        "description": "Clear all working memory sessions and long-term memories from the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response",
+        "operationId": "flushMemoryStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/memory-stores/{storeId}/api-keys/{apiKeyId}": {
+      "delete": {
+        "tags": [
+          "Agent Memory - Stores"
+        ],
+        "summary": "Delete memory store API key",
+        "description": "Delete the API key identified by API key Id from the Agent Memory store identified by store Id",
+        "operationId": "deleteMemoryStoreApiKey",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Memory store ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 0,
+              "pattern": "^[A-Za-z0-9-]+$",
+              "type": "string"
+            },
+            "example": "store-123"
+          },
+          {
+            "name": "apiKeyId",
+            "in": "path",
+            "description": "Memory store API key ID.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "example": "28f3c30edaf527218d6ca25972b795c0d04ca8c7a6ffe4ec45bb9f5789277aca"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "204": {
+            "description": "API key deleted."
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "MemoryStoreExtractionCadenceConfig": {
+        "required": [
+          "activeIntervalSeconds"
+        ],
+        "type": "object",
+        "properties": {
+          "activeIntervalSeconds": {
+            "maximum": 600,
+            "minimum": 60,
+            "type": "integer",
+            "description": "Interval in seconds between extraction runs while a session is active (60-600). Required",
+            "format": "int32",
+            "example": 120
+          }
+        },
+        "description": "How often the long-term memory extraction pipeline runs. Optional on both create and update"
+      },
       "TargetVersion": {
         "type": "object",
         "properties": {
@@ -12200,6 +12939,32 @@
       },
       "JsonNode": {
         "type": "object"
+      },
+      "MemoryStoreSummarizationThresholdConfig": {
+        "required": [
+          "retainCount",
+          "threshold"
+        ],
+        "type": "object",
+        "properties": {
+          "threshold": {
+            "maximum": 10000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Number of active session events that triggers a summarization cycle (0-10000). Must be greater than retainCount. Required",
+            "format": "int32",
+            "example": 50
+          },
+          "retainCount": {
+            "maximum": 10000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Number of most recent events kept unsummarized after each cycle (0-10000); everything older is condensed into the running summary. Must be less than threshold. Required",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "description": "Event-count trigger for session summarization. threshold must be greater than retainCount"
       },
       "PaymentMethods": {
         "type": "object",
@@ -12952,6 +13717,23 @@
           ]
         }
       },
+      "MemoryStoreLongTermMemoryUpdateConfig": {
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "maximum": 31536000,
+            "minimum": 1,
+            "type": "integer",
+            "description": "New time-to-live of long-term memory entries, in seconds (1 second to 1 year). Omit to leave unchanged",
+            "format": "int32",
+            "example": 31536000
+          },
+          "embedding": {
+            "$ref": "#/components/schemas/MemoryStoreModelConfig"
+          }
+        },
+        "description": "Long-term memory configuration accepted on update. Only the TTL and the embedding credential can change"
+      },
       "CidrWhiteListUpdateRequest": {
         "type": "object",
         "properties": {
@@ -13421,6 +14203,32 @@
           }
         },
         "description": "Optional. A list of regions and local settings to update."
+      },
+      "MemoryStoreTypeStrategyUpdate": {
+        "required": [
+          "typeName"
+        ],
+        "type": "object",
+        "properties": {
+          "typeName": {
+            "maxLength": 64,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "type": "string",
+            "description": "Name of the existing custom memory type to edit. Required",
+            "example": "travel_preference"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Replacement extraction prompt. Omit to leave unchanged"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Replacement enabled flag. Omit to leave unchanged",
+            "example": true
+          }
+        },
+        "description": "Edit of the extraction strategy of an existing custom memory type. Only the prompt and the enabled flag may change; the type's name, description and fields are immutable"
       },
       "PscEndpointCreateRequest": {
         "required": [
@@ -13959,6 +14767,29 @@
         },
         "description": "Active-Active VPC peering update request message"
       },
+      "MemoryStoreModelCredentials": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "How the supplied secret is interpreted. Required",
+            "example": "apiKey",
+            "enum": [
+              "apiKey"
+            ]
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "The provider API key. Required on create. On update an omitted or blank value keeps the current key, so only the key being rotated needs to be sent",
+            "format": "password",
+            "writeOnly": true
+          }
+        },
+        "description": "Customer-supplied credential for a model provider. Write-only: never returned by any operation"
+      },
       "DatabaseTrafficStateResponse": {
         "type": "object",
         "properties": {
@@ -14423,6 +15254,26 @@
         },
         "description": "The names of the regions to delete."
       },
+      "MemoryStoreMatcherSpec": {
+        "required": [
+          "kind"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Matching technique. Required",
+            "example": "regex",
+            "enum": [
+              "regex"
+            ]
+          },
+          "regex": {
+            "$ref": "#/components/schemas/MemoryStoreRegexSpec"
+          }
+        },
+        "description": "How a custom detector decides what to match. Exactly the block named by kind must be present"
+      },
       "MaintenanceWindowSkipStatus": {
         "type": "object",
         "properties": {
@@ -14543,6 +15394,58 @@
           }
         },
         "description": "Private Link principals create request"
+      },
+      "MemoryStoreUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": ".*\\S.*",
+            "type": "string",
+            "description": "Optional. New memory store name (1-64 characters)",
+            "example": "my-memory-store"
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/MemoryStoreShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryUpdateConfig"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/MemoryStoreModelConfig"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/MemoryStoreSummarizationConfig"
+          },
+          "longTermMemoryExclusions": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryExclusions"
+          },
+          "addCustomMemoryTypes": {
+            "maxItems": 3,
+            "minItems": 0,
+            "type": "array",
+            "description": "Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreCustomMemoryType"
+            }
+          },
+          "updateCustomMemoryTypeStrategies": {
+            "type": "array",
+            "description": "Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreTypeStrategyUpdate"
+            }
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/MemoryStoreExtractionCadenceConfig"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Memory store update request"
       },
       "FixedSubscriptionUpdateRequest": {
         "type": "object",
@@ -15193,6 +16096,46 @@
           ]
         }
       },
+      "MemoryStoreCustomField": {
+        "required": [
+          "description",
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "type": "string",
+            "description": "Field name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Required",
+            "example": "preferred_airline"
+          },
+          "description": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "description": "Human-readable description of the field (1-200 characters). Required",
+            "example": "Airline the user prefers to fly with"
+          },
+          "type": {
+            "type": "string",
+            "description": "Field data type. Required",
+            "example": "str",
+            "enum": [
+              "str",
+              "int",
+              "float",
+              "bool",
+              "list[str]",
+              "list[float]",
+              "object"
+            ]
+          }
+        },
+        "description": "A structured field of a custom memory type"
+      },
       "AccountSystemLogEntry": {
         "type": "object",
         "properties": {
@@ -15225,6 +16168,44 @@
           }
         },
         "description": "Account system log entry"
+      },
+      "MemoryProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Stable, machine-readable error type, e.g. /errors/resource-not-found, /errors/invalid-data, /errors/insufficient-permissions, /errors/model-config-immutable",
+            "example": "/errors/resource-not-found"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short human-readable summary of the error type",
+            "example": "Resource not found"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code of the response, repeated in the body",
+            "format": "int32",
+            "example": 404
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable explanation specific to this occurrence",
+            "example": "memory store store-123 was not found"
+          },
+          "instance": {
+            "type": "string",
+            "description": "Identifier of the specific occurrence, when provided by the service"
+          },
+          "fields": {
+            "type": "array",
+            "description": "Per-field validation failures for /errors/invalid-data responses",
+            "items": {
+              "$ref": "#/components/schemas/MemoryProblemFieldError"
+            }
+          }
+        },
+        "description": "RFC 7807 problem details returned by the Agent Memory service when a synchronous memory store request fails. Returned with the application/problem+json media type"
       },
       "CloudTag": {
         "type": "object",
@@ -15562,6 +16543,22 @@
         },
         "description": "Transit Gateway update attachment cidr/s request message"
       },
+      "MemoryStoreModelStatus": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Model provider in use",
+            "example": "openai"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model in use",
+            "example": "gpt-4o-mini"
+          }
+        },
+        "description": "Resolved model in use for one purpose. Present only on stores with an explicit model selection"
+      },
       "AccountSessionLogEntry": {
         "type": "object",
         "properties": {
@@ -15592,6 +16589,80 @@
           }
         },
         "description": "Account session log entry"
+      },
+      "MemoryProblemFieldError": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Path of the offending request field",
+            "example": "shortMemory.ttlSeconds"
+          },
+          "rule": {
+            "type": "string",
+            "description": "Validation rule that failed",
+            "example": "min"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable message for the failure",
+            "example": "must be at least 1"
+          }
+        },
+        "description": "A single field validation failure"
+      },
+      "MemoryStoreShortMemoryConfig": {
+        "required": [
+          "ttlSeconds"
+        ],
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "maximum": 31536000,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Time-to-live of short-term memory entries, in seconds (1 second to 1 year). Required",
+            "format": "int32",
+            "example": 86400
+          }
+        },
+        "description": "Short-term (working) memory configuration"
+      },
+      "MemoryStoreSemanticExclusionConfig": {
+        "required": [
+          "enabled"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether semantic exclusion is enabled. Required",
+            "example": true
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Customer-authored instruction describing what must not be remembered (max 2000 characters). On update, omit to keep the stored prompt",
+            "example": "Do not remember payment card numbers or home addresses"
+          }
+        },
+        "description": "Advisory, LLM-mediated exclusion of sensitive content from long-term memory"
+      },
+      "MemoryStoreApiKeyCreateRequest": {
+        "required": [
+          "keyName"
+        ],
+        "type": "object",
+        "properties": {
+          "keyName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "^\\S+$",
+            "type": "string",
+            "description": "Name of the API key.",
+            "example": "my-agent-key"
+          }
+        },
+        "description": "Memory store API key creation request"
       },
       "AccountUser": {
         "type": "object",
@@ -15927,6 +16998,35 @@
         },
         "description": "VPC peering creation request message"
       },
+      "MemoryStoreDetectorSelection": {
+        "required": [
+          "enabled",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Built-in detector ID from the Agent Memory detector catalog: credit-card, email, ip-address, phone or us-ssn. Unknown IDs are rejected. Required",
+            "example": "credit-card"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this detector is active. A disabled selection is still stored. Required",
+            "example": true
+          },
+          "action": {
+            "type": "string",
+            "description": "What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins",
+            "example": "redact",
+            "enum": [
+              "redact",
+              "drop"
+            ]
+          }
+        },
+        "description": "One selected platform built-in detector"
+      },
       "FixedDatabaseUpdateRequest": {
         "type": "object",
         "properties": {
@@ -16234,6 +17334,25 @@
           }
         },
         "description": "Active active region deletion request message"
+      },
+      "MemoryStoreModelConfig": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Model provider. Validated against the providers supported by the Agent Memory service. Immutable after creation",
+            "example": "openai"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model name as advertised by the provider. Required on create. On update, omit to keep the current model; the LLM model may be changed within the stored provider, the embedding model may not",
+            "example": "gpt-4o-mini"
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/MemoryStoreModelCredentials"
+          }
+        },
+        "description": "Requested model selection for one purpose (LLM or embedding). On create, llm and longTermMemory.embedding must be supplied together to opt the store into customer-selected models; supplying only one is rejected. Omitting both keeps the platform-owned configuration, and such a store cannot be moved onto customer-selected models later: an update with llm is rejected with /errors/model-config-immutable"
       },
       "AccountACLUsers": {
         "type": "object",
@@ -16763,6 +17882,38 @@
           }
         },
         "description": "Database slowlog entry"
+      },
+      "MemoryStoreEndpoint": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Endpoint URL"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Cloud provider hosting the endpoint",
+            "example": "AWS"
+          },
+          "region": {
+            "type": "string",
+            "description": "Cloud region of the endpoint",
+            "example": "us-east-1"
+          },
+          "egressIps": {
+            "type": "array",
+            "description": "Egress IP addresses used by the endpoint",
+            "items": {
+              "type": "string",
+              "description": "Egress IP addresses used by the endpoint"
+            }
+          },
+          "isAccessible": {
+            "type": "boolean",
+            "description": "Whether the endpoint is reachable from the store's database network"
+          }
+        },
+        "description": "A regional endpoint through which the memory store is served"
       },
       "ActiveActivePscEndpointUpdateRequest": {
         "required": [
@@ -17334,6 +18485,22 @@
           ]
         }
       },
+      "MemoryStoreRegexSpec": {
+        "required": [
+          "pattern"
+        ],
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string",
+            "description": "Pattern in RE2 syntax (1-512 characters). Lookaround and backreferences are not supported. Rejected if it does not compile or can match empty text. Required",
+            "example": "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+          }
+        },
+        "description": "Regular expression matcher"
+      },
       "FixedDatabaseUpgradeRedisVersionRequest": {
         "required": [
           "targetRedisVersion"
@@ -17816,6 +18983,27 @@
         },
         "description": "Database definition"
       },
+      "MemoryStoreBuiltInDetectorsConfig": {
+        "required": [
+          "enabled"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Toggle for the whole built-in group. False leaves the selections stored but inactive. Required",
+            "example": true
+          },
+          "detectors": {
+            "type": "array",
+            "description": "Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreDetectorSelection"
+            }
+          }
+        },
+        "description": "Deterministic detection using platform-owned built-in detectors. Nothing is selected by default"
+      },
       "Region": {
         "type": "object",
         "properties": {
@@ -17835,6 +19023,42 @@
           }
         },
         "description": "RedisLabs region information"
+      },
+      "MemoryStoreCustomDetector": {
+        "required": [
+          "enabled",
+          "matcher",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "type": "string",
+            "description": "Detector name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Reported with every match; must be unique in the store and must not collide with a built-in detector ID. Required",
+            "example": "internal-ticket-id"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this detector is active. A disabled detector is still stored and validated. Required",
+            "example": true
+          },
+          "action": {
+            "type": "string",
+            "description": "What happens to a memory this detector matches. Defaults to redact",
+            "example": "redact",
+            "enum": [
+              "redact",
+              "drop"
+            ]
+          },
+          "matcher": {
+            "$ref": "#/components/schemas/MemoryStoreMatcherSpec"
+          }
+        },
+        "description": "One customer-authored detector"
       },
       "EndpointRedirectionDTO": {
         "type": "object",
@@ -18581,7 +19805,12 @@
               "COST_REPORT_DATE_RANGE_EXCEEDS_LIMIT",
               "COST_REPORT_TAG_KEY_EMPTY",
               "COST_REPORT_TAG_VALUE_EMPTY",
-              "COST_REPORT_FUTURE_DATES_NOT_ALLOWED"
+              "COST_REPORT_FUTURE_DATES_NOT_ALLOWED",
+              "AGENT_MEMORY_IS_DISABLED",
+              "AGENT_MEMORY_STORE_INVALID_REQUEST",
+              "AGENT_MEMORY_STORE_NOT_FOUND",
+              "AGENT_MEMORY_STORE_FORBIDDEN",
+              "AGENT_MEMORY_STORE_DEPENDENCY_FAILED"
             ]
           },
           "additionalInfo": {
@@ -18720,6 +19949,26 @@
           }
         },
         "description": "Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints)."
+      },
+      "MemoryStoreLongTermMemoryCreateConfig": {
+        "required": [
+          "ttlSeconds"
+        ],
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "maximum": 31536000,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Time-to-live of long-term memory entries, in seconds (1 second to 1 year). Required",
+            "format": "int32",
+            "example": 31536000
+          },
+          "embedding": {
+            "$ref": "#/components/schemas/MemoryStoreModelConfig"
+          }
+        },
+        "description": "Long-term (persistent) memory configuration accepted on creation. When omitted, the store uses the default long-term memory TTL of 1 year"
       },
       "DataPersistenceOptions": {
         "type": "object",
@@ -18878,6 +20127,48 @@
         },
         "description": "Optional. Changes Remote backup configuration details."
       },
+      "MemoryStoreCustomExtractionStrategy": {
+        "required": [
+          "prompt"
+        ],
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Prompt used to extract memories of this type. Required",
+            "example": "Extract the user's travel preferences"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether extraction for this type is active. Defaults to true",
+            "example": true
+          }
+        },
+        "description": "How memories of a custom type are extracted from session events"
+      },
+      "MemoryStoreLongTermMemoryExclusions": {
+        "required": [
+          "enabled"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Master toggle gating enforcement of all exclusion groups. Required",
+            "example": true
+          },
+          "semantic": {
+            "$ref": "#/components/schemas/MemoryStoreSemanticExclusionConfig"
+          },
+          "builtInDetectors": {
+            "$ref": "#/components/schemas/MemoryStoreBuiltInDetectorsConfig"
+          },
+          "customDetectors": {
+            "$ref": "#/components/schemas/MemoryStoreCustomDetectorsConfig"
+          }
+        },
+        "description": "Store-level policy that keeps sensitive data out of long-term memory. When omitted on create, no policy is stored. On update, the policy is replaced as a whole but nested content that is omitted is preserved, so prefer read-modify-write of the complete policy. Disabling sets enabled=false; a stored policy cannot be removed"
+      },
       "DynamicEndpoints": {
         "type": "object",
         "properties": {
@@ -18950,6 +20241,29 @@
         },
         "description": "Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided."
       },
+      "MemoryStoreCustomDetectorsConfig": {
+        "required": [
+          "enabled"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Toggle for the whole custom group. False leaves the detectors stored but inactive. Required",
+            "example": true
+          },
+          "detectors": {
+            "maxItems": 32,
+            "minItems": 0,
+            "type": "array",
+            "description": "Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreCustomDetector"
+            }
+          }
+        },
+        "description": "Deterministic detection using customer-authored detectors stored on the store. Evaluated together with the built-in detectors as one set"
+      },
       "ActiveActiveVpcPeeringCreateGcpRequest": {
         "required": [
           "sourceRegion",
@@ -18986,6 +20300,17 @@
           }
         },
         "description": "VPC peering creation request message"
+      },
+      "MemoryStoreApiKeyCreateResponse": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "string",
+            "description": "Generated API key. Returned only once.",
+            "format": "password"
+          }
+        },
+        "description": "New memory store API key"
       },
       "SubscriptionCreateRequest": {
         "required": [
@@ -19248,6 +20573,93 @@
         },
         "description": "Optional. Changes Replica Of (also known as Active-Passive) configuration details."
       },
+      "MemoryStoreCreateRequest": {
+        "required": [
+          "databaseId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string",
+            "description": "Memory store name",
+            "example": "my-memory-store"
+          },
+          "databaseId": {
+            "type": "integer",
+            "description": "ID of the database used by the memory store",
+            "format": "int32",
+            "example": 12345
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/MemoryStoreShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryCreateConfig"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/MemoryStoreModelConfig"
+          },
+          "extractionStrategy": {
+            "type": "string",
+            "description": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories",
+            "example": "INSTRUCT",
+            "enum": [
+              "INSTRUCT"
+            ]
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/MemoryStoreSummarizationConfig"
+          },
+          "longTermMemoryExclusions": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryExclusions"
+          },
+          "customMemoryTypes": {
+            "maxItems": 3,
+            "minItems": 0,
+            "type": "array",
+            "description": "Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreCustomMemoryType"
+            }
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/MemoryStoreExtractionCadenceConfig"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Memory store creation request"
+      },
+      "MemoryStoreSummarizationConfig": {
+        "required": [
+          "enabled"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether summarization is enabled for the store. Required",
+            "example": true
+          },
+          "triggerStrategy": {
+            "type": "string",
+            "description": "What triggers a summarization cycle. Defaults to event_count",
+            "example": "event_count",
+            "enum": [
+              "event_count"
+            ]
+          },
+          "eventCount": {
+            "$ref": "#/components/schemas/MemoryStoreSummarizationThresholdConfig"
+          }
+        },
+        "description": "Session summarization. When enabled, long sessions are periodically condensed into a running summary while the most recent events are retained. When omitted on create, nothing is stored and the store uses the deployment's default summarization settings, which GET returns as the store's summarization"
+      },
       "PrivateLinkActiveActivePrincipalsDeleteRequest": {
         "required": [
           "principal",
@@ -19278,6 +20690,21 @@
         },
         "description": "Request to remove principals from private link for Active-Active subscription"
       },
+      "MemoryStoreLongTermMemoryStatus": {
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "type": "integer",
+            "description": "Time-to-live of long-term memory entries, in seconds",
+            "format": "int32",
+            "example": 31536000
+          },
+          "embedding": {
+            "$ref": "#/components/schemas/MemoryStoreModelStatus"
+          }
+        },
+        "description": "Long-term memory configuration as stored"
+      },
       "DatabaseThroughputSpec": {
         "required": [
           "by",
@@ -19301,6 +20728,157 @@
           }
         },
         "description": "Optional. Throughput measurement method."
+      },
+      "MemoryStoreSummary": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "databaseId": {
+            "type": "string"
+          },
+          "databaseName": {
+            "type": "string"
+          },
+          "subscriptionId": {
+            "type": "string"
+          },
+          "extractionStrategy": {
+            "type": "string",
+            "description": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories",
+            "enum": [
+              "INSTRUCT"
+            ]
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/MemoryStoreSummarizationConfig"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/MemoryStoreModelStatus"
+          },
+          "status": {
+            "type": "string",
+            "description": "Lifecycle status of the memory store",
+            "enum": [
+              "PROVISIONING",
+              "READY",
+              "UNAVAILABLE"
+            ]
+          }
+        }
+      },
+      "MemoryStoreListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreSummary"
+            }
+          }
+        },
+        "description": "List of memory stores"
+      },
+      "MemoryStoreResponse": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "databaseId": {
+            "type": "string"
+          },
+          "databaseName": {
+            "type": "string"
+          },
+          "databaseProvider": {
+            "type": "string"
+          },
+          "databaseRegion": {
+            "type": "string"
+          },
+          "databaseAccessCidrs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "subscriptionId": {
+            "type": "string"
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/MemoryStoreShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryStatus"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/MemoryStoreModelStatus"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreEndpoint"
+            }
+          },
+          "extractionStrategy": {
+            "type": "string",
+            "description": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories",
+            "enum": [
+              "INSTRUCT"
+            ]
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/MemoryStoreSummarizationConfig"
+          },
+          "longTermMemoryExclusions": {
+            "$ref": "#/components/schemas/MemoryStoreLongTermMemoryExclusions"
+          },
+          "customMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreCustomMemoryType"
+            }
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/MemoryStoreExtractionCadenceConfig"
+          },
+          "status": {
+            "type": "string",
+            "description": "Lifecycle status of the memory store",
+            "enum": [
+              "PROVISIONING",
+              "READY",
+              "UNAVAILABLE"
+            ]
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorMessageTimestamp": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "Memory store configuration and status"
       },
       "FixedDatabase": {
         "type": "object",
@@ -19806,6 +21384,41 @@
           }
         },
         "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
+      },
+      "MemoryStoreCustomMemoryType": {
+        "required": [
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "type": "string",
+            "description": "Unique type name within the store (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Must not collide with the built-in types semantic, episodic, message and session_summary_view. Required",
+            "example": "travel_preference"
+          },
+          "description": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "description": "Human-readable description of what this type captures (1-200 characters). Required",
+            "example": "Preferences the user expressed about travel"
+          },
+          "fields": {
+            "type": "array",
+            "description": "Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes",
+            "items": {
+              "$ref": "#/components/schemas/MemoryStoreCustomField"
+            }
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/MemoryStoreCustomExtractionStrategy"
+          }
+        },
+        "description": "A custom category of long-term memory with its structured fields and optional extraction strategy. Name, description and fields are immutable once registered"
       },
       "VpcPeeringCreateBaseRequest": {
         "type": "object",

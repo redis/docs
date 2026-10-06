@@ -74,7 +74,8 @@ To remove a node using the Cluster Manager UI:
 
 1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
+    ![Select switch to legacy admin console from the dropdown.](/images/rs/screenshots/switch-to-legacy-ui.png)
+    {width="300px"}
 
 1. On the **nodes** page, select the node you want to remove.
 

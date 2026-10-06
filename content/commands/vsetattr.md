@@ -52,7 +52,8 @@ is the name of the element whose attributes you want to set or remove.
 <details open>
 <summary><code>json</code></summary>
 
-is a valid JSON string. Use an empty string (`""`) to delete the attributes.
+is the JSON string with the attributes of the element. Use an empty string (`""`) to delete the attributes.
+The string is stored as given, without validation. Elements whose attributes are not valid JSON are treated as not matching by the `FILTER` option of `VSIM`.
 </details>
 
 ## Redis Software and Redis Cloud compatibility
@@ -67,15 +68,11 @@ is a valid JSON string. Use an empty string (`""`) to delete the attributes.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-One of the following:
-* [Integer reply](../../develop/reference/protocol-spec#integers): 0 if either the key or element does not exist; 1 if the attributes were successfully added to the element.
-* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.
+[Integer reply](../../develop/reference/protocol-spec#integers): 0 if either the key or element does not exist; 1 if the attributes were set or deleted.
 
 -tab-sep-
 
-One of the following:
-* [Boolean reply](../../develop/reference/protocol-spec#booleans): false if either the key or element does not exist; true if the attributes were successfully added to the element.
-* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.
+[Boolean reply](../../develop/reference/protocol-spec#booleans): false if either the key or element does not exist; true if the attributes were set or deleted.
 
 {{< /multitabs >}}
 

@@ -14,26 +14,25 @@ weight: 40
 ## Back up a database
 
 When you create or update a database, you can specify the (optional) `periodicBackupPath` parameter
-with a [backup path]({{< relref "/operate/rc/databases/back-up-data" >}}).
+with a [backup path](/content/operate/rc/databases/back-up-data.md).
 This parameter enables periodic and on-demand backup operations for the specified database.
 
-{{<note>}}
-The number of database backups that can run simultaneously on a cluster is limited to 4 by default.
-{{</note>}}
+> [!NOTE]
+> The number of database backups that can run simultaneously on a cluster is limited to 4 by default.
 
-For Redis Cloud Pro databases, back up a database with [`POST /subscriptions/{subscriptionId}/databases/{databaseId}/backup`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/backupDatabase" >}}). For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/backupDatabase_1" >}}).
-On-demand database backup is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
+For Redis Cloud Pro databases, back up a database with [`POST /subscriptions/{subscriptionId}/databases/{databaseId}/backup`](/content/operate/rc/api/api-reference.md#tag/Databases-Pro/operation/backupDatabase). For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`](/content/operate/rc/api/api-reference.md#tag/Databases-Essentials/operation/backupDatabase_1).
+On-demand database backup is an [asynchronous operation](/content/operate/rc/api/get-started/process-lifecycle.md).
 
 The backup database API does not require a body. Instead, the `periodicBackupPath` must be set to a valid path with available storage capacity to store the backup files for the specific database. You can set an `adhocBackupPath` in the body to specify a different backup location for this backup.
 
-See [Set up backup storage locations]({{< relref "/operate/rc/databases/back-up-data#set-up-backup-storage-locations" >}}) to learn how to configure your backup storage locations.
+See [Set up backup storage locations](/content/operate/rc/databases/back-up-data.md#set-up-backup-storage-locations) to learn how to configure your backup storage locations.
 
 ## Import data to a database
 
 You can import data into an existing database from multiple storage sources, including AWS S3, Redis, and FTP.
-Database import is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
+Database import is an [asynchronous operation](/content/operate/rc/api/get-started/process-lifecycle.md).
 
-Use [`POST /v1/subscriptions/{subscriptionId}/databases/{databaseId}/import`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/importDatabase" >}}) to import data to an existing Redis Cloud Pro database. For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/importDatabase_1" >}})
+Use [`POST /v1/subscriptions/{subscriptionId}/databases/{databaseId}/import`](/content/operate/rc/api/api-reference.md#tag/Databases-Pro/operation/importDatabase) to import data to an existing Redis Cloud Pro database. For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`](/content/operate/rc/api/api-reference.md#tag/Databases-Essentials/operation/importDatabase_1)
 
 The requirements for data import are:
 
@@ -44,9 +43,8 @@ The requirements for data import are:
 
 The duration of the import process depends on the amount of data imported and the network bandwidth between the data source and the importing database.
 
-{{< warning >}}
-Data imported into an existing database overwrites any existing data.
-{{< /warning >}}
+> [!WARNING]
+> Data imported into an existing database overwrites any existing data.
 
 You can specify the backup location with the `sourceType` and `importFromUri` values for these sources:
 
@@ -59,4 +57,4 @@ You can specify the backup location with the `sourceType` and `importFromUri` va
 |Redis server|redis|redis://[db_password]@[host]:[port]|
 |Web server|HTTP|HTTP://[username][:password]@[:port]/[path/]filename.rdb[.gz]|
 
-See [Import data]({{< relref "/operate/rc/databases/import-data" >}}) to learn how to set up your storage locations for data import.
+See [Import data](/content/operate/rc/databases/import-data.md) to learn how to set up your storage locations for data import.

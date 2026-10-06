@@ -138,7 +138,7 @@ for more information about SCH.
 
 > [!NOTE]
 > Using SCH with go-redis requires v9.16.0 or later for
-> basic connections, and v9.18.0 or later for
+> standard routing, and v9.18.0 or later for
 > [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 By default, `go-redis` always attempts to connect via SCH but falls back to

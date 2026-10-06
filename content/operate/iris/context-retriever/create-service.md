@@ -17,13 +17,12 @@ Redis Context Retriever helps teams expose operational context to AI agents thro
 
 ## Prerequisites and limitations
 
-To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). If your source data lives in a relational database, use [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) to ingest it into a Redis Cloud database first.
+To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-{{< note >}}
-Redis Context Retriever does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-{{< /note >}}
+> [!NOTE]
+> Redis Context Retriever does not support the following databases during public preview:
+> - [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
+> - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
 
 ## Create a Context Retriever service
 
@@ -31,7 +30,8 @@ From the [Redis Cloud console](https://cloud.redis.io/), select **Context Retrie
 
 If you have not already created a Context Retriever service, you'll see a page with an introduction to Context Retriever. Otherwise, select **New service** to go to the Context Retriever introduction page.
 
-{{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
+![The New service button.](/images/rc/langcache-new-service.png)
+{width="150px"}
 
 From here, you can either:
 
@@ -44,7 +44,7 @@ For this guide, select **Create custom service**.
 
 The **General settings** section defines basic properties of your service.
 
-{{<image filename="images/rc/context-retriever-general-settings.png" alt="The General settings section." >}}
+![The General settings section.](/images/rc/context-retriever-general-settings.png)
 
 | Setting name | Description |
 |:-------------|:------------|
@@ -58,11 +58,11 @@ Select **Entities** to continue.
 
 In the **Define Entities** step, you'll define the objects that Context Retriever will use to generate retrieval tools. 
 
-{{<image filename="images/rc/context-retriever-define-entities.png" alt="The Entities section." >}}
+![The Entities section.](/images/rc/context-retriever-define-entities.png)
 
 Select **Add Entity** to add an entity.
 
-{{<image filename="images/rc/context-retriever-define-entities-table.png" alt="The Entity table with the Entity Name, Key template, and description." >}}
+![The Entity table with the Entity Name, Key template, and description.](/images/rc/context-retriever-define-entities-table.png)
 
 - In the **Entity name** field, enter the name of one of the business objects that is in your database. 
 
@@ -88,17 +88,16 @@ From here, you can either:
 
     You'll need to agree to let the model scan your key names and schemas to automatically populate the fields. 
 
-    {{< note >}}
-If you use Auto-detect fields, make sure that the fields and relationships that the model generates are accurate. 
-    {{< /note >}}
+    > [!NOTE]
+    > If you use Auto-detect fields, make sure that the fields and relationships that the model generates are accurate. 
 
 - Select **Manually enter fields** to manually enter the fields yourself.
 
-{{<image filename="images/rc/context-retriever-fields.png" alt="The Configure fields step." >}}
+![The Configure fields step.](/images/rc/context-retriever-fields.png)
 
 Expand each entry to view the currently defined fields for that entry. Select **Add field** to add a field.
 
-{{<image filename="images/rc/context-retriever-add-field.png" alt="The Add field table." >}}
+![The Add field table.](/images/rc/context-retriever-add-field.png)
 
 - Enter the field name in the **Field** cell.
 - Select the **PK** checkbox if the field is a primary key. You must have at least one primary key. 

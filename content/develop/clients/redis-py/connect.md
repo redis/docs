@@ -264,7 +264,7 @@ for more information about SCH.
 
 > [!NOTE]
 > Using SCH with redis-py requires v7.0.0 or later for
-> basic connections, and v7.2.0 or later for
+> standard routing, and v7.2.0 or later for
 > [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 By default, `redis-py` always attempts to connect via SCH but falls back to

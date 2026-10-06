@@ -21,7 +21,7 @@ The **Search** workspace in Redis Insight is a dedicated space for working with 
 
 To open the workspace, select **Search** in the menu at the top of the screen.
 
-{{< image filename="images/ri/ri-search-indexes-list.png" alt="The Search workspace showing the list of indexes" >}}
+![The Search workspace showing the list of indexes](/images/ri/ri-search-indexes-list.png)
 
 ## Prerequisites
 
@@ -37,7 +37,7 @@ The first time you open the Search workspace for a database that has no search i
 - **Try with sample data** &mdash; load a ready-made dataset and its index so you can explore search straight away. See [Create an index from sample data](#from-sample-data).
 - **Use data from my database** &mdash; build an index over keys that already exist in your database. See [Create an index from existing data](#from-existing-data).
 
-{{< image filename="images/ri/ri-search-welcome.png" alt="The Search workspace welcome screen" >}}
+![The Search workspace welcome screen](/images/ri/ri-search-welcome.png)
 
 If your database contains at least one search index, the Search workspace opens to the index list instead.
 
@@ -69,7 +69,7 @@ The last column (unlabeled) holds the row actions:
 
 Select **+ Create search index** to create a new index. You can create an index from sample data or from data that already exists in your database.
 
-{{< image filename="images/ri/ri-search-create-menu.png" alt="The Create search index menu" >}}
+![The Create search index menu](/images/ri/ri-search-create-menu.png)
 
 ### From sample data
 
@@ -80,7 +80,7 @@ Select one of the bundled datasets:
 - **E-commerce Discovery** &mdash; product data for exploring discovery use cases that match intent rather than just text.
 - **Content recommendations** &mdash; content data for discovering items by theme or plot.
 
-{{< image filename="images/ri/ri-search-sample-data.png" alt="The sample data selection modal" >}}
+![The sample data selection modal](/images/ri/ri-search-sample-data.png)
 
 From here you can:
 
@@ -103,7 +103,7 @@ The schema is shown in a table with the following columns:
 - **Suggested indexing type** &mdash; the field type Redis Insight recommends.
 - A **pencil** icon &mdash; edit the field's type and options.
 
-{{< image filename="images/ri/ri-search-create-existing.png" alt="Creating an index from existing data with automatic field detection" >}}
+![Creating an index from existing data with automatic field detection](/images/ri/ri-search-create-existing.png)
 
 > [!NOTE]
 > The first time you create an index from existing data, Redis Insight shows a short guided tour of the page. Select **Skip tour** to dismiss it, or **Next** to step through it.
@@ -123,7 +123,7 @@ To add a field, select **+ Add field**; to change a detected field, select its *
 - **Geo** &mdash; geospatial fields for location filtering.
 - **Vector** &mdash; vector fields for similarity search, with options for the indexing algorithm (`FLAT` or `HNSW`), vector type (`FLOAT32`, `FLOAT64`, `FLOAT16`, or `BFLOAT16`), distance metric (`L2`, `IP`, or `COSINE`), the number of dimensions, and (for `HNSW`) algorithm-specific tuning parameters.
 
-{{< image filename="images/ri/ri-search-field-type.png" alt="Configuring a field type" >}}
+![Configuring a field type](/images/ri/ri-search-field-type.png)
 
 #### Table view and command view
 
@@ -132,7 +132,7 @@ The create-index page provides two views of your index definition:
 - **Table view** &mdash; the visual schema editor described above.
 - **Command view** &mdash; the equivalent [`FT.CREATE`](/content/commands/ft.create.md) command that Redis Insight will run.
 
-{{< image filename="images/ri/ri-search-command-view.png" alt="The generated FT.CREATE command in command view" >}}
+![The generated FT.CREATE command in command view](/images/ri/ri-search-command-view.png)
 
 When you are satisfied with the schema, select **Create index**. Redis Insight confirms when the index is created and your data becomes searchable.
 
@@ -140,11 +140,11 @@ When you are satisfied with the schema, select **Create index**. Redis Insight c
 
 When you open an index, Redis Insight shows the query page. At the top of the page, an index selector (shown as **Indexes / `<index name>`**) lets you switch between the indexes in your database, and a **View index** button opens a side panel with the full index definition and statistics.
 
-{{< image filename="images/ri/ri-search-index-info.png" alt="The index details side panel" >}}
+![The index details side panel](/images/ri/ri-search-index-info.png)
 
 The rest of the page is split into two resizable panes: the query editor on top and the results below. The editor has two tabs, **Query editor** and **Query library**.
 
-{{< image filename="images/ri/ri-search-run-query.png" alt="The Search query editor with results" >}}
+![The Search query editor with results](/images/ri/ri-search-run-query.png)
 
 ### Query editor
 
@@ -165,19 +165,19 @@ FT.SEARCH idx:bikes_vss "@price:[0 2000]" LIMIT 0 10
 
 Select **Explain** to see how the query runs:
 
-{{< image filename="images/ri/ri-search-explain-query.png" alt="The execution plan returned by Explain" >}}
+![The execution plan returned by Explain](/images/ri/ri-search-explain-query.png)
 
 Select **Profile** to see where time is spent:
 
-{{< image filename="images/ri/ri-search-profile-query.png" alt="The profile returned by Profile" >}}
+![The profile returned by Profile](/images/ri/ri-search-profile-query.png)
 
 ### Results
 
 Each command you run appears in the results pane below the editor. You can switch between a **Text** and a **Table** view of the results, and re-run, profile, or explain a command directly from its result using the actions on the right.
 
-{{< image filename="images/ri/ri-search-results-view-button.png" alt="Switching between Text and Table views of the results" >}}
+![Switching between Text and Table views of the results](/images/ri/ri-search-results-view-button.png)
 
-{{< image filename="images/ri/ri-search-results-actions-button.png" alt="Per-result Profile and Explain actions" >}}
+![Per-result Profile and Explain actions](/images/ri/ri-search-results-actions-button.png)
 
 ### Query library
 
@@ -185,7 +185,7 @@ The **Query library** tab keeps saved and sample queries together so you can reu
 
 To save your own query, write it in the **Query editor** tab, select **Save**, and give it a name. It then appears in the library alongside the built-in sample queries.
 
-{{< image filename="images/ri/ri-search-query-library.png" alt="The Query library" >}}
+![The Query library](/images/ri/ri-search-query-library.png)
 
 ## Navigate between the Browse and Search workspaces
 
@@ -195,10 +195,10 @@ The [Browse](/content/develop/tools/insight/_index.md#browser) and Search worksp
 
 When you view a hash or JSON key in the Browse workspace that is not yet indexed, select **Make searchable** to create an index for it. A **Make this data searchable** dialog explains that all keys sharing the key's prefix will be included. Select **Continue** to go to the Search workspace, where you can review and adjust the schema before creating the index, as described in [Create an index from existing data](#from-existing-data).
 
-{{< image filename="images/ri/ri-search-make-searchable.png" alt="The Make searchable button in the Browse workspace" >}}
+![The Make searchable button in the Browse workspace](/images/ri/ri-search-make-searchable.png)
 
 ### View the index for a key
 
 When you view a key that is already indexed, select **View index** to jump to that index in the Search workspace. If the key belongs to more than one index, choose the index you want from the menu.
 
-{{< image filename="images/ri/ri-search-view-index.png" alt="The View index button in the Browse workspace" >}}
+![The View index button in the Browse workspace](/images/ri/ri-search-view-index.png)

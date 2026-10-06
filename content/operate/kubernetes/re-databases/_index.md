@@ -19,39 +19,39 @@ REDB resources define database specifications including memory limits, persisten
 
 Create and manage Redis Enterprise databases on your cluster:
 
-- [Database controller]({{< relref "/operate/kubernetes/re-databases/db-controller" >}}) - Understand how the database controller manages REDB resources and database lifecycle
+- [Database controller](/content/operate/kubernetes/re-databases/db-controller.md) - Understand how the database controller manages REDB resources and database lifecycle
 
 ## Replication and high availability
 
 Set up database replication for high availability and disaster recovery:
 
-- [Create replica databases]({{< relref "/operate/kubernetes/re-databases/replica-redb" >}}) - Configure replica databases for read scaling and disaster recovery scenarios
+- [Create replica databases](/content/operate/kubernetes/re-databases/replica-redb.md) - Configure replica databases for read scaling and disaster recovery scenarios
 
 ## Advanced database configurations
 
 Explore advanced database features and configurations:
 
-- [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}) - Set up globally distributed Active-Active databases across multiple Kubernetes clusters
+- [Active-Active databases](/content/operate/kubernetes/active-active/_index.md) - Set up globally distributed Active-Active databases across multiple Kubernetes clusters
 
 ## Database connectivity
 
 Connect applications to your Redis Enterprise databases:
 
-- [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
-- [Manage REDB passwords]({{< relref "/operate/kubernetes/security/authentication/manage-redb-credentials" >}}) - Retrieve and rotate Redis Enterprise database (REDB) passwords.
-- [Networking]({{< relref "/operate/kubernetes/networking" >}}) - Configure ingress, routes, and service exposure for database access
-- [Security]({{< relref "/operate/kubernetes/security" >}}) - Set up TLS, authentication, and access control for secure database connections
+- [Database connectivity](/content/operate/kubernetes/networking/database-connectivity.md) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
+- [Manage REDB passwords](/content/operate/kubernetes/security/authentication/manage-redb-credentials.md) - Retrieve and rotate Redis Enterprise database (REDB) passwords.
+- [Networking](/content/operate/kubernetes/networking/_index.md) - Configure ingress, routes, and service exposure for database access
+- [Security](/content/operate/kubernetes/security/_index.md) - Set up TLS, authentication, and access control for secure database connections
 
 ## Monitoring and troubleshooting
 
 Monitor database performance and troubleshoot issues:
 
-- [Logs]({{< relref "/operate/kubernetes/logs" >}}) - Collect and analyze database logs for troubleshooting
-- [Connect to Prometheus operator]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}}) - Monitor database metrics with Prometheus
+- [Logs](/content/operate/kubernetes/logs/_index.md) - Collect and analyze database logs for troubleshooting
+- [Connect to Prometheus operator](/content/operate/kubernetes/re-clusters/connect-prometheus-operator.md) - Monitor database metrics with Prometheus
 
 ## Related topics
 
-- [Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/re-clusters" >}}) - Manage the underlying cluster infrastructure
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) - Complete API specification for REDB resources
-- [Active-Active database API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}}) - API reference for Active-Active databases
-- [Remote cluster API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}}) - API reference for remote cluster configurations
+- [Redis Enterprise clusters (REC)](/content/operate/kubernetes/re-clusters/_index.md) - Manage the underlying cluster infrastructure
+- [REDB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md) - Complete API specification for REDB resources
+- [Active-Active database API](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md) - API reference for Active-Active databases
+- [Remote cluster API](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md) - API reference for remote cluster configurations

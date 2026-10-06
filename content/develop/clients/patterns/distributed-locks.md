@@ -17,6 +17,7 @@ title: Distributed Locks with Redis
 aliases:
 - /develop/use/patterns/distributed-locks
 - /manual/patterns/distributed-locks/
+- /reference/patterns/distributed-locks/
 weight: 1
 ---
 Distributed locks are a very useful primitive in many environments where

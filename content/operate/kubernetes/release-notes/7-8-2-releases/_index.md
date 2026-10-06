@@ -32,7 +32,7 @@ This means upgrades to 7.8.2-6 require:
 - Database version 7.2 or later.
 - RHEL9 compatible binaries for any modules you need.
 
-See [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster">}}) for detailed steps to upgrade to 7.8.2-6.
+See [Upgrade Redis Enterprise for Kubernetes](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md) for detailed steps to upgrade to 7.8.2-6.
 
 ## Known limitations
 

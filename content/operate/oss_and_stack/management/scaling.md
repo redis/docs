@@ -9,6 +9,7 @@ linkTitle: Scale with Redis Cluster
 title: Scale with Redis Cluster
 aliases:
 - /management/scaling/
+- /manual/scaling/
 weight: 6
 ---
 

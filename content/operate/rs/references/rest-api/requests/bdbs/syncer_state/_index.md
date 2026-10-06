@@ -24,9 +24,8 @@ GET /v1/bdbs/{int: uid}/syncer_state
 
 Get a CRDB's syncer state as JSON.
 
-{{<warning>}}
-This endpoint is deprecated as of Redis Software version 7.2.4 and will be removed in a future release. Use [`/v1/bdbs/<uid>/syncer_state/crdt`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/syncer_state/crdt" >}}) instead.
-{{</warning>}}
+> [!WARNING]
+> This endpoint is deprecated as of Redis Software version 7.2.4 and will be removed in a future release. Use [`/v1/bdbs/<uid>/syncer_state/crdt`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/syncer_state/crdt" >}}) instead.
 
 ### Permissions
 

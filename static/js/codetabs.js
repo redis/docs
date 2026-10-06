@@ -348,6 +348,10 @@ function updatePanelVisibility(dropdown) {
   if (window.updateAllBinderLinks) {
     window.updateAllBinderLinks();
   }
+
+  if (window.updateAllTryItButtons) {
+    window.updateAllTryItButtons();
+  }
 }
 
 function onchangeCodeTab(e) {

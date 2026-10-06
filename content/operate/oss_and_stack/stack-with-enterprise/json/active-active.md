@@ -27,7 +27,7 @@ In Redis Software, Active-Active databases created with or upgraded to Redis ver
 
 1. In the **Capabilities** section of the **Create Active-Active database** screen, select **JSON**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/create-a-a-db-json-search.png" alt="Select JSON from the Capabilities section.">}}
+    ![Select JSON from the Capabilities section.](/images/rs/screenshots/databases/active-active-databases/create-a-a-db-json-search.png)
 
     > [!NOTE]
     > When you select **JSON**, **Search and Query** is also selected by default to allow you to index and query JSON documents. If you do not want to use these additional features, you can clear the **Search and Query** check box.

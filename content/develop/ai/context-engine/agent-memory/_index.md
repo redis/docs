@@ -23,10 +23,11 @@ When enabled, automatic summarization compacts session memory by summarizing old
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/python-sdk-mark.svg" alt="Python SDK mark" title="Python SDK quickstart — Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
-  {{< image-card image="images/typescript-sdk-mark.svg" alt="TypeScript SDK mark" title="TypeScript SDK quickstart — Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
-  {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Overview" description="How session and long-term memory work, and what runs in the background" url="/develop/ai/context-engine/agent-memory/overview" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Python quickstart" description="Get started with Redis Agent Memory in Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="TypeScript quickstart" description="Get started with Redis Agent Memory in TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="REST quickstart" description="Get started with Redis Agent Memory using curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
 </div>
 
 ## Why use Redis Agent Memory?
@@ -48,7 +49,7 @@ Redis Agent Memory provides two memory tiers:
     <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
     <p>Stores the ordered events and metadata for a conversation.</p>
     <ul class="space-y-2">
-      <li><strong>Configurable retention:</strong> Set a TTL to control how long session events are retained.</li>
+      <li><strong>Configurable retention:</strong> Set a time-to-live (TTL) to control how long session events are retained.</li>
       <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
     </ul>
   </div>
@@ -64,6 +65,8 @@ Redis Agent Memory provides two memory tiers:
     </ul>
   </div>
 </div>
+
+To watch both tiers change during a conversation, try the [interactive demo](/content/develop/ai/context-engine/agent-memory/interactive-demo.md).
 
 ### Example: Travel planning agent
 
@@ -135,3 +138,5 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
 </div>
 
 For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md).
+
+To generate a complete conversational agent that uses Agent Memory, open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and select **Redis Iris Conversational Assistant**.

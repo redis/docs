@@ -393,7 +393,7 @@ Preserve formatting:
 
 ## Validation Rules
 
-1. **Command names** must match entries in commands_core.json or module command files
+1. **Command names** must match entries in commands.json
 2. **Client IDs** must match entries in data/components/index.json
 3. **Signatures** must be valid for the language
 4. **Params array** must not include context/self parameters

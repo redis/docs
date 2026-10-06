@@ -90,7 +90,7 @@ Follow these [instructions](/content/operate/rs/installing-upgrading/upgrading/_
     To use the new capabilities on nodes that are upgraded from version RS 5.4.2 or lower,
     you must [upgrade the CRDB protocol](/content/operate/rs/installing-upgrading/upgrading/_index.md#upgrading-crdbs).
 - Before you upgrade a database with RediSearch Module to Redis 5.0,
-    you must [upgrade the RediSearch Module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to version 1.4.2 or above.
+    you must [upgrade the RediSearch Module](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) to version 1.4.2 or above.
 - Node upgrade fails if the SSL certificates were configured in version 5.0.2 or above
     by manually updating the certificates on the disk instead of [updating them through the API](/content/operate/rs/security/certificates/updating-certificates.md).
     For assistance with this issue, [contact Redis support](https://redislabs.com/company/support/).

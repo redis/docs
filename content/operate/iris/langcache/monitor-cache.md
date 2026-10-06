@@ -16,7 +16,7 @@ aliases:
 
 You can monitor a LangCache service's performance from the **Metrics** tab of the service's page.
 
-{{<image filename="images/rc/langcache-metrics.png"  alt="The metrics tab of the LangCache service's page." >}}
+![The metrics tab of the LangCache service's page.](/images/rc/langcache-metrics.png)
 
 The **Metrics** tab provides a series of graphs showing performance data for your LangCache service.
 

@@ -31,81 +31,81 @@ The Redis Enterprise operator simplifies deployment and management by providing 
 
 Deploy Redis Enterprise on your Kubernetes cluster and create your first database.
 
-- [Quick start deployment]({{< relref "/operate/kubernetes/7.22/deployment/quick-start" >}})
-- [Deploy with Helm]({{< relref "/operate/kubernetes/7.22/deployment/helm" >}})
-- [Deploy on OpenShift]({{< relref "/operate/kubernetes/7.22/deployment/openshift" >}})
-- [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}})
+- [Quick start deployment](/content/operate/kubernetes/7.22/deployment/quick-start.md)
+- [Deploy with Helm](/content/operate/kubernetes/7.22/deployment/helm.md)
+- [Deploy on OpenShift](/content/operate/kubernetes/7.22/deployment/openshift/_index.md)
+- [Supported Kubernetes distributions](/content/operate/kubernetes/7.22/reference/supported_k8s_distributions.md)
 
 ## Redis Enterprise clusters (REC)
 
-Create and manage [Redis Enterprise clusters]({{< relref "/operate/kubernetes/7.22/re-clusters" >}}) on Kubernetes.
+Create and manage [Redis Enterprise clusters](/content/operate/kubernetes/7.22/re-clusters/_index.md) on Kubernetes.
 
-- [Connect to admin console]({{< relref "/operate/kubernetes/7.22/re-clusters/connect-to-admin-console" >}})
-- [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}})
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/7.22/re-clusters/multi-namespace" >}})
-- [Cluster recovery]({{< relref "/operate/kubernetes/7.22/re-clusters/cluster-recovery" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}})
+- [Connect to admin console](/content/operate/kubernetes/7.22/re-clusters/connect-to-admin-console.md)
+- [Auto Tiering](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md)
+- [Multi-namespace deployment](/content/operate/kubernetes/7.22/re-clusters/multi-namespace.md)
+- [Cluster recovery](/content/operate/kubernetes/7.22/re-clusters/cluster-recovery.md)
+- [REC API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md)
 
 ## Redis Enterprise databases (REDB)
 
-Create and manage [Redis Enterprise databases]({{< relref "/operate/kubernetes/7.22/re-databases" >}}) using Kubernetes resources.
+Create and manage [Redis Enterprise databases](/content/operate/kubernetes/7.22/re-databases/_index.md) using Kubernetes resources.
 
-- [Database controller]({{< relref "/operate/kubernetes/7.22/re-databases/db-controller" >}})
-- [Create replica databases]({{< relref "/operate/kubernetes/7.22/re-databases/replica-redb" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api" >}})
+- [Database controller](/content/operate/kubernetes/7.22/re-databases/db-controller.md)
+- [Create replica databases](/content/operate/kubernetes/7.22/re-databases/replica-redb.md)
+- [REDB API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md)
 
 ## Active-Active databases
 
-Set up globally distributed [Active-Active databases]({{< relref "/operate/kubernetes/7.22/active-active" >}}) across multiple Kubernetes clusters.
+Set up globally distributed [Active-Active databases](/content/operate/kubernetes/7.22/active-active/_index.md) across multiple Kubernetes clusters.
 
-- [Prepare participating clusters]({{< relref "/operate/kubernetes/7.22/active-active/prepare-clusters" >}})
-- [Create Active-Active database]({{< relref "/operate/kubernetes/7.22/active-active/create-reaadb" >}})
-- [Global configuration]({{< relref "/operate/kubernetes/7.22/active-active/global-config" >}})
-- [REAADB API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api" >}})
+- [Prepare participating clusters](/content/operate/kubernetes/7.22/active-active/prepare-clusters.md)
+- [Create Active-Active database](/content/operate/kubernetes/7.22/active-active/create-reaadb.md)
+- [Global configuration](/content/operate/kubernetes/7.22/active-active/global-config.md)
+- [REAADB API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api.md)
+- [Remote cluster API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api.md)
 
 ## Security
 
-Manage [secure connections]({{< relref "/operate/kubernetes/7.22/security" >}}) and access control for your Redis Enterprise deployment.
+Manage [secure connections](/content/operate/kubernetes/7.22/security/_index.md) and access control for your Redis Enterprise deployment.
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/7.22/security/manage-rec-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/7.22/security/manage-rec-certificates" >}})
-- [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}})
-- [LDAP authentication]({{< relref "/operate/kubernetes/7.22/security/ldap" >}})
+- [Manage REC credentials](/content/operate/kubernetes/7.22/security/manage-rec-credentials.md)
+- [Manage REC certificates](/content/operate/kubernetes/7.22/security/manage-rec-certificates.md)
+- [Internode encryption](/content/operate/kubernetes/7.22/security/internode-encryption.md)
+- [LDAP authentication](/content/operate/kubernetes/7.22/security/ldap.md)
 
 ## Reference
 
 Use the Kubernetes API and command-line tools to manage your Redis Enterprise deployment.
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}})
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api" >}})
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api" >}})
+- [Redis Enterprise cluster API (REC)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md)
+- [Redis Enterprise database API (REDB)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md)
+- [Active-Active database API (REAADB)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api.md)
+- [Remote cluster API (RERC)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api.md)
 
 ## Logs & monitoring
 
 Monitor and troubleshoot your Redis Enterprise deployment.
 
-- [Collect logs]({{< relref "/operate/kubernetes/7.22/logs/collect-logs" >}})
-- [Connect to Prometheus operator]({{< relref "/operate/kubernetes/7.22/re-clusters/connect-prometheus-operator" >}})
+- [Collect logs](/content/operate/kubernetes/7.22/logs/collect-logs.md)
+- [Connect to Prometheus operator](/content/operate/kubernetes/7.22/re-clusters/connect-prometheus-operator.md)
 
 ## Upgrade
 
 Keep your Redis Enterprise deployment up to date.
 
-- [Upgrade Redis cluster]({{< relref "/operate/kubernetes/7.22/upgrade/upgrade-redis-cluster" >}})
-- [Upgrade with OpenShift CLI]({{< relref "/operate/kubernetes/7.22/upgrade/openshift-cli" >}})
-- [Upgrade with OLM]({{< relref "/operate/kubernetes/7.22/upgrade/upgrade-olm" >}})
+- [Upgrade Redis cluster](/content/operate/kubernetes/7.22/upgrade/upgrade-redis-cluster.md)
+- [Upgrade with OpenShift CLI](/content/operate/kubernetes/7.22/upgrade/openshift-cli.md)
+- [Upgrade with OLM](/content/operate/kubernetes/7.22/upgrade/upgrade-olm.md)
 
 ## Release notes
 
 Stay informed about new features, enhancements, and fixes.
 
-- [Release notes]({{< relref "/operate/kubernetes/release-notes" >}})
+- [Release notes](/content/operate/kubernetes/release-notes/_index.md)
 
 ## Related info
 
-- [Redis Enterprise Software]({{< relref "/operate/rs" >}})
-- [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
-- [Glossary]({{< relref "/glossary" >}})
+- [Redis Enterprise Software](/content/operate/rs/_index.md)
+- [Redis Cloud](/content/operate/rc/_index.md)
+- [Redis Open Source](/content/operate/oss_and_stack/_index.md)
+- [Glossary](/content/glossary/_index.md)

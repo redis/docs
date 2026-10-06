@@ -124,15 +124,15 @@ The following table summarizes the RESP data types that Redis supports:
 | [Simple strings](#simple-strings) | RESP2 | Simple | `+` |
 | [Simple Errors](#simple-errors) | RESP2 | Simple | `-` |
 | [Integers](#integers) | RESP2 | Simple | `:` |
-| [Bulk strings](#bulk-strings) | RESP2 | Aggregate | `$` |
-| [Null bulk strings](#null-bulk-strings) | RESP2 | Aggregate | `$-1\r\n` |
+| [Bulk strings](#bulk-strings) | RESP2 | Bulk | `$` |
+| [Null bulk strings](#null-bulk-strings) | RESP2 | Bulk | `$-1\r\n` |
 | [Arrays](#arrays) | RESP2 | Aggregate | `*` |
 | [Nulls](#nulls) | RESP3 | Simple | `_` |
 | [Booleans](#booleans) | RESP3 | Simple | `#` |
 | [Doubles](#doubles) | RESP3 | Simple | `,` |
 | [Big numbers](#big-numbers) | RESP3 | Simple | `(` |
-| [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
-| [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
+| [Bulk errors](#bulk-errors) | RESP3 | Bulk | `!` |
+| [Verbatim strings](#verbatim-strings) | RESP3 | Bulk | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
 | [Attributes](#attributes) | RESP3 | Aggregate | <code>&#124;</code> |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |

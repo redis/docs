@@ -20,13 +20,12 @@ The backup options for Redis Cloud databases depend on your plan:
 
 - Free plans cannot back up or export a database through the Redis Cloud console.
 
-{{<note>}}
-The number of database backups that can run simultaneously on a subscription is limited to 4 by default.
-{{</note>}}
+> [!NOTE]
+> The number of database backups that can run simultaneously on a subscription is limited to 4 by default.
 
 Backups are saved to predefined storage locations available to your subscription. Backup locations need to be available before you turn on database backups.  To learn more, see [Set up backup storage locations](#set-up-backup-storage-locations).
 
-Backups are saved in RDB format. If the database is comprised of multiple shards, an RDB file will be created for each shard of the database. For more information on restoring data from a backup, see [Restore from an RDB file]({{< relref "/operate/rc/databases/import-data#restore-from-an-rdb-file" >}}).
+Backups are saved in RDB format. If the database is comprised of multiple shards, an RDB file will be created for each shard of the database. For more information on restoring data from a backup, see [Restore from an RDB file](/content/operate/rc/databases/import-data.md#restore-from-an-rdb-file).
 
 Here, you'll learn how to store backups using different cloud providers.
 
@@ -38,27 +37,29 @@ To turn on database backups:
 
 1.  Select the database to open the **Database** page and then select **Edit**.
 
-    {{<image filename="images/rc/button-database-edit.png" alt="The Edit button lets you change database settings." width=100px >}}
+    ![The Edit button lets you change database settings.](/images/rc/button-database-edit.png)
+    {width="100px"}
 
 1.  In the **Configuration** tab, locate the **Remote backup** setting: in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
 When you enable **Remote backup**, additional options appear.  The options vary according to your subscription.
 
-{{<image filename="images/rc/database-details-configuration-durability-backup.png" alt="Backup settings appear when you enable the Remote backup settings." >}}
+![Backup settings appear when you enable the Remote backup settings.](/images/rc/database-details-configuration-durability-backup.png)
 
 |Setting name|Description|
 |:-----------|:----------|
 | **Interval** | Defines the frequency of automatic backups.  Paid Redis Cloud Essentials databases are backed up every 24 hours.  Redis Cloud Pro databases can be set to 24, 12, 6, 4, 2, or 1 hour backup intervals. |
 | **Set backup time** | When checked, this lets you set the hour of the **Backup time**. (_Redis Cloud Pro only_) |
 | **Backup time** | Defines the hour automatic backups are made.  Note that actual backup times will vary up in order to minimize customer access disruptions.  (_Redis Cloud Pro only_)<br/> Times are expressed in [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC).|
-| **Storage type** | Defines the provider of the storage location, which can be: `AWS S3`, `Google Cloud Storage`, `Azure Blob Storage`, `FTP` (FTPS), or `Redis-managed repo`. `Redis-managed repo` is only available for databases created through the [Heroku]({{< relref "/operate/rc/cloud-integrations/heroku" >}}) or [Vercel]({{< relref "/operate/rc/cloud-integrations/vercel" >}}) integrations. |
+| **Storage type** | Defines the provider of the storage location, which can be: `AWS S3`, `Google Cloud Storage`, `Azure Blob Storage`, `FTP` (FTPS), or `Redis-managed repo`. `Redis-managed repo` is only available for databases created through the [Heroku](/content/operate/rc/cloud-integrations/heroku.md) or [Vercel](/content/operate/rc/cloud-integrations/vercel.md) integrations. |
 | **Backup destination** | Defines a URI representing the backup storage location. |
 
 ## Back up and export data on demand
 
 After backups are turned on, you can back up your data at any time.  Use the **Backup now** button, located in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
-{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." width=150px >}}
+![Use the Backup Now button to make backups on demand.](/images/rc/button-database-backup-now.png)
+{width="150px"}
 
 You can only use the **Backup now** button after you turn on backups.
 
@@ -156,9 +157,8 @@ Once the bucket is available and the permissions are set, use the name of your b
 
 To learn more, see [Using bucket policies](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-policies.html) on the AWS docs.
 
-{{< note >}}
-An AWS S3 bucket can be used by only one Redis Cloud account. If you have more than one Redis Cloud account, repeat the setup steps for multiple buckets. 
-{{< /note >}}
+> [!NOTE]
+> An AWS S3 bucket can be used by only one Redis Cloud account. If you have more than one Redis Cloud account, repeat the setup steps for multiple buckets. 
 
 -tab-sep-
 
@@ -232,9 +232,9 @@ Where:
 - *port*: the port number of the server, if needed.
 - *path*: the backup path, if needed.
 
-    {{< note >}}
-If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
-    {{< /note >}}
+    > [!NOTE]
+    > If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
+    >
 
 The user account needs permission to write files to the server.
 

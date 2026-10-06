@@ -21,11 +21,11 @@ The following changes included in this release affect the upgrade process. Pleas
 
 ### ValidatingWebhookConfiguration
 
-Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#reapply-webhook" >}}) for instructions.
+Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md#reapply-webhook) for instructions.
 
 ### OpenShift SCC
 
-Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. If you skip this step, OpenShift clusters running version 6.2.12 or earlier might get stuck when upgrading to version 6.2.18 or later. See [upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#before-upgrading" >}}) for instructions.
+Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. If you skip this step, OpenShift clusters running version 6.2.12 or earlier might get stuck when upgrading to version 6.2.18 or later. See [upgrade a Redis Enterprise cluster (REC)](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md#before-upgrading) for instructions.
 
 ### Upcoming Changes
 
@@ -33,11 +33,11 @@ Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that yo
 
 ## Security
 
-For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4-109 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases">}}).
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4-109 release notes](/content/operate/rs/release-notes/rs-7-4-2-releases/_index.md).
 
 ## Supported distributions
 
-The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
 

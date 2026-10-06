@@ -21,11 +21,11 @@ The most common way to transfer data to a new database is to import a copy of th
 
 Here's how it works:
 
-1.  [Select an export storage destination]({{< relref "/operate/rc/databases/back-up-data#set-up-backup-storage-locations" >}}) and verify that it's ready for use and has sufficient space.
+1.  [Select an export storage destination](/content/operate/rc/databases/back-up-data.md#set-up-backup-storage-locations) and verify that it's ready for use and has sufficient space.
 
-1.  [Export]({{< relref "/operate/rc/databases/back-up-data.md" >}}) the data from the original database to the storage location.
+1.  [Export](/content/operate/rc/databases/back-up-data.md) the data from the original database to the storage location.
 
-1.  [Import]({{< relref "/operate/rc/databases/import-data.md" >}}) the exported data into the target database, the one hosted by the new subscription.
+1.  [Import](/content/operate/rc/databases/import-data.md) the exported data into the target database, the one hosted by the new subscription.
 
 The migrated data reflects the state of the data at the time it was originally exported.  
 
@@ -51,13 +51,12 @@ To migrate data using Active-Passive syncing, specify the target database as an 
 4.  Turn off Active-Passive for the target database.
 5.  Switch apps and other connections to the target database.
 
-{{< note >}}
-Before you use Active-Passive, be aware of the following limitations:
-
-- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
-
-- Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
-{{< /note >}}
+> [!NOTE]
+> Before you use Active-Passive, be aware of the following limitations:
+>
+> - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy](/content/operate/rc/databases/configuration/data-eviction-policies.md). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
+>
+> - Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
 
 ### Detailed Active-Passive syncing process {#sync-using-active-passive}
 
@@ -65,81 +64,90 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
 1.  Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and select the target database in the list.
 
-    {{<image filename="images/rc/migrate-database-select-source.png" alt="Select the target database from the database list." >}}
+    ![Select the target database from the database list.](/images/rc/migrate-database-select-source.png)
 
 1.  From the **Configuration** tab of the target database, select **Edit**.
 
-    {{<image filename="images/rc/migrate-data-target-edit.png" alt="Use the **Edit Database** button to change the configuration of the target database." >}}
+    ![Use the **Edit Database** button to change the configuration of the target database.](/images/rc/migrate-data-target-edit.png)
 
 1.  In the **Durability** section, enable **Active-Passive Redis** and then select **Add Source**.
 
-    {{<image filename="images/rc/migrate-data-active-passive-enable.png" alt="Active-Passive settings are located in the **Durability** section of the database **Configuration** tab." >}}
+    ![Active-Passive settings are located in the **Durability** section of the database **Configuration** tab.](/images/rc/migrate-data-active-passive-enable.png)
 
-    {{<image filename="images/rc/button-database-uri-add.png" alt="Use the **Add Source** button to specify the source of the Active-Passive replica." width="150px">}}
+    ![Use the **Add Source** button to specify the source of the Active-Passive replica.](/images/rc/button-database-uri-add.png)
+    {width="150px"}
 
 1. This will open the **Add Active-Passive Redis** screen. Select where the source database is located.
 
-    {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
+    ![The Add Active-Passive Redis screen.](/images/rc/migrate-data-add-active-passive.png)
+    {width="70%"}
 
     - **Source database in this Redis Cloud account**: select **Current account**, then select the source database from the **Source database** list. You can type in the database's name to find it.
 
-        {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
+        ![Select the Source database from the database list.](/images/rc/database-add-account-path-list.png)
+        {width="70%"}
 
     - **Source database not hosted on Redis Cloud** (for example, a self-managed Redis deployment): select **External**.
 
-        {{< note >}}
-Don't select **External** to sync from a database hosted in a *different* Redis Cloud account. Redis Cloud rejects Active-Passive connections between accounts and returns an error, even if you enter that database's public endpoint here. [Contact support](https://redis.io/support/) to migrate a database between Redis Cloud accounts using Active-Passive.
-        {{< /note >}}
+        > [!NOTE]
+        > Don't select **External** to sync from a database hosted in a *different* Redis Cloud account. Redis Cloud rejects Active-Passive connections between accounts and returns an error, even if you enter that database's public endpoint here. [Contact support](https://redis.io/support/) to migrate a database between Redis Cloud accounts using Active-Passive.
+        >
 
         1.  In the **Enter the source URI** field, type `redis://` and then paste in the public endpoint details. 
 
-            {{<image filename="images/rc/migrate-data-specify-source-uri.png" alt="The source URI must be specified using the 'redis://' protocol." width=70% >}}
+            ![The source URI must be specified using the 'redis://' protocol.](/images/rc/migrate-data-specify-source-uri.png)
+            {width="70%"}
 
         1. Select if the source database requires Transport Layer Security (TLS).
         
             - If the source database requires TLS, select **TLS** and enter the public server certificate in the **Server Certificate** field.
 
-            {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
+            ![The Server Certificate field.](/images/rc/migrate-data-tls-server-cert.png)
+            {width="70%"}
 
             - If the source database requires client authentication, select **Mutual TLS**.
 
                 1. Enter the public server certificate in the **Server Certificate** field.
 
-                    {{<image filename="images/rc/migrate-data-tls-server-cert.png" alt="The Server Certificate field." width=70% >}}
+                    ![The Server Certificate field.](/images/rc/migrate-data-tls-server-cert.png)
+                    {width="70%"}
 
                 1. Select **Download** to download the client certificate. 
 
-                    {{<image filename="images/rc/migrate-data-tls-client-cert.png" alt="The Client Certificate field. Select Download to download the client certificate." width=70% >}}
+                    ![The Client Certificate field. Select Download to download the client certificate.](/images/rc/migrate-data-tls-client-cert.png)
+                    {width="70%"}
 
                 1. Configure the source database to accept the client certificate.
 
 1. Select **Save Active-Passive** to save your Active-Passive settings.
 
-    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save Active-Passive** button saves the active-passive settings." width="150px">}}
+    ![The **Save Active-Passive** button saves the active-passive settings.](/images/rc/icon-database-save-active-passive.png)
+    {width="150px"}
 
     For an external database, we'll verify the endpoint at this step. If the endpoint can't be verified, make sure that you've copied the details directly from the source database and that the value you entered starts with `redis://`.
 
 1.  Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
+    ![Use the **Save Database** button to save your changes, deploy the database, and to start data migration.](/images/rc/button-database-save.png)
+    {width="150px"}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
-    {{<image filename="images/rc/icon-database-update-status-pending.png" alt="When the status is 'Pending', your changes are still being deployed.">}}
+    ![When the status is 'Pending', your changes are still being deployed.](/images/rc/icon-database-update-status-pending.png)
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
+    ![When the status becomes 'Active', data begins to sync.](/images/rc/icon-database-status-active.png)
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
-    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
+    ![When the data is migrated, the target database status displays Synced.](/images/rc/migrate-data-status-synced.png)
+    {width="100px"}
 
 Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.
 
-{{< warning >}}
-Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations" >}}) for more information.
-{{< /warning >}}
+> [!WARNING]
+> Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations](/content/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations) for more information.
 
 ### Active-Passive memory requirements
 
@@ -149,7 +157,7 @@ To illustrate, suppose you want to migrate a 1&nbsp;GB source database without r
 
 ## Next steps
 
-If you want to redirect your application's connections to the target database, you can [redirect your database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to the target database. 
+If you want to redirect your application's connections to the target database, you can [redirect your database endpoints](/content/operate/rc/databases/redirect-endpoints.md) to the target database. 
 
 Before you redirect your endpoints, make sure:
 - The import or replication is finished.

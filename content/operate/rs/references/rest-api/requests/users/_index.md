@@ -226,9 +226,8 @@ Returns the updated [user object]({{< relref "/operate/rs/references/rest-api/ob
 }
 ```
 
-{{<note>}}
-For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}), the returned user details include `role_uids` instead of `role`.
-{{</note>}}
+> [!NOTE]
+> For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}), the returned user details include `role_uids` instead of `role`.
 
 ### Error codes {#put-error-codes}
 
@@ -289,9 +288,8 @@ POST /v1/users
 
 Include a single [user object]({{< relref "/operate/rs/references/rest-api/objects/user" >}}) in the request body. The user object must have an email, password, and role.
 
-{{<note>}}
-For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}), use `role_uids` instead of `role` in the request body.
-{{</note>}}
+> [!NOTE]
+> For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}), use `role_uids` instead of `role` in the request body.
 
 `email_alerts` can be configured either as:
 

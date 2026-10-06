@@ -57,7 +57,7 @@ Replica high availability is enabled for the cluster by default.
 
 When you create a database using the Cluster Manager UI, replica high availability is enabled for the database by default if you enable replication.
 
-{{<image filename="images/rs/screenshots/databases/config-replica-ha-enabled-7-8-2.png" alt="When you select the Replication checkbox in the High availability section of the database configuration screen, the Replica high availability checkbox is also selected by default.">}}
+![When you select the Replication checkbox in the High availability section of the database configuration screen, the Replica high availability checkbox is also selected by default.](/images/rs/screenshots/databases/config-replica-ha-enabled-7-8-2.png)
 
 To use replication without replication high availability, clear the **Replica high availability** checkbox.
 

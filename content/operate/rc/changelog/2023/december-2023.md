@@ -20,13 +20,13 @@ aliases:
 
 ### Active-Active JSON support
 
-[Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) on Redis Cloud now support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type.
+[Active-Active databases](/content/operate/rc/databases/active-active/_index.md) on Redis Cloud now support the [JSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md) data type.
 
-See [Create an Active-Active subscription]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) to learn how to create an Active-Active subscription.
+See [Create an Active-Active subscription](/content/operate/rc/databases/active-active/create-active-active-database.md) to learn how to create an Active-Active subscription.
 
 ### Mutual TLS enhancements
 
-Databases that support [Transport layer security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) now support multiple client certificates for use with mutual TLS. This makes it easier to rotate client certificates outside of a maintenance window. In addition, you can now provide a client Certificate Authority chain to trust any leaf certificate it signed for more flexibility.
+Databases that support [Transport layer security (TLS)](/content/operate/rc/security/database-security/tls-ssl.md) now support multiple client certificates for use with mutual TLS. This makes it easier to rotate client certificates outside of a maintenance window. In addition, you can now provide a client Certificate Authority chain to trust any leaf certificate it signed for more flexibility.
 
-See [Transport layer security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) to learn how to enable TLS. 
+See [Transport layer security (TLS)](/content/operate/rc/security/database-security/tls-ssl.md) to learn how to enable TLS. 
 

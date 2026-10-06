@@ -78,6 +78,18 @@
     {{- $res := .PageInner.Resources.GetMatch $path -}}
     {{- if $res -}}
       <a href="{{ printf "%s%s%s" $res.RelPermalink $query $anchor | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+    {{- else if strings.HasPrefix $dest "/content/" -}}
+      {{- /* A content path this build does not contain. A versioned build (see
+             main.yml) replaces the product's content with one version and
+             drops the rest, so links from a version page to the shared
+             release notes or to another version land here, although the
+             target is published by another build of the same site. Link to
+             where that build publishes it rather than to the `/content/`
+             source path, which is never published. Still warn: a mistyped
+             path lands here too. */ -}}
+      {{- warnf "render-link: unresolved link %q on page %q" $dest .PageInner.Path -}}
+      {{- $published := printf "%s/" (strings.TrimPrefix "/" $lookup) | relURL -}}
+      <a href="{{ printf "%s%s%s" $published $query $anchor | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
     {{- else -}}
       {{- warnf "render-link: unresolved link %q on page %q" $dest .PageInner.Path -}}
       <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>

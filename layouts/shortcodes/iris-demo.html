@@ -1,0 +1,42 @@
+{{- /*
+  iris-demo
+  ---------
+  Scripted, dependency-free tour of Redis Iris as one system, one step at
+  a time: data enters through Data Integration, then a single agent
+  request draws on LangCache, Agent Memory, and Context Retriever. Each
+  step links to that service's own demo for depth, and the last step
+  takes one service away to show what the agent loses. Runs entirely in
+  the browser; no service is called.
+
+  Usage (no arguments):
+      {{< iris-demo >}}
+
+  Base styles come from context-retriever-demo.css so the Iris demos share
+  one look; iris-demo.css adds this demo's pieces.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice if the shortcode is used more than once.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/iris-demo.css" "js/iris-demo.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/iris-demo.css" | relURL }}?v={{ index $v "css/iris-demo.css" }}">
+<script defer src="{{ "js/iris-demo.js" | relURL }}?v={{ index $v "js/iris-demo.js" }}"></script>
+
+{{- /* Links to each service's own demo, resolved here so they carry the site's base path.
+     The Data Integration demo isn't published yet, so its link goes to the overview. */}}
+{{- /* The stage draws the Iris architecture diagram from redis.io/iris, as published there. */}}
+<div class="rcr iris" data-iris
+  data-art="{{ "images/ai/context-engine/iris-diagram/" | relURL }}"
+  data-link-rdi="{{ relref .Page "/develop/ai/context-engine/data-integration" }}"
+  data-link-retriever="{{ relref .Page "/develop/ai/context-engine/context-retriever/interactive-demo" }}"
+  data-link-memory="{{ relref .Page "/develop/ai/context-engine/agent-memory/interactive-demo" }}"
+  data-link-cache="{{ relref .Page "/develop/ai/context-engine/langcache/interactive-demo" }}">
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>

@@ -13,7 +13,7 @@ url: '/operate/rs/8.0/references/metrics/auto-tiering/'
 
 The following additional metrics for [Redis Flex and Auto Tiering ](/content/operate/rs/8.0/databases/flash/_index.md) databases are available in the Redis Software Cluster Manager UI.
 
-{{<image filename="images/rs/screenshots/metrics/flash-db-metrics.png" alt="The database metrics page.">}}
+![The database metrics page.](/images/rs/screenshots/metrics/flash-db-metrics.png)
 
 #### % Values in RAM
 

@@ -46,7 +46,7 @@ Before upgrading a database:
 
     To determine the database version:
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select ![The About database button](/images/rs/icons/info-icon.png#no-click) **About**.
 
     - _(Optional)_ Use the [`rladmin status extra all`](/content/operate/rs/7.4/references/cli-utilities/rladmin/status.md) command to display configuration details:
 
@@ -102,7 +102,7 @@ To upgrade a database:
         Done
         ```
 
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) for more details.
+    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md) for more details.
 
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 
@@ -114,7 +114,7 @@ To upgrade a database:
 
     To do so:
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select ![The About database button](/images/rs/icons/info-icon.png#no-click) **About**.
 
     - Use [`rladmin status databases extra all`](/content/operate/rs/7.4/references/cli-utilities/rladmin/status.md#status-databases) to display a list of the databases in your cluster and their current Redis database compatibility version:
 

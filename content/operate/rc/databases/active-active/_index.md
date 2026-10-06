@@ -15,19 +15,18 @@ aliases:
 
 Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases.
 
-To create Active-Active databases, you need a Redis Cloud Pro subscription that enables Active-Active Redis and defines the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) for instructions.
+To create Active-Active databases, you need a Redis Cloud Pro subscription that enables Active-Active Redis and defines the regions for each copy of your databases. See [Create an Active-Active database](/content/operate/rc/databases/active-active/create-active-active-database.md) for instructions.
 
 Active-Active databases are distributed across multiple regions (geo-distribution).  This improves performance by reducing latency for nearby users and improves availability by protecting against data loss in case of network or resource failure.
 
-Active-Active databases allow read and write operations in each copy.  Each copy eventually reflects changes made in other copies ([eventual consistency]({{< relref "/glossary#eventual-consistency" >}})).  Conflict-free replicated data types (CRDTs) synchronize read and write operations between copies.  CRDTs ensure consistency and resolve conflicts.
+Active-Active databases allow read and write operations in each copy.  Each copy eventually reflects changes made in other copies ([eventual consistency](/content/glossary/_index.md#eventual-consistency)).  Conflict-free replicated data types (CRDTs) synchronize read and write operations between copies.  CRDTs ensure consistency and resolve conflicts.
 
-Active-Active databases use TLS to synchronize data between regions.  You can also use TLS to encrypt client connections.  See [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) for more information.
+Active-Active databases use TLS to synchronize data between regions.  You can also use TLS to encrypt client connections.  See [Transport Layer Security (TLS)](/content/operate/rc/security/database-security/tls-ssl.md) for more information.
 
-When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases]({{< relref "/operate/rc/databases/active-active/develop/_index.md" >}}) for related information.
+When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases](/content/operate/rc/databases/active-active/develop/_index.md) for related information.
 
-{{< note >}}
-Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions and 10 databases.
-{{< /note >}}
+> [!NOTE]
+> Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions and 10 databases.
 
 ## Active-Active geo-distributed replication highlights
 
@@ -42,9 +41,8 @@ The availability of each region depends on the number of availability zones it p
 
 An Active-Active database can combine regions with different availability zone counts. When it does, the availability of the entire deployment is determined by the least resilient region. For example, an Active-Active database that spans a region with three availability zones and a region with fewer than three availability zones provides 99.99% (four-nines) availability overall.
 
-{{< note >}}
-Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}). You'll be able to manage these databases using the Redis Cloud console after they're created.
-{{< /note >}}
+> [!NOTE]
+> Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API](/content/operate/rc/api/_index.md). You'll be able to manage these databases using the Redis Cloud console after they're created.
 
 ### Local latency with unique endpoints
 
@@ -60,15 +58,15 @@ After a failure at the process, node, or zone level, Active-Active databases aut
 
 However, Active-Active databases do not have a built-in [failover](https://en.wikipedia.org/wiki/Failover) or failback mechanism for application connections. To handle cluster-level failures, you should implement one of the following disaster recovery strategies to redirect traffic between regions:
 
-- [Network-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/network-based">}}): Global traffic managers and load balancers for routing.
+- [Network-based](/content/operate/rs/databases/active-active/disaster-recovery/network-based.md): Global traffic managers and load balancers for routing.
 
-- [Proxy-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/proxy-based">}}): Software proxies handle detection and routing logic.
+- [Proxy-based](/content/operate/rs/databases/active-active/disaster-recovery/proxy-based.md): Software proxies handle detection and routing logic.
 
-- [Client library-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/client-library-based">}}): Database client libraries with built-in failover logic.
+- [Client library-based](/content/operate/rs/databases/active-active/disaster-recovery/client-library-based.md): Database client libraries with built-in failover logic.
 
-- [Application-based]({{<relref "/operate/rc/databases/active-active/develop/app-failover-active-active">}}): Custom application-level monitoring and connectivity management.
+- [Application-based](/operate/rc/databases/active-active/develop/app-failover-active-active): Custom application-level monitoring and connectivity management.
 
-For more information and guidance on which disaster recovery strategy to implement, see [Disaster recovery strategies for Active-Active databases]({{< relref "/operate/rs/databases/active-active/disaster-recovery" >}}).
+For more information and guidance on which disaster recovery strategy to implement, see [Disaster recovery strategies for Active-Active databases](/content/operate/rs/databases/active-active/disaster-recovery/_index.md).
 
 Data automatically syncs to a recovered cluster when it returns to a healthy state.
 
@@ -78,4 +76,4 @@ Active-Active databases consume more memory than standalone databases. Because A
 
 Active-Active databases also begin evicting keys earlier than standalone databases, at 80% of an instance's memory limit, and reserve additional memory for replication backlogs. Account for these factors when you size your database.
 
-For more information, see [Memory limits and sizing]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).
+For more information, see [Memory limits and sizing](/content/operate/rc/databases/configuration/sizing.md#dataset-size).

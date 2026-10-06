@@ -59,7 +59,8 @@ The following tables list the Kubernetes distributions that Redis Enterprise for
 
 <span title="X icon">&#x274c;</span> End of life – No longer tested.
 
-{{<note>}}Each platform is tested with its default configuration, including storage, network, security, and container runtime components.{{</note>}}
+> [!NOTE]
+> Each platform is tested with its default configuration, including storage, network, security, and container runtime components.
 
 
 ## OpenShift Container Platform

@@ -22,9 +22,9 @@ Here are some general guidelines:
 
 - Memory limit represents an upper limit.  You cannot store more data than the memory limit.  Depending on your other selections, available memory for data may be less than expected.
 
-- [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) doubles memory consumption; that is, 512 MB of data requires at least 1 GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
+- [Replication](/content/operate/rc/databases/configuration/high-availability.md) doubles memory consumption; that is, 512 MB of data requires at least 1 GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
 
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) also doubles memory consumption and the effect is cumulative with the impact of replication. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
+- [Active-Active](/content/operate/rc/databases/active-active/_index.md) also doubles memory consumption and the effect is cumulative with the impact of replication. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
     Active-Active databases also have additional sizing considerations:
 
@@ -32,9 +32,9 @@ Here are some general guidelines:
 
     - Each Active-Active instance reserves a replication backlog for shard synchronization and an Active-Active replication backlog for synchronization between instances. By default, each backlog is set to 1% of the database size.
 
-- [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
+- [Advanced capabilities](/content/operate/rc/databases/configuration/advanced-capabilities.md) also consume memory. For search databases, consider index size when you size your database. See [Search and query sizing](/content/operate/rc/databases/configuration/advanced-capabilities.md#search-and-query-sizing) for more info.
 
-Memory limits in Redis Cloud are subject to the same considerations as Redis Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).
+Memory limits in Redis Cloud are subject to the same considerations as Redis Software; to learn more, see [Database memory limits](/content/operate/rs/databases/memory-performance/memory-limit.md).
 
 ## Throughput
 
@@ -48,9 +48,9 @@ We use this setting to guide the allocation of compute power and network bandwid
 
 Some factors that can affect throughput include:
 - **Request size**: Smaller requests (under 3KB) consume less network bandwidth and may result in more operations per second than requested, while larger requests may result in fewer operations per second.
-- **Command complexity**: Simple commands, like `GET` and `SET`, are faster and require fewer resources, whereas more complex commands involve more processing time and can reduce throughput. See the [Command list]({{< relref "/commands" >}}) to see which commands are more complex than others.
-- **Replication**: Using [multi-zone replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) affects throughput as each write operation is executed asynchronously in each zone.
-- **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
+- **Command complexity**: Simple commands, like `GET` and `SET`, are faster and require fewer resources, whereas more complex commands involve more processing time and can reduce throughput. See the [Command list](/content/commands) to see which commands are more complex than others.
+- **Replication**: Using [multi-zone replication](/content/operate/rc/databases/configuration/high-availability.md) affects throughput as each write operation is executed asynchronously in each zone.
+- **Security**: Some security options, such as [transport layer security](/content/operate/rc/security/database-security/tls-ssl.md), may affect throughput.
 - **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
 
 ### Optimize throughput
@@ -60,9 +60,9 @@ Here are some things to keep in mind for optimizing throughput:
 - Benchmark your app to understand what latency expectations are required, and adjust throughput accordingly.
 - Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
 - If your average request size is larger than 3KB, consider setting your throughput higher than expected. 
-- Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
-- Use [pipelining]({{< relref "/develop/using-commands/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
-- Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
+- Track the slow logs using the [`SLOWLOG` command](/content/commands/slowlog.md) or the **Slowlog** tab on the [database screen](/content/operate/rc/databases/view-edit-database.md).
+- Use [pipelining](/content/develop/using-commands/pipelining.md) and [concurrent connections](/content/develop/reference/clients.md) effectively to optimize throughput and latency.
+- Search databases have their own throughput requirements. See [Search and query sizing](/content/operate/rc/databases/configuration/advanced-capabilities.md#search-and-query-sizing) for more info.
 
 ### Frequently asked questions
 

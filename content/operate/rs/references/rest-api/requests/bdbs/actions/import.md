@@ -60,9 +60,8 @@ The request _may_ contain a subset of the [BDB JSON object]({{< relref "/operate
 | dataset_import_sources | array of [dataset_import_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}}) objects | Details for the import sources. Call [`GET /v1/jsonschema`]({{< relref "/operate/rs/references/rest-api/requests/jsonschema#get-jsonschema" >}}) on the bdb object and review the `dataset_import_sources` field to retrieve the object's structure.  |
 | email_notification | boolean | Enable/disable an email notification on import failure/ completion. (optional) |
 
-{{<note>}}
-Other attributes are not allowed and will cause the request to fail.
-{{</note>}}
+> [!NOTE]
+> Other attributes are not allowed and will cause the request to fail.
 
 ##### Example JSON body
 

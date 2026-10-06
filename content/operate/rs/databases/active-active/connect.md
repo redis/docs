@@ -22,7 +22,7 @@ Remember we have two member Active-Active databases that are available for conne
 concurrent reads and writes. The member Active-Active databases are using bi-directional
 replication to for the global Active-Active database.
 
-{{< image filename="/images/rs/crdb-diagram.png" >}}
+![](/images/rs/crdb-diagram.png)
 
 ### Connecting using redis-cli {#connecting-using-rediscli}
 

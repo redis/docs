@@ -51,7 +51,7 @@ Before you upgrade a cluster's operating system:
         db:1     db1        RedisJSON           2.4.7                                OK, OLD MODULE VERSION  
         ```
 
-    1. Upload module packages for the target OS version to a node in the existing cluster. See [Install a module on a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md) for instructions.
+    1. Upload module packages for the target OS version to a node in the existing cluster. See [Install a module on a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md) for instructions.
 
         > [!NOTE]
         > The uploaded module packages have the following requirements:

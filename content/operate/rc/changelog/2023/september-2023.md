@@ -20,7 +20,7 @@ aliases:
 
 ### RESP protocol selection
 
-For all databases using Redis 7.2, you can now choose between the RESP2 and RESP3 protocols when you [create a database]({{< relref "/operate/rc/databases/create-database" >}}). For more information about the different RESP versions, see the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions).
+For all databases using Redis 7.2, you can now choose between the RESP2 and RESP3 protocols when you [create a database](/content/operate/rc/databases/create-database/_index.md). For more information about the different RESP versions, see the [Redis serialization protocol specification](/content/develop/reference/protocol-spec.md#resp-versions).
 
 ### Opt-in to Redis 7.2
 

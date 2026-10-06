@@ -24,7 +24,7 @@ To map LDAP groups to access control roles in the Cluster Manager UI:
     > You can map LDAP roles when LDAP configuration is not enabled, but they won't have any effect until you [configure and enable LDAP](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md).
     >     
 
-    {{<image filename="images/rs/access-control-ldap-mappings-panel.png" alt="Enable LDAP mappings Panel" >}}
+    ![Enable LDAP mappings Panel](/images/rs/access-control-ldap-mappings-panel.png)
 
 1.  Select the **+ Add LDAP Mapping** button to create a new mapping and then enter the following details:
 
@@ -36,7 +36,7 @@ To map LDAP groups to access control roles in the Cluster Manager UI:
 | **Email** | _(Optional)_ An address to receive alerts|
 | **Alerts**  | Selections identifying the desired alerts. |
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/ldap-mappings-add.png" alt="Create LDAP mapping dialog" >}}
+    ![Create LDAP mapping dialog](/images/rs/screenshots/access-control/7-22-updates/ldap-mappings-add.png)
 
 1.  When finished, select the **Save** button.
 

@@ -18,7 +18,7 @@ A pipeline reset clears the internal RDI state for all sources, including their 
 
 A reset does **not** flush the target Redis database. Records already in the target remain until RDI overwrites or deletes them through normal processing. Keys that are no longer produced by the current dataset or transformations can remain in the target after a reset. For example, changing a transformation's key prefix and resetting creates keys with the new prefix without deleting keys with the old prefix.
 
-See [Reset data pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) for the steps.
+See [Reset data pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) for the steps.
 
 ### What happens when I flush the target database?
 
@@ -26,13 +26,13 @@ See [Reset data pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipel
 
 Flushing does not clear RDI's saved source positions. If you only start the pipeline afterwards, it resumes from those positions. It does not automatically reload records that have not changed in the source.
 
-See [Flush the target database]({{< relref "/operate/rc/rdi/view-edit#flush-the-target-database" >}}).
+See [Flush the target database](/content/operate/rc/rdi/view-edit.md#flush-the-target-database).
 
 ### How do I reload data after a flush? {#reload-after-flush}
 
 1. Wait for the flush to finish.
-1. [Reset the pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) while it is stopped, and wait for the reset to finish.
-1. [Start the pipeline]({{< relref "/operate/rc/rdi/view-edit#stop-and-restart-data-pipeline" >}}) to take new snapshots of the selected data from all sources.
+1. [Reset the pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) while it is stopped, and wait for the reset to finish.
+1. [Start the pipeline](/content/operate/rc/rdi/view-edit.md#stop-and-restart-data-pipeline) to take new snapshots of the selected data from all sources.
 1. Check each source's initial sync progress and record counts on the **Dashboard** and **Metrics** tabs. Wait for initial sync to finish before relying on the target as a complete copy of the selected data.
 
 RDI reloads data available in the source databases using the current dataset and transformation settings. It cannot restore data that existed only in the target.
@@ -45,23 +45,23 @@ RDI clears the selected source's internal state and takes a new snapshot of its 
 
 All records already in the target remain, including records from the reset source. The new snapshot can overwrite that source's records. Resetting a source does not selectively delete its target data.
 
-See [Reset a source]({{< relref "/operate/rc/rdi/view-edit#reset-source" >}}).
+See [Reset a source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 ### Can I flush data for a single source? {#flush-one-source}
 
 Currently, RDI cannot flush target data for a single source. Connect to the target Redis database and selectively delete the records you want to remove. Identify them from your key naming and transformation rules, and check that other sources do not write to the same keys. Do not use **Flush target database** for this purpose: it deletes data for all sources.
 
-Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, [reset that source]({{< relref "/operate/rc/rdi/view-edit#reset-source" >}}).
+Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, [reset that source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 ### Does deleting a source delete its target data?
 
-No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source]({{< relref "/operate/rc/rdi/view-edit#remove-source" >}}).
+No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source](/content/operate/rc/rdi/view-edit.md#remove-source).
 
 ## Upgrades and maintenance
 
 ### What happens during an RDI Cloud upgrade?
 
-Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window]({{< relref "/operate/rc/rdi#maintenance-windows" >}}).
+Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window](/content/operate/rc/rdi/_index.md#maintenance-windows).
 
 During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. A streaming pipeline then resumes from its saved state and processes the changes accumulated during the interruption.
 
@@ -108,4 +108,4 @@ Yes. RDI usage is based on the running collectors and processor replicas, not th
 
 Creating a workspace or saving a setup draft does not start RDI usage billing. Billing starts when a pipeline is deployed. Stopping the pipeline reduces usage to the workspace charge. Deleting the deployed pipeline ends new RDI usage when no deployed pipelines remain in the workspace; usage already recorded for the hour can still be billed.
 
-Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/rc/rdi/create-workspace#delete-workspace" >}}) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.
+Delete an unused pipeline and then [delete its workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.

@@ -274,5 +274,6 @@ See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-servic
 ## Next steps
 
 * Review the [Python SDK package and reference](https://pypi.org/project/redis-agent-memory/).
+* Generate a complete conversational agent with the [AI agent builder](/content/develop/ai/agent-builder/_index.md). Select **Redis Iris Conversational Assistant** and **Python**.
 * Try the [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md) or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).
 * Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).
