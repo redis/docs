@@ -39,7 +39,7 @@ Each Radar release publishes standalone agent tarballs, so a collector host runs
 
 Install the agent on a host that can reach both Radar and the Redis endpoints you want to collect from.
 
-1. Get the tarball for your platform from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
+1. Get the tarball for your platform from the [Redis Download Center](https://redis.io/downloads/#Modules_Tools_and_Integration).
 
    Take the `radar-agent-fips-` build only if you require Federal Information Processing Standards (FIPS) 140-3. It refuses to start unless FIPS 140-3 mode is active in its runtime.
 
