@@ -14,6 +14,29 @@ This page lists what changed in each Redis Radar release on Redis Cloud. Redis C
 
 To get started with Redis Cloud's hosted Radar, see [Redis Radar on Redis Cloud]({{< relref "/operate/rc/radar" >}}).
 
+## 2026.10.1
+
+Radar adds readable alert descriptions and a complete usage export, and fixes stale indicators and gaps in Redis Cloud discovery.
+
+### New features
+
+- **Alert descriptions.** Redis Software alerts now include a readable description and, where the cluster reports one, the measured value.
+- **Complete usage export.** The **Usage** CSV export now includes the retained raw usage fields and nested data. The export redacts sensitive data and protects against spreadsheet formulas.
+- **Managed-agent audit records.** Radar now records audit events for managed-agent activation decisions, source changes, assignment updates, and failed administrative requests.
+
+### Bug fixes
+
+- **Freshness reporting.** Cluster and Overview freshness now follows each source's collection interval. Amazon ElastiCache freshness metrics stay consistent across worker replicas.
+- **Redis Cloud discovery.** Fixed a pagination issue that could make a Redis Cloud Pro subscription with databases appear empty.
+- **Collection reliability.** Radar retries a Redis Cloud API read once when it fails with a transient error. A slow Redis Software alert request no longer interrupts health collection.
+- **Interface and observability.** The Redis Cloud connection fields are now labeled **API account key** and **API user key**. The nonfunctional Telemetry settings are removed. Agent gRPC observability outcomes are corrected.
+- **Navigation.** Existing `/overview` launch URLs now redirect to the dashboard.
+
+### Performance and maintenance
+
+- Radar skips health reads that aren't needed by Active-Active.
+- Updated backend, frontend, and build dependencies.
+
 ## 2026.9.2
 
 Redis Radar becomes available in Redis Cloud. Sign in with your existing Redis Cloud credentials; there's nothing to install. Radar gives you one fleet-wide view of every Redis cluster you run.

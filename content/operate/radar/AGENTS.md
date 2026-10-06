@@ -66,9 +66,10 @@ to Clusters for either provider sends them somewhere the resource does not appea
   `title: Redis Radar release notes 2026.9.5` and `linkTitle: 2026.9.5`.
 - **Self-managed notes carry the `self-managed` tag.** Keep it; it is what separates them
   from hosted content.
-- **Hosted changes go in the Cloud changelog, which carries no version numbers** —
-  hosted Radar ships continuously, so there is no build for a reader to match. Do not add
-  version headings to it, and do not fold a hosted change into a versioned note.
+- **Hosted changes go in the Cloud changelog, one section per release, headed by its
+  version** — `## 2026.10.1`. Hosted Radar rolls out automatically, so the heading
+  identifies the release rather than a build to download. Do not fold a hosted change
+  into a versioned self-managed note.
 
 ## Document current behavior only
 

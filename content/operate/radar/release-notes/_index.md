@@ -36,5 +36,6 @@ Install a new release when you're ready to upgrade. See [Install Radar]({{< relr
 
 | Release                                                            | Support track | What changed                         |
 |--------------------------------------------------------------------|---------------|--------------------------------------|
+| [2026.10.1]({{< relref "/operate/radar/release-notes/2026-10-1" >}}) | STS           | Alert descriptions, complete usage exports, and air-gapped OpenShift installs. |
 | [2026.9.5]({{< relref "/operate/radar/release-notes/2026-9-5" >}}) | STS           | Connect clusters with an agent.      |
 | [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release.                     |
