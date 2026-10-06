@@ -1,0 +1,127 @@
+/* Dark theme for the Redis Iris docs space.
+   Loaded by baseof.html only on Iris pages (see partials/is-iris-page.html),
+   which also add the iris-dark class to <body>. Everything is scoped to <main>
+   so the header, footer, and search modal keep their own styling. */
+
+body.iris-dark {
+  --iris-bg: #091A23;
+  --iris-surface: #0D212C;
+  --iris-surface-hover: #163341;
+  --iris-border: #3d5866;
+  --iris-text: #d8e3e8;
+  --iris-heading: #ffffff;
+  --iris-muted: #8A99A0;
+  --iris-accent: #FF4438;
+  background-color: var(--iris-bg);
+  color: var(--iris-text);
+}
+
+/* Page, sidebar, and content backgrounds */
+body.iris-dark main,
+body.iris-dark main #sidebar,
+body.iris-dark main .bg-white {
+  background-color: var(--iris-bg);
+}
+
+/* Text colors */
+body.iris-dark main .text-redis-ink-900,
+body.iris-dark main .text-slate-700,
+body.iris-dark main .text-slate-800 {
+  color: var(--iris-text);
+}
+body.iris-dark main .text-redis-pen-700,
+body.iris-dark main .text-redis-pen-600,
+body.iris-dark main .text-slate-600,
+body.iris-dark main .text-slate-500 {
+  color: var(--iris-muted);
+}
+body.iris-dark main a.text-redis-pen-700:hover,
+body.iris-dark main .hover\:text-redis-pen-600:hover,
+body.iris-dark main .hover\:text-redis-red-500:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #sidebar a.active {
+  color: var(--iris-heading);
+}
+
+/* Borders */
+body.iris-dark main .border-redis-ink-900,
+body.iris-dark main .border-redis-pen-800,
+body.iris-dark main .border-redis-pen-300,
+body.iris-dark main .border-slate-100,
+body.iris-dark main .border-slate-200,
+body.iris-dark main .border-slate-300 {
+  border-color: var(--iris-border);
+}
+
+/* Hover and light-tint backgrounds */
+body.iris-dark main .bg-slate-50,
+body.iris-dark main .bg-redis-pen-200 {
+  background-color: var(--iris-surface);
+}
+body.iris-dark main .hover\:bg-redis-pen-200:hover,
+body.iris-dark main .hover\:bg-slate-50:hover,
+body.iris-dark main .hover\:bg-slate-100:hover {
+  background-color: var(--iris-surface-hover);
+}
+
+/* Prose (article body). Tailwind Typography reads these variables. */
+body.iris-dark main .prose {
+  color: var(--iris-text);
+  --tw-prose-body: var(--iris-text);
+  --tw-prose-headings: var(--iris-heading);
+  --tw-prose-lead: var(--iris-text);
+  --tw-prose-links: var(--iris-heading);
+  --tw-prose-bold: var(--iris-heading);
+  --tw-prose-counters: var(--iris-muted);
+  --tw-prose-bullets: var(--iris-muted);
+  --tw-prose-hr: var(--iris-border);
+  --tw-prose-quotes: var(--iris-text);
+  --tw-prose-quote-borders: var(--iris-border);
+  --tw-prose-captions: var(--iris-muted);
+  --tw-prose-code: var(--iris-heading);
+  --tw-prose-th-borders: var(--iris-border);
+  --tw-prose-td-borders: var(--iris-border);
+}
+body.iris-dark main .prose a:hover {
+  color: var(--iris-accent);
+}
+body.iris-dark main .prose h2 {
+  border-color: var(--iris-border);
+}
+body.iris-dark main .prose :not(pre) > code {
+  background-color: var(--iris-surface);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+}
+body.iris-dark main .prose pre {
+  border: 1px solid var(--iris-border);
+}
+body.iris-dark main .prose th {
+  background-color: var(--iris-surface);
+}
+
+/* Preview banner */
+body.iris-dark main .banner-article {
+  background-color: var(--iris-surface);
+  border-left: 3px solid #DCFF1E;
+  color: var(--iris-text);
+}
+
+/* Tile cards */
+body.iris-dark main article.hover\:bg-red-50\/50:hover,
+body.iris-dark main article.focus-within\:bg-red-50\/50:focus-within {
+  background-color: var(--iris-surface-hover);
+}
+body.iris-dark main article.hover\:text-red-900:hover,
+body.iris-dark main article.focus-within\:text-red-900:focus-within {
+  color: var(--iris-heading);
+}
+
+/* Heading anchor links */
+body.iris-dark main .header-link {
+  color: var(--iris-muted);
+}
+body.iris-dark main .header-link:hover {
+  color: var(--iris-heading);
+}

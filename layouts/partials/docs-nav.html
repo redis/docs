@@ -216,6 +216,26 @@
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
+    {{/* Redis Iris pages live under both Develop and Operate. Anywhere inside either
+         tree, the sidebar shows only the Iris pages, with a link back to the full docs. */}}
+    {{ $irisDevelop := site.GetPage "/develop/ai/context-engine" -}}
+    {{ $irisOperate := site.GetPage "/operate/iris" -}}
+    {{ if partial "is-iris-page.html" . }}
+      <a class="px-6 text-redis-pen-700 hover:text-redis-pen-600" href='{{ relURL "develop" }}'>&larr; All documentation</a>
+      <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col'>
+        <span class='px-6 py-4 font-bold'>Redis Iris context engine</span>
+        <div class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+          <a class='pl-6 mt-4 flex {{ if eq . $irisDevelop }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisDevelop.RelPermalink }}'>GET STARTED</a>
+          <ul>
+            {{ template "li" (dict "page" . "pages" (union $irisDevelop.Pages $irisDevelop.Sections).ByWeight) }}
+          </ul>
+          <a class='pl-6 mt-6 flex {{ if eq . $irisOperate }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisOperate.RelPermalink }}'>DEPLOY &amp; OPERATE</a>
+          <ul class="mb-4">
+            {{ template "li" (dict "page" . "pages" (union $irisOperate.Pages $irisOperate.Sections).ByWeight) }}
+          </ul>
+        </div>
+      </div>
+    {{ else }}
       {{/* data-offline-hide marks whatever a downloadable HTML copy should not show
            (see build/make_doc_bundles.py). A bundle holds one product, so its copy
            keeps only the section the page belongs to: the other products' links lead
@@ -249,6 +269,7 @@
           </ul>
         {{ end }}
       </div>
+    {{ end }}
     <div class="mt-4 shrink-0 md:mt-auto md:pb-4">
       {{ partialCached "download-docs-trigger.html" (dict
            "title" "Download documentation"
@@ -268,7 +289,7 @@
     const activeLink = sidebar.querySelector('a.active');
     if (activeLink) {
       // Find the scrollable UL container that contains the active link
-      const scrollContainer = activeLink.closest('ul.overflow-y-auto');
+      const scrollContainer = activeLink.closest('.overflow-y-auto');
 
       if (scrollContainer) {
         // Get the position of the active link relative to its scrollable container
