@@ -35,7 +35,7 @@ without writing any pipeline code, see
 Both types of batch run on a separate pool of connections that the client keeps
 for them, so a burst of batches doesn't compete with your ordinary commands for
 the same connections. See
-[Connection pooling]({{< relref "/develop/clients/go/produsage#connection-pooling" >}})
+[Connection pooling](/content/develop/clients/go/produsage.md#connection-pooling)
 for how to size that pool.
 
 ## Execute a pipeline
