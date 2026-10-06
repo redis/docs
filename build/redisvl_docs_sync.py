@@ -881,14 +881,104 @@ def copy_tree_into(src: Path, dst: Path) -> None:
             shutil.copy2(entry, target)
 
 
+_ALIAS_ITEM_RE = re.compile(r"^\s*-\s+(.+?)\s*$")
+
+
+def _alias_block(lines: list[str]) -> tuple[int, int] | None:
+    """Locate the frontmatter ``aliases:`` block list as (key, end) indices.
+
+    ``end`` is one past the last ``- item`` line. Returns None when there is no
+    frontmatter or no ``aliases`` key; raises ValueError when the key exists but
+    is not a block list (scalar, inline list, or empty), since guessing at those
+    shapes could drop a live redirect.
+    """
+    if not lines or lines[0].strip() != "---":
+        return None
+    for i in range(1, len(lines)):
+        if lines[i].strip() == "---":
+            return None
+        if lines[i].startswith("aliases:"):
+            if lines[i].strip() != "aliases:":
+                raise ValueError(f"aliases is not a block list: {lines[i].strip()!r}")
+            end = i + 1
+            while end < len(lines) and _ALIAS_ITEM_RE.match(lines[end]):
+                end += 1
+            if end == i + 1:
+                raise ValueError("aliases key has no items")
+            return i, end
+    return None
+
+
+def read_aliases(path: Path) -> list[str]:
+    """Return the aliases declared in a page's frontmatter, in order."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    block = _alias_block(lines)
+    if block is None:
+        return []
+    key, end = block
+    return [_ALIAS_ITEM_RE.match(line).group(1).strip("'\"")
+            for line in lines[key + 1:end]]
+
+
+def merge_aliases(path: Path, extra: list[str]) -> None:
+    """Append any of ``extra`` the page does not already declare."""
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    block = _alias_block(lines)
+    if block is None:
+        raise ValueError(f"{path}: no aliases block to merge into")
+    key, end = block
+    present = set(read_aliases(path))
+    missing = [a for a in extra if a not in present]
+    if not missing:
+        return
+    lines[end:end] = [f"- {a}" for a in missing]
+    path.write_text("\n".join(lines) + ("\n" if text.endswith("\n") else ""),
+                    encoding="utf-8")
+
+
+def collect_existing_aliases(staging: Path, dest: Path) -> dict[Path, list[str]]:
+    """Read the aliases of every page in ``dest`` that ``staging`` will overwrite.
+
+    format_page writes only the computed /integrate/redisvl/... alias, so any
+    alias added later -- by hand, or by the alias_check workflow when a page
+    moves -- would otherwise be deleted on every sync, and alias_check would
+    then propose it again (DOC-7155).
+    """
+    found: dict[Path, list[str]] = {}
+    for page in sorted(staging.rglob("*.md")):
+        rel = page.relative_to(staging)
+        existing = dest / rel
+        if not existing.exists():
+            continue
+        try:
+            aliases = read_aliases(existing)
+        except ValueError as exc:
+            print(f"  ! {existing}: {exc}; its aliases are not preserved", flush=True)
+            continue
+        if aliases:
+            found[rel] = aliases
+    return found
+
+
+def restore_aliases(found: dict[Path, list[str]], dest: Path) -> None:
+    for rel, aliases in found.items():
+        try:
+            merge_aliases(dest / rel, aliases)
+        except ValueError as exc:
+            print(f"  ! {exc}; its aliases are not preserved", flush=True)
+
+
 def write_to_destination(staging: Path, repo_dir: Path, version: str, *, is_latest: bool) -> None:
     """Final step 14 of the bash pipeline."""
     if is_latest:
+        preserved = collect_existing_aliases(staging, CONTENT_BASE)
         for sub in ("api", "user_guide", "overview", "concepts"):
             target = CONTENT_BASE / sub
             if target.exists():
                 shutil.rmtree(target)
         copy_tree_into(staging, CONTENT_BASE)
+        restore_aliases(preserved, CONTENT_BASE)
         arch_svg = repo_dir / "docs/_static/redisvl-architecture.svg"
         if arch_svg.exists():
             STATIC_BASE.mkdir(parents=True, exist_ok=True)
