@@ -103,3 +103,10 @@ Redis.
 > only when Kubernetes NetworkPolicy, private service exposure, ingress/gateway
 > policy, service mesh, or equivalent controls restrict access to trusted
 > components.
+
+## Connect Playbook
+
+Use [Connect Playbook extraction](/content/operate/iris/agent-memory/self-managed/playbook-extraction.md)
+to authorize Playbook to read a tenant-owned store and configure its binding. The
+[Playbook binding API reference](/content/operate/iris/agent-memory/self-managed/playbook-binding-api-reference.md)
+documents the management endpoints.

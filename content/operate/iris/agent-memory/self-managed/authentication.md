@@ -135,6 +135,71 @@ Authorization: Bearer <agent-key>
 
 Treat agent keys as opaque credentials. Do not parse their contents.
 
+## Authenticate external services
+
+Use service-subject authentication when another service, such as Redis Agent
+Playbook, reads a store using its own Kubernetes ServiceAccount. Redis Agent Memory
+validates the token's issuer, JSON Web Key Set (JWKS), audience, expiry, and exact
+subject. Identity Service supplies store grants for the validated identity. A
+trusted subject still needs `read` on the requested store, and the grant's tenant
+must own that store.
+
+Service subjects use Identity Service grants. Redis Agent Memory's own
+`auth.worker_identity` configuration is a separate mechanism for its internal
+worker callbacks.
+
+Add these Helm values to a deployment with Control Plane managed stores and
+agent-key authentication. Replace the issuer, JWKS address, namespace, and
+ServiceAccount names with those for your cluster:
+
+```yaml
+memory:
+  auth:
+    method: agent_key
+    service_subjects:
+      enabled: true
+      issuer: https://<serviceaccount-issuer>
+      jwks_uri: https://<jwks-host>/openid/v1/jwks
+      audience: [api://memory-dp]
+      subjects:
+        - system:serviceaccount:<namespace>:<playbook-controlplane-serviceaccount>
+        - system:serviceaccount:<namespace>:<playbook-worker-serviceaccount>
+identityService:
+  subjectGrants:
+    allowed:
+      - product: memory
+        resourceType: mem-store
+        actions: [read]
+  runtime:
+    serviceCredentials:
+      - name: memory-dp
+        subject: memory-dp
+        secretKey: token
+        autoGenerate: true
+        allowedOperations: [api-key-introspect, subject-grant-lookup]
+        allowedProducts: [memory]
+```
+
+An empty `identityService.subjectGrants.allowed` list denies service-subject
+grants. Supported policy shapes are `memory` / `mem-store`, with `read`, `write`,
+or `full` actions. Combine actions in one entry; duplicate policy shapes are
+rejected. Use `read` for extraction. The runtime credential needs
+`subject-grant-lookup` as well as `api-key-introspect`.
+
+For file-based Data Plane configuration, put the same `service_subjects` block
+under root `auth`, rather than `memory.auth`. Ensure Redis Agent Memory can fetch
+the issuer's JWKS. For an internal certificate authority, configure the chart's
+`tls.caCertSecret`. A private Kubernetes issuer also needs unauthenticated discovery
+and JWKS access; the JWKS client does not send Kubernetes credentials.
+
+Use tenant-specific service identities. One issuer/subject/product identity cannot
+span tenants. Identity Service verifies store ownership with the Redis Agent
+Memory Control Plane before accepting a grant. Runtime grant caches have a hard
+expiry: deleting a grant does not immediately flush cached access.
+
+See [Connect Playbook extraction](/content/operate/iris/agent-memory/self-managed/playbook-extraction.md)
+for the other side of the connection and the binding lifecycle.
+
 ## Store authorization and grants
 
 For agent-key requests, Redis Agent Memory checks both identity and resource
