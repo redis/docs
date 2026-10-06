@@ -217,23 +217,33 @@
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
     {{/* Redis Iris pages live under both Develop and Operate. Anywhere inside either
-         tree, the sidebar shows only the Iris pages, with a link back to the full docs. */}}
+         tree, the sidebar shows only the Iris pages, with a link back to the full docs.
+         The two halves ship in different offline bundles (develop and operate/iris), so
+         data-offline-hide can't mark either one. Instead the back link and each group
+         are list items: prune_sidebar in build/make_doc_bundles.py drops any item whose
+         links all lead outside the bundle. */}}
     {{ $irisDevelop := site.GetPage "/develop/ai/context-engine" -}}
     {{ $irisOperate := site.GetPage "/operate/iris" -}}
     {{ if partial "is-iris-page.html" . }}
-      <a class="px-6 text-redis-pen-700 hover:text-redis-pen-600" href='{{ relURL "develop" }}'>&larr; All documentation</a>
+      <ul>
+        <li><a class="px-6 text-redis-pen-700 hover:text-redis-pen-600" href='{{ relURL "develop" }}'>&larr; All documentation</a></li>
+      </ul>
       <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col'>
         <span class='px-6 py-4 font-bold'>Redis Iris context engine</span>
-        <div class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
-          <a class='pl-6 mt-4 flex {{ if eq . $irisDevelop }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisDevelop.RelPermalink }}'>GET STARTED</a>
-          <ul>
-            {{ template "li" (dict "page" . "pages" (union $irisDevelop.Pages $irisDevelop.Sections).ByWeight) }}
-          </ul>
-          <a class='pl-6 mt-6 flex {{ if eq . $irisOperate }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisOperate.RelPermalink }}'>DEPLOY &amp; OPERATE</a>
-          <ul class="mb-4">
-            {{ template "li" (dict "page" . "pages" (union $irisOperate.Pages $irisOperate.Sections).ByWeight) }}
-          </ul>
-        </div>
+        <ul class="md:block overflow-y-auto grow pr-6 pb-4 border-t border-opacity-50 border-redis-ink-900">
+          <li>
+            <a class='pl-6 mt-4 flex {{ if eq . $irisDevelop }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisDevelop.RelPermalink }}'>GET STARTED</a>
+            <ul>
+              {{ template "li" (dict "page" . "pages" (union $irisDevelop.Pages $irisDevelop.Sections).ByWeight) }}
+            </ul>
+          </li>
+          <li>
+            <a class='pl-6 mt-6 flex {{ if eq . $irisOperate }} active font-bold text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}' href='{{ $irisOperate.RelPermalink }}'>DEPLOY &amp; OPERATE</a>
+            <ul>
+              {{ template "li" (dict "page" . "pages" (union $irisOperate.Pages $irisOperate.Sections).ByWeight) }}
+            </ul>
+          </li>
+        </ul>
       </div>
     {{ else }}
       {{/* data-offline-hide marks whatever a downloadable HTML copy should not show

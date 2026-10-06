@@ -16,6 +16,11 @@ body.iris-dark {
   color: var(--iris-text);
 }
 
+/* Native controls (selects, textareas, scrollbars, dialogs) follow the theme */
+body.iris-dark main {
+  color-scheme: dark;
+}
+
 /* Page, sidebar, and content backgrounds */
 body.iris-dark main,
 body.iris-dark main #sidebar,
@@ -42,6 +47,19 @@ body.iris-dark main .hover\:text-redis-red-500:hover {
 }
 body.iris-dark main #sidebar a.active {
   color: var(--iris-heading);
+}
+/* index.css hard-codes these to redis-ink-900 */
+body.iris-dark main .child-list a:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a.active {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a.active::before {
+  background-color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents.docs-toc a.active::before {
+  background-color: var(--iris-accent);
 }
 
 /* Borders */
@@ -83,6 +101,11 @@ body.iris-dark main .prose {
   --tw-prose-th-borders: var(--iris-border);
   --tw-prose-td-borders: var(--iris-border);
 }
+/* index.css sets list markers to redis-ink-900 directly, so the prose variables
+   don't reach them. */
+body.iris-dark main .prose li::marker {
+  color: var(--iris-text);
+}
 body.iris-dark main .prose a:hover {
   color: var(--iris-accent);
 }
@@ -108,6 +131,38 @@ body.iris-dark main .banner-article {
   color: var(--iris-text);
 }
 
+/* Callouts: note, tip, info, and warning shortcodes and > [!NOTE] blockquotes */
+body.iris-dark main .alert {
+  background-color: var(--iris-surface);
+  border: 1px solid var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark main .alert .border-l-redis-ink-900 {
+  border-left-color: var(--iris-border);
+}
+
+/* Multitabs shortcode */
+body.iris-dark main .generic-tabs .tab-nav,
+body.iris-dark main .generic-tabs .tab-label {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+  color: var(--iris-muted);
+}
+body.iris-dark main .generic-tabs .tab-label:hover {
+  background-color: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+body.iris-dark main .generic-tabs .tab-radio:checked + .tab-label,
+body.iris-dark main .generic-tabs .tab-content {
+  background-color: var(--iris-bg);
+  border-color: var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark main .generic-tabs .tab-radio:checked + .tab-label {
+  border-bottom-color: var(--iris-bg);
+  color: var(--iris-heading);
+}
+
 /* Tile cards */
 body.iris-dark main article.hover\:bg-red-50\/50:hover,
 body.iris-dark main article.focus-within\:bg-red-50\/50:focus-within {
@@ -116,6 +171,137 @@ body.iris-dark main article.focus-within\:bg-red-50\/50:focus-within {
 body.iris-dark main article.hover\:text-red-900:hover,
 body.iris-dark main article.focus-within\:text-red-900:focus-within {
   color: var(--iris-heading);
+}
+
+/* Tile card icons are dark line art on a transparent background. Inverting and
+   rotating the hue back by 180deg makes the lines light and keeps the red accent red. */
+body.iris-dark main article img.h-4 {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Screenshots. Matches the rounded-lg a few pages already set. Inline UI icons
+   (img-inline), tile card icons, and demo artwork stay as they are. */
+body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img) {
+  border-radius: 0.5rem;
+}
+
+/* Concept diagrams are Mermaid SVG exports with a white background baked in.
+   The same invert and hue rotation turns them dark and keeps the red outlines red. */
+/* iris-diagram/ holds the interactive demo's artwork, which is already dark. */
+body.iris-dark main .prose img[src*="/images/ai/context-engine/"]:not([src*="/iris-diagram/"]) {
+  filter: invert(1) hue-rotate(180deg);
+  border-radius: 0.75rem;
+}
+
+/* The "Copied!" bubble on code copy buttons keeps its light background, so it
+   needs its dark text back after the text-slate-800 remap. */
+body.iris-dark main .tooltiptext.text-slate-800 {
+  color: #1e293b;
+}
+
+/* Service demos (Context Retriever, Agent Memory, LangCache, Data Integration).
+   All four build on the .rcr tokens in context-retriever-demo.css, so swapping the
+   tokens darkens them; the rest covers colors those files hard-code. */
+body.iris-dark main .rcr {
+  --rcr-ink: #d8e3e8;
+  --rcr-muted: #a9b8bf;
+  --rcr-faint: #8a99a0;
+  --rcr-line: #2a4250;
+  --rcr-line-strong: #3d5866;
+  --rcr-surface: #0D212C;
+  --rcr-surface-2: #163341;
+  --rcr-code-bg: #091A23;
+  --rcr-accent-2: #7c83ff;
+  --rcr-ok: #3ccf8e;
+  --rcr-bad: #ff6b6b;
+  --rlc-warn: #f0a04b;
+  --rdi-warn: #f0a04b;
+}
+/* Ink doubles as a background on selected tabs and user messages, which now read
+   as light pills, so their text takes the page color. */
+body.iris-dark main .rcr-tab[aria-selected="true"],
+body.iris-dark main .rcr-user,
+body.iris-dark main .ram-role-user {
+  color: var(--iris-bg);
+}
+body.iris-dark main .rcr .rcr-btn,
+body.iris-dark main .rcr .rcr-input,
+body.iris-dark main .rcr .rcr-select,
+body.iris-dark main .rcr .rcr-chip,
+body.iris-dark main .rcr .rcr-call,
+body.iris-dark main .rcr .rcr-n,
+body.iris-dark main .rcr .rlc-llm,
+body.iris-dark main .rcr .rdi-step {
+  background-color: var(--rcr-surface-2);
+}
+body.iris-dark main .rcr .rcr-btn-primary {
+  background-color: var(--rcr-accent);
+}
+body.iris-dark main .rcr .rcr-connrow code,
+body.iris-dark main .rcr .rdi-option code {
+  background-color: var(--rcr-code-bg);
+}
+body.iris-dark main .rcr .rcr-jk,
+body.iris-dark main .rcr .rdi-hash td:first-child,
+body.iris-dark main .rcr .rdi-dfield {
+  color: #9aa0ff;
+}
+body.iris-dark main .rcr .rcr-js,
+body.iris-dark main .rcr .rdi-hash td:last-child {
+  color: #3ccf8e;
+}
+body.iris-dark main .rcr .rcr-jn,
+body.iris-dark main .rcr .ram-type-episodic {
+  color: #f0a04b;
+}
+body.iris-dark main .rcr .rcr-jl {
+  color: #ff6b6b;
+}
+
+/* The Iris overview demo is also .rcr. Its highlighter chips and reply parts keep
+   their pastel service colors, so the text on them stays dark. */
+body.iris-dark main .iris .iris-chip,
+body.iris-dark main .iris .iris-src,
+body.iris-dark main .iris .iris-reply.is-picking .iris-src.is-on {
+  color: var(--iris-bg);
+}
+body.iris-dark main .iris .iris-replymsg,
+body.iris-dark main .iris .iris-memtype,
+body.iris-dark main .iris .iris-with,
+body.iris-dark main .iris .iris-without,
+body.iris-dark main .iris .iris-check {
+  background-color: var(--rcr-surface-2);
+}
+body.iris-dark main .iris .iris-fact code {
+  background-color: var(--rcr-code-bg);
+}
+body.iris-dark main .iris .iris-reply.is-picking .iris-replymsg {
+  color: #6f8189;
+}
+
+/* Download documentation dialog. It renders inside the sidebar, so the text and
+   border remaps apply to it; without its own surface it keeps the browser's
+   light canvas and the remapped light text loses contrast. */
+body.iris-dark main #download-docs-dialog {
+  background-color: var(--iris-surface);
+  color: var(--iris-text);
+  border: 1px solid var(--iris-border);
+}
+body.iris-dark main #download-docs-dialog .bg-white {
+  background-color: var(--iris-bg);
+}
+body.iris-dark main #download-docs-dialog .bg-slate-50 {
+  background-color: var(--iris-surface-hover);
+}
+
+/* Page feedback comment box */
+body.iris-dark main #page-feedback textarea {
+  background-color: var(--iris-surface);
+  color: var(--iris-text);
+  border-color: var(--iris-border);
+}
+body.iris-dark main #page-feedback textarea::placeholder {
+  color: var(--iris-muted);
 }
 
 /* Heading anchor links */
