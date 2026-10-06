@@ -113,7 +113,7 @@ under `dataplane.embedding`.
 ## Before you install: check your values
 
 Check each item before you install and before you mint a key. If one is wrong, you see the symptom
-in its row.
+in its row. The rows are checklist items LC-CL-1 to LC-CL-3.
 
 {{< table-scrollable >}}
 | Row | Check | Symptom | Fix |

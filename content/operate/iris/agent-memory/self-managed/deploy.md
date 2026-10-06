@@ -237,7 +237,7 @@ No external model provider? To try the API with local models, see [Evaluate loca
 ## Before you install: check your values
 
 Check each value in `ram-values.yaml` before you install. If one is wrong, you see the symptom in
-its row.
+its row. The rows are checklist items CL-1 to CL-6.
 
 {{< table-scrollable >}}
 | Row | Check | Symptom | Fix |
@@ -361,11 +361,6 @@ The first long-term memories appear up to 5 minutes after the session events, be
 runs at the end of a clock-aligned 300-second window. To shorten the wait, set
 `extractionCadence.activeIntervalSeconds` (60–600) on the store. No API triggers promotion.
 
-## Next steps
-
-- [API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md) for the full API.
-- [Operations](/content/operate/iris/agent-memory/self-managed/operations.md) for key rotation.
-
 ## Evaluate locally
 
 This setup runs with no external model provider. The `noop` embedder produces meaningless vectors,
@@ -469,3 +464,8 @@ controlplane:
 `api_key: ollama` is a placeholder. The client requires a key, and Ollama ignores it.
 
 In `overlay.yaml`, remove `embedders_connection_details.openai` and both `api_key` entries.
+
+## Next steps
+
+- [API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md) for the full API.
+- [Operations](/content/operate/iris/agent-memory/self-managed/operations.md) for key rotation.

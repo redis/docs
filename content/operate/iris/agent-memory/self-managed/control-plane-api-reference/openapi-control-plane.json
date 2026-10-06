@@ -1,14 +1,14 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "MemoryService",
+        "title": "Redis Agent Memory Control Plane API reference",
         "version": "1.0.0",
-        "description": "Admin API for the on-prem Redis Agent Memory control plane.\n\nAuthentication: every endpoint requires `Authorization: Bearer <admin-token>` — a single static\noperator token (see the on-prem deployment guide). This is distinct from the agent keys used by\nthe data plane. Operational endpoints (health, build-info) are served separately and are unauthenticated.\n\nThere is no per-store database, subscription, or endpoint binding (iteration 1 uses a single shared\nstore database), and embedding configuration is resolved server-side from deployment config rather\nthan supplied here.\n"
+        "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: every endpoint requires `Authorization: Bearer <admin-token>`. This is distinct from the agent keys used by the Data Plane. Operational endpoints (health, build-info) are served separately and are unauthenticated.\n\nSelf-managed deployments use a shared store database. Embedding configuration is resolved server-side from deployment config rather than supplied in Control Plane requests.\n"
     },
     "paths": {
         "/v1/detectors": {
             "get": {
-                "description": "List the built-in sensitive-data detectors a store may select in its\n`longTermMemoryExclusions.builtInDetectors` configuration.\n\nOn-prem has no console, so this is the only supported way for an operator to\ndiscover which detector ids exist. Ids copied from documentation instead drift\nfrom the catalog the server actually resolves, and a selection naming an id this\nendpoint does not list is rejected on write.\n\nRead-only reference data with no store scope: nothing here is enabled by\nanything, and selecting a detector is a store configuration change. The catalog\nis compiled into the binary rather than configured, so the same set is served on\non-prem and in the cloud.\n\nA detector's matching technique is deliberately not exposed. Built-in detectors\nare platform-owned and versioned server-side, so their implementations stay free\nto evolve — and to be composite or non-regex — under a stable id.",
+                "description": "List the built-in sensitive-data detectors a store may select in its\n`longTermMemoryExclusions.builtInDetectors` configuration.\n\nUse this endpoint to discover which detector IDs exist. A selection that names an ID this endpoint\ndoes not list is rejected on write.\n\nThis is read-only reference data with no store scope. Selecting a detector is a store configuration change.",
                 "operationId": "ListBuiltInDetectors",
                 "responses": {
                     "200": {
@@ -932,7 +932,7 @@
                         "items": {
                             "$ref": "#/components/schemas/BuiltInDetectorItem"
                         },
-                        "description": "The selectable detectors, ordered by id. Never empty: the catalog is\ncompiled into the server rather than configured."
+                        "description": "The selectable detectors, ordered by id. Never empty."
                     }
                 },
                 "required": [
@@ -1344,6 +1344,19 @@
                     "storeId"
                 ]
             }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "admin-token",
+                "description": "Control Plane admin token."
+            }
         }
-    }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
 }

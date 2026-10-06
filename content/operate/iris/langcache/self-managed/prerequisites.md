@@ -113,16 +113,16 @@ LangCache self-managed image tags use the release SemVer value, for example:
 dataplane:
   image:
     repository: redislabs/iris-langcache-data
-    tag: "<langcache-version>"
+    tag: "0.0.1"
 controlplane:
   image:
     repository: redislabs/iris-langcache-control
-    tag: "<langcache-version>"
+    tag: "0.0.1"
 identityService:
   bundled:
     image:
       repository: redislabs/iris-identity-service
-      tag: "<langcache-version>"
+      tag: "0.0.1"
 ```
 
 Use the image tags listed for the release on Docker Hub or provided by
@@ -134,10 +134,10 @@ Mirror the published images into your internal registry:
 
 ```bash
 for image in iris-langcache-data iris-langcache-control iris-identity-service; do
-  docker pull redislabs/$image:<langcache-version>
-  docker tag redislabs/$image:<langcache-version> \
-    registry.example.com/redislabs/$image:<langcache-version>
-  docker push registry.example.com/redislabs/$image:<langcache-version>
+  docker pull redislabs/$image:0.0.1
+  docker tag redislabs/$image:0.0.1 \
+    registry.example.com/redislabs/$image:0.0.1
+  docker push registry.example.com/redislabs/$image:0.0.1
 done
 ```
 

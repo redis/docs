@@ -183,7 +183,7 @@ auth:
   method: agent_key
   worker_identity:
     enabled: true
-    issuer: "https://kubernetes.default.svc"
+    issuer: <service-account-issuer>
     jwks_uri: "https://kubernetes.default.svc/openid/v1/jwks"
     audience:
       - redis-agent-memory

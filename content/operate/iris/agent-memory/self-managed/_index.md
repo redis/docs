@@ -20,7 +20,9 @@ applications. Applications write conversation events and long-term memories to
 Redis Agent Memory, then query Redis Agent Memory for relevant context before calling an LLM.
 
 This guide covers deployment, configuration, security, validation, API examples,
-and operations for self-managed Redis Agent Memory.
+and operations for self-managed Redis Agent Memory. To install, start with
+[Prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md), then follow
+[Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md).
 
 The [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}})
 is the shared Data Plane API for Redis Cloud and self-managed deployments. The

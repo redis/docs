@@ -50,12 +50,12 @@ which defaults to 3600 and has a chart maximum of 604800
 ends its grace period early. For the full request and response, see
 [API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#identity-service-api-examples).
 
-Rotate the Control Plane admin token by updating `ram-controlplane-admin-token`.
+Rotate the Control Plane admin token by updating `redis-agent-memory-controlplane-admin-token`.
 The Control Plane reads the token on use, so changing the token value does not
 require a Control Plane redeploy.
 
 ```bash
-kubectl -n <namespace-name> create secret generic ram-controlplane-admin-token \
+kubectl -n <namespace-name> create secret generic redis-agent-memory-controlplane-admin-token \
   --from-literal=token='<new-admin-token>' \
   --dry-run=client \
   -o yaml | kubectl apply -f -

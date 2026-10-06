@@ -94,9 +94,6 @@ automatically:
 identityService:
   mode: bundled
   bundled:
-    image:
-      repository: redislabs/iris-identity-service
-      tag: "<langcache-version>"
     metadata:
       existingSecret: ids-metadata
 ```
@@ -180,7 +177,7 @@ are returned only when a key is minted or rotated.
 The Data Plane caches each key check, so a revoked key stops working within
 up to 5 minutes (180 seconds soft, 300 seconds hard,
 `identityService.bundled.runtime.cache.*`). For rotation, see
-[Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}}).
+[Operations](/content/operate/iris/langcache/self-managed/operations.md).
 
 Grant actions:
 
