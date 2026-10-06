@@ -96,7 +96,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
+        "operationId": "proxyDataIntegrationWorkspace",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -308,7 +308,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_3",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -379,7 +379,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace",
+        "operationId": "proxyDataIntegrationWorkspace_3",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -452,7 +452,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
+        "operationId": "proxyDataIntegrationWorkspace_5",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -664,7 +664,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_8",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -735,7 +735,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_5",
+        "operationId": "proxyDataIntegrationWorkspace_8",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -8350,16 +8350,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "200": {
-            "description": "Memory stores returned.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MemoryStoreListResponse"
-                }
-              }
-            }
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -8373,11 +8363,21 @@
           "403": {
             "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
+          "200": {
+            "description": "Memory stores returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreListResponse"
+                }
+              }
+            }
           },
           "408": {
             "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
@@ -8503,11 +8503,11 @@
           "403": {
             "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "408": {
             "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
@@ -8565,16 +8565,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "201": {
-            "description": "API key created. The generated key value is returned once in the response body.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MemoryStoreApiKeyCreateResponse"
-                }
-              }
-            }
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -8588,11 +8578,21 @@
           "403": {
             "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
           },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
+          "201": {
+            "description": "API key created. The generated key value is returned once in the response body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreApiKeyCreateResponse"
+                }
+              }
+            }
           },
           "408": {
             "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
@@ -10079,16 +10079,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "200": {
-            "description": "Memory store returned.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MemoryStoreResponse"
-                }
-              }
-            }
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -10102,11 +10092,21 @@
           "403": {
             "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          "200": {
+            "description": "Memory store returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryStoreResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "429": {
             "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
@@ -12817,14 +12817,14 @@
           "403": {
             "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "204": {
             "description": "API key deleted."
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
           },
           "408": {
             "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
