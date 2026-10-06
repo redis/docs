@@ -56,7 +56,7 @@ that capability.
 | --- | --- | --- | --- |
 | Metadata Redis | Always | Both the Data Plane's and Control Plane's config overlays (same URLs, same keyspace) | Cache records written by the Control Plane, read by the Data Plane. |
 | Cache Redis (one or more) | Always | The Control Plane's config overlay only, as a `databases` registry entry keyed by a logical `databaseId` | Cache entry hashes and RediSearch vector indexes. The Data Plane has no database registry of its own — it resolves each cache's Redis URLs from the metadata the Control Plane already persisted at cache-creation time. |
-| Identity Service metadata Redis (bundled mode only) | When `identityService.mode: bundled` | The bundled Identity Service's own config overlay | Agent-key and grant records. Can be the same Redis instance as Metadata Redis, in a separate namespace. |
+| Identity Service metadata Redis (bundled mode only) | When `identityService.mode: bundled` | The bundled Identity Service's own config overlay | Agent-key and grant records. Can be the same Redis instance as Metadata Redis, in a separate keyspace (records use the fixed key prefix `iris:apikey`). |
 {{< /table-scrollable >}}
 
 For a lab deployment, these Redis roles can point at the same Redis endpoint
@@ -113,16 +113,16 @@ LangCache self-managed image tags use the release SemVer value, for example:
 dataplane:
   image:
     repository: redislabs/iris-langcache-data
-    tag: "<langcache-version>"
+    tag: "0.0.1"
 controlplane:
   image:
     repository: redislabs/iris-langcache-control
-    tag: "<langcache-version>"
+    tag: "0.0.1"
 identityService:
   bundled:
     image:
       repository: redislabs/iris-identity-service
-      tag: "<langcache-version>"
+      tag: "0.0.1"
 ```
 
 Use the image tags listed for the release on Docker Hub or provided by
@@ -134,10 +134,10 @@ Mirror the published images into your internal registry:
 
 ```bash
 for image in iris-langcache-data iris-langcache-control iris-identity-service; do
-  docker pull redislabs/$image:<langcache-version>
-  docker tag redislabs/$image:<langcache-version> \
-    registry.example.com/redislabs/$image:<langcache-version>
-  docker push registry.example.com/redislabs/$image:<langcache-version>
+  docker pull redislabs/$image:0.0.1
+  docker tag redislabs/$image:0.0.1 \
+    registry.example.com/redislabs/$image:0.0.1
+  docker push registry.example.com/redislabs/$image:0.0.1
 done
 ```
 
@@ -166,6 +166,10 @@ Default chart values:
 | LangCache Control Plane | 1 replica, no autoscaling | Admin API for caches |
 | Identity Service (bundled mode) | 1 replica | Agent-key issuance and introspection |
 
+The chart preflight requires 1.5 CPU and 2.5 Gi of allocatable capacity for the default
+footprint. Install one release per namespace: the default `fullnameOverride: langcache` fixes
+the resource names.
+
 During a rolling update, Kubernetes may temporarily run old and new pods at
 the same time. A small test cluster can run out of CPU during install or
 upgrade; size for the maximum rolling-update overlap, or reduce replicas
@@ -188,6 +192,8 @@ release-derived names in the verification commands throughout this guide.
 | Security posture | `security.profile` | Opting into the FIPS-oriented posture. |
 | Identity Service mode | `identityService.mode` (`bundled` or `external`) | Choosing whether this release runs its own Identity Service or joins one the suite already runs. |
 | Config overlays | `dataplane.secrets.*`, `controlplane.secrets.*`, `identityService.bundled.metadata.*` | Pointing the chart at your pre-created overlay Secrets. |
+| Private certificate authority (CA) | `tls.caCertSecret`, `tls.caCertKey` | Trusting a private CA for `rediss://` Redis, the embedding provider, or an external Identity Service. |
+| Agent-key check cache | `identityService.bundled.runtime.cache.*` | Tuning how long the Data Plane caches agent-key checks. |
 | Rotation | `*.existingSecretChecksum` fields throughout | Rolling pods after an externally managed Secret changes. |
 {{< /table-scrollable >}}
 

@@ -21,6 +21,10 @@ Before you begin, review [prerequisites]({{< relref "/operate/iris/langcache/sel
 and prepare the config overlays described in
 [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}}).
 
+You use three credentials along the way: the Control Plane admin token, the Identity Service
+control token, and an agent key. The chart generates the first two. For what each credential
+unlocks, see [Credentials](/content/operate/iris/langcache/self-managed/authentication.md#credentials).
+
 ## Choose an Identity Service mode
 
 Decide before you install:
@@ -68,9 +72,6 @@ Create `langcache-values.yaml`:
 
 ```yaml
 dataplane:
-  image:
-    repository: redislabs/iris-langcache-data
-    tag: "<langcache-version>"
   license:
     existingSecret: langcache-license
   secrets:
@@ -86,9 +87,6 @@ dataplane:
       dimensions: 1536
 
 controlplane:
-  image:
-    repository: redislabs/iris-langcache-control
-    tag: "<langcache-version>"
   secrets:
     secretName: cp-overlay
   configData:
@@ -97,9 +95,6 @@ controlplane:
 identityService:
   mode: bundled
   bundled:
-    image:
-      repository: redislabs/iris-identity-service
-      tag: "<langcache-version>"
     metadata:
       existingSecret: ids-metadata
 ```
@@ -115,6 +110,19 @@ The chart renders the Control Plane's embedding contract from
 `dataplane.embedding.*`, so set the provider, model, and dimensions only
 under `dataplane.embedding`.
 
+## Before you install: check your values
+
+Check each item before you install and before you mint a key. If one is wrong, you see the symptom
+in its row. The rows are checklist items LC-CL-1 to LC-CL-3.
+
+{{< table-scrollable >}}
+| Row | Check | Symptom | Fix |
+| --- | --- | --- | --- |
+| <a id="lc-cl-1"></a>LC-CL-1 | No image tag is set, or it exists on Docker Hub (`0.0.1` is the only published tag) | With `--atomic --wait`: `Error: INSTALLATION FAILED: release langcache failed, and has been uninstalled due to atomic being set: context deadline exceeded` after the wait times out; `kubectl get events` keeps `Failed to pull image "redislabs/iris-langcache-data:1.0.0": … not found` (also `-control`, `iris-identity-service`) | Remove `*.image.tag` |
+| <a id="lc-cl-2"></a>LC-CL-2 | The Identity Service is reachable before you mint a key | `curl: (7) Failed to connect to localhost port 9200 after 0 ms: Couldn't connect to server` | Port-forward `svc/langcache-identity-service 9200:9200`, as in [Verify the deployment](#verify-the-deployment) |
+| <a id="lc-cl-3"></a>LC-CL-3 | Every attribute you send was listed in `attributes` when the cache was created | `400`, `"detail":"attributes: no attributes are configured for this cache."` | Create the cache with the attribute names, for example `"attributes": ["topic"]` |
+{{< /table-scrollable >}}
+
 ## Install the chart
 
 Add the Helm repository when installing from the public repository:
@@ -129,15 +137,14 @@ Install with `langcache` as the Helm release name:
 
 ```bash
 helm install langcache redis-ai/langcache \
-  --version <chart-version> \
+  --version 0.0.1 \
   --namespace <namespace-name> \
-  --create-namespace \
   -f langcache-values.yaml \
   --atomic --wait
 ```
 
 If you installed from a chart package or a local checkout instead, replace
-`redis-ai/langcache --version <chart-version>` with the chart path (for
+`redis-ai/langcache --version 0.0.1` with the chart path (for
 example `.` from the chart's own root directory).
 
 On small clusters, install without `--atomic --wait`, then watch pod
@@ -189,6 +196,18 @@ curl -sS -X POST http://localhost:9100/v1/caches \
     "defaultTtlMillis": -1,
     "attributes": []
   }'
+```
+
+Port-forward the Identity Service (bundled mode):
+
+```bash
+kubectl -n <namespace-name> port-forward svc/langcache-identity-service 9200:9200
+```
+
+Retrieve the auto-generated Identity Service control token:
+
+```bash
+kubectl -n <namespace-name> get secret langcache-identity-service-control-token -o jsonpath="{.data.token}" | base64 -d
 ```
 
 For the full self-managed admin API schema, see the
