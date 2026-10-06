@@ -63,29 +63,30 @@ protocol, which is a requirement for SCH. However, you can
 configure some parameters, such as the timeouts to use
 during maintenance.
 
-The table below lists the Redis client libraries that support SCH,
-and the versions that added support for basic connections and
+The following table lists the Redis client libraries that support SCH,
+and the versions that added support for standard routing and for
 [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
+Standard routing covers any connection that doesn't use the OSS Cluster API.
 
-| Client | Basic connection | OSS Cluster API | Client-side geographic failover |
-| :-- | :-- | :-- | :-- |
-| [redis-py](/content/develop/clients/redis-py/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | v7.2.0 | Disabled |
-| [node-redis](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch) | v5.9.0 | v5.11.0 | Disabled |
-| [Lettuce](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | - | Disabled |
-| [go-redis](/content/develop/clients/go/connect.md#connect-using-smart-client-handoffs-sch) | v9.16.0 | v9.18.0 | Disabled |
-| [StackExchange.Redis](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch) | v3.3.0 | v3.3.0 | Disabled |
+| Client | Standard routing | OSS Cluster API |
+| :-- | :-- | :-- |
+| [redis-py](/content/develop/clients/redis-py/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | v7.2.0 |
+| [node-redis](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch) | v5.9.0 | v5.11.0 |
+| [Lettuce](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | - |
+| [go-redis](/content/develop/clients/go/connect.md#connect-using-smart-client-handoffs-sch) | v9.16.0 | v9.18.0 |
+| [StackExchange.Redis](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch) | v3.3.0 | v3.3.0 |
+
+> [!NOTE]
+> SCH is currently disabled when a client is configured for
+> [Client-side geographic failover](/content/develop/clients/failover.md).
+> Integration of the two features is planned for a future release.
+&nbsp;
 
 > [!NOTE]
 > SCH support in StackExchange.Redis is marked `[Experimental]`, so the API may
 > still change. See
 > [Connect using Smart client handoffs (SCH)](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch)
 > for details.
-&nbsp;
-
-> [!NOTE]
-> SCH is currently disabled when a client is configured for
-> [Client-side geographic failover](/content/develop/clients/failover.md).
-> Integration of the two features is planned for a future release.
 
 ## SCH support in Redis server products
 
