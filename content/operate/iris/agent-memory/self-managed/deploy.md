@@ -339,7 +339,7 @@ curl -sS -X POST http://localhost:9200/v1/api-keys \
   }'
 ```
 
-Use the same tenant on every grant of a key. The response's `token` is the agent key. It is shown
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage stores with the Control Plane admin token. The response's `token` is the agent key. It is shown
 only once.
 
 ## 8. Make one authenticated call

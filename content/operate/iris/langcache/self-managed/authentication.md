@@ -172,7 +172,7 @@ curl -sS -X POST "$IDS_URL/v1/api-keys" \
   }'
 ```
 
-Use the same tenant on every grant of a key.
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage caches with the Control Plane admin token.
 
 The response contains the new credential. Store it immediately; credentials
 are returned only when a key is minted or rotated.

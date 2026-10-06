@@ -116,7 +116,7 @@ A grant names the tenant, product, store, and actions:
 }
 ```
 
-Use the same tenant on every grant of a key.
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage stores with the Control Plane admin token.
 
 Grant actions:
 

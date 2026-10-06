@@ -189,7 +189,7 @@ Agent-key fields:
 | Endpoint | Use `/v1/api-keys`. |
 | `name` | Required. |
 | `grants` | Required. |
-| `tenant` | Your tenant ID. Use the same tenant on every grant of a key. |
+| `tenant` | Your tenant ID. Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage stores with the Control Plane admin token. |
 | `product` | Use `memory`. |
 | `resourceType` | Use `mem-store`. |
 | `resourceId` | Set to the store ID. |

@@ -147,7 +147,7 @@ Response:
 }
 ```
 
-Use the same tenant on every grant of a key.
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage caches with the Control Plane admin token.
 
 Rotate it later:
 
