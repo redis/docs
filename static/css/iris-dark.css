@@ -52,6 +52,17 @@ body.iris-dark main #sidebar a.active {
 body.iris-dark main .child-list a:hover {
   color: var(--iris-heading);
 }
+body.iris-dark main #TableOfContents a,
+body.iris-dark main .text-redis-pencil-600 {
+  color: var(--iris-muted);
+}
+body.iris-dark main #TableOfContents a:hover,
+body.iris-dark main .hover\:text-redis-pen-400:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a::before {
+  background-color: var(--iris-border);
+}
 body.iris-dark main #TableOfContents a.active {
   color: var(--iris-heading);
 }
@@ -302,6 +313,27 @@ body.iris-dark main #page-feedback textarea {
 }
 body.iris-dark main #page-feedback textarea::placeholder {
   color: var(--iris-muted);
+}
+
+/* Rate this page. An empty star is a white fill with a gray outline, which reads
+   as filled on a dark page; make empty stars hollow and selected stars light. */
+body.iris-dark main .star-rating label {
+  color: var(--iris-bg);
+  text-shadow:
+    #8A99A0 1px 0px 0px,
+    #8A99A0 0.540302px 0.841471px 0px,
+    #8A99A0 -0.416147px 0.909297px 0px,
+    #8A99A0 -0.989993px 0.14112px 0px,
+    #8A99A0 -0.653644px -0.756803px 0px,
+    #8A99A0 0.283662px -0.958924px 0px,
+    #8A99A0 0.96017px -0.279416px 0px;
+}
+body.iris-dark main .star-rating :checked ~ label {
+  color: var(--iris-text);
+}
+body.iris-dark main .star-rating label:hover,
+body.iris-dark main .star-rating label:hover ~ label {
+  color: var(--iris-accent);
 }
 
 /* Heading anchor links */
