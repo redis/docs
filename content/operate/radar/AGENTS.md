@@ -46,6 +46,7 @@ self-managed, and hosted changes go in the Cloud changelog.
 | --- | --- | --- |
 | Redis Radar | Radar (alone) | First mention on a page, and in `title` and `description`. |
 | Radar | Redis Radar | Every later mention on that page. |
+| Redis Software | Redis Enterprise | Every mention, including with a version: Redis Software 7.4. |
 
 **"Multi Cluster Manager" and "MCM" are not product names.** They are the project's
 origin, they appear in no published page, and they do not belong in prose. This says
@@ -76,7 +77,14 @@ to Clusters for either provider sends them somewhere the resource does not appea
     release table in `release-notes/_index.md` with the support track and a one-line
     summary. Copy the note's frontmatter from the previous note and set `weight` one
     lower than that note's, so the newest release sorts first.
-  - **Hosted**: a section in the Cloud changelog.
+  - **Hosted**: a section in the Cloud changelog. Anything that affects hosted Radar goes
+    there, including changes and known limitations that also apply to self-managed,
+    which go in the versioned note too.
+- **A release that changes something a published page describes**, such as a setting, a
+  UI label, or an install step, needs that page updated too. Either update it in a
+  docs pull request, or note the change in the release ticket for docs to pick up. File
+  a DOC ticket instead when it's more than a small edit, such as a new step, section, or
+  procedure.
 - **Each versioned note opens with a summary and its support track.**
 - **Sections go in this order**, and any section that would be empty is left out:
   `## Enhancements`, `## Resolved issues`, `## Breaking changes`, `## Downloads`,
@@ -99,13 +107,22 @@ to Clusters for either provider sends them somewhere the resource does not appea
   not from the repository. Add or remove an image when the chart's image list changes.
 - **A Cloud changelog section opens with a one-sentence summary**, then lists the
   changes as bullets. Group them under `###` headings only when the list is long
-  enough to need it. It has no Downloads and no support track.
-- **Leave out changes a reader can't see or act on**, such as release tooling, CI, and
-  test infrastructure.
-- **Feature and fix items open with a bold label ending in a period**, then say what
-  the reader can now do or see. Name the exact setting, its default, and the versions
-  it applies to. Describe a fix by the behavior the reader saw, not by its internal
-  cause.
+  enough to need it, and name the groups after the versioned note's sections:
+  `### Enhancements`, `### Resolved issues`, `### Breaking changes`, and
+  `### Known limitations`. It has no Downloads and no support track.
+- **Leave out changes a reader can't see or act on**, such as release tooling, CI, test
+  infrastructure, and Radar's internal tracing and metrics.
+- **Each item is one change**, opening with a bold label ending in a period: a short
+  phrase naming the feature or the symptom, not the ticket title. Split unrelated
+  changes into separate items, even when they share a ticket.
+- **Say what the reader can now do or see.** Name the exact setting, its default, and
+  the product versions it applies to. Quantify rather than qualify: "retries once", not
+  "a bounded retry".
+- **Describe a fix by what the reader saw**, in their terms, not by its internal cause:
+  "Certificates that expire within 24 hours now show as **Expiring** instead of
+  **Valid**."
+- **Bold UI names exactly as they appear on screen**, including paths such as
+  **Settings > Agents**.
 
 ## Document current behavior only
 
