@@ -160,9 +160,45 @@ If you use the `keep_crdt_protocol_version` option, the database is upgraded wit
 
 ### Feature set version guidelines
 
+Starting with Redis Software version 5.6.0, the feature set version helps support new Active-Active database features.
+
 The feature set version is an internal version of the Active-Active database that enables new capabilities and improvements across participating clusters. When the feature set version is updated, it is updated for the database on all participating clusters.
 
 By default, the upgrade updates the feature set version after the database is upgraded on all participating clusters. If you use the `keep_crdt_featureset_version` option, the upgrade keeps the current feature set version.
+
+Follow these upgrade guidelines:
+
+- As of Redis Software version 6.0.20, feature set version 0 is deprecated and support will be removed in a future version.
+
+- To avoid upgrade failures, make sure all your Active-Active databases are configured with the latest feature set version before upgrading to Redis Software 6.0.20 or later.
+
+## Upgrade feature set version
+
+If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERSION` status:
+
+1. [Upgrade the Active-Active database](#upgrade-an-active-active-database) on all participating clusters and make sure the CRDB protocol version is not outdated.
+
+1. Find the `<CRDB-GUID>` of your Active-Active database.
+
+    You can use the [`crdb-cli crdb list`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/list.md) command:
+
+    ```sh
+    crdb-cli crdb list
+    ```
+
+    Look for the fully qualified domain name (`CLUSTER-FQDN`) of your cluster and use the associated `GUID`:
+
+    ```sh
+    CRDB-GUID                             NAME    REPL-ID  CLUSTER-FQDN
+    700140c5-478e-49d7-ad3c-64d517ddc486  aatest  1        aatest1.example.com
+    700140c5-478e-49d7-ad3c-64d517ddc486  aatest  2        aatest2.example.com
+    ```
+
+1. Update the feature set version of the Active-Active database. See [Feature set version guidelines](#feature-set-version-guidelines) for more information.
+
+    ```sh
+    crdb-cli crdb update --crdb-guid <CRDB-GUID> --featureset-version yes
+    ```
 
 ## Upgrade limitations
 
