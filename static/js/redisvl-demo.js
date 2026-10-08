@@ -233,6 +233,13 @@
       }
     }
 
+    /* Redraw the results and the code in place, leaving the controls mounted. */
+    function refresh() {
+      var q = query(), built = build(q);
+      panel.replaceChild(resultsCard(q, built), panel.querySelector(".rvd-results"));
+      panel.replaceChild(codeCard(q, built), panel.querySelector(".rvd-code"));
+    }
+
     /* A row of options where one is chosen: phrases, filter values, query types. */
     function choice(label, opts, value, onPick, cls, literal) {
       var g = el("div", "rvd-choice" + (cls ? " " + cls : ""));
@@ -273,7 +280,13 @@
         r.value = String(THRESHOLDS.indexOf(st.threshold));
         r.setAttribute("aria-label", "Distance threshold");
         r.setAttribute("aria-valuetext", st.threshold.toFixed(2));
-        r.addEventListener("input", function () { st.threshold = THRESHOLDS[+r.value]; render(); var again = panel.querySelector(".rvd-threshold input"); if (again) again.focus(); });
+        /* The slider stays mounted while it's dragged: only its label, the results, and the code are redrawn. */
+        r.addEventListener("input", function () {
+          st.threshold = THRESHOLDS[+r.value];
+          g.querySelector("b").textContent = st.threshold.toFixed(2);
+          r.setAttribute("aria-valuetext", st.threshold.toFixed(2));
+          refresh();
+        });
         g.appendChild(r);
         box.appendChild(g);
       }
