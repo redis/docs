@@ -66,6 +66,68 @@ const redis = new Redis.Cluster([
 ]);
 ```
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+pass a list of Sentinels in the `sentinels` option and the name of the primary that the
+Sentinels monitor in `name`. The client asks the Sentinels for the current primary.
+
+```js
+const redis = new Redis({
+  sentinels: [
+    { host: "localhost", port: 26379 },
+    { host: "localhost", port: 26380 },
+    { host: "localhost", port: 26381 },
+  ],
+  name: "mymaster",
+});
+
+await redis.set('foo', 'bar');
+const value = await redis.get('foo');
+console.log(value); // >>> bar
+```
+
+The Sentinels and the data nodes have separate credentials. Set `sentinelPassword` (and
+`sentinelUsername`, if needed) for the Sentinels, and `username` and `password` for the
+primary and replicas:
+
+```js
+const redis = new Redis({
+  sentinels: [
+    { host: "localhost", port: 26379 },
+    { host: "localhost", port: 26380 },
+    { host: "localhost", port: 26381 },
+  ],
+  name: "mymaster",
+  // Credentials for the Sentinel instances.
+  sentinelPassword: "my-sentinel-password",
+  // Credentials for the primary and replica data nodes.
+  username: "default",
+  password: "my-password",
+});
+```
+
+If the Sentinel password is wrong or missing, the error says that all Sentinels are
+unreachable.
+
+By default, ioredis doesn't listen for failover announcements from the Sentinels. After a
+failover, the client keeps using the old primary until Sentinel reconfigures it as a
+replica and closes the connection. Any writes that the old primary accepts during that time
+are lost. Set `failoverDetector: true` to switch to the new primary as soon as the Sentinels
+announce it.
+
+To connect to a replica instead of the primary, set `role: "slave"`. The client connects to
+one replica, chosen at random. Replication is asynchronous, so a replica can return stale
+data.
+
+```js
+const replica = new Redis({
+  sentinels: [{ host: "localhost", port: 26379 }],
+  name: "mymaster",
+  role: "slave",
+});
+```
+
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.

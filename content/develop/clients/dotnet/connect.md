@@ -67,6 +67,64 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+list the Sentinels in `EndPoints` and set `ServiceName` to the name of the primary that
+the Sentinels monitor. The client asks the Sentinels for the current primary.
+
+```csharp
+using StackExchange.Redis;
+
+ConfigurationOptions conf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    ServiceName = "mymaster"
+};
+
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(conf);
+IDatabase db = redis.GetDatabase();
+
+db.StringSet("foo", "bar");
+Console.WriteLine(db.StringGet("foo")); // prints bar
+```
+
+You can also use a configuration string, such as
+`"localhost:26379,localhost:26380,localhost:26381,serviceName=mymaster"`.
+
+If the Sentinels and the data nodes have different credentials, connect to the Sentinels
+first with `SentinelConnect()`, using the Sentinel credentials. Then call
+`GetSentinelMasterConnection()` with the credentials for the primary and replicas:
+
+```csharp
+using StackExchange.Redis;
+
+// Connect to the Sentinels with the Sentinel credentials.
+ConfigurationOptions sentinelConf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    User = "yourSentinelUsername",
+    Password = "yourSentinelPassword"
+};
+ConnectionMultiplexer sentinel = ConnectionMultiplexer.SentinelConnect(sentinelConf);
+
+// Connect to the primary with the Redis credentials.
+ConfigurationOptions conf = new ConfigurationOptions {
+    ServiceName = "mymaster",
+    User = "yourUsername",
+    Password = "yourPassword"
+};
+ConnectionMultiplexer redis = sentinel.GetSentinelMasterConnection(conf);
+IDatabase db = redis.GetDatabase();
+```
+
+The connection also includes the replicas that the Sentinels report. To read from a
+replica, pass `CommandFlags.PreferReplica` (or `CommandFlags.DemandReplica`) to a read-only
+command. Replication is asynchronous, so a replica can return stale data.
+
+```csharp
+// Read from a replica if one is available, otherwise from the primary.
+Console.WriteLine(db.StringGet("foo", CommandFlags.PreferReplica)); // prints bar
+```
+
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.

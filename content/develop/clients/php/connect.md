@@ -99,6 +99,81 @@ echo $rc->get('foo'), PHP_EOL;
 // >>> bar
 ```
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+pass a list of Sentinels as the first parameter. In `options`, set
+`'replication' => 'sentinel'` and set `service` to the name of the primary that the
+Sentinels monitor:
+
+```php
+$sentinels = [
+    'tcp://localhost:26379',
+    'tcp://localhost:26380',
+    'tcp://localhost:26381',
+];
+$options = [
+    'replication' => 'sentinel',
+    'service'     => 'mymaster',
+];
+
+$r = new PredisClient($sentinels, $options);
+
+echo $r->set('foo', 'bar'), PHP_EOL;
+// >>> OK
+
+echo $r->get('foo'), PHP_EOL;
+// >>> bar
+```
+
+The default timeout for connecting to a Sentinel is 100 milliseconds. If your Sentinels
+are on remote hosts, add a longer timeout to each Sentinel address, such as
+`tcp://<host>:26379?timeout=0.5`.
+
+The Sentinels and the data nodes have separate credentials. Add the Sentinel credentials
+to each Sentinel address, and set the credentials for the primary and replicas in the
+`parameters` option. Include the Sentinel `username` even if it's `default`, because
+otherwise Predis uses the `username` from `parameters` for the Sentinels too:
+
+```php
+// Credentials for the Sentinels.
+$sentinels = [
+    'tcp://localhost:26379?username=yourSentinelUsername&password=yourSentinelPassword',
+    'tcp://localhost:26380?username=yourSentinelUsername&password=yourSentinelPassword',
+    'tcp://localhost:26381?username=yourSentinelUsername&password=yourSentinelPassword',
+];
+$options = [
+    'replication' => 'sentinel',
+    'service'     => 'mymaster',
+    // Credentials for the primary and replicas.
+    'parameters'  => [
+        'username' => 'yourUsername',
+        'password' => 'yourPassword',
+    ],
+];
+
+$r = new PredisClient($sentinels, $options);
+```
+
+Predis sends read-only commands to a replica until the first write command. After that, it
+sends all commands to the primary. Call `switchToSlave()` to send reads to a replica again.
+Replication is asynchronous, so a replica can return stale data.
+
+```php
+// A write command switches the client to the primary.
+echo $r->set('foo', 'baz'), PHP_EOL;
+// >>> OK
+
+// Switch back to a replica for later reads.
+$r->getConnection()->switchToSlave();
+echo $r->get('foo'), PHP_EOL;
+// >>> baz
+```
+
+Predis doesn't listen for failover announcements from the Sentinels. After a failover, the
+client keeps using the old primary until Sentinel reconfigures it as a replica and closes
+the connection. Any writes that the old primary accepts during that time are lost.
+
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the
