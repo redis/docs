@@ -39,7 +39,7 @@ Your Redis databases must be running version 7.2 or later before upgrading your 
 
 If your databases use user-defined modules (custom non-bundled modules):
 
-- Set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+- Set `spec.upgradeSpec.autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
 - Define the user-defined modules in the REC custom resource before upgrading the database.
 - See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec) for more details.
 
@@ -92,7 +92,7 @@ For detailed Helm upgrade instructions, see [Upgrade the chart](/content/operate
 ## Upgrade the operator
 
 > [!WARNING]
-> If your databases use user-defined modules, set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+> If your databases use user-defined modules, set `spec.upgradeSpec.autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
 
 ### Download the bundle
 
@@ -173,7 +173,7 @@ To enable automatic resource adjustment, see [Allow automatic resource adjustmen
 >
 > Use `oc get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
 
-The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
+The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, set `spec.upgradeSpec.autoUpgradeRedisEnterprise: true` in your REC. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
 Before beginning the upgrade of the Redis Enterprise cluster, check the K8s operator [release notes](/content/operate/kubernetes/release-notes/_index.md) to find the Redis Enterprise image tag.
 

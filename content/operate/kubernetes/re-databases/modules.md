@@ -190,7 +190,7 @@ For databases using bundled modules (RediSearch, RedisJSON, RedisTimeSeries, Red
 
 For databases using user-defined modules, you must take additional steps during cluster upgrades:
 
-1. Set `autoUpgradeRedisEnterprise` to `false` in your REC spec before upgrading.
+1. Set `spec.upgradeSpec.autoUpgradeRedisEnterprise` to `false` in your REC before upgrading.
 
 1. Add or update the `userDefinedModules` list in the REC spec with the new module versions before or during the cluster upgrade. Ensure that the new module versions include a `compatible_redis_version` field that matches the Redis version your databases will use after the upgrade.
 
