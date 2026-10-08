@@ -1,0 +1,63 @@
+/* =========================================================================
+   RedisVL scripted demo: queries
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the scripted demos share one look. Scoped under `.rvd`; the root
+   element also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+/* ---- the controls: phrases, filters, the query type, and the threshold ---- */
+.rvd-controls { display: grid; gap: 10px; margin-bottom: 12px; }
+.rvd-choice { display: grid; gap: 5px; min-width: 0; }
+.rvd-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.rvd .rvd-opt { padding: 4px 11px; font-size: 13px; }
+.rvd .rvd-opt.is-on { border-color: var(--rcr-accent-2); color: var(--rcr-accent-2); background: rgba(89, 97, 255, .07); font-weight: 600; }
+.rvd-filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 10px 12px; border: 1px solid var(--rcr-line); border-radius: 10px; background: var(--rcr-surface-2); }
+@container (min-width: 560px) { .rvd-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.rvd-threshold input { width: 100%; max-width: 360px; accent-color: var(--rcr-accent-2); }
+
+/* ---- the results: every restaurant, with what happened to it ---- */
+.rvd-results { margin-bottom: 12px; }
+.rvd-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.rvd-axis { font-size: 11.5px; color: var(--rcr-faint); margin-bottom: 2px; }
+.rvd-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(60px, 120px) 3.4em; grid-template-areas: "name bar dist" "why why why";
+  align-items: center; gap: 1px 10px; padding: 6px 9px; border-radius: 8px; border: 1px solid transparent;
+}
+.rvd-row:not(:has(.rvd-bar)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "why"; }
+.rvd-name { grid-area: name; display: grid; min-width: 0; font-size: 13.5px; }
+.rvd-meta { font-size: 11.5px; color: var(--rcr-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rvd-bar { grid-area: bar; position: relative; height: 8px; border-radius: 4px; background: var(--rcr-line); }
+.rvd-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--rcr-faint); }
+.rvd-bar > i { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--rcr-accent-2); }
+.rvd-dist { grid-area: dist; text-align: right; font-size: 12px; }
+.rvd-why { grid-area: why; font-size: 11.5px; color: var(--rcr-faint); }
+.rvd-row.is-hit { background: rgba(255, 68, 56, .06); border-color: rgba(255, 68, 56, .25); }
+.rvd-row.is-hit .rvd-bar > span { background: var(--rcr-accent); }
+.rvd-row.is-hit .rvd-why { color: var(--rcr-accent); font-weight: 600; }
+.rvd-row.is-filtered .rvd-name b { text-decoration: line-through; text-decoration-color: var(--rcr-faint); color: var(--rcr-muted); }
+.rvd-row.is-filtered .rvd-bar > span { background: var(--rcr-line-strong); }
+.rvd-row.is-miss { color: var(--rcr-muted); }
+.rvd-note { margin-top: 10px; padding: 9px 12px; border-left: 3px solid var(--rcr-accent-2); border-radius: 0 8px 8px 0; background: rgba(89, 97, 255, .06); font-size: 13.5px; }
+
+/* ---- the code: RedisVL, FT.SEARCH, and the schema ---- */
+.rvd-codehead { flex-wrap: wrap; }
+.rvd-codehead .rcr-subtabs { margin-bottom: 0; border-bottom: 0; }
+.rvd pre.rvd-pre { font-size: 12px; line-height: 1.5; white-space: pre; overflow-x: auto; margin-bottom: 8px; }
+
+/* ---- what's in Redis: a result's document, the schema fields in use, and the keys ---- */
+.rvd-row { cursor: pointer; }
+.rvd-row:hover { border-color: var(--rcr-line-strong); }
+.rvd-row:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--rcr-focus); }
+.rvd-row.is-open { border-color: var(--rcr-accent-2); }
+.rvd-doc { min-width: 0; margin: 2px 0 8px; }
+.rvd-dochead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; margin-bottom: 4px; font-size: 12px; }
+.rvd-more { color: var(--rcr-faint); font-style: italic; }
+.rvd pre .rvd-hl { display: inline-block; min-width: 100%; margin: 0 -10px; padding: 0 10px; background: rgba(89, 97, 255, .12); box-shadow: inset 3px 0 0 var(--rcr-accent-2); }
+.rvd .rvd-yaml { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: var(--rcr-accent-2); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.rvd-keys { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 8px; }
+.rvd .rvd-keys .rvd-opt { font-size: 12px; }
+/* A document wraps its long values, so the shortened embedding is in view without scrolling. */
+.rvd .rvd-doc pre.rvd-pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.rvd-filtershead { display: flex; align-items: baseline; gap: 8px; grid-column: 1 / -1; }
+.rvd-lblrow { display: flex; align-items: baseline; gap: 6px; }
+.rvd-lblrow code { font-size: 11px; }
