@@ -159,29 +159,31 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-> [!NOTE]
-> SCH support in `StackExchange.Redis` requires v3.3.0 or later. The feature
-> is functional and tested against real Redis Enterprise deployments, but
-> because it is a large, new API, the types and members involved are
-> marked with the `[Experimental]` attribute. This is so the developers can reserve
-> the right to adjust the API without the usual backwards-compatibility
-> guarantees. As a result, the compiler reports the `SER010` diagnostic when
-> you use them. You can suppress this diagnostic by adding the following to
-> your `.csproj` file:
->
-> ```xml
-> <NoWarn>$(NoWarn);SER010</NoWarn>
-> ```
->
-> Alternatively, you can suppress it locally in your source file:
->
-> ```csharp
-> #pragma warning disable SER010
-> ```
+<!-- TODO(unpark): replace vNEXT with the first StackExchange.Redis release that contains commit 0fd86a1 (PR #3248). -->
 
-SCH is disabled by default. Enable it with the `MaintenanceNotifications`
-configuration option, either in code or using the `maintNotifications` key
-in a configuration string:
+> [!NOTE]
+> SCH support in `StackExchange.Redis` requires v3.3.0 or later. In v3.3.0 and
+> v3.3.1, the SCH API is marked `[Experimental]`, and SCH is never enabled
+> unless you set `MaintenanceNotifications` yourself. From vNEXT, the API is no
+> longer experimental, so the compiler no longer reports the `SER010`
+> diagnostic and you can remove any suppression you added for it.
+
+The client enables SCH automatically, in `Auto` mode, when either of the
+following is true:
+
+- You connect using a hostname that the client recognizes as Redis Cloud
+  (`*.cloud.redislabs.com`, `*.cloud.redis.io`, or `*.redislabs.com`) or
+  Azure Managed Redis (`*.redis.azure.net` or `*.redisenterprise.cache.azure.net`).
+- You name a provider profile with the `defaults` configuration key
+  (`defaults=enterprise`, `defaults=rediscloud`, or `defaults=amr`).
+
+For any other endpoint, SCH is disabled by default. This includes Redis
+Software databases, which have no hostname pattern to recognize, and hosted
+databases that you reach through a CNAME, private DNS, or a proxy. For these,
+either set `defaults=enterprise`, which also applies that profile's other
+default settings, or enable SCH with the `MaintenanceNotifications`
+configuration option, in code or using the `maintNotifications` key in a
+configuration string:
 
 ```csharp
 var options = ConfigurationOptions.Parse("host:6379,maintNotifications=Auto,maintRelaxedTimeout=15");
@@ -196,19 +198,11 @@ var options = new ConfigurationOptions {
 var muxer = await ConnectionMultiplexer.ConnectAsync(options);
 ```
 
-> [!NOTE]
-> `ConfigurationOptions` also has a `Defaults` property that accepts named
-> provider profiles (`amr`, `rediscloud`, `enterprise`) using the `defaults`
-> configuration key. As of v3.3.0, none of these profiles override
-> `MaintenanceNotifications`, so it stays `Disabled` under every profile.
-> Set `maintNotifications` explicitly, regardless of which server product
-> you connect to.
-
 The `ConfigurationOptions` object accepts the following SCH-related parameters:
 
 | Name | Description |
 | :-- | :-- |
-| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
+| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default, unless the client recognizes the endpoint or you set `defaults`), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
 | `MaintenanceMovingEndpointType` | The endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
 | `MaintenanceRelaxedTimeout` | The timeout to use for commands and connections while the server has announced maintenance. The default is 10 seconds. |
 | `MaintenanceRelaxedWindowMax` | The maximum time to keep using the relaxed timeout if no notification arrives to close the window. The default is three times `MaintenanceRelaxedTimeout`. |
