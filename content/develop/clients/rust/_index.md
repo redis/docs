@@ -76,6 +76,9 @@ You can also easily store and retrieve a [hash](/content/develop/data-types/hash
 {{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+To connect to a cluster, through Redis Sentinel, or over TLS, see
+[Connect to the server](/content/develop/clients/rust/connect.md).
+
 ## More information
 
 See the [`redis-rs`](https://docs.rs/redis/latest/redis/) documentation
