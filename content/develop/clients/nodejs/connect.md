@@ -58,13 +58,20 @@ console.log(JSON.stringify(userSession, null, 2));
  */
 ```
 
-To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
+To connect to a different host or port, use a
+[connection URL](/content/develop/clients/connection-urls.md#node-redis-javascript):
 
 ```js
 createClient({
   url: 'redis://alice:foobared@awesome.redis.server:6380'
 });
 ```
+
+> [!NOTE]
+> A [connection URL](/content/develop/clients/connection-urls.md#node-redis-javascript) can
+> also set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
 ## Connect to a Redis cluster

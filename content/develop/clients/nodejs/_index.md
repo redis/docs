@@ -60,13 +60,19 @@ Store and retrieve a map.
 
 {{< jupyter-example set="landing" step="set_get_hash" depends="connect" lang_filter="Node.js" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" />}}
 
-To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
+To connect to a different host or port, use a connection URL:
 
 ```js
 createClient({
   url: 'redis://alice:foobared@awesome.redis.server:6380'
 });
 ```
+
+> [!NOTE]
+> node-redis supports [connection URLs](/content/develop/clients/connection-urls.md#node-redis-javascript) through the `url` option of `createClient()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
 When you have finished using a connection, close it with `client.quit()`.
