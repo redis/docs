@@ -80,13 +80,6 @@ Standard routing covers any connection that doesn't use the OSS Cluster API.
 > SCH is currently disabled when a client is configured for
 > [Client-side geographic failover](/content/develop/clients/failover.md).
 > Integration of the two features is planned for a future release.
-&nbsp;
-
-> [!NOTE]
-> SCH support in StackExchange.Redis is marked `[Experimental]`, so the API may
-> still change. See
-> [Connect using Smart client handoffs (SCH)](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch)
-> for details.
 
 ## SCH support in Redis server products
 
