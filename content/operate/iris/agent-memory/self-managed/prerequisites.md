@@ -82,7 +82,9 @@ critical. Use persistent storage, Redis authentication, network isolation, and
 TLS where required.
 
 In FIPS-oriented deployments, Redis URLs covered by the posture must use
-`rediss://`. Avoid eviction of metadata keys. Losing Metadata Redis removes Control
+`rediss://`. The Identity Service and Control Plane also need `https://`
+endpoints that your hosting environment provides. See
+[FIPS-oriented posture](/content/operate/iris/agent-memory/self-managed/operations.md#fips-oriented-posture). Avoid eviction of metadata keys. Losing Metadata Redis removes Control
 Plane store records, and losing the Identity Service Metadata Redis removes agent-key records.
 
 ## Network access
