@@ -79,7 +79,7 @@
   /* One filter per control, in a fixed order: the RedisVL expression and the query syntax it becomes. */
   function filterParts(f) {
     var p = [];
-    if (f.city) p.push({ py: 'Tag("city") == ' + py(f.city), rq: "@city:{" + f.city + "}", test: function (r) { return r[3] === f.city; }, why: "city " + f.city + "" });
+    if (f.city) p.push({ py: 'Tag("city") == ' + py(f.city), rq: "@city:{" + f.city + "}", test: function (r) { return r[3] === f.city; }, why: "not in " + cap(f.city) });   // like the others, the reason it fails
     if (f.price) p.push({ py: 'Num("price_level") <= ' + f.price, rq: "@price_level:[-inf " + f.price + "]", test: function (r) { return r[5] <= f.price; }, why: "price level over " + f.price });
     if (f.rating) p.push({ py: 'Num("rating") >= ' + f.rating, rq: "@rating:[" + f.rating + " +inf]", test: function (r) { return r[4] >= f.rating; }, why: "rating under " + f.rating });
     if (f.fast) p.push({ py: 'Num("avg_delivery_min") <= ' + f.fast, rq: "@avg_delivery_min:[-inf " + f.fast + "]", test: function (r) { return r[6] <= f.fast; }, why: "delivery over " + f.fast + " min" });
