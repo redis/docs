@@ -36,13 +36,40 @@ The console suggests a `/22` range. If you expect more than 5 sources or more
 than 5 processor replicas in total across the workspace, choose a `/21` or
 larger range when you create it. For further growth, consider a `/20` or larger
 range. A `/21` has twice the address space of a `/22`; a `/20` has twice that
-of a `/21`. The number of sources and pipelines you can run also depends on
-their processor replicas and workload requirements.
+of a `/21`.
 
 This is conservative planning guidance, not a guaranteed capacity limit.
 Leave room for planned growth, replacement resources, and maintenance.
 The range must also meet the requirements of your connectivity method and
 must not overlap with connected networks.
+
+### Observed processor allocation
+
+Allocation tests with RDI 2.0.0 on Amazon Web Services (AWS) produced these
+results. Each test used three availability zones and one pipeline with no
+sources. Each processor requested one central processing unit (CPU) and
+5 GiB of memory. Each scale-up attempt lasted at most 10 minutes and used
+temporary scaling overrides.
+
+Requested replicas are the configured count. Running and ready replicas
+are processors that started and passed readiness checks.
+
+| Workspace CIDR | Requested replicas | Running and ready replicas | Observed result |
+| --- | ---: | ---: | --- |
+| `/22` | 15 | 14 | Assigned subnet ran out of address blocks; another zone retained a block. |
+| `/21` | 50 | 32 | All worker subnets ran out of address blocks; allocation requests were also throttled. |
+| `/20` | 50 | 50 | All 50 became ready. Higher counts were not tested. |
+
+The `/22` and `/21` tests increased replicas in steps. The `/20` test requested
+50 replicas directly. The results show observed processor allocation, not
+supported replica limits or guaranteed safe maxima. The `/20` result establishes
+at least 50 replicas under the test configuration, not a ceiling of 50.
+
+These tests had no source traffic. They do not measure throughput, source or
+pipeline counts, or maintenance headroom. Collectors and other pipelines also
+use workspace addresses. Choose a larger range before your planned processor
+count approaches the observed allocation boundary, and reserve space for these
+other resources.
 
 You cannot enlarge an existing workspace CIDR. If you need more network
 capacity in an existing workspace, contact [Redis support](https://redis.io/support/)

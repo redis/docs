@@ -64,7 +64,7 @@ No. Deleting a source removes its pipeline configuration and internal RDI state.
 Plan the Classless Inter-Domain Routing (CIDR) range for all pipelines in the
 workspace, including future sources and processor replicas. You cannot enlarge
 it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
-for `/22`, `/21`, and larger-range guidance.
+for the observed `/22`, `/21`, and `/20` processor allocation results.
 
 ### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
 
