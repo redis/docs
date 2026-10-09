@@ -63,6 +63,44 @@ public class StringExample {
             }).then();
             // STEP_END
 
+            // STEP_START cas_cad
+            Mono<Void> casCad = reactiveCommands.set("bike:1", "Deimos")
+                    .flatMap(setup -> reactiveCommands.set("bike:1", "Ares",
+                            SetArgs.Builder.compareCondition(CompareCondition.valueEq("Deimos"))))
+                    .doOnNext(res -> {
+                        // REMOVE_START
+                        assertThat(res).isEqualTo("OK");
+                        // REMOVE_END
+                        System.out.println(res); // OK
+                    })
+                    // A failed condition returns an empty Mono, so check for an element.
+                    .flatMap(v -> reactiveCommands.set("bike:1", "Zeus",
+                            SetArgs.Builder.compareCondition(CompareCondition.valueEq("Deimos"))).hasElement())
+                    .doOnNext(res -> {
+                        // REMOVE_START
+                        assertThat(res).isFalse();
+                        // REMOVE_END
+                        System.out.println(res); // false
+                    }).flatMap(v -> reactiveCommands.get("bike:1")).doOnNext(res -> {
+                        // REMOVE_START
+                        assertThat(res).isEqualTo("Ares");
+                        // REMOVE_END
+                        System.out.println(res); // Ares
+                    }).flatMap(v -> reactiveCommands.delex("bike:1", CompareCondition.valueEq("Deimos")))
+                    .doOnNext(res -> {
+                        // REMOVE_START
+                        assertThat(res).isEqualTo(0L);
+                        // REMOVE_END
+                        System.out.println(res); // 0
+                    }).flatMap(v -> reactiveCommands.delex("bike:1", CompareCondition.valueEq("Ares")))
+                    .doOnNext(res -> {
+                        // REMOVE_START
+                        assertThat(res).isEqualTo(1L);
+                        // REMOVE_END
+                        System.out.println(res); // 1
+                    }).then();
+            // STEP_END
+
             // STEP_START mset
             Map<String, String> bikeMap = new HashMap<>();
             bikeMap.put("bike:1", "Deimos");
@@ -99,7 +137,7 @@ public class StringExample {
 
             // Run the steps sequentially: several of them mutate bike:1, so a
             // shared Mono.when() would race them against each other's reads.
-            setAndGet.then(setnx).then(setxx).then(mset).then(incrby).block();
+            setAndGet.then(setnx).then(setxx).then(casCad).then(mset).then(incrby).block();
 
         } finally {
             redisClient.shutdown();

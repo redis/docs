@@ -64,6 +64,28 @@ public class StringSnippets
         Assert.True(res4);
         //REMOVE_END
 
+        //STEP_START cas_cad
+        db.StringSet("bike:1", "Deimos");
+
+        var res9 = db.StringSet("bike:1", "Ares", when: ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res9); // True
+        var res10 = db.StringSet("bike:1", "Zeus", when: ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res10); // False
+        Console.WriteLine(db.StringGet("bike:1")); // Ares
+
+        var res11 = db.StringDelete("bike:1", ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res11); // False
+        var res12 = db.StringDelete("bike:1", ValueCondition.Equal("Ares"));
+        Console.WriteLine(res12); // True
+        //STEP_END
+
+        //REMOVE_START
+        Assert.True(res9);
+        Assert.False(res10);
+        Assert.False(res11);
+        Assert.True(res12);
+        //REMOVE_END
+
         //STEP_START mset
         var res5 = db.StringSet([
             new ("bike:1", "Deimos"), new("bike:2", "Ares"), new("bike:3", "Vanth")
