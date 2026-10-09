@@ -1785,7 +1785,6 @@
               "type": "integer",
               "x-go-type": "json.Number"
             },
-            "minItems": 1,
             "type": "array",
             "uniqueItems": true
           },
