@@ -42,8 +42,8 @@ extends PredisTestCase
         $r->set('bike:1', 'Deimos');
 
         $res3 = $r->set('bike:1', 'bike', 'nx');
-        echo "$res3" . PHP_EOL;
-        // >>> (null)
+        echo var_export($res3, true) . PHP_EOL;
+        // >>> NULL
         
         echo $r->get('bike:1') . PHP_EOL;
         // >>> Deimos

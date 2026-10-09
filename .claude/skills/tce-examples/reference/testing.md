@@ -161,8 +161,23 @@ SKILL=.claude/skills/tce-examples
       rendered page?
    5. For C#: does the presence or absence of 'using NRedisStack' match the intended tab?
 
-   Report only actionable defects in this file. Do not restate what is correct."
+   Report only actionable defects in this file. Do not restate what is correct." \
+  < /dev/null
 ```
+
+Three things go wrong with this invocation:
+
+- **Without `< /dev/null` it hangs.** `codex exec` waits on stdin ("Reading additional
+  input from stdin...") and never starts the review, even though the prompt is passed as an
+  argument.
+- **"Selected model is at capacity" exits 1 with no verdict file.** It's transient; retry
+  that client. A missing verdict file means the gate wasn't run, not that the file is clean.
+- **The schema holds one client's verdict.** A single prompt covering several files returns
+  findings for only one of them, so keep to one invocation per client.
+
+Codex writes outside the command sandbox, so run it unsandboxed. If you do, `$TMPDIR` is the
+real system temp directory, not the sandbox's, so read the verdicts from where that
+invocation wrote them.
 
 `--output-schema` forces schema-valid JSON, so the orchestrator can gate on it without
 parsing prose. Read `.codex/skills/claude-review/references/tce-review-patterns.md` for the
