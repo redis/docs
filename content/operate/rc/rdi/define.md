@@ -83,6 +83,8 @@ Choose **AWS Private Link** or **Public Endpoint** for the selected source, acco
 
 Configure connectivity for each source separately. Sources in the same pipeline can use different connectivity methods.
 
+For shared endpoint services, separate source networks, or multiple subscriptions, see [Plan source connectivity](/content/operate/rc/rdi/networking/_index.md).
+
 ### Secrets
 
 Enter the Amazon Resource Name (ARN) of the selected source's [database credentials secret](/content/operate/rc/rdi/setup.md#create-database-credentials-secrets) in **Credentials Secret ARN**.
