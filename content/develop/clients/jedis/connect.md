@@ -45,6 +45,11 @@ public class Main {
 }
 ```
 
+> [!NOTE]
+> Jedis supports [connection URLs](/content/develop/clients/connection-urls.md#jedis-java) through `RedisClient.create()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 After you have connected, you can check the connection by storing and
 retrieving a simple string value:
 
