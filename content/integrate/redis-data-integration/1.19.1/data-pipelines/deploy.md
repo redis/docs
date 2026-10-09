@@ -324,7 +324,9 @@ Use [`redis-di stop`](/content/integrate/redis-data-integration/1.19.1/reference
 to pause a running pipeline and
 [`redis-di start`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start.md)
 to resume it. Stopping a pipeline halts data processing without deleting the pipeline or its
-configuration, so you can start it again later from where it left off.
+configuration. A Debezium source restarts according to its
+[snapshot mode](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+and the availability of its saved source position.
 
 ```bash
 redis-di stop
@@ -334,10 +336,15 @@ redis-di start
 ## Reset a pipeline
 
 Use [`redis-di reset`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-reset.md)
-to return a pipeline to initial full-sync mode. This reloads a fresh
-[snapshot](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview) of the source
-data and then resumes change data capture (CDC), which is useful when the source and target have
-drifted out of sync.
+to clear the pipeline's saved source positions. With the default `initial` snapshot
+mode, a Debezium collector reloads selected source data and then resumes change data capture
+(CDC). Reset does not change the configured
+[snapshot mode](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+Modes that skip existing rows do not reload them after a reset, and `initial_only`
+does not capture subsequent changes.
+
+Reset does not flush the target Redis database. A new snapshot can overwrite target
+records, but [missed deletes can leave stale records](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#missed-deletes).
 
 ```bash
 redis-di reset

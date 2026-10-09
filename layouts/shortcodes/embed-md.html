@@ -2,4 +2,7 @@
 {{ $page := .Site.GetPage $file }}
 {{ with $page }}
   {{ .Content }}
+  {{ if .Store.Get "hasMermaid" }}
+    {{ $.Page.Store.Set "hasMermaid" true }}
+  {{ end }}
 {{ end }}

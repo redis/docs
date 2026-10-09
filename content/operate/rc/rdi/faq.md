@@ -14,21 +14,42 @@ weight: 6
 
 ### What happens when I reset the pipeline? {#reset-pipeline}
 
-A pipeline reset clears the internal RDI state for all sources, including their saved positions. When the pipeline runs, RDI takes a new snapshot of the selected data from every source, applies the current transformations, and then resumes streaming changes. If you reset a stopped pipeline, it remains stopped until you start it.
+A pipeline reset clears the internal RDI state for all sources, including their saved positions. When the pipeline runs, each source follows its configured initial data load settings. With the default `initial` mode, Debezium sources take new snapshots, apply the current transformations, and resume streaming. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. If you reset a stopped pipeline, it remains stopped until you start it.
 
 A reset does **not** flush the target Redis database. Records already in the target remain until RDI overwrites or deletes them through normal processing. Keys that are no longer produced by the current dataset or transformations can remain in the target after a reset. For example, changing a transformation's key prefix and resetting creates keys with the new prefix without deleting keys with the old prefix.
 
 See [Reset data pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) for the steps.
 
+### Why can records remain after a recovery snapshot? {#missed-deletes}
+
+A new snapshot can leave stale records in Redis. If a source row was deleted while
+collection was interrupted and the required log history expired, the snapshot cannot
+replay its delete event. This applies to Debezium sources with `type: cdc`, including
+automatic snapshots with `when_needed` and snapshots after a manual reset.
+
+The timeline follows one row through an automatic recovery snapshot. Read the numbered
+events in order. On wide screens, events alternate across a horizontal timeline.
+
+{{< rdi-snapshot-timeline >}}
+
+An interruption alone does not cause this gap. The saved position must become
+unavailable. The snapshot does not clean up the target, and a reset does not flush it.
+See the [detailed missed-delete sequence](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
+
 ### What happens when I flush the target database?
 
 **Flush target database** permanently deletes all data from the shared target, including data from every source and data written outside RDI. Stop the pipeline before flushing. The source databases are not changed.
 
-Flushing does not clear RDI's saved source positions. If you only start the pipeline afterwards, it resumes from those positions. It does not automatically reload records that have not changed in the source.
+Flushing does not clear RDI's saved source positions. Starting a Debezium source follows its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode). With the default `initial` mode and a valid saved position, it resumes streaming without reloading unchanged source rows.
 
 See [Flush the target database](/content/operate/rc/rdi/view-edit.md#flush-the-target-database).
 
 ### How do I reload data after a flush? {#reload-after-flush}
+
+Before reloading, check each source's initial data load settings. For Debezium sources,
+select a [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) that loads existing rows, such as
+`initial`. Modes that skip data snapshots cannot refill the target's existing rows.
 
 1. Wait for the flush to finish.
 1. [Reset the pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) while it is stopped, and wait for the reset to finish.
@@ -41,7 +62,7 @@ RDI reloads data available in the source databases using the current dataset and
 
 ### What happens when I reset one source? {#reset-one-source}
 
-RDI clears the selected source's internal state and takes a new snapshot of its selected data. The whole pipeline, including the other sources and the processor, restarts during this operation. Other sources keep their saved positions and resume streaming without a new snapshot.
+RDI clears the selected source's internal state, including its saved position. With the default `initial` mode, a Debezium source takes a new data snapshot. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. The whole pipeline, including the other sources and the processor, restarts. Other sources keep their saved positions but follow their configured modes on restart; `always` takes another snapshot even with a preserved position.
 
 All records already in the target remain, including records from the reset source. The new snapshot can overwrite that source's records. Resetting a source does not selectively delete its target data.
 
@@ -51,7 +72,7 @@ See [Reset a source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 Currently, RDI cannot flush target data for a single source. Connect to the target Redis database and selectively delete the records you want to remove. Identify them from your key naming and transformation rules, and check that other sources do not write to the same keys. Do not use **Flush target database** for this purpose: it deletes data for all sources.
 
-Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, [reset that source](/content/operate/rc/rdi/view-edit.md#reset-source).
+Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, select a mode that takes a data snapshot, then [reset that source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 ### Does deleting a source delete its target data?
 
@@ -63,7 +84,7 @@ No. Deleting a source removes its pipeline configuration and internal RDI state.
 
 Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window](/content/operate/rc/rdi/_index.md#maintenance-windows).
 
-During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. A streaming pipeline then resumes from its saved state and processes the changes accumulated during the interruption.
+During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. With the default `initial` mode and valid saved positions, Debezium sources resume streaming and process the accumulated changes. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) or unavailable source history can change this behavior.
 
 A routine upgrade does not flush the target database or require you to reset the pipeline. Existing target records remain available, but they may temporarily lag behind the source data.
 

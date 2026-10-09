@@ -80,6 +80,15 @@ are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
 to say that all writes after the first one make no change to the
 overall state).
 
+{{< note >}}
+The delivery guarantee applies to change events captured by RDI. If a Debezium
+collector's saved source position becomes unavailable, a new snapshot cannot replay
+changes whose source log history has expired. Missed deletes can leave stale records
+in the target. See the
+[missed-delete timeline](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/1.19.1/troubleshooting.md#unavailable-source-history).
+{{< /note >}}
+
 ## Checkpointing
 
 RDI uses Redis streams to store the sequence of change events

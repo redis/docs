@@ -170,6 +170,52 @@ The example configuration contains the following data:
   - `java_options`: controls the JAVA_OPTS environment variable (for RDI 1.15.1 and above). Use it to modify the default values for Java heap size and other Java options for the Debezium server.
     For example, set it to `"-Xmx2g -Xms512m"` to set the maximum heap size to 2 GB and the initial heap size to 512 MB.
 
+### Choose a snapshot mode {#choose-a-snapshot-mode}
+
+Use `sources.<source-name>.advanced.source.snapshot.mode` to control when a
+Debezium collector loads existing source data before streaming changes. This property
+applies to sources with `type: cdc`, including MariaDB, MongoDB, MySQL, Oracle,
+PostgreSQL, and SQL Server. It does not configure Spanner, Snowflake, or external
+collectors.
+
+Add the property under the source you want to configure. For example, this file
+uses `initial` for a MySQL source:
+
+```yaml
+sources:
+  mysql:
+    type: cdc
+    connection:
+      type: mysql
+      host: <your-source-host>
+      port: 3306
+      user: ${MYSQL_DB_USERNAME}
+      password: ${MYSQL_DB_PASSWORD}
+    advanced:
+      source:
+        snapshot.mode: initial
+
+targets:
+  target:
+    connection:
+      type: redis
+      host: <your-target-host>
+      port: 6379
+      password: ${TARGET_DB_PASSWORD}
+```
+
+RDI 1.19.1 and RDI 2.0.0 bundle Debezium 3.5. The comparison and connector
+notes in this section apply to those releases. RDI 2.2.0 is planned to use
+Debezium 3.7.
+
+{{< embed-md "rdi-snapshot-modes.md" >}}
+
+A reset clears saved positions without changing `snapshot.mode` or flushing the target
+Redis database. If you need to reload existing rows, select a mode that takes a data
+snapshot. A snapshot can overwrite target records, but it does not remove stale records
+for rows that are absent from the source. See
+[Recover from unavailable source log history](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
+
 ### Targets
 
 Use this section to provide the connection details for the target Redis

@@ -57,6 +57,32 @@ log analysis tools can use.
 > [Backpressure mechanism](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#backpressure-mechanism)
 > in the Architecture guide for more information.
 
+## Recover from unavailable source log history {#unavailable-source-history}
+
+If the collector cannot resume from its saved position, check the collector source log
+for unavailable or expired source log history. This differs from a missing offset,
+which is expected on first deployment or after a reset.
+
+With `initial`, the collector can fail rather than start a new snapshot when the saved
+position is unavailable. With `when_needed`, it can automatically snapshot the current
+selected data and resume streaming. A new snapshot after a restart can therefore
+indicate that the source history was no longer available. See
+[Choose a snapshot mode](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+for the connector-specific behavior.
+
+Before you use a new snapshot to recover, check for
+[missed deletes and stale target records](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#missed-deletes).
+A snapshot does not replay lost history or delete target records that are absent from
+the source. Resetting the pipeline also leaves target records in place.
+
+If the saved position is unavailable, work with Redis support to plan a target cleanup
+or rebuild before relying on the target as a complete copy. Check whether the target
+contains data from other sources or applications before deleting any records. To reload
+existing source rows, configure a mode that takes a data snapshot, then
+[reset the pipeline](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#reset-a-pipeline).
+Review the source's log retention so the required history remains available during
+future interruptions.
+
 ## Dump support package
 
 If you need to send a comprehensive set of forensics data to Redis support,
