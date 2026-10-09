@@ -59,31 +59,12 @@ No. Deleting a source removes its pipeline configuration and internal RDI state.
 
 ## Capacity and network planning
 
-### How many sources and processor replicas can a pipeline use?
-
-Cloud RDI runs one Flink processor for each pipeline. A pipeline supports up to
-10 sources and up to 10 TaskManagers. Each source uses a collector, and each
-TaskManager is a processor replica.
-
-The source and TaskManager limits do not guarantee that an existing workspace
-has enough network capacity to run them all. Plan the workspace CIDR before you
-scale near these limits. See [Scale a Cloud RDI pipeline]({{< relref
-"/operate/rc/rdi/scale-pipeline" >}}).
-
 ### What CIDR range should I use for Cloud RDI?
 
-Cloud RDI suggests a Classless Inter-Domain Routing (CIDR) range of `/22` by
-default. Use it for a pipeline with up to 5 sources and 5 TaskManagers. If you
-plan to use more sources or TaskManagers, choose at least a `/21` CIDR range
-when you create the workspace.
-
-Cloud RDI needs complete IP address blocks in each Availability Zone to start
-new nodes. Node replacements and maintenance can temporarily need additional
-capacity. A `/21` is planning guidance, not a guarantee for every workload.
-
-You cannot enlarge an existing workspace CIDR. Choose a range that leaves
-capacity for planned growth, replacement nodes, and maintenance, and is
-compatible with your selected connectivity method.
+Plan the Classless Inter-Domain Routing (CIDR) range for all pipelines in the
+workspace, including future sources and processor replicas. You cannot enlarge
+it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
+for `/22`, `/21`, and larger-range guidance.
 
 ## Upgrades and maintenance
 
@@ -142,36 +123,20 @@ Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/r
 
 ### Does Cloud RDI automatically scale the processor?
 
-No. Cloud RDI does not automatically add or remove TaskManagers based on
-processor load, pending records, throughput, or backpressure. Set the desired
-number of TaskManagers with
-`advanced.resources.taskManager.replicas`. See [Scale a Cloud RDI pipeline]({{<
-relref "/operate/rc/rdi/scale-pipeline" >}}).
+No. Set the desired processor replica count with
+`advanced.resources.taskManager.replicas`. See [Increase processor capacity](/content/operate/rc/rdi/scale-pipeline.md#increase-processor-capacity).
 
 ### How do I increase processing capacity for a pipeline?
 
-First identify whether the collector, RDI database, Flink processor, or target
-database limits the pipeline. You can increase collector ingestion capacity
-with source-specific advanced collector properties. You can increase the RDI
-database throughput in the database **Performance** settings. For a processor
-bottleneck, edit **Settings** and set
-`advanced.resources.taskManager.replicas` to the needed number. Save the
-change, then apply and restart the pipeline. See [Scale a Cloud RDI pipeline]({{<
-relref "/operate/rc/rdi/scale-pipeline" >}}) for signals and tuning guidance.
+First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck),
+then tune the collector, RDI database, or processor as needed. Check shared
+workspace network capacity before adding sources or processor replicas.
 
 ### Can I see that the processor has scaled in the console?
 
-Yes. The Dashboard shows the processor replica count next to the processor
-status. It shows the running count and configured count in the format
-`running / configured replicas`. For example, `3 / 3 replicas` means three
-TaskManagers are running and the pipeline is configured for three.
-
-The Metrics tab shows data-stream record counts and pending records, but not
-the replica count.
-
-For programmatic confirmation, use the RDI API pipeline-status response and
-inspect the `flink-processor` component's `replicas` value. See [Confirm the
-applied capacity]({{< relref "/operate/rc/rdi/scale-pipeline" >}}).
+Yes. The **Dashboard** shows running and configured processor replicas next to
+the processor status. See [Confirm the applied capacity](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+for how to read the count and handle a persistent mismatch.
 
 ### Can I use billing to confirm a scaling change?
 

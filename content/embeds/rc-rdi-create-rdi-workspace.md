@@ -16,7 +16,9 @@ To create a Data Integration workspace for an existing [Pro subscription]({{< re
 
     {{<image filename="images/rc/rdi/rdi-create-workspace-select-subscription.png" alt="The select pro subscription drop down." width=80% >}}
 
-3. A **Data Integration subnet (CIDR)** is automatically generated for you. Each RDI workspace uses a dedicated `/22` CIDR.
+3. Review the suggested **Data Integration subnet (CIDR)**. The console suggests a dedicated `/22` Classless Inter-Domain Routing (CIDR) range for the workspace.
+
+    Before you create the workspace, [plan network capacity for all its pipelines](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity). If you expect more than 5 sources or more than 5 processor replicas in total, choose a `/21` or larger range. This is conservative planning guidance, not a guaranteed capacity limit. You cannot enlarge the workspace CIDR after creation.
 
     For AWS, the RDI workspace CIDR must:
 
@@ -25,7 +27,7 @@ To create a Data Integration workspace for an existing [Pro subscription]({{< re
 
     For example, if the subscription VPC's primary CIDR is `10.238.252.0/24`, then `192.168.0.0/22` is invalid because it is in a different RFC 1918 range. An unused range such as `10.239.0.0/22` is valid.
 
-    If the automatic suggestion is missing or unsuitable, select another unused `/22` CIDR in the same private range. For more information, see [VPC CIDR block association restrictions](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html#vpc-resize).
+    If the automatic suggestion is missing or unsuitable, select another unused range that meets your capacity needs and is in the same private range. For more information, see [VPC CIDR block association restrictions](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html#vpc-resize).
 
     {{<image filename="images/rc/rdi/rdi-create-workspace-cidr.png" alt="The select pro subscription drop down." width=80% >}}
 
