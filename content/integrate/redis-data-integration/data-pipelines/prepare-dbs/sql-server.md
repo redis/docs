@@ -759,16 +759,9 @@ GO
 
 ## Handling changes to the schema
 
-RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. For example,
-if you add a new column to a table you are capturing then RDI will generate errors
-instead of capturing the changes correctly. See Debezium's
-[SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution)
-docs for more information.
+RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. The existing capture instance continues to use its captured column structure. For example, adding a column can leave RDI streaming changes without that column instead of reporting an error. Create a new capture instance to capture the updated schema. See Debezium's [SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution) documentation for more information.
 
-If you have administrator privileges, you can follow the steps below to update RDI after
-a schema change and resume CDC. See the
-[online schema updates](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#online-schema-updates)
-documentation for further details.
+If you have administrator privileges, use this online procedure to update the capture instance while RDI is running. During the interval between changing the source schema and creating the new capture instance, events still use the old captured column structure. A short interval or low write traffic does not guarantee correct capture. If you cannot tolerate events that omit the new column, [update the schema offline](#update-the-schema-offline).
 
 ```checklist {id="sqlserver-schema-changes" nointeractive="true" }
 - [ ] [Make your changes to the source table schema](#make-your-changes-to-the-source-table-schema)
@@ -796,9 +789,9 @@ documentation for further details.
     ```
 
 1. <a id="drop-the-old-capture-table"></a>
-    When Debezium starts streaming from the new capture table, drop the old capture table by running 
-    the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old
-    capture instance name, `dbo_MyTable`:
+    When Debezium starts streaming from the new capture table and you no longer need the old captured changes, drop the old capture table by running the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old capture instance name, `dbo_MyTable`:
+
+    Disabling the old instance deletes its change table and captured history. Rewinding an offset cannot recover changes that existed only in that capture table, even if SQL Server still retains them in the transaction log. If you need those changes for recovery or replay, retain the old instance until they are no longer needed. Retaining the instance does not prevent CDC cleanup from removing expired changes. Check the [CDC retention and capture instance limits](https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server). SQL Server permits only two capture instances per source table, so retaining the old instance also affects the next schema migration.
 
     ```sql
     EXEC sys.sp_cdc_disable_table
@@ -809,7 +802,42 @@ documentation for further details.
     ```
 
 > [!NOTE]
-> RDI will *not* correctly capture changes that happen in the time gap between changing
-> the source schema (step 1 above) and updating the value of `@capture_instance` (step 2).
-> Try to keep the gap as short as possible or perform the update at a time when you expect
-> few changes to the data.
+> Verify the values of the new or changed columns in the captured events after the migration. Continued streaming or a matching row count does not prove that the updated columns were captured.
+
+### Update the schema offline
+
+Use this procedure to adapt Debezium's [offline schema update procedure](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#offline-schema-updates) to RDI. Keep the pipeline running and stop only the SQL Server source collector, so the processor and other source collectors remain available. Replace `<pipeline-name>` with your pipeline name and `<source-name>` with the SQL Server source name from `config.yaml`.
+
+1. Suspend application writes to the tables captured by the SQL Server source collector.
+
+1. Wait for the final committed changes to reach the target Redis database. Use [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md) to check that the source's tables have zero pending records, no errors, and no new rejected records. Also verify the expected final changes in the target. Zero pending records alone does not prove that SQL Server's capture job has captured the final writes.
+
+    ```bash
+    redis-di describe <pipeline-name>
+    ```
+
+1. Stop the SQL Server source collector with [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md). Wait for the command to complete successfully before changing the schema.
+
+    ```bash
+    redis-di stop <pipeline-name> --source <source-name>
+    ```
+
+1. [Apply the schema changes](#make-your-changes-to-the-source-table-schema) while application writes remain suspended.
+
+1. [Create a new capture instance](#create-a-new-capture-table-for-the-updated-source-table) with a unique name. Keep the old instance until RDI has switched to the new one and you no longer need its captured history.
+
+1. If your pipeline selects specific columns or references changed column names in transformations, update its configuration and [deploy it](/content/integrate/redis-data-integration/data-pipelines/deploy.md) while application writes remain suspended.
+
+1. Restart the SQL Server source collector with [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md).
+
+    ```bash
+    redis-di start <pipeline-name> --source <source-name>
+    ```
+
+1. Check `redis-di describe <pipeline-name>` for source connectivity and errors before resuming application writes. Starting a source collector does not start a stopped pipeline.
+
+1. Resume application writes.
+
+1. Verify that changes made after the migration include the new or changed column values in the target as intended by your transformation jobs.
+
+1. [Drop the old capture instance](#drop-the-old-capture-table) only after RDI streams from the new instance and you no longer need the old captured history.

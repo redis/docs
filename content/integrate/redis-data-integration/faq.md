@@ -100,6 +100,8 @@ and changes to column names unless you configure it for a specific set of column
 Bear in mind that the Redis keys in the target database will change to reflect the
 new or renamed tables and columns.
 
+SQL Server is an exception to automatic column handling. You must create a new CDC capture instance after a schema change. Until you do, events can continue to use the old captured column structure and omit a newly added column. Follow [Handling changes to the SQL Server schema](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server.md#handling-changes-to-the-schema) for the migration procedure and its capture history limits.
+
 ## Should I be concerned when the log says RDI is out of memory? {#rdi-oom}
 
 Sometimes the Debezium log will contain a message saying that RDI is out of
