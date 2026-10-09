@@ -127,7 +127,8 @@ You can also use custom keys for the parent entity, as long as you use the same 
 To join one-to-many relationships, you can use the *Nesting* strategy.
 With this, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside it as a JSON map attribute. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
 
-{{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
+![](/images/rdi/ingest/nest-flow.webp)
+{width="500px"}
 
 
 To configure normalization, you must first configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job as shown in the example below:

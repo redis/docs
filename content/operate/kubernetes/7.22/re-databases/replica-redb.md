@@ -12,11 +12,10 @@ url: '/operate/kubernetes/7.22/re-databases/replica-redb/'
 ---
 
 You can configure a replica of a database by creating an item in
-the [`replicaSources`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api#specreplicasources" >}}) section of the RedisEnterpriseDatabase (REDB) custom resource.
+the [`replicaSources`](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md#specreplicasources) section of the RedisEnterpriseDatabase (REDB) custom resource.
 
-{{< note >}}
-If the source cluster is reached through an ingress route (for example, an OpenShift route or any TLS pass-through that relies on SNI), set [`tlsSniName`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api#specreplicasources" >}}) on each `replicaSources` item to the SNI hostname configured on the ingress. Without it, the syncer cannot route TLS to the source database's proxy and replication fails.
-{{< /note >}}
+> [!NOTE]
+> If the source cluster is reached through an ingress route (for example, an OpenShift route or any TLS pass-through that relies on SNI), set [`tlsSniName`](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md#specreplicasources) on each `replicaSources` item to the SNI hostname configured on the ingress. Without it, the syncer cannot route TLS to the source database's proxy and replication fails.
 
 A secret must be created with the `stringData` section containing the replica source URI as follows:
 

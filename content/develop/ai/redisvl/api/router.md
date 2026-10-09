@@ -85,12 +85,11 @@ Delete every route reference, leaving the index in place.
 Clears by index membership. Available under `create_index=False`;
 dropping the index is [delete](#delete).
 
-{{< warning >}}
-The stored `route_config` is left as it was, here and on the
-default path. A separate process calling [from_existing](#from_existing)
-afterwards will report routes whose reference vectors are gone.
-[remove_route](#remove_route) keeps the two in step.
-{{< /warning >}}
+> [!WARNING]
+> The stored `route_config` is left as it was, here and on the
+> default path. A separate process calling [from_existing](#from_existing)
+> afterwards will report routes whose reference vectors are gone.
+> [remove_route](#remove_route) keeps the two in step.
 
 * **Return type:**
   None

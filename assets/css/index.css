@@ -129,7 +129,11 @@ section.prose {
 }
 
 .context-map-shape {
-  @apply fill-white stroke-redis-red-500;
+  @apply fill-white;
+  /* Red-to-grey diagonal gradient (defined in context-map.js), matching the
+     node border on the mermaid-derived diagrams elsewhere on these pages
+     (mermaid's "neo" look), not the flat brand redis-red-500. */
+  stroke: url(#context-map-border-gradient);
   stroke-width: 1;
   transition: fill 0.15s ease, stroke 0.15s ease;
 }
@@ -144,12 +148,13 @@ section.prose {
 }
 
 .context-map-node.is-hovered .context-map-shape {
-  @apply stroke-redis-red-500;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
 .context-map-node.is-selected .context-map-shape {
-  @apply fill-red-50 stroke-redis-red-500;
+  @apply fill-red-50;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
@@ -184,7 +189,7 @@ section.prose {
 }
 
 .context-map-node:focus-visible .context-map-shape {
-  @apply stroke-redis-red-500;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
@@ -299,6 +304,11 @@ section.prose {
 
 .prose .alert p {
   @apply m-0;
+}
+
+/* Back-to-back callouts otherwise touch, which led authors to add spacer lines that break the Markdown. */
+.alert + .alert {
+  @apply mt-4;
 }
 
 select {
@@ -1225,6 +1235,17 @@ code {
 /* no-click turns off border and click event on small icons */
 a[href*="#no-click"], img[src*="#no-click"] {
   @apply border-none cursor-default pointer-events-none no-underline;
+}
+
+/* Icons in running text scale with it. render-image.html marks them img-inline, but an
+   image alone in a table cell reaches the hook as a block image, so cells match on #no-click. */
+img.img-inline, td img[src*="#no-click"] {
+  display: inline;
+  height: 1.5em;
+  width: auto;
+  vertical-align: middle;
+  /* Negative block margins stop a 1.5em icon from making its line taller. */
+  margin: -0.1em 0;
 }
 
 /* Version selector in side menu */

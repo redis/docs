@@ -259,7 +259,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   When a time series holds discrete samples of a continuous signal (e.g., temperature), using `avg` to estimate the average value over a given timeframe would produce a good estimate only when the signal is sampled at constant intervals. If, however, samples are available at non-constant intervals (e.g., when some samples are missing), the `twa` aggregator produces a more accurate estimate by averaging samples over time instead of simply averaging the samples.
 
-  {{<image filename="images/modules/twa.png" alt="A graph showing the difference between average and time-weighted average.">}}
+  ![A graph showing the difference between average and time-weighted average.](/images/modules/twa.png)
 
   This is an extreme example: the signal in the diagram above has 4 samples in its ‘high’ value and 13 samples in its ‘low’ value. However, the period in each of those states is about the same. It is easy to see that the simple average (avg) of all the 17 samples does not represent the signal’s average over time.
 
@@ -271,7 +271,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   Using `EMPTY` with the `twa` aggregator allows us to estimate the average of a continuous signal even for buckets where no samples were collected (gap-filling).
 
-  {{<image filename="images/modules/GapFilling.png" alt="A graph that illustrates gap-filling.">}}
+  ![A graph that illustrates gap-filling.](/images/modules/GapFilling.png)
 
   Consider we want to use [TS.RANGE](/content/commands/ts.range.md) to calculate the average value of each bucket (p1, p2, p3 in the diagram above). Using avg, the value reported for bucket p2 would be NaN, as this bucket contains no samples. If we use `EMPTY` with `twa`, on the other hand, the average value for bucket p2 would be calculated based on the linear interpolation of the value left of p2 and the value right of p2.
 

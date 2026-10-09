@@ -15,14 +15,8 @@ weight: 3
 
 LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. This similarity match lets *What are Product A's features?* and *Tell me about Product A's capabilities* share a cached response.
 
-```mermaid {width="90%"}
-graph LR
-    A["Incoming prompt"] --> B{"Similarity above<br/>threshold?"}
-    B -->|Yes| C(["Return cached response<br/>(milliseconds)"])
-    B -->|No| D["Call the LLM"]
-    D --> E["Store prompt and response<br/>as a new cache entry"]
-    E --> F(["Return the LLM response"])
-```
+![An incoming prompt is checked against a similarity threshold. A match returns a cached response in milliseconds. A miss calls the LLM, stores the prompt and response as a new cache entry, then returns the LLM response.](/images/ai/context-engine/langcache-semantic-flow.svg)
+{width="850"}
 
 If you've used a traditional, exact-key cache before, similarity matching behaves differently from what you're used to. Semantic caching gives up the guarantee that a cache hit is always correct, in exchange for the ability to match paraphrased or related questions. That trade-off is what makes the cache useful for an agent. Users and agents rarely phrase the same request the same way twice. Matching by meaning, instead of exact text, turns repeat requests into fast, cache-served responses.
 
@@ -63,6 +57,7 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
+- Try the [LangCache interactive demo]({{< relref "/develop/ai/context-engine/langcache/interactive-demo" >}}) to see how the similarity threshold changes hits and misses.
 - [Create a LangCache service]({{< relref "/operate/iris/langcache/create-service" >}}) on Redis Cloud.
 - [Deploy LangCache self-managed]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}) on your own Kubernetes infrastructure.
 - [Use the LangCache API and SDK]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) to search and populate a cache.

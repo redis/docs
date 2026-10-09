@@ -17,7 +17,7 @@ This password appears in the **Security** section of the **Configuration** tab o
 
 Use the copy button to copy the password to the clipboard:
 
-{{<image filename="images/rc/button-copy.png"  alt="Use the Copy button to copy the default user password." >}}
+![Use the Copy button to copy the default user password.](/images/rc/button-copy.png)
 
 You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database](/content/operate/rc/databases/connect/_index.md) for more info.
 

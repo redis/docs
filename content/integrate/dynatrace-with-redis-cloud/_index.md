@@ -31,7 +31,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-dynatrace.png" >}}
+![](/images/rc/redis-cloud-dynatrace.png)
 ## Install Redis' Dynatrace Integration for Redis Cloud
 
 The Dynatrace Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 

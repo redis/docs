@@ -16,20 +16,8 @@ Redis Iris sits between your agent and your data. It's one system. Your agent as
 
 Use Redis Iris when you want agents to respond with cached answers instead of repeat model calls, recall what they've learned across turns and sessions, and act on live business data. Iris builds and maintains that infrastructure for you.
 
-```mermaid {width="90%"}
-graph TD
-    subgraph iris["Redis Iris"]
-        A["Store memories"]
-        B["Cache answers"]
-        C["Retrieve context"]
-    end
-    Agent["Agent"] <--> iris
-    A --> D[("Reach Redis or any connected database")]
-    B --> D
-    C --> D
-    style D width:320px
-    style iris fill:#ffffff
-```
+![An agent connects to Redis Iris, which stores memories, caches answers, and retrieves context, all backed by Redis or a connected database.](/images/ai/context-engine/iris-mental-model.svg)
+{width="650"}
 
 ## The mental model
 
@@ -100,3 +88,4 @@ Run all three fully managed on Redis Cloud, or self-managed on your own infrastr
 - [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
+- Interactive demos for [LangCache]({{< relref "/develop/ai/context-engine/langcache/interactive-demo" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser

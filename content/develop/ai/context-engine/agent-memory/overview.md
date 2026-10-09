@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Overview
 title: Redis Agent Memory overview
 weight: 3
+aliases:
+- /develop/ai/context-engine/agent-memory/concepts/
 ---
 
 ## Background summarization and extraction
@@ -18,12 +20,8 @@ Agent Memory has two writers. Your application writes session events as they hap
 - **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't blow the model's context window.
 - **Extracts** long-term memories, facts and preferences worth keeping, and writes them as separate, searchable records with vector embeddings.
 
-```mermaid {width="80%"}
-graph LR
-    A["Application"] -->|"Add session event<br/>(synchronous)"| B["Session memory"]
-    B -.->|"Background<br/>extraction"| C["Long-term memory"]
-    A -->|"Search"| C
-```
+![An application writes session events synchronously to session memory. Background extraction moves durable information into long-term memory, which the application can search directly.](/images/ai/context-engine/agent-memory-writers.svg)
+{width="700"}
 
 Both run asynchronously, to keep session writes fast. Extraction also weighs a new memory against existing memories before writing it. Rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
 
@@ -70,5 +68,6 @@ Both paths are supported. Use direct writes for bulk imports or external knowled
 
 ## Next steps
 
+- Try the [Agent Memory interactive demo](content/develop/ai/context-engine/agent-memory/interactive-demo.md) to watch session memory and long-term memory change during a conversation.
 - [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
 - [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}), [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}), or [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to see session memory, extraction, and summarization in action.

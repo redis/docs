@@ -116,13 +116,13 @@ After applying this and a Secret named `alice-password` with a `password` key, A
 
 The underlying Redis Software behavior is unchanged. For concepts and reference details, see the existing Redis Software docs:
 
-- [Cluster-scoped role definitions]({{< relref "/operate/rs/security/access-control/create-cluster-roles" >}}) — what `Admin`, `ClusterMember`, `ClusterViewer`, and `UserManager` grant.
-- [Database-scoped role definitions]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) — what `DBMember` and `DBViewer` grant.
-- [Combined cluster and database roles]({{< relref "/operate/rs/security/access-control/create-combined-roles" >}}) — when a role grants both planes.
-- [Redis ACL syntax]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) — rule format for `RedisEnterpriseACL` resources.
-- [Login lockout and unlock]({{< relref "/operate/rs/security/access-control/manage-users/login-lockout" >}}) — how locked users are recovered.
-- [Password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}) and [password expiration]({{< relref "/operate/rs/security/access-control/manage-passwords/password-expiration" >}}) — applied by Redis Software regardless of how the password is delivered.
-- [Default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}) — the built-in cluster admin account.
+- [Cluster-scoped role definitions](/content/operate/rs/security/access-control/create-cluster-roles.md) — what `Admin`, `ClusterMember`, `ClusterViewer`, and `UserManager` grant.
+- [Database-scoped role definitions](/content/operate/rs/security/access-control/create-db-roles.md) — what `DBMember` and `DBViewer` grant.
+- [Combined cluster and database roles](/content/operate/rs/security/access-control/create-combined-roles.md) — when a role grants both planes.
+- [Redis ACL syntax](/content/operate/rs/security/access-control/redis-acl-overview.md) — rule format for `RedisEnterpriseACL` resources.
+- [Login lockout and unlock](/content/operate/rs/security/access-control/manage-users/login-lockout.md) — how locked users are recovered.
+- [Password complexity rules](/content/operate/rs/security/access-control/manage-passwords/password-complexity-rules.md) and [password expiration](/content/operate/rs/security/access-control/manage-passwords/password-expiration.md) — applied by Redis Software regardless of how the password is delivered.
+- [Default user](/content/operate/rs/security/access-control/manage-users/default-user.md) — the built-in cluster admin account.
 
 ## What's different on Kubernetes
 
@@ -137,13 +137,13 @@ Access control resources are reconciled only in the operator namespace. Password
 
 ## In this section
 
-- [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create `RedisEnterpriseUser` resources, rotate passwords, recover from lockouts.
-- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create database and cluster roles with the right scope and management permissions.
-- [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) — create and update `RedisEnterpriseACL` resources used by roles.
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign roles to users with `RedisEnterpriseRoleBinding` and `RedisEnterpriseClusterRoleBinding`.
-- [Migrate from REDB rolesPermissions]({{< relref "/operate/kubernetes/security/access-control/migrate-rolespermissions" >}}) — move from the deprecated `RedisEnterpriseDatabase.spec.rolesPermissions` field to the new CRD model.
+- [Manage users](/content/operate/kubernetes/security/access-control/manage-users.md) — create `RedisEnterpriseUser` resources, rotate passwords, recover from lockouts.
+- [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md) — create database and cluster roles with the right scope and management permissions.
+- [Manage ACLs](/content/operate/kubernetes/security/access-control/manage-acls.md) — create and update `RedisEnterpriseACL` resources used by roles.
+- [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md) — assign roles to users with `RedisEnterpriseRoleBinding` and `RedisEnterpriseClusterRoleBinding`.
+- [Migrate from REDB rolesPermissions](/content/operate/kubernetes/security/access-control/migrate-rolespermissions.md) — move from the deprecated `RedisEnterpriseDatabase.spec.rolesPermissions` field to the new CRD model.
 
 ## Related topics
 
-- [Redis Software for Kubernetes operator API reference]({{< relref "/operate/kubernetes/reference/api" >}}) — field-by-field specification for every CRD in the `app.redislabs.com/v1alpha1` group.
-- [Redis databases (REDB)]({{< relref "/operate/kubernetes/re-databases" >}}) — the resources that role scopes resolve against.
+- [Redis Software for Kubernetes operator API reference](/content/operate/kubernetes/reference/api/_index.md) — field-by-field specification for every CRD in the `app.redislabs.com/v1alpha1` group.
+- [Redis databases (REDB)](/content/operate/kubernetes/re-databases/_index.md) — the resources that role scopes resolve against.

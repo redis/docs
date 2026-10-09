@@ -16,9 +16,9 @@ Stream live business data into Redis so agents always work with accurate, up-to-
 Redis Data Integration (RDI) keeps your Redis Cloud database in sync with your existing relational databases using [Change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC). Agents query Redis at full speed without ever querying your production databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
-  {{< tile-card color="bg-violet-300" title="Define Pipeline" description="Configure which tables to sync and how to map them to Redis" url="/operate/rc/rdi/define" >}}
-  {{< tile-card color="bg-teal-300" title="RDI Documentation" description="Installation, configuration, and advanced pipeline options" url="/integrate/redis-data-integration" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Define Pipeline" description="Configure which tables to sync and how to map them to Redis" url="/operate/rc/rdi/define" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-data-integration-64-duotone.png" title="RDI Documentation" description="Installation, configuration, and advanced pipeline options" url="/integrate/redis-data-integration" >}}
 </div>
 
 ## What is Redis Data Integration?
@@ -60,6 +60,8 @@ RDI pipelines are defined through configuration. You specify which source databa
 
 See the [RDI quick start](/content/operate/rc/rdi/quick-start.md) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
 
+To watch a pipeline sync a PostgreSQL database without setting one up, try the [interactive demo](/content/develop/ai/context-engine/data-integration/interactive-demo.md).
+
 ## Redis Data Integration overview
 
 AI agents are only as reliable as the data they work with. RDI solves the freshness problem by using [Change Data Capture (CDC)](https://en.wikipedia.org/wiki/Change_data_capture) to detect changes in your source database and propagate them to Redis within seconds. Agents interact only with Redis, which is fast, predictable, and always current.
@@ -69,12 +71,8 @@ RDI pipelines run in two phases:
 - **Initial sync**: Reads a full snapshot of your source data and loads it into the target Redis database.
 - **Streaming**: Captures changes as they happen and applies them to Redis within seconds of the source change.
 
-```mermaid {width="70%"}
-flowchart LR
-    A[(Source database)] -->|Initial sync| B[(Redis)]
-    A -->|CDC stream| B
-    B --> C[Agent]
-```
+![A source database syncs to Redis through an initial sync and a continuous CDC stream. Redis serves the agent.](/images/ai/context-engine/rdi-sync-flow.svg)
+{width="500"}
 
 Data is transformed from relational rows into Redis hashes or JSON documents as part of the pipeline, with no coding required. You define what data to sync and how to map it using configuration, and RDI handles the rest.
 

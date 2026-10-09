@@ -82,7 +82,7 @@ questions:
                 nextQuestion: changeRate
     changeRate:
         text: |
-            Are there fewer than 10K changes per second in the source database?
+            Are there fewer than 20K changes per second in the source database?
         whyAsk: |
             RDI has throughput limits. Exceeding these limits will cause processing failures and data loss.
         answers:
@@ -97,7 +97,7 @@ questions:
                 nextQuestion: dataSize
     dataSize:
         text: |
-            Is your total data size smaller than 100GB?
+            Is your total data size smaller than 200GB?
         whyAsk: |
             RDI has practical limits on the total data size it can manage, based
             on the throughput requirements for full sync.

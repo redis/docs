@@ -137,7 +137,7 @@ from token_bucket import TokenBucket
 # Create a Redis connection
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-# Create a rate limiter: 10 requests per second
+# Create a rate limiter: 1 request per second
 limiter = TokenBucket(
     redis_client=r,
     capacity=10,        # Maximum burst size
@@ -163,7 +163,7 @@ else:
 * **refill_interval**: Time in seconds between refills
 
 For example:
-* `capacity=10, refill_rate=1, refill_interval=1.0` allows 10 requests per second with bursts up to 10
+* `capacity=10, refill_rate=1, refill_interval=1.0` allows 1 request per second with bursts up to 10
 * `capacity=100, refill_rate=10, refill_interval=1.0` allows 10 requests per second with bursts up to 100
 * `capacity=60, refill_rate=1, refill_interval=60.0` allows 1 request per minute with bursts up to 60
 

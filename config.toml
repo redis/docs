@@ -138,6 +138,12 @@ rdi_current_version = "2.0.0"
       unsafe = true
     [markup.goldmark.extensions]
       typographer = false
+    # Both are needed for a `{width="..." class="..."}` line after a standalone
+    # image to reach layouts/_default/_markup/render-image.html as .Attributes.
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+      [markup.goldmark.parser.attribute]
+        block = true
   [markup.highlight]
       # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
       # style = "github-dark"

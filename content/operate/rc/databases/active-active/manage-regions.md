@@ -12,7 +12,7 @@ weight: 10
 
 You can add and edit regions for an Active-Active deployment after it has been created by going to the **Regions** tab of the [subscription page](/content/operate/rc/subscriptions/view-pro-subscription.md). 
 
-{{<image filename="images/rc/subscription-details-regions-tab.png" alt="The Regions tab lets you manage the regions in your Active-Active subscription." >}}
+![The Regions tab lets you manage the regions in your Active-Active subscription.](/images/rc/subscription-details-regions-tab.png)
 
 ## Add a new region
 
@@ -20,11 +20,12 @@ To add a new region to an Active-Active deployment:
 
 1. In the **Regions** tab of the subscription page, select **Add region**.
 
-    {{<image filename="images/rc/subscription-details-regions-tab-add.png" width="128px" alt="Select Add region to add a new region to your Active-Active subscription." >}}
+    ![Select Add region to add a new region to your Active-Active subscription.](/images/rc/subscription-details-regions-tab-add.png)
+    {width="128px"}
 
 1. In the **Region setup** step:
 
-    {{<image filename="images/rc/subscription-add-region-setup.png" alt="The Region setup step." >}}
+    ![The Region setup step.](/images/rc/subscription-add-region-setup.png)
 
     1. Select the desired region from the **Region** list.
 
@@ -40,11 +41,11 @@ To add a new region to an Active-Active deployment:
 
     You can also select **Set throughput as existing region** to duplicate the throughput settings from an existing region.
 
-    {{<image filename="images/rc/subscription-add-region-throughput.png" alt="The Throughput step." >}}
+    ![The Throughput step.](/images/rc/subscription-add-region-throughput.png)
 
 1. Review the required resources and updated price for the database in the **Required resources** step. 
 
-    {{<image filename="images/rc/subscription-add-region-required-resources.png" alt="The Required resources step." >}}
+    ![The Required resources step.](/images/rc/subscription-add-region-required-resources.png)
 
 1. Select **Continue** to add the region to your Active-Active deployment.
 
@@ -56,7 +57,7 @@ Your database will still be available, but you may notice some increased latency
 
 To edit the local throughput settings for a database instance or remove a region from the deployment, select **Edit regions** in the **Regions** tab of the subscription page.
 
-{{<image filename="images/rc/subscription-details-regions-tab-edit.png" alt="Select Edit regions to update regions for your Active-Active subscription." >}}
+![Select Edit regions to update regions for your Active-Active subscription.](/images/rc/subscription-details-regions-tab-edit.png)
 
 From here, you can:
 
@@ -73,13 +74,13 @@ To edit the local throughput settings for a database instance:
 
 1. Add or reduce the local read and write throughput for each database in that region in the **Local reads ops/sec** and **Local writes ops/sec** fields.
 
-    {{<image filename="images/rc/subscription-edit-region-throughput.png" alt="The Edit regions page, with throughput settings changed." >}}
+    ![The Edit regions page, with throughput settings changed.](/images/rc/subscription-edit-region-throughput.png)
 
 ### Remove region
 
 To remove a region from an Active-Active deployment, select the **Delete** button for the region you want to remove.
 
-{{<image filename="images/rc/subscription-edit-region-delete.png" alt="Select the Delete button to remove a region from your Active-Active subscription." >}}
+![Select the Delete button to remove a region from your Active-Active subscription.](/images/rc/subscription-edit-region-delete.png)
 
 ### Save and confirm changes
 

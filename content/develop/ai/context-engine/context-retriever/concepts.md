@@ -15,12 +15,8 @@ weight: 3
 
 Context Retriever gives an agent a fixed, predefined set of callable tools to use instead of direct query access. Your database, its schema, and its own access controls stay unchanged. Context Retriever sits between the agent and that database, as an added layer.
 
-```mermaid {width="60%"}
-graph TD
-    Agent["Agent"] <-->|"MCP tools"| CR["Context Retriever"]
-    CR --> D[("Database")]
-    style D width:320px
-```
+![An agent calls Context Retriever through MCP tools, and Context Retriever queries the database.](/images/ai/context-engine/context-retriever-layer.svg)
+{width="160"}
 
 ## Direct data access vs. governed tool-calling
 
@@ -76,7 +72,8 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
+- Try the [Context Retriever interactive demo]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) to see a data model become the tools an agent calls.
 - [Create a Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}) on Redis Cloud.
-- [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}) on your own Kubernetes infrastructure.
-- Model your entities with the [Python client and `ctxctl` CLI](https://pypi.org/project/redis-context-retriever/).
+- [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) on your own Kubernetes infrastructure.
+- Follow the [quickstart]({{< relref "/develop/ai/context-engine/context-retriever/quickstart" >}}) to model entities, generate tools, and call one with the `ctxctl` CLI.
 - [Manage agent keys and access tags]({{< relref "/operate/iris/context-retriever/view-admin-keys" >}}) to control what each agent can reach.

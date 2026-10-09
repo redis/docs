@@ -20,11 +20,11 @@ Free databases are perfect for learning and exploring Redis. You get 30 MB of sp
 
 3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Try 30 MB for free**.
 
-    {{<image filename="images/rc/create-database-subscription-free.png" alt="The Subscription selection panel with Free selected.">}}
+    ![The Subscription selection panel with Free selected.](/images/rc/create-database-subscription-free.png)
 
     The rest of the database settings will appear.
 
-    {{<image filename="images/rc/create-database-free-settings.png" alt="The database name, cloud vendor, and region settings.">}}
+    ![The database name, cloud vendor, and region settings.](/images/rc/create-database-free-settings.png)
 
 4. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field. 
 
@@ -32,13 +32,14 @@ Free databases are perfect for learning and exploring Redis. You get 30 MB of sp
 
 1. Choose your **Cloud vendor** and **Region**. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
+    ![The list of available cloud vendors.](/images/rc/create-database-essentials-cloud-vendor-list.png)
 
     See [Supported regions](/content/operate/rc/supported-regions.md) for a list of supported regions by cloud vendor.
 
 6. Select **Create database**.
 
-    {{<image filename="images/rc/button-create-db.png" width="140px" alt="Select the Create database button to create your new database." >}}
+    ![Select the Create database button to create your new database.](/images/rc/button-create-db.png)
+    {width="140px"}
 
     When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 

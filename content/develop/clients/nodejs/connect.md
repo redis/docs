@@ -340,7 +340,7 @@ for more information about SCH.
 
 > [!NOTE]
 > Using SCH with node-redis requires v5.9.0 or later for
-> basic connections, and v5.11.0 or later for
+> standard routing, and v5.11.0 or later for
 > [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 Use the configuration options shown in the example below to enable SCH

@@ -38,7 +38,7 @@ What you have to do differs by method, so each install method below ends with it
 
 Both are supported and built from the same release. You can install either one on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
-Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
+Get the RPM from the [Redis Download Center](https://redis.io/downloads/#Modules_Tools_and_Integration). Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
 
 ## Before you start
 
@@ -54,7 +54,15 @@ Radar requires PostgreSQL 16 or later. Redis tests Radar against PostgreSQL 16 a
 
 For evaluation or testing, you can skip that step: the Helm chart can start a PostgreSQL container for you, though it isn't hardened for production use.
 
-The connection string needs privileges for both normal runtime work and schema migration, including `CREATEROLE`. On startup, the API server creates the roles it needs before it begins serving traffic.
+The connection string needs privileges for both normal runtime work and schema migration, including `CREATEROLE`. The login doesn't need `SUPERUSER` or `BYPASSRLS`. On startup, the API server creates the roles it needs before it begins serving traffic.
+
+An external database needs one more setting that `CREATEROLE` doesn't cover. A database owner or administrator has to apply the role membership default to the database named by `DATABASE_URL`:
+
+```sql
+ALTER DATABASE <database_name> SET createrole_self_grant = 'set, inherit';
+```
+
+Reconnect the migration login after you change this setting, so its new session inherits the database default. Radar doesn't apply this setting for you on an external database, and schema migration fails without it.
 
 Use `sslmode=require` or stricter to encrypt the connection. Radar passes your connection string through unchanged.
 
@@ -62,9 +70,8 @@ Use `sslmode=require` or stricter to encrypt the connection. Radar passes your c
 
 Radar encrypts the cluster credentials you supply. Each tenant gets its own data key, and all of those keys are wrapped by one key-encryption key (KEK) that you supply. The key must be **32 raw bytes**, not base64 or hex.
 
-{{< warning >}}
-Back up the KEK alongside the database and store the two backups separately. Neither is usable without the other. Radar cannot decrypt stored credentials if the API server and the worker read different keys, or if a restored database is paired with the wrong key. It fails closed rather than losing them silently.
-{{< /warning >}}
+> [!WARNING]
+> Back up the KEK alongside the database and store the two backups separately. Neither is usable without the other. Radar cannot decrypt stored credentials if the API server and the worker read different keys, or if a restored database is paired with the wrong key. It fails closed rather than losing them silently.
 
 ### FIPS mode
 
@@ -88,9 +95,8 @@ Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its se
 
 The RPM installs native binaries and needs no container runtime. It also installs the `radar` diagnostics command.
 
-{{< note >}}
-The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
-{{< /note >}}
+> [!NOTE]
+> The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
 
 1. Install the package.
 
@@ -198,9 +204,8 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    `radar doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
 
-   {{< warning >}}
-   Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
-   {{< /warning >}}
+   > [!WARNING]
+   > Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
 
    <br>
 
@@ -251,9 +256,8 @@ To install from a chart package file instead, such as on a cluster with no inter
    shred -u kek.bin
    ```
 
-   {{< note >}}
-   Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. If the random key contains a zero byte, command substitution truncates it there, so the key would be shorter than 32 bytes.
-   {{< /note >}}
+   > [!NOTE]
+   > Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. If the random key contains a zero byte, command substitution truncates it there, so the key would be shorter than 32 bytes.
 
    The secret must contain a key named `CREDENTIAL_KEK`. Without it, the pods stay in `ContainerCreating` rather than starting with no encryption key.
 
@@ -280,6 +284,17 @@ To install from a chart package file instead, such as on a cluster with no inter
    **For a private or air-gapped registry**, mirror the images listed in the release notes for your version, keeping each image's repository path, then point the chart at your registry. Save these values to a file, such as `registry-values.yaml`, and add `-f registry-values.yaml` to the `helm install` command.
 
    ```yaml
+   global:
+     imageRegistry: registry.example.com
+     imagePullSecrets:
+       - name: registry-creds
+   ```
+
+   `global.imageRegistry` applies to every image the chart pulls, including `busybox` and the bundled PostgreSQL container. `global.imagePullSecrets` applies to every pod, including the `helm test` pod. To use a different registry for some images, set `image.registry` for the API server, worker, and migration images together, `dbWaitInitContainer.image.registry` for `busybox`, or `postgresql.image.registry` for PostgreSQL.
+
+   In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting. Use these values instead, and if you use the bundled PostgreSQL container, also set `postgresql.image.registry`:
+
+   ```yaml
    image:
      registry: registry.example.com
    dbWaitInitContainer:
@@ -290,9 +305,7 @@ To install from a chart package file instead, such as on a cluster with no inter
        - name: registry-creds
    ```
 
-   Set `image.registry` rather than `global.imageRegistry`. In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting, so its repository includes the registry. If you use the chart's bundled PostgreSQL container, also set `postgresql.image.registry`.
-
-   In the same chart versions, the `helm test` pod doesn't receive `global.imagePullSecrets` and runs as the namespace's `default` service account. If your registry requires authentication, attach the pull secret to that service account so `helm test` can pull `busybox`. On OpenShift:
+   In those versions, the `helm test` pod also doesn't receive `global.imagePullSecrets`. If your registry requires authentication, attach the pull secret to the namespace's `default` service account, which the test pod runs as, so `helm test` can pull `busybox`. On OpenShift:
 
    ```bash
    oc secrets link default registry-creds --for=pull -n radar

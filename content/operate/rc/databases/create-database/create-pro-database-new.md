@@ -17,7 +17,7 @@ Redis Cloud Pro supports more databases, larger databases, greater throughput, a
 
 3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Pro**. 
 
-    {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
+    ![The Subscription selection panel with Pro selected.](/images/rc/create-database-subscription-pro-new.png)
 
     > [!NOTE]
     > This guide shows how to create a Pro database with a new subscription.
@@ -28,7 +28,7 @@ Redis Cloud Pro supports more databases, larger databases, greater throughput, a
 
 After you select **Pro**, the **Database settings** section will appear.
 
-{{<image filename="images/rc/create-pro-db-settings.png" alt="The database settings section.">}}
+![The database settings section.](/images/rc/create-pro-db-settings.png)
 
 You can choose to create your database in one of two ways:
 
@@ -39,13 +39,13 @@ You can choose to create your database in one of two ways:
 
 If you choose to create your database with Easy create:
 
-{{<image filename="images/rc/pro-easy-create-vendor.png" alt="The database name, cloud vendor and region settings.">}}
+![The database name, cloud vendor and region settings.](/images/rc/pro-easy-create-vendor.png)
 
 1. Choose a **Cloud Provider** and a **Region**.
 
 1. Enter the following settings for your database:
 
-    {{<image filename="images/rc/pro-easy-create-size-throughput.png" alt="The Dataset size, throughput, and High availability settings.">}}
+    ![The Dataset size, throughput, and High availability settings.](/images/rc/pro-easy-create-size-throughput.png)
 
     | Database&nbsp;setting | Description |
     |:---------|:-----------|
@@ -56,7 +56,7 @@ If you choose to create your database with Easy create:
 
 1. Select **View all settings** to review the database settings that we selected for you.
 
-    {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
+    ![The optimal database settings.](/images/rc/pro-easy-create-optimal-settings.png)
 
     If you want to change these settings, select [**Switch to custom settings**](#custom-settings).
 
@@ -64,13 +64,15 @@ If you choose to create your database with Easy create:
 
     If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add credit card icon." >}}
+    ![The Add credit card icon.](/images/rc/icon-add.png)
+    {width="30px"}
 
     {{< embed-md "rc-credit-card-add.md" >}}
 
  Select **Confirm & pay** to create your database.
 
-{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
+![Select Confirm & Pay to create your new database.](/images/rc/button-create-db-confirm-pay.png)
+{width="140px"}
 
 Note that databases are created in the background.  While they are provisioning, you aren't allowed to make changes. This process generally takes 10-15 minutes.
 
@@ -78,7 +80,7 @@ Use the **Database list** to check the status of your databases.
 
 ## Create database with Custom settings {#custom-settings}
 
-{{<image filename="images/rc/create-pro-db-settings-custom.png" alt="The database settings section, with custom settings selected.">}}
+![The database settings section, with custom settings selected.](/images/rc/create-pro-db-settings-custom.png)
 
 If you choose to create your database with custom settings, you need to:
 
@@ -94,7 +96,8 @@ The following sections provide more information.
 
 The **Setup** tab specifies general settings for your Redis deployment.
 
-{{<image filename="images/rc/subscription-new-flexible-tabs-setup.png" width="75%" alt="The Setup tab of the new Pro Database process." >}}
+![The Setup tab of the new Pro Database process.](/images/rc/subscription-new-flexible-tabs-setup.png)
+{width="75%"}
 
 There are two sections on this tab:
 
@@ -103,7 +106,8 @@ There are two sections on this tab:
 
 #### General settings {#general-settings}
 
-{{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
+![The General settings of the Setup tab.](/images/rc/subscription-new-flexible-setup-general.png)
+{width="75%"}
 
 In the General settings of the **Setup** tab, you need to:
 
@@ -117,7 +121,8 @@ In the General settings of the **Setup** tab, you need to:
 
 #### Advanced options {#advanced-options}
 
-{{<image filename="images/rc/subscription-new-flexible-setup-advanced.png" width="75%" alt="The Advanced settings of the Setup tab." >}}
+![The Advanced settings of the Setup tab.](/images/rc/subscription-new-flexible-setup-advanced.png)
+{width="75%"}
 
 The following settings are defined in the **Advanced options** of the **Setup** tab:
 
@@ -135,21 +140,25 @@ The following settings are defined in the **Advanced options** of the **Setup** 
 
 When finished, choose **Continue** to determine your size requirements.
 
-{{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Select the Continue button to continue to the next step." >}}
+![Select the Continue button to continue to the next step.](/images/rc/button-subscription-continue.png)
+{width="100px"}
 
 ### Sizing tab
 
 The **Sizing** tab helps you specify the database, memory, and throughput requirements for your subscription.
 
-{{<image filename="images/rc/subscription-new-flexible-sizing-tab.png" width="75%" alt="The Sizing tab when creating a new Pro subscription." >}}
+![The Sizing tab when creating a new Pro subscription.](/images/rc/subscription-new-flexible-sizing-tab.png)
+{width="75%"}
 
 When you first visit the **Sizing** tab, there are no databases defined.  Select the **Add** button to create one.
 
-{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
+![Use the Add button to define a new database for your subscription.](/images/rc/icon-add.png)
+{width="30px"}
 
 This opens the **Database configurations** dialog, which lets you define the requirements for your new database.
 
-{{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The Database configurations dialog with basic settings." >}}
+![The Database configurations dialog with basic settings.](/images/rc/flexible-add-database-basic.png)
+{width="75%"}
 
 By default, you're shown basic settings, which include:
 
@@ -166,7 +175,8 @@ By default, you're shown basic settings, which include:
 
 Select **More options** to specify values for the following settings.
 
-{{<image filename="images/rc/flexible-add-database-advanced.png" width="75%" alt="The Database configurations dialog with advanced settings." >}}
+![The Database configurations dialog with advanced settings.](/images/rc/flexible-add-database-advanced.png)
+{width="75%"}
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -178,26 +188,29 @@ Select **More options** to specify values for the following settings.
 
 When finished, select **Save configuration** to save your database configuration.
 
-{{<image filename="images/rc/button-configuration-save.png" width="140px" alt="Select the Save configuration button to define your new database." >}}
+![Select the Save configuration button to define your new database.](/images/rc/button-configuration-save.png)
+{width="140px"}
 
 Use the **Add database** button to define additional databases or select the **Continue button** to display the **Review and create** tab.
 
 Hover over a database to see the **Edit** and **Delete** icons. You can use the **Edit** icon to change a database or the **Delete** icon to remove a database from the list.
 
-{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
+![Use the Edit button to change database settings.](/images/rc/icon-edit.png#no-click)&nbsp;![Use the Delete button to remove a database.](/images/rc/icon-delete-lb.png#no-click)
 
 
 ### Review and Create tab
 
 The **Review & Create** tab provides a cost estimate for your Redis Cloud Pro plan:
 
-{{<image filename="images/rc/subscription-new-flexible-review.png" width="75%" alt="The Review & Create tab of the New Flexible subscription screen." >}}
+![The Review & Create tab of the New Flexible subscription screen.](/images/rc/subscription-new-flexible-review.png)
+{width="75%"}
 
 Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types](#billing-unit-types).
 
 The **Payment methods** section of this tab shows which payment method you're using for this database. Select the arrow on the top right of this section to view all available payment methods.
 
-{{<image filename="images/rc/subscription-new-flexible-cardlist.png" width="250px" alt="The payment method list." >}}
+![The payment method list.](/images/rc/subscription-new-flexible-cardlist.png)
+{width="250px"}
 
 If you have not added a payment method or want to add a new payment method, select **Add credit card** to add a new credit card.
 
@@ -205,7 +218,8 @@ If you have not added a payment method or want to add a new payment method, sele
 
 Select **Back to Sizing** to make changes or **Confirm & Pay** to create your databases.
 
-{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & pay to create your database." >}}
+![Select Confirm & pay to create your database.](/images/rc/button-create-db-confirm-pay.png)
+{width="140px"}
 
 Note that databases are created in the background.  While they are provisioning, you aren't allowed to make changes. This process generally takes 10-15 minutes.
 

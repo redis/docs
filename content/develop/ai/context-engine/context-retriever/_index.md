@@ -8,7 +8,7 @@ categories:
 description: Expose tools to Agents to query your Redis databases. 
 linkTitle: Context Retriever
 hideListLinks: true
-weight: 30
+weight: 20
 bannerText: Redis Context Retriever is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 ---
@@ -18,10 +18,10 @@ Give your agents structured, governed access to business data, without building 
 Context Retriever lets you define your data model once. It automatically generates the retrieval tools agents call at runtime, so agents always work with accurate, live data through a controlled interface rather than guessing at SQL or calling databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Concepts" description="Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="Python SDK & CLI" description="Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
-  {{< tile-card color="bg-teal-300" title="Manage Access" description="Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Python SDK & CLI" description="Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Manage Access" description="Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
 </div>
 
 ## What is Context Retriever?
@@ -67,7 +67,9 @@ pip install redis-context-retriever
 
 Use the `ctxctl` CLI, the Python client, or the Redis Cloud UI to model your entities and relationships. Context Retriever uses that model to automatically generate retrieval tools that agents call at runtime through its MCP interface. Agents never access your database directly.
 
-See the [Redis Cloud setup guide](/content/operate/iris/context-retriever/create-service.md) to create your first Context Retriever service.
+See the [Redis Cloud setup guide](/content/operate/iris/context-retriever/create-service.md) to create your first Context Retriever service, or follow the [quickstart](/content/develop/ai/context-engine/context-retriever/quickstart.md) for a full CLI walkthrough: model entities, generate tools, and call one as an agent would.
+
+To see how a data model becomes tools before you create a service, try the [interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. It models the entities, fields, keys, and relationships that matter to an agent workflow, then presents that context through a governed tool surface the agent can call at runtime. Context Retriever helps an AI Agent understand what business objects exist, how they connect, and which paths are safe to use.
 
@@ -91,7 +93,7 @@ Get started with Redis Context Retriever on Redis Cloud or join the private prev
 
 -tab-sep-
 
-Redis Context Retriever is available for self-managed deployment on Kubernetes as a private preview. See [Install Context Retriever](/content/develop/ai/context-engine/context-retriever/install/_index.md).
+Redis Context Retriever is available for self-managed deployment on Kubernetes as a private preview. See [Install Context Retriever](/content/operate/iris/context-retriever/self-managed/_index.md).
 
 You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 

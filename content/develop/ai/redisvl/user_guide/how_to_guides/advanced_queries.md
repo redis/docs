@@ -3,6 +3,7 @@ linkTitle: Use advanced query types
 title: Use Advanced Query Types
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/11_advanced_queries
+- /develop/ai/redisvl/user_guide/advanced_queries/
 weight: 11
 ---
 

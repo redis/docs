@@ -18,19 +18,19 @@ Configure security settings for your Redis Enterprise deployment on Kubernetes. 
 
 Manage cluster credentials and authentication settings:
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/7.22/security/manage-rec-credentials" >}}) - Configure and manage Redis Enterprise cluster credentials
-- [LDAP authentication]({{< relref "/operate/kubernetes/7.22/security/ldap" >}}) - Integrate with LDAP for centralized authentication
+- [Manage REC credentials](/content/operate/kubernetes/7.22/security/manage-rec-credentials.md) - Configure and manage Redis Enterprise cluster credentials
+- [LDAP authentication](/content/operate/kubernetes/7.22/security/ldap.md) - Integrate with LDAP for centralized authentication
 
 ## Certificates and encryption
 
 Configure TLS certificates and encryption for secure communications:
 
-- [Manage REC certificates]({{< relref "/operate/kubernetes/7.22/security/manage-rec-certificates" >}}) - Configure cluster certificates for TLS encryption
-- [Add client certificates]({{< relref "/operate/kubernetes/7.22/security/add-client-certificates" >}}) - Set up client certificate authentication for databases
-- [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) - Enable encryption between cluster nodes and configure custom certificates
+- [Manage REC certificates](/content/operate/kubernetes/7.22/security/manage-rec-certificates.md) - Configure cluster certificates for TLS encryption
+- [Add client certificates](/content/operate/kubernetes/7.22/security/add-client-certificates.md) - Set up client certificate authentication for databases
+- [Internode encryption](/content/operate/kubernetes/7.22/security/internode-encryption.md) - Enable encryption between cluster nodes and configure custom certificates
 
 ## Resource management
 
 Configure security-related resource settings:
 
-- [Allow resource adjustment]({{< relref "/operate/kubernetes/7.22/security/allow-resource-adjustment" >}}) - Enable automatic adjustment of system resources for security compliance
+- [Allow resource adjustment](/content/operate/kubernetes/7.22/security/allow-resource-adjustment.md) - Enable automatic adjustment of system resources for security compliance

@@ -38,15 +38,13 @@ Considerations:
 
 The following diagram shows a client library-based disaster recovery approach:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/client-library.svg" alt="Diagram of client libraries routing traffic to Active-Active database members" width="50%">
-</div>
+![Diagram of client libraries routing traffic to Active-Active database members](/images/active-active-disaster-recovery/client-library.svg)
+{width="50%" class="mx-auto"}
 
 The following diagram shows a client-based disaster recovery approach that also uses [connection pooling](/content/develop/clients/pools-and-muxing.md#connection-pooling):
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/client-library-connection-pool.svg" alt="Diagram of client libraries with connection pooling routing traffic to Active-Active database members" width="50%">
-</div>
+![Diagram of client libraries with connection pooling routing traffic to Active-Active database members](/images/active-active-disaster-recovery/client-library-connection-pool.svg)
+{width="50%" class="mx-auto"}
 
 For additional information, see the the introduction to
 [Client-side geographic failover](/content/develop/clients/failover.md)

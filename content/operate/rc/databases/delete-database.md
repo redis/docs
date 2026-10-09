@@ -49,10 +49,12 @@ The **Delete database** confirmation dialog appears. If this database is the onl
 > [!NOTE]
 > You will continue to be charged for your subscription until you delete it, even if there are no databases in your subscription.
 
-{{<image filename="images/rc/database-delete-last-dialog.png" alt="A delete database confirmation dialog asks you to consider deleting the subscription as well." width="75%" >}}
+![A delete database confirmation dialog asks you to consider deleting the subscription as well.](/images/rc/database-delete-last-dialog.png)
+{width="75%"}
 
 Select **Delete database** to confirm your choice.
 
-{{<image filename="images/rc/button-database-delete.png" alt="The Delete database button." width="150px" >}}
+![The Delete database button.](/images/rc/button-database-delete.png)
+{width="150px"}
 
 When the operation completes, the database and its data are deleted.

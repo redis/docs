@@ -10,7 +10,8 @@
       <section class="prose w-full py-12 max-w-none">
         <h1>{{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-2 mb-2">{{ . | markdownify }}</p>{{ end }}
-  {{ if .Params.categories }}
+  {{/* No category badges in the Redis Iris docs space */}}
+  {{ if and .Params.categories (not (partial "is-iris-page.html" .)) }}
 <div class="post-categories" style="display: table;">
   <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
     <thead>
@@ -48,6 +49,9 @@
           {{ else if eq $element "radar" }}
             {{ $displayName = "Redis Radar" }}
             {{ $color = "#0fa869" }}
+          {{ else if eq $element "rdi" }}
+            {{ $displayName = "RDI" }}
+            {{ $color = "#ffffff" }}
           {{ end }}
           <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; background-color: {{ $color }}; {{ if eq $index 0 }}border-top-left-radius: 10px; border-bottom-left-radius: 10px;{{ end }}{{ if eq $index (sub (len $visibleCategories) 1) }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
             {{ $displayName }}

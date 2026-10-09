@@ -20,7 +20,7 @@ For operations that do not create or modify resources or do not require addition
 
 Asynchronous operations have two main phases: processing and provisioning.  A resource is not available until both phases are complete.
 
-{{< image filename="/images/rv/api/processing-and-provisioning.png" >}}
+![](/images/rv/api/processing-and-provisioning.png)
 
 ## Task processing
 

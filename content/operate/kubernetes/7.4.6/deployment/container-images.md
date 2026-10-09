@@ -30,7 +30,8 @@ For security reasons (e.g., in air-gapped environments), you may want to pull th
 from a public registry once and then push them to a private registry under
 your control.
 
-{{<warning>}}It is very important that the images you are pushing to the private registry have the same exact version tag as the original images. {{</warning>}}
+> [!WARNING]
+> It is very important that the images you are pushing to the private registry have the same exact version tag as the original images. 
 
 Furthermore, because [Docker rate limits public pulls](https://www.docker.com/blog/scaling-docker-to-serve-millions-more-developers-network-egress/),
 you may want to consider pulling images from a
@@ -38,11 +39,10 @@ private registry to avoid deployment failures when you hit your DockerHub rate l
 
 The information below will help you track and configure where your deployments pull container images.
 
-{{< note >}}
-**IMPORTANT**
-* Each version of the Redis Enterprise operator is mapped to a specific version of Redis Enterprise Software. The semantic versions always match (for example, 7.2.4), although the specific release numbers may be different (for example, 7.2.4-7 is the operator version for Redis Enterprise Software 7.2.4-64).
-* A specific operator version only supports a specific Redis Enterprise version. Other combinations of operator and Redis Enterprise versions are **not supported**.
-{{< /note >}}
+> [!NOTE]
+> **IMPORTANT**
+> * Each version of the Redis Enterprise operator is mapped to a specific version of Redis Enterprise Software. The semantic versions always match (for example, 7.2.4), although the specific release numbers may be different (for example, 7.2.4-7 is the operator version for Redis Enterprise Software 7.2.4-64).
+> * A specific operator version only supports a specific Redis Enterprise version. Other combinations of operator and Redis Enterprise versions are **not supported**.
 
 
 ## Find container sources
@@ -127,7 +127,7 @@ require authentication. If you do need authentication, add a [pull secret](https
 The operator bundle contains the operator deployment and the reference to the operator image (`redislabs/operator`). To use a private container registry, you must
 change this image reference in your operator deployment file **before** you deploy the operator. If you apply this change to modify an existing operator deployment, the operator's pod will restart.
 
-In the operator deployment file, 'containers:image' should point to the same repository and tag you used when [pushing]({{< relref "/operate/kubernetes/7.4.6/deployment/container-images.md#push-images-to-a-private-container-registry" >}}) to the private container registry:
+In the operator deployment file, 'containers:image' should point to the same repository and tag you used when [pushing](/content/operate/kubernetes/7.4.6/deployment/container-images.md#push-images-to-a-private-container-registry) to the private container registry:
 
 ```sh
 ${PRIVATE_REPO}/redislabs/operator:${OPERATOR_VERSION}

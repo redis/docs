@@ -39,6 +39,10 @@ nodes:
         row: 0
         description: |
             LangCache: checks whether a similar prompt is already cached before calling the model.
+        links:
+            demo:
+                label: "Interactive demo"
+                url: "/develop/ai/context-engine/langcache/interactive-demo"
         docsUrl: "/develop/ai/context-engine/langcache"
     agentMemory:
         label: "Agent Memory"
@@ -47,6 +51,10 @@ nodes:
         row: 1
         description: |
             Agent Memory: session and long-term recall. Recalls session history and long-term facts about the user or task.
+        links:
+            demo:
+                label: "Interactive demo"
+                url: "/develop/ai/context-engine/agent-memory/interactive-demo"
         docsUrl: "/develop/ai/context-engine/agent-memory"
     contextRetriever:
         label: "Context Retriever"
@@ -55,6 +63,10 @@ nodes:
         row: 2
         description: |
             Context Retriever: governed tool calls. Calls governed, schema-first tools to fetch business data the agent needs.
+        links:
+            demo:
+                label: "Interactive demo"
+                url: "/develop/ai/context-engine/context-retriever/interactive-demo"
         docsUrl: "/develop/ai/context-engine/context-retriever"
     dataIntegration:
         label: "Data Integration"
@@ -173,3 +185,4 @@ paths:
 - [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
+- Interactive demos for [LangCache]({{< relref "/develop/ai/context-engine/langcache/interactive-demo" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser

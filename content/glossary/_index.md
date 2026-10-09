@@ -280,7 +280,7 @@ More info: [multicast DNS wikipedia](https://en.wikipedia.org/wiki/Multicast_DNS
 {{%definition "module"%}}
 A Redis extension that adds new commands, data types, and capabilities to Redis. Redis Enterprise includes several modules like RedisJSON, RedisSearch, RedisTimeSeries, and RedisBloom.
 
-More info: [Redis modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise">}}), [Install modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install">}})
+More info: [Redis modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise">}}), [Install modules]({{<relref "/operate/rs/installing-upgrading/modules">}})
 {{%/definition%}}
 
 {{%definition "monitoring"%}}

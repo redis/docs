@@ -1,0 +1,198 @@
+/* =========================================================================
+   Redis Data Integration (RDI) scripted demo
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the Iris demos share one look. Scoped under `.rdi`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+.rdi { --rdi-warn: #b35900; }
+.rdi .rcr-tab.is-locked { opacity: .45; cursor: not-allowed; }
+.rdi .rcr-btn:disabled { opacity: .5; cursor: default; }
+.rdi .rcr-chip.is-on { border-color: var(--rcr-accent-2); color: var(--rcr-accent-2); background: rgba(89, 97, 255, .07); }
+.rdi .rcr-chip:disabled.is-on { opacity: 1; }
+.rdi .rdi-empty { color: var(--rcr-faint); font-size: 13px; }
+.rdi .rdi-chip {
+  display: inline-block; font-size: 11px; font-weight: 600; color: var(--rcr-muted);
+  background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 999px; padding: 0 8px; white-space: nowrap;
+}
+.rdi .rdi-flag {
+  font-size: 10px; font-weight: 700; letter-spacing: .3px; color: var(--rcr-bad); background: rgba(198, 40, 40, .07);
+  border: 1px solid rgba(198, 40, 40, .3); border-radius: 999px; padding: 0 6px; white-space: nowrap;
+}
+.rdi .rcr-group summary .rdi-flag { margin-left: 4px; }
+
+/* ---- the pipeline card ---- */
+.rdi .rdi-pipe { margin-bottom: 10px; }
+.rdi-status { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--rcr-muted); }
+.rdi-status.is-streaming { color: var(--rcr-ok); }
+.rdi-status .rcr-dot:not(.is-ok):not(.is-wait) { background: var(--rcr-line-strong); }
+.rdi-flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; margin: 4px 0 10px; }
+.rdi-stage {
+  flex: 1 1 110px; min-width: 0; display: grid; gap: 1px; padding: 6px 9px; border-radius: 8px;
+  border: 1px solid var(--rcr-line); background: var(--rcr-surface-2); transition: background-color .25s, border-color .25s;
+}
+.rdi-stage.is-on { border-color: var(--rcr-accent-2); background: rgba(89, 97, 255, .08); }
+.rdi-stagename { font-size: 12.5px; font-weight: 600; }
+.rdi .rdi-stagesub { font-size: 10.5px; color: var(--rcr-faint); overflow-wrap: anywhere; }
+.rdi-arrow { align-self: center; color: var(--rcr-line-strong); font-size: 14px; }
+.rdi-arrow.is-on { color: var(--rcr-accent-2); }
+/* On narrow screens the stages sit in a 2 x 2 grid of equal boxes, so the
+   arrows would point sideways at nothing. */
+@container (max-width: 559px) {
+  .rcr .rdi-flow { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; }
+  .rcr .rdi-arrow { display: none; }
+}
+.rdi-statswrap { overflow-x: auto; }
+.rdi-stats { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; margin: 0; }
+.rdi-stats th { text-align: right; color: var(--rcr-faint); font-size: 10px; font-weight: 600; text-transform: uppercase; padding: 3px 5px; border-bottom: 1px solid var(--rcr-line); white-space: nowrap; }
+.rdi-stats td { text-align: right; padding: 3px 5px; border-bottom: 1px solid var(--rcr-line); }
+.rdi-stats th:first-child, .rdi-stats td:first-child { text-align: left; }
+.rdi .rdi-stats td.rcr-mono { font-size: 11.5px; white-space: nowrap; }
+.rdi-stats tr:last-child td { border-bottom: 0; }
+.rdi-stats tr.is-hot td { background: rgba(89, 97, 255, .07); }
+.rdi-files { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.rdi-file { min-width: 0; }
+.rdi-file[open] { flex-basis: 100%; }
+.rdi-file > summary { cursor: pointer; font-size: 12.5px; color: var(--rcr-accent-2); }
+.rdi-file > .rcr-code { margin-top: 6px; }
+/* CLI output keeps its columns: it scrolls rather than wraps. */
+.rdi pre.rdi-cli { font-size: 11px; max-height: 320px; }
+
+/* ---- choosing the data structure ---- */
+.rdi-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; }
+.rdi .rdi-pick .rcr-chip { padding: 3px 12px; }
+
+/* ---- source and target, side by side when there's room ---- */
+.rdi-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
+@container (min-width: 560px) { .rcr .rdi-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.rdi .rdi-source { border-top: 3px solid #336791; }
+.rdi .rdi-redis { border-top: 3px solid var(--rcr-accent); }
+.rdi .rcr-subtabs { margin-bottom: 8px; }
+.rdi-count { font-weight: 600; color: var(--rcr-faint); font-size: 11.5px; }
+.rdi-rowswrap { overflow: auto; max-height: 320px; border: 1px solid var(--rcr-line); border-radius: 8px; }
+.rdi-rows { border-collapse: collapse; font-size: 12px; margin: 0; white-space: nowrap; }
+.rdi-rows th {
+  position: sticky; top: 0; background: var(--rcr-surface-2); text-align: left; font-weight: 600; font-size: 11.5px;
+  padding: 4px 8px; border-bottom: 1px solid var(--rcr-line);
+}
+.rdi-ctype { display: block; font-weight: 400; font-size: 10px; color: var(--rcr-faint); }
+.rdi-rows td { padding: 3px 8px; border-bottom: 1px solid var(--rcr-line); }
+.rdi-rows td.is-num { text-align: right; font-variant-numeric: tabular-nums; }
+.rdi-rows tr:last-child td { border-bottom: 0; }
+.rdi-rows tr.is-changed td { background: rgba(89, 97, 255, .06); }
+.rdi-rows tr.is-new td { background: rgba(26, 127, 75, .09); }
+.rdi-rows tr.is-deleted td { background: rgba(198, 40, 40, .07); color: var(--rcr-bad); text-decoration: line-through; }
+.rdi-rows td.is-set { background: rgba(89, 97, 255, .16); font-weight: 600; }
+.rdi-sql { display: grid; gap: 3px; margin-top: 8px; font-size: 12px; }
+.rdi .rdi-sql code { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.rdi .rdi-keylist { position: relative; max-height: 260px; border: 1px solid var(--rcr-line); border-radius: 8px; }
+.rdi .rdi-keylist .rcr-key { font-size: 12px; }
+.rdi-fresh { animation: rdi-in .9s ease-out; }
+@keyframes rdi-in { from { background: rgba(26, 127, 75, .22); } to { background: transparent; } }
+.rdi-value { margin-top: 10px; }
+.rdi-valuehead { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-bottom: 6px; }
+.rdi .rdi-valuekey { font-weight: 700; font-size: 12.5px; }
+.rdi-chg { background: rgba(89, 97, 255, .14); border-radius: 3px; }
+.rdi-hash { border-collapse: collapse; font-size: 12px; margin: 0; width: 100%; background: var(--rcr-code-bg); border: 1px solid var(--rcr-line); border-radius: 8px; }
+.rdi-hash td { padding: 2px 10px; vertical-align: top; overflow-wrap: anywhere; }
+.rdi-hash td:first-child { color: #3b44c9; white-space: nowrap; }
+.rdi-hash td:last-child { color: #1a7f4b; }
+.rdi .rdi-hash .rcr-mono { font-size: 11.5px; }
+
+/* ---- the Changes card: one row per change, three steps each ---- */
+.rdi .rdi-changes { margin-bottom: 12px; border-top: 3px solid var(--rcr-accent-2); }
+.rdi-crow { border-bottom: 1px solid var(--rcr-line); }
+.rdi-crow:last-child { border-bottom: 0; }
+.rdi-crow > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; padding: 6px 2px; font-size: 13px; min-width: 0; }
+.rdi-crow > summary::-webkit-details-marker { display: none; }
+.rdi-crow > summary::before { content: "\25B8"; color: var(--rcr-faint); font-size: 11px; }
+.rdi-crow[open] > summary::before { content: "\25BE"; }
+.rdi-cwhat { font-weight: 600; flex: none; }
+.rdi .rdi-ckey { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--rcr-faint); font-size: 11.5px; }
+.rdi-steps { margin: 0 0 10px; display: grid; gap: 6px; }
+.rdi-step {
+  border: 1px solid var(--rcr-line); border-radius: 8px; padding: 7px 10px; background: #fff;
+  transition: opacity .25s, background-color .25s, border-color .25s;
+}
+.rdi-step.is-pending { opacity: .45; }
+.rdi-step.is-active { border-color: var(--rcr-accent-2); background: rgba(89, 97, 255, .06); box-shadow: inset 3px 0 0 var(--rcr-accent-2); }
+.rdi-stephead { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; font-weight: 600; }
+.rdi-stepnum {
+  width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+  font-size: 10.5px; font-weight: 700; color: #fff; background: var(--rcr-faint);
+}
+.rdi-step.is-done .rdi-stepnum { background: var(--rcr-ok); }
+.rdi-step.is-active .rdi-stepnum { background: var(--rcr-accent-2); }
+.rdi-stepstage { font-size: 10.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--rcr-faint); }
+.rdi-step.is-active .rdi-stepstage { color: var(--rcr-accent-2); }
+.rdi-stepbody { display: grid; gap: 4px; margin: 4px 0 0 26px; font-size: 12.5px; color: var(--rcr-muted); min-width: 0; }
+.rdi .rdi-stepsql { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11.5px; justify-self: start; }
+.rdi .rdi-stepnote { font-size: 12px; }
+.rdi-rec > .rdi-stepnote { margin-top: 4px; }
+.rdi-diff { display: grid; gap: 2px; font-size: 12px; }
+.rdi .rdi-diff .rcr-mono { font-size: 11.5px; overflow-wrap: anywhere; }
+.rdi-dfield { color: #3b44c9; }
+.rdi-from { color: var(--rcr-faint); text-decoration: line-through; }
+.rdi-to { color: var(--rcr-ink); font-weight: 700; background: rgba(89, 97, 255, .1); border-radius: 3px; padding: 0 3px; }
+.rdi-rec > summary { cursor: pointer; font-size: 12px; color: var(--rcr-accent-2); }
+.rdi-rec > .rcr-code { margin-top: 4px; }
+.rdi-op { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 0 8px; border: 1px solid; white-space: nowrap; }
+.rdi-op-c { color: var(--rcr-ok); background: rgba(26, 127, 75, .08); border-color: rgba(26, 127, 75, .3); }
+.rdi-op-u { color: var(--rcr-accent-2); background: rgba(89, 97, 255, .08); border-color: rgba(89, 97, 255, .3); }
+.rdi-op-d { color: var(--rcr-bad); background: rgba(198, 40, 40, .07); border-color: rgba(198, 40, 40, .3); }
+
+/* ---- choosing what happens next ---- */
+.rdi .rdi-composer { margin-bottom: 12px; background: var(--rcr-surface-2); }
+.rdi .rdi-composer > .rcr-lbl { display: block; margin-bottom: 6px; }
+.rdi-options { display: grid; gap: 6px; }
+.rdi .rdi-option { display: grid; gap: 2px; text-align: left; border-radius: 10px; padding: 7px 12px; font-size: 13px; line-height: 1.4; }
+.rdi-optwhat { font-weight: 600; }
+.rdi-optdetail { color: var(--rcr-muted); font-size: 12.5px; }
+.rdi .rdi-option code { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11.5px; background: #fff; }
+.rdi .rdi-option:disabled { opacity: 1; cursor: default; }
+.rdi .rdi-option.is-done { border-color: var(--rcr-line); color: var(--rcr-faint); background: transparent; }
+.rdi .rdi-option.is-done code { color: var(--rcr-faint); }
+.rdi .rdi-option.is-later { opacity: .5; }
+.rdi .rdi-option .rdi-stepnum { margin-right: 6px; vertical-align: 1px; background: var(--rcr-accent-2); }
+.rdi .rdi-option.is-later .rdi-stepnum { background: var(--rcr-faint); }
+.rdi-optq { color: var(--rcr-ink); font-size: 12.5px; }
+.rdi[data-busy="true"] .rdi-option:not(.is-done) { opacity: .6; }
+.rdi-tick { color: var(--rcr-ok); font-weight: 700; margin-right: 5px; }
+.rdi-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---- the job file, with its two numbered parts ---- */
+.rdi .rdi-job { margin-bottom: 12px; }
+/* YAML keeps its indentation: no wrapping, sideways scrolling when a line
+   doesn't fit, and no height limit, so the numbered parts are never
+   scrolled out of view. The body is as wide as the widest line, so a
+   highlighted block spans it. */
+.rdi pre.rdi-yaml { white-space: pre; font-size: 11.5px; max-height: none; }
+.rdi-yamlbody { display: inline-block; min-width: 100%; vertical-align: top; }
+.rdi-line { display: block; }
+/* The job file has a left gutter for the numbers, so they stay in view when the file scrolls sideways. */
+.rdi-jobfile .rdi-line { padding-left: 26px; }
+.rdi-jobfile .rdi-ann { position: relative; margin: 0 -12px; padding: 0 12px 0 38px; background: rgba(89, 97, 255, .08); box-shadow: inset 3px 0 0 var(--rcr-accent-2); }
+.rdi-annmark {
+  width: 17px; height: 17px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+  font-family: inherit; font-size: 10.5px; font-weight: 700; line-height: 1; color: #fff; background: var(--rcr-accent-2);
+}
+.rdi-ann > .rdi-annmark { position: absolute; left: 8px; top: 0; }
+.rdi-annlist { display: grid; gap: 6px; margin-top: 8px; font-size: 13px; line-height: 1.5; }
+.rdi-annlist > div { display: grid; grid-template-columns: 17px minmax(0, 1fr); column-gap: 8px; align-items: start; }
+/* Centre each number on the first line of its text: half the difference between the line height and the number's size. */
+.rdi-annlist .rdi-annmark { margin-top: calc((13px * 1.5 - 17px) / 2); }
+
+/* ---- notes and controls ---- */
+.rdi .rdi-callout {
+  border-left: 3px solid var(--rcr-accent-2); background: var(--rcr-surface-2); border-radius: 0 8px 8px 0;
+  padding: 8px 12px; margin-top: 12px; font-size: 13.5px;
+}
+.rdi-callout p + p { margin-top: 6px !important; }
+.rdi-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
+.rdi-next { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 10px; text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rdi-fresh { animation: none; }
+  .rdi-stage, .rdi-step { transition: none; }
+}
