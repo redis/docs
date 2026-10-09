@@ -72,6 +72,8 @@ added to the target within a few seconds after capture.
 
 ## At-least-once delivery guarantee
 
+<!-- TODO: Product review: clarify the delivery guarantee when source log history expires. A new snapshot does not replay missed deletes and can leave stale target records. -->
+
 RDI guarantees *at-least-once delivery* to the target. This means that
 a given change will never be lost, but it might be added to the target
 more than once. Apart from a slight performance overhead, adding a

@@ -207,10 +207,9 @@ collector and deletes that source's data from the RDI database, including its ch
 Debezium offsets, schema history, dead-letter queue entries, statistics, deduplication state,
 and record counters. The other sources keep their data, and RDI stops the whole pipeline
 while the deletion runs and starts it again afterwards. No further action is
-needed for this cleanup, but it means that a source you add later under the same name starts
-from a new
-[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md)
-rather than from the position it had reached.
+needed for this cleanup, but a source you add later under the same name has no saved
+position. With the default `initial` mode, it takes a new snapshot. Other modes follow
+[their configured snapshot behavior](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
 
 The source's secrets are not deleted, so remove them yourself with
 [`redis-di delete-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-secret.md)
@@ -241,8 +240,9 @@ to removing the source and adding a new source with the new name. This implies i
   its `connection` section.
 - You must update `server_name` for every job that reads from the source.
 - The data present in the RDI database under the old name is deleted, as it is for any removed source.
-- The source starts with a new
-  [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md).
+- The new source has no saved position. With the default `initial` mode, it takes a
+  new snapshot. Other modes follow
+  [their configured snapshot behavior](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
 
 ## Start, stop, and reset a single source
 
@@ -259,14 +259,23 @@ pipeline. Generally, stopping one source leaves the others running, and when one
 `external`. RDI creates no collector for this, so you cannot start or stop it.
 
 Stopping a source scales its collector down to zero replicas and leaves the rest of the
-source's resources in place. RDI records a captured position for each source, so when you restart a collector, it resumes from where it stopped.
+source's resources in place. When you restart a collector, its
+[snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+and the availability of its saved position determine whether it resumes streaming or
+takes a new snapshot.
 
 Resetting a single source deletes that source's data from the RDI database, including its change data streams, Debezium
 offsets, schema history, dead-letter queue entries, statistics, deduplication state, and record counters.
-A new [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md) is then
-taken for that source, while every other source keeps its data. RDI stops the whole pipeline while
-the reset runs and starts it again afterwards, exactly as it does for a reset of the whole
-pipeline.
+The reset source then follows its configured
+[snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+with no saved position. With the default `initial` mode, it takes a new snapshot and
+resumes streaming. Every other source keeps its saved position, but all collectors
+restart and follow their configured modes. For example, a source using `always` takes
+another snapshot on restart even though its position was preserved. RDI stops the whole
+pipeline while the reset runs and starts it again afterwards.
+
+Reset does not delete records from the target Redis database. A new snapshot can
+[leave stale target records after missed deletes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
 
 ## Monitor each source
 
@@ -384,7 +393,8 @@ redis-di set-secret USERNAME --db mysql <username>
 redis-di set-secret PASSWORD --db mysql <password>
 ```
 
-The source then takes a fresh
-[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md), because the position it had
-reached was deleted along with the rest of its data. Records the pipeline already wrote to the
-target database are not deleted, so the snapshot overwrites them.
+The source has no saved position because its internal data was deleted. With the
+default `initial` mode, it takes a fresh snapshot. Other modes follow
+[their configured snapshot behavior](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+Records already written to the target remain. A new snapshot can overwrite them, but
+it does not remove records for rows that are absent from the source.

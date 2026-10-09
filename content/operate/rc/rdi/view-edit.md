@@ -62,11 +62,11 @@ When extending an older single-source pipeline, preserve the original source nam
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Stop source**, then confirm with **Stop source**.
 
-Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
+Stopping one source pauses data capture from that source without stopping the other sources. Starting a Debezium source again follows its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) and the availability of its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
 
 ### Reset a source {#reset-source}
 
-Resetting one source starts a new snapshot and reprocesses its selected data.
+Resetting one source clears its saved position. With the default `initial` mode, a Debezium source takes a new snapshot and reprocesses its selected data. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture.
 
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Reset source**.
@@ -75,7 +75,7 @@ Resetting one source starts a new snapshot and reprocesses its selected data.
 ![Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops.](/images/rc/rdi/rdi-2-reset-source.png)
 {width="600px"}
 
-The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
+The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions. Debezium sources restart according to their snapshot modes; for example, `always` takes another snapshot even when its saved position is preserved. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
 
 ### Remove a source {#remove-source}
 
@@ -100,7 +100,7 @@ You can change the target to another database in the same subscription.
 1. Select the new target database.
 1. Confirm with **Change target**.
 
-All sources share the new target. Changing the target restarts the pipeline but does not automatically re-ingest existing records. [Reset the pipeline](#reset-data-pipeline) if you need to copy the existing source data to the new target.
+All sources share the new target. Changing the target restarts the pipeline. Whether a Debezium source reloads existing rows depends on its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode). To copy existing source data to the new target, select modes that take data snapshots, then [reset the pipeline](#reset-data-pipeline).
 
 ## Metrics
 
@@ -210,7 +210,7 @@ Select a source in the **Sources** list to view the schemas, tables, columns, an
 1. Select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
 
-Dataset changes belong to the selected source. Applying changes restarts the pipeline and can temporarily interrupt processing. Use [Reset a source](#reset-source) when you need a new snapshot of that source.
+Dataset changes belong to the selected source. Applying changes restarts the pipeline and can temporarily interrupt processing. To reload existing rows, select a snapshot mode that takes a data snapshot, then use [Reset a source](#reset-source).
 
 ## Transformations
 
@@ -231,12 +231,12 @@ The Flink processor accepts lists and `regex:` entries in source selection patte
 
 ## Reset data pipeline
 
-Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts and takes a new snapshot for every source. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?](/content/operate/rc/rdi/faq.md#reset-pipeline).
+Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts each source according to its configured initial data load settings. With the default `initial` mode, Debezium sources take new snapshots. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). When a source takes a data snapshot, RDI reprocesses the selected data using the current transformations. Reset alone does not delete target records, and a new snapshot can [leave stale records after missed deletes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes). See [What happens when I reset the pipeline?](/content/operate/rc/rdi/faq.md#reset-pipeline).
 
 1. Open **Pipeline actions** and select **Reset pipeline**.
 1. Review the confirmation and select **Reset data pipeline**.
 
-To re-run the snapshot for just one source while preserving other sources' internal data, see [Reset a source](#reset-source).
+To clear the saved position of one source while preserving other sources' internal data, see [Reset a source](#reset-source).
 
 ## Stop and restart data pipeline
 

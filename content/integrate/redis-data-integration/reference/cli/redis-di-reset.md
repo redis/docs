@@ -9,9 +9,13 @@ aliases:
 - /integrate/redis-data-integration/ingest/reference/cli/redis-di-reset/
 ---
 
-Resets a pipeline into initial full-sync mode, so it reloads a snapshot of the source data before
-resuming change data capture. By default, the command waits for the pipeline to reach a terminal
-state before returning.
+Clears a pipeline's saved source positions without changing its configured snapshot mode
+or flushing the target Redis database. With the default `initial` mode, the collector
+takes a new data snapshot and then resumes change data capture (CDC). Other modes can
+skip existing rows or omit ongoing change capture. See
+[Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+
+By default, the command waits for the pipeline to reach a terminal state before returning.
 
 With `--source`, only the specified source is reset. See
 [Start, stop, and reset a single source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source) for more information.
