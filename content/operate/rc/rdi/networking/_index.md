@@ -23,7 +23,17 @@ The example shows two subscriptions connecting to the same customer endpoint ser
 
 <div style="overflow-x: auto;" role="region" aria-label="PrivateLink topology diagram" tabindex="0">
 
-```mermaid {width="1100px"}
+```mermaid {width="100%"}
+---
+config:
+  elk:
+    nodePlacementStrategy: NETWORK_SIMPLEX
+  flowchart:
+    minNodeWidth: 60
+    wrappingWidth: 90
+    padding: 6
+    diagramPadding: 4
+---
 graph TB
     subgraph redis["Redis Cloud — Redis manages"]
         subgraph subA["Pro subscription A"]
