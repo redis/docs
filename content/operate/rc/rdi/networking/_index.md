@@ -17,30 +17,48 @@ Configure connectivity for each source in your Data Integration pipeline. Source
 
 Create one Data Integration workspace for each Pro subscription that needs a pipeline. All sources in a pipeline write to one target Redis database in that subscription. To write to targets in different subscriptions, set up a workspace and pipeline in each subscription.
 
-Redis Cloud manages the workspace and its virtual private cloud (VPC) endpoints. For a customer-managed source, you manage the endpoint service, Network Load Balancer (NLB), and database access rules. The endpoint service must be in the same AWS region as the workspace.
+Redis Cloud manages the workspace and its virtual private cloud (VPC) endpoints. A public source uses an Internet Protocol (IP) address or hostname. For a customer-managed source, you manage the endpoint service, Network Load Balancer (NLB), and database access rules. The endpoint service must be in the same AWS region as the workspace.
 
-The example shows two subscriptions connecting to the same customer endpoint service. Subscription A also connects to a separate service. All resources in this example use the same AWS region.
+The example shows two subscriptions connecting to the same customer endpoint service. Subscription A also connects to a separate service and a public hostname. All resources in this example use the same AWS region.
 
 <div style="overflow-x: auto;" role="region" aria-label="PrivateLink topology diagram" tabindex="0">
 
-```mermaid {width="760px"}
+```mermaid {width="1100px"}
 graph TB
     subgraph redis["Redis Cloud — Redis manages"]
         subgraph subA["Pro subscription A"]
-            pipelineA["Workspace A<br/>Pipeline: three sources"]
-            endpointA["VPC endpoint A1"]
-            endpointA2["VPC endpoint A2"]
+            subgraph workspaceA["Workspace A / pipeline"]
+                sourceA1["Source 1"]
+                sourceA2["Source 2"]
+                sourceA3["Source 3"]
+                sourceA4["Source 4<br/>Public connection"]
+                processorA["Shared processor A"]
+                endpointA["VPC endpoint A1"]
+                endpointA2["VPC endpoint A2"]
+                sourceA1 -->|Port 5432| endpointA
+                sourceA2 -->|Port 5433| endpointA
+                sourceA3 -->|Port 3306| endpointA2
+                sourceA1 -.-> processorA
+                sourceA2 -.-> processorA
+                sourceA3 -.-> processorA
+                sourceA4 -.-> processorA
+            end
             targetA["Redis target A"]
-            pipelineA --> endpointA
-            pipelineA --> endpointA2
-            pipelineA -->|Write| targetA
+            processorA -->|Write| targetA
         end
         subgraph subB["Pro subscription B"]
-            pipelineB["Workspace B<br/>Pipeline: two sources"]
-            endpointB["VPC endpoint B1"]
+            subgraph workspaceB["Workspace B / pipeline"]
+                sourceB1["Source 1"]
+                sourceB2["Source 2"]
+                processorB["Shared processor B"]
+                endpointB["VPC endpoint B1"]
+                sourceB1 -->|Port 5432| endpointB
+                sourceB2 -->|Port 5433| endpointB
+                sourceB1 -.-> processorB
+                sourceB2 -.-> processorB
+            end
             targetB["Redis target B"]
-            pipelineB --> endpointB
-            pipelineB -->|Write| targetB
+            processorB -->|Write| targetB
         end
     end
     subgraph customer["Your AWS networks — you manage"]
@@ -53,14 +71,16 @@ graph TB
         shared -->|Listener 5433| db2
         separate -->|Listener 3306| db3
     end
+    publicDb["Source database 4<br/>Public IP or hostname"]
     endpointA -->|PrivateLink| shared
     endpointB -->|PrivateLink| shared
     endpointA2 -->|PrivateLink| separate
+    sourceA4 -->|Public connection| publicDb
 ```
 
 </div>
 
-Arrows show the direction of initiated connections. The pipeline reads source data through these connections, then writes it to its Redis target. The listener ports are examples. A listener can forward to a different database port.
+Source boxes are configured sources in the pipeline, not the source databases. Solid arrows show initiated network connections. Dotted arrows show data passed from each source to its shared processor. The processor writes the data to the pipeline's Redis target. Source 4 connects directly to a public IP address or hostname, without PrivateLink. The listener ports are examples. A listener can forward to a different database port.
 
 ## Choose your connectivity setup
 
@@ -69,7 +89,7 @@ Arrows show the direction of initiated connections. The pipeline reads source da
 | Several databases behind one NLB | Use a separate listener port and target group for each database. Enter the same endpoint service name for each source, with its matching listener port. Redis Cloud reuses the workspace's endpoint for that service. |
 | Databases in separate networks | Use separate endpoint services when one NLB cannot privately reach all databases. Configure the matching service for each source. Your source networks do not need to connect to each other. |
 | The same source feeds several subscriptions | You can reuse your endpoint service and NLB. Each workspace needs its own VPC endpoint connection. Allow the principal shown for each workspace and accept each new connection. Configure and test the source in each pipeline. |
-| Private and public sources in one pipeline | Choose connectivity separately for each source. For public sources, allow the outbound Internet Protocol (IP) addresses shown in that workspace's console. |
+| Private and public sources in one pipeline | Choose connectivity separately for each source. For public sources, allow the outbound IP addresses shown in that workspace's console. |
 
 Sharing an endpoint service does not share source configuration. Each source still needs its own connection details, credentials, and data selection. A second subscription does not reuse the first workspace's VPC endpoint.
 
