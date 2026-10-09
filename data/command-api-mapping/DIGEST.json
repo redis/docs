@@ -18,91 +18,49 @@
     ],
     "lettuce_sync": [
       {
-        "signature": "String digest(String script)",
+        "signature": "String digestKey(K key)",
         "params": [
           {
-            "name": "script",
-            "type": "String",
-            "description": "script content."
+            "name": "key",
+            "type": "K",
+            "description": "the key."
           }
         ],
         "returns": {
           "type": "String",
-          "description": "the SHA1 value. @since 6.0"
-        }
-      },
-      {
-        "signature": "String digest(byte[] script)",
-        "params": [
-          {
-            "name": "script",
-            "type": "byte[]",
-            "description": "script content."
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "the SHA1 value. @since 6.0"
+          "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
         }
       }
     ],
     "lettuce_async": [
       {
-        "signature": "String digest(String script)",
+        "signature": "RedisFuture<String> digestKey(K key)",
         "params": [
           {
-            "name": "script",
-            "type": "String",
-            "description": "script content."
+            "name": "key",
+            "type": "K",
+            "description": "the key."
           }
         ],
         "returns": {
-          "type": "String",
-          "description": "the SHA1 value. @since 6.0"
-        }
-      },
-      {
-        "signature": "String digest(byte[] script)",
-        "params": [
-          {
-            "name": "script",
-            "type": "byte[]",
-            "description": "script content."
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "the SHA1 value. @since 6.0"
+          "type": "RedisFuture<String>",
+          "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
         }
       }
     ],
     "lettuce_reactive": [
       {
-        "signature": "String digest(String script)",
+        "signature": "Mono<String> digestKey(K key)",
         "params": [
           {
-            "name": "script",
-            "type": "String",
-            "description": "script content."
+            "name": "key",
+            "type": "K",
+            "description": "the key."
           }
         ],
         "returns": {
-          "type": "String",
-          "description": "the SHA1 value. @since 6.0"
-        }
-      },
-      {
-        "signature": "String digest(byte[] script)",
-        "params": [
-          {
-            "name": "script",
-            "type": "byte[]",
-            "description": "script content."
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "the SHA1 value. @since 6.0"
+          "type": "Mono<String>",
+          "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
         }
       }
     ],
@@ -213,6 +171,52 @@
         ],
         "returns": {
           "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String digestKey(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Compute and return the 64-bit XXH3 digest hex of the string value stored at key. Returns null if key does not exist."
+        }
+      },
+      {
+        "signature": "byte[] digestKey(byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "Returns the 64-bit XXH3 digest hex (ASCII bytes) of the string value stored at key, or null if missing."
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DIGEST(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
           "description": ""
         }
       }

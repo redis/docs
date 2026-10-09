@@ -28746,7 +28746,7 @@
           ],
           "returns": {
             "type": "long",
-            "description": "The value of key"
+            "description": ""
           }
         },
         {
@@ -28765,7 +28765,7 @@
           ],
           "returns": {
             "type": "long",
-            "description": "The value of key"
+            "description": ""
           }
         }
       ],
@@ -28935,6 +28935,69 @@
             "description": ""
           }
         }
+      ],
+      "node_redis": [
+        {
+          "signature": "DELEX(key: RedisArgument, options?: { condition: DelexCondition; matchValue: RedisArgument })",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "{ condition: DelexCondition; matchValue: RedisArgument }",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Any",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "del_ex(key: K, value_comparison: ValueComparison)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": ""
+            },
+            {
+              "name": "value_comparison",
+              "type": "ValueComparison",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "(usize)",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "del_ex(key: K, value_comparison: ValueComparison)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": ""
+            },
+            {
+              "name": "value_comparison",
+              "type": "ValueComparison",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "(usize)",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -28958,91 +29021,49 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "String digest(String script)",
+          "signature": "String digestKey(K key)",
           "params": [
             {
-              "name": "script",
-              "type": "String",
-              "description": "script content."
+              "name": "key",
+              "type": "K",
+              "description": "the key."
             }
           ],
           "returns": {
             "type": "String",
-            "description": "the SHA1 value. @since 6.0"
-          }
-        },
-        {
-          "signature": "String digest(byte[] script)",
-          "params": [
-            {
-              "name": "script",
-              "type": "byte[]",
-              "description": "script content."
-            }
-          ],
-          "returns": {
-            "type": "String",
-            "description": "the SHA1 value. @since 6.0"
+            "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
           }
         }
       ],
       "lettuce_async": [
         {
-          "signature": "String digest(String script)",
+          "signature": "RedisFuture<String> digestKey(K key)",
           "params": [
             {
-              "name": "script",
-              "type": "String",
-              "description": "script content."
+              "name": "key",
+              "type": "K",
+              "description": "the key."
             }
           ],
           "returns": {
-            "type": "String",
-            "description": "the SHA1 value. @since 6.0"
-          }
-        },
-        {
-          "signature": "String digest(byte[] script)",
-          "params": [
-            {
-              "name": "script",
-              "type": "byte[]",
-              "description": "script content."
-            }
-          ],
-          "returns": {
-            "type": "String",
-            "description": "the SHA1 value. @since 6.0"
+            "type": "RedisFuture<String>",
+            "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
           }
         }
       ],
       "lettuce_reactive": [
         {
-          "signature": "String digest(String script)",
+          "signature": "Mono<String> digestKey(K key)",
           "params": [
             {
-              "name": "script",
-              "type": "String",
-              "description": "script content."
+              "name": "key",
+              "type": "K",
+              "description": "the key."
             }
           ],
           "returns": {
-            "type": "String",
-            "description": "the SHA1 value. @since 6.0"
-          }
-        },
-        {
-          "signature": "String digest(byte[] script)",
-          "params": [
-            {
-              "name": "script",
-              "type": "byte[]",
-              "description": "script content."
-            }
-          ],
-          "returns": {
-            "type": "String",
-            "description": "the SHA1 value. @since 6.0"
+            "type": "Mono<String>",
+            "description": "String bulk-string-reply the hex digest of the key's value, or null when key does not exist. @since 7.1"
           }
         }
       ],
@@ -29153,6 +29174,52 @@
           ],
           "returns": {
             "type": "string",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String digestKey(String key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "Compute and return the 64-bit XXH3 digest hex of the string value stored at key. Returns null if key does not exist."
+          }
+        },
+        {
+          "signature": "byte[] digestKey(byte[] key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "byte[]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "byte[]",
+            "description": "Returns the 64-bit XXH3 digest hex (ASCII bytes) of the string value stored at key, or null if missing."
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "DIGEST(key: RedisArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Any",
             "description": ""
           }
         }
@@ -98558,6 +98625,171 @@
             "type": "*StatusCmd",
             "description": ""
           }
+        },
+        {
+          "signature": "SetArgs(ctx context.Context, key string, value interface{}, a SetArgs)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "a",
+              "type": "SetArgs",
+              "description": "Mode can be `NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ`, `IFDNE` or empty. MatchValue is used with IFEQ/IFNE; MatchDigest (a uint64 xxh3 hash) is used with IFDEQ/IFDNE."
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SetIFEQ(ctx context.Context, key string, value interface{}, matchValue interface{}, expiration time.Duration)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "matchValue",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Zero expiration means the key has no expiration time."
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+          }
+        },
+        {
+          "signature": "SetIFNE(ctx context.Context, key string, value interface{}, matchValue interface{}, expiration time.Duration)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "matchValue",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Zero expiration means the key has no expiration time."
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+          }
+        },
+        {
+          "signature": "SetIFDEQ(ctx context.Context, key string, value interface{}, matchDigest uint64, expiration time.Duration)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "matchDigest",
+              "type": "uint64",
+              "description": "A uint64 xxh3 hash value."
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Zero expiration means the key has no expiration time."
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+          }
+        },
+        {
+          "signature": "SetIFDNE(ctx context.Context, key string, value interface{}, matchDigest uint64, expiration time.Duration)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": ""
+            },
+            {
+              "name": "matchDigest",
+              "type": "uint64",
+              "description": "A uint64 xxh3 hash value."
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Zero expiration means the key has no expiration time."
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+          }
         }
       ],
       "node_redis": [
@@ -98752,6 +98984,30 @@
             "type": "(())",
             "description": ""
           }
+        },
+        {
+          "signature": "set_options(key: K, value: V, options: SetOptions)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "SetOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "(Option<String>)",
+            "description": ""
+          }
         }
       ],
       "redis_rs_async": [
@@ -98771,6 +99027,30 @@
           ],
           "returns": {
             "type": "(())",
+            "description": ""
+          }
+        },
+        {
+          "signature": "set_options(key: K, value: V, options: SetOptions)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "SetOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "(Option<String>)",
             "description": ""
           }
         }
