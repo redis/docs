@@ -225,6 +225,42 @@ There are two ways to opt in.
 
 The [`HIMPORT`](/content/commands/himport.md) command family lets a client import many hashes that share the same field names efficiently. You declare the shared field names once with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md), then create each key with [`HIMPORT SET`](/content/commands/himport-set.md) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`](/content/commands/hset.md) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`](/content/commands/himport.md) for the full workflow and its subcommands.
 
+{{< clients-example set="hash_import" step="himport_basic" description="Foundational: Declare shared field names once with HIMPORT PREPARE, then create each hash by sending only its values with HIMPORT SET" difficulty="intermediate" >}}
+> HIMPORT PREPARE user name email age
+OK
+> HIMPORT SET user:1 user Alice alice@example.com 34
+OK
+> HIMPORT SET user:2 user Bob bob@example.com 41
+OK
+> HIMPORT SET user:3 user Carol carol@example.com 29
+OK
+> HGETALL user:2
+1) "age"
+2) "41"
+3) "name"
+4) "Bob"
+5) "email"
+6) "bob@example.com"
+{{< /clients-example >}}
+
+Each key you create this way is an ordinary hash. Note that:
+
+- [`HIMPORT SET`](/content/commands/himport-set.md) replaces an existing key rather than merging into it.
+- [`HGETALL`](/content/commands/hgetall.md) can return the fields in a different order from the one you declared.
+
+A fieldset belongs to the connection that declared it. Client libraries that support `HIMPORT` track your fieldsets and declare them again on each connection they use, including pooled connections, reconnections, and cluster nodes, so you don't manage this yourself. Some clients, such as Jedis, Lettuce, and StackExchange.Redis, have no prepare method: you create a fieldset object and the client declares it when it's first used. Most client libraries mark their `HIMPORT` support as experimental, so its API might change, and some clients don't support it inside a transaction.
+
+To import many hashes, send the imports in a [pipeline](/content/develop/using-commands/pipelining.md) so they share network round trips instead of waiting for each reply in turn:
+
+{{< clients-example set="hash_import" step="himport_pipeline" description="Bulk ingestion: Pipeline many HIMPORT SET calls that share one fieldset to load a large number of hashes with few network round trips" difficulty="intermediate" buildsUpon="himport_basic" >}}
+> HIMPORT PREPARE user name email age
+OK
+> HIMPORT SET user:1000 user user1000 user1000@example.com 20
+OK
+> HGET user:1000 email
+"user1000@example.com"
+{{< /clients-example >}}
+
 ### Automatic conversion
 
 For workloads that can't adopt a new command, Redis can convert eligible hashes to compact hashes on its own, with no code change. All the following settings default to `0` (off) and can be changed at runtime with [`CONFIG SET`](/content/commands/config-set.md).
