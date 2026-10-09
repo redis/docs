@@ -159,7 +159,7 @@ The **Settings** tab contains the default data structure (**Hash** or **JSON**) 
 ![Pipeline-wide Settings tab with default data structure and processor properties.](/images/rc/rdi/rdi-2-settings.png)
 {width="100%"}
 
-Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. Every Cloud RDI pipeline uses the Flink processor. Review [processor properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors-data-processing-configuration) before changing them. To change processor capacity, see [Scale a Cloud RDI pipeline](/content/operate/rc/rdi/scale-pipeline.md).
+Select **Edit** to change these settings. Select **Save changes**, then **Apply and restart**. Every Cloud RDI pipeline uses the Flink processor. Review [processor properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors-data-processing-configuration) before changing them. To change processor capacity, see [Scale a Cloud RDI pipeline](/content/operate/rc/rdi/scale-pipeline.md).
 
 ![The processor advanced properties editor with key and value fields.](/images/rc/rdi/rdi-processor-advanced-properties.png)
 {width="80%"}

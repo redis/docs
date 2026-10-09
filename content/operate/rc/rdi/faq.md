@@ -64,7 +64,7 @@ No. Deleting a source removes its pipeline configuration and internal RDI state.
 Plan the Classless Inter-Domain Routing (CIDR) range for all pipelines in the
 workspace, including future sources and processor replicas. You cannot enlarge
 it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
-for the observed `/22`, `/21`, and `/20` processor allocation results.
+for the `/22`, `/21`, and `/20` capacity table and its configuration.
 
 ### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
 
@@ -73,9 +73,9 @@ To use a larger range, [delete the existing workspace](/content/operate/rc/rdi/c
 [create a workspace](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace)
 with the larger CIDR, and redeploy your pipelines.
 
-Before deleting your pipelines and workspace, record your pipeline configuration,
-source settings, transformation jobs, and secret references. Recreation interrupts
-ingestion and removes the saved pipeline state. Redeployed sources take new initial
+Before you delete anything, record your pipeline configuration, source settings,
+transformation jobs, and secret references. Recreation interrupts ingestion
+and removes the saved pipeline state. Redeployed sources take new initial
 snapshots. Records already written to the target database remain there.
 
 For help planning the recreation and connectivity changes, open a
@@ -145,8 +145,8 @@ No. Set the desired processor replica count with
 
 ### How do I increase processing capacity for a pipeline?
 
-First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck),
-then tune the collector, RDI database, or processor as needed. Check shared
+First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck).
+Then tune the collector, RDI database, or processor. Check shared
 workspace network capacity before adding sources or processor replicas.
 
 ### Can I see that the processor has scaled in the console?
@@ -157,5 +157,6 @@ for how to read the count and handle a persistent mismatch.
 
 ### Can I use billing to confirm a scaling change?
 
-No. Billing is not a real-time deployment-status signal. Use the Dashboard or
-the RDI API status instead.
+No. Billing does not show scaling changes in real time. Use the Dashboard or
+the [Redis Cloud application programming interface (API)](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+to confirm the running count.

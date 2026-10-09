@@ -16,9 +16,8 @@ weight: 5
 ---
 
 Every Redis Data Integration (RDI) pipeline in Redis Cloud uses the Flink
-processor. Pipeline capacity can be limited by the collector, the RDI
-database, the processor, or the target
-database. Identify the bottleneck before you change a setting.
+processor. The collector, RDI database, processor, or target database can
+limit pipeline capacity. Identify the bottleneck before you change a setting.
 
 Cloud RDI does not automatically add or remove processor replicas
 (TaskManagers) based on load, pending records, throughput, or backpressure.
@@ -27,53 +26,53 @@ Set the number of processor replicas when you need more processing capacity.
 ## Plan workspace network capacity
 
 Choose the workspace Classless Inter-Domain Routing (CIDR) range for all
-pipelines you plan to run. Sources and processor replicas across the workspace
-share its network capacity. Each source uses a collector, and each TaskManager
-is a processor replica. Adding pipelines, sources, or processor replicas can
-exhaust this capacity even when the pipeline configuration is valid.
+pipelines you plan to run. All sources and processor replicas share the
+workspace's network capacity. Each source uses a collector. Each TaskManager
+is a processor replica. Adding either uses more workspace addresses.
 
 The console suggests a `/22` range. If you expect more than 5 sources or more
 than 5 processor replicas in total across the workspace, choose a `/21` or
 larger range when you create it. For further growth, consider a `/20` or larger
 range. A `/21` has twice the address space of a `/22`; a `/20` has twice that
-of a `/21`.
+of a `/21`. Doubling the address space does not guarantee twice as many
+sources or processor replicas.
 
 This is conservative planning guidance, not a guaranteed capacity limit.
 Leave room for planned growth, replacement resources, and maintenance.
 The range must also meet the requirements of your connectivity method and
 must not overlap with connected networks.
 
-### Observed processor allocation
+### Processor capacity by CIDR
 
-Allocation tests with RDI 2.0.0 on Amazon Web Services (AWS) produced these
-results. Each test used three availability zones and one pipeline with no
-sources. Each processor requested one central processing unit (CPU) and
-5 GiB of memory. Each scale-up attempt lasted at most 10 minutes and used
-temporary scaling overrides.
+Use this table as a reference for processor address capacity. The reference
+configuration uses RDI 2.0.0 on Amazon Web Services (AWS), with three
+availability zones. It has one pipeline, no sources, and two control-plane
+nodes. Each processor requests one central processing unit (CPU) and 5 GiB
+of memory. Temporary workspace scaling overrides allow the configured counts
+in the table. The allocation window is 10 minutes per scaling request.
 
-Requested replicas are the configured count. Running and ready replicas
-are processors that started and passed readiness checks.
+Configured replicas are the requested count. Ready replicas are running
+processors that pass readiness checks. Both columns count processors only.
+They exclude source collectors and control-plane nodes. These resources
+also use workspace addresses.
 
-| Workspace CIDR | Requested replicas | Running and ready replicas | Observed result |
+| Workspace CIDR | Configured replicas | Ready replicas | Capacity constraint |
 | --- | ---: | ---: | --- |
-| `/22` | 15 | 14 | Assigned subnet ran out of address blocks; another zone retained a block. |
-| `/21` | 50 | 32 | All worker subnets ran out of address blocks; allocation requests were also throttled. |
-| `/20` | 50 | 50 | All 50 became ready. Higher counts were not tested. |
+| `/22` | 15 | 14 | Address blocks exhausted in the assigned subnet. Another zone retained a block. |
+| `/21` | 50 | 32 | Address blocks exhausted in all worker subnets. Allocation requests were also throttled. |
+| `/20` | 50 | 50 | Capacity for at least 50 replicas in this configuration. The upper limit is not established. |
 
-The `/22` and `/21` tests increased replicas in steps. The `/20` test requested
-50 replicas directly. The results show observed processor allocation, not
-supported replica limits or guaranteed safe maxima. The `/20` result establishes
-at least 50 replicas under the test configuration, not a ceiling of 50.
+The `/22` and `/21` figures use gradual scaling. The `/20` figure uses a
+direct request for 50 replicas.
 
-These tests had no source traffic. They do not measure throughput, source or
-pipeline counts, or maintenance headroom. Collectors and other pipelines also
-use workspace addresses. Choose a larger range before your planned processor
-count approaches the observed allocation boundary, and reserve space for these
-other resources.
+The counts of 14 and 32 are not fixed workspace limits. Address distribution
+across zones and allocation throttling also affect scaling. The table does
+not define supported replica limits, throughput, or combined source and
+processor capacity. Reserve addresses for collectors, other pipelines,
+growth, and maintenance.
 
-You cannot enlarge an existing workspace CIDR. If you need more network
-capacity in an existing workspace, contact [Redis support](https://redis.io/support/)
-before adding more pipelines, sources, or processor replicas. See
+You cannot enlarge an existing workspace CIDR. A larger range requires
+[workspace recreation](/content/operate/rc/rdi/faq.md#change-workspace-cidr). See
 [Create a workspace](/content/operate/rc/rdi/create-workspace.md) for CIDR
 selection and connectivity requirements.
 
@@ -121,10 +120,9 @@ the selected source:
 Use only properties shown for the selected source. The available properties can
 vary by source database.
 
-Cloud RDI collectors have 2 central processing units (CPUs) and 8 GB of
+Cloud RDI collectors have 2 CPUs and 8 GB of
 random access memory (RAM). You cannot select a different collector size.
-Test each change with a representative workload
-before you use it in production.
+Test each change with a representative workload before you use it in production.
 
 Larger batches and queues use more collector memory. More snapshot and
 record-processing threads share the same 2 CPUs. A shorter poll interval can
@@ -143,17 +141,15 @@ settings.
 1. Increase **Throughput** to the next available value.
 1. Check the pipeline Dashboard before making another increase.
 
-Increase throughput gradually. Stop increasing it when the pipeline no longer
-improves.
-
-Increase throughput when database metrics show that a throughput limit delays
-ingestion or processing. Check processor and target performance too: an
-increase does not resolve a bottleneck in another component.
+Stop increasing throughput when the pipeline no longer improves. Check
+processor and target performance too. More database throughput does not
+resolve a bottleneck in another component.
 
 ## Increase processor capacity
 
 1. From the Cloud RDI **Pipelines** list, select the pipeline.
-1. Select the **Settings** tab and select **Edit**.
+1. Select the **Settings** tab.
+1. Select **Edit**.
 1. Add or update the `advanced.resources.taskManager.replicas` property with
    the number of processor replicas you need. Use a positive whole number
    accepted by the console and check [workspace network capacity](#plan-workspace-network-capacity)
@@ -182,8 +178,8 @@ processors:
 The **Dashboard** shows the processor replica count next to the processor
 status. It shows the running count and configured count in the format
 `running / configured replicas`. For example, `3 / 3 replicas` means three
-TaskManagers are running and the pipeline is configured for three. If only one
-count is available, the Dashboard identifies it as either running or configured.
+TaskManagers are running. The configured count is also three. If only one
+count is available, the Dashboard labels it as running or configured.
 
 The running count can be lower while a restart is in progress. If it remains
 below the configured count after the restart, check pipeline and source status
