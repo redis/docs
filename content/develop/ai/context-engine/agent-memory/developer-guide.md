@@ -8,121 +8,129 @@ description: Connect an application to Redis Agent Memory and work with session 
 hideListLinks: true
 linktitle: Developer guide
 title: Redis Agent Memory developer guide
-weight: 5
+weight: 6
 ---
 
-Use the Python SDK, TypeScript SDK, or REST API to add session events, retrieve conversation context, create long-term memories, and search for relevant information.
+Your application brings two kinds of memory to a conversation: the messages exchanged so far and information worth remembering from earlier conversations. Redis Agent Memory stores both. Your application retrieves them, passes them to the model, and saves each new turn.
 
-## Integration workflow
+This guide uses a travel assistant to show where those requests belong in your application. Complete the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) first to create a service and send your first requests. For how the two kinds of memory work, see the [overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}).
 
-1. Connect to a Redis Agent Memory service with its endpoint, Store ID, and API key.
-1. Add conversation events to session memory.
-1. Retrieve session memory before an agent turn to reconstruct the conversation context.
-1. Search long-term memory for information relevant to the current interaction.
+## Configure the application
 
-Redis Agent Memory can automatically summarize older session events and extract long-term memories in the background. Applications can also create long-term memories directly.
+Every client needs the service endpoint, Store ID, and application programming interface (API) key. The endpoint tells the client where to connect. The Store ID selects the memory store, and the key authenticates the request.
 
-## Choose a client
-
-| Client | Use it when | Package and quickstart |
-|:-------|:------------|:-----------------------|
-| Python SDK | Your application or agent uses Python. | Install [`redis-agent-memory`](https://pypi.org/project/redis-agent-memory/) and follow the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md). |
-| TypeScript SDK | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/agent-memory`](https://www.npmjs.com/package/@redis-iris/agent-memory) and follow the [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md). |
-| REST API | You need language-independent HTTP access or don't want an SDK dependency. | No package required. Follow the [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md). |
-
-## Connect to a Redis Agent Memory service
-
-Every client requires:
-
-* The Redis Agent Memory endpoint.
-* The Store ID.
-* A Redis Agent Memory API key.
-
-The Python and TypeScript SDKs accept the endpoint, Store ID, and API key when you create the client. When you use the REST API, send the API key as a bearer token and include the Store ID in request paths.
-
-Follow the [Redis Cloud setup guide](/content/operate/iris/agent-memory/create-service.md) if you don't have a service. After you create one, copy its endpoint and Store ID from the **Configuration** tab and save the API key securely.
+1. In the Redis Cloud console, open your Agent Memory service and select **Configuration**.
+1. Copy the **Endpoint** and **Store ID** into your application's configuration.
+1. Load the API key you saved during service creation from a secret store or environment variable. Keep it out of source control and browser code.
+1. Create the client as shown in [Create the client and check the service health]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#create-the-client-and-check-the-service-health" >}}). Use the Python software development kit (SDK) for Python applications, the TypeScript SDK for JavaScript or TypeScript, or the REST API for other languages.
 
 ## Identify users and conversations
 
-| Identifier | Purpose |
-|:-----------|:--------|
-| `sessionId` | Identifies a conversation or interaction session. |
-| `actorId` | Identifies the actor that produced a session event. |
-| `ownerId` | Identifies the user or entity associated with a long-term memory. |
-| Memory ID | Uniquely identifies a long-term memory within the store. |
+Redis Agent Memory uses IDs to keep conversations and owners distinct. Choose them in your application, then reuse them in memory requests. For a travel assistant:
 
-An application can use the same user identifier for `actorId` and `ownerId`, but the fields describe different relationships.
+| Identifier | Application choice |
+|:-----------|:-------------------|
+| `sessionId` | Generate a universally unique identifier (UUID) when the user starts a new chat and save it with the chat record. Reuse it for every turn in that chat. A new chat gets a new ID. |
+| `actorId` | Use the signed-in user's account ID for user messages and an agent ID, such as `travel-agent`, for assistant messages. |
+| `ownerId` | Use the same account ID when creating and searching that user's long-term memories. Reuse it across chats so the assistant can recall earlier preferences. |
 
-## Work with session memory
+For example, the quickstart uses `quickstart-user` for the user's actor and owner IDs, and `travel-planning-session` for one conversation. These fixed values let you repeat the example. In an application, use IDs from your account and chat records. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
-Use a stable `sessionId` to store a conversation as an ordered sequence of events. Add an event for each user, assistant, or system message that your application needs to retain.
+Before retrieving a chat, check in your application's account data that the signed-in user can access it. Set the memory search's owner filter from that authenticated account. For example, a request from `user-42` must not be able to select `user-99` as its owner. A search filter limits results; it does not check who signed in.
 
-Each stored event can include:
+## Build context for each agent turn
 
-| Field | Purpose |
-|:------|:--------|
-| `eventId` | Server-generated identifier for the event. |
-| `sessionId` | Session that contains the event. |
-| `actorId` | User, agent, or other actor that produced the event. |
-| `role` | Role of the message in the conversation. |
-| `content` | Message content, including its text. |
-| `createdAt` | Time the event occurred in the application. |
-| `systemTimestamp` | Time Redis Agent Memory stored the event. |
-| `metadata` | Optional application-specific information associated with the event. |
+Suppose a user returns to the travel assistant and asks, "Where should I eat in Kyoto?" The current conversation may contain their travel dates. Long-term memory may contain their vegetarian diet from an earlier chat. The model needs both to give a useful answer.
 
-Before an agent turn, retrieve the session by `sessionId` and provide the relevant events to the agent. This lets the application reconstruct the conversation without maintaining a separate conversation store.
+1. Retrieve session memory with the conversation's `sessionId`.
+1. Search long-term memory using the user's request and an `ownerId` filter.
+1. Build the model context from the session summary, recent events, relevant search results, and the current user message.
+1. Call the model to produce the assistant's response.
+1. Store the new user and assistant messages as session events, with their roles and actor IDs.
 
-### Session retention
+The following Python example prepares that context. It uses the client, `SESSION_ID`, and `USER_ID` from the quickstart. Add it inside the `with` block in `main`, after the health check, and run `python quickstart.py`. It reads existing memory and prints the context without adding an event.
 
-The session-memory TTL controls how long sessions remain available. Configure it according to the retention requirements of your application. When a session expires, its events are no longer available through session-memory retrieval.
+```python
+        import json
 
-See [memory configuration](/content/operate/iris/agent-memory/create-service.md#memory-configuration) to configure the session-memory TTL in Redis Cloud.
+        question = "Where should I eat in Kyoto?"
+        session = agent_memory.get_session_memory(session_id=SESSION_ID)
+        memories = agent_memory.search_long_term_memory(
+            request={
+                "text": question,
+                "filter_": {"owner_id": {"eq": USER_ID}},
+                "limit": 5,
+            },
+        )
 
-### Automatic session summarization
+        context = {
+            "session_summary": session.summary.text if session.summary else None,
+            "recent_events": [
+                event.model_dump(mode="json", by_alias=True)
+                for event in session.events
+            ],
+            "relevant_memories": [memory.text for memory in memories.items],
+            "current_message": question,
+        }
+        print(json.dumps(context, indent=2))
+```
 
-Automatic summarization limits the amount of conversation history that must be added to a model's context window. Configure:
+Pass this information to your model through your application's existing model call. Keep conversation roles and treat recalled memories as context, not as instructions. For a complete application example, use the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
 
-* **Summarize after:** The number of messages a session can contain before older messages are summarized.
-* **Keep most recent:** The number of recent messages that remain available in full.
+After the model responds, use the [session-event request]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#1-build-conversation-context-with-session-memory" >}}) to save each new message. Save the question with role `USER` and the user's actor ID. Save the answer with role `ASSISTANT` and actor ID `travel-agent`. Both use the same session ID.
 
-For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, Redis Agent Memory summarizes the older 10 messages when the session reaches 20 messages and retains the 10 most recent messages in full.
+In this sequence, the question appears once in `current_message` because it has not been saved yet. If you save it before retrieving the session, it will already be in `recent_events`; omit `current_message` in that case.
 
-See [automatic summarization](/content/operate/iris/agent-memory/create-service.md#automatic-summarization) to enable summarization and configure both thresholds in Redis Cloud.
+The context must fit the model's input limit. Count tokens with your model provider's tokenizer and leave room for the answer. The example limits recall to five memories. If the prompt is still too large, use fewer results or enable [session summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#configure-automatic-summarization" >}}). When summarization is enabled, session retrieval returns the summary and recent events separately; the example includes both.
 
-Follow any of the client quickstarts to add and retrieve a session event. For complete schemas, see the [session-memory API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#tag/session-memory).
+## Handle long-term recall
 
-## Work with long-term memory
+Extraction runs in the background. Saving "I am vegetarian" as a session event makes the message available in session memory, but an extracted preference may not be searchable yet. The context example includes the session events, so the model can use that statement on the next turn without waiting for extraction.
 
-Long-term memory stores information that remains useful beyond one conversation. A long-term memory record includes content and fields that let applications classify, scope, and retrieve it:
+When a search returns no matches, `items` is an empty array. In the example, `relevant_memories` becomes `[]`; the session history and current question remain available. If you expect a memory but it does not appear:
 
-| Field | Purpose |
-|:------|:--------|
-| `id` | Unique identifier for the memory. |
-| `text` | Memory content used for retrieval. |
-| `memoryType` | Built-in or custom memory type. |
-| `sessionId` | Session associated with the memory. |
-| `ownerId` | User or entity associated with the memory. |
-| `namespace` | Logical grouping for the memory. |
-| `topics` | Topic tags used to categorize the memory. |
-| `createdAt` | Time the memory was created. |
-| `updatedAt` | Time the memory was last updated. |
+1. Open the service's **Configuration** tab in Redis Cloud and check **Extraction cadence** under **Memory configuration**. Wait at least that interval after adding the event, then search again.
+1. If you expect a custom memory type, check that it is enabled under **Memory types & extraction**. Check that its extraction prompt covers the information in the event.
+1. Compare the request's `ownerId`, `memoryType`, and namespace filters with the IDs and type used for the memory. Start with the owner filter alone to check whether an added filter excludes it.
+
+See [View and edit service configuration]({{< relref "/operate/iris/agent-memory/view-service#configuration-tab" >}}) for the settings. Extraction uses a model, so it may not create a memory for every statement.
+
+A failed request is different from a successful search with no matches. Handle the returned error before you use the result:
+
+| Failure | Application response |
+|:--------|:---------------------|
+| Authentication error | Check the configured API key. Retrying with the same invalid key will not help. |
+| Invalid request | Read the error details and correct the field or filter before retrying. |
+| Search timeout | If the assistant can answer from the current conversation, continue without recalled memories. Otherwise, tell the user that memory is unavailable and ask them to retry. |
+| Event-write timeout | Retrieve the session and check whether the event was stored before sending it again. Compare its actor, timestamp, and content. Repeating a write can create a duplicate. |
 
 ### Create long-term memories
 
-Redis Agent Memory provides two creation paths:
+Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID, and check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
 
-* **Automatic extraction:** Redis Agent Memory processes session events asynchronously and creates durable memories from relevant information. Configure the extraction cadence to control how often session events are processed.
-* **Direct creation:** Your application creates one or more long-term memories through the API or an SDK. Use direct creation when importing existing information or when your application determines exactly what to store.
+See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
 
-Configure the long-term-memory TTL separately from the session-memory TTL.
+## Define custom memory types
 
-See [memory configuration](/content/operate/iris/agent-memory/create-service.md#memory-configuration) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
+If your application needs structured values, define a custom memory type. For example, `trip_preference` can capture `destinations`, `travel_period`, `dietary_requirements`, and `food_preferences`.
 
-### Exclude sensitive data from automatic extraction
+Enable the type and supply extraction instructions. Search with the `memoryType` and `ownerId` filters, then read each result's `attributes`. Check for missing fields before using them to choose restaurants.
+
+See [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}) to define fields, handle extraction results, and create records directly.
+
+## Organize memories with namespaces
+
+Namespaces are optional. Add them when your application needs to group conversations and memories by user, project, or team.
+
+For example, create a personal `travel` namespace and save its `namespaceId`. Use that ID in `namespaceRef` when starting a session or creating long-term memories. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
+
+See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for hierarchy, placement, search filters, and management.
+
+## Exclude sensitive data from automatic extraction
 
 Sensitive-data exclusions keep specified information out of long-term memory during automatic extraction. A store's exclusions policy combines three mechanisms that you enable independently:
 
-* **Built-in detectors:** Validated patterns for common identifiers, such as payment card numbers, email addresses, phone numbers, IP addresses, and US Social Security numbers. Select the ones a store should apply.
+* **Built-in detectors:** Validated patterns for common identifiers, such as payment card numbers, email addresses, phone numbers, Internet Protocol (IP) addresses, and US Social Security numbers. Select the ones a store should apply.
 * **Custom detectors:** Regular expressions you write yourself, for identifiers specific to your domain such as tenant IDs or internal reference numbers.
 * **Semantic exclusions:** A plain-language exclusion prompt describing what must not be kept, such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes. Use it for concepts a pattern cannot express.
 
@@ -133,49 +141,4 @@ Exclusions apply to automatic extraction from session events. They do not apply 
 > [!WARNING]
 > Detector matches are deterministic, but semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
 
-See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) to configure the feature in Redis Cloud.
-
-### Search long-term memory
-
-Search long-term memory using semantic, keyword, or hybrid retrieval. Scope results with filters for owners, sessions, namespaces, topics, and memory types.
-
-Use `ownerId` to restrict recall to the relevant user or entity. Add narrower filters when the application needs memories from a particular session, namespace, topic, or memory type.
-
-For request fields, filter operators, and response schemas, see [`SearchLongTermMemory`](/content/develop/ai/context-engine/agent-memory/api-reference.md#tag/long-term-memory/operation/SearchLongTermMemory).
-
-### Define custom memory types
-
-Custom memory types capture structured information specific to your business domain. Define them in the Redis Agent Memory service configuration with:
-
-| Setting | Purpose |
-|:--------|:--------|
-| **Name** | Unique name used as the memory's `memoryType`. |
-| **Description** | Description of the information represented by the type. |
-| **Extraction prompt** | Instructions that tell Redis Agent Memory when and how to extract the custom memory from session events. |
-| **Enabled** | Controls whether Redis Agent Memory extracts new memories for the type. |
-| **Custom fields** | Structured fields added to memories of this type. |
-
-Custom fields support `str`, `int`, `float`, `bool`, `list[str]`, `list[float]`, and `object`. Each field has a name and description that explain what it captures. Every custom memory also includes the built-in long-term memory fields listed above.
-
-For example, a travel application could define a `trip_preference` type with these fields:
-
-| Field | Type | Captures |
-|:------|:-----|:---------|
-| `destination` | `str` | City or country the user plans to visit. |
-| `travel_period` | `str` | Dates or period of the trip. |
-| `dietary_requirements` | `list[str]` | Dietary requirements that affect recommendations. |
-
-When this type is enabled, Redis Agent Memory can extract a structured `trip_preference` memory from relevant session events. Each enabled custom type processes session events independently.
-
-See [custom memory types](/content/operate/iris/agent-memory/create-service.md#custom-memory-types) for configuration requirements and limits.
-
-Follow any of the client quickstarts to create and search long-term memory. For complete schemas, see the [long-term-memory API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#tag/long-term-memory).
-
-## References
-
-* [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md)
-* [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md)
-* [Python SDK reference](https://pypi.org/project/redis-agent-memory/)
-* [TypeScript SDK reference](https://www.npmjs.com/package/@redis-iris/agent-memory)
-* [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md)
-* [Redis Agent Memory API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md)
+See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.
