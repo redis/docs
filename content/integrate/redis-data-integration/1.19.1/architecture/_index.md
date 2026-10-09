@@ -72,8 +72,6 @@ added to the target within a few seconds after capture.
 
 ## At-least-once delivery guarantee
 
-<!-- TODO: Product review: clarify the delivery guarantee when source log history expires. A new snapshot does not replay missed deletes and can leave stale target records. -->
-
 RDI guarantees *at-least-once delivery* to the target. This means that
 a given change will never be lost, but it might be added to the target
 more than once. Apart from a slight performance overhead, adding a
@@ -81,6 +79,15 @@ change multiple times is harmless because the multiple writes
 are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
 to say that all writes after the first one make no change to the
 overall state).
+
+{{< note >}}
+The delivery guarantee applies to change events captured by RDI. If a Debezium
+collector's saved source position becomes unavailable, a new snapshot cannot replay
+changes whose source log history has expired. Missed deletes can leave stale records
+in the target. See the
+[missed-delete timeline](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/1.19.1/troubleshooting.md#unavailable-source-history).
+{{< /note >}}
 
 ## Checkpointing
 
