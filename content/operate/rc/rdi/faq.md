@@ -66,6 +66,14 @@ workspace, including future sources and processor replicas. You cannot enlarge
 it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
 for `/22`, `/21`, and larger-range guidance.
 
+### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
+
+You cannot change or enlarge the CIDR of an existing workspace in place.
+Open a [Redis support ticket](https://redis.io/support/) and include your
+subscription and workspace identifiers, current CIDR range, total sources and
+configured processor replicas across all pipelines, and planned growth.
+Redis support helps assess the available options and next steps.
+
 ## Upgrades and maintenance
 
 ### What happens during an RDI Cloud upgrade?
