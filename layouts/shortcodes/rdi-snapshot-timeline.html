@@ -1,0 +1,23 @@
+{{- $css := "css/rdi-snapshot-timeline.css" -}}
+<link rel="stylesheet" href="{{ $css | relURL }}?v={{ substr (md5 (os.ReadFile (print "static/" $css))) 0 10 }}">
+<figure class="rdi-snapshot-timeline">
+  <ol class="rdi-snapshot-timeline__events" aria-label="Missed-delete timeline">
+    {{- range $i, $event := slice
+      (dict "title" "Row copied" "text" "Row 42 exists in the source and in Redis.")
+      (dict "title" "Collection stops" "text" "The collector saves its source position.")
+      (dict "title" "Row deleted" "text" "The source deletes row 42. Redis still has it.")
+      (dict "title" "History expires" "text" "The saved position is unavailable. The delete cannot be replayed.")
+      (dict "title" "New snapshot" "text" "when_needed copies current source rows. Row 42 is absent.")
+      (dict "title" "Stale record" "text" "Streaming resumes. Redis still has row 42: its delete was missed.")
+    }}
+    <li class="rdi-snapshot-timeline__event">
+      <span class="rdi-snapshot-timeline__number" aria-hidden="true">{{ add $i 1 }}</span>
+      <div class="rdi-snapshot-timeline__detail">
+        <strong>{{ $event.title }}</strong>
+        <p>{{ $event.text }}</p>
+      </div>
+    </li>
+    {{- end }}
+  </ol>
+  <figcaption>A new snapshot copies existing source rows. It does not replay missed deletes or remove target records for rows absent from the snapshot.</figcaption>
+</figure>

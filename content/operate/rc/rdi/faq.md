@@ -18,12 +18,24 @@ A pipeline reset clears the internal RDI state for all sources, including their 
 
 A reset does **not** flush the target Redis database. Records already in the target remain until RDI overwrites or deletes them through normal processing. Keys that are no longer produced by the current dataset or transformations can remain in the target after a reset. For example, changing a transformation's key prefix and resetting creates keys with the new prefix without deleting keys with the old prefix.
 
-A new snapshot can also [leave stale records after missed deletes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
-If a row was deleted while collection was interrupted and the required log history
-expired, its delete event is not replayed by the snapshot. This applies to automatic
-snapshots with `when_needed` as well as snapshots after a manual reset.
-
 See [Reset data pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) for the steps.
+
+### Why can records remain after a recovery snapshot? {#missed-deletes}
+
+A new snapshot can leave stale records in Redis. If a source row was deleted while
+collection was interrupted and the required log history expired, the snapshot cannot
+replay its delete event. This applies to Debezium sources with `type: cdc`, including
+automatic snapshots with `when_needed` and snapshots after a manual reset.
+
+The timeline follows one row through an automatic recovery snapshot. Read the numbered
+events in order. On wide screens, events alternate across a horizontal timeline.
+
+{{< rdi-snapshot-timeline >}}
+
+An interruption alone does not cause this gap. The saved position must become
+unavailable. The snapshot does not clean up the target, and a reset does not flush it.
+See the [detailed missed-delete sequence](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
 
 ### What happens when I flush the target database?
 
