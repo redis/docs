@@ -69,10 +69,19 @@ for `/22`, `/21`, and larger-range guidance.
 ### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
 
 You cannot change or enlarge the CIDR of an existing workspace in place.
-Open a [Redis support ticket](https://redis.io/support/) and include your
-subscription and workspace identifiers, current CIDR range, total sources and
-configured processor replicas across all pipelines, and planned growth.
-Redis support helps assess the available options and next steps.
+To use a larger range, [delete the existing workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace),
+[create a workspace](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace)
+with the larger CIDR, and redeploy your pipelines.
+
+Before deleting your pipelines and workspace, record your pipeline configuration,
+source settings, transformation jobs, and secret references. Recreation interrupts
+ingestion and removes the saved pipeline state. Redeployed sources take new initial
+snapshots. Records already written to the target database remain there.
+
+For help planning the recreation and connectivity changes, open a
+[Redis support ticket](https://redis.io/support/) before deleting anything. Include
+your subscription and workspace identifiers, current CIDR, and planned totals for
+sources and processor replicas across all pipelines.
 
 ## Upgrades and maintenance
 
