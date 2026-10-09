@@ -80,6 +80,45 @@ client := redis.NewClusterClient(&redis.ClusterOptions{
 })
 ```
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+use `NewFailoverClient()`. Set `MasterName` to the name of the primary that the Sentinels
+monitor, and list one or more Sentinels in `SentinelAddrs`. The client asks the Sentinels
+for the current primary and switches to the new one after a failover.
+
+```go
+client := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+})
+```
+
+The Sentinels and the data nodes have separate credentials. Set `SentinelPassword` for the
+Sentinels, and `Username` and `Password` for the primary and replicas:
+
+```go
+client := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:       "mymaster",
+    SentinelAddrs:    []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+    SentinelPassword: "sentinel-secret", // use your Sentinel password
+    Username:         "default",         // use your Redis user
+    Password:         "secret",          // use your Redis password
+})
+```
+
+To send commands to a replica, set `ReplicaOnly`. The client sends every command to a
+random replica, including writes, which fail, so use this option only for a client that
+reads:
+
+```go
+replica := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+    ReplicaOnly:   true,
+})
+```
+
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the

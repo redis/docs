@@ -76,6 +76,68 @@ jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
 RedisClusterClient jedis = RedisClusterClient.create(jedisClusterNodes);
 ```
 
+### Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+use `RedisSentinelClient`. Pass the name of the primary that the Sentinels monitor to
+`masterName()`, and the Sentinel addresses to `sentinels()`. The client asks the Sentinels
+for the current primary and switches to the new one after a failover.
+
+```java
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.RedisSentinelClient;
+
+import java.util.HashSet;
+import java.util.Set;
+
+//...
+
+Set<HostAndPort> sentinels = new HashSet<>();
+sentinels.add(new HostAndPort("localhost", 26379));
+sentinels.add(new HostAndPort("localhost", 26380));
+sentinels.add(new HostAndPort("localhost", 26381));
+
+RedisSentinelClient jedis = RedisSentinelClient.builder()
+        .masterName("mymaster")
+        .sentinels(sentinels)
+        .build();
+
+jedis.set("foo", "bar");
+System.out.println(jedis.get("foo")); // bar
+
+jedis.close();
+```
+
+The Sentinels and the data nodes have separate credentials. Pass a client configuration for
+the primary to `clientConfig()`, and one for the Sentinels to `sentinelClientConfig()`:
+
+```java
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.JedisClientConfig;
+
+//...
+
+// Credentials for the primary and replica nodes.
+JedisClientConfig masterConfig = DefaultJedisClientConfig.builder()
+        .password("secret!") // use your Redis password
+        .build();
+
+// Credentials for the Sentinel nodes.
+JedisClientConfig sentinelConfig = DefaultJedisClientConfig.builder()
+        .password("sentinelSecret!") // use your Sentinel password
+        .build();
+
+RedisSentinelClient jedis = RedisSentinelClient.builder()
+        .masterName("mymaster")
+        .sentinels(sentinels)
+        .clientConfig(masterConfig)
+        .sentinelClientConfig(sentinelConfig)
+        .build();
+```
+
+`RedisSentinelClient` always sends commands to the primary. It doesn't support reading
+from replicas.
+
 ### Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
