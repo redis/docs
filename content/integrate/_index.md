@@ -1,5 +1,5 @@
 ---
 title: Libraries and tools
-description: 
+description: Find libraries, tools, frameworks, and platforms that integrate with Redis.
 linkTitle: Integrate
 ---

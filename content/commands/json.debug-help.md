@@ -22,7 +22,7 @@ summary: Shows helpful information
 syntax_fmt: JSON.DEBUG HELP
 title: JSON.DEBUG HELP
 ---
-Return helpful information about the [`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) command
+Return helpful information about the [`JSON.DEBUG`](/content/commands/json.debug.md) command
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -36,19 +36,19 @@ Return helpful information about the [`JSON.DEBUG`]({{< relref "commands/json.de
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing helpful messages about the JSON.DEBUG command.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing helpful messages about the JSON.DEBUG command.
 
 -tab-sep-
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing helpful messages about the JSON.DEBUG command.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing helpful messages about the JSON.DEBUG command.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.DEBUG`]({{< relref "commands/json.debug/" >}}) 
+[`JSON.DEBUG`](/content/commands/json.debug.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

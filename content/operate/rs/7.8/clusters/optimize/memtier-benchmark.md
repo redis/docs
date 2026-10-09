@@ -20,7 +20,7 @@ Prerequisites:
 - A cluster configured
 - A database created
 
-For help with the prerequisites, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For help with the prerequisites, see the [Redis Enterprise Software quickstart](/content/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md).
 
 It is recommended to run memtier_benchmark on a separate node that is
 not part of the cluster being tested. If you run it on a node of the
@@ -58,7 +58,7 @@ Enterprise database and generates a load doing the following:
 Run this command until it fills up your database to where you want it
 for testing. The easiest way to check is on the database metrics page.
 
-{{< image filename="/images/rs/memtier_metrics_page.png" >}}
+![](/images/rs/memtier_metrics_page.png)
 
 Another use for memtier_benchmark is to populate a database with data
 for failure testing.

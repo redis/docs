@@ -14,12 +14,11 @@ url: '/operate/rs/8.0/security/encryption/tls/enable-tls/'
 You can use TLS authentication for one or more of the following types of communication:
 
 - Communication from clients (applications) to your database
-- Communication from your database to other clusters for replication using [Replica Of]({{< relref "/operate/rs/8.0/databases/import-export/replica-of/" >}})
-- Communication to and from your database to other clusters for synchronization using [Active-Active]({{< relref "/operate/rs/8.0/databases/active-active/_index.md" >}})
+- Communication from your database to other clusters for replication using [Replica Of](/content/operate/rs/8.0/databases/import-export/replica-of/_index.md)
+- Communication to and from your database to other clusters for synchronization using [Active-Active](/content/operate/rs/8.0/databases/active-active/_index.md)
 
-{{<note>}}
-When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. You must update TLS parameters in the client's connection configuration, then clients must close existing connections and reconnect to apply the change.
-{{</note>}}
+> [!NOTE]
+> When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. You must update TLS parameters in the client's connection configuration, then clients must close existing connections and reconnect to apply the change.
 
 ## Enable TLS for client connections {#client}
 
@@ -41,7 +40,7 @@ To enable TLS for client connections using the Cluster Manager UI:
 
 You can also enable TLS for client connections using the REST API.
 
-To enable TLS for client connections during database creation, include `"tls_mode": "enabled"` when you [create a database]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#post-bdbs-v1">}}):
+To enable TLS for client connections during database creation, include `"tls_mode": "enabled"` when you [create a database](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1):
 
 ```sh
 POST https://<host>:<port>/v1/bdbs
@@ -51,9 +50,9 @@ POST https://<host>:<port>/v1/bdbs
 }
 ```
 
-For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/8.0/references/rest-api/objects/bdb">}}) reference.
+For additional database configuration fields, see the [BDB object](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md) reference.
 
-To enable TLS for client connections after database creation, you can use an [update database configuration]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+To enable TLS for client connections after database creation, you can use an [update database configuration](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
 ```sh
 PUT https://<host>:<port>/v1/bdbs/<database_id>
@@ -76,7 +75,7 @@ To enable mutual TLS using the Cluster Manager UI:
 
 1. Select **Mutual TLS (Client authentication)**.
 
-    <img src="../../../../../../images/rs/screenshots/databases/security-mtls-clients-7-8-2.png" alt="Mutual TLS authentication configuration.">
+    ![Mutual TLS authentication configuration.](/images/rs/screenshots/databases/security-mtls-clients-7-8-2.png)
 
 1. For all clients, upload a client certificate, an intermediary certificate, or a trusted client CA certificate.
 
@@ -113,9 +112,10 @@ To enable mutual TLS using the Cluster Manager UI:
 
         You can only enter a single value for each field, except for the _Organizational Unit (OU)_ field. If your client certificate has a `Subject` with multiple  _Organizational Unit (OU)_ values, press the `Enter` or `Return` key after entering each value to add multiple Organizational Units.
 
-        <img src="../../../../../../images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">
+        ![An example that shows adding a certificate validation with multiple organizational units.](/images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png)
+        {width="350px"}
 
-        **Breaking change:** If you use the [REST API]({{< relref "/operate/rs/8.0/references/rest-api" >}}) instead of the Cluster Manager UI to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Software v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference]({{< relref "/operate/rs/8.0/references/rest-api/objects/bdb" >}}) for more details.
+        **Breaking change:** If you use the [REST API](/content/operate/rs/8.0/references/rest-api/_index.md) instead of the Cluster Manager UI to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Software v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md) for more details.
 
 1. Select **Save**.
 
@@ -123,7 +123,7 @@ To enable mutual TLS using the Cluster Manager UI:
 
 You can also enable mutual TLS using the REST API.
 
-To enable mutual TLS during database creation, include the following fields when you [create a database]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#post-bdbs-v1">}}):
+To enable mutual TLS during database creation, include the following fields when you [create a database](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1):
 
 ```sh
 POST https://<host>:<port>/v1/bdbs
@@ -146,9 +146,9 @@ POST https://<host>:<port>/v1/bdbs
 }
 ```
 
-For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/8.0/references/rest-api/objects/bdb">}}) reference.
+For additional database configuration fields, see the [BDB object](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md) reference.
 
-To enable mutual TLS after database creation, you can use an [update database configuration]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+To enable mutual TLS after database creation, you can use an [update database configuration](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
 ```sh
 PUT https://<host>:<port>/v1/bdbs/<database_id>
@@ -174,7 +174,7 @@ PUT https://<host>:<port>/v1/bdbs/<database_id>
 
 ### Validate client certificate expiration
 
-By default, Redis Software validates client certificate expiration dates.  You can use [`rladmin tune db`]({{<relref "/operate/rs/8.0/references/cli-utilities/rladmin/tune#tune-db">}}) to turn off this behavior.
+By default, Redis Software validates client certificate expiration dates.  You can use [`rladmin tune db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/tune.md#tune-db) to turn off this behavior.
 
 ```sh
 rladmin tune db < db:id | name > mtls_allow_outdated_certs { enabled | disabled }
@@ -182,7 +182,7 @@ rladmin tune db < db:id | name > mtls_allow_outdated_certs { enabled | disabled 
 
 ### Connect over TLS
 
-To connect to a Redis Software database over TLS using [`redis-cli`]({{<relref "/operate/rs/8.0/references/cli-utilities/redis-cli">}}):
+To connect to a Redis Software database over TLS using [`redis-cli`](/content/operate/rs/8.0/references/cli-utilities/redis-cli/_index.md):
 
 1. Download or copy the server (or proxy) certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
@@ -203,23 +203,23 @@ To connect to a Redis Software database over TLS using [`redis-cli`]({{<relref "
 
 ## Enable TLS for Active-Active cluster connections
 
-You can enable TLS for Active-Active cluster connections when you create a database using the Cluster Manager UI, [`crdb-cli`]({{<relref "/operate/rs/8.0/references/cli-utilities/crdb-cli">}}), or the [REST API]({{<relref "/operate/rs/8.0/references/rest-api">}}).
+You can enable TLS for Active-Active cluster connections when you create a database using the Cluster Manager UI, [`crdb-cli`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/_index.md), or the [REST API](/content/operate/rs/8.0/references/rest-api/_index.md).
 
-If you need to enable or turn off TLS after the Active-Active database is created, you must use [`crdb-cli`]({{<relref "/operate/rs/8.0/references/cli-utilities/crdb-cli">}}) or the [REST API]({{<relref "/operate/rs/8.0/references/rest-api">}}).
+If you need to enable or turn off TLS after the Active-Active database is created, you must use [`crdb-cli`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/_index.md) or the [REST API](/content/operate/rs/8.0/references/rest-api/_index.md).
 
 ### Enable TLS during database creation
 
 To enable TLS for Active-Active cluster connections using the Cluster Manager UI:
 
-1. During [database creation]({{<relref "/operate/rs/8.0/databases/active-active/create">}}), expand the **TLS** configuration section.
+1. During [database creation](/content/operate/rs/8.0/databases/active-active/create.md), expand the **TLS** configuration section.
 
 1. Select **On** to enable TLS.
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png" alt="TLS is enabled on the Cluster Manager UI screen.">}}
+    ![TLS is enabled on the Cluster Manager UI screen.](/images/rs/screenshots/databases/active-active-databases/enable-tls-for-active-active-db.png)
 
 1. Click **Create**.
 
-If you also want to require TLS for client connections during creation, you can use the [create an Active-Active database]({{< relref "/operate/rs/8.0/references/rest-api/requests/crdbs/#post-crdb" >}}) REST API request to create an Active-Active database with TLS enabled for client connections.
+If you also want to require TLS for client connections during creation, you can use the [create an Active-Active database](/content/operate/rs/8.0/references/rest-api/requests/crdbs/_index.md#post-crdb) REST API request to create an Active-Active database with TLS enabled for client connections.
 You should configure the client certificates individually for each instance instead of using the default database configuration, even if the same certificate is used across all instances.
 This allows you to rotate the certificates independently for each instance and to avoid outages in case of certificate expiration.
 
@@ -285,7 +285,7 @@ You can enable TLS for an existing Active-Active database using either `crdb-cli
 tab1="CLI"
 tab2="REST API" >}}
 
-Run the following [`crdb-cli crdb update`]({{<relref "/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/update">}}) command:
+Run the following [`crdb-cli crdb update`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/update.md) command:
 
 ```sh
 crdb-cli crdb update --crdb-guid <guid> --encryption true
@@ -295,7 +295,7 @@ Replace `<guid>` with your Active-Active database's globally unique identifier.
 
 -tab-sep-
 
-You can use an [update database configuration]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs">}}) request to enable TLS.
+You can use an [update database configuration](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) request to enable TLS.
 
 To enable TLS for Active-Active database communications only:
 

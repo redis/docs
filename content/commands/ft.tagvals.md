@@ -46,7 +46,7 @@ Return a distinct set of values indexed in a Tag field
 <details open>
 <summary><code>index</code></summary>
 
-is full-text index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is full-text index name. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
@@ -59,7 +59,7 @@ Use FT.TAGVALS if your tag indexes things like cities, categories, and so on.
 
 ## Limitations
 
-FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md).
 The returned strings are lowercase with whitespaces removed, but otherwise unchanged.
 
 ## Examples
@@ -87,22 +87,22 @@ The returned strings are lowercase with whitespaces removed, but otherwise uncha
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of distinct tag values as [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, not a tag field.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of distinct tag values as [bulk strings](/content/develop/reference/protocol-spec.md#bulk-strings).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, not a tag field.
 
 -tab-sep-
 
 One of the following:
-* [Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of distinct tag values as [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, not a tag field.
+* [Set](/content/develop/reference/protocol-spec.md#sets) of distinct tag values as [bulk strings](/content/develop/reference/protocol-spec.md#bulk-strings).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, not a tag field.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}})
+[`FT.CREATE`](/content/commands/ft.create.md)
 
 ## Related topics
 
-- [Tag fields]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Tag fields](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)

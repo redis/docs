@@ -12,15 +12,14 @@ weight: 90
 
 Active-Active databases use administrator credentials to manage operations. When you change the administrator password on clusters with Active-Active databases, you must update the Active-Active database configuration to prevent authentication failures during Active-Active management operations.
 
-{{<warning>}}
-Do not perform any management operations on the databases until these steps are complete.
-{{</warning>}}
+> [!WARNING]
+> Do not perform any management operations on the databases until these steps are complete.
 
 To update the administrator password on a cluster with Active-Active databases:
 
 1. From the user management page, update the administrator user password on the clusters you want to update.
 
-1. Run [`crdb-cli crdb list`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/list">}}) to find the `CRDB-GUID` that uniquely identifies each Active-Active database and the fully qualified domain names (`FQDN`) of each participating cluster:
+1. Run [`crdb-cli crdb list`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/list.md) to find the `CRDB-GUID` that uniquely identifies each Active-Active database and the fully qualified domain names (`FQDN`) of each participating cluster:
 
     ```sh
     crdb-cli crdb list
@@ -34,7 +33,7 @@ To update the administrator password on a cluster with Active-Active databases:
     4053a0dd-a4a5-4f38-b135-75b7a2dc7331  my-aa-db    2        fqdn2.example.com
     ```
 
-1. Update the Active-Active database credentials using the [`crdb-cli crdb update`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}) command:
+1. Update the Active-Active database credentials using the [`crdb-cli crdb update`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/update.md) command:
 
     ```sh
     crdb-cli crdb update \

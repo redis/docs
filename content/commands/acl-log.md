@@ -47,14 +47,14 @@ title: ACL LOG
 ---
 The command shows a list of recent ACL security events:
 
-1. Failed authentications with [`AUTH`]({{< relref "/commands/auth" >}}) or [`HELLO`]({{< relref "/commands/hello" >}}) (reason = auth)
+1. Failed authentications with [`AUTH`](/content/commands/auth.md) or [`HELLO`](/content/commands/hello.md) (reason = auth)
 2. Commands violating the current ACL rules
    - Disallowed commands (reason = command).
    - Disallowed keys (reason = key).
    - Disallowed pub/sub channel (reason = channel).
 
 The optional argument specifies how many entries to show. By default
-up to ten failures are returned. The special [`RESET`]({{< relref "/commands/reset" >}}) argument clears the log.
+up to ten failures are returned. The special [`RESET`](/content/commands/reset.md) argument clears the log.
 Entries are displayed starting from the most recent.
 
 ## Optional arguments

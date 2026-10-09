@@ -34,7 +34,7 @@ summary: Deletes a value
 syntax_fmt: JSON.FORGET key [path]
 title: JSON.FORGET
 ---
-See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).
+See [`JSON.DEL`](/content/commands/json.del.md).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -48,10 +48,10 @@ See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of paths deleted (0 or more).
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of paths deleted (0 or more).
 
 {{< /multitabs >}}

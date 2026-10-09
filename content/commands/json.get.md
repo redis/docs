@@ -65,16 +65,13 @@ is key to parse.
 
 is JSONPath to specify. Default is root `$`. JSON.GET accepts multiple `path` arguments.
 
-{{% alert title="Note" color="warning" %}}
-
-When using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. 
-In contrast, a legacy path returns a single value.
-
-When using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.
-In contrast, if all paths are legacy paths, each object value is a single serialized JSON value.
-If there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).
-
-{{% /alert %}}
+> [!NOTE]
+> When using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. 
+> In contrast, a legacy path returns a single value.
+>
+> When using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.
+> In contrast, if all paths are legacy paths, each object value is a single serialized JSON value.
+> If there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).
 
 </details>
 
@@ -139,14 +136,14 @@ redis> JSON.GET doc ..a $..b
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a JSON-encoded string representing the value(s) at the specified path(s).
+[Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a JSON-encoded string representing the value(s) at the specified path(s).
 
 With a single path, returns the JSON serialization of the value at that path.
 With multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.
 
 -tab-sep-
 
-[Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).
+[Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).
 
 With a single path using `$` (default in RESP3), returns a JSON array containing the serialized value.
 With multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.
@@ -155,9 +152,9 @@ With multiple paths, returns a JSON object where each key is a path and each val
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.MGET`](/content/commands/json.mget.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

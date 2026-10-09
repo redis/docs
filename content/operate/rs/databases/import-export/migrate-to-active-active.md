@@ -10,8 +10,8 @@ linktitle: Migrate to Active-Active
 weight: $weight
 ---
 
-If you have data in a single-region Redis Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}),
-you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) the existing database.
+If you have data in a single-region Redis Software database that you want to migrate to an [Active-Active database](/content/operate/rs/databases/active-active/_index.md),
+you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of](/content/operate/rs/databases/import-export/replica-of/_index.md) the existing database.
 This process will gradually populate the data in the Active-Active database.
 
 Before data migration starts, all data is flushed from the Active-Active database.
@@ -19,14 +19,15 @@ The data is migrated to the Active-Active instance where you configured migratio
 
 When data migration is finished, turn off migration and connect your applications to the Active-Active database.
 
-{{<image filename="images/rs/A-A_migration.png" width="75%" alt="Active-Active data migration process" >}}
+![Active-Active data migration process](/images/rs/A-A_migration.png)
+{width="75%"}
 
 ## Prerequisites
 
 - During the migration, any applications that connect to the Active-Active database must be **read-only** to ensure the dataset is identical to the source database during the migration process. However, you can continue to write to the source database during the migration process.
 
 - If you used the mDNS protocol for the cluster name (FQDN),
-the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns" >}}) must be met in order to communicate with other clusters.
+the [client mDNS prerequisites](/content/operate/rs/networking/mdns.md) must be met in order to communicate with other clusters.
 
 ## Migrate from a Redis Software cluster
 
@@ -36,19 +37,19 @@ You can migrate a Redis Software database from the [same cluster](#migrate-from-
 
 To migrate a database to Active-Active in the same Redis Software cluster:
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database](/content/operate/rs/databases/active-active/create.md).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 
 1. Expand the **Migrate to Active-Active** section:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png" alt="Migrate to Active-Active section.">}}
+    ![Migrate to Active-Active section.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png)
 
 1. Click **+ Add source database**.
 
 1. In the **Migrate to Active-Active** dialog, select **Current cluster**:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-current-cluster.png" alt="Migrate to Active-Active dialog with Current cluster tab selected.">}}
+    ![Migrate to Active-Active dialog with Current cluster tab selected.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-current-cluster.png)
 
 1. Select the source database from the list.
 
@@ -58,10 +59,9 @@ To migrate a database to Active-Active in the same Redis Software cluster:
 
 ### Migrate from a different cluster
 
-{{< note >}}
-For a source database on a different Redis Software cluster,
-you can [compress the replication data]({{< relref "/operate/rs/databases/import-export/replica-of#data-compression-for-replica-of" >}}) to save bandwidth.
-{{< /note >}}
+> [!NOTE]
+> For a source database on a different Redis Software cluster,
+> you can [compress the replication data](/content/operate/rs/databases/import-export/replica-of/_index.md#data-compression-for-replica-of) to save bandwidth.
 
 To migrate a database to Active-Active in different Redis Software clusters:
 
@@ -73,7 +73,7 @@ To migrate a database to Active-Active in different Redis Software clusters:
 
     1. Copy the Replica Of source URL.
 
-        {{<image filename="images/rs/screenshots/databases/config-replica-of-copy-source-url.png" alt="Copy the Replica Of source URL from the Connection link to destination dialog.">}}
+        ![Copy the Replica Of source URL from the Connection link to destination dialog.](/images/rs/screenshots/databases/config-replica-of-copy-source-url.png)
 
         To change the internal password, select **Regenerate password**.
 
@@ -81,19 +81,19 @@ To migrate a database to Active-Active in different Redis Software clusters:
 
 1. Sign in to the Cluster Manager UI of the destination database’s cluster.
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database](/content/operate/rs/databases/active-active/create.md).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 
 1. Expand the **Migrate to Active-Active** section:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png" alt="Migrate to Active-Active section.">}}
+    ![Migrate to Active-Active section.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png)
 
 1. Click **+ Add source database**.
 
 1. In the **Migrate to Active-Active** dialog, select **External**:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-external.png" alt="Migrate to Active-Active dialog with External tab selected.">}}
+    ![Migrate to Active-Active dialog with External tab selected.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-external.png)
 
 1. For **Source database URL**, enter the Replica Of source URL you copied in step 1.
 
@@ -105,19 +105,19 @@ To migrate a database to Active-Active in different Redis Software clusters:
 
 To migrate a Redis Open Source database to Active-Active:
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database](/content/operate/rs/databases/active-active/create.md).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 
 1. Expand the **Migrate to Active-Active** section:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png" alt="Migrate to Active-Active section.">}}
+    ![Migrate to Active-Active section.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-section.png)
 
 1. Click **+ Add source database**.
 
 1. In the **Migrate to Active-Active** dialog, select **External**:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-external.png" alt="Migrate to Active-Active dialog with External tab selected.">}}
+    ![Migrate to Active-Active dialog with External tab selected.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-dialog-external.png)
 
 1. Enter the **Source database URL**:
 
@@ -143,18 +143,18 @@ To migrate a Redis Open Source database to Active-Active:
 
 1. Wait until the migration is complete, indicated by the **Status** _Synced_. 
 
-    {{<note>}}
-Migration can take minutes to hours to complete depending on the dataset size and network quality.
-    {{</note>}}
+    > [!NOTE]
+    > Migration can take minutes to hours to complete depending on the dataset size and network quality.
+    >
 
 1. On the Active-Active database's **Configuration** screen, click **Edit**.
 
 1. In the **Migrate to Active-Active** section, click **Stop sync**:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-synced.png" alt="The Migrate to Active-Active section shows the Active-Active database is synced with the source database.">}}
+    ![The Migrate to Active-Active section shows the Active-Active database is synced with the source database.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-synced.png)
 
 1. In the **Stop synchronization** dialog, click **Stop** to proceed.
 
 1. Redirect client connections to the Active-Active database after **Status** changes to _Sync stopped_:
 
-    {{<image filename="images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-sync-stopped.png" alt="The Migrate to Active-Active section shows the Active-Active database stopped syncing with the source database.">}}
+    ![The Migrate to Active-Active section shows the Active-Active database stopped syncing with the source database.](/images/rs/screenshots/databases/migrate-to-active-active/migrate-to-active-active-sync-stopped.png)

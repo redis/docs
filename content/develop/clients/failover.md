@@ -57,14 +57,15 @@ than to let the app fail completely.
 unacceptably slow connections and automatically switching to the best available endpoint 
 when they occur. This requires you to specify a list of endpoints to try, ordered by priority. The diagram below shows this process:
 
-{{< image filename="images/failover/failover-client-reconnect.svg" alt="Failover and client reconnection" >}}
+![Failover and client reconnection](/images/failover/failover-client-reconnect.svg)
 
 The complementary technique of *failback* then involves periodically checking the health
 of all endpoints that have failed. If any endpoints recover, the failback mechanism
 automatically switches the connection to the one with the highest priority. 
 This could potentially be repeated until the optimal endpoint is available again.
 
-{{< image filename="images/failover/failover-client-failback.svg" alt="Failback: client switches back to original server" width="75%" >}}
+![Failback: client switches back to original server](/images/failover/failover-client-failback.svg)
+{width="75%"}
 
 ### Detecting connection problems
 
@@ -81,7 +82,7 @@ The status of the attempted command calls is kept in a "sliding window", which
 is simply a buffer where the least recent item is dropped as each new
 one is added. The buffer can be configured to have a fixed number of failures and/or a failure ratio (specified as a percentage), both based on a time window.
 
-{{< image filename="images/failover/failover-sliding-window.svg" alt="Sliding window of recent connection attempts" >}}
+![Sliding window of recent connection attempts](/images/failover/failover-sliding-window.svg)
 
 When the number of failures in the window exceeds a configured
 threshold, the circuit breaker declares the server to be unhealthy and triggers

@@ -51,9 +51,9 @@ For more detailed release notes, select a build version from the following table
 
 - Redis Software installation script changes:
 
-    - Added `--skip-updating-env-path` option to [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
+    - Added `--skip-updating-env-path` option to [`install.sh`](/content/operate/rs/installing-upgrading/install/install-script.md).
 
-    - Added `skip_updating_env_path` parameter to the [installation answers file]({{<relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer">}}).
+    - Added `skip_updating_env_path` parameter to the [installation answers file](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md#configure-file-to-answer).
 
 ### Reserved ports
 
@@ -81,27 +81,27 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software](/content/operate/rs/networking/port-configurations.md#ports-and-port-ranges-used-by-redis-enterprise-software) for a complete list.
 
 ### Deprecations
 
 #### API deprecations
 
-- Deprecated [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement/#get-bdbs-actions-optimize-shards-placement">}}) REST API request. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) to get an optimized shard placement blueprint for a database instead.
+- Deprecated [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`](/content/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement.md#get-bdbs-actions-optimize-shards-placement) REST API request. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`](/content/operate/rs/references/rest-api/requests/bdbs/actions/revamp.md#put-bdbs-actions-revamp) to get an optimized shard placement blueprint for a database instead.
 
-- Deprecated the `data_files` option for the `recovery_plan` specified in [`POST /v2/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v2">}}) requests. Use the new `original_bdb_shards` option to recover a database from the provided list of shards instead.
+- Deprecated the `data_files` option for the `recovery_plan` specified in [`POST /v2/bdbs`](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#post-bdbs-v2) requests. Use the new `original_bdb_shards` option to recover a database from the provided list of shards instead.
 
-- Deprecated [`PUT /v1/cluster/update_cert`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) REST API requests as of Redis Software version 7.22.2. Use [`PUT /v1/cluster/certificates`]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-certificates">}}) to update cluster certificates instead.
+- Deprecated [`PUT /v1/cluster/update_cert`](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-update_cert) REST API requests as of Redis Software version 7.22.2. Use [`PUT /v1/cluster/certificates`](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md#put-cluster-certificates) to update cluster certificates instead.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
-The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
+The existing [internal monitoring engine](/content/operate/rs/monitoring/v1_monitoring.md) is deprecated. We recommend transitioning to the new [metrics stream engine](/content/operate/rs/monitoring/metrics_stream_engine/_index.md) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
-V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide](/content/operate/rs/references/metrics/prometheus-metrics-v1-to-v2.md) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference](/content/operate/rs/references/supported-platforms.md) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
@@ -110,7 +110,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| [**End-of-life date**](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -129,9 +129,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 2. <a name="table-note-2"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
 
-3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation](/content/operate/kubernetes/reference/supported_k8s_distributions.md) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -150,7 +150,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 If the cluster contains any databases that use modules, you must upload module packages for the target OS version to a node in the existing cluster before you upgrade the cluster's operating system.
 
-See [Upgrade a cluster's operating system]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os">}}) for detailed upgrade instructions.
+See [Upgrade a cluster's operating system](/content/operate/rs/installing-upgrading/upgrading/upgrade-os.md) for detailed upgrade instructions.
 
 #### New Cluster Manager UI limitations
 
@@ -158,7 +158,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 - Purge an Active-Active instance.
 
-    Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
+    Use [`crdb-cli crdb purge-instance`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance.md) instead.
 
 - Search and export the log.
 

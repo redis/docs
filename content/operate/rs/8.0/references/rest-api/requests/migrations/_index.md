@@ -29,7 +29,7 @@ Gets the migration status of a database in the cluster when using Replica Of.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_bdb_info](/content/operate/rs/8.0/references/rest-api/permissions.md#view_bdb_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 

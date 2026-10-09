@@ -18,11 +18,10 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 public static java.lang.String configGet​(java.lang.String key)
 ```
 
-Gets the value of a RedisGears [configuration setting]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration" >}}).
+Gets the value of a RedisGears [configuration setting](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration.md).
 
-{{<note>}}
-You can set configuration values when you load the module or use the `RG.CONFIGSET` command.
-{{</note>}}
+> [!NOTE]
+> You can set configuration values when you load the module or use the `RG.CONFIGSET` command.
 
 ## Parameters
 

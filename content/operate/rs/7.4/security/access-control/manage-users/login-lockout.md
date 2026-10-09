@@ -22,11 +22,11 @@ Here, you learn how to configure the relevant settings.
 
 ## User login lockout
 
-By default, after 5 failed login attempts within 15 minutes, the user account is locked for 30 minutes. You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}).
+By default, after 5 failed login attempts within 15 minutes, the user account is locked for 30 minutes. You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`](/content/operate/rs/7.4/references/cli-utilities/rladmin/_index.md).
 
 ### View login lockout settings
 
-You can view the cluster's user login lockout settings from **Cluster > Security > Preferences > Lockout threshold** in the Cluster Manager UI or with [`rladmin info cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/info#info-cluster" >}}):
+You can view the cluster's user login lockout settings from **Cluster > Security > Preferences > Lockout threshold** in the Cluster Manager UI or with [`rladmin info cluster`](/content/operate/rs/7.4/references/cli-utilities/rladmin/info.md#info-cluster):
 
 ```sh
 $ rladmin info cluster | grep login_lockout
@@ -43,7 +43,7 @@ To change the user login lockout settings using the Cluster Manager UI:
 
 1. In the **Lockout threshold** section, make sure the checkbox is selected.
 
-    {{<image filename="images/rs/screenshots/cluster/security-preferences-lockout-threshold.png" alt="The Lockout threshold configuration section" >}}
+    ![The Lockout threshold configuration section](/images/rs/screenshots/cluster/security-preferences-lockout-threshold.png)
 
 1. Configure the following **Lockout threshold** settings:
 
@@ -65,7 +65,7 @@ To change the number of failed login attempts allowed before the user account is
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`](/content/operate/rs/7.4/references/cli-utilities/rladmin/tune.md#tune-cluster):
 
     ```sh
     rladmin tune cluster login_lockout_threshold <integer>
@@ -89,7 +89,7 @@ To change the amount of time during which failed login attempts are counted, use
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`](/content/operate/rs/7.4/references/cli-utilities/rladmin/tune.md#tune-cluster):
 
     ```sh
     rladmin tune cluster login_lockout_counter_reset_after <seconds>
@@ -107,7 +107,7 @@ To change the amount of time that the user account is locked after excessive fai
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`](/content/operate/rs/7.4/references/cli-utilities/rladmin/tune.md#tune-cluster):
 
     ```sh
     rladmin tune cluster login_lockout_duration <login_lockout_duration>
@@ -133,15 +133,15 @@ To unlock a user account in the Cluster Manager UI:
 
 1. Go to **Access Control > Users**. Locked users have a "User is locked out" label:
 
-   {{<image filename="images/rs/screenshots/access-control/users-locked-out.png" alt="The Access Control > Users configuration screen in the Cluster Manager UI" >}}
+   ![The Access Control > Users configuration screen in the Cluster Manager UI](/images/rs/screenshots/access-control/users-locked-out.png)
 
 1. Point to the user you want to unlock, then click **Reset to unlock**:
 
-   {{<image filename="images/rs/screenshots/access-control/users-reset-to-unlock.png" alt="Reset to unlock button appears when you point to a locked user in the list" >}}
+   ![Reset to unlock button appears when you point to a locked user in the list](/images/rs/screenshots/access-control/users-reset-to-unlock.png)
 
 1. In the **Reset user password** dialog, enter a new password for the user:
 
-   {{<image filename="images/rs/screenshots/access-control/users-reset-user-password-dialog.png" alt="Reset user password dialog" >}}
+   ![Reset user password dialog](/images/rs/screenshots/access-control/users-reset-user-password-dialog.png)
 
 1. Select **Save** to reset the user's password and unlock their account.
 
@@ -151,7 +151,7 @@ To unlock a user account or reset a user password with `rladmin`, run:
 rladmin cluster reset_password <user_email>
 ```
 
-To unlock a user account or reset a user password with the REST API, use [`PUT /v1/users`]({{< relref "/operate/rs/7.4/references/rest-api/requests/users#put-user" >}}):
+To unlock a user account or reset a user password with the REST API, use [`PUT /v1/users`](/content/operate/rs/7.4/references/rest-api/requests/users/_index.md#put-user):
 
 ```sh
 PUT /v1/users
@@ -170,7 +170,7 @@ To turn off user login lockout and allow unlimited login attempts, use one of th
 
     1. Select **Save**.
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`](/content/operate/rs/7.4/references/cli-utilities/rladmin/tune.md#tune-cluster):
 
     ```sh
     rladmin tune cluster login_lockout_threshold 0
@@ -192,7 +192,7 @@ To customize the session timeout, use one of the following methods:
 
     1. Select **Save**.
 
-- [`rladmin cluster config`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config" >}}):
+- [`rladmin cluster config`](/content/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config.md):
 
     ```sh
     rladmin cluster config cm_session_timeout_minutes <number_of_min>

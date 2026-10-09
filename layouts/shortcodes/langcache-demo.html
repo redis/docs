@@ -1,0 +1,33 @@
+{{- /*
+  langcache-demo
+  --------------
+  Scripted, dependency-free demo of Redis LangCache: a help assistant
+  searches the cache before calling its LLM and stores new answers, a
+  replay shows the similarity threshold trade-off, and a restaurant
+  attribute scopes and invalidates menu answers. Runs entirely in the
+  browser; no service is called.
+
+  Usage (no arguments):
+      {{< langcache-demo >}}
+
+  Base styles come from context-retriever-demo.css so the Iris demos share
+  one look; langcache-demo.css adds this demo's pieces.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice if the shortcode is used more than once.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/langcache-demo.css" "js/langcache-demo.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/langcache-demo.css" | relURL }}?v={{ index $v "css/langcache-demo.css" }}">
+<script defer src="{{ "js/langcache-demo.js" | relURL }}?v={{ index $v "js/langcache-demo.js" }}"></script>
+
+<div class="rcr rlc" data-rlc>
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>

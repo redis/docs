@@ -11,12 +11,11 @@ weight: 45
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Alpine 3.23 or later.
 
-{{< note >}}
-Docker image used to produce these build notes:
-- alpine:3.23
-
-The steps below assume you are running as `root`, as in the tested container image.
-{{< /note >}}
+> [!NOTE]
+> Docker image used to produce these build notes:
+> - alpine:3.23
+>
+> The steps below assume you are running as `root`, as in the tested container image.
 
 ## 1. Install required dependencies
 
@@ -107,7 +106,7 @@ cd /usr/src/redis-<version>
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>

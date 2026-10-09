@@ -79,19 +79,18 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
 syntax_fmt: BRPOPLPUSH source destination timeout
 title: BRPOPLPUSH
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
-When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
+`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`](/content/commands/rpoplpush.md).
+When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`](/content/commands/rpoplpush.md).
+When used inside a [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) block or a Lua script, this command behaves exactly like [`RPOPLPUSH`](/content/commands/rpoplpush.md).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
 
-See [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) for more information.
+See [`RPOPLPUSH`](/content/commands/rpoplpush.md) for more information.
 
 ## Required arguments
 
@@ -117,11 +116,11 @@ The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
 
 ### Pattern: reliable queue
 
-Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
+Please see the pattern description in the [`RPOPLPUSH`](/content/commands/rpoplpush.md) documentation.
 
 ### Pattern: circular list
 
-Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
+Please see the pattern description in the [`RPOPLPUSH`](/content/commands/rpoplpush.md) documentation.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -56,9 +56,9 @@ The exact number of elements in the array depends on the server's version.
 1. First key
 1. Last key
 1. Step
-1. [ACL categories]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) (as of Redis 6.0)
-1. [Tips]({{< relref "/develop/reference/command-tips.md" >}}) (as of Redis 7.0)
-1. [Key specifications]({{< relref "/develop/reference/key-specs.md" >}}) (as of Redis 7.0)
+1. [ACL categories](/content/operate/oss_and_stack/management/security/acl.md) (as of Redis 6.0)
+1. [Tips](/content/develop/reference/command-tips.md) (as of Redis 7.0)
+1. [Key specifications](/content/develop/reference/key-specs.md) (as of Redis 7.0)
 1. Subcommands (as of Redis 7.0)
 
 ## Name
@@ -80,8 +80,8 @@ Command arity _always includes_ the command's name itself (and the subcommand wh
 
 Examples:
 
-* [`GET`]({{< relref "/commands/get" >}})'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.
-* [`MGET`]({{< relref "/commands/mget" >}})'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`.
+* [`GET`](/content/commands/get.md)'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.
+* [`MGET`](/content/commands/mget.md)'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`.
 
 ## Flags
 
@@ -93,30 +93,30 @@ Command flags are an array. It can contain the following simple strings (status 
 * **blocking:** the command may block the requesting client.
 * **denyoom**: the command is rejected if the server's memory usage is too high (see the _maxmemory_ configuration directive).
 * **fast:** the command operates in constant or log(N) time.
-  This flag is used for monitoring latency with the [`LATENCY`]({{< relref "/commands/latency" >}}) command.
+  This flag is used for monitoring latency with the [`LATENCY`](/content/commands/latency.md) command.
 * **loading:** the command is allowed while the database is loading.
 * **movablekeys:** the _first key_, _last key_, and _step_ values don't determine all key positions.
-  Clients need to use [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) or [key specifications]({{< relref "/develop/reference/key-specs.md" >}}) in this case.
+  Clients need to use [`COMMAND GETKEYS`](/content/commands/command-getkeys.md) or [key specifications](/content/develop/reference/key-specs.md) in this case.
   See below for more details.
 * **no_auth:** executing the command doesn't require authentication.
 * **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).
 * **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.
-* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref "develop/using-commands/transactions" >}}).
-* **noscript:** the command can't be called from [scripts]({{< relref "/develop/programmability/eval-intro" >}}) or [functions]({{< relref "/develop/programmability/functions-intro" >}}).
-* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref "/develop/pubsub" >}}).
+* **no_multi:** the command isn't allowed inside the context of a [transaction](/content/develop/using-commands/transactions.md).
+* **noscript:** the command can't be called from [scripts](/content/develop/programmability/eval-intro.md) or [functions](/content/develop/programmability/functions-intro.md).
+* **pubsub:** the command is related to [Redis Pub/Sub](/content/develop/pubsub/_index.md).
 * **random**: the command returns random results, which is a concern with verbatim script replication.
-  As of Redis 7.0, this flag is a [command tip]({{< relref "/develop/reference/command-tips.md" >}}).
+  As of Redis 7.0, this flag is a [command tip](/content/develop/reference/command-tips.md).
 * **readonly:** the command doesn't modify data.
 * **sort_for_script:** the command's output is sorted when called from a script.
-* **skip_monitor:** the command is not shown in [`MONITOR`]({{< relref "/commands/monitor" >}})'s output.
-* **skip_slowlog:** the command is not shown in [`SLOWLOG`]({{< relref "/commands/slowlog" >}})'s output.
-  As of Redis 7.0, this flag is a [command tip]({{< relref "/develop/reference/command-tips.md" >}}).
+* **skip_monitor:** the command is not shown in [`MONITOR`](/content/commands/monitor.md)'s output.
+* **skip_slowlog:** the command is not shown in [`SLOWLOG`](/content/commands/slowlog.md)'s output.
+  As of Redis 7.0, this flag is a [command tip](/content/develop/reference/command-tips.md).
 * **stale:** the command is allowed while a replica has stale data.
 * **write:** the command may modify data.
 
 ### Movablekeys
 
-Consider [`SORT`]({{< relref "/commands/sort" >}}):
+Consider [`SORT`](/content/commands/sort.md):
 
 ```
 1) 1) "sort"
@@ -135,18 +135,18 @@ For those commands, the _movablekeys_ flag indicates that the _first key_, _last
 
 Here are several examples of commands that have the _movablekeys_ flag:
 
-* [`SORT`]({{< relref "/commands/sort" >}}): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.
-* [`ZUNION`]({{< relref "/commands/zunion" >}}): the _numkeys_ argument specifies the number key name arguments.
-* [`MIGRATE`]({{< relref "/commands/migrate" >}}): the keys appear _KEYS_ keyword and only when the second argument is the empty string.
+* [`SORT`](/content/commands/sort.md): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.
+* [`ZUNION`](/content/commands/zunion.md): the _numkeys_ argument specifies the number key name arguments.
+* [`MIGRATE`](/content/commands/migrate.md): the keys appear _KEYS_ keyword and only when the second argument is the empty string.
 
 Redis Cluster clients need to use other measures, as follows, to locate the keys for such commands.
 
-You can use the [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) command and have your Redis server report all keys of a given command's invocation.
+You can use the [`COMMAND GETKEYS`](/content/commands/command-getkeys.md) command and have your Redis server report all keys of a given command's invocation.
 
 As of Redis 7.0, clients can use the [key specifications](#key-specifications) to identify the positions of key names.
-The only commands that require using [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) are [`SORT`]({{< relref "/commands/sort" >}}) and [`MIGRATE`]({{< relref "/commands/migrate" >}}) for clients that parse keys' specifications.
+The only commands that require using [`COMMAND GETKEYS`](/content/commands/command-getkeys.md) are [`SORT`](/content/commands/sort.md) and [`MIGRATE`](/content/commands/migrate.md) for clients that parse keys' specifications.
 
-For more information, please refer to the [key specifications page]({{< relref "/develop/reference/key-specs.md" >}}).
+For more information, please refer to the [key specifications page](/content/develop/reference/key-specs.md).
 
 ## First key
 
@@ -161,9 +161,9 @@ Redis commands usually accept one, two or multiple number of keys.
 
 Commands that accept a single key have both _first key_ and _last key_ set to 1.
 
-Commands that accept two key name arguments, e.g. [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`SMOVE`]({{< relref "/commands/smove" >}}) and [`RENAME`]({{< relref "/commands/rename" >}}), have this value set to the position of their second key.
+Commands that accept two key name arguments, e.g. [`BRPOPLPUSH`](/content/commands/brpoplpush.md), [`SMOVE`](/content/commands/smove.md) and [`RENAME`](/content/commands/rename.md), have this value set to the position of their second key.
 
-Multi-key commands that accept an arbitrary number of keys, such as [`MSET`]({{< relref "/commands/mset" >}}), use the value -1.
+Multi-key commands that accept an arbitrary number of keys, such as [`MSET`](/content/commands/mset.md), use the value -1.
 
 ## Step
 
@@ -194,37 +194,37 @@ Consider the following two examples:
 ```
 
 The step count allows us to find keys' positions. 
-For example [`MSET`]({{< relref "/commands/mset" >}}): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).
-Unlike [`MGET`]({{< relref "/commands/mget" >}}), which uses a step value of _1_.
+For example [`MSET`](/content/commands/mset.md): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).
+Unlike [`MGET`](/content/commands/mget.md), which uses a step value of _1_.
 
 ## ACL categories
 
 This is an array of simple strings that are the ACL categories to which the command belongs.
-Please refer to the [Access Control List]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) page for more information.
+Please refer to the [Access Control List](/content/operate/oss_and_stack/management/security/acl.md) page for more information.
 
 ## Command tips
 
 Helpful information about the command.
 To be used by clients/proxies.
 
-Please check the [Command tips]({{< relref "/develop/reference/command-tips.md" >}}) page for more information.
+Please check the [Command tips](/content/develop/reference/command-tips.md) page for more information.
 
 ## Key specifications
 
 This is an array consisting of the command's key specifications.
 Each element in the array is a map describing a method for locating keys in the command's arguments.
 
-For more information please check the [key specifications page]({{< relref "/develop/reference/key-specs.md" >}}).
+For more information please check the [key specifications page](/content/develop/reference/key-specs.md).
 
 ## Subcommands
 
 This is an array containing all of the command's subcommands, if any.
-Some Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]({{< relref "/commands/config" >}})).
+Some Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`](/content/commands/config.md)).
 Each element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.
 
 ## Examples
 
-The following is `COMMAND`'s output for the [`GET`]({{< relref "/commands/get" >}}) command:
+The following is `COMMAND`'s output for the [`GET`](/content/commands/get.md) command:
 
 ```
 1)  1) "get"

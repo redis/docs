@@ -19,15 +19,16 @@ redis-di describe-secret <key> [flags]
 
 ## Options
 
-| Option             | Description                             |
-| :----------------- | :-------------------------------------- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`). |
+| Option             | Description                                                 |
+| :----------------- | :---------------------------------------------------------- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                     |
+| `--db`             | Database the secret belongs to: a source name, or `target`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 
 ```bash
-redis-di describe-secret TARGET_DB_PASSWORD
+redis-di describe-secret PASSWORD --db target
 ```

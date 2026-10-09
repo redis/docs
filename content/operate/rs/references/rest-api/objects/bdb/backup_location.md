@@ -102,9 +102,8 @@ To connect to an S3-compatible storage location:
 | sas_token | string | Token to authenticate with shared access signature |
 | subdir | string | Path to the backup directory in the Blob Storage container (optional) |
 
-{{<note>}}
-`account_key` and `sas_token` are mutually exclusive
-{{</note>}}
+> [!NOTE]
+> `account_key` and `sas_token` are mutually exclusive
 
 ### NAS/Local Storage
 

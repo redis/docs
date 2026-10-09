@@ -42,34 +42,34 @@ You can:
 
 ## How Redis supports the solution
 
-In practice, each cache entry is a single [Hash]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) document holding the prompt, its embedding vector, the LLM response, and metadata fields — tenant, locale, model version, safety flags. A [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the embedding field together with the metadata fields, so a single [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call performs KNN against the cached prompts with a TAG or NUMERIC pre-filter applied in the same pass. On a hit above the configured distance threshold the application serves the cached response directly; on a miss it runs the LLM and writes the new prompt, response, and metadata back to the same key pattern with a TTL.
+In practice, each cache entry is a single [Hash](/content/develop/data-types/hashes.md) or [JSON](/content/develop/data-types/json/_index.md) document holding the prompt, its embedding vector, the LLM response, and metadata fields — tenant, locale, model version, safety flags. A [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers the embedding field together with the metadata fields, so a single [`FT.SEARCH`](/content/commands/ft.search.md) call performs KNN against the cached prompts with a TAG or NUMERIC pre-filter applied in the same pass. On a hit above the configured distance threshold the application serves the cached response directly; on a miss it runs the LLM and writes the new prompt, response, and metadata back to the same key pattern with a TTL.
 
 Redis provides the following features that make it a good fit for a semantic cache:
 
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) store the prompt, embedding, response, and metadata together under a single key, so a cache hit returns everything the application needs in one round trip.
--   [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) with [HNSW vector indexes]({{< relref "/develop/ai/search-and-query/vectors" >}}) finds the nearest cached prompt above a configurable similarity threshold in sub-millisecond time, and the same [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call applies TAG and NUMERIC filters so tenant isolation and namespace scoping happen inside the query, not in application logic.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) sets a TTL on each cache entry so stale answers age out without manual cleanup, keeping the cache aligned with the underlying knowledge base.
--   Database-level [eviction policies]({{< relref "/develop/reference/eviction" >}}) (LRU / LFU) bound memory under pressure and shed cold entries automatically, so the cache stays within budget as the prompt distribution shifts.
+-   [Hashes](/content/develop/data-types/hashes.md) and [JSON](/content/develop/data-types/json/_index.md) store the prompt, embedding, response, and metadata together under a single key, so a cache hit returns everything the application needs in one round trip.
+-   [Redis Search](/content/develop/ai/search-and-query/_index.md) with [HNSW vector indexes](/content/develop/ai/search-and-query/vectors/_index.md) finds the nearest cached prompt above a configurable similarity threshold in sub-millisecond time, and the same [`FT.SEARCH`](/content/commands/ft.search.md) call applies TAG and NUMERIC filters so tenant isolation and namespace scoping happen inside the query, not in application logic.
+-   [`EXPIRE`](/content/commands/expire.md) sets a TTL on each cache entry so stale answers age out without manual cleanup, keeping the cache aligned with the underlying knowledge base.
+-   Database-level [eviction policies](/content/develop/reference/eviction/index.md) (LRU / LFU) bound memory under pressure and shed cold entries automatically, so the cache stays within budget as the prompt distribution shifts.
 -   Sub-millisecond reads and writes from memory let the semantic cache ride on the same Redis instance already handling sessions, rate limiting, or RAG retrieval at zero marginal cost.
 
 ## Ecosystem
 
 The following libraries, frameworks, and managed services build on Redis for semantic caching:
 
--   **Python**: [RedisVL](https://github.com/redis/redis-vl-python) provides the `SemanticCache` API with built-in embedding, distance thresholds, TTL, and metadata filters. See the [RedisVL LLM cache user guide]({{< relref "/develop/ai/redisvl/user_guide/how_to_guides/llmcache" >}}) and the [LangCache integration guide]({{< relref "/develop/ai/redisvl/user_guide/how_to_guides/langcache_semantic_cache" >}}).
+-   **Python**: [RedisVL](https://github.com/redis/redis-vl-python) provides the `SemanticCache` API with built-in embedding, distance thresholds, TTL, and metadata filters. See the [RedisVL LLM cache user guide](/content/develop/ai/redisvl/user_guide/how_to_guides/llmcache.md) and the [LangCache integration guide](/content/develop/ai/redisvl/user_guide/how_to_guides/langcache_semantic_cache.md).
 -   **Frameworks**: [LangChain](https://python.langchain.com/docs/integrations/llm_caching/#redis-cache) (Redis as an LLM cache and vector store), [LlamaIndex](https://developers.llamaindex.ai/python/examples/vector_stores/redisindexdemo/), and [LangGraph](https://langchain-ai.github.io/langgraph/) for agent memory and response caching.
--   **Managed**: [Redis LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) is a fully managed semantic cache with a REST API, configurable distance thresholds, automatic eviction, and built-in metrics — no index management or embedding wiring required.
+-   **Managed**: [Redis LangCache](/content/develop/ai/context-engine/langcache/_index.md) is a fully managed semantic cache with a REST API, configurable distance thresholds, automatic eviction, and built-in metrics — no index management or embedding wiring required.
 
 ## Code examples to build your own Redis semantic cache
 
 The following guides show how to build a small Redis-backed semantic cache that sits in front of an LLM call. Each guide includes a runnable interactive demo that embeds an incoming prompt, runs a thresholded KNN lookup against the cache with tenant and locale filters, serves the cached response on a hit, and on a miss calls the LLM and writes the new prompt, response, and metadata back with a TTL.
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/semantic-cache/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/semantic-cache/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/semantic-cache/go" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/semantic-cache/rust" >}})
-* [NRedisStack (C#)]({{< relref "/develop/use-cases/semantic-cache/dotnet" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/semantic-cache/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/semantic-cache/java-lettuce" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/semantic-cache/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/semantic-cache/ruby" >}})
+* [redis-py (Python)](/content/develop/use-cases/semantic-cache/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/semantic-cache/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/semantic-cache/go/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/semantic-cache/rust/_index.md)
+* [NRedisStack (C#)](/content/develop/use-cases/semantic-cache/dotnet/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/semantic-cache/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/semantic-cache/java-lettuce/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/semantic-cache/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/semantic-cache/ruby/_index.md)

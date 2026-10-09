@@ -34,7 +34,7 @@ title: HOTKEYS STOP
 ---
 Stops hotkeys tracking but preserves the collected data.
 
-After stopping, the tracking data remains available through [`HOTKEYS GET`]({{< relref "/commands/hotkeys-get" >}}) until [`HOTKEYS RESET`]({{< relref "/commands/hotkeys-reset" >}}) is called or a new tracking session is started.
+After stopping, the tracking data remains available through [`HOTKEYS GET`](/content/commands/hotkeys-get.md) until [`HOTKEYS RESET`](/content/commands/hotkeys-reset.md) is called or a new tracking session is started.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -49,14 +49,14 @@ After stopping, the tracking data remains available through [`HOTKEYS GET`]({{< 
     tab2="RESP3" >}}
 One of the following:
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when tracking is successfully stopped.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when tracking is not currently active.
+- [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when tracking is successfully stopped.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): when tracking is not currently active.
 
 -tab-sep-
 
 One of the following:
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when tracking is successfully stopped.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when tracking is not currently active.
+- [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when tracking is successfully stopped.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): when tracking is not currently active.
 
 {{< /multitabs >}}

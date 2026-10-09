@@ -25,16 +25,16 @@ relatedPages:
 - /develop/clients/jedis/failover
 ---
 
-[Client-side geographic failover]({{< relref "/develop/clients/failover" >}})
+[Client-side geographic failover](/content/develop/clients/failover.md)
 improves the availability of your connections to Redis: if the endpoint your
 application is using fails or becomes too slow, the client automatically switches
 to another healthy endpoint, and then fails back when the preferred endpoint
-recovers. See [Client-side geographic failover]({{< relref "/develop/clients/failover" >}})
+recovers. See [Client-side geographic failover](/content/develop/clients/failover.md)
 for an overview of the concepts, including failover, failback, and health checks.
 
 Spring Data Redis does not yet expose this feature through its own configuration.
-However, Spring Data Redis works with both the [Lettuce]({{< relref "/develop/clients/lettuce" >}})
-and [Jedis]({{< relref "/develop/clients/jedis" >}}) clients, and both
+However, Spring Data Redis works with both the [Lettuce](/content/develop/clients/lettuce/_index.md)
+and [Jedis](/content/develop/clients/jedis/_index.md) clients, and both
 provide a `MultiDbClient` failover API. You can therefore use failover as a workaround:
 configure a failover-aware client as a Spring bean, then use it throughout your
 application. This page shows how to do this with either client. Select the tab for
@@ -43,9 +43,9 @@ the client you use.
 ## Requirements
 
 - [Spring Data Redis 4.1.x](https://github.com/spring-projects/spring-data-redis/releases/tag/4.1.0) or later.
-- Two or more Redis endpoints that can serve your application. These can be two standalone Redis servers or two [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) database endpoints in different locations.
+- Two or more Redis endpoints that can serve your application. These can be two standalone Redis servers or two [Active-Active](/content/operate/rs/databases/active-active/_index.md) database endpoints in different locations.
 - To use failover with **Lettuce**, ensure your project uses a Lettuce version that provides the failover API (`io.lettuce.core.failover`). Spring Data Redis pulls in Lettuce transitively, so you may need to override the managed Lettuce version to one that includes it.
-- To use failover with **Jedis**, use Jedis 7 or later (which provides `MultiDbClient`) and add the `resilience4j` dependencies. See the [Jedis client-side geographic failover]({{< relref "/develop/clients/jedis/failover" >}}) page for the full dependency list.
+- To use failover with **Jedis**, use Jedis 7 or later (which provides `MultiDbClient`) and add the `resilience4j` dependencies. See the [Jedis client-side geographic failover](/content/develop/clients/jedis/failover.md) page for the full dependency list.
 
 ## Configure a failover-aware client
 
@@ -151,7 +151,7 @@ public class MultiDbCacheConfig {
 
 With Jedis, `MultiDbClient` implements the standard Redis commands directly (like
 `RedisClient`) and handles connection management and failover transparently. See the
-[Jedis client-side geographic failover]({{< relref "/develop/clients/jedis/failover" >}})
+[Jedis client-side geographic failover](/content/develop/clients/jedis/failover.md)
 page for the required `resilience4j` dependencies and the full set of configuration
 options.
 
@@ -316,11 +316,11 @@ return MultiDbClient.builder()
 ## Health checks and failback
 
 The examples above use the default health check strategy (`PingStrategy`), which
-periodically sends a [`PING`]({{< relref "/commands/ping" >}}) command to each
+periodically sends a [`PING`](/content/commands/ping.md) command to each
 endpoint. Both clients also support a lag-aware strategy for Active-Active databases
 and custom strategies, and both enable failback to the higher-weighted endpoint by
 default. For the full set of failover, health check, and failback options, see the
 client-specific documentation:
 
-- [Lettuce client-side geographic failover]({{< relref "/develop/clients/lettuce/failover" >}})
-- [Jedis client-side geographic failover]({{< relref "/develop/clients/jedis/failover" >}})
+- [Lettuce client-side geographic failover](/content/develop/clients/lettuce/failover.md)
+- [Jedis client-side geographic failover](/content/develop/clients/jedis/failover.md)

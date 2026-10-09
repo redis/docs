@@ -65,7 +65,7 @@ title: FCALL
 ---
 Invoke a function.
 
-Functions are loaded to the server with the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
+Functions are loaded to the server with the [`FUNCTION LOAD`](/content/commands/function-load.md) command.
 The first argument is the name of a loaded function.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the function.
@@ -79,7 +79,7 @@ Functions should never access keys with programmatically-generated names or base
 Any additional input arguments should not represent names of keys.
 These are regular arguments and are passed in a Lua table as the callback's second argument.
 
-For more information please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}) pages.
+For more information please refer to the [Redis Programmability](/content/develop/programmability/_index.md) and [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md) pages.
 
 ## Required arguments
 

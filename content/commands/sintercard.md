@@ -56,12 +56,11 @@ summary: Returns the number of members of the intersect of multiple sets.
 syntax_fmt: "SINTERCARD numkeys key [key ...] [LIMIT\_limit]"
 title: SINTERCARD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.
+This command is similar to [`SINTER`](/content/commands/sinter.md), but instead of returning the result set, it returns just the cardinality of the result.
 Returns the cardinality of the set which would result from the intersection of all the given sets.
 
 Keys that do not exist are considered to be empty sets.
@@ -141,4 +140,4 @@ redis> SINTERCARD 2 key1 key2 LIMIT 1
 
 ## See also
 
-[`SINTER`]({{< relref "commands/sinter" >}}) | [`SINTERSTORE`]({{< relref "commands/sinterstore" >}})
+[`SINTER`](/content/commands/sinter.md) | [`SINTERSTORE`](/content/commands/sinterstore.md)

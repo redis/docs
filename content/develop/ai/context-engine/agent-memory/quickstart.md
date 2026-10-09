@@ -369,4 +369,6 @@ The extracted memory remains searchable after the session expires, subject to th
 
 ## Next steps
 
+Generate a complete conversational agent with the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}). Select **Redis Iris Conversational Assistant**, then choose **Python** or **JavaScript**.
+
 Follow the [developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to use memory in an agent’s request cycle. For specific features, see [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}), [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}), and [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}).

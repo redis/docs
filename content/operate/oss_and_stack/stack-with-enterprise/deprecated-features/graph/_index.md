@@ -29,7 +29,7 @@ RedisGraph is the first queryable [Property Graph](https://github.com/opencypher
 
 ## Commands
 
-See [Graph commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands" >}}) for a list of graph commands that are supported in Redis Software.
+See [Graph commands](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands.md) for a list of graph commands that are supported in Redis Software.
 
 ## Clients
 
@@ -39,7 +39,7 @@ For a list of available RedisGraph clients, see [RedisGraph client libraries](ht
 
 See [Configuration parameters](https://github.com/RedisGraph/RedisGraph/blob/master/docs/docs/configuration.md) for the complete list of RedisGraph configuration parameters.
 
-To learn which configuration parameters are supported in Redis Software, see [Graph configuration compatibility with Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/config" >}}).
+To learn which configuration parameters are supported in Redis Software, see [Graph configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/config.md).
 
 ## Design
 
@@ -96,7 +96,7 @@ RedisGraph has several [known limitations](https://github.com/RedisGraph/RedisGr
 
 ## More info
 
-- [Graph quick start]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/graph-quickstart" >}})
+- [Graph quick start](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/graph-quickstart.md)
 
 - [RedisGraph documentation on GitHub](https://github.com/RedisGraph/RedisGraph/tree/master/docs/docs)
 

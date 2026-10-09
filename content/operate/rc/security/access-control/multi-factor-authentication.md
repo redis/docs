@@ -17,9 +17,8 @@ When MFA is enabled, users must enter their username, password, and an authentic
 
 To further increase the security of the account, the account owner can [require MFA enforcement for all users](#enforcing).
 
-{{< note >}}
-Once you enable MFA, it will be required to access every account that belongs to you. Deactivating MFA enforcement on an account does not deactivate MFA enforcement for other users of that account that have defined a phone number. To deactivate MFA enforcement for other users, those users will each need to deactivate MFA enforcement for their own user accounts.
-{{< /note >}}
+> [!NOTE]
+> Once you enable MFA, it will be required to access every account that belongs to you. Deactivating MFA enforcement on an account does not deactivate MFA enforcement for other users of that account that have defined a phone number. To deactivate MFA enforcement for other users, those users will each need to deactivate MFA enforcement for their own user accounts.
 
 ### Enable MFA
 
@@ -31,20 +30,20 @@ To configure MFA for your user account:
 1. Sign in to your account.
 2. From the Redis Cloud console menu, select your name and then **User Profile** from the drop down menu.
 
-    {{<image filename="images/rc/multi-factor-authentication-user-dropdown.png"  width="300px" alt="Use the user drop down menu to get to the User Profile section." >}}
+    ![Use the user drop down menu to get to the User Profile section.](/images/rc/multi-factor-authentication-user-dropdown.png)
+    {width="300px"}
 
 3. Under your user profile, locate **Multi-factor authentication**.
 
-    {{<image filename="images/rc/multi-factor-authentication-user-profile.png" alt="Multi-factor authentication is located on the user profile page." >}}
+    ![Multi-factor authentication is located on the user profile page.](/images/rc/multi-factor-authentication-user-profile.png)
 
 4. Enter your mobile phone number in the **Text message** box and then select **Send code**.
 5. You will receive a confirmation code sent by text message. Enter the code when prompted by the Redis Cloud console and select **Verify**.
 
 Your account is now configured for MFA.
 
-{{< note >}}
-We recommend that you also [configure MFA for an authenticator app](#app) as an additional factor.
-{{< /note >}}
+> [!NOTE]
+> We recommend that you also [configure MFA for an authenticator app](#app) as an additional factor.
 
 If you cannot sign in to your account because of MFA, please [contact support](https://redis.io/support/).
 
@@ -86,9 +85,8 @@ You can deactivate MFA for your user account. To deactivate MFA, go to your prof
 Account owner users can enable MFA enforcement for all users in their account.
 After MFA is enforced for the account, all users who do not have MFA enabled will be required to configure MFA the next time they sign in to the Redis Cloud console.
 
-{{< note >}}
-Redis Cloud does not enforce MFA for [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) users since the identity provider handles MFA management and enforcement.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud does not enforce MFA for [SAML SSO](/content/operate/rc/security/access-control/saml-sso/_index.md) users since the identity provider handles MFA management and enforcement.
 
 To enable MFA enforcement for all user accounts:
 
@@ -96,13 +94,12 @@ To enable MFA enforcement for all user accounts:
 2. Go to **Account Settings**.
 3. Under **Security**, switch the **MFA environment** toggle to *On*.
 
-    {{<image filename="images/rc/multi-factor-authentication-force-all-users-on.png" alt="Multi-factor authentication toggle for all users on." >}}
+    ![Multi-factor authentication toggle for all users on.](/images/rc/multi-factor-authentication-force-all-users-on.png)
 
 - When you enable MFA enforcement, users cannot disable MFA for their account.
 - When you disable MFA enforcement, users can disable MFA for their account.
 
 4. Select **Save changes** to save your changes.
 
-{{< tip >}}
-Notify all of your Redis Cloud console users before enabling MFA enforcement.
-{{< /tip >}}
+> [!TIP]
+> Notify all of your Redis Cloud console users before enabling MFA enforcement.

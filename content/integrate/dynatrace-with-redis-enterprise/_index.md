@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rs/redis-enterprise-dynatrace.png" >}}
+![](/images/rs/redis-enterprise-dynatrace.png)
 ## Install Redis' Dynatrace Integration for Redis Software
 
 At the present time the Dynatrace integration is not signed by Dynatrace, meaning that it will be necessary to download 

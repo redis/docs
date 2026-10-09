@@ -60,6 +60,7 @@ POST /v1/crdbs/1/upgrade
 |-------|------|-------------|
 | force_discard | boolean | Discard data even if the database is replicated and/or persistent (default: false) |
 | force_restart | boolean | Restart shards even if no version change (default: false) |
+| keep_crdt_featureset_version | boolean | Keep current CRDT feature set version (default: false) |
 | keep_crdt_protocol_version | boolean | Keep current CRDT protocol version (default: false) |
 | may_discard_data | boolean | Discard data in a non-replicated, non-persistent database (default: false) |
 | modules | array | List of modules to upgrade with optional new arguments. Each object includes:<br>• `current_module`: UID of module to upgrade (deprecated as of Redis Software v7.8.2)<br>• `new_module`: UID of the module to upgrade to (deprecated as of Redis Software v7.8.2)<br>• `new_module_args`: Arguments for the new module |

@@ -66,9 +66,9 @@ title: EVAL_RO
 
 Runs a read-only Lua script. Unlike EVAL, this command can’t run commands that modify data.
 
-For more information about when to use this command versus [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
+For more information about when to use this command versus [`EVAL`](/content/commands/eval.md), please refer to [Read-only scripts](/content/develop/programmability/_index.md#read-only-scripts).
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts please refer to [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Required arguments
 

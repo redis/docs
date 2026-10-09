@@ -34,4 +34,4 @@ data structures and advanced features, making it ideal for modern .NET applicati
 
 ## Getting Started
 
-Refer to the complete [C#/.NET guide]({{< relref "/develop/clients/dotnet" >}}) to install, connect, and use StackExchange.Redis.
+Refer to the complete [C#/.NET guide](/content/develop/clients/dotnet/_index.md) to install, connect, and use StackExchange.Redis.

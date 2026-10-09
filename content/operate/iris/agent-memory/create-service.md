@@ -21,13 +21,9 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-{{< note >}}
-Redis Agent Memory does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- Databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-{{< /note >}}
+
+During public preview, Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
+
 
 ## Create an Agent Memory service
 
@@ -35,29 +31,32 @@ From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory**
 
 If you have not already created an Agent Memory service, you'll see a page with an introduction to Agent Memory. Otherwise, select **New service** to go to the Agent Memory introduction page.
 
-{{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
+![The New service button.](/images/rc/langcache-new-service.png)
+{width="150px"}
 
 From here: 
 
 - Select **Quick create** to create a Redis Agent Memory service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the Redis Agent Memory service for you.
 
-    {{<image filename="images/rc/langcache-quick-create.png" alt="The Quick create button." width="150px" >}}
+    ![The Quick create button.](/images/rc/langcache-quick-create.png)
+    {width="150px"}
 
     After Redis Cloud creates your Agent Memory service, a window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+    ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
+    {width="40%"}
 
-    {{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+    >
+    > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
 
     After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
 - If you want to customize your Redis Agent Memory service, select **Create custom**.
 
-    {{<image filename="images/rc/agent-memory-custom-service.png" alt="The Create custom button to create an Agent Memory service." width="150px" >}}
+    ![The Create custom button to create an Agent Memory service.](/images/rc/agent-memory-custom-service.png)
+    {width="150px"}
 
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
@@ -71,7 +70,7 @@ If you lose the service key value, you will need to [generate a new service key]
 
 The **General settings** section defines basic properties of your service.
 
-{{<image filename="images/rc/agent-memory-general-settings.png" alt="The General settings section." >}}
+![The General settings section.](/images/rc/agent-memory-general-settings.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -83,7 +82,7 @@ The **General settings** section defines basic properties of your service.
 
 The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
 
-{{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The Memory configuration section." >}}
+![The Memory configuration section.](/images/rc/agent-memory-memory-configuration.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -112,7 +111,7 @@ Select **Use Redis in-built keys** to use Redis-managed model credentials. This 
 
 LLM model options can change. Use the console to see the current choices; values shown in the screenshot are examples.
 
-{{<image filename="images/rc/agent-memory-ai-model-create.png" alt="The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings." >}}
+![The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings.](/images/rc/agent-memory-ai-model-create.png)
 
 The same provider key is used for both model types. The credential source, provider, and embedding model are fixed after you create the service. For configuration, key rotation, security, and troubleshooting guidance, see [Configure AI models for Agent Memory]({{< relref "/operate/iris/agent-memory/model-configuration" >}}).
 
@@ -120,7 +119,7 @@ The same provider key is used for both model types. The credential source, provi
 
 The **Memory types & extraction** section allows you to define custom long-term memory types with structured fields and an optional extraction strategy. Each enabled type runs independently.
 
-{{<image filename="images/rc/agent-memory-memory-types.png" alt="The Memory types & extraction section." >}}
+![The Memory types & extraction section.](/images/rc/agent-memory-memory-types.png)
 
 #### Custom memory types
 
@@ -165,11 +164,10 @@ The **Sensitive-data exclusions** section lets you define information that shoul
 
 Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
 
-{{< note >}}
-Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
-{{< /note >}}
+> [!NOTE]
+> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
-{{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
+![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
 
 Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent. Exclusions are also not applied to long-term memories your application creates directly through the API or an SDK.
 
@@ -224,30 +222,31 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-{{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
-{{</warning>}}
+> [!WARNING]
+> Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 
 ### Create service
 
 When you are done setting the details of your Agent Memory service, select **Create** to create it.
 
-{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create an Agent Memory service." >}}
+![Use the Create button to create an Agent Memory service.](/images/rc/button-access-management-user-key-create.png)
 
 A window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
+{width="40%"}
 
-{{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
-{{</warning>}}
+> [!WARNING]
+> This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+>
+> If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
 
 ## Next steps
 
 After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
+
+To generate a conversational agent that connects to your service, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
 
 You can also [view and edit the service]({{< relref "/operate/iris/agent-memory/view-service" >}}).

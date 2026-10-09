@@ -82,11 +82,11 @@ cache:product:p-001
 
 The implementation uses:
 
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to read the cached record
-* [`HSET`]({{< relref "/commands/hset" >}}) plus [`EXPIRE`]({{< relref "/commands/expire" >}}) to repopulate after a miss
-* [`DEL`]({{< relref "/commands/del" >}}) to invalidate on writes
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining staleness in the demo UI
-* [`EVAL`]({{< relref "/commands/eval" >}}) for the Lua single-flight lock that prevents stampedes
+* [`HGETALL`](/content/commands/hgetall.md) to read the cached record
+* [`HSET`](/content/commands/hset.md) plus [`EXPIRE`](/content/commands/expire.md) to repopulate after a miss
+* [`DEL`](/content/commands/del.md) to invalidate on writes
+* [`TTL`](/content/commands/ttl.md) to surface remaining staleness in the demo UI
+* [`EVAL`](/content/commands/eval.md) for the Lua single-flight lock that prevents stampedes
 * StackExchange.Redis transactions with `Condition.KeyExists` for the conditional field update path
 
 ## Cache-aside reads
@@ -352,9 +352,9 @@ redis-cli TTL cache:product:p-001
 ## Learn more
 
 * [StackExchange.Redis docs](https://seredis.dev/) - Install and use the .NET Redis client
-* [SET command]({{< relref "/commands/set" >}}) - Set a string with TTL options (`EX`, `PX`, `NX`)
-* [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [DEL command]({{< relref "/commands/del" >}}) - Delete a key on invalidation
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Atomic single-flight locks and stampede mitigation
+* [SET command](/content/commands/set.md) - Set a string with TTL options (`EX`, `PX`, `NX`)
+* [HSET command](/content/commands/hset.md) - Write hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read every field of a hash
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration in seconds
+* [DEL command](/content/commands/del.md) - Delete a key on invalidation
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Atomic single-flight locks and stampede mitigation

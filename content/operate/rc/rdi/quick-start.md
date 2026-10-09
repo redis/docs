@@ -16,17 +16,16 @@ weight: 1
 
 The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database.
 
-{{< note >}}
-This guide is for demonstration purposes only. It is not recommended for production use.
-{{< /note >}}
+> [!NOTE]
+> This guide is for demonstration purposes only. It is not recommended for production use.
 
 ## Prerequisites
 
 To follow this guide, you need to:
 
-1. Create a [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS).
+1. Create a [Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) hosted on Amazon Web Services (AWS).
 
-    Turn on Multi-AZ replication and [manually select the availability zones]({{< relref "/operate/rc/databases/configuration/high-availability#availability-zones" >}}) when creating the database.
+    Turn on Multi-AZ replication and [manually select the availability zones](/content/operate/rc/databases/configuration/high-availability.md#availability-zones) when creating the database.
 
 1. Install the [AWS CLI](https://aws.amazon.com/cli/) and set up [credentials for the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
 
@@ -34,28 +33,34 @@ To follow this guide, you need to:
 
 ## Create a data integration workspace
 
-Before you can create your first Data Integration pipeline for a Redis Cloud subscription, you must first deploy the cloud infrastructure needed to host the pipeline and run the workers associated with the pipeline. In Redis Cloud, this is called a **Workspace**. See [Create and manage Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for more information.
+Before you can create your first Data Integration pipeline for a Redis Cloud subscription, you must first deploy the cloud infrastructure needed to host the pipeline and run the workers associated with the pipeline. In Redis Cloud, this is called a **Workspace**. See [Create and manage Data Integration workspace](/content/operate/rc/rdi/create-workspace.md) for more information.
 
 {{< embed-md "rc-rdi-create-rdi-workspace.md" >}}
 
 ## Get required ARNs
 
-1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
-1. Select **Add pipeline**.
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
-1. Select **PostgreSQL** as the source database type.
-    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
-1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
-1. Select **Continue to source** to move to the **Source configuration** step.
+This example creates one PostgreSQL source. You can [add more sources](/content/operate/rc/rdi/view-edit.md#add-source) after the pipeline is running.
 
-    {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
-1. Under **Source connectivity**, save the provided ARN. This will be the `redis_privatelink_arn` you will need later.
+1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**.
 
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The setup connectivity section containing the private link ARN." width=80% >}}
+    ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
+    {width="80%"}
 
-1. Under **Secrets**, save the provided ARN. This will be the `redis_secrets_arn` you will need later.
+1. In **Settings**, select your target database and choose **Hash** or **JSON** as the default data structure, then select **Continue**.
+1. In **Add sources**, select **PostgreSQL**.
+1. Enter a **Source name** of your choice, for example `inventory-postgres`.
+1. Select **Continue** to open **Configure source**.
+1. Under **Source connectivity**, copy the **Role ARN**. Use it as `redis_privatelink_arn` in the Terraform configuration.
 
-    {{<image filename="images/rc/rdi/rdi-credentials-arn.png" alt="The setup connectivity section containing the credentials ARN." width=80% >}}
+    ![The source connectivity Role ARN and availability zones.](/images/rc/rdi/rdi-setup-connectivity-arn.png)
+    {width="80%"}
+
+1. Under **Secrets**, copy the **Role ARN**. Use it as `redis_secrets_arn` in the Terraform configuration.
+
+    ![The Role ARN in the Secrets section.](/images/rc/rdi/rdi-credentials-arn.png)
+    {width="80%"}
+
+1. Select **Save & exit** while you create the source resources.
 
 ## Create the source database and network resources
 
@@ -71,8 +76,8 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
     - `azs`: The availability zone IDs where your Redis Cloud database is deployed.
     - `port`: The port number for the new PostgreSQL source database.
     - `name`: A prefix for all of the created AWS resources.
-    - `redis_secrets_arn`: The source database credentials and certificates ARN from the Redis Cloud console.
-    - `redis_privatelink_arn`: The PrivateLink ARN from the Redis Cloud console.
+    - `redis_secrets_arn`: The role ARN from **Secrets** in the Redis Cloud console.
+    - `redis_privatelink_arn`: The role ARN from **Source connectivity** in the Redis Cloud console.
 
 1. To view the configuration, run:
 
@@ -108,66 +113,51 @@ If you lose any outputs, run `terraform output` to view them again.
 
 ## Resume pipeline setup
 
-1. Return to the [Redis Cloud console](https://cloud.redis.io/). Go to your target database and select the **Data Integration** tab.
-1. You'll see a draft pipeline in the workspace you created. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
+1. Return to your database's **Data Integration** tab in the [Redis Cloud console](https://cloud.redis.io/).
+1. Open the draft pipeline's actions menu and select **Resume pipeline setup**.
+1. Open **Configure source** and select your PostgreSQL source in the **Sources** list.
+1. Under **Source connectivity**, enter the Terraform `vpc_endpoint_service_name` output as the **Private Link service name**.
+1. Select **Connect to Private Link** and wait for connectivity to complete.
 
-    {{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Data Integration tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
+    ![AWS Private Link connectivity with the service name and Connect to Private Link control.](/images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png)
+    {width="80%"}
 
-1. Continue to the **Source configuration** step.
+1. Under **Secrets**, enter the `secret_arn` output as **Credentials Secret ARN**.
+1. Select **Validate** to check access to the secret.
 
-1. In the **Source connectivity** section, enter the `vpc_endpoint_service_name` output in the **PrivateLink service name** field.
+    ![The Credentials Secret ARN field, transit security options, and Validate control.](/images/rc/rdi/rdi-source-configuration-secrets.png)
+    {width="80%"}
 
-    {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png" alt="The Source database connectivity section for PrivateLink connection." >}}
+1. Under **Source configuration**, enter the `database` and `port` Terraform outputs in the matching fields.
+1. Select **Test source** and correct any validation errors, then select **Continue**.
+1. In **Select data**, select the schemas, tables, and columns to ingest. Review the selected key for each table.
 
-1. Select **Connect to Private Link** to test your Private Link connectivity. This will take a few minutes, but you can continue while it's testing.
+    ![Selecting a schema shows its tables for ingestion.](/images/rc/rdi/rdi-dataset-schema-selected.png)
+    {width="75%"}
 
-1. In the **Secrets** section, enter the `secret_arn` output in the **Credentials secret ARN** field.
+    ![Selecting a table shows its columns and the columns selected for ingestion.](/images/rc/rdi/rdi-select-columns.png)
+    {width="75%"}
 
-    {{<image filename="images/rc/rdi/rdi-source-configuration-secrets.png" alt="The Secrets section." >}}
+1. Select **Continue** to open **Add transformations**. For this example, you can keep the default mapping without adding jobs.
+1. Select **Continue to review & deploy**.
+1. Review the source and target, then select **Deploy pipeline**.
 
-1. Select **Validate** to check that Redis Cloud can access your secrets. 
+    ![The Deploy pipeline button.](/images/rc/rdi/rdi-confirm-deploy.png)
+    {width="175px"}
 
-1. In the **Source configuration** section, enter the terraform outputs in the following fields.
-    - **Database**: `database`
-    - **Port**: `port`
+The source first imports its selected data, then captures ongoing changes. Open the pipeline's **Dashboard** or **Metrics** tab to follow its progress.
 
-1. Select **Test source** to test Redis Cloud's connection with the source database. After the test completes, select **Continue to dataset**.
+The following example shows the metrics for one selected source in a pipeline with multiple sources.
 
-    {{<image filename="images/rc/rdi/rdi-continue-to-dataset-button.png" alt="The Continue to dataset button." width=200px >}}
+![Metrics for one selected source in a pipeline, including snapshot progress and per-table record counts.](/images/rc/rdi/rdi-2-metrics.png)
+{width="80%"}
 
-1. In the **Schemas** section, select the schema(s) you want to migrate to the target database from the list.
-
-    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="The dataset step with a schema selected." width=75% >}}
-
-1. When you select a schema, you will see its tables in the **Tables** section. Redis Cloud will automatically select all tables for import. You can de-select any columns you do not wish to import to your Redis database.
-
-1. Select a table to view its columns in the **Columns** section. You can de-select any columns you do not wish to import.
-
-    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The columns section, with a few columns selected from one table" width=75% >}}
-
-1. Select **Continue to transformations** to move to the **Transformations** step.
-
-    {{<image filename="images/rc/rdi/rdi-continue-to-transformations-button.png" alt="The Continue to dataset button." width=200px >}}
-
-1. Select how your records will be stored in Redis. You can choose **Hash** or **JSON**.
-
-    {{<image filename="images/rc/rdi/rdi-transformations.png" alt="The Transformations step." >}}
-
-1. Review the tables you selected in the **Review and deploy** step. If everything looks correct, select **Deploy pipeline** to start ingesting data from your source database.
-
-    {{<image filename="images/rc/rdi/rdi-confirm-deploy.png" alt="The Deploy pipeline button." width=175px >}}
-
-At this point, the data pipeline will ingest data from the source database to your target Redis database. This process will take time, especially if you have a lot of records in your source database. 
-
-After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. 
-
-You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/rdi/view-edit">}}) to learn more.
+See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring.
 
 ## Delete sample resources
 
-{{< warning >}}
-Make sure to [delete your data pipeline]({{<relref "/operate/rc/rdi/view-edit#delete-pipeline">}}) before deleting the sample resources.
-{{< /warning >}}
+> [!WARNING]
+> Make sure to [delete your data pipeline](/content/operate/rc/rdi/view-edit.md#delete-pipeline) before deleting the sample resources.
 
 To delete the sample resources created by Terraform, run:
 

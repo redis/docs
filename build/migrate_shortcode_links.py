@@ -51,8 +51,9 @@ CALLOUT_RX = re.compile(
 # The `alert` shortcode has no fixed type of its own (it's `note`/`warning`/
 # etc. with a custom title bolted on) -- render hooks have no such shortcode,
 # so it maps onto the plain `note` alert type. A `title=` attribute that just
-# restates the type's default label (e.g. `alert title="Note"`) is dropped
-# rather than carried over as a redundant `> [!NOTE] Note`.
+# restates the type's default label, singular or plural (e.g. `alert
+# title="Note"` or `alert title="Notes"`), is dropped rather than carried
+# over as a redundant `> [!NOTE] Note`/`> [!NOTE] Notes`.
 CALLOUT_DEFAULT_LABEL = {
     "note": "Note", "warning": "Warning", "tip": "Tip", "info": "Info", "alert": "Note",
 }
@@ -75,7 +76,8 @@ def callouts_to_blockquote(text):
         out_type = "note" if kind == "alert" else kind
         title_m = re.search(r'\btitle="([^"]*)"', attrs)
         title = title_m.group(1) if title_m else ""
-        if title.strip().lower() == CALLOUT_DEFAULT_LABEL[kind].lower():
+        default = CALLOUT_DEFAULT_LABEL[kind].lower()
+        if title.strip().lower() in (default, default + "s"):
             title = ""
         header = f"> [!{out_type.upper()}]" + (f" {title}" if title else "")
         lines = body.split("\n")

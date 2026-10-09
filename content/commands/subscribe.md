@@ -40,11 +40,11 @@ title: SUBSCRIBE
 Subscribes the client to the specified channels.
 
 Once the client enters the subscribed state it is not supposed to issue any
-other commands, except for additional `SUBSCRIBE`, [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}), [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}), 
-[`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}), [`PING`]({{< relref "/commands/ping" >}}), [`RESET`]({{< relref "/commands/reset" >}}) and [`QUIT`]({{< relref "/commands/quit" >}}) commands.
-However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it is possible for a client to issue any commands while in subscribed state.
+other commands, except for additional `SUBSCRIBE`, [`SSUBSCRIBE`](/content/commands/ssubscribe.md), [`PSUBSCRIBE`](/content/commands/psubscribe.md), [`UNSUBSCRIBE`](/content/commands/unsubscribe.md), [`SUNSUBSCRIBE`](/content/commands/sunsubscribe.md), 
+[`PUNSUBSCRIBE`](/content/commands/punsubscribe.md), [`PING`](/content/commands/ping.md), [`RESET`](/content/commands/reset.md) and [`QUIT`](/content/commands/quit.md) commands.
+However, if RESP3 is used (see [`HELLO`](/content/commands/hello.md)) it is possible for a client to issue any commands while in subscribed state.
 
-For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
+For more information, see [Pub/sub](/content/develop/pubsub/_index.md).
 
 ## Required arguments
 

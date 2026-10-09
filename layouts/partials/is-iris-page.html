@@ -1,0 +1,10 @@
+{{/* Returns true when the page is in the Redis Iris docs space: under either
+     /develop/ai/context-engine or /operate/iris. Used for the Iris-only sidebar
+     (docs-nav.html) and the Iris dark theme (baseof.html). */}}
+{{ $inIris := false -}}
+{{ $irisDevelop := site.GetPage "/develop/ai/context-engine" -}}
+{{ $irisOperate := site.GetPage "/operate/iris" -}}
+{{ if and $irisDevelop $irisOperate -}}
+  {{ $inIris = or (eq . $irisDevelop) (.IsDescendant $irisDevelop) (eq . $irisOperate) (.IsDescendant $irisOperate) -}}
+{{ end -}}
+{{ return $inIris }}

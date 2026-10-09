@@ -4,10 +4,10 @@
 * If you are deploying RDI for a production environment then secure this database with a password
   and TLS.
 * Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  [eviction policy](/content/operate/rs/databases/memory-performance/eviction-policy.md) to `noeviction`. Note that you can't set this using
+  [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md),
   so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  [REST API](/content/operate/rs/references/rest-api/_index.md)
   command:
 
   ```bash
@@ -17,11 +17,11 @@
     -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
   ```
 * Set the database's
-  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  [data persistence](/content/operate/rs/databases/configure/database-persistence.md)
   to AOF - fsync every 1 sec. Note that you can't set this using
-  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md),
   so you must either do it using the admin UI or with the following
-  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  [REST API](/content/operate/rs/references/rest-api/_index.md)
   commands:
 
   ```bash
@@ -34,22 +34,22 @@
     -H "Content-Type: application/json" \
     -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
   ```
- If you don't have permissions to use AOF persistence, please check the [Using RDI without persistence]({{< relref "/integrate/redis-data-integration/faq#can-i-use-rdi-without-persistence-enabled" >}}) section in the FAQ.
+ If you don't have permissions to use AOF persistence, please check the [Using RDI without persistence](/content/integrate/redis-data-integration/faq.md#can-i-use-rdi-without-persistence-enabled) section in the FAQ.
 
 * **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
   RDI database is clustered (but note that the target database *can* be clustered without
   any problems).
 
-  If the **Database clustering** option is checked when you create the RDI database (as shown below),
-  you must *uncheck* it before proceeding.
+  When you create the RDI database, expand the **Clustering** section and make sure the
+  **Sharding** option is *unchecked* (as shown below).
 
-  {{< image filename="images/rdi/ingest/RDIClusterSetting.webp" alt="Uncluster the RDI database." >}}
+  ![The Sharding option is unchecked in the Clustering section of the create database form.](/images/rdi/ingest/RDIClusterSetting.webp)
 
   You can check if your RDI database is clustered from its **Configuration** tab in the
-  Redis Enterprise console. The **Database clustering** option should be set to **None**,
+  Cluster Manager UI. In the **Clustering** section, **Sharding** should be set to **Disabled**,
   as shown in the following screenshot:
 
-  {{< image filename="images/rdi/ingest/RDICheckUnclustered.webp" alt="Check that the RDI database is not clustered." >}}
+  ![The Clustering section of the database Configuration tab shows Sharding: Disabled.](/images/rdi/ingest/RDICheckUnclustered.webp)
 
   If you find the database has been clustered by mistake, you must create a new database with
-  clustering disabled before continuing with the RDI installation.
+  sharding disabled before continuing with the RDI installation.

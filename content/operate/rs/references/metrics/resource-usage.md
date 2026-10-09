@@ -51,7 +51,7 @@ Remaining unused disk space.
 ## Memory
 ### Used memory 
 
-Total memory used by the database, including RAM, [Flash]({{< relref "/operate/rs/databases/flash" >}}) (if enabled), and [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) (if enabled).
+Total memory used by the database, including RAM, [Flash](/content/operate/rs/databases/flash/_index.md) (if enabled), and [replication](/content/operate/rs/databases/durability-ha/replication.md) (if enabled).
 
 Used memory does not include:
 
@@ -63,11 +63,11 @@ Used memory does not include:
     - A database snapshot process
     - AOF rewrite process
 
-Used memory is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Used memory is not measured during [shard migration](/content/operate/rs/databases/configure/replica-ha.md).
 
-Additional factors for [Active-Active databases]({{<relref "/operate/rs/databases/active-active">}}):
+Additional factors for [Active-Active databases](/content/operate/rs/databases/active-active/_index.md):
 
-- By default, the [Active-Active replication backlog]({{<relref "/operate/rs/databases/active-active/manage#replication-backlog">}}), used for synchronization between clusters or regions, is set to 1% of the database size.
+- By default, the [Active-Active replication backlog](/content/operate/rs/databases/active-active/manage.md#replication-backlog), used for synchronization between clusters or regions, is set to 1% of the database size.
 
 - Active-Active databases have a lower threshold for activating the eviction policy, because it requires propagation to all participating clusters. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit.
 
@@ -96,23 +96,23 @@ Percent of memory used by Redis out of the [memory limit](#memory-limit).
 
 Total incoming traffic to the database in bytes/sec.
 
-All incoming traffic is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+All incoming traffic is not measured during [shard migration](/content/operate/rs/databases/configure/replica-ha.md).
 
 **Components measured**: Cluster, Node and Database
 
 #### Incoming traffic compressed
 
-Total incoming compressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Total incoming compressed traffic (in bytes/sec) per [Active-Active](/content/operate/rs/databases/active-active/_index.md) replica database. 
 
 #### Incoming traffic uncompressed
 
-Total incoming uncompressed traffic (in bytes/sec) per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Total incoming uncompressed traffic (in bytes/sec) per [Active-Active](/content/operate/rs/databases/active-active/_index.md) replica database. 
 
 ### Outgoing traffic 
 
 Total outgoing traffic from the database in bytes per second.
 
-Outgoing traffic is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Outgoing traffic is not measured during [shard migration](/content/operate/rs/databases/configure/replica-ha.md).
 
 **Components measured**: Cluster, Node and Database
 

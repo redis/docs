@@ -15,7 +15,7 @@ tocEmbedHeaders: true
 url: '/operate/rs/8.0/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2/'
 ---
 
-You can integrate Redis Software with Prometheus and tools such as [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}}), [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}}), [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}}), or [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}}) to create dashboards for important metrics.
+You can integrate Redis Software with Prometheus and tools such as [Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md), [Datadog](/content/integrate/datadog-with-redis-enterprise/_index.md), [Dynatrace](/content/integrate/dynatrace-with-redis-enterprise/_index.md), or [New Relic](/content/integrate/new-relic-with-redis-enterprise/_index.md) to create dashboards for important metrics.
 
 As of Redis Software version 7.8.2, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available. V1 metrics are deprecated but still available.
 
@@ -39,6 +39,6 @@ scrape_configs:
 
 You can scrape both v1 and v2 endpoints simultaneously during the transition period to prepare dashboards and ensure a smooth transition.
 
-You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/8.0/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}).
+You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 metrics, see [Prometheus metrics v2](/content/operate/rs/8.0/monitoring/metrics_stream_engine/prometheus-metrics-v2.md).
 
 {{<embed-md "rs-prometheus-metrics-transition-plan.md">}}

@@ -30,7 +30,7 @@ List available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_modules) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#list-request}
 
@@ -49,7 +49,7 @@ GET /v1/modules
 
 ### Response {#list-response}
 
-Returns a JSON array of [module objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/module" >}}).
+Returns a JSON array of [module objects](/content/operate/rs/8.0/references/rest-api/objects/module.md).
 
 #### Status codes {#list-status-codes}
 
@@ -69,7 +69,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_modules) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -94,7 +94,7 @@ GET /v1/modules/1
 
 ### Response {#get-response}
 
-Returns a [module object]({{< relref "/operate/rs/8.0/references/rest-api/objects/module" >}}).
+Returns a [module object](/content/operate/rs/8.0/references/rest-api/objects/module.md).
 
 ### Status codes {#get-status-codes}
 

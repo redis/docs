@@ -31,7 +31,7 @@ summary: Resumes processing commands from paused clients.
 syntax_fmt: CLIENT UNPAUSE
 title: CLIENT UNPAUSE
 ---
-`CLIENT UNPAUSE` is used to resume command processing for all clients that were paused by [`CLIENT PAUSE`]({{< relref "/commands/client-pause" >}}).
+`CLIENT UNPAUSE` is used to resume command processing for all clients that were paused by [`CLIENT PAUSE`](/content/commands/client-pause.md).
 
 ## Redis Software and Redis Cloud compatibility
 

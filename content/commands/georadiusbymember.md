@@ -168,19 +168,18 @@ syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\
   key]"
 title: GEORADIUSBYMEMBER
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is exactly like [`GEORADIUS`]({{< relref "/commands/georadius" >}}) with the sole difference that instead
+This command is exactly like [`GEORADIUS`](/content/commands/georadius.md) with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
 
 The position of the specified member is used as the center of the query.
 
-Please check the example below and the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) documentation for more information about the command and its options.
+Please check the example below and the [`GEORADIUS`](/content/commands/georadius.md) documentation for more information about the command and its options.
 
-Note that [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) page for more information.
+Note that [`GEORADIUSBYMEMBER_RO`](/content/commands/georadiusbymember_ro.md) is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`](/content/commands/georadius.md) page for more information.
 
 ## Required arguments
 

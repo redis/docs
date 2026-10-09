@@ -67,7 +67,7 @@ summary: Iterates over fields and values of a hash.
 syntax_fmt: "HSCAN key cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
 title: HSCAN
 ---
-See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.
+See [`SCAN`](/content/commands/scan.md) for `HSCAN` documentation.
 
 ## Required arguments
 

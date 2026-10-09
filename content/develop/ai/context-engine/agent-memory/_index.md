@@ -8,7 +8,7 @@ categories:
 description: Store agent memory for AI applications in Redis.
 linkTitle: Agent Memory
 hideListLinks: true
-weight: 20
+weight: 10
 bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 aliases:
@@ -24,7 +24,7 @@ When enabled, automatic summarization compacts session memory by summarizing old
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Concepts icon" title="Concepts — Understand the memory model" url="/develop/ai/context-engine/agent-memory/concepts" >}}
+  {{< image-card image="images/ai-brain.svg" alt="Overview icon" title="Overview — Understand the memory model" url="/develop/ai/context-engine/agent-memory/overview" >}}
   {{< image-card image="images/ai-cube.svg" alt="Quickstart icon" title="Quickstart — Make your first requests" url="/develop/ai/context-engine/agent-memory/quickstart" >}}
   {{< image-card image="images/ai-lib.svg" alt="Developer guide icon" title="Developer guide — Add memory to your application" url="/develop/ai/context-engine/agent-memory/developer-guide" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="Sessions icon" title="Sessions — Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
@@ -44,7 +44,9 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
 
 ## Two-tier memory model
 
-Session memory keeps the current conversation available to the agent. Long-term memory preserves useful information across conversations. See [Concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}) for an overview of both and the optional namespaces that organize them.
+Session memory keeps the current conversation available to the agent. Long-term memory preserves useful information across conversations. See [Overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}) for an overview of both and the optional namespaces that organize them.
+
+To watch both tiers change during a conversation, try the [interactive demo](/content/develop/ai/context-engine/agent-memory/interactive-demo.md).
 
 ### Example: Travel planning agent
 
@@ -99,7 +101,7 @@ After your service is ready, follow the [quickstart]({{< relref "/develop/ai/con
 
 ## Explore the documentation
 
-* [Concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}): Understand session memory, long-term memory, and namespaces.
+* [Overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}): Understand session memory, long-term memory, and namespaces.
 * [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}): Store a conversation and recall an extracted memory.
 * [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}): Put the pieces together in an application.
 * [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}): Store conversation events and configure retention and summarization.

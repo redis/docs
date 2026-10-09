@@ -27,16 +27,16 @@ Write-behind accumulates operating statistics that you can:
 ## Console metrics
 
 Write-behind can display its operating metrics in the console using the
-[`redis-di status`]({{< relref "/integrate/write-behind/reference/cli/redis-di-status" >}})
+[`redis-di status`](/content/integrate/write-behind/reference/cli/redis-di-status.md)
 command. The command provides information about the current Write-behind engine status, target database configuration, and processing statistics broken down by stream. This tool is intended to be used by Operator to get the current snapshot of the system as well as monitoring ongoing data processing (when used in live mode).
 
 ## Prometheus integration
 
 Write-behind allows collecting and exporting its metrics to [Prometheus](https://prometheus.io/) and visualizing them in [Grafana](https://grafana.com/). Operator can start the built-in exporter using the
-[`redis-di monitor`]({{< relref "/integrate/write-behind/reference/cli/redis-di-monitor" >}})
+[`redis-di monitor`](/content/integrate/write-behind/reference/cli/redis-di-monitor.md)
 command. The diagram describes this flow and the components involved:
 
-{{< image filename="/images/rdi/monitoring-diagram.png" >}}
+![](/images/rdi/monitoring-diagram.png)
 
 > Note: The host names and ports above are examples only and can be changed as needed.
 
@@ -97,15 +97,15 @@ Optionally, you may deploy the sample Grafana dashboard to monitor the status of
 
 1. Log into Grafana and navigate to the list of dashboards, then choose **New > Import**:
 
-{{< image filename="/images/rdi/monitoring-grafana-new-dash.png" >}}
+![](/images/rdi/monitoring-grafana-new-dash.png)
 
 1. On the next screen, select **Upload JSON file** and upload the file you downloaded in step 1. Make sure you select the data source that is connected to the Write-behind metrics exporter:
 
-{{< image filename="/images/rdi/monitoring-grafana-dash-configure.png" >}}
+![](/images/rdi/monitoring-grafana-dash-configure.png)
 
 1. Select **Import** and make sure you choose the jobs to monitor from the drop-down list (this will be empty if you don't have any jobs running yet):
 
-{{< image filename="/images/rdi/monitoring-grafana-dash-running.png" >}}
+![](/images/rdi/monitoring-grafana-dash-running.png)
 
 ## Write-behind metrics
 

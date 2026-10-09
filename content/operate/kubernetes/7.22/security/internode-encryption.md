@@ -30,7 +30,7 @@ spec:
     dataInternodeEncryption: false
 ```
 
-To learn more about internode encryption, see [Internode encryption for Redis Enterprise Software]({{< relref "/operate/rs/security/encryption/internode-encryption.md" >}}).
+To learn more about internode encryption, see [Internode encryption for Redis Enterprise Software](/content/operate/rs/security/encryption/internode-encryption.md).
 
 ## Use custom certificates for internode encryption
 
@@ -131,6 +131,6 @@ When you remove a certificate secret reference from the REC specification, the o
 
 ## More info
 
-- [Manage REC certificates]({{< relref "/operate/kubernetes/7.22/security/manage-rec-certificates" >}}) - General certificate management for Redis Enterprise clusters
-- [Configuration secrets]({{< relref "/operate/kubernetes/7.22/security/configuration-secrets" >}}) - Best practices for storing configuration in Kubernetes secrets
-- [Internode encryption for Redis Enterprise Software]({{< relref "/operate/rs/security/encryption/internode-encryption.md" >}}) - Detailed information about how internode encryption works
+- [Manage REC certificates](/content/operate/kubernetes/7.22/security/manage-rec-certificates.md) - General certificate management for Redis Enterprise clusters
+- [Configuration secrets](/content/operate/kubernetes/7.22/security/configuration-secrets.md) - Best practices for storing configuration in Kubernetes secrets
+- [Internode encryption for Redis Enterprise Software](/content/operate/rs/security/encryption/internode-encryption.md) - Detailed information about how internode encryption works

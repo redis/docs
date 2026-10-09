@@ -102,12 +102,12 @@ EXEC sys.sp_cdc_enable_db
 GO
 ```
 
-{{< note >}}For SQL Server on AWS RDS, you must use a different stored procedure:
-```sql
-EXEC msdb.dbo.rds_cdc_enable_db 'Chinook'
-GO
-```
-{{< /note >}}
+> [!NOTE]
+> For SQL Server on AWS RDS, you must use a different stored procedure:
+> ```sql
+> EXEC msdb.dbo.rds_cdc_enable_db 'Chinook'
+> GO
+> ```
 
 When you enable CDC for the database, it creates a schema called `cdc` and also
 a CDC user, metadata tables, and other system objects. 
@@ -137,11 +137,11 @@ a CDC user, metadata tables, and other system objects.
 
     Repeat this for every table you want to capture.
 
-    {{< note >}}The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
-    Specifying a new name will create a corresponding database role that has full access to the
-    captured change data.
-    {{< /note >}}
-  
+    > [!NOTE]
+    > The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
+    > Specifying a new name will create a corresponding database role that has full access to the
+    > captured change data.
+
 1. <a id="add-the-debezium-user-to-the-cdc-role"></a>
     Add the Debezium user to the CDC role:
 
@@ -205,6 +205,21 @@ EXEC xp_servicecontrol N'START',N'SQLServerAGENT';
 GO
 ```
 
+## 5. Using SQL Server with custom data fields
+
+When using custom data types, you must ensure that the Debezium user has the necessary permissions to access 
+those types. You can grant these permissions using the following SQL commands:
+
+```sql
+USE <db-name>;
+
+GRANT REFERENCES ON TYPE::<schema>.<type-name> TO <db-user>;
+```
+
+If you don't grant these permissions you may encounter errors like:
+`"The column "Account" is referenced as PRIMARY KEY, but a matching column is not defined in table "DB.dbo.MyTable"!"`
+
+
 ## SQL Server capture job agent configuration parameters
 
 In SQL Server, the parameters that control the behavior of the capture job agent
@@ -213,8 +228,9 @@ problems while running the capture job agent then you can adjust the capture job
 settings to reduce CPU load. To do this, run the `sys.sp_cdc_change_job` stored procedure
 with your new parameter values.
 
-{{< note >}}A full guide to configuring the SQL Server capture job agent parameters
-is outside the scope of the Redis documentation.{{< /note >}}
+> [!NOTE]
+> A full guide to configuring the SQL Server capture job agent parameters
+> is outside the scope of the Redis documentation.
 
 The following parameters are the most important ones for modifying the capture agent behavior
 of the Debezium SQL Server connector:
@@ -289,11 +305,12 @@ The procedure depends on which Azure SQL product you are using.
 You must be a member of the `db_owner` role on the database — Azure SQL Database has
 no `sysadmin` server role.
 
-{{< warning >}}The identity used to enable CDC must match the type of identity that
-created the database. If the database was created by a Microsoft Entra user, CDC must
-be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
-CDC on it. The same restriction applies in reverse for databases created by SQL
-logins.{{< /warning >}}
+> [!WARNING]
+> The identity used to enable CDC must match the type of identity that
+> created the database. If the database was created by a Microsoft Entra user, CDC must
+> be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
+> CDC on it. The same restriction applies in reverse for databases created by SQL
+> logins.
 
 Connect to the user database and run:
 
@@ -318,13 +335,14 @@ CDC service-tier requirements differ between purchasing models:
 If `sys.sp_cdc_enable_db` returns an error such as `Change data capture is not supported for this edition of SQL Server`,
 scale the database up before retrying.
 
-{{< note >}}Capture and cleanup run automatically on Azure SQL Database — there is no
-SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
-the cleanup process every hour, with a default change-data retention period of three
-days. The capture cadence — the `pollinginterval` parameter described in the
-[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
-section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
-`maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.{{< /note >}}
+> [!NOTE]
+> Capture and cleanup run automatically on Azure SQL Database — there is no
+> SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
+> the cleanup process every hour, with a default change-data retention period of three
+> days. The capture cadence — the `pollinginterval` parameter described in the
+> [SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
+> section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
+> `maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.
 
 Enabling CDC increases transaction log usage on Azure SQL Database because it disables
 the aggressive log truncation behavior of Accelerated Database Recovery. You may need
@@ -363,10 +381,11 @@ SQL Server on Azure VM, or on-premises SQL Server — those use SQL Server Agent
 and the tunable `pollinginterval` parameter described in
 [SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters).
 
-{{< warning >}}Run **only one** instance of the scan worker per source database.
-`sys.sp_cdc_scan` holds an exclusive log-reader lock for the duration of each
-call; concurrent callers fail rather than running in parallel, so additional
-replicas add no throughput and only generate error noise.{{< /warning >}}
+> [!WARNING]
+> Run **only one** instance of the scan worker per source database.
+> `sys.sp_cdc_scan` holds an exclusive log-reader lock for the duration of each
+> call; concurrent callers fail rather than running in parallel, so additional
+> replicas add no throughput and only generate error noise.
 
 ##### Requirements
 
@@ -425,14 +444,15 @@ meets your latency target:
 Intervals below 1s are not recommended — each call has a fixed cost on the
 source database and the marginal latency improvement is small.
 
-{{< warning >}}CDC scans consume regular database resources. Every call reads
-the transaction log, competing with the workload for CPU, memory, and log I/O.
-An aggressive interval can degrade the source database, especially on lower
-service tiers or under high write volume. Microsoft provides no SLA on CDC
-freshness on Azure SQL Database; treat measured end-to-end latency under your
-own workload as the source of truth, not the configured interval. If scans
-start falling behind, raise the service tier, raise `maxtrans` and `maxscans`,
-or relax the interval.{{< /warning >}}
+> [!WARNING]
+> CDC scans consume regular database resources. Every call reads
+> the transaction log, competing with the workload for CPU, memory, and log I/O.
+> An aggressive interval can degrade the source database, especially on lower
+> service tiers or under high write volume. Microsoft provides no SLA on CDC
+> freshness on Azure SQL Database; treat measured end-to-end latency under your
+> own workload as the source of truth, not the configured interval. If scans
+> start falling behind, raise the service tier, raise `maxtrans` and `maxscans`,
+> or relax the interval.
 
 ##### Example Kubernetes deployment
 
@@ -548,8 +568,9 @@ EXEC sp_addrolemember N'<cdc-role>', N'<username>'
 GO
 ```
 
-{{< note >}}Use `VIEW DATABASE STATE` rather than `VIEW SERVER STATE`. The server-scoped
-permission does not exist on Azure SQL Database.{{< /note >}}
+> [!NOTE]
+> Use `VIEW DATABASE STATE` rather than `VIEW SERVER STATE`. The server-scoped
+> permission does not exist on Azure SQL Database.
 
 #### Option B: Microsoft Entra service principal
 
@@ -587,13 +608,14 @@ permission does not exist on Azure SQL Database.{{< /note >}}
     GO
     ```
 
-    {{< note >}}`<sp-display-name>` is the **display name** of the app registration — the
-    value shown in the **Name** column on the **App registrations** page — not its client
-    ID. The client ID is used by the RDI connector (see the next section), but the
-    database user must be created from the display name. If the display name is not
-    unique in your Microsoft Entra tenant (display names are not guaranteed unique),
-    disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
-    `CREATE USER` statement.{{< /note >}}
+    > [!NOTE]
+    > `<sp-display-name>` is the **display name** of the app registration — the
+    > value shown in the **Name** column on the **App registrations** page — not its client
+    > ID. The client ID is used by the RDI connector (see the next section), but the
+    > database user must be created from the display name. If the display name is not
+    > unique in your Microsoft Entra tenant (display names are not guaranteed unique),
+    > disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
+    > `CREATE USER` statement.
 
 ### Configure the RDI source for Azure SQL
 
@@ -610,8 +632,8 @@ sources:
       host: <server-name>.database.windows.net
       port: 1433
       database: <database-name>
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${SQLSERVER_DB_USERNAME}
+      password: ${SQLSERVER_DB_PASSWORD}
     logging:
       level: info
     schemas:
@@ -646,24 +668,32 @@ Debezium SQL Server connector and JDBC driver. The Azure-specific values are:
 | `snapshot.mode` | The Debezium snapshot strategy. | `initial`. Captures a snapshot of the existing rows, then streams subsequent changes from the CDC tables. |
 
 For SQL authentication, omit the `driver.authentication` line and set
-`${SOURCE_DB_USERNAME}` and `${SOURCE_DB_PASSWORD}` to the SQL user's credentials.
+`${SQLSERVER_DB_USERNAME}` and `${SQLSERVER_DB_PASSWORD}` to the SQL user's credentials.
 Keep the other Azure-specific properties.
 
 #### Secret mapping
 
-For Microsoft Entra service-principal authentication, the RDI source secret must
+For Microsoft Entra service-principal authentication, the source's credentials must
 provide:
 
-| Secret key | Value |
+| Config reference | Value |
 | --- | --- |
-| `SOURCE_DB_USERNAME` | The service principal's **Application (client) ID** (a GUID). |
-| `SOURCE_DB_PASSWORD` | The service principal's **client secret**. |
+| `${SQLSERVER_DB_USERNAME}` | The service principal's **Application (client) ID** (a GUID). |
+| `${SQLSERVER_DB_PASSWORD}` | The service principal's **client secret**. |
 
-{{< warning >}}The `SOURCE_DB_USERNAME` value is the client ID (a GUID), but the contained
-database user created in the previous section uses the service principal's **display
-name**. These are two different identifiers for the same principal — mixing them up is
-the most common cause of `Login failed for user '<token-identified principal>'` errors
-at connection time.{{< /warning >}}
+Set them with the source name, which is `sqlserver` for the source in this example:
+
+```bash
+redis-di set-secret USERNAME --db sqlserver <client-id>
+redis-di set-secret PASSWORD --db sqlserver <client-secret>
+```
+
+> [!WARNING]
+> The username value is the client ID (a GUID), but the contained
+> database user created in the previous section uses the service principal's **display
+> name**. These are two different identifiers for the same principal — mixing them up is
+> the most common cause of `Login failed for user '<token-identified principal>'` errors
+> at connection time.
 
 #### Other Microsoft Entra authentication modes
 
@@ -711,7 +741,7 @@ GO
 - **`Login failed for user '<token-identified principal>'`** — the contained database
   user was not created for this service principal, or it was created with the wrong
   identifier. Verify that the `CREATE USER ... FROM EXTERNAL PROVIDER` statement used
-  the service principal's display name, and that `SOURCE_DB_USERNAME` contains its
+  the service principal's display name, and that `${SQLSERVER_DB_USERNAME}` contains its
   client ID. Query `sys.database_principals` on the source database to see which
   principals exist.
 - **`SSL Server certificate validation failed` or hostname mismatch** —
@@ -729,16 +759,9 @@ GO
 
 ## Handling changes to the schema
 
-RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. For example,
-if you add a new column to a table you are capturing then RDI will generate errors
-instead of capturing the changes correctly. See Debezium's
-[SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution)
-docs for more information.
+RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. The existing capture instance continues to use its captured column structure. For example, adding a column can leave RDI streaming changes without that column instead of reporting an error. Create a new capture instance to capture the updated schema. See Debezium's [SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution) documentation for more information.
 
-If you have administrator privileges, you can follow the steps below to update RDI after
-a schema change and resume CDC. See the
-[online schema updates](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#online-schema-updates)
-documentation for further details.
+If you have administrator privileges, use this online procedure to update the capture instance while RDI is running. During the interval between changing the source schema and creating the new capture instance, events still use the old captured column structure. A short interval or low write traffic does not guarantee correct capture. If you cannot tolerate events that omit the new column, [update the schema offline](#update-the-schema-offline).
 
 ```checklist {id="sqlserver-schema-changes" nointeractive="true" }
 - [ ] [Make your changes to the source table schema](#make-your-changes-to-the-source-table-schema)
@@ -766,9 +789,9 @@ documentation for further details.
     ```
 
 1. <a id="drop-the-old-capture-table"></a>
-    When Debezium starts streaming from the new capture table, drop the old capture table by running 
-    the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old
-    capture instance name, `dbo_MyTable`:
+    When Debezium starts streaming from the new capture table and you no longer need the old captured changes, drop the old capture table by running the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old capture instance name, `dbo_MyTable`:
+
+    Disabling the old instance deletes its change table and captured history. Rewinding an offset cannot recover changes that existed only in that capture table, even if SQL Server still retains them in the transaction log. If you need those changes for recovery or replay, retain the old instance until they are no longer needed. Retaining the instance does not prevent CDC cleanup from removing expired changes. Check the [CDC retention and capture instance limits](https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server). SQL Server permits only two capture instances per source table, so retaining the old instance also affects the next schema migration.
 
     ```sql
     EXEC sys.sp_cdc_disable_table
@@ -778,7 +801,43 @@ documentation for further details.
     GO
     ```
 
-{{< note >}}RDI will *not* correctly capture changes that happen in the time gap between changing
-the source schema (step 1 above) and updating the value of `@capture_instance` (step 2).
-Try to keep the gap as short as possible or perform the update at a time when you expect
-few changes to the data.{{< /note >}}
+> [!NOTE]
+> Verify the values of the new or changed columns in the captured events after the migration. Continued streaming or a matching row count does not prove that the updated columns were captured.
+
+### Update the schema offline
+
+Use this procedure to adapt Debezium's [offline schema update procedure](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#offline-schema-updates) to RDI. Keep the pipeline running and stop only the SQL Server source collector, so the processor and other source collectors remain available. Replace `<pipeline-name>` with your pipeline name and `<source-name>` with the SQL Server source name from `config.yaml`.
+
+1. Suspend application writes to the tables captured by the SQL Server source collector.
+
+1. Wait for the final committed changes to reach the target Redis database. Use [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md) to check that the source's tables have zero pending records, no errors, and no new rejected records. Also verify the expected final changes in the target. Zero pending records alone does not prove that SQL Server's capture job has captured the final writes.
+
+    ```bash
+    redis-di describe <pipeline-name>
+    ```
+
+1. Stop the SQL Server source collector with [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md). Wait for the command to complete successfully before changing the schema.
+
+    ```bash
+    redis-di stop <pipeline-name> --source <source-name>
+    ```
+
+1. [Apply the schema changes](#make-your-changes-to-the-source-table-schema) while application writes remain suspended.
+
+1. [Create a new capture instance](#create-a-new-capture-table-for-the-updated-source-table) with a unique name. Keep the old instance until RDI has switched to the new one and you no longer need its captured history.
+
+1. If your pipeline selects specific columns or references changed column names in transformations, update its configuration and [deploy it](/content/integrate/redis-data-integration/data-pipelines/deploy.md) while application writes remain suspended.
+
+1. Restart the SQL Server source collector with [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md).
+
+    ```bash
+    redis-di start <pipeline-name> --source <source-name>
+    ```
+
+1. Check `redis-di describe <pipeline-name>` for source connectivity and errors before resuming application writes. Starting a source collector does not start a stopped pipeline.
+
+1. Resume application writes.
+
+1. Verify that changes made after the migration include the new or changed column values in the target as intended by your transformation jobs.
+
+1. [Drop the old capture instance](#drop-the-old-capture-table) only after RDI streams from the new instance and you no longer need the old captured history.

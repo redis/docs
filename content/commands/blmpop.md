@@ -75,19 +75,18 @@ summary: Pops the first element from one of multiple lists. Blocks until an elem
 syntax_fmt: "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: BLMPOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BLMPOP` is the blocking variant of [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+`BLMPOP` is the blocking variant of [`LMPOP`](/content/commands/lmpop.md).
 
-When any of the lists contains elements, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+When any of the lists contains elements, this command behaves exactly like [`LMPOP`](/content/commands/lmpop.md).
+When used inside a [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) block or a Lua script, this command behaves exactly like [`LMPOP`](/content/commands/lmpop.md).
 When all lists are empty, Redis will block the connection until another client pushes to it or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 
-See [`LMPOP`]({{< relref "/commands/lmpop" >}}) for more information.
+See [`LMPOP`](/content/commands/lmpop.md) for more information.
 
 ## Required arguments
 

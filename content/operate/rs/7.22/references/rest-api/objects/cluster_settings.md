@@ -23,7 +23,7 @@ Cluster resources management policy
 | bigstore_provision_node_threshold | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | bigstore_provision_node_threshold_p | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | data_internode_encryption | boolean | Enable/deactivate encryption of the data plane internode communication |
-| db_conns_auditing | boolean | [Audit connections]({{< relref "/operate/rs/7.22/security/audit-events" >}}) for new databases by default if set to true. |
+| db_conns_auditing | boolean | [Audit connections](/content/operate/rs/7.22/security/audit-events.md) for new databases by default if set to true. |
 | default_bigstore_version | **`1`**<br />`2` | Determines the default value of new databases' `bigstore_version`:<br />• `1` for Auto Tiering (Redis on Flash version 1). Default version.<br/>• `2` for Redis Flex (Redis on Flash version 2) on databases that support it. Can only be used with the `speedb` driver. |
 | default_concurrent_restore_actions | integer | Default number of restore actions allowed at the same time. Set to 0 to allow any number of simultaneous restore actions. |
 | default_fork_evict_ram | boolean | If true, the bdbs should evict data from RAM to ensure successful replication or persistence |

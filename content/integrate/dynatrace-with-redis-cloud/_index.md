@@ -31,7 +31,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-dynatrace.png" >}}
+![](/images/rc/redis-cloud-dynatrace.png)
 ## Install Redis' Dynatrace Integration for Redis Cloud
 
 The Dynatrace Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
@@ -42,7 +42,7 @@ If you have not already created a VPC between the Redis Cloud cluster and the ne
 Prometheus lives you should do so now. Please visit [VPC Peering](https://redis.io/docs/latest/operate/rc/security/vpc-peering/) 
 and follow the instructions for the cloud platform of your choice.
 
-You'll also need the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) from the [Redis Cloud console](https://cloud.redis.io/).
+You'll also need the [Prometheus endpoint for your database](/content/operate/rc/databases/monitor-performance.md#connect-to-prometheus) from the [Redis Cloud console](https://cloud.redis.io/).
 
 {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 

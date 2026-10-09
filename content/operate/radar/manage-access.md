@@ -16,7 +16,8 @@ Radar has two roles, administrator and viewer, one of which is assigned to every
 
 Create local accounts under **Users**. Choose and configure the sign-in method under **Settings > Authentication**, where that choice applies to all of Radar.
 
-{{<image filename="images/radar/settings-authentication.png" alt="The Settings > Authentication page, showing the Application, SAML, and LDAP method selector" width="75%">}}
+![The Settings > Authentication page, showing the Application, SAML, and LDAP method selector](/images/radar/settings-authentication.png)
+{width="75%"}
 
 ## Roles
 
@@ -38,7 +39,8 @@ New users are viewers unless you choose otherwise. Only admins can see or change
 
 The **Users** list shows each account's role, where it authenticates, when it was created, and its last sign-in, so you can tell a local account from a directory account at a glance.
 
-{{<image filename="images/radar/users.png" alt="The Users page, listing a local account with its role, status, and last login" width="90%">}}
+![The Users page, listing a local account with its role, status, and last login](/images/radar/users.png)
+{width="90%"}
 
 If an account locks, admins unlock it from the same list.
 
@@ -95,9 +97,8 @@ Configure how Radar's connection to the directory is encrypted:
 | Validate certificate | Verify the directory's certificate. Leave this on. |
 | CA certificate | The certificate authority chain in PEM format, if your directory uses a private CA. |
 
-{{< warning >}}
-Turning off certificate validation means Radar sends the bind password over a connection it has not verified. Supply the CA certificate instead.
-{{< /warning >}}
+> [!WARNING]
+> Turning off certificate validation means Radar sends the bind password over a connection it has not verified. Supply the CA certificate instead.
 
 ## Set up SAML SSO
 
@@ -143,9 +144,8 @@ Narrow who can sign in through SSO and decide whether local passwords still work
 | Require link confirmation | Ask a user to confirm before their identity provider account is linked to an existing Radar account. |
 | Enforce SSO | Require SSO and stop accepting local passwords. |
 
-{{< warning >}}
-Confirm that at least one administrator can sign in through your identity provider before you turn on Enforce SSO. Once local passwords stop being accepted, a broken SAML configuration locks everyone out, including you.
-{{< /warning >}}
+> [!WARNING]
+> Confirm that at least one administrator can sign in through your identity provider before you turn on Enforce SSO. Once local passwords stop being accepted, a broken SAML configuration locks everyone out, including you.
 
 ## Next steps
 

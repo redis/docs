@@ -31,9 +31,8 @@ summary: Returns the number of keys in the database.
 syntax_fmt: DBSIZE
 title: DBSIZE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Return the number of keys in the currently-selected database.

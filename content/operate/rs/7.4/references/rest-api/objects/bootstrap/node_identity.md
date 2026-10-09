@@ -16,6 +16,6 @@ url: '/operate/rs/7.4/references/rest-api/objects/bootstrap/node_identity/'
 |------|------------|-------------|
 | bigstore_driver | 'rocksdb' | Bigstore driver name or none (deprecated) |
 | bigstore_enabled | boolean | Bigstore enabled or disabled |
-| identity | [identity]({{< relref "/operate/rs/7.4/references/rest-api/objects/bootstrap/identity" >}}) object | Node identity |
-| limits | [limits]({{< relref "/operate/rs/7.4/references/rest-api/objects/bootstrap/limits" >}}) object | Node limits |
-| paths | [paths]({{< relref "/operate/rs/7.4/references/rest-api/objects/bootstrap/paths" >}}) object | Storage paths object |
+| identity | [identity](/content/operate/rs/7.4/references/rest-api/objects/bootstrap/identity.md) object | Node identity |
+| limits | [limits](/content/operate/rs/7.4/references/rest-api/objects/bootstrap/limits.md) object | Node limits |
+| paths | [paths](/content/operate/rs/7.4/references/rest-api/objects/bootstrap/paths.md) object | Storage paths object |

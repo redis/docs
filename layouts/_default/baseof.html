@@ -37,6 +37,10 @@
     {{ if .Page.Store.Get "hasOtelMetrics" }}
     <link rel="stylesheet" href="{{ "css/otel-metrics.css" | relURL }}">
     {{ end }}
+    {{ $isIris := partial "is-iris-page.html" . }}
+    {{ if $isIris }}
+    <link rel="stylesheet" href="{{ "css/iris-dark.css" | relURL }}">
+    {{ end }}
 
     {{ block "head" . }}{{ end }}
 
@@ -61,7 +65,7 @@
         {{ partial "mathjax.html" }}
     {{ end }}
   </head>
-  <body class="antialiased tracking-[-0.01em] bg-white w-full relative">
+  <body class="antialiased tracking-[-0.01em] bg-white w-full relative{{ if $isIris }} iris-dark{{ end }}">
     <span id="page-top" class="absolute top-0"></span>
     {{ partial "ai-metadata-body.html" . }}
 
@@ -132,6 +136,11 @@
     <!-- Decision tree functionality -->
     {{ if .Page.Store.Get "hasDecisionTree" }}
     <script src="{{ "js/decision-tree.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Context map functionality -->
+    {{ if .Page.Store.Get "hasContextMap" }}
+    <script src="{{ "js/context-map.js" | relURL }}"></script>
     {{ end }}
 
     <!-- OpenTelemetry metrics functionality -->

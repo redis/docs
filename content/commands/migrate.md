@@ -214,11 +214,11 @@ Migrate all the listed keys. Use this when the key argument is an empty string (
 
 ## Details
 
-The command internally uses [`DUMP`]({{< relref "/commands/dump" >}}) to generate the serialized version of the key
-value, and [`RESTORE`]({{< relref "/commands/restore" >}}) in order to synthesize the key in the target instance.
+The command internally uses [`DUMP`](/content/commands/dump.md) to generate the serialized version of the key
+value, and [`RESTORE`](/content/commands/restore.md) in order to synthesize the key in the target instance.
 The source instance acts as a client for the target instance.
-If the target instance returns OK to the [`RESTORE`]({{< relref "/commands/restore" >}}) command, the source instance
-deletes the key using [`DEL`]({{< relref "/commands/del" >}}).
+If the target instance returns OK to the [`RESTORE`](/content/commands/restore.md) command, the source instance
+deletes the key using [`DEL`](/content/commands/del.md).
 
 The timeout specifies the maximum idle time in any moment of the communication
 with the destination instance in milliseconds.

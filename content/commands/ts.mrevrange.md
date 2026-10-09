@@ -139,18 +139,16 @@ syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_T
   \ [GROUPBY label REDUCE\n  reducer] [EXCLUDEEMPTY]"
 title: TS.MREVRANGE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
 Query a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).
 
-{{< note >}}
-This command will reply only if the current user has read access to all keys that match the filter.
-Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
-{{< /note >}}
+> [!NOTE]
+> This command will reply only if the current user has read access to all keys that match the filter.
+> Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
 
 [Examples](#examples)
 
@@ -627,47 +625,47 @@ Without `EXCLUDEEMPTY`, `u` is also reported, with an empty samples list.
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings))
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range in reverse chronological order:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each group of time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) with the format `label=value` where `label` is the `GROUPBY` label argument
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)): the `GROUPBY` label argument and value
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)):  the string `__reducer__` and the reducer argument
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single pair ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)): the string `__source__` and the time series key names separated by ","
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range in reverse chronological order:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) representing (timestamp, value...)
 
 -tab-sep-
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+[Map reply](/content/develop/reference/protocol-spec.md#maps): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Map reply](/content/develop/reference/protocol-spec.md#maps) or [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs
   - By default, an empty map is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map
 - Additional metadata including aggregators information
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): representing all samples/aggregations matching the range in reverse chronological order:
   - Without `AGGREGATION` or with a single aggregator:
-    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value)
+    timestamp-value pairs ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles)) representing (timestamp, value)
   - With multiple aggregators:
-    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value...)
+    timestamp-value tuples ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Double reply](/content/develop/reference/protocol-spec.md#doubles)) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 
@@ -677,8 +675,8 @@ Similar structure as RESP2 but with map-based organization for labels and metada
 
 ## See also
 
-[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) 
+[`TS.MRANGE`](/content/commands/ts.mrange.md) | [`TS.RANGE`](/content/commands/ts.range.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

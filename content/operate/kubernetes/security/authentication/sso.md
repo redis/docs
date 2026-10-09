@@ -35,7 +35,7 @@ Before enabling SSO, ensure you have:
 
 1. An existing Redis Enterprise cluster (REC) deployed in Kubernetes
 
-2. **External access to the Cluster Manager UI** - The Cluster Manager UI must be accessible externally via a LoadBalancer service or Ingress so users can access it from their browser and the identity provider can redirect back after authentication. See [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}}) for configuration options.
+2. **External access to the Cluster Manager UI** - The Cluster Manager UI must be accessible externally via a LoadBalancer service or Ingress so users can access it from their browser and the identity provider can redirect back after authentication. See [Connect to the admin console](/content/operate/kubernetes/re-clusters/connect-to-admin-console.md) for configuration options.
 
 3. A SAML 2.0-compatible identity provider (such as Okta, Azure AD, or similar)
 
@@ -43,9 +43,8 @@ Before enabling SSO, ensure you have:
 
 5. A TLS certificate and private key for the service provider (SP)
 
-{{<warning>}}
-SSO requires external access to the Cluster Manager UI. Port forwarding is not sufficient for SSO authentication because the identity provider needs to redirect users back to the UI after authentication. You must configure either a LoadBalancer service (via `spec.uiServiceType: LoadBalancer`) or an Ingress controller.
-{{</warning>}}
+> [!WARNING]
+> SSO requires external access to the Cluster Manager UI. Port forwarding is not sufficient for SSO authentication because the identity provider needs to redirect users back to the UI after authentication. You must configure either a LoadBalancer service (via `spec.uiServiceType: LoadBalancer`) or an Ingress controller.
 
 ### Step 1: Upload Service Provider certificate and private key
 
@@ -120,9 +119,8 @@ Examples:
 - `"redis-ui.example.com:443"` (defaults to https://)
 - `"http://redis-ui.example.com:9443"` (NOT recommended for production)
 
-{{<warning>}}
-Using `http://` is NOT recommended for production environments as it transmits sensitive SAML assertions in plaintext. Only use `http://` for testing or development purposes.
-{{</warning>}}
+> [!WARNING]
+> Using `http://` is NOT recommended for production environments as it transmits sensitive SAML assertions in plaintext. Only use `http://` for testing or development purposes.
 
 **Usage guidelines:**
 - **For LoadBalancer services:** Leave this field blank to use the default REC UI service, or set it explicitly to the LoadBalancer address for custom services.
@@ -140,9 +138,8 @@ If you configured `spMetadataSecretName` in Step 1, the operator creates a secre
 kubectl -n <rec-namespace> get secret sp-metadata -o jsonpath='{.data.sp_metadata}' | base64 -d > sp-metadata.xml
 ```
 
-{{<note>}}
-This secret is only created when the cluster is configured to use Kubernetes secrets (`spec.clusterCredentialSecretType` is unset or set to `"kubernetes"`). When using Vault secrets, use Option B instead.
-{{</note>}}
+> [!NOTE]
+> This secret is only created when the cluster is configured to use Kubernetes secrets (`spec.clusterCredentialSecretType` is unset or set to `"kubernetes"`). When using Vault secrets, use Option B instead.
 
 #### Option B: Retrieve from the API
 
@@ -209,9 +206,8 @@ Now configure the identity provider details in your Redis Enterprise cluster.
 
     Replace `<idp-cert-file>` with the path to your IdP certificate file.
 
-    {{<note>}}
-While IdP metadata XML may contain the certificate, Redis Enterprise Server does not use it from there, so the certificate must be provided separately via this secret.
-    {{</note>}}
+    > [!NOTE]
+    > While IdP metadata XML may contain the certificate, Redis Enterprise Server does not use it from there, so the certificate must be provided separately via this secret.
 
 2. Configure the IdP using one of the following options:
 
@@ -292,9 +288,8 @@ If IdP metadata XML is unavailable, you can manually configure the issuer settin
     kubectl apply -f <rec-config-file>.yaml
     ```
 
-{{<note>}}
-If both `idpMetadataSecretName` and `issuer` are provided, `idpMetadataSecretName` takes precedence and `issuer` is ignored.
-{{</note>}}
+> [!NOTE]
+> If both `idpMetadataSecretName` and `issuer` are provided, `idpMetadataSecretName` takes precedence and `issuer` is ignored.
 
 ### Step 6: Assign SAML app to users
 
@@ -361,7 +356,7 @@ spec:
         baseAddress: "https://redis-ui.example.com:443"
 ```
 
-Refer to the `RedisEnterpriseCluster` [API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specsso" >}}) for full details on the available fields.
+Refer to the `RedisEnterpriseCluster` [API reference](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md#specsso) for full details on the available fields.
 
 ## Next steps
 
@@ -371,4 +366,4 @@ After enabling SSO:
 2. Set up the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for new users
 3. Test both IdP-initiated and SP-initiated SSO flows
 
-For more information about Redis Enterprise Software security, see [Access control]({{< relref "/operate/rs/security/access-control/" >}}).
+For more information about Redis Enterprise Software security, see [Access control](/content/operate/rs/security/access-control/_index.md).

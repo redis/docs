@@ -36,9 +36,8 @@ title: JSON.OBJKEYS
 ---
 Returns the key names of JSON objects at the paths matching a given path expression.
 
-{{< note >}}
-A JSON object is a structure within a JSON document that contains an unordered set of key-value pairs (also called name-value pairs). Do not confuse Redis keys with JSON object keys.
-{{< /note >}}
+> [!NOTE]
+> A JSON object is a structure within a JSON document that contains an unordered set of key-value pairs (also called name-value pairs). Do not confuse Redis keys with JSON object keys.
 
 [Examples](#examples)
 
@@ -93,44 +92,44 @@ redis> JSON.OBJKEYS doc $..a
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not an object.
-  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if the match is not an object.
+  - An [array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the object's key names if the match is an object.
 
 If `path` is a legacy path expression:
 
-- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
-- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
+- [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if `key` does not exist.
+- [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not an object.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the object's key names of the first match.
 
 -tab-sep-
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not an object.
-  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#nulls) if the match is not an object.
+  - An [array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the object's key names if the match is an object.
 
 If `path` is a legacy path expression:
 
-- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
-- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
+- [`nil`](/content/develop/reference/protocol-spec.md#nulls) if `key` does not exist.
+- [`nil`](/content/develop/reference/protocol-spec.md#nulls) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not an object.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the object's key names of the first match.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.OBJLEN`]({{< relref "commands/json.objlen/" >}})
+[`JSON.OBJLEN`](/content/commands/json.objlen.md)
 
 ## Related topics
 
-* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
-* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [The JSON data type](/content/develop/data-types/json/_index.md)
+* [JSONPath](/content/develop/data-types/json/path.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

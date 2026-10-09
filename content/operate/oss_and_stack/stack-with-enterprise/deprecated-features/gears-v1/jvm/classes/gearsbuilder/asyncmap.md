@@ -19,7 +19,7 @@ public <I extends java.io.Serializable> GearsBuilder<I> asyncMap​(
 	gears.operations.AsyncMapOperation<T,​I> mapper)
 ```
 
-The `asyncMap` function allows you to use a [`GearsFuture`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture" >}}) object to asynchronously map each input record in the pipe to an output record, one-to-one.
+The `asyncMap` function allows you to use a [`GearsFuture`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture/_index.md) object to asynchronously map each input record in the pipe to an output record, one-to-one.
 
 ## Parameters
  

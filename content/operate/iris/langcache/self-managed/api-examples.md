@@ -47,7 +47,7 @@ curl -sS -X POST "$CP_URL/v1/caches" \
     "databaseId": "cache-primary",
     "defaultSearchThreshold": 0.9,
     "defaultTtlMillis": -1,
-    "attributes": []
+    "attributes": ["topic"]
   }'
 ```
 
@@ -60,7 +60,8 @@ Response:
 ```
 
 `databaseId` must match an entry in the Control Plane's configured
-`databases` registry. `defaultSearchThreshold` is a float between 0 and 1.
+`databases` registry. `attributes` lists the attribute names the cache accepts; every
+attribute you send must be listed here. `defaultSearchThreshold` is a float between 0 and 1.
 `defaultTtlMillis` accepts `-1` or `0` for no expiration, or a positive
 number of milliseconds.
 
@@ -126,6 +127,7 @@ curl -sS -X POST "$IDS_URL/v1/api-keys" \
     "name": "my-agent-key",
     "grants": [
       {
+        "tenant": "<your-tenant-id>",
         "product": "langcache",
         "resourceType": "lc-cache",
         "resourceId": "<cache-id>",
@@ -145,12 +147,17 @@ Response:
 }
 ```
 
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage caches with the Control Plane admin token.
+
 Rotate it later:
 
 ```bash
-curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate" \
+curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate?graceSeconds=3600" \
   -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
 ```
+
+Rotation returns a new `keyId` with the new token. For the grace period and which `keyId` to
+use afterward, see [Secret rotation](/content/operate/iris/langcache/self-managed/operations.md#secret-rotation).
 
 ## Data Plane API examples
 

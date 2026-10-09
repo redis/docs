@@ -83,10 +83,8 @@ forces the vector to use binary quantization instead of int8. This is much faste
 forces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.
 </details>
 
-{{< note >}}
-`NOQUANT`, `Q8`, and `BIN` are mutually exclusive.
-
-{{< /note >}}
+> [!NOTE]
+> `NOQUANT`, `Q8`, and `BIN` are mutually exclusive.
 
 <details open>
 <summary><code>EF build-exploration-factor</code></summary>
@@ -140,5 +138,5 @@ One of the following:
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)
+- [Filtered search](/content/develop/data-types/vector-sets/filtered-search.md)

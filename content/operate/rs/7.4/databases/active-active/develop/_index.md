@@ -38,7 +38,7 @@ data between regions and simplify development of complex applications
 that can maintain correctness under geo-failovers and concurrent
 cross-region writes to the same data.
 
-{{< image filename="/images/rs/crdbs.png" alt="Geo-replication world map">}}
+![Geo-replication world map](/images/rs/crdbs.png)
 
 Active-Active databases replicate data between multiple Redis Enterprise Software
 clusters. Common uses for Active-Active databases include disaster recovery,
@@ -65,4 +65,4 @@ in between.
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "/operate/rs/7.4/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/7.4/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
+each supported data type](/content/operate/rs/7.4/databases/active-active/develop/data-types/_index.md) and [how to develop applications](/content/operate/rs/7.4/databases/active-active/develop/develop-for-aa.md) with them on Redis Enterprise Software.

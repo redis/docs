@@ -47,9 +47,9 @@ OK
 * Rotates the live AOF when AOF persistence is enabled.
 * Stops and removes the temporary AOF state when the backup created it for an `appendonly no` instance.
 
-After sealing, the file set is complete and immutable. The data plane can copy the files reported by [`BACKUP LIST`]({{< relref "/commands/backup-list" >}}), then call [`BACKUP CLEANUP`]({{< relref "/commands/backup-cleanup" >}}) to release them.
+After sealing, the file set is complete and immutable. The data plane can copy the files reported by [`BACKUP LIST`](/content/commands/backup-list.md), then call [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md) to release them.
 
-For the full workflow and restore procedure, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow and restore procedure, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -73,8 +73,8 @@ For the full workflow and restore procedure, see [Redis persistence]({{< relref 
 
 ## See also
 
-[`BACKUP START`]({{< relref "commands/backup-start/" >}}) | [`BACKUP STATUS`]({{< relref "commands/backup-status/" >}}) | [`BACKUP LIST`]({{< relref "commands/backup-list/" >}}) | [`BACKUP ABORT`]({{< relref "commands/backup-abort/" >}}) | [`BACKUP CLEANUP`]({{< relref "commands/backup-cleanup/" >}})
+[`BACKUP START`](/content/commands/backup-start.md) | [`BACKUP STATUS`](/content/commands/backup-status.md) | [`BACKUP LIST`](/content/commands/backup-list.md) | [`BACKUP ABORT`](/content/commands/backup-abort.md) | [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

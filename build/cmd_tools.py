@@ -15,7 +15,6 @@ Usage:
 """
 
 import argparse
-import glob
 import json
 import logging
 import os
@@ -24,21 +23,6 @@ import sys
 from components.syntax import Command
 from components.markdown import Markdown
 
-
-# Prefix filtering for commands_core.json (used in update-all)
-FILTER_PREFIXES = [
-    "BF.",
-    "CF.",
-    "CMS.",
-    "JSON.",
-    "FT.",
-    "_FT.",
-    "SEARCH.",
-    "TDIGEST.",
-    "TIMESERIES.",
-    "TOPK.",
-    "TS.",
-]
 
 # Standard categories for new command pages
 STANDARD_CATEGORIES = [
@@ -456,34 +440,17 @@ def update_command_page_inplace(command_name: str, command_data: dict, output_di
 
 
 def action_update_all(args) -> int:
-    """Handle the 'update-all' action: update all commands from data/commands_*.json."""
+    """Handle the 'update-all' action: update all commands from data/commands.json."""
     all_commands = {}
 
-    # Load commands_core.json with prefix filtering
-    core_file = 'data/commands_core.json'
-    if os.path.exists(core_file):
-        logging.info(f"Loading commands from {core_file}")
-        with open(core_file, 'r') as f:
-            data = json.load(f)
-
-        # Apply prefix filtering only to commands_core.json
-        filtered = {
-            key: value
-            for key, value in data.items()
-            if not key.startswith(tuple(FILTER_PREFIXES))
-        }
-        all_commands.update(filtered)
-        logging.info(f"Loaded {len(filtered)} commands from {core_file} (filtered from {len(data)})")
+    # Load the single, consolidated commands file (core and former-module commands)
+    commands_file = 'data/commands.json'
+    if os.path.exists(commands_file):
+        logging.info(f"Loading commands from {commands_file}")
+        with open(commands_file, 'r') as f:
+            all_commands = json.load(f)
     else:
-        logging.warning(f"Core commands file not found: {core_file}")
-
-    # Load additional command files (commands_r*.json) without filtering
-    command_files = glob.glob('data/commands_r*.json')
-    for command_file in command_files:
-        logging.info(f"Loading commands from {command_file}")
-        with open(command_file, 'r') as f:
-            commands = json.load(f)
-            all_commands.update(commands)
+        logging.warning(f"Commands file not found: {commands_file}")
 
     logging.info(f"Loaded {len(all_commands)} total commands")
 

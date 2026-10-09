@@ -27,7 +27,7 @@ hidden: false
 linkTitle: FT.CONFIG SET
 module: Search
 railroad_diagram: /images/railroad/ft.config-set.svg
-replaced_by: '[`CONFIG SET`]({{< relref "/commands/config-set" >}})'
+replaced_by: '[`CONFIG SET`](/content/commands/config-set.md)'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Sets runtime configuration options
@@ -39,11 +39,10 @@ Set the value of a RediSearch configuration parameter.
 
 Values set using `FT.CONFIG SET` are not persisted after server restart.
 
-RediSearch configuration parameters are detailed in [Configuration parameters]({{< relref "/develop/ai/search-and-query/administration/configuration" >}}).
+RediSearch configuration parameters are detailed in [Configuration parameters](/content/develop/ai/search-and-query/administration/configuration.md).
 
-{{% alert title="Note" color="warning" %}}
-As detailed in the link above, not all RediSearch configuration parameters can be set at runtime.
-{{% /alert %}}
+> [!NOTE]
+> As detailed in the link above, not all RediSearch configuration parameters can be set at runtime.
 
 [Examples](#examples)
 
@@ -78,7 +77,7 @@ OK
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>2</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
 
-1. Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}}) for more information and examples.
+1. Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md) for more information and examples.
 
 2. [Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
 
@@ -89,21 +88,21 @@ OK
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid option, invalid value.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid option, invalid value.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid option, invalid value.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid option, invalid value.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
+[`FT.CONFIG GET`](/content/commands/ft.config-get.md) | [`FT.CONFIG HELP`](/content/commands/ft.config-help.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

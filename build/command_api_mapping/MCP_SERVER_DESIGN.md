@@ -257,13 +257,9 @@ export async function listRedisCommands(
 ```typescript
 export async function loadAllCommands(): Promise<Command[]> {
   // Load from:
-  // - data/commands_core.json
-  // - data/commands_redisearch.json
-  // - data/commands_redisjson.json
-  // - data/commands_redisbloom.json
-  // - data/commands_redistimeseries.json
+  // - data/commands.json (core and former-module commands, one file)
   
-  // Merge and return
+  // Return
 }
 ```
 

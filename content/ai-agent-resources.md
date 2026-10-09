@@ -241,10 +241,11 @@ overlap: a heading of "Version history" is `history` rather than `compatibility`
 
 A page's introductory text, before its first heading, is also given the `overview` role.
 
-{{< note >}}This vocabulary is descriptive, not a contract. It reflects the values produced
-today and may gain entries, or change how a heading maps to a role, without notice. If you
-filter or rank on `role`, treat an unrecognized value as `content` rather than discarding the
-section, and do not assume a value you rely on will keep its current name.{{< /note >}}
+> [!NOTE]
+> This vocabulary is descriptive, not a contract. It reflects the values produced
+> today and may gain entries, or change how a heading maps to a role, without notice. If you
+> filter or rank on `role`, treat an unrecognized value as `content` rather than discarding the
+> section, and do not assume a value you rely on will keep its current name.
 
 ### Verifying content_hash
 

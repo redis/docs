@@ -33,4 +33,4 @@ Redis Cloud on AWS provides a fully managed Redis service that combines the powe
 
 ## Getting Started
 
-Get started with [Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) on AWS to create and manage your Redis databases with step-by-step setup instructions and best practices.
+Get started with [Redis Cloud](/content/operate/rc/rc-quickstart.md) on AWS to create and manage your Redis databases with step-by-step setup instructions and best practices.

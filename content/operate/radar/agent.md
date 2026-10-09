@@ -39,21 +39,13 @@ Each Radar release publishes standalone agent tarballs, so a collector host runs
 
 Install the agent on a host that can reach both Radar and the Redis endpoints you want to collect from.
 
-1. Get the tarball for your platform, and the `SHA256SUMS` file published beside it, from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
+1. Get the tarball for your platform from the [Redis Download Center](https://redis.io/downloads/#Modules_Tools_and_Integration).
 
    Take the `radar-agent-fips-` build only if you require Federal Information Processing Standards (FIPS) 140-3. It refuses to start unless FIPS 140-3 mode is active in its runtime.
 
    <br>
 
-2. Verify the download.
-
-   ```bash
-   sha256sum --ignore-missing -c radar-agent-<tag>.SHA256SUMS
-   ```
-
-   <br>
-
-3. Extract the archive and confirm the version.
+2. Extract the archive and confirm the version.
 
    ```bash
    tar -xzf radar-agent-<tag>-linux-amd64.tar.gz
@@ -65,7 +57,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-4. Create the `mcm` service identity the unit runs as.
+3. Create the `mcm` service identity the unit runs as.
 
    Skip this step if the host already runs Radar from the RPM, which creates `mcm` for you.
 
@@ -77,7 +69,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-5. Install the binary, the unit, and the environment file, then create the state directory.
+4. Install the binary, the unit, and the environment file, then create the state directory.
 
    ```bash
    sudo install -d -m 0755 /usr/libexec/mcm
@@ -99,7 +91,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    Radar shows an activation command and a daemon command.
 
-   {{<image filename="images/radar/activate-managed-agent.png" alt="The Activate managed agent dialog, showing the activation command and the daemon command" width="75%">}}
+   ![The Activate managed agent dialog, showing the activation command and the daemon command](/images/radar/activate-managed-agent.png)
+   {width="75%"}
 
    <br>
 
@@ -107,7 +100,7 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    Keep every argument the dialog generated. On Redis Cloud, the dialog adds `--tenant-activation-id`, a short-lived handle bound to your tenant, and the agent gRPC service rejects an activation that omits it. A self-managed install doesn't generate one.
 
-   Replace the endpoint and the agent name. The endpoint is your deployment's public agent gRPC host and port. The dialog shows a placeholder, and the public port isn't necessarily `9443`.
+   Replace the endpoint and the agent name. On Redis Cloud, the endpoint is `agent-radar.redis.io:443`. On a self-managed install, it's your deployment's public agent gRPC host and port, and the public port isn't necessarily `9443`.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent activate \
@@ -123,7 +116,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 3. In Radar, find the request under **Pending activations**, confirm the activation code matches, and select **Approve**.
 
-   {{<image filename="images/radar/settings-agents.png" alt="The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list" width="90%">}}
+   ![The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list](/images/radar/settings-agents.png)
+   {width="90%"}
 
    The activation expires 15 minutes after the command prints the code, so approve it while the command is still waiting.
 
@@ -153,9 +147,8 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
 To change an agent's sources later, go to **Settings > Agents**, find the agent under **Registered agents**, and select **Edit connections**.
 
-{{< note >}}
-Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
-{{< /note >}}
+> [!NOTE]
+> Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-key.json`. Keep that file readable only by its owner. The configuration cache Radar writes alongside it holds no secrets.
 
 ## Set up a static agent
 
@@ -165,7 +158,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    Manage these tokens later under **Settings > Access keys**.
 
-   {{<image filename="images/radar/settings-access-keys.png" alt="The Access keys tab, listing credential keys with their creation date, last use, and Revoke action" width="90%">}}
+   ![The Access keys tab, listing credential keys with their creation date, last use, and Revoke action](/images/radar/settings-access-keys.png)
+   {width="90%"}
 
    <br>
 
@@ -237,9 +231,8 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
    sudo systemctl enable --now radar-agent.service
    ```
 
-{{< note >}}
-Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
-{{< /note >}}
+> [!NOTE]
+> Don't also add a static agent's sources as regular Radar connections. In static mode the endpoint and credential values belong only in the agent's YAML file.
 
 ### Configuration reference
 
@@ -325,16 +318,16 @@ The exported file holds sanitized telemetry only. It never contains your Radar t
 
 Every agent appears in Radar under **Settings > Agents** and in the **Connected agents** list on the Connections page. Radar shows each agent's mode, platform, version, and last heartbeat, along with the combined health of the sources it collects from.
 
-{{<image filename="images/radar/connections-with-agents.png" alt="The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status" width="90%">}}
+![The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status](/images/radar/connections-with-agents.png)
+{width="90%"}
 
 To expose health and metrics endpoints on the agent host, pass `--metrics-addr` when you start the daemon:
 
 - `GET /healthz` returns a health snapshot: `200` when the agent is healthy, `503` when a source is failing.
 - `GET /metrics` returns per-source collection, submission, and failure counters in Prometheus format.
 
-{{< warning >}}
-These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
-{{< /warning >}}
+> [!WARNING]
+> These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
 
 The daemon writes a local health snapshot only when you start it with `--health-file`, and the `health` command needs that same path. Add `--health-file /var/lib/radar-agent/health.json` to `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env`, restart the service, then read it:
 

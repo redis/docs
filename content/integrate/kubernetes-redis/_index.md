@@ -35,4 +35,4 @@ Redis on Kubernetes provides cloud-native Redis deployments using the Redis Ente
 
 ## Getting Started
 
-Learn how to [deploy Redis on Kubernetes]({{< relref "/operate/kubernetes" >}}) for cloud-native applications.
+Learn how to [deploy Redis on Kubernetes](/content/operate/kubernetes/_index.md) for cloud-native applications.

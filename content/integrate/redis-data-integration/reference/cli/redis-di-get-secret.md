@@ -20,16 +20,17 @@ redis-di get-secret <key> [flags]
 
 ## Options
 
-| Option             | Description                                          |
-| :----------------- | :--------------------------------------------------- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`).              |
-| `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
+| Option             | Description                                                 |
+| :----------------- | :---------------------------------------------------------- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                     |
+| `--db`             | Database the secret belongs to: a source name, or `target`. |
+| `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`.        |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 
 ```bash
-redis-di get-secret SOURCE_DB_USERNAME
+redis-di get-secret USERNAME --db mysql
 ```

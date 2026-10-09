@@ -45,10 +45,9 @@ v = VectorQuery(
 )
 ```
 
-{{< note >}}
-Filter expressions are typically not called directly. Instead they are
-built by combining filter statements using the & and | operators.
-{{< /note >}}
+> [!NOTE]
+> Filter expressions are typically not called directly. Instead they are
+> built by combining filter statements using the & and | operators.
 
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)
@@ -134,15 +133,14 @@ Return the Redis Query string for the Tag filter
 
 A Text is a FilterField representing a text field in a Redis index.
 
-{{< note >}}
-`==` and `!=` match the value as a quoted phrase. Any `"` in the
-value becomes a space first, so the value cannot close that phrase; a
-quote already separates tokens at index time, so this matches the same
-documents that escaping it never could. A value of nothing but quotes
-therefore becomes an empty phrase, which `==` matches no document
-against. `%` is the pattern operator and interpolates its value
-untouched.
-{{< /note >}}
+> [!NOTE]
+> `==` and `!=` match the value as a quoted phrase. Any `"` in the
+> value becomes a space first, so the value cannot close that phrase; a
+> quote already separates tokens at index time, so this matches the same
+> documents that escaping it never could. A value of nothing but quotes
+> therefore becomes an empty phrase, which `==` matches no document
+> against. `%` is the pattern operator and interpolates its value
+> untouched.
 
 * **Parameters:**
   **field** (*str*)
@@ -184,13 +182,12 @@ f = Text("job") % "engineer|doctor" # contains either term in field
 f = Text("job") % "engineer doctor" # contains both terms in field
 ```
 
-{{< note >}}
-The value is interpolated raw, which is what makes `*`, `%%` and
-`|` work. A value carrying a `)` therefore closes this clause and
-has its remainder parsed as query syntax, past any surrounding
-filter. Pass only patterns your own code composes; for a value you
-did not construct, use `==`, which matches it as a literal phrase.
-{{< /note >}}
+> [!NOTE]
+> The value is interpolated raw, which is what makes `*`, `%%` and
+> `|` work. A value carrying a `)` therefore closes this clause and
+> has its remainder parsed as query syntax, past any surrounding
+> filter. Pass only patterns your own code composes; for a value you
+> did not construct, use `==`, which matches it as a literal phrase.
 
 #### `__ne__(other)`
 
@@ -353,11 +350,10 @@ f = Num("age").between(18, 65, inclusive="neither")
 A Geo is a FilterField representing a geographic (lat/lon) field in a
 Redis index.
 
-{{< note >}}
-Redis indexes latitudes only within +/-85.05112878 degrees (EPSG:900913).
-A document or a query center nearer a pole than that is silently
-excluded: the query returns no error and no results, at any radius.
-{{< /note >}}
+> [!NOTE]
+> Redis indexes latitudes only within +/-85.05112878 degrees (EPSG:900913).
+> A document or a query center nearer a pole than that is silently
+> excluded: the query returns no error and no results, at any radius.
 
 * **Parameters:**
   **field** (*str*)

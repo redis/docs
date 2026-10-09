@@ -15,26 +15,26 @@ title: Redis memory layer with Lettuce
 weight: 7
 ---
 
-This guide shows you how to build a small Redis-backed memory layer in Java with [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [DJL](https://djl.ai/) (the Deep Java Library), using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with the JDK's [`com.sun.net.httpserver`](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.httpserver/com/sun/net/httpserver/package-summary.html) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in Java with [Lettuce](/content/develop/clients/lettuce/_index.md) and [DJL](https://djl.ai/) (the Deep Java Library), using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with the JDK's [`com.sun.net.httpserver`](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.httpserver/com/sun/net/httpserver/package-summary.html) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [DJL](https://djl.ai/) (`ai.djl.huggingface.tokenizers` + `ai.djl.pytorch.pytorch-model-zoo`) running the canonical `sentence-transformers/all-MiniLM-L6-v2` PyTorch checkpoint — the same library and model the existing [Lettuce vector-search example]({{< relref "/develop/clients/lettuce/vecsearch" >}}) uses, and the same encoder the [Python]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) example loads. DJL drives libtorch through the same C++ runtime as Python's PyTorch bindings, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
+The embedder is [DJL](https://djl.ai/) (`ai.djl.huggingface.tokenizers` + `ai.djl.pytorch.pytorch-model-zoo`) running the canonical `sentence-transformers/all-MiniLM-L6-v2` PyTorch checkpoint — the same library and model the existing [Lettuce vector-search example](/content/develop/clients/lettuce/vecsearch.md) uses, and the same encoder the [Python](/content/develop/use-cases/memory-layer/redis-py/_index.md) example loads. DJL drives libtorch through the same C++ runtime as Python's PyTorch bindings, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
-The big shape difference from the [sister Jedis port]({{< relref "/develop/use-cases/memory-layer/java-jedis" >}}) is that Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings yet. The helper classes send those commands through Lettuce's generic `dispatch()` API with a custom `ProtocolKeyword`, and the FT.SEARCH/FT.INFO replies are parsed by walking the resulting `List<Object>` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java) for the parser. The same connection is pinned to RESP2 at startup so the reply shape stays a flat array (Lettuce 6.7 negotiates RESP3 by default, which wraps the data in a map structure the parser would have to special-case).
+The big shape difference from the [sister Jedis port](/content/develop/use-cases/memory-layer/java-jedis/_index.md) is that Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings yet. The helper classes send those commands through Lettuce's generic `dispatch()` API with a custom `ProtocolKeyword`, and the FT.SEARCH/FT.INFO replies are parsed by walking the resulting `List<Object>` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java) for the parser. The same connection is pinned to RESP2 at startup so the reply shape stays a flat array (Lettuce 6.7 negotiates RESP3 by default, which wraps the data in a map structure the parser would have to special-case).
 
 ## Overview
 
 The memory layer splits across three Redis primitives, each handling one tier:
 
-* **Working memory** for the active session is a [Hash]({{< relref "/develop/data-types/hashes" >}}) at `agent:session:<threadId>` holding the goal, scratchpad, a rolling window of recent turns (as a JSON list inside one field), and a few audit timestamps. One [`HGETALL`]({{< relref "/commands/hgetall" >}}) returns the whole session in a single round trip; every write refreshes the key's [`EXPIRE`]({{< relref "/commands/expire" >}}) so idle sessions decay on their own.
-* **Long-term memory** is a set of [JSON]({{< relref "/develop/data-types/json" >}}) documents at `agent:mem:<id>`, each carrying the memory text, a 384-dimensional embedding vector, and tag fields for user, namespace, kind (episodic / semantic), and source thread. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the [HNSW vector field]({{< relref "/develop/ai/search-and-query/vectors" >}}) and every metadata field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call performs the KNN with the metadata pre-filter in the same round trip. Write-time deduplication runs the same KNN at insert time and skips a new memory whose nearest existing entry is within a tighter threshold.
-* **Event log** for the agent's actions and observations is a [Stream]({{< relref "/develop/data-types/streams" >}}) at `agent:events:<threadId>`, appended with [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}) so retention stays bounded automatically, replayed with [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}).
+* **Working memory** for the active session is a [Hash](/content/develop/data-types/hashes.md) at `agent:session:<threadId>` holding the goal, scratchpad, a rolling window of recent turns (as a JSON list inside one field), and a few audit timestamps. One [`HGETALL`](/content/commands/hgetall.md) returns the whole session in a single round trip; every write refreshes the key's [`EXPIRE`](/content/commands/expire.md) so idle sessions decay on their own.
+* **Long-term memory** is a set of [JSON](/content/develop/data-types/json/_index.md) documents at `agent:mem:<id>`, each carrying the memory text, a 384-dimensional embedding vector, and tag fields for user, namespace, kind (episodic / semantic), and source thread. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers the [HNSW vector field](/content/develop/ai/search-and-query/vectors/_index.md) and every metadata field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call performs the KNN with the metadata pre-filter in the same round trip. Write-time deduplication runs the same KNN at insert time and skips a new memory whose nearest existing entry is within a tighter threshold.
+* **Event log** for the agent's actions and observations is a [Stream](/content/develop/data-types/streams/_index.md) at `agent:events:<threadId>`, appended with [`XADD MAXLEN ~`](/content/commands/xadd.md) so retention stays bounded automatically, replayed with [`XREVRANGE`](/content/commands/xrevrange.md).
 
 That gives you:
 
-* One Redis Search call per recall: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does the KNN + TAG pre-filter in a single round trip (a per-row [`TTL`]({{< relref "/commands/ttl" >}}) follow-up is the only other read the helper issues, just to populate the `ttl_seconds` field for the admin panel). Working memory is one [`HGETALL`]({{< relref "/commands/hgetall" >}}); the event log is one [`XADD`]({{< relref "/commands/xadd" >}}).
+* One Redis Search call per recall: [`FT.SEARCH`](/content/commands/ft.search.md) does the KNN + TAG pre-filter in a single round trip (a per-row [`TTL`](/content/commands/ttl.md) follow-up is the only other read the helper issues, just to populate the `ttl_seconds` field for the admin panel). Working memory is one [`HGETALL`](/content/commands/hgetall.md); the event log is one [`XADD`](/content/commands/xadd.md).
 * Sub-millisecond reads on every step of the agent loop, so the memory layer doesn't dominate per-step latency.
-* Per-tier decay: short TTLs on working memory, longer on episodic memories, no TTL on semantic memories. Combined with a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LFU is the common choice), memory stays bounded under pressure.
-* Scoping enforced inside the query: a recall query for `user=alice` will never see `user=bob`'s memories, because the TAG filter goes into the same [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call as the KNN.
+* Per-tier decay: short TTLs on working memory, longer on episodic memories, no TTL on semantic memories. Combined with a database-level [eviction policy](/content/develop/reference/eviction/index.md) (LFU is the common choice), memory stays bounded under pressure.
+* Scoping enforced inside the query: a recall query for `user=alice` will never see `user=bob`'s memories, because the TAG filter goes into the same [`FT.SEARCH`](/content/commands/ft.search.md) call as the KNN.
 
 ## How it works
 
@@ -43,10 +43,10 @@ Each turn through the agent loop touches all three tiers in one pass: append to 
 ### Per-turn flow
 
 1. The application calls `embedder.encodeOne(text)` to turn the incoming turn into a 384-element `float[]`.
-2. `session.appendTurn(threadId, role, content, user, agent, null)` reads the per-thread Hash with [`HGETALL`]({{< relref "/commands/hgetall" >}}), appends the new turn to the rolling window in application code, trims it back to the configured maximum, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}) + [`EXPIRE`]({{< relref "/commands/expire" >}}) inside Lettuce's `multi()` / `exec()` transaction. The session TTL refreshes on every write so an active thread stays alive.
+2. `session.appendTurn(threadId, role, content, user, agent, null)` reads the per-thread Hash with [`HGETALL`](/content/commands/hgetall.md), appends the new turn to the rolling window in application code, trims it back to the configured maximum, and writes the Hash back with [`HSET`](/content/commands/hset.md) + [`EXPIRE`](/content/commands/expire.md) inside Lettuce's `multi()` / `exec()` transaction. The session TTL refreshes on every write so an active thread stays alive.
 3. `memory.recall(vec, user, namespace, null, 5, threshold)` issues `FT.SEARCH` via `dispatch()` with a TAG pre-filter and a `KNN 5` clause. Redis returns the closest matching memories together with their cosine distances; memories beyond the recall threshold are dropped before they reach the agent so an unrelated query doesn't surface confident-looking false positives.
-4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (also via `dispatch()`) — best-effort: if the memory's TTL has elapsed between the recall and the bump, the increment quietly fails and the hit count for that recall is lost. Otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`]({{< relref "/commands/expire" >}}) inside the same `multi()` transaction.
-5. `events.record(threadId, action, detail)` appends one entry to the per-thread Stream with [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}) (`XAddArgs.Builder.maxlen(N).approximateTrimming()`), bounding retention to roughly a thousand entries per thread without an explicit cleanup job.
+4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (also via `dispatch()`) — best-effort: if the memory's TTL has elapsed between the recall and the bump, the increment quietly fails and the hit count for that recall is lost. Otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`](/content/commands/expire.md) inside the same `multi()` transaction.
+5. `events.record(threadId, action, detail)` appends one entry to the per-thread Stream with [`XADD MAXLEN ~`](/content/commands/xadd.md) (`XAddArgs.Builder.maxlen(N).approximateTrimming()`), bounding retention to roughly a thousand entries per thread without an explicit cleanup job.
 
 The embedding is computed once and reused for steps 3 and 4 — there's no point encoding the same text twice. Recall runs before the write, so the agent doesn't see its own just-written turn echoed back as a recalled memory.
 
@@ -90,7 +90,7 @@ System.out.println(state.turnCount() + " " + state.recentTurns().size()
         + " " + state.ttlSeconds());
 ```
 
-The data model is one Hash per thread. The rolling turn window is stored as a JSON string in a single field so the whole session loads in one [`HGETALL`]({{< relref "/commands/hgetall" >}}) — the hash never grows in size or field count as the conversation goes on.
+The data model is one Hash per thread. The rolling turn window is stored as a JSON string in a single field so the whole session loads in one [`HGETALL`](/content/commands/hgetall.md) — the hash never grows in size or field count as the conversation goes on.
 
 ```text
 agent:session:9f3d2a4b8c61
@@ -105,7 +105,7 @@ agent:session:9f3d2a4b8c61
   recent_turns=[{"role":"user","content":"...","ts":...}, ...]
 ```
 
-Every write — `start`, `appendTurn`, `setGoal` — runs the [`HSET`]({{< relref "/commands/hset" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}) inside `multi()` / `exec()` so a connection drop between the two writes can't leave the session without a TTL. The shared `txLock` serializes this whole MULTI…EXEC span against any other transaction on the connection — Lettuce's transaction state is connection-scoped, so two concurrent handler threads queueing into the same MULTI would interleave their writes.
+Every write — `start`, `appendTurn`, `setGoal` — runs the [`HSET`](/content/commands/hset.md) and [`EXPIRE`](/content/commands/expire.md) inside `multi()` / `exec()` so a connection drop between the two writes can't leave the session without a TTL. The shared `txLock` serializes this whole MULTI…EXEC span against any other transaction on the connection — Lettuce's transaction state is connection-scoped, so two concurrent handler threads queueing into the same MULTI would interleave their writes.
 
 ## The long-term memory store
 
@@ -188,7 +188,7 @@ The connection is pinned to RESP2 at startup with `ClientOptions.builder().proto
 
 ### Data model
 
-Each memory is a JSON document at `agent:mem:<id>`. The embedding is stored as a JSON array of floats so the document is human-readable from `redis-cli`; [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) still expects the *query* vector as raw `float32` bytes (`LocalEmbedder.toBytes()` packs them in little-endian order), regardless of how the indexed document stores it.
+Each memory is a JSON document at `agent:mem:<id>`. The embedding is stored as a JSON array of floats so the document is human-readable from `redis-cli`; [`FT.SEARCH`](/content/commands/ft.search.md) still expects the *query* vector as raw `float32` bytes (`LocalEmbedder.toBytes()` packs them in little-endian order), regardless of how the indexed document stores it.
 
 ```json
 agent:mem:7c3f8a1b9e02
@@ -269,7 +269,7 @@ for (AgentEvent e : events.recent(threadId, 20)) {
 }
 ```
 
-`record` calls [`XADD`]({{< relref "/commands/xadd" >}}) with `MAXLEN ~ 1000` via `XAddArgs.Builder.maxlen(1000).approximateTrimming()`. The tilde lets Redis trim in whole-node units instead of exactly-N units, which is much cheaper at the cost of overshooting the bound by up to a node's worth — the right tradeoff for an audit log where exact length doesn't matter.
+`record` calls [`XADD`](/content/commands/xadd.md) with `MAXLEN ~ 1000` via `XAddArgs.Builder.maxlen(1000).approximateTrimming()`. The tilde lets Redis trim in whole-node units instead of exactly-N units, which is much cheaper at the cost of overshooting the bound by up to a node's worth — the right tradeoff for an audit log where exact length doesn't matter.
 
 The Stream is independent of the session Hash and the long-term JSON documents: it answers "what just happened" without competing with either of those for indexing or memory budget. Consumer groups (not used in this demo) would let downstream workers — summarisers, consolidators, audit pipelines — replay the log without losing position.
 
@@ -277,9 +277,9 @@ The Stream is independent of the session Hash and the long-term JSON documents: 
 
 The three helpers above trade correctness under heavy concurrency for clarity. Each is fine on a single-process demo, but lifting the code into a real multi-worker agent surfaces three races worth knowing about:
 
-* **Working memory is read-modify-write.** `AgentSession.appendTurn` calls [`HGETALL`]({{< relref "/commands/hgetall" >}}), mutates the `recentTurns` list in application code, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}). Two concurrent turns on the same thread can both read the same `recentTurns`, append different entries, and write back — last writer wins, the other turn is silently lost. The robust fix is either a [`WATCH`]({{< relref "/commands/watch" >}}) / [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) loop around the read-modify-write or a small [Lua script]({{< relref "/commands/eval" >}}) that does the append atomically server-side.
+* **Working memory is read-modify-write.** `AgentSession.appendTurn` calls [`HGETALL`](/content/commands/hgetall.md), mutates the `recentTurns` list in application code, and writes the Hash back with [`HSET`](/content/commands/hset.md). Two concurrent turns on the same thread can both read the same `recentTurns`, append different entries, and write back — last writer wins, the other turn is silently lost. The robust fix is either a [`WATCH`](/content/commands/watch.md) / [`MULTI`](/content/commands/multi.md) / [`EXEC`](/content/commands/exec.md) loop around the read-modify-write or a small [Lua script](/content/commands/eval.md) that does the append atomically server-side.
 
-* **Long-term dedup is not atomic.** `LongTermMemory.remember` runs a [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) KNN lookup, decides whether the candidate is a duplicate, and (if not) calls [`JSON.SET`]({{< relref "/commands/json.set" >}}). Two workers seeing the same fact in flight can each fail to see the other's not-yet-committed write and both insert a new memory. The pragmatic fix is to accept that the index will occasionally hold near-duplicates and run a background consolidator that periodically scans for memory pairs within a tight distance and merges them, rather than trying to make the write itself atomic.
+* **Long-term dedup is not atomic.** `LongTermMemory.remember` runs a [`FT.SEARCH`](/content/commands/ft.search.md) KNN lookup, decides whether the candidate is a duplicate, and (if not) calls [`JSON.SET`](/content/commands/json.set.md). Two workers seeing the same fact in flight can each fail to see the other's not-yet-committed write and both insert a new memory. The pragmatic fix is to accept that the index will occasionally hold near-duplicates and run a background consolidator that periodically scans for memory pairs within a tight distance and merges them, rather than trying to make the write itself atomic.
 
 * **The active thread is server state.** The demo server keeps a single `currentThreadId` synchronized through an explicit mutex; `seedAll`, `newThread`, and `handleTurn` each release the lock between operations, so a turn racing with a thread rotation can capture the old id and apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
 
@@ -343,8 +343,8 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
     a couple of minutes the first time and is cached afterwards.
 
 3.  Make sure a Redis instance with Redis Search and Redis JSON is running locally on
-    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
-    ships both, or [Redis 8]({{< relref "/develop/ai/search-and-query" >}}) with the
+    port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md)
+    ships both, or [Redis 8](/content/develop/ai/search-and-query/_index.md) with the
     Search and JSON modules enabled.
 
 4.  Start the demo. The first run downloads the `sentence-transformers/all-MiniLM-L6-v2`
@@ -380,7 +380,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
        dropdown) under a fresh id.
     *  Switch the **User** field to `bob` and re-ask any of the above — recall
        returns nothing because the seed memories live under `default`. That's
-       the TAG pre-filter at work inside [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+       the TAG pre-filter at work inside [`FT.SEARCH`](/content/commands/ft.search.md).
     *  Slide the **Recall threshold** down to 0.30 to see borderline paraphrases
        drop out of the recall set, then back up to 0.70 to watch them return.
 

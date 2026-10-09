@@ -55,7 +55,7 @@ summary: Creates a fieldset-based hash from values supplied in the order matchin
 syntax_fmt: HIMPORT SET key fieldset-name value [value ...]
 title: HIMPORT SET
 ---
-Creates a hash from a fieldset previously defined with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), pairing the fieldset's field names with the supplied values by position.
+Creates a hash from a fieldset previously defined with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md), pairing the fieldset's field names with the supplied values by position.
 
 ## Required arguments
 
@@ -67,7 +67,7 @@ The key to create. If the key already exists, it is overwritten.
 
 <details open><summary><code>fieldset-name</code></summary>
 
-The name of a fieldset previously defined with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}) on the same connection.
+The name of a fieldset previously defined with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md) on the same connection.
 
 </details>
 
@@ -100,7 +100,7 @@ OK
 
 The command returns an error if the fieldset has not been prepared on the current connection, or if the number of values does not match the fieldset's field count.
 
-Keys created this way behave exactly like any other hash and work with all existing hash commands. Because they share a fixed set of field names, Redis can store them as [compact hashes]({{< relref "/develop/data-types/hashes#compact-hashes" >}}), keeping a single copy of the field names to reduce memory when many keys share the same layout.
+Keys created this way behave exactly like any other hash and work with all existing hash commands. Because they share a fixed set of field names, Redis can store them as [compact hashes](/content/develop/data-types/hashes.md#compact-hashes), keeping a single copy of the field names to reduce memory when many keys share the same layout.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -124,4 +124,4 @@ Keys created this way behave exactly like any other hash and work with all exist
 
 ## See also
 
-[`HIMPORT PREPARE`]({{< relref "commands/himport-prepare/" >}}) | [`HSET`]({{< relref "commands/hset/" >}}) | [`HIMPORT DISCARD`]({{< relref "commands/himport-discard/" >}})
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) | [`HSET`](/content/commands/hset.md) | [`HIMPORT DISCARD`](/content/commands/himport-discard.md)

@@ -113,15 +113,15 @@ VRANGE mykey - + -1
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of elements in lexicographical order within the specified range.
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) (empty array) if the key doesn't exist.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) of elements in lexicographical order within the specified range.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) (empty array) if the key doesn't exist.
 
 -tab-sep-
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of elements in lexicographical order within the specified range.
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) (empty array) if the key doesn't exist.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) of elements in lexicographical order within the specified range.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) (empty array) if the key doesn't exist.
 
 {{< /multitabs >}}
 
@@ -133,4 +133,4 @@ One of the following:
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)

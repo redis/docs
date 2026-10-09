@@ -17,14 +17,19 @@ aliases:
 
 LangCache is a semantic caching service available as a REST API that stores LLM responses for fast and cheaper retrieval, built on the Redis vector database. By using semantic caching, you can significantly reduce API costs and lower the average latency of your generative AI applications.
 
+![The LangCache page in the Redis Cloud console, with Quick create and Create custom service options.](/images/rc/langcache-get-started.png)
+{width="75%" class="border border-redis-pen-300 rounded-lg"}
+
 For more information about how LangCache works, see the [LangCache overview]({{< relref "/develop/ai/context-engine/langcache" >}}).
+
+## Get started with LangCache on Redis Cloud
+
+{{< embed-md "rc-langcache-get-started.md"  >}}
+
+## Get started with self-managed LangCache
 
 To deploy LangCache on your own Kubernetes infrastructure instead of Redis Cloud, see [self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed" >}}).
 
 ## LLM cost reduction with LangCache
 
 {{< embed-md "langcache-cost-reduction.md"  >}}
-
-## Get started with LangCache on Redis Cloud
-
-{{< embed-md "rc-langcache-get-started.md"  >}}

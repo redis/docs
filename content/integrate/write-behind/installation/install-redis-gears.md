@@ -23,7 +23,7 @@ Write-behind requires that [RedisGears](https://redis.com/modules/redis-gears) m
 
 The Python plugin can be installed explicitly or alongside with the [JVM plugin](https://docs.redis.com/latest/modules/redisgears/jvm/) if the latter is needed on the cluster for other purposes.
 
-Use the [`redis-di create`]({{< relref "/integrate/write-behind/reference/cli/redis-di-create.md" >}}) command in Write-behind CLI to install RedisGears.
+Use the [`redis-di create`](/content/integrate/write-behind/reference/cli/redis-di-create.md) command in Write-behind CLI to install RedisGears.
 
 ## Download RedisGears
 

@@ -13,7 +13,7 @@ weight: 60
 url: '/operate/rs/7.22/monitoring/metrics_stream_engine/'
 ---
 
-A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
+A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2](/content/operate/rs/release-notes/rs-7-8-releases/_index.md).
 
 The new metrics stream engine:
 
@@ -25,13 +25,13 @@ The new metrics stream engine:
 
 ## Integrate with external monitoring tools
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/operate/rs/7.22/monitoring/prometheus_and_grafana" >}}).
+To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana](/content/operate/rs/7.22/monitoring/prometheus_and_grafana.md).
 
-Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
+Filter [Libraries and tools](/content/integrate/_index.md) by "observability" for additional tools and guides.
 
 ## Prometheus metrics v2
 
-For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/7.22/references/metrics/prometheus-metrics-v2">}}).
+For a list of all available v2 metrics, see [Prometheus metrics v2](/content/operate/rs/7.22/references/metrics/prometheus-metrics-v2.md).
 
 The v2 scraping endpoint also exposes metrics for `node_exporter`. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
@@ -57,6 +57,6 @@ If you are already using the existing scraping endpoint for integration, do the 
           - targets: ["<cluster_name>:8070"]
     ```
 
-1. Use the metrics tables in [this guide]({{<relref "/operate/rs/7.22/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
+1. Use the metrics tables in [this guide](/content/operate/rs/7.22/references/metrics/prometheus-metrics-v1-to-v2.md) to transition from v1 metrics to equivalent v2 PromQL.
 
 It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.

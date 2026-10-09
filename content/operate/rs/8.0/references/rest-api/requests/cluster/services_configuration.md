@@ -27,7 +27,7 @@ Get cluster services settings.
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_info) |
 
 ### Request {#get-request} 
 
@@ -44,7 +44,7 @@ Get cluster services settings.
 
 ### Response {#get-response} 
 
-Returns a [services configuration object]({{< relref "/operate/rs/8.0/references/rest-api/objects/services_configuration" >}}).
+Returns a [services configuration object](/content/operate/rs/8.0/references/rest-api/objects/services_configuration/_index.md).
 
 #### Example JSON body
 
@@ -76,7 +76,7 @@ Update the cluster services settings.
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/8.0/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster](/content/operate/rs/8.0/references/rest-api/permissions.md#update_cluster) |
 
 ### Request {#put-request} 
 
@@ -104,11 +104,11 @@ Update the cluster services settings.
 
 #### Request body
 
-Include a [services configuration object]({{< relref "/operate/rs/8.0/references/rest-api/objects/services_configuration" >}}) with updated fields in the request body.
+Include a [services configuration object](/content/operate/rs/8.0/references/rest-api/objects/services_configuration/_index.md) with updated fields in the request body.
 
 ### Response {#put-response} 
 
-Returns the updated [services configuration object]({{< relref "/operate/rs/8.0/references/rest-api/objects/services_configuration" >}}).
+Returns the updated [services configuration object](/content/operate/rs/8.0/references/rest-api/objects/services_configuration/_index.md).
 
 #### Example JSON body
 

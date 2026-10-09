@@ -60,12 +60,12 @@ You can:
     individual field writes are atomic by construction.
 -   Apply *different* freshness guarantees to individual features within the same
     entity hash: seconds for real-time signals, hours for batch aggregates, with
-    per-field TTL via [`HEXPIRE`]({{< relref "/commands/hexpire" >}}).
+    per-field TTL via [`HEXPIRE`](/content/commands/hexpire.md).
 -   Let stale streaming features self-expire when their ingestion pipeline
     fails, so models receive missing features rather than silently outdated ones.
 -   Retrieve features for hundreds of entities in a single round trip for batch
-    scoring, using pipelined [`HMGET`]({{< relref "/commands/hmget" >}}).
--   Plug into [Redis Feature Form]({{< relref "/develop/ai/featureform" >}}) —
+    scoring, using pipelined [`HMGET`](/content/commands/hmget.md).
+-   Plug into [Redis Feature Form](/content/develop/ai/featureform/_index.md) —
     Redis's own materialize / serve layer — or
     [Feast](https://docs.feast.dev/) with a connection-string change, so no
     bespoke serving code is required.
@@ -76,39 +76,39 @@ You can:
 ## How Redis supports the solution
 
 In practice, each entity (a user, an account, an item) is a single
-[Hash]({{< relref "/develop/data-types/hashes" >}}) at a deterministic key like
+[Hash](/content/develop/data-types/hashes.md) at a deterministic key like
 `fs:user:{id}`. The hash holds every feature for that entity as one field per
 feature — batch-materialized aggregates alongside streaming-updated signals —
-so one [`HMGET`]({{< relref "/commands/hmget" >}}) call returns whatever subset
+so one [`HMGET`](/content/commands/hmget.md) call returns whatever subset
 the model needs in one round trip. A key-level
-[`EXPIRE`]({{< relref "/commands/expire" >}}) aligns with the batch
+[`EXPIRE`](/content/commands/expire.md) aligns with the batch
 materialization cycle so a whole entity self-cleans when its pipeline stops
-refreshing it, and per-field [`HEXPIRE`]({{< relref "/commands/hexpire" >}})
+refreshing it, and per-field [`HEXPIRE`](/content/commands/hexpire.md)
 lets each streaming feature carry its own shorter expiry independent of the
 rest of the hash.
 
 Redis provides the following features that make it a good fit for an online
 feature store:
 
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) group every feature
+-   [Hashes](/content/develop/data-types/hashes.md) group every feature
     for an entity under one key, so retrieval reads everything the model needs
-    in a single network round trip with [`HMGET`]({{< relref "/commands/hmget" >}}),
+    in a single network round trip with [`HMGET`](/content/commands/hmget.md),
     and small hashes use *listpack* encoding for compact in-memory representation.
--   [`HSET`]({{< relref "/commands/hset" >}}) writes any subset of fields
+-   [`HSET`](/content/commands/hset.md) writes any subset of fields
     atomically, so batch and streaming pipelines can update overlapping or
     disjoint features on the same entity concurrently without locks or version
     columns.
--   [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
-    [`HTTL`]({{< relref "/commands/httl" >}}) (Redis 7.4+) give per-field TTLs,
+-   [`HEXPIRE`](/content/commands/hexpire.md) and
+    [`HTTL`](/content/commands/httl.md) (Redis 7.4+) give per-field TTLs,
     so streaming features (5-minute freshness) and batch features (24-hour
     freshness) can live in the same hash with independent expiry — the
     *mixed-staleness* problem becomes a one-line server-side guarantee.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) at the key level lets an
+-   [`EXPIRE`](/content/commands/expire.md) at the key level lets an
     entity disappear entirely if its batch refresher fails, so inference sees
     a missing entity (which the model handler can detect and fall back on)
     rather than silently outdated values.
--   [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) bundles
-    [`HMGET`]({{< relref "/commands/hmget" >}}) calls for many entities into
+-   [Pipelining](/content/develop/using-commands/pipelining.md) bundles
+    [`HMGET`](/content/commands/hmget.md) calls for many entities into
     one round trip, which is the right primitive for batch scoring where the
     model needs features for hundreds of entities at once.
 -   Sub-millisecond reads and writes from memory keep the feature store off the
@@ -119,13 +119,13 @@ feature store:
 
 The following libraries and platforms use Redis as their online feature store:
 
--   **[Redis Feature Form]({{< relref "/develop/ai/featureform" >}})** is
+-   **[Redis Feature Form](/content/develop/ai/featureform/_index.md)** is
     Redis's own feature-engineering platform. It defines features, labels, and
     feature views in a Python definitions file, materializes them through a
-    [registered provider]({{< relref "/develop/ai/featureform/register-providers" >}}),
-    and [serves]({{< relref "/develop/ai/featureform/serve-features" >}})
+    [registered provider](/content/develop/ai/featureform/register-providers/_index.md),
+    and [serves](/content/develop/ai/featureform/serve-features.md)
     them from Redis as the low-latency online store. See the
-    [quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) for an
+    [quickstart](/content/develop/ai/featureform/quickstart.md) for an
     end-to-end walkthrough.
 -   **Python**: [Feast](https://docs.feast.dev/reference/online-stores/redis)
     ships Redis as a first-class online store provider — point a Feast
@@ -138,12 +138,12 @@ The following libraries and platforms use Redis as their online feature store:
 -   **Streaming**: [Apache Flink](https://flink.apache.org/) or
     [Kafka Streams](https://kafka.apache.org/documentation/streams/) compute the
     real-time features and `HSET` them into Redis with per-field
-    [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) so each streaming signal
+    [`HEXPIRE`](/content/commands/hexpire.md) so each streaming signal
     carries its own freshness window.
 -   **Infrastructure**: [Kubernetes](https://kubernetes.io/) co-locates Redis
     pods alongside the model-serving containers, with horizontal-pod autoscaling
     on the read replicas to track inference load;
-    [Active-Active geo-distribution]({{< relref "/operate/rs/databases/active-active" >}})
+    [Active-Active geo-distribution](/content/operate/rs/databases/active-active/_index.md)
     on Redis Enterprise / Redis Cloud replicates the online store across
     regions for low-latency reads close to each inference cluster.
 
@@ -155,12 +155,12 @@ demo that lets you bulk-load batch features, run a streaming worker that
 updates real-time features with per-field TTL, retrieve any subset of features
 for a single user under 1 ms, and pipeline batch reads across a hundred users.
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/feature-store/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/feature-store/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/feature-store/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/feature-store/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/feature-store/java-lettuce" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/feature-store/rust" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/feature-store/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/feature-store/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/feature-store/ruby" >}})
+* [redis-py (Python)](/content/develop/use-cases/feature-store/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/feature-store/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/feature-store/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/feature-store/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/feature-store/java-lettuce/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/feature-store/rust/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/feature-store/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/feature-store/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/feature-store/ruby/_index.md)

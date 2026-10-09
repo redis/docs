@@ -117,9 +117,8 @@ Sorts the slot statistics by the specified `metric`. Use `ASC` or `DESC` to sort
 
 </details>
 
-{{< note >}}
-All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set to `yes` in the `redis.conf` file.
-{{< /note >}}
+> [!NOTE]
+> All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set to `yes` in the `redis.conf` file.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -135,14 +134,14 @@ All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set 
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a nested list of slot usage statistics.
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) otherwise.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a nested list of slot usage statistics.
+* [Simple error](/content/develop/reference/protocol-spec.md#simple-errors) otherwise.
 
 -tab-sep-
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a nested list of slot usage statistics.
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) otherwise.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a nested list of slot usage statistics.
+* [Simple error](/content/develop/reference/protocol-spec.md#simple-errors) otherwise.
 
 {{< /multitabs >}}

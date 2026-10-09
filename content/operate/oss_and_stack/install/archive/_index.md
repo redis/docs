@@ -17,7 +17,7 @@ You can install [Redis](https://redis.io/about/) or [Redis Stack](https://redis.
 
 Here are the installation instructions:
 
-* [Install Redis]({{< relref "/operate/oss_and_stack/install/archive/install-redis" >}})
-* [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack" >}})
+* [Install Redis](/content/operate/oss_and_stack/install/archive/install-redis/_index.md)
+* [Install Redis Stack](/content/operate/oss_and_stack/install/archive/install-stack/_index.md)
 
 While you can install Redis or Redis Stack locally, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).

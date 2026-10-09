@@ -12,7 +12,7 @@ weight: 70
 
 The **Usage Report** shows the daily memory usage and shard usage of all databases from the subscriptions associated with your account.
 
-{{< image filename="/images/rc/usage-report-memory-usage.png" >}}
+![](/images/rc/usage-report-memory-usage.png)
 
 To filter the data, you can:
 * Select a month and year from the **View Statement For** list to view the daily memory usage during a specific month.
@@ -25,4 +25,4 @@ You can also hold the pointer over each bar in the graph to view the precise mem
 
 {{< embed-md "rc-cost-report-csv.md" >}}
 
-See [Cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
+See [Cost report](/content/operate/rc/billing-and-payments/cost-report.md) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.

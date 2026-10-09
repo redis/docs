@@ -6,11 +6,10 @@ url: '/develop/ai/redisvl/0.27.0/user_guide/how_to_guides/index_migration/'
 ---
 
 
-{{< warning >}}
-The index migrator is an **experimental** feature. APIs, CLI commands, and
-on-disk formats (plans, backups) may change in future releases. Review
-migration plans carefully before applying them to production indexes.
-{{< /warning >}}
+> [!WARNING]
+> The index migrator is an **experimental** feature. APIs, CLI commands, and
+> on-disk formats (plans, backups) may change in future releases. Review
+> migration plans carefully before applying them to production indexes.
 
 This guide walks through a **vector quantization** migration
 (`float32` -> `float16`) end to end using the programmatic API. You will
@@ -206,11 +205,10 @@ the resolved backup directory and any backup file prefixes used.
 
 We also pass a `progress_callback` to watch each phase.
 
-{{< note >}}
-This drops and recreates the index definition. Documents are preserved;
-only the index structure and vector encoding change. Pause writes during
-the migration window.
-{{< /note >}}
+> [!NOTE]
+> This drops and recreates the index definition. Documents are preserved;
+> only the index structure and vector encoding change. Pause writes during
+> the migration window.
 
 
 ```python

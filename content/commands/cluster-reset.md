@@ -45,7 +45,7 @@ title: CLUSTER RESET
 ---
 Use `CLUSTER RESET` to reset a Redis Cluster node. Specify `SOFT` or `HARD` to choose the reset type.
 
-Before you reset a primary node, remove all keys from it, for example with [FLUSHALL]({{< relref "/commands/flushall" >}}). Redis does not reset primary nodes that contain keys.
+Before you reset a primary node, remove all keys from it, for example with [FLUSHALL](/content/commands/flushall.md). Redis does not reset primary nodes that contain keys.
 
 Effects on the node:
 

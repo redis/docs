@@ -17,7 +17,7 @@ Roles with cluster access allow access to the Cluster Management UI and REST API
 
 ## Default management roles
 
-Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/7.4/references/rest-api">}}).
+Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API](/content/operate/rs/7.4/references/rest-api/_index.md).
 
 1. **DB Viewer** - Read database settings
 1. **DB Member** - Administer databases
@@ -26,7 +26,7 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{<relref "/operate/rs/7.4/references/rest-api/permissions">}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions](/content/operate/rs/7.4/references/rest-api/permissions.md).
 
 ## Cluster Manager UI permissions
 
@@ -54,20 +54,20 @@ To create a role that grants cluster access but does not grant access to any dat
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
+    - Point to a role and select ![The Edit button](/images/rs/buttons/edit-button.png#no-click) to edit an existing role.
 
     - Select **+ Add role** to create a new role.
 
-    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}
+    ![Add role with name](/images/rs/access-control-role-panel.png)
 
 1. Enter a descriptive name for the role.
 
 1. Choose a **Cluster management role** to determine cluster management permissions.
 
-    {{<image filename="images/rs/screenshots/access-control/rbac-create-role-cluster-only.png" alt="Select a cluster management role to set the level of cluster management permissions for the new role." >}}
+    ![Select a cluster management role to set the level of cluster management permissions for the new role.](/images/rs/screenshots/access-control/rbac-create-role-cluster-only.png)
     
 1. To prevent database access when using this role, do not add any ACLs.
 
 1. Select **Save**.
 
-You can [assign the new role to users]({{<relref "/operate/rs/7.4/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.
+You can [assign the new role to users](/content/operate/rs/7.4/security/access-control/create-users.md#assign-roles-to-users) to grant cluster access.

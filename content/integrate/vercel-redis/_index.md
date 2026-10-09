@@ -33,4 +33,4 @@ Redis integration with Vercel enables you to add high-performance data storage a
 
 ## Getting Started
 
-Learn how to [integrate Redis with Vercel]({{< relref "/operate/rc/cloud-integrations/vercel" >}}) for optimal performance.
+Learn how to [integrate Redis with Vercel](/content/operate/rc/cloud-integrations/vercel.md) for optimal performance.

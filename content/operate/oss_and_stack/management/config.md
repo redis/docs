@@ -79,19 +79,19 @@ Changing Redis configuration while the server is running
 
 It is possible to reconfigure Redis on the fly without stopping and restarting
 the service, or querying the current configuration programmatically using the
-special commands [`CONFIG SET`](/commands/config-set) and [`CONFIG GET`](/commands/config-get).
+special commands [`CONFIG SET`](/content/commands/config-set.md) and [`CONFIG GET`](/content/commands/config-get.md).
 
 Not all of the configuration directives are supported in this way, but most
 are supported as expected.
-Please refer to the [`CONFIG SET`](/commands/config-set) and [`CONFIG GET`](/commands/config-get) pages for more information.
+Please refer to the [`CONFIG SET`](/content/commands/config-set.md) and [`CONFIG GET`](/content/commands/config-get.md) pages for more information.
 
 Note that modifying the configuration on the fly does not affect the
 `redis.conf` and `redis-full.conf` files, so at the next restart of Redis, the old configuration will
 be used instead.
 
 Make sure to also modify the configuration files accordingly to the configuration
-you set using [`CONFIG SET`](/commands/config-set).
-You can do it manually, or you can use [`CONFIG REWRITE`](/commands/config-rewrite), which will automatically scan your configuration files and update the fields that don't match the current configuration value.
+you set using [`CONFIG SET`](/content/commands/config-set.md).
+You can do it manually, or you can use [`CONFIG REWRITE`](/content/commands/config-rewrite.md), which will automatically scan your configuration files and update the fields that don't match the current configuration value.
 Fields set to the default value are not added.
 Comments inside your configuration file are retained.
 
@@ -106,9 +106,9 @@ expire set, you may consider using the following configuration instead
     maxmemory-policy allkeys-lru
 
 In this configuration there is no need for the application to set a
-time to live for keys using the [`EXPIRE`](/commands/expire) command (or equivalent) since
+time to live for keys using the [`EXPIRE`](/content/commands/expire.md) command (or equivalent) since
 all the keys will be evicted using an approximated LRU algorithm as long
 as we hit the 2 megabyte memory limit.
 
 Basically, in this configuration Redis acts in a similar way to memcached.
-We have more extensive documentation about using Redis as an LRU cache [here]({{< relref "/develop/reference/eviction" >}}).
+We have more extensive documentation about using Redis as an LRU cache [here](/content/develop/reference/eviction/index.md).

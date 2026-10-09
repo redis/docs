@@ -15,7 +15,9 @@ type: integration
 weight: 1
 ---
 
-{{< image-card image="images/redisinsight-download.svg" alt="Download Redis Insight icon" title="Download Redis Insight" url="https://redis.io/downloads/#insight" class="max-w-xs" >}}
+<div class="max-w-xs">
+  {{< tile-card color="bg-red-bubble" title="Download Redis Insight" description="Download Redis Insight for your platform" url="https://redis.io/downloads/#insight" >}}
+</div>
 
 Redis Insight is a powerful tool for visualizing and optimizing data in Redis, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
 
@@ -31,11 +33,11 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 Redis Insight is available for multiple platforms:
 
-- [Install on Desktop]({{< relref "/operate/redisinsight/install/install-on-desktop" >}}) - Windows, macOS, Linux
-- [Install on Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}) - Container deployment
-- [Install on Kubernetes]({{< relref "/operate/redisinsight/install/install-on-k8s" >}}) - K8s clusters
-- [Install on AWS]({{< relref "/operate/redisinsight/install/install-on-aws" >}}) - Amazon Web Services
+- [Install on Desktop](/content/operate/redisinsight/install/install-on-desktop.md) - Windows, macOS, Linux
+- [Install on Docker](/content/operate/redisinsight/install/install-on-docker.md) - Container deployment
+- [Install on Kubernetes](/content/operate/redisinsight/install/install-on-k8s.md) - K8s clusters
+- [Install on AWS](/content/operate/redisinsight/install/install-on-aws.md) - Amazon Web Services
 
 ## Getting Started
 
-Refer to the complete [Redis Insight guide]({{< relref "/develop/tools/insight" >}}) to install, connect, and use Redis Insight for data visualization and database management.
+Refer to the complete [Redis Insight guide](/content/develop/tools/insight/_index.md) to install, connect, and use Redis Insight for data visualization and database management.

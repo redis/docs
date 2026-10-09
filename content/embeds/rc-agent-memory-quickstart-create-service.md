@@ -14,8 +14,7 @@
 1. Select **Create**.
 1. Copy the Redis Agent Memory API key and store it securely.
 
-{{< warning >}}
-Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
 
 The one-minute extraction interval makes the result easier to observe in this example. For screenshots and configuration details, see [create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).

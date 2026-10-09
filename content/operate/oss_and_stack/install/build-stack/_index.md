@@ -13,6 +13,6 @@ aliases:
 weight: 20
 ---
 
-See [Build flags and general notes]({{< relref "/operate/oss_and_stack/install/build-stack/build-flags" >}}) for the build flags and options that apply across all platforms.
+See [Build flags and general notes](/content/operate/oss_and_stack/install/build-stack/build-flags.md) for the build flags and options that apply across all platforms.
 
 Platform-specific build instructions are provided for the following operating systems:

@@ -12,9 +12,8 @@ weight: 2
 
 ## Install Redis Open Source on Ubuntu or Debian Linux using APT
 
-{{< note >}}
-If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
-{{< /note >}}
+> [!NOTE]
+> If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
 
 Add the repository to the APT index, update it, and install Redis Open Source:
 
