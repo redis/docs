@@ -57,6 +57,32 @@ Stop the affected source before deleting its records and allow its pending recor
 
 No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source](/content/operate/rc/rdi/view-edit.md#remove-source).
 
+## Capacity and network planning
+
+### What CIDR range should I use for Cloud RDI?
+
+Plan the Classless Inter-Domain Routing (CIDR) range for all pipelines in the
+workspace, including future sources and processor replicas. You cannot enlarge
+it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
+for the `/22`, `/21`, and `/20` capacity table and its configuration.
+
+### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
+
+You cannot change or enlarge the CIDR of an existing workspace in place.
+To use a larger range, [delete the existing workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace),
+[create a workspace](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace)
+with the larger CIDR, and redeploy your pipelines.
+
+Before you delete anything, record your pipeline configuration, source settings,
+transformation jobs, and secret references. Recreation interrupts ingestion
+and removes the saved pipeline state. Redeployed sources take new initial
+snapshots. Records already written to the target database remain there.
+
+For help planning the recreation and connectivity changes, open a
+[Redis support ticket](https://redis.io/support/) before deleting anything. Include
+your subscription and workspace identifiers, current CIDR, and planned totals for
+sources and processor replicas across all pipelines.
+
 ## Upgrades and maintenance
 
 ### What happens during an RDI Cloud upgrade?
@@ -109,3 +135,28 @@ Yes. RDI usage is based on the running collectors and processor replicas, not th
 Creating a workspace or saving a setup draft does not start RDI usage billing. Billing starts when a pipeline is deployed. Stopping the pipeline reduces usage to the workspace charge. Deleting the deployed pipeline ends new RDI usage when no deployed pipelines remain in the workspace; usage already recorded for the hour can still be billed.
 
 Delete an unused pipeline and then [delete its workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.
+
+## Processor scaling
+
+### Does Cloud RDI automatically scale the processor?
+
+No. Set the desired processor replica count with
+`advanced.resources.taskManager.replicas`. See [Increase processor capacity](/content/operate/rc/rdi/scale-pipeline.md#increase-processor-capacity).
+
+### How do I increase processing capacity for a pipeline?
+
+First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck).
+Then tune the collector, RDI database, or processor. Check shared
+workspace network capacity before adding sources or processor replicas.
+
+### Can I see that the processor has scaled in the console?
+
+Yes. The **Dashboard** shows running and configured processor replicas next to
+the processor status. See [Confirm the applied capacity](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+for how to read the count and handle a persistent mismatch.
+
+### Can I use billing to confirm a scaling change?
+
+No. Billing does not show scaling changes in real time. Use the Dashboard or
+the [Redis Cloud application programming interface (API)](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+to confirm the running count.
