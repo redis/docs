@@ -759,7 +759,7 @@ GO
 
 ## Handling changes to the schema
 
-RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. The existing capture instance continues to use its captured column structure. For example, adding a column can leave RDI streaming changes without that column instead of reporting an error. Other schema changes can produce incorrect events or errors. Create a new capture instance to capture the updated schema. See Debezium's [SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution) documentation for more information.
+RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. The existing capture instance continues to use its captured column structure. For example, adding a column can leave RDI streaming changes without that column instead of reporting an error. Create a new capture instance to capture the updated schema. See Debezium's [SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution) documentation for more information.
 
 If you have administrator privileges, use this online procedure to update the capture instance while RDI is running. During the interval between changing the source schema and creating the new capture instance, events still use the old captured column structure. A short interval or low write traffic does not guarantee correct capture. If you cannot tolerate events that omit the new column, [update the schema offline](#update-the-schema-offline).
 
@@ -806,9 +806,9 @@ If you have administrator privileges, use this online procedure to update the ca
 
 ### Update the schema offline
 
-Use this procedure to adapt Debezium's [offline schema update procedure](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#offline-schema-updates) to RDI. Keep the pipeline running and stop only the SQL Server source, so the processor and other sources remain available. Replace `<pipeline-name>` with your pipeline name and `<source-name>` with the SQL Server source name from `config.yaml`.
+Use this procedure to adapt Debezium's [offline schema update procedure](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#offline-schema-updates) to RDI. Keep the pipeline running and stop only the SQL Server source collector, so the processor and other source collectors remain available. Replace `<pipeline-name>` with your pipeline name and `<source-name>` with the SQL Server source name from `config.yaml`.
 
-1. Suspend application writes to the tables captured by the SQL Server source.
+1. Suspend application writes to the tables captured by the SQL Server source collector.
 
 1. Wait for the final committed changes to reach the target Redis database. Use [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md) to check that the source's tables have zero pending records, no errors, and no new rejected records. Also verify the expected final changes in the target. Zero pending records alone does not prove that SQL Server's capture job has captured the final writes.
 
@@ -816,7 +816,7 @@ Use this procedure to adapt Debezium's [offline schema update procedure](https:/
     redis-di describe <pipeline-name>
     ```
 
-1. Stop the SQL Server source with [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md). Wait for the command to complete successfully before changing the schema.
+1. Stop the SQL Server source collector with [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md). Wait for the command to complete successfully before changing the schema.
 
     ```bash
     redis-di stop <pipeline-name> --source <source-name>
@@ -828,13 +828,13 @@ Use this procedure to adapt Debezium's [offline schema update procedure](https:/
 
 1. If your pipeline selects specific columns or references changed column names in transformations, update its configuration and [deploy it](/content/integrate/redis-data-integration/data-pipelines/deploy.md) while application writes remain suspended.
 
-1. Restart the SQL Server source with [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md).
+1. Restart the SQL Server source collector with [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md).
 
     ```bash
     redis-di start <pipeline-name> --source <source-name>
     ```
 
-1. Check `redis-di describe <pipeline-name>` for source connectivity and errors before resuming application writes. Starting a source does not start a stopped pipeline.
+1. Check `redis-di describe <pipeline-name>` for source connectivity and errors before resuming application writes. Starting a source collector does not start a stopped pipeline.
 
 1. Resume application writes.
 
