@@ -11,11 +11,21 @@ title: Sessions
 weight: 10
 ---
 
-Use a stable `sessionId` to store a conversation as an ordered sequence of events. Add an event for each user, assistant, or system message that your application needs to retain.
+Session memory holds a conversation's transcript. Your application saves each message as an event, then retrieves the transcript when the user sends the next message. This gives the agent the history it needs to continue the conversation.
+
+For example, a travel assistant can retrieve the cities a user mentioned earlier in the chat instead of asking again. Each chat has a session ID (`sessionId`) that ties its events together. The same ID lets your application retrieve the conversation later.
+
+This page covers adding events, retrieving a conversation, and finding session IDs by owner or namespace. It also explains two settings that control the history: retention determines how long a session stays available, and summarization condenses older messages so they take less space in the model's context window.
 
 ## Add session events
 
-Each stored event can include:
+A session event represents one message from a user, assistant, or system. To add one, send `POST /v1/stores/{storeId}/session-memory/events`, or call `add_session_event` in Python or `addSessionEvent` in TypeScript.
+
+1. Choose the conversation's session ID and the sender's actor ID. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
+1. Set the message's `role`, `content`, and `createdAt` timestamp.
+1. Send the request using the [quickstart's session-event example]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#1-build-conversation-context-with-session-memory" >}}). Repeat it for each new message, using the same session ID throughout the conversation.
+
+Redis Agent Memory adds an event ID and the time it stored the message. Each stored event can include:
 
 | Field | Purpose |
 |:------|:--------|
@@ -30,11 +40,19 @@ Each stored event can include:
 
 ## Retrieve conversation context
 
-Before an agent turn, retrieve the session by `sessionId` and provide the relevant events to the agent. Use these events as conversation context for the model.
+When the next message arrives, retrieve the session by its ID before calling the model. For example, reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}) and run:
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --header "Authorization: Bearer $API_KEY" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
+```
+
+The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
 
 ## List sessions
 
-Use `GET /v1/stores/{storeId}/session-memory` to find session IDs by owner or namespace. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+To let a user reopen an earlier conversation, first find its session ID. `GET /v1/stores/{storeId}/session-memory` lists IDs by owner or namespace; it does not return the conversation events. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
 
 To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned when you [create a namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}):
 
@@ -68,13 +86,17 @@ The response contains session IDs in `items` and the number of matching sessions
 
 ## Configure session retention
 
-The session-memory time to live (TTL) controls how long sessions remain available. Configure it according to the retention requirements of your application. When a session expires, its events are no longer available through session-memory retrieval.
+The session-memory time to live (TTL) controls how long sessions remain available. Choose a duration that lets users resume conversations for as long as your application needs. When a session expires, its events are no longer available through session-memory retrieval.
+
+In the Redis Cloud console, open your service's **Configuration** tab and select **Edit**. Set **Short-term TTL** under **Memory configuration**.
 
 See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the session-memory TTL in Redis Cloud.
 
 ## Configure automatic summarization
 
-Automatic summarization limits the amount of conversation history that must be added to a model's context window. Configure:
+As a conversation grows, its messages take more space in the model's context window. Automatic summarization replaces older messages with a shorter summary while keeping recent messages in full.
+
+In the Redis Cloud console, open your service's **Configuration** tab and select **Edit**. Under **Memory configuration**, enable **Automatic summarization** and set:
 
 * **Summarize after:** The number of messages a session can contain before older messages are summarized.
 * **Keep most recent:** The number of recent messages that remain available in full.

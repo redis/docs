@@ -206,11 +206,17 @@ curl --fail-with-body --silent --show-error \
 
 A healthy response confirms that the client can reach Redis Agent Memory and authenticate with the API key. The first store request validates the Store ID.
 
-For Python, add subsequent snippets inside the `with` block in `main`. For TypeScript, add them inside `run`. After each step, run `python quickstart.py` or `npx tsx quickstart.ts`. With curl, run each command in the same shell. Run writes once; comment out completed writes and their output statements before rerunning an SDK file.
+The next steps extend the client you just created:
+
+* **Python:** Add each Python snippet inside the `with` block in `main`, after the health check. Keep the indentation shown in the snippet.
+* **TypeScript:** Add each TypeScript snippet inside `run`, after the health check and before the closing `}`.
+* **curl:** Run each command in the shell where you exported the connection values.
 
 ## 1. Build conversation context with session memory
 
-Session memory stores a conversation as an ordered sequence of events. Add a user message after the health check, then retrieve the session:
+Session memory is the conversation transcript. Each message is an event, stored with the conversation's session ID and the sender's actor ID. The first request saves a user's travel plans. The second retrieves the conversation so you can check that the message was stored.
+
+1. Copy the code for your chosen client. For Python or TypeScript, add it after the health check in your quickstart file. For curl, run the two commands in order.
 
 {{< multitabs id="session-events" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
@@ -290,12 +296,19 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-Run the example. The session response contains the stored message, its role, actor, and timestamps. An application can retrieve this session before the next agent turn and add the events to the model's context.
+2. For Python, save the file and run `python quickstart.py`. For TypeScript, save the file and run `npx tsx quickstart.ts`.
+3. Find the `events` array in the session response. Check that it contains the travel message, the `USER` role, and the `quickstart-user` actor ID.
 
 > [!NOTE]
 > **What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
 
-Run the event write once. In the SDK files, comment out event creation and its output statements before subsequent runs. Keep the session retrieval.
+4. Before the next step, comment out the event write in your SDK file so that rerunning it does not save the same message again:
+
+   * **Python:** Comment out the `event = agent_memory.add_session_event(...)` call, including all its argument lines, and `show("Created event", event)`. Add `#` at the start of each line.
+   * **TypeScript:** Comment out the `const event = await agentMemory.addSessionEvent({...});` call and the two lines that print the created event. Add `//` at the start of each line.
+   * **curl:** Do not repeat the `POST` command. You can repeat the retrieval command.
+
+Keep the session retrieval in the file. The next step adds a search after it.
 
 
 ## 2. Recall automatically extracted information
