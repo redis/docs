@@ -171,7 +171,7 @@ This is ideal for simple cases:
 
 
 ```python
-index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379")
+index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379", validate_on_load=True)
 ```
 
 ### Create the index
@@ -189,8 +189,6 @@ Load the sample dataset to Redis.
 
 ### Validate data entries on load
 RedisVL uses pydantic validation under the hood to ensure loaded data is valid and conforms to your schema. This setting is optional and can be configured via `validate_on_load=True` in the `SearchIndex` class.
-
-**Note**: This guide omits `validate_on_load` because GEO fields use `longitude,latitude` format (Redis convention), which differs from the validation expectation. A future RedisVL release will align GEO validation with Redis conventions.
 
 
 ```python
