@@ -24,8 +24,6 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
   {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Redis Context Retriever" description="Create and manage governed retrieval tools for AI agents" url="/operate/iris/context-retriever" >}}
 </div>
 
-Review the [Agent Playbooks operator documentation draft]({{< relref "/operate/iris/agent-playbooks" >}}) for provisioning, access, and self-managed deployment preparation.
-
 ## Deployment options
 
 Redis Iris services are available as managed services on Redis Cloud. All Redis Iris services are also available for self-managed deployment.

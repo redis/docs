@@ -1,4 +1,0 @@
--r ../../content/develop/ai/context-engine/agent-playbooks/examples/requirements.txt
-pytest==9.1.1
-openapi-spec-validator==0.9.0
-PyYAML==6.0.3
