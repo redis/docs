@@ -16,7 +16,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 LOCK = Path(__file__).with_name("source-lock.json")
-SPEC = ROOT / "content/develop/ai/context-engine/agent-playbooks/reference/rest-api/openapi.json"
+SPEC = ROOT / "content/develop/ai/context-engine/agent-playbook/api-reference/openapi.json"
 
 
 def wire_contract(document):
@@ -52,6 +52,9 @@ def check(sdk_repo=None):
         config = yaml.safe_load((sdk_repo / "playbook-python-sdk/.speakeasy/gen.yaml").read_text())
         if config["python"]["version"] != lock["sdk_generator_version"]:
             raise ValueError("SDK version changed. Review the docs dependency pin.")
+        typescript = json.loads((sdk_repo / "playbook-ts-sdk/package.json").read_text())
+        if f"{typescript['name']}@{typescript['version']}" != lock["typescript_package"]:
+            raise ValueError("TypeScript SDK version changed. Review the docs dependency pin.")
     return lock
 
 

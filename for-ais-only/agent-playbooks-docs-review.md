@@ -1,192 +1,171 @@
-# Agent Playbooks documentation status and review
+# Agent Playbooks developer documentation review
 
-Updated **2026-10-01**. This is the local handoff for the draft, its validation evidence, and the work needed before publication.
+Updated **2026-10-12** after the repository standards check, API reference presentation fix, and live verification against the current local service. **Ready for local human expert review of the core developer experience.** The extraction pipeline remains outside this work. The changes are prepared for a draft, WIP PR. No publication gate is included; merging to `main` publishes the pages.
 
-**Assessment:** ready for a product walkthrough; release qualification remains open. The remaining work is mostly proving installation and the agent experience against a supported release.
+## First-time developer improvements
 
-## Current local state
+The FAQ explains where to find refund status. The separate `refund-support-reply` skill drafts a customer reply from a reported stage or a missing refund, chooses a supporting template, preserves the customer's exact stage, and asks for missing input. The MCP walkthrough requests a completed reply for “Processing,” prints tool names and arguments, and shows the expected reply and additional cases. Its result no longer depends on a question that the FAQ can answer alone. Tool selection remains model-dependent; the documented checks do not promise a fixed call sequence.
 
-| Area | State |
-|:-----|:------|
-| Branch | `codex/agent-playbooks-docs`; draft base `711c1fed1`. |
-| Git state | The local documentation checkpoint includes both parent navigation links, the Playbooks sections, maintenance tooling, workflow, and this handoff. Use `git log -1 --oneline` to identify the checkpoint. |
-| Publication | No push, pull request, or publication has been performed for this docs draft. Sibling service and software development kit (SDK) repositories were inspected without editing them. |
-| Public documentation | 11 pages: eight developer pages and three operator pages, reduced from the initial 16. Draft notices remain in place. |
-| Downloadable material | Three Python walkthroughs, pinned requirements, two Helm configuration templates, and two public OpenAPI documents. |
-| Maintenance | Source lock, example synchronization, 13 offline tests, and a scoped GitHub Actions workflow. The workflow is a local draft; it has not run in GitHub for these changes. |
-| Preview | Port 1313 was not serving on this status check. Use the local restart command in [Resume locally](#resume-locally). |
-| External evidence | Release and registry observations come from the previous audit. This handoff update made no external requests. Refresh that evidence before making release claims. |
+Quickstart and Skills offer complete Python, TypeScript, and HTTP downloads next to the walkthrough, using the same page-resource pattern as the downloadable OpenAPI contract. Their editable source remains the displayed Markdown blocks. `examples.py --refresh-downloads` refreshes the files, and a CI check rejects drift. Downloads retain published samples; the walkthrough's optional cleanup is excluded. Python and TypeScript skill downloads use the package commands in the skill guide; the HTTP download includes them. The generated package-preparation script remains available as a page resource. MCP remains a complete in-page program. No additional examples page or new site component was introduced.
 
-The reader path is **deploy with Helm → create a playbook and keys → publish a skill → connect an agent**. A developer whose team already runs the service starts with publishing. Concepts stay in the overview; coding agents use the same contracts and examples as developers. Proposal review has a short entry point in the knowledge guide.
+Repeated setup prose was shortened. Authoring now contrasts broad questions/descriptions with task-specific wording. Intents are identified as optional context returned in discovery rather than similarity inputs. Retrieval includes a concrete republishing race and guidance for comparing relevant and nearby out-of-scope questions. The extra prose is concentrated in runnable-example instructions, expected outcomes, and evaluation cases. The draft banner and alpha package versions remain unchanged; no beta release claim was inferred from editorial feedback.
 
-The complete change is in these locations:
+## Operator documentation handoff
 
-- [Developer guides and examples](../content/develop/ai/context-engine/agent-playbooks/) and [operator guides and templates](../content/operate/iris/agent-playbooks/).
-- Parent navigation: [context engine](../content/develop/ai/context-engine/_index.md) and [Iris operations](../content/operate/iris/_index.md).
-- [Maintenance tools and tests](../build/agent_playbooks_docs/), [source lock](../build/agent_playbooks_docs/source-lock.json), and [proposed continuous integration (CI) workflow](../.github/workflows/check-playbook-docs.yml).
+**Planning only: do not create operator pages in this change.** Follow the existing Iris layout, especially `content/operate/iris/agent-memory/` and its `self-managed/` section. Agent Memory's developer quickstarts link service creation and connection details to operator pages; Context Retriever links its Cloud setup and self-managed bootstrap separately. Keep Playbooks developer guides focused on content authoring, retrieval, and runtime integration.
 
-## Where DRI review adds the most value
+The intended section is `content/operate/iris/agent-playbook/`, matching the singular developer URL. These are proposed destinations, not published routes or claims that every deployment option is available:
 
-The directly responsible individual (DRI) is Tyler. The recommendations are draft choices awaiting his review. MCP means Model Context Protocol.
+| Future operator material | Pattern and developer handoff |
+|:-------------------------|:-----------------------------|
+| `_index.md` | Deployment-options landing page, following Agent Memory. Link from the developer overview once it exists. Describe only supported deployment options. |
+| `create-service.md` | Service/playbook provisioning prerequisites and readiness. Link from Quickstart's “Before you begin” for the supported managed path. |
+| `view-service.md` | Where to obtain the runtime endpoint and playbook identifier, inspect readiness, and configure retrieval. Link from Quickstart's connection values and Retrieval's administrator settings. Use the final page's real anchors. |
+| Key administration and authentication | Follow the access-management pattern in Context Retriever and the self-managed authentication guide in Agent Memory. Explain provisioning, expiry/revocation, and playbook action grants; link from Quickstart and Concepts. Choose final filenames when the operator scope is agreed. |
+| `self-managed/` | Index, prerequisites, deployment planning, data-plane configuration, deployment procedures, authentication, operations, and control-plane reference. Link its setup route from Quickstart and its configuration guidance from Retrieval. Keep administrative credentials separate from runtime keys. |
+| Source connection and extraction settings | Link from Proposals only after the separate extraction work is implemented and reviewed. Configuration is operator work; reviewing candidates remains developer work. |
 
-| Decision | Recommendation in this draft | What would resolve it |
-|:---------|:----------------------------|:----------------------|
-| Who can start using this at launch? | Keep Helm as the entry point. Describe the actual access and support arrangement before calling this a self-service installation. | Launch stage, intended operator, artifact access, license acquisition, and the support route. |
-| Is this the right first customer task? | Lead with a skill, retrieve its instructions and a reference file, then update the same entry. Keep FAQs secondary. | One representative skill and three real tasks: a match, a paraphrase, and a task that should return no relevant skill. The refund example demonstrates mechanics; it does not validate customer usefulness. |
-| Which agent client should we demonstrate first? | Choose one client or framework that supports the required MCP transport and headers. Add its tested configuration inside the existing connection guide. | The priority client, supported version, where it runs, and the expected agent behavior. The current Python script verifies retrieval without a model. |
-| Who owns accuracy after launch? | Assign an owner to update the docs, public schemas, client pin, and example checks with each release. | Named service/SDK and docs owners, with the docs check in the release process. Local CI checks a recorded contract; it does not watch upstream releases. |
+Unresolved TODO comments mark the overview, quickstart, retrieval settings, and extraction handoffs. Until the pages exist, the public docs state the administrator prerequisite and the absence of setup guidance. There are no relrefs to proposed paths, placeholder operator pages, or invented console instructions. When operator pages land, replace the temporary handoff wording, resolve the TODOs, and check page and anchor links together.
 
-For the walkthrough, review the [overview](http://localhost:1313/develop/ai/context-engine/agent-playbooks/) for the product promise, [deployment](http://localhost:1313/operate/iris/agent-playbooks/) for the access burden, and [connection](http://localhost:1313/develop/ai/context-engine/agent-playbooks/connect-agent/) for where the example stops. Your highest-value feedback is whether these are the right promise, audience, and first task.
+## Completeness assessment
 
-## Remaining work, in order
+The API reference covers all **37 public SDK operations**, and every operation is now described in the guides. The displayed examples execute **33 synchronous Python operations**, with equivalent TypeScript and HTTP examples, plus a standalone asynchronous search. Proposal purging remains a commented alternative; bulk FAQ deletion, bulk skill deletion, and clearing are documented in a maintenance table rather than run during the walkthroughs. These counts measure documentation coverage, not live-service correctness.
 
-Release tasks remain open; the local checkpoint is complete. Engineering and docs owners are proposed roles, not assignments to named people.
+| Area | Assessment |
+|:-----|:-----------|
+| First useful result | Covered: connection, health request, FAQ creation, exact-version review, publication, search, discovery, update, and cleanup. |
+| FAQ and skill lifecycle | Covered: complete immutable versions, explicit publication, rollback, withdrawal, deletion, package preparation, resource reads, entry inventory, and version-history pagination. |
+| Retrieval | Covered: search versus discovery, the authoring fields used for semantic matching, exact filters, pins, thresholds, count limits, preview budgets, and publication changes during skill loading. |
+| Proposals and evidence | Covered: inbox pagination and search, manual creation, duplicate review, evidence submission, candidate replacement with revision checks, acceptance, publication, dismissal, restoration, retention, and promotion history. |
+| MCP | Covered: working agent integration, three retrieval tools, authentication, progressive loading, tool failures, standard resource reads, and text/binary results. |
+| SDK maintenance tasks | Covered: pagination through empty pages, optional totals, lookup by identifier or immutable key, found/missing results, content digests, bulk cleanup, asynchronous Python, timeouts, and custom-client ownership. |
+| Core features arriving through Iris | The reviewed data-plane contracts align with the SDK. Browser administration, operator setup, and extraction configuration are separate from this developer path. Future MCP skill extensions are not implemented and should not be presented as available. |
 
-- [ ] **DRI — confirm the launch experience.** Resolve the audience, first skill/task, first agent client, and maintenance ownership in the review table. Keep the 11-page scope unless a decision requires a change.
-- [ ] **Release engineering — supply a usable release entry point.** Confirm the chart/download URL; compatible chart, Playbooks, Identity Service, and SDK versions; supported Kubernetes and Redis versions; target architecture; provider configuration; and license acquisition. Explain how the operator obtains or chooses the tenant ID. The chart was absent from the public index at the last recorded check.
-- [ ] **Engineering and docs — run the exact walkthrough on a clean deployment.** Install, create the resource and both keys, publish, discover, load instructions, fetch a file, update, and clean up. Verify reader-key denial of writes and behavior after republishing or withdrawing. Record actual outputs and useful recovery steps for failed provisioning and retrieval. Offline tests do not close this task.
-- [ ] **Docs and the chosen client owner — demonstrate one agent integration.** Add its tested configuration inside the existing connection guide. Verify a real task, a paraphrase, and an irrelevant task without the sample pin. The current Python client proves protocol retrieval without a model; pinned discovery does not measure relevance.
-- [ ] **Docs and release owners — qualify the final content.** Refresh the release evidence and source lock against approved artifacts, confirm public claims and support scope, synchronize examples, and rerun the relevant checks. Remove draft notices only when this release evidence and review are complete.
-- [x] **Local handoff — review and checkpoint the draft.** The local commit includes the documentation, examples, configuration templates, schemas, checks, and this review record. Pushing, opening a pull request, and publishing are separate work outside this local handoff.
+## Coverage added
 
-Available evidence includes local service/SDK sources, public schema inputs, installed packages, and the proposed release pipeline. Missing inputs are a qualified release bundle and support matrix, a configured test deployment with license/provider access, an agreed launch client, and representative customer tasks with expected results.
+The user authorized these additions after the initial review. They extend existing pages without adding another reader path.
 
-## Improvements that can follow the first release
+1. **Semantic matching inputs.** FAQs and Retrieval now identify the FAQ question or skill name and description as the embedded fields. Intents, FAQ answers, metadata, skill instructions, and supporting files do not affect similarity scores. Attribute filters are explained separately. Source: `../iris/playbook/dataplane/internal/usecases/candidates/processor.go`, `embeddingInput`.
+2. **Entry inventory, history, and lookup.** FAQs and Skills now include cursor loops for entries and full version history. The shared lookup example resolves the same FAQ by identifier and immutable key, handles found/missing results, and exposes latest/publication digests, version count, and the version limit. Concepts and Limits explain permissions, live lists, empty pages, and unknown totals. Sources: `entries/lookup.go`, `entries/service.go`, and the list/lookup structures in `playbook/dataplane/api/redis.ai.playbook.dataplane.smithy` under `../iris`.
+3. **Proposal inbox, duplicate review, and history.** Proposals now includes inbox and trash pagination and semantic search. It explains the typed duplicate conflict and `existingProposalId`, reviewing before attaching evidence, and the distinct `promoting` and `promoted` states. Sources: `../iris/playbook/dataplane/internal/usecases/proposals/service.go`, `internal/adapters/repositories/proposals.go`, and `internal/domain/proposal.go`.
+4. **Asynchronous Python and client configuration.** Quickstart now contains a standalone `async with Playbook(...)` search example, request timeout guidance, and a pointer for custom HTTP clients and their ownership. Source: `../iris-sdks/playbook-python-sdk/src/redis_agent_playbook/sdk.py` and the [published SDK documentation](https://pypi.org/project/redis-agent-playbook/0.1.0a2/).
+5. **MCP resources and binary files.** MCP describes `resources/templates/list`, `resources/read`, text/blob decoding, empty blobs, and current-publication access. Skills distinguishes descriptor digests, HTTP content digest headers, and normalized entry digests. Sources: `../iris/playbook/dataplane/internal/adapters/handlers/mcp/skill_resources.go`, `tools.go`, and the resource handler. Proposed `skills/list`, `skills/get`, and directory-resource extensions remain deferred.
+6. **Precise restrictions and maintenance scope.** Skills names the archive restrictions on symbolic links and special files while explaining support for regular binary files. Concepts replaces “embedding identity” with the fixed provider, model, and dimensions. Limits documents bulk deletion and clear scopes, permissions, defaults, partial progress, and count semantics. Sources: `../iris/playbook/dataplane/internal/usecases/candidates/skill_archive.go`, the playbook configuration contract, and the public bulk/clear operations.
 
-- **Better API examples at the source:** the rendered reference works, but it shows generated values such as `"string"` and a generator-style authorization label. Add concrete public operation examples and clearer documentation metadata upstream, then regenerate. Keep the website tutorials as the runnable entry point.
-- **One complete agent download:** per-page Markdown and JSON exports work. The global download configuration puts developer guides under “Develop with Redis” and deployment under “Redis Iris context engine.” A Playbooks bundle spanning both would make agent consumption easier. This needs a shared download-system change, outside these product pages.
-- **A usability session:** have a developer unfamiliar with the product complete the path without help. Record where they pause, what fails, and whether they can replace the sample with their own skill. Do not claim a setup time until it has been observed.
+## Tone and terminology
 
-## Implemented reader experience
+The prose leads with developer tasks and uses concrete descriptions of instructions, scripts, references, and templates. It preserves the product name **Redis Agent Playbooks**, the singular URL/package name `agent-playbook`, lowercase **skill** and **playbook** in ordinary prose, and the distinction between **entry versions** and **proposal revisions**. Acceptance/promotion creates an unpublished FAQ; publication remains a separate action. Frontmatter and API schemas are unchanged.
 
-The reader can skip deployment when a team already runs the service and reuse connection values across guides. The skill package appears before the upload code. Knowledge management follows the skill lifecycle before introducing FAQs, and the API reference lists skills first. Deployment leads with the supplied archive while repository publication is pending. The connection guide distinguishes local and hosted client reachability, and the sample preserves returned tool-error details instead of hiding them behind a generic message. Page count remains 11.
+The earlier teaching pass reviewed the pages as a new developer, a skill author, and a product reviewer. The overview now explains what Playbooks supplies at runtime and how applications control agent context and actions. The discovery guide shows a first request before configuration details. Authoring guidance distinguishes descriptions used for matching from instructions used to perform a task. Evaluation guidance names concrete checks: paraphrases, similar questions outside an answer's scope, correct template selection, and preservation of customer-provided information. Repeated package/reference introductions were removed. That pass shortened the section by 148 words without changing the examples. The subsequent first-time developer improvements described in this report intentionally revise the skill package and MCP task, add final FAQ retrieval, and generate downloadable programs. Frontmatter and the API contract remain unchanged.
 
-## Review the reader path
+All four SVG diagrams, their embeds, sizing attributes, and diagram-specific references were removed. The existing explanations and numbered retrieval steps stand on their own.
 
-| Page | Purpose |
-|:-----|:--------|
-| [Overview](../content/develop/ai/context-engine/agent-playbooks/_index.md) | Explain reusable procedures and answers, publication, and the next task. |
-| [Deploy with Helm](../content/operate/iris/agent-playbooks/_index.md) | Supply concrete values and Secret templates; install the chart and connect locally. |
-| [Create a playbook and keys](../content/operate/iris/agent-playbooks/authentication.md) | Provision a ready resource, then issue author/publisher and reader credentials. |
-| [Publish your first skill](../content/develop/ai/context-engine/agent-playbooks/quickstart.md) | Package and publish instructions plus a reference file. |
-| [Connect an agent](../content/develop/ai/context-engine/agent-playbooks/connect-agent.md) | Verify discovery, exact-version loading, and file retrieval before adding a model. |
-| [Manage knowledge](../content/develop/ai/context-engine/agent-playbooks/publish-knowledge.md) | Update, publish, withdraw, and delete skills; add FAQs. |
-| [Control discovery](../content/develop/ai/context-engine/agent-playbooks/discovery.md) | Explain attributes, pins, similarity, and preview budgets. |
-| [Client reference](../content/develop/ai/context-engine/agent-playbooks/reference/_index.md) | Clarify naming, pagination, MCP contracts, and error recovery. |
-| [Examples](../content/develop/ai/context-engine/agent-playbooks/examples/index.md) | Download the three complete scripts and pinned dependencies. |
-| Data-plane and control-plane references | Inspect generated public contracts with task-oriented operation groups. |
+The second example audit corrected three practical issues:
 
-The developer section has eight pages; the operator section has three. The prose leads with what the reader can do, uses concrete verbs, and distinguishes service behavior from application responsibilities. Most limits remain in the API schema; the guides explain the limits that affect the main workflow.
+- Proposal replacement now edits the action just retrieved, preserving its fields and using the corresponding revision. It no longer pairs a fresh revision with the original creation payload, which could overwrite another reviewer's changes.
+- Skill versioning now adds a chat-channel attribute while preserving the package and existing attributes. The sequential walkthrough makes a real content change without requiring an unshown file edit mid-script. The sample skill has distinct steps for listed and missing refunds and a response template with a clearly marked placeholder.
+- The HTTP error example now exits unsuccessfully after a failed request and handles a non-JSON error body. Python resource reads report missing skills or templates clearly and still close streams.
 
-## Google comparison
+The test fixture now returns the actual uploaded template bytes and a matching file digest. Regression checks exercise earlier reviewer changes and JSON/non-JSON errors in Python, TypeScript, and HTTP.
 
-Google's [Agent Registry overview](https://docs.cloud.google.com/agent-registry/overview) leads with discovering and reusing capabilities. Its [skill registration guide](https://docs.cloud.google.com/agent-registry/register-skills) separates the skill package, prerequisites, and registration procedure. Its [skill management guide](https://docs.cloud.google.com/agent-registry/manage-skills) makes revisions and lifecycle actions explicit.
+## Scope and reader path
 
-The useful pattern is a recognizable object and a short task sequence. This draft applies that pattern with Redis-specific behavior: skills and FAQs, explicit publication, semantic discovery, and loading instructions and files on demand. It does not adopt Google's terminology, size limits, lifecycle states, hosted-service claims, or promises about executing skills. Playbooks serves content; the application acts on it.
+There are ten public pages under `content/develop/ai/context-engine/agent-playbook/`. The plural product name remains Redis Agent Playbooks. The URL path is singular. The old developer path and the complete operator draft have been removed. No old-path aliases are needed for this unpublished branch.
 
-## Agent Memory example audit
+A developer receives an existing ready playbook, its data-plane endpoint, and scoped keys. The reader path is **publish and search an FAQ → discover knowledge → update a published version → add skills or review proposals → connect an agent through MCP**. No console screens, installation route, CLI commands, or unreleased SDK interfaces are invented.
 
-The website's [Python](../content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md), [TypeScript](../content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md), and [REST](../content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) quickstarts use inline code fences. Shared `embed-md` fragments supply Cloud prerequisites and provisioning steps. The scenario connects API calls to visible results, but incremental “add this code” instructions and rerunning earlier writes require care.
+| Page | Type | Outline |
+|:-----|:-----|:--------|
+| [Overview](../content/develop/ai/context-engine/agent-playbook/_index.md) | Overview | Product purpose; choose skills or FAQs; get started; find each guide and reference. |
+| [Concepts](../content/develop/ai/context-engine/agent-playbook/concepts.md) | Concepts | Playbooks and access; entries; immutable versions; publication; discovery; proposals; evidence. |
+| [Quickstart](../content/develop/ai/context-engine/agent-playbook/quickstart.md) | How-to | Connection prerequisites; create a refund-status FAQ; review and publish; search; discover; update; clean up; asynchronous Python. |
+| [FAQs](../content/develop/ai/context-engine/agent-playbook/faqs.md) | How-to | Write answers and retrieval context; create drafts; promote reviewed proposals; publish; update; list entries and history; look up state; withdraw or delete. |
+| [Skills](../content/develop/ai/context-engine/agent-playbook/skills.md) | How-to | Agent Skills format; package and validation; upload; review and publish; version; load text/binary files; list entries and history; withdraw or delete. |
+| [Proposals](../content/develop/ai/context-engine/agent-playbook/proposals.md) | How-to | Browse and search the inbox; create; review duplicates; attach evidence; edit; accept and publish; dismiss/restore/purge; inspect history; review opt-in extraction output. |
+| [Retrieval](../content/develop/ai/context-engine/agent-playbook/retrieval.md) | How-to | Discovery selection and controls; pins; preview budgets; progressive skill disclosure; search and its request controls. |
+| [MCP](../content/develop/ai/context-engine/agent-playbook/mcp.md) | How-to | Connection prerequisites; transport and headers; attach the connection to an agent; submit a task; read skill files as standard resources; diagnose connection failures. |
+| [API reference](../content/develop/ai/context-engine/agent-playbook/api-reference.md) | Reference | Interactive public data-plane contract and downloadable OpenAPI. |
+| [Limits](../content/develop/ai/context-engine/agent-playbook/limits.md) | Reference | Content ceilings; retrieval and pagination constraints; proposal/evidence limits; retention; status codes; conflicts; safe retries; bulk cleanup. |
 
-In `iris-sdks`, the public OpenAPI input, `.speakeasy/workflow.yaml`, and product overlays drive client generation and generated usage examples. Agent Memory's package-docs workflow checks package README preparation; it does not synchronize website quickstarts. No automatic website-example sync was found in the inspected docs/SDK workflows.
+FAQ means frequently asked question; API means application programming interface; SDK means software development kit; MCP means Model Context Protocol; HTTP means Hypertext Transfer Protocol.
 
-Playbook already has SDK-side tests in `playbook-python-sdk/tests/test_usage_docs.py` that check generated usage, workflow coverage, and method signatures. The website should build on that source ownership rather than maintain another API contract.
+## Product boundaries to preserve
 
-## Keep examples aligned
+- Creating and appending produce unpublished immutable versions. Publishing selects one exact version. Withdrawal retains history; deletion removes the entry family.
+- Proposal authoring currently supports ADD/new-entry FAQs, not skill proposals or updates to existing entries. Acceptance promotes one reviewed candidate to an unpublished FAQ; publication is separate.
+- Proposal evidence is immutable source context supplied by the caller. It is not a correctness vote or independently verified attribution, and it is not copied to an accepted FAQ.
+- Search and discovery serve current publications. Type-specific search can override threshold and count. Combined discovery uses playbook thresholds, pins, and a preview budget. Pins bypass semantic ranking and filters but consume budget.
+- MCP and direct management reads have different serving boundaries. MCP tools serve only current publications. Copy the returned entry/version pair and resource addresses.
+- The source connection and extraction activation belong to management. The proposal guide explains reviewing its output without introducing operator setup or internal worker design.
 
-| Material | Authority | Check in this branch |
-|:---------|:----------|:---------------------|
-| Service behavior and public API | Iris service definitions and public release artifacts | Public schemas only; request/response validation. |
-| Python client and generated API examples | Versioned `iris-sdks` public OpenAPI input, usage overlays, and published package | Source lock, upstream comparison, real SDK serialization and signature checks. |
-| Complete website walkthroughs | Downloadable Python files in the docs example bundle | Generate the displayed code from those files; fail CI on divergence. |
-| Helm configuration | Playbook chart and release pipeline in Iris | Values/Secret consistency tests and chart lint/render. |
+## Sources and release qualification
 
-The docs-specific walkthroughs are not imported from the SDK repo: the SDK currently supplies generated operation samples and broader README workflows, not these exact runnable tutorials. If shared tutorials move upstream, import them from a release-pinned SDK revision and stop editing the local copies. Avoid fetching a moving branch during a docs build.
+The public reference remains matched to **`redis-agent-playbook==0.1.0a2`**, **`@redis-iris/agent-playbook@0.1.0-alpha.2`**, and the locked SDK contract. Both published packages were used for example validation. The [source lock](../build/agent_playbook_docs/source-lock.json) records the contract and usage overlay. The final comparison used local Iris at **`fac2560f19b8af03f7f2794f54fddd108755fe01`** and `iris-sdks` at **`31dcb7046443777a451f0e5e64199383f2151b34`**. The SDK source check passes, and all vendored request/response schemas match the current local SDK contract.
 
-The branch adds:
+Extraction implementation, binding setup, source provenance extensions, and SDK alignment for that pipeline belong to the separate PR requested by the user. The existing conditional overview of extraction is retained and is not counted as completed pipeline documentation. The main checkout's binding contract still states that its slice does not run extraction. No extraction worktree or live worker was validated in this pass.
 
-- `source-lock.json`: SDK revision, normalized public-contract hash, usage-overlay hash, package pin, and service/release evidence.
-- `check_sdk_source.py`: offline comparison against that contract, plus an optional comparison with a local SDK checkout.
-- `sync_examples.py`: copies the three complete scripts into their guide code blocks, or checks them without writing.
-- A scoped GitHub Actions workflow: checks the lock and snippets, then executes the offline tests with the pinned published SDK.
+Implementation and public contracts take precedence over stale design text. The core technical design document still calls version digests private and browser administration a non-goal, while the current public contract and implementation expose content digests and support browser administration. Those design-document discrepancies are outside this docs edit.
 
-Run the maintenance checks from the docs repository:
+Review foundations:
 
-```sh
-python -m pip install -r build/agent_playbooks_docs/requirements.txt
-python build/agent_playbooks_docs/check_sdk_source.py --sdk-repo ../iris-sdks
-python build/agent_playbooks_docs/sync_examples.py --check
-python -m pytest build/agent_playbooks_docs -q
-```
+- [Repository conventions](../AGENTS.md), [developer guidance](../AI_AGENT_DEVELOPER_GUIDE.md), and neighboring Context Retriever and Agent Memory pages informed navigation, frontmatter, and explanation depth.
+- The official [PyPI package](https://pypi.org/project/redis-agent-playbook/0.1.0a2/) supplied supported client names and workflows. The package is an alpha prerelease and requires Python 3.10 or later.
+- The [Agent Skills specification](https://agentskills.io/specification) is linked from the skill guide. Service-specific packaging and limits remain Redis-specific.
+- [LangSmith skills](https://docs.langchain.com/langsmith/skills) describes skills through concrete tasks and optional helper scripts. The [Deep Agents skills guide](https://docs.langchain.com/oss/python/deepagents/skills) explains descriptions, instructions, and supporting files loaded as needed. The editorial takeaway is to explain what an agent does with a skill and when each file is useful. Redis discovery remains task-based; the docs do not adopt another framework's startup loading behavior.
+- Google's [Gemini Enterprise Skill Registry overview](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/skill-registry) and [skill registration guide](https://docs.cloud.google.com/agent-registry/register-skills) provided references for package structure, prerequisites, and lifecycle explanations. Redis retains its own terms, limits, and explicit publication step. These references do not establish Redis execution, installation, or governance capabilities.
 
-After editing a downloadable script, run `sync_examples.py` without `--check`, then review the rendered guide. For an SDK release, review its public contract and usage-overlay changes, update the dependency pin and source lock, regenerate the reference, and rerun the tests in the same docs change. The offline CI job checks the recorded release; it does not poll the private SDK repo or automatically adopt future releases.
+## Quickstart scope
 
-Regenerate reference presentation from the SDK's public contract and the matching control-plane artifact:
+FAQ creation and semantic search provide the first useful result without packaging files, connecting an agent framework, or configuring extraction. The quickstart follows one refund-support example through publication, search, filtered discovery, a complete version update, and cleanup. This follows Agent Memory's pattern of one scenario with several useful capabilities. Skill packaging and proposal review remain in their task guides so the first request needs only an existing playbook and a scoped key.
 
-```sh
-python build/agent_playbooks_docs/prepare_reference.py \
-  --data-plane ../iris-sdks/openapi-playbook.json \
-  --control-plane '<release-artifact>/PlaybookControlPlaneService.openapi.json'
-```
+## Example pattern
 
-Only titles, summaries, tags, and ordering are added. Request/response definitions, security, paths, and operation IDs are preserved.
+- Use the existing `multitabs` shortcode with Python, TypeScript, and HTTP tabs. Shared task explanations remain outside tabs. All SDK client objects are named `playbook`.
+- Keep code in the Markdown pages as the only editable source. `build/agent_playbook_docs/examples.py` assembles those exact blocks into temporary executable scripts for validation and extracts the standalone asynchronous example separately. It also rejects duplicate tab identifiers. Hugo renders the same blocks directly. The two walkthrough downloads and package-preparation script are generated page resources; a check rejects stale files. Refresh them with `python build/agent_playbook_docs/examples.py --refresh-downloads` after changing displayed code. Site builds consume the checked-in resources without requiring generation.
+- The direct API guides reuse the quickstart client setup. `PLAYBOOK_API_KEY` has the permissions needed by that guide. SDK retries are disabled. Python snippets use a shared `playbook = Playbook(...)` instance and concatenate directly at top level; complete async and MCP programs retain context managers for their connection lifetimes. TypeScript uses a `.mts` file; HTTP uses Bash, curl, and jq. Skill packaging also uses zip, and HTTP evidence identifiers use openssl.
+- Equivalent tabs use the same content and requests, preserve returned entry identifiers and versions, and carry reviewed proposal revisions forward. The tests compare serialized request sequences and query parameters across all three clients.
+- The MCP page uses `openai-agents==0.23.1` with `mcp==1.30.0` in Python and `@openai/agents@0.19.0` in TypeScript. It creates a Streamable HTTP connection named `playbook`, attaches it to an agent, and submits a task. The HTTP tab configures hosted MCP through the Responses API. The runtime discovers and calls tools; the application does not hard-code the retrieval sequence. All three tabs now report tool names and arguments alongside the completed customer reply. The page distinguishes application network access from a hosted client's access.
+- Overview, Concepts, and the generated API reference keep their existing roles. Code is attached to the seven task and troubleshooting pages.
 
-## Helm release evidence and remaining checks
+## Maintain the API reference
 
-Reviewed [Iris PR 1497](https://github.com/redislabsdev/iris/pull/1497) through `7e7618449253fd2c17fe81d0a78c965e1203dba8`. It was open at the last external check. That revision defines the Playbook release pipeline, separate Playbooks/Identity Service versions, planned image repositories, and a handoff to the shared Redis Helm repository. Merging that pipeline does not itself publish a chart. At the inspected revision, chart values and templates were unchanged from the recorded Helm lint/render run. Its present status has not been refreshed for this local handoff.
+The service's public Smithy projection generates OpenAPI; the docs consume the versioned public contract used by the SDK. `prepare_reference.py` adds titles, summaries, tags, and ordering only. It does not create a separate hand-authored API contract or fetch a moving upstream branch during a site build.
 
-The public Helm index did not contain `redis-playbook` when checked on 2026-09-30. The guide therefore identifies repository installation as pending and provides a supplied-chart-archive path. The downloadable values use PR 1497's planned image names. Version placeholders must come from the actual release bundle. The OpenAI model configuration is illustrative, not a supported-provider matrix.
-
-The retained technical claims were checked against the public schemas, the service's entry/retrieval/permission implementations, and the chart. No live cluster, provider, or service test has been run in this docs task. Offline SDK/MCP tests establish client compatibility, not server correctness or deployment readiness.
-
-## Recorded validation
-
-Before the local checkpoint on 2026-10-01, the locked-contract check, example synchronization check, all 13 offline tests, workflow lint, whitespace checks, and full Hugo build passed again. The build had existing warnings outside the Playbooks sections; no Playbooks build errors were found. Browser, Helm, export, and upstream SDK comparison results are from the earlier implementation review. No live installation was performed.
-
-- All 13 offline tests pass with the pinned published SDK, including an MCP tool failure that retains its error detail and stops retrieval. The local SDK contract, usage overlay, and generator version match the source lock.
-- The three displayed scripts match their downloadable sources. Both public OpenAPI documents validate.
-- Helm 3.9.2 lints and renders the chart with the proposed values and PR 1497 image configuration. Rendered service names match the port-forward commands.
-- The full Hugo site builds. Links, anchors, downloads, and Markdown/JSON exports pass checks across all 11 Playbooks pages.
-- The guides and both interactive API references render in Chromium. Desktop and mobile checks find no horizontal page overflow. The existing site theme places navigation before article content on mobile; changing that shared layout is outside this revision.
-- The scoped GitHub Actions workflow passes `actionlint`; `git diff --check` passes.
-
-## Resume locally
-
-Run commands from the docs repository. The existing local tools were present at this handoff; `/tmp` paths are temporary and are not part of the branch.
-
-Restart the preview in a terminal and keep it running:
+From the docs repository:
 
 ```sh
-/tmp/redis-playbook-docs-tools/hugo server \
-  --bind 127.0.0.1 --port 1313 \
-  --disableFastRender --noHTTPCache \
-  --destination /tmp/redis-playbook-docs-preview-v3
+python -m pip install -r build/agent_playbook_docs/requirements.txt
+python build/agent_playbook_docs/check_sdk_source.py --sdk-repo ../iris-sdks
+npm ci --prefix build/agent_playbook_docs
+python build/agent_playbook_docs/examples.py --refresh-downloads
+python build/agent_playbook_docs/examples.py build/agent_playbook_docs/.generated
+build/agent_playbook_docs/node_modules/.bin/tsc -p build/agent_playbook_docs
+python -m pytest build/agent_playbook_docs --rootdir . -q
 ```
 
-Open the [overview](http://localhost:1313/develop/ai/context-engine/agent-playbooks/), [deployment guide](http://localhost:1313/operate/iris/agent-playbooks/), and [connection guide](http://localhost:1313/develop/ai/context-engine/agent-playbooks/connect-agent/). The preview used Hugo extended 0.143.0. If the temporary executable is gone, restore a compatible local Hugo installation using the repository setup instructions.
-
-Run the existing checks without installing or downloading packages:
+To refresh presentation from an approved contract:
 
 ```sh
-/tmp/redis-playbook-docs-venv/bin/python build/agent_playbooks_docs/check_sdk_source.py --sdk-repo ../iris-sdks
-/tmp/redis-playbook-docs-venv/bin/python build/agent_playbooks_docs/sync_examples.py --check
-/tmp/redis-playbook-docs-venv/bin/python -m pytest build/agent_playbooks_docs -q
-git diff --check
-git status --short
+python build/agent_playbook_docs/prepare_reference.py --data-plane ../iris-sdks/openapi-playbook.json
 ```
 
-The virtual environment uses Python 3.12.9. If the sibling SDK checkout has advanced, review any source-check failure before updating the lock. Do not regenerate against a moving checkout merely to make the check pass. The dependency manifests and regeneration procedure are in [Keep examples aligned](#keep-examples-aligned).
+For a new release, review contract changes, regenerate, update the package/source lock, and validate together. The scoped workflow checks the public contract, documentation links, TypeScript compilation, and the displayed example sequences. It installs the pinned public SDKs; a private SDK checkout is not needed in CI.
 
-Prior review artifacts, if still present:
+## Validation and human review
 
-- `/tmp/redis-playbook-docs-commit-build.log`: full Hugo build before the local checkpoint.
-- `/tmp/redis-playbook-docs-build-v3.log`: full Hugo build log.
-- `/tmp/redis-playbook-docs-review-v3/`: browser screenshots.
-- `/tmp/playbook-docs-helm-validation.log`: Helm lint evidence.
-- `/tmp/playbook-docs-helm-rendered.yaml`: rendered chart used to verify service names.
+- All 40 scoped checks pass on 2026-10-12. These cover the public schema and source lock, page relrefs, six direct API guide sequences in all three languages, three additional runs with missing totals, six found/missing lookup cases, three tests preserving earlier proposal edits, six JSON/non-JSON request failure cases, standalone asynchronous Python, two MCP agent runs, two MCP tool-error cases, the hosted MCP request configuration and tool-call output, six downloaded walkthrough executions that retain published samples, and one download-drift check. Paginated examples must continue through an empty page and preserve cursors containing reserved URL characters.
+- TypeScript examples compile with strict checking against the published alpha SDK. Python and HTTP examples execute against the same local contract fixture. Each request and JSON response is checked against the vendored public OpenAPI contract. The fixture does not implement a semantic search engine.
+- The source lock matches the local SDK contract, usage overlay, and both package versions. The wire contract was not changed.
+- MCP checks run the actual agent SDKs against a local MCP fixture and scripted model responses. They verify connection headers, tool discovery, model-selected dispatch, propagation of returned identifiers, and tool failures reaching the model. The hosted HTTP check validates request configuration and output handling; it does not run OpenAI's hosted MCP service or evaluate model choices. Model requests use a local endpoint and test keys; tracing is disabled during checks.
+- A fresh full site build passes with Hugo Extended 0.143.0 and `HUGO_TIMEOUT=600s`. The installed Homebrew Hugo 0.167.0 fails on unrelated repository compatibility issues; the build uses the existing 0.143 binary. CI pins 0.143.1. The full build emits warnings in other documentation sections but none for these playbook pages.
+- The first-time developer pass renders all ten pages and verifies all 79 internal references, including section anchors; the four dynamic API model anchors are also verified in Chrome. All seven download links resolve in HTML and Markdown, and published file bytes match their sources. The existing unit link test checks pages only; rendered anchor and asset checks remain separate. Markdown exports contain no raw shortcodes, tab separators, or TODO comments. The displayed programs and downloads are validated by the 40-test example audit and TypeScript compilation.
+- Earlier browser checks cover all 53 tab groups and 159 code panels, switching each group among Python, TypeScript, and HTTP. The rendered pages and fresh build output contain no removed playbook diagrams.
+- The workflow passes `actionlint`. Frontmatter and the public contract are unchanged. The example execution and compilation checks use the final displayed code.
 
-These artifacts support the recorded checks; they are not release qualification or permanent evidence stored in Git.
+All 28 walkthrough/download programs and the generated package-preparation script pass against local Iris at `9f7f0da22b10cc9b858cdf7d5da31362adf57ef7`, built from the current checkout. The isolated stack uses separate metadata/content Redis instances, real Identity Service keys, and `text-embedding-3-small` with 1,536 dimensions. Python, TypeScript, and OpenAI hosted HTTP MCP run with `gpt-5-mini` and return the expected Processing reply. A temporary HTTPS proxy made the local data plane reachable for hosted MCP and rewrote the Host header for the loopback listener; the tunnel, services, Redis containers, and temporary model credentials were removed afterward. The MCP prompt now requires loading the selected skill and copying its returned resource URI after a real agent constructed an invalid relative URI.
 
-## Add later when needed
+`build/agent_playbook_docs/live_examples.py` reproduces the live checks against a disposable local stack. It provisions one playbook per case, uses reader keys for retrieval and MCP, and deletes each test playbook. Select the configured embedding model with its command-line flags, set `OPENAI_API_KEY` for model calls, and supply `--hosted-url` only for a public HTTPS route to that same test data plane. Skipped model/hosted cases are reported explicitly. The 29-case validation record and sanitized outputs are in `/tmp/playbook-docs-live-20261012/validation-summary.json` and its `examples/` directory.
 
-Add a TypeScript walkthrough, framework-specific recipes, a full proposal-review tutorial, and qualified maintenance runbooks as their workflows and support requirements mature. Keep those additions separate from the first deploy–publish–retrieve path. The broader Iris navigation, Agent Lens, Context Retriever gateway docs, and global download-bundle coverage remain outside this revision.
+A live maintenance probe confirms bulk FAQ/skill deletion. It also confirms an unresolved release mismatch: the pinned alpha SDK/public contract retains `ClearPlaybook` on the data plane, but the current service has removed that route (404) and its control-plane clear succeeds. The public alpha contract and package pins remain intact; a TODO in Limits marks the clearing guidance for release-owner review before launch. This is the only operation removed when comparing the current service's generated public operation set to the SDK contract.
+
+Concepts now links to four browser-verified model anchors in the API reference. The reference enables the built-in schema index and opt-in rendering of its existing Markdown introduction/download links. The introduction and its download link are visible at 1,440 px and 390 px without overflowing the viewport. Another product's reference is checked to retain its presentation. The remaining Concepts diagram belongs to the author's next pass. Alpha pins are intentional until the launch update; extraction availability and operator pages remain deferred. Duplicate-conflict recovery and standard MCP resources still need focused runtime review beyond the normal walkthroughs. Human experts should confirm release claims and defaults before removing the draft notice. The draft PR lists two developer-docs follow-ups: missing diagrams and the separate API/features alignment pass. Familiar acronym expansions (API, SDK, HTTP, FAQ, MCP, and URI) were removed at the author's request. No publication gate or operator pages are included.
