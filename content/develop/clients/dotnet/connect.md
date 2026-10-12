@@ -159,12 +159,10 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-<!-- TODO(unpark): replace vNEXT with the first StackExchange.Redis release that contains commit 0fd86a1 (PR #3248). -->
-
 > [!NOTE]
 > SCH support in `StackExchange.Redis` requires v3.3.0 or later. In v3.3.0 and
 > v3.3.1, the SCH API is marked `[Experimental]`, and SCH is never enabled
-> unless you set `MaintenanceNotifications` yourself. From vNEXT, the API is no
+> unless you set `MaintenanceNotifications` yourself. From v3.4.0, the API is no
 > longer experimental, so the compiler no longer reports the `SER010`
 > diagnostic and you can remove any suppression you added for it.
 
