@@ -36,6 +36,11 @@ $r = new PredisClient([
             ]);
 ```
 
+> [!NOTE]
+> Predis supports [connection URLs](/content/develop/clients/connection-urls.md#predis-php) through the `PredisClient` constructor.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 Store and retrieve a simple string to test the connection:
 
 ```php

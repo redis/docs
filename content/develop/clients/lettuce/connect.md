@@ -46,6 +46,11 @@ public class ConnectBasicTest {
 }
 ```
 
+> [!NOTE]
+> Lettuce supports [connection URLs](/content/develop/clients/connection-urls.md#lettuce-java) through `RedisClient.create()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 ## Connect to a Redis cluster
 
 To connect to a Redis cluster, use `RedisClusterClient`. 

@@ -65,6 +65,11 @@ The following example shows the simplest way to connect to a Redis server:
 {{< clients-example set="landing" step="connect" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+> [!NOTE]
+> redis-rs supports [connection URLs](/content/develop/clients/connection-urls.md#redis-rs-rust) through `Client::open()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 After connecting, you can test the connection by  storing and retrieving
 a simple [string](/content/develop/data-types/strings/_index.md):
 

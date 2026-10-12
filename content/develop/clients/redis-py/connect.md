@@ -23,6 +23,11 @@ Connect to localhost on port 6379, set a value in Redis, and retrieve it. All re
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 ```
 
+> [!NOTE]
+> redis-py supports [connection URLs](/content/develop/clients/connection-urls.md#redis-py-python) through `redis.from_url()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 Store and retrieve a simple string.
 
 ```python

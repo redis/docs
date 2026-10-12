@@ -35,6 +35,11 @@ const redis = new Redis({
 });
 ```
 
+> [!NOTE]
+> ioredis supports [connection URLs](/content/develop/clients/connection-urls.md#ioredis-javascript) through the `Redis` constructor.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 Store and retrieve a simple string.
 
 ```js

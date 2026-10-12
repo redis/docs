@@ -41,6 +41,13 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
+> [!NOTE]
+> Unlike other clients, StackExchange.Redis doesn't support
+> [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> but it does support its own similar configuration string format.
+> See [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> to learn how to convert a standard URL to a configuration string.
+
 ## Connect to a Redis cluster
 
 The basic connection will use the

@@ -39,6 +39,11 @@ Connect to localhost on port 6379:
 
 {{< jupyter-example set="landing" step="connect" lang_filter="Ruby" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" />}}
 
+> [!NOTE]
+> redis-rb supports [connection URLs](/content/develop/clients/connection-urls.md#redis-rb-ruby) through the `url` option of `Redis.new`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 Store and retrieve a simple string.
 
 {{< jupyter-example set="landing" step="set_get_string" depends="connect" lang_filter="Ruby" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" />}}
