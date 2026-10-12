@@ -51,6 +51,9 @@ Close the connection when you're done.
 
 {{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" no_output="true" />}}
 
+To connect to a cluster, through Redis Sentinel, or over TLS, see
+[Connect to the server](/content/develop/clients/ruby/connect.md).
+
 ## More information
 
 The
