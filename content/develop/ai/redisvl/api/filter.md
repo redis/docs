@@ -347,8 +347,8 @@ f = Num("age").between(18, 65, inclusive="neither")
 
 ### `class Geo(field)`
 
-A Geo is a FilterField representing a geographic (lat/lon) field in a
-Redis index.
+A Geo is a FilterField representing a geographic (longitude, latitude)
+field in a Redis index.
 
 > [!NOTE]
 > Redis indexes latitudes only within +/-85.05112878 degrees (EPSG:900913).
