@@ -55887,6 +55887,765 @@
       ]
     }
   },
+  "HIMPORT DISCARD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "himport_discard(fieldset_name: str)",
+          "params": [
+            {
+              "name": "fieldset_name",
+              "type": "str",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "HImportDiscard(ctx context.Context, fieldsetName string) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hImportDiscard(fieldset: string)",
+          "params": [
+            {
+              "name": "fieldset",
+              "type": "string",
+              "description": "Name of the fieldset to discard"
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": ""
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "himport(subcommand: 'DISCARD', fieldsetName: string | Buffer, callback?: Callback<number>)",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'DISCARD'",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "callback?",
+              "type": "Callback<number>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<number, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "discard(string $fieldset)",
+          "params": [
+            {
+              "name": "$fieldset",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Number of removals (1 if present, 0 otherwise)."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "himport_discard(fieldset_name)",
+          "params": [
+            {
+              "name": "fieldset_name",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "1 if the fieldset was removed, 0 if it did not exist"
+          }
+        }
+      ]
+    }
+  },
+  "HIMPORT DISCARDALL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "himport_discard_all()",
+          "params": [],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "HImportDiscardAll(ctx context.Context) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hImportDiscardAll()",
+          "params": [],
+          "returns": {
+            "type": "NumberReply",
+            "description": ""
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "himport(subcommand: 'DISCARDALL', callback?: Callback<number>)",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'DISCARDALL'",
+              "description": ""
+            },
+            {
+              "name": "callback?",
+              "type": "Callback<number>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<number, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "discardAll()",
+          "params": [],
+          "returns": {
+            "type": "int",
+            "description": "Number of fieldsets removed."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "himport_discard_all",
+          "params": [],
+          "returns": {
+            "type": "Integer",
+            "description": "number of fieldsets removed"
+          }
+        }
+      ]
+    }
+  },
+  "HIMPORT PREPARE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "himport_prepare(fieldset_name: str, fields: Iterable[FieldT])",
+          "params": [
+            {
+              "name": "fieldset_name",
+              "type": "str",
+              "description": ""
+            },
+            {
+              "name": "fields",
+              "type": "Iterable[FieldT]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "HImportPrepare(ctx context.Context, fieldsetName string, fields ...string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "fields",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hImportPrepare(fieldset: string, fields: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "fieldset",
+              "type": "string",
+              "description": "Name to register the field list under"
+            },
+            {
+              "name": "fields",
+              "type": "RedisVariadicArgument",
+              "description": "One or more hash field names; values in later HIMPORT SET calls map positionally to this order"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "himport(...args: [subcommand: 'PREPARE', fieldsetName: string | Buffer, ...fields: (string | Buffer)[], callback: Callback<'OK'>])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'PREPARE'",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "...fields",
+              "type": "(string | Buffer)[]",
+              "description": ""
+            },
+            {
+              "name": "callback",
+              "type": "Callback<'OK'>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<'OK', Context>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "himport(...args: [subcommand: 'PREPARE', fieldsetName: string | Buffer, ...fields: (string | Buffer)[]])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'PREPARE'",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "...fields",
+              "type": "(string | Buffer)[]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<'OK', Context>",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "prepare(string $fieldset, array $fields)",
+          "params": [
+            {
+              "name": "$fieldset",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$fields",
+              "type": "array",
+              "description": "Ordered, non-empty field names (sent verbatim)."
+            }
+          ],
+          "returns": {
+            "type": "Status",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "himport_prepare(fieldset_name, *fields)",
+          "params": [
+            {
+              "name": "fieldset_name",
+              "type": "String",
+              "description": "name used by later SET and DISCARD calls"
+            },
+            {
+              "name": "*fields",
+              "type": "String | Array<String>",
+              "description": "one or more field names"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        }
+      ]
+    }
+  },
+  "HIMPORT SET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "himport_set(key: KeyT, fieldset_name: str, values: Iterable[EncodableT])",
+          "params": [
+            {
+              "name": "key",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "fieldset_name",
+              "type": "str",
+              "description": ""
+            },
+            {
+              "name": "values",
+              "type": "Iterable[EncodableT]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String himportSet(String key, HashImport fieldset, String... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the key of the hash to create; any existing hash at this key is replaced"
+            },
+            {
+              "name": "fieldset",
+              "type": "HashImport",
+              "description": "the field-set template describing the ordered field names shared by imported hashes"
+            },
+            {
+              "name": "values",
+              "type": "String...",
+              "description": "the field values for this hash, matched positionally against the template's fields (same count)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String himportSet(byte[] key, HashImport fieldset, byte[]... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "byte[]",
+              "description": "the key of the hash to create; any existing hash at this key is replaced"
+            },
+            {
+              "name": "fieldset",
+              "type": "HashImport",
+              "description": "the field-set template describing the ordered field names shared by imported hashes"
+            },
+            {
+              "name": "values",
+              "type": "byte[]...",
+              "description": "the field values for this hash, matched positionally against the template's fields (same count)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String himportSet(K key, HashImport<K> fieldset, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "the key of the hash to create, must not be null."
+            },
+            {
+              "name": "fieldset",
+              "type": "HashImport<K>",
+              "description": "the field names to import into, must not be null and must not be closed."
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "the values in fieldset order, must not be null and must contain exactly HashImport#size() elements."
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "String simple-string-reply OK."
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> himportSet(K key, HashImport<K> fieldset, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "the key of the hash to create, must not be null."
+            },
+            {
+              "name": "fieldset",
+              "type": "HashImport<K>",
+              "description": "the field names to import into, must not be null and must not be closed."
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "the values in fieldset order, must not be null and must contain exactly HashImport#size() elements."
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "String simple-string-reply OK."
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> himportSet(K key, HashImport<K> fieldset, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "the key of the hash to create, must not be null."
+            },
+            {
+              "name": "fieldset",
+              "type": "HashImport<K>",
+              "description": "the field names to import into, must not be null and must not be closed."
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "the values in fieldset order, must not be null and must contain exactly HashImport#size() elements."
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "String simple-string-reply OK."
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "HImportSet(ctx context.Context, key, fieldsetName string, values ...interface{}) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "values",
+              "type": "...interface{}",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hImportSet(key: RedisArgument, fieldset: string, values: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": "Hash key to create or replace"
+            },
+            {
+              "name": "fieldset",
+              "type": "string",
+              "description": "Name of a fieldset registered with HIMPORT PREPARE"
+            },
+            {
+              "name": "values",
+              "type": "RedisVariadicArgument",
+              "description": "Values, one per prepared field, in the prepared order"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "himport(...args: [subcommand: 'SET', key: RedisKey, fieldsetName: string | Buffer, ...values: (string | Buffer | number)[], callback: Callback<'OK'>])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'SET'",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "...values",
+              "type": "(string | Buffer | number)[]",
+              "description": ""
+            },
+            {
+              "name": "callback",
+              "type": "Callback<'OK'>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<'OK', Context>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "himport(...args: [subcommand: 'SET', key: RedisKey, fieldsetName: string | Buffer, ...values: (string | Buffer | number)[]])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "'SET'",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": ""
+            },
+            {
+              "name": "fieldsetName",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "...values",
+              "type": "(string | Buffer | number)[]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<'OK', Context>",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "HashImport(RedisKey key, HashImport fieldSet, ReadOnlyMemory<RedisValue> values, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the hash to create; any existing hash at this key is replaced."
+            },
+            {
+              "name": "fieldSet",
+              "type": "HashImport",
+              "description": "The field-set describing the ordered field names shared by imported hashes."
+            },
+            {
+              "name": "values",
+              "type": "ReadOnlyMemory<RedisValue>",
+              "description": "The field values for this hash, matched positionally against the field-set (same count)."
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation."
+            }
+          ],
+          "returns": {
+            "type": "void",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "HashImportAsync(RedisKey key, HashImport fieldSet, ReadOnlyMemory<RedisValue> values, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the hash to create; any existing hash at this key is replaced."
+            },
+            {
+              "name": "fieldSet",
+              "type": "HashImport",
+              "description": "The field-set describing the ordered field names shared by imported hashes."
+            },
+            {
+              "name": "values",
+              "type": "ReadOnlyMemory<RedisValue>",
+              "description": "The field values for this hash, matched positionally against the field-set (same count)."
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation."
+            }
+          ],
+          "returns": {
+            "type": "Task",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "set(string $key, string $fieldset, array $values)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$fieldset",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$values",
+              "type": "array",
+              "description": "Ordered, non-empty values paired positionally with the prepared fields."
+            }
+          ],
+          "returns": {
+            "type": "Status",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "himport_set(key, fieldset_name, *values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "hash key to create or overwrite"
+            },
+            {
+              "name": "fieldset_name",
+              "type": "String",
+              "description": "fieldset previously prepared on this connection"
+            },
+            {
+              "name": "*values",
+              "type": "String | Array<String>",
+              "description": "one or more values, order preserved"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "\"OK\""
+          }
+        }
+      ]
+    }
+  },
   "HINCRBY": {
     "api_calls": {
       "redis_py": [
