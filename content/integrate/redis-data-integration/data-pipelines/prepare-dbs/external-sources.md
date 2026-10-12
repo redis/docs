@@ -24,7 +24,8 @@ events to Redis streams in the RDI database. RDI processes these events, applies
 your transformation jobs, and writes the results to the target Redis database.
 RDI does not create or manage collector resources for a source with `type: external`.
 
-This guide covers self-managed RDI 2.0 on
+External collectors work with self-managed RDI 2.2.0 and later. This guide covers
+installations on
 [virtual machines (VMs)](/content/integrate/redis-data-integration/installation/install-vm.md)
 and [Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md),
 using the Flink processor. It uses a new source named `custom`.
@@ -158,14 +159,12 @@ snapshot is complete.
 
 ## Set up a PoC
 
-> [!WARNING]
-> RDI 2.0.0 rejects this example during deployment validation with
-> `Unsupported database type: None`. The setup requires the external-source
-> deployment validation fix. Before following these steps, confirm that your RDI
-> version includes the fix. Keep the source connectionless; adding a database
+> [!NOTE]
+> Use RDI 2.2.0 or later. Earlier versions reject connectionless external sources
+> during deployment validation. Keep the source connectionless; adding a database
 > connection does not represent your external writer.
 
-Before you start, [install RDI 2.0](/content/integrate/redis-data-integration/installation/_index.md)
+Before you start, [install RDI 2.2.0 or later](/content/integrate/redis-data-integration/installation/_index.md)
 and connect the [`redis-di` command-line interface (CLI)](/content/integrate/redis-data-integration/reference/cli/redis-di.md)
 to its management API. Use an isolated installation and target database for this
 example. You also need Python 3, `redis-cli`, and network access to the RDI database
