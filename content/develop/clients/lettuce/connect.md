@@ -66,6 +66,82 @@ try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {
 
 Learn more about Cluster connections and how to configure them in [the reference guide](https://redis.github.io/lettuce/ha-sharding/#redis-cluster).
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+build a `RedisURI` with `RedisURI.Builder.sentinel()`, passing the address of one Sentinel
+and the name of the primary that the Sentinels monitor. Add the other Sentinels with
+`withSentinel()`. The client asks the Sentinels for the current primary.
+
+```java
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisURI;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
+
+//...
+
+RedisURI redisUri = RedisURI.Builder
+        .sentinel("localhost", 26379, "mymaster")
+        .withSentinel("localhost", 26380)
+        .withSentinel("localhost", 26381)
+        .build();
+
+try (RedisClient client = RedisClient.create(redisUri)) {
+    StatefulRedisConnection<String, String> connection = client.connect();
+    RedisCommands<String, String> commands = connection.sync();
+
+    commands.set("foo", "bar");
+    System.out.println(commands.get("foo")); // >>> bar
+
+    connection.close();
+}
+```
+
+The Sentinels and the data nodes have separate credentials. Pass the Sentinel password with
+each Sentinel address, and set the credentials for the primary and replicas with
+`withAuthentication()`:
+
+```java
+RedisURI redisUri = RedisURI.Builder
+        // The password argument authenticates to each Sentinel.
+        .sentinel("localhost", 26379, "mymaster", "yourSentinelPassword")
+        .withSentinel("localhost", 26380, "yourSentinelPassword")
+        .withSentinel("localhost", 26381, "yourSentinelPassword")
+        // withAuthentication() authenticates to the primary and replicas.
+        .withAuthentication("default", "yourPassword")
+        .build();
+```
+
+A `RedisClient` connection doesn't listen for failover announcements from the Sentinels.
+After a failover, it keeps using the old primary until Sentinel reconfigures it as a
+replica and closes the connection. Any writes that the old primary accepts during that time
+are lost.
+
+To read from replicas, open a connection with `MasterReplica.connect()` and set a
+`ReadFrom` policy. This connection also listens for failover announcements from the
+Sentinels, so it switches to a new primary sooner. Replication is asynchronous, so a
+replica can return stale data.
+
+```java
+import io.lettuce.core.ReadFrom;
+import io.lettuce.core.codec.StringCodec;
+import io.lettuce.core.masterreplica.MasterReplica;
+import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
+
+//...
+
+try (RedisClient client = RedisClient.create()) {
+    StatefulRedisMasterReplicaConnection<String, String> connection =
+            MasterReplica.connect(client, StringCodec.UTF8, redisUri);
+    connection.setReadFrom(ReadFrom.REPLICA);
+
+    System.out.println(connection.sync().get("foo")); // >>> bar
+
+    connection.close();
+}
+```
+
 ## Asynchronous connection
 
 ```java

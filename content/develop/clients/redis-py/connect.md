@@ -67,6 +67,61 @@ rc.get('foo')
 ```
 For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+create a `Sentinel` object with a list of Sentinel addresses. Then call `master_for()` with
+the name of the primary that the Sentinels monitor. The client asks the Sentinels for the
+current address of the primary.
+
+```python
+from redis.sentinel import Sentinel
+
+sentinel = Sentinel([('localhost', 26379), ('localhost', 26380), ('localhost', 26381)])
+r = sentinel.master_for('mymaster', decode_responses=True)
+
+r.set('foo', 'bar')
+# True
+
+r.get('foo')
+# bar
+```
+
+The Sentinels and the data nodes have separate credentials. Pass the Sentinel credentials
+in `sentinel_kwargs`, and the credentials for the primary and replicas to `master_for()`:
+
+```python
+from redis.sentinel import Sentinel
+
+sentinel = Sentinel(
+    [('localhost', 26379), ('localhost', 26380), ('localhost', 26381)],
+    sentinel_kwargs={'password': 'sentinel-secret'},  # use your Sentinel password
+)
+r = sentinel.master_for(
+    'mymaster',
+    username='default',  # use your Redis user
+    password='secret',  # use your Redis password
+    decode_responses=True,
+)
+```
+
+If you set `sentinel_kwargs`, the Sentinel connections don't inherit `socket_timeout` or the
+other `socket_*` options, so add any that you need to `sentinel_kwargs`.
+
+To send read-only commands to a replica, use `slave_for()`. Replication is asynchronous, so
+a replica can return stale data.
+
+```python
+replica = sentinel.slave_for('mymaster', decode_responses=True)
+
+replica.get('foo')
+# bar
+```
+
+redis-py doesn't listen for failover announcements from the Sentinels. After a failover,
+the client keeps using the old primary until Sentinel reconfigures it as a replica and it
+starts rejecting writes. Any writes that the old primary accepts during that time are lost.
+
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
