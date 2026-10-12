@@ -219,3 +219,6 @@ you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
 by users. See [Observability](/content/develop/clients/redis-py/observability.md)
 for more information.
+
+To find the keys that use the most CPU time and network bandwidth on the
+server, use the [`HOTKEYS`](/content/commands/hotkeys.md) command.
