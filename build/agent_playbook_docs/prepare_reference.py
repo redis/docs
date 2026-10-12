@@ -1,4 +1,4 @@
-"""Add documentation labels to freshly generated public Playbooks OpenAPI files.
+"""Add documentation labels to the public Playbooks data-plane OpenAPI contract.
 
 Request/response schemas, routes, security, and operation IDs are preserved.
 Input must be the public Smithy projection, not an internal projection.
@@ -44,12 +44,6 @@ GROUPS = {
         ("GetPlaybookHealth", "Check playbook health"), ("ClearPlaybook", "Clear playbook content"),
     ],
 }
-CONTROL = {"Playbooks": [
-    ("CreatePlaybook", "Create a playbook"), ("ListPlaybooks", "List playbooks"),
-    ("GetPlaybook", "Get a playbook"), ("UpdatePlaybook", "Update a playbook"),
-    ("DeletePlaybook", "Delete a playbook"),
-]}
-
 
 def prepare(source, title, groups):
     document = deepcopy(source)
@@ -80,14 +74,12 @@ def prepare(source, title, groups):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-plane", type=Path, required=True)
-    parser.add_argument("--control-plane", type=Path, required=True)
     args = parser.parse_args()
-    for source, title, groups, target in [
-        (args.data_plane, "Redis Agent Playbooks data-plane API", GROUPS,
-         "content/develop/ai/context-engine/agent-playbooks/reference/rest-api/openapi.json"),
-        (args.control_plane, "Redis Agent Playbooks control-plane API", CONTROL,
-         "content/operate/iris/agent-playbooks/control-plane-api-reference/openapi.json"),
-    ]:
-        result = prepare(json.loads(source.read_text()), title, groups)
-        (ROOT / target).write_text(json.dumps(result, indent=2) + "\n")
-        print(target)
+    result = prepare(
+        json.loads(args.data_plane.read_text()),
+        "Redis Agent Playbooks data-plane API",
+        GROUPS,
+    )
+    target = ROOT / "content/develop/ai/context-engine/agent-playbook/api-reference/openapi.json"
+    target.write_text(json.dumps(result, indent=2) + "\n")
+    print(target.relative_to(ROOT))

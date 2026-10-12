@@ -1,0 +1,14 @@
+{
+  "name": "agent-playbook-docs-checks",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@openai/agents": "0.19.0",
+    "@redis-iris/agent-playbook": "0.1.0-alpha.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.7",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
+  }
+}
