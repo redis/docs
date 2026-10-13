@@ -1,4 +1,4 @@
-The collector saves an *offset*: its position in the source's change history.
+The collector saves an *offset*, which is its position in the source's change history.
 A missing offset means there is no saved position, as on first deployment or after a
 reset. An unavailable position means an offset exists, but the source no longer has
 the log history needed to resume from it.
@@ -9,7 +9,7 @@ position resumes streaming. Deployment or restart alone does not require a new s
 If the saved position is no longer available, `initial` does not automatically
 re-snapshot to recover, and the collector can report an error.
 
-With `when_needed`, the collector also takes a new snapshot when it detects that the
+With `when_needed` mode, the collector also takes a new snapshot when it detects that the
 saved position is no longer available. This can reload all selected data after an
 outage without a manual reset. The snapshot captures current rows, rather than
 reconstructing every missed change.

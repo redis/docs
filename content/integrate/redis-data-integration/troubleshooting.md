@@ -63,8 +63,8 @@ If the collector cannot resume from its saved position, check the collector sour
 for unavailable or expired source log history. This differs from a missing offset,
 which is expected on first deployment or after a reset.
 
-With `initial`, the collector can fail rather than start a new snapshot when the saved
-position is unavailable. With `when_needed`, it can automatically snapshot the current
+With `initial` mode, the collector can fail rather than start a new snapshot when the saved
+position is unavailable. With `when_needed` mode, it can automatically snapshot the current
 selected data and resume streaming. A new snapshot after a restart can therefore
 indicate that the source history was no longer available. See
 [Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)

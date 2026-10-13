@@ -366,7 +366,7 @@ to clear the pipeline's saved source positions. With the default `initial` snaps
 mode, a Debezium collector reloads selected source data and then resumes change data capture
 (CDC). Reset does not change the configured
 [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
-Modes that skip existing rows do not reload them after a reset, and `initial_only`
+Modes that skip existing rows do not reload them after a reset, and `initial_only` mode
 does not capture subsequent changes.
 
 Reset does not flush the target Redis database. A new snapshot can overwrite target

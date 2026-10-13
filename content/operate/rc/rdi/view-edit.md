@@ -75,7 +75,7 @@ Resetting one source clears its saved position. With the default `initial` mode,
 ![Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops.](/images/rc/rdi/rdi-2-reset-source.png)
 {width="600px"}
 
-The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions. Debezium sources restart according to their snapshot modes; for example, `always` takes another snapshot even when its saved position is preserved. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
+The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions. Debezium sources restart according to their snapshot modes; for example, `always` mode takes another snapshot even when its saved position is preserved. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
 
 ### Remove a source {#remove-source}
 

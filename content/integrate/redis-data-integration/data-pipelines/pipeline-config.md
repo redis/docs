@@ -179,7 +179,7 @@ PostgreSQL, and SQL Server. It does not configure Spanner, Snowflake, or externa
 collectors.
 
 Add the property under the source you want to configure. For example, this file
-uses `initial` for a MySQL source:
+uses `initial` mode for a MySQL source:
 
 ```yaml
 sources:

@@ -27,10 +27,14 @@ collection was interrupted and the required log history expired, the snapshot ca
 replay its delete event. This applies to Debezium sources with `type: cdc`, including
 automatic snapshots with `when_needed` and snapshots after a manual reset.
 
-The timeline follows one row through an automatic recovery snapshot. Read the numbered
-events in order. On wide screens, events alternate across a horizontal timeline.
+The sequence is:
 
-{{< rdi-snapshot-timeline >}}
+1. A source row is copied to Redis.
+1. Collection stops, and the collector saves its source position.
+1. The source deletes the row while Redis still has it.
+1. The saved position becomes unavailable, so the delete cannot be replayed.
+1. `when_needed` mode takes a new snapshot. The deleted row is absent.
+1. Streaming resumes, but Redis still has the stale row because its delete was missed.
 
 An interruption alone does not cause this gap. The saved position must become
 unavailable. The snapshot does not clean up the target, and a reset does not flush it.
@@ -62,7 +66,7 @@ RDI reloads data available in the source databases using the current dataset and
 
 ### What happens when I reset one source? {#reset-one-source}
 
-RDI clears the selected source's internal state, including its saved position. With the default `initial` mode, a Debezium source takes a new data snapshot. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. The whole pipeline, including the other sources and the processor, restarts. Other sources keep their saved positions but follow their configured modes on restart; `always` takes another snapshot even with a preserved position.
+RDI clears the selected source's internal state, including its saved position. With the default `initial` mode, a Debezium source takes a new data snapshot. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. The whole pipeline, including the other sources and the processor, restarts. Other sources keep their saved positions but follow their configured modes on restart; `always` mode takes another snapshot even with a preserved position.
 
 All records already in the target remain, including records from the reset source. The new snapshot can overwrite that source's records. Resetting a source does not selectively delete its target data.
 

@@ -125,9 +125,9 @@ Enter the selected source's database settings. The fields depend on the database
 Use **Collector properties** for additional source and sink settings. These settings apply to the selected source. See the [collector source properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings) and [collector sink properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsink-rdi-collector-stream-writer-configuration).
 
 For Debezium sources, set `snapshot.mode` in **Collector source properties** to
-control data snapshots. The default is `initial`. Set it for each source separately;
+control data snapshots. The default mode is `initial`. Set it for each source separately;
 available modes depend on the source database. See [Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
-With `when_needed`, an unavailable saved position can trigger a new snapshot, but
+With `when_needed` mode, an unavailable saved position can trigger a new snapshot, but
 [missed deletes can leave stale target records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
 This property does not configure the Snowflake collector.
 

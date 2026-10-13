@@ -270,7 +270,7 @@ The reset source then follows its configured
 [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
 with no saved position. With the default `initial` mode, it takes a new snapshot and
 resumes streaming. Every other source keeps its saved position, but all collectors
-restart and follow their configured modes. For example, a source using `always` takes
+restart and follow their configured modes. For example, a source using `always` mode takes
 another snapshot on restart even though its position was preserved. RDI stops the whole
 pipeline while the reset runs and starts it again afterwards.
 
