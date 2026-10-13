@@ -14,6 +14,14 @@ saved position is no longer available. This can reload all selected data after a
 outage without a manual reset. The snapshot captures current rows, rather than
 reconstructing every missed change.
 
+If the collector restarts during a snapshot, the snapshot starts again. Rows deleted
+while the snapshot is interrupted can remain as stale records in the target because
+the new snapshot does not replay their delete events.
+
+Use `when_needed` with monitoring and alerting. Recovery can start a long-running
+snapshot, which can increase latency and leave stale target records until recovery
+finishes.
+
 #### Missed deletes can leave stale target records {#missed-deletes}
 
 {{< embed-md "rdi-snapshot-gap.md" >}}

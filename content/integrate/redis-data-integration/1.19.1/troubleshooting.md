@@ -70,6 +70,14 @@ indicate that the source history was no longer available. See
 [Choose a snapshot mode](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
 for the connector-specific behavior.
 
+Possible causes include:
+
+- The collector was stopped long enough for the source change log to expire.
+- A configuration change made the collector connect to another server with the same
+  data but different offsets.
+- A cleanup process removed the change log while RDI was running.
+- A crash and restore left the source without the saved offset.
+
 Before you use a new snapshot to recover, check for
 [missed deletes and stale target records](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#missed-deletes).
 A snapshot does not replay lost history or delete target records that are absent from

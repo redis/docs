@@ -64,11 +64,19 @@ for unavailable or expired source log history. This differs from a missing offse
 which is expected on first deployment or after a reset.
 
 With `initial` mode, the collector can fail rather than start a new snapshot when the saved
-position is unavailable. With `when_needed` mode, it can automatically snapshot the current
+position is unavailable. With `when_needed` mode, it will automatically snapshot the current
 selected data and resume streaming. A new snapshot after a restart can therefore
 indicate that the source history was no longer available. See
 [Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
 for the connector-specific behavior.
+
+Possible causes include:
+
+- The collector was stopped long enough for the source change log to expire.
+- A configuration change made the collector connect to another server with the same
+  data but different offsets.
+- A cleanup process removed the change log while RDI was running.
+- A crash and restore left the source without the saved offset.
 
 Before you use a new snapshot to recover, check for
 [missed deletes and stale target records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).

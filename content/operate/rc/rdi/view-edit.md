@@ -62,7 +62,12 @@ When extending an older single-source pipeline, preserve the original source nam
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Stop source**, then confirm with **Stop source**.
 
-Stopping one source pauses data capture from that source without stopping the other sources. Starting a Debezium source again follows its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) and the availability of its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
+Stopping one source pauses data capture from that source without stopping the other sources. When you start a source again, its behavior depends on the source type:
+
+- Debezium sources follow their [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) and the availability of their saved position.
+- Snowflake sources use RIOT-X and Snowflake Streams. They resume from the saved stream offset when the stream retains the required changes. If the retention window expires while the source is stopped, changes can be lost. Set `clearOffset: true` to restart from the current state.
+
+To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
 
 ### Reset a source {#reset-source}
 
