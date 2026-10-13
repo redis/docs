@@ -55,6 +55,8 @@ is the key to merge into.
 
 specifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.
 
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled, `JSON.MERGE` also creates missing parent objects in `path`, for both new and existing keys. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
+
 </details>
 
 <details open><summary><code>value</code></summary>
@@ -80,6 +82,20 @@ redis> JSON.MERGE doc $.b '8'
 OK
 redis> JSON.GET doc $
 "[{\"a\":2,\"b\":8}]"
+{{< / highlight >}}
+
+</details>
+
+<details open>
+<summary><b>Create a non-existent nested path (requires <code>json-auto-create-deep-paths</code>)</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '{"a":2}'
+OK
+redis> JSON.MERGE doc $.b.c.d '{"e":8}'
+OK
+redis> JSON.GET doc $
+"[{\"a\":2,\"b\":{\"c\":{\"d\":{\"e\":8}}}}]"
 {{< / highlight >}}
 
 </details>

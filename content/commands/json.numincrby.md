@@ -48,6 +48,8 @@ is key to modify.
 <details open><summary><code>path</code></summary> 
 
 is JSONPath to specify.
+
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled and `path` doesn't exist, `JSON.NUMINCRBY` creates the missing objects and starts the new location at `0`, so the result is `value`. The key must already exist. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
 </details>
 
 <details open><summary><code>value</code></summary> 
