@@ -327,6 +327,7 @@ to resume it. Stopping a pipeline halts data processing without deleting the pip
 configuration. A Debezium source restarts according to its
 [snapshot mode](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
 and the availability of its saved source position.
+If you keep the source stopped for long periods, the stored offset may be removed, making it impossible to resume streaming.
 
 ```bash
 redis-di stop

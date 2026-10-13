@@ -7,7 +7,7 @@ With the default `initial` mode, the collector snapshots when there is no saved
 position, then streams changes. A restart with a completed snapshot and a valid saved
 position resumes streaming. Deployment or restart alone does not require a new snapshot.
 If the saved position is no longer available, `initial` does not automatically
-re-snapshot to recover, and the collector can report an error.
+re-snapshot to recover, and the collector stops and reports an error.
 
 With `when_needed` mode, the collector also takes a new snapshot when it detects that the
 saved position is no longer available. This can reload all selected data after an
