@@ -148,3 +148,73 @@ const redis = new Redis({
   },
 });
 ```
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs](/content/develop/clients/sch.md)
+for more information about SCH.
+
+> [!NOTE]
+> Using SCH with `ioredis` requires v6.1.0 or later. SCH is not available for
+> [cluster connections](#connect-to-a-redis-cluster), so you can't use it with
+> the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md).
+> [Sentinel](#connect-to-redis-sentinel), Unix socket, pub/sub subscriber, and
+> monitor connections use relaxed timeouts only, and reconnect in the usual way
+> instead of using pre-handoffs.
+
+SCH is enabled by default. Use the configuration options shown in the example
+below to configure it during the connection:
+
+```js
+const redis = new Redis({
+  host: "<your-host>",
+  port: <your-port>,
+  maintNotifications: "auto",
+  maintEndpointType: "auto",
+  maintRelaxedCommandTimeout: 10000,
+  maintRelaxedSocketTimeout: 10000,
+  //...
+});
+```
+
+> [!NOTE]
+> SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
+> protocol, which is the default for `ioredis` v6.0.0 and later. SCH is disabled
+> if you set `protocol: 2`.
+
+The available options are:
+
+-   `maintNotifications`: (`string`) Whether or not to enable SCH. The options are
+    -   `"disabled"`: don't use SCH
+    -   `"enabled"`: attempt to activate SCH on the server and abort the connection if it isn't supported
+    -   `"auto"`: attempt to activate SCH on the server and fall back to a non-SCH
+        connection if it isn't supported. This is the default.
+-   `maintEndpointType`: (`MaintEndpointType`) The type of endpoint to use for the connection. The options are:
+    -   `"external-ip"`: use the external IP address of the server
+    -   `"internal-ip"`: use the internal IP address of the server
+    -   `"external-fqdn"`: use the external FQDN of the server
+    -   `"internal-fqdn"`: use the internal FQDN of the server
+    -   `"auto"`: auto-detect based on connection. This uses an FQDN if TLS is enabled,
+        and an IP address otherwise. This is the default.
+    -   `"none"`: attempt a graceful reconnect to the current endpoint after a delay.
+-   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is
+    performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenanceError` error.
+-   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is
+    performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenanceError` error.
+
+A pre-handoff moves the connection to a new node, which invalidates any keys
+you are watching with [`WATCH`](/content/commands/watch.md). If this happens before
+you execute the transaction, the client aborts it with a `WatchError` error.
+Retry the transaction with a fresh `WATCH` when you receive this error.
+
+> [!NOTE]
+>  Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these services, you should set `maintEndpointType: "none"`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
