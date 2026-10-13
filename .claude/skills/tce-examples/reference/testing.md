@@ -117,9 +117,6 @@ asserts cover every printed value — they are the only check the comments get.
 | portable (`pom-*.xml`) | 7.5.3 | 6.5.5.RELEASE | 7.7.0.RELEASE |
 | fidelity (`fidelity/pom-*.xml`) | 7.4.0 | 7.4.0.RELEASE | 7.4.0.RELEASE |
 
-Portable lettuce-sync lags the other two: an example using any API newer than 6.5 (for
-example HOTKEYS, added in 7.4) fails to compile there, so test lettuce-sync with `--fidelity`.
-
 Not yet reconciled. The fidelity pins are what the current `local_examples/` Java files were
 actually tested against, so they're the known-good pair; the portable jedis 7.5.3 bump was
 deliberate (the search examples need the `RedisClient` API it introduced). Settling on one
