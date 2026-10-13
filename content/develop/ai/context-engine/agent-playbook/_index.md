@@ -30,7 +30,7 @@ See [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-play
 
 ## Get started
 
-1. Set up a playbook instance. Operator guides are coming soon.
+1. [Deploy a self-managed instance]({{< relref "/operate/iris/agent-playbook/self-managed" >}}) and [create a playbook and keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}).
 2. [Publish and retrieve your first FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}).
 
 ## Manage playbook entries
