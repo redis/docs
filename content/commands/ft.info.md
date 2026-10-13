@@ -354,9 +354,9 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Limited">&#x26A0;&#xFE0F; Limited</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> | Limited support on [Flex databases](/content/operate/rs/flex/_index.md). |
 
 ## Return information
 

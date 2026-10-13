@@ -63,9 +63,9 @@ List the aliases for `idx:bicycle`
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</nobr></span> |  |
 
 ## Return information
 
