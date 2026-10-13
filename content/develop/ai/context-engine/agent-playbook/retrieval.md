@@ -59,7 +59,7 @@ The request controls are:
 | `limit` | Reduce the combined result count. Omission uses `discovery.maxResults`, which also caps an explicit limit. |
 | `pinnedEntries` | Require known published entries, in the order supplied. |
 
-Your administrator sets the playbook controls:
+Your administrator [configures the playbook controls]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#playbook-settings" >}}):
 
 | Setting | Default | Effect |
 |:--------|:--------|:-------|
@@ -69,8 +69,6 @@ Your administrator sets the playbook controls:
 | `discovery.maxPreviewTokens` | Disabled | Estimated token ceiling for the discovery response. |
 
 Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds.
-
-<!-- TODO: Link to Agent Playbooks retrieval configuration in the operator guide when available. -->
 
 ### Pin required knowledge
 

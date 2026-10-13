@@ -15,7 +15,7 @@ Use Redis Agent Playbooks to publish a FAQ, retrieve its answer to “Where can 
 
 ## Before you begin
 
-Create a playbook API key with `write` and `publish` permissions. Both include `read`.
+Use a playbook API key with `write` and `publish` permissions. Both include `read`. For self-managed setup, [create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}).
 
 This walkthrough needs no agent framework or model-provider key.
 
