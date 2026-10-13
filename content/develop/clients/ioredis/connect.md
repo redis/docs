@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Connect your Python application to a Redis database
+description: Connect your Node.js/JavaScript application to a Redis database
 linkTitle: Connect
 title: Connect to the server
 weight: 20
@@ -144,7 +144,7 @@ const redis = new Redis({
   tls: {
     key: readFileSync('./redis_user_private.key'),
     cert: readFileSync('./redis_user.crt'),
-    ca: fs.readFileSync('./redis_ca.pem'),
+    ca: readFileSync('./redis_ca.pem'),
   },
 });
 ```
@@ -201,9 +201,9 @@ The available options are:
     -   `"auto"`: auto-detect based on connection. This uses an FQDN if TLS is enabled,
         and an IP address otherwise. This is the default.
     -   `"none"`: attempt a graceful reconnect to the current endpoint after a delay.
--   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is
+-   `maintRelaxedCommandTimeout`: (`number`) The command timeout, in milliseconds, to use while the server is
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenanceError` error.
--   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is
+-   `maintRelaxedSocketTimeout`: (`number`) The socket timeout, in milliseconds, to use while the server is
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenanceError` error.
 
 A pre-handoff moves the connection to a new node, which invalidates any keys
