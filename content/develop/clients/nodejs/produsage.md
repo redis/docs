@@ -30,6 +30,7 @@ progress in implementing the recommendations.
 - [ ] [Connection timeouts](#connection-timeouts)
 - [ ] [Command execution reliability](#command-execution-reliability)
 - [ ] [Smart client handoffs](#seamless-client-experience)
+- [ ] [Geographic failover](#geographic-failover)
 ```
 
 ## Recommendations
@@ -123,3 +124,13 @@ See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
 [Connect using Smart client handoffs](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.
+
+### Geographic failover
+
+If you have several Redis databases that can serve your app, such as
+[Active-Active databases](/content/operate/rs/databases/active-active/_index.md)
+in different regions, use client-side geographic failover to switch to another
+database automatically when the active one fails.
+
+See [Client-side geographic failover](/content/develop/clients/nodejs/failover.md)
+to learn how to configure failover with `node-redis`.
