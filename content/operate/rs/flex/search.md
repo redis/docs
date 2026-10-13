@@ -52,7 +52,7 @@ Redis Search on Flex supports:
 
 - `TEXT`, `TAG`, `NUMERIC`, `GEO`, and `VECTOR` fields
 
-- `HNSW` vector indexes with `FLOAT32` and `FLOAT16` vectors
+- `HNSW` vector indexes with `FLOAT32` and `FLOAT16` vectors. When you create an `HNSW` vector field, you must set the `M`, `EF_CONSTRUCTION`, `EF_RUNTIME`, and `RERANK` attributes. `RERANK` accepts `TRUE` or `FALSE`.
 
 - Loading fields from the keyspace with the `SORTBY` and `RETURN` options of `FT.SEARCH`
 
