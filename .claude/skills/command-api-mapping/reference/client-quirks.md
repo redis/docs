@@ -18,9 +18,10 @@ export default {
 ```
 
 Translation rules:
-- **Method name = camelCase of the filename**, not `parseCommand`. `ARGET.ts` → `arGet`,
-  `ARGETRANGE.ts` → `arGetRange`, `ARSET.ts` → `arSet`. (node-redis generates the public
-  method from the filename.)
+- **Method name = the name exported in `packages/client/lib/commands/index.ts`**, not
+  `parseCommand`. It is usually the camelCase of the filename (`ARGET.ts` → `arGet`,
+  `ARGETRANGE.ts` → `arGetRange`), but check `index.ts` when the word split isn't obvious:
+  `HIMPORT_PREPARE.ts` is exported as `hImportPrepare`, not `himportPrepare` (DOC-7172).
 - **Drop the first `parser: CommandParser` param** — it's internal.
 - **Keep the remaining params** with their types (`key: RedisArgument`, `index: number | string`).
   These RESP types (`RedisArgument`, `RedisVariadicArgument`) are what users effectively pass;
@@ -28,7 +29,9 @@ Translation rules:
 - **Return type comes from `transformReply`**, not a return annotation. The type after
   `() =>` is the reply (`NumberReply`, `BlobStringReply | NullReply`, …). Render the signature
   return as `Promise<...>` of that reply where it reads naturally.
-- **No doc comments exist** — all `description` fields are `""`.
+- **The command files have no doc comments.** Some newer commands carry JSDoc (`@param`) on
+  their export in `commands/index.ts` (HIMPORT does, as of `redis@6.2.0`); use it for param
+  descriptions when present, otherwise `""`.
 - **House-style format (matches existing entries — important):** the `signature` string carries
   **no return-type suffix** (write `arSet(key: RedisArgument, index: number | string, value: RedisVariadicArgument)`,
   not `...): Promise<NumberReply>`), and `returns.type` is the **bare reply type without the
@@ -108,7 +111,8 @@ Translation rules:
   `returns.type` differs (sync `V` / async `RedisFuture<V>` / reactive `Mono<V>`).
 
 ## nredisstack_sync / nredisstack_async (C#)
-- PascalCase methods; async variants end in `Async` and return `Task<T>`.
+- PascalCase methods; async variants end in `Async` and return `Task<T>`, or plain `Task`
+  when the sync method returns `void` (`HashImport` → `HashImportAsync`).
 - **Core commands aren't in NRedisStack** — they're in StackExchange.Redis (`IDatabase.cs` /
   `IDatabaseAsync.cs`). Module commands (JSON/Search/TimeSeries) are in NRedisStack.
 - XML doc comments (`<summary>`, `<param>`, `<returns>`) → descriptions; strip `<see cref=…>`.
@@ -126,8 +130,21 @@ Translation rules:
   return type (`int`, `array`, `string|null`, `mixed`).
 - Predis folds option flags into params rather than separate variants (e.g. `argrep` has a
   `bool $withValues` param — no separate WITHVALUES method).
-- Container commands (XGROUP/XINFO) expose subcommands via `@method` entries in
-  `src/Command/Container/`. PHPDoc descriptions when present.
+- Container commands (XGROUP/XINFO/HIMPORT) expose subcommands via `@method` entries in
+  `src/Command/Container/<CMD>.php`, not in `ClientInterface.php`, which lists them only as a
+  property (`@property HIMPORT $himport`). Map the bare subcommand method (`prepare(...)`,
+  `set(...)`), as `XGROUP CREATE.json` does, with the return type from the container's
+  `@method` docblock. PHPDoc descriptions when present.
+
+## ioredis (TypeScript)
+- Signatures come from the generated `lib/utils/RedisCommander.ts`.
+- Container commands are one generic method with a literal-typed `subcommand` first param.
+  Follow `XGROUP CREATE.json`: `xgroup(subcommand: "CREATE", ..., callback?: ...)`, with
+  `subcommand` and `callback?` listed as params.
+- For `...args: [subcommand: 'X', ...]` tuple overloads (HIMPORT PREPARE/SET), list each
+  tuple element as its own param. Existing variadic rows such as `HSET.json` have garbled
+  params like `"[key"`; don't copy that. Use the real `Result<...>` return type, as
+  `HEXPIRE.json` does, rather than `"Any"`.
 
 ## redis_rs_sync / redis_rs_async (Rust)
 - snake_case methods inside the `implement_commands!` macro. Drop `&self`/`&mut self`.

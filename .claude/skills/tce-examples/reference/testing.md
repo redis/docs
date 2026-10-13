@@ -120,6 +120,21 @@ version per client requires running both Java toolchains against the search sets
 Java-heavy command sets. Until that's done, **a Java example that passes in one mode may
 fail in the other**, and that's information rather than a bug.
 
+## Known gap: client pins older than new commands
+
+The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10), these
+portable pins predated the first release with the command: jedis 7.5.3 (needs 8.0.0),
+lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
+already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
+the cached `npm i redis` 6.1.0 (needs 6.2.0) and ioredis 5.11.1 (needs 6.0.0) in `work/`,
+and go-redis v9.18.0 in `fidelity/go-redis.mod` (needs 9.22.0, which also needs Go 1.24).
+
+A run against those pins fails with "method not found" or "unknown command", which looks
+like an example bug but is a pin gap. Until the pins are raised (a separate change, because
+raising them can break other sets), test such a set outside `run.sh`. Give each client a
+scratch project pinned to its first supporting release, with its own throwaway
+`redis:<version>` container on a spare port, and change the port only in the scratch copy.
+
 ## Codex evaluation (Phase 4)
 
 An independent reviewer with fresh context. It catches what the harness structurally cannot:

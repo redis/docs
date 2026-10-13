@@ -46,7 +46,7 @@ redis_py          go-redis          jedis
 node_redis        ioredis           lettuce_sync
 lettuce_async     lettuce_reactive  nredisstack_sync
 nredisstack_async php               redis_rs_sync
-redis_rs_async    redisvl
+redis_rs_async    redisvl           redis_rb
 ```
 
 Note the inconsistency: **`go-redis` uses a hyphen**, everything else uses underscores.
