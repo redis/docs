@@ -95,9 +95,9 @@ An API object that represents a managed database in the cluster.
 | export_status | Status of manually triggered export process (read-only)<br />Values:<br />'exporting'<br />'succeeded'<br />'failed' |
 | generate_text_monitor | boolean;  Enable/disable generation of syncer monitoring information |
 | gradual_src_max_sources | integer (default:&nbsp;1); Sync a maximum N sources in parallel (gradual_src_mode should be enabled for this to take effect) |
-| gradual_src_mode | Indicates if gradual sync (of sync sources) should be activated<br />Values:<br />'enabled'<br />'disabled' |
-| gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) |
-| gradual_sync_mode | Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision)<br />Values:<br />'enabled'<br />'disabled'<br />'auto' |
+| gradual_src_mode | Indicates if gradual sync (of sync sources) should be activated (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead)<br />Values:<br />'enabled'<br />'disabled' |
+| gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead) |
+| gradual_sync_mode | Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision) (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead)<br />Values:<br />'enabled'<br />'disabled'<br />'auto' |
 | gradual_sync_policy | string (default: default); Managed gradual (parallel) full sync policy for replica synchronization. Non-custom policies own and normalize the limit fields in `gradual_sync_policy_parameters`.<br />Values:<br />'default'<br />'non-gradual'<br />'migration'<br />'replica'<br />'active-active'<br />'custom' |
 | <span class="break-all">gradual_sync_policy_parameters</span> | object; Gradual full sync limits, applied when `gradual_sync_policy` is `custom`. Each limit accepts `-1` (no limit) or a positive integer; `0` is not valid. Includes `src_endpoint_limit` (default: 1), `dst_endpoint_limit`, `dst_shard_limit`, and `src_node_limit` (default: -1). |
 | hash_slots_policy | The policy used for hash slots handling<br />Values:<br/> **'legacy'**: slots range is '1-4096'<br /> **'16k'**: slots range is '0-16383' |
