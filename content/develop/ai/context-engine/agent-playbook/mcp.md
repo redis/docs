@@ -4,39 +4,33 @@ categories:
 - docs
 - develop
 - ai
-description: Connect Agent Playbooks to an agent through MCP and let the agent retrieve published knowledge as needed.
+description: Connect an MCP client, discover published knowledge, and load skill instructions and files.
 hideListLinks: true
 linktitle: MCP
 title: Connect with MCP
 weight: 60
 ---
 
-Use MCP to let an agent discover knowledge, load a skill, and fetch its resources. This example produces a customer reply from a reported refund stage using a published skill and template.
+Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Agent Playbooks exposes three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}).
 
 ## Before you begin
 
 Get the data-plane endpoint, playbook identifier, and an API key with `read` permission. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` as shown in [Save connection values]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#save-connection-values" >}}).
 
-Publish `refund-support-reply` with [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}) and keep it published while testing. The [quickstart FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) is optional; this task uses the skill to draft a reply.
+Publish `refund-support-reply` with [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}) to test loading its instructions and template. The basic clients use no model-provider key.
 
-The Python and TypeScript examples use the [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents/integrations-observability). The HTTP example uses the [OpenAI Responses API with remote MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp). Set an OpenAI key for model calls:
-
-```bash
-export OPENAI_API_KEY='<your-openai-api-key>'
-```
-
-Install the dependencies for your chosen tab:
+Install the dependencies for your chosen language. Python requires Python 3.10 or later; TypeScript requires Node.js 22 or later.
 
 **Python**
 
 ```bash
-python -m pip install openai-agents==0.23.1 mcp==1.30.0
+python -m pip install mcp==2.3.0 httpx2==2.13.1
 ```
 
 **TypeScript**
 
 ```bash
-npm install @openai/agents@0.19.0
+npm install @modelcontextprotocol/sdk@1.32.1
 npm install --save-dev tsx typescript @types/node
 ```
 
@@ -49,63 +43,61 @@ jq --version
 
 ## Configure the connection
 
-Use these settings with an agent framework that supports Streamable HTTP and custom request headers:
+Use a client that supports Streamable HTTP and custom request headers:
 
-| Setting        | Value                                                  |
-| -------------- | ------------------------------------------------------ |
-| Transport      | Streamable HTTP                                        |
-| Endpoint       | `<data-plane-base-url>/v1/playbooks/<playbook-id>/mcp` |
-| Request header | `Authorization: Bearer <reader-api-key>`               |
+| Setting | Value |
+|:--------|:------|
+| Transport | Streamable HTTP |
+| Endpoint | `<data-plane-base-url>/v1/playbooks/<playbook-id>/mcp` |
+| Request header | `Authorization: Bearer <reader-api-key>` |
 
-Python and TypeScript connect from your application; the endpoint must be reachable there. The HTTP example connects from OpenAI and needs an `https://` endpoint reachable from OpenAI. A local address works only for an MCP client on the same host.
+The endpoint must be reachable from the client runtime. A hosted client needs an HTTPS endpoint reachable from its provider; a local address works for clients on the same host. Keep the playbook key in connection settings and out of agent instructions.
 
-Keep the playbook key in connection settings and `OPENAI_API_KEY` in the environment. They authenticate knowledge access and model requests, respectively. Keep both out of agent instructions.
+## Use the tools
 
-## Connect an agent
+List the tools on an initialized connection to get their input schemas.
 
-Attach the MCP connection to your agent. The SDK or Responses API executes the model's tool calls. Agent Playbooks supplies the skill; the model drafts the reply.
+| Tool | Input | Result |
+|:-----|:------|:-------|
+| `discover_entries` | A task query, with optional filters, pins, and result limit. | Published FAQ answers and skill previews, including identifiers and versions. |
+| `load_skill` | The selected skill's `entry_id` and `version`. | Full instructions and resource descriptors. |
+| `fetch_resource` | A returned resource `uri`. | File content, media type, and digest. |
 
-Save the Python example as `mcp_example.py` or the TypeScript example as `mcp-example.mts`. Run `python mcp_example.py` or `npx tsx mcp-example.mts`. Run the HTTP example in Bash.
+Use the tools in this order:
 
-{{< clients-example set="iris_playbook_mcp" step="playbook-mcp-example" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+1. Discover knowledge for the task. Use an applicable FAQ answer directly.
+2. Select a skill preview, then load its instructions with the returned identifier and version together.
+3. Fetch supporting files when the instructions or task require them, using their returned URIs.
 
-Check the printed calls for `discover_entries`, `load_skill`, and `fetch_resource`: they select the skill, load its instructions, and read the template. The model chooses the calls, so order and count can vary. The HTTP example allows them without per-call approval.
+See [Discovery]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#discovery" >}}) for selection controls. Progressive disclosure loads **skill content** on demand; these three tool definitions remain available on the connection.
 
-With the sample template, a completed reply is:
+## Connect a client
 
-```text
-Your order history shows "Processing". Support can help if you need more information about that stage.
-```
+This client lists tools, discovers entries, prints FAQ answers, and loads the first returned skill's instructions and refund template. In an agent application, the agent selects a relevant skill from the previews; see [the framework examples]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}).
 
-Check that the reply preserves “Processing,” contains no placeholders, and promises no payment date. Also try these tasks:
+Copy the complete program and save it as `mcp_client.py`, `mcp_client.mts`, or `mcp_client.sh`. Run `python mcp_client.py`, `npx tsx mcp_client.mts`, or `bash mcp_client.sh` with the connection values you exported.
 
-| Task                                                         | Check                                                                                              |
-| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| “Draft a reply for a customer who says no refund is listed.” | Uses the missing refund template and asks the customer to contact support with their order number. |
-| “Draft a refund reply.”                                      | Asks what order history shows instead of inventing a stage.                                        |
-| “How do I request a new refund?”                             | Avoids using the status-reply skill for a different procedure.                                     |
+{{< clients-example set="iris_playbook_mcp_client" step="playbook-mcp-client" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
-For an answer lookup, ask “Where can I find refund status?” with the sample FAQ published. Its answer can be used directly without loading a skill. If retrieval returns no relevant knowledge or a tool fails, the agent should report that rather than invent guidance.
-
-For selection controls, see [Discovery]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#discovery" >}}). For skill loading behavior, see [Load skills with progressive disclosure]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
+Expect the three tool names, the selected skill's instructions, and the reply template. Binary resource responses are decoded and saved to `resource.bin`. An empty discovery result can reflect the query, publication, filters, or [preview budget]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#limit-discovery-previews" >}}). A request or tool error is a retrieval failure, not an empty result.
 
 ## Read skill files as MCP resources
 
-If your client supports standard MCP resources, it can read the same published skill files without calling `fetch_resource`. Use the URI returned by discovery or `load_skill`.
+Clients can also read published skill files through standard MCP resources. Use the URI returned by discovery or `load_skill`.
 
-| Method                     | Request                                                | Result                                                                      |
-| -------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------- |
-| `resources/templates/list` | List resource templates on the initialized connection. | The template for published skill files. This is not an inventory of skills. |
-| `resources/read`           | Set `uri` to a returned skill file URI.                | A `contents` array with the URI, media type, and file content.              |
+| Method | Request | Result |
+|:-------|:--------|:-------|
+| `resources/templates/list` | List resource templates on the initialized connection. | The template for published skill files, rather than an inventory of skills. |
+| `resources/read` | Set `uri` to a returned skill file URI. | A `contents` array with the URI, media type, and file content. |
 
-Read `text` when present. Otherwise, base64-decode `blob` to get the file bytes. An empty file can use an empty blob, so check which field is present rather than whether its value is nonempty. The `fetch_resource` tool uses the same text/blob distinction and also returns a file digest. Standard resource results do not include that digest field.
+Read `text` when present. Otherwise, base64-decode `blob` to get the file bytes. An empty file can use an empty blob, so check field presence. The `fetch_resource` tool uses the same distinction and also returns a file digest; standard resource results omit that digest.
 
-Both methods use the same connection and reader key as the tools. File reads enforce the current publication even with a management key. If the publication changes between discovery and reading, rediscover and reassess the selected skill. Standard resource methods are client operations; an agent framework that exposes only tools can continue to use `fetch_resource`.
+File reads enforce the current publication even with a management key. If publication changes between discovery and reading, rediscover and reassess the selected skill. Agent frameworks that expose tools can use `fetch_resource`.
 
 ## Troubleshoot the connection
 
-- If the connection fails, check the full MCP endpoint, network reachability, and reader key. A hosted client cannot reach your application's local address.
-- If the agent has no playbook tools, check that the MCP connection is attached to the agent or model request.
-- If retrieval fails or returns no matches, inspect the agent run's tool results. Follow the Retrieval guide's guidance on [pins]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), [preview limits]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#limit-discovery-previews" >}}), and [publication changes]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
+- If connection fails, check the full endpoint, network reachability, and reader key.
+- If a tool reports `isError`, inspect its error before using the content. Connection and transport failures can raise separately.
+- If loading fails after a publication change, rediscover once and reassess the returned previews. Preserve returned identifiers and URIs; do not construct replacements.
 
-Preserve error details for diagnosis without logging keys or private content. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for request constraints and recovery.
+Keep diagnostic details without logging keys or private content. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for recovery guidance.

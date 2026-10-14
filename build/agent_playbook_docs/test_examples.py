@@ -200,54 +200,6 @@ class ContractFixture:
                 result = {'isError': False, 'content': [{'type': 'text', 'text': json.dumps(data)}], 'structuredContent': data}
         return 200, {'jsonrpc': '2.0', 'id': body['id'], 'result': result}
 
-    def model_response(self, body):
-        """Script tool choices while the real Agents SDK owns the MCP connection."""
-        self.model_requests.append(deepcopy(body))
-        assert body['model'] == 'gpt-5-mini'
-        assert 'Use Agent Playbooks' in body['instructions']
-        if body['tools'][0]['type'] == 'mcp':
-            tool = body['tools'][0]
-            assert tool['server_label'] == 'playbook'
-            assert tool['headers'] == {'Authorization': 'Bearer reader-test-key'}
-            assert tool['allowed_tools'] == ['discover_entries', 'load_skill', 'fetch_resource']
-            assert tool['require_approval'] == 'never'
-            assert body['input'] == TASK
-            output = [{
-                'type': 'mcp_call', 'id': f'mcp_fixture_{index}', 'server_label': 'playbook',
-                'name': name, 'arguments': json.dumps(arguments), 'output': '{}', 'error': None,
-            } for index, (name, arguments) in enumerate((
-                ('discover_entries', {'query': DISCOVERY_QUERY}),
-                ('load_skill', {'entry_id': self.skill_id, 'version': 1}),
-                ('fetch_resource', {'uri': self.skill_content()['payload']['skill']['resources'][0]['uri']}),
-            ))] + [self.model_message(READY_REPLY)]
-        else:
-            assert 'reader-test-key' not in json.dumps(body)
-            assert {tool['name'] for tool in body['tools']} == {'discover_entries', 'load_skill', 'fetch_resource'}
-            results = [item for item in body['input'] if item.get('type') == 'function_call_output']
-            data = self.tool_output(results[-1]['output']) if results else None
-            if results and self.tool_error:
-                assert 'error' in json.dumps(data).lower() or 'failure' in json.dumps(data).lower()
-                output = self.model_message('Unable to retrieve playbook guidance: tool failed.')
-            elif not results:
-                output = self.model_call('discover_entries', {'query': DISCOVERY_QUERY})
-            elif len(results) == 1:
-                preview = data['discoveredEntries'][0]
-                output = self.model_call('load_skill', {'entry_id': preview['entryId'], 'version': preview['version']})
-            elif len(results) == 2:
-                resource = data['content']['resources'][0]
-                output = self.model_call('fetch_resource', {'uri': resource['uri']})
-            else:
-                assert len(results) == 3
-                assert '<displayed-stage>' in data['text']
-                output = self.model_message(READY_REPLY)
-        return 200, {
-            'id': f'resp_fixture_{len(self.model_requests)}', 'object': 'response',
-            'created_at': 0, 'status': 'completed', 'model': body['model'],
-            'output': output if isinstance(output, list) else [output],
-            'usage': {'input_tokens': 10, 'output_tokens': 10, 'total_tokens': 20,
-                      'input_tokens_details': {'cached_tokens': 0}, 'output_tokens_details': {'reasoning_tokens': 0}},
-        }
-
     def model_call(self, name, arguments):
         return {'type': 'function_call', 'id': f'fc_{len(self.model_requests)}',
                 'call_id': f'call_{len(self.model_requests)}', 'name': name,
@@ -275,9 +227,6 @@ class ContractFixture:
                 return value
 
     def request(self, method, path, body):
-        if path == '/v1/responses':
-            assert method == 'POST'
-            return self.model_response(body)
         if path.endswith('/mcp'):
             return self.mcp(body) if method == 'POST' else (405, None)
         url = urlsplit(path)
@@ -669,49 +618,6 @@ def test_displayed_async_python_example(fixture_server, tmp_path):
     assert state.calls == [('SearchFaqs', {
         'query': 'Where can I see how my refund is progressing?', 'limit': 5,
     })]
-
-
-@pytest.mark.parametrize('suffix', ('py', 'mts'))
-def test_mcp_agent_uses_server_tools(suffix, fixture_server, tmp_path):
-    state, env = fixture_server
-    env['PLAYBOOK_API_KEY'] = 'reader-test-key'
-    result = execute('mcp', suffix, tmp_path, env)
-    assert not state.errors, state.errors
-    assert result.returncode == 0, result.stdout + result.stderr
-    assert READY_REPLY in result.stdout
-    assert '<displayed-stage>' not in result.stdout
-    for name in ('discover_entries', 'load_skill', 'fetch_resource'):
-        assert 'Tool: ' + name in result.stdout
-    assert [name for name, _ in state.calls] == ['discover_entries', 'load_skill', 'fetch_resource']
-    assert 'initialize' in state.mcp_methods and 'tools/list' in state.mcp_methods
-    assert len(state.model_requests) == 4
-
-
-@pytest.mark.parametrize('suffix', ('py', 'mts'))
-def test_mcp_agent_reports_tool_error(suffix, fixture_server, tmp_path):
-    state, env = fixture_server
-    env['PLAYBOOK_API_KEY'] = 'reader-test-key'
-    state.tool_error = True
-    result = execute('mcp', suffix, tmp_path, env)
-    assert not state.errors, state.errors
-    assert result.returncode == 0, result.stdout + result.stderr
-    assert 'tool failed' in result.stdout
-    assert READY_REPLY not in result.stdout
-    assert [name for name, _ in state.calls] == ['discover_entries']
-
-
-def test_hosted_mcp_request_configures_service_connection(fixture_server, tmp_path):
-    state, env = fixture_server
-    env['PLAYBOOK_API_KEY'] = 'reader-test-key'
-    result = execute('mcp', 'sh', tmp_path, env)
-    assert not state.errors, state.errors
-    assert result.returncode == 0, result.stdout + result.stderr
-    assert READY_REPLY in result.stdout
-    for name in ('discover_entries', 'load_skill', 'fetch_resource'):
-        assert 'Tool: ' + name in result.stdout
-    assert len(state.model_requests) == 1
-    tool = state.model_requests[0]['tools'][0]
-    assert tool['server_url'] == f'{env["PLAYBOOK_URL"]}/v1/playbooks/{PB}/mcp'
 
 
 @pytest.mark.parametrize('page', ('faqs', 'skills'))

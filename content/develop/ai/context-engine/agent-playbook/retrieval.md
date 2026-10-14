@@ -113,7 +113,7 @@ The preview budget applies only to the first step, not loaded instructions, file
 
 Reader keys can load only the current publication. MCP tools apply this restriction even to management keys. For example, discovery can return version `1`, then loading fails because version `2` was published in the meantime. Rediscover once, select again, and load instructions and files from the newly returned version. Keeping an identifier/version pair does not reserve access to an older publication.
 
-The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect an agent]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-an-agent" >}}).
+The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect a client]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-a-client" >}}).
 
 {{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-load" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 

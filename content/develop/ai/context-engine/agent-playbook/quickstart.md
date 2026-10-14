@@ -114,7 +114,7 @@ The result for your FAQ should now identify version `2` and include the added se
 
 ## Clean up
 
-Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). Complete-program copies retain the FAQ. When you finish, set `PLAYBOOK_FAQ_ID` to the printed entry identifier and run the deletion example with the same connection values. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
+Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}). Complete-program copies retain the FAQ. When you finish, set `PLAYBOOK_FAQ_ID` to the printed entry identifier and run the deletion example with the same connection values. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
 
 {{< clients-example set="iris_playbook_quickstart_delete" step="playbook-quickstart-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
@@ -131,4 +131,4 @@ Every Python SDK operation has an `_async` counterpart. This standalone example 
 - [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) to roll back or withdraw an answer.
 - [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}) to publish a procedure and load supporting files.
 - [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) to accept suggested answers before publishing them.
-- [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}) to retrieve this knowledge through agent tools.
+- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) to retrieve context before a turn and load skills through MCP.

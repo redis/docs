@@ -19,6 +19,7 @@ from local_examples import get_example_id_from_file, get_language_from_extension
 DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
 SOURCES = ROOT / "local_examples/iris/playbooks"
 GUIDES = ("quickstart", "faqs", "skills", "proposals", "retrieval", "mcp", "limits")
+AGENT_GUIDES = ("openai_agent", "langgraph_agent")
 PAGE_NAMES = {"faqs": "manage-faqs"}
 CLIENTS = {}
 for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitlines():
@@ -32,7 +33,7 @@ FENCE = re.compile(r"```(?:python|typescript|bash)\n(.*?)\n```", re.S)
 
 
 def source_path(page, suffix, action=None):
-    name = f"{page}_{action}" if action else "mcp_example" if page == "mcp" else page
+    name = f"{page}_{action}" if action else "mcp_client" if page == "mcp" else page
     return SOURCES / page / f"{name}.{suffix}"
 
 
@@ -108,6 +109,11 @@ def full_examples():
             for page in ("quickstart", "skills") for suffix in CLIENTS}
 
 
+def agent_scripts():
+    return {(page, suffix): processed(source_path(page, suffix))[0]
+            for page in AGENT_GUIDES for suffix in ("py", "mts")}
+
+
 def standalone_python(page, heading):
     assert (page, heading) == ("quickstart", "Use Python asynchronously")
     return processed(SOURCES / "async/async_example.py")[0]
@@ -127,4 +133,6 @@ if __name__ == "__main__":
             (args.output / f"{page}_example.{suffix}").write_text(source)
     for path, source in full_examples().items():
         (args.output / f"{path.stem}_copy{path.suffix}").write_text(source)
+    for (page, suffix), source in agent_scripts().items():
+        (args.output / f"{page}_example.{suffix}").write_text(source)
     (args.output / "async_search_example.py").write_text(standalone_python("quickstart", "Use Python asynchronously"))
