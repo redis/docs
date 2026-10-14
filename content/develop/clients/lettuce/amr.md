@@ -162,7 +162,7 @@ When you have created your `TokenBasedRedisCredentialsProvider` instance, you ar
 connect to AMR.
 The example below shows how to include the authentication details in a
 `TokenBasedRedisCredentialsProvider` instance and pass it to the `RedisURI.Builder`
-using the `withAuthentication()` option. It also uses a `ClientOptions` object to
+using the `withAuthentication()` option. It also uses a `ClusterClientOptions` object to
 enable automatic re-authentication.
 
 The connection uses
@@ -193,7 +193,7 @@ try (EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.build
 // credentialsSP.resolveCredentialsAsync().thenAccept(c -> System.out.println("SPI ID :" + c.getUsername())).toCompletableFuture().join();
 
 // Enable automatic re-authentication.
-ClientOptions clientOptions = ClientOptions.builder()
+ClusterClientOptions clientOptions = ClusterClientOptions.builder()
         .reauthenticateBehavior(
                 ClientOptions.ReauthenticateBehavior.ON_NEW_CREDENTIALS
         ).build();
@@ -212,7 +212,7 @@ RedisClusterClient redisClient = RedisClusterClient.create(redisURI);
 redisClient.setOptions(clientOptions);
 
 // Connect with the credentials provider.
-try (StatefulRedisConnection<String, String> user1 = redisClient.connect(StringCodec.UTF8)) {
+try (StatefulRedisClusterConnection<String, String> user1 = redisClient.connect(StringCodec.UTF8)) {
         System.out.println("Connected to redis as :" + user1.sync().aclWhoami());
         System.out.println("Db size :" + user1.sync().dbsize());
 } finally {
