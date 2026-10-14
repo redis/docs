@@ -82,7 +82,8 @@ After you activate self-managed encryption, you must grant Redis access to your 
 
 For Active-Active databases, you must grant Redis access to a key for each region. After you've granted the required permissions for Redis to access your encryption keys, provide the key resource name for each region. If you have a multi-region key, you can use the same key for each region.
 
-{{<image filename="images/rc/cmek-permission.png" alt="For an Active-Active subscription, the Provide the resource name of your customer managed key section has a Key resource name field for each region." width=80% >}}
+![For an Active-Active subscription, the Provide the resource name of your customer managed key section has a Key resource name field for each region.](/images/rc/cmek-permission.png)
+{width="80%"}
 
 Follow the steps for your cloud provider:
 - [Amazon Web Services](#amazon-web-services)
@@ -94,7 +95,8 @@ To grant Redis access to a key on AWS:
 
 1. From your subscription page on the Redis Cloud console, copy the provided objects to add to the key policy.
 
-    {{<image filename="images/rc/cmek-access-roles-aws.png" alt="The Grant Redis your customer-managed key section shows the IAM role that needs access to your key and objects to add to your key policy." width=80% >}}
+    ![The Grant Redis your customer-managed key section shows the IAM role that needs access to your key and objects to add to your key policy.](/images/rc/cmek-access-roles-aws.png)
+    {width="80%"}
 
 2. Go to the [Key management service](https://console.aws.amazon.com/kms) on the AWS console and locate your key.
 
@@ -102,7 +104,8 @@ To grant Redis access to a key on AWS:
 
 4. Return to the Redis Cloud console. In your subscription page, enter your key's ARN in the **Key resource name** field.
 
-    {{<image filename="images/rc/cmek-provide-resource-name-aws.png" alt="The Provide the name of your customer-managed key section lets you provide your key to Redis." width=80% >}}
+    ![The Provide the name of your customer-managed key section lets you provide your key to Redis.](/images/rc/cmek-provide-resource-name-aws.png)
+    {width="80%"}
 
     At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
 
@@ -114,7 +117,8 @@ To grant Redis access to a key on Google Cloud:
 
 1. From your subscription page on the Redis Cloud console, copy the provided Redis service account name.
 
-    {{<image filename="images/rc/cmek-access-roles-google.png" alt="The Grant Redis your customer-managed key section shows the service account needed to add as a principal." width=80% >}}
+    ![The Grant Redis your customer-managed key section shows the service account needed to add as a principal.](/images/rc/cmek-access-roles-google.png)
+    {width="80%"}
 
 2. Go to [Key management](https://console.cloud.google.com/security/kms) on the Google Cloud console and locate your key.
 
@@ -128,7 +132,8 @@ To grant Redis access to a key on Google Cloud:
 
 4. Return to the Redis Cloud console. In your subscription page, enter your key's resource name in the **Key resource name** field.
 
-    {{<image filename="images/rc/cmek-provide-resource-name-google.png" alt="The Provide the name of your customer-managed key section lets you provide your key to Redis." width=80% >}}
+    ![The Provide the name of your customer-managed key section lets you provide your key to Redis.](/images/rc/cmek-provide-resource-name-google.png)
+    {width="80%"}
 
 At this point, Redis Cloud will check to see if it can access your key. If it can't access your key, make sure that you've added the correct permissions to your key, that the key is available in the database's cloud provider region, and that you have correctly entered your key's resource name.
 
