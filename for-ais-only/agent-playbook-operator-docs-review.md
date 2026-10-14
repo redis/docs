@@ -1,6 +1,6 @@
 # Agent Playbooks operator documentation review
 
-Ticket: [MOD-19679](https://redislabs.atlassian.net/browse/MOD-19679). Local branch: `MOD-19679-playbook-operator-docs`, based on `MOD-19391-playbook-developer-docs` at `51ddbf240`. The developer PR remains [redis/docs#4249](https://github.com/redis/docs/pull/4249). The operator draft PR targets the developer branch so its diff contains only the operator pages and their integration links.
+Ticket: [MOD-19679](https://redislabs.atlassian.net/browse/MOD-19679). Local branch: `MOD-19679-playbook-operator-docs`, based on `MOD-19391-playbook-developer-docs` at `d7293c339`. The developer PR remains [redis/docs#4249](https://github.com/redis/docs/pull/4249). The operator draft PR targets the developer branch so its diff contains only the operator pages and their integration links.
 
 ## Structure and scope
 
@@ -28,8 +28,8 @@ Current artifacts and private runtime files are under `/tmp/playbook-helm-docs-s
 - Reapplying the same chart/values preserves all four generated service credentials and does not roll pods. Updating storage configuration and its checksum rolls all three services without losing the playbook or its reader key. Both Linux and macOS checksum snippets produce the same marker. The final rollout uses that documented marker and reruns the chart tests.
 - Replacing the selected control-plane pod makes its original port-forward unusable. Rerunning the documented commands restores access. Deployment and upgrade instructions now explain this.
 - The displayed CA Secret command works, and rendering the CA values mounts it in all three services. The guide now includes this setup rather than only naming the chart field. Context and Helm-version checks are explicit, and the license requirement includes entitled Iris suite licenses.
-- All 34 shell and six YAML snippets parse. The published chart, Secret references, ports, and separately supplied service credentials have also been linted/rendered. The OpenAPI resource remains byte-identical to the pinned release's generated public contract.
-- A full Hugo 0.143.0 build, 136 cross-reference/anchor checks across 20 developer/operator pages, developer source/download checks, and existing reference tests pass. Chrome checks all ten operator pages at desktop and mobile widths; the generated reference renders its schema index, introduction, and download link.
+- All 33 remaining shell and six YAML snippets parse. The published chart, Secret references, ports, and separately supplied service credentials have also been linted/rendered. The OpenAPI resource remains byte-identical to the pinned release's generated public contract.
+- A full Hugo 0.143.0 build, 136 cross-reference/anchor checks across 21 developer/operator pages, developer source/TCE checks, and existing reference tests pass. Chrome checks all ten operator pages at desktop and mobile widths; the generated reference renders its schema index, introduction, and download link.
 
 Only this Playbook stack remains running. Nine older Playbook service deployments across the three older clusters were scaled to zero, preserving their data and Secrets. The two Playbook-only Kind nodes and an orphaned 12-day-old native Playbook test server were stopped; unrelated services in `iris-demo` remain running. Local forwards expose the control plane at `http://localhost:9200`, the data plane at `http://localhost:9201`, and Identity Service at `http://localhost:9202`. The seeded playbook and publisher/reader credentials remain available in the private runtime files. The full Hugo build has existing warnings in unrelated sections and no Playbook link warnings. Hugo’s incremental preview can serve malformed shortcodes after batch edits, even with fast rendering disabled. Clean builds pass; restarting the preview repairs it. This site-tooling issue is separate from the guide content. The local documentation preview is `http://localhost:1313/operate/iris/agent-playbook/self-managed/`.
 
@@ -37,9 +37,17 @@ This verifies the basic licensed Helm installation, verified dependency TLS, adm
 
 ## Editorial review readiness
 
-The final pass removes 143 words across six pages without changing frontmatter, executable snippets, or the generated contract. It removes duplicate developer handoffs, repeated grant-field descriptions, an advanced configuration-override row without supporting guidance, and repeated planning detail. Required storage separation, credential boundaries, certificate verification, cache/revocation behavior, and destructive-operation warnings remain explicit. Every edited public page is shorter.
+The earlier editorial pass removes 143 words across six pages without changing frontmatter, executable snippets, or the generated contract. It removes duplicate developer handoffs, repeated grant-field descriptions, an advanced configuration-override row without supporting guidance, and repeated planning detail. Required storage separation, credential boundaries, certificate verification, cache/revocation behavior, and destructive-operation warnings remain explicit. Every edited public page is shorter.
 
-The current alpha baseline is ready for docs-team and product/engineering human review. The following launch and production qualifications remain open; editorial readiness does not resolve them. Final build and cross-reference artifacts are under `/tmp/playbook-operator-editorial-pass/`.
+The current alpha baseline is ready for docs-team and product/engineering human review. The following launch and production qualifications remain open; editorial readiness does not resolve them. Earlier editorial artifacts are under `/tmp/playbook-operator-editorial-pass/`; the follow-up review is recorded next.
+
+## Developer-feedback follow-up
+
+The operator branch is current with the developer branch at `d7293c339`. The follow-up removes another **115 words across five public pages**. Every edited page is shorter. The start sequence now includes loading administrative credentials before provisioning. The API walkthrough covers provisioning, publisher/reader keys, and application health; retrieval settings link to Configuration and the control-plane reference. Publisher connections lead to the developer quickstart, while reader connections lead to the separate agent-integration guide. Detailed endpoint configuration stays in Configuration rather than deployment planning.
+
+Helm and administration procedures retain standard Bash/YAML fences. Developer programs remain canonical TCE sources; no copied SDK programs, generated downloads, or custom rendering system are added to the operator layer. The one removed executable block is the retrieval-settings example outside the onboarding task. All remaining snippets and frontmatter are unchanged, and the generated public contract is byte-identical to the pinned release.
+
+Fresh validation uses the existing licensed Helm deployment: displayed bootstrap/provisioning/key/health requests, the canonical TCE publisher quickstart, reader retrieval with denied authoring, and the canonical TCE reader MCP client all pass. The disposable playbook and keys are removed afterward. The 33 Bash and six YAML snippets parse; the five reference/source checks pass. The standard Hugo build and all **136 internal links/static anchors across 21 pages** pass. Chrome checks all ten operator pages at desktop/mobile widths, including the generated reference's model, introduction, and download link. Artifacts are under `/tmp/playbook-operator-feedback-20261014/`.
 
 ## Remaining review items
 

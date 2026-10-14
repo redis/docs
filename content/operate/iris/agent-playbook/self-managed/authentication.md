@@ -11,7 +11,7 @@ weight: 60
 hideListLinks: true
 ---
 
-Operators administer playbooks and API keys through separate services. Applications authenticate to the data plane with keys scoped to their playbooks.
+Use administrative tokens for management and scoped API keys for applications.
 
 | Caller | API | Credential |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ Keep both administrative tokens out of application configuration and model promp
 
 ## Read the bootstrap credentials
 
-The [deploy procedure]({{< relref "/operate/iris/agent-playbook/self-managed/deploy" >}}) uses chart-generated credentials. An operator with permission to read Secrets can load the two administrative tokens into the current shell:
+For [chart-generated credentials]({{< relref "/operate/iris/agent-playbook/self-managed/deploy" >}}), use an account that can read Secrets to load the administrative tokens:
 
 ```bash
 export PLAYBOOK_ADMIN_TOKEN="$(kubectl -n "$PLAYBOOK_NAMESPACE" get secret \
@@ -34,7 +34,7 @@ export IDENTITY_CONTROL_TOKEN="$(kubectl -n "$PLAYBOOK_NAMESPACE" get secret \
 
 The Secret names assume `fullnameOverride: playbook`. If you supply credentials externally, load them from your secret manager instead.
 
-Use these tokens to [create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}). Give publishers `write` and `publish`; give runtime readers `read`. See [playbook grants]({{< relref "/develop/ai/context-engine/agent-playbook/concepts#playbooks" >}}) for all actions.
+Use these tokens to [create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}). See [playbook grants]({{< relref "/develop/ai/context-engine/agent-playbook/concepts#playbooks" >}}) for allowed actions.
 
 ## Supply service credentials
 
@@ -75,6 +75,6 @@ identityService:
 
 Set each grant's `tenant` to the deployment's `tenantId` and scope it to a playbook and allowed actions. The [key examples]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples#create-application-keys" >}}) show the complete request.
 
-Use separate publisher and reader keys. Rotation and revocation are covered in [Operations]({{< relref "/operate/iris/agent-playbook/self-managed/operations#rotate-or-revoke-application-keys" >}}).
+For rotation and revocation, see [Operations]({{< relref "/operate/iris/agent-playbook/self-managed/operations#rotate-or-revoke-application-keys" >}}).
 
 <!-- TODO: Document the supported identity-provider and browser-administration setup after control-plane authentication is aligned with the launch chart. Chart 0.1.0-alpha.3 and current service source use different configuration paths. -->

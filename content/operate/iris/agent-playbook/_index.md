@@ -17,6 +17,6 @@ Deploy Redis Agent Playbooks on Kubernetes to serve curated FAQs and skills to a
 
 ## Self-managed
 
-[Deploy and operate Agent Playbooks on Kubernetes]({{< relref "/operate/iris/agent-playbook/self-managed" >}}) using the Redis AI Helm chart.
+[Start with the self-managed deployment guide]({{< relref "/operate/iris/agent-playbook/self-managed" >}}).
 
 After setup, use the [developer quickstart]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) to publish and retrieve your first FAQ. The [developer guides]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) cover content authoring, proposal review, retrieval, and agent integration.
