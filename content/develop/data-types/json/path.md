@@ -547,6 +547,8 @@ JSONPath queries also work with other JSON commands that accept a path as an arg
 "[[\"black\",\"silver\",\"pink\"],[\"black\",\"white\"],[\"black\",\"silver\",\"pink\"]]"
 {{< /clients-example >}}
 
+Starting with Redis 8.12, the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter lets write commands create missing objects along an update path.
+
 ## Projection expressions
 
 The top level of a JSONPath query can be an expression that *computes* a value — arithmetic, a function call, a get-keys operator, and so on — rather than only selecting nodes from the document. A query that is a plain path (for example, `$.a.b`, `$..x`, or even a fully parenthesized path such as `($.a)`) still selects nodes; anything else (for example, `$.a + 1`, `-$.a`, `$.arr.length()`, `length($.arr)`, `$.obj~`, or `$.obj.keys()`) is a projection.
