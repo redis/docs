@@ -303,11 +303,11 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 256-bit) digest with the downloaded bytes. It uses `sha256:<hex>`; the HTTP `Content-Digest` header represents the same hash as `sha-256=:<base64>:`. This differs from the normalized entry digest in [entry lookup]({{< relref "/develop/ai/context-engine/agent-playbook/faqs#look-up-entry-state" >}}).
+To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 256-bit) digest with the downloaded bytes. It uses `sha256:<hex>`; the HTTP `Content-Digest` header represents the same hash as `sha-256=:<base64>:`. This differs from the normalized entry digest in [entry lookup]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#look-up-entry-state" >}}).
 
 ## List skills and inspect history
 
-Use `list_skills` to inventory entries and `get_skill` to inspect one entry's summary. These operations require `read`; draft content and full version history require `write` or `publish`. To resolve a skill by its entry key or compare latest and published content digests, use the shared [entry lookup operation]({{< relref "/develop/ai/context-engine/agent-playbook/faqs#look-up-entry-state" >}}).
+Use `list_skills` to inventory entries and `get_skill` to inspect one entry's summary. These operations require `read`; draft content and full version history require `write` or `publish`. To resolve a skill by its entry key or compare latest and published content digests, use the shared [entry lookup operation]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#look-up-entry-state" >}}).
 
 Follow cursors even after empty pages, and keep filters and ordering unchanged. An absent first-page `total` means the count is unknown. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbook/limits#retrieval-limits" >}}).
 

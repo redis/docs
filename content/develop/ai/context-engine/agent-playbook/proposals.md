@@ -416,7 +416,7 @@ Use `accept_proposal` with the reviewed revision. It creates one unpublished FAQ
 
 The `promoting` and `promoted` states prevent further review changes. If acceptance is interrupted, retry it to resume or retrieve the recorded FAQ. Use that FAQ rather than creating a replacement.
 
-Inspect the returned FAQ, then [publish its version]({{< relref "/develop/ai/context-engine/agent-playbook/faqs#publish-a-version" >}}). Acceptance does not grant publication permission.
+Inspect the returned FAQ, then [publish its version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}). Acceptance does not grant publication permission.
 
 {{< multitabs id="playbook-proposal-final-review" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
 
@@ -504,7 +504,7 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-The accepted FAQ remains after this example. Delete it with the [FAQ cleanup procedure]({{< relref "/develop/ai/context-engine/agent-playbook/faqs#withdraw-or-delete-an-faq" >}}) using the returned entry identifier when you finish.
+The accepted FAQ remains after this example. Delete it with the [FAQ cleanup procedure]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) using the returned entry identifier when you finish.
 
 ## Inspect promotion history
 
