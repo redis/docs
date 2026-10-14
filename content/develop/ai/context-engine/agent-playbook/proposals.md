@@ -185,7 +185,7 @@ jq '{proposalId, proposalRevision}' proposal-created.json
 
 ### Handle an existing candidate
 
-Creation or candidate replacement can return `409` with type `/errors/proposal-already-exists`. Read the proposal identified by `existingProposalId` before submitting more content. In Python, catch `PlaybookConflictErrorResponseContent` and read `error.data.existing_proposal_id`; TypeScript exposes `error.existingProposalId` on the corresponding error class. HTTP callers read the field from the response body.
+Creation or candidate replacement can return `409` with type `/errors/proposal-already-exists`. Read the existing proposal before submitting more content. Catch `PlaybookConflictErrorResponseContent` and read its identifier from `error.data.existing_proposal_id`.
 
 If the existing open candidate addresses the same need, use its identifier to [attach evidence]({{< relref "/develop/ai/context-engine/agent-playbook/proposals#attach-evidence" >}}). Review its current revision before editing or accepting it. Restore a trashed candidate before adding evidence; promoted candidates remain locked against review changes. Duplicate detection is advisory, so concurrent submissions can still produce candidates that need consolidation during review.
 

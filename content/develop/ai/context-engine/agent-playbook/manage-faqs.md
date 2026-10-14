@@ -281,7 +281,7 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-To roll back, publish the first version retained in `version` (Python and TypeScript) or `VERSION` (HTTP).
+Republish the first version to roll back.
 
 {{< multitabs id="playbook-faq-rollback" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
 
@@ -311,7 +311,7 @@ curl --fail-with-body --silent --show-error \
 
 Use `list_faqs` to list entries, including unpublished ones, and `get_faq` to read a summary. Both require `read`. Summaries show the latest version number and any publication, without draft content.
 
-Follow `nextCursor` (`next_cursor` in Python) until it is absent, even after an empty page. Keep filters and sort settings unchanged. The optional first-page `total` is a separately measured count; absence means unknown, not zero. Lists can change while you page through them.
+Follow the pagination cursor until it is absent, even after an empty page. Keep filters and sort settings unchanged. The optional first-page `total` is a separately measured count; absence means unknown, not zero. Lists can change while you page through them.
 
 {{< multitabs id="playbook-faq-list" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
 
@@ -361,7 +361,7 @@ done
 
 {{< /multitabs >}}
 
-To select only published or unpublished entries, set `published` to `true` or `false`. Omit it to include both. The TypeScript client takes this as the fifth argument to `listFaqs`.
+To select only published or unpublished entries, set `published` to `true` or `false`. Omit it to include both.
 
 Listing full version history requires `write` or `publish`. Versions arrive newest first. This example uses the FAQ created in this guide:
 
