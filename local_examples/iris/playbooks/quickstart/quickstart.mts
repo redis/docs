@@ -1,4 +1,5 @@
-// Generated from quickstart.md; edit the page, then run examples.py --refresh-downloads.
+// EXAMPLE: iris_playbook_quickstart
+// STEP_START playbook-connect
 import { Playbook } from "@redis-iris/agent-playbook";
 
 function requiredEnv(name: string): string {
@@ -14,7 +15,9 @@ const playbook = new Playbook({
   retryConfig: { strategy: "none" },
 });
 console.log(await playbook.getPlaybookHealth());
+// STEP_END
 
+// STEP_START playbook-quickstart-create
 const faqContent = {
   intents: ["Check a refund", "Find an existing refund"],
   attributes: { locale: "en-US", topic: "refund" },
@@ -27,12 +30,18 @@ const draft = await playbook.createFaq({ content: faqContent });
 const faqId = draft.entry.entryId;
 const version = draft.version.version;
 console.log(faqId, version, draft.entry.publication);
+// STEP_END
 
+// STEP_START playbook-quickstart-publish
 const stored = await playbook.getFaqVersion(faqId, version);
 console.log(stored.content);
+// STEP_END
 
+// STEP_START playbook-quickstart-publication
 await playbook.publishFaq(faqId, { version });
+// STEP_END
 
+// STEP_START playbook-quickstart-search
 const results = await playbook.searchFaqs({
   query: "Where can I see how my refund is progressing?",
   filter: { eq: { name: "locale", value: "en-US" } },
@@ -43,18 +52,24 @@ for (const match of results.matches) {
     console.log(match.entryId, match.version, match.score, match.faq.answer);
   }
 }
+// STEP_END
 
+// STEP_START playbook-quickstart-discover
 const discovery = await playbook.discoverEntries({
   query: "Help a customer find their refund status",
   filter: { eq: { name: "topic", value: "refund" } },
 });
 console.log(JSON.stringify(discovery, null, 2));
+// STEP_END
 
+// STEP_START playbook-quickstart-update
 const updatedContent = structuredClone(faqContent);
 updatedContent.payload.faq.answer += " Support can check the current stage but cannot guarantee a bank posting date.";
 const updated = await playbook.appendFaqVersion(faqId, { content: updatedContent });
 console.log("Review this version:", updated.version.version, updated.version.content);
+// STEP_END
 
+// STEP_START playbook-quickstart-republish
 await playbook.publishFaq(faqId, { version: updated.version.version });
 const updatedResults = await playbook.searchFaqs({
   query: "Where can I see how my refund is progressing?",
@@ -66,3 +81,4 @@ for (const match of updatedResults.matches) {
     console.log("Published answer:", match.version, match.faq.answer);
   }
 }
+// STEP_END

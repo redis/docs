@@ -33,83 +33,11 @@ A key with `read` permission can list, search, and inspect proposals. The inbox 
 
 Follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged. An absent first-page `total` means unknown.
 
-{{< multitabs id="playbook-proposal-inbox" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-cursor = None
-while True:
-    page = playbook.list_proposals(view="inbox", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total inbox proposals:", page.total if page.total is not None else "unknown")
-    for item in page.proposals:
-        print(item.proposal_id, item.status, item.evidence_count, item.action)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let inboxCursor: string | undefined;
-while (true) {
-  const page = await playbook.listProposals("inbox", "updatedAt", "desc", 50, inboxCursor);
-  if (inboxCursor === undefined) console.log("Total inbox proposals:", page.total ?? "unknown");
-  for (const item of page.proposals) console.log(item.proposalId, item.status, item.evidenceCount, item.action);
-  inboxCursor = page.nextCursor;
-  if (inboxCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode view=inbox --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > inbox.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' inbox.json; fi
-  jq '.proposals[] | {proposalId, status, evidenceCount, action}' inbox.json
-  CURSOR=$(jq -r '.nextCursor // empty' inbox.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-inbox" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Search open proposals before submitting another candidate. Search excludes trash, promotion history, and published FAQs. Review similar questions to check whether they need the same answer.
 
-{{< multitabs id="playbook-proposal-search" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-related = playbook.search_proposals(query="Contact support about a missing refund", minimum_score=0.7, limit=5)
-for match in related.matches:
-    print(match.proposal.proposal_id, match.score, match.proposal.action)
-```
-
--tab-sep-
-
-```typescript
-const related = await playbook.searchProposals({
-  query: "Contact support about a missing refund", minimumScore: 0.7, limit: 5,
-});
-for (const match of related.matches) console.log(match.proposal.proposalId, match.score, match.proposal.action);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/proposals/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Contact support about a missing refund","minimumScore":0.7,"limit":5}' \
-  | jq '.matches[] | {proposalId: .proposal.proposalId, score, action: .proposal.action}'
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Create a proposal
 
@@ -119,69 +47,7 @@ The candidate enters the inbox without changing what agents retrieve.
 
 Save the returned proposal identifier and `proposalRevision`. The revision identifies the candidate a reviewer edits or accepts.
 
-{{< multitabs id="playbook-proposal-create" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-action = {"add": {
-    "target": {"new_entry": {}},
-    "candidate": {"content": {
-        "intents": ["Contact support about a missing refund"],
-        "attributes": {"locale": "en-US", "topic": "refund"},
-        "payload": {"faq": {
-            "question": "What should I send support about a missing refund?",
-            "answer": "Send your order number and the date you requested the refund.",
-        }},
-    }},
-}}
-proposal = playbook.create_proposal(action=action)
-proposal_id = proposal.proposal_id
-print(proposal_id, proposal.proposal_revision)
-```
-
--tab-sep-
-
-```typescript
-const action = { add: {
-  target: { newEntry: {} },
-  candidate: { content: {
-    intents: ["Contact support about a missing refund"],
-    attributes: { locale: "en-US", topic: "refund" },
-    payload: { faq: {
-      question: "What should I send support about a missing refund?",
-      answer: "Send your order number and the date you requested the refund.",
-    } },
-  } },
-} };
-const proposal = await playbook.createProposal({ action });
-const proposalId = proposal.proposalId;
-console.log(proposalId, proposal.proposalRevision);
-```
-
--tab-sep-
-
-```bash
-cat > proposal.json <<'JSON'
-{"action":{"add":{
-  "target":{"newEntry":{}},
-  "candidate":{"content":{
-    "intents":["Contact support about a missing refund"],
-    "attributes":{"locale":"en-US","topic":"refund"},
-    "payload":{"faq":{
-      "question":"What should I send support about a missing refund?",
-      "answer":"Send your order number and the date you requested the refund."
-    }}
-  }}
-}}}
-JSON
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/proposals" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @proposal.json > proposal-created.json
-PROPOSAL_ID=$(jq -er '.proposalId' proposal-created.json)
-jq '{proposalId, proposalRevision}' proposal-created.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Handle an existing candidate
 
@@ -209,68 +75,7 @@ Evidence stays with the proposal. Acceptance does not copy it into the FAQ. See 
 
 This example attaches a policy excerpt. The HTTP example uses `openssl` to generate an identifier. Keep that identifier and payload for exact retries.
 
-{{< multitabs id="playbook-proposal-evidence" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-from datetime import datetime, timezone
-from uuid import uuid4
-
-evidence_id = "evd_" + uuid4().hex
-observed_at = datetime.now(timezone.utc)
-evidence = playbook.submit_proposal_evidence(
-    proposal_id=proposal_id,
-    evidence_id=evidence_id,
-    schema_version=1,
-    observed_at=observed_at,
-    producer={"name": "docs-example", "version": "1"},
-    source={
-        "type": "document",
-        "reference": {"documentId": "sample-refund-policy"},
-        "content": {"excerpt": "For refund inquiries, collect the order number and request date. Do not request full card details."},
-    },
-)
-print(evidence.disposition)
-```
-
--tab-sep-
-
-```typescript
-const { randomUUID } = await import("node:crypto");
-const evidenceId = "evd_" + randomUUID().replaceAll("-", "");
-const observedAt = new Date();
-const evidence = await playbook.submitProposalEvidence(proposalId, evidenceId, {
-  schemaVersion: 1,
-  observedAt,
-  producer: { name: "docs-example", version: "1" },
-  source: {
-    type: "document",
-    reference: { documentId: "sample-refund-policy" },
-    content: { excerpt: "For refund inquiries, collect the order number and request date. Do not request full card details." },
-  },
-});
-console.log(evidence.disposition);
-```
-
--tab-sep-
-
-```bash
-EVIDENCE_ID="evd_$(openssl rand -hex 16)"
-jq -n --arg observedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
-  schemaVersion: 1, observedAt: $observedAt,
-  producer: {name: "docs-example", version: "1"},
-  source: {
-    type: "document",
-    reference: {documentId: "sample-refund-policy"},
-    content: {excerpt: "For refund inquiries, collect the order number and request date. Do not request full card details."}
-  }
-}' > evidence.json
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/proposals/$PROPOSAL_ID/evidence/$EVIDENCE_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @evidence.json | jq .disposition
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-evidence" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Review and edit a candidate
 
@@ -284,83 +89,11 @@ Editing replaces the complete proposed action and preserves existing evidence.
 
 If another reviewer changes the candidate, the revision check fails. Read and review the current candidate before trying again. An evidence count can guide review priority, but it is not a correctness score.
 
-{{< multitabs id="playbook-proposal-read" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-reviewed = playbook.get_proposal(proposal_id=proposal_id)
-print(reviewed.model_dump_json(by_alias=True, indent=2))
-```
-
--tab-sep-
-
-```typescript
-const reviewed = await playbook.getProposal(proposalId);
-console.log(JSON.stringify(reviewed, null, 2));
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > reviewed.json
-jq . reviewed.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-read" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 After checking the source excerpt, add its guidance about card details. Start from the action you just read, preserve its other fields, and supply that revision.
 
-{{< multitabs id="playbook-proposal-replace" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-revised_action = reviewed.action.model_dump(exclude_unset=True)
-revised_action["add"]["candidate"]["content"]["payload"]["faq"]["answer"] += " Do not send full card details."
-revised = playbook.replace_proposal(
-    proposal_id=proposal_id,
-    action=revised_action,
-    expected_proposal_revision=reviewed.proposal_revision,
-)
-print(revised.proposal_revision, revised.action)
-```
-
--tab-sep-
-
-```typescript
-const reviewedContent = reviewed.action.add.candidate.content;
-if (!("faq" in reviewedContent.payload)) throw new Error("Expected an FAQ proposal");
-const revisedAction = { add: {
-  target: reviewed.action.add.target,
-  candidate: { content: {
-    ...reviewedContent,
-    payload: { faq: {
-      ...reviewedContent.payload.faq,
-      answer: reviewedContent.payload.faq.answer + " Do not send full card details.",
-    } },
-  } },
-} };
-const revised = await playbook.replaceProposal(proposalId, {
-  action: revisedAction, expectedProposalRevision: reviewed.proposalRevision,
-});
-console.log(revised.proposalRevision, revised.action);
-```
-
--tab-sep-
-
-```bash
-jq --argjson revision "$(jq -er '.proposalRevision' reviewed.json)" '
-  {action} |
-  .action.add.candidate.content.payload.faq.answer += " Do not send full card details." |
-  .expectedProposalRevision = $revision
-' reviewed.json > proposal-update.json
-curl --fail-with-body --silent --show-error \
-  -X PATCH "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @proposal-update.json > revised.json
-jq '{proposalRevision, action}' revised.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-replace" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Dismiss, restore, or purge
 
@@ -372,43 +105,7 @@ Purge a trashed proposal when you want to remove it permanently. Save any review
 
 Test dismissal and restoration before accepting the sample. Purging instead ends the walkthrough for that proposal.
 
-{{< multitabs id="playbook-proposal-trash" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.dismiss_proposal(
-    proposal_id=proposal_id, expected_proposal_revision=revised.proposal_revision,
-)
-playbook.restore_proposal(proposal_id=proposal_id)
-# To purge a trashed proposal instead of restoring it:
-# playbook.purge_proposal(proposal_id=proposal_id)
-```
-
--tab-sep-
-
-```typescript
-await playbook.dismissProposal(proposalId, {
-  expectedProposalRevision: revised.proposalRevision,
-});
-await playbook.restoreProposal(proposalId);
-// To purge a trashed proposal instead of restoring it:
-// await playbook.purgeProposal(proposalId);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq '{expectedProposalRevision: .proposalRevision}' revised.json)" | jq .status
-curl --fail-with-body --silent --show-error \
-  -X DELETE "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .status
-# To purge instead of restoring, DELETE /proposals/$PROPOSAL_ID.
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-trash" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Accept and publish
 
@@ -418,91 +115,15 @@ The `promoting` and `promoted` states prevent further review changes. If accepta
 
 Inspect the returned FAQ, then [publish its version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}). Acceptance does not grant publication permission.
 
-{{< multitabs id="playbook-proposal-final-review" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-final_review = playbook.get_proposal(proposal_id=proposal_id)
-print(final_review.action, final_review.evidence)
-```
-
--tab-sep-
-
-```typescript
-const finalReview = await playbook.getProposal(proposalId);
-console.log(finalReview.action, finalReview.evidence);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > final-review.json
-jq '{action, evidence, proposalRevision}' final-review.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-final-review" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Accept the reviewed revision.
 
-{{< multitabs id="playbook-proposal-accept" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-accepted = playbook.accept_proposal(
-    proposal_id=proposal_id,
-    expected_proposal_revision=final_review.proposal_revision,
-)
-print(accepted.entry.entry_id, accepted.version.version, accepted.version.content)
-```
-
--tab-sep-
-
-```typescript
-const accepted = await playbook.acceptProposal(proposalId, {
-  expectedProposalRevision: finalReview.proposalRevision,
-});
-console.log(accepted.entry.entryId, accepted.version.version, accepted.version.content);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/proposals/$PROPOSAL_ID/acceptance" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq '{expectedProposalRevision: .proposalRevision}' final-review.json)" > accepted.json
-jq '{entryId: .entry.entryId, version: .version.version, content: .version.content}' accepted.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-accept" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Publish the returned FAQ version after review.
 
-{{< multitabs id="playbook-proposal-publish" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.publish_faq(faq_id=accepted.entry.entry_id, version=accepted.version.version)
-```
-
--tab-sep-
-
-```typescript
-await playbook.publishFaq(accepted.entry.entryId, { version: accepted.version.version });
-```
-
--tab-sep-
-
-```bash
-ACCEPTED_FAQ_ID=$(jq -er '.entry.entryId' accepted.json)
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/faqs/$ACCEPTED_FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq '{version: .version.version}' accepted.json)" | jq .publication
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 The accepted FAQ remains after this example. Delete it with the [FAQ cleanup procedure]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) using the returned entry identifier when you finish.
 
@@ -510,51 +131,7 @@ The accepted FAQ remains after this example. Delete it with the [FAQ cleanup pro
 
 The trash view includes dismissed or expired proposals and retained `promoted` history. A promoted proposal cannot be restored or edited. Read its detail with `get_proposal` while it is retained, or purge it when its review record is no longer needed. Purging the proposal does not delete the accepted FAQ. A `promoting` proposal remains in the inbox for acceptance recovery and cannot be purged.
 
-{{< multitabs id="playbook-proposal-history" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-cursor = None
-while True:
-    page = playbook.list_proposals(view="trash", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total trash proposals:", page.total if page.total is not None else "unknown")
-    for item in page.proposals:
-        print(item.proposal_id, item.status, item.evidence_count, item.action)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let trashCursor: string | undefined;
-while (true) {
-  const page = await playbook.listProposals("trash", "updatedAt", "desc", 50, trashCursor);
-  if (trashCursor === undefined) console.log("Total trash proposals:", page.total ?? "unknown");
-  for (const item of page.proposals) console.log(item.proposalId, item.status, item.evidenceCount, item.action);
-  trashCursor = page.nextCursor;
-  if (trashCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode view=trash --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > trash.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' trash.json; fi
-  jq '.proposals[] | {proposalId, status, evidenceCount, action}' trash.json
-  CURSOR=$(jq -r '.nextCursor // empty' trash.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Review background extraction results
 

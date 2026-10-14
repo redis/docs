@@ -1,4 +1,4 @@
-"""Run displayed examples and downloads against a disposable local Playbooks stack.
+"""Run displayed TCE steps and full-program copies against a disposable local Playbooks stack.
 
 Provision one playbook per case through the control plane and obtain scoped keys
 from Identity Service. The stack must allow the selected embedding model.
@@ -22,7 +22,7 @@ from uuid import uuid4
 
 from redis_agent_playbook import Playbook
 
-from examples import GUIDES, downloads, scripts, skill_package, standalone_python
+from examples import GUIDES, full_examples, scripts, skill_package, standalone_python
 
 HERE = Path(__file__).resolve().parent
 
@@ -37,19 +37,34 @@ def request(method, url, token, body=None):
     return json.loads(data) if data else None
 
 
-def create_key(ids_url, control_token, playbook_id, actions):
+def create_key(ids_url, control_token, playbook_id, actions, tenant_id=None, key_ids=None):
     for attempt in range(10):
         try:
             result = request("POST", ids_url + "/v1/api-keys", control_token, {
                 "name": "docs-validation-" + uuid4().hex[:12],
-                "grants": [{"product": "playbook", "resourceType": "playbook",
+                "grants": [{**({"tenant": tenant_id} if tenant_id else {}), "product": "playbook", "resourceType": "playbook",
                             "resourceId": playbook_id, "actions": actions}],
             })
+            if key_ids is not None:
+                key_ids.append(result["keyId"])
             return result["token"]
         except HTTPError as error:
             if error.code not in (404, 409, 503) or attempt == 9:
                 raise
             time.sleep(1)
+
+
+def cleanup(args, playbook_id, key_ids):
+    failures = []
+    targets = [(args.ids_url + "/v1/api-keys/" + key_id, args.control_token)
+               for key_id in key_ids]
+    targets.append((args.cp_url + "/v1/playbooks/" + playbook_id, args.admin_token))
+    for url, token in targets:
+        try:
+            request("DELETE", url, token)
+        except Exception as error:
+            failures.append(f"{url}: {error}")
+    return failures
 
 
 def seed(client, directory, kind):
@@ -76,9 +91,9 @@ def cases():
     for guide in GUIDES:
         for suffix, source in scripts(guide).items():
             result[f"{guide}.{suffix}"] = (guide, suffix, source)
-    for path, source in downloads().items():
+    for path, source in full_examples().items():
         if path.name != "prepare_skill.sh":
-            result[f"{path.stem}_download{path.suffix}"] = (path.stem, path.suffix[1:], source)
+            result[f"{path.stem}_copy{path.suffix}"] = (path.stem, path.suffix[1:], source)
     result["async_search.py"] = ("async_search", "py", standalone_python("quickstart", "Use Python asynchronously"))
     return result
 
@@ -92,8 +107,9 @@ def run_case(name, case, args, log_dir):
     })
     playbook_id = created["playbookId"]
     author_key = reader_key = ""
+    key_ids = []
     try:
-        author_key = create_key(args.ids_url, args.control_token, playbook_id, ["read", "write", "publish", "propose"])
+        author_key = create_key(args.ids_url, args.control_token, playbook_id, ["read", "write", "publish", "propose"], args.tenant_id, key_ids)
         with tempfile.TemporaryDirectory(prefix="playbook-live-") as directory:
             directory = Path(directory)
             (directory / "node_modules").symlink_to(HERE / "node_modules", target_is_directory=True)
@@ -109,7 +125,7 @@ def run_case(name, case, args, log_dir):
                 if guide in ("retrieval", "mcp"):
                     env["PLAYBOOK_SKILL_ID"] = seed(client, directory, "skill")
                 if guide in ("retrieval", "limits", "async_search", "mcp"):
-                    reader_key = create_key(args.ids_url, args.control_token, playbook_id, ["read"])
+                    reader_key = create_key(args.ids_url, args.control_token, playbook_id, ["read"], args.tenant_id, key_ids)
                     env["PLAYBOOK_API_KEY"] = reader_key
                 if guide == "mcp" and suffix == "sh":
                     env["PLAYBOOK_URL"] = args.hosted_url.rstrip("/")
@@ -130,17 +146,24 @@ def run_case(name, case, args, log_dir):
                 (log_dir / (name + ".log")).write_text(output)
                 if completed.returncode:
                     raise RuntimeError(f"Exit {completed.returncode}; see {name}.log")
-                if name.startswith("quickstart_download"):
+                if name.startswith("quickstart_copy"):
                     entries = client.list_faqs().faqs
                     if not any(entry.latest_version == 2 and entry.publication.version == 2 for entry in entries if entry.publication):
-                        raise RuntimeError("Quickstart download did not retain its updated publication")
-                if name.startswith("skills_download"):
+                        raise RuntimeError("Quickstart copy did not retain its updated publication")
+                if name.startswith("skills_copy"):
                     if not any(entry.publication for entry in client.list_skills().skills):
-                        raise RuntimeError("Skill download did not retain a publication")
+                        raise RuntimeError("Skill copy did not retain a publication")
                 if guide == "mcp" and ("Processing" not in completed.stdout or "load_skill" not in completed.stdout or "fetch_resource" not in completed.stdout):
                     raise RuntimeError("Agent did not load the skill/template and preserve the refund stage")
     finally:
-        request("DELETE", args.cp_url + "/v1/playbooks/" + playbook_id, args.admin_token)
+        original_error = sys.exc_info()[0] is not None
+        failures = cleanup(args, playbook_id, key_ids)
+        if failures:
+            details = "Cleanup failures: " + "; ".join(failures)
+            if original_error:
+                print(details, file=sys.stderr)
+            else:
+                raise RuntimeError(details)
 
 
 def main():
@@ -155,6 +178,7 @@ def main():
     parser.add_argument("--embedding-dimensions", type=int, default=384)
     parser.add_argument("--hosted-url", help="Public HTTPS base URL forwarding to the local data plane")
     parser.add_argument("--case", action="append", choices=cases())
+    parser.add_argument("--tenant-id", default=os.environ.get("TENANT_ID"), help="Deployment tenant for strict Identity Service grants")
     parser.add_argument("--log-dir", type=Path, required=True)
     args = parser.parse_args()
     if args.hosted_url and urlsplit(args.hosted_url).scheme != "https":

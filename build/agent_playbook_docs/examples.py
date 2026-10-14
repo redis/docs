@@ -1,47 +1,94 @@
-"""Extract runnable examples from the documentation, their only editable source.
+"""Read the standard TCE sources for Playbooks validation.
 
-The guides share the quickstart connection block. MCP has its own complete client.
-Validation scripts stay in a temporary directory. Downloadable walkthroughs are
-generated beside their pages and checked against these same snippets.
+Site builds use build/local_examples.py and clients-example. This adapter exposes
+those same processed source files and named steps to the API example checks.
 """
 
+from functools import lru_cache
 from pathlib import Path
 import re
+import shutil
+import sys
+from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "build"))
+from components.example import Example
+from local_examples import get_example_id_from_file, get_language_from_extension
+
 DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
-PAGE_NAMES = {"faqs": "manage-faqs"}
+SOURCES = ROOT / "local_examples/iris/playbooks"
 GUIDES = ("quickstart", "faqs", "skills", "proposals", "retrieval", "mcp", "limits")
-DOWNLOADS = {
-    "quickstart": {"playbook-quickstart-delete"},
-    "skills": {"playbook-skill-withdraw", "playbook-skill-delete"},
-}
-TABS = re.compile(r'\{\{< multitabs id="([^"]+)"[^>]*>\}\}(.*?)\{\{< /multitabs >\}\}', re.S)
+PAGE_NAMES = {"faqs": "manage-faqs"}
+CLIENTS = {}
+for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitlines():
+    if row.startswith("iris-"):
+        fields = row.split("\t")
+        CLIENTS[fields[6].rsplit(".", 1)[1]] = fields[1]
+assert set(CLIENTS) == {"py", "mts", "sh"}
+CALLS = re.compile(r'\{\{< clients-example\s+([^>]*?)/>\}\}', re.S)
+ATTRS = re.compile(r'(\w+)="([^"]*)"')
 FENCE = re.compile(r"```(?:python|typescript|bash)\n(.*?)\n```", re.S)
+
+
+def source_path(page, suffix, action=None):
+    name = f"{page}_{action}" if action else "mcp_example" if page == "mcp" else page
+    return SOURCES / page / f"{name}.{suffix}"
+
+
+@lru_cache(maxsize=128)
+def _processed(path, mtime):
+    with TemporaryDirectory(prefix="playbook-tce-") as directory:
+        target = Path(directory) / path.name
+        shutil.copy2(path, target)
+        example = Example(get_language_from_extension(path.name), str(target))
+        assert example.named_steps, f"No named steps in {path}"
+        return target.read_text(), example.named_steps
+
+
+def processed(path):
+    return _processed(path, path.stat().st_mtime_ns)
+
+
+def bundle(set_id):
+    result = {}
+    for path in SOURCES.rglob("*"):
+        suffix = path.suffix.lstrip(".")
+        if suffix in CLIENTS and get_example_id_from_file(str(path)) == set_id:
+            assert suffix not in result, f"Duplicate {suffix} source in {set_id}"
+            result[suffix] = path
+    assert result, f"Unknown Playbook example set: {set_id}"
+    return result
+
+
+def step(path, name):
+    source, steps = processed(path)
+    assert name in steps, f"Missing {name} in {path}"
+    start, end = map(int, steps[name].split("-"))
+    return "\n".join(source.splitlines()[start - 1:end])
+
+
+def calls(page):
+    source = (DOCS / f"{PAGE_NAMES.get(page, page)}.md").read_text()
+    return [dict(ATTRS.findall(body)) for body in CALLS.findall(source)]
 
 
 def blocks(page):
     result = []
     seen = set()
-    for name, body in TABS.findall((DOCS / f"{PAGE_NAMES.get(page, page)}.md").read_text()):
-        assert name not in seen, f"Duplicate tab group in {page}: {name}"
-        seen.add(name)
-        if name.endswith("-install") or name == "playbook-install":
+    for attrs in calls(page):
+        if len(attrs.get("lang_filter", "").split(",")) != 3:
             continue
-        sections = body.split("-tab-sep-")
-        assert len(sections) == 3, name
-        snippets = []
-        for section in sections:
-            matches = FENCE.findall(section)
-            assert len(matches) == 1, name
-            snippets.append(matches[0])
-        result.append((name, snippets))
+        name = attrs["step"]
+        assert name not in seen, f"Duplicate step in {page}: {name}"
+        seen.add(name)
+        files = bundle(attrs["set"])
+        result.append((name, [step(files[suffix], name) for suffix in CLIENTS]))
     return result
 
 
 def skill_package():
-    text = (DOCS / "skills.md").read_text()
-    return next(code for code in FENCE.findall(text) if code.startswith("mkdir -p refund-support-reply/"))
+    return step(source_path("skills", "sh"), "playbook-skill-package")
 
 
 def scripts(page, omit=()):
@@ -53,51 +100,31 @@ def scripts(page, omit=()):
     if page == "skills":
         result[2] = skill_package() + "\n\n" + result[2]
     result[2] = "set -euo pipefail\n\n" + result[2]
-    return dict(zip(("py", "mts", "sh"), result))
+    return dict(zip(CLIENTS, result))
 
 
-def downloads():
-    result = {}
-    for page, omit in DOWNLOADS.items():
-        assert omit <= {name for name, _ in blocks(page)}, (page, omit)
-        for suffix, source in scripts(page, omit=omit).items():
-            marker = "//" if suffix == "mts" else "#"
-            header = f"{marker} Generated from {page}.md; edit the page, then run examples.py --refresh-downloads.\n"
-            result[DOCS / page / f"{page}.{suffix}"] = header + source
-    result[DOCS / "skills/prepare_skill.sh"] = (
-        "# Generated from skills.md; edit the page, then run examples.py --refresh-downloads.\n"
-        "set -euo pipefail\n\n" + skill_package() + "\n"
-    )
-    return result
+def full_examples():
+    return {source_path(page, suffix): processed(source_path(page, suffix))[0]
+            for page in ("quickstart", "skills") for suffix in CLIENTS}
 
 
 def standalone_python(page, heading):
-    source = (DOCS / f"{PAGE_NAMES.get(page, page)}.md").read_text().split(f"## {heading}\n", 1)[1].split("\n## ", 1)[0]
-    snippets = re.findall(r"```python\n(.*?)\n```", source, re.S)
-    assert len(snippets) == 1, (page, heading)
-    return snippets[0] + "\n"
+    assert (page, heading) == ("quickstart", "Use Python asynchronously")
+    return processed(SOURCES / "async/async_example.py")[0]
 
 
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("output", type=Path, nargs="?")
-    parser.add_argument("--refresh-downloads", action="store_true",
-                        help="Refresh the downloadable scripts from the displayed walkthroughs.")
+    parser.add_argument("output", type=Path)
     args = parser.parse_args()
-    if args.refresh_downloads:
-        for path, source in downloads().items():
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(source)
-    if args.output is None:
-        if not args.refresh_downloads:
-            parser.error("Provide an output directory or --refresh-downloads.")
-        raise SystemExit(0)
     args.output.mkdir(parents=True, exist_ok=True)
+    for path in args.output.glob("*_download.*"):
+        path.unlink()
     for page in GUIDES:
         for suffix, source in scripts(page).items():
             (args.output / f"{page}_example.{suffix}").write_text(source)
-    for path, source in downloads().items():
-        (args.output / f"{path.stem}_download{path.suffix}").write_text(source)
+    for path, source in full_examples().items():
+        (args.output / f"{path.stem}_copy{path.suffix}").write_text(source)
     (args.output / "async_search_example.py").write_text(standalone_python("quickstart", "Use Python asynchronously"))

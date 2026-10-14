@@ -7,7 +7,7 @@ import re
 from openapi_spec_validator import validate
 
 from check_sdk_source import check
-from examples import downloads
+from examples import CLIENTS, GUIDES, bundle, calls, processed, source_path, step
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,6 +32,21 @@ def test_source_lock():
     check()
 
 
-def test_downloads_match_displayed_examples():
-    for path, source in downloads().items():
-        assert path.read_text() == source, f"Refresh {path} with examples.py --refresh-downloads"
+def test_tce_sources_cover_rendered_steps():
+    for page in GUIDES:
+        for attrs in calls(page):
+            files = bundle(attrs["set"])
+            clients = attrs["lang_filter"].split(",")
+            for suffix, client in CLIENTS.items():
+                if client in clients:
+                    assert step(files[suffix], attrs["step"])
+                    source, _ = processed(files[suffix])
+                    assert "STEP_START" not in source and "EXAMPLE:" not in source
+
+
+def test_optional_cleanup_is_separate_from_full_program_copies():
+    for page in ("quickstart", "faqs", "skills"):
+        for suffix in CLIENTS:
+            source, _ = processed(source_path(page, suffix))
+            assert not re.search(r"delete_(faq|skill)\(|delete(Faq|Skill)\(|-X DELETE", source)
+            assert not re.search(r"withdraw_(faq|skill)\(|withdraw(Faq|Skill)\(|/publication.*DELETE", source)

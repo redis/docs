@@ -32,31 +32,7 @@ Call `discover_entries` with a Python or TypeScript SDK, over HTTP, or through [
 
 Request up to five entries for the agent's task:
 
-{{< multitabs id="playbook-retrieval-discover" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-discovery = playbook.discover_entries(query="Draft a reply for a customer whose refund shows Processing", limit=5)
-print(discovery.model_dump_json(by_alias=True, indent=2))
-```
-
--tab-sep-
-
-```typescript
-const discovery = await playbook.discoverEntries({ query: "Draft a reply for a customer whose refund shows Processing", limit: 5 });
-console.log(JSON.stringify(discovery, null, 2));
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/discover" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Draft a reply for a customer whose refund shows Processing","limit":5}' | jq .
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-discover" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### How discovery selects entries
 
@@ -108,43 +84,7 @@ Export the identifier of a published skill, such as the sample in [Manage skills
 export PLAYBOOK_SKILL_ID='<published-skill-entry-id>'
 ```
 
-{{< multitabs id="playbook-retrieval-pin" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-skill_id = os.environ["PLAYBOOK_SKILL_ID"]
-pinned = playbook.discover_entries(
-    query="Draft a reply for a customer whose refund shows Processing",
-    pinned_entries=[{"entry_id": skill_id}],
-)
-selected_preview = pinned.pinned_entries[0]
-print(selected_preview.entry_id, selected_preview.version)
-```
-
--tab-sep-
-
-```typescript
-const skillId = requiredEnv("PLAYBOOK_SKILL_ID");
-const pinned = await playbook.discoverEntries({
-  query: "Draft a reply for a customer whose refund shows Processing",
-  pinnedEntries: [{ entryId: skillId }],
-});
-const selectedPreview = pinned.pinnedEntries[0];
-if (!selectedPreview) throw new Error("Pinned skill is missing");
-console.log(selectedPreview.entryId, selectedPreview.version);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/discover" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq -n --arg id "$PLAYBOOK_SKILL_ID" '{query: "Draft a reply for a customer whose refund shows Processing", pinnedEntries: [{entryId: $id}]}')" > discovery.json
-jq '.pinnedEntries[0] | {entryId, version}' discovery.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-pin" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Limit discovery previews
 
@@ -157,27 +97,7 @@ Use the preview budget to limit the knowledge returned in one discovery response
 
 Empty results with `budgetTruncated: true` can mean matches did not fit. Shorten FAQ answers or skill descriptions, or raise the ceiling through your administrator. Increasing the result count does not increase the token budget. Type-specific search does not use this budget.
 
-{{< multitabs id="playbook-retrieval-budget" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-print("Result limit reached:", pinned.truncated)
-print("Preview budget reached:", pinned.budget_truncated or False)
-```
-
--tab-sep-
-
-```typescript
-console.log("Result limit reached:", pinned.truncated);
-console.log("Preview budget reached:", pinned.budgetTruncated ?? false);
-```
-
--tab-sep-
-
-```bash
-jq '{truncated, budgetTruncated: (.budgetTruncated // false)}' discovery.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-budget" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Load skills with progressive disclosure
 
@@ -195,55 +115,7 @@ Reader keys can load only the current publication. MCP tools apply this restrict
 
 The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect an agent]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-an-agent" >}}).
 
-{{< multitabs id="playbook-retrieval-load" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-selected = playbook.get_skill_version(skill_id=selected_preview.entry_id, version=selected_preview.version)
-skill = selected.content.payload.skill
-if skill is None:
-    raise ValueError("Expected a skill")
-print(skill.instructions)
-resource = next((r for r in skill.resources if r.path == "references/reply-template.md"), None)
-if resource is None:
-    raise ValueError("Reply template is missing")
-response = playbook.get_skill_resource(
-    skill_id=selected.entry_id, version=selected.version, resource_id=resource.resource_id,
-)
-try:
-    print(response.result.read().decode("utf-8"))
-finally:
-    response.result.close()
-```
-
--tab-sep-
-
-```typescript
-const selected = await playbook.getSkillVersion(selectedPreview.entryId, selectedPreview.version);
-if (!("skill" in selected.content.payload)) throw new Error("Expected a skill");
-const skill = selected.content.payload.skill;
-console.log(skill.instructions);
-const resource = skill.resources.find(r => r.path === "references/reply-template.md");
-if (!resource) throw new Error("Reply template is missing");
-const response = await playbook.getSkillResource(selected.entryId, selected.version, resource.resourceId);
-console.log(await new Response(response.result).text());
-```
-
--tab-sep-
-
-```bash
-SKILL_ID=$(jq -er '.pinnedEntries[0].entryId' discovery.json)
-SKILL_VERSION=$(jq -er '.pinnedEntries[0].version' discovery.json)
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > selected-skill.json
-jq -r '.content.payload.skill.instructions' selected-skill.json
-RESOURCE_ID=$(jq -er '.content.payload.skill.resources[] | select(.path == "references/reply-template.md") | .resourceId' selected-skill.json)
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION/resources/$RESOURCE_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY"
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-load" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Search
 
@@ -260,40 +132,7 @@ Semantic matching compares your query with the FAQ question or the skill's name 
 
 Retain returned entry identifiers and versions with the content you select.
 
-{{< multitabs id="playbook-retrieval-search" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-faq_results = playbook.search_faqs(query="Where is my refund?", limit=5)
-skill_results = playbook.search_skills(query="Draft a reply about a reported refund stage", limit=5)
-print(faq_results.model_dump_json(by_alias=True, indent=2))
-print(skill_results.model_dump_json(by_alias=True, indent=2))
-```
-
--tab-sep-
-
-```typescript
-const faqResults = await playbook.searchFaqs({ query: "Where is my refund?", limit: 5 });
-const skillResults = await playbook.searchSkills({ query: "Draft a reply about a reported refund stage", limit: 5 });
-console.log(JSON.stringify(faqResults, null, 2));
-console.log(JSON.stringify(skillResults, null, 2));
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Where is my refund?","limit":5}' | jq .
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/skills/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Draft a reply about a reported refund stage","limit":5}' | jq .
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Control relevance and result count
 
@@ -312,31 +151,7 @@ Similarity ranks matches; it does not measure answer correctness. Test “Where 
 
 For example, override the FAQ search threshold and result count for one request:
 
-{{< multitabs id="playbook-retrieval-threshold" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-tuned = playbook.search_faqs(query="Where is my refund?", minimum_score=0.75, limit=3)
-print(tuned.matches)
-```
-
--tab-sep-
-
-```typescript
-const tuned = await playbook.searchFaqs({ query: "Where is my refund?", minimumScore: 0.75, limit: 3 });
-console.log(tuned.matches);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Where is my refund?","minimumScore":0.75,"limit":3}' | jq .matches
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-threshold" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Select an audience with filters
 
@@ -346,42 +161,6 @@ Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `
 
 An equality filter matches a scalar attribute or a member of a list-valued attribute. Boolean `true`, integer `1`, and string `"true"` are different values. Filters do not search metadata and do not replace playbook access grants.
 
-{{< multitabs id="playbook-retrieval-filter" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-filtered = playbook.search_faqs(
-    query="Where is my refund?",
-    filter_={"and_": [
-        {"eq": {"name": "locale", "value": "en-US"}},
-        {"eq": {"name": "topic", "value": "refund"}},
-    ]},
-)
-print(filtered.model_dump_json(by_alias=True, indent=2))
-```
-
--tab-sep-
-
-```typescript
-const filtered = await playbook.searchFaqs({
-  query: "Where is my refund?",
-  filter: { and: [
-    { eq: { name: "locale", value: "en-US" } },
-    { eq: { name: "topic", value: "refund" } },
-  ] },
-});
-console.log(JSON.stringify(filtered, null, 2));
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Where is my refund?","filter":{"and":[{"eq":{"name":"locale","value":"en-US"}},{"eq":{"name":"topic","value":"refund"}}]}}' | jq .
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Use entry lookup or list operations for management state. Lists use pagination cursors; search and discovery use result limits. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for request constraints and recovery.
