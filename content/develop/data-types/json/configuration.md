@@ -65,7 +65,7 @@ Default: `no`
 
 ## Auto-create missing paths
 
-When `json-auto-create-deep-paths` is `yes`, a write command creates every missing object in its path and then writes at the end of the path. When it's `no`, the command writes only if everything except the last key in the path already exists.
+When `json-auto-create-deep-paths` is set to `yes`, a write command creates every missing object in its path and then writes at the end of the path. When it's set to `no`, the command writes only if everything except the last key in the path already exists.
 
 For example, the following document has no `b` key. With auto-creation disabled, `JSON.SET doc $.a.b.c 5` returns `(nil)`. With it enabled, the command creates `b`:
 
