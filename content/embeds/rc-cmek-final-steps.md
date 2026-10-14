@@ -11,4 +11,5 @@ Provide a new key as soon as possible to avoid service disruption.
 
 6. After you finish granting access to your key, you can save your changes. For a new subscription, select **Activate** to activate your subscription and start billing.
 
-    {{<image filename="images/rc/cmek-new-subscription-activate.png" alt="The Activate button." width=500px >}}
+    ![The Activate button.](/images/rc/cmek-new-subscription-activate.png)
+    {width="500px"}
