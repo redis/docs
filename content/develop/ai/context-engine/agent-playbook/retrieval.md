@@ -79,7 +79,7 @@ The request controls are:
 | `query` | Describe the agent's task. Required even when supplying pins. |
 | `filter` | Restrict semantic matches by attributes. Uses the same [filter expressions as search]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#select-an-audience-with-filters" >}}); pins bypass it. |
 | `limit` | Reduce the combined result count. Omission uses `discovery.maxResults`, which also caps an explicit limit. |
-| `pinnedEntries` | Require known published entries, in the order supplied. Python and the MCP tool use `pinned_entries`. |
+| `pinnedEntries` | Require known published entries, in the order supplied. |
 
 Your administrator sets the playbook controls:
 
@@ -297,7 +297,7 @@ curl --fail-with-body --silent --show-error \
 
 ### Control relevance and result count
 
-Search accepts these request controls. The table uses HTTP field names; Python uses `minimum_score` and `filter_`.
+Search accepts these request controls. The table uses HTTP field names.
 
 | Control | Default | Use it to |
 |:--------|:--------|:----------|
@@ -342,7 +342,7 @@ curl --fail-with-body --silent --show-error \
 
 Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
 
-Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`. In Python, the client uses `filter_`, `and_`, and `or_` to avoid reserved words. Direct requests use `filter`, `and`, and `or`.
+Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`.
 
 An equality filter matches a scalar attribute or a member of a list-valued attribute. Boolean `true`, integer `1`, and string `"true"` are different values. Filters do not search metadata and do not replace playbook access grants.
 

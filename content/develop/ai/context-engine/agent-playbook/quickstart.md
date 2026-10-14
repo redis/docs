@@ -412,7 +412,7 @@ The result for your FAQ should now identify version `2` and include the added se
 
 ## Clean up
 
-Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). The downloads omit cleanup. When you finish, delete the FAQ and its versions. If you used a download, open a new script with the client setup and set `faq_id` (Python), `faqId` (TypeScript), or `FAQ_ID` (HTTP) to the printed entry identifier before running this deletion. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
+Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). The downloads omit cleanup. When you finish, delete the FAQ and its versions. If you used a download, start a new script with the client setup and use the printed entry identifier for deletion. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
 
 {{< multitabs id="playbook-quickstart-delete" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
 

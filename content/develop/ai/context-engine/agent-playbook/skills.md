@@ -68,7 +68,7 @@ zip -r refund-support-reply.zip refund-support-reply
 
 ## Upload and validate a skill
 
-Create an entry with `create_skill`. Supply the archive as `package_base64` in the Python client or `packageBase64` in a direct request. Include intents, attributes, and metadata alongside the package.
+Create an entry with `create_skill`. Supply the base64-encoded archive with intents, attributes, and metadata.
 
 Upload validation rejects invalid frontmatter, a mismatched root name, unsafe or duplicate paths, symbolic links, special files such as device files, and content exceeding its limits. Regular text and binary files are supported. Include only the skill directory in the archive.
 
@@ -430,7 +430,7 @@ done
 
 Withdraw the publication with `withdraw_skill` to stop serving the procedure while keeping its history. Delete the entry with `delete_skill` when you want to remove all its versions and files permanently.
 
-The downloads omit these operations. For cleanup after a download, use a new script with the client setup and set `skill_id` (Python), `skillId` (TypeScript), or `SKILL_ID` (HTTP) to the printed identifier.
+The downloads omit these operations. For cleanup after a download, start a new script with the client setup and use the printed skill identifier.
 
 {{< multitabs id="playbook-skill-withdraw" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
 

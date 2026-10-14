@@ -238,7 +238,7 @@ Both methods use the same connection and reader key as the tools. File reads enf
 ## Troubleshoot the connection
 
 - If the connection fails, check the full MCP endpoint, network reachability, and reader key. A hosted client cannot reach your application's local address.
-- If the agent has no playbook tools, check that the connection is attached through `mcp_servers`, `mcpServers`, or the HTTP request's `tools` field.
+- If the agent has no playbook tools, check that the MCP connection is attached to the agent or model request.
 - If retrieval fails or returns no matches, inspect the agent run's tool results. Follow the Retrieval guide's guidance on [pins]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), [preview limits]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#limit-discovery-previews" >}}), and [publication changes]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
 
 Preserve error details for diagnosis without logging keys or private content. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for request constraints and recovery.
