@@ -20,7 +20,7 @@ DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
 SOURCES = ROOT / "local_examples/iris/playbooks"
 GUIDES = ("quickstart", "faqs", "skills", "proposals", "retrieval", "mcp", "limits")
 AGENT_GUIDES = ("openai_agent", "langgraph_agent")
-PAGE_NAMES = {"faqs": "manage-faqs"}
+PAGE_NAMES = {"faqs": "manage-faqs", "skills": "manage-skills"}
 CLIENTS = {}
 for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitlines():
     if row.startswith("iris-"):

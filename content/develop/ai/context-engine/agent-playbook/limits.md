@@ -148,4 +148,4 @@ Use a key with `write` permission for bulk deletion or clearing. Choose the scop
 
 Bulk deletion accepts 1–100 entry identifiers of the selected type. Clearing accepts `entries`, `proposals`, or `all`; omitting the scope means `all`. Clearing preserves the playbook and its configuration, but permanently removes the selected content. It can make partial progress before a failure. The returned `deletedEntriesCount` counts entries removed by that request, not proposals.
 
-For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills#withdraw-or-delete-a-skill" >}}).
+For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills#withdraw-or-delete-a-skill" >}}).

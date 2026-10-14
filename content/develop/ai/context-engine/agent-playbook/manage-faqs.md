@@ -23,7 +23,7 @@ Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engin
 
 Write a question in the language a user would use. Include conditions that distinguish it from similar questions, such as the product or region. Make the answer self-contained: the agent receives it without the source conversation or document.
 
-The sample FAQ explains where to find refund status. Use a [skill]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}) when the agent must interpret the customer's reported stage, choose a template, and draft a reply.
+The sample FAQ explains where to find refund status. Use a [skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) when the agent must interpret the customer's reported stage, choose a template, and draft a reply.
 
 Use these fields to describe the answer and its audience:
 

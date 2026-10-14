@@ -1,8 +1,8 @@
 """Execute the displayed clients against a local, schema-checked HTTP fixture.
 
 This verifies client signatures, serialized requests, response handling, and tab
-parity. MCP agent runs use a scripted local model response; the HTTP tab checks
-hosted MCP configuration. No live model or deployed service is called.
+parity. Framework and MCP client checks are in test_agents.py. No live model or
+deployed service is called.
 """
 
 import ast

@@ -78,7 +78,7 @@ Pins bypass similarity thresholds and the request filter. Choose pins for the in
 
 A missing, unpublished, duplicate, or oversized pin fails the request. Use pins to test connectivity or include required content; evaluate semantic relevance without them.
 
-Export the identifier of a published skill, such as the sample in [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}), before cleanup:
+Export the identifier of a published skill, such as the sample in [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}), before cleanup:
 
 ```bash
 export PLAYBOOK_SKILL_ID='<published-skill-entry-id>'
@@ -155,7 +155,7 @@ For example, override the FAQ search threshold and result count for one request:
 
 ### Select an audience with filters
 
-Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
+Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
 
 Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`.
 

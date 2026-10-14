@@ -129,6 +129,6 @@ Every Python SDK operation has an `_async` counterpart. This standalone example 
 ## Next steps
 
 - [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) to roll back or withdraw an answer.
-- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}) to publish a procedure and load supporting files.
+- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) to publish a procedure and load supporting files.
 - [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) to accept suggested answers before publishing them.
 - [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) to retrieve context before a turn and load skills through MCP.

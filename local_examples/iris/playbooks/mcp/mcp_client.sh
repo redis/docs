@@ -43,39 +43,11 @@ read_result() {
   jq -e '.structuredContent // ([.content[] | select(.type == "text")][0].text | fromjson)'
 }
 
-PREVIEWS=$(rpc tools/call '{
+rpc tools/call '{
   "name": "discover_entries",
   "arguments": {
     "query": "Draft a reply to a customer whose refund status shows Processing.",
     "limit": 3
   }
-}' 3 | read_result)
-ENTRIES=$(jq -e '
-  if (.pinnedEntries | type) == "array" and (.discoveredEntries | type) == "array"
-  then .pinnedEntries + .discoveredEntries
-  else error("Invalid discovery response") end
-' <<< "$PREVIEWS")
-jq -r '.[] | select(.entryType == "faq") | "FAQ: \(.faq.answer)"' <<< "$ENTRIES"
-SKILL=$(jq '[.[] | select(.entryType == "skill")][0]' <<< "$ENTRIES")
-if [[ "$SKILL" == null ]]; then
-  printf 'No skill preview returned; check the query, publication, and discovery budget.\n'
-  exit 0
-fi
-
-LOAD_PARAMS=$(jq '{name: "load_skill", arguments: {entry_id: .entryId, version: .version}}' <<< "$SKILL")
-LOADED=$(rpc tools/call "$LOAD_PARAMS" 4 | read_result)
-jq -er '.content.instructions | select(type == "string")' <<< "$LOADED"
-RESOURCE=$(jq '[.content.resources[] | select(.path == "references/reply-template.md")][0]' <<< "$LOADED")
-if [[ "$RESOURCE" == null ]]; then
-  printf 'This skill has no refund reply template.\n'
-  exit 0
-fi
-FETCH_PARAMS=$(jq '{name: "fetch_resource", arguments: {uri: .uri}}' <<< "$RESOURCE")
-FILE=$(rpc tools/call "$FETCH_PARAMS" 5 | read_result)
-if jq -e 'has("text")' <<< "$FILE" > /dev/null; then
-  jq -er '.text | select(type == "string")' <<< "$FILE"
-else
-  jq -er '.blob | select(type == "string")' <<< "$FILE" | base64 --decode > resource.bin
-  printf 'Saved binary resource to resource.bin\n'
-fi
+}' 3 | read_result
 # STEP_END
