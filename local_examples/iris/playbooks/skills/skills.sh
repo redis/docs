@@ -1,6 +1,7 @@
-# Generated from skills.md; edit the page, then run examples.py --refresh-downloads.
+# EXAMPLE: iris_playbook_skills
 set -euo pipefail
 
+# STEP_START playbook-skill-package
 mkdir -p refund-support-reply/references
 cat > refund-support-reply/SKILL.md <<'SKILL'
 ---
@@ -24,13 +25,17 @@ Refund listed: Your order history shows "<displayed-stage>". Support can help if
 Refund missing: Contact support with your order number and explain that no refund appears in your order history.
 TEMPLATE
 zip -r refund-support-reply.zip refund-support-reply
+# STEP_END
 
+# HIDE_START
 set -euo pipefail
 PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
+# HIDE_END
 
+# STEP_START playbook-skill-create
 base64 < refund-support-reply.zip | tr -d '\r\n' > package.b64
 jq -n --rawfile package package.b64 '{
   packageBase64: $package,
@@ -46,17 +51,23 @@ curl --fail-with-body --silent --show-error \
 SKILL_ID=$(jq -er '.entry.entryId' skill-draft.json)
 SKILL_VERSION=$(jq -er '.version.version' skill-draft.json)
 jq .version skill-draft.json
+# STEP_END
 
+# STEP_START playbook-skill-review
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
+# STEP_END
 
+# STEP_START playbook-skill-publish
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/skills/$SKILL_ID/publication" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq -n --argjson version "$SKILL_VERSION" '{version: $version}')" | jq .publication
+# STEP_END
 
+# STEP_START playbook-skill-append
 base64 < refund-support-reply.zip | tr -d '\r\n' > package.b64
 jq --rawfile package package.b64 \
   '.packageBase64 = $package | .content.attributes.channel = "chat"' \
@@ -65,7 +76,9 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @skill-update.json | jq .version
+# STEP_END
 
+# STEP_START playbook-skill-load
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" > selected-skill.json
@@ -74,7 +87,9 @@ RESOURCE_ID=$(jq -er '.content.payload.skill.resources[] | select(.path == "refe
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION/resources/$RESOURCE_ID" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY"
+# STEP_END
 
+# STEP_START playbook-skill-list
 CURSOR=''
 while true; do
   PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
@@ -86,10 +101,14 @@ while true; do
   CURSOR=$(jq -r '.nextCursor // empty' skill-page.json)
   [[ -n "$CURSOR" ]] || break
 done
+# STEP_END
 
+# STEP_START playbook-skill-state
 curl --fail-with-body --silent --show-error "$PLAYBOOK_API/skills/$SKILL_ID" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq '{latestVersion, publication}'
+# STEP_END
 
+# STEP_START playbook-skill-history
 CURSOR=''
 while true; do
   PAGE_ARGS=(--data-urlencode limit=50)
@@ -100,3 +119,4 @@ while true; do
   CURSOR=$(jq -r '.nextCursor // empty' skill-versions.json)
   [[ -n "$CURSOR" ]] || break
 done
+# STEP_END

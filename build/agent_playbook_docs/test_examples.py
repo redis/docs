@@ -25,7 +25,7 @@ from jsonschema import Draft4Validator
 import pytest
 import yaml
 
-from examples import DOCS, FENCE, GUIDES, blocks, downloads, scripts, skill_package, standalone_python
+from examples import DOCS, FENCE, GUIDES, blocks, full_examples, processed, source_path, scripts, skill_package, standalone_python
 
 HERE = Path(__file__).parent
 SPEC = json.loads((DOCS / 'api-reference/openapi.json').read_text())
@@ -555,15 +555,13 @@ def test_displayed_tabs_execute_and_send_equivalent_requests(page, omit_totals, 
 
 @pytest.mark.parametrize('page', ('quickstart', 'skills'))
 @pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
-def test_downloaded_walkthrough_retains_published_sample(page, suffix, fixture_server, tmp_path):
+def test_full_program_copy_retains_published_sample(page, suffix, fixture_server, tmp_path):
     state, env = fixture_server
-    path = DOCS / page / f'{page}.{suffix}'
-    assert path in downloads()
+    path = source_path(page, suffix)
+    assert path in full_examples()
     if page == 'skills' and suffix != 'sh':
-        prepared = subprocess.run(['bash', str(DOCS / 'skills/prepare_skill.sh')],
-                                  cwd=tmp_path, text=True, capture_output=True)
-        assert prepared.returncode == 0, prepared.stdout + prepared.stderr
-    result = execute(page, suffix, tmp_path, env, source=path.read_text())
+        package_sample(tmp_path)
+    result = execute(page, suffix, tmp_path, env, source=full_examples()[path])
     assert not state.errors, state.errors
     assert result.returncode == 0, result.stdout + result.stderr
     assert not any(name.startswith(('Delete', 'Withdraw')) for name, _ in state.calls)
@@ -714,3 +712,52 @@ def test_hosted_mcp_request_configures_service_connection(fixture_server, tmp_pa
     assert len(state.model_requests) == 1
     tool = state.model_requests[0]['tools'][0]
     assert tool['server_url'] == f'{env["PLAYBOOK_URL"]}/v1/playbooks/{PB}/mcp'
+
+
+@pytest.mark.parametrize('page', ('faqs', 'skills'))
+@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+def test_full_withdrawal_copy_retains_entry_and_history(page, suffix, fixture_server, tmp_path):
+    from copy import deepcopy
+    state, env = fixture_server
+    identifier = state.faq_id if page == 'faqs' else state.skill_id
+    before = deepcopy(state.versions)
+    path = source_path(page, suffix).with_name(f'{page}_withdraw.{suffix}')
+    result = execute(page, suffix, tmp_path, env, source=processed(path)[0])
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not state.errors, state.errors
+    assert identifier in state.entries
+    assert state.entries[identifier].get('publication') is None
+    assert state.versions == before
+    assert not any(name.startswith('Delete') for name, _ in state.calls)
+
+
+@pytest.mark.parametrize('page', ('faqs', 'skills'))
+@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+def test_full_deletion_copy_deletes_only_the_selected_entry(page, suffix, fixture_server, tmp_path):
+    state, env = fixture_server
+    identifier = state.faq_id if page == 'faqs' else state.skill_id
+    other = state.skill_id if page == 'faqs' else state.faq_id
+    path = source_path(page, suffix).with_name(f'{page}_delete.{suffix}')
+    result = execute(page, suffix, tmp_path, env, source=processed(path)[0])
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not state.errors, state.errors
+    assert identifier not in state.entries and other in state.entries
+    assert not any(name.startswith('Withdraw') for name, _ in state.calls)
+
+
+def test_live_cleanup_attempts_all_resources_after_an_error(monkeypatch):
+    from types import SimpleNamespace
+    import live_examples
+    calls = []
+    def fail_first(method, url, token):
+        calls.append(url)
+        if len(calls) == 1:
+            raise OSError('temporary connection failure')
+    monkeypatch.setattr(live_examples, 'request', fail_first)
+    args = SimpleNamespace(ids_url='http://identity.invalid', cp_url='http://control.invalid',
+                           control_token='test-control', admin_token='test-admin')
+    failures = live_examples.cleanup(args, 'test-playbook', ['key-one', 'key-two'])
+    assert calls == ['http://identity.invalid/v1/api-keys/key-one',
+                     'http://identity.invalid/v1/api-keys/key-two',
+                     'http://control.invalid/v1/playbooks/test-playbook']
+    assert len(failures) == 1 and 'temporary connection failure' in failures[0]

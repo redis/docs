@@ -19,7 +19,7 @@ Use an existing playbook and an API key with `write` permission to upload and ma
 
 Follow the quickstart to [install a client and configure it]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#before-you-begin" >}}). You also need Bash and the `zip` utility for the sample package.
 
-Download the complete example: [Python]({{< relref "/develop/ai/context-engine/agent-playbook/skills/" >}}skills.py), [TypeScript]({{< relref "/develop/ai/context-engine/agent-playbook/skills/" >}}skills.mts), or [HTTP]({{< relref "/develop/ai/context-engine/agent-playbook/skills/" >}}skills.sh). The HTTP script creates the package. For Python or TypeScript, run the package commands in [Prepare a skill package]({{< relref "/develop/ai/context-engine/agent-playbook/skills#prepare-a-skill-package" >}}) first.
+Expand an example to copy the complete program. Run the package-preparation step before using a Python or TypeScript copy.
 
 ## Prepare a skill package
 
@@ -40,31 +40,7 @@ Agent Playbooks also enforces [package and content limits]({{< relref "/develop/
 
 Run these commands in a new directory. The sample uses customer-provided information without accessing an order system. Adapt its guidance to your policy.
 
-```bash
-mkdir -p refund-support-reply/references
-cat > refund-support-reply/SKILL.md <<'SKILL'
----
-name: refund-support-reply
-description: Draft a customer reply for an existing refund using a reported refund stage or a report that no refund is listed. Use the matching reply template. Do not use to request a new refund.
----
-
-# Draft a refund support reply
-
-1. Check whether the customer supplied a displayed refund stage or said no refund is listed. If neither is known, ask what their order history shows before drafting a reply.
-2. Read references/reply-template.md for the listed and missing refund templates.
-3. If a stage is supplied, choose the listed refund template and replace <displayed-stage> with that exact stage.
-4. If no refund is listed, choose the missing refund template. Do not invent a stage.
-5. Return only the completed customer reply. Do not leave placeholders in it.
-
-Do not claim to have accessed the order system, claim a refund was issued, or promise a bank posting date.
-SKILL
-cat > refund-support-reply/references/reply-template.md <<'TEMPLATE'
-Refund listed: Your order history shows "<displayed-stage>". Support can help if you need more information about that stage.
-
-Refund missing: Contact support with your order number and explain that no refund appears in your order history.
-TEMPLATE
-zip -r refund-support-reply.zip refund-support-reply
-```
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-package" description="" lang_filter="cURL (Iris)" footer="hide" />}}
 
 ## Upload and validate a skill
 
@@ -76,59 +52,7 @@ Save the returned entry identifier so later uploads update the same skill.
 
 Validation checks structure and limits, not whether the procedure suits its audience. Review its accuracy before publishing. Your application controls script execution and tool permissions.
 
-{{< multitabs id="playbook-skill-create" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-import base64
-from pathlib import Path
-
-package_base64 = base64.b64encode(Path("refund-support-reply.zip").read_bytes()).decode("ascii")
-skill_context = {
-    "intents": ["Draft a refund support reply", "Choose a refund reply template"],
-    "attributes": {"locale": "en-US", "topic": "refund"},
-}
-skill_draft = playbook.create_skill(package_base64=package_base64, content=skill_context)
-skill_id = skill_draft.entry.entry_id
-skill_version = skill_draft.version.version
-print(skill_id, skill_version)
-```
-
--tab-sep-
-
-```typescript
-const { readFile } = await import("node:fs/promises");
-const packageBase64 = (await readFile("refund-support-reply.zip")).toString("base64");
-const skillContext = {
-  intents: ["Draft a refund support reply", "Choose a refund reply template"],
-  attributes: { locale: "en-US", topic: "refund" },
-};
-const skillDraft = await playbook.createSkill({ packageBase64, content: skillContext });
-const skillId = skillDraft.entry.entryId;
-const skillVersion = skillDraft.version.version;
-console.log(skillId, skillVersion);
-```
-
--tab-sep-
-
-```bash
-base64 < refund-support-reply.zip | tr -d '\r\n' > package.b64
-jq -n --rawfile package package.b64 '{
-  packageBase64: $package,
-  content: {
-    intents: ["Draft a refund support reply", "Choose a refund reply template"],
-    attributes: {locale: "en-US", topic: "refund"}
-  }
-}' > skill.json
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/skills" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @skill.json > skill-draft.json
-SKILL_ID=$(jq -er '.entry.entryId' skill-draft.json)
-SKILL_VERSION=$(jq -er '.version.version' skill-draft.json)
-jq .version skill-draft.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Review and publish a version
 
@@ -140,55 +64,11 @@ jq .version skill-draft.json
 
 Uploading a valid package does not publish it automatically. The current [proposal workflow]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) creates FAQs, not skills.
 
-{{< multitabs id="playbook-skill-review" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-stored_skill = playbook.get_skill_version(skill_id=skill_id, version=skill_version)
-print(stored_skill.content)
-```
-
--tab-sep-
-
-```typescript
-const storedSkill = await playbook.getSkillVersion(skillId, skillVersion);
-console.log(storedSkill.content);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-review" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Publish after review. The [MCP example]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-an-agent" >}}) asks an agent to draft a reply for the stage “Processing.” Check that it loads this skill and template, preserves the stage, and leaves no placeholders or invented payment date. Also test a missing refund and missing input.
 
-{{< multitabs id="playbook-skill-publish" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.publish_skill(skill_id=skill_id, version=skill_version)
-```
-
--tab-sep-
-
-```typescript
-await playbook.publishSkill(skillId, { version: skillVersion });
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/skills/$SKILL_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq -n --argjson version "$SKILL_VERSION" '{version: $version}')" | jq .publication
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Update a skill
 
@@ -200,48 +80,7 @@ To roll back, publish an earlier version. Concurrent publication changes are las
 
 This example adds a `channel` attribute for chat retrieval and keeps the same instructions. To change the instructions or files, edit the directory and create a fresh ZIP archive before uploading.
 
-{{< multitabs id="playbook-skill-append" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-from copy import deepcopy
-
-updated_context = deepcopy(skill_context)
-updated_context["attributes"]["channel"] = "chat"
-replacement = base64.b64encode(Path("refund-support-reply.zip").read_bytes()).decode("ascii")
-skill_update = playbook.append_skill_version(
-    skill_id=skill_id, package_base64=replacement, content=updated_context,
-)
-print("Review before publishing:", skill_update.version)
-```
-
--tab-sep-
-
-```typescript
-const updatedContext = {
-  ...skillContext,
-  attributes: { ...skillContext.attributes, channel: "chat" },
-};
-const replacement = (await readFile("refund-support-reply.zip")).toString("base64");
-const skillUpdate = await playbook.appendSkillVersion(skillId, {
-  packageBase64: replacement, content: updatedContext,
-});
-console.log("Review before publishing:", skillUpdate.version);
-```
-
--tab-sep-
-
-```bash
-base64 < refund-support-reply.zip | tr -d '\r\n' > package.b64
-jq --rawfile package package.b64 \
-  '.packageBase64 = $package | .content.attributes.channel = "chat"' \
-  skill.json > skill-update.json
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @skill-update.json | jq .version
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-append" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Leave the update unpublished here so the loading example uses the first version. Publishing the update makes its new attributes available to filters.
 
@@ -255,53 +94,7 @@ Resource descriptors identify the file's media type, size, and digest. Decode kn
 
 This example loads the first published version and reads its reply template.
 
-{{< multitabs id="playbook-skill-load" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-selected = playbook.get_skill_version(skill_id=skill_id, version=skill_version)
-skill = selected.content.payload.skill
-if skill is None:
-    raise ValueError("Expected a skill")
-print(skill.instructions)
-resource = next((r for r in skill.resources if r.path == "references/reply-template.md"), None)
-if resource is None:
-    raise ValueError("Reply template is missing")
-response = playbook.get_skill_resource(
-    skill_id=selected.entry_id, version=selected.version, resource_id=resource.resource_id,
-)
-try:
-    print(response.result.read().decode("utf-8"))
-finally:
-    response.result.close()
-```
-
--tab-sep-
-
-```typescript
-const selected = await playbook.getSkillVersion(skillId, skillVersion);
-if (!("skill" in selected.content.payload)) throw new Error("Expected a skill");
-const skill = selected.content.payload.skill;
-console.log(skill.instructions);
-const resource = skill.resources.find(r => r.path === "references/reply-template.md");
-if (!resource) throw new Error("Reply template is missing");
-const response = await playbook.getSkillResource(selected.entryId, selected.version, resource.resourceId);
-console.log(await new Response(response.result).text());
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > selected-skill.json
-jq -r '.content.payload.skill.instructions' selected-skill.json
-RESOURCE_ID=$(jq -er '.content.payload.skill.resources[] | select(.path == "references/reply-template.md") | .resourceId' selected-skill.json)
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION/resources/$RESOURCE_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY"
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-load" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 256-bit) digest with the downloaded bytes. It uses `sha256:<hex>`; the HTTP `Content-Digest` header represents the same hash as `sha-256=:<base64>:`. This differs from the normalized entry digest in [entry lookup]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#look-up-entry-state" >}}).
 
@@ -311,169 +104,22 @@ Use `list_skills` to inventory entries and `get_skill` to inspect one entry's su
 
 Follow cursors even after empty pages, and keep filters and ordering unchanged. An absent first-page `total` means the count is unknown. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbook/limits#retrieval-limits" >}}).
 
-{{< multitabs id="playbook-skill-list" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-cursor = None
-while True:
-    page = playbook.list_skills(sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total skills:", page.total if page.total is not None else "unknown")
-    for entry in page.skills:
-        print(entry.entry_id, entry.latest_version, entry.publication)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let skillCursor: string | undefined;
-while (true) {
-  const page = await playbook.listSkills(
-    "updatedAt", "desc", undefined, undefined, undefined, 50, skillCursor,
-  );
-  if (skillCursor === undefined) console.log("Total skills:", page.total ?? "unknown");
-  for (const entry of page.skills) console.log(entry.entryId, entry.latestVersion, entry.publication);
-  skillCursor = page.nextCursor;
-  if (skillCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-page.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' skill-page.json; fi
-  jq '.skills[] | {entryId, latestVersion, publication}' skill-page.json
-  CURSOR=$(jq -r '.nextCursor // empty' skill-page.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
-
-{{< multitabs id="playbook-skill-state" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-entry = playbook.get_skill(skill_id=skill_id)
-print(entry.latest_version, entry.publication)
-```
-
--tab-sep-
-
-```typescript
-const entry = await playbook.getSkill(skillId);
-console.log(entry.latestVersion, entry.publication);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error "$PLAYBOOK_API/skills/$SKILL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq '{latestVersion, publication}'
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-state" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Read the complete versions newest first. Use a returned version number when reviewing or rolling back a publication:
 
-{{< multitabs id="playbook-skill-history" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-cursor = None
-while True:
-    page = playbook.list_skill_versions(skill_id=skill_id, limit=50, cursor=cursor)
-    for item in page.versions:
-        print(item.version, item.content_digest, item.content)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let skillVersionCursor: string | undefined;
-while (true) {
-  const page = await playbook.listSkillVersions(skillId, undefined, undefined, 50, skillVersionCursor);
-  for (const item of page.versions) console.log(item.version, item.contentDigest, item.content);
-  skillVersionCursor = page.nextCursor;
-  if (skillVersionCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-versions.json
-  jq '.versions[] | {version, contentDigest, content}' skill-versions.json
-  CURSOR=$(jq -r '.nextCursor // empty' skill-versions.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills" step="playbook-skill-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Withdraw or delete a skill
 
 Withdraw the publication with `withdraw_skill` to stop serving the procedure while keeping its history. Delete the entry with `delete_skill` when you want to remove all its versions and files permanently.
 
-The downloads omit these operations. For cleanup after a download, start a new script with the client setup and use the printed skill identifier.
+Complete-program copies retain the skill. For withdrawal or deletion, set `PLAYBOOK_SKILL_ID` to the printed identifier and run the selected example with the same connection values.
 
-{{< multitabs id="playbook-skill-withdraw" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.withdraw_skill(skill_id=skill_id)
-```
-
--tab-sep-
-
-```typescript
-await playbook.withdrawSkill(skillId);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X DELETE "$PLAYBOOK_API/skills/$SKILL_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills_withdraw" step="playbook-skill-withdraw" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 To remove the sample and its files permanently:
 
-{{< multitabs id="playbook-skill-delete" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.delete_skill(skill_id=skill_id)
-```
-
--tab-sep-
-
-```typescript
-await playbook.deleteSkill(skillId);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X DELETE "$PLAYBOOK_API/skills/$SKILL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY"
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_skills_delete" step="playbook-skill-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}

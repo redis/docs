@@ -4,3 +4,4 @@ PyYAML==6.0.3
 redis-agent-playbook==0.1.0a2
 openai-agents==0.23.1
 mcp==1.30.0
+pytoml==0.1.21

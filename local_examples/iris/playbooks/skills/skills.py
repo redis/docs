@@ -1,4 +1,5 @@
-# Generated from skills.md; edit the page, then run examples.py --refresh-downloads.
+# EXAMPLE: iris_playbook_skills
+# HIDE_START
 import os
 from redis_agent_playbook import Playbook
 
@@ -9,7 +10,9 @@ playbook = Playbook(
     retry_config=None,
 )
 print(playbook.get_playbook_health())
+# HIDE_END
 
+# STEP_START playbook-skill-create
 import base64
 from pathlib import Path
 
@@ -22,12 +25,18 @@ skill_draft = playbook.create_skill(package_base64=package_base64, content=skill
 skill_id = skill_draft.entry.entry_id
 skill_version = skill_draft.version.version
 print(skill_id, skill_version)
+# STEP_END
 
+# STEP_START playbook-skill-review
 stored_skill = playbook.get_skill_version(skill_id=skill_id, version=skill_version)
 print(stored_skill.content)
+# STEP_END
 
+# STEP_START playbook-skill-publish
 playbook.publish_skill(skill_id=skill_id, version=skill_version)
+# STEP_END
 
+# STEP_START playbook-skill-append
 from copy import deepcopy
 
 updated_context = deepcopy(skill_context)
@@ -37,7 +46,9 @@ skill_update = playbook.append_skill_version(
     skill_id=skill_id, package_base64=replacement, content=updated_context,
 )
 print("Review before publishing:", skill_update.version)
+# STEP_END
 
+# STEP_START playbook-skill-load
 selected = playbook.get_skill_version(skill_id=skill_id, version=skill_version)
 skill = selected.content.payload.skill
 if skill is None:
@@ -53,7 +64,9 @@ try:
     print(response.result.read().decode("utf-8"))
 finally:
     response.result.close()
+# STEP_END
 
+# STEP_START playbook-skill-list
 cursor = None
 while True:
     page = playbook.list_skills(sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
@@ -64,10 +77,14 @@ while True:
     cursor = page.next_cursor
     if cursor is None:
         break
+# STEP_END
 
+# STEP_START playbook-skill-state
 entry = playbook.get_skill(skill_id=skill_id)
 print(entry.latest_version, entry.publication)
+# STEP_END
 
+# STEP_START playbook-skill-history
 cursor = None
 while True:
     page = playbook.list_skill_versions(skill_id=skill_id, limit=50, cursor=cursor)
@@ -76,3 +93,4 @@ while True:
     cursor = page.next_cursor
     if cursor is None:
         break
+# STEP_END

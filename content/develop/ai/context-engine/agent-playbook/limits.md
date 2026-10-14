@@ -106,56 +106,7 @@ For example, inspect a failed entry read without retrying it automatically. Use 
 export PLAYBOOK_FAQ_ID='<faq-entry-id>'
 ```
 
-{{< multitabs id="playbook-error-type" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-import json
-from redis_agent_playbook.errors import PlaybookError
-
-try:
-    entry = playbook.get_faq(faq_id=os.environ["PLAYBOOK_FAQ_ID"])
-    print(entry)
-except PlaybookError as error:
-    try:
-        problem = json.loads(error.body)
-    except ValueError:
-        problem = {}
-    print("Request failed:", error.status_code, problem.get("type", "unknown"))
-    raise
-```
-
--tab-sep-
-
-```typescript
-const { PlaybookError } = await import("@redis-iris/agent-playbook/models/errors");
-try {
-  console.log(await playbook.getFaq(requiredEnv("PLAYBOOK_FAQ_ID")));
-} catch (error) {
-  if (error instanceof PlaybookError) {
-    let problem: { type?: string } = {};
-    try { problem = JSON.parse(error.body); } catch { /* The body may not be JSON. */ }
-    console.error("Request failed:", error.statusCode, problem.type ?? "unknown");
-  }
-  throw error;
-}
-```
-
--tab-sep-
-
-```bash
-STATUS=$(curl --silent --show-error -o response.json -w '%{http_code}' \
-  "$PLAYBOOK_API/faqs/$PLAYBOOK_FAQ_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY")
-if [[ "$STATUS" == 2* ]]; then
-  jq . response.json
-else
-  printf 'Request failed: HTTP %s\n' "$STATUS" >&2
-  jq -r '.type // "unknown"' response.json >&2 2>/dev/null || printf 'unknown\n' >&2
-  exit 1
-fi
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_limits" step="playbook-error-type" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Resolve conflicts
 

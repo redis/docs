@@ -27,27 +27,25 @@ export OPENAI_API_KEY='<your-openai-api-key>'
 
 Install the dependencies for your chosen tab:
 
-{{< multitabs id="playbook-mcp-install" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
+**Python**
 
 ```bash
 python -m pip install openai-agents==0.23.1 mcp==1.30.0
 ```
 
--tab-sep-
+**TypeScript**
 
 ```bash
 npm install @openai/agents@0.19.0
 npm install --save-dev tsx typescript @types/node
 ```
 
--tab-sep-
+**HTTP**
 
 ```bash
 curl --version
 jq --version
 ```
-
-{{< /multitabs >}}
 
 ## Configure the connection
 
@@ -69,138 +67,7 @@ Attach the MCP connection to your agent. The SDK or Responses API executes the m
 
 Save the Python example as `mcp_example.py` or the TypeScript example as `mcp-example.mts`. Run `python mcp_example.py` or `npx tsx mcp-example.mts`. Run the HTTP example in Bash.
 
-{{< multitabs id="playbook-mcp-example" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-import asyncio
-import os
-from agents import Agent, Runner
-from agents.mcp import MCPServerStreamableHttp
-
-async def main():
-    url = f"{os.environ['PLAYBOOK_URL'].rstrip('/')}/v1/playbooks/{os.environ['PLAYBOOK_ID']}/mcp"
-    async with MCPServerStreamableHttp(
-        name="Agent Playbooks",
-        params={
-            "url": url,
-            "headers": {"Authorization": f"Bearer {os.environ['PLAYBOOK_API_KEY']}"},
-        },
-        cache_tools_list=True,
-        client_session_timeout_seconds=30,
-    ) as playbook:
-        agent = Agent(
-            name="Support assistant",
-            model="gpt-5-mini",
-            instructions=(
-                "Use Agent Playbooks to find published guidance before answering. "
-                "For reply-drafting tasks, call load_skill with the entry identifier and version from discovery. "
-                "Fetch the reply template using its uri from load_skill; never construct a file URI. "
-                "Follow the skill instructions and return the completed customer reply. "
-                "If no relevant knowledge is available or a tool fails, say so."
-            ),
-            mcp_servers=[playbook],
-        )
-
-        result = await Runner.run(
-            agent,
-            "Draft a customer reply using the refund-support-reply skill and template. "
-            "The customer says their refund stage is Processing.",
-        )
-        for item in result.new_items:
-            if item.type == "tool_call_item" and getattr(item.raw_item, "type", None) == "function_call":
-                print("Tool:", item.raw_item.name, item.raw_item.arguments)
-        print(result.final_output)
-
-asyncio.run(main())
-```
-
--tab-sep-
-
-```typescript
-import { Agent, MCPServerStreamableHttp, run } from "@openai/agents";
-
-function requiredEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`Set ${name}`);
-  return value;
-}
-const url = `${requiredEnv("PLAYBOOK_URL").replace(/\/$/, "")}/v1/playbooks/${requiredEnv("PLAYBOOK_ID")}/mcp`;
-const playbook = new MCPServerStreamableHttp({
-  name: "Agent Playbooks",
-  url,
-  requestInit: {
-    headers: { Authorization: `Bearer ${requiredEnv("PLAYBOOK_API_KEY")}` },
-  },
-  cacheToolsList: true,
-  clientSessionTimeoutSeconds: 30,
-});
-
-try {
-  await playbook.connect();
-  const agent = new Agent({
-    name: "Support assistant",
-    model: "gpt-5-mini",
-    instructions:
-      "Use Agent Playbooks to find published guidance before answering. " +
-      "For reply-drafting tasks, call load_skill with the entry identifier and version from discovery. " +
-      "Fetch the reply template using its uri from load_skill; never construct a file URI. " +
-      "Follow the skill instructions and return the completed customer reply. " +
-      "If no relevant knowledge is available or a tool fails, say so.",
-    mcpServers: [playbook],
-  });
-  const result = await run(
-    agent,
-    "Draft a customer reply using the refund-support-reply skill and template. " +
-    "The customer says their refund stage is Processing.",
-  );
-  for (const item of result.newItems) {
-    if (item.type === "tool_call_item" && item.rawItem.type === "function_call") {
-      console.log("Tool:", item.rawItem.name, item.rawItem.arguments);
-    }
-  }
-  console.log(result.finalOutput);
-} finally {
-  await playbook.close();
-}
-```
-
--tab-sep-
-
-```bash
-set -euo pipefail
-MCP_URL="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID/mcp"
-
-jq -n --arg url "$MCP_URL" --arg key "$PLAYBOOK_API_KEY" '{
-  model: "gpt-5-mini",
-  instructions: (
-    "Use Agent Playbooks to find published guidance before answering. " +
-    "For reply-drafting tasks, call load_skill with the entry identifier and version from discovery. " +
-    "Fetch the reply template using its uri from load_skill; never construct a file URI. " +
-    "Follow the skill instructions and return the completed customer reply. " +
-    "If no relevant knowledge is available or a tool fails, say so."
-  ),
-  tools: [{
-    type: "mcp",
-    server_label: "playbook",
-    server_url: $url,
-    headers: {Authorization: ("Bearer " + $key)},
-    allowed_tools: ["discover_entries", "load_skill", "fetch_resource"],
-    require_approval: "never"
-  }],
-  input: (
-    "Draft a customer reply using the refund-support-reply skill and template. " +
-    "The customer says their refund stage is Processing."
-  )
-}' | curl --fail-with-body --silent --show-error \
-  "${OPENAI_BASE_URL:-https://api.openai.com/v1}/responses" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data-binary @- > agent-response.json
-jq -r '.output[] | select(.type == "mcp_call") | "Tool: \(.name) \(.arguments)"' agent-response.json
-jq -r '.output[] | select(.type == "message") | .content[] | select(.type == "output_text") | .text' agent-response.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_mcp" step="playbook-mcp-example" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Check the printed calls for `discover_entries`, `load_skill`, and `fetch_resource`: they select the skill, load its instructions, and read the template. The model chooses the calls, so order and count can vary. The HTTP example allows them without per-call approval.
 

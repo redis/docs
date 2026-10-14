@@ -5,6 +5,11 @@ on:
     paths:
       - 'content/develop/ai/context-engine/agent-playbook/**'
       - 'build/agent_playbook_docs/**'
+      - 'local_examples/iris/playbooks/**'
+      - 'build/components/example.py'
+      - 'build/local_examples.py'
+      - 'build/example-test-harness/clients.tsv'
+      - 'layouts/partials/process-markdown-content.html'
       - 'layouts/_default/apireference.html'
       - '.github/workflows/check-playbook-docs.yml'
   workflow_dispatch:

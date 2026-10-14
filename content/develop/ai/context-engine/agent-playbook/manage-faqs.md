@@ -45,69 +45,7 @@ Submit the complete content with `create_faq`. The sample assigns `refund-status
 
 The new FAQ is unpublished. Review it before publishing; search and discovery do not return it yet.
 
-{{< multitabs id="playbook-faq-create" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-faq_content = {
-    "intents": ["Check a refund", "Find an existing refund"],
-    "attributes": {"locale": "en-US", "topic": "refund"},
-    "payload": {
-        "faq": {
-            "question": "How do I check the status of a refund?",
-            "answer": "Open the order in your order history and select Refund status. If no refund is listed, contact support with your order number.",
-        }
-    },
-}
-
-draft = playbook.create_faq(content=faq_content, entry_key="refund-status")
-faq_id = draft.entry.entry_id
-version = draft.version.version
-print(faq_id, version, draft.entry.publication)
-```
-
--tab-sep-
-
-```typescript
-const faqContent = {
-  intents: ["Check a refund", "Find an existing refund"],
-  attributes: { locale: "en-US", topic: "refund" },
-  payload: { faq: {
-    question: "How do I check the status of a refund?",
-    answer: "Open the order in your order history and select Refund status. If no refund is listed, contact support with your order number.",
-  } },
-};
-const draft = await playbook.createFaq({ content: faqContent, entryKey: "refund-status" });
-const faqId = draft.entry.entryId;
-const version = draft.version.version;
-console.log(faqId, version, draft.entry.publication);
-```
-
--tab-sep-
-
-```bash
-cat > faq.json <<'JSON'
-{
-  "entryKey": "refund-status",
-  "content": {
-    "intents": ["Check a refund", "Find an existing refund"],
-    "attributes": {"locale": "en-US", "topic": "refund"},
-    "payload": {"faq": {
-      "question": "How do I check the status of a refund?",
-      "answer": "Open the order in your order history and select Refund status. If no refund is listed, contact support with your order number."
-    }}
-  }
-}
-JSON
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @faq.json > draft.json
-FAQ_ID=$(jq -er '.entry.entryId' draft.json)
-VERSION=$(jq -er '.version.version' draft.json)
-jq '{entryId: .entry.entryId, version: .version.version, publication: .entry.publication}' draft.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Promote a reviewed proposal
 
@@ -124,96 +62,13 @@ Acceptance returns an entry and version for one unpublished FAQ. Save those valu
 
 Test a paraphrase such as “Where can I see my refund?” and a nearby question the answer does not cover, such as “How do I request a refund?” Check the returned entry and audience, then use the [retrieval guide]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) to tune matching.
 
-{{< multitabs id="playbook-faq-publish" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-stored = playbook.get_faq_version(faq_id=faq_id, version=version)
-print(stored.content)
-```
-
--tab-sep-
-
-```typescript
-const stored = await playbook.getFaqVersion(faqId, version);
-console.log(stored.content);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  "$PLAYBOOK_API/faqs/$FAQ_ID/versions/$VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Publish the version you reviewed.
 
-{{< multitabs id="playbook-faq-publication" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publication" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-playbook.publish_faq(faq_id=faq_id, version=version)
-```
-
--tab-sep-
-
-```typescript
-await playbook.publishFaq(faqId, { version });
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq -n --argjson version "$VERSION" '{version: $version}')" | jq .publication
-```
-
-{{< /multitabs >}}
-
-{{< multitabs id="playbook-faq-search" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-results = playbook.search_faqs(
-    query="Where can I see how my refund is progressing?",
-    filter_={"eq": {"name": "locale", "value": "en-US"}},
-    limit=5,
-)
-for match in results.matches:
-    if match.faq is not None:
-        print(match.entry_id, match.version, match.score, match.faq.answer)
-```
-
--tab-sep-
-
-```typescript
-const results = await playbook.searchFaqs({
-  query: "Where can I see how my refund is progressing?",
-  filter: { eq: { name: "locale", value: "en-US" } },
-  limit: 5,
-});
-for (const match of results.matches) {
-  if (match.faq) {
-    console.log(match.entryId, match.version, match.score, match.faq.answer);
-  }
-}
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data '{"query":"Where can I see how my refund is progressing?","filter":{"eq":{"name":"locale","value":"en-US"}},"limit":5}' \
-  | jq '.matches[] | {entryId, version, score, answer: .faq.answer}'
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Update an answer
 
@@ -221,91 +76,15 @@ Append a complete replacement version to the same entry with `append_faq_version
 
 Coordinate publishers for the same entry. Concurrent publication changes are last-write-wins. Publishing an already published version is a no-op.
 
-{{< multitabs id="playbook-faq-update" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-from copy import deepcopy
-
-updated_content = deepcopy(faq_content)
-updated_content["payload"]["faq"]["answer"] += " Support can check the current stage but cannot guarantee a bank posting date."
-updated = playbook.append_faq_version(faq_id=faq_id, content=updated_content)
-print("Review this version:", updated.version.version, updated.version.content)
-```
-
--tab-sep-
-
-```typescript
-const updatedContent = structuredClone(faqContent);
-updatedContent.payload.faq.answer += " Support can check the current stage but cannot guarantee a bank posting date.";
-const updated = await playbook.appendFaqVersion(faqId, { content: updatedContent });
-console.log("Review this version:", updated.version.version, updated.version.content);
-```
-
--tab-sep-
-
-```bash
-jq 'del(.entryKey) | .content.payload.faq.answer += " Support can check the current stage but cannot guarantee a bank posting date."' \
-  faq.json > faq-update.json
-curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/faqs/$FAQ_ID/versions" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' --data-binary @faq-update.json > updated.json
-jq .version updated.json
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-update" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 The identifier stays the same, and search still serves the first publication. Review and publish the new version, then search again.
 
-{{< multitabs id="playbook-faq-republish" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.publish_faq(faq_id=faq_id, version=updated.version.version)
-```
-
--tab-sep-
-
-```typescript
-await playbook.publishFaq(faqId, { version: updated.version.version });
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq '{version: .version.version}' updated.json)" | jq .publication
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-republish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 Republish the first version to roll back.
 
-{{< multitabs id="playbook-faq-rollback" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.publish_faq(faq_id=faq_id, version=version)
-```
-
--tab-sep-
-
-```typescript
-await playbook.publishFaq(faqId, { version });
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-  -H 'Content-Type: application/json' \
-  --data "$(jq -n --argjson version "$VERSION" '{version: $version}')" | jq .publication
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-rollback" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## List entries and inspect history
 
@@ -313,99 +92,13 @@ Use `list_faqs` to list entries, including unpublished ones, and `get_faq` to re
 
 Follow the pagination cursor until it is absent, even after an empty page. Keep filters and sort settings unchanged. The optional first-page `total` is a separately measured count; absence means unknown, not zero. Lists can change while you page through them.
 
-{{< multitabs id="playbook-faq-list" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-cursor = None
-while True:
-    page = playbook.list_faqs(sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total FAQs:", page.total if page.total is not None else "unknown")
-    for entry in page.faqs:
-        print(entry.entry_id, entry.latest_version, entry.publication)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let faqCursor: string | undefined;
-while (true) {
-  const page = await playbook.listFaqs(
-    "updatedAt", "desc", undefined, undefined, undefined, 50, faqCursor,
-  );
-  if (faqCursor === undefined) console.log("Total FAQs:", page.total ?? "unknown");
-  for (const entry of page.faqs) console.log(entry.entryId, entry.latestVersion, entry.publication);
-  faqCursor = page.nextCursor;
-  if (faqCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-page.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' faq-page.json; fi
-  jq '.faqs[] | {entryId, latestVersion, publication}' faq-page.json
-  CURSOR=$(jq -r '.nextCursor // empty' faq-page.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 To select only published or unpublished entries, set `published` to `true` or `false`. Omit it to include both.
 
 Listing full version history requires `write` or `publish`. Versions arrive newest first. This example uses the FAQ created in this guide:
 
-{{< multitabs id="playbook-faq-history" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-cursor = None
-while True:
-    page = playbook.list_faq_versions(faq_id=faq_id, limit=50, cursor=cursor)
-    for item in page.versions:
-        print(item.version, item.content_digest, item.content)
-    cursor = page.next_cursor
-    if cursor is None:
-        break
-```
-
--tab-sep-
-
-```typescript
-let faqVersionCursor: string | undefined;
-while (true) {
-  const page = await playbook.listFaqVersions(faqId, undefined, undefined, 50, faqVersionCursor);
-  for (const item of page.versions) console.log(item.version, item.contentDigest, item.content);
-  faqVersionCursor = page.nextCursor;
-  if (faqVersionCursor === undefined) break;
-}
-```
-
--tab-sep-
-
-```bash
-CURSOR=''
-while true; do
-  PAGE_ARGS=(--data-urlencode limit=50)
-  if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
-  curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs/$FAQ_ID/versions" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-versions.json
-  jq '.versions[] | {version, contentDigest, content}' faq-versions.json
-  CURSOR=$(jq -r '.nextCursor // empty' faq-versions.json)
-  [[ -n "$CURSOR" ]] || break
-done
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Look up entry state
 
@@ -413,52 +106,7 @@ Use `lookup_entries` with `write` or `publish` permission to inspect known FAQs 
 
 Each found entry includes `latest`, optional `publication`, and `versionCount`. The response also reports the playbook's `maxVersions` limit. The two version summaries include `contentDigest`: a server-generated hash of normalized authored content. Compare their digests to check whether the latest and published content match. It is not a hash of the uploaded ZIP or the raw request, and it is not an idempotency key.
 
-{{< multitabs id="playbook-faq-lookup" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-from redis_agent_playbook.models import Found
-
-lookup = playbook.lookup_entries(references=[
-    {"entry_id": faq_id}, {"entry_key": "refund-status"},
-])
-print("Version limit:", lookup.max_versions)
-for result in lookup.results:
-    if isinstance(result, Found):
-        state = result.found.entry
-        print(state.entry_id, state.version_count, state.latest, state.publication)
-    else:
-        print("Missing:", result.missing.reference)
-```
-
--tab-sep-
-
-```typescript
-const lookup = await playbook.lookupEntries({
-  references: [{ entryId: faqId }, { entryKey: "refund-status" }],
-});
-console.log("Version limit:", lookup.maxVersions);
-for (const result of lookup.results) {
-  if ("found" in result) {
-    const state = result.found.entry;
-    console.log(state.entryId, state.versionCount, state.latest, state.publication);
-  } else {
-    console.log("Missing:", result.missing.reference);
-  }
-}
-```
-
--tab-sep-
-
-```bash
-jq -n --arg id "$FAQ_ID" '{references: [{entryId: $id}, {entryKey: "refund-status"}]}' \
-  | curl --fail-with-body --silent --show-error \
-    -X POST "$PLAYBOOK_API/entries/lookup" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
-    -H 'Content-Type: application/json' --data-binary @- \
-  | jq '{maxVersions, results}'
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-lookup" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 The example finds the same FAQ by identifier and by key. Either identifies the entry across versions, not a particular publication. Before retrying an uncertain write, inspect its state and relevant version. Appending identical content can still create another version.
 
@@ -466,48 +114,10 @@ The example finds the same FAQ by identifier and by key. Either identifies the e
 
 Use `withdraw_faq` to stop serving the answer while retaining the entry and its versions. Use `delete_faq` to remove the entry and its history permanently.
 
-{{< multitabs id="playbook-faq-withdraw" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
+Set `PLAYBOOK_FAQ_ID` to the printed entry identifier before running a withdrawal or deletion example with the same connection values.
 
-```python
-playbook.withdraw_faq(faq_id=faq_id)
-```
-
--tab-sep-
-
-```typescript
-await playbook.withdrawFaq(faqId);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X DELETE "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs_withdraw" step="playbook-faq-withdraw" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
 When you no longer need the sample history, delete the entry.
 
-{{< multitabs id="playbook-faq-delete" tab1="Python" tab2="TypeScript" tab3="HTTP" >}}
-
-```python
-playbook.delete_faq(faq_id=faq_id)
-```
-
--tab-sep-
-
-```typescript
-await playbook.deleteFaq(faqId);
-```
-
--tab-sep-
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X DELETE "$PLAYBOOK_API/faqs/$FAQ_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY"
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_playbook_faqs_delete" step="playbook-faq-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}

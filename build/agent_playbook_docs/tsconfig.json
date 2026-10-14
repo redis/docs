@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": [".generated/*_example.mts", ".generated/*_download.mts"]
+  "include": [".generated/*_example.mts", ".generated/*_copy.mts"]
 }
