@@ -66,7 +66,7 @@ Uploading a valid package does not publish it automatically. The current [propos
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-review" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
-Publish after review. The [MCP example]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-an-agent" >}}) asks an agent to draft a reply for the stage “Processing.” Check that it loads this skill and template, preserves the stage, and leaves no placeholders or invented payment date. Also test a missing refund and missing input.
+Publish after review. The [agent-integration examples]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) ask an agent to draft a reply for the stage “Processing.” Check that it loads this skill and template, preserves the stage, and leaves no placeholders or invented payment date. Also test a missing refund and missing input.
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 

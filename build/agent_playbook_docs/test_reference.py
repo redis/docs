@@ -33,7 +33,7 @@ def test_source_lock():
 
 
 def test_tce_sources_cover_rendered_steps():
-    for page in GUIDES:
+    for page in (*GUIDES, "agent-integration"):
         for attrs in calls(page):
             files = bundle(attrs["set"])
             clients = attrs["lang_filter"].split(",")

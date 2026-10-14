@@ -2,27 +2,27 @@
 
 Provision one playbook per case through the control plane and obtain scoped keys
 from Identity Service. The stack must allow the selected embedding model.
-MCP agent cases use a real model when OPENAI_API_KEY is set. Hosted MCP additionally
-requires --hosted-url pointing to this stack through a public HTTPS endpoint.
+Agent framework cases use a real model when OPENAI_API_KEY is set. MCP client
+cases connect from the application runtime without a model call.
 """
 
 import argparse
 import base64
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import time
 from urllib.error import HTTPError
-from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
 
 from redis_agent_playbook import Playbook
 
-from examples import GUIDES, full_examples, scripts, skill_package, standalone_python
+from examples import AGENT_GUIDES, GUIDES, agent_scripts, full_examples, scripts, skill_package, standalone_python
 
 HERE = Path(__file__).resolve().parent
 
@@ -95,7 +95,31 @@ def cases():
         if path.name != "prepare_skill.sh":
             result[f"{path.stem}_copy{path.suffix}"] = (path.stem, path.suffix[1:], source)
     result["async_search.py"] = ("async_search", "py", standalone_python("quickstart", "Use Python asynchronously"))
+    for (guide, suffix), source in agent_scripts().items():
+        result[f"{guide}.{suffix}"] = (guide, suffix, source)
     return result
+
+
+def validate_agent_reply(output, skill_id, template_uri):
+    calls = [(name, json.loads(arguments)) for name, arguments in
+             re.findall(r"^Tool: (\w+) (\{.*\})$", output, re.M)]
+    if ("load_skill", {"entry_id": skill_id, "version": 1}) not in calls:
+        raise RuntimeError("Agent did not load the discovered sample skill/version")
+    if ("fetch_resource", {"uri": template_uri}) not in calls:
+        raise RuntimeError("Agent did not fetch the returned template URI")
+    if "Reply:" not in output:
+        raise RuntimeError("Agent produced no final reply")
+    reply = output.split("Reply:", 1)[1].strip()
+    if "Processing" not in reply or len(reply) < 40:
+        raise RuntimeError("Final reply did not preserve the reported stage in a completed reply")
+    if re.search(r"<[^>]+>|\[(?:displayed[-_ ]stage|stage)\]", reply, re.I):
+        raise RuntimeError("Final reply retains a template placeholder")
+    if re.search(r"\d|\b(?:tomorrow|next week|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b", reply, re.I):
+        raise RuntimeError("Final reply invents timing or numeric details absent from the sample")
+    if re.search(r"\b(?:in|within|by|after)\b.{0,32}\b(?:days?|weeks?|months?|hours?|minutes?)\b", reply, re.I):
+        raise RuntimeError("Final reply promises a duration absent from the sample")
+    if re.search(r"\b(?:unable|unavailable|failed|error)\b", reply, re.I):
+        raise RuntimeError("Agent reported a failure instead of completing the sample reply")
 
 
 def run_case(name, case, args, log_dir):
@@ -120,17 +144,19 @@ def run_case(name, case, args, log_dir):
             env = {**os.environ, "PLAYBOOK_URL": args.dp_url, "PLAYBOOK_ID": playbook_id,
                    "PLAYBOOK_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
             with Playbook(args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
-                if guide in ("retrieval", "limits", "async_search"):
+                if guide in ("retrieval", "limits", "async_search", *AGENT_GUIDES):
                     env["PLAYBOOK_FAQ_ID"] = seed(client, directory, "faq")
-                if guide in ("retrieval", "mcp"):
+                if guide in ("retrieval", "mcp", *AGENT_GUIDES):
                     env["PLAYBOOK_SKILL_ID"] = seed(client, directory, "skill")
-                if guide in ("retrieval", "limits", "async_search", "mcp"):
+                if guide in AGENT_GUIDES:
+                    sample = client.get_skill_version(skill_id=env["PLAYBOOK_SKILL_ID"], version=1)
+                    template_uri = next(resource.uri for resource in sample.content.payload.skill.resources
+                                        if resource.path == "references/reply-template.md")
+                if guide in ("retrieval", "limits", "async_search", "mcp", *AGENT_GUIDES):
                     reader_key = create_key(args.ids_url, args.control_token, playbook_id, ["read"], args.tenant_id, key_ids)
                     env["PLAYBOOK_API_KEY"] = reader_key
-                if guide == "mcp" and suffix == "sh":
-                    env["PLAYBOOK_URL"] = args.hosted_url.rstrip("/")
                 # A file named mcp.py shadows the installed MCP package.
-                path = directory / ("mcp_example.py" if name == "mcp.py" else name)
+                path = directory / ("mcp_client.py" if name == "mcp.py" else name)
                 path.write_text(source)
                 command = {
                     "py": [sys.executable, str(path)],
@@ -153,8 +179,8 @@ def run_case(name, case, args, log_dir):
                 if name.startswith("skills_copy"):
                     if not any(entry.publication for entry in client.list_skills().skills):
                         raise RuntimeError("Skill copy did not retain a publication")
-                if guide == "mcp" and ("Processing" not in completed.stdout or "load_skill" not in completed.stdout or "fetch_resource" not in completed.stdout):
-                    raise RuntimeError("Agent did not load the skill/template and preserve the refund stage")
+                if guide in AGENT_GUIDES:
+                    validate_agent_reply(completed.stdout, env["PLAYBOOK_SKILL_ID"], template_uri)
     finally:
         original_error = sys.exc_info()[0] is not None
         failures = cleanup(args, playbook_id, key_ids)
@@ -176,22 +202,16 @@ def main():
     parser.add_argument("--embedding-provider", default="noop")
     parser.add_argument("--embedding-model", default="playbook-local")
     parser.add_argument("--embedding-dimensions", type=int, default=384)
-    parser.add_argument("--hosted-url", help="Public HTTPS base URL forwarding to the local data plane")
     parser.add_argument("--case", action="append", choices=cases())
     parser.add_argument("--tenant-id", default=os.environ.get("TENANT_ID"), help="Deployment tenant for strict Identity Service grants")
     parser.add_argument("--log-dir", type=Path, required=True)
     args = parser.parse_args()
-    if args.hosted_url and urlsplit(args.hosted_url).scheme != "https":
-        parser.error("--hosted-url must use HTTPS")
     args.log_dir.mkdir(parents=True, exist_ok=True)
     results = []
     for name, case in cases().items():
         if args.case and name not in args.case:
             continue
-        if name == "mcp.sh" and not args.hosted_url:
-            results.append({"case": name, "status": "skipped", "reason": "--hosted-url is unset"})
-            continue
-        if case[0] == "mcp" and not os.environ.get("OPENAI_API_KEY"):
+        if case[0] in AGENT_GUIDES and not os.environ.get("OPENAI_API_KEY"):
             results.append({"case": name, "status": "skipped", "reason": "OPENAI_API_KEY is unset"})
             continue
         try:

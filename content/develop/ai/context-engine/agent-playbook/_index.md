@@ -42,6 +42,7 @@ See [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-play
 ## Serve playbook entries at runtime
 
 - [Retrieve relevant FAQs or Agent Skills]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) on demand.
+- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) using OpenAI Agents SDK or LangGraph.
 - [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}).
 
 Use the [API reference]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference" >}}) for operations and schemas, and [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for constraints and recovery guidance.

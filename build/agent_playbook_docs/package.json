@@ -3,8 +3,13 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@langchain/langgraph": "1.5.0",
+    "@langchain/mcp-adapters": "2.0.1",
+    "@langchain/openai": "1.6.2",
+    "@modelcontextprotocol/sdk": "1.32.1",
     "@openai/agents": "0.19.0",
-    "@redis-iris/agent-playbook": "0.1.0-alpha.2"
+    "@redis-iris/agent-playbook": "0.1.0-alpha.2",
+    "langchain": "1.5.16"
   },
   "devDependencies": {
     "@types/node": "22.19.7",
