@@ -85,13 +85,15 @@ You can also add configuration to authenticate with a [service principal](#serv-
 or a [managed identity](#mgd-identity) as described in the sections below.
 
 When you have created your `TokenBasedRedisCredentialsProvider` instance, you may want to
-test it by obtaining a token, as shown in the following example:
+test it by obtaining a token, as shown in the following example. The
+`resolveCredentialsAsync()` method requires Lettuce 7.9 or later.
 
 ```java
 // Test that the Entra ID credentials provider can resolve credentials.
 credentials.resolveCredentialsAsync()
-        .doOnNext(c-> System.out.println(c.getUsername()))
-        .block();
+        .thenAccept(c -> System.out.println(c.getUsername()))
+        .toCompletableFuture()
+        .join();
 ```
 
 ### Configuration for a service principal {#serv-principal}
@@ -188,7 +190,7 @@ try (EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.build
 }
 
 // Optionally test the credentials provider.
-// credentialsSP.resolveCredentialsAsync().doOnNext(c -> System.out.println("SPI ID :" + c.getUsername())).block();
+// credentialsSP.resolveCredentialsAsync().thenAccept(c -> System.out.println("SPI ID :" + c.getUsername())).toCompletableFuture().join();
 
 // Enable automatic re-authentication.
 ClientOptions clientOptions = ClientOptions.builder()
