@@ -20,9 +20,8 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Agent Playbooks" description="Publish reusable answers and procedures for agents" url="/develop/ai/context-engine/agent-playbook" >}}
 </div>
-
-Explore [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) to publish approved answers and procedures for agents.
 
 ## What is Redis Iris?
 
@@ -32,7 +31,7 @@ Redis Iris is a production-ready context engine for AI agents that:
 - **Adds persistent memory**: Agents remember past interactions and user preferences across sessions
 - **Structures business data access**: Context Retriever generates governed tools agents can safely call at runtime
 - **Keeps data fresh**: Data Integration streams live changes from relational databases into Redis within seconds
-- **Deploys your way**: All four services are available fully managed on Redis Cloud or self-managed on your own infrastructure, via REST API
+- **Deploys your way**: Check each service’s operator guide for its managed and self-managed deployment options.
 
 ## Why use Redis Iris?
 
@@ -49,7 +48,7 @@ Redis Iris is a production-ready context engine for AI agents that:
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
     <ul class="space-y-1 text-redis-pen-600">
-      <li>Four services, fully managed on Redis Cloud or self-managed on your own infrastructure</li>
+      <li>Managed and self-managed deployment options documented for each service</li>
       <li>Python and JavaScript SDKs and REST APIs for all services</li>
       <li>Define your data model once, reuse it across all agents</li>
       <li>No database setup required on Redis Cloud</li>
