@@ -340,7 +340,7 @@ curl --fail-with-body --silent --show-error \
 
 ### Select an audience with filters
 
-Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
+Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
 
 Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`. In Python, the client uses `filter_`, `and_`, and `or_` to avoid reserved words. Direct requests use `filter`, `and`, and `or`.
 

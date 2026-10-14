@@ -10,6 +10,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
+PAGE_NAMES = {"faqs": "manage-faqs"}
 GUIDES = ("quickstart", "faqs", "skills", "proposals", "retrieval", "mcp", "limits")
 DOWNLOADS = {
     "quickstart": {"playbook-quickstart-delete"},
@@ -22,7 +23,7 @@ FENCE = re.compile(r"```(?:python|typescript|bash)\n(.*?)\n```", re.S)
 def blocks(page):
     result = []
     seen = set()
-    for name, body in TABS.findall((DOCS / f"{page}.md").read_text()):
+    for name, body in TABS.findall((DOCS / f"{PAGE_NAMES.get(page, page)}.md").read_text()):
         assert name not in seen, f"Duplicate tab group in {page}: {name}"
         seen.add(name)
         if name.endswith("-install") or name == "playbook-install":
@@ -71,7 +72,7 @@ def downloads():
 
 
 def standalone_python(page, heading):
-    source = (DOCS / f"{page}.md").read_text().split(f"## {heading}\n", 1)[1].split("\n## ", 1)[0]
+    source = (DOCS / f"{PAGE_NAMES.get(page, page)}.md").read_text().split(f"## {heading}\n", 1)[1].split("\n## ", 1)[0]
     snippets = re.findall(r"```python\n(.*?)\n```", source, re.S)
     assert len(snippets) == 1, (page, heading)
     return snippets[0] + "\n"
