@@ -1,0 +1,420 @@
+/* Dark theme for the Redis Iris docs space.
+   Loaded by baseof.html only on Iris pages (see partials/is-iris-page.html),
+   which also add the iris-dark class to <body>. Everything is scoped to <main>
+   so the header, footer, and search modal keep their own styling. */
+
+body.iris-dark {
+  --iris-bg: #091A23;
+  --iris-surface: #0D212C;
+  --iris-surface-hover: #163341;
+  --iris-border: #3d5866;
+  --iris-text: #d8e3e8;
+  --iris-heading: #ffffff;
+  --iris-muted: #8A99A0;
+  --iris-accent: #FF4438;
+  background-color: var(--iris-bg);
+  color: var(--iris-text);
+}
+
+/* Native controls (selects, textareas, scrollbars, dialogs) follow the theme */
+body.iris-dark main {
+  color-scheme: dark;
+}
+
+/* Page, sidebar, and content backgrounds */
+body.iris-dark main,
+body.iris-dark main #sidebar,
+body.iris-dark main .bg-white {
+  background-color: var(--iris-bg);
+}
+
+/* Text colors */
+body.iris-dark main .text-redis-ink-900,
+body.iris-dark main .text-slate-700,
+body.iris-dark main .text-slate-800 {
+  color: var(--iris-text);
+}
+body.iris-dark main .text-redis-pen-700,
+body.iris-dark main .text-redis-pen-600,
+body.iris-dark main .text-slate-600,
+body.iris-dark main .text-slate-500 {
+  color: var(--iris-muted);
+}
+body.iris-dark main a.text-redis-pen-700:hover,
+body.iris-dark main .hover\:text-redis-pen-600:hover,
+body.iris-dark main .hover\:text-redis-red-500:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #sidebar a.active {
+  color: var(--iris-heading);
+}
+/* index.css hard-codes these to redis-ink-900 */
+body.iris-dark main .child-list a:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a,
+body.iris-dark main .text-redis-pencil-600 {
+  color: var(--iris-muted);
+}
+body.iris-dark main #TableOfContents a:hover,
+body.iris-dark main .hover\:text-redis-pen-400:hover {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a::before {
+  background-color: var(--iris-border);
+}
+body.iris-dark main #TableOfContents a.active {
+  color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents a.active::before {
+  background-color: var(--iris-heading);
+}
+body.iris-dark main #TableOfContents.docs-toc a.active::before {
+  background-color: var(--iris-accent);
+}
+
+/* Borders */
+body.iris-dark main .border-redis-ink-900,
+body.iris-dark main .border-redis-pen-800,
+body.iris-dark main .border-redis-pen-300,
+body.iris-dark main .border-slate-100,
+body.iris-dark main .border-slate-200,
+body.iris-dark main .border-slate-300 {
+  border-color: var(--iris-border);
+}
+
+/* Hover and light-tint backgrounds */
+body.iris-dark main .bg-slate-50,
+body.iris-dark main .bg-redis-pen-200 {
+  background-color: var(--iris-surface);
+}
+body.iris-dark main .hover\:bg-redis-pen-200:hover,
+body.iris-dark main .hover\:bg-slate-50:hover,
+body.iris-dark main .hover\:bg-slate-100:hover {
+  background-color: var(--iris-surface-hover);
+}
+
+/* Prose (article body). Tailwind Typography reads these variables. */
+body.iris-dark main .prose {
+  color: var(--iris-text);
+  --tw-prose-body: var(--iris-text);
+  --tw-prose-headings: var(--iris-heading);
+  --tw-prose-lead: var(--iris-text);
+  --tw-prose-links: var(--iris-heading);
+  --tw-prose-bold: var(--iris-heading);
+  --tw-prose-counters: var(--iris-muted);
+  --tw-prose-bullets: var(--iris-muted);
+  --tw-prose-hr: var(--iris-border);
+  --tw-prose-quotes: var(--iris-text);
+  --tw-prose-quote-borders: var(--iris-border);
+  --tw-prose-captions: var(--iris-muted);
+  --tw-prose-code: var(--iris-heading);
+  --tw-prose-th-borders: var(--iris-border);
+  --tw-prose-td-borders: var(--iris-border);
+}
+/* index.css sets list markers to redis-ink-900 directly, so the prose variables
+   don't reach them. */
+body.iris-dark main .prose li::marker {
+  color: var(--iris-text);
+}
+body.iris-dark main .prose a:hover {
+  color: var(--iris-accent);
+}
+body.iris-dark main .prose h2 {
+  border-color: var(--iris-border);
+}
+body.iris-dark main .prose :not(pre) > code {
+  background-color: var(--iris-surface);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+}
+body.iris-dark main .prose pre {
+  border: 1px solid var(--iris-border);
+}
+body.iris-dark main .prose th {
+  background-color: var(--iris-surface);
+}
+
+/* Preview banner */
+body.iris-dark main .banner-article {
+  background-color: var(--iris-surface);
+  border-left: 3px solid #DCFF1E;
+  color: var(--iris-text);
+}
+
+/* Callouts: note, tip, info, and warning shortcodes and > [!NOTE] blockquotes */
+body.iris-dark main .alert {
+  background-color: var(--iris-surface);
+  border: 1px solid var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark main .alert .border-l-redis-ink-900 {
+  border-left-color: var(--iris-border);
+}
+
+/* Multitabs shortcode */
+body.iris-dark main .generic-tabs .tab-nav,
+body.iris-dark main .generic-tabs .tab-label {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+  color: var(--iris-muted);
+}
+body.iris-dark main .generic-tabs .tab-label:hover {
+  background-color: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+body.iris-dark main .generic-tabs .tab-radio:checked + .tab-label,
+body.iris-dark main .generic-tabs .tab-content {
+  background-color: var(--iris-bg);
+  border-color: var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark main .generic-tabs .tab-radio:checked + .tab-label {
+  border-bottom-color: var(--iris-bg);
+  color: var(--iris-heading);
+}
+
+/* Tile cards */
+body.iris-dark main article.hover\:bg-red-50\/50:hover,
+body.iris-dark main article.focus-within\:bg-red-50\/50:focus-within {
+  background-color: var(--iris-surface-hover);
+}
+body.iris-dark main article.hover\:text-red-900:hover,
+body.iris-dark main article.focus-within\:text-red-900:focus-within {
+  color: var(--iris-heading);
+}
+
+/* Tile card icons are dark line art on a transparent background. Inverting and
+   rotating the hue back by 180deg makes the lines light and keeps the red accent red. */
+body.iris-dark main article img.h-4 {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Screenshots of the light console. Matches the rounded-lg a few pages already
+   set, and dims them slightly so they don't glare on the dark page. Inline UI
+   icons (img-inline), tile card icons, demo artwork, and the concept diagrams
+   (which have their own filter) are excluded. */
+body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img):not([src*="/images/ai/context-engine/"]) {
+  border-radius: 0.5rem;
+  filter: brightness(0.9);
+}
+/* A border sets off full-size screenshots; small button crops go without. */
+body.iris-dark main .prose img:not(.img-inline):not(article img):not(.iris img):not(.rcr img):not([src*="/images/ai/context-engine/"]):not([width="36px"]):not([width="150px"]) {
+  border: 1px solid var(--iris-border);
+}
+
+/* Concept diagrams are Mermaid SVG exports with a white background baked in.
+   The same invert and hue rotation turns them dark and keeps the red outlines red. */
+/* iris-diagram/ holds the interactive demo's artwork, which is already dark. */
+body.iris-dark main .prose img[src*="/images/ai/context-engine/"]:not([src*="/iris-diagram/"]) {
+  filter: invert(1) hue-rotate(180deg);
+  border-radius: 0.75rem;
+}
+
+/* The "Copied!" bubble on code copy buttons keeps its light background, so it
+   needs its dark text back after the text-slate-800 remap. */
+body.iris-dark main .tooltiptext.text-slate-800 {
+  color: #1e293b;
+}
+
+/* Service demos (Context Retriever, Agent Memory, LangCache, Data Integration).
+   All four build on the .rcr tokens in context-retriever-demo.css, so swapping the
+   tokens darkens them; the rest covers colors those files hard-code. */
+body.iris-dark main .rcr {
+  --rcr-ink: #d8e3e8;
+  --rcr-muted: #a9b8bf;
+  --rcr-faint: #8a99a0;
+  --rcr-line: #2a4250;
+  --rcr-line-strong: #3d5866;
+  --rcr-surface: #0D212C;
+  --rcr-surface-2: #163341;
+  --rcr-code-bg: #091A23;
+  --rcr-accent-2: #7c83ff;
+  --rcr-ok: #3ccf8e;
+  --rcr-bad: #ff6b6b;
+  --rlc-warn: #f0a04b;
+  --rdi-warn: #f0a04b;
+}
+/* Ink doubles as a background on selected tabs and user messages, which now read
+   as light pills, so their text takes the page color. */
+body.iris-dark main .rcr-tab[aria-selected="true"],
+body.iris-dark main .rcr-user,
+body.iris-dark main .ram-role-user {
+  color: var(--iris-bg);
+}
+body.iris-dark main .rcr .rcr-btn,
+body.iris-dark main .rcr .rcr-input,
+body.iris-dark main .rcr .rcr-select,
+body.iris-dark main .rcr .rcr-chip,
+body.iris-dark main .rcr .rcr-call,
+body.iris-dark main .rcr .rcr-n,
+body.iris-dark main .rcr .rlc-llm,
+body.iris-dark main .rcr .rdi-step {
+  background-color: var(--rcr-surface-2);
+}
+body.iris-dark main .rcr .rcr-btn-primary {
+  background-color: var(--rcr-accent);
+}
+body.iris-dark main .rcr .rcr-connrow code,
+body.iris-dark main .rcr .rdi-option code {
+  background-color: var(--rcr-code-bg);
+}
+body.iris-dark main .rcr .rcr-jk,
+body.iris-dark main .rcr .rdi-hash td:first-child,
+body.iris-dark main .rcr .rdi-dfield {
+  color: #9aa0ff;
+}
+body.iris-dark main .rcr .rcr-js,
+body.iris-dark main .rcr .rdi-hash td:last-child {
+  color: #3ccf8e;
+}
+body.iris-dark main .rcr .rcr-jn,
+body.iris-dark main .rcr .ram-type-episodic {
+  color: #f0a04b;
+}
+body.iris-dark main .rcr .rcr-jl {
+  color: #ff6b6b;
+}
+
+/* The Iris overview demo is also .rcr. Its highlighter chips and reply parts keep
+   their pastel service colors, so the text on them stays dark. */
+body.iris-dark main .iris .iris-chip,
+body.iris-dark main .iris .iris-src,
+body.iris-dark main .iris .iris-reply.is-picking .iris-src.is-on {
+  color: var(--iris-bg);
+}
+body.iris-dark main .iris .iris-replymsg,
+body.iris-dark main .iris .iris-memtype,
+body.iris-dark main .iris .iris-with,
+body.iris-dark main .iris .iris-without,
+body.iris-dark main .iris .iris-check {
+  background-color: var(--rcr-surface-2);
+}
+body.iris-dark main .iris .iris-fact code {
+  background-color: var(--rcr-code-bg);
+}
+body.iris-dark main .iris .iris-reply.is-picking .iris-replymsg {
+  color: #6f8189;
+}
+
+/* Context map (```context-map code blocks, drawn by static/js/context-map.js),
+   used for the request flow diagram. */
+body.iris-dark main .context-map-shape {
+  fill: var(--iris-surface);
+}
+body.iris-dark main #context-map-border-gradient stop:last-child {
+  stop-color: #5c707a;
+}
+body.iris-dark main .context-map-label {
+  fill: var(--iris-text);
+}
+body.iris-dark main .context-map-node.is-selected .context-map-shape {
+  fill: #3a1c1f;
+}
+body.iris-dark main .context-map-node.is-path-active .context-map-shape {
+  fill: #0f2e22;
+  stroke: #22c55e;
+}
+body.iris-dark main .context-map-edge {
+  stroke: #5c707a;
+}
+body.iris-dark main .context-map-arrowhead {
+  fill: #5c707a;
+}
+body.iris-dark main .context-map-edge.is-path-active {
+  stroke: #22c55e;
+}
+body.iris-dark main .context-map-arrowhead.context-map-arrowhead--active {
+  fill: #22c55e;
+}
+body.iris-dark main .context-map-edge-label-bg {
+  fill: var(--iris-bg);
+}
+body.iris-dark main .context-map-edge-label {
+  fill: var(--iris-muted);
+}
+body.iris-dark main .context-map-path-button {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+  color: var(--iris-muted);
+}
+body.iris-dark main .context-map-path-button:hover {
+  border-color: var(--iris-muted);
+  color: var(--iris-heading);
+}
+body.iris-dark main .context-map-path-button.is-active {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+body.iris-dark main .context-map-panel {
+  background-color: var(--iris-surface);
+  border-color: var(--iris-border);
+}
+body.iris-dark main .context-map-panel--path {
+  border-color: #22c55e;
+}
+body.iris-dark main .context-map-panel-kind,
+body.iris-dark main .context-map-panel p {
+  color: var(--iris-muted);
+}
+body.iris-dark main .context-map-panel strong {
+  color: var(--iris-heading);
+}
+body.iris-dark main .context-map-panel a {
+  color: var(--iris-accent);
+}
+
+/* Download documentation dialog. It renders inside the sidebar, so the text and
+   border remaps apply to it; without its own surface it keeps the browser's
+   light canvas and the remapped light text loses contrast. */
+body.iris-dark main #download-docs-dialog {
+  background-color: var(--iris-surface);
+  color: var(--iris-text);
+  border: 1px solid var(--iris-border);
+}
+body.iris-dark main #download-docs-dialog .bg-white {
+  background-color: var(--iris-bg);
+}
+body.iris-dark main #download-docs-dialog .bg-slate-50 {
+  background-color: var(--iris-surface-hover);
+}
+
+/* Page feedback comment box */
+body.iris-dark main #page-feedback textarea {
+  background-color: var(--iris-surface);
+  color: var(--iris-text);
+  border-color: var(--iris-border);
+}
+body.iris-dark main #page-feedback textarea::placeholder {
+  color: var(--iris-muted);
+}
+
+/* Rate this page. An empty star is a white fill with a gray outline, which reads
+   as filled on a dark page; make empty stars hollow and selected stars light. */
+body.iris-dark main .star-rating label {
+  color: var(--iris-bg);
+  text-shadow:
+    #8A99A0 1px 0px 0px,
+    #8A99A0 0.540302px 0.841471px 0px,
+    #8A99A0 -0.416147px 0.909297px 0px,
+    #8A99A0 -0.989993px 0.14112px 0px,
+    #8A99A0 -0.653644px -0.756803px 0px,
+    #8A99A0 0.283662px -0.958924px 0px,
+    #8A99A0 0.96017px -0.279416px 0px;
+}
+body.iris-dark main .star-rating :checked ~ label {
+  color: var(--iris-text);
+}
+body.iris-dark main .star-rating label:hover,
+body.iris-dark main .star-rating label:hover ~ label {
+  color: var(--iris-accent);
+}
+
+/* Heading anchor links */
+body.iris-dark main .header-link {
+  color: var(--iris-muted);
+}
+body.iris-dark main .header-link:hover {
+  color: var(--iris-heading);
+}

@@ -117,6 +117,18 @@ Mono<Void> chain = reactiveCommands.hincrby("stats", "count", 1)
 chain.block();
 ```
 
+**Null replies are empty Monos.** A command that replies with nil completes without
+emitting anything, so every later `flatMap`/`doOnNext` in the chain silently never runs —
+and the test still passes. This covers a conditional `SET` that doesn't apply (`NX`, `XX`,
+`IFEQ`) and a `GET` of a missing key. Where the step needs to show the nil result, end that
+command with `.hasElement()` (emits `false`) or `.defaultIfEmpty(...)`:
+
+```java
+.flatMap(v -> reactiveCommands.set("bike:1", "Zeus",
+        SetArgs.Builder.compareCondition(CompareCondition.valueEq("Deimos"))).hasElement())
+.doOnNext(res -> System.out.println(res)) // >>> false
+```
+
 ### 4. Parallel Execution
 ```java
 Mono.when(mono1, mono2, mono3).block();

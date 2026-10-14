@@ -8,8 +8,10 @@ description: Step through one agent request across Data Integration, LangCache, 
 hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
-weight: 7
+weight: 10
 bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
+aliases:
+- /develop/ai/context-engine/interactive-demo/
 ---
 
 Redis Iris gives an AI agent governed access to live business data, memory, and cached answers. This tour follows one customer request through all four services, one step at a time. It starts where business data enters Iris, with Data Integration, and then follows the request through the other three services, in the order described in [How Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md). The last step takes one service away to show what the agent loses without it.

@@ -58,13 +58,20 @@ console.log(JSON.stringify(userSession, null, 2));
  */
 ```
 
-To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
+To connect to a different host or port, use a
+[connection URL](/content/develop/clients/connection-urls.md#node-redis-javascript):
 
 ```js
 createClient({
   url: 'redis://alice:foobared@awesome.redis.server:6380'
 });
 ```
+
+> [!NOTE]
+> A [connection URL](/content/develop/clients/connection-urls.md#node-redis-javascript) can
+> also set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
 ## Connect to a Redis cluster
@@ -95,6 +102,77 @@ const value = await cluster.get('foo');
 console.log(value); // returns 'bar'
 
 await cluster.close();
+```
+
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+use `createSentinel()`. Set `name` to the name of the primary that the Sentinels monitor,
+and list one or more Sentinels in `sentinelRootNodes`. The client asks the Sentinels for
+the current primary and switches to the new one after a failover.
+
+```js
+import { createSentinel } from 'redis';
+
+const sentinel = createSentinel({
+    name: 'mymaster',
+    sentinelRootNodes: [
+        { host: 'localhost', port: 26379 },
+        { host: 'localhost', port: 26380 },
+        { host: 'localhost', port: 26381 }
+    ]
+});
+
+sentinel.on('error', (err) => console.log('Redis Sentinel Error', err));
+
+await sentinel.connect();
+
+await sentinel.set('foo', 'bar');
+const value = await sentinel.get('foo');
+console.log(value); // returns 'bar'
+
+await sentinel.close();
+```
+
+The Sentinels and the data nodes have separate credentials. Set the Sentinel credentials in
+`sentinelClientOptions`, and the credentials for the primary and replicas in
+`nodeClientOptions`:
+
+```js
+const sentinel = createSentinel({
+    name: 'mymaster',
+    sentinelRootNodes: [
+        { host: 'localhost', port: 26379 },
+        { host: 'localhost', port: 26380 },
+        { host: 'localhost', port: 26381 }
+    ],
+    // Credentials for the Sentinel instances.
+    sentinelClientOptions: {
+        password: 'sentinel-secret'
+    },
+    // Credentials for the primary and replica data nodes.
+    nodeClientOptions: {
+        username: 'default',
+        password: 'secret'
+    }
+});
+```
+
+Neither option accepts a `url`, so you can't use a connection string with
+`createSentinel()`.
+
+By default, the client sends all commands to the primary. To send read-only commands such
+as `GET` to the replicas, set `replicaPoolSize` to the number of connections to open to each
+replica. Replication is asynchronous, so a read that follows a write can return stale data.
+
+```js
+const sentinel = createSentinel({
+    name: 'mymaster',
+    sentinelRootNodes: [
+        { host: 'localhost', port: 26379 }
+    ],
+    replicaPoolSize: 1
+});
 ```
 
 ## Connect to your production Redis with TLS

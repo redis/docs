@@ -828,7 +828,8 @@ than to all channels (`allchannels`, equivalently `&*`).
 > monitored master and replica. Sentinels periodically publish their presence there and
 > subscribe to it to discover other Sentinels and learn the current topology. These messages
 > carry no authentication and are trusted by receiving Sentinels, so any client that can
-> publish to this channel on a monitored node can inject forged topology information and
+> publish to this channel on a monitored node can send forged HELLO messages that redirect a Sentinel to an attacker-controlled endpoint,
+> potentially exposing the configured master credentials sent over command and Pub/Sub connections, and
 > trigger spurious failovers or a denial of service.
 >
 > Because of this, do not grant broad Pub/Sub access on Sentinel-monitored Redis nodes:
@@ -838,7 +839,9 @@ than to all channels (`allchannels`, equivalently `&*`).
 >   other user should be able to publish to or subscribe to it. Since Redis 7.0, the default
 >   value of `acl-pubsub-default` is `resetchannels`, so newly created ACL users have no
 >   channel access unless you grant it explicitly. Be especially careful with the legacy
->   `default` user, which may still have broad access.
+>   `default` user, which may still have broad access. This documentation change does not alter existing ACL configurations. Review ACL users on monitored masters and replicas,
+>   including the legacy `default` user, and confirm that no non-Sentinel user can publish to or subscribe to
+>   `__sentinel__:hello`.
 > * Treat the `__sentinel__:` channel prefix as reserved for Sentinel's internal use.
 
 ### Redis password-only authentication

@@ -11,17 +11,19 @@ weight: 40
 hideListLinks: true
 ---
 
-Self-managed LangCache uses three separate credentials:
-
-- an **admin token** for the Control Plane's cache-management API;
-- an **internal token** the Identity Service uses to validate that a
-  cache-grant reference is real, by calling back into the Control Plane;
-- **agent keys**, issued by the Identity Service, that applications use to
-  call the Data Plane.
-
 The Data Plane always authenticates by introspecting agent keys against an
 Identity Service. There is no auth-disabled or static-token mode for
 self-managed LangCache.
+
+## Credentials
+
+| Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
+| --- | --- | --- | --- | --- |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `langcache-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Cache management: `/v1/caches` |
+| Control Plane internal token | Identity Service → Control Plane | `langcache-controlplane-internal-token` / `token` | Yes (`controlplane.internalToken.autoGenerate`) | Checking that the cache in a grant exists. Chart-managed; you handle it only with bring-your-own (BYO) configuration or an external Identity Service |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `langcache-identity-service-control-token` / `token` | Yes (`identityService.bundled.controlToken.autoGenerate`) | Creating, listing, updating, rotating and revoking agent keys |
+| Data Plane service credential | Data Plane → Identity Service | `langcache-identity-service-dp-credential` / `token` | Yes (`identityService.bundled.runtime.dataplaneCredential.autoGenerate`) | Checking agent keys for `langcache`. Chart-managed; you handle it only with bring-your-own (BYO) configuration or an external Identity Service |
+| Agent key | Application → Data Plane (`:9000`) | None; returned once when minted or rotated | No | The cache operations its grants allow |
 
 ## Control Plane admin token
 
@@ -74,8 +76,8 @@ Identity Service's `product_validation.langcache.credential` automatically.
 In external mode, you must give this token to the Identity Service's owner
 (see [External Identity Service](#external-identity-service)).
 
-The admin token and internal token must always be different values; the
-Control Plane rejects a configuration where admin token and internal token match.
+The admin token and internal token must be different. The chart refuses the
+same Secret and key, but doesn't detect identical values in different Secrets.
 
 ## Identity Service modes
 
@@ -92,9 +94,6 @@ automatically:
 identityService:
   mode: bundled
   bundled:
-    image:
-      repository: redislabs/iris-identity-service
-      tag: "<langcache-version>"
     metadata:
       existingSecret: ids-metadata
 ```
@@ -137,14 +136,17 @@ Identity Service owner, scoped to `api-key-introspect` on product
 `langcache`. You must also ask that owner to configure the external
 Identity Service's own `product_validation.langcache` against this
 release's Control Plane internal Service
-(`langcache-controlplane:9100`) and this release's `controlplane.internalToken`
-Secret — this chart has no way to reach into an Identity Service it doesn't
-own.
+(`http://langcache-controlplane.<namespace-name>.svc.cluster.local:9100`) and
+this release's `controlplane.internalToken` Secret. The owner needs a copy of
+`langcache-controlplane-internal-token` in the Identity Service's namespace;
+this chart has no way to reach into an Identity Service it doesn't own.
 
 ## Minting and managing agent keys
 
 Mint, list, update, revoke, and rotate agent keys directly against the
-Identity Service (not the LangCache Control Plane):
+Identity Service (not the LangCache Control Plane). In bundled mode, first
+port-forward the Identity Service and read its control token, as in
+[Verify the deployment](/content/operate/iris/langcache/self-managed/deploy.md#verify-the-deployment).
 
 ```bash
 IDS_URL="http://localhost:9200"
@@ -157,6 +159,7 @@ curl -sS -X POST "$IDS_URL/v1/api-keys" \
     "name": "my-agent-key",
     "grants": [
       {
+        "tenant": "<your-tenant-id>",
         "product": "langcache",
         "resourceType": "lc-cache",
         "resourceId": "<cache-id>",
@@ -166,8 +169,15 @@ curl -sS -X POST "$IDS_URL/v1/api-keys" \
   }'
 ```
 
+Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage caches with the Control Plane admin token.
+
 The response contains the new credential. Store it immediately; credentials
 are returned only when a key is minted or rotated.
+
+The Data Plane caches each key check, so a revoked key stops working within
+up to 5 minutes (180 seconds soft, 300 seconds hard,
+`identityService.bundled.runtime.cache.*`). For rotation, see
+[Operations](/content/operate/iris/langcache/self-managed/operations.md).
 
 Grant actions:
 

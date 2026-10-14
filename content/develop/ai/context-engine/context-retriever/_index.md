@@ -8,7 +8,7 @@ categories:
 description: Expose tools to Agents to query your Redis databases. 
 linkTitle: Context Retriever
 hideListLinks: true
-weight: 30
+weight: 20
 bannerText: Redis Context Retriever is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 ---

@@ -38,7 +38,7 @@ What you have to do differs by method, so each install method below ends with it
 
 Both are supported and built from the same release. You can install either one on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
-Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
+Get the RPM from the [Redis Download Center](https://redis.io/downloads/#Modules_Tools_and_Integration). Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
 
 ## Before you start
 

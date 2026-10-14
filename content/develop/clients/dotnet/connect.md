@@ -41,6 +41,13 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
+> [!NOTE]
+> Unlike other clients, StackExchange.Redis doesn't support
+> [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> but it does support its own similar configuration string format.
+> See [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> to learn how to convert a standard URL to a configuration string.
+
 ## Connect to a Redis cluster
 
 The basic connection will use the
@@ -65,6 +72,64 @@ IDatabase db = cluster.GetDatabase();
 
 db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
+```
+
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+list the Sentinels in `EndPoints` and set `ServiceName` to the name of the primary that
+the Sentinels monitor. The client asks the Sentinels for the current primary.
+
+```csharp
+using StackExchange.Redis;
+
+ConfigurationOptions conf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    ServiceName = "mymaster"
+};
+
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(conf);
+IDatabase db = redis.GetDatabase();
+
+db.StringSet("foo", "bar");
+Console.WriteLine(db.StringGet("foo")); // prints bar
+```
+
+You can also use a configuration string, such as
+`"localhost:26379,localhost:26380,localhost:26381,serviceName=mymaster"`.
+
+If the Sentinels and the data nodes have different credentials, connect to the Sentinels
+first with `SentinelConnect()`, using the Sentinel credentials. Then call
+`GetSentinelMasterConnection()` with the credentials for the primary and replicas:
+
+```csharp
+using StackExchange.Redis;
+
+// Connect to the Sentinels with the Sentinel credentials.
+ConfigurationOptions sentinelConf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    User = "yourSentinelUsername",
+    Password = "yourSentinelPassword"
+};
+ConnectionMultiplexer sentinel = ConnectionMultiplexer.SentinelConnect(sentinelConf);
+
+// Connect to the primary with the Redis credentials.
+ConfigurationOptions conf = new ConfigurationOptions {
+    ServiceName = "mymaster",
+    User = "yourUsername",
+    Password = "yourPassword"
+};
+ConnectionMultiplexer redis = sentinel.GetSentinelMasterConnection(conf);
+IDatabase db = redis.GetDatabase();
+```
+
+The connection also includes the replicas that the Sentinels report. To read from a
+replica, pass `CommandFlags.PreferReplica` (or `CommandFlags.DemandReplica`) to a read-only
+command. Replication is asynchronous, so a replica can return stale data.
+
+```csharp
+// Read from a replica if one is available, otherwise from the primary.
+Console.WriteLine(db.StringGet("foo", CommandFlags.PreferReplica)); // prints bar
 ```
 
 ## Connect to your production Redis with TLS
@@ -160,28 +225,28 @@ See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
 > [!NOTE]
-> SCH support in `StackExchange.Redis` requires v3.3.0 or later. The feature
-> is functional and tested against real Redis Enterprise deployments, but
-> because it is a large, new API, the types and members involved are
-> marked with the `[Experimental]` attribute. This is so the developers can reserve
-> the right to adjust the API without the usual backwards-compatibility
-> guarantees. As a result, the compiler reports the `SER010` diagnostic when
-> you use them. You can suppress this diagnostic by adding the following to
-> your `.csproj` file:
->
-> ```xml
-> <NoWarn>$(NoWarn);SER010</NoWarn>
-> ```
->
-> Alternatively, you can suppress it locally in your source file:
->
-> ```csharp
-> #pragma warning disable SER010
-> ```
+> SCH support in `StackExchange.Redis` requires v3.3.0 or later. In v3.3.0 and
+> v3.3.1, the SCH API is marked `[Experimental]`, and SCH is never enabled
+> unless you set `MaintenanceNotifications` yourself. From v3.4.0, the API is no
+> longer experimental, so the compiler no longer reports the `SER010`
+> diagnostic and you can remove any suppression you added for it.
 
-SCH is disabled by default. Enable it with the `MaintenanceNotifications`
-configuration option, either in code or using the `maintNotifications` key
-in a configuration string:
+The client enables SCH automatically, in `Auto` mode, when either of the
+following is true:
+
+- You connect using a hostname that the client recognizes as Redis Cloud
+  (`*.cloud.redislabs.com`, `*.cloud.redis.io`, or `*.redislabs.com`) or
+  Azure Managed Redis (`*.redis.azure.net` or `*.redisenterprise.cache.azure.net`).
+- You name a provider profile with the `defaults` configuration key
+  (`defaults=enterprise`, `defaults=rediscloud`, or `defaults=amr`).
+
+For any other endpoint, SCH is disabled by default. This includes Redis
+Software databases, which have no hostname pattern to recognize, and hosted
+databases that you reach through a CNAME, private DNS, or a proxy. For these,
+either set `defaults=enterprise`, which also applies that profile's other
+default settings, or enable SCH with the `MaintenanceNotifications`
+configuration option, in code or using the `maintNotifications` key in a
+configuration string:
 
 ```csharp
 var options = ConfigurationOptions.Parse("host:6379,maintNotifications=Auto,maintRelaxedTimeout=15");
@@ -196,19 +261,11 @@ var options = new ConfigurationOptions {
 var muxer = await ConnectionMultiplexer.ConnectAsync(options);
 ```
 
-> [!NOTE]
-> `ConfigurationOptions` also has a `Defaults` property that accepts named
-> provider profiles (`amr`, `rediscloud`, `enterprise`) using the `defaults`
-> configuration key. As of v3.3.0, none of these profiles override
-> `MaintenanceNotifications`, so it stays `Disabled` under every profile.
-> Set `maintNotifications` explicitly, regardless of which server product
-> you connect to.
-
 The `ConfigurationOptions` object accepts the following SCH-related parameters:
 
 | Name | Description |
 | :-- | :-- |
-| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
+| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default, unless the client recognizes the endpoint or you set `defaults`), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
 | `MaintenanceMovingEndpointType` | The endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
 | `MaintenanceRelaxedTimeout` | The timeout to use for commands and connections while the server has announced maintenance. The default is 10 seconds. |
 | `MaintenanceRelaxedWindowMax` | The maximum time to keep using the relaxed timeout if no notification arrives to close the window. The default is three times `MaintenanceRelaxedTimeout`. |

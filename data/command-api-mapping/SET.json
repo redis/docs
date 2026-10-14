@@ -333,6 +333,171 @@
           "type": "*StatusCmd",
           "description": ""
         }
+      },
+      {
+        "signature": "SetArgs(ctx context.Context, key string, value interface{}, a SetArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "SetArgs",
+            "description": "Mode can be `NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ`, `IFDNE` or empty. MatchValue is used with IFEQ/IFNE; MatchDigest (a uint64 xxh3 hash) is used with IFDEQ/IFDNE."
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SetIFEQ(ctx context.Context, key string, value interface{}, matchValue interface{}, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "matchValue",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": "Zero expiration means the key has no expiration time."
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+        }
+      },
+      {
+        "signature": "SetIFNE(ctx context.Context, key string, value interface{}, matchValue interface{}, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "matchValue",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": "Zero expiration means the key has no expiration time."
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+        }
+      },
+      {
+        "signature": "SetIFDEQ(ctx context.Context, key string, value interface{}, matchDigest uint64, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "matchDigest",
+            "type": "uint64",
+            "description": "A uint64 xxh3 hash value."
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": "Zero expiration means the key has no expiration time."
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+        }
+      },
+      {
+        "signature": "SetIFDNE(ctx context.Context, key string, value interface{}, matchDigest uint64, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "matchDigest",
+            "type": "uint64",
+            "description": "A uint64 xxh3 hash value."
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": "Zero expiration means the key has no expiration time."
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Returns \"OK\" on success. Returns nil if the operation was aborted due to condition not matching."
+        }
       }
     ],
     "node_redis": [
@@ -527,6 +692,30 @@
           "type": "(())",
           "description": ""
         }
+      },
+      {
+        "signature": "set_options(key: K, value: V, options: SetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "SetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
       }
     ],
     "redis_rs_async": [
@@ -546,6 +735,30 @@
         ],
         "returns": {
           "type": "(())",
+          "description": ""
+        }
+      },
+      {
+        "signature": "set_options(key: K, value: V, options: SetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "SetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
           "description": ""
         }
       }

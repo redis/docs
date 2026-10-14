@@ -39,7 +39,7 @@ Check the release notes for your target version to determine the minimum Redis d
 
 If your databases use user-defined modules (custom non-bundled modules):
 
-- Set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+- Set `spec.upgradeSpec.autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
 - Define the user-defined modules in the REC custom resource before upgrading the database.
 - See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec-in-the-rec-spec) for more details.
 
@@ -79,7 +79,7 @@ For detailed Helm upgrade instructions, see [Upgrade the chart](/content/operate
 ## Upgrade the operator
 
 > [!WARNING]
-> If your databases use user-defined modules, set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+> If your databases use user-defined modules, set `spec.upgradeSpec.autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
 
 ### Download the bundle
 
@@ -150,7 +150,7 @@ redis-enterprise-operator   1/1     1            1           0m36s
 
 ## Upgrade the Redis Enterprise cluster (REC)
 
-The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
+The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, set `spec.upgradeSpec.autoUpgradeRedisEnterprise: true` in your REC. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
 > [!WARNING]
 > Automatic upgrade is incompatible with image digest hashes. If you set a `digestHash` in any image spec (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, or `usageMeter.callHomeClient.imageSpec`) while `autoUpgradeRedisEnterprise` is `true`, the operator invalidates the REC spec and publishes a Kubernetes warning event. Remove all `digestHash` values before you enable automatic upgrade, or upgrade the cluster [manually](#edit-redisenterpriseimagespec-in-the-rec-spec) instead.
@@ -257,7 +257,7 @@ If your databases use user-defined modules and you encounter upgrade issues:
 1. **Verify `autoUpgradeRedisEnterprise` is set to `false`**: Check the REC spec to ensure automatic upgrades are disabled.
 
     ```sh
-    kubectl get rec <cluster-name> -o jsonpath='{.spec.autoUpgradeRedisEnterprise}'
+    kubectl get rec <cluster-name> -o jsonpath='{.spec.upgradeSpec.autoUpgradeRedisEnterprise}'
     ```
 
 1. **Verify modules are defined in the REC**: Ensure all user-defined modules are listed in the REC `userDefinedModules` section before upgrading.
@@ -306,4 +306,4 @@ If `autoUpgradeRedisEnterprise` is `true` and any image spec sets a `digestHash`
 
 1. **Remove the digest hashes**: Delete the `digestHash` field from every image spec that sets it (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, and `usageMeter.callHomeClient.imageSpec`). Once the spec no longer uses digest hashes, the operator revalidates it and the upgrade proceeds.
 
-Alternatively, set `autoUpgradeRedisEnterprise: false` and [upgrade the cluster manually](#edit-redisenterpriseimagespec-in-the-rec-spec), which supports digest hashes.
+Alternatively, set `spec.upgradeSpec.autoUpgradeRedisEnterprise: false` and [upgrade the cluster manually](#edit-redisenterpriseimagespec-in-the-rec-spec), which supports digest hashes.

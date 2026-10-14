@@ -19,6 +19,8 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
 
 ## Create a Data Integration workspace
 
+For multiple source databases or Redis subscriptions, see [Plan source connectivity](/content/operate/rc/rdi/networking/_index.md). It explains which endpoint services you can reuse and which connections you configure for each workspace.
+
 {{< embed-md "rc-rdi-create-rdi-workspace.md" >}}
 
 ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
