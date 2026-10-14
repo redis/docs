@@ -36,7 +36,7 @@ See [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-play
 ## Manage playbook entries
 
 - [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}): write, publish, and update FAQs.
-- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/skills" >}}): package Agent Skills and load their instructions and files on demand.
+- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}): package Agent Skills and load their instructions and files on demand.
 - [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}): check proposed entries and accumulated evidence before accepting them.
 
 ## Serve playbook entries at runtime

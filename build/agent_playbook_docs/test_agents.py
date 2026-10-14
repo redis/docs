@@ -2,7 +2,6 @@
 
 from copy import deepcopy
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-import base64
 import json
 import os
 from pathlib import Path
@@ -78,8 +77,12 @@ class AgentFixture(ContractFixture):
         if name == "discover_entries":
             assert isinstance(args["query"], str) and args["query"]
             data = self.discovery()
-            if self.mode == "malformed-discovery":
-                data.pop("pinnedEntries")
+            if self.mode == "discovery-tool-error":
+                error, data = True, "Discovery temporarily unavailable."
+            elif self.mode == "discovery-rpc-error":
+                return 200, {"jsonrpc": "2.0", "id": body["id"], "error": {
+                    "code": -32603, "message": "Discovery request failed.",
+                }}
         elif name == "load_skill":
             self.load_attempts += 1
             if self.mode in ("tool-error", "unsafe-tool-error", "unsafe-discovery-after-error", "unsafe-parallel-error"):
@@ -94,26 +97,15 @@ class AgentFixture(ContractFixture):
                 content = self.skill_content()["payload"]["skill"]
                 content["resources"][0]["uri"] = f"playbook://returned-version-{version}/reply-template.md"
                 data = {"entryId": identifier, "version": version, "content": content}
-                if self.mode == "malformed-load":
-                    data["content"].pop("instructions")
-                    data["content"]["resources"] = []
-                elif self.mode == "malformed-load-type":
-                    data["content"]["instructions"] = 42
-                elif self.mode == "empty-instructions":
-                    data["content"]["instructions"] = ""
         else:
             assert name == "fetch_resource"
             version = 3 if self.mode == "stale" else 1
             assert args == {"uri": f"playbook://returned-version-{version}/reply-template.md"}
             data = {"uri": args["uri"], "mimeType": "text/markdown", "text": "Refund stage: <displayed-stage>."}
-            if self.mode in ("binary", "binary-empty"):
-                value = b"\x00sample binary\xff" if self.mode == "binary" else b""
-                data = {"uri": args["uri"], "mimeType": "application/octet-stream",
-                        "blob": base64.b64encode(value).decode()}
-            elif self.mode == "malformed-resource":
-                data = {}
         result = {"isError": error, "content": [{"type": "text", "text": data if error else json.dumps(data)}]}
-        if not error:
+        if self.mode == "invalid-json":
+            result["content"][0]["text"] = "{invalid-json"
+        if not error and self.mode not in ("text-fallback", "invalid-json"):
             result["structuredContent"] = data
         return 200, {"jsonrpc": "2.0", "id": body["id"], "result": result}
 
@@ -285,9 +277,8 @@ def test_agent_discovery_and_selective_loading(framework, suffix, agent_server, 
 
 
 @pytest.mark.parametrize("suffix", ("py", "mts", "sh"))
-@pytest.mark.parametrize("agent_server", ("skill", "empty", "tool-error", "binary", "binary-empty",
-                                          "malformed-discovery", "malformed-resource", "malformed-load",
-                                          "malformed-load-type", "empty-instructions"), indirect=True)
+@pytest.mark.parametrize("agent_server", ("skill", "faq", "empty", "budget", "text-fallback",
+                                          "discovery-tool-error", "discovery-rpc-error", "invalid-json"), indirect=True)
 def test_basic_mcp_client(suffix, agent_server, tmp_path):
     state, env = agent_server
     target = tmp_path / f"mcp_client.{suffix}"
@@ -298,24 +289,22 @@ def test_basic_mcp_client(suffix, agent_server, tmp_path):
     result = subprocess.run(command, env=env, cwd=tmp_path, text=True, capture_output=True, timeout=60)
     assert not state.errors, state.errors
     assert not state.model_requests
-    if state.mode == "tool-error":
+    assert [name for name, _ in state.calls] == ["discover_entries"]
+    if state.mode == "discovery-tool-error":
         assert result.returncode != 0 and "Playbook tool failed" in result.stdout + result.stderr
-    elif state.mode.startswith("malformed"):
+    elif state.mode == "discovery-rpc-error":
+        assert result.returncode != 0 and "Discovery request failed" in result.stdout + result.stderr
+    elif state.mode == "invalid-json":
         assert result.returncode != 0
     else:
         assert result.returncode == 0, result.stdout + result.stderr
-        if state.mode == "empty":
-            assert "No skill preview returned" in result.stdout
-            assert [name for name, _ in state.calls] == ["discover_entries"]
-        else:
-            assert [name for name, _ in state.calls] == ["discover_entries", "load_skill", "fetch_resource"]
-            if state.mode in ("binary", "binary-empty"):
-                assert (tmp_path / "resource.bin").read_bytes() == (b"\x00sample binary\xff" if state.mode == "binary" else b"")
-            else:
-                assert "Refund stage:" in result.stdout
+        for name in ("discover_entries", "load_skill", "fetch_resource"):
+            assert name in result.stdout
+        discovery = json.loads(result.stdout[result.stdout.index("{"):])
+        assert discovery == state.discovery()
 
 
-@pytest.mark.parametrize("agent_server", ("transfer-discovery", "transfer-load"), indirect=True)
+@pytest.mark.parametrize("agent_server", ("transfer-discovery",), indirect=True)
 def test_curl_client_stops_after_incomplete_transfer(agent_server, tmp_path):
     state, env = agent_server
     target = tmp_path / "mcp_client.sh"

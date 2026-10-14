@@ -179,6 +179,12 @@ def run_case(name, case, args, log_dir):
                 if name.startswith("skills_copy"):
                     if not any(entry.publication for entry in client.list_skills().skills):
                         raise RuntimeError("Skill copy did not retain a publication")
+                if guide == "mcp":
+                    context = json.loads(completed.stdout[completed.stdout.index("{"):])
+                    entries = context["pinnedEntries"] + context["discoveredEntries"]
+                    if not any(entry["entryId"] == env["PLAYBOOK_SKILL_ID"] and entry["version"] == 1
+                               for entry in entries):
+                        raise RuntimeError("MCP discovery did not return the published sample skill")
                 if guide in AGENT_GUIDES:
                     validate_agent_reply(completed.stdout, env["PLAYBOOK_SKILL_ID"], template_uri)
     finally:
