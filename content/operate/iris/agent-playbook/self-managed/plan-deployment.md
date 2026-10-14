@@ -35,7 +35,7 @@ The chart creates `ClusterIP` services. Your platform owns ingress, network poli
 
 Keep the control plane and Identity Service private to approved operators and services. Applications use the data plane with playbook-scoped keys.
 
-Use certificate-verified connections for production dependencies. If your platform supplies HTTPS endpoints for communication between services, configure `dataplane.identityServiceBaseURL`, `identityService.playbookControlPlaneBaseURL`, and any private certificate authority through [Helm values]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#helm-values" >}}).
+Use certificate-verified connections for production dependencies. Configure custom service endpoints and private CA trust through [Helm values]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#helm-values" >}}).
 
 ## Plan capacity and recovery
 

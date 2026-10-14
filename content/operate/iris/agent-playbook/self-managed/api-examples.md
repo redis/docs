@@ -11,7 +11,7 @@ weight: 70
 hideListLinks: true
 ---
 
-Create a playbook and issue separate publisher and reader keys.
+Create a playbook, issue publisher and reader keys, and verify application access.
 
 Before you begin, [deploy the chart and forward the APIs]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#connect-to-the-apis" >}}), then [load the administrative tokens]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#read-the-bootstrap-credentials" >}}).
 
@@ -99,7 +99,7 @@ jq '.name = "support-reader" | .grants[0].actions = ["read"]' publisher-grant.js
     --data-binary @- > reader-key.json
 ```
 
-Save the returned tokens in your secret manager and retain their `keyId` values. Credentials are returned only on creation or rotation.
+Save both tokens in your secret manager and retain their `keyId` values. Tokens are returned only on creation or rotation.
 
 ## Verify application access
 
@@ -109,24 +109,6 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY"
 ```
 
-The current shell has `PLAYBOOK_URL`, `PLAYBOOK_ID`, and the publisher's `PLAYBOOK_API_KEY`. Run the [developer quickstart]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) here to publish and retrieve an FAQ. Runtime applications use the reader credential saved in your secret manager. Remove the local key-response files after saving both credentials.
+Use the current publisher connection for the [developer quickstart]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}). Give runtime applications `PLAYBOOK_URL`, `PLAYBOOK_ID`, and the reader key for [agent integration]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}). Remove the local key-response files after saving both tokens.
 
-## Update retrieval settings
-
-For example, change the playbook's default result limit to five:
-
-```bash
-curl --fail-with-body --silent --show-error \
-  -X PATCH "$PLAYBOOK_CONTROL_URL/v1/playbooks/$PLAYBOOK_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_ADMIN_TOKEN" \
-  -H 'Content-Type: application/json' \
-  --data '{
-    "discovery": {
-      "faqMinimumScore": 0.7,
-      "skillMinimumScore": 0.7,
-      "maxResults": 5
-    }
-  }' | jq '.discovery'
-```
-
-See the [control-plane API reference]({{< relref "/operate/iris/agent-playbook/self-managed/control-plane-api-reference" >}}) for administration fields.
+For retrieval settings, see [Playbook settings]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#playbook-settings" >}}).

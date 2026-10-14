@@ -33,11 +33,11 @@ Metadata and content require physically separate Redis deployments. The chart do
 2. Review the [prerequisites]({{< relref "/operate/iris/agent-playbook/self-managed/prerequisites" >}}).
 3. Prepare the [configuration]({{< relref "/operate/iris/agent-playbook/self-managed/configuration" >}}).
 4. [Deploy the chart]({{< relref "/operate/iris/agent-playbook/self-managed/deploy" >}}).
-5. [Create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}).
+5. [Load administrative credentials]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#read-the-bootstrap-credentials" >}}).
+6. [Create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}).
 
 ## Manage the deployment
 
-- [Authentication and access]({{< relref "/operate/iris/agent-playbook/self-managed/authentication" >}}) separates administrative credentials from application keys.
 - [Operations]({{< relref "/operate/iris/agent-playbook/self-managed/operations" >}}) covers health checks, credential rotation, backups, and upgrades.
 - The [control-plane API reference]({{< relref "/operate/iris/agent-playbook/self-managed/control-plane-api-reference" >}}) describes self-managed administration. The [data-plane API reference]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference" >}}) describes developer operations.
 
