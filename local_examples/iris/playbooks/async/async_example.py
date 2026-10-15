@@ -4,6 +4,7 @@ import asyncio
 import os
 from redis_agent_playbook import Playbook
 
+
 async def main():
     async with Playbook(
         os.environ["PLAYBOOK_URL"],
@@ -13,11 +14,13 @@ async def main():
         timeout_ms=30_000,
     ) as playbook:
         results = await playbook.search_faqs_async(
-            query="Where can I see how my refund is progressing?", limit=5,
+            query="Where can I see how my refund is progressing?",
+            limit=5,
         )
         for match in results.matches:
             if match.faq is not None:
                 print(match.faq.answer)
+
 
 asyncio.run(main())
 # STEP_END

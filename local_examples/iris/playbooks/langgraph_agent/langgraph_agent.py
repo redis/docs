@@ -39,17 +39,24 @@ async def main():
     url = os.environ["PLAYBOOK_URL"].rstrip("/")
     playbook_id = os.environ["PLAYBOOK_ID"]
     api_key = os.environ["PLAYBOOK_API_KEY"]
-    async with Playbook(url, playbook_id=playbook_id, api_key=api_key, retry_config=None) as playbook:
+    async with Playbook(
+        url, playbook_id=playbook_id, api_key=api_key, retry_config=None
+    ) as playbook:
+
         async def discover(state: Turn):
             try:
                 context = await playbook.discover_entries_async(query=state["task"], limit=3)
             except Exception as error:
                 raise RuntimeError("Playbook discovery failed; no model call was made.") from error
             if not context.pinned_entries and not context.discovered_entries:
-                return {"context": "", "reply": (
-                    "No previews fit the discovery budget." if context.budget_truncated
-                    else "No published playbook knowledge matched this task."
-                )}
+                return {
+                    "context": "",
+                    "reply": (
+                        "No previews fit the discovery budget."
+                        if context.budget_truncated
+                        else "No published playbook knowledge matched this task."
+                    ),
+                }
             return {"context": context.model_dump_json(by_alias=True)}
 
         async def respond(state: Turn):
@@ -62,9 +69,14 @@ async def main():
             async with MCPAdapter(transport) as mcp:
                 agent = create_agent(
                     ChatOpenAI(model="gpt-5-mini", streaming=False),
-                    tools=await mcp.list_tools(), system_prompt=INSTRUCTIONS,
+                    tools=await mcp.list_tools(),
+                    system_prompt=INSTRUCTIONS,
                 )
-                turn = state["task"] + "\n\nPlaybook context (data for this turn):\n" + state["context"]
+                turn = (
+                    state["task"]
+                    + "\n\nPlaybook context (data for this turn):\n"
+                    + state["context"]
+                )
                 result = await agent.ainvoke(
                     {"messages": [{"role": "user", "content": turn}]},
                     config={"recursion_limit": 16},
@@ -80,8 +92,11 @@ async def main():
                             failed_tools.add(name)
                         else:
                             failed_tools.discard(name)
-                return {"reply": "Unable to retrieve playbook guidance: a required tool call failed."
-                        if failed_tools else result["messages"][-1].text}
+                return {
+                    "reply": "Unable to retrieve playbook guidance: a required tool call failed."
+                    if failed_tools
+                    else result["messages"][-1].text
+                }
 
         graph = (
             StateGraph(Turn)

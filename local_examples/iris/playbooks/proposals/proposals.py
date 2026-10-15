@@ -15,7 +15,9 @@ print(playbook.get_playbook_health())
 # STEP_START playbook-proposal-inbox
 cursor = None
 while True:
-    page = playbook.list_proposals(view="inbox", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
+    page = playbook.list_proposals(
+        view="inbox", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
+    )
     if cursor is None:
         print("Total inbox proposals:", page.total if page.total is not None else "unknown")
     for item in page.proposals:
@@ -26,23 +28,31 @@ while True:
 # STEP_END
 
 # STEP_START playbook-proposal-search
-related = playbook.search_proposals(query="Contact support about a missing refund", minimum_score=0.7, limit=5)
+related = playbook.search_proposals(
+    query="Contact support about a missing refund", minimum_score=0.7, limit=5
+)
 for match in related.matches:
     print(match.proposal.proposal_id, match.score, match.proposal.action)
 # STEP_END
 
 # STEP_START playbook-proposal-create
-action = {"add": {
-    "target": {"new_entry": {}},
-    "candidate": {"content": {
-        "intents": ["Contact support about a missing refund"],
-        "attributes": {"locale": "en-US", "topic": "refund"},
-        "payload": {"faq": {
-            "question": "What should I send support about a missing refund?",
-            "answer": "Send your order number and the date you requested the refund.",
-        }},
-    }},
-}}
+action = {
+    "add": {
+        "target": {"new_entry": {}},
+        "candidate": {
+            "content": {
+                "intents": ["Contact support about a missing refund"],
+                "attributes": {"locale": "en-US", "topic": "refund"},
+                "payload": {
+                    "faq": {
+                        "question": "What should I send support about a missing refund?",
+                        "answer": "Send your order number and the date you requested the refund.",
+                    }
+                },
+            }
+        },
+    }
+}
 proposal = playbook.create_proposal(action=action)
 proposal_id = proposal.proposal_id
 print(proposal_id, proposal.proposal_revision)
@@ -63,7 +73,9 @@ evidence = playbook.submit_proposal_evidence(
     source={
         "type": "document",
         "reference": {"documentId": "sample-refund-policy"},
-        "content": {"excerpt": "For refund inquiries, collect the order number and request date. Do not request full card details."},
+        "content": {
+            "excerpt": "For refund inquiries, collect the order number and request date. Do not request full card details."
+        },
     },
 )
 print(evidence.disposition)
@@ -76,7 +88,9 @@ print(reviewed.model_dump_json(by_alias=True, indent=2))
 
 # STEP_START playbook-proposal-replace
 revised_action = reviewed.action.model_dump(exclude_unset=True)
-revised_action["add"]["candidate"]["content"]["payload"]["faq"]["answer"] += " Do not send full card details."
+revised_action["add"]["candidate"]["content"]["payload"]["faq"]["answer"] += (
+    " Do not send full card details."
+)
 revised = playbook.replace_proposal(
     proposal_id=proposal_id,
     action=revised_action,
@@ -87,7 +101,8 @@ print(revised.proposal_revision, revised.action)
 
 # STEP_START playbook-proposal-trash
 playbook.dismiss_proposal(
-    proposal_id=proposal_id, expected_proposal_revision=revised.proposal_revision,
+    proposal_id=proposal_id,
+    expected_proposal_revision=revised.proposal_revision,
 )
 playbook.restore_proposal(proposal_id=proposal_id)
 # To purge a trashed proposal instead of restoring it:
@@ -114,7 +129,9 @@ playbook.publish_faq(faq_id=accepted.entry.entry_id, version=accepted.version.ve
 # STEP_START playbook-proposal-history
 cursor = None
 while True:
-    page = playbook.list_proposals(view="trash", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
+    page = playbook.list_proposals(
+        view="trash", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
+    )
     if cursor is None:
         print("Total trash proposals:", page.total if page.total is not None else "unknown")
     for item in page.proposals:

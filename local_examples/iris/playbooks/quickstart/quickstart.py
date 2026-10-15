@@ -61,7 +61,9 @@ print(discovery.model_dump_json(by_alias=True, indent=2))
 from copy import deepcopy
 
 updated_content = deepcopy(faq_content)
-updated_content["payload"]["faq"]["answer"] += " Support can check the current stage but cannot guarantee a bank posting date."
+updated_content["payload"]["faq"]["answer"] += (
+    " Support can check the current stage but cannot guarantee a bank posting date."
+)
 updated = playbook.append_faq_version(faq_id=faq_id, content=updated_content)
 print("Review this version:", updated.version.version, updated.version.content)
 # STEP_END

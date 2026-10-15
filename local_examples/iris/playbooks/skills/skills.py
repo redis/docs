@@ -43,7 +43,9 @@ updated_context = deepcopy(skill_context)
 updated_context["attributes"]["channel"] = "chat"
 replacement = base64.b64encode(Path("refund-support-reply.zip").read_bytes()).decode("ascii")
 skill_update = playbook.append_skill_version(
-    skill_id=skill_id, package_base64=replacement, content=updated_context,
+    skill_id=skill_id,
+    package_base64=replacement,
+    content=updated_context,
 )
 print("Review before publishing:", skill_update.version)
 # STEP_END
@@ -58,7 +60,9 @@ resource = next((r for r in skill.resources if r.path == "references/reply-templ
 if resource is None:
     raise ValueError("Reply template is missing")
 response = playbook.get_skill_resource(
-    skill_id=selected.entry_id, version=selected.version, resource_id=resource.resource_id,
+    skill_id=selected.entry_id,
+    version=selected.version,
+    resource_id=resource.resource_id,
 )
 try:
     print(response.result.read().decode("utf-8"))

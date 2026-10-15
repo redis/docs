@@ -17,6 +17,12 @@ Redis Agent Playbooks lets agents share curated answers and procedures without b
 
 A FAQ gives an agent a validated answer, such as where a customer can find their refund status. A skill ([Agent Skill](https://agentskills.io/home)) guides the agent through drafting a reply from that status using a template.
 
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how playbooks, entries, versions, publication, and proposals work" url="/develop/ai/context-engine/agent-playbook/concepts" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Publish and retrieve your first FAQ" url="/develop/ai/context-engine/agent-playbook/quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Connect Agent Playbooks to OpenAI Agents SDK or LangGraph" url="/develop/ai/context-engine/agent-playbook/agent-integration" >}}
+</div>
+
 ## Choose what to publish
 
 | Entry | Use it for                                                                         | What the agent receives                                              |
