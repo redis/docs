@@ -89,6 +89,8 @@ spec:
 
 `searchOnBigstore` requires `isRof: true`. You can't change `searchOnBigstore` after you create the database.
 
+Set `rofRamSize` to at least 20% of `memorySize` for databases that use Redis Search on Flex.
+
 ## When to use Flex
 
 Use Flex when you need to:
