@@ -171,14 +171,13 @@ syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITH
   key]"
 title: GEORADIUS
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
+Return the members of a sorted set populated with geospatial information using [`GEOADD`](/content/commands/geoadd.md), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
-This manual page also covers the [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) variants (see the section below for more information).
+This manual page also covers the [`GEORADIUS_RO`](/content/commands/georadius_ro.md) and [`GEORADIUSBYMEMBER_RO`](/content/commands/georadiusbymember_ro.md) variants (see the section below for more information).
 
 The common use case for this command is to retrieve geospatial items near a specified point not farther than a given amount of meters (or other units). This allows, for example, to suggest mobile users of an application nearby places.
 
@@ -290,19 +289,38 @@ Store the results in `key` as a sorted set of distances from the center, instead
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUS Sicily 15 37 200 km WITHDIST
-GEORADIUS Sicily 15 37 200 km WITHCOORD
-GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEORADIUS Sicily 15 37 200 km WITHDIST
+1) 1) "Palermo"
+   2) "190.4424"
+2) 1) "Catania"
+   2) "56.4413"
+redis> GEORADIUS Sicily 15 37 200 km WITHCOORD
+1) 1) "Palermo"
+   2) 1) "13.361389338970184"
+      2) "38.1155563954963"
+2) 1) "Catania"
+   2) 1) "15.087267458438873"
+      2) "37.50266842333162"
+redis> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+1) 1) "Palermo"
+   2) "190.4424"
+   3) 1) "13.361389338970184"
+      2) "38.1155563954963"
+2) 1) "Catania"
+   2) "56.4413"
+   3) 1) "15.087267458438873"
+      2) "37.50266842333162"
 {{% /redis-cli %}}
 
 ## Details
 
 ### Read-only variants
 
-Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+Since `GEORADIUS` and [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`](/content/commands/readonly.md) command of Redis Cluster).
 
-Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
+Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`](/content/commands/georadius_ro.md) and [`GEORADIUSBYMEMBER_RO`](/content/commands/georadiusbymember_ro.md), and can safely be used in replicas.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -338,6 +338,32 @@
           "description": "List of suggestions"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_sugget(key, prefix, options = {})",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete"
+          },
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "accepts :fuzzy (FUZZY), :with_scores (WITHSCORES), :with_payloads (WITHPAYLOADS) and :max (MAX)"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the suggestions, interleaved with scores/payloads when requested"
+        }
+      }
     ]
   }
 }

@@ -275,6 +275,37 @@
           "description": "The current size of the suggestion dictionary"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_sugadd(key, string, score, options = {})",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "String",
+            "description": "the suggestion text"
+          },
+          {
+            "name": "score",
+            "type": "Numeric",
+            "description": "the suggestion weight"
+          },
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "accepts :incr (increment the existing score, INCR) and :payload (opaque payload, PAYLOAD)"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the current size of the suggestion dictionary"
+        }
+      }
     ]
   }
 }

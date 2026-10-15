@@ -77,7 +77,7 @@ title: XDELEX
 
 Deletes one or multiple entries from the stream at the specified `key`.
 
-`XDELEX` is an extension of the Redis Streams [`XDEL`]({{< relref "/commands/xdel" >}}) command that provides more control over how message entries are deleted concerning consumer groups.
+`XDELEX` is an extension of the Redis Streams [`XDEL`](/content/commands/xdel.md) command that provides more control over how message entries are deleted concerning consumer groups.
 
 ## Required arguments
 
@@ -104,7 +104,7 @@ Note: The IDS block can be at any position in the command, same as other command
 
 Specifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:
 
-- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]({{< relref "/commands/xdel" >}}).
+- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`](/content/commands/xdel.md).
 - `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.
 - `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.
 </details>
@@ -114,12 +114,35 @@ The command provides fine-grained control over stream entry deletion, particular
 ## Examples
 
 {{% redis-cli %}}
-XADD mystream * field1 value1
-XADD mystream * field2 value2
-XADD mystream * field3 value3
-XRANGE mystream - +
-XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
-XRANGE mystream - +
+redis> XADD mystream * field1 value1
+"1784722083515-0"
+redis> XADD mystream * field2 value2
+"1784722083516-0"
+redis> XADD mystream * field3 value3
+"1784722083517-0"
+redis> XRANGE mystream - +
+1) 1) "1784722083515-0"
+   2) 1) "field1"
+      2) "value1"
+2) 1) "1784722083516-0"
+   2) 1) "field2"
+      2) "value2"
+3) 1) "1784722083517-0"
+   2) 1) "field3"
+      2) "value3"
+redis> XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
+1) (integer) -1
+2) (integer) -1
+redis> XRANGE mystream - +
+1) 1) "1784722083515-0"
+   2) 1) "field1"
+      2) "value1"
+2) 1) "1784722083516-0"
+   2) 1) "field2"
+      2) "value2"
+3) 1) "1784722083517-0"
+   2) 1) "field3"
+      2) "value3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -136,7 +159,7 @@ XRANGE mystream - +
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
@@ -146,7 +169,7 @@ One of the following:
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.

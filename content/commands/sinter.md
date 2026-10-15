@@ -49,9 +49,8 @@ summary: Returns the intersect of multiple sets.
 syntax_fmt: SINTER key [key ...]
 title: SINTER
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Returns the members of the set resulting from the intersection of all the given
@@ -81,13 +80,20 @@ One or more set keys to intersect.
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTER key1 key2
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SINTER key1 key2
+1) "c"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -109,3 +115,7 @@ SINTER key1 key2
 [Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTERCARD`](/content/commands/sintercard.md) | [`SINTERSTORE`](/content/commands/sinterstore.md)

@@ -29,7 +29,7 @@ Here are the ways that you can control the pod scheduling:
 
 ## Using node selectors
 
-The [`nodeSelector`]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api#spec">}})
+The [`nodeSelector`](/content/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api.md#spec)
 property of the cluster specification uses the same values and structures as
 the [Kubernetes `nodeSelector`](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector).
 In general, node labels are a simple way to make sure that specific nodes are used for Redis Enterprise pods.
@@ -184,7 +184,8 @@ In this case, any pods that are deployed with the label `local/role: database` c
 You can configure Redis Enterprise with rack-zone awareness to increase availability
 during partitions or other rack (or region) related failures.
 
-{{%note%}}When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness#rack-zone-id-rules" >}}) for more info. {{%/note%}}
+> [!NOTE]
+> When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness](/content/operate/rs/clusters/configure/rack-zone-awareness.md#rack-zone-id-rules) for more info. 
 
 
 Rack-zone awareness is a single property in the Redis Enterprise cluster CRD named `rackAwarenessNodeLabel`.
@@ -266,6 +267,5 @@ spec:
   rackAwarenessNodeLabel: topology.kubernetes.io/zone
 ```
 
-{{< note >}}
-When you use the `rackAwarenessNodeLabel` property, the operator will change the topologyKey for the anti-affinity rule to the label name used unless you have specified the `podAntiAffinity` property as well. If you use `rackAwarenessNodeLabel` and `podAntiAffinity` together, you must make sure that the `topologyKey` in your pod anti-affinity rule is set to the node label name.
-{{< /note >}}
+> [!NOTE]
+> When you use the `rackAwarenessNodeLabel` property, the operator will change the topologyKey for the anti-affinity rule to the label name used unless you have specified the `podAntiAffinity` property as well. If you use `rackAwarenessNodeLabel` and `podAntiAffinity` together, you must make sure that the `topologyKey` in your pod anti-affinity rule is set to the node label name.

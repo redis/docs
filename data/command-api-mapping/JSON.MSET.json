@@ -164,6 +164,27 @@
           "description": "The status reply for the multi-set operation."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_mset(*args, raw: false)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "a flat list of key, path, value triplets"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat each value as an already-encoded JSON string"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the raw \"OK\" reply"
+        }
+      }
     ]
   }
 }

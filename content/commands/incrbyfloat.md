@@ -95,11 +95,16 @@ The floating-point amount to add to the value. A negative value decrements the v
 ## Examples
 
 {{% redis-cli %}}
-SET mykey 10.50
-INCRBYFLOAT mykey 0.1
-INCRBYFLOAT mykey -5
-SET mykey 5.0e3
-INCRBYFLOAT mykey 2.0e2
+redis> SET mykey 10.50
+OK
+redis> INCRBYFLOAT mykey 0.1
+"10.6"
+redis> INCRBYFLOAT mykey -5
+"5.6"
+redis> SET mykey 5.0e3
+OK
+redis> INCRBYFLOAT mykey 2.0e2
+"5200"
 {{% /redis-cli %}}
 
 ## Details
@@ -107,7 +112,7 @@ INCRBYFLOAT mykey 2.0e2
 ### Implementation
 
 The command is always propagated in the replication link and the Append Only
-File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point
+File as a [`SET`](/content/commands/set.md) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
 
 ## Redis Software and Redis Cloud compatibility

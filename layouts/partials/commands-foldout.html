@@ -40,7 +40,7 @@
             {{ range $commands }}
                 {{ $cmdName := . }}
                 {{/* Try to find command in multiple data files */}}
-                {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
+                {{ $cmdData := index site.Data.commands $cmdName }}
 
                 {{/* Look up API method signatures for this command and client */}}
                 {{/* Check overrides first, then fall back to generated data */}}

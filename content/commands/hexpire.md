@@ -86,14 +86,14 @@ Set an expiration (TTL or time to live) on one or more fields of a given hash ke
 Field(s) will automatically be deleted from the hash key when their TTLs expire.
 
 Field expirations will only be cleared by commands that delete or overwrite the
-contents of the hash fields, including [`HDEL`]({{< relref "/commands/hdel" >}}) and [`HSET`]({{< relref "/commands/hset" >}})
+contents of the hash fields, including [`HDEL`](/content/commands/hdel.md) and [`HSET`](/content/commands/hset.md)
 commands.
 This means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.
 
-You can clear the TTL using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, which turns the hash field back into a persistent field.
+You can clear the TTL using the [`HPERSIST`](/content/commands/hpersist.md) command, which turns the hash field back into a persistent field.
 
-Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
-[`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
+Note that calling `HEXPIRE`/[`HPEXPIRE`](/content/commands/hpexpire.md) with a zero TTL or
+[`HEXPIREAT`](/content/commands/hexpireat.md)/[`HPEXPIREAT`](/content/commands/hpexpireat.md) with a time in the past will result in the hash field being deleted.
 
 ## Required arguments
 
@@ -151,30 +151,22 @@ In this case, the time to live is _updated_ to the new value.
 
 ## Redis Search and field expiration
 
-Starting with Redis 8, Redis Search has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring hash fields, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+Starting with Redis 8, Redis Search has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`](/content/commands/ft.search.md) and [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) commands interact with expiring hash fields, see [Key and field expiration behavior](/content/develop/ai/search-and-query/advanced-concepts/expiration.md).
 
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
-HEXPIRE no-key 20 NX FIELDS 2 field1 field2
-(nil)
-HSET mykey field1 "hello" field2 "world"
+> HEXPIRE no-key 20 NX FIELDS 2 field1 field2
+1) (integer) -2
+2) (integer) -2
+> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
+> HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 1) (integer) 1
 2) (integer) 1
 3) (integer) -2
-HGETALL mykey
+> HGETALL mykey
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HEXPIRE no-key 20 NX FIELDS 2 field1 field2
-HSET mykey field1 "hello" field2 "world"
-HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
-HGETALL mykey
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

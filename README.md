@@ -2,10 +2,8 @@
 
 > Note: if you are an AI agent, please see [AI_AGENT_DEVELOPER_GUIDE.md](AI_AGENT_DEVELOPER_GUIDE.md) for more information.
 
-PRs are merged first to the `main` branch of this repo.
-Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
-Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/.
-If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
+PRs are merged to the `main` branch of this repo. Merging to `main` automatically builds and publishes your changes to the live docs site (under `/latest`) — there is no separate manual publish step, so allow a little time for the build and CDN cache to refresh after your PR is merged.
+Before your PR is merged, you can preview your changes on a per-branch staging URL; the docs team's bot posts the staging links as a comment on your PR.
 
 ## Site template files and folders
 
@@ -68,42 +66,42 @@ The build pipeline that is defined within `.github/workflows/main.yml` builds th
 
 ## Hugo specifics
 
-### Relative links
+### Links
 
-We are using the following syntax for Hugo relrefs:
-
-```
-[Link title]({{< relref "link relative to the site's base url" >}})
-```
-
-Here is an example:
+Link to another page with a plain Markdown link to its source file, using a path from the repository root:
 
 ```
-[Data structure store]({{< relref "/develop/get-started/data-store" >}})
+[Data structure store](/content/develop/get-started/data-store.md)
 ```
 
-It's strongly advised to use `relref` because it provides the following advantages:
+To link to a section page, link to its `_index.md` file, for example `/content/develop/get-started/_index.md`. You can add an anchor (`#anchor`) or a query string (`?group=`) after the file name.
 
-1. Links are checked at build time. Any broken references within the site are reported, stopping the build.
-2. References are prefixed with the site's base URL, which means that they work in builds with a different base URL.
+The link render hook (`layouts/_default/_markup/render-link.html`) turns these links into the target page's published URL. This gives you the following advantages:
 
+1. Links work in the published site, in builds with a different base URL, and in the GitHub and VS Code Markdown previews.
+2. Links are checked at build time. The build logs a `render-link: unresolved link` warning for any internal link that doesn't resolve to a page.
 
-The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` aren't the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Otherwise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
+Many pages still use the `relref` shortcode (`[Link title]({{< relref "/develop/get-started/data-store" >}})`). It still works, but use plain Markdown links in new content.
 
 ### Images
 
-The image shortcode doesn't need to be closed anymore. Here is an example;
+Images are Markdown, with site-root paths. The files live in `static/images/`, and `layouts/_default/_markup/render-image.html` renders them:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png" alt="Database update" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
 ```
 
-The `filename` property value can be any file name path which is relative to the site's base path.
-
-We added a new property `class` which allows you to override the CSS class of the image. Images have by default a `block` display in Tailwind. You can change this by setting the class property to `inline`. The following example shows two images that are in a single line:
+To set a width or class, put an attribute line directly after an image that is its own paragraph:
 
 ```
-{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" >}}
+![Database update](/images/rc/icon-database-update-status-pending.png)
+{width="50%"}
+```
+
+A UI icon inside a sentence or table cell is an inline image with `#no-click` and no attributes. CSS sizes it to the surrounding text:
+
+```
+Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**.
 ```
 
 ### Templating

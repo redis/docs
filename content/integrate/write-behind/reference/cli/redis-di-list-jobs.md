@@ -1,6 +1,7 @@
 ---
 Title: redis-di list-jobs
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-list-jobs/
 alwaysopen: false
 categories:
   - docs

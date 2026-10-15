@@ -16,7 +16,7 @@ weight: 15
 
 ## Query performance
 
-Vector similarity queries using the [`VSIM`]({{< relref "/commands/vsim" >}}) are threaded by default. Redis uses up to 32 threads to process these queries in parallel.
+Vector similarity queries using the [`VSIM`](/content/commands/vsim.md) are threaded by default. Redis uses up to 32 threads to process these queries in parallel.
 
 - `VSIM` performance scales nearly linearly with available CPU cores.
 - Expect ~50,000 similarity queries per second for a 3M-item set with 300-dim vectors using int8 quantization.
@@ -26,7 +26,7 @@ Vector similarity queries using the [`VSIM`]({{< relref "/commands/vsim" >}}) ar
 
 ## Insertion performance
 
-Inserting vectors with the [`VADD`]({{< relref "/commands/vadd" >}}) command is more computationally expensive than querying:
+Inserting vectors with the [`VADD`](/content/commands/vadd.md) command is more computationally expensive than querying:
 
 - Insertion is single-threaded by default.
 - Use the `CAS` option to offload candidate graph search to a background thread.
@@ -67,7 +67,7 @@ due to floating point rounding.
 
 ## Deletion performance
 
-Deleting large vector sets using the [`DEL`]({{< relref "/commands/del" >}}) can cause latency spikes:
+Deleting large vector sets using the [`DEL`](/content/commands/del.md) can cause latency spikes:
 
 - Redis must unlink and restructure many graph nodes.
 - Latency is most noticeable when deleting millions of elements.
@@ -91,6 +91,6 @@ Example: A 3M vector set with 300 components loads in ~15 seconds.
 
 ## See also
 
-- [Memory usage]({{< relref "/develop/data-types/vector-sets/memory" >}})
-- [Scalability]({{< relref "/develop/data-types/vector-sets/scalability" >}})
-- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
+- [Memory usage](/content/develop/data-types/vector-sets/memory.md)
+- [Scalability](/content/develop/data-types/vector-sets/scalability.md)
+- [Filtered search](/content/develop/data-types/vector-sets/filtered-search.md)

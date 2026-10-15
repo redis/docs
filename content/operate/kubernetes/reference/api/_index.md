@@ -29,6 +29,12 @@ The operator uses different API versions to indicate stability and feature matur
 | [RedisEnterpriseDatabase (REDB)](redis_enterprise_database_api) | `v1alpha1` | Creates and configures Redis databases |
 | [RedisEnterpriseActiveActiveDatabase (REAADB)](redis_enterprise_active_active_database_api) | `v1alpha1` | Sets up active-active databases across clusters |
 | [RedisEnterpriseRemoteCluster (RERC)](redis_enterprise_remote_cluster_api) | `v1alpha1` | Defines remote cluster connections for active-active |
+| [RedisEnterpriseUser (REUSER)](redis_enterprise_user_api) | `v1alpha1` | Defines users for cluster access control |
+| [RedisEnterpriseRole (REROLE)](redis_enterprise_role_api) | `v1alpha1` | Defines a role scoped to selected databases |
+| [RedisEnterpriseRoleBinding (REROLEBINDING)](redis_enterprise_role_binding_api) | `v1alpha1` | Binds users to a RedisEnterpriseRole |
+| [RedisEnterpriseClusterRole (RECROLE)](redis_enterprise_cluster_role_api) | `v1alpha1` | Defines a cluster-scoped role |
+| [RedisEnterpriseClusterRoleBinding (RECROLEBINDING)](redis_enterprise_cluster_role_binding_api) | `v1alpha1` | Binds users to a RedisEnterpriseClusterRole |
+| [RedisEnterpriseACL (REACL)](redis_enterprise_acl_api) | `v1alpha1` | Defines an access control list (ACL) for a database |
 
 ## Working with the APIs
 
@@ -53,4 +59,4 @@ kubectl apply -f my-redis-config.yaml
 - Create `RedisEnterpriseDatabase` (REDB) resources within a cluster to provision individual databases
 - Use `RedisEnterpriseActiveActiveDatabase` (REAADB) with `RedisEnterpriseRemoteCluster (RERC)` resources to define participating clusters
 
-For complete YAML configuration examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/" >}}) section.
+For complete YAML configuration examples, see the [YAML examples](/content/operate/kubernetes/reference/yaml/_index.md) section.

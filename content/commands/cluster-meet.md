@@ -100,7 +100,7 @@ The cluster bus port of the node. If omitted, it defaults to the client port num
 
 ### Implementation: MEET and PING packets
 
-When you send CLUSTER MEET to a node, the node specified in the command does not yet know the receiving node. To establish trust, the receiving node sends a MEET packet to the specified node instead of a [PING]({{< relref "/commands/ping" >}}) packet. The two packets have the same format, but MEET forces the specified node to trust the sender.
+When you send CLUSTER MEET to a node, the node specified in the command does not yet know the receiving node. To establish trust, the receiving node sends a MEET packet to the specified node instead of a [PING](/content/commands/ping.md) packet. The two packets have the same format, but MEET forces the specified node to trust the sender.
 
 ## Redis Software and Redis Cloud compatibility
 

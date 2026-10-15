@@ -46,7 +46,7 @@ summary: Returns the expiration time of a key as a Unix milliseconds timestamp.
 syntax_fmt: PEXPIRETIME key
 title: PEXPIRETIME
 ---
-`PEXPIRETIME` has the same semantic as [`EXPIRETIME`]({{< relref "/commands/expiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
+`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](/content/commands/expiretime.md), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
 
 ## Required arguments
 
@@ -59,9 +59,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-PEXPIREAT mykey 33177117420000
-PEXPIRETIME mykey
+redis> SET mykey "Hello"
+OK
+redis> PEXPIREAT mykey 33177117420000
+(integer) 1
+redis> PEXPIRETIME mykey
+(integer) 33177117420000
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

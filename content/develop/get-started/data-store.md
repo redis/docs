@@ -32,22 +32,25 @@ The easiest way to get started with Redis is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-    <img src="../img/free-cloud-db.png" width="500px">
+    ![](/images/dev/free-cloud-db.png)
+
 2. Follow the instructions to create a free database.
 
-You can alternatively follow the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis on your local machine.
+You can alternatively follow the [installation guides](/content/operate/oss_and_stack/install/install-stack/_index.md) to install Redis on your local machine.
 
 ## Connect
 
-The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section](/content/develop/tools/_index.md). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
-{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" >}}
+{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" runnable="false" try_it="false" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 <br/>
-{{% alert title="Tip" color="warning" %}}
-You can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database and then either pass the credentials to your client or use the [AUTH command]({{< relref "/commands/auth" >}}) after the connection is established.
-{{% /alert  %}}
+
+&nbsp;
+
+> [!TIP]
+> You can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database and then either pass the credentials to your client or use the [AUTH command](/content/commands/auth.md) after the connection is established.
 
 ## Store and retrieve data
 
@@ -56,20 +59,20 @@ Redis stands for Remote Dictionary Server. You can use the same data types as in
 Similar to byte arrays, Redis strings store sequences of bytes, including text, serialized objects, counter values, and binary arrays. The following example shows you how to set and get a string value:
 
 {{< clients-example set="set_and_get" step="" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
-SET bike:1 "Process 134"
-GET bike:1
+> SET bike:1 "Process 134"
+> GET bike:1
 {{< /clients-example >}}
 
 Hashes are the equivalent of dictionaries (dicts or hash maps). Among other things, you can use hashes to represent plain objects and to store groupings of counters. The following example explains how to set and access field values of an object:
 
 {{< clients-example set="hash_tutorial" step="set_get_all" description="Foundational: Store and retrieve hash data structures using HSET to set multiple fields, HGET to retrieve individual fields, and HGETALL to retrieve all fields at once" difficulty="beginner" >}}
-> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+> HSET bike:2 model Deimos brand Ergonom type 'Enduro bikes' price 4972
 (integer) 4
-> HGET bike:1 model
+> HGET bike:2 model
 "Deimos"
-> HGET bike:1 price
+> HGET bike:2 price
 "4972"
-> HGETALL bike:1
+> HGETALL bike:2
 1) "model"
 2) "Deimos"
 3) "brand"
@@ -80,24 +83,24 @@ Hashes are the equivalent of dictionaries (dicts or hash maps). Among other thin
 8) "4972"
 {{< /clients-example >}}
 
-You can get a complete overview of available data types in this documentation site's [data types section]({{< relref "/develop/data-types/" >}}). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference]({{< relref "/commands/" >}}) provides a sophisticated explanation.
+You can get a complete overview of available data types in this documentation site's [data types section](/content/develop/data-types/_index.md). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference](/commands/) provides a sophisticated explanation.
 
 ## Scan the keyspace
 
-Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/using-commands/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
+Each item within Redis has a unique key. All items live within the Redis [keyspace](/content/develop/using-commands/keyspace.md). You can scan the Redis keyspace via the [SCAN command](/content/commands/scan.md). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
 ```
 SCAN 0 MATCH "bike:*" COUNT 100
 ```
 
-[SCAN]({{< relref "/commands/scan" >}}) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
+[SCAN](/content/commands/scan.md) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
 
 ## Next steps
 
 You can address more use cases with Redis by reading these additional quick start guides:
 
-* [Redis as a document database]({{< relref "/develop/get-started/document-database" >}})
-* [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
+* [Redis as a document database](/content/develop/get-started/search-tutorial/_index.md)
+* [Redis as a vector database](/content/develop/get-started/search-tutorial/vector-search.md)
 
 ## Continue learning with Redis University
 

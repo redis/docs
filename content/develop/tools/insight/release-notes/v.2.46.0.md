@@ -4,6 +4,8 @@ linkTitle: v2.46.0 (March 2024)
 date: 2024-03-28 00:00:00 +0000
 description: RedisInsight v2.46
 weight: 1
+aliases:
+- /develop/connect/insight/release-notes/v.2.46.0/
 ---
 ## 2.46 (March 2024)
 This is the General Availability (GA) release of RedisInsight 2.46.

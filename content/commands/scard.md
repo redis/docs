@@ -58,9 +58,12 @@ The name of the key that holds the set.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "Hello"
-SADD myset "World"
-SCARD myset
+redis> SADD myset "Hello"
+(integer) 1
+redis> SADD myset "World"
+(integer) 1
+redis> SCARD myset
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

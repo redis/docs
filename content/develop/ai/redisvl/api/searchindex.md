@@ -10,12 +10,13 @@ aliases:
 |-------------------------------------------|----------------------------------------------------------------------------------------------|
 | [SearchIndex](#searchindex-api)           | Primary class to write, read, and search across data structures in Redis.                    |
 | [AsyncSearchIndex](#asyncsearchindex-api) | Async version of the SearchIndex to write, read, and search across data structures in Redis. |
+| [SearchResults](#searchresults-api)       | List of result documents returned by a query, which also reports result completeness.        |
 
 <a id="searchindex-api"></a>
 
 ## SearchIndex
 
-### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
+### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, validate_on_load=False, owns_client=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database.
 
@@ -43,9 +44,20 @@ index.load(data)
 index.delete(drop=True)
 ```
 
-Initialize the RedisVL search index with a schema, Redis client
-(or URL string with other connection args), connection_args, and other
-kwargs.
+Pass `redis_client` to use a client you configured yourself. The index
+leaves such a client open when it is disconnected or garbage collected;
+pass `owns_client=True` to hand that responsibility over.
+
+```python
+from redis import Redis
+from redisvl.index import SearchIndex
+
+client = Redis.from_url("redis://localhost:6379", socket_timeout=5)
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_client=client)
+```
+
+Initialize the RedisVL search index with a schema and either a Redis
+client or a URL string with other connection kwargs.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
@@ -57,6 +69,17 @@ kwargs.
     args.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the Redis client when the index is disconnected or garbage
+    collected. Defaults to None, meaning the index owns a client
+    only if it created one itself. Pass True to hand over a client
+    you created, or False to keep one the index would otherwise
+    close, in which case closing it becomes your responsibility.
+* **Raises:**
+  * **ValueError** – If `schema` is not an IndexSchema.
+  * **TypeError** – If `redis_client` is the wrong flavour, or if a
+        keyword that no longer exists is passed. `connection_args`
+        and `redis_kwargs` are both now `connection_kwargs`.
 
 #### `aggregate(*args, **kwargs)`
 
@@ -110,28 +133,17 @@ NOTE: This method requires custom behavior for Redis Cluster because
 here, we can’t easily give control of the keys we’re clearing to the
 user so they can separate them based on hash tag.
 
+> [!NOTE]
+> The sweep enumerates through the index, so it removes only what the
+> index currently returns, and it can stop early – against an index
+> still being backfilled, or when a page’s keys cannot be deleted. The
+> returned count is the only signal, and `0` does not distinguish an
+> empty index from a sweep that deleted nothing. Re-running is safe.
+
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
   int
-
-#### `connect(redis_url=None, **kwargs)`
-
-Connect to a Redis instance using the provided redis_url, falling
-back to the REDIS_URL environment variable (if available).
-
-Note: Additional keyword arguments (\*\*kwargs) can be used to provide
-extra options specific to the Redis connection.
-
-* **Parameters:**
-  **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
-  connect to.
-* **Raises:**
-  * **redis.exceptions.ConnectionError** – If the connection to the Redis
-        server fails.
-  * **ValueError** – If the Redis URL is not provided nor accessible
-        through the REDIS_URL environment variable.
-  * **ModuleNotFoundError** – If required Redis modules are not installed.
 
 #### `create(overwrite=False, drop=False)`
 
@@ -164,17 +176,76 @@ index.create(overwrite=True, drop=True)
 Delete the search index while optionally dropping all keys associated
 with the index.
 
+`FT.DROPINDEX` resolves index aliases, so if this schema’s name happens
+to be an alias, the index the alias points at is dropped instead – along
+with its documents when `drop` is True. [exists](#exists) reports an alias
+as absent to keep [create](#create) away from this path.
+
 * **Parameters:**
   **drop** (*bool* *,* *optional*) – Delete the key / documents pairs in the
   index. Defaults to True.
 * **Raises:**
-  **redis.exceptions.ResponseError** – If the index does not exist.
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the index cannot be deleted, for example when it
+      does not exist. The original `redis-py` exception is available
+      as `__cause__`.
 
 #### `disconnect()`
 
-Disconnect from the Redis database.
+Close the Redis client if this index owns it.
 
-#### `drop_documents(ids)`
+Always invalidates the cached SQL schema. When the index does not own
+the client (see `owns_client`), the client is left open and the
+index remains usable.
+
+#### `drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Delete every document matching a filter expression.
+
+Redis has no server-side "delete by query", so RedisVL resolves the
+matching document keys and removes them with non-blocking `UNLINK` in
+batches. Matching documents leave the result set as they are deleted, so
+this re-queries from offset 0 each round (the same strategy as
+[clear](#clear)) and is not subject to the `MAXSEARCHRESULTS` limit
+(provided `batch_size` itself does not exceed it).
+
+* **Parameters:**
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Selects the
+    documents to delete. Prefer the escaping builders (`Tag`,
+    `Num`, `Text`…) over raw filter strings; **never
+    string-concatenate untrusted input into a filter** — unlike a
+    read query, an injected predicate here deletes data.
+  * **batch_size** (*int*) – Number of documents to resolve and unlink per
+    round-trip. Defaults to 500.
+  * **dry_run** (*bool*) – If True, report how many documents *would* be
+    deleted (via a count query) without deleting anything.
+  * **allow_all** (*bool*) – Must be True to run against a match-all filter
+    (empty/`"*"`/`None`). Prefer [clear](#clear) to intentionally
+    empty the index.
+  * **on_progress** (*Optional* *[* *Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]* *]*) – Called after each
+    batch with `(processed, matched)` — the cumulative documents
+    deleted and the total matched at the start. Invoked
+    synchronously (do not pass a coroutine); raising from it aborts
+    the run (already-deleted documents stay deleted).
+* **Returns:**
+  `matched`/`processed` counts, plus `completed`
+  (False if the runaway backstop tripped) and `dry_run`. Read the
+  fields explicitly (`result.processed`, `result.completed`).
+* **Return type:**
+  BulkResult
+
+> [!NOTE]
+> [update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
+> / [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
+
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each key is
+> unlinked atomically, but batches are applied incrementally with no
+> rollback, so a crash or connection error mid-run leaves the already
+> -deleted documents gone and the rest in place. Deletes are
+> idempotent: re-running the same call after a failure removes only
+> whatever still matches, converging on the intended state.
+
+#### `drop_documents(ids, batch_size=500)`
 
 Remove documents from the index by their document IDs.
 
@@ -186,13 +257,19 @@ document IDs and only call this method with documents from a single hash
 tag at a time.
 
 * **Parameters:**
-  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of documents to delete per round-trip
+    (standalone Redis only; cluster deletes in a single call after
+    the shared-hash-tag check).
 * **Returns:**
   Count of documents deleted from Redis.
 * **Return type:**
   int
+* **Raises:**
+  **ValueError** – On Redis Cluster, if the resolved keys do not all share
+      a hash tag (a cross-slot `DELETE` is not permitted).
 
-#### `drop_keys(keys)`
+#### `drop_keys(keys, batch_size=500)`
 
 Remove a specific entry or entries from the index by it’s key ID.
 
@@ -201,8 +278,13 @@ background thread. This avoids blocking the main thread when a large
 number of keys are dropped at once (for example, scope-targeted
 `SemanticCache` invalidation). The returned count is unchanged.
 
+Large key lists are unlinked in chunks of `batch_size`. On Redis
+Cluster, keys are unlinked individually so a chunk that spans hash
+slots does not raise `CROSSSLOT`.
+
 * **Parameters:**
-  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of keys to unlink per round-trip.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
@@ -216,6 +298,11 @@ Check if the index exists in Redis.
   True if the index exists, False otherwise.
 * **Return type:**
   bool
+* **Raises:**
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the check fails for any reason other than the
+      index not existing, such as a connection failure or insufficient
+      permissions. The original `redis-py` exception is available as
+      `__cause__`.
 
 #### `expire_keys(keys, ttl)`
 
@@ -279,6 +366,13 @@ Initialize from an existing search index in Redis by index name.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the client. Defaults to True when this method created the
+    client from redis_url, and False when you supplied one.
+  * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client
+    connection args, used only when this method creates the
+    client from `redis_url`. Other keyword arguments are
+    treated the same way.
 * **Raises:**
   **ValueError** – If redis_url or redis_client is not provided.
 
@@ -372,8 +466,8 @@ optional preprocessing steps, and setting optional expiration
 * **Return type:**
   List[str]
 * **Raises:**
-  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
-  * **RedisVLError** – If there’s an error loading data to Redis.
+  * [**SchemaValidationError**]({{< relref "exceptions/#schemavalidationerror" >}}) – If validation fails when validate_on_load is enabled.
+  * [**RedisVLError**]({{< relref "exceptions/#redisvlerror" >}}) – If there’s an error loading data to Redis.
 
 #### `paginate(query, page_size=30)`
 
@@ -389,7 +483,7 @@ generator.
   * **page_size** (*int* *,* *optional*) – The number of results to return in each
     batch. Defaults to 30.
 * **Yields:**
-  A generator yielding batches of search results.
+  A generator yielding non-empty `SearchResults` batches.
 * **Raises:**
   * **TypeError** – If the page_size argument is not of type int.
   * **ValueError** – If the page_size argument is less than or equal to zero.
@@ -403,15 +497,27 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
+
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `query(query)`
 
@@ -452,19 +558,84 @@ to the redis-py ft().search() method.
 * **Return type:**
   Result
 
-#### `set_client(redis_client, **kwargs)`
+#### `update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 
-Manually set the Redis client to use with the search index.
+Set `values` on every document matching a filter expression.
 
-This method configures the search index to use a specific Redis or
-Async Redis client. It is useful for cases where an external,
-custom-configured client is preferred instead of creating a new one.
+This is a partial update: fields not present in `values` are left
+untouched. For hash indexes the fields are written with `HSET`; for
+JSON indexes they are merged at the document root (`$`) with
+`JSON.MERGE` (RFC 7396), so nested objects merge recursively, arrays
+are replaced wholesale, and a `None` value deletes that path.
+
+The read phase (an `FT.AGGREGATE` cursor) is drained in full *before*
+any write, holding every matching key in memory in between. Interleaving
+the two does not terminate: RediSearch has no in-place update, so each
+write appends a new, higher document id ahead of the cursor, which hands
+that document back to be written again. Memory use is therefore
+proportional to the match count; for very large match sets, narrow the
+filter and run in partitions (see "Bulk Delete and Update" in the
+search-and-indexing concepts guide).
 
 * **Parameters:**
-  **redis_client** (*Redis*) – A Redis or Async Redis
-  client instance to be used for the connection.
-* **Raises:**
-  **TypeError** – If the provided client is not valid.
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Selects the
+    documents to update. Prefer the escaping builders (`Tag`,
+    `Num`…) over raw filter strings; **never string-concatenate
+    untrusted input into a filter** — an injected predicate here
+    mutates data.
+  * **values** (*Dict* *[* *str* *,* *Any* *]*) – Field/value pairs to set on each match.
+    Values are written **as-is with no schema validation** (unlike
+    [load](#load)): callers must pre-encode vectors/bytes and format
+    numerics as the schema expects. For JSON indexes, keys must
+    match the document’s JSON **layout**, not the schema field name
+    — a field indexed at a nested path (e.g. `$.metadata.status`)
+    must be passed nested (`{"metadata": {"status": ...}}`);
+    passing the flat field name writes the wrong path and leaves the
+    indexed field unchanged. Only static values are supported (no
+    callable/expression transforms).
+  * **batch_size** (*int*) – Number of documents to update per round-trip.
+  * **dry_run** (*bool*) – If True, report how many documents *would* be
+    updated without writing anything.
+  * **allow_all** (*bool*) – Must be True to run against a match-all filter.
+  * **on_progress** (*Optional* *[* *Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]* *]*) – Called after each
+    write batch with `(processed, matched)`. Invoked synchronously
+    (do not pass a coroutine); raising from it aborts the run.
+* **Returns:**
+  `matched`/`processed` counts, plus `completed`
+  (always True for update — it runs to completion or raises) and
+  `dry_run`.
+* **Return type:**
+  BulkResult
+
+> [!NOTE]
+> [drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
+> upsert by key).
+
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each
+> document is updated atomically (one `HSET`/`JSON.MERGE`), but
+> batches use a non-transactional pipeline and are applied
+> incrementally with no rollback, so a crash or connection error
+> mid-run can leave some documents updated and others not. Because
+> the update is a fixed field set, it is idempotent: re-running the
+> same call after a failure converges on the intended state.
+
+Keys are resolved before writing, so a document may be deleted by
+another client in between. Each write is conditional on the key
+still existing (applied atomically), so such a document is
+**skipped rather than recreated** as a partial document; it simply
+isn’t counted in `processed`. `processed` therefore reflects the
+documents actually written, which can be less than `matched` under
+concurrent deletion.
+
+`processed` counts **distinct** documents — a document is written
+*at most* once, even though the resolving cursor can emit it on more
+than one page — but there is no *at least* once guarantee. It can
+exceed `matched` if the match set grew after the initial count, and
+fall short of it either from a concurrent deletion or because the
+cursor itself returned fewer rows than matched (which Redis
+documents as possible). A short `processed` is therefore not
+evidence of any particular cause.
 
 #### `property client: Redis | RedisCluster | None`
 
@@ -498,7 +669,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
+### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, owns_client=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -527,6 +698,18 @@ await index.load(data)
 await index.delete(drop=True)
 ```
 
+Pass `redis_client` to use a client you configured yourself. The index
+leaves such a client open when it is disconnected or garbage collected;
+pass `owns_client=True` to hand that responsibility over.
+
+```python
+from redis.asyncio import Redis
+from redisvl.index import AsyncSearchIndex
+
+client = Redis.from_url("redis://localhost:6379", socket_timeout=5)
+index = AsyncSearchIndex.from_yaml("schemas/schema.yaml", redis_client=client)
+```
+
 Initialize the RedisVL async search index with a schema.
 
 * **Parameters:**
@@ -539,6 +722,17 @@ Initialize the RedisVL async search index with a schema.
     args.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the Redis client when the index is disconnected or garbage
+    collected. Defaults to None, meaning the index owns a client
+    only if it created one itself. Pass True to hand over a client
+    you created, or False to keep one the index would otherwise
+    close, in which case closing it becomes your responsibility.
+* **Raises:**
+  * **ValueError** – If `schema` is not an IndexSchema.
+  * **TypeError** – If `redis_client` is the wrong flavour, or if a
+        keyword that no longer exists is passed. `connection_args`
+        and `redis_kwargs` are both now `connection_kwargs`.
 
 #### `async aggregate(*args, **kwargs)`
 
@@ -601,17 +795,13 @@ NOTE: This method requires custom behavior for Redis Cluster because here,
 we can’t easily give control of the keys we’re clearing to the user so they
 can separate them based on hash tag.
 
+See [clear](#clear) for the sweep’s caveats, which apply
+identically here.
+
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
   int
-
-#### `connect(redis_url=None, **kwargs)`
-
-[DEPRECATED] Connect to a Redis instance. Use connection parameters in \_\_init_\_.
-
-* **Parameters:**
-  **redis_url** (*str* *|* *None*)
 
 #### `async create(overwrite=False, drop=False)`
 
@@ -644,17 +834,53 @@ await index.create(overwrite=True, drop=True)
 
 Delete the search index.
 
+`FT.DROPINDEX` resolves index aliases, so if this schema’s name happens
+to be an alias, the index the alias points at is dropped instead – along
+with its documents when `drop` is True. [exists](#exists) reports an alias
+as absent to keep [create](#create) away from this path.
+
 * **Parameters:**
   **drop** (*bool* *,* *optional*) – Delete the documents in the index.
   Defaults to True.
 * **Raises:**
-  **redis.exceptions.ResponseError** – If the index does not exist.
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the index cannot be deleted, for example when it
+      does not exist. The original `redis-py` exception is available
+      as `__cause__`.
 
 #### `async disconnect()`
 
-Disconnect from the Redis database.
+Close the Redis client if this index owns it.
 
-#### `async drop_documents(ids)`
+Always invalidates the cached SQL schema. When the index does not own
+the client (see `owns_client`), the client is left open and the
+index remains usable.
+
+#### `disconnect_sync()`
+
+Close an owned Redis client from synchronous code.
+
+For callers outside an event loop, such as `__del__` or a shutdown
+hook. Honours `owns_client` exactly as [disconnect](#disconnect) does.
+
+Does nothing if a loop is already running, since it cannot await the
+close from inside one. Use [disconnect](#disconnect) there.
+
+#### `async drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Delete every document matching a filter expression (async).
+
+See [drop_by_filter](#drop_by_filter) for full semantics.
+
+* **Parameters:**
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}))
+  * **batch_size** (*int*)
+  * **dry_run** (*bool*)
+  * **allow_all** (*bool*)
+  * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
+* **Return type:**
+  *BulkResult*
+
+#### `async drop_documents(ids, batch_size=500)`
 
 Remove documents from the index by their document IDs.
 
@@ -666,13 +892,19 @@ document IDs and only call this method with documents from a single hash
 tag at a time.
 
 * **Parameters:**
-  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of documents to delete per round-trip
+    (standalone Redis only; cluster deletes in a single call after
+    the shared-hash-tag check).
 * **Returns:**
   Count of documents deleted from Redis.
 * **Return type:**
   int
+* **Raises:**
+  **ValueError** – On Redis Cluster, if the resolved keys do not all share
+      a hash tag (a cross-slot `DELETE` is not permitted).
 
-#### `async drop_keys(keys)`
+#### `async drop_keys(keys, batch_size=500)`
 
 Remove a specific entry or entries from the index by it’s key ID.
 
@@ -681,8 +913,13 @@ background thread. This avoids blocking the main thread when a large
 number of keys are dropped at once (for example, scope-targeted
 `SemanticCache` invalidation). The returned count is unchanged.
 
+Large key lists are unlinked in chunks of `batch_size`. On Redis
+Cluster, keys are unlinked individually so a chunk that spans hash
+slots does not raise `CROSSSLOT`.
+
 * **Parameters:**
-  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of keys to unlink per round-trip.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
@@ -696,6 +933,11 @@ Check if the index exists in Redis.
   True if the index exists, False otherwise.
 * **Return type:**
   bool
+* **Raises:**
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the check fails for any reason other than the
+      index not existing, such as a connection failure or insufficient
+      permissions. The original `redis-py` exception is available as
+      `__cause__`.
 
 #### `async expire_keys(keys, ttl)`
 
@@ -757,6 +999,13 @@ Initialize from an existing search index in Redis by index name.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the client. Defaults to True when this method created the
+    client from redis_url, and False when you supplied one.
+  * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client
+    connection args, used only when this method creates the
+    client from `redis_url`. Other keyword arguments are
+    treated the same way.
 
 #### `classmethod from_yaml(schema_path, **kwargs)`
 
@@ -849,8 +1098,8 @@ optional preprocessing steps, and setting optional expiration
 * **Return type:**
   List[str]
 * **Raises:**
-  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
-  * **RedisVLError** – If there’s an error loading data to Redis.
+  * [**SchemaValidationError**]({{< relref "exceptions/#schemavalidationerror" >}}) – If validation fails when validate_on_load is enabled.
+  * [**RedisVLError**]({{< relref "exceptions/#redisvlerror" >}}) – If there’s an error loading data to Redis.
 
 ```python
 data = [{"test": "foo"}, {"test": "bar"}]
@@ -885,7 +1134,7 @@ generator.
   * **page_size** (*int* *,* *optional*) – The number of results to return in each
     batch. Defaults to 30.
 * **Yields:**
-  An async generator yielding batches of search results.
+  An async generator yielding non-empty `SearchResults` batches.
 * **Raises:**
   * **TypeError** – If the page_size argument is not of type int.
   * **ValueError** – If the page_size argument is less than or equal to zero.
@@ -899,15 +1148,27 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
+
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `async query(query)`
 
@@ -948,13 +1209,21 @@ to the redis-py ft().search() method.
 * **Return type:**
   Result
 
-#### `set_client(redis_client)`
+#### `async update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 
-[DEPRECATED] Manually set the Redis client to use with the search index.
-This method is deprecated; please provide connection parameters in \_\_init_\_.
+Set `values` on every document matching a filter expression (async).
+
+See [update_by_filter](#update_by_filter) for full semantics.
 
 * **Parameters:**
-  **redis_client** (*Redis* *|* *RedisCluster* *|* *Redis* *|* *RedisCluster*)
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}))
+  * **values** (*dict* *[* *str* *,* *Any* *]*)
+  * **batch_size** (*int*)
+  * **dry_run** (*bool*)
+  * **allow_all** (*bool*)
+  * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
+* **Return type:**
+  *BulkResult*
 
 #### `property client: Redis | RedisCluster | None`
 
@@ -983,3 +1252,37 @@ All key prefixes configured for this index.
 
 The underlying storage type for the search index; either
 hash or json.
+
+<a id="searchresults-api"></a>
+
+## SearchResults
+
+### `class SearchResults(iterable=(), dropped_count=0)`
+
+A list of result documents that also reports result completeness.
+
+This is a drop-in `list` — iteration, indexing, `len()`, and every other
+list operation behave exactly as before, so existing callers need no
+changes. It additionally carries:
+
+- `dropped_count`: the number of matched documents that were skipped
+  because their field payload came back missing (the Redis 8.8+
+  background-search TTL/expiry race); `0` in the normal case.
+- `complete`: `False` when `dropped_count > 0`, i.e. the result set may
+  be missing one or more matches that the server reported but could not
+  materialize.
+
+Callers that need completeness guarantees — audit/compliance queries, eval
+harnesses, or agents making control-flow decisions — can inspect these to
+detect and react to a partial result (e.g. retry, reconcile against a
+`CountQuery`, or annotate a downstream answer as incomplete). Everyone else
+can ignore them. Note that operations returning a new list (slicing,
+`sorted()`, concatenation) yield a plain `list` without this metadata.
+
+* **Parameters:**
+  * **iterable** (*Any*)
+  * **dropped_count** (*int*)
+
+#### `property complete: bool`
+
+True when no matched documents were dropped from this result set.

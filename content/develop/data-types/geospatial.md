@@ -25,20 +25,20 @@ weight: 40
 Redis geospatial indexes let you store coordinates and search for them.
 This data structure is useful for finding nearby points within a given radius or bounding box.
 
-{{< note >}}Take care not to confuse the Geospatial data type with the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
-features in [Redis Search]({{< relref "/develop/ai/search-and-query" >}}).
-Although there are some similarities between these two features, the data type is intended
-for simpler use cases and doesn't have the range of format options and queries
-available in Redis Search.
-{{< /note >}}
+> [!NOTE]
+> Take care not to confuse the Geospatial data type with the
+> [Geospatial](/content/develop/ai/search-and-query/advanced-concepts/geo.md)
+> features in [Redis Search](/content/develop/ai/search-and-query/_index.md).
+> Although there are some similarities between these two features, the data type is intended
+> for simpler use cases and doesn't have the range of format options and queries
+> available in Redis Search.
 
 ## Examples
 
 Suppose you're building a mobile app that lets you find all of the bike rental stations closest to your current location.
 
 Add several locations to a geospatial index:
-{{< clients-example set="geo_tutorial" step="geoadd" description="Foundational: Add geographic coordinates to a geospatial index using GEOADD to store location data" >}}
+{{< clients-example set="geo_tutorial" step="geoadd" description="Foundational: Add geographic coordinates to a geospatial index using GEOADD to store location data" prereq="true" >}}
 > GEOADD bikes:rentable -122.27652 37.805186 station:1
 (integer) 1
 > GEOADD bikes:rentable -122.2674626 37.8062344 station:2
@@ -48,7 +48,7 @@ Add several locations to a geospatial index:
 {{< /clients-example >}}
 
 Find all locations within a 5 kilometer radius of a given location, and return the distance to each location:
-{{< clients-example set="geo_tutorial" step="geosearch" description="Proximity search: Use GEOSEARCH to find locations within a radius or bounding box when you need to discover nearby points" difficulty="intermediate" buildsUpon="geoadd" >}}
+{{< clients-example set="geo_tutorial" step="geosearch" description="Proximity search: Use GEOSEARCH to find locations within a radius or bounding box when you need to discover nearby points" difficulty="intermediate" buildsUpon="geoadd" needs_prereq="true" >}}
 > GEOSEARCH bikes:rentable FROMLONLAT -122.2612767 37.7936847 BYRADIUS 5 km WITHDIST
 1) 1) "station:1"
    2) "1.8523"

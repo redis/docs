@@ -29,7 +29,7 @@ lifespan and exposes caching as injectable dependencies, including HTTP-native
 and [`Cache-Control`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)
 support.
 
-The SDK is built on the [redis-py]({{< relref "/develop/clients/redis-py" >}}) client,
+The SDK is built on the [redis-py](/content/develop/clients/redis-py/_index.md) client,
 so anything redis-py can do is still available to you alongside the caching helpers.
 
 ## Requirements
@@ -38,7 +38,7 @@ See [Requirements](https://github.com/redis/fastapi-redis-sdk#requirements) on t
 GitHub repo for the full set of dependencies used by `fastapi-redis-sdk`.
 
 You also need a running Redis server. You can run one locally with
-[Redis Open Source]({{< relref "/operate/oss_and_stack/install/archive/install-redis" >}}),
+[Redis Open Source](/content/operate/oss_and_stack/install/archive/install-redis/_index.md),
 use [Docker](https://hub.docker.com/_/redis), or connect to
 [Redis Cloud](https://redis.io/cloud/).
 
@@ -208,7 +208,7 @@ the server responds with `304 Not Modified` and no body:
 
 ## Cluster mode
 
-To work with an [OSS Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}),
+To work with an [OSS Cluster](/content/operate/oss_and_stack/management/scaling.md),
 set `REDIS_CLUSTER=true` and point `REDIS_URL` at the cluster nodes:
 
 ```bash
@@ -243,5 +243,5 @@ for the full list of spans and metrics that are emitted.
 - [fastapi-redis-sdk on GitHub](https://github.com/redis/fastapi-redis-sdk)
 - [fastapi-redis-sdk documentation](https://redis.github.io/fastapi-redis-sdk/)
 - [fastapi-redis-sdk on PyPI](https://pypi.org/project/fastapi-redis-sdk/)
-- [redis-py client documentation]({{< relref "/develop/clients/redis-py" >}})
+- [redis-py client documentation](/content/develop/clients/redis-py/_index.md)
 - [FastAPI documentation](https://fastapi.tiangolo.com/)

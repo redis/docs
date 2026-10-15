@@ -59,9 +59,12 @@ The name of the key that holds the sorted set.
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZCARD myzset
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZCARD myzset
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

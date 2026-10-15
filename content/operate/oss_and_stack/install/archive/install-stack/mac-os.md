@@ -8,6 +8,8 @@ description: How to install Redis Stack on macOS
 linkTitle: MacOS
 title: Install Redis Stack on macOS
 weight: 2
+aliases:
+- /operate/oss_and_stack/install/install-stack/mac-os/
 ---
 
 To install Redis Stack on macOS, use [Homebrew](https://brew.sh/). Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
@@ -46,9 +48,8 @@ echo $PATH
 
 Then, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If these directories are not in the output, see the "Existing Redis installation" instructions below.
 
-{{< note >}}
-Because Redis Stack is installed using a brew cask via the `brew tap` command, it will not be integrated with the `brew services` command.
-{{< /note >}}
+> [!NOTE]
+> Because Redis Stack is installed using a brew cask via the `brew tap` command, it will not be integrated with the `brew services` command.
 
 ### Existing Redis installation
 
@@ -134,13 +135,13 @@ PONG
 {{< / highlight >}}
 
 You can also test that your Redis server is running using
-[Redis Insight]({{< relref "/develop/tools/insight" >}}).
+[Redis Insight](/content/develop/tools/insight/_index.md).
 
 ## Next steps
 
 Once you have a running Redis instance, you may want to:
 
-* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
-* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
-* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/archive/install-redis#install-redis-properly" >}})
+* Try the [Redis CLI tutorial](/content/develop/tools/cli.md)
+* Connect using one of the [Redis clients](/content/develop/clients/_index.md)
+* [Install Redis "properly"](/content/operate/oss_and_stack/install/archive/install-redis/_index.md#install-redis-properly)
   for production use.

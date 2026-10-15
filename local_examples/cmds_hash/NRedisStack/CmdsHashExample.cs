@@ -209,5 +209,23 @@ public class CmdsHashExample
         Assert.Equal("NoSuchField", string.Join(", ", hexpireRes3));
         db.KeyDelete("myhash");
         // REMOVE_END
+
+        // STEP_START hlen
+        bool hlenRes1 = db.HashSet("myhash", "field1", "Hello");
+        Console.WriteLine(hlenRes1);    // >>> True
+
+        bool hlenRes2 = db.HashSet("myhash", "field2", "World");
+        Console.WriteLine(hlenRes2);    // >>> True
+
+        long hlenRes3 = db.HashLength("myhash");
+        Console.WriteLine(hlenRes3);    // >>> 2
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(hlenRes1);
+        Assert.True(hlenRes2);
+        Assert.Equal(2, hlenRes3);
+        db.KeyDelete("myhash");
+        // REMOVE_END
     }
 }

@@ -82,12 +82,12 @@ syntax_fmt: "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfiel
   \  field [field ...]"
 title: HEXPIREAT
 ---
-`HEXPIREAT` has the same effect and semantics as [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but instead of
+`HEXPIREAT` has the same effect and semantics as [`HEXPIRE`](/content/commands/hexpire.md), but instead of
 specifying the number of seconds for the TTL (time to live), it takes
 an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) in seconds since Unix epoch. A
 timestamp in the past will delete the field immediately.
 
-For the specific semantics of the command, see [`HEXPIRE`]({{< relref "/commands/hexpire" >}}).
+For the specific semantics of the command, see [`HEXPIRE`](/content/commands/hexpire.md).
 
 ## Required arguments
 

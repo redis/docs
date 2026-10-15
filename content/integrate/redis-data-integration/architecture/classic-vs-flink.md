@@ -21,9 +21,9 @@ the same Redis target, but they differ in architecture, supported features,
 configuration, observability, error handling, and performance.
 
 This page summarizes those differences. See
-[Which processor should I use?]({{< relref "/integrate/redis-data-integration/faq#which-processor-should-i-use" >}})
+[Which processor should I use?](/content/integrate/redis-data-integration/faq.md#which-processor-should-i-use)
 in the FAQ for the recommendation, and
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md)
 for a step-by-step migration guide.
 
 ## At a glance
@@ -31,10 +31,8 @@ for a step-by-step migration guide.
 | Aspect | Classic processor | Flink processor |
 |---|---|---|
 | Implementation | Python | Java on top of [Apache Flink](https://flink.apache.org/) |
-| Deployment targets | VM and Kubernetes | Kubernetes only |
 | Scaling | Single replica | Horizontal: TaskManager replicas × task slots per TaskManager |
 | Fault tolerance | Source-stream consumer-group replay | Source-stream consumer-group replay plus Flink checkpointing |
-| Supported `data_type` outputs | `hash`, `json`, `set`, `sorted_set`, `stream`, `string` | `hash`, `json` |
 | Metrics endpoint | `rdi-metrics-exporter` service | Flink JobManager `/metrics` (no metrics exporter) |
 | Metric naming | `rdi_*` (e.g., `rdi_incoming_entries`) | `flink_*` (e.g., `flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`) |
 | End-to-end latency | Bounded by the per-batch read-process-write cycle | Records flow through pipelined operator chains without a per-batch barrier |
@@ -47,54 +45,46 @@ The classic processor runs as a single pod managed by the operator
 and can be deployed on either VMs or Kubernetes through the RDI Helm
 chart.
 
-The Flink processor runs as an Apache Flink application cluster: one
-JobManager pod plus one or more TaskManager pods. Source,
+The Flink processor runs as an Apache Flink application cluster managed by
+RDI: one JobManager pod plus one or more TaskManager pods. Source,
 transformation, and sink operators run as parallel subtasks across
 all task slots in the cluster. The Flink processor scales
 horizontally by changing the number of TaskManager replicas
 (`advanced.resources.taskManager.replicas`); with adaptive
 parallelism, the default parallelism is the product of TaskManager
-replicas and task slots per TaskManager. The Flink processor
-currently runs on Kubernetes only; VM support is planned for a future
-release.
+replicas and task slots per TaskManager.
 
 Both processors retain at-least-once delivery semantics; the Flink
 processor adds Flink checkpointing on top of the shared
 consumer-group replay mechanism.
 
 See
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}})
-for the Helm settings.
+[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor)
+for the Kubernetes Helm settings, and
+[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-vm.md#configure-the-flink-processor)
+for VM installations.
 
 ## Configuration
 
 The two processors share the same `config.yaml` envelope and the same
 `connections`, `sources`, `targets`, and `jobs` sections. The only
 differences are inside the `processors:` block, which is selected via
-`processors.type` (`classic` or `flink`, default `classic`). Properties
+`processors.type` (`classic` or `flink`, default `flink`). Properties
 that apply to only one implementation are annotated with
 **Classic processor only.** or **Flink processor only.** in the
-[pipeline configuration reference]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}}),
+[pipeline configuration reference](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors),
 and are silently ignored by the other implementation. The Flink
 processor exposes additional fine-grained tuning under
 `processors.advanced.*`.
-
-## Supported output formats
-
-The classic processor supports all `data_type` values: `hash`, `json`,
-`set`, `sorted_set`, `stream`, and `string`. The Flink processor
-currently supports only `hash` and `json`. Pipelines that use any other
-output type must remain on the classic processor or rewrite the
-affected jobs. Support for the remaining output types is planned for a
-future release.
 
 ## Transformation extensions
 
 The two processors support the same set of transformation blocks
 (`filter`, `map`, `add_field`, `remove_field`, `rename_field`,
-`redis.lookup`) and the same expression languages (JMESPath and SQL).
-Pipelines written for one processor generally execute on the other
-without changes.
+`redis.lookup`), the same expression languages (JMESPath and SQL),
+and the same data types in output blocks: `hash`, `json`, `set`,
+`sorted_set`, `stream`, and `string`. Pipelines written for one processor
+generally execute on the other without changes.
 
 The Flink processor adds three optional, performance-oriented
 extensions that are not available with the classic processor:
@@ -107,10 +97,16 @@ extensions that are not available with the classic processor:
     defaults; the optional `batch:` block lets you override them.
 
 See
-[Caching expression results]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/caching-expression-results" >}})
+[Caching expression results](/content/integrate/redis-data-integration/data-pipelines/transform-examples/caching-expression-results.md)
 for examples and
-[`redis.lookup`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/lookup" >}})
+[`redis.lookup`](/content/integrate/redis-data-integration/reference/data-transformation/lookup.md)
 for the full property list.
+
+The Flink processor also accepts an advanced matcher syntax in a job's `source` section, where
+`server_name`, `db`, `schema`, and `table` each accept a list of names, and an entry prefixed
+with `regex:` selects all names that match the regular expression. One job can then process
+multiple tables, potentially from different sources, databases, or schemas. See
+[Job files](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md) for more information.
 
 ## Metrics
 
@@ -122,7 +118,7 @@ directly from the JobManager and TaskManager pods through Flink's
 native Prometheus reporter; no metrics exporter is deployed.
 
 See
-[Observability — Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}})
+[Observability — Flink processor metrics](/content/integrate/redis-data-integration/observability.md#flink-processor-metrics)
 for the customer-facing list of metrics.
 
 ## Error handling and DLQ

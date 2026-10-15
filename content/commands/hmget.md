@@ -82,16 +82,7 @@ One or more fields whose values to retrieve.
 1) "Hello"
 2) "World"
 3) (nil)
->
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HMGET myhash field1 field2 nofield
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

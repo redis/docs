@@ -18,9 +18,8 @@ Follow the Docker installation instructions for your operating system:
 - [macOS](https://docs.docker.com/docker-for-mac/install/)
 - [Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
 
-{{< note >}}
-On Windows, make sure Docker is configured to run Linux-based containers.
-{{< /note >}}
+> [!NOTE]
+> On Windows, make sure Docker is configured to run Linux-based containers.
 
 ## Run Redis Open Source on Docker
 
@@ -40,7 +39,10 @@ If you don’t have `redis-cli` installed locally, you can run it from the Docke
 $ docker exec -it redis redis-cli
 {{< / highlight >}}
 
-If you do have `redis-cli` installed locally, you can run it from your terminal:
+If you want to install `redis-cli` locally, see
+[Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
+
+If you already have `redis-cli` installed locally, you can run it from your terminal:
 
 {{< highlight bash >}}
 $ redis-cli -h 127.0.0.1 -p 6379

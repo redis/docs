@@ -212,6 +212,37 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_synupdate(index_name, group_id, *terms, skip_initial_scan: false)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "group_id",
+            "type": "String",
+            "description": "the synonym group id"
+          },
+          {
+            "name": "terms",
+            "type": "Array<String>",
+            "description": "the terms to add to the group"
+          },
+          {
+            "name": "skip_initial_scan",
+            "type": "Boolean",
+            "description": "do not re-scan existing documents (SKIPINITIALSCAN)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }

@@ -22,13 +22,12 @@ RedisJSON v2.8.19 requires:
 
 ## v2.8.19 (April 2026):
 
-{{< note >}}
-Starting with Redis 8 in Redis Open Source, the JSON data structure is integral to Redis. You don't need to install this module separately.
-
-We no longer release standalone versions of RedisJSON.
-
-See https://github.com/redis/redis.
-{{< /note >}}
+> [!NOTE]
+> Starting with Redis 8 in Redis Open Source, the JSON data structure is integral to Redis. You don't need to install this module separately.
+>
+> We no longer release standalone versions of RedisJSON.
+>
+> See https://github.com/redis/redis.
 
 This is a maintenance release for RedisJSON 2.8.
 
@@ -131,7 +130,6 @@ Details
 
   - [#1212](https://github.com/RedisJSON/RedisJSON/pull/1212) `JSON.MSET`- AOF commands are duplicated multiple times (MOD-7293)
 
-{{< note >}}
-- The version inside Redis will be 2.8.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-- Minimal Redis version: 7.4
-{{< /note >}}
+> [!NOTE]
+> - The version inside Redis will be 2.8.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+> - Minimal Redis version: 7.4

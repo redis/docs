@@ -73,7 +73,7 @@ summary: Sets the expiration time of a key to a Unix milliseconds timestamp.
 syntax_fmt: PEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
 title: PEXPIREAT
 ---
-`PEXPIREAT` has the same effect and semantic as [`EXPIREAT`]({{< relref "/commands/expireat" >}}), but the Unix time at
+`PEXPIREAT` has the same effect and semantic as [`EXPIREAT`](/content/commands/expireat.md), but the Unix time at
 which the key will expire is specified in milliseconds instead of seconds.
 
 ## Required arguments
@@ -121,10 +121,14 @@ Set expiry only when the new expiry is less than the current one. A non-volatile
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-PEXPIREAT mykey 1555555555005
-TTL mykey
-PTTL mykey
+redis> SET mykey "Hello"
+OK
+redis> PEXPIREAT mykey 1555555555005
+(integer) 1
+redis> TTL mykey
+(integer) -2
+redis> PTTL mykey
+(integer) -2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

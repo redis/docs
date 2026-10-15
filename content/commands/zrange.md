@@ -96,7 +96,7 @@ Returns the specified range of elements in the sorted set stored at `<key>`.
 
 `ZRANGE` can perform different types of range queries: by index (rank), by the score, or by lexicographical order.
 
-Starting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}), [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}), [`ZREVRANGEBYSCORE`]({{< relref "/commands/zrevrangebyscore" >}}), [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and [`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}).
+Starting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`](/content/commands/zrevrange.md), [`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md), [`ZREVRANGEBYSCORE`](/content/commands/zrevrangebyscore.md), [`ZRANGEBYLEX`](/content/commands/zrangebylex.md) and [`ZREVRANGEBYLEX`](/content/commands/zrevrangebylex.md).
 
 ## Required arguments
 
@@ -163,6 +163,8 @@ Also return the score of each member.
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
 {{< clients-example set="cmds_sorted_set" step="zrange2" description="Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option" difficulty="intermediate" >}}
+> DEL myzset
+(integer) 1
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 1 WITHSCORES
@@ -175,20 +177,13 @@ The following example using `WITHSCORES` shows how the command returns always an
 This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
 
 {{< clients-example set="cmds_sorted_set" step="zrange3" description="Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)" difficulty="intermediate" >}}
+> DEL myzset
+(integer) 1
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1
 1) "three"
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-ZADD myzset 1 "one" 2 "two" 3 "three"
-ZRANGE myzset 0 -1
-ZRANGE myzset 2 3
-ZRANGE myzset -2 -1
-{{% /redis-cli %}}
 
 ## Details
 
@@ -217,7 +212,7 @@ If `<stop>` is greater than the end index of the sorted set, Redis will use the 
 
 ### Score ranges
 
-When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.
+When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md) and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.
 
 `<start>` and `<stop>` can be `-inf` and `+inf`, denoting the negative and positive infinities, respectively. This means that you are not required to know the highest or lowest score in the sorted set to get all elements from or up to a certain score.
 
@@ -262,7 +257,7 @@ Will return all elements with scores less than 10 and greater than 5.
 
 ### Lexicographical ranges
 
-When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.
+When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`](/content/commands/zrangebylex.md) and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.
 
 Note that lexicographical ordering relies on all elements having the same score. The reply is unspecified when the elements have different scores.
 

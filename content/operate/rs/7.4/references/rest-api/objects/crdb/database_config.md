@@ -13,9 +13,9 @@ url: '/operate/rs/7.4/references/rest-api/objects/crdb/database_config/'
 
 An object that represents the database configuration. This configuration object is used in two contexts within CRDB objects:
 
-- As `default_db_config` in the main [CRDB object]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb" >}}) for settings that apply to all instances. In most cases, instances should use the same configuration.
+- As `default_db_config` in the main [CRDB object](/content/operate/rs/7.4/references/rest-api/objects/crdb/_index.md) for settings that apply to all instances. In most cases, instances should use the same configuration.
 
-- As `db_config` in individual [instance objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/instance_info" >}}) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
+- As `db_config` in individual [instance objects](/content/operate/rs/7.4/references/rest-api/objects/crdb/instance_info.md) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
@@ -41,5 +41,5 @@ An object that represents the database configuration. This configuration object 
 | shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
 | shards_count | integer | Number of database shards |
 | shards_placement | string | Control the density of shards: should they reside on as few or as many nodes as possible |
-| snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence (required) |
+| snapshot_policy | array of [snapshot_policy](/content/operate/rs/7.4/references/rest-api/objects/bdb/snapshot_policy.md) objects | Policy for snapshot-based data persistence (required) |
 | tls_mode | string | Encrypt communication |

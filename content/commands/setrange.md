@@ -100,23 +100,28 @@ The string to write at the offset.
 Basic usage:
 
 {{% redis-cli %}}
-SET key1 "Hello World"
-SETRANGE key1 6 "Redis"
-GET key1
+redis> SET key1 "Hello World"
+OK
+redis> SETRANGE key1 6 "Redis"
+(integer) 11
+redis> GET key1
+"Hello Redis"
 {{% /redis-cli %}}
 
 Example of zero padding:
 
 {{% redis-cli %}}
-SETRANGE key2 6 "Redis"
-GET key2
+redis> SETRANGE key2 6 "Redis"
+(integer) 11
+redis> GET key2
+"\x00\x00\x00\x00\x00\x00Redis"
 {{% /redis-cli %}}
 
 ## Details
 
 ### Patterns
 
-Thanks to `SETRANGE` and the analogous [`GETRANGE`]({{< relref "/commands/getrange" >}}) commands, you can use Redis
+Thanks to `SETRANGE` and the analogous [`GETRANGE`](/content/commands/getrange.md) commands, you can use Redis
 strings as a linear array with O(1) random access.
 This is a very fast and efficient storage in many real world use cases.
 

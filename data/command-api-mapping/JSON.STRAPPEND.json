@@ -519,6 +519,37 @@
           "description": "The string length after the append operation."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_strappend(key, path, value, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target string(s)"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "the string to append"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat value as an already-encoded JSON string and send it as-is"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer, nil",
+          "description": "the new string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
+        }
+      }
     ]
   }
 }

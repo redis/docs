@@ -17,3 +17,6 @@ summary:
 type: integration
 weight: 60
 ---
+
+For API clients, [RDI API v1 is deprecated as of RDI 1.19.0](/content/integrate/redis-data-integration/reference/api-migration.md).
+Use [RDI API v2](/content/integrate/redis-data-integration/reference/api-reference.md) for new integrations and migrate existing clients. API v1 will not be extended with new RDI features and may be removed in a future RDI version.

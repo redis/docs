@@ -133,13 +133,23 @@ Skip `offset` matching members and return up to `count` of them. A negative `cou
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGEBYSCORE myzset -inf +inf
-ZRANGEBYSCORE myzset 1 2
-ZRANGEBYSCORE myzset (1 2
-ZRANGEBYSCORE myzset (1 (2
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZADD myzset 3 "three"
+(integer) 1
+redis> ZRANGEBYSCORE myzset -inf +inf
+1) "one"
+2) "two"
+3) "three"
+redis> ZRANGEBYSCORE myzset 1 2
+1) "one"
+2) "two"
+redis> ZRANGEBYSCORE myzset (1 2
+1) "two"
+redis> ZRANGEBYSCORE myzset (1 (2
+(empty array)
 {{% /redis-cli %}}
 
 ## Details

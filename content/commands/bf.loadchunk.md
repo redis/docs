@@ -33,9 +33,9 @@ summary: Restores a filter previously saved using SCANDUMP
 syntax_fmt: BF.LOADCHUNK key iterator data
 title: BF.LOADCHUNK
 ---
-Restores a Bloom filter previously saved using [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}).
+Restores a Bloom filter previously saved using [`BF.SCANDUMP`](/content/commands/bf.scandump.md).
 
-See the [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) command for example usage.
+See the [`BF.SCANDUMP`](/content/commands/bf.scandump.md) command for example usage.
 
 <note><b>Notes</b>
 
@@ -53,17 +53,17 @@ is key name for a Bloom filter to restore.
 
 <details open><summary><code>iterator</code></summary>
 
-Iterator value associated with `data` (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}))
+Iterator value associated with `data` (returned by [`BF.SCANDUMP`](/content/commands/bf.scandump.md))
 </details>
 
 <details open><summary><code>data</code></summary>
 
-Current data chunk (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}))
+Current data chunk (returned by [`BF.SCANDUMP`](/content/commands/bf.scandump.md))
 </details>
 
 ## Examples
 
-See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
+See [`BF.SCANDUMP`](/content/commands/bf.scandump.md) for an example.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -78,13 +78,13 @@ See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when invalid data was passed.
 
 {{< /multitabs >}}

@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Configures [quorum-only mode]({{< relref "/operate/rs/clusters/maintenance-mode#activate-maintenance-mode" >}}) on a node.
+Configures [quorum-only mode](/content/operate/rs/clusters/maintenance-mode.md#activate-maintenance-mode) on a node.
 
 ## `node maintenance_mode on`
 
@@ -46,7 +46,7 @@ rladmin node <ID> maintenance_mode on
 
 Returns `OK` if the node was converted successfully. If the cluster does not have enough resources to migrate the shards, the process returns a warning.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the node became a quorum node.
+Use [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) to verify the node became a quorum node.
 
 ### Example
 
@@ -90,7 +90,7 @@ rladmin node <ID> maintenance_mode off
 
 Returns `OK` if the node was restored successfully.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the node was restored.
+Use [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) to verify the node was restored.
 
 ### Example
 

@@ -53,7 +53,7 @@ summary: Appends a string to the value of a key. Creates the key if it doesn't e
 syntax_fmt: APPEND key value
 title: APPEND
 ---
-Appends a value to the string stored at `key`. If `key` does not exist, it is created with an empty string, so in that case, `APPEND` behaves like [`SET`]({{< relref "/commands/set" >}}).
+Appends a value to the string stored at `key`. If `key` does not exist, it is created with an empty string, so in that case, `APPEND` behaves like [`SET`](/content/commands/set.md).
 
 ## Required arguments
 
@@ -72,10 +72,14 @@ The string to append to the existing value.
 ## Examples
 
 {{% redis-cli %}}
-EXISTS mykey
-APPEND mykey "Hello"
-APPEND mykey " World"
-GET mykey
+redis> EXISTS mykey
+(integer) 0
+redis> APPEND mykey "Hello"
+(integer) 5
+redis> APPEND mykey " World"
+(integer) 11
+redis> GET mykey
+"Hello World"
 {{% /redis-cli %}}
 
 ## Details
@@ -92,12 +96,12 @@ APPEND timeseries "fixed-size sample"
 
 Accessing individual elements in the time series is not hard:
 
-* [`STRLEN`]({{< relref "/commands/strlen" >}}) can be used in order to obtain the number of samples.
-* [`GETRANGE`]({{< relref "/commands/getrange" >}}) allows for random access of elements.
+* [`STRLEN`](/content/commands/strlen.md) can be used in order to obtain the number of samples.
+* [`GETRANGE`](/content/commands/getrange.md) allows for random access of elements.
   If our time series have associated time information we can easily implement
-  a binary search to get range combining [`GETRANGE`]({{< relref "/commands/getrange" >}}) with the Lua scripting
+  a binary search to get range combining [`GETRANGE`](/content/commands/getrange.md) with the Lua scripting
   engine available in Redis 2.6.
-* [`SETRANGE`]({{< relref "/commands/setrange" >}}) can be used to overwrite an existing time series.
+* [`SETRANGE`](/content/commands/setrange.md) can be used to overwrite an existing time series.
 
 The limitation of this pattern is that we are forced into an append-only mode
 of operation, there is no way to cut the time series to a given size easily
@@ -113,10 +117,14 @@ An example sampling the temperature of a sensor using fixed-size strings (using
 a binary format is better in real implementations).
 
 {{% redis-cli %}}
-APPEND ts "0043"
-APPEND ts "0035"
-GETRANGE ts 0 3
-GETRANGE ts 4 7
+redis> APPEND ts "0043"
+(integer) 4
+redis> APPEND ts "0035"
+(integer) 8
+redis> GETRANGE ts 0 3
+"0043"
+redis> GETRANGE ts 4 7
+"0035"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

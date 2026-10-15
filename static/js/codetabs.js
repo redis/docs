@@ -21,6 +21,24 @@ function copyCodeToClipboardForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
+  // The redis-cli panel has no <code> element: it's either an interactive
+  // terminal (form.redis-cli, whose command source is stashed in data-cli-source)
+  // or a static block (div.redis-cli-static > pre). Copy from those directly;
+  // falling through to the <code>-based logic below would dereference an
+  // undefined codeElement and throw.
+  const cliEl = visiblePanel.querySelector('form.redis-cli, .redis-cli-static');
+  if (cliEl) {
+    const cliCode = cliEl.getAttribute('data-cli-source') || cliEl.textContent;
+    navigator.clipboard.writeText(cliCode.trim());
+
+    const cliTooltip = button.querySelector('.tooltiptext');
+    if (cliTooltip) {
+      cliTooltip.style.display = 'block';
+      setTimeout(() => cliTooltip.style.display = 'none', 1000);
+    }
+    return;
+  }
+
   let code;
   const isCliTrimmed = visiblePanel.getAttribute('data-cli-trimmable') === 'true';
   const cliPreviewLines = parseInt(visiblePanel.getAttribute('data-cli-preview-lines') || '0', 10);
@@ -52,6 +70,14 @@ function copyCodeToClipboardForCodetabs(button) {
       // Fallback to all code if no highlighted lines found
       code = codeElement.textContent;
     }
+  }
+
+  // Single-line blocks are almost always one command preceded by a prompt
+  // ("$ ", "> ", "127.0.0.1:6379> "). Strip that prompt so the copied text
+  // runs as-is. Multiline blocks mix commands and output, so leave them untouched.
+  const codeLines = code.split('\n').filter(line => line !== '');
+  if (codeLines.length === 1) {
+    code = codeLines[0].replace(/^(\s*)(?:\$\s+|>\s+|127\.0\.0\.1:6379>\s+)/, '$1');
   }
 
   navigator.clipboard.writeText(code);
@@ -321,6 +347,10 @@ function updatePanelVisibility(dropdown) {
 
   if (window.updateAllBinderLinks) {
     window.updateAllBinderLinks();
+  }
+
+  if (window.updateAllTryItButtons) {
+    window.updateAllTryItButtons();
   }
 }
 

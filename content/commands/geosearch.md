@@ -167,9 +167,9 @@ syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>
   \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]"
 title: GEOSEARCH
 ---
-Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
+Return the members of a sorted set populated with geospatial information using [`GEOADD`](/content/commands/geoadd.md), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`](/content/commands/georadius.md) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
 
-This command should be used in place of the deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) commands.
+This command should be used in place of the deprecated [`GEORADIUS`](/content/commands/georadius.md) and [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md) commands.
 
 ## Required arguments
 
@@ -243,10 +243,30 @@ Also return the raw 52-bit geohash-encoded score of each matching item.
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOADD Sicily 12.758489 38.788135 "edge1"   17.241510 38.788135 "edge2" 
-GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
-GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEOADD Sicily 12.758489 38.788135 "edge1"   17.241510 38.788135 "edge2"
+(integer) 2
+redis> GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
+1) "Catania"
+2) "Palermo"
+redis> GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
+1) 1) "Catania"
+   2) "56.4413"
+   3) 1) "15.087267458438873"
+      2) "37.50266842333162"
+2) 1) "Palermo"
+   2) "190.4424"
+   3) 1) "13.361389338970184"
+      2) "38.1155563954963"
+3) 1) "edge2"
+   2) "279.7403"
+   3) 1) "17.241510450839996"
+      2) "38.78813451624225"
+4) 1) "edge1"
+   2) "279.7405"
+   3) 1) "12.75848776102066"
+      2) "38.78813451624225"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

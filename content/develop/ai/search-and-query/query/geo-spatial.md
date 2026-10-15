@@ -27,13 +27,12 @@ The examples in this article use the following schema:
 | `pickup_zone`    | `GEOSHAPE`   |
 
 
-{{% alert title="Note" color="warning" %}}
-Redis version 7.2.0 or higher is required to use the `GEOSHAPE` field type.
-{{% /alert  %}}
+> [!NOTE]
+> Redis version 7.2.0 or higher is required to use the `GEOSHAPE` field type.
 
 ## Radius
 
-You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command.
+You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH](/content/commands/ft.search.md) command.
 
 ```
 FT.SEARCH index "@geo_field:[lon lat radius unit]"

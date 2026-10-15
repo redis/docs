@@ -1,0 +1,54 @@
+{{- /*
+  Custom RSS template.
+
+  Deliberately renders each item's <description> from front matter
+  (.Description, falling back to .Title) via `plainify` — it never touches
+  .Content / .Summary / .Plain / .TableOfContents.
+
+  Why: the default (internal) RSS template renders each item's full .Content,
+  which re-executes the page's shortcodes in a second, RSS output-format render.
+  Pages that embed clients-example shortcodes dedup their full-source <template>
+  blocks via .Page.Store ("tceFullKeys"), and .Page.Store persists across a
+  page's output-format renders. When the RSS render executed those shortcodes it
+  raced the HTML render for the shared store: whichever ran first "claimed" the
+  emissions, so the served HTML intermittently shipped zero full-source templates
+  (most visibly on the heavy data-types/streams page). Sourcing the RSS
+  description from front matter keeps shortcodes out of the RSS render entirely,
+  so the HTML render is the sole writer of tceFullKeys and emission is
+  deterministic. Feeds carry summaries, which is normal for feeds.
+*/ -}}
+{{- $pctx := . -}}
+{{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
+{{- $pages := slice -}}
+{{- if or $.IsHome $.IsSection -}}
+{{- $pages = $pctx.RegularPages -}}
+{{- else -}}
+{{- $pages = $pctx.Pages -}}
+{{- end -}}
+{{- $limit := .Site.Config.Services.RSS.Limit -}}
+{{- if ge $limit 1 -}}
+{{- $pages = $pages | first $limit -}}
+{{- end -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ if eq .Title .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{ . }} on {{ end }}{{ .Site.Title }}{{ end }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>Recent content {{ if ne .Title .Site.Title }}{{ with .Title }}in {{ . }} {{ end }}{{ end }}on {{ .Site.Title }}</description>
+    <generator>Hugo</generator>{{ with .Site.LanguageCode }}
+    <language>{{ . }}</language>{{ end }}{{ if not .Date.IsZero }}
+    <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
+    {{- with .OutputFormats.Get "rss" -}}
+    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType.Type | safeHTML }}
+    {{- end -}}
+    {{ range $pages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ (or .Description .Title) | plainify | transform.XMLEscape | safeHTML }}</description>
+    </item>
+    {{ end }}
+  </channel>
+</rss>

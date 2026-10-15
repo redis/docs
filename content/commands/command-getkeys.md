@@ -41,7 +41,7 @@ title: COMMAND GETKEYS
 from the provided Redis `command`.
 
 
-[`COMMAND`]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use COMMAND GETKEYS or [`COMMAND GETKEYSANDFLAGS`]({{< relref "/commands/command-getkeysandflags" >}}) to get the key names directly from the Redis command parser.
+[`COMMAND`](/content/commands/command.md) describes how Redis identifies key names for each command, including `firstkey`, [key specifications](/content/develop/reference/key-specs.md#logical-operation-flags), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use COMMAND GETKEYS or [`COMMAND GETKEYSANDFLAGS`](/content/commands/command-getkeysandflags.md) to get the key names directly from the Redis command parser.
 
 ## Required arguments
 
@@ -62,9 +62,17 @@ The arguments that would be passed to the command.
 ## Examples
 
 {{% redis-cli %}}
-COMMAND GETKEYS MSET a b c d e f
-COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
-COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+redis> COMMAND GETKEYS MSET a b c d e f
+1) "a"
+2) "c"
+3) "e"
+redis> COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
+1) "key1"
+2) "key2"
+3) "key3"
+redis> COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+1) "mylist"
+2) "outlist"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

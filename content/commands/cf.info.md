@@ -40,25 +40,27 @@ is key name for a cuckoo filter.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
+redis> CF.ADD cf item1
+(integer) 1
 redis> CF.INFO cf
  1) Size
  2) (integer) 1080
  3) Number of buckets
  4) (integer) 512
- 5) Number of filter
+ 5) Number of filters
  6) (integer) 1
  7) Number of items inserted
- 8) (integer) 0
+ 8) (integer) 1
  9) Number of items deleted
 10) (integer) 0
 11) Bucket size
 12) (integer) 2
 13) Expansion rate
 14) (integer) 1
-15) Max iteration
+15) Max iterations
 16) (integer) 20
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -74,12 +76,12 @@ One of the following:
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) with argument name ([Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) and value ([Integer reply](/content/develop/reference/protocol-spec.md#integers)) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
 
 -tab-sep-
 
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+* [Map reply](/content/develop/reference/protocol-spec.md#maps) with argument name ([Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) and value ([Integer reply](/content/develop/reference/protocol-spec.md#integers)) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
 
 {{< /multitabs >}}

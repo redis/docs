@@ -245,7 +245,22 @@
 {{ end }}
 {{ $stepCode := delimit $currentStepLines "\n" }}
 
-<div class="cli group box-border rounded-lg mt-0 mb-4 mx-auto bg-slate-900 thebe-container" id="{{ $id }}" {{ if $depends }}data-depends="{{ $depends }}"{{ end }}{{ if $binder }} data-binder-ref="{{ $binder }}"{{ end }}>
+{{/* No blank lines at the top or bottom of a code example: they are padding the
+     source happens to carry, and they push the first and last line away from the
+     block's own padding. Whole blank lines only — the first line's indentation is
+     part of the code. */}}
+{{ $stepCode = $stepCode | replaceRE `\A(?:[ \t]*\r?\n)+` "" | replaceRE `(?:\r?\n[ \t]*)+\z` "" }}
+{{ $fullFileCode = $fullFileCode | replaceRE `\A(?:[ \t]*\r?\n)+` "" | replaceRE `(?:\r?\n[ \t]*)+\z` "" }}
+
+{{/* data-description: the step's own words, for consumers that list these cells
+     (the workbench notebook pane) — reading them back out of the header markup
+     means guessing which utility-classed span is the description.
+
+     data-kernel-name: the pair to data-binder-ref, so the cell carries everything
+     needed to start a kernel. The driver prefers the window globals below, but
+     those are emitted from content behind a Page.Store guard and go missing on
+     some render paths; then it falls back to these attributes. */}}
+<div class="cli group box-border rounded-lg mt-0 mb-4 mx-auto bg-slate-900 thebe-container" id="{{ $id }}"{{ with $description }} data-description="{{ . }}"{{ end }} {{ if $depends }}data-depends="{{ $depends }}"{{ end }}{{ if $binder }} data-binder-ref="{{ $binder }}" data-binder-url="https://redis.io/binder/v2/gh/redis/binder-launchers/{{ $binder }}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb"{{ end }}{{ with $kernelName }} data-kernel-name="{{ . }}"{{ end }}>
     <!-- Header matching standard code blocks -->
     <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex items-start justify-between">
@@ -254,31 +269,39 @@
                 <span class="max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md">{{ $langFilter | default (title $language) }}</span>
             </div>
             <div class="flex items-center gap-2">
-                {{/* Run here link - styled like "Run in browser" link */}}
-                {{/* All cells start disabled until kernel is ready */}}
-                {{/* Cells with depends attribute remain disabled until first cell runs */}}
-                {{/* Uses text-slate-500 class for disabled state - JS uses this to identify disabled buttons */}}
-                <button class="thebe-run-btn thebe-btn-blocked thebe-btn-kernel-unavailable text-xs underline whitespace-nowrap flex items-center gap-1 text-slate-500 cursor-not-allowed"
-                        data-original-depends="{{ if $depends }}true{{ else }}false{{ end }}"
-                        title="Kernel server not available">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                {{/* One control, the same "Try it" the CLI examples use: it opens
+                     the workbench with this example's notebook. Running happens
+                     there — in a notebook, with a kernel indicator, Run all and a
+                     Clear — rather than in the middle of the page, so what the
+                     page shows is an ordinary code block.
+
+                     data-binder-url is the fallback: where there is no workbench
+                     to open (a backend without the CLI widget API), the button
+                     opens the real notebook on BinderHub, which is what the old
+                     "Run in browser" link did. */}}
+                <button type="button" tabindex="1"
+                        class="thebe-tryit tryit-button flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out"
+                        data-cell="{{ $id }}"
+                        {{ if $binder }}data-binder-url="https://redis.io/binder/v2/gh/redis/binder-launchers/{{ $binder }}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb"{{ end }}
+                        title="Open this example in the workbench notebook"
+                        aria-label="Open this example in the workbench notebook">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M8 5v14l11-7z"></path>
                     </svg>
+                    <span>Try it</span>
+                </button>
+                {{/* The driver's run button stays, out of sight: it is how a cell
+                     is executed (the workbench notebook clicks it), and the
+                     driver's gating — every dependent cell disabled until the
+                     first has run — is expressed by the classes on it. It is no
+                     longer a control a reader is offered, so it is hidden from
+                     sight and from the tab order. */}}
+                <button class="thebe-run-btn thebe-btn-blocked thebe-btn-kernel-unavailable hidden text-slate-500 cursor-not-allowed"
+                        data-original-depends="{{ if $depends }}true{{ else }}false{{ end }}"
+                        aria-hidden="true" tabindex="-1"
+                        title="Kernel server not available">
                     <span>Run here</span>
                 </button>
-                {{/* Run in browser link (opens BinderHub notebook) */}}
-                {{ if $binder }}
-                <a href="https://redis.io/binder/v2/gh/redis/binder-launchers/{{ $binder }}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="text-xs text-slate-300 hover:text-white underline whitespace-nowrap flex items-center gap-1 mr-2"
-                   title="Run this example in an interactive Jupyter notebook">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"></path>
-                    </svg>
-                    <span>Run in browser</span>
-                </a>
-                {{ end }}
                 {{/* Copy link button - matching standard code blocks */}}
                 <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
                         title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyJupyterLinkToClipboard(this)">
@@ -329,30 +352,17 @@
             </div>
         </div>
 
-        {{/* Full file view - shown only when toggled and NOT activated */}}
-        {{- if gt (len $fullFileSections) 0 }}
+        {{/* Full file view - shown only when toggled and NOT activated.
+
+             One block, the whole file, nothing marked. It used to be rendered a
+             section at a time so the current step could be highlighted
+             (hl_lines), which put a coloured band over part of the file and gave
+             every section its own padded code block: 16px at each end and 32px at
+             every seam, which reads as blank lines the file does not have. A file
+             listing is a file listing. */}}
+        {{- if $fullFileCode }}
         <div class="full-file-view" style="display:none;">
-            {{- range $idx, $section := $fullFileSections }}
-                {{- /* Do NOT trim blank lines - preserve spacing to match fullFileCode */ -}}
-                {{- $sectionCode := delimit $section.lines "\n" -}}
-                {{- $sectionClass := "code-section" -}}
-                {{- $highlightOptions := "" -}}
-                {{- if eq $section.type "current-step" -}}
-                    {{- $sectionClass = "code-section code-section-current" -}}
-                    {{- /* Highlight all lines in the current step section */ -}}
-                    {{- $numLines := len $section.lines -}}
-                    {{- if gt $numLines 0 -}}
-                        {{- $highlightOptions = printf "linenos=false,hl_lines=1-%d" $numLines -}}
-                    {{- end -}}
-                {{- else if eq $section.type "step" -}}
-                    {{- $sectionClass = "code-section code-section-other" -}}
-                {{- else -}}
-                    {{- $sectionClass = "code-section code-section-context" -}}
-                {{- end -}}
-                <div class="{{ $sectionClass }}">
-                    {{- highlight $sectionCode $language $highlightOptions -}}
-                </div>
-            {{- end }}
+            {{- highlight $fullFileCode $language "" -}}
         </div>
         {{- end }}
 

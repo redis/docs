@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.8/references/rest-api/objects/module/'
 ---
 
-Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+Represents a [Redis module](/content/operate/oss_and_stack/stack-with-enterprise/_index.md).
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

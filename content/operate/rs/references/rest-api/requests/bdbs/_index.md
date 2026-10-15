@@ -366,9 +366,8 @@ Include a [BDB object]({{< relref "/operate/rs/references/rest-api/objects/bdb" 
 
 The above request attempts to modify a database configuration to enable in-memory data replication and append-only file data persistence.
 
-{{<note>}}
-To change the shard hashing policy, you must flush all keys from the database.
-{{</note>}}
+> [!NOTE]
+> To change the shard hashing policy, you must flush all keys from the database.
 
 ### Response {#put-response-action}
 

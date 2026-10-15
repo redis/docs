@@ -172,6 +172,27 @@
           "description": "Query execution plan"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_explain(index_name, query)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "a human-readable description of the query plan"
+        }
+      }
     ]
   }
 }

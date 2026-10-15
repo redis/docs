@@ -48,11 +48,11 @@ title: XLEN
 Returns the number of entries inside a stream. If the specified key does not
 exist the command returns zero, as if the stream was empty.
 However note that unlike other Redis types, zero-length streams are
-possible, so you should call [`TYPE`]({{< relref "/commands/type" >}}) or [`EXISTS`]({{< relref "/commands/exists" >}}) in order to check if
+possible, so you should call [`TYPE`](/content/commands/type.md) or [`EXISTS`](/content/commands/exists.md) in order to check if
 a key exists or not.
 
 Streams are not auto-deleted once they have no entries inside (for instance
-after an [`XDEL`]({{< relref "/commands/xdel" >}}) call), because the stream may have consumer groups
+after an [`XDEL`](/content/commands/xdel.md) call), because the stream may have consumer groups
 associated with it.
 
 ## Required arguments
@@ -66,10 +66,14 @@ The stream key.
 ## Examples
 
 {{% redis-cli %}}
-XADD mystream * item 1
-XADD mystream * item 2
-XADD mystream * item 3
-XLEN mystream
+redis> XADD mystream * item 1
+"1784722083902-0"
+redis> XADD mystream * item 2
+"1784722083903-0"
+redis> XADD mystream * item 3
+"1784722083904-0"
+redis> XLEN mystream
+(integer) 3
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

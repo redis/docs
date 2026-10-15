@@ -61,11 +61,11 @@ Redis Software version 7.8.2 introduces the following breaking changes:
 
     - The default value of `latest_with_modules` has changed to `true`.
 
-    - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
+    - [`rladmin upgrade db`](/content/operate/rs/references/cli-utilities/rladmin/upgrade.md#upgrade-db) will always upgrade the database's modules.
 
-    - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+    - When you [upgrade a database](/content/operate/rs/references/rest-api/requests/bdbs/upgrade.md#post-bdbs-upgrade) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
 
-- Authentication method changes for [`/v1/users/password`]({{<relref "/operate/rs/references/rest-api/requests/users/password">}}) REST API requests.
+- Authentication method changes for [`/v1/users/password`](/content/operate/rs/references/rest-api/requests/users/password.md) REST API requests.
 
     - `PUT`, `POST`, and `DELETE` methods require users to include their usernames and a current password in the authentication header to change their password lists. If the authentication header is not provided, the response status will be `401 Unauthorized`.
 
@@ -75,7 +75,7 @@ Redis Software version 7.8.2 introduces the following breaking changes:
 
     - `DELETE` requests will ignore the `username` parameter provided in the request body.
 
-- Authentication method changes for [`POST /v1/users/authorize`]({{<relref "/operate/rs/references/rest-api/requests/users/authorize">}}) REST API requests.
+- Authentication method changes for [`POST /v1/users/authorize`](/content/operate/rs/references/rest-api/requests/users/authorize.md) REST API requests.
 
     - The `POST` method requires users to include their usernames and a current password in the authentication header to generate a JSON Web Token.
 
@@ -87,7 +87,7 @@ Redis Software version 7.8.2 introduces the following breaking changes:
 
 When new major versions of Redis Community Edition change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
 
-Confirm your Redis database version (`redis_version`) using the Cluster Manager UI or run the following [`INFO`]({{< relref "/commands/info" >}}) command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+Confirm your Redis database version (`redis_version`) using the Cluster Manager UI or run the following [`INFO`](/content/commands/info.md) command with [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md):
 
 ```sh
 $ redis-cli -p <port> INFO
@@ -110,19 +110,19 @@ redis_version:7.0.8
 
 #### End-of-life policy extension
 
-The end-of-life policy for Redis Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
+The end-of-life policy for Redis Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md).
 
 #### Supported upgrade paths
 
-Redis Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
+Redis Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path](/content/operate/rs/installing-upgrading/upgrading/upgrade-cluster.md#supported-upgrade-paths). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
 
 The next major Redis Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
-See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+See the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md) for more information about release numbers.
 
 #### End of triggers and functions preview
 
-The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+The [triggers and functions](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/_index.md) (RedisGears) preview has been discontinued.
 
 - Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
 
@@ -163,15 +163,15 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software](/content/operate/rs/networking/port-configurations.md#ports-and-port-ranges-used-by-redis-enterprise-software) for a complete list.
 
 ### Deprecations
 
 #### API deprecations
 
-- Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
+- Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`](/content/operate/rs/references/rest-api/requests/actions/bdb.md) instead.
 
-- Deprecated the following fields for [upgrade database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade">}}) REST API requests:
+- Deprecated the following fields for [upgrade database](/content/operate/rs/references/rest-api/requests/bdbs/upgrade.md) REST API requests:
 
     - `keep_redis_version`; use `redis_version` instead
 
@@ -179,23 +179,23 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
     - `new_module`; use `new_module_args` instead
 
-- Deprecated the following `module_list` fields for [create database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) REST API requests:
+- Deprecated the following `module_list` fields for [create database](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1) REST API requests:
 
     - `module_id`; use `module_name` instead
 
     - `semantic_version`; use module_args instead
 
-- `min_redis_version` is only relevant to Redis database versions earlier than 7.4 and is replaced with `compatible_redis_version` in [module REST API]({{<relref "/operate/rs/references/rest-api/requests/modules">}}) responses.
+- `min_redis_version` is only relevant to Redis database versions earlier than 7.4 and is replaced with `compatible_redis_version` in [module REST API](/content/operate/rs/references/rest-api/requests/modules/_index.md) responses.
 
-- Deprecated the [`rladmin upgrade modules`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-module">}}) command. Use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) instead.
+- Deprecated the [`rladmin upgrade modules`](/content/operate/rs/references/cli-utilities/rladmin/upgrade.md#upgrade-module) command. Use [`rladmin upgrade db`](/content/operate/rs/references/cli-utilities/rladmin/upgrade.md#upgrade-db) instead.
 
-- Deprecated `POST /v1/modules/upgrade/bdb/<uid>` REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) to upgrade modules instead.
+- Deprecated `POST /v1/modules/upgrade/bdb/<uid>` REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`](/content/operate/rs/references/rest-api/requests/bdbs/upgrade.md#post-bdbs-upgrade) to upgrade modules instead.
 
 - Deprecated the `required_version` option for the bootstrap cluster API.
 
 #### V1 Prometheus metrics deprecation
 
- V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+ V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](/content/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2.md) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 #### Download center modules deprecation
 
@@ -219,9 +219,9 @@ To prepare for the removal of Redis database version 6.0 before you upgrade to R
         rladmin tune cluster redis_upgrade_policy latest
         ```
 
-    1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
+    1. [Upgrade Redis 6.0 databases](/content/operate/rs/installing-upgrading/upgrading/upgrade-database.md) to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
-- For Redis Software 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+- For Redis Software 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#redis-72-breaking-changes) and update any applications that connect to your database to handle these changes.
 
 #### Ubuntu 18.04 not supported
 
@@ -233,13 +233,13 @@ Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer sup
 
 Starting with version 7.8, Redis Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
-This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
+This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes](/content/operate/kubernetes/_index.md) product and use Ubuntu-specific commands.
 
 To use Ubuntu-based images after this change, you can specify the operating system suffix in the image tag. For example, use the image tag `7.4.2-216.focal` instead of `7.4.2-216`.
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference](/content/operate/rs/references/supported-platforms.md) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
@@ -248,7 +248,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| [**End-of-life date**](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -267,9 +267,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 2. <a name="table-note-2"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
 
-3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation](/content/operate/kubernetes/reference/supported_k8s_distributions.md) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -293,7 +293,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
         ldd /opt/redislabs/bin/rl_rdbloader
         ```
 
-    This issue was fixed in [Redis Software version 7.8.6-36]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-6-36">}}).
+    This issue was fixed in [Redis Software version 7.8.6-36](/content/operate/rs/release-notes/rs-7-8-releases/rs-7-8-6-36.md).
 
 
 ## Known limitations
@@ -302,7 +302,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 If the cluster contains any databases that use modules, you must upload module packages for the target OS version to a node in the existing cluster before you upgrade the cluster's operating system.
 
-See [Upgrade a cluster's operating system]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os">}}) for detailed upgrade instructions.
+See [Upgrade a cluster's operating system](/content/operate/rs/installing-upgrading/upgrading/upgrade-os.md) for detailed upgrade instructions.
 
 #### New Cluster Manager UI limitations
 
@@ -310,7 +310,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 - Purge an Active-Active instance.
 
-    Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
+    Use [`crdb-cli crdb purge-instance`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance.md) instead.
 
 - Search and export the log.
 

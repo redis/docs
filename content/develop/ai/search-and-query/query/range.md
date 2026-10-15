@@ -39,13 +39,13 @@ The values `-inf`, `inf`, and `+inf` are valid values that allow you to define o
 
 An open-range query can lead to a large result set. 
 
-By default, [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
+By default, [`FT.SEARCH`](/content/commands/ft.search.md) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
 
 ```
 FT.SEARCH index "@field:[start end]" SORTBY field LIMIT page_start page_end
 ```
 
-You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command reference](/commands/ft.search/).
+You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`](/content/commands/ft.search.md) command reference](/content/commands/ft.search.md).
 
 ## Examples
 
@@ -57,7 +57,7 @@ The examples in this section use a schema with the following fields:
 
 The following query finds bicycles within a price range greater than or equal to 500 USD and smaller than or equal to 1000 USD (`500 <= price <= 1000`):
 
-{{< clients-example set="query_range" step="range1" description="Foundational: Query numeric fields with inclusive range syntax when you need to find documents with values between two bounds" difficulty="beginner" max_lines="10" >}}
+{{< clients-example set="query_range" step="range1" description="Foundational: Query numeric fields with inclusive range syntax when you need to find documents with values between two bounds" difficulty="beginner" max_lines="10" runnable="false" >}}
 > FT.SEARCH idx:bicycle "@price:[500 1000]"
 1) (integer) 3
 2) "bicycle:2"
@@ -73,7 +73,7 @@ The following query finds bicycles within a price range greater than or equal to
 
 This is semantically equivalent to:
 
-{{< clients-example set="query_range" step="range2" description="Foundational: Query numeric fields using a FILTER clause when you need an alternative syntax for range queries with different query execution semantics" difficulty="beginner" max_lines="10" >}}
+{{< clients-example set="query_range" step="range2" description="Foundational: Query numeric fields using a FILTER clause when you need an alternative syntax for range queries with different query execution semantics" difficulty="beginner" max_lines="10" runnable="false" >}}
 > FT.SEARCH idx:bicycle "*" FILTER price 500 1000
 1) (integer) 3
 2) "bicycle:2"
@@ -89,7 +89,7 @@ This is semantically equivalent to:
 
 For bicycles with a price greater than 1000 USD (`price > 1000`), you can use:
 
-{{< clients-example set="query_range" step="range3" description="Open ranges: Query numeric fields with open ranges using infinity notation and exclusive bounds when you need to find documents above or below a threshold" difficulty="intermediate" max_lines="10" >}}
+{{< clients-example set="query_range" step="range3" description="Open ranges: Query numeric fields with open ranges using infinity notation and exclusive bounds when you need to find documents above or below a threshold" difficulty="intermediate" max_lines="10" runnable="false" >}}
 > FT.SEARCH idx:bicycle "@price:[(1000 +inf]"
  1) (integer) 5
  2) "bicycle:1"
@@ -111,7 +111,7 @@ For bicycles with a price greater than 1000 USD (`price > 1000`), you can use:
 
 The example below returns bicycles with a price lower than or equal to 2000 USD (`price <= 2000`) by returning the five cheapest bikes:
 
-{{< clients-example set="query_range" step="range4" description="Sorting and pagination: Combine range queries with SORTBY and LIMIT to retrieve sorted results in pages when you need to handle large result sets efficiently" difficulty="intermediate" max_lines="10" >}}
+{{< clients-example set="query_range" step="range4" description="Sorting and pagination: Combine range queries with SORTBY and LIMIT to retrieve sorted results in pages when you need to handle large result sets efficiently" difficulty="intermediate" max_lines="10" runnable="false" >}}
 > FT.SEARCH idx:bicycle "@price:[-inf 2000]" SORTBY price LIMIT 0 5
  1) (integer) 7
  2) "bicycle:0"
@@ -143,4 +143,4 @@ The example below returns bicycles with a price lower than or equal to 2000 USD 
 
 ## Non-numeric range queries
 
-You can learn more about non-numeric range queries, such as [geospatial]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}}) or [vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}}) queries, in their dedicated articles.
+You can learn more about non-numeric range queries, such as [geospatial](/content/develop/ai/search-and-query/query/geo-spatial.md) or [vector search](/content/develop/ai/search-and-query/query/vector-search.md) queries, in their dedicated articles.

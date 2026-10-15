@@ -70,18 +70,18 @@ is name of the configuration option, or '*' for all.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of help information.
+[Array](/content/develop/reference/protocol-spec.md#arrays) of help information.
 
 -tab-sep-
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of help information.
+[Array](/content/develop/reference/protocol-spec.md#arrays) of help information.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) 
+[`FT.CONFIG SET`](/content/commands/ft.config-set.md) | [`FT.CONFIG GET`](/content/commands/ft.config-get.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

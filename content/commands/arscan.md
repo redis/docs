@@ -50,13 +50,16 @@ key_specs:
   - ACCESS
 linkTitle: ARSCAN
 reply_schema:
-  description: 'Flat array of index-value pairs: [idx1, val1, idx2, val2, ...]'
+  description: Array of [index, value] pairs.
   items:
-    oneOf:
+    items:
     - description: Index of existing element
       type: integer
     - description: Value at that index
       type: string
+    maxItems: 2
+    minItems: 2
+    type: array
   type: array
 since: 8.8.0
 summary: Iterates existing elements in a range, returning index-value pairs.
@@ -96,11 +99,24 @@ The maximum number of index-value pairs to return. When omitted, all elements in
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "a"
-ARSET myarray 5 "b"
-ARSET myarray 9 "c"
-ARSCAN myarray 0 10
-ARSCAN myarray 0 10 LIMIT 2
+redis> ARSET myarray 0 "a"
+(integer) 1
+redis> ARSET myarray 5 "b"
+(integer) 1
+redis> ARSET myarray 9 "c"
+(integer) 1
+redis> ARSCAN myarray 0 10
+1) 1) (integer) 0
+   2) "a"
+2) 1) (integer) 5
+   2) "b"
+3) 1) (integer) 9
+   2) "c"
+redis> ARSCAN myarray 0 10 LIMIT 2
+1) 1) (integer) 0
+   2) "a"
+2) 1) (integer) 5
+   2) "b"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -115,10 +131,10 @@ ARSCAN myarray 0 10 LIMIT 2
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Flat array of index-value pairs: [idx1, val1, idx2, val2, ...]
+[Array reply](../../develop/reference/protocol-spec#arrays): Array of index-value pairs, each a two-element array: `[[idx1, val1], [idx2, val2], ...]`
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Flat array of index-value pairs: [idx1, val1, idx2, val2, ...]
+[Array reply](../../develop/reference/protocol-spec#arrays): Array of index-value pairs, each a two-element array: `[[idx1, val1], [idx2, val2], ...]`
 
 {{< /multitabs >}}

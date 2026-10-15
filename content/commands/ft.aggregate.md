@@ -492,9 +492,8 @@ title: FT.AGGREGATE
 
 Run a search query on an index and perform aggregate transformations on the results.
 
-{{< note >}}
-This command will only return keys to which the user has read access.
-{{< /note >}}
+> [!NOTE]
+> This command will only return keys to which the user has read access.
 
 [Examples](#examples)
 
@@ -503,7 +502,7 @@ This command will only return keys to which the user has read access.
 <details open>
 <summary><code>index</code></summary>
 
-is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is index name against which the query is executed. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
@@ -528,7 +527,7 @@ loads document attributes from the source document.
  - `property` is the optional name used in the result. If it is not provided, the `identifier` is used. This should be avoided.
  - If `*` is used as `nargs`, all attributes in a document are loaded.
 
-Attributes needed for aggregations should be stored as `SORTABLE`, where they are available to the aggregation pipeline with very low latency. `LOAD` hurts the performance of aggregate queries considerably because every processed record needs to execute the equivalent of [`HMGET`]({{< relref "/commands/hmget" >}}) against a Redis key, which when executed over millions of keys, amounts to high processing times.
+Attributes needed for aggregations should be stored as `SORTABLE`, where they are available to the aggregation pipeline with very low latency. `LOAD` hurts the performance of aggregate queries considerably because every processed record needs to execute the equivalent of [`HMGET`](/content/commands/hmget.md) against a Redis key, which when executed over millions of keys, amounts to high processing times.
 
 <details open>
 <summary><code>GROUPBY {nargs} {property}</code></summary> 
@@ -542,7 +541,7 @@ groups the results in the pipeline based on one or more properties. Each group s
 
 reduces the matching results in each group into a single record, using a reduction function. For example, `COUNT` counts the number of records in the group. The reducers can have their own property names using the `AS {name}` optional argument. If a name is not given, the resulting name will be the name of the reduce function and the group properties. For example, if a name is not given to `COUNT_DISTINCT` by property `@foo`, the resulting name will be `count_distinct(@foo)`.
   
-See [Supported GROUPBY reducers]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.
+See [Supported GROUPBY reducers](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#supported-groupby-reducers) for more details.
 </details>
 
 <details open>
@@ -576,7 +575,7 @@ applies a 1-to-1 transformation on one or more properties and either stores the 
 `expr` is an expression that can be used to perform arithmetic operations on numeric properties, or functions that can be applied on properties depending on their types (see below), or any combination thereof. For example, `APPLY "sqrt(@foo)/log(@bar) + 5" AS baz` evaluates this expression dynamically for each record in the pipeline and store the result as a new property called `baz`, which can be referenced by further `APPLY`/`SORTBY`/`GROUPBY`/`REDUCE` operations down the
   pipeline.
 
-See [APPLY expressions]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations/#apply-expressions" >}}) for details.
+See [APPLY expressions](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#apply-expressions) for details.
 </details>
 
 <details open>
@@ -600,7 +599,7 @@ filters the results using predicate expressions relating to values in each resul
 <summary><code>WITHCURSOR {COUNT} {read_size} [MAXIDLE {idle_time}]</code></summary> 
 
 Scan part of the results with a quicker alternative than `LIMIT`.
-See [Cursor API]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
+See [Cursor API](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#cursor-api) for more details.
 </details>
 
 <details open>
@@ -620,7 +619,7 @@ You can reference parameters in the `query` by a `$`, followed by the parameter 
 <details open>
 <summary><code>SCORER {scorer}</code></summary>
 
-uses a [built-in]({{< relref "/develop/ai/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}) scoring function.
+uses a [built-in](/content/develop/ai/search-and-query/advanced-concepts/scoring.md) or a [user-provided](/content/develop/ai/search-and-query/administration/extensions.md) scoring function.
 </details>
 
 <details open>
@@ -635,13 +634,13 @@ You can use `@__score` in a pipeline as shown in the following example:
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/content/commands/ft.config-set.md) command.
 </details>
 
 ## Return multiple values
 
-See [Return multiple values]({{< relref "commands/ft.search#return-multiple-values/" >}}) in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
-The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
+See [Return multiple values](/content/commands/ft.search.md#return-multiple-values/) in [`FT.SEARCH`](/content/commands/ft.search.md)
+The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`](/content/commands/ft.config-set.md) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
 
 ```sh
@@ -824,29 +823,29 @@ In this example:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each row is an array reply representing a single aggregate result. The [integer reply]({{< relref "develop/reference/protocol-spec#resp-integers" >}}) at position `1` does not represent a valid value.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) where each row is an array reply representing a single aggregate result. The [integer reply](/content/develop/reference/protocol-spec.md#resp-integers) at position `1` does not represent a valid value.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
-    - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names.
-    - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format.
-    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing aggregated data.
-    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results.
-    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with the following fields:
+    - `attributes`: [Array](/content/develop/reference/protocol-spec.md#arrays) of attribute names.
+    - `format`: [Simple string](/content/develop/reference/protocol-spec.md#simple-strings) - result format.
+    - `results`: [Array](/content/develop/reference/protocol-spec.md#arrays) of [maps](/content/develop/reference/protocol-spec.md#maps) containing aggregated data.
+    - `total_results`: [Integer](/content/develop/reference/protocol-spec.md#integers) - total number of results.
+    - `warning`: [Array](/content/develop/reference/protocol-spec.md#arrays) of warning messages.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existent index, invalid query syntax.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
+[`FT.CONFIG SET`](/content/commands/ft.config-set.md) | [`FT.SEARCH`](/content/commands/ft.search.md)
 
 ## Related topics
 
-- [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
-- [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
-- [RediSearch]({{< relref "/develop/ai/search-and-query" >}})
-- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+- [Aggregations](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md)
+- [Key and field expiration behavior](/content/develop/ai/search-and-query/advanced-concepts/expiration.md)
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)
+- [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)

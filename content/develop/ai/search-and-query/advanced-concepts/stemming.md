@@ -29,7 +29,7 @@ For further details see the [Snowball Stemmer website](https://snowballstem.org/
 Stemming maps different forms of the same word to a common root - "stem" - for example, the English stemmer maps *studied* ,*studies* and *study* to *studi* . So a searching for *studied* would also find documents which only have the other forms.
 
 
-In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE]({{< relref "commands/ft.create" >}}) syntax.
+In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE](/content/commands/ft.create.md) syntax.
 
 **Create a index with language definition**
 
@@ -84,6 +84,7 @@ The following languages are supported and can be passed to the engine when index
 * `armenian`
 * `basque`
 * `catalan`
+* `chinese` (see below)
 * `danish`
 * `dutch`
 * `english`
@@ -97,6 +98,7 @@ The following languages are supported and can be passed to the engine when index
 * `irish`
 * `italian`
 * `lithuanian`
+* `malay`
 * `nepali`
 * `norwegian`
 * `portuguese`
@@ -105,10 +107,10 @@ The following languages are supported and can be passed to the engine when index
 * `serbian`
 * `spanish`
 * `swedish`
+* `tagalog`
 * `tamil`
 * `turkish`
 * `yiddish`
-* `chinese` (see below)
 
 ## Chinese support
 

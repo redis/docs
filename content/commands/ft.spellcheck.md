@@ -84,14 +84,14 @@ is index with the indexed terms.
 is search query.
 </details>
 
-See [Spellchecking]({{< relref "/develop/ai/search-and-query/advanced-concepts/spellcheck" >}}) for more details.
+See [Spellchecking](/content/develop/ai/search-and-query/advanced-concepts/spellcheck.md) for more details.
 
 ## Optional arguments
 
 <details open>
 <summary><code>TERMS</code></summary>
 
-specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}), [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}), and [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}}).
+specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`](/content/commands/ft.dictadd.md), [`FT.DICTDEL`](/content/commands/ft.dictdel.md), and [`FT.DICTDUMP`](/content/commands/ft.dictdump.md).
 
 You can specify multiple inclusion and exclusion `TERMS`.
 </details>
@@ -105,7 +105,7 @@ is maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/content/commands/ft.config-set.md) command.
 </details>
 
 ## Return
@@ -144,22 +144,22 @@ The score is calculated by dividing the number of documents in which the suggest
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of spell check results for each term.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of spell check results for each term.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with a `results` key containing spell check results for each term.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with a `results` key containing spell check results for each term.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
+[`FT.CONFIG SET`](/content/commands/ft.config-set.md) | [`FT.DICTADD`](/content/commands/ft.dictadd.md) | [`FT.DICTDEL`](/content/commands/ft.dictdel.md) | [`FT.DICTDUMP`](/content/commands/ft.dictdump.md)
 
 ## Related topics
 
-- [Spellchecking]({{< relref "/develop/ai/search-and-query/advanced-concepts/spellcheck" >}})
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Spellchecking](/content/develop/ai/search-and-query/advanced-concepts/spellcheck.md)
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)

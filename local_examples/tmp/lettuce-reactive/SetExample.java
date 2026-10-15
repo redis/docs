@@ -108,6 +108,13 @@ public class SetExample {
             sAddSMembers.block();
 
             // STEP_START smismember
+            // Recreate the set so this example runs on its own. Block it
+            // sequentially: a DEL inside the shared Mono.when() below would
+            // race the sibling reads on the same key.
+            reactiveCommands.del("bikes:racing:france")
+                    .then(reactiveCommands.sadd("bikes:racing:france", "bike:1", "bike:2", "bike:3"))
+                    .block();
+
             Mono<Boolean> sIsMember3 = reactiveCommands.sismember("bikes:racing:france", "bike:1").doOnNext(result -> {
                 System.out.println(result); // >>> true
                 // REMOVE_START

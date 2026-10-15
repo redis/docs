@@ -11,7 +11,7 @@ weight: 90
 ---
 
 Smart client handoffs (SCH) is a feature of Redis Cloud and Redis Software servers that lets them actively notify clients about planned server maintenance shortly before it happens. This lets a client reconnect or otherwise respond gracefully without significant interruptions in service.
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for more information about SCH.
+See [Smart client handoffs](/content/develop/clients/sch.md) for more information about SCH.
 
 SCH is supported for Redis Software from v8.0.2 on, and OSS Cluster API from v8.0.16 on.
 The degree of support for SCH depends on the specific upgrade method you use, as detailed in the table below.
@@ -19,7 +19,7 @@ The degree of support for SCH depends on the specific upgrade method you use, as
 {{< embed-md "rs-sch-support.md" >}}
 
 To enable SCH on a Redis Software server, you must use the
-[/v1/cluster]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}})
+[/v1/cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster)
 REST API request to set the `client_maint_notifications` option to `true`.
 The example below shows how to do this using the
 [`curl`](https://curl.se/) command line utility:
@@ -31,3 +31,7 @@ curl -k -X PUT -H "accept: application/json" \
     -d '{ "client_maint_notifications": true }' \
     https://<host>:<port>/v1/cluster
 ```
+
+## Known limitations
+
+During a rolling upgrade with SCH enabled, when some slot's shards have migrated to a different node but are still reachable from their original node, results of the `SCAN` command might be inconsistent: it might show some of the keys, it might show keys that are not reachable from that node, or it might show no keys. When the slot migration is done, this issue will fix itself.

@@ -59,9 +59,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello world"
-STRLEN mykey
-STRLEN nonexisting
+redis> SET mykey "Hello world"
+OK
+redis> STRLEN mykey
+(integer) 11
+redis> STRLEN nonexisting
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

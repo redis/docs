@@ -44,5 +44,5 @@ The latest release adds enterprise-oriented capabilities:
 
 ## What to read next
 
-- [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}})
-- [Connect providers]({{< relref "/develop/ai/featureform/streaming" >}})
+- [Quickstart](/content/develop/ai/featureform/quickstart.md)
+- [Register providers](/content/develop/ai/featureform/register-providers/_index.md)

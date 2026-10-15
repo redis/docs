@@ -211,7 +211,7 @@ For details on this platform, see the [TKG documentation](https://docs.vmware.co
 
 ## VMware Tanzu Kubernetes Grid Integrated Edition (TKGI)
 
-For details on this platform, see the [TKGI documentation](https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html).
+For details on this platform, see the [TKGI documentation](https://techdocs.broadcom.com/us/en/vmware-tanzu/standalone-components/tanzu-kubernetes-grid-integrated-edition/1-25/tkgi/index.html).
 
 {{<table-scrollable>}}| Redis operator | **<nobr>7.4.6-2</nobr>** | **<nobr>7.4.2-12</nobr>** | **<nobr>7.4.2-2</nobr>** | **<nobr>7.2.4-12</nobr>** | **<nobr>7.2.4-7</nobr>** | **<nobr>7.2.4-2</nobr>** | **<nobr>6.4.2-8</nobr>** | **<nobr>6.4.2-6</nobr>** | **<nobr>6.4.2-5</nobr>** | **<nobr>6.4.2-4</nobr>** | **<nobr>6.2.18-41</nobr>** | **<nobr>6.2.18-3</nobr>** | **<nobr>6.2.12-1</nobr>** | **<nobr>6.2.10-45</nobr>** | **<nobr>6.2.10-34</nobr>** | **<nobr>6.2.10-4</nobr>** | **<nobr>6.2.8-15</nobr>** | **<nobr>6.2.8-11</nobr>** | **<nobr>6.2.8-2</nobr>** | **<nobr>6.2.4-1</nobr>** |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -235,4 +235,4 @@ For details on this platform, see the [TKGI documentation](https://docs.vmware.c
 
 ## Supported upgrade paths
 
-   If you are using a version earlier than 6.2.10-45, [you must upgrade]({{< relref "/operate/kubernetes/7.4.6/upgrade" >}}) to 6.2.10-45 before you can upgrade to versions 6.2.18 or later.
+   If you are using a version earlier than 6.2.10-45, [you must upgrade](/content/operate/kubernetes/7.4.6/upgrade/_index.md) to 6.2.10-45 before you can upgrade to versions 6.2.18 or later.

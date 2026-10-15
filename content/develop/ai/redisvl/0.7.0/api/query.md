@@ -61,9 +61,8 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
 
 #### `dialect(dialect)`
 
@@ -378,9 +377,8 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
 
 #### `dialect(dialect)`
 

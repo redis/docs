@@ -37,7 +37,7 @@ GET /v1/crdb_tasks
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [CRDB task objects]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a JSON array of [CRDB task objects](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 #### Status codes {#get-all-status-codes}
 
@@ -80,7 +80,7 @@ The status of a completed task is kept for 500 seconds by default.
 
 ### Response {#get-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 ### Status codes {#get-status-codes} 
 

@@ -43,7 +43,7 @@ parts:
 
 The rest of this document covers the latency monitoring subsystem
 details. For more information about the general topic of Redis
-and latency, see [Redis latency problems troubleshooting]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}).
+and latency, see [Redis latency problems troubleshooting](/content/operate/oss_and_stack/management/optimization/latency.md).
 
 ## Events and time series
 
@@ -76,8 +76,8 @@ The framework monitors and logs latency spikes in the execution time of these ev
 * `aof-write-active-child`: the `write(2)` system call when there are active child processes.
 * `aof-write-alone`: the `write(2)` system call when no pending fsync and no active child process.
 * `aof-fstat`: the `fstat(2)` system call.
-* `aof-rename`: the `rename(2)` system call for renaming the temporary file after completing [`BGREWRITEAOF`](/commands/bgrewriteaof).
-* `aof-rewrite-diff-write`: writing the differences accumulated while performing [`BGREWRITEAOF`](/commands/bgrewriteaof).
+* `aof-rename`: the `rename(2)` system call for renaming the temporary file after completing [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md).
+* `aof-rewrite-diff-write`: writing the differences accumulated while performing [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md).
 * `active-defrag-cycle`: the active defragmentation cycle.
 * `expire-cycle`: the expiration cycle.
 * `eviction-cycle`: the eviction cycle.
@@ -98,13 +98,13 @@ Monitoring is turned off by default (threshold set to 0), even if the actual cos
 
 ## Report information with the LATENCY command
 
-The user interface to the latency monitoring subsystem is the [`LATENCY`](/commands/latency) command.
-Like many other Redis commands, [`LATENCY`](/commands/latency) accepts subcommands that modify its behavior. These subcommands are:
+The user interface to the latency monitoring subsystem is the [`LATENCY`](/content/commands/latency.md) command.
+Like many other Redis commands, [`LATENCY`](/content/commands/latency.md) accepts subcommands that modify its behavior. These subcommands are:
 
-* [`LATENCY LATEST`](/commands/latency-latest) - returns the latest latency samples for all events.
-* [`LATENCY HISTORY`](/commands/latency-history) - returns latency time series for a given event.
-* [`LATENCY RESET`](/commands/latency-reset) - resets latency time series data for one or more events.
-* [`LATENCY GRAPH`](/commands/latency-graph) - renders an ASCII-art graph of an event's latency samples.
-* [`LATENCY DOCTOR`](/commands/latency-doctor) - replies with a human-readable latency analysis report.
+* [`LATENCY LATEST`](/content/commands/latency-latest.md) - returns the latest latency samples for all events.
+* [`LATENCY HISTORY`](/content/commands/latency-history.md) - returns latency time series for a given event.
+* [`LATENCY RESET`](/content/commands/latency-reset.md) - resets latency time series data for one or more events.
+* [`LATENCY GRAPH`](/content/commands/latency-graph.md) - renders an ASCII-art graph of an event's latency samples.
+* [`LATENCY DOCTOR`](/content/commands/latency-doctor.md) - replies with a human-readable latency analysis report.
 
 Refer to each subcommand's documentation page for further information.

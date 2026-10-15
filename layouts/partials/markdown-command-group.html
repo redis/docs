@@ -55,39 +55,9 @@
       {{- $title = printf "%s commands" (title (replace $groupLower "-" " ")) -}}
     {{- end -}}
     
-    {{- /* Merge all command data sources */ -}}
-    {{- $allCommands := dict -}}
-    
-    {{- with $.Site.Data.commands_core -}}
-      {{- range $name, $cmd := . -}}
-        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
-      {{- end -}}
-    {{- end -}}
-    
-    {{- with $.Site.Data.commands_redisearch -}}
-      {{- range $name, $cmd := . -}}
-        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
-      {{- end -}}
-    {{- end -}}
-    
-    {{- with $.Site.Data.commands_redisjson -}}
-      {{- range $name, $cmd := . -}}
-        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
-      {{- end -}}
-    {{- end -}}
-    
-    {{- with $.Site.Data.commands_redistimeseries -}}
-      {{- range $name, $cmd := . -}}
-        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
-      {{- end -}}
-    {{- end -}}
-    
-    {{- with $.Site.Data.commands_redisbloom -}}
-      {{- range $name, $cmd := . -}}
-        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
-      {{- end -}}
-    {{- end -}}
-    
+    {{- /* All commands live in a single data file */ -}}
+    {{- $allCommands := $.Site.Data.commands -}}
+
     {{- /* Filter commands by group */ -}}
     {{- $matchedCommands := slice -}}
     {{- range $name, $cmd := $allCommands -}}

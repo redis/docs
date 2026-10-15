@@ -8,7 +8,9 @@ categories:
 description: null
 linktitle: Supported regions
 weight: 90
+bannerText: Note - The AWS `me-central-1` region is temporarily unavailable due to an ongoing AWS regional issue, even though it's listed as a supported region in the Middle East and Africa tab.
 ---
+<!--DOC-7056: remove bannerText once AWS resolves the regional issue-->
 
 Your choice of cloud provider and region may affect latency between your application and your database, and may affect what connectivity options are available for your database.
 
@@ -21,7 +23,7 @@ Redis Cloud supports databases on the following cloud providers:
 
 Redis Cloud supports databases in the following Amazon Web Services (AWS) regions.
 
-Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}), and [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}).
+Redis Cloud Pro databases on AWS support [VPC Peering](/content/operate/rc/security/vpc-peering.md#aws-vpc-peering), [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md), and [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md).
 
 {{< rc-supported-regions provider="aws" >}}
 
@@ -29,7 +31,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 Redis Cloud supports databases in the following Google Cloud regions.
 
-Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}).
+Redis Cloud Pro databases on Google Cloud support [VPC Peering](/content/operate/rc/security/vpc-peering.md#gcp-vpc-peering) and [Private Service Connect](/content/operate/rc/security/private-service-connect.md).
 
 {{< rc-supported-regions provider="gcp" >}}
 
@@ -39,8 +41,7 @@ Redis Cloud Essentials is available on the following Microsoft Azure regions:
 
 {{< rc-supported-regions provider="azure" >}}
 
-{{< note >}}
-Redis Cloud Pro is available on Azure through [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis/). See [Azure Managed Redis pricing](https://azure.microsoft.com/en-us/pricing/details/managed-redis/) to view the list of Azure regions that support Azure Managed Redis.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud Pro is available on Azure through [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis/). See [Azure Managed Redis pricing](https://azure.microsoft.com/en-us/pricing/details/managed-redis/) to view the list of Azure regions that support Azure Managed Redis.
 
 

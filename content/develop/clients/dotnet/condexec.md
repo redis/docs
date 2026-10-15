@@ -16,10 +16,10 @@ weight: 60
 ---
 
 Most Redis client libraries use transactions with the
-[`WATCH`]({{< relref "/commands/watch" >}}) command as the main way to prevent
-two clients writing to the same key at once (see [Transactions]({{< relref "develop/using-commands/transactions" >}}) for more information). Unfortunately, this approach is
+[`WATCH`](/content/commands/watch.md) command as the main way to prevent
+two clients writing to the same key at once (see [Transactions](/content/develop/using-commands/transactions.md) for more information). Unfortunately, this approach is
 difficult to use explicitly in `StackExchange.Redis`. Its
-[multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}}) system
+[multiplexing](/content/develop/clients/pools-and-muxing.md) system
 is highly efficient and convenient but can also cause bad interactions
 when different connections use watched transactions at the same time.
 
@@ -31,14 +31,14 @@ are explained in the sections below.
 
 Several commands have variants that only execute if the key they change
 already exists (or alternatively, if it doesn't already exist). For
-example, the [`SET`]({{< relref "/commands/set" >}}) command has the
-variants [`SETEX`]({{< relref "/commands/setex" >}}) (set when the key exists),
-and [`SETNX`]({{< relref "/commands/setnx" >}}) (set when the key doesn't exist).
+example, the [`SET`](/content/commands/set.md) command has the
+variants [`SETEX`](/content/commands/setex.md) (set when the key exists),
+and [`SETNX`](/content/commands/setnx.md) (set when the key doesn't exist).
 
 Instead of providing the different variants of these commands, `StackExchange.Redis`
 lets you add a `When` condition to the basic command to access its variants.
 The following example demonstrates this for the
-[`HashSet()`]({{< relref "/commands/hset" >}}) command.
+[`HashSet()`](/content/commands/hset.md) command.
 
 <!-- < clients-example pipe_trans_tutorial when_condition "C#" >}}
 < /clients-example >}} -->
@@ -63,7 +63,7 @@ The available conditions are `When.Exists`, `When.NotExists`, and the default
 
 `StackExchange.Redis` also supports a more extensive set of conditions that you
 can add to transactions. They are implemented internally using
-[`WATCH`]({{< relref "/commands/watch" >}}) commands in a way that is
+[`WATCH`](/content/commands/watch.md) commands in a way that is
 guaranteed to be safe, without interactions between different clients.
 Although conditions don't provide exactly the same behavior as
 explicit `WATCH` commands, they are convenient to use and execute
@@ -72,7 +72,7 @@ efficiently.
 The example below shows how to use the `AddCondition()` method on
 a transaction to let it run only if a specified hash key does not
 already exist. See
-[Pipelines and transactions]({{< relref "/develop/clients/dotnet/transpipe" >}})
+[Pipelines and transactions](/content/develop/clients/dotnet/transpipe.md)
 for more information about transactions.
 
 <!--< clients-example pipe_trans_tutorial trans_watch "C#" >}}

@@ -177,7 +177,7 @@ The following are possible `error_code` values:
 |------|-------------|
 | no_quorum | Master healthcheck failed (no quorum in the cluster) |
 | db_not_found | Database does not exist in the cluster |
-| bdb_unavailable | Database is not available | 
+| bdb_unavailable | Database is not available. The `error_code` identifies why: it appends `_shard_unreachable` when a primary (master) shard is unreachable and `_port_unbound` when the endpoint's listener port is not bound. For example, `bdb_unavailable_shard_unreachable`, `bdb_unavailable_port_unbound`, or `bdb_unavailable_shard_unreachable_port_unbound`. The `description` names the same reasons, for example `Endpoint error status: shard unreachable, port unbound`. |
 
 ### Status codes {#get-db-status-codes}
 

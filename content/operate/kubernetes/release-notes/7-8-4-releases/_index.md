@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 7.8.4 release notes
 weight: 93
 ---
 
-Redis Enterprise for Kubernetes 7.8.4-8 includes bug fixes, enhancements, and support for [Redis Enterprise Software version 7.8.4]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
+Redis Enterprise for Kubernetes 7.8.4-8 includes bug fixes, enhancements, and support for [Redis Enterprise Software version 7.8.4](/content/operate/rs/release-notes/rs-7-8-releases/_index.md).
 
 ## Detailed release notes
 
@@ -27,7 +27,7 @@ Redis Enterprise for Kubernetes 7.8.4-8 includes bug fixes, enhancements, and su
 - Database version 7.2 or later.
 - RHEL9 compatible binaries for any modules you need.
 
-See [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster">}}) for detailed steps to upgrade to 7.8.4-8.
+See [Upgrade Redis Enterprise for Kubernetes](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md) for detailed steps to upgrade to 7.8.4-8.
 
 ### Deprecations
 

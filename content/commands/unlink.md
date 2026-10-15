@@ -52,15 +52,14 @@ summary: Asynchronously deletes one or more keys.
 syntax_fmt: UNLINK key [key ...]
 title: UNLINK
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.
-Just like [`DEL`]({{< relref "/commands/del" >}}) a key is ignored if it does not exist. However the command
+This command is very similar to [`DEL`](/content/commands/del.md): it removes the specified keys.
+Just like [`DEL`](/content/commands/del.md) a key is ignored if it does not exist. However the command
 performs the actual memory reclaiming in a different thread, so it is not
-blocking, while [`DEL`]({{< relref "/commands/del" >}}) is. This is where the command name comes from: the
+blocking, while [`DEL`](/content/commands/del.md) is. This is where the command name comes from: the
 command just unlinks the keys from the keyspace. The actual removal
 will happen later asynchronously.
 
@@ -75,9 +74,12 @@ One or more keys to delete asynchronously.
 ## Examples
 
 {{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-UNLINK key1 key2 key3
+redis> SET key1 "Hello"
+OK
+redis> SET key2 "World"
+OK
+redis> UNLINK key1 key2 key3
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

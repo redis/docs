@@ -48,7 +48,7 @@ syntax_fmt: GETDEL key
 title: GETDEL
 ---
 Get the value of `key` and delete the key.
-This command is similar to [`GET`]({{< relref "/commands/get" >}}), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
+This command is similar to [`GET`](/content/commands/get.md), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
 
 ## Required arguments
 
@@ -61,9 +61,12 @@ The name of the key to get and then delete.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-GETDEL mykey
-GET mykey
+redis> SET mykey "Hello"
+OK
+redis> GETDEL mykey
+"Hello"
+redis> GET mykey
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

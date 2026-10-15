@@ -59,7 +59,7 @@ title: GETSET
 Atomically sets `key` to `value` and returns the old value stored at `key`.
 Returns an error when `key` exists but does not hold a string value.  Any 
 previous time to live associated with the key is discarded on successful 
-[`SET`]({{< relref "/commands/set" >}}) operation.
+[`SET`](/content/commands/set.md) operation.
 
 ## Required arguments
 
@@ -78,23 +78,29 @@ The new value to set.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-GETSET mykey "World"
-GET mykey
+redis> SET mykey "Hello"
+OK
+redis> GETSET mykey "World"
+"Hello"
+redis> GET mykey
+"World"
 {{% /redis-cli %}}
 
 ## Details
 
 ### Design pattern
 
-You can use GETSET with [INCR]({{< relref "/commands/incr" >}}) to count events and reset the counter atomically.
-For example, you can call [INCR]({{< relref "/commands/incr" >}}) on the key `mycounter` each time an event occurs. When you need to read the counter value and reset it to zero atomically, call GETSET.
+You can use GETSET with [INCR](/content/commands/incr.md) to count events and reset the counter atomically.
+For example, you can call [INCR](/content/commands/incr.md) on the key `mycounter` each time an event occurs. When you need to read the counter value and reset it to zero atomically, call GETSET.
 This can be done using `GETSET mycounter "0"`:
 
 {{% redis-cli %}}
-INCR mycounter
-GETSET mycounter "0"
-GET mycounter
+redis> INCR mycounter
+(integer) 1
+redis> GETSET mycounter "0"
+"1"
+redis> GET mycounter
+"0"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

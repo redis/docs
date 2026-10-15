@@ -67,9 +67,12 @@ The field to check for existence.
 ## Examples
 
 {{% redis-cli %}}
-HSET myhash field1 "foo"
-HEXISTS myhash field1
-HEXISTS myhash field2
+redis> HSET myhash field1 "foo"
+(integer) 1
+redis> HEXISTS myhash field1
+(integer) 1
+redis> HEXISTS myhash field2
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -49,6 +49,9 @@ public class StringSnippets
         //REMOVE_END
 
         //STEP_START setnx_xx
+        // Recreate the bike:1 key so this example runs on its own.
+        db.StringSet("bike:1", "Deimos");
+
         var res3 = db.StringSet("bike:1", "bike", when: When.NotExists);
         Console.WriteLine(res3); // false
         Console.WriteLine(db.StringGet("bike:1"));
@@ -59,6 +62,28 @@ public class StringSnippets
         //REMOVE_START
         Assert.False(res3);
         Assert.True(res4);
+        //REMOVE_END
+
+        //STEP_START cas_cad
+        db.StringSet("bike:1", "Deimos");
+
+        var res9 = db.StringSet("bike:1", "Ares", when: ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res9); // True
+        var res10 = db.StringSet("bike:1", "Zeus", when: ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res10); // False
+        Console.WriteLine(db.StringGet("bike:1")); // Ares
+
+        var res11 = db.StringDelete("bike:1", ValueCondition.Equal("Deimos"));
+        Console.WriteLine(res11); // False
+        var res12 = db.StringDelete("bike:1", ValueCondition.Equal("Ares"));
+        Console.WriteLine(res12); // True
+        //STEP_END
+
+        //REMOVE_START
+        Assert.True(res9);
+        Assert.False(res10);
+        Assert.False(res11);
+        Assert.True(res12);
         //REMOVE_END
 
         //STEP_START mset

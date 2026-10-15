@@ -90,10 +90,14 @@ Since the `increment` argument is signed, both increment and decrement
 operations can be performed:
 
 {{% redis-cli %}}
-HSET myhash field 5
-HINCRBY myhash field 1
-HINCRBY myhash field -1
-HINCRBY myhash field -10
+redis> HSET myhash field 5
+(integer) 1
+redis> HINCRBY myhash field 1
+(integer) 6
+redis> HINCRBY myhash field -1
+(integer) 5
+redis> HINCRBY myhash field -10
+(integer) -5
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

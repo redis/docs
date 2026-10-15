@@ -25,14 +25,14 @@ topics:
 weight: 30
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -45,18 +45,18 @@ Redis Search.  The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
-`go-redis` uses query dialect 2 by default.
-Redis Search methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
+> `go-redis` uses query dialect 2 by default.
+> Redis Search methods such as [`FTSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
-First, install [`go-redis`]({{< relref "/develop/clients/go" >}})
+First, install [`go-redis`](/content/develop/clients/go/_index.md)
 if you haven't already done so. Then, install
 [`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot)
 using the following command:
@@ -74,7 +74,7 @@ Add the following imports to your module's main program file:
 
 The `Hugot` model outputs the embeddings as a
 `[]float32` array. If you are storing your documents as
-[hash]({{< relref "/develop/data-types/hashes" >}}) objects, then you
+[hash](/content/develop/data-types/hashes.md) objects, then you
 must convert this array to a `byte` string before adding it as a hash field.
 The function shown below uses Go's [`binary`](https://pkg.go.dev/encoding/binary)
 package to produce the `byte` string:
@@ -82,7 +82,7 @@ package to produce the `byte` string:
 {{< clients-example set="home_query_vec" step="helper" lang_filter="Go" description="Foundational: Create a helper function to convert float32 embeddings to binary format for hash storage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-Note that if you are using [JSON]({{< relref "/develop/data-types/json" >}})
+Note that if you are using [JSON](/content/develop/data-types/json/_index.md)
 objects to store your documents instead of hashes, then you should store
 the `[]float32` array directly without first converting it to a `byte`
 string (see [Differences with JSON documents](#differences-with-json-documents)
@@ -99,12 +99,12 @@ created with the name `vector_idx`:
 Next, create the index.
 The schema in the example below specifies hash objects for storage and includes
 three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index)
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
@@ -124,7 +124,7 @@ model:
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`HSet()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`HSet()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `RunPipeline()` method of `FeatureExtractionPipeline`
@@ -149,7 +149,7 @@ results in order of this numeric similarity value.
 The code below creates the query embedding using `RunPipeline()`, as with
 the indexing, and passes it as a parameter when the query executes
 (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 
 {{< clients-example set="home_query_vec" step="query" lang_filter="Go" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
@@ -176,7 +176,7 @@ is the result that is most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modelling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths (using the `As` option) to avoid typing it in full for
 every query. Also, you must set `OnJSON` to `true` when you create the index.
@@ -187,8 +187,8 @@ the one created previously for hashes:
 {{< clients-example set="home_query_vec" step="json_index" lang_filter="Go" description="Foundational: Create a vector search index for JSON documents with OnJSON option and JSON path specifications" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-Use [`JSONSet()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`HSet()`]({{< relref "/commands/hset" >}}). The maps
+Use [`JSONSet()`](/content/commands/json.set.md) to add the data
+instead of [`HSet()`](/content/commands/hset.md). The maps
 that specify the fields have the same structure as the ones used for `HSet()`.
 
 An important difference with JSON indexing is that the vectors are
@@ -221,6 +221,6 @@ ID: jdoc:2, Distance:43.7771987915, Content:'Today is a sunny day'
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.

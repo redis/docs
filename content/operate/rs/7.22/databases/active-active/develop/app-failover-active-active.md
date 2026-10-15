@@ -39,9 +39,8 @@ Replication failures are more difficult to detect reliably without causing false
 
 The most reliable method for health-checking replication is by using the Redis publish/subscribe (pub/sub) mechanism.
 
-{{< note >}}
-Note that this document does not suggest that Redis pub/sub is reliable in the common sense. Messages can get lost in certain conditions, but that is acceptable in this case because typically the application determines that replication is down only after not being able to deliver a number of messages over a period of time.
-{{< /note >}}
+> [!NOTE]
+> Note that this document does not suggest that Redis pub/sub is reliable in the common sense. Messages can get lost in certain conditions, but that is acceptable in this case because typically the application determines that replication is down only after not being able to deliver a number of messages over a period of time.
 
 When you use the pub/sub data type to detect failures, the application:
 
@@ -75,10 +74,6 @@ It's best if your application doesn't read its own recent writes. Those writes c
 
 1. Lost forever, if the local replica has an event such as a double failure or loss of persistent files.
 1. Temporarily unavailable, but will be available at a later time if the local replica's failure is temporary.
-
-<!--- {{< note >}}
-Sample code that maps a hash slot to a key name can be found in this Python script.
-{{< /note >}} --->
 
 ## Failback decision
 

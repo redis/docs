@@ -67,9 +67,8 @@ summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
 title: RENAMENX
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Renames `key` to `newkey` if `newkey` does not yet exist.
@@ -94,10 +93,14 @@ The new key name. The command fails if a key with this name already exists.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-SET myotherkey "World"
-RENAMENX mykey myotherkey
-GET myotherkey
+redis> SET mykey "Hello"
+OK
+redis> SET myotherkey "World"
+OK
+redis> RENAMENX mykey myotherkey
+(integer) 0
+redis> GET myotherkey
+"World"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

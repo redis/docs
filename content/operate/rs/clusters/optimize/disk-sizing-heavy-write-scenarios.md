@@ -10,9 +10,9 @@ description: Sizing considerations for persistent disk space for heavy throughpu
 linktitle: Disk sizing
 weight: $weight
 ---
-In extreme write scenarios when append-only files (AOF) are enabled, the AOF rewrite process can require considerably more disk space for [database persistence]({{<relref "/operate/rs/databases/configure/database-persistence/">}}).
+In extreme write scenarios when append-only files (AOF) are enabled, the AOF rewrite process can require considerably more disk space for [database persistence](/content/operate/rs/databases/configure/database-persistence.md).
 
-For disk size requirements for standard usage, see [Hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
+For disk size requirements for standard usage, see [Hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md).
 
 ## Estimate required disk space
 

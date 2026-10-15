@@ -20,16 +20,15 @@ weight: 28
 
 Tag fields provide exact match search capabilities with high performance and memory efficiency. Use tag fields when you need to filter documents by specific values without the complexity of full-text search tokenization.
 
-Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character. This approach enables simpler [tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping/#tokenization-rules-for-tag-fields" >}}) and encoding, making tag indexes much more efficient than full-text indexes. Note: even though tag and text fields both use text, they are two separate field types and so you don't query them the same way.
+Tag fields interpret text as a simple list of *tags* delimited by a [separator](#separator-options) character. This approach enables simpler [tokenization](/content/develop/ai/search-and-query/advanced-concepts/escaping.md#tokenization-rules-for-tag-fields) and encoding, making tag indexes much more efficient than full-text indexes. Note: even though tag and text fields both use text, they are two separate field types and so you don't query them the same way.
 
-{{% alert title="Important: Different defaults for HASH vs JSON" color="warning" %}}
-- The default separator for hash documents is a comma (`,`).
-- There is no default separator for JSON documents. You must explicitly specify one if needed.
-
-Specifying a tag from the text `"foo,bar"` behaves differently:
-- For hash documents, two tags are created: `"foo"` and `"bar"`.
-- For JSON documents, one tag is created: `"foo,bar"` (unless you add `SEPARATOR ","`).
-{{% /alert %}}
+> [!NOTE] Important: Different defaults for HASH vs JSON
+> - The default separator for hash documents is a comma (`,`).
+> - There is no default separator for JSON documents. You must explicitly specify one if needed.
+>
+> Specifying a tag from the text `"foo,bar"` behaves differently:
+> - For hash documents, two tags are created: `"foo"` and `"bar"`.
+> - For JSON documents, one tag is created: `"foo,bar"` (unless you add `SEPARATOR ","`).
 
 ## Tag fields vs text fields
 
@@ -347,7 +346,7 @@ FT.SEARCH products "@tags:{ Top\\ Rated\\ Product }"
 - **Test your queries**: Verify escaping works with your specific characters
 - **Use consistent casing**: Decide on case sensitivity early in your design
 
-See [Query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax#tag-filters" >}}) for complete escaping rules.
+See [Query syntax](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md#tag-filters) for complete escaping rules.
 
 ## Performance and architecture considerations
 
@@ -423,6 +422,6 @@ FT.SEARCH products "@category:{Electronics} @features:{RGB} @features:{SSD}"
 
 ## Next steps
 
-- Learn about [tokenization rules]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}}) for tag fields
-- Explore [field and type options]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}}) for other field types
-- See [query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}) for advanced query patterns
+- Learn about [tokenization rules](/content/develop/ai/search-and-query/advanced-concepts/escaping.md#tokenization-rules-for-tag-fields) for tag fields
+- Explore [field and type options](/content/develop/ai/search-and-query/indexing/field-and-type-options.md) for other field types
+- See [query syntax](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md) for advanced query patterns

@@ -26,15 +26,15 @@ Factors to consider when sizing your database:
 
 - **dataset size**: you want your limit to be above your dataset size to leave room for overhead.
 - **database throughput**: high throughput needs more shards, leading to a higher memory limit.
-- [**modules**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}): using modules with your database consumes more memory.
-- [**database clustering**]({{< relref "/operate/rs/7.22/databases/durability-ha/clustering.md" >}}): enables you to spread your data into shards across multiple nodes.
-- [**database replication**]({{< relref "/operate/rs/7.22/databases/durability-ha/replication.md" >}}): enabling replication doubles memory consumption.
+- [**modules**](/content/operate/oss_and_stack/stack-with-enterprise/_index.md): using modules with your database consumes more memory.
+- [**database clustering**](/content/operate/rs/7.22/databases/durability-ha/clustering.md): enables you to spread your data into shards across multiple nodes.
+- [**database replication**](/content/operate/rs/7.22/databases/durability-ha/replication.md): enabling replication doubles memory consumption.
 
 Additional factors for Active-Active databases:
 
-- [**Active-Active replication**]({{< relref "/operate/rs/7.22/databases/active-active/_index.md" >}}): enabling Active-Active replication requires double the memory of regular replication, which can be up to two times (2x) the original data size per instance.
-- [**database replication backlog**]({{< relref "/operate/rs/7.22/databases/active-active/manage#replication-backlog/" >}}) for synchronization between shards. By default, this is set to 1% of the database size.
-- [**Active-Active replication backlog**]({{< relref "/operate/rs/7.22/databases/active-active/manage.md" >}}) for synchronization between clusters. By default, this is set to 1% of the database size.
+- [**Active-Active replication**](/content/operate/rs/7.22/databases/active-active/_index.md): enabling Active-Active replication requires double the memory of regular replication, which can be up to two times (2x) the original data size per instance.
+- [**database replication backlog**](/content/operate/rs/7.22/databases/active-active/manage.md#replication-backlog/) for synchronization between shards. By default, this is set to 1% of the database size.
+- [**Active-Active replication backlog**](/content/operate/rs/7.22/databases/active-active/manage.md) for synchronization between clusters. By default, this is set to 1% of the database size.
 
   It's also important to know Active-Active databases have a lower threshold for activating the eviction policy, because it requires propagation to all participating clusters. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit.
 
@@ -42,7 +42,7 @@ Additional factors for  databases with Auto Tiering enabled:
 
 - The available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).
 
-- [**database persistence**]({{< relref "/operate/rs/7.22/databases/configure/database-persistence.md" >}}): Auto Tiering uses dual database persistence where both the primary and replica shards persist to disk. This may add some processor and network overhead, especially in cloud configurations with network attached storage.
+- [**database persistence**](/content/operate/rs/7.22/databases/configure/database-persistence.md): Auto Tiering uses dual database persistence where both the primary and replica shards persist to disk. This may add some processor and network overhead, especially in cloud configurations with network attached storage.
 
 ## What happens when Redis Enterprise Software is low on RAM?
 
@@ -50,9 +50,9 @@ Redis Enterprise Software manages node memory so that data is entirely in RAM (
 
 Redis Enterprise Software protects the existing data and prevents the database from being able to store data into the shards.
 
-You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy]({{< relref "/operate/rs/7.22/databases/memory-performance/eviction-policy.md" >}}) set on each database by the administrator.
+You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy](/content/operate/rs/7.22/databases/memory-performance/eviction-policy.md) set on each database by the administrator.
 
-[Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering/" >}})
+[Auto Tiering](/content/operate/rs/7.22/databases/auto-tiering/_index.md)
 manages memory so that you can also use flash memory (SSD) to store data.
 
 ### Order of events for low RAM
@@ -65,7 +65,7 @@ out of memory (OOM) messages.
 4. If shards can't free memory, Redis Enterprise relies on the OS processes to stop replicas,
 but tries to avoid stopping primary shards.
 
-We recommend that you have a [monitoring platform]({{< relref "/operate/rs/7.22/monitoring/" >}}) that alerts you before a system gets low on RAM.
+We recommend that you have a [monitoring platform](/content/operate/rs/7.22/monitoring/_index.md) that alerts you before a system gets low on RAM.
 You must maintain sufficient free memory to make sure that you have a healthy Redis Enterprise installation.
 
 ## Adaptive memory allocation
@@ -76,9 +76,9 @@ For example, when pushing data at approximately 100 MB/sec into a 2 GB database:
 - A database with 2 shards could reach 199% of its configured memory limit.
 - A database with 4 shards could reach around 220% of its configured memory limit.
 
-Databases should return to their configured memory limits after data is removed according to the [eviction policy]({{<relref "/operate/rs/7.22/databases/memory-performance/eviction-policy/">}}) and [time-to-live (TTL)]({{<relref "/develop/using-commands/keyspace#key-expiration">}}).
+Databases should return to their configured memory limits after data is removed according to the [eviction policy](/content/operate/rs/7.22/databases/memory-performance/eviction-policy.md) and [time-to-live (TTL)](/content/develop/using-commands/keyspace.md#key-expiration).
 
-If you observe this behavior, consider [monitoring]({{< relref "/operate/rs/7.22/monitoring/" >}}) memory usage and controlling the traffic load on the application side.
+If you observe this behavior, consider [monitoring](/content/operate/rs/7.22/monitoring/_index.md) memory usage and controlling the traffic load on the application side.
 
 ## Resharding duration factors
 
@@ -94,9 +94,8 @@ Resharding follows a three-stage process for each new shard:
 
 When resharding multiple shards (for example, expanding from 4 to 8 shards), this process runs serially for each new shard. The operation completes only after all stages finish for every shard.
 
-{{< note >}}
-Resharding is an atomic operation that cannot be interrupted. Database corruption can occur if the process fails or stops unexpectedly. Minimizing resharding time reduces this risk.
-{{< /note >}}
+> [!NOTE]
+> Resharding is an atomic operation that cannot be interrupted. Database corruption can occur if the process fails or stops unexpectedly. Minimizing resharding time reduces this risk.
 
 ### Resharding duration factors
 
@@ -116,13 +115,13 @@ The Cluster Manager UI provides metrics that can help you evaluate your memory u
 - Memory usage
 - Memory limit
 
-See [console metrics]({{< relref "/operate/rs/7.22/references/metrics" >}}) for more detailed information.
+See [console metrics](/content/operate/rs/7.22/references/metrics/_index.md) for more detailed information.
 
 ## Related info
 
-- [Memory and performance]({{< relref "/operate/rs/7.22/databases/memory-performance" >}})
-- [Disk sizing for heavy write scenarios]({{< relref "/operate/rs/7.22/clusters/optimize/disk-sizing-heavy-write-scenarios.md" >}})
-- [Turn off services to free system memory]({{< relref "/operate/rs/7.22/clusters/optimize/turn-off-services.md" >}})
-- [Eviction policy]({{< relref "/operate/rs/7.22/databases/memory-performance/eviction-policy.md" >}})
-- [Shard placement policy]({{< relref "/operate/rs/7.22/databases/memory-performance/shard-placement-policy.md" >}})
-- [Database persistence]({{< relref "/operate/rs/7.22/databases/configure/database-persistence.md" >}})
+- [Memory and performance](/content/operate/rs/7.22/databases/memory-performance/_index.md)
+- [Disk sizing for heavy write scenarios](/content/operate/rs/7.22/clusters/optimize/disk-sizing-heavy-write-scenarios.md)
+- [Turn off services to free system memory](/content/operate/rs/7.22/clusters/optimize/turn-off-services.md)
+- [Eviction policy](/content/operate/rs/7.22/databases/memory-performance/eviction-policy.md)
+- [Shard placement policy](/content/operate/rs/7.22/databases/memory-performance/shard-placement-policy.md)
+- [Database persistence](/content/operate/rs/7.22/databases/configure/database-persistence.md)

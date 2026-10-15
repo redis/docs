@@ -77,19 +77,18 @@ summary: Removes and returns a member by score from one or more sorted sets. Blo
 syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
+`BZMPOP` is the blocking variant of [`ZMPOP`](/content/commands/zmpop.md).
 
-When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
+When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`](/content/commands/zmpop.md).
+When used inside a [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) block or a Lua script, this command behaves exactly like [`ZMPOP`](/content/commands/zmpop.md).
 When all sorted sets are empty, Redis will block the connection until another client adds members to one of the keys or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 
-See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.
+See [`ZMPOP`](/content/commands/zmpop.md) for more information.
 
 ## Required arguments
 

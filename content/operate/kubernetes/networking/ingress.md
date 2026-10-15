@@ -11,9 +11,8 @@ linkTitle: Ingress routing
 weight: 5
 ---
 
-{{<warning>}}
-The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below.
-{{</warning>}}
+> [!WARNING]
+> The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below.
 
 ## Prerequisites
 
@@ -23,9 +22,10 @@ Before creating an Ingress, you'll need:
  - An Ingress controller with `ssl-passthrough` enabled. Options include:
     - [HAProxy Ingress](https://haproxy-ingress.github.io/docs/getting-started/)
     - [Ingress-NGINX Controller](https://kubernetes.github.io/ingress-nginx/deploy/) (retired; existing deployments only)
-    - To use Istio for your Ingress resources, see [Configure Istio for external routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}})
+    - To use Istio for your Ingress resources, see [Configure Istio for external routing](/content/operate/kubernetes/networking/istio-ingress.md)
 
-{{<note>}}Make sure your Ingress controller has `ssl-passthrough` enabled. It is on by default for HAProxy and off by default for Ingress-NGINX. For Ingress-NGINX, start the controller with the `--enable-ssl-passthrough` flag. See the [Ingress-NGINX TLS guide](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) for details.{{</note>}}
+> [!NOTE]
+> Make sure your Ingress controller has `ssl-passthrough` enabled. It is on by default for HAProxy and off by default for Ingress-NGINX. For Ingress-NGINX, start the controller with the `--enable-ssl-passthrough` flag. See the [Ingress-NGINX TLS guide](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) for details.
 
 ## Create an Ingress resource
 

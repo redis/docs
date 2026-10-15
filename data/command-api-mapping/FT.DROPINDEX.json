@@ -180,6 +180,41 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "drop(delete_documents: false)",
+        "params": [
+          {
+            "name": "delete_documents",
+            "type": "Boolean",
+            "description": "also delete the indexed documents (DD)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      },
+      {
+        "signature": "ft_dropindex(index_name, delete_documents: false)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "delete_documents",
+            "type": "Boolean",
+            "description": "also delete the indexed documents (DD)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }

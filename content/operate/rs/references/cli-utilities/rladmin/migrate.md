@@ -15,7 +15,7 @@ weight: $weight
 
 Moves Redis Software shards or endpoints to a new node in the same cluster.
 
-For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
+For more information about shard migration use cases and considerations, see [Migrate database shards](/content/operate/rs/databases/migrate-shards.md).
 
 ## `migrate all_master_shards`
 
@@ -41,7 +41,7 @@ rladmin migrate { db { db:<id> | <name> } | node <origin node ID> }
 
 Returns `Done` if the migration completed successfully. Otherwise, returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify the migration completed.
+Use [`rladmin status shards`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards) to verify the migration completed.
 
 ### Example
 
@@ -92,7 +92,7 @@ rladmin migrate node <origin node ID>
 
 Returns `Done` if the migration completed successfully. Otherwise, returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify the migration completed.
+Use [`rladmin status shards`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards) to verify the migration completed.
 
 ### Example
 
@@ -147,7 +147,7 @@ rladmin migrate { db { db:<id> | <name> } | node <origin node ID> }
 
 Returns `Done` if the migration completed successfully. Otherwise, returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify the migration completed.
+Use [`rladmin status shards`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards) to verify the migration completed.
 
 ### Example
 
@@ -201,7 +201,7 @@ rladmin migrate [ db { db:<id> | <name> } ]
 
 Returns a list of steps to perform the migration. If the `commit` flag is set, the steps will run and return `Finished successfully` if they were completed. Otherwise, returns an error.
 
-Use [`rladmin status endpoints`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the endpoints were moved.
+Use [`rladmin status endpoints`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-endpoints) to verify that the endpoints were moved.
 
 ### Example
 
@@ -247,7 +247,7 @@ rladmin migrate shard <id1.. idN>
 
 Returns `Done` if the migration completed successfully. Otherwise, returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify the migration completed.
+Use [`rladmin status shards`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards) to verify the migration completed.
 
 ### Example
 

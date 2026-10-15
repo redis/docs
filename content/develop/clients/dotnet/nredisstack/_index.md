@@ -16,23 +16,22 @@ title: NRedisStack extensions guide
 weight: 30
 ---
 
-[NRedisStack](https://github.com/redis/NRedisStack) is a library that builds upon [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis) and provides an API for the extended set of Redis data types and features, such as [JSON]({{< relref "/develop/data-types/json" >}}), [Redis search]({{< relref "/develop/ai/search-and-query" >}}),
-[probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}), and [Time series]({{< relref "/develop/data-types/timeseries" >}}).
+[NRedisStack](https://github.com/redis/NRedisStack) is a library that builds upon [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis) and provides an API for the extended set of Redis data types and features, such as [JSON](/content/develop/data-types/json/_index.md), [Redis search](/content/develop/ai/search-and-query/_index.md),
+[probabilistic data types](/content/develop/data-types/probabilistic/_index.md), and [Time series](/content/develop/data-types/timeseries/_index.md).
 The sections below explain how to install `NRedisStack`. Note that this also installs
 `StackExchange.Redis` as a dependency, so you don't need to install it as a separate step.
 
 `NRedisStack` requires a running Redis server. For production apps, provision
-a hosted Redis resource such as [Redis Cloud]({{< relref "/operate/rc" >}}) or
+a hosted Redis resource such as [Redis Cloud](/content/operate/rc/_index.md) or
 [Azure Managed Redis](https://learn.microsoft.com/en-us/azure/redis/overview). For
 local development and testing, you can also run Redis Open Source locally. See
-[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/" >}})
+[Install Redis Open Source](/content/operate/oss_and_stack/install/_index.md)
 for installation instructions.
 
-{{< note >}}
-You can also access Redis with an object-mapping client interface. See
-[Redis OM for .NET]({{< relref "/integrate/redisom-for-net" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> You can also access Redis with an object-mapping client interface. See
+> [Redis OM for .NET](/content/integrate/redisom-for-net/_index.md)
+> for more information.
 
 ## Install
 

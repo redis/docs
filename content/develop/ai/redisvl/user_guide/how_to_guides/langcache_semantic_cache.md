@@ -3,6 +3,7 @@ linkTitle: Use langcache as the llm cache backend
 title: Use LangCache as the LLM Cache Backend
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/13_langcache_semantic_cache
+- /develop/ai/redisvl/user_guide/langcache_semantic_cache/
 weight: 13
 ---
 

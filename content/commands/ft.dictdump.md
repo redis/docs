@@ -67,19 +67,19 @@ is dictionary name.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of dictionary terms.
+[Array](/content/develop/reference/protocol-spec.md#arrays) of dictionary terms.
 
 -tab-sep-
 
-[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of dictionary terms.
+[Set](/content/develop/reference/protocol-spec.md#sets) of dictionary terms.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})
+[`FT.DICTADD`](/content/commands/ft.dictadd.md) | [`FT.DICTDEL`](/content/commands/ft.dictdel.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)
 

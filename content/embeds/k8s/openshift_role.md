@@ -180,7 +180,6 @@ rules:
       - route.openshift.io
     resources:
       - routes
-      - routes/custom-host
     verbs:
       - create
       - delete
@@ -189,6 +188,13 @@ rules:
       - patch
       - update
       - watch
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes/custom-host
+    verbs:
+      - create
+      - update
   - apiGroups:
       - security.openshift.io
     resourceNames:

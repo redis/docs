@@ -67,9 +67,12 @@ The member to check for.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SISMEMBER myset "one"
-SISMEMBER myset "two"
+redis> SADD myset "one"
+(integer) 1
+redis> SISMEMBER myset "one"
+(integer) 1
+redis> SISMEMBER myset "two"
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

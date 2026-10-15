@@ -73,8 +73,13 @@ One or more zero-based integer indices of the elements to retrieve. The reply pr
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "a" 1 "b" 5 "c"
-ARMGET myarray 0 1 5 3
+redis> ARMSET myarray 0 "a" 1 "b" 5 "c"
+(integer) 3
+redis> ARMGET myarray 0 1 5 3
+1) "a"
+2) "b"
+3) "c"
+4) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

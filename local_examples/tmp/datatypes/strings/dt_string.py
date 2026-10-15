@@ -24,6 +24,9 @@ assert res2 == "Deimos"
 # REMOVE_END
 
 # STEP_START setnx_xx
+# Recreate the bike:1 key so this example runs on its own.
+r.set("bike:1", "Deimos")
+
 res3 = r.set("bike:1", "bike", nx=True)
 print(res3)  # None
 print(r.get("bike:1"))  # Deimos
@@ -34,6 +37,28 @@ print(res4)  # True
 # REMOVE_START
 assert res3 is None
 assert res4
+# REMOVE_END
+
+# STEP_START cas_cad
+r.set("bike:1", "Deimos")
+
+res9 = r.set("bike:1", "Ares", ifeq="Deimos")
+print(res9)  # True
+res10 = r.set("bike:1", "Zeus", ifeq="Deimos")
+print(res10)  # None
+print(r.get("bike:1"))  # Ares
+
+res11 = r.delex("bike:1", ifeq="Deimos")
+print(res11)  # 0
+res12 = r.delex("bike:1", ifeq="Ares")
+print(res12)  # 1
+# STEP_END
+
+# REMOVE_START
+assert res9
+assert res10 is None
+assert res11 == 0
+assert res12 == 1
 # REMOVE_END
 
 # STEP_START mset

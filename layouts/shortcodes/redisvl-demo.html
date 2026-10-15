@@ -1,0 +1,33 @@
+{{- /*
+  redisvl-demo
+  ------------
+  Scripted, dependency-free demo of RedisVL queries: a vector query over
+  restaurant descriptions, filter expressions, and a range query, each
+  with the RedisVL code, the FT.SEARCH command it sends, and the results.
+  Runs entirely in the browser on recorded data; no Redis server or
+  embedding model is called.
+
+  Usage (no arguments):
+      {{< redisvl-demo >}}
+
+  Base styles come from context-retriever-demo.css so the scripted demos
+  share one look; redisvl-demo.css adds this demo's pieces.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice if the shortcode is used more than once.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/redisvl-demo.css" "js/redisvl-demo.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/redisvl-demo.css" | relURL }}?v={{ index $v "css/redisvl-demo.css" }}">
+<script defer src="{{ "js/redisvl-demo.js" | relURL }}?v={{ index $v "js/redisvl-demo.js" }}"></script>
+
+<div class="rcr rvd" data-redisvl>
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>

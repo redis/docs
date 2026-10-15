@@ -11,20 +11,20 @@ weight: 20
 url: '/operate/kubernetes/8.0.18/reference/yaml/rack-awareness/'
 ---
 
-This page provides YAML examples for deploying Redis Enterprise with [rack awareness]({{< relref "/operate/kubernetes/8.0.18/recommendations/node-selection#using-rack-awareness" >}}). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
+This page provides YAML examples for deploying Redis Enterprise with [rack awareness](/content/operate/kubernetes/8.0.18/recommendations/node-selection.md#using-rack-awareness). Rack awareness distributes Redis Enterprise nodes and database shards across different availability zones or failure domains to improve high availability and fault tolerance.
 
 ## Prerequisites
 
 - Label [Kubernetes nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) with zone information
 - Typically uses the standard label `topology.kubernetes.io/zone`
 - Verify node labels: `kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.labels.topology\.kubernetes\.io/zone"`
-- Install the [Redis Enterprise operator]({{< relref "/operate/kubernetes/8.0.18/deployment" >}})
+- Install the [Redis Enterprise operator](/content/operate/kubernetes/8.0.18/deployment/_index.md)
 
-For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/8.0.18/deployment" >}}).
+For complete deployment instructions, see [Deploy on Kubernetes](/content/operate/kubernetes/8.0.18/deployment/_index.md).
 
 ## Service account
 
-The service account for rack-aware deployments is the same as [basic deployments]({{< relref "/operate/kubernetes/8.0.18/reference/yaml/basic-deployment#service-account" >}}).
+The service account for rack-aware deployments is the same as [basic deployments](/content/operate/kubernetes/8.0.18/reference/yaml/basic-deployment.md#service-account).
 
 {{<embed-yaml "k8s/service_account.md" "service-account.yaml">}}
 
@@ -59,7 +59,7 @@ Cluster role binding configuration:
 
 ## Rack-aware Redis Enterprise cluster
 
-The rack-aware [REC configuration]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api" >}}) includes the `rackAwarenessNodeLabel` field.
+The rack-aware [REC configuration](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md) includes the `rackAwarenessNodeLabel` field.
 
 {{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
@@ -87,7 +87,7 @@ kubectl get nodes -o custom-columns="name:metadata.name","rack\\zone:metadata.la
 
 ## Redis Enterprise database
 
-Database configuration for rack-aware clusters is the same as [basic deployments]({{< relref "/operate/kubernetes/8.0.18/reference/yaml/basic-deployment#redis-enterprise-database" >}}).
+Database configuration for rack-aware clusters is the same as [basic deployments](/content/operate/kubernetes/8.0.18/reference/yaml/basic-deployment.md#redis-enterprise-database).
 
 **Important**: For rack awareness to be effective, ensure your database has replication enabled. Rack awareness distributes primary and replica shards across zones, so databases without replication will not benefit from zone distribution.
 
@@ -95,7 +95,7 @@ Database configuration for rack-aware clusters is the same as [basic deployments
 
 ## Apply the configuration
 
-To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{< relref "/operate/kubernetes/8.0.18/deployment" >}}) and ensure your Kubernetes nodes have proper zone labels. For detailed rack awareness configuration, see the [node selection recommendations]({{< relref "/operate/kubernetes/8.0.18/recommendations/node-selection" >}}).
+To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes](/content/operate/kubernetes/8.0.18/deployment/_index.md) and ensure your Kubernetes nodes have proper zone labels. For detailed rack awareness configuration, see the [node selection recommendations](/content/operate/kubernetes/8.0.18/recommendations/node-selection.md).
 
 ## Troubleshooting
 
@@ -119,14 +119,14 @@ To deploy rack-aware Redis Enterprise clusters, follow [Deploy on Kubernetes]({{
 
 ## Next steps
 
-- [Configure Active-Active databases]({{< relref "/operate/kubernetes/8.0.18/reference/yaml/active-active" >}})
-- [Set up multi-namespace deployment]({{< relref "/operate/kubernetes/8.0.18/reference/yaml/multi-namespace" >}})
-- [Learn about database replication]({{< relref "/operate/kubernetes/8.0.18/re-databases/replica-redb" >}})
+- [Configure Active-Active databases](/content/operate/kubernetes/8.0.18/reference/yaml/active-active.md)
+- [Set up multi-namespace deployment](/content/operate/kubernetes/8.0.18/reference/yaml/multi-namespace.md)
+- [Learn about database replication](/content/operate/kubernetes/8.0.18/re-databases/replica-redb.md)
 
 ## Related documentation
 
-- [Node selection recommendations]({{< relref "/operate/kubernetes/8.0.18/recommendations/node-selection" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_database_api" >}})
+- [Node selection recommendations](/content/operate/kubernetes/8.0.18/recommendations/node-selection.md)
+- [REC API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md)
+- [REDB API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_database_api.md)
 - [Kubernetes node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
-- [Redis Enterprise cluster architecture]({{< relref "/operate/kubernetes/8.0.18/architecture" >}})
+- [Redis Enterprise cluster architecture](/content/operate/kubernetes/8.0.18/architecture/_index.md)

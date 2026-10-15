@@ -1,8 +1,5 @@
 ﻿// EXAMPLE: home_vecsets
 // STEP_START import
-// Suppress experimental API warnings for VectorSet
-#pragma warning disable SER001
-
 using StackExchange.Redis;
 
 using Microsoft.ML;

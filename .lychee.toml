@@ -6,11 +6,22 @@
 # host is up, not that the link is broken); 206 = partial content.
 accept = ["200", "206", "403", "429"]
 
-# Be patient with slow or rate-limiting hosts before declaring a link dead.
+# Retry patience. lychee retries timeouts and 5xx/429 responses, but NOT
+# connection failures — those are terminal (see lychee retry.rs `should_retry`).
+# So retries alone cannot rescue a host that drops our connections; the per-host
+# limits below are what prevent us from provoking that in the first place.
 max_retries = 3
-retry_wait_time = 3   # seconds, grows with each retry
-timeout = 25          # seconds per request
+retry_wait_time = 3   # seconds, doubles after each retry (exponential backoff)
+timeout = 30          # seconds per request
+
+# Concurrency. max_concurrency caps total in-flight requests across all hosts.
+# host_concurrency + host_request_interval throttle requests to any *single*
+# host so we don't burst it into rate-limiting us: issue #3591 saw 8 simultaneous
+# kubernetes.io requests all fail with unretryable "connection failed" errors.
+# (Both host_* keys require lychee >= 0.24; the workflow pins that version.)
 max_concurrency = 8
+host_concurrency = 2
+host_request_interval = "500ms"
 
 # Some hosts 403 a default checker UA; present as a normal browser.
 user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"

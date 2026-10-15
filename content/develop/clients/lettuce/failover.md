@@ -28,7 +28,7 @@ bannerText: This feature is currently in preview and may be subject to change.
 Lettuce supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
 how to configure Lettuce for failover. For an overview of the concepts,
-see the main [Client-side geographic failover]({{< relref "/develop/clients/failover" >}}) page.
+see the main [Client-side geographic failover](/content/develop/clients/failover.md) page.
 
 ## Connection configuration
 
@@ -48,7 +48,7 @@ import io.lettuce.core.failover.api.StatefulRedisMultiDbConnection;
 ```
 
 Supply the weighted endpoints using a `List` of `DatabaseConfig` objects
-(see [Selecting a failover target]({{< relref "/develop/clients/failover#selecting-a-failover-target" >}})
+(see [Selecting a failover target](/content/develop/clients/failover.md#selecting-a-failover-target)
 for a full description of how the weighted list is used).
 Use the `weight` option in the builder to order the endpoints, with the highest
 weight being tried first.
@@ -155,7 +155,7 @@ are described in the sections below.
 ### Circuit breaker configuration
 
 The `CircuitBreakerConfig` builder lets you pass several options to configure
-the circuit breaker, as shown in the example below (see [Detecting connection problems]({{< relref "/develop/clients/failover#detecting-connection-problems" >}}) for more information on how the
+the circuit breaker, as shown in the example below (see [Detecting connection problems](/content/develop/clients/failover.md#detecting-connection-problems) for more information on how the
 circuit breaker works):
 
 ```java
@@ -238,7 +238,7 @@ client.getResources().eventBus().get()
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
+test (such as a [`PING`](/content/commands/ping.md) command) to determine if the database is available. The results of the separate probes are combined
 using a configurable policy to determine if the database is healthy.
 
 There are several strategies available for health checks that you can deploy using the
@@ -262,7 +262,7 @@ The sections below explain the available strategies in more detail.
 ### `PingStrategy` (default)
 
 The default strategy, `PingStrategy`, periodically sends a Redis
-[`PING`]({{< relref "/commands/ping" >}}) command
+[`PING`](/content/commands/ping.md) command
 and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingStrategy` is
 very simple, it is a good basic approach for most Redis deployments.
@@ -292,12 +292,12 @@ DatabaseConfig db = DatabaseConfig.builder(redisUri)
 ### `LagAwareStrategy`
 
 `LagAwareStrategy` is designed specifically for
-Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+Redis Software [Active-Active](/content/operate/rs/databases/active-active/_index.md)
 deployments. It uses the Redis Software REST API to check database availability
 and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the
-[REST API]({{< relref "/operate/rs/references/rest-api" >}}). The example
+[REST API](/content/operate/rs/references/rest-api/_index.md). The example
 below shows how to configure and use `LagAwareStrategy`. Note that
 `LagAwareStrategy` requires the following dependencies (although they are
 added automatically with Lettuce):
@@ -439,7 +439,7 @@ exposes a REST API, you might consider creating a REST endpoint to call
 
 ## Pub/Sub and re-subscription
 
-`MultiDbClient` supports [Pub/Sub]({{< relref "/develop/pubsub" >}})
+`MultiDbClient` supports [Pub/Sub](/content/develop/pubsub/_index.md)
 messaging with automatic re-subscription to channels during failover.
 This means you don't have to detect failovers and re-subscribe manually:
 
@@ -488,17 +488,17 @@ StatefulRedisMultiDbPubSubConnection<String, String> publisher =
 publisher.sync().publish("news", "Hello World");
 ```
 
-{{< note >}}The only addition over a standard Lettuce Pub/Sub connection is that
-you obtain the connection with `connectPubSub()` on the `MultiDbClient`. The
-subscription and publishing API is otherwise identical, but the active
-subscriptions and registered listeners are automatically migrated to the new
-database when a failover occurs.
-
-Message loss can still occur if the failover events happen in the reverse order,
-with the publisher failing over to the new database before the subscriber.
-Messages published during this window may not reach a subscriber that is still
-connected to the previous database.
-{{< /note >}}
+> [!NOTE]
+> The only addition over a standard Lettuce Pub/Sub connection is that
+> you obtain the connection with `connectPubSub()` on the `MultiDbClient`. The
+> subscription and publishing API is otherwise identical, but the active
+> subscriptions and registered listeners are automatically migrated to the new
+> database when a failover occurs.
+>
+> Message loss can still occur if the failover events happen in the reverse order,
+> with the publisher failing over to the new database before the subscriber.
+> Messages published during this window may not reach a subscriber that is still
+> connected to the previous database.
 
 ## Behavior when all endpoints are unhealthy
 

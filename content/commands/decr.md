@@ -56,7 +56,7 @@ An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
 This operation is limited to 64-bit signed integers.
 
-See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
+See [`INCR`](/content/commands/incr.md) for extra information on increment/decrement operations.
 
 ## Required arguments
 
@@ -69,10 +69,14 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-DECR mykey
-SET mykey "234293482390480948029348230948"
-DECR mykey
+redis> SET mykey "10"
+OK
+redis> DECR mykey
+(integer) 9
+redis> SET mykey "234293482390480948029348230948"
+OK
+redis> DECR mykey
+(error) value is not an integer or out of range
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

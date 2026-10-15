@@ -60,7 +60,7 @@ The following metrics are collected for non-clustered as well as clustered Redis
 
 - `tracking-active` (integer): 1 if tracking is active, 0 if stopped
 - `sample-ratio` (integer): The sampling ratio used during tracking
-- `selected-slots` (array): [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of select slots and slot ranges
+- `selected-slots` (array): [Array](/content/develop/reference/protocol-spec.md#arrays) of select slots and slot ranges
 - `all-commands-all-slots-us` (integer): CPU time in microseconds for all commands on all slots
 - `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots
 - `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started
@@ -68,8 +68,8 @@ The following metrics are collected for non-clustered as well as clustered Redis
 - `total-cpu-time-user-ms` (integer): User CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)
 - `total-cpu-time-sys-ms` (integer): System CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)
 - `total-net-bytes` (integer): Total network bytes processed (only when the `NET` metric was specified with `HOTKEYS START`)
-- `by-cpu-time-us` (array): [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-time pairs sorted by CPU time in microseconds (only when the `CPU` metric was specified with `HOTKEYS START`)
-- `by-net-bytes` (array): [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-bytes pairs sorted by network bytes (only when the `NET` metric was specified with `HOTKEYS START`)
+- `by-cpu-time-us` (array): [Array](/content/develop/reference/protocol-spec.md#arrays) of key-time pairs sorted by CPU time in microseconds (only when the `CPU` metric was specified with `HOTKEYS START`)
+- `by-net-bytes` (array): [Array](/content/develop/reference/protocol-spec.md#arrays) of key-bytes pairs sorted by network bytes (only when the `NET` metric was specified with `HOTKEYS START`)
 
 The following additional results are collected only on clustered Redis environments, when `SLOTS` was used with `HOTKEYS START`:
 
@@ -142,14 +142,14 @@ HOTKEYS GET
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when tracking data is available, containing a single array with alternating field names and values.
-- [Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) when no tracking has been started or data has been reset.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) when tracking data is available, containing a single array with alternating field names and values.
+- [Null reply](/content/develop/reference/protocol-spec.md#bulk-strings) when no tracking has been started or data has been reset.
 
 -tab-sep-
 
 One of the following:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when tracking data is available, containing a single [map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with field names and values.
-- [Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) when no tracking has been started or data has been reset.
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays) when tracking data is available, containing a single [map](/content/develop/reference/protocol-spec.md#maps) with field names and values.
+- [Null reply](/content/develop/reference/protocol-spec.md#bulk-strings) when no tracking has been started or data has been reset.
 
 {{< /multitabs >}}

@@ -12,7 +12,7 @@ weight: 50
 url: '/operate/rs/7.4/references/compatibility/config-settings/'
 ---
 
-Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Open Source configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
+Redis Enterprise Software and [Redis Cloud](/content/operate/rc/_index.md) only support a subset of [Redis Open Source configuration settings](/content/operate/oss_and_stack/management/config.md). Using [`CONFIG GET`](/content/commands/config-get.md) or [`CONFIG SET`](/content/commands/config-set.md) with unsupported configuration settings returns an error.
 
 | Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

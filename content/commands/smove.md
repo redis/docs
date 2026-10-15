@@ -66,9 +66,8 @@ summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
 title: SMOVE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Move `member` from the set at `source` to the set at `destination`.
@@ -106,12 +105,19 @@ The member to move from the source set to the destination set.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "two"
-SADD myotherset "three"
-SMOVE myset myotherset "two"
-SMEMBERS myset
-SMEMBERS myotherset
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "two"
+(integer) 1
+redis> SADD myotherset "three"
+(integer) 1
+redis> SMOVE myset myotherset "two"
+(integer) 1
+redis> SMEMBERS myset
+1) "one"
+redis> SMEMBERS myotherset
+1) "three"
+2) "two"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

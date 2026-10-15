@@ -59,7 +59,7 @@ An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
 This operation is limited to 64-bit signed integers.
 
-See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
+See [`INCR`](/content/commands/incr.md) for extra information on increment/decrement operations.
 
 ## Required arguments
 
@@ -78,8 +78,10 @@ The integer amount to add to the value.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-INCRBY mykey 5
+redis> SET mykey "10"
+OK
+redis> INCRBY mykey 5
+(integer) 15
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

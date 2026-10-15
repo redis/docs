@@ -51,6 +51,7 @@ Updates the cluster configuration.
         [ services { alert_mgr | call_home_agent | cm_server | 
                      crdb_controller | crdb_coordinator | crdb_worker | 
                      entraid_agent_mgr | ldap_agent_mgr | mdns_server | 
+                     metrics_local_storage_service | 
                      pdns_server | sentinel_service | 
                      stats_archiver } { enabled | disabled } ]
         [ upgrade_mode { enabled | disabled } ]
@@ -60,9 +61,9 @@ Updates the cluster configuration.
 
 | Parameter | Type/Value | Description |
 |-----------|------------|-------------|
-| audit_address | string | TCP/IP address where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_port | string | Port where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
+| audit_address | string | TCP/IP address where a listener can capture [audit event notifications](/content/operate/rs/security/audit-events.md) |
+| audit_port | string | Port where a listener can capture [audit event notifications](/content/operate/rs/security/audit-events.md) |
+| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications](/content/operate/rs/security/audit-events.md)<br/>For production systems, only `tcp` is supported. |
 | availability_lag_tolerance_ms | integer | Availability lag tolerance in milliseconds |
 | control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the Cluster Manager UI (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
 | cm_port | integer | UI server listening port |
@@ -85,12 +86,12 @@ Updates the cluster configuration.
 | min_data_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the data path |
 | min_sentinel_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the discovery service |
 | options_method_forbidden | `enabled`<br />`disabled` | Enable or turn off forbidding `OPTIONS` method for CNM HTTPS port |
-| reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `reserved_ports 11000 13000-13010`) |
+| reserved_ports | list of ports/port ranges | Ports and port ranges that the cluster does not use for database endpoints or internal shard traffic (for example `reserved_ports 11000 13000-13010 20048`) |
 | s3_url | string | The URL of S3 export and import |
 | s3_ca_cert | string | The CA certificate filepath for S3 export and import |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
 | sentinel_tls_mode | `allowed`<br />`required`<br />`disabled` | Define the SSL policy for the discovery service<br />(previously named `sentinel_ssl_policy`) |
-| services | `alert_mgr`<br />`call_home_agent`<br />`cm_server`<br />`crdb_controller`<br />`crdb_coordinator`<br />`crdb_worker`<br />`entraid_agent_mgr`<br />`ldap_agent_mgr`<br />`mdns_server`<br />`pdns_server`<br />`sentinel_service`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
+| services | `alert_mgr`<br />`call_home_agent`<br />`cm_server`<br />`crdb_controller`<br />`crdb_coordinator`<br />`crdb_worker`<br />`entraid_agent_mgr`<br />`ldap_agent_mgr`<br />`mdns_server`<br />`metrics_local_storage_service`<br />`pdns_server`<br />`sentinel_service`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
 | upgrade_mode | `enabled`<br />`disabled` | Enable or turn off upgrade mode on the cluster |
 
 ### Returns

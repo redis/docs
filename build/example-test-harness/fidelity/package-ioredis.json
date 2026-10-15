@@ -1,0 +1,11 @@
+{
+  "name": "ioredis-examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node sample_test.js"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.0"
+  }
+}

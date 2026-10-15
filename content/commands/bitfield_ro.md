@@ -59,15 +59,15 @@ summary: Performs arbitrary read-only bitfield integer operations on strings.
 syntax_fmt: "BITFIELD_RO key [GET\_encoding offset [GET encoding offset ...]]"
 title: BITFIELD_RO
 ---
-Read-only variant of the [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
-It is like the original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) but only accepts `GET` subcommand and can safely be used in read-only replicas.
+Read-only variant of the [`BITFIELD`](/content/commands/bitfield.md) command.
+It is like the original [`BITFIELD`](/content/commands/bitfield.md) but only accepts `GET` subcommand and can safely be used in read-only replicas.
 
-Since the original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) has `SET` and `INCRBY` options it is technically flagged as a writing command in the Redis command table.
-For this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+Since the original [`BITFIELD`](/content/commands/bitfield.md) has `SET` and `INCRBY` options it is technically flagged as a writing command in the Redis command table.
+For this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`](/content/commands/readonly.md) command of Redis Cluster).
 
-Since Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BITFIELD`]({{< relref "/commands/bitfield" >}}) behavior in read-only replicas without breaking compatibility on command flags.
+Since Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BITFIELD`](/content/commands/bitfield.md) behavior in read-only replicas without breaking compatibility on command flags.
 
-See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
+See original [`BITFIELD`](/content/commands/bitfield.md) for more details.
 
 ## Required arguments
 
