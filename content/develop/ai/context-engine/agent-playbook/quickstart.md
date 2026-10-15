@@ -7,11 +7,11 @@ categories:
 description: Publish an FAQ, retrieve it for an agent, and update the answer with the Python SDK, TypeScript SDK, or HTTP API.
 hideListLinks: true
 linktitle: Quickstart
-title: Agent Playbooks quickstart
+title: Redis Agent Playbooks quickstart
 weight: 10
 ---
 
-Publish a FAQ, retrieve its answer to “Where can I see how my refund is progressing?”, and update the answer agents receive.
+Use Redis Agent Playbooks to publish a FAQ, retrieve its answer to “Where can I see how my refund is progressing?”, and update the answer agents receive.
 
 ## Before you begin
 

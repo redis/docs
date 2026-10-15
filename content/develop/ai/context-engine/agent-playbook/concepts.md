@@ -7,13 +7,13 @@ categories:
 description: Understand playbooks, entries, versions, publication, discovery, proposals, and evidence.
 hideListLinks: true
 linktitle: Concepts
-title: Agent Playbooks concepts
+title: Redis Agent Playbooks concepts
 weight: 5
 ---
 
 ## Playbooks
 
-Agent Playbooks stores reusable answers and procedures as **entries**. Publish a **version** for retrieval, then revise new content while agents use that publication.
+Redis Agent Playbooks stores reusable answers and procedures as **entries** inside **playbooks**. A playbook is a registry with its own access grants and retrieval settings. Publish an entry **version** for retrieval, then revise new content while agents use that publication.
 
 Embeddings and semantic search match agent tasks with relevant entries. Discovery settings control similarity thresholds and result limits. Your application supplies the task text and retrieval options.
 
@@ -34,7 +34,7 @@ Playbook API keys can grant these actions:
 
 ## Entries
 
-An entry is a reusable answer or procedure. Agent Playbooks supports two types:
+An entry is a reusable answer or procedure. Redis Agent Playbooks supports two types:
 
 - A **FAQ** pairs a question with an answer. Retrieval returns the full answer directly.
 - A **skill (Agent Skill)** packages instructions and optional supporting files for a procedure. Retrieval returns a preview so an agent can decide whether to load the instructions and resources.
