@@ -1,0 +1,133 @@
+---
+acl_categories:
+- '@read'
+- '@bitmap'
+- '@slow'
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: start
+  name: start
+  type: integer
+- display_text: end
+  name: end
+  type: integer
+arity: 4
+categories:
+- docs
+- develop
+- oss
+command_flags:
+- readonly
+complexity: O(C + M) where C is the number of bitmap containers and M is the number of returned integers.
+description: Returns an inclusive range of set-bit offsets by their zero-based ranks in a native bitmap.
+group: bitmap
+hidden: false
+key_specs:
+- RO: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+linkTitle: BITRANGEINTARRAY
+since: 8.12.0
+summary: Returns an inclusive range of set-bit offsets by their zero-based ranks in a native bitmap.
+syntax_fmt: BITRANGEINTARRAY key start end
+title: BITRANGEINTARRAY
+---
+
+Returns a page of set-bit offsets from a native Roaring bitmap in ascending
+order. `start` and `end` are inclusive, zero-based **element ranks** in that
+ordered array. For set-bit offsets `{10, 20, 30}`, ranks `1` through `2` return
+`{20, 30}`. The arguments are not bit or byte offsets.
+
+The command accepts the native `bitmap` type only. A string-backed bitmap or any
+other existing type returns `WRONGTYPE`. It does not convert strings, change
+the bitmap, or change its expiration, and works on existing native bitmaps
+regardless of the current `bitmap-default-roaring` setting.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the native bitmap.
+
+</details>
+
+<details open><summary><code>start end</code></summary>
+
+The first and last element ranks to return, inclusive. Both must be integers
+from `0` through `4294967295`. Negative ranks and ranks outside this unsigned
+32-bit range return an error.
+
+For a non-reversed range, the requested span `end - start + 1` must be at most
+`100000000`, even if the key is missing or contains fewer set bits. Larger spans
+return an error. This per-call limit matches redis-roaring and does not limit
+the bitmap's cardinality or stored offsets.
+
+</details>
+
+A missing or empty bitmap, a reversed range (`start > end`), or a start rank
+beyond the last element returns an empty array. An end rank beyond the last
+element is truncated to the available elements.
+
+## Examples
+
+```redis
+redis> CONFIG SET bitmap-default-roaring yes
+OK
+redis> SETBIT members 10 1
+(integer) 0
+redis> SETBIT members 20 1
+(integer) 0
+redis> SETBIT members 30 1
+(integer) 0
+redis> BITRANGEINTARRAY members 1 2
+1) (integer) 20
+2) (integer) 30
+redis> BITRANGEINTARRAY members 2 100
+1) (integer) 30
+redis> BITRANGEINTARRAY members 3 4
+(empty array)
+redis> BITRANGEINTARRAY members 2 1
+(empty array)
+```
+
+## Pagination and performance
+
+Use successive rank ranges such as `0 99`, `100 199`, and `200 299` to page
+through a bitmap. Separate calls do not share a snapshot: inserting or removing
+set bits between pages can shift ranks and cause skipped or repeated offsets.
+
+The command seeks to the first rank and iterates forward. Seeking a distant
+rank can still traverse bitmap containers, so later pages can cost more than
+the first page even when they return the same number of integers.
+Configured client output-buffer limits still apply and can disconnect a client
+whose reply grows too large.
+
+The unsigned 32-bit restriction applies to ranks, not returned offsets. Offsets
+retain the native bitmap's full supported range, including values above
+`4294967295`. Clients must preserve the precision of returned integers. Use
+[`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}}) to return all set-bit
+offsets in one response.
+
+## Return information
+
+For both RESP2 and RESP3, an [array reply]({{< relref
+"/develop/reference/protocol-spec#arrays" >}}) of integer set-bit offsets in
+ascending order. Missing or empty bitmaps, reversed ranges, and starts beyond
+the last element return an empty array.
+
+## Related topics
+
+- [Roaring-compressed bitmaps]({{< relref "/develop/data-types/strings/bitmaps#roaring-compressed-bitmaps" >}})
+- [`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}})

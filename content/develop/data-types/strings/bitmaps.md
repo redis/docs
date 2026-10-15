@@ -29,7 +29,8 @@ representations:
 * When enabled, Redis can instead store a bitmap as a distinct, native
   `bitmap` type with the `bitmap-roaring` compressed encoding.
 
-Both representations support the same bitmap commands. With the default
+Both representations support the existing bit-oriented commands. Native
+bitmaps also support retrieving set-bit offsets as integer arrays. With the default
 512 MB `proto-max-bulk-len`, they can address up to 2^32 different bits.
 Native bitmaps are not strings, so generic string commands don't operate on
 them. See [Roaring-compressed bitmaps](#roaring-compressed-bitmaps) before
@@ -364,6 +365,50 @@ was created or loaded while that limit was higher. [`BITOP`]({{< relref
 "/commands/bitop" >}}) operates on the complete logical length of such a
 source. In particular, `BITOP NOT` can allocate a dense result of that length,
 so account for its memory cost before lowering the limit.
+
+### Retrieve set-bit offsets
+
+[`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}}) returns all set-bit
+offsets of a native bitmap in ascending order.
+[`BITRANGEINTARRAY`]({{< relref "/commands/bitrangeintarray" >}}) returns an
+inclusive slice by zero-based element rank:
+
+```redis
+redis> CONFIG SET bitmap-default-roaring yes
+OK
+redis> SETBIT members 10 1
+(integer) 0
+redis> SETBIT members 20 1
+(integer) 0
+redis> SETBIT members 30 1
+(integer) 0
+redis> BITGETINTARRAY members
+1) (integer) 10
+2) (integer) 20
+3) (integer) 30
+redis> BITRANGEINTARRAY members 1 2
+1) (integer) 20
+2) (integer) 30
+```
+
+These commands accept only native bitmaps; string-backed bitmaps return
+`WRONGTYPE`. Missing keys and bitmaps with no set bits return empty arrays.
+Both commands are read-only, preserve expiration, and work on existing native
+bitmaps regardless of `bitmap-default-roaring`.
+
+Range arguments are element ranks, not bit offsets. They must be unsigned
+32-bit integers, and the requested inclusive span must not exceed
+100,000,000 elements, even for missing keys. A reversed range or a start beyond
+the last rank returns an empty array; an end beyond the last rank is truncated.
+The rank and span limits do not constrain stored offsets: returned integers
+retain the bitmap's full supported range.
+
+Use bounded pages for large results. `BITGETINTARRAY` returns the entire array
+without the range command's span limit, subject to platform reply-length
+and client output-buffer limits. Separate range calls do not share a snapshot,
+so concurrent writes can shift ranks between pages. For benchmark methodology
+and historical comparisons against redis-roaring, see
+[Integer-array command benchmarks]({{< relref "/develop/data-types/strings/bitmap-intarray-benchmarks" >}}).
 
 ### Persistence and replication
 
