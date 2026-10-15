@@ -21,37 +21,61 @@ You need a RedisEnterpriseCluster (REC) running a version of Redis Enterprise So
 - Redis Enterprise Software 8.0.2-17 or later for standalone (Enterprise cluster mode) connections.
 - Redis Enterprise Software 8.0.16-29 or later for [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
 
+You also need Redis Software for Kubernetes 8.2.2-TBD or later.
+
 In your application code, you need a client library that supports SCH (see [SCH support in Redis client libraries]({{< relref "/develop/clients/sch#sch-support-in-redis-client-libraries" >}}) for
 more information).
 
-## Get the cluster credentials
-
-The cluster's admin username and password are stored in a Kubernetes secret named after your cluster. Retrieve and decode them so you can authenticate REST API requests:
-
-```sh
-kubectl get secret <cluster-name> -o jsonpath='{.data.username}' | base64 --decode
-kubectl get secret <cluster-name> -o jsonpath='{.data.password}' | base64 --decode
-```
-
 ## Enable SCH
 
-Use the [`/v1/cluster`]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) REST API request to enable SCH for both Enterprise cluster mode and OSS Cluster API mode. Set `client_maint_notifications` and `oss_cluster_client_maint_notifications` to `true`.
+Enable SCH with the `clientMaintenanceNotifications` section of the RedisEnterpriseCluster (REC) custom resource. Each database connection mode has its own setting, and both default to `false`:
 
-The following example uses [`curl`](https://curl.se/) and addresses the cluster REST API on port `9443` of the REC service (for example, `rec` in a cluster named `rec`):
+| Field | Applies to |
+| --- | --- |
+| `proxyMode.enabled` | Databases that don't use the OSS Cluster API |
+| `ossMode.enabled` | Databases that use the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) |
 
-```sh
-curl -k -X PUT -H "accept: application/json" \
-    -H "content-type: application/json" \
-    -u "<username>:<password>" \
-    -d '{ "client_maint_notifications": true, "oss_cluster_client_maint_notifications": true }' \
-    https://<cluster-name>:9443/v1/cluster
-```
+1. Edit the REC:
 
-The REST API service uses a `ClusterIP` and is reachable only from within the Kubernetes pod network. Run the command from a pod in the cluster, or use [`kubectl port-forward`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#port-forward) to forward a local port to the service and address `https://localhost:9443/v1/cluster` instead:
+    ```sh
+    kubectl edit rec <cluster-name>
+    ```
 
-```sh
-kubectl port-forward service/<cluster-name> 9443:9443
-```
+1. Add the `clientMaintenanceNotifications` section to the `spec` section. Enable the modes your databases use:
+
+    ```yaml
+    spec:
+      clientMaintenanceNotifications:
+        proxyMode:
+          enabled: true
+        ossMode:
+          enabled: true
+    ```
+
+1. Save your changes. The operator applies the settings to the cluster.
+
+### How the operator manages SCH settings
+
+After you set either `enabled` field for the first time, the operator manages that setting:
+
+- The operator keeps the cluster setting matched to the REC. It overwrites changes made any other way, such as through the REST API.
+- If you remove the field from the REC, the operator turns the setting off.
+- If the cluster's Redis Software version doesn't support the setting, the operator skips it until you upgrade the cluster.
+
+## Connect your clients
+
+Connect your application to the database's Kubernetes service, for example `<database-name>.<namespace>.svc.cluster.local`. Don't connect directly to pod IP addresses. See [Database connectivity](/content/operate/kubernetes/networking/database-connectivity.md) for the services the operator creates.
+
+For databases that don't use the OSS Cluster API, what SCH provides depends on whether your application pods can reach the Redis Software pods' IP addresses. That depends on your Kubernetes cluster's security configuration.
+
+| Application pods can reach Redis Software pod IPs | Endpoint type | What SCH provides |
+| --- | --- | --- |
+| Yes | `internal-ip` | Connection handoffs and relaxed timeouts. During maintenance, the server sends the client the new endpoint's pod IP address, and the client moves its connection there. |
+| No | `none` | Relaxed timeouts during shard failovers and migrations. The server tells the client to reconnect to the endpoint it already uses, so clients still see a disconnect when an endpoint moves. |
+
+Without TLS, the client library requests `internal-ip` automatically. If your application pods can't reach the pod IP addresses, set the endpoint type to `none` in your client library's SCH configuration. See [SCH support in Redis client libraries](/content/develop/clients/sch.md#sch-support-in-redis-client-libraries).
+
+With `none`, a client might reconnect twice when an endpoint moves.
 
 ## Verify SCH is active
 
