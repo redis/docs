@@ -15,6 +15,9 @@ Review suggested answers as proposals. Check each candidate against its evidence
 
 The current proposal workflow adds new FAQs. It does not create skills or revise existing entries.
 
+![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
+{width="700"}
+
 ## Before you begin
 
 Use an existing playbook and API keys with these permissions:

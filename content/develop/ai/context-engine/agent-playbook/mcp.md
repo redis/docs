@@ -63,6 +63,9 @@ List the tools on an initialized connection to get their input schemas.
 | `load_skill` | The selected skill's `entry_id` and `version`. | Full instructions and resource descriptors. |
 | `fetch_resource` | A returned resource `uri`. | File content, media type, and digest. |
 
+![Discovery returns FAQ answers and skill previews. Loading a selected skill adds its instructions to the context. Fetching a resource adds only the file needed for the task.](/images/ai/context-engine/agent-playbook-disclosure.svg)
+{width="700"}
+
 Use the tools in this order:
 
 1. Discover knowledge for the task. Use an applicable FAQ answer directly.
