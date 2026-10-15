@@ -150,8 +150,18 @@ to capture changes.
     Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
 
 1. <a id="create-publication"></a>
-    Connect to your database as the `postgres` user and create a publication for the database:
+    Configure the PostgreSQL publication. For most RDI deployments, follow the
+    [PostgreSQL publication and replica identity guidance]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql" >}})
+    and use `publication.autocreate.mode: filtered` when RDI captures selected tables.
+
+    If you intentionally want to publish every table in the database, first check that
+    every table has a primary key or another replica identity. Then connect to your database
+    as the `postgres` user and run:
 
     ```sql
     CREATE PUBLICATION dbz_publication FOR ALL TABLES;
     ```
+
+    Do not use this command without checking the replica identity of all tables. A later
+    `UPDATE` or `DELETE` on a published table without a replica identity can fail in the
+    application that writes to PostgreSQL.
