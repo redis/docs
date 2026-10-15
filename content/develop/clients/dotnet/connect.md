@@ -293,6 +293,198 @@ muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
 `MaintenanceType` property, so you can tell whether a failure happened
 because of ongoing maintenance.
 
+## Connect using client-side caching
+
+Client-side caching is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction](/content/develop/clients/client-side-caching.md)
+for more information about how client-side caching works and how to use it effectively.
+
+<!-- TODO: replace the alpha version with the first 4.x release when the PR is unparked. -->
+> [!NOTE]
+> Client-side caching requires StackExchange.Redis v4.0, which is currently
+> available as the `4.0.127-alpha` pre-release, so its API may change before
+> the final release.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> Client-side caching requires version 3 of the
+> [Redis serialization protocol (RESP3)](/content/develop/reference/protocol-spec.md#resp-versions)
+> and a server that allows the [`CLIENT TRACKING`](/content/commands/client-tracking.md)
+> command. If either is missing, the connection fails with an error rather
+> than running without cache invalidation.
+
+Client-side caching is disabled by default. To enable it, set `Protocol` to
+`RedisProtocol.Resp3` and pass a `CacheOptions` object in the `ClientCache`
+property of `ConfigurationOptions`. You can only configure the cache in code,
+not with a configuration string. The cache works below the API, so it applies
+to all of the `IDatabase` methods, both synchronous and asynchronous:
+
+```csharp
+using StackExchange.Redis;
+using StackExchange.Redis.Caching;
+
+var options = ConfigurationOptions.Parse("localhost:6379");
+options.Protocol = RedisProtocol.Resp3; // RESP3 required for client-side caching
+options.ClientCache = new CacheOptions {
+    Prefixes = ["city:"],
+    MaxBytes = 64 * 1024 * 1024,
+};
+
+ConnectionMultiplexer muxer = ConnectionMultiplexer.Connect(options);
+IDatabase db = muxer.GetDatabase();
+
+db.StringSet("city:1", "New York");
+db.StringGet("city:1"); // Retrieved from the server
+db.StringGet("city:1"); // Retrieved from the server and cached
+db.StringGet("city:1"); // Retrieved from the cache
+```
+
+By default, StackExchange.Redis caches a reply the second time you read it,
+not the first, so values you read only once never take up space in the cache.
+You can see this if you connect to the same Redis database
+with [`redis-cli`](/content/develop/tools/cli.md) and run the
+[`MONITOR`](/content/commands/monitor.md) command. With caching enabled,
+the server sees the first two `StringGet("city:1")` calls but not the third,
+which the client satisfies from the cache. Set `Admission` to
+`CacheAdmission.OnFirstMiss` to cache every reply the first time you read it.
+
+There is one cache for each `ConnectionMultiplexer`, shared by all of
+its databases.
+
+### Tracking modes
+
+The `TrackingMode` option sets how the server decides which changes to announce:
+
+-   `CacheTrackingMode.Broadcast` (the default): the server announces every
+    change to keys that match the `Prefixes` you set, and doesn't record which
+    keys you read. This is cheap for the server, but the client receives
+    invalidations for keys it never cached. Without `Prefixes`, the client
+    receives an invalidation for every write to every key, which is a lot of
+    traffic on a busy server. Keys outside the prefixes are not cached.
+    Prefixes must not overlap (for example, `"app:"` and `"app:user:"` together
+    are rejected), and they are compared with the key as it is sent, so include
+    any key prefix that you add with `WithKeyPrefix()`.
+-   `CacheTrackingMode.PerKey`: the server records which keys this client read
+    and announces changes only to those keys. This is more precise, but uses
+    server memory for each client. You can't use `Prefixes` in this mode.
+
+### Configuration options
+
+The `CacheOptions` object accepts the following options:
+
+| Name | Description |
+| :-- | :-- |
+| `Enabled` | Whether the cache is enabled. The default is `true`. Use this to keep your options in place but switch the cache off. |
+| `TrackingMode` | The tracking mode (see [Tracking modes](#tracking-modes)). The default is `CacheTrackingMode.Default`, which is currently `Broadcast`. |
+| `Prefixes` | The key prefixes to track and cache in `Broadcast` mode. By default, all keys are tracked. |
+| `MaxBytes` | A memory limit for cached replies. When the cache exceeds it, the client evicts the oldest entries. By default, there is no limit. |
+| `MaxEntries` | The maximum number of entries the cache can hold. By default, there is no limit. Use this with `MaxBytes` when your replies are small and numerous. |
+| `MaxPayloadBytes` | The largest single reply that can be cached. The default is 1 MiB. |
+| `EvictionSampleSize` | The number of entries that eviction considers each time it chooses one to remove. The default is 8. Larger values make better choices but cost more. |
+| `SweepInterval` | How often the client reclaims memory held by invalidated or expired entries. The default is 10 seconds. |
+| `DefaultPolicy` | A `CachePolicy` object that sets how entries behave as they age (see the next table). The default is `CachePolicy.Default`. |
+| `Admission` | When a reply is added to the cache. The default is `CacheAdmission.Default`, which is currently `OnRepeatedMiss` (cache a reply the second time it's read). Use `OnFirstMiss` to cache every reply the first time it's read. |
+
+The `CachePolicy` object accepts the following options:
+
+| Name | Description |
+| :-- | :-- |
+| `TimeToLive` | The longest time the client serves an entry, whether or not it was invalidated. The default is 1 minute. |
+| `RefreshAfter` | The age at which the client starts refreshing an entry in the background, while it continues to serve the cached value. Off by default. |
+| `InvalidationGracePeriod` | How long the client continues to serve an entry after another client's change invalidates it, while a background refresh runs. This deliberately serves values that are out of date, so keep it short. It never applies to your own writes. Off by default. |
+
+`RefreshAfter` and `InvalidationGracePeriod` stop every reader of a frequently
+read key from going to the server at the same moment when its entry expires
+or is invalidated. The example below sets both:
+
+```csharp
+options.ClientCache = new CacheOptions {
+    Prefixes = ["catalog:"],
+    DefaultPolicy = new CachePolicy {
+        TimeToLive = TimeSpan.FromMinutes(1),
+        RefreshAfter = TimeSpan.FromSeconds(45),
+        InvalidationGracePeriod = TimeSpan.FromMilliseconds(250),
+    },
+};
+```
+
+### Bypassing the cache
+
+Pass `CommandFlags.NoClientCache` to stop a single command from reading from
+or writing to the cache:
+
+```csharp
+RedisValue exact = db.StringGet("city:1", CommandFlags.NoClientCache);
+```
+
+You can also create a *context* that limits how the cache is used for all the
+commands you send through it. Contexts are part of the command group API that
+StackExchange.Redis v4.0 introduces, so the examples below use the command
+group methods rather than the `IDatabase` methods:
+
+```csharp
+// Accept cached replies only if they are less than one second old.
+var fresh = db.Context.WithMaxCacheAge(TimeSpan.FromSeconds(1));
+RedisValue recent = await fresh.Strings.GetAsync("city:1");
+
+// Bypass the cache completely.
+var uncached = db.Context.WithoutCache();
+RedisValue latest = await uncached.Strings.GetAsync("city:1");
+```
+
+### Which commands use the cache
+
+StackExchange.Redis caches the replies from read commands on keys, including
+`HSCAN`, `SSCAN`, and `ZSCAN` pages, nil replies for missing keys, and the
+read-only script commands
+([`EVAL_RO`](/content/commands/eval_ro.md) and [`EVALSHA_RO`](/content/commands/evalsha_ro.md)).
+It never caches the following:
+
+-   Write commands.
+-   Commands that don't name a key, such as [`SCAN`](/content/commands/scan.md)
+    and [`INFO`](/content/commands/info.md).
+-   Random reads, such as [`SRANDMEMBER`](/content/commands/srandmember.md) and
+    [`HRANDFIELD`](/content/commands/hrandfield.md).
+-   Commands that report time or access, such as [`TTL`](/content/commands/ttl.md)
+    and [`OBJECT FREQ`](/content/commands/object-freq.md).
+-   Reads inside a transaction, and commands sent with `CommandFlags.FireAndForget`.
+-   Error replies and replies larger than `MaxPayloadBytes`.
+
+A read-only script is invalidated only when a key in its `KEYS` array changes.
+If a script reads a key that it doesn't declare, its cached result can be out
+of date until `TimeToLive` expires, so declare every key or use
+`CommandFlags.NoClientCache` for that script.
+
+### Consistency
+
+StackExchange.Redis guarantees the following:
+
+-   You always read your own writes. A write through the multiplexer
+    invalidates the keys it names before it is sent to the server.
+-   You see writes from other clients shortly after they happen, when the
+    server's invalidation message arrives.
+-   If a connection fails, the client empties the whole cache. The
+    [`FLUSHDB`](/content/commands/flushdb.md) and
+    [`FLUSHALL`](/content/commands/flushall.md) commands also empty it.
+
+The server doesn't send an invalidation message when a key expires, so a
+cached value can outlive its key until `TimeToLive` expires. If your app relies
+on keys disappearing on time, use a short `TimeToLive` or use
+`CommandFlags.NoClientCache` for those reads.
+
+### Monitoring the cache
+
+StackExchange.Redis doesn't provide statistics for the cache. Instead, check
+the server:
+
+-   Run [`CLIENT TRACKINGINFO`](/content/commands/client-trackinginfo.md) to
+    confirm that tracking is enabled.
+-   Compare the `total_commands_processed` field from
+    [`INFO stats`](/content/commands/info.md) before and after a workload. The
+    server never sees commands that the cache satisfies.
+-   Use `INFO commandstats` to see the same count for each command.
+
 ## Multiplexing
 
 Although example code typically works with a single connection,
