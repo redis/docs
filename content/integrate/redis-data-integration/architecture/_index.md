@@ -130,6 +130,10 @@ It includes:
 The *data plane* contains the processes that actually move the data.
 It includes a *CDC collector* for each source and the *stream processor*, which implement
 the two phases of the pipeline lifecycle (initial cache loading and change streaming).
+Each pipeline has its own data plane processes, while all the pipelines share the control
+plane and the RDI database. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for more information.
 
 The *management plane* provides tools that let you interact
 with the control plane.

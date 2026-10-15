@@ -25,7 +25,9 @@ Before you deploy your pipeline, you must set the authentication secrets for the
 and target databases. Every secret belongs to one database: a source, identified by its
 name in `config.yaml`, or the target. You name that database with the `--db` option of the
 [`redis-di set-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-secret.md)
-command.
+command. Every secret also belongs to one pipeline. The secret commands manage the secrets of
+the `default` pipeline unless you name another pipeline with the `-p` or `--pipeline` option. See
+[Set secrets for each pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#set-secrets-for-each-pipeline).
 
 The table below lists the available secret keys. The username and password are required,
 while the other keys are only relevant for TLS/mTLS connections.
@@ -153,7 +155,9 @@ kubectl create secret generic <DB> \
 ```
 
 Where `<DB>` is `<source>-db` for the secrets of a source, or `target-db` for target secrets.
-The examples below use a source named `mysql`, so its secret is `mysql-db`.
+The examples below use a source named `mysql`, so its secret is `mysql-db`. For a pipeline other
+than `default`, prefix each secret name with the pipeline name and two dashes, for example
+`orders--mysql-db` and `orders--target-db` for a pipeline named `orders`.
 
 If you use TLS or mTLS for either the source or target databases, you also need to create the
 `<source>-db-ssl` and/or `target-db-ssl` K8s secrets that contain the certificates used
@@ -296,13 +300,15 @@ command to deploy a pipeline:
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-The pipeline name is optional and defaults to `default`. To deploy a named pipeline, pass a name
-that starts with a lowercase letter, uses only lowercase letters, digits, and dashes, and is no
-longer than 22 characters. The name `rdi` is reserved:
+The pipeline name is optional and defaults to `default`. To deploy another pipeline, pass its
+name. The command creates the pipeline if it does not exist yet:
 
 ```bash
 redis-di deploy orders --dir <path to pipeline folder>
 ```
+
+See [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for the pipeline naming rules and for how RDI validates the configuration of a new pipeline.
 
 RDI first validates the configuration and then deploys it if it is correct. You can control the
 validation and what happens after deployment with the following options:
@@ -342,8 +348,10 @@ To watch the status update live, pair the command with `watch`:
 watch -n 1 redis-di describe
 ```
 
-For a shorter overview, [`redis-di list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)
-prints a one-line summary of the pipeline, and
+Pass a pipeline name, as in `redis-di describe orders`, to display a pipeline other than
+`default`. For a shorter overview,
+[`redis-di list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)
+prints a one-line summary of every pipeline, and
 [`redis-di get`](/content/integrate/redis-data-integration/reference/cli/redis-di-get.md)
 does the same for a single pipeline. See the
 [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
@@ -361,6 +369,9 @@ configuration, so you can start it again later from where it left off.
 redis-di stop
 redis-di start
 ```
+
+These commands, like `reset` and `delete`, act on the `default` pipeline unless you pass the name
+of another pipeline, as in `redis-di stop orders`.
 
 To act on a single source instead of the whole pipeline, add `--source`:
 
@@ -411,6 +422,13 @@ The pipeline secrets are not affected, so remove them yourself with
 if you no longer need them. The records the pipeline wrote to the target database are not
 deleted either.
 
+> [!NOTE]
+> Clearing a pipeline discards the source aliases of any source that predates RDI's
+> support for multiple sources, so if you deploy such a source again under the same name you
+> must set its secrets again, and also change its secret references and job `server_name` values. See
+> [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/installation/upgrade.md#redeploying-a-configuration-after-clearing-a-pipeline)
+> for a before and after example.
+
 ## Delete a pipeline
 
 Use [`redis-di delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md)
@@ -419,12 +437,13 @@ keeps the pipeline secrets and does not delete records already written to the ta
 Pass `--wait=false` to return without waiting for the pipeline to disappear, or use `--timeout` to
 change the maximum wait time.
 
-> [!NOTE]
-> Clearing a pipeline discards the source aliases of any source that predates RDI's
-> support for multiple sources, so if you deploy such a source again under the same name you
-> must set its secrets again, and also change its secret references and job `server_name` values. See
-> [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/installation/upgrade.md#redeploying-a-configuration-after-clearing-a-pipeline)
-> for a before and after example.
+```bash
+redis-di delete orders
+```
+
+Deleting a pipeline does not affect the other pipelines. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#start-stop-reset-and-delete-a-pipeline)
+for more information.
 
 ## Wait for changes to complete {#wait}
 

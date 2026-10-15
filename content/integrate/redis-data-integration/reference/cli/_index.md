@@ -84,7 +84,8 @@ commands to create and select contexts rather than editing the file by hand.
 Pipeline-scoped commands take the pipeline name as an optional positional argument that defaults to
 `default`, for example `redis-di start [pipeline]`. Sub-resource commands (for a secret, DLQ, or job)
 take their own key or name as the positional argument and target the pipeline with the `-p` / `--pipeline`
-option, which also defaults to `default`.
+option, which also defaults to `default`. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md) for more information.
 
 There are two command options that select a particular database of the pipeline. The secret commands take `--db` with
 a source name or `target` to address that database's secrets, and the `start`, `stop`, and `reset` commands take

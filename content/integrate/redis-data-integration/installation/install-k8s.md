@@ -481,13 +481,14 @@ the following commands. (If you installed RDI into a custom namespace then
 replace `rdi` with the name of your namespace.)
 
 ```bash
-kubectl delete pipeline default -n rdi
+kubectl delete pipelines --all -n rdi
 helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
 > [!NOTE]
-> The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
+> The line `kubectl delete pipelines --all -n rdi` deletes all your pipelines, and is only
+> needed for RDI 1.8.0 or above.
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`](/content/develop/tools/cli.md) and run a

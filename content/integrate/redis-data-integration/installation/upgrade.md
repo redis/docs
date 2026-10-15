@@ -181,8 +181,8 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 
 ## Upgrading to RDI 2.2.0
 
-RDI 2.2.0 changes pipeline creation, leader election, secret handling, and source metadata
-behavior. Review these changes before upgrading.
+RDI 2.2.0 changes pipeline creation, source naming, leader election, secret handling, and source
+metadata behavior. Review these changes before upgrading.
 
 ### The operator no longer creates an empty pipeline
 
@@ -191,6 +191,16 @@ A new RDI installation has no pipeline until you create one. Create an empty pip
 `PUT /api/v2/pipelines/{name}`. If you upgrade from an RDI version before 1.8, deploy the
 configuration again after the upgrade; the operator no longer creates the `default` pipeline from
 legacy `rdi:config:*` keys.
+
+### Rename sources that the new naming rules reject
+
+RDI 2.2.0 reserves the source name `api` and rejects source names that contain consecutive
+dashes (`--`). Rename any such source before you redeploy the pipeline configuration, and update
+the source's secrets, its secret references in `config.yaml`, and the `server_name` of its jobs.
+See [Name your sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#name-your-sources)
+for the naming rules, and
+[Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source)
+for what renaming a source implies.
 
 ### Upgrade high-availability instances in order
 
@@ -236,10 +246,11 @@ in `advanced.source` to keep the previous behavior.
 
 ### Use named pipelines after the upgrade
 
-RDI 2.2.0 supports pipeline names other than `default`. A name must start with a lowercase letter,
-use only lowercase letters, digits, and dashes, and be no longer than 22 characters. The name `rdi`
-is reserved. Finish upgrading all instances before creating a named pipeline, and do not downgrade
-after creating one.
+RDI 2.2.0 supports pipeline names other than `default`. Finish upgrading all instances before
+creating a named pipeline, and do not downgrade after creating one. Your existing `default`
+pipeline keeps its resource names, Redis keys, and metrics paths. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for the naming rules and for how to manage several pipelines.
 
 ## Upgrading to RDI 2.0.0
 

@@ -71,9 +71,12 @@ For VM installations, the metrics are available by default on the following endp
 
 Above, `<RDI_HTTPS_PORT>` is the HTTPS port you specified when installing RDI, or 443 if you kept the default.
 
-For a named pipeline, prefix the collector and stream processor paths with the pipeline
+For a named pipeline, prefix the collector and Flink processor paths with the pipeline
 name. For example, use `/orders/collector-mysql/metrics` and `/orders/processor/metrics`
-for a pipeline named `orders`. The default pipeline keeps the paths shown above.
+for a pipeline named `orders`. The default pipeline keeps the paths shown above. The classic
+processor endpoint reports the metrics of the `default` pipeline only. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#monitor-each-pipeline)
+for more information.
 
 Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
 
@@ -143,7 +146,7 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
 
 For Debezium collectors, Flink collectors, and Flink processors, RDI adds a `pipeline`
 label to the ServiceMonitor metrics. Use this label to select metrics for a specific
-pipeline, such as `pipeline="orders"`.
+pipeline, such as `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
 
 ## Collector metrics
 
