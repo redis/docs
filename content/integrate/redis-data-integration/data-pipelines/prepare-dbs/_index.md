@@ -31,5 +31,9 @@ RDI supports the following source databases:
 
 {{< embed-md "rdi-supported-source-versions.md" >}}
 
-The pages in this section give detailed instructions to get your source
-database ready for Debezium to use:
+For a proof of concept with a collector that you manage, see
+[Use an external collector](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/external-sources.md).
+This approach is not recommended for production deployments.
+
+The pages in this section explain how to prepare source databases or configure
+an external collector:
