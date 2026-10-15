@@ -167,6 +167,10 @@ arguments:
   name: sorting
   optional: true
   type: oneof
+- name: explainscore
+  optional: true
+  token: EXPLAINSCORE
+  type: pure-token
 - arguments:
   - name: params
     token: PARAMS
@@ -514,7 +518,7 @@ syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SC
   \ nargs property [property ...]\n  [GROUPBY nargs property [property ...]\n   \
   \ [REDUCE function nargs arg [arg ...] [AS name]\n    [REDUCE function nargs arg\
   \ [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression\
-  \ AS name ...]]\n  [FILTER filter]\n  PARAMS nargs vector_param vector_blob [name\
+  \ AS name ...]]\n  [FILTER filter]\n  [EXPLAINSCORE]\n  PARAMS nargs vector_param vector_blob [name\
   \ value ...]\n  [TIMEOUT timeout]"
 title: FT.HYBRID
 ---
@@ -657,16 +661,26 @@ defines parameter substitution for the query. Parameters can be referenced in se
 Example: `PARAMS 4 min_price 50 max_price 200`
 </details>
 
-<!--<details open>
+<details open>
 <summary><code>EXPLAINSCORE</code></summary>
 
-includes detailed score explanations in the results, showing how both text search and vector similarity scores were calculated and combined.
-</details>-->
+returns an explanation of how each result's combined score was calculated. Available in Redis 8.10 and later.
+
+Each result gets a `score` field holding a two-element array: the combined score, followed by a nested explanation tree. You don't need `WITHSCORES`. The tree shows:
+
+- The final score formula and the fusion method with its parameters: `RRF` with `window` and `constant`, or `LINEAR` with `alpha`, `beta`, and `window`.
+- The text branch: the scorer name, such as `BM25STD`, and the scorer's own breakdown. With `RRF`, it shows the text rank. With `LINEAR`, it shows the text contribution and the normalized text score.
+- The vector branch: `KNN` or `RANGE` with its radius and epsilon. With `RRF`, it shows the vector rank. With `LINEAR`, it shows the vector contribution and the normalized vector score. `RANGE` also shows whether the document matched within the radius.
+
+A branch that didn't match the document shows `<no match>`.
+
+`EXPLAINSCORE` can't be combined with `GROUPBY`. The command returns the error `EXPLAINSCORE is not supported with GROUPBY`.
+</details>
 
 <details open>
 <summary><code>TIMEOUT timeout</code></summary>
 
-sets a runtime timeout for the query execution in milliseconds.
+sets a runtime timeout for the query execution in milliseconds. When the query times out, the [`search-on-timeout`](/content/develop/ai/search-and-query/administration/configuration.md#search-on-timeout) policy applies. With `RETURN` or `RETURN_STRICT`, the command returns the results accumulated so far and reports the timeout in `warnings`. With `FAIL`, it returns an error.
 </details>
 
 <!--<details open>
@@ -776,6 +790,45 @@ Use parameter substitution for dynamic queries:
   RANGE 4 RADIUS 0.8 EPSILON 0.1
   FILTER "@availability:$stock_status"
   PARAMS 6 brand_name "Apple" query_vector <vector_blob> stock_status "in_stock"
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Explain hybrid scores</b></summary>
+
+Return the top result with an explanation of its RRF score. The document ranked first in both the text and vector branches:
+
+{{< highlight bash >}}
+127.0.0.1:6379> FT.HYBRID products-idx
+  SEARCH "shoes"
+  VSIM @embedding $query_vec
+  KNN 2 K 3
+  EXPLAINSCORE
+  LIMIT 0 1
+  PARAMS 2 query_vec <vector_blob>
+1) total_results
+2) (integer) 3
+3) results
+4) 1) 1) score
+      2) 1) "0.03278688524590164"
+         2) 1) final score: 1 / (constant 60.00 + rank 1) + 1 / (constant 60.00 + rank 1) = 0.032786885245901641
+            2) 1) 1) Hybrid score (RRF: window=20, constant=60.00)
+                  2) 1) 1) text rank = 1
+                        2) 1) 1) Text scorer: BM25STD
+                              2) 1) 1) Final BM25 : words BM25 1.39 * document score 1.00
+                                    2) 1) 1) (Weight 1.00 * children BM25 1.39)
+                                          2) 1) shoes: (0.69 = Weight 1.00 * IDF 0.69 * (F 1.00 * (k1 1.2 + 1)) / (F 1.00 + k1 1.2 * (1 - b 0.75 + b 0.75 * Doc Len 3 / Average Doc Len 3.00)))
+                                             2) +shoe: (0.69 = Weight 1.00 * IDF 0.69 * (F 1.00 * (k1 1.2 + 1)) / (F 1.00 + k1 1.2 * (1 - b 0.75 + b 0.75 * Doc Len 3 / Average Doc Len 3.00)))
+                     2) 1) vector branch (KNN)
+                        2) 1) vector rank = 1
+      3) "__key"
+      4) "product:1"
+      5) "__score"
+      6) "0.0327868852459"
+5) warnings
+6) (empty array)
+7) execution_time
+8) "2.0055"
 {{< / highlight >}}
 </details>
 
