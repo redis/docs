@@ -28,7 +28,7 @@ To supply complete configuration files in your own Secrets instead, see
 | `shared` | Settings common to the Data Plane and the Control Plane, such as `databases`. The chart merges them under `memory` and `controlplane.configData`. |
 | `memory` | The Data Plane and worker configuration file. |
 | `controlplane.configData` | The Control Plane configuration file. |
-| `identityService.*` | The Identity Service. `identityService.metadata.existingSecret` names the Secret with its Metadata Redis URL. |
+| `identityService.*` | The bundled Identity Service, from the published `iris-identity-service` chart; every key is that chart's values contract. `identityService.metadata.existingSecret` names the Secret with its Metadata Redis URL, and extra service configuration goes in `identityService.configData`. |
 | Overlay Secret (`secrets.secretName`, key `overlay.yaml`) | `metadata.urls`, `metadata.namespace`, `databases."1".urls`, `background_jobs.redis.urls`, and provider `api_key` values. The Data Plane, the workers, and the Control Plane all read it. |
 
 ## Data Plane settings
@@ -53,8 +53,10 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 An `llm` block names its provider with `llm.provider`, which must match an `inference_providers`
 entry. The endpoint goes in `inference_providers.<name>.endpoint`, not in the `llm` block.
 
-In the chart-rendered configuration, the chart writes the agent-key introspection settings for you.
-Leave `auth.method` unset to keep the `agent_key` default.
+In the chart-rendered configuration, the chart writes the agent-key introspection settings for you:
+it owns `auth.agent_keys.introspection.base_url`, `credential`, and `allow_insecure_transport`, and
+refuses hand-set values. Set `dataplane.identityServiceBaseURL` to point at a non-default Identity
+Service endpoint. Leave `auth.method` unset to keep the `agent_key` default.
 
 ## Bring-your-own (BYO) configuration
 
@@ -106,7 +108,7 @@ databases:
 auth:
   agent_keys:
     introspection:
-      base_url: http://redis-agent-memory-identity-service:9200
+      base_url: http://redis-agent-memory-iris-identity-service:9200
       allow_insecure_transport: true
       product: memory
       credential:
