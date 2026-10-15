@@ -19,16 +19,16 @@ Both framework examples use the same task:
 
 The request names no skill. The agent selects one from its name and description in the retrieved previews.
 
-![An application discovers published Playbooks context for a task before the model turn. During the turn, the agent can load skill instructions and files through MCP, then return its response.](/images/ai/context-engine/agent-playbook-session.svg)
+![An application discovers published playbook context for a task before the model turn. During the turn, the agent can load skill instructions and files through MCP, then return its response.](/images/ai/context-engine/agent-playbook-session.svg)
 {width="700"}
 
 Initial SDK discovery replaces routine MCP discovery at the start of the turn. MCP discovery remains available for follow-up questions and publication changes. Progressive disclosure concerns skill instructions and files; the available tool definitions remain the same.
 
 ## Before you begin
 
-Follow the [quickstart setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#before-you-begin" >}}) to install the Playbooks SDK. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` using a key with `read` permission. Publish the sample [refund skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) and keep it published while testing. Publish the [quickstart FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) to test answer lookup too.
+Follow the [quickstart setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#before-you-begin" >}}) to install the Redis Agent Playbooks SDK. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` using a key with `read` permission. Publish the sample [refund skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) and keep it published while testing. Publish the [quickstart FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) to test answer lookup too.
 
-These programs connect to Playbooks from your application runtime, which must reach the SDK and [MCP endpoints]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#configure-the-connection" >}}). They use `gpt-5-mini` for model calls. Export a provider key separately:
+These programs connect to a playbook from your application runtime, which must reach the SDK and [MCP endpoints]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#configure-the-connection" >}}). They use `gpt-5-mini` for model calls. Export a provider key separately:
 
 ```bash
 export OPENAI_API_KEY='<your-openai-api-key>'

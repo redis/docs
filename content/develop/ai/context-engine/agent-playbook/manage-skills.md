@@ -36,7 +36,7 @@ To prepare an upload:
 3. Create a ZIP archive containing exactly one skill directory.
 4. Encode the archive as base64 for the upload request.
 
-Agent Playbooks also enforces [package and content limits]({{< relref "/develop/ai/context-engine/agent-playbook/limits#content-limits" >}}).
+Redis Agent Playbooks also enforces [package and content limits]({{< relref "/develop/ai/context-engine/agent-playbook/limits#content-limits" >}}).
 
 Run these commands in a new directory. The sample uses customer-provided information without accessing an order system. Adapt its guidance to your policy.
 
