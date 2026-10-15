@@ -15,6 +15,22 @@ the main doc page but with `index.html.md` added. For example, the Markdown vers
 this page is available at
 [ai-agent-resources/index.html.md](https://redis.io/docs/latest/ai-agent-resources/index.html.md).
 
+## Bulk downloads
+
+To take whole products at once rather than page by page, use the **Download documentation**
+button in the sidebar of any documentation page. Choose the products you want, a version for
+each, and a format, and you get a single `.tar.gz`.
+
+The archives are also plain files, so you can fetch them directly:
+
+```
+https://redis.io/docs/latest/downloads/bundles/<product>-<version>-<format>.tar.gz
+```
+
+For example, `redis-software-latest-md.tar.gz` or `commands-latest-json.tar.gz`. Formats are
+`md` (one Markdown file per page), `md-single` (a product in one Markdown file), `html`, and
+`json`. Products are `develop`, `integrations`, `redisvl`, `redis-software`, `redis-cloud`, `redis-kubernetes`, `redis-open-source`, `redis-iris`, `redis-feature-form`, `redis-insight`, `redis-data-integration`, `glossary`, and `commands`.
+
 ## JSON documentation feeds
 
 Redis documentation is available in structured JSON format optimized for RAG (Retrieval-Augmented Generation) systems.
@@ -225,10 +241,11 @@ overlap: a heading of "Version history" is `history` rather than `compatibility`
 
 A page's introductory text, before its first heading, is also given the `overview` role.
 
-{{< note >}}This vocabulary is descriptive, not a contract. It reflects the values produced
-today and may gain entries, or change how a heading maps to a role, without notice. If you
-filter or rank on `role`, treat an unrecognized value as `content` rather than discarding the
-section, and do not assume a value you rely on will keep its current name.{{< /note >}}
+> [!NOTE]
+> This vocabulary is descriptive, not a contract. It reflects the values produced
+> today and may gain entries, or change how a heading maps to a role, without notice. If you
+> filter or rank on `role`, treat an unrecognized value as `content` rather than discarding the
+> section, and do not assume a value you rely on will keep its current name.
 
 ### Verifying content_hash
 

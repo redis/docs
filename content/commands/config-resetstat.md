@@ -33,7 +33,7 @@ summary: Resets the server's statistics.
 syntax_fmt: CONFIG RESETSTAT
 title: CONFIG RESETSTAT
 ---
-Resets the statistics reported by Redis using the [`INFO`]({{< relref "/commands/info" >}}) and [`LATENCY HISTOGRAM`]({{< relref "/commands/latency-histogram" >}}) commands.
+Resets the statistics reported by Redis using the [`INFO`](/content/commands/info.md) and [`LATENCY HISTOGRAM`](/content/commands/latency-histogram.md) commands.
 
 The following is a non-exhaustive list of values that are reset:
 

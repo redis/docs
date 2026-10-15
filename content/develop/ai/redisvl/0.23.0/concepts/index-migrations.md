@@ -5,9 +5,8 @@ url: '/develop/ai/redisvl/0.23.0/concepts/index-migrations/'
 ---
 
 
-{{< warning >}}
-The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
-{{< /warning >}}
+> [!WARNING]
+> The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
 
 Redis Search indexes are immutable. To change an index schema, you must drop the existing index and create a new one. RedisVL provides a migration workflow that automates this process while preserving your data.
 

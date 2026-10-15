@@ -52,9 +52,8 @@ Run it over SSE:
 uvx --from redisvl[mcp] rvl mcp --config /path/to/mcp.yaml --transport sse --host 0.0.0.0 --port 9000 --allow-unauthenticated
 ```
 
-{{< warning >}}
-Streamable HTTP and SSE endpoints are **unauthenticated by default**. Binding to a non-loopback host without auth fails closed unless you pass `--allow-unauthenticated`; binding to loopback without auth only warns. For real deployments, enable JWT authentication (see [Authenticate RedisVL MCP]({{< relref "mcp_authentication" >}})) rather than using `--allow-unauthenticated`. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
-{{< /warning >}}
+> [!WARNING]
+> Streamable HTTP and SSE endpoints are **unauthenticated by default**. Binding to a non-loopback host without auth fails closed unless you pass `--allow-unauthenticated`; binding to loopback without auth only warns. For real deployments, enable JWT authentication (see [Authenticate RedisVL MCP]({{< relref "mcp_authentication" >}})) rather than using `--allow-unauthenticated`. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
 
 ### Transport Security (Host / Origin Validation)
 
@@ -75,9 +74,8 @@ server:
     # enabled: false                           # disable when a trusted proxy validates
 ```
 
-{{< note >}}
-Behind a reverse proxy or gateway that already validates `Host`/`Origin`, set `server.transport_security.enabled: false` (or `allow_any_origin: true`) so the proxy’s rewritten headers are not rejected.
-{{< /note >}}
+> [!NOTE]
+> Behind a reverse proxy or gateway that already validates `Host`/`Origin`, set `server.transport_security.enabled: false` (or `allow_any_origin: true`) so the proxy’s rewritten headers are not rejected.
 
 Run it in read-only mode to expose search without upsert:
 
@@ -284,6 +282,135 @@ On a multi-index server, `search-records` and `upsert-records` take an optional 
 - With exactly one index configured, `index` may be omitted and resolves to that binding.
 - With multiple indexes configured, omitting `index` returns `invalid_request`; an unknown id also returns `invalid_request`.
 - Clients should call [`list-indexes`]() first to discover the available ids and their filterable fields.
+
+### Custom Tool Profiles
+
+A **profile** publishes `search-records` under your own name and description with some arguments pre-filled and frozen. It is pure config — no Python — and it resolves to a built-in call, so it inherits the same limits, read-only policy, auth scoping, and error contract.
+
+```yaml
+server:
+  redis_url: redis://localhost:6379
+  builtin_tools:
+    search-records: disabled          # the curated tool replaces it
+
+indexes:
+  tickets:
+    redis_name: support-tickets
+    search:
+      type: fulltext
+    runtime:
+      text_field_name: body
+      default_limit: 5
+      max_limit: 20
+
+custom_tools:
+  - name: search-resolved-tickets
+    based_on: search-records
+    index: tickets
+    description: >
+      Search resolved customer support tickets by relevance.
+      Use this to find how a similar problem was fixed before.
+    lock:
+      return_fields: [subject, resolution, created_at]
+      filter: { field: status, op: eq, value: resolved }
+    params:
+      limit: { expose: true, max: 10 }
+      filter: { expose: true }
+```
+
+What the client sees for `search-resolved-tickets`:
+
+- `query` (required), `limit` (≤ 10), `offset`, and `filter` — and nothing else.
+- No `index` argument: the binding is pinned by `index:` in the config.
+- No `return_fields` argument: locking a projection removes it from the contract.
+- `filter` accepts the **object** form only. A raw string filter is refused — by the advertised schema for a compliant client, and by the tool itself otherwise.
+
+Rules worth knowing:
+
+- **Anything not listed under `params` stays exposed.** Locking only a filter keeps the rest of the built-in’s contract intact.
+- **Locked and caller filters are AND-combined.** The caller can narrow within the locked scope but never widen past it — an `or` from the caller nests inside the locked AND rather than replacing it.
+- **`params.limit.max` bounds the result count either way.** An omitted `limit` is capped rather than falling through to `default_limit`; an explicit request above the cap returns `invalid_request`. With `expose: false`, the cap becomes the fixed result count. The cap may not exceed the binding’s `max_limit`. It bounds page size, not total reachable data — `offset` still pages within `max_result_window`.
+- **`suppress_schema_hints: true`** drops the auto-generated filter/return-field hints from the description. By default they are appended only for arguments the model can still use.
+- **`index` may be omitted only with exactly one index configured.**
+
+`builtin_tools` is independent of profiles: use it to stop advertising any built-in, for example `upsert-records: disabled` on a server that should only read. Disabling `list-indexes` on a multi-index server logs a warning, because `search-records` tells clients to call it to discover index ids.
+
+Misconfiguration fails at startup, not at the first call — a name colliding with a built-in or using a reserved `redisvl-`/`redisvl_` prefix, a duplicate name, a missing or unknown `index`, a cap above `max_limit`, hiding `query`, locking `return_fields` while also exposing them, or a locked filter or projection naming a field the index does not have. Unrecognized keys are rejected too, so a typo in `lock` fails loudly instead of quietly producing a tool that reads as locked but enforces nothing.
+
+### Tenant Scoping With Claim Injection
+
+When tenants share one index, a profile can take the tenant from the caller’s verified token instead of trusting the model to pass a filter. This needs authentication, so the example configures it; see [Authenticate RedisVL MCP]({{< relref "mcp_authentication" >}}) for the rest of that block.
+
+The index needs the tenant on every document, as a tag. Declare it `CASESENSITIVE` unless your identity provider guarantees one case, because tag fields otherwise treat `Acme` and `acme` as the same tenant:
+
+```yaml
+# The RedisVL schema the index was created from
+index:
+  name: customer-kb
+  prefix: kb
+fields:
+  - name: content
+    type: text
+  - name: org_id
+    type: tag
+    attrs:
+      case_sensitive: true
+```
+
+Then point a profile at it:
+
+```yaml
+server:
+  redis_url: redis://localhost:6379
+  builtin_tools:
+    search-records: disabled          # both built-ins reach the index unscoped,
+    upsert-records: disabled          # so the server refuses to start with either on
+  auth:
+    type: jwt
+    jwks_uri: ${MCP_JWKS_URI}
+    issuer: ${MCP_ISSUER}
+    audience: api://redisvl-mcp
+    required_claims: [exp, iat, "https://acme.example/org"]
+
+indexes:
+  customer_kb:
+    redis_name: customer-kb
+    search:
+      type: fulltext
+    runtime:
+      text_field_name: content
+
+custom_tools:
+  - name: search-customer-kb
+    index: customer_kb
+    description: Search this customer's knowledge base.
+    lock:
+      inject:
+        - field: org_id
+          from: claim
+          claim: "https://acme.example/org"
+          required: true
+```
+
+Serve it over HTTP:
+
+```bash
+rvl mcp --config /path/to/mcp_config.yaml --transport streamable-http
+```
+
+What the client sees for `search-customer-kb`:
+
+- `query` (required), `limit`, `offset`, `filter` and `return_fields`, with no argument for `org_id`. A call that passes `org_id` anyway is rejected.
+- A description whose field hints list `content` but not `org_id`.
+- Results from its own tenant only. A `filter` naming `org_id` ANDs with the injected value, so naming another tenant returns nothing. Results still carry `org_id`, always with the caller’s own value, unless you lock `return_fields` to leave it out.
+
+The server refuses to start while anything else can reach the same Redis index without the tenant scope: `search-records`, `upsert-records` unless every binding over the index is `read_only`, or another custom tool on that index whose `lock.inject` differs, including one with none. Bindings that share a `redis_name` are the same index, so a vector tool and a fulltext tool over one set of documents must inject the same scope. Each of those routes would hand every caller a way round the profile, and a write could retag another tenant’s document as the writer’s own. Ingest documents outside the server, stamping `org_id` exactly as the identity provider emits it.
+
+A tool meant to read across tenants, such as an internal support search, belongs on a separate server with its own authentication. Every tool on one server sits behind the same read scope, so any tenant could call it.
+
+Listing the tenant claim under `required_claims` makes the verifier reject a token without it before any tool runs. That checks presence only: the profile still validates the value on every call, and refuses a missing, empty, list-valued or otherwise unusable claim with a `forbidden` error before any query runs.
+
+The server refuses to start an injecting profile without authentication, over `stdio`, or on a field the index does not hold as an indexed tag. The `stdio` check applies when the server starts through `rvl mcp` or `run_async`. For what the guarantee covers and what it rests on, read the threat model in [RedisVL MCP]({{< relref "../../concepts/mcp" >}}).
 
 ## Tool Contracts
 
@@ -666,3 +793,15 @@ If the vectorizer dims do not match the configured vector field dims, startup fa
 ### Hybrid Config Requires Native Runtime Support
 
 Some hybrid params depend on native hybrid support in Redis and redis-py. If your environment does not support that path, remove native-only params such as `knn_ef_runtime` or upgrade Redis and redis-py.
+
+### Claim Injection Requires Authentication
+
+A profile with `lock.inject` refuses to start when authentication is not enabled, or when the server runs over `stdio`, because neither can supply a verified token. Configure `server.auth` and serve over `sse` or `streamable-http`. The check runs before the server connects to Redis, so it reports even when Redis is unreachable.
+
+### Claim Injection Refuses an Unscoped Route
+
+A profile with `lock.inject` refuses to start while its Redis index is also reachable through `search-records`, through `upsert-records` on any writable binding over it, or through another custom tool on it whose `lock.inject` differs, including one with none. Bindings that share a `redis_name` are the same index. The error names the Redis index and the bindings over it, each route it found, and each tool’s injected scope. Disable the built-ins under `server.builtin_tools`, mark every binding over the index `read_only`, and give every custom tool on the index the same `lock.inject`. Move a tool meant to read across tenants to a separate server with its own authentication.
+
+### Claim Injection Fails Every Request With `forbidden`
+
+The token is verified but its claim is unusable: missing, empty, padded with whitespace, not a single string, or containing a control character or backtick. The error names the claim and the tool. A misspelled `claim` name in the config is the usual cause, since a JWT claim name such as `https://acme.example/org` must match exactly.

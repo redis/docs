@@ -17,7 +17,7 @@ After you have [created your first Context Retriever service]({{< relref "/opera
 
 This page displays a list of all Context Retriever services associated with your account.
 
-{{<image filename="images/rc/context-retriever-service-list.png" alt="The Context Retriever service in the Context Retriever service list." >}}
+![The Context Retriever service in the Context Retriever service list.](/images/rc/context-retriever-service-list.png)
 
 Select your Context Retriever service from the list to view the service's details.
 
@@ -34,7 +34,7 @@ The **Overview** tab lets you view the details of your Context Retriever service
 
 The **Details** section provides general settings for your Context Retriever service.
 
-{{<image filename="images/rc/context-retriever-view-details.png" alt="The General settings for the Context Retriever service." >}}
+![The General settings for the Context Retriever service.](/images/rc/context-retriever-view-details.png)
 
 | Setting name | Description |
 |:-------------|:------------|
@@ -46,7 +46,7 @@ The **Details** section provides general settings for your Context Retriever ser
 
 The **Entities** section shows the entities, fields, and relationships that Context Retriever uses to generate retrieval tools.
 
-{{<image filename="images/rc/context-retriever-view-entities.png" alt="The Entities section for the Context Retriever service." >}}
+![The Entities section for the Context Retriever service.](/images/rc/context-retriever-view-entities.png)
 
 Expand each entity to view its fields, primary keys, related entities, types, and indexes. 
 
@@ -54,7 +54,7 @@ Expand each entity to view its fields, primary keys, related entities, types, an
 
 The **Tools** section shows the tools that are available to your Agents.
 
-{{<image filename="images/rc/context-retriever-view-tools.png" alt="The Entities section for the Context Retriever service." >}}
+![The Entities section for the Context Retriever service.](/images/rc/context-retriever-view-tools.png)
 
 You can use your Agents to call your tools. For more information, see the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/)
 
@@ -62,7 +62,7 @@ You can use your Agents to call your tools. For more information, see the [Conte
 
 The **Actions** section lets you delete your Context Retriever service.
 
-{{<image filename="images/rc/context-retriever-view-actions.png" alt="The actions for the Context Retriever service." >}}
+![The actions for the Context Retriever service.](/images/rc/context-retriever-view-actions.png)
 
 #### Delete service
 

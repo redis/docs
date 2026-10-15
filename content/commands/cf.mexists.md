@@ -35,7 +35,7 @@ title: CF.MEXISTS
 ---
 Determines whether one or more items were added to a cuckoo filter.
 
-This command is similar to [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}), except that more than one item can be checked.
+This command is similar to [`CF.EXISTS`](/content/commands/cf.exists.md), except that more than one item can be checked.
 
 ## Required arguments
 
@@ -75,13 +75,13 @@ redis> CF.MEXISTS cf item1 item2 item3
     tab2="RESP3" >}}
 
 One of the following:
-* An [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}), where each element corresponds to an item in the request. A value of `1` means the item was probably already added to the filter. A value of `0` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
+* An [array](/content/develop/reference/protocol-spec.md#arrays) of [integers](/content/develop/reference/protocol-spec.md#integers), where each element corresponds to an item in the request. A value of `1` means the item was probably already added to the filter. A value of `0` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 -tab-sep-
 
 One of the following:
-* An [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [booleans]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where each element corresponds to an item in the request. A value of `true` means the item was probably already added to the filter. A value of `false` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
+* An [array](/content/develop/reference/protocol-spec.md#arrays) of [booleans](/content/develop/reference/protocol-spec.md#booleans), where each element corresponds to an item in the request. A value of `true` means the item was probably already added to the filter. A value of `false` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 {{< /multitabs >}}

@@ -32,7 +32,7 @@ title: HOTKEYS RESET
 ---
 Release the resources used for hotkey tracking.
 
-This command can only be executed when hotkey tracking is stopped. It will return an error if tracking is currently active. Use [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) first to stop tracking, then use `HOTKEYS RESET` to free the allocated resources.
+This command can only be executed when hotkey tracking is stopped. It will return an error if tracking is currently active. Use [`HOTKEYS STOP`](/content/commands/hotkeys-stop.md) first to stop tracking, then use `HOTKEYS RESET` to free the allocated resources.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -48,14 +48,14 @@ This command can only be executed when hotkey tracking is stopped. It will retur
 
 One of the following:
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when resources are successfully released.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when tracking is currently active.
+- [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when resources are successfully released.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): when tracking is currently active.
 
 -tab-sep-
 
 One of the following:
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when resources are successfully released.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when tracking is currently active.
+- [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when resources are successfully released.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): when tracking is currently active.
 
 {{< /multitabs >}}

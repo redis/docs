@@ -51,20 +51,20 @@ syntax_fmt: FT.PROFILE index <SEARCH | HYBRID | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}), or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) command to collect performance details. For usage, see [Examples](#examples).
+Apply [`FT.SEARCH`](/content/commands/ft.search.md), [`FT.HYBRID`](/content/commands/ft.hybrid.md), or [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) command to collect performance details. For usage, see [Examples](#examples).
 
 ## Required arguments
 
 <details open>
 <summary><code>index</code></summary>
 
-is the name of an index created using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is the name of an index created using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
 <summary><code>SEARCH | HYBRID |  AGGREGATE</code></summary>
 
-represents the profile type, either [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}), or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
+represents the profile type, either [`FT.SEARCH`](/content/commands/ft.search.md), [`FT.HYBRID`](/content/commands/ft.hybrid.md), or [`FT.AGGREGATE`](/content/commands/ft.aggregate.md).
 </details>
 
 <details open>
@@ -83,10 +83,9 @@ is the query string, sent to `FT.SEARCH`, `FT.HYBRID`, or `FT.AGGREGATE`.
 
 ## Return
 
-{{< note>}}
-This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.3. 
-The output format itself may differ between RediSearch versions, and RESP protocol versions.
-{{< /note >}}
+> [!NOTE]
+> This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10.26, v8.2.7, and v8.4.3. 
+> The output format itself may differ between RediSearch versions, and RESP protocol versions.
 
 `FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH`, `FT.HYBRID`, or `FT.AGGREGATE` command.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
@@ -130,7 +129,7 @@ Iterator types include:
 * `EMPTY`
 * `WILDCARD`
 * `OPTIONAL`
-* `OPTIMIZER` with `Optimizer mode` - Query optimization wrapper for `FT.SEARCH` queries sorted by a numeric field. Enabled by default in [DIALECT 4]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects##dialect-4-deprecated" >}}) or explicitly with `WITHOUTCOUNT`.
+* `OPTIMIZER` with `Optimizer mode` - Query optimization wrapper for `FT.SEARCH` queries sorted by a numeric field. Enabled by default in [DIALECT 4](/content/develop/ai/search-and-query/advanced-concepts/dialects.md##dialect-4-deprecated) or explicitly with `WITHOUTCOUNT`.
 * `ID-LIST` - Iterator over specific document IDs (appears when using `INKEYS`)
 
 **Notes on `Number of reading operations` and `Estimated number of matches`**
@@ -447,23 +446,23 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with two elements: search results and profiling information.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) with two elements: search results and profiling information.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with two keys: `Results` containing search results and `Profile` containing profiling information.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with two keys: `Results` containing search results and `Profile` containing profiling information.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
+[`FT.SEARCH`](/content/commands/ft.search.md) | [`FT.HYBRID`](/content/commands/ft.hybrid.md) | [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) 
 
 ## Related topics
 
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)
+- [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)
 

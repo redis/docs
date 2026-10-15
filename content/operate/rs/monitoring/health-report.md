@@ -27,7 +27,7 @@ The consolidated health report is a read-only, consolidated snapshot of a cluste
 
 - High availability health
 
-The consolidated health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and required SSH access to view.
+The consolidated health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`](/content/operate/rs/references/cli-utilities/rladmin/status.md) and required SSH access to view.
 
 As of Redis Software version 8.0.16, you can access the cluster and database health reports using the [Cluster manager UI](#view-health-overview) or [REST API requests](#health-rest-api-requests).
 
@@ -37,7 +37,7 @@ You can access the cluster and database health reports using the **Overview** sc
 
 You can view node health
 
-{{<image filename="images/rs/screenshots/overview/health-report-overview.png" alt="The health report screen.">}}
+![The health report screen.](/images/rs/screenshots/overview/health-report-overview.png)
 
 ### Cluster info
 
@@ -61,31 +61,31 @@ The **Nodes** section shows the status of nodes in the cluster and indicates whi
 
 In the **Databases** section, you can check each database's status and Redis version. You can click the number listed by each field to display the relevant database names and click on the database links to view database details.
 
-{{<image filename="images/rs/screenshots/overview/db-status-hover.png" alt="Active database names and links are displayed.">}}
+![Active database names and links are displayed.](/images/rs/screenshots/overview/db-status-hover.png)
 
 ### Certificates
 
 The **Certificates** section shows whether the cluster's certificates are still valid. If a certificate appears as no longer valid, you can click the **Certificates** link to update the certificate.
 
-{{<image filename="images/rs/screenshots/overview/cert-expires-soon.png" alt="The certificates section shows an alert that the SSO service certificate expires soon.">}}
+![The certificates section shows an alert that the SSO service certificate expires soon.](/images/rs/screenshots/overview/cert-expires-soon.png)
 
 ### Actions
 
 In the **Actions** section, you can view currently running actions.
 
-{{<image filename="images/rs/screenshots/overview/running-actions.png" alt="The Actions section shows a database upgrade is in progress.">}}
+![The Actions section shows a database upgrade is in progress.](/images/rs/screenshots/overview/running-actions.png)
 
 ### Alerts and services
 
 If a configured alert threshold is reached or a running service stops, an alert will appear in the **Alerts & Services** section.
 
-{{<image filename="images/rs/screenshots/overview/active-alerts.png" alt="Active alerts are displayed ephemeral and persistent storage have reached 90% capacity.">}}
+![Active alerts are displayed ephemeral and persistent storage have reached 90% capacity.](/images/rs/screenshots/overview/active-alerts.png)
 
 ## View node health {#view-node-health}
 
 On the **Nodes** screen of the Cluster Manager UI, you can click on a node to go to its **Node configuration** tab and view node health details.
 
-{{<image filename="images/rs/screenshots/nodes/node-config-screen.png" alt="Node configuration screen.">}}
+![Node configuration screen.](/images/rs/screenshots/nodes/node-config-screen.png)
 
 ### Verify nodes
 
@@ -103,7 +103,7 @@ On the **Nodes** screen, click **Verify all nodes**.
     
 1. Select **Verify node** from the list.
 
-<img src="../../../../images/rs/screenshots/nodes/primary-node-more-actions-8-0.png" alt="Click the more actions button for a node to access node actions.">
+![Click the more actions button for a node to access node actions.](/images/rs/screenshots/nodes/primary-node-more-actions-8-0.png)
 
 {{< /multitabs >}}
 
@@ -115,19 +115,19 @@ The **Node storage** section of the **Node configuration** tab provides memory u
 
 In the **Services** section **Node configuration** tab, you can view the list of services running on the node and the most recent status of each.
 
-{{<image filename="images/rs/screenshots/nodes/node-stopped-service.png" alt="The services section shows most services running and one stopped service.">}}
+![The services section shows most services running and one stopped service.](/images/rs/screenshots/nodes/node-stopped-service.png)
 
 ### Shards
 
 When viewing a node's configuration, you can click the **Shards** tab to view a list of database shards running on the node and related details such as each shard's ID, current status, role, and slot range.
 
-{{<image filename="images/rs/screenshots/nodes/node-shards.png" alt="A list of database shards on the node.">}}
+![A list of database shards on the node.](/images/rs/screenshots/nodes/node-shards.png)
 
 ## Health report REST API requests {#health-rest-api-requests}
 
 ### Cluster health report requests
 
-[Cluster health report]({{<relref "/operate/rs/references/rest-api/api-reference/#tag/Cluster/operation/cluster_cluster_health_report">}}) REST API requests provide overall health information for a cluster:
+[Cluster health report](/content/operate/rs/references/rest-api/api-reference.md#tag/Cluster/operation/cluster_cluster_health_report) REST API requests provide overall health information for a cluster:
 
 ```sh
 GET https://<host>:<port>/v4/cluster/health
@@ -135,7 +135,7 @@ GET https://<host>:<port>/v4/cluster/health
 
 ### Database health report requests
 
-[Database health report]({{<relref "/operate/rs/references/rest-api/api-reference/#tag/Database/operation/cluster_database_health_report">}}) REST API requests provide detailed health information for a specific database:
+[Database health report](/content/operate/rs/references/rest-api/api-reference.md#tag/Database/operation/cluster_database_health_report) REST API requests provide detailed health information for a specific database:
 
 ```sh
 GET https://<host>:<port>/v4/bdb/<database_id>/health

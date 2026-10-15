@@ -82,6 +82,49 @@ public class StringExample {
             // HIDE_END
             // STEP_END
 
+            // STEP_START cas_cad
+            CompletableFuture<Void> casCad = asyncCommands.set("bike:1", "Deimos")
+                    .thenCompose(setup -> asyncCommands.set("bike:1", "Ares",
+                            SetArgs.Builder.compareCondition(CompareCondition.valueEq("Deimos"))))
+                    .thenCompose(v -> {
+                        System.out.println(v); // >>> OK
+                        // REMOVE_START
+                        assertThat(v).isEqualTo("OK");
+                        // REMOVE_END
+                        return asyncCommands.set("bike:1", "Zeus",
+                                SetArgs.Builder.compareCondition(CompareCondition.valueEq("Deimos")));
+                    }).thenCompose(v -> {
+                        System.out.println(v); // >>> null
+                        // REMOVE_START
+                        assertThat(v).isNull();
+                        // REMOVE_END
+                        return asyncCommands.get("bike:1");
+                    }).thenCompose(v -> {
+                        System.out.println(v); // >>> Ares
+                        // REMOVE_START
+                        assertThat(v).isEqualTo("Ares");
+                        // REMOVE_END
+                        return asyncCommands.delex("bike:1", CompareCondition.valueEq("Deimos"));
+                    }).thenCompose(v -> {
+                        System.out.println(v); // >>> 0
+                        // REMOVE_START
+                        assertThat(v).isEqualTo(0L);
+                        // REMOVE_END
+                        return asyncCommands.delex("bike:1", CompareCondition.valueEq("Ares"));
+                    })
+                    // REMOVE_START
+                    .thenApply(res -> {
+                        assertThat(res).isEqualTo(1L);
+                        return res;
+                    })
+                    // REMOVE_END
+                    .thenAccept(System.out::println) // >>> 1
+                    .toCompletableFuture();
+            // STEP_END
+            // HIDE_START
+            casCad.join();
+            // HIDE_END
+
             // STEP_START mset
             Map<String, String> bikeMap = new HashMap<>();
             bikeMap.put("bike:1", "Deimos");

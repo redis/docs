@@ -23,9 +23,8 @@ Administrators can use these CLI tools to manage and test a Redis Software clust
 
 The `/opt/redislabs/bin/` directory also contains utilities used internally by Redis Software and for troubleshooting.
 
-{{<warning>}}
-Do not use these tools for normal operations.
-{{</warning>}}
+> [!WARNING]
+> Do not use these tools for normal operations.
 
 | Utility | Description |
 |---------|-------------|

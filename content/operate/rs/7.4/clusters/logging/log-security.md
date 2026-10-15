@@ -10,13 +10,13 @@ linktitle: Manage logs
 weight: 50
 url: '/operate/rs/7.4/clusters/logging/log-security/'
 ---
-Redis Enterprise comes with [a set of logs]({{< relref "/operate/rs/7.4/clusters/logging" >}}) on the server and available through the user interface to assist users in investigating actions taken on the server and to troubleshoot issues.
+Redis Enterprise comes with [a set of logs](/content/operate/rs/7.4/clusters/logging/_index.md) on the server and available through the user interface to assist users in investigating actions taken on the server and to troubleshoot issues.
 
 ## Send logs to a remote logging server
 
 Redis Enterprise sends logs to syslog by default. You can send these logs to a remote logging server by configuring syslog.
 
-To do this, modify the syslog or rsyslog configuration on your operating system to send logs in the `$logdir` directory (`/var/opt/redislabs/log` in default installations) to a remote monitoring server of your choice. See [rsyslog logging]({{< relref "/operate/rs/7.4/clusters/logging/rsyslog-logging/" >}}) for additional details.
+To do this, modify the syslog or rsyslog configuration on your operating system to send logs in the `$logdir` directory (`/var/opt/redislabs/log` in default installations) to a remote monitoring server of your choice. See [rsyslog logging](/content/operate/rs/7.4/clusters/logging/rsyslog-logging/_index.md) for additional details.
 
 ## Log rotation
 
@@ -76,6 +76,5 @@ The following log rotation policy is enabled by default in Redis Enterprise Soft
 
 - `notifempty` - Don't rotate the log file if it is empty.
 
-{{<note>}}
-For large scale deployments, you might need to rotate logs at faster intervals than daily. You can also use a cronjob or external vendor solutions.
-{{</note>}}
+> [!NOTE]
+> For large scale deployments, you might need to rotate logs at faster intervals than daily. You can also use a cronjob or external vendor solutions.

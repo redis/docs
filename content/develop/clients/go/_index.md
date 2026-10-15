@@ -23,7 +23,7 @@ weight: 7
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.
 The sections below explain how to install `go-redis` and connect your application to a Redis database.
 
-`go-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`go-redis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -55,7 +55,7 @@ Then connect to localhost on port 6379 and add a
 {{< clients-example set="landing" step="connect" lang_filter="Go" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-You can also connect using a connection string:
+You can also connect using a connection URL:
 
 ```go
 opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
@@ -66,13 +66,18 @@ if err != nil {
 client := redis.NewClient(opt)
 ```
 
+> [!NOTE]
+> go-redis supports [connection URLs](/content/develop/clients/connection-urls.md#go-redis-go) through `redis.ParseURL()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 After connecting, you can test the connection by  storing and retrieving
-a simple [string]({{< relref "/develop/data-types/strings" >}}):
+a simple [string](/content/develop/data-types/strings/_index.md):
 
 {{< clients-example set="landing" step="set_get_string" lang_filter="Go" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
+You can also easily store and retrieve a [hash](/content/develop/data-types/hashes.md):
 
 {{< clients-example set="landing" step="set_get_hash" lang_filter="Go" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" >}}
 {{< /clients-example >}}

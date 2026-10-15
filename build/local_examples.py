@@ -99,6 +99,10 @@ def get_client_name_from_language_and_path(language: str, path: str,
       ('using NRedisStack') anywhere in the file content, which matches both the root
       namespace import and any subnamespace imports (e.g. 'using NRedisStack.Search;').
 
+    For Python (.py) files, override based on path substrings:
+    - If 'redisvl' in path -> RedisVL
+    - Otherwise -> Python
+
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
     if language == 'node.js':
@@ -116,6 +120,9 @@ def get_client_name_from_language_and_path(language: str, path: str,
             return 'Rust-Async'
         if 'rust-sync' in path:
             return 'Rust-Sync'
+    if language == 'python':
+        if 'redisvl' in path:
+            return 'RedisVL'
     if language == 'c#':
         variant = 'Async' if 'async' in path else 'Sync'
         client = 'NRedisStack' if is_nredisstack_example(content) else 'SE.Redis'

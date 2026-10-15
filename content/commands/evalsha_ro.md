@@ -62,11 +62,11 @@ summary: Executes a read-only server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA_RO sha1 numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA_RO
 ---
-This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}}) command that cannot execute commands that modify data.
+This is a read-only variant of the [`EVALSHA`](/content/commands/evalsha.md) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`EVALSHA`]({{< relref "/commands/evalsha" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
+For more information about when to use this command vs [`EVALSHA`](/content/commands/evalsha.md), please refer to [Read-only scripts](/content/develop/programmability/_index.md#read-only-scripts).
 
-For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVALSHA`](/content/commands/evalsha.md) scripts please refer to [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Required arguments
 

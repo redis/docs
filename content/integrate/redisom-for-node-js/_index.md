@@ -33,16 +33,15 @@ Redis OM leverages the JSON and Redis Search features included in Redis Stack, e
 
 With Redis OM, you work with familiar object-oriented patterns while Redis Stack handles the underlying data storage, indexing, and querying efficiently.
 
-{{< note >}}
-Redis Stack was replaced by Redis Open Source as of version 8.0.
-{{< /note >}}
+> [!NOTE]
+> Redis Stack was replaced by Redis Open Source as of version 8.0.
 
 ## Prerequisites
 
 Like anything software-related, you need to have some dependencies installed before you can get started:
 
 - [Node.js 14.8+](https://nodejs.org/en/): In this tutorial, we're using JavaScript's top-level `await` feature which was introduced in Node 14.8. So, make sure you are using that version or later.
-- [Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}): You need a version of Redis Stack, either running locally on your machine or [in the cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
+- [Redis Stack](/content/operate/oss_and_stack/install/archive/install-stack/_index.md): You need a version of Redis Stack, either running locally on your machine or [in the cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/): We'll use this to look inside Redis and make sure our code is doing what we think it's doing.
 
 
@@ -770,7 +769,7 @@ app.use('/persons', searchRouter)
 
 And that's that. But this just isn't enough to satisfy. It doesn't show you anything new, except maybe the usage of a `date` field. And, it's not really location *tracking*. It just shows where these people last were, no history. So let's add some!.
 
-To add some history, we're going to use a [Redis Stream]({{< relref "/develop/data-types/streams" >}}). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
+To add some history, we're going to use a [Redis Stream](/content/develop/data-types/streams/_index.md). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
 
 But there's a problem. Redis OM doesn’t support Streams even though Redis Stack does. So how do we take advantage of them in our application? By using [Node Redis](https://github.com/redis/node-redis). Node Redis is a low-level Redis client for Node.js that gives you access to all the Redis commands and data types. Internally, Redis OM is creating and using a Node Redis connection. You can use that connection too. Or rather, Redis OM can be *told* to use the connection you are using. Let me show you how.
 
@@ -807,7 +806,7 @@ And that's it. Redis OM is now using the `connection` you created. Note that we 
 
 ## Storing location history with Streams
 
-To add an event to a Stream we need to use the [XADD]({{< relref "/commands/xadd" >}}) command. Node Redis exposes that as `.xAdd()`. So, we need to add a call to `.xAdd()` in our route. Modify `location-router.js` to import our `connection`:
+To add an event to a Stream we need to use the [XADD](/content/commands/xadd.md) command. Node Redis exposes that as `.xAdd()`. So, we need to add a call to `.xAdd()` in our route. Modify `location-router.js` to import our `connection`:
 
 {{< highlight javascript >}}
 import { connection } from '../om/client.js'

@@ -121,4 +121,4 @@ redis> GET mykey
 
 ## See also
 
-[`TTL`]({{< relref "/commands/ttl" >}})
+[`TTL`](/content/commands/ttl.md)

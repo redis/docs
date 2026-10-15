@@ -1,0 +1,32 @@
+{{- /*
+  rdi-demo
+  --------
+  Scripted, dependency-free demo of Redis Data Integration (RDI): a
+  pipeline syncs three PostgreSQL tables into Redis, SQL statements the
+  reader runs flow through change data capture, and a job file changes one
+  table's keys. Runs entirely in the browser; no pipeline is called.
+
+  Usage (no arguments):
+      {{< rdi-demo >}}
+
+  Base styles come from context-retriever-demo.css so the Iris demos share
+  one look; rdi-demo.css adds this demo's pieces.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice if the shortcode is used more than once.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/rdi-demo.css" "js/rdi-demo.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/rdi-demo.css" | relURL }}?v={{ index $v "css/rdi-demo.css" }}">
+<script defer src="{{ "js/rdi-demo.js" | relURL }}?v={{ index $v "js/rdi-demo.js" }}"></script>
+
+<div class="rcr rdi" data-rdi>
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>

@@ -105,13 +105,13 @@ To add shards using the Cluster Manager UI:
 
 1. Click **Save**.
 
-To add nodes to the cluster, see [Add a node]({{<relref "/operate/rs/clusters/add-node">}}) for instructions.
+To add nodes to the cluster, see [Add a node](/content/operate/rs/clusters/add-node.md) for instructions.
 
 ### Increase RAM-to-flash ratio
 
 To improve throughput and lower latency, you can expand the in-memory tier to serve a higher proportion of requests directly from RAM. This strategy is recommended when low latency is your primary goal and you don't need to increase the dataset size.
 
-Before increasing the RAM-to-flash ratio, you might need to add more nodes to accommodate additional RAM. See [Add a node]({{<relref "/operate/rs/clusters/add-node">}}) for instructions.
+Before increasing the RAM-to-flash ratio, you might need to add more nodes to accommodate additional RAM. See [Add a node](/content/operate/rs/clusters/add-node.md) for instructions.
 
 To increase the RAM-to-flash ratio using the Cluster Manager UI:
 
@@ -135,8 +135,7 @@ For self-managed Redis Flex deployments, ensure the cluster has sufficient physi
 
 - Adequate vCPU to support increased shard count or throughput.
 
-{{<warning>}}
-Scaling operations will fail or underperform if the underlying cluster is resource-constrained.
-{{</warning>}}
+> [!WARNING]
+> Scaling operations will fail or underperform if the underlying cluster is resource-constrained.
 
-See Flex [hardware requirements]({{<relref "/operate/rs/flex/plan#hardware-requirements">}}) for more information.
+See Flex [hardware requirements](/content/operate/rs/flex/plan.md#hardware-requirements) for more information.

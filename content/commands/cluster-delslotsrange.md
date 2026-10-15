@@ -41,8 +41,8 @@ summary: Sets hash slot ranges as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
 title: CLUSTER DELSLOTSRANGE
 ---
-The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.
-The difference is that [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
+The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`](/content/commands/cluster-delslots.md) command in that they both remove hash slots from the node.
+The difference is that [`CLUSTER DELSLOTS`](/content/commands/cluster-delslots.md) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
 
 ## Required arguments
 
@@ -54,7 +54,7 @@ One or more inclusive ranges of hash slots to unassign from the current node.
 
 ## Examples
 
-To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command is:
+To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`](/content/commands/cluster-delslots.md) command is:
 
     > CLUSTER DELSLOTS 1 2 3 4 5
     OK

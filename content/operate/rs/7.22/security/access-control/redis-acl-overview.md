@@ -23,7 +23,7 @@ Redis ACLs are defined by a set of rules where you specify the commands or comma
 
 ### Commands and categories
 
-Redis ACL rules can allow or block specific [Redis commands]({{< relref "/commands" >}}) or [command categories]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories).
+Redis ACL rules can allow or block specific [Redis commands](/content/commands) or [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories).
 
 - `+` includes commands
 
@@ -41,9 +41,9 @@ The following example allows all `read` commands and the `SET` command:
 
 Module commands have several ACL limitations:
 
-- [Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) do not have command categories.
+- [Redis modules](/content/operate/oss_and_stack/stack-with-enterprise/_index.md) do not have command categories.
 
-- Other [command category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
+- Other [command category](/content/operate/oss_and_stack/management/security/acl.md#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
 
 - You have to include individual module commands in a Redis ACL rule to allow them.
 
@@ -73,7 +73,7 @@ The following example allows read and write access to all keys that start with "
 
 ### Pub/sub channels
 
-The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
+The `&` prefix allows access to [pub/sub channels](/content/develop/pubsub/_index.md) (only supported for databases with Redis version 6.2 or later).
 
 To limit access to specific channels, include `resetchannels` before the allowed channels:
 
@@ -83,7 +83,7 @@ resetchannels &channel1 &channel2
 
 ### Selectors
 
-[Selectors]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
+[Selectors](/content/operate/oss_and_stack/management/security/acl.md#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
 
 - `(<rule set>)` creates a new selector.
 
@@ -97,7 +97,7 @@ In the following example, the base rule allows `GET key1` and the selector allow
 
 ## Default pub/sub permissions
 
-Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels]({{< relref "/develop/pubsub" >}}) a user can access.
+Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels](/content/develop/pubsub/_index.md) a user can access.
 
 The configuration option `acl-pubsub-default`, added in Redis Enterprise Software version 6.4.2, determines the cluster-wide default level of access for all pub/sub channels. Redis Enterprise Software uses the following pub/sub permissions by default:
 
@@ -125,15 +125,14 @@ To secure pub/sub channels and prepare your cluster for future Redis Enterprise 
 
 1. If any issues occur, you can temporarily change the default pub/sub setting back to permissive. Resolve any problematic ACLs before making pub/sub permissions restrictive again.
 
-{{<note>}}
-When you change the cluster's default pub/sub permissions to restrictive, `&*` is added to the **Full Access** ACL. Before you make this change, consider the following:
-
-- Because pub/sub ACL syntax was added in Redis 6.2, you can't associate the **Full Access** ACL with database versions 6.0 or lower after this change.
-
-- The **Full Access** ACL is not reverted if you change `acl-pubsub-default` to permissive again.
-
-- Every database with the default user enabled uses the **Full Access** ACL.
-{{</note>}}
+> [!NOTE]
+> When you change the cluster's default pub/sub permissions to restrictive, `&*` is added to the **Full Access** ACL. Before you make this change, consider the following:
+>
+> - Because pub/sub ACL syntax was added in Redis 6.2, you can't associate the **Full Access** ACL with database versions 6.0 or lower after this change.
+>
+> - The **Full Access** ACL is not reverted if you change `acl-pubsub-default` to permissive again.
+>
+> - Every database with the default user enabled uses the **Full Access** ACL.
 
 ### Change default pub/sub permissions
 
@@ -145,7 +144,7 @@ As of Redis Enterprise version 6.4.2, you can configure `acl_pubsub_default`, wh
 
 To make default pub/sub permissions restrictive:
 
-1. [Upgrade all databases]({{< relref "/operate/rs/7.22/installing-upgrading/upgrading/upgrade-database" >}}) in the cluster to Redis version 6.2 or later.
+1. [Upgrade all databases](/content/operate/rs/7.22/installing-upgrading/upgrading/upgrade-database.md) in the cluster to Redis version 6.2 or later.
 
 1. Set the default to restrictive (`resetchannels`) using one of the following methods:
 
@@ -164,7 +163,7 @@ To set the default pub/sub permissions using the Cluster Manager UI:
 
 -tab-sep-
 
-To set the default pub/sub permissions using `rladmin`, run the [`rladmin tune cluster`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/tune#tune-cluster" >}}) command:
+To set the default pub/sub permissions using `rladmin`, run the [`rladmin tune cluster`](/content/operate/rs/7.22/references/cli-utilities/rladmin/tune.md#tune-cluster) command:
 
 ```sh
 rladmin tune cluster acl_pubsub_default resetchannels
@@ -172,7 +171,7 @@ rladmin tune cluster acl_pubsub_default resetchannels
 
 -tab-sep-
 
-To set the default pub/sub permissions using the REST API, use an [update cluster policy]({{< relref "/operate/rs/7.22/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
+To set the default pub/sub permissions using the REST API, use an [update cluster policy](/content/operate/rs/7.22/references/rest-api/requests/cluster/policy.md#put-cluster-policy) request:
 
 ```sh
 PUT /v1/cluster/policy
@@ -201,14 +200,14 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
     To configure passwords in Redis Enterprise Software, use one of the following methods:
 
-    - [`rladmin cluster reset_password`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/cluster/reset_password" >}}):
+    - [`rladmin cluster reset_password`](/content/operate/rs/7.22/references/cli-utilities/rladmin/cluster/reset_password.md):
     
         ```sh
         rladmin cluster reset_password <user email>
         ```
 
-    - REST API [`PUT /v1/users`]({{< relref "/operate/rs/7.22/references/rest-api/requests/users#put-user" >}}) request and provide `password`
+    - REST API [`PUT /v1/users`](/content/operate/rs/7.22/references/rest-api/requests/users/_index.md#put-user) request and provide `password`
 
 ## See also
 
-[Redis ACL rules]({{< relref "/operate/oss_and_stack/management/security/acl" >}})
+[Redis ACL rules](/content/operate/oss_and_stack/management/security/acl.md)

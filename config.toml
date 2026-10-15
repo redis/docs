@@ -27,6 +27,12 @@ ignoreFiles = [
   "/__pycache__/",       # Python bytecode cache
   "/models/",            # Hugot model cache
   "/\\.transformers-cache/",  # TransformersPHP cache
+  # AI-audience convention files. These live beside the pages they describe so
+  # coding agents load them by directory, but they are not documentation and must
+  # never render: Hugo turns any .md under content/ into a published page.
+  "AGENTS\\.md$",
+  "CLAUDE\\.md$",
+  "CLAUDE\\.local\\.md$",
 ]
 
 [related]
@@ -91,7 +97,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "1.19.0"
+rdi_current_version = "2.0.0"
 
 
 [params.clientsConfig]
@@ -132,6 +138,12 @@ rdi_current_version = "1.19.0"
       unsafe = true
     [markup.goldmark.extensions]
       typographer = false
+    # Both are needed for a `{width="..." class="..."}` line after a standalone
+    # image to reach layouts/_default/_markup/render-image.html as .Attributes.
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+      [markup.goldmark.parser.attribute]
+        block = true
   [markup.highlight]
       # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
       # style = "github-dark"

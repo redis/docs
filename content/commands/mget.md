@@ -49,9 +49,8 @@ summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
 title: MGET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 Returns the values of all specified keys.
 For every key that does not hold a string value or does not exist, `nil` is returned.

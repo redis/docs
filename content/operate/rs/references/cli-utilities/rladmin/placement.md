@@ -20,9 +20,8 @@ rladmin placement
         { dense | sparse }
 ```
 
-{{< note >}}
-`rladmin placement db` is deprecated and will be removed in a future version. Use [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}) with the `shards_placement` parameter instead.
-{{< /note >}}
+> [!NOTE]
+> `rladmin placement db` is deprecated and will be removed in a future version. Use [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db) with the `shards_placement` parameter instead.
 
 ### Parameters
 
@@ -36,7 +35,7 @@ rladmin placement
 
 Returns the new shard placement policy if the policy was changed successfully. Otherwise, it returns an error.
 
-Use [`rladmin status databases`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to verify that the failover completed.
+Use [`rladmin status databases`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-databases) to verify that the failover completed.
 
 ### Example
 

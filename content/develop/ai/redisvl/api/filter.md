@@ -45,10 +45,9 @@ v = VectorQuery(
 )
 ```
 
-{{< note >}}
-Filter expressions are typically not called directly. Instead they are
-built by combining filter statements using the & and | operators.
-{{< /note >}}
+> [!NOTE]
+> Filter expressions are typically not called directly. Instead they are
+> built by combining filter statements using the & and | operators.
 
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)
@@ -134,6 +133,15 @@ Return the Redis Query string for the Tag filter
 
 A Text is a FilterField representing a text field in a Redis index.
 
+> [!NOTE]
+> `==` and `!=` match the value as a quoted phrase. Any `"` in the
+> value becomes a space first, so the value cannot close that phrase; a
+> quote already separates tokens at index time, so this matches the same
+> documents that escaping it never could. A value of nothing but quotes
+> therefore becomes an empty phrase, which `==` matches no document
+> against. `%` is the pattern operator and interpolates its value
+> untouched.
+
 * **Parameters:**
   **field** (*str*)
 
@@ -173,6 +181,13 @@ f = Text("job") % "%%engine%%"      # fuzzy match w/ Levenshtein Distance
 f = Text("job") % "engineer|doctor" # contains either term in field
 f = Text("job") % "engineer doctor" # contains both terms in field
 ```
+
+> [!NOTE]
+> The value is interpolated raw, which is what makes `*`, `%%` and
+> `|` work. A value carrying a `)` therefore closes this clause and
+> has its remainder parsed as query syntax, past any surrounding
+> filter. Pass only patterns your own code composes; for a value you
+> did not construct, use `==`, which matches it as a literal phrase.
 
 #### `__ne__(other)`
 
@@ -308,18 +323,37 @@ Return the Redis Query string for the Numeric filter
 Operator for searching values between two numeric values.
 
 * **Parameters:**
-  * **start** (*int*)
-  * **end** (*int*)
-  * **inclusive** (*str*)
+  * **start** (*Union* *[* *int* *,* *float* *]*) – The lower bound of the range.
+  * **end** (*Union* *[* *int* *,* *float* *]*) – The upper bound of the range.
+  * **inclusive** (*str* *,* *optional*) – Which bounds to include: "both",
+    "neither", "left" or "right". Defaults to "both".
+* **Raises:**
+  * **TypeError** – If either bound is not an `int`, a `float`, or
+        another `numbers.Real`. numpy scalars qualify; `Decimal`
+        and `str` do not.
+  * **ValueError** – If either bound is NaN, or if `inclusive` is not one
+        of the four accepted values.
 * **Return type:**
   [FilterExpression](#filterexpression)
+
+```python
+from redisvl.query.filter import Num
+
+f = Num("age").between(18, 65)
+f = Num("age").between(18, 65, inclusive="neither")
+```
 
 ## Geo
 
 ### `class Geo(field)`
 
-A Geo is a FilterField representing a geographic (lat/lon) field in a
-Redis index.
+A Geo is a FilterField representing a geographic (longitude, latitude)
+field in a Redis index.
+
+> [!NOTE]
+> Redis indexes latitudes only within +/-85.05112878 degrees (EPSG:900913).
+> A document or a query center nearer a pole than that is silently
+> excluded: the query returns no error and no results, at any radius.
 
 * **Parameters:**
   **field** (*str*)
@@ -370,24 +404,44 @@ A GeoRadius is a GeoSpec representing a geographic radius.
 Create a GeoRadius specification (GeoSpec)
 
 * **Parameters:**
-  * **longitude** (*float*) – The longitude of the center of the radius.
-  * **latitude** (*float*) – The latitude of the center of the radius.
-  * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
+  * **longitude** (*float*) – The longitude of the center of the radius, in
+    degrees, from -180 to 180.
+  * **latitude** (*float*) – The latitude of the center of the radius, in
+    degrees, from -90 to 90.
+  * **radius** (*float* *,* *optional*) – The radius of the circle, in `unit`,
+    greater than 0. Fractional radii are sent as given, so 0.5 with
+    a unit of "km" is half a kilometre. Defaults to 1.
   * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  * **TypeError** – If a coordinate or the radius is not an `int`, a
+        `float`, or another `numbers.Real`. numpy scalars qualify;
+        `Decimal` and `str` do not.
+  * **ValueError** – If a coordinate is NaN, infinite, or outside its range,
+        if the radius is NaN, infinite, or not greater than 0, or if
+        the unit is not a string spelling one of "m", "km", "mi", or
+        "ft".
 
 #### `__init__(longitude, latitude, radius=1, unit='km')`
 
 Create a GeoRadius specification (GeoSpec)
 
 * **Parameters:**
-  * **longitude** (*float*) – The longitude of the center of the radius.
-  * **latitude** (*float*) – The latitude of the center of the radius.
-  * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
+  * **longitude** (*float*) – The longitude of the center of the radius, in
+    degrees, from -180 to 180.
+  * **latitude** (*float*) – The latitude of the center of the radius, in
+    degrees, from -90 to 90.
+  * **radius** (*float* *,* *optional*) – The radius of the circle, in `unit`,
+    greater than 0. Fractional radii are sent as given, so 0.5 with
+    a unit of "km" is half a kilometre. Defaults to 1.
   * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  * **TypeError** – If a coordinate or the radius is not an `int`, a
+        `float`, or another `numbers.Real`. numpy scalars qualify;
+        `Decimal` and `str` do not.
+  * **ValueError** – If a coordinate is NaN, infinite, or outside its range,
+        if the radius is NaN, infinite, or not greater than 0, or if
+        the unit is not a string spelling one of "m", "km", "mi", or
+        "ft".
 
 ## Timestamp
 

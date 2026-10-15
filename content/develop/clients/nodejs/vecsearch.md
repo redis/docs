@@ -25,15 +25,15 @@ topics:
 weight: 3
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 
 Vector fields can store *text embeddings*, which are AI-generated vector
 representations of text content. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings measures their semantic similarity. When you compare the
 similarity of a query embedding with stored embeddings, Redis can retrieve documents
 that closely match the query's meaning.
@@ -45,20 +45,20 @@ Redis Search. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
-onwards, `node-redis` uses query dialect 2 by default.
-Redis Search methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
+> onwards, `node-redis` uses query dialect 2 by default.
+> Redis Search methods such as [`ft.search()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
 Install the required dependencies:
 
-1. Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) if you haven't already.
+1. Install [`node-redis`](/content/develop/clients/nodejs/_index.md) if you haven't already.
 2. Install `@xenova/transformers`:
 
 ```bash
@@ -94,13 +94,13 @@ First, connect to Redis and remove any existing index named `vector_idx`:
 
 Next, create the index with the following schema:
 -   `content`: Text field for the content to index
--   `genre`: [Tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+-   `genre`: [Tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
     field representing the text's genre
--   `embedding`: [Vector]({{< relref "/develop/ai/search-and-query/vectors" >}})
+-   `embedding`: [Vector](/content/develop/ai/search-and-query/vectors/_index.md)
     field with:
-    -   [HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
+    -   [HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index)
         indexing
-    -   [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+    -   [L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
         distance metric
     -   Float32 values
     -   768 dimensions (matching the embedding model)
@@ -180,5 +180,5 @@ jdoc:3: 'Today is a sunny day', Score: 1.50889515877
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about indexing options, distance metrics, and query format.

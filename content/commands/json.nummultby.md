@@ -22,7 +22,6 @@ categories:
 - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
-deprecated_since: '2.0'
 description: Multiplies the numeric value at path by a value
 group: json
 hidden: false
@@ -46,16 +45,14 @@ Multiply the number value stored at `path` by `value`
 is key to modify.
 </details>
 
+<details open><summary><code>path</code></summary> 
+
+is JSONPath to specify.
+</details>
+
 <details open><summary><code>value</code></summary> 
 
 is number value to multiply. 
-</details>
-
-## Optional arguments
-
-<details open><summary><code>path</code></summary> 
-
-is JSONPath to specify. Default is root `$`.
 </details>
 
 ## Examples
@@ -81,23 +78,25 @@ redis> JSON.NUMMULTBY doc $..a 2
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing a JSON-encoded string with the new value(s), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number.
+With `$`-based path argument: [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) containing a JSON array with one element per matching path: the new value, or `null` if the matching value is not a number. The array is empty if no path matches.
 
-With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the stringified new value, [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+With `.`-based path argument: [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) representing the stringified new value. If the path matches more than one number, the command updates all of them and returns the last new value. [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if no matching value is a number.
+
+With either path argument: [simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key doesn't exist or the result is out of range.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value, or `null` if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+The path syntax doesn't change the reply. [Array reply](/content/develop/reference/protocol-spec.md#arrays) with one element per matching path: an [integer reply](/content/develop/reference/protocol-spec.md#integers) or [double reply](/content/develop/reference/protocol-spec.md#doubles) containing the new value, or a [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not a number. The array is empty if no path matches.
 
-With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the stringified new value, [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a number, or [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) on error.
+[Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key doesn't exist or the result is out of range.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.NUMINCRBY`]({{< relref "commands/json.numincrby/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.NUMINCRBY`](/content/commands/json.numincrby.md) | [`JSON.ARRINSERT`](/content/commands/json.arrinsert.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

@@ -60,9 +60,9 @@ then implement.
    7. `## Return information` — RESP2/RESP3 `{{< multitabs id="<cmd>-return-info" >}}`
       block; link reply types to `../../develop/reference/protocol-spec#…`.
    8. `## See also` — optional, trailing. **Related commands**, pipe-separated:
-      `` [`CMDA`]({{< relref "commands/cmda/" >}}) | [`CMDB`]({{< relref "commands/cmdb/" >}}) ``
+      `` [`CMDA`](/content/commands/cmda.md) | [`CMDB`](/content/commands/cmdb.md) ``
    9. `## Related topics` — optional, trailing. **Concept/guide links**, bulleted:
-      `- [RedisJSON]({{< relref "/develop/data-types/json/" >}})`
+      `- [RedisJSON](/content/develop/data-types/json/_index.md)`
 
    `See also` always precedes `Related topics`; both go after `Return information`.
    `## Details` is the ONLY place `###` (H3) is allowed — any other H3 is either an
@@ -99,7 +99,7 @@ then implement.
 9. **Verify.**
    - Grep the finished pages for leftover `TODO` markers (expect none).
    - Confirm front matter still parses (opens/closes with `---`).
-   - Confirm every `relref` / link target exists under `content/`.
+   - Confirm every link target exists under `content/`.
    - Build/serve locally (`hugo server`) if available and load the pages; check
      that railroad diagrams, multitabs, and links render without errors.
    - **Test the examples and return types against the local Redis OSS server**

@@ -13,7 +13,7 @@ aliases:
     - /operate/rc/databases/create-database/create-active-active-database
 ---
 
-Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}}) for more information.
+Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis](/content/operate/rc/databases/active-active/_index.md) for more information.
 
 To deploy Active-Active databases in Redis Cloud, you need a Redis Cloud Pro plan that enables Active-Active Redis and defines the regions for each copy of your databases.
 
@@ -27,18 +27,18 @@ Redis Cloud maintains consistency among instances in the background; that is, ea
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
-3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
+3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Pro**. 
 
-    {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
+    ![The Subscription selection panel with Pro selected.](/images/rc/create-database-subscription-pro-new.png)
 
-    {{< note >}}
-This guide shows how to create an Active-Active database with a new Pro subscription. If you already have an Active-Active subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}). Active-Active subscriptions can host a maximum of 10 databases.
-    {{< /note >}}
+    > [!NOTE]
+    > This guide shows how to create an Active-Active database with a new Pro subscription. If you already have an Active-Active subscription and want to add a database to it, see [Create a Pro database in an existing subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md). Active-Active subscriptions can host a maximum of 10 databases.
+    >
     
 
 After you select **Pro**, the **Database settings** section will appear.
 
-{{<image filename="images/rc/create-pro-db-settings-custom.png" alt="The database settings section, with custom settings selected.">}}
+![The database settings section, with custom settings selected.](/images/rc/create-pro-db-settings-custom.png)
 
 For this guide, select **Custom settings**. For an Active-Active database, you will need to: 
 
@@ -54,7 +54,8 @@ The following sections provide more information.
 
 The **Setup** tab specifies general settings for your Redis deployment.
 
-{{<image filename="images/rc/subscription-new-flexible-tabs-setup.png" width="75%" alt="The Setup tab of the new Pro Database process." >}}
+![The Setup tab of the new Pro Database process.](/images/rc/subscription-new-flexible-tabs-setup.png)
+{width="75%"}
 
 There are two sections on this tab:
 
@@ -65,85 +66,93 @@ There are two sections on this tab:
 
 Select **Active-Active (Multi-region)** to turn on Active-Active. 
 
-{{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="The general settings of the setup tab with Active-Active selected." >}}
+![The general settings of the setup tab with Active-Active selected.](/images/rc/create-flexible-sub-active-active-on.png)
+{width="75%"}
 
 When you enable Active-Active Redis, two regions are selected by default. Select the drop-down arrow to display a list of provider regions that support Active-Active databases.
 
-{{<image filename="images/rc/create-sub-active-active-regions.png" width="50%" alt="Use the Region drop-down to select the regions for your Active-Active database." >}}
+![Use the Region drop-down to select the regions for your Active-Active database.](/images/rc/create-sub-active-active-regions.png)
+{width="50%"}
 
-{{< note >}}
-Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions.
-{{< /note >}}
+> [!NOTE]
+> Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 regions.
 
 Use the checkboxes in the list to select or remove regions.  The Search box lets you locate specific regions.
 
 You can use a region's Remove button to remove it from the list.
 
-{{<image filename="images/rc/icon-region-delete.png" width="20px" alt="Select the Delete button to remove a region from the list." >}}
+![Select the Delete button to remove a region from the list.](/images/rc/icon-region-delete.png)
+{width="20px"}
 
 #### Advanced options {#advanced-options}
 
-{{<image filename="images/rc/create-sub-active-active-cidr.png" width="75%" alt="Each region needs a unique CIDR address block to communicate securely with other instances." >}}
+![Each region needs a unique CIDR address block to communicate securely with other instances.](/images/rc/create-sub-active-active-cidr.png)
+{width="75%"}
 
 In the **Advanced options** section, you can:
 
-- Choose to deploy your Active-Active database to an existing Cloud Account, if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled.
+- Choose to deploy your Active-Active database to an existing Cloud Account, if [Redis Cloud Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) is enabled.
     
 - Define CIDR addresses for each region in the **VPC configuration** section.
 
     {{< embed-md "rc-aa-cidr.md" >}}
     
-    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region.
+    If you chose to deploy your Active-Active database to an existing [Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md) account, you can also define the VPC ID for each region. Select **In existing VPC** and the set the VPC ID for each selected region.
     
-- Set your [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
+- Set your [maintenance](/content/operate/rc/subscriptions/maintenance/_index.md) settings in the **Maintenance windows** section. Select **Manual** if you want to set [manual maintenance windows](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md).
 
-{{< note >}}
-Multi-AZ replication is required for all Active-Active databases.
-
-Regions with fewer than three availability zones are not available in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the REST API to [create a Pro subscription]({{< relref "/operate/rc/api/examples/manage-subscriptions#create-a-pro-subscription" >}}). You'll be able to manage these subscriptions and databases using the Redis Cloud console after they're created. Active-Active databases in these regions use single-zone replication and provide 99.99% (four-nines) availability instead of 99.999%. For more information, see [Active-Active Redis]({{< relref "/operate/rc/databases/active-active#multi-zone" >}}).
-{{< /note >}}
+> [!NOTE]
+> Multi-AZ replication is required for all Active-Active databases.
+>
+> Regions with fewer than three availability zones are not available in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the REST API to [create a Pro subscription](/content/operate/rc/api/examples/manage-subscriptions.md#create-a-pro-subscription). You'll be able to manage these subscriptions and databases using the Redis Cloud console after they're created. Active-Active databases in these regions use single-zone replication and provide 99.99% (four-nines) availability instead of 99.999%. For more information, see [Active-Active Redis](/content/operate/rc/databases/active-active/_index.md#multi-zone).
 
 When finished, choose **Continue** to determine your size requirements.
 
-{{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Select the Continue button to continue to the next step." >}}
+![Select the Continue button to continue to the next step.](/images/rc/button-subscription-continue.png)
+{width="100px"}
 
 ### Sizing tab
 
 The **Sizing** tab helps you specify the database, memory, and throughput requirements for your subscription.
 
-{{<image filename="images/rc/subscription-new-flexible-sizing-tab.png" width="75%" alt="The Sizing tab when creating a new Pro subscription." >}}
+![The Sizing tab when creating a new Pro subscription.](/images/rc/subscription-new-flexible-sizing-tab.png)
+{width="75%"}
 
 When you first visit the **Sizing** tab, there are no databases defined.  Select the **Add** button to create one.
 
-{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
+![Use the Add button to define a new database for your subscription.](/images/rc/icon-add.png)
+{width="30px"}
 
 This opens the **Database configurations** dialog, which lets you define the requirements for your new database.
 
-{{<image filename="images/rc/create-database-active-active.png" width="75%" alt="New database dialog for Active-Active database." >}}
+![New database dialog for Active-Active database.](/images/rc/create-database-active-active.png)
+{width="75%"}
 
 By default, you're shown basic settings, which include:
 
 - **Name**: A custom name for your database.
 - **Version**: The Redis version for your database. We recommend you choose the latest available version. 
-- **Advanced Capabilities**: Advanced data types or features used by the database. Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) features.
+- **Advanced Capabilities**: Advanced data types or features used by the database. Active-Active databases support the [JSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md) data type and [Search and query](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md) features.
 
-    {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}  
+    ![When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities.](/images/rc/active-active-json-detail.png)
+    {width="75%"}
 
     For Redis versions prior to 8.0, we select both capabilities for you automatically. You can remove a capability by clicking on it while selected. Selected capabilities will be available in all regions, including those added in the future.
 
     Starting with Redis 8.0, JSON and Search and query are included by default.
 
-    See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
+    See [Search and query Active-Active databases](/content/operate/oss_and_stack/stack-with-enterprise/search/search-active-active.md) to learn how to use Search and query on Active-Active databases.
 
 - **Dataset size**: The amount of data needed for your dataset in GB. 
 
     For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements. When you're entering the dataset size for your database, add the estimated index size from the Sizing calculator to your expected dataset size.
 
-- **Hashing policy**: Determines how data is distributed across multiple Redis processes of a database. Available options depend on your account creation date. See [Clustering]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) for more information.
+- **Hashing policy**: Determines how data is distributed across multiple Redis processes of a database. Available options depend on your account creation date. See [Clustering](/content/operate/rc/databases/configuration/clustering.md#manage-the-hashing-policy) for more information.
 
 - **Throughput**: When you create an Active-Active database, you define the throughput for each instance. The total operations per second combines the total read ops/sec and applies the write ops/sec for each region across every region. 
 
-    {{<image filename="images/rc/active-active-throughput-detail.png" width="75%" alt="When you create an Active-Active database, you define throughput for each region." >}}
+    ![When you create an Active-Active database, you define throughput for each region.](/images/rc/active-active-throughput-detail.png)
+    {width="75%"}
 
     The total ops/sec for each region is calculated as follows:
 
@@ -278,32 +287,35 @@ Total ops/sec = 9000 (Region 1) + 10000 (Region 2) + 7000 (Region 3)
 
     For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of throughput you need. When setting throughput for your Active-Active database, use the total amount for each region and divide it depending on your read (query) and write (update) needs for each region. For example, if the total amount of throughput needed is 50000 ops/sec, you could set each region to have 20000 ops/sec for reads (queries) and 30000 ops/sec for writes (updates).
 
-- **Data Persistence**: Defines the data persistence policy, if any. See [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}).
-- **Supported Protocol(s)**: Choose between RESP2 and RESP3 _(Redis 7.2 or later)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details.
+- **Data Persistence**: Defines the data persistence policy, if any. See [Database persistence](/content/operate/rs/databases/configure/database-persistence.md).
+- **Supported Protocol(s)**: Choose between RESP2 and RESP3 _(Redis 7.2 or later)_. See [Redis serialization protocol](/content/develop/reference/protocol-spec.md#resp-versions) for details.
 - **Quantity**: Number of databases to create with these settings. 
 
 When finished, select **Save configuration** to save your database configuration.
 
-{{<image filename="images/rc/button-configuration-save.png" width="140px" alt="Select the Save configuration button to define your new database." >}}
+![Select the Save configuration button to define your new database.](/images/rc/button-configuration-save.png)
+{width="140px"}
 
 Use the **Add database** button to define additional databases or select the **Continue button** to display the **Review and create** tab.
 
 Hover over a database to see the **Edit** and **Delete** icons. You can use the **Edit** icon to change a database or the **Delete** icon to remove a database from the list.
 
-{{<image filename="images/rc/icon-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
+![Use the Edit button to change database settings.](/images/rc/icon-edit.png#no-click)&nbsp;![Use the Delete button to remove a database.](/images/rc/icon-delete-lb.png#no-click)
 
 
 ### Review and Create tab
 
 The **Review and Create** tab provides a cost estimate for your Redis Cloud Pro plan:
 
-{{<image filename="images/rc/create-pro-aa-review.png" width="75%" alt="The Review & Create tab of the New Active-Active subscription screen." >}}
+![The Review & Create tab of the New Active-Active subscription screen.](/images/rc/create-pro-aa-review.png)
+{width="75%"}
 
-Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}#billing-unit-types).
+Redis breaks down your databases to Redis Billing Units (RBUs), each with their own size and throughput requirements. For more info, see [Billing unit types](/content/operate/rc/databases/create-database/create-pro-database-new.md#billing-unit-types).
 
 The **Payment methods** section of this tab shows which payment method you're using for this database. Select the arrow on the top right of this section to view all available payment methods.
 
-{{<image filename="images/rc/subscription-new-flexible-cardlist.png" width="250px" alt="The payment method list." >}}
+![The payment method list.](/images/rc/subscription-new-flexible-cardlist.png)
+{width="250px"}
 
 If you have not added a payment method or want to add a new payment method, select **Add credit card** to add a new credit card.
 
@@ -311,7 +323,8 @@ If you have not added a payment method or want to add a new payment method, sele
 
 Select **Back to Sizing** to make changes or **Confirm & Pay** to create your databases.
 
-{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & pay to create your database." >}}
+![Select Confirm & pay to create your database.](/images/rc/button-create-db-confirm-pay.png)
+{width="140px"}
 
 Note that databases are created in the background.  While they are provisioning, you aren't allowed to make changes. This process generally takes 10-15 minutes.
 
@@ -319,10 +332,10 @@ Use the **Database list** to check the status of your databases.
 
 ## More info
 
-- [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
-- [Develop applications with Active-Active databases]({{< relref "/operate/rc/databases/active-active/develop/_index.md" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}})
-- Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
+- [Create a Pro database with a new subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md)
+- [Active-Active Redis](/content/operate/rc/databases/active-active/_index.md)
+- [Develop applications with Active-Active databases](/content/operate/rc/databases/active-active/develop/_index.md)
+- Database [memory limit](/content/operate/rc/databases/configuration/sizing.md#dataset-size)
+- Redis Cloud [subscription plans](/content/operate/rc/subscriptions/_index.md)
 - [Redis Cloud pricing](https://redis.io/pricing/#monthly)
 

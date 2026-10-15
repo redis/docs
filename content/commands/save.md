@@ -36,12 +36,12 @@ of an RDB file.
 
 You almost never want to call `SAVE` in production environments where it will
 block all the other clients.
-Instead usually [`BGSAVE`]({{< relref "/commands/bgsave" >}}) is used.
+Instead usually [`BGSAVE`](/content/commands/bgsave.md) is used.
 However in case of issues preventing Redis to create the background saving child
 (for instance errors in the fork(2) system call), the `SAVE` command can be a
 good last resort to perform the dump of the latest dataset.
 
-See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+See the [persistence documentation](/content/operate/oss_and_stack/management/persistence.md) for detailed information.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -26,13 +26,13 @@ To get the list of logged events, you can use the REST API or
 the **Logs** screen in the UI. The **Logs** screen displays the system and user
 events regarding alerts, notifications, and configuration.
 
-{{<image filename="images/rs/screenshots/cluster/cluster-logs.png" alt="Logs screen in the new Cluster Manager UI.">}}
+![Logs screen in the new Cluster Manager UI.](/images/rs/screenshots/cluster/cluster-logs.png)
 
 You can use the **Logs** screen to review what actions a user has performed, such as editing a database's configuration.
 
 - [Redis slow
-    log]({{< relref "/operate/rs/clusters/logging/redis-slow-log.md" >}})
-- [rsyslog logging]({{< relref "/operate/rs/clusters/logging/rsyslog-logging/" >}})
+    log](/content/operate/rs/clusters/logging/redis-slow-log.md)
+- [rsyslog logging](/content/operate/rs/clusters/logging/rsyslog-logging/_index.md)
 
 ## View logs in the UI
 

@@ -50,17 +50,16 @@ Details:
 
 - Features:
 
-    - [#1193](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1193) Commands that don’t execute on the main thread now appear in [SLOWLOG]({{< relref "/commands/slowlog" >}})
+    - [#1193](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1193) Commands that don’t execute on the main thread now appear in [SLOWLOG](/content/commands/slowlog.md)
 
 - Bug fixes:
 
     - [#1203](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1203) Compaction rules are not replicated (Replica Of) on Redis Enterprise
-    - [#1204](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1204) When the last sample is deleted with [`TS.DEL`]({{< relref "commands/ts.del" >}}), it may still be accessible with [`TS.GET`]({{< relref "commands/ts.get" >}})
-    - [#1226](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1226) [`TS.MRANGE`]({{< relref "commands/ts.mrange" >}}), [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange" >}}): on a multi-shard environment, some chunks may be skipped
+    - [#1204](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1204) When the last sample is deleted with [`TS.DEL`](/content/commands/ts.del.md), it may still be accessible with [`TS.GET`](/content/commands/ts.get.md)
+    - [#1226](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1226) [`TS.MRANGE`](/content/commands/ts.mrange.md), [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md): on a multi-shard environment, some chunks may be skipped
 
-{{<note>}}
-New RDB version (v5). RDB files created with 1.6.16 are not backward compatible.
-{{</note>}}
+> [!NOTE]
+> New RDB version (v5). RDB files created with 1.6.16 are not backward compatible.
 
 ## v1.6.13 (June 2022)
 
@@ -72,8 +71,8 @@ Details:
 
 - Bug fixes:
 
-    - [#1176](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1176), [#1187](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1187) When executing [`DEL`]({{< relref "commands/ts.del" >}}), chunk index could be set to a wrong value and cause some data to be inaccessible
-    - [#1180](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1180) When executing [`MADD`]({{< relref "commands/ts.madd" >}}), make sure that only successful insertions are replicated
+    - [#1176](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1176), [#1187](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1187) When executing [`DEL`](/content/commands/ts.del.md), chunk index could be set to a wrong value and cause some data to be inaccessible
+    - [#1180](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1180) When executing [`MADD`](/content/commands/ts.madd.md), make sure that only successful insertions are replicated
 
 ## v1.6.11 (May 2022)
 
@@ -99,10 +98,10 @@ Details:
 
 - Bug fixes:
 
-    - [#1074](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1074) [`RANGE`]({{< relref "commands/ts.range" >}}), [`REVRANGE`]({{< relref "commands/ts.revrange" >}}), [`MRANGE`]({{< relref "commands/ts.mrange" >}}), and [`MREVRANGE`]({{< relref "commands/ts.mrevrange" >}}): Possibly incorrect result when using `ALIGN` and aggregating a bucket with a timestamp close to 0
+    - [#1074](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1074) [`RANGE`](/content/commands/ts.range.md), [`REVRANGE`](/content/commands/ts.revrange.md), [`MRANGE`](/content/commands/ts.mrange.md), and [`MREVRANGE`](/content/commands/ts.mrevrange.md): Possibly incorrect result when using `ALIGN` and aggregating a bucket with a timestamp close to 0
     - [#1094](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1094) [LibMR](https://github.com/RedisGears/LibMR): Potential memory leak; memory release delay
-    - [#1127](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1127) Memory leak on [`RANGE`]({{< relref "commands/ts.range" >}}) and [`REVRANGE`]({{< relref "commands/ts.revrange" >}}) when argument parsing fails
-    - [#1096](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1096) [`RANGE`]({{< relref "commands/ts.range" >}}), [`REVRANGE`]({{< relref "commands/ts.revrange" >}}), [`MRANGE`]({{< relref "commands/ts.mrange" >}}), and [`MREVRANGE`]({{< relref "commands/ts.mrevrange" >}}): Using `FILTER_BY_TS` without specifying timestamps now returns an error as expected
+    - [#1127](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1127) Memory leak on [`RANGE`](/content/commands/ts.range.md) and [`REVRANGE`](/content/commands/ts.revrange.md) when argument parsing fails
+    - [#1096](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1096) [`RANGE`](/content/commands/ts.range.md), [`REVRANGE`](/content/commands/ts.revrange.md), [`MRANGE`](/content/commands/ts.mrange.md), and [`MREVRANGE`](/content/commands/ts.mrevrange.md): Using `FILTER_BY_TS` without specifying timestamps now returns an error as expected
 
 ## v1.6.9 (February 2022)
 

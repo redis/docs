@@ -15,19 +15,21 @@ url: '/operate/kubernetes/7.8.4/re-clusters/multi-namespace/'
 
 Multiple Redis Enterprise database resources (REDBs) can be associated with a single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/7.8.4/architecture/deployment-options.md" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options](/content/operate/kubernetes/7.8.4/architecture/deployment-options.md).
 
-{{<warning>}} Multi-namespace installations don't support Active-Active databases (REAADB). Only databases created with the REDB resource are supported in multi-namespace deployments at this time.{{</warning>}}
+> [!WARNING]
+>  Multi-namespace installations don't support Active-Active databases (REAADB). Only databases created with the REDB resource are supported in multi-namespace deployments at this time.
 
 ## Prerequisites
 
-Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/7.8.4/deployment/quick-start.md" >}}). See more information in the [deployment]({{< relref "/operate/kubernetes/7.8.4/deployment/" >}}) section.
+Before configuring a multi-namespace deployment, you must have a running [Redis Enterprise cluster (REC)](/content/operate/kubernetes/7.8.4/deployment/quick-start.md). See more information in the [deployment](/content/operate/kubernetes/7.8.4/deployment/_index.md) section.
 
 ## Create role and role binding for managed namespaces
 
 Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `role.yaml` and `role_binding.yaml` file within the managed namespace, as shown in the examples below.
 
-{{<note>}}These will need to be reapplied each time you [upgrade]({{< relref "/operate/kubernetes/7.8.4/upgrade/upgrade-redis-cluster.md" >}}). {{</note>}}
+> [!NOTE]
+> These will need to be reapplied each time you [upgrade](/content/operate/kubernetes/7.8.4/upgrade/upgrade-redis-cluster.md). 
 
 Replace `<rec-namespace>` with the namespace the REC resides in.
 Replace `<service-account-name>` with your own value (defaults to the REC name).
@@ -95,9 +97,8 @@ kubectl apply -f role.yaml -n <managed-namespace>
 kubectl apply -f role_binding.yaml -n <managed-namespace>
 ```
 
-{{<note>}}
-If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
-{{</note>}}
+> [!NOTE]
+> If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
 
 
 ## Update Redis Enterprise operator ConfigMap
@@ -171,9 +172,8 @@ You can create this ConfigMap manually before deployment, or it will be created 
   kubectl label namespace <managed-namespace> <label-name>=<label-value>
   ```
 
-{{<note>}}
-The operator restarts when it detects a namespace label was added or removed.
-{{</note>}}
+> [!NOTE]
+> The operator restarts when it detects a namespace label was added or removed.
 
 ### Method 2: Explicit namespace list
 
@@ -186,6 +186,5 @@ kubectl patch ConfigMap/operator-environment-config \
 -p '{"data":{"REDB_NAMESPACES": "<comma,separated,list,of,namespaces,to,watch"}}'
 ```
 
-{{<warning>}}
-Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.
-{{</warning>}}
+> [!WARNING]
+> Only configure the operator to watch a namespace after the namespace is created and configured with the role/role_binding as explained above. If configured to watch a namespace without setting those permissions or a namespace that is not created yet, the operator will fail and not perform normal operations.

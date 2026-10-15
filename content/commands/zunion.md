@@ -78,15 +78,14 @@ syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGG
   <SUM | MIN | MAX | COUNT>] [WITHSCORES]"
 title: ZUNION
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
+This command is similar to [`ZUNIONSTORE`](/content/commands/zunionstore.md), but instead of storing the resulting
 sorted set, it is returned to the client.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/content/commands/zunionstore.md).
 
 ## Required arguments
 

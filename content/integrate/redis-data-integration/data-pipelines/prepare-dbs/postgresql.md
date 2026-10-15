@@ -82,6 +82,13 @@ Follow the steps below to enable CDC with [Amazon RDS for PostgreSQL](https://aw
     [security for PostgreSQL logical replication](https://www.postgresql.org/docs/current/logical-replication-security.html)
     for more information.
 
+
+## Azure Database for PostgreSQL
+If you are using [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/services/postgresql/) you need to 
+manually set the `wal_level` parameter in the Azure portal for your PostgreSQL server. Go to the `server parameters` 
+section, search for `wal_level` and set it to logical. Then save and restart the server.
+
+
 ## Install the logical decoding output plug-in
 
 As of PostgreSQL 9.4, the only way to read changes to the write-ahead-log is to
@@ -100,9 +107,10 @@ For simplicity, Debezium also provides a container image that compiles and insta
 on top of the upstream PostgreSQL server image. Use this image as an example of the steps
 involved in the installation.
 
-{{< note >}} The Debezium logical decoding plug-ins have been tested on Linux machines, but if you are
-using Windows or other operating systems, the installation steps might be different from
-those listed here. {{< /note >}}
+> [!NOTE]
+>  The Debezium logical decoding plug-ins have been tested on Linux machines, but if you are
+> using Windows or other operating systems, the installation steps might be different from
+> those listed here. 
 
 ### Plug-in differences
 
@@ -155,9 +163,10 @@ If you are using a `synchronous_commit` setting other than `on`, then you should
 to a value of about 10 milliseconds to ensure a low latency for change events. If you don't set this then
 the default value of about 200 milliseconds will apply.
 
-{{< note >}}This guide summarizes the operation of the PostgreSQL write-ahead log, but we strongly
-recommend you consult the [PostgreSQL write-ahead log](https://www.postgresql.org/docs/current/wal-configuration.html)
-documentation to get a better understanding.{{< /note >}}
+> [!NOTE]
+> This guide summarizes the operation of the PostgreSQL write-ahead log, but we strongly
+> recommend you consult the [PostgreSQL write-ahead log](https://www.postgresql.org/docs/current/wal-configuration.html)
+> documentation to get a better understanding.
 
 ## Set up permissions
 

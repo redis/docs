@@ -12,7 +12,23 @@ min-version-rs: blah
 weight: 10
 ---
 
-## 8.10.0 (July 2026)
+## Redis Open Source 8.10.1 (August 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2026-62356) Miscalculated buffer size in `CMSketch` RDB loading may lead to heap OOB write.
+- Out-of-bounds access in TopK heap cleanup path (MOD-15410).
+- Use-after-free in the TLS pending-data list when a command closes another pending connection.
+- A malicious RDB payload with an out-of-range `SLOT_INFO slot id` causes memory corruption during RDB loading, which may lead to Remote Code Execution.
+- Vector Sets: missing node level validation when loading a vector set from RDB may lead to out-of-bounds access.
+- Vector Sets: use-after-free when `VREM` mutates the HNSW graph while background `VSIM` threads are still running.
+- Vector Sets: a negative `hnsw_search()` return was treated as a huge unsigned count, reading past the end of the result arrays.
+- TLS client certificate authentication bypass: a Common Name containing an embedded NUL byte was truncated, allowing a client to authenticate as another (possibly privileged) ACL user.
+- [#15594](https://github.com/redis/redis/pull/15594) Use-after-free in the blocked-client list when reprocessing a command evicts another client blocked on the same key.
+
+## Redis Open Source 8.10.0 (July 2026)
 
 This is the General Availability release of Redis 8.10 in Redis Open Source.
 
@@ -116,7 +132,7 @@ Redis 8.10 introduces new features and performance improvements.
     - `FAIL` — reject timed-out queries. With `search-workers > 0` (the default), the timeout is enforced preemptively
     - `RETURN` (default) — return best-effort partial results, without enforcing strictness during post-processing
     - `RETURN_STRICT` (new) — return best-effort partial results while enforcing the timeout through the post-processing (result) pipeline. Available when `search-workers > 0`
-  - Queries executed on the main thread (i.e., when `search-workers` is 0) are capped by [`search-_max-foreground-timeout-limit`]({{< relref "/develop/ai/search-and-query/administration/configuration#search-_max-foreground-timeout-limit" >}}) (default `60000` ms).
+  - Queries executed on the main thread (i.e., when `search-workers` is 0) are capped by [`search-_max-foreground-timeout-limit`](/content/develop/ai/search-and-query/administration/configuration.md#search-_max-foreground-timeout-limit) (default `60000` ms).
 - [#J1602](https://github.com/RedisJSON/RedisJSON/pull/1602), [#J1603](https://github.com/RedisJSON/RedisJSON/pull/1603), [#J1604](https://github.com/RedisJSON/RedisJSON/pull/1604), [#J1607](https://github.com/RedisJSON/RedisJSON/pull/1607), [#J1618](https://github.com/RedisJSON/RedisJSON/pull/1618) JSONPath extensions (MOD-16274, MOD-16275):
   - Projection expressions at the top level of a JSONPath query
   - `==` and `!=` can now compare any literal, including array and object literals

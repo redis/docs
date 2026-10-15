@@ -155,23 +155,23 @@ redis> JSON.GET doc
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) | [`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MSET`]({{< relref "commands/json.mset/" >}})
+[`JSON.GET`](/content/commands/json.get.md) | [`JSON.MGET`](/content/commands/json.mget.md) | [`JSON.SET`](/content/commands/json.set.md) | [`JSON.MSET`](/content/commands/json.mset.md)
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)
 

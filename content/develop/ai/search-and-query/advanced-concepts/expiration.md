@@ -73,7 +73,7 @@ Similar to key expiration, active field expiration can affect the number of resu
 
 The following commands are directly related to key and field expiration:
 
-- [`EXPIRE`]({{< relref "/commands/expire" >}}) - Set expiration time for keys
-- [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) - Set expiration time for hash fields
-- [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) - Search queries affected by expiration behavior
-- [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) - Aggregation queries affected by expiration behavior
+- [`EXPIRE`](/content/commands/expire.md) - Set expiration time for keys
+- [`HEXPIRE`](/content/commands/hexpire.md) - Set expiration time for hash fields
+- [`FT.SEARCH`](/content/commands/ft.search.md) - Search queries affected by expiration behavior
+- [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) - Aggregation queries affected by expiration behavior

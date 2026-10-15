@@ -14,9 +14,8 @@ Transport Layer Security (TLS) uses encryption to secure [network communications
 
 Paid Redis Cloud Essentials plans and Redis Cloud Pro plans can use TLS to encrypt data communications between applications and Redis databases.
 
-{{<note>}}
-TLS is not available for Free Redis Cloud Essentials plans.
-{{</note>}}
+> [!NOTE]
+> TLS is not available for Free Redis Cloud Essentials plans.
 
 ## TLS recommendations
 
@@ -45,15 +44,18 @@ To enable TLS for a Redis Cloud database:
 
 1. From the database's **Configuration** screen, select **Edit**:
 
-    {{<image filename="images/rc/button-database-edit.png" width="100px" alt="The Edit database button lets you change selected database properties." >}}
+    ![The Edit database button lets you change selected database properties.](/images/rc/button-database-edit.png)
+    {width="100px"}
 
 1. In the **Security** section, use the **Transport layer security (TLS)** toggle to enable TLS:
 
-    {{<image filename="images/rc/database-details-configuration-tab-security-tls-toggle.png" width="200px" alt="Use the Transport Layer Security toggle to enable TLS." >}}
+    ![Use the Transport Layer Security toggle to enable TLS.](/images/rc/database-details-configuration-tab-security-tls-toggle.png)
+    {width="200px"}
 
 1. Select the **Download server certificate** button to download the Redis Cloud certificate bundle `redis_ca.pem`:
 
-    {{<image filename="images/rc/button-database-config-security-server-ca-download.png" width="250px" alt="Use the Download server certificate button to download the Redis Cloud CA certificates." >}}
+    ![Use the Download server certificate button to download the Redis Cloud CA certificates.](/images/rc/button-database-config-security-server-ca-download.png)
+    {width="250px"}
 
 1. Decide whether you want to require client authentication:
 
@@ -65,15 +67,16 @@ To enable TLS for a Redis Cloud database:
 
 1. Select **Add client certificate** to add a certificate.
 
-    {{<image filename="images/rc/mtls-add-client-certificate.png" width="200px" alt="The Add client certificate button." >}}
+    ![The Add client certificate button.](/images/rc/mtls-add-client-certificate.png)
+    {width="200px"}
 
 1. Either provide an [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format for your client or select **Generate** to create one:
 
-    {{<image filename="images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png" alt="Provide or generate a certificate for Mutual TLS." >}}
+    ![Provide or generate a certificate for Mutual TLS.](/images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png)
 
     - If you generate your certificate from the Redis Cloud console, a **Download certificate** button will appear after it is generated. Select it to download the certificate. 
 
-        {{<image filename="images/rc/mtls-download-certificate.png" alt="The Download certificate button." >}}
+        ![The Download certificate button.](/images/rc/mtls-download-certificate.png)
         
         The download contains:
 
@@ -81,29 +84,30 @@ To enable TLS for a Redis Cloud database:
 
         - `redis-db-<database_id>.key` – the certificate's private key.
 
-        {{<note>}}
-You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
-        {{</note>}}
+        > [!NOTE]
+        > You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
+        >
     
     - If you provide a client certificate or a certificate chain, you will see the certificate details before you save your changes.
 
-        {{<image filename="images/rc/mtls-certificate-details.png" alt="The Download certificate button." >}}
+        ![The Download certificate button.](/images/rc/mtls-certificate-details.png)
     
     Select **Save** to save the client certificate.
 
 1. You can select **Add client certificate** again to add another certificate.
 
-    {{<image filename="images/rc/mtls-add-client-certificate.png" width="200px" alt="The Add client certificate button." >}}
+    ![The Add client certificate button.](/images/rc/mtls-add-client-certificate.png)
+    {width="200px"}
 
 1. To apply your changes and enable TLS, select the **Save database** button:
 
-    {{<image filename="images/rc/button-database-save.png" width="140px" alt="Use the Save database button to save database changes." >}}
+    ![Use the Save database button to save database changes.](/images/rc/button-database-save.png)
+    {width="140px"}
 
-{{<note>}}
-- When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
-
-- Once you've enabled TLS, all client connections to your database must use TLS. Unencrypted connections will no longer be permitted.
-{{</note>}}
+> [!NOTE]
+> - When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
+>
+> - Once you've enabled TLS, all client connections to your database must use TLS. Unencrypted connections will no longer be permitted.
 
 ## Connect over TLS
 
@@ -124,11 +128,13 @@ If you don't have the Redis Cloud CA certificates, you can download them from th
 
     - Select the **Download** button to download the certificates from **Redis Cloud certificate authority** in **Account Settings**:
 
-        {{<image filename="images/rc/button-account-settings-security-ca-download.png" width="140px" alt="Use the Download button to download the Redis Cloud CA certificates." >}}
+        ![Use the Download button to download the Redis Cloud CA certificates.](/images/rc/button-account-settings-security-ca-download.png)
+        {width="140px"}
 
     - Select the **Download server certificate** button to download the certificates from the database's **Configuration** screen:
 
-        {{<image filename="images/rc/button-database-config-security-server-ca-download.png" width="250px" alt="Use the Download server certificate button to download the Redis Cloud CA certificates." >}}
+        ![Use the Download server certificate button to download the Redis Cloud CA certificates.](/images/rc/button-database-config-security-server-ca-download.png)
+        {width="250px"}
 
 The download contains a file called `redis_ca.pem`, which includes the following certificates:
    
@@ -138,9 +144,8 @@ The download contains a file called `redis_ca.pem`, which includes the following
 
 - Publicly trusted GlobalSign Root CA
 
-{{<note>}}
-The downloaded PEM file contains multiple certificates. Make sure to import **all** certificates to your client trust store. If your client code is not implemented properly, it may only import the first certificate. 
-{{</note>}}
+> [!NOTE]
+> The downloaded PEM file contains multiple certificates. Make sure to import **all** certificates to your client trust store. If your client code is not implemented properly, it may only import the first certificate. 
 
 To inspect the certificates in `redis_ca.pem`, run the `keytool` command:
 
@@ -155,7 +160,7 @@ If your database requires client authentication, you also need the public (`redi
 
 ### Connect with the Redis CLI
 
-Here's how to use the [Redis CLI]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to connect to a TLS-enabled Redis Cloud database.
+Here's how to use the [Redis CLI](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to connect to a TLS-enabled Redis Cloud database.
 
 Endpoint and port details are available from the **Databases** list or the database's **Configuration** screen.
 

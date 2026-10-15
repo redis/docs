@@ -33,7 +33,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|[**connection**](#sourcesconnection)<br/>(Source database connection)|`object`|Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.<br/>|yes|
+|[**connection**](#sourcesconnection)<br/>(Source database connection)|`object`|Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.<br/>|no|
 |**name**<br/>(Source name)|`string`|Human-readable name for the source collector. Maximum 100 characters.<br/>Maximal Length: `100`<br/>|no|
 |**type**<br/>(Collector type)|`string`|Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `flink` for Spanner change streams using the Apache Flink-based collector. Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`, `"riotx"`<br/>|yes|
 |**active**<br/>(Collector enabled)|`boolean`|When `true`, the collector runs; when `false`, the collector is disabled and produces no events.<br/>Default: `true`<br/>|no|
@@ -44,6 +44,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 |[**advanced**](#sourcesadvanced)<br/>(Advanced configuration)|`object`|Advanced configuration that overrides the underlying engine's defaults. Only required for non-standard tuning.<br/>|no|
 
 
+**Property Name Pattern:** `^[a-z]([a-z0-9-]*[a-z0-9])?$`  
 <a name="sourcesconnection"></a>
 ### sources\.connection: Source database connection
 
@@ -110,7 +111,7 @@ Connection configuration for a supported SQL database.
 |**type**<br/>(Database type)|`string`|SQL database engine.<br/>Enum: `"mariadb"`, `"mysql"`, `"oracle"`, `"postgresql"`, `"sqlserver"`<br/>||
 |**host**<br/>(Database host)|`string`|Hostname or IP address of the SQL database server.<br/>||
 |**port**<br/>(Database port)|`integer`|Network port on which the SQL database server is listening.<br/>Minimum: `1`<br/>Maximum: `65535`<br/>||
-|**database**<br/>(Database name)|`string`|Name of the database to connect to.<br/>||
+|**database**<br/>(Database name)|`string`|Name of the database to connect to.<br/>Minimal Length: `1`<br/>||
 |**user**<br/>(Database user)|`string`|Username for authentication to the SQL database.<br/>||
 |**password**<br/>(Database password)|`string`|Password for authentication to the SQL database.<br/>||
 
@@ -238,7 +239,7 @@ Connection configuration for a Snowflake database.
 |**type**<br/>(Database type)|`string`|Database type identifier. Always `snowflake` for this connection.<br/>Constant Value: `"snowflake"`<br/>|yes|
 |**url**<br/>(JDBC URL)|`string`|Snowflake JDBC connection URL, for example `jdbc:snowflake://account.snowflakecomputing.com/`.<br/>|yes|
 |**user**<br/>(Snowflake user)|`string`|Username for authentication to Snowflake.<br/>|yes|
-|**password**<br/>(Snowflake password)|`string`|Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `source-db-ssl` secret (`client.key` field).<br/>|no|
+|**password**<br/>(Snowflake password)|`string`|Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `<source>-db-ssl` secret (`client.key` field).<br/>|no|
 |**database**<br/>(Snowflake database)|`string`|Name of the Snowflake database to connect to.<br/>|yes|
 |**warehouse**<br/>(Snowflake warehouse)|`string`|Name of the Snowflake warehouse used for compute.<br/>|yes|
 |**role**<br/>(Snowflake role)|`string`|Snowflake role used for the connection.<br/>|no|
@@ -352,6 +353,7 @@ Advanced configuration that overrides the underlying engine's defaults. Only req
 |[**resources**](#sourcesadvancedresources)<br/>(Collector resource settings)|`object`|Compute resources allocated to the collector. **Only applies to the `cdc` collector type.**<br/>||
 |[**riotx**](#sourcesadvancedriotx)<br/>(Advanced RIOT\-X settings)|`object`|Advanced configuration properties for the RIOT-X Snowflake collector. **Only applies to the `riotx` collector type.**<br/>||
 |**java\_options**<br/>(Advanced Java options)|`string`|These Java options will be passed to the command line command when launching the source collector. **Only applies to the `cdc` collector type.**<br/>||
+|[**diagnostics**](#sourcesadvanceddiagnostics)<br/>(Collector diagnostics)|`object`|Opt-in JVM diagnostics for the source collector. Each artifact is written to the `/opt/rdi/diagnostics` directory on the host and included in the `dump-support-package` bundle. **Only applies to the `cdc` collector type on VM installations, and is ignored otherwise.**<br/>||
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -371,20 +373,33 @@ sink:
   redis.oom.retry.max.delay.ms: 10000
   redis.oom.retry.backoff.multiplier: 2
   redis.wait.enabled: false
+  redis.wait.timeout.ms: 1000
   redis.wait.write.timeout.ms: 1000
   redis.wait.retry.enabled: false
   redis.wait.retry.delay.ms: 1000
 source:
+  snapshot.mode: initial
   snapshot.max.threads: 1
   poll.interval.ms: 500
-  snapshot.fetch.size: 10000
   max.batch.size: 2048
   max.queue.size: 8192
   heartbeat.interval.ms: 0
+  database.trustServerCertificate: false
+  driver.applicationIntent: ReadWrite
   lob.enabled: false
   publication.autocreate.mode: all_tables
   publication.name: dbz_publication
   slot.name: debezium
+  capture.mode: change_streams_update_full
+  capture.mode.full.update.type: lookup
+  cursor.oversize.handling.mode: fail
+  cursor.oversize.skip.threshold: 0
+  mongodb.authsource: admin
+  mongodb.ssl.invalid.hostname.allowed: false
+  mongodb.connect.timeout.ms: 10000
+  mongodb.socket.timeout.ms: 0
+  mongodb.server.selection.timeout.ms: 30000
+  mongodb.heartbeat.frequency.ms: 10000
   spanner.version.retention.period.hours: 1
   spanner.fetch.timeout.ms: 500
   spanner.fetch.heartbeat.ms: 100
@@ -400,6 +415,11 @@ riotx:
   streamPrefix: 'data:'
   clearOffset: false
   count: 0
+diagnostics:
+  heap_dump:
+    enabled: false
+  java_flight_recorder:
+    enabled: false
 
 ```
 
@@ -425,6 +445,7 @@ Advanced configuration properties for the RDI Collector stream writer connection
 |**redis\.oom\.retry\.max\.delay\.ms**<br/>(Sink OOM retry max delay)|`integer`|Maximum delay in milliseconds between retry attempts after a Redis out-of-memory error.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
 |**redis\.oom\.retry\.backoff\.multiplier**<br/>(Sink OOM retry backoff multiplier)|`number`|Exponential backoff multiplier between retry attempts after a Redis out-of-memory error.<br/>Default: `2`<br/>Minimum: `1`<br/>||
 |**redis\.wait\.enabled**<br/>(Sink replica wait enabled)|`boolean`|When `true`, the collector verifies that each write has been replicated to the configured number of Redis replica shards before acknowledging it.<br/>Default: `false`<br/>||
+|**redis\.wait\.timeout\.ms**<br/>(Sink replica wait timeout)|`integer`|Maximum time in milliseconds to wait for replica write acknowledgements.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 |**redis\.wait\.write\.timeout\.ms**<br/>(Sink replica wait timeout)|`integer`|Maximum time in milliseconds to wait for replica write acknowledgements.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 |**redis\.wait\.retry\.enabled**<br/>(Sink replica wait retry enabled)|`boolean`|When `true`, the collector keeps retrying a write until replica acknowledgement succeeds; when `false`, it gives up after the first failure.<br/>Default: `false`<br/>||
 |**redis\.wait\.retry\.delay\.ms**<br/>(Sink replica wait retry delay)|`integer`|Delay in milliseconds between replica wait retry attempts.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
@@ -451,6 +472,7 @@ redis.oom.retry.initial.delay.ms: 1000
 redis.oom.retry.max.delay.ms: 10000
 redis.oom.retry.backoff.multiplier: 2
 redis.wait.enabled: false
+redis.wait.timeout.ms: 1000
 redis.wait.write.timeout.ms: 1000
 redis.wait.retry.enabled: false
 redis.wait.retry.delay.ms: 1000
@@ -460,7 +482,7 @@ redis.wait.retry.delay.ms: 1000
 <a name="sourcesadvancedsource"></a>
 #### sources\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair.**
+Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair, except for `topic.prefix`, which RDI derives from the source name, and the keystore properties, which RDI configures from a source's TLS secret.**
 
 
 **Properties**
@@ -468,18 +490,31 @@ Advanced configuration properties for the source database connection and CDC beh
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
 |**record\.processing\.threads**<br/>(Record processing threads)|`integer`|Controls how many worker threads process captured records before they are written downstream.<br/>Minimum: `1`<br/>||
+|**snapshot\.mode**<br/>(Snapshot mode)|`string`|Determines when the collector snapshots the source database. A pipeline reset clears the recorded offset, so this also decides whether the collector snapshots again after a reset.<br/>Default: `"initial"`<br/>Enum: `"always"`, `"initial"`, `"initial_only"`, `"never"`, `"no_data"`, `"when_needed"`<br/>||
 |**snapshot\.max\.threads**<br/>(Snapshot max threads)|`integer`|Sets the maximum number of threads used while taking the initial snapshot.<br/>Default: `1`<br/>Minimum: `1`<br/>||
 |**poll\.interval\.ms**<br/>(Poll interval ms)|`integer`|Defines how often the collector polls the source for new changes.<br/>Default: `500`<br/>Minimum: `1`<br/>||
-|**snapshot\.fetch\.size**<br/>(Snapshot fetch size)|`integer`|Defines how many rows are fetched per batch during the initial snapshot.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
+|**snapshot\.fetch\.size**<br/>(Snapshot fetch size)|`integer`|Defines how many rows are fetched per batch during the initial snapshot.<br/>Minimum: `0`<br/>||
 |**max\.batch\.size**<br/>(Max batch size)|`integer`|Caps how many records are processed together in a single batch.<br/>Default: `2048`<br/>Minimum: `1`<br/>||
 |**max\.queue\.size**<br/>(Max queue size)|`integer`|Limits how many records can be buffered in memory before processing catches up.<br/>Default: `8192`<br/>Minimum: `1`<br/>||
 |**heartbeat\.interval\.ms**<br/>(Heartbeat interval ms)|`integer`|Sets how often heartbeat events are emitted to keep change tracking active. Use 0 to disable them.<br/>Default: `0`<br/>Minimum: `0`<br/>||
 |**heartbeat\.action\.query**<br/>(Heartbeat action query)|`string`|SQL query executed on the source whenever a heartbeat is emitted.<br/>||
+|**database\.trustServerCertificate**<br/>(Trust SQL Server certificate)|`boolean`|Controls whether the RDI collector skips validation of the SQL Server TLS certificate. Enable this only when the server certificate cannot be validated through a trusted certificate authority.<br/>Default: `false`<br/>||
+|**driver\.applicationIntent**<br/>(SQL Server application intent)|`string`|Declares the SQL Server workload type for the RDI collector. Set to `ReadOnly` when connecting to an Always On read-only replica. CDC must be enabled on the primary SQL Server node.<br/>Default: `"ReadWrite"`<br/>Enum: `"ReadOnly"`, `"ReadWrite"`<br/>||
 |**lob\.enabled**<br/>(Lob enabled)|`boolean`|Determines whether large object columns are included in change capture.<br/>Default: `false`<br/>||
 |**gtid\.source\.includes**<br/>(GTID source includes)|`string`|Restricts MySQL GTID processing to the listed source UUIDs.<br/>||
 |**publication\.autocreate\.mode**<br/>(Publication autocreate mode)|`string`|Controls whether and how the PostgreSQL publication is created or updated automatically.<br/>Default: `"all_tables"`<br/>Enum: `"all_tables"`, `"filtered"`, `"disabled"`<br/>||
 |**publication\.name**<br/>(Publication name)|`string`|Sets the PostgreSQL logical replication publication name used by the collector.<br/>Default: `"dbz_publication"`<br/>||
 |**slot\.name**<br/>(Slot name)|`string`|Sets the PostgreSQL replication slot name the collector reads from.<br/>Default: `"debezium"`<br/>||
+|**capture\.mode**<br/>(MongoDB capture mode)|`string`|Determines whether an update event carries the full document and its pre-image. Jobs that set an output key, and the set output types, need a `*_with_pre_image` mode and pre-images on the collections.<br/>Default: `"change_streams_update_full"`<br/>Enum: `"change_streams"`, `"change_streams_update_full"`, `"change_streams_update_full_with_pre_image"`, `"change_streams_with_pre_image"`<br/>||
+|**capture\.mode\.full\.update\.type**<br/>(MongoDB full update type)|`string`|Determines how the collector fetches the full document for an update event. `lookup` queries the source per event and can yield a null `after`; `post_image` reads the post-image and needs MongoDB 6.0.<br/>Default: `"lookup"`<br/>Enum: `"lookup"`, `"post_image"`<br/>||
+|**cursor\.oversize\.handling\.mode**<br/>(MongoDB oversize event handling)|`string`|Determines what happens to a change event above the MongoDB 16 MB limit: `fail` stops the collector, `skip` drops it, `split` reassembles it. The limit covers the document and its pre-image.<br/>Default: `"fail"`<br/>Enum: `"fail"`, `"skip"`, `"split"`<br/>||
+|**cursor\.oversize\.skip\.threshold**<br/>(MongoDB oversize skip threshold)|`integer`|Maximum size in bytes of the document, and of its pre-image, for which change events are processed. Only applies when `cursor.oversize.handling.mode` is `skip`, which requires a value above 0.<br/>Default: `0`<br/>Minimum: `0`<br/>||
+|**mongodb\.authsource**<br/>(MongoDB authentication database)|`string`|Database that holds the credentials the collector authenticates with. Only applies to the connection's `user` and `password`; an `authSource` in `connection_string` takes precedence.<br/>Default: `"admin"`<br/>||
+|**mongodb\.ssl\.invalid\.hostname\.allowed**<br/>(Allow invalid MongoDB hostname)|`boolean`|Controls whether the RDI collector skips hostname verification of the MongoDB TLS certificate. Enable this only when the certificate cannot cover the hostnames the replica set advertises.<br/>Default: `false`<br/>||
+|**mongodb\.connect\.timeout\.ms**<br/>(MongoDB connect timeout)|`integer`|Time in milliseconds the driver waits before it aborts a new connection attempt. The `connectTimeoutMS` option of `connection_string` takes precedence.<br/>Default: `10000`<br/>Minimum: `0`<br/>||
+|**mongodb\.socket\.timeout\.ms**<br/>(MongoDB socket timeout)|`integer`|Time in milliseconds a send or receive on the socket may take before it times out, where 0 disables the timeout. The `socketTimeoutMS` option of `connection_string` takes precedence.<br/>Default: `0`<br/>Minimum: `0`<br/>||
+|**mongodb\.server\.selection\.timeout\.ms**<br/>(MongoDB server selection timeout)|`integer`|Time in milliseconds the driver waits to select a server before it fails with an error. The `serverSelectionTimeoutMS` option of `connection_string` takes precedence.<br/>Default: `30000`<br/>Minimum: `0`<br/>||
+|**mongodb\.heartbeat\.frequency\.ms**<br/>(MongoDB heartbeat frequency)|`integer`|Interval in milliseconds at which the cluster monitor reaches each MongoDB server. The `heartbeatFrequencyMS` option of `connection_string` takes precedence.<br/>Default: `10000`<br/>Minimum: `0`<br/>||
 |**spanner\.version\.retention\.period\.hours**<br/>(Spanner version retention period)|`integer`|Retention period in hours for Spanner change stream versions. Determines how far back the collector can resume after an outage.<br/>Default: `1`<br/>Minimum: `1`<br/>||
 |**spanner\.fetch\.timeout\.ms**<br/>(Spanner fetch timeout)|`integer`|Timeout in milliseconds for a single change stream fetch request to Spanner.<br/>Default: `500`<br/>Minimum: `1`<br/>||
 |**spanner\.fetch\.heartbeat\.ms**<br/>(Spanner fetch heartbeat interval)|`integer`|Interval in milliseconds at which Spanner sends heartbeat records when no data changes are available.<br/>Default: `100`<br/>Minimum: `1`<br/>||
@@ -496,16 +531,28 @@ Advanced configuration properties for the source database connection and CDC beh
 **Example**
 
 ```yaml
+snapshot.mode: initial
 snapshot.max.threads: 1
 poll.interval.ms: 500
-snapshot.fetch.size: 10000
 max.batch.size: 2048
 max.queue.size: 8192
 heartbeat.interval.ms: 0
+database.trustServerCertificate: false
+driver.applicationIntent: ReadWrite
 lob.enabled: false
 publication.autocreate.mode: all_tables
 publication.name: dbz_publication
 slot.name: debezium
+capture.mode: change_streams_update_full
+capture.mode.full.update.type: lookup
+cursor.oversize.handling.mode: fail
+cursor.oversize.skip.threshold: 0
+mongodb.authsource: admin
+mongodb.ssl.invalid.hostname.allowed: false
+mongodb.connect.timeout.ms: 10000
+mongodb.socket.timeout.ms: 0
+mongodb.server.selection.timeout.ms: 30000
+mongodb.heartbeat.frequency.ms: 10000
 spanner.version.retention.period.hours: 1
 spanner.fetch.timeout.ms: 500
 spanner.fetch.heartbeat.ms: 100
@@ -607,6 +654,74 @@ count: 0
 Deprecated RIOTX global fallback list of columns to use as message keys for every captured table. Prefer `tables.<schema.table>.keys`
 
 
+<a name="sourcesadvanceddiagnostics"></a>
+#### sources\.advanced\.diagnostics: Collector diagnostics
+
+Opt-in JVM diagnostics for the source collector. Each artifact is written to the `/opt/rdi/diagnostics` directory on the host and included in the `dump-support-package` bundle. **Only applies to the `cdc` collector type on VM installations, and is ignored otherwise.**
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|[**heap\_dump**](#sourcesadvanceddiagnosticsheap_dump)<br/>(Heap dump on out\-of\-memory)|`object`|Writes a heap dump if the JVM runs out of memory, then exits so the collector restarts cleanly.<br/>||
+|[**java\_flight\_recorder**](#sourcesadvanceddiagnosticsjava_flight_recorder)<br/>(Java Flight Recorder recording)|`object`|Records a Java Flight Recorder profile of the collector at startup. RDI controls `filename` and `dumponexit`, and defaults `settings=profile`, `duration=5m`, and `maxsize=128m` unless set under `options`.<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+heap_dump:
+  enabled: false
+java_flight_recorder:
+  enabled: false
+
+```
+
+<a name="sourcesadvanceddiagnosticsheap_dump"></a>
+##### sources\.advanced\.diagnostics\.heap\_dump: Heap dump on out\-of\-memory
+
+Writes a heap dump if the JVM runs out of memory, then exits so the collector restarts cleanly.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**enabled**<br/>(Enable heap dump)|`boolean`|When `true`, the collector writes a heap dump if the JVM runs out of memory, then exits so it restarts cleanly.<br/>Default: `false`<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+enabled: false
+
+```
+
+<a name="sourcesadvanceddiagnosticsjava_flight_recorder"></a>
+##### sources\.advanced\.diagnostics\.java\_flight\_recorder: Java Flight Recorder recording
+
+Records a Java Flight Recorder profile of the collector at startup. RDI controls `filename` and `dumponexit`, and defaults `settings=profile`, `duration=5m`, and `maxsize=128m` unless set under `options`.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**enabled**<br/>(Enable flight recording)|`boolean`|When `true`, starts a Java Flight Recorder recording when the collector starts.<br/>Default: `false`<br/>||
+|**options**<br/>(Flight Recorder options)|`string`|Comma-separated `-XX:StartFlightRecording` options, for example `duration=10m,maxsize=256m,path-to-gc-roots=true`.<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+enabled: false
+
+```
+
 <a name="targets"></a>
 ## targets: Target connections
 
@@ -656,7 +771,7 @@ Settings that control how data is processed, including batch sizes, error handli
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|**type**<br/>(Processor type)|`string`|Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor.<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>||
+|**type**<br/>(Processor type)|`string`|Processor implementation to run. Use `flink` (default) for the Apache Flink-based processor. Use `classic` for the classic processor.<br/>Default: `"flink"`<br/>Enum: `"classic"`, `"flink"`<br/>||
 |**read\_batch\_size**|`integer`, `string`|Maximum number of records read from the source streams in a single batch.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**read\_batch\_timeout\_ms**<br/>(Read batch timeout)|`integer`|Maximum time in milliseconds to wait for a batch to fill before processing it.<br/>Default: `100`<br/>Minimum: `1`<br/>||
 |**duration**<br/>(Batch duration limit)|`integer`, `string`|(DEPRECATED)<br/>This property has no effect; use `read_batch_timeout_ms` instead.<br/>Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||

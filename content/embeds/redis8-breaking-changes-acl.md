@@ -1,15 +1,13 @@
 ### Potentially breaking changes to ACLs
 
-{{< note >}}
-The following content is relevant to all Redis distributions (RS, RC, and ROS).
-{{< /note >}}
+> [!NOTE]
+> The following content is relevant to all Redis distributions (RS, RC, and ROS).
 
 Redis 8 includes Redis Search, as well as JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest data types.
 The integration of these features into Redis also comes with improvements to Redis [ACL]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) rules.
 
-{{< warning >}}
-These ACL changes may introduce breaking changes for some users, which must be analyzed carefully.
-{{< /warning >}}
+> [!WARNING]
+> These ACL changes may introduce breaking changes for some users, which must be analyzed carefully.
 
 #### Extension to the existing ACL categories
 

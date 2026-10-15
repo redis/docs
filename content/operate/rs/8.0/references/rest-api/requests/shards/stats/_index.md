@@ -14,7 +14,7 @@ url: '/operate/rs/8.0/references/rest-api/requests/shards/stats/'
 ---
 
 {{<banner-article>}}
-The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/8.0/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2](/content/operate/rs/8.0/monitoring/metrics_stream_engine/_index.md) instead for real-time monitoring and metrics collection.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -32,7 +32,7 @@ Get statistics for all shards.
 
 | Permission name |
 |-----------------|
-| [view_all_shard_stats]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_all_shard_stats" >}}) |
+| [view_all_shard_stats](/content/operate/rs/8.0/references/rest-api/permissions.md#view_all_shard_stats) |
 
 ### Request {#get-all-request} 
 
@@ -57,11 +57,11 @@ Get statistics for all shards.
 | interval | string | Time interval for which we want stats: 1sec/10sec/5min/15min/1hour/12hour/1week (optional) |
 | stime | ISO_8601 | Start time from which we want the stats. Should comply with the [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601) format (optional) |
 | etime | ISO_8601 | End time after which we don't want the stats. Should comply with the [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601) format (optional) |
-| metrics | list | Comma-separated list of [metric names]({{< relref "/operate/rs/8.0/references/rest-api/objects/statistics/shard-metrics" >}}) for which we want statistics (default is all) (optional) |
+| metrics | list | Comma-separated list of [metric names](/content/operate/rs/8.0/references/rest-api/objects/statistics/shard-metrics.md) for which we want statistics (default is all) (optional) |
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [statistics]({{< relref "/operate/rs/8.0/references/rest-api/objects/statistics" >}}) for all shards.
+Returns a JSON array of [statistics](/content/operate/rs/8.0/references/rest-api/objects/statistics/_index.md) for all shards.
 
 #### Example JSON body
 
@@ -150,7 +150,7 @@ Get statistics for a specific shard.
 
 | Permission name |
 |-----------------|
-| [view_shard_stats]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_shard_stats" >}}) |
+| [view_shard_stats](/content/operate/rs/8.0/references/rest-api/permissions.md#view_shard_stats) |
 
 ### Request {#get-request} 
 
@@ -184,7 +184,7 @@ Get statistics for a specific shard.
 
 ### Response {#get-response} 
 
-Returns [statistics]({{< relref "/operate/rs/8.0/references/rest-api/objects/statistics" >}}) for the specified shard.
+Returns [statistics](/content/operate/rs/8.0/references/rest-api/objects/statistics/_index.md) for the specified shard.
 
 #### Example JSON body
 

@@ -100,15 +100,24 @@ key_specs:
   - access
 linkTitle: ARGREP
 reply_schema:
-  description: Array of matching indexes, or flat index-value pairs when WITHVALUES
-    is used.
-  items:
-    oneOf:
-    - description: Index of a matching element
+  anyOf:
+  - description: Array of matching indexes.
+    items:
+      description: Index of a matching element
       type: integer
-    - description: Matching value when WITHVALUES is used
-      type: string
-  type: array
+    type: array
+  - description: Array of [index, value] pairs. Returned in case `WITHVALUES` was
+      used.
+    items:
+      items:
+      - description: Index of a matching element
+        type: integer
+      - description: Value at that index
+        type: string
+      maxItems: 2
+      minItems: 2
+      type: array
+    type: array
 since: 8.8.0
 summary: Searches array elements in a range using textual predicates.
 syntax_fmt: "ARGREP key start end\n \
@@ -144,7 +153,7 @@ One or more textual predicates to evaluate against each non-empty element in the
 
 - **`EXACT string`** — Matches elements whose value is exactly equal to `string`.
 - **`MATCH string`** — Matches elements whose value contains `string` as a substring.
-- **`GLOB pattern`** — Matches elements whose value matches the glob-style `pattern` (with `*`, `?`, and `[...]` wildcards), the same syntax used by [`KEYS`]({{< relref "/commands/keys" >}}) and [`SCAN`]({{< relref "/commands/scan" >}}) `MATCH`.
+- **`GLOB pattern`** — Matches elements whose value matches the glob-style `pattern` (with `*`, `?`, and `[...]` wildcards), the same syntax used by [`KEYS`](/content/commands/keys.md) and [`SCAN`](/content/commands/scan.md) `MATCH`.
 - **`RE pattern`** — Matches elements whose value matches the regular expression `pattern`.
 
 When more than one predicate is supplied, use the `AND` or `OR` option to control how they are combined. The default is `OR`.
@@ -160,7 +169,7 @@ Zero or more of the following modifiers:
 - **`AND`** — Combine multiple predicates with logical AND. An element matches only if every predicate matches.
 - **`OR`** — Combine multiple predicates with logical OR. An element matches if any predicate matches. This is the default.
 - **`LIMIT limit`** — Stop after `limit` matches have been collected. `limit` must be a positive integer. When omitted, all matches in the range are returned.
-- **`WITHVALUES`** — In addition to each matching index, return the matching value. The reply becomes a flat list of alternating index-value pairs.
+- **`WITHVALUES`** — In addition to each matching index, return the matching value. The reply becomes an array of index-value pairs, each a two-element array.
 - **`NOCASE`** — Perform case-insensitive comparisons for `EXACT`, `MATCH`, `GLOB`, and `RE`.
 
 </details>
@@ -204,11 +213,11 @@ redis> ARGREP log - + MATCH "error" NOCASE LIMIT 1
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Indices of the matching elements, in the same order in which the range is traversed (ascending when `start <= end`, descending when `start > end`). When `WITHVALUES` is given, a flat array of alternating index-value pairs: `[idx1, val1, idx2, val2, ...]`. An empty array is returned when the key does not exist or no element matches.
+[Array reply](../../develop/reference/protocol-spec#arrays): Indices of the matching elements, in the same order in which the range is traversed (ascending when `start <= end`, descending when `start > end`). When `WITHVALUES` is given, an array of index-value pairs, each a two-element array: `[[idx1, val1], [idx2, val2], ...]`. An empty array is returned when the key does not exist or no element matches.
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Indices of the matching elements, in the same order in which the range is traversed (ascending when `start <= end`, descending when `start > end`). When `WITHVALUES` is given, a flat array of alternating index-value pairs: `[idx1, val1, idx2, val2, ...]`. An empty array is returned when the key does not exist or no element matches.
+[Array reply](../../develop/reference/protocol-spec#arrays): Indices of the matching elements, in the same order in which the range is traversed (ascending when `start <= end`, descending when `start > end`). When `WITHVALUES` is given, an array of index-value pairs, each a two-element array: `[[idx1, val1], [idx2, val2], ...]`. An empty array is returned when the key does not exist or no element matches.
 
 {{< /multitabs >}}
 

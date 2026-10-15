@@ -79,38 +79,38 @@ redis> TDIGEST.INFO t
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the given sketch as name-value pairs:
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) with information about the given sketch as name-value pairs:
 
-    | Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
+    | Name<br>[Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) | Description
     | ---------------------------- | -
-    | `Compression`        | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
-    | `Capacity`           | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
-    | `Merged nodes`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of merged observations
-    | `Unmerged nodes`     | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of buffered nodes (uncompressed observations)
-    | `Merged weight`      | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the merged nodes
-    | `Unmerged weight`    | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the unmerged nodes (uncompressed observations)
-    | `Observations`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of observations added to the sketch
-    | `Total compressions` | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of times this sketch compressed data together
-    | `Memory usage`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of bytes allocated for the sketch
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.
+    | `Compression`        | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
+    | `Capacity`           | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
+    | `Merged nodes`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of merged observations
+    | `Unmerged nodes`     | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of buffered nodes (uncompressed observations)
+    | `Merged weight`      | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Weight of values of the merged nodes
+    | `Unmerged weight`    | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Weight of values of the unmerged nodes (uncompressed observations)
+    | `Observations`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of observations added to the sketch
+    | `Total compressions` | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of times this sketch compressed data together
+    | `Memory usage`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of bytes allocated for the sketch
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with information about the given sketch as name-value pairs:
+* [Map reply](/content/develop/reference/protocol-spec.md#maps) with information about the given sketch as name-value pairs:
 
-    | Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
+    | Name<br>[Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) | Description
     | ---------------------------- | -
-    | `Compression`        | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
-    | `Capacity`           | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
-    | `Merged nodes`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of merged observations
-    | `Unmerged nodes`     | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of buffered nodes (uncompressed observations)
-    | `Merged weight`      | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the merged nodes
-    | `Unmerged weight`    | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the unmerged nodes (uncompressed observations)
-    | `Observations`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of observations added to the sketch
-    | `Total compressions` | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of times this sketch compressed data together
-    | `Memory usage`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of bytes allocated for the sketch
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.
+    | `Compression`        | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
+    | `Capacity`           | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
+    | `Merged nodes`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of merged observations
+    | `Unmerged nodes`     | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of buffered nodes (uncompressed observations)
+    | `Merged weight`      | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Weight of values of the merged nodes
+    | `Unmerged weight`    | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Weight of values of the unmerged nodes (uncompressed observations)
+    | `Observations`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of observations added to the sketch
+    | `Total compressions` | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of times this sketch compressed data together
+    | `Memory usage`       | [Integer reply](/content/develop/reference/protocol-spec.md#integers)<br> Number of bytes allocated for the sketch
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.
 
 {{< /multitabs >}}

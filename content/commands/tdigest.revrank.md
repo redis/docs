@@ -104,7 +104,7 @@ redis> TDIGEST.REVRANK s 10 20
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with revrank_1, revrank_2, ..., revrank_V:
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [integers](/content/develop/reference/protocol-spec.md#integers) populated with revrank_1, revrank_2, ..., revrank_V:
     * `-1` when `value` is larger than the value of the largest observation.
     * The number of observations when `value` is smaller than the value of the smallest observation.
     * Otherwise, an estimation of the number of (_observations larger than `value`_ + _half the observations equal to `value`_).
@@ -114,13 +114,13 @@ One of the following:
     _n_-1 is the rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
 
     All values are `-2` if the sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integers]({{< relref "/develop/reference/protocol-spec#integers" >}}) populated with revrank_1, revrank_2, ..., revrank_V:
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [integers](/content/develop/reference/protocol-spec.md#integers) populated with revrank_1, revrank_2, ..., revrank_V:
     * `-1` when `value` is larger than the value of the largest observation.
     * The number of observations when `value` is smaller than the value of the smallest observation.
     * Otherwise, an estimation of the number of (_observations larger than `value`_ + _half the observations equal to `value`_).
@@ -130,6 +130,6 @@ One of the following:
     _n_-1 is the rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.
 
     All values are `-2` if the sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
 
 {{< /multitabs >}}

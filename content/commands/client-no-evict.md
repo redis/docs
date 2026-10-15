@@ -43,13 +43,13 @@ summary: Sets the client eviction mode of the connection.
 syntax_fmt: CLIENT NO-EVICT <ON | OFF>
 title: CLIENT NO-EVICT
 ---
-The `CLIENT NO-EVICT` command sets the [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) mode for the current connection.
+The `CLIENT NO-EVICT` command sets the [client eviction](/content/develop/reference/clients.md#client-eviction) mode for the current connection.
 
 When turned on and client eviction is configured, the current connection will be excluded from the client eviction process even if we're above the configured client eviction threshold.
 
 When turned off, the current client will be re-included in the pool of potential clients to be evicted (and evicted if needed).
 
-See [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) for more details.
+See [client eviction](/content/develop/reference/clients.md#client-eviction) for more details.
 
 ## Required arguments
 
@@ -73,14 +73,14 @@ Turn eviction protection on (`ON`) or off (`OFF`) for the current connection.
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments. 
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the command was successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: wrong number of or invalid arguments. 
 
 -tab-sep-
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the command was successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: wrong number of or invalid arguments.
 
 {{< /multitabs >}}

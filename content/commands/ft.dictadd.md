@@ -72,18 +72,18 @@ term to add to the dictionary.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of new terms added to the dictionary.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of new terms added to the dictionary.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
+[`FT.DICTDEL`](/content/commands/ft.dictdel.md) | [`FT.DICTDUMP`](/content/commands/ft.dictdump.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

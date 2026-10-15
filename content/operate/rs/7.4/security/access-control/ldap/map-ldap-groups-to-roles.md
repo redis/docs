@@ -21,11 +21,11 @@ To map LDAP groups to access control roles in the Cluster Manager UI:
 
 1. Select **Access Control > LDAP > Mapping**.
 
-    {{<note>}}
-You can map LDAP roles when LDAP configuration is not enabled, but they won't have any effect until you [configure and enable LDAP]({{< relref "/operate/rs/7.4/security/access-control/ldap/enable-role-based-ldap" >}}).
-    {{</note>}}
+    > [!NOTE]
+    > You can map LDAP roles when LDAP configuration is not enabled, but they won't have any effect until you [configure and enable LDAP](/content/operate/rs/7.4/security/access-control/ldap/enable-role-based-ldap.md).
+    >
 
-    {{<image filename="images/rs/access-control-ldap-mappings-panel.png" alt="Enable LDAP mappings Panel" >}}
+    ![Enable LDAP mappings Panel](/images/rs/access-control-ldap-mappings-panel.png)
 
 1.  Select the **+ Add LDAP Mapping** button to create a new mapping and then enter the following details:
 
@@ -37,7 +37,7 @@ You can map LDAP roles when LDAP configuration is not enabled, but they won't ha
 | **Email** | _(Optional)_ An address to receive alerts|
 | **Alerts**  | Selections identifying the desired alerts. |
 
-    {{<image filename="images/rs/access-control-ldap-mappings-add.png" alt="Enable LDAP mappings Panel" >}}
+    ![Enable LDAP mappings Panel](/images/rs/access-control-ldap-mappings-add.png)
 
 1.  When finished, select the **Save** button.
 
@@ -53,6 +53,6 @@ The scope of the authorization depends on the access control role:
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/7.4/security/access-control/ldap/enable-role-based-ldap" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/7.4/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/7.4/security/" >}})
+- Enable and configure [role-based LDAP](/content/operate/rs/7.4/security/access-control/ldap/enable-role-based-ldap.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/7.4/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Enterprise Software [security and practices](/content/operate/rs/7.4/security/_index.md)

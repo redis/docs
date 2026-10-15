@@ -114,15 +114,14 @@ syntax_fmt: "LMOVEM source destination <LEFT | RIGHT> <LEFT | RIGHT>\n  [<COUNT\
   count | EXACTLY\_exactly> <OBO | BULK>]"
 title: LMOVEM
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Atomically moves one or more elements from the list stored at `source` to the
 list stored at `destination` and returns the moved elements.
-`LMOVEM` is the multiple-element version of [`LMOVE`]({{< relref "/commands/lmove" >}}): without the
-optional `how-many` block, it behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}) but returns
+`LMOVEM` is the multiple-element version of [`LMOVE`](/content/commands/lmove.md): without the
+optional `how-many` block, it behaves exactly like [`LMOVE`](/content/commands/lmove.md) but returns
 the moved element as a one-element array.
 
 ## Required arguments
@@ -163,7 +162,7 @@ The number of elements to move:
 
 - `COUNT count` moves up to `count` elements. If `source` holds fewer than
   `count` elements, all of them are moved. This matches the `count` semantics of
-  [`LPOP`]({{< relref "/commands/lpop" >}}) and [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+  [`LPOP`](/content/commands/lpop.md) and [`LMPOP`](/content/commands/lmpop.md).
 - `EXACTLY exactly` moves exactly `exactly` elements. If `source` holds fewer
   than `exactly` elements, nothing is moved and the command returns nil.
 
@@ -270,9 +269,9 @@ One of the following:
 
 ## See also
 
-[`LMOVE`]({{< relref "commands/lmove/" >}}) | [`BLMOVEM`]({{< relref "commands/blmovem/" >}}) | [`LMPOP`]({{< relref "commands/lmpop/" >}}) | [`RPOPLPUSH`]({{< relref "commands/rpoplpush/" >}})
+[`LMOVE`](/content/commands/lmove.md) | [`BLMOVEM`](/content/commands/blmovem.md) | [`LMPOP`](/content/commands/lmpop.md) | [`RPOPLPUSH`](/content/commands/rpoplpush.md)
 
 ## Related topics
 
-- [Redis lists]({{< relref "/develop/data-types/lists" >}})
+- [Redis lists](/content/develop/data-types/lists.md)
 

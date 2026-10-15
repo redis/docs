@@ -10,8 +10,24 @@ Two environments and one Codex gate. Client identity for all of them comes from
 | Dependencies | self-bootstrapped into `work/`, **cached** | tracked manifests in `fidelity/`, reinstalled every run |
 | Client repos | none needed | clones required (`bootstrap.sh`) |
 | C# / PHP | local stubs (`dotnet/stubs.cs`) | the real `Doc.csproj` / real PHPUnit |
-| Clients | 13 (no C) | 13 (no RedisVL) |
+| Clients | 17 of the 18 in `clients.tsv` (no RedisVL) | 17 of the 18 (no RedisVL) |
 | Speed | seconds once warm | minutes — full toolchain install per client |
+
+**C (hiredis) is the one client portable mode cannot bootstrap.** Every other portable
+runner installs its dependency into `work/` (`pip install redis`, `npm i redis`,
+`gem install redis`); hiredis is a system C library, so `run_hiredis` compiles against
+an existing install, searching `/usr/local`, `/opt/homebrew`, then `/usr` for
+`include/hiredis/hiredis.h` and baking the library path in with `-rpath`. Where hiredis
+is absent it reports `SKIP (hiredis headers not found ...)` rather than a compile-error
+FAIL, so a green run on a box without it still says nothing about the C examples —
+check for the SKIP rather than assuming coverage.
+
+**A client whose `portable` column is `-` is filtered out of the run list entirely**
+by `clients_for_mode()` — it gets no row at all, not a `SKIP`. The "no portable runner"
+FAIL branch only fires if you name that client explicitly on the command line. So
+"absent from the results table" and "passed" look identical when scanning output; count
+the rows against `clients.tsv` if coverage matters. (RedisVL is the only such client
+now.)
 
 **Iterate in portable, confirm in fidelity.** Portable is the fast loop because `work/`
 persists between runs. Fidelity is the pre-merge check: it runs the example the way the
@@ -90,12 +106,16 @@ These are all real failures that produced green results before:
   reported as four passing clients — and an NRedisStack-flavoured file gets credited to the
   SE.Redis tab.
 
+One trap it does **not** guard against: `cargo test` (Rust) and xunit (C#) capture stdout,
+so their logs can't be compared with the `>>>` comments. For those clients, make the REMOVE
+asserts cover every printed value — they are the only check the comments get.
+
 ## Known divergence: Java versions
 
-| | jedis | lettuce-core |
-|---|---|---|
-| portable (`pom-*.xml`) | 7.5.3 | 6.5.5.RELEASE |
-| fidelity (`fidelity/pom-*.xml`) | 7.4.0 | 7.4.0.RELEASE |
+| | jedis | lettuce-sync | lettuce-async / reactive |
+|---|---|---|---|
+| portable (`pom-*.xml`) | 7.5.3 | 6.5.5.RELEASE | 7.7.0.RELEASE |
+| fidelity (`fidelity/pom-*.xml`) | 7.4.0 | 7.4.0.RELEASE | 7.4.0.RELEASE |
 
 Not yet reconciled. The fidelity pins are what the current `local_examples/` Java files were
 actually tested against, so they're the known-good pair; the portable jedis 7.5.3 bump was
@@ -103,6 +123,21 @@ deliberate (the search examples need the `RedisClient` API it introduced). Settl
 version per client requires running both Java toolchains against the search sets and the
 Java-heavy command sets. Until that's done, **a Java example that passes in one mode may
 fail in the other**, and that's information rather than a bug.
+
+## Known gap: client pins older than new commands
+
+The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10), these
+portable pins predated the first release with the command: jedis 7.5.3 (needs 8.0.0),
+lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
+already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
+the cached `npm i redis` 6.1.0 (needs 6.2.0) and ioredis 5.11.1 (needs 6.0.0) in `work/`,
+and go-redis v9.18.0 in `fidelity/go-redis.mod` (needs 9.22.0, which also needs Go 1.24).
+
+A run against those pins fails with "method not found" or "unknown command", which looks
+like an example bug but is a pin gap. Until the pins are raised (a separate change, because
+raising them can break other sets), test such a set outside `run.sh`. Give each client a
+scratch project pinned to its first supporting release, with its own throwaway
+`redis:<version>` container on a spare port, and change the port only in the scratch copy.
 
 ## Codex evaluation (Phase 4)
 
@@ -145,8 +180,23 @@ SKILL=.claude/skills/tce-examples
       rendered page?
    5. For C#: does the presence or absence of 'using NRedisStack' match the intended tab?
 
-   Report only actionable defects in this file. Do not restate what is correct."
+   Report only actionable defects in this file. Do not restate what is correct." \
+  < /dev/null
 ```
+
+Three things go wrong with this invocation:
+
+- **Without `< /dev/null` it hangs.** `codex exec` waits on stdin ("Reading additional
+  input from stdin...") and never starts the review, even though the prompt is passed as an
+  argument.
+- **"Selected model is at capacity" exits 1 with no verdict file.** It's transient; retry
+  that client. A missing verdict file means the gate wasn't run, not that the file is clean.
+- **The schema holds one client's verdict.** A single prompt covering several files returns
+  findings for only one of them, so keep to one invocation per client.
+
+Codex writes outside the command sandbox, so run it unsandboxed. If you do, `$TMPDIR` is the
+real system temp directory, not the sandbox's, so read the verdicts from where that
+invocation wrote them.
 
 `--output-schema` forces schema-valid JSON, so the orchestrator can gate on it without
 parsing prose. Read `.codex/skills/claude-review/references/tce-review-patterns.md` for the

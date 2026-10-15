@@ -18,7 +18,7 @@ extends TestCase
         ]);
 
         // REMOVE_START
-        $r->del('key1', 'key2', 'nonexisting');
+        $r->del('key1', 'key2', 'mykey', 'nonexisting');
         // REMOVE_END
 
         // STEP_START mget
@@ -32,6 +32,24 @@ extends TestCase
         // REMOVE_START
         $this->assertEquals(['Hello', 'World', null], $mgetResult);
         $r->del('key1', 'key2', 'nonexisting');
+        // REMOVE_END
+
+        // STEP_START incr
+        $incrResult1 = $r->set('mykey', '10');
+        echo $incrResult1 . PHP_EOL;        // >>> OK
+
+        $incrResult2 = $r->incr('mykey');
+        echo $incrResult2 . PHP_EOL;        // >>> 11
+
+        $incrResult3 = $r->get('mykey');
+        echo $incrResult3 . PHP_EOL;        // >>> 11
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', (string) $incrResult1);
+        $this->assertEquals(11, $incrResult2);
+        $this->assertEquals('11', $incrResult3);
+        $r->del('mykey');
         // REMOVE_END
     }
 }

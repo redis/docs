@@ -11,9 +11,8 @@ weight: 30
 ---
 An Ingress is an API resource that provides a standardized and flexible way to manage external access to services running within a Kubernetes cluster.
 
-{{<warning>}}
-The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio.
-{{</warning>}}
+> [!WARNING]
+> The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio.
 
 ## Install Ingress controller
 
@@ -22,7 +21,7 @@ Redis Enterprise for Kubernetes supports the Ingress controllers below:
 * [Istio](https://istio.io/latest/docs/setup/getting-started/)
 * [Ingress-NGINX](https://kubernetes.github.io/ingress-nginx/) (retired; existing deployments only)
 
-OpenShift users can use [routes]({{< relref "/operate/kubernetes/networking/routes" >}}) instead of an Ingress.
+OpenShift users can use [routes](/content/operate/kubernetes/networking/routes.md) instead of an Ingress.
 
 Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled. It is on by default for HAProxy and off by default for Ingress-NGINX. For Ingress-NGINX, start the controller with the `--enable-ssl-passthrough` flag.
 

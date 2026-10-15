@@ -25,17 +25,17 @@ weight: 4
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
 
-{{< note >}}node-redis is the recommended client library for Node.js/JavaScript,
-but we also support and document our older JavaScript client
-[`ioredis`]({{< relref "/develop/clients/ioredis" >}}). See
-[Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})
-if you are interested in converting an existing `ioredis` project to `node-redis`.
-{{< /note >}}
+> [!NOTE]
+> node-redis is the recommended client library for Node.js/JavaScript,
+> but we also support and document our older JavaScript client
+> [`ioredis`](/content/develop/clients/ioredis/_index.md). See
+> [Migrate from ioredis](/content/develop/clients/nodejs/migration.md)
+> if you are interested in converting an existing `ioredis` project to `node-redis`.
 
-`node-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`node-redis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
-[RedisOM for Node.js]({{< relref "/integrate/redisom-for-node-js" >}})
+[RedisOM for Node.js](/content/integrate/redisom-for-node-js/_index.md)
 for more information.
 
 ## Install
@@ -60,13 +60,19 @@ Store and retrieve a map.
 
 {{< jupyter-example set="landing" step="set_get_hash" depends="connect" lang_filter="Node.js" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" />}}
 
-To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
+To connect to a different host or port, use a connection URL:
 
 ```js
 createClient({
   url: 'redis://alice:foobared@awesome.redis.server:6380'
 });
 ```
+
+> [!NOTE]
+> node-redis supports [connection URLs](/content/develop/clients/connection-urls.md#node-redis-javascript) through the `url` option of `createClient()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
 When you have finished using a connection, close it with `client.quit()`.

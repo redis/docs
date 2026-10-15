@@ -35,7 +35,7 @@ summary: Returns the JSON value at path in Redis Serialization Protocol (RESP)
 syntax_fmt: JSON.RESP key [path]
 title: JSON.RESP
 ---
-Return the JSON in `key` in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}) form 
+Return the JSON in `key` in [Redis serialization protocol specification](/content/develop/reference/protocol-spec.md) form 
 
 [Examples](#examples)
 
@@ -59,7 +59,7 @@ is JSONPath to specify. Default is root `$`. This command uses the following map
 *   JSON array is represented as an array reply in which the first element is the simple string reply `[`, followed by the array's elements.
 *   JSON object is represented as an array reply in which the first element is the simple string reply `{`. Each successive entry represents a key-value pair as a two-entry array reply of the bulk string reply.
 
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
+For more information about replies, see [Redis serialization protocol specification](/content/develop/reference/protocol-spec.md).
 </details>
 
 ## Examples
@@ -117,19 +117,19 @@ redis> JSON.RESP item:2
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](/content/develop/reference/protocol-spec.md). The mapping from JSON to RESP follows the rules described in the command arguments.
 
 -tab-sep-
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](/content/develop/reference/protocol-spec.md). The mapping from JSON to RESP follows the rules described in the command arguments.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.ARRLEN`](/content/commands/json.arrlen.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

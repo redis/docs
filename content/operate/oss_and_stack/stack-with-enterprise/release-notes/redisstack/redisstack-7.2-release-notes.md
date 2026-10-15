@@ -889,7 +889,7 @@ JSON introduces two new commands:
 Graph capabilities are no longer included in Redis Stack. See the [RedisGraph End-of-Life Announcement](https://redis.com/blog/redisgraph-eol/).
 
 > [!WARNING]  
-If you are using graph capabilities with an older version of Redis Stack - please don't upgrade.
+> If you are using graph capabilities with an older version of Redis Stack - please don't upgrade.
 
 **Triggers and functions preview**:
 Triggers and functions is part of Redis Stack 7.2 as public preview, any feedback is highly appreciated.

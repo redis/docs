@@ -14,9 +14,9 @@ aliases:
 Creates or updates a context in the `~/.redis-di` context file. A context stores an API connection
 so you don't have to pass the connection options on every command. `set-context` merges only the
 options you give on the command line, preserving the rest, and does not change which context is
-active; use [`use-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-use-context" >}})
+active; use [`use-context`](/content/integrate/redis-data-integration/reference/cli/redis-di-use-context.md)
 for that. See the
-[CLI reference overview]({{< relref "/integrate/redis-data-integration/reference/cli#contexts" >}})
+[CLI reference overview](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts)
 for more about contexts.
 
 Secrets (the password and the Redis Cloud user key) are never stored in a context, so `set-context`
@@ -39,7 +39,7 @@ and `--insecure`.
 | `--unset-account-key` | Clear the stored account key, so the context authenticates without a Redis Cloud account key. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

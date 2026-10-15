@@ -72,7 +72,7 @@ This command returns information about the stream stored at `key`.
 
 The informative details provided by this command are:
 
-* **length**: the number of entries in the stream (see [`XLEN`]({{< relref "/commands/xlen" >}}))
+* **length**: the number of entries in the stream (see [`XLEN`](/content/commands/xlen.md))
 * **radix-tree-keys**: the number of keys in the underlying radix data structure
 * **radix-tree-nodes**: the number of nodes in the underlying radix data structure
 * **groups**: the number of consumer groups defined for the stream
@@ -232,7 +232,7 @@ OK
 
 ### IDMP (Idempotent Message Processing) fields
 
-When IDMP is configured for the stream using [`XCFGSET`]({{< relref "/commands/xcfgset" >}}), the following additional fields are included:
+When IDMP is configured for the stream using [`XCFGSET`](/content/commands/xcfgset.md), the following additional fields are included:
 
 * **idmp-duration**: the duration in seconds that idempotent IDs are retained in the stream's IDMP map
 * **idmp-maxsize**: the maximum number of idempotent IDs kept for each producer in the stream's IDMP map
@@ -245,7 +245,7 @@ When IDMP is configured for the stream using [`XCFGSET`]({{< relref "/commands/x
 
 The optional `FULL` modifier provides a more verbose reply.
 When provided, the `FULL` reply includes an **entries** array that consists of the stream entries (ID and field-value tuples) in ascending order.
-Furthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`]({{< relref "/commands/xinfo-groups" >}}) and [`XINFO CONSUMERS`]({{< relref "/commands/xinfo-consumers" >}}).
+Furthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`](/content/commands/xinfo-groups.md) and [`XINFO CONSUMERS`](/content/commands/xinfo-consumers.md).
 
 The following information is provided for each of the groups:
 
@@ -256,20 +256,20 @@ The following information is provided for each of the groups:
 * **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged
 * **pending**: an array with pending entries information (see below)
 * **consumers**: an array with consumers information (see below)
-* **nacked-count**: the number of entries currently in the NACKed portion of the PEL. See the [`XNACK` command page]({{< relref "/commands/xnack" >}}) for more details. Added in Redis 8.8.
+* **nacked-count**: the number of entries currently in the NACKed portion of the PEL. See the [`XNACK` command page](/content/commands/xnack.md) for more details. Added in Redis 8.8.
 
 The following information is provided for each pending entry:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has yet to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be an empty string.
+2. The name of the consumer that fetched the message and has yet to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`](/content/commands/xnack.md), this field will be an empty string.
 3. The UNIX timestamp of when the message was delivered to this consumer.
 4. The number of times this message was delivered.
 
 The following information is provided for each consumer:
 
 * **name**: the consumer's name
-* **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), [`XCLAIM`]({{< relref "/commands/xclaim" >}}), [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}))
-* **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) that actually read some entries into the PEL, [`XCLAIM`]({{< relref "/commands/xclaim" >}})/[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) that actually claimed some entries)
+* **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`](/content/commands/xreadgroup.md), [`XCLAIM`](/content/commands/xclaim.md), [`XAUTOCLAIM`](/content/commands/xautoclaim.md))
+* **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`](/content/commands/xreadgroup.md) that actually read some entries into the PEL, [`XCLAIM`](/content/commands/xclaim.md)/[`XAUTOCLAIM`](/content/commands/xautoclaim.md) that actually claimed some entries)
 * **pel-count**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged
 * **pending**: an array with pending entries information, has the same structure as described above, except the consumer name is omitted (redundant, since anyway we are in a specific consumer context)
 

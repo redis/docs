@@ -21,10 +21,10 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ## New features and enhancements
 
-- [Pub/sub ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls#pubsub-acl-rules" >}})
+- [Pub/sub ACLs](/content/operate/rc/security/access-control/data-access-control/configure-acls.md#pubsub-acl-rules)
 
 - Add users with first name and last name
 
-- Select multiple [availability zones]({{< relref "/operate/rc/databases/configuration/high-availability#availability-zones" >}})
+- Select multiple [availability zones](/content/operate/rc/databases/configuration/high-availability.md#availability-zones)
 
 - Additional enhancements

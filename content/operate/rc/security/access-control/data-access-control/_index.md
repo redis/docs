@@ -16,14 +16,14 @@ weight: 25
 
 ## Default user
 
-When you create a Redis Cloud database, your database is given a randomly generated password called the [**Default user password**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}). Learn how to [change the default user password]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#change-password" >}}) or [turn off default user access]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#turn-off-default-user" >}}).
+When you create a Redis Cloud database, your database is given a randomly generated password called the [**Default user password**](/content/operate/rc/security/access-control/data-access-control/default-user.md). Learn how to [change the default user password](/content/operate/rc/security/access-control/data-access-control/default-user.md#change-password) or [turn off default user access](/content/operate/rc/security/access-control/data-access-control/default-user.md#turn-off-default-user).
 
 ## Role-based access control
 
-With [role-based access control (RBAC)]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}), you create roles and assign users to those roles to grant different levels of access to the database.
+With [role-based access control (RBAC)](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md), you create roles and assign users to those roles to grant different levels of access to the database.
 
-- [Enable RBAC]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
-- [Configure ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}})
-- [Create roles]({{< relref "/operate/rc/security/access-control/data-access-control/create-roles" >}})
-- [Create and edit database users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users" >}})
-- [Active-Active roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}})
+- [Enable RBAC](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md)
+- [Configure ACLs](/content/operate/rc/security/access-control/data-access-control/configure-acls.md)
+- [Create roles](/content/operate/rc/security/access-control/data-access-control/create-roles.md)
+- [Create and edit database users](/content/operate/rc/security/access-control/data-access-control/create-assign-users.md)
+- [Active-Active roles](/content/operate/rc/security/access-control/data-access-control/active-active-roles.md)

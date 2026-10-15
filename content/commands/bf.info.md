@@ -117,14 +117,14 @@ redis> BF.INFO bf1 CAPACITY
     tab2="RESP3" >}}
 
 One of the following:
-* A singleton [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with an [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the value of the requested property.
-* An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
+* A singleton [array reply](/content/develop/reference/protocol-spec.md#arrays) with an [integer](/content/develop/reference/protocol-spec.md#integers) representing the value of the requested property.
+* An [array reply](/content/develop/reference/protocol-spec.md#arrays) with [simple string](/content/develop/reference/protocol-spec.md#simple-strings) and [integer](/content/develop/reference/protocol-spec.md#integers) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the key does not exist.
 
 -tab-sep-
 
 One of the following:
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.
+* [Map reply](/content/develop/reference/protocol-spec.md#maps) with [simple string](/content/develop/reference/protocol-spec.md#simple-strings) and [integer](/content/develop/reference/protocol-spec.md#integers) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the key does not exist.
 
 {{< /multitabs >}}

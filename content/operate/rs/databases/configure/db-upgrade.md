@@ -17,7 +17,7 @@ Database upgrade configuration includes cluster-wide policies that affect defaul
 
 To edit database upgrade configuration using the Cluster Manager UI:
 
-1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
+1. On the **Databases** screen, select ![Toggle actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) to open a list of additional actions.
 
 1. Select **Upgrade configuration**.
 
@@ -33,13 +33,13 @@ To change the number of shards upgraded in parallel during database upgrades, us
 
 - Cluster Manager UI – Edit **Database shard parallel upgrade** in [**Upgrade configuration**](#edit-upgrade-configuration)
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster): 
     
     ```sh
     rladmin tune cluster parallel_shards_upgrade { all | <integer> }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -54,13 +54,13 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
 - Cluster Manager UI – Edit **RESP3 support** in [**Upgrade configuration**](#edit-upgrade-configuration)
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster): 
     
     ```sh
     rladmin tune cluster resp3_default { enabled | disabled }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

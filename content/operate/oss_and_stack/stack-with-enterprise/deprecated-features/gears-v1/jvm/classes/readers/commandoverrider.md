@@ -16,13 +16,12 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 
 The `CommandOverrider` allows you to override and customize Redis commands.
 
-1. Pass the `CommandOverrider` to the [`GearsBuilder.CreateGearsBuilder()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder" >}}) function in your Java code.
-1. Call the [`register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}) function.
+1. Pass the `CommandOverrider` to the [`GearsBuilder.CreateGearsBuilder()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/creategearsbuilder.md) function in your Java code.
+1. Call the [`register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md) function.
 1. Run `RG.JEXECUTE` to register your code.
 
-{{<note>}}
-If you register code that uses `CommandOverrider`, its `reader` value is `"CommandReader"` when you run the `RG.DUMPREGISTRATIONS` command, not `"CommandOverrider"`.
-{{</note>}}
+> [!NOTE]
+> If you register code that uses `CommandOverrider`, its `reader` value is `"CommandReader"` when you run the `RG.DUMPREGISTRATIONS` command, not `"CommandOverrider"`.
 
 ## Parameters
 

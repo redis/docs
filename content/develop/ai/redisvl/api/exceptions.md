@@ -23,16 +23,15 @@ Exception
     └── RedisModuleVersionError
 ```
 
-{{< note >}}
-Exceptions raised by the underlying `redis-py` client, such as
-`redis.exceptions.ConnectionError`, are not part of this hierarchy. Where
-RedisVL performs an index or search operation on your behalf it wraps those
-errors in a [RedisSearchError](#redissearcherror) and chains the original exception, so the
-underlying cause is still available on `__cause__`. Constructor and argument
-validation raises standard Python exceptions instead: for example,
-`VectorQuery(..., ef_runtime=-1)` raises `ValueError` at construction time,
-before any `try` block around the query run is entered.
-{{< /note >}}
+> [!NOTE]
+> Exceptions raised by the underlying `redis-py` client, such as
+> `redis.exceptions.ConnectionError`, are not part of this hierarchy. Where
+> RedisVL performs an index or search operation on your behalf it wraps those
+> errors in a [RedisSearchError](#redissearcherror) and chains the original exception, so the
+> underlying cause is still available on `__cause__`. Constructor and argument
+> validation raises standard Python exceptions instead: for example,
+> `VectorQuery(..., ef_runtime=-1)` raises `ValueError` at construction time,
+> before any `try` block around the query run is entered.
 
 ## When each error is raised
 
@@ -132,6 +131,10 @@ yet, the check simply reports it as absent and `create()` proceeds.
 there raises `redis.exceptions.NoPermissionError` itself rather than a wrapped
 [RedisSearchError](#redissearcherror). See [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL categories
 RedisVL needs.
+
+When the credential genuinely cannot run `FT.INFO`, this error is not something to
+handle: construct the extension with `create_index=False` instead, which skips the
+existence check entirely. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 ### `Telling "the index is missing" apart from other failures`
 

@@ -68,7 +68,7 @@ The `state` field is one of the following:
 
 For lightweight monitoring, `INFO persistence` also exposes a `backup_in_progress` boolean. Full backup state, error, and timestamps are available only through `BACKUP STATUS`.
 
-For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -92,8 +92,8 @@ For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stac
 
 ## See also
 
-[`BACKUP START`]({{< relref "commands/backup-start/" >}}) | [`BACKUP SEAL`]({{< relref "commands/backup-seal/" >}}) | [`BACKUP LIST`]({{< relref "commands/backup-list/" >}}) | [`BACKUP ABORT`]({{< relref "commands/backup-abort/" >}}) | [`BACKUP CLEANUP`]({{< relref "commands/backup-cleanup/" >}})
+[`BACKUP START`](/content/commands/backup-start.md) | [`BACKUP SEAL`](/content/commands/backup-seal.md) | [`BACKUP LIST`](/content/commands/backup-list.md) | [`BACKUP ABORT`](/content/commands/backup-abort.md) | [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

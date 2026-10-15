@@ -9,13 +9,12 @@ description: Requirements for using the mDNS protocol in development and testing
 linkTitle: mDNS client prerequisites
 weight: $weight
 ---
-{{< note >}}
-mDNS is only supported for development and testing environments.
-{{< /note >}}
+> [!NOTE]
+> mDNS is only supported for development and testing environments.
 
-If you choose to use the mDNS protocol when [you set the cluster name]({{< relref "/operate/rs/networking/cluster-dns" >}}),
+If you choose to use the mDNS protocol when [you set the cluster name](/content/operate/rs/networking/cluster-dns.md),
 make sure that the configurations and prerequisites for resolving database endpoints are met on the client machines.
-If you have [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) databases on the cluster,
+If you have [Replica Of](/content/operate/rs/databases/import-export/replica-of/_index.md) databases on the cluster,
 the configurations and prerequisites are also required for the Redis Software nodes.
 
 To prepare a client or node for mDNS:
@@ -46,7 +45,7 @@ To prepare a client or node for mDNS:
         $ service avahi-daemon start
         ```
 
-1. If you are using [mDNS with IPv6 addresses]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}),
+1. If you are using [mDNS with IPv6 addresses](/content/operate/rs/networking/multi-ip-ipv6.md),
     update the hosts line in `/etc/nsswitch.conf` to:
 
     ```yaml

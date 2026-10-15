@@ -12,11 +12,10 @@ weight: 80
 
 [Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
 
-{{< note >}}
-Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
-{{< /note >}}
+> [!NOTE]
+> Connecting to Redis Cloud with an AWS PrivateLink is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
 
-You can use PrivateLink as an alternative to Layer 3 connectivity options like [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
+You can use PrivateLink as an alternative to Layer 3 connectivity options like [VPC peering](/content/operate/rc/security/vpc-peering.md) and [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md).
 
 AWS PrivateLink provides the following benefits:
 
@@ -51,7 +50,7 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
 Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you must have:
 
-- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and the **Owner** or **Manager** role for your Redis Cloud account.
+- A [Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) and the **Owner** or **Manager** role for your Redis Cloud account.
 - An [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with the following:
     - A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/creating-security-groups.html) that allows ingress traffic to the following ports: 
         - The database port range (port 10000-19999)
@@ -78,17 +77,21 @@ In this step, you will associate the Redis Cloud resource share with an AWS Acco
 
 1. In the **Resource Share** section, select **Manage Principals** to open the **Manage Principals** window.
 
-    {{<image filename="images/rc/privatelink-resource-share.png" width="80%" alt="The Resource Share section, with the manage principals button." >}}
+    ![The Resource Share section, with the manage principals button.](/images/rc/privatelink-resource-share.png)
+    {width="80%"}
 
-    {{<image filename="images/rc/privatelink-manage-principals.png" width="80%" alt="The Manage Principals window lets you add and remove principals from the resource share." >}}
+    ![The Manage Principals window lets you add and remove principals from the resource share.](/images/rc/privatelink-manage-principals.png)
+    {width="80%"}
 
 1. Select the **Add** button in the **AWS consumer principals** section to add a principal to the resource share.
 
-    {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add button adds principals to the resource share." >}}
+    ![The Add button adds principals to the resource share.](/images/rc/icon-add.png)
+    {width="30px"}
 
 1. Enter the account's ID in the **AWS Account** field. You can also add an optional alias in the **AWS principal alias** field.
 
-    {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
+    ![The AWS consumer principals section with an AWS account added as a principal.](/images/rc/privatelink-aws-consumer-principals.png)
+    {width="80%"}
 
 1. Select **Share** to share the resource share with the principal. The first resource share may take a few minutes.
 
@@ -96,7 +99,8 @@ In this step, you will associate the Redis Cloud resource share with an AWS Acco
 
 After you accept the resource share, the Redis Cloud console will show the principal as **Accepted**.
 
-{{<image filename="images/rc/privatelink-principal-accepted.png" width="80%" alt="The Consumer Principals section, with the consumer principal shown as accepted." >}}
+![The Consumer Principals section, with the consumer principal shown as accepted.](/images/rc/privatelink-principal-accepted.png)
+{width="80%"}
 
 You can add additional principals to the resource share at any time.
 
@@ -106,7 +110,8 @@ In this step, you will add a connection from your consumer account using a VPC r
 
 From the **Connectivity > PrivateLink** tab in your Redis Cloud subscription, open the **Add connection** section.
 
-{{<image filename="images/rc/privatelink-add-connection.png" width="80%" alt="The Add connection section." >}}
+![The Add connection section.](/images/rc/privatelink-add-connection.png)
+{width="80%"}
 
 Here, choose whether you want to connect to Redis using a **Resource endpoint** or a **Service network**. 
 
@@ -153,7 +158,8 @@ To use the AWS CLI to connect to an already existing service network, select **C
 
 After you've connected to Redis Cloud with a VPC resource endpoint or a VPC lattice service network, you can find the endpoints for your databases and cluster metrics in the AWS UI by going to the **Associations** tab for your endpoint or service network and viewing the Private DNS entries. You will have one entry for each database and one entry for the metrics endpoint.
 
-{{<image filename="images/rc/privatelink-aws-endpoint-associations.png" width="80%" alt="The Associations tab for a VPC resource endpoint, showing the Private DNS entries for the databases and metrics endpoint." >}}
+![The Associations tab for a VPC resource endpoint, showing the Private DNS entries for the databases and metrics endpoint.](/images/rc/privatelink-aws-endpoint-associations.png)
+{width="80%"}
 
 To view them on Redis Cloud, download the **Discovery script** from the Redis Cloud console and run it in your consumer VPC to discover the database endpoints.
 
@@ -177,9 +183,39 @@ The script returns a list of database endpoints that you can connect to from you
 ]
 ```
 
-You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC. You can also connect to the metrics endpoint with services like [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) by using the metrics `private-dns-entry` and `port`.
+You can connect to your database by using the database `private-dns-entry` and `port` from your consumer VPC. You can also connect to the metrics endpoint with services like [Prometheus and Grafana](/content/integrate/prometheus-with-redis-cloud/_index.md) by using the metrics `private-dns-entry` and `port`.
 
-After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard]({{< relref "/operate/rc/databases/connect" >}}) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
+After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard](/content/operate/rc/databases/connect/_index.md) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
+
+> [!NOTE]
+> The connection wizard and other parts of the console show your database's [public endpoint](/content/operate/rc/databases/connect/_index.md), which is different from the `private-dns-entry` the discovery script returns. The public endpoint hostname is publicly resolvable and, by default, returns your database's address inside the Redis-managed VPC. That's correct behavior, and it's what [VPC peering](/content/operate/rc/security/vpc-peering.md) and [Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) consumers rely on. For PrivateLink, that address is overridden only inside your consumer VPC, by the private hosted zone that AWS creates there. Resolving the public endpoint hostname from anywhere else — including from on-premises over Direct Connect or a VPN — returns the unreachable Redis-managed VPC address, not an error. Use the database's `private-dns-entry` from your consumer VPC, or see [Connect from on-premises](#connect-from-on-premises) if you're connecting from outside it.
+
+## Connect from on-premises
+
+The private hosted zone that overrides the public endpoint hostname inside your consumer VPC doesn't extend to on-premises networks connected over Direct Connect or a VPN, even though they can reach the consumer VPC. The sections below describe other approaches that you can use instead.
+
+Certificate verification decides which approach you need. Redis Cloud issues server certificates for its own hostnames, not for AWS-owned PrivateLink hostnames. If you use TLS, or expect to, your connection string must use the database's public endpoint hostname so that certificate verification succeeds, which means you need one of the two DNS-based approaches below. If you don't use TLS, you can connect directly with the resource endpoint's default DNS name.
+
+### Use the resource endpoint's default DNS name
+
+AWS documents this as a supported way to reach a resource endpoint from on-premises, not a workaround:
+
+> [!NOTE]
+> DNS requests from outside the VPC still return the private IP addresses of the resource endpoint's network interfaces. You can use these DNS names to access the resource from on premises, as long as you have access to the VPC that the resource endpoint is in, through VPN or Direct Connect.
+
+Find the resource endpoint's default DNS name in the AWS console, under the endpoint's details, and use it directly in your connection string. This requires no DNS configuration on either side, but it doesn't work with TLS, because the hostname doesn't match your database's certificate.
+
+### Add a CNAME to the public endpoint hostname
+
+If you want to keep using the database's public endpoint hostname, including with TLS, create a CNAME record in your own DNS that points the hostname to the resource endpoint's default DNS name. This needs one DNS record and no changes on the AWS or Redis Cloud side.
+
+Add a CNAME record, not an A record to the resource endpoint's network interface addresses. Those addresses aren't guaranteed to stay the same if the resource endpoint is recreated.
+
+### Use a Route 53 Resolver inbound endpoint
+
+For a fully AWS-native setup, create a [Route 53 Resolver inbound endpoint](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-inbound-queries.html) in the consumer VPC and configure conditional forwarding from on-premises for your database's public endpoint domain. This also works with TLS, since it resolves the same public endpoint hostname your certificate expects. See [Integrating AWS Transit Gateway with AWS PrivateLink and Amazon Route 53 Resolver](https://aws.amazon.com/blogs/networking-and-content-delivery/integrating-aws-transit-gateway-with-aws-privatelink-and-amazon-route-53-resolver/) for the reference architecture.
+
+Route 53 Resolver endpoints are billed per elastic network interface per hour, with a two-interface minimum. See [Amazon Route 53 pricing](https://aws.amazon.com/route53/pricing/). This option costs more than a CNAME record, so it suits consumers of several PrivateLink services rather than a single database.
 
 ## Disassociate connection
 
@@ -189,7 +225,8 @@ To disassociate a PrivateLink connection:
 
 1. In the **Connections** section, select **Disassociate** button next to the connection you want to disassociate.
 
-    {{<image filename="images/rc/privatelink-disassociate-connection.png" width="80%" alt="The Disassociate button next to a VPC endpoint connection." >}}
+    ![The Disassociate button next to a VPC endpoint connection.](/images/rc/privatelink-disassociate-connection.png)
+    {width="80%"}
 
 1. Select **Disassociate VPC endpoint** or **Disassociate service network** to confirm.
 
@@ -203,10 +240,12 @@ To remove PrivateLink as a connectivity option from your database:
 
 1. Select **More Actions > Remove Private Link**.
 
-    {{<image filename="images/rc/privatelink-remove-menu.png" width="200px" alt="The Remove Private Link option in the More Actions menu." >}}
+    ![The Remove Private Link option in the More Actions menu.](/images/rc/privatelink-remove-menu.png)
+    {width="200px"}
 
 1. Select the **Remove Private Link** button to confirm.
 
-    {{<image filename="images/rc/privatelink-remove-confirm.png" width="50%" alt="The Remove Private Link confirmation pop-up." >}}
+    ![The Remove Private Link confirmation pop-up.](/images/rc/privatelink-remove-confirm.png)
+    {width="50%"}
 
 All connections that depend on PrivateLink will be immediately rejected as when you remove it from your subscription.

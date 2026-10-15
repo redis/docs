@@ -108,8 +108,8 @@ Because of this the `TAKEOVER` option should be used with care.
 * An `OK` reply is no guarantee that the failover will succeed.
 * A replica can only be promoted to a primary if it is known as a replica by a majority of the primaries in the cluster.
   If the replica is a new node that has just been added to the cluster (for example after upgrading it), it may not yet be known to all the primaries in the cluster.
-  To check that the primaries are aware of a new replica, you can send [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) or [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}) to each of the primary nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
-* To check that the failover has actually happened you can use [`ROLE`]({{< relref "/commands/role" >}}), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) to verify that the state of the cluster has changed sometime after the command was sent.
+  To check that the primaries are aware of a new replica, you can send [`CLUSTER NODES`](/content/commands/cluster-nodes.md) or [`CLUSTER REPLICAS`](/content/commands/cluster-replicas.md) to each of the primary nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
+* To check that the failover has actually happened you can use [`ROLE`](/content/commands/role.md), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`](/content/commands/cluster-nodes.md) to verify that the state of the cluster has changed sometime after the command was sent.
 * To check if the failover has failed, check the replica's log for `Manual failover timed out`, which is logged if the replica has given up after a few seconds.
 
 ## Redis Software and Redis Cloud compatibility

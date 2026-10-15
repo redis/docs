@@ -11,9 +11,9 @@ weight: 10
 url: '/operate/rs/7.22/installing-upgrading/install/install-on-linux/'
 ---
 
-After you [download a Redis Enterprise Software installation package]({{< relref "/operate/rs/7.22/installing-upgrading/install/prepare-install/download-install-package" >}}), install it on one of the nodes in the cluster.
+After you [download a Redis Enterprise Software installation package](/content/operate/rs/7.22/installing-upgrading/install/prepare-install/download-install-package.md), install it on one of the nodes in the cluster.
 
-For installation on machines without an internet connection, see [Offline installation]({{< relref "/operate/rs/7.22/installing-upgrading/install/offline-installation" >}}).
+For installation on machines without an internet connection, see [Offline installation](/content/operate/rs/7.22/installing-upgrading/install/offline-installation.md).
 
 ## Install on Linux
 
@@ -49,7 +49,7 @@ To install Redis Enterprise Software, use the command line:
          rpm --checksig </path-to/package.rpm>
          ```
 
-1. To start the installation process, run the installation script. See [installation script options]({{< relref "/operate/rs/7.22/installing-upgrading/install/install-script" >}}) for a complete list of command-line options.
+1. To start the installation process, run the installation script. See [installation script options](/content/operate/rs/7.22/installing-upgrading/install/install-script.md) for a complete list of command-line options.
 
     **For default installation:**
     ```sh
@@ -64,22 +64,20 @@ To install Redis Enterprise Software, use the command line:
     sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
     ```
 
-    For detailed information about custom installations, see [Customize installation directories]({{< relref "/operate/rs/7.22/installing-upgrading/install/customize-install-directories" >}}).
+    For detailed information about custom installations, see [Customize installation directories](/content/operate/rs/7.22/installing-upgrading/install/customize-install-directories.md).
 
-    {{< note >}}
-- The Redis Enterprise Software files are installed in the default [file locations]({{< relref "/operate/rs/7.22/installing-upgrading/install/plan-deployment/file-locations.md" >}}) unless you specify custom directories.
-- By default, Redis Enterprise Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group]({{< relref "/operate/rs/7.22/installing-upgrading/install/customize-user-and-group.md" >}}) during the installation.
-- You must either be the root user or use `sudo` to run the installation script.
-    {{< /note >}}
+    > [!NOTE]
+    > - The Redis Enterprise Software files are installed in the default [file locations](/content/operate/rs/7.22/installing-upgrading/install/plan-deployment/file-locations.md) unless you specify custom directories.
+    > - By default, Redis Enterprise Software runs on the OS as the `redislabs` user and `redislabs` group. If needed, you can [specify a different user and group](/content/operate/rs/7.22/installing-upgrading/install/customize-user-and-group.md) during the installation.
+    > - You must either be the root user or use `sudo` to run the installation script.
 
-1. Answer the [installation questions]({{< relref "/operate/rs/7.22/installing-upgrading/install/manage-installation-questions.md" >}}) when shown to complete the installation process.
+1. Answer the [installation questions](/content/operate/rs/7.22/installing-upgrading/install/manage-installation-questions.md) when shown to complete the installation process.
 
-    {{< note >}}
-To skip the installation questions, use one of the following methods:
-
-- Run `./install.sh -y` to answer yes to all of the questions.
-- Create an [answer file]({{< relref "/operate/rs/7.22/installing-upgrading/install/manage-installation-questions#configure-file-to-answer" >}}) to answer installation questions automatically.
-    {{< /note >}}
+    > [!NOTE]
+    > To skip the installation questions, use one of the following methods:
+    >
+    > - Run `./install.sh -y` to answer yes to all of the questions.
+    > - Create an [answer file](/content/operate/rs/7.22/installing-upgrading/install/manage-installation-questions.md#configure-file-to-answer) to answer installation questions automatically.
 
 1. When installation completes successfully, the output displays the Cluster Manager UI's IP address:
 
@@ -99,7 +97,7 @@ To skip the installation questions, use one of the following methods:
 
 ## Auto Tiering installation
 
-If you want to use Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/7.22/databases/auto-tiering/" >}}) for Auto Tiering databases and prepare and format the flash memory.
+If you want to use Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations](/content/operate/rs/7.22/databases/auto-tiering/_index.md) for Auto Tiering databases and prepare and format the flash memory.
 
 After you install Redis Enterprise Software, use the `prepare_flash` script to prepare and format flash memory:
 
@@ -119,17 +117,17 @@ sudo lsblk
 
 To learn more about customization and find answers to related questions, see:
 
-- [CentOS/RHEL firewall configuration]({{< relref "/operate/rs/7.22/installing-upgrading/configuring/centos-rhel-firewall.md" >}})
-- [Change socket file location]({{< relref "/operate/rs/7.22/installing-upgrading/configuring/change-location-socket-files.md" >}})
-- [Cluster DNS configuration]({{< relref "/operate/rs/7.22/networking/cluster-dns.md" >}})
-- [Cluster load balancer setup]({{< relref "/operate/rs/7.22/networking/cluster-lba-setup.md" >}})
-- [mDNS client prerequisites]({{< relref "/operate/rs/7.22/networking/mdns.md" >}})
-- [File locations]({{< relref "/operate/rs/7.22/installing-upgrading/install/plan-deployment/file-locations.md" >}})
-- [Supported platforms]({{< relref "/operate/rs/7.22/installing-upgrading/install/plan-deployment/supported-platforms.md" >}})
+- [CentOS/RHEL firewall configuration](/content/operate/rs/7.22/installing-upgrading/configuring/centos-rhel-firewall.md)
+- [Change socket file location](/content/operate/rs/7.22/installing-upgrading/configuring/change-location-socket-files.md)
+- [Cluster DNS configuration](/content/operate/rs/7.22/networking/cluster-dns.md)
+- [Cluster load balancer setup](/content/operate/rs/7.22/networking/cluster-lba-setup.md)
+- [mDNS client prerequisites](/content/operate/rs/7.22/networking/mdns.md)
+- [File locations](/content/operate/rs/7.22/installing-upgrading/install/plan-deployment/file-locations.md)
+- [Supported platforms](/content/operate/rs/7.22/installing-upgrading/install/plan-deployment/supported-platforms.md)
 
 ## Limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/7.22/installing-upgrading/install/customize-install-directories" >}}).
+Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories](/content/operate/rs/7.22/installing-upgrading/install/customize-install-directories.md).
 
 As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
 
@@ -139,11 +137,11 @@ As a workaround to install Redis Enterprise Software without using any root dire
 
 ## Next steps
 
-1. [Create]({{< relref "/operate/rs/7.22/clusters/new-cluster-setup.md" >}})
-    or [join]({{< relref "/operate/rs/7.22/clusters/add-node.md" >}}) an existing Redis Enterprise Software cluster.
+1. [Create](/content/operate/rs/7.22/clusters/new-cluster-setup.md)
+    or [join](/content/operate/rs/7.22/clusters/add-node.md) an existing Redis Enterprise Software cluster.
 
-1. [Create a database]({{< relref "/operate/rs/7.22/databases/create" >}}).
+1. [Create a database](/content/operate/rs/7.22/databases/create.md).
 
-    For geo-distributed Active-Active replication, create an [Active-Active]({{< relref "/operate/rs/7.22/databases/active-active/create.md" >}}) database.
+    For geo-distributed Active-Active replication, create an [Active-Active](/content/operate/rs/7.22/databases/active-active/create.md) database.
 
-1. [Add users]({{< relref "/operate/rs/7.22/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/7.22/security/access-control" >}}).
+1. [Add users](/content/operate/rs/7.22/security/access-control/create-users.md) to the cluster with specific permissions.  To begin, start with [Access control](/content/operate/rs/7.22/security/access-control/_index.md).

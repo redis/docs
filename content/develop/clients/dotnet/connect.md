@@ -41,10 +41,17 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
+> [!NOTE]
+> Unlike other clients, StackExchange.Redis doesn't support
+> [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> but it does support its own similar configuration string format.
+> See [Connection URLs](/content/develop/clients/connection-urls.md#stackexchangeredis-and-nredisstack-net)
+> to learn how to convert a standard URL to a configuration string.
+
 ## Connect to a Redis cluster
 
 The basic connection will use the
-[Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}})
+[Cluster API](/content/operate/rs/clusters/optimize/oss-cluster-api.md)
 if it is available without any special configuration. However, if you know
 the addresses and ports of several cluster nodes, you can specify them all
 during connection in the `Endpoints` parameter:
@@ -67,9 +74,67 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+list the Sentinels in `EndPoints` and set `ServiceName` to the name of the primary that
+the Sentinels monitor. The client asks the Sentinels for the current primary.
+
+```csharp
+using StackExchange.Redis;
+
+ConfigurationOptions conf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    ServiceName = "mymaster"
+};
+
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(conf);
+IDatabase db = redis.GetDatabase();
+
+db.StringSet("foo", "bar");
+Console.WriteLine(db.StringGet("foo")); // prints bar
+```
+
+You can also use a configuration string, such as
+`"localhost:26379,localhost:26380,localhost:26381,serviceName=mymaster"`.
+
+If the Sentinels and the data nodes have different credentials, connect to the Sentinels
+first with `SentinelConnect()`, using the Sentinel credentials. Then call
+`GetSentinelMasterConnection()` with the credentials for the primary and replicas:
+
+```csharp
+using StackExchange.Redis;
+
+// Connect to the Sentinels with the Sentinel credentials.
+ConfigurationOptions sentinelConf = new ConfigurationOptions {
+    EndPoints = { "localhost:26379", "localhost:26380", "localhost:26381" },
+    User = "yourSentinelUsername",
+    Password = "yourSentinelPassword"
+};
+ConnectionMultiplexer sentinel = ConnectionMultiplexer.SentinelConnect(sentinelConf);
+
+// Connect to the primary with the Redis credentials.
+ConfigurationOptions conf = new ConfigurationOptions {
+    ServiceName = "mymaster",
+    User = "yourUsername",
+    Password = "yourPassword"
+};
+ConnectionMultiplexer redis = sentinel.GetSentinelMasterConnection(conf);
+IDatabase db = redis.GetDatabase();
+```
+
+The connection also includes the replicas that the Sentinels report. To read from a
+replica, pass `CommandFlags.PreferReplica` (or `CommandFlags.DemandReplica`) to a read-only
+command. Replication is asynchronous, so a replica can return stale data.
+
+```csharp
+// Read from a replica if one is available, otherwise from the primary.
+Console.WriteLine(db.StringGet("foo", CommandFlags.PreferReplica)); // prints bar
+```
+
 ## Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 Before connecting your application to the TLS-enabled Redis server, ensure that your certificates and private keys are in the correct format.
 
@@ -130,6 +195,104 @@ conn.StringSet("foo", "bar");
 Console.WriteLine(conn.StringGet("foo"));   
 ```
 
+### SNI hostname selection for cluster connections
+
+> [!NOTE]
+> The SNI precedence scheme described in this section
+> requires `StackExchange.Redis` v3.3.1 or later.
+
+When you connect with TLS to a cluster that `StackExchange.Redis` discovers through
+`CLUSTER SLOTS`, each discovered node needs its own
+[SNI hostname](https://en.wikipedia.org/wiki/Server_Name_Indication). This allows a shared load
+balancer or proxy to route the TLS handshake to the right backend. `StackExchange.Redis`
+resolves the SNI hostname for a connection in this order:
+
+1. An explicitly configured `ConfigurationOptions.SslHost` always wins.
+2. Otherwise, a `DnsEndPoint` uses its own host.
+3. Otherwise, the client falls back to the default SNI provider.
+4. If none of these is available, the client uses the endpoint address.
+
+Because of this order, `ConfigurationOptions.SslHost` only reports a value if you set one
+explicitly; it doesn't report a host that the client inferred for you.
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs](/content/develop/clients/sch.md)
+for more information about SCH.
+
+> [!NOTE]
+> SCH support in `StackExchange.Redis` requires v3.3.0 or later. In v3.3.0 and
+> v3.3.1, the SCH API is marked `[Experimental]`, and SCH is never enabled
+> unless you set `MaintenanceNotifications` yourself. From v3.4.0, the API is no
+> longer experimental, so the compiler no longer reports the `SER010`
+> diagnostic and you can remove any suppression you added for it.
+
+The client enables SCH automatically, in `Auto` mode, when either of the
+following is true:
+
+- You connect using a hostname that the client recognizes as Redis Cloud
+  (`*.cloud.redislabs.com`, `*.cloud.redis.io`, or `*.redislabs.com`) or
+  Azure Managed Redis (`*.redis.azure.net` or `*.redisenterprise.cache.azure.net`).
+- You name a provider profile with the `defaults` configuration key
+  (`defaults=enterprise`, `defaults=rediscloud`, or `defaults=amr`).
+
+For any other endpoint, SCH is disabled by default. This includes Redis
+Software databases, which have no hostname pattern to recognize, and hosted
+databases that you reach through a CNAME, private DNS, or a proxy. For these,
+either set `defaults=enterprise`, which also applies that profile's other
+default settings, or enable SCH with the `MaintenanceNotifications`
+configuration option, in code or using the `maintNotifications` key in a
+configuration string:
+
+```csharp
+var options = ConfigurationOptions.Parse("host:6379,maintNotifications=Auto,maintRelaxedTimeout=15");
+
+// or, in code:
+var options = new ConfigurationOptions {
+    EndPoints = { "host:6379" },
+    MaintenanceNotifications = MaintenanceNotificationMode.Auto,
+    MaintenanceRelaxedTimeout = TimeSpan.FromSeconds(15),
+};
+
+var muxer = await ConnectionMultiplexer.ConnectAsync(options);
+```
+
+The `ConfigurationOptions` object accepts the following SCH-related parameters:
+
+| Name | Description |
+| :-- | :-- |
+| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default, unless the client recognizes the endpoint or you set `defaults`), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
+| `MaintenanceMovingEndpointType` | The endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
+| `MaintenanceRelaxedTimeout` | The timeout to use for commands and connections while the server has announced maintenance. The default is 10 seconds. |
+| `MaintenanceRelaxedWindowMax` | The maximum time to keep using the relaxed timeout if no notification arrives to close the window. The default is three times `MaintenanceRelaxedTimeout`. |
+| `MaintenancePostEventRelaxedDuration` | How long to keep using the relaxed timeout after a closing notification, to cover trailing effects of the maintenance. |
+
+Subscribe to the `ConnectionMultiplexer.ServerMaintenanceEvent` event to
+observe SCH notifications. This is the same event that some servers (such as
+Azure Cache for Redis) already use for their own maintenance notifications
+(see [Production usage](/content/develop/clients/dotnet/produsage.md#server-notification-events)),
+so check the runtime type of the event arguments to tell the two apart:
+
+```csharp
+muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
+    if (e is PushMaintenanceEvent pme) {
+        // A server-native SCH notification.
+        Console.WriteLine($"SCH notification: {pme.NotificationType} at {pme.EndPoint}");
+    } else {
+        // An older, provider-specific notification (for example, from Azure Cache for Redis).
+        Console.WriteLine($"Maintenance event: {e.RawMessage}");
+    }
+};
+```
+
+`RedisConnectionException` and `RedisTimeoutException` both expose a
+`MaintenanceType` property, so you can tell whether a failure happened
+because of ongoing maintenance.
+
 ## Multiplexing
 
 Although example code typically works with a single connection,
@@ -144,5 +307,5 @@ connections efficiently. StackExchange.Redis uses a different approach called
 single connection. StackExchange.Redis manages multiplexing for you automatically.
 This gives high performance without requiring any extra coding.
 See
-[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing](/content/develop/clients/pools-and-muxing.md)
 for more information.

@@ -60,11 +60,28 @@
 {{- /* Pattern for literal: {{< relref "path" >}} - capture optional leading slash */ -}}
 {{- $content = $content | replaceRE `\{\{<\s*relref\s+"/?([^"]+)"\s*>\}\}` "https://redis.io/docs/latest/$1" -}}
 
+{{- /* Fix repo-root-relative Markdown links (`](/content/...)`), which replace relref
+       in sections migrated for DOC-6909. Without this they reach the AI-facing
+       Markdown/JSON output as raw source paths, which resolve nowhere on the
+       published site. Rewritten to the same absolute form as relref above.
+       Section/leaf-bundle forms go first so the index segment is dropped rather
+       than left in the URL; `/index.md` mirrors the render-link hook, which
+       strips it, even though no content currently uses that form. A trailing
+       `#anchor` is outside each match and so survives untouched. */ -}}
+{{- $content = $content | replaceRE `\]\(/content/([^)#]*?)/_index\.md` "](https://redis.io/docs/latest/$1" -}}
+{{- $content = $content | replaceRE `\]\(/content/([^)#]*?)/index\.md` "](https://redis.io/docs/latest/$1" -}}
+{{- $content = $content | replaceRE `\]\(/content/([^)#]*?)\.md` "](https://redis.io/docs/latest/$1" -}}
+
 {{- /* Fix images - handle both HTML-escaped entities and literal characters */ -}}
 {{- /* Pattern for HTML-escaped: {{&lt; image filename=&#34;path&#34; [alt=&#34;...&#34;] &gt;}} */ -}}
 {{- $content = $content | replaceRE "\\{\\{&lt;\\s*image\\s+filename=&#34;/?([^&]+)&#34;[^}]*&gt;\\}\\}" "![$1](https://redis.io/docs/latest/$1)" -}}
 {{- /* Pattern for literal: {{< image filename="path" [alt="..."] >}} */ -}}
 {{- $content = $content | replaceRE `\{\{<\s*image\s+filename="/?([^"]+)"[^}]*>\}\}` "![$1](https://redis.io/docs/latest/$1)" -}}
+{{- /* Markdown images that replace the `image` shortcode (DOC-7128): drop the
+       `{width="..." class="..."}` line render-image.html reads, which would
+       otherwise reach the output as literal text, then absolutize the path. */ -}}
+{{- $content = $content | replaceRE `(?m)(!\[[^\]\n]*\]\([^)\n]*\))[ \t]*\n[ \t>]*\{(?:\s*\w+="[^"]*")+\s*\}[ \t]*$` "$1" -}}
+{{- $content = $content | replaceRE `(!\[[^\]\n]*\]\()/(?:static/)?images/` "${1}https://redis.io/docs/latest/images/" -}}
 
 {{- /* Process clients-example shortcodes to include all languages */ -}}
 {{- $content = partial "markdown-code-examples.html" (dict "RawContent" $content "Site" .Site) -}}

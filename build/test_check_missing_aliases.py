@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from check_missing_aliases import (  # noqa: E402
     Move, declared_aliases, draft_paths, eligible, insert_aliases, is_published,
-    is_versioned, norm, order_renames, published_urls, render_never_roots, to_url,
+    is_versioned, norm, order_renames, published_urls, render_never_roots, report,
+    to_url,
 )
 
 
@@ -117,6 +118,66 @@ def test_a_move_split_into_a_section_is_not_auto_fixed():
     # landing page and its lineage ends at one child, so a person decides.
     assert not move(split_at="content/a.md -> content/a/c.md").actionable
     assert move().actionable
+
+
+def _capture_report(**kwargs) -> str:
+    """Run report() over one actionable move and return what it logged."""
+    import io
+    import logging as _logging
+    from check_missing_aliases import logger
+
+    move = Move(old_path="content/old.md", new_path="content/new.md",
+                old_url="old", new_url="new", date="2026-01-01", commit="abc1234")
+    stream = io.StringIO()
+    handler = _logging.StreamHandler(stream)
+    logger.addHandler(handler)
+    previous = logger.level
+    logger.setLevel(_logging.INFO)
+    try:
+        report([move], False, "make check_aliases_fix", **kwargs)
+    finally:
+        logger.removeHandler(handler)
+        logger.setLevel(previous)
+    return stream.getvalue()
+
+
+def test_the_report_describes_what_the_fixer_actually_did():
+    """The report is embedded in the PR the automation opens, so it must be accurate.
+
+    Telling a reviewer to "add" an alias the diff already contains sends them after
+    finished work; claiming one was added when the fixer declined the file is the same
+    error pointing the other way, and leaves a real gap looking closed.
+    """
+    imperative = _capture_report()
+    assert "add to content/new.md" in imperative
+    assert "Fix them all with" in imperative
+
+    added = _capture_report(fixing=True)
+    assert "added to content/new.md" in added
+    assert "COULD NOT" not in added
+    # No instruction to run the fixer: it has just run.
+    assert "Fix them all with" not in added
+
+    declined = _capture_report(fixing=True, skipped={"content/new.md"})
+    assert "COULD NOT add to content/new.md" in declined
+    assert "fix by hand" in declined
+
+
+def test_the_summary_line_agrees_with_the_detail_lines():
+    """The headline count is read far more often than the lines beneath it.
+
+    Counting a move as "missing an alias" after --fix has just written it contradicts
+    every detail line saying "added to", and the headline is what someone skims.
+    """
+    assert "missing an alias" in _capture_report()
+
+    added = _capture_report(fixing=True)
+    assert "1 alias(es) added" in added
+    assert "missing an alias" not in added
+
+    declined = _capture_report(fixing=True, skipped={"content/new.md"})
+    assert "0 alias(es) added" in declined
+    assert "1 could not be added" in declined
 
 
 def test_a_whitespace_only_line_is_not_a_folded_continuation():

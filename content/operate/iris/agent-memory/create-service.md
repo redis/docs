@@ -21,13 +21,9 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
-{{< note >}}
-Redis Agent Memory does not support the following databases during public preview:
-- [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
-- Databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity
-- [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
-- Databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off
-{{< /note >}}
+
+During public preview, Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
+
 
 ## Create an Agent Memory service
 
@@ -35,41 +31,46 @@ From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory**
 
 If you have not already created an Agent Memory service, you'll see a page with an introduction to Agent Memory. Otherwise, select **New service** to go to the Agent Memory introduction page.
 
-{{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
+![The New service button.](/images/rc/langcache-new-service.png)
+{width="150px"}
 
 From here: 
 
 - Select **Quick create** to create a Redis Agent Memory service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the Redis Agent Memory service for you.
 
-    {{<image filename="images/rc/langcache-quick-create.png" alt="The Quick create button." width="150px" >}}
+    ![The Quick create button.](/images/rc/langcache-quick-create.png)
+    {width="150px"}
 
     After Redis Cloud creates your Agent Memory service, a window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+    ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
+    {width="40%"}
 
-    {{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+    >
+    > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
 
     After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
 
 - If you want to customize your Redis Agent Memory service, select **Create custom**.
 
-    {{<image filename="images/rc/agent-memory-custom-service.png" alt="The Create custom button to create an Agent Memory service." width="150px" >}}
+    ![The Create custom button to create an Agent Memory service.](/images/rc/agent-memory-custom-service.png)
+    {width="150px"}
 
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
     1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+    1. The [AI model and credentials](#ai-model-and-credentials) section allows you to use your own model provider key and select the models used by the service.
     1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
+    1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
 
 ### General settings
 
 The **General settings** section defines basic properties of your service.
 
-{{<image filename="images/rc/agent-memory-general-settings.png" alt="The General settings section." >}}
+![The General settings section.](/images/rc/agent-memory-general-settings.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -81,7 +82,7 @@ The **General settings** section defines basic properties of your service.
 
 The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
 
-{{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The Memory configuration section." >}}
+![The Memory configuration section.](/images/rc/agent-memory-memory-configuration.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -102,11 +103,23 @@ Use the **Automatic summarization** toggle to enable or disable this behavior. W
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
 
+### AI model and credentials {#ai-model-and-credentials}
+
+The **AI model and credentials (optional)** section controls the credentials and models that Agent Memory uses for memory extraction, session summarization, and long-term-memory search.
+
+Select **Use Redis in-built keys** to use Redis-managed model credentials. This is the default and requires no additional configuration. To use your provider account, select **Bring my own key**, then select the provider, LLM model, embedding model, and add your API key.
+
+LLM model options can change. Use the console to see the current choices; values shown in the screenshot are examples.
+
+![The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings.](/images/rc/agent-memory-ai-model-create.png)
+
+The same provider key is used for both model types. The credential source, provider, and embedding model are fixed after you create the service. For configuration, key rotation, security, and troubleshooting guidance, see [Configure AI models for Agent Memory]({{< relref "/operate/iris/agent-memory/model-configuration" >}}).
+
 ### Memory types & extraction {#memory-types-and-extraction}
 
 The **Memory types & extraction** section allows you to define custom long-term memory types with structured fields and an optional extraction strategy. Each enabled type runs independently.
 
-{{<image filename="images/rc/agent-memory-memory-types.png" alt="The Memory types & extraction section." >}}
+![The Memory types & extraction section.](/images/rc/agent-memory-memory-types.png)
 
 #### Custom memory types
 
@@ -143,43 +156,97 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
-The **Sensitive-data exclusions** section lets you guide automatic extraction away from information that should not be stored in long-term memory. Semantic exclusions can match concepts that a literal pattern might not cover, such as secrets, recovery codes, and similar information.
+The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory. It offers three mechanisms that you enable independently:
 
-| Setting name | Description |
-|:-------------|:------------|
-| **Semantic exclusions** | Whether the extraction model applies the exclusion prompt when creating long-term memories from session events. |
-| **Exclusion prompt** | Plain-language instructions describing information that should not be kept in long-term memory. Maximum length: 2,000 characters. |
+- [Built-in detectors](#built-in-detectors) match common identifiers, such as payment card numbers, using patterns Redis maintains.
+- [Custom detectors](#custom-detectors) match patterns you write yourself, such as internal reference numbers.
+- [Semantic exclusions](#semantic-exclusions) describe what to exclude in plain language, catching concepts that a pattern cannot.
 
-For example:
+Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
 
-```text
-Do not keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes in long-term memory.
-```
+> [!NOTE]
+> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
-{{< warning >}}
-Sensitive-data exclusions are advisory and do not guarantee that information is excluded. Sensitive session content still reaches the extraction model provider. Exclusions do not apply to long-term memories created directly through the API or an SDK.
-{{< /warning >}}
+![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
+
+Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent. Exclusions are also not applied to long-term memories your application creates directly through the API or an SDK.
+
+#### Built-in detectors
+
+Built-in detectors match common identifiers using patterns Redis maintains and validates. They are disabled by default. Use the **Built-in detectors** toggle to enable them, then select the detectors this service should exclude and choose what happens [on match](#on-match).
+
+| Detector | Matches |
+|:---------|:--------|
+| **Credit card number** | Payment card numbers, covering Visa, Mastercard, American Express, Discover, JCB, Diners Club and UnionPay. Maestro is not covered. Digits may be separated by spaces or hyphens. |
+| **Email address** | Email addresses. Addresses containing non-ASCII characters are not matched. |
+| **IP address** | IPv4 and IPv6 addresses. Loopback addresses and CIDR network ranges are not matched, and some abbreviated IPv6 forms are missed. |
+| **Phone number** | Phone numbers for the US, Canada, the UK, Germany, Israel, India, and Brazil. Numbers written with a country code, parentheses, or separators are matched on their own. A plain run of digits is matched only when the surrounding text mentions a phone number. |
+| **US Social Security number** | US Social Security numbers. Written in the usual 123-45-6789 form they are matched on their own. Other layouts are matched only when the surrounding text mentions a Social Security number. |
+
+Each description states what the detector gives up, because selecting one is a choice about false positives: a false match redacts or discards a memory you wanted to keep.
+
+#### Custom detectors
+
+Custom detectors match patterns you write yourself, such as tenant IDs, internal account numbers, or tokens. They are disabled by default. Use the **Custom detectors** toggle to enable them, then select **Add detector** and configure the following settings:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | A name for the detector, unique within the service. Must start with a letter and contain only letters, digits, underscores, or dashes (1-64 characters). A match is reported under this name. |
+| **Pattern** | A regular expression, up to 512 characters. Patterns use [RE2 syntax](https://github.com/google/re2/wiki/Syntax), which does not support backreferences or lookaround. |
+| **On match** | What happens to a memory the pattern matches. See [On match](#on-match). |
+| **Status** | Whether the detector is applied. Turn it off to keep the pattern without applying it. |
+
+You can define up to 32 custom detectors.
+
+#### On match {#on-match}
+
+Every detector, built-in or custom, decides what happens to a memory it matches:
+
+| Action | Description |
+|:-------|:------------|
+| **Redact match** | Replaces the matched text with `[REDACTED]` and keeps the rest of the memory. This is the default. |
+| **Drop memory** | Discards the whole memory. |
+
+Built-in and custom detectors are evaluated together. When a memory matches several detectors that choose different actions, the memory is dropped.
+
+#### Semantic exclusions
+
+Semantic exclusions let you describe, in plain language, what should not be kept. They catch concepts that a fixed pattern cannot, such as secrets or account recovery codes. They are disabled by default. Use the **Semantic exclusions** toggle to enable them, then describe what to exclude.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. Disabled by default. |
+| **Exclusion prompt** | A plain-language description, up to 2,000 characters, of what should never be kept in long-term memory. Required when semantic exclusions are enabled. |
+
+For example, a prompt might tell the pipeline never to keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes, and to keep only a general memory when a conversation includes them.
+
+Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
+
+> [!WARNING]
+> Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 
 ### Create service
 
 When you are done setting the details of your Agent Memory service, select **Create** to create it.
 
-{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create an Agent Memory service." >}}
+![Use the Create button to create an Agent Memory service.](/images/rc/button-access-management-user-key-create.png)
 
 A window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
+{width="40%"}
 
-{{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
-{{</warning>}}
+> [!WARNING]
+> This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
+>
+> If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
 
 ## Next steps
 
 After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
+
+To generate a conversational agent that connects to your service, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
 
 You can also [view and edit the service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
