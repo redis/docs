@@ -24,7 +24,9 @@ what clearing a pipeline removes and what it keeps.
 redis-di deploy [pipeline] [flags]
 ```
 
-The pipeline name is an optional argument that defaults to `default`.
+The pipeline name is an optional argument that defaults to `default`. A named pipeline must start
+with a lowercase letter, use only lowercase letters, digits, and dashes, and be no longer than 22
+characters. The name `rdi` is reserved.
 
 ## Options
 

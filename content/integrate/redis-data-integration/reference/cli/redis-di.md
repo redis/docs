@@ -60,6 +60,11 @@ password through an environment variable keeps it out of your shell history.
 | [`start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md)                                     | Starts a pipeline                                                        |
 | [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md)                                       | Stops a pipeline                                                         |
 | [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md)                                     | Resets a pipeline                                                        |
+| [`delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md)                                   | Deletes a pipeline                                                        |
+| [`list-settings`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-settings.md)                   | Lists the settings of the RDI instance                                   |
+| [`get-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-setting.md)                       | Gets a setting of the RDI instance                                       |
+| [`set-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-setting.md)                       | Sets a setting of the RDI instance                                       |
+| [`delete-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-setting.md)                 | Deletes a setting of the RDI instance                                    |
 | [`list-secrets`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-secrets.md)                       | Lists the secrets of a pipeline                                          |
 | [`get-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-secret.md)                           | Gets a secret of a pipeline                                              |
 | [`describe-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-secret.md)                 | Describes a secret of a pipeline                                         |

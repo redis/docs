@@ -281,6 +281,39 @@ also use mTLS, you must set the client certificate and private key contents in
 > [!NOTE]
 > Please see [these docs](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md#6-additional-kubernetes-configuration) if this RDI installation is for use with GCP Spanner.
 
+### Configure an Amazon DynamoDB lease
+
+For a disaster recovery deployment with an Active-Active RDI database, you can use an
+Amazon DynamoDB global table for leader election. The table must have a string partition
+key named `id` and use multi-Region strong consistency. Use a separate table replica
+Region for each RDI instance.
+
+Set the lease type and table details in your Helm values file:
+
+```yaml
+operator:
+  leaderElection:
+    enabled: true
+    leaseType: dynamodb
+    dynamoDBLease:
+      region: <aws-region>
+      tableName: <dynamodb-table-name>
+      # keyName: rdi-lease
+```
+
+You can provide an Amazon Web Services (AWS) shared credentials file when you install or
+upgrade RDI:
+
+```bash
+helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi \
+  --set-file operator.leaderElection.dynamoDBLease.credentials=<aws-credentials-file>
+```
+
+If you omit the credentials file, RDI uses the AWS default credential provider chain.
+Grant the RDI operator permission to call `dynamodb:DescribeTable`, `dynamodb:PutItem`,
+and `dynamodb:DeleteItem`. RDI rejects a missing or incorrectly defined table and does
+not use eventual consistency for the lease.
+
 If you are deploying to [OpenShift](https://docs.openshift.com/), you must
 set `global.openshift` to `true`:
 
@@ -374,13 +407,12 @@ To verify the status of the K8s deployment, run the following command:
 helm list -n rdi
 ```
 
-The output looks like the following. Check that the `rdi` release is listed.
-With RDI 1.8.0 or later, check that the `default` release is also listed.
+The output looks like the following. Check that the `rdi` release is listed. A fresh
+RDI 2.2.0 installation does not create a `default` pipeline until you deploy one.
 
 ```
 NAME   	NAMESPACE	REVISION	UPDATED         STATUS  	CHART         	APP VERSION
-default	rdi      	1       	2025-05-08 ... 	deployed	pipeline-0.1.0	<tag>
-rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-1.0.0      	
+rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-2.2.0
 ```
 
 Also, check that all pods have `Running` status:

@@ -9,7 +9,10 @@ aliases:
 ---
 
 Describes a single secret of a pipeline. The API never returns secret values, so the output shows
-only the key and whether it is set, not the stored value.
+the key, database, type, configuration reference, and whether it is set, not the stored value.
+
+The **Config Reference** row contains the placeholder to use in `config.yaml`, such as
+`${TARGET_DB_PASSWORD}`.
 
 ## Usage
 

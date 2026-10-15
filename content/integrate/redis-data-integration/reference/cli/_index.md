@@ -100,7 +100,12 @@ The commands group as follows:
   [`deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md) (alias `set`),
   [`start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md),
   [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md), and
-  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md).
+  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md), and
+  [`delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md).
+- **Instance settings**: [`list-settings`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-settings.md),
+  [`get-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-setting.md),
+  [`set-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-setting.md), and
+  [`delete-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-setting.md).
 - **Secrets**: [`list-secrets`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-secrets.md),
   [`get-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-secret.md),
   [`describe-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-secret.md),

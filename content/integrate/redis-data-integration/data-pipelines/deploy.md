@@ -39,6 +39,12 @@ while the other keys are only relevant for TLS/mTLS connections.
 | `KEY` | (For mTLS only) Private key |
 | `KEY_PASSWORD` | (For mTLS only) Private key password |
 
+RDI also accepts a generic secret key for another connection parameter. The key can contain up to
+63 uppercase letters, digits, and underscores, must start with a letter, and must use the `--db`
+option. For example, set a source-specific port with `redis-di set-secret PORT --db mysql 3306`
+and reference it as `${MYSQL_DB_PORT}`. Generic keys can also be stored as files with `--file`; the
+configuration reference then resolves to the mounted file path.
+
 You can reference a secret in `config.yaml` using an environment variable that is derived from
 the secret key and the database name. The variable name consists of the database name in
 uppercase (with each dash replaced by an underscore), followed by `_DB_`, followed by the key.
@@ -105,8 +111,9 @@ pipeline is only partially updated. See [Wait for changes to complete](#wait) be
 ### Manage secrets with the CLI
 
 Along with `set-secret`, the CLI has commands to list, inspect, and delete secrets. Because the API
-never returns secret values, these commands show only the secret keys and whether they are set, not
-the stored values.
+never returns secret values, these commands show the secret keys, database, type, configuration
+reference, and whether they are set, not the stored values. The configuration reference is the
+placeholder to use in `config.yaml`.
 
 ```bash
 # List all the secrets of a pipeline, with the database each one belongs to
@@ -289,6 +296,14 @@ command to deploy a pipeline:
 redis-di deploy --dir <path to pipeline folder>
 ```
 
+The pipeline name is optional and defaults to `default`. To deploy a named pipeline, pass a name
+that starts with a lowercase letter, uses only lowercase letters, digits, and dashes, and is no
+longer than 22 characters. The name `rdi` is reserved:
+
+```bash
+redis-di deploy orders --dir <path to pipeline folder>
+```
+
 RDI first validates the configuration and then deploys it if it is correct. You can control the
 validation and what happens after deployment with the following options:
 
@@ -396,6 +411,14 @@ The pipeline secrets are not affected, so remove them yourself with
 if you no longer need them. The records the pipeline wrote to the target database are not
 deleted either.
 
+## Delete a pipeline
+
+Use [`redis-di delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md)
+to delete a pipeline and its data plane components and keys from the RDI database. The command
+keeps the pipeline secrets and does not delete records already written to the target database.
+Pass `--wait=false` to return without waiting for the pipeline to disappear, or use `--timeout` to
+change the maximum wait time.
+
 > [!NOTE]
 > Clearing a pipeline discards the source aliases of any source that predates RDI's
 > support for multiple sources, so if you deploy such a source again under the same name you
@@ -405,7 +428,7 @@ deleted either.
 
 ## Wait for changes to complete {#wait}
 
-The commands that change a pipeline's state, namely `deploy`, `start`, `stop`, `reset`,
+The commands that change a pipeline's state, namely `deploy`, `start`, `stop`, `reset`, `delete`,
 `set-secret`, and `delete-secret`, do not return as soon as the API accepts the request. By default,
 they wait for the pipeline to finish transitioning to the expected state, polling its status until it
 succeeds, reaches an error, or the `--timeout` (2 minutes by default) elapses. This is usually what

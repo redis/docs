@@ -22,7 +22,10 @@ RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain availabl
 API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
 
 > [!NOTE]
-> RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
+> RDI 2.2.0 supports multiple pipelines. A pipeline name must start with a lowercase letter, use
+> only lowercase letters, digits, and dashes, and contain no more than 22 characters. The name
+> `rdi` is reserved. Requests for a non-default pipeline include its name in the path, and its
+> ingress and metrics paths also start with that name.
 
 The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. You should also review the request and response models, because they can differ between versions.
 
@@ -62,6 +65,11 @@ you must use API v2 to manage [a pipeline with several sources](/content/integra
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for the complete list.
+
+To delete a pipeline in RDI 2.2.0, use `DELETE /api/v2/pipelines/{name}`. The operation removes
+the pipeline components and RDI database keys, but keeps its secrets and target records. To keep
+an empty pipeline for a later deployment, use `PUT /api/v2/pipelines/{name}` with an empty
+configuration instead.
 
 ## v1 endpoints without a v2 equivalent
 
@@ -124,11 +132,12 @@ Note:
 ## Migration steps
 
 1. Find the applications, scripts, and SDKs in your environment that use `/api/v1`.
-2. Add the pipeline name to each v2 request. The only pipeline in 1.19.0 is always named `default`.
+2. Add the pipeline name to each v2 request. Use `default` for the default pipeline, or use the
+   name of another pipeline that follows the naming rules above.
 3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
 4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
 5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets). The environment variable that `config.yaml` references is unchanged for a source that existed before RDI supported multiple sources; see [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
 6. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
-7. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
+7. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications. Use RDI 2.2.0 or later to test named pipelines.
 
 Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation status handling.
