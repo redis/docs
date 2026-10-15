@@ -128,6 +128,6 @@ The following database limitations also apply:
 
 Redis Search on Flex keeps some index data in RAM, even when the index is stored on flash. Plan for more RAM than a Flex database of the same size without search indexes. The number of indexes, the number of fields in each index, your query patterns, and your read and write mix all affect how much RAM and CPU you need.
 
-The [RAM-to-flash ratio](/content/operate/rs/flex/plan.md#ram-to-flash-ratio) affects search performance the same way it affects other Flex workloads. More RAM increases throughput and lowers latency.
+The [RAM-to-flash ratio](/content/operate/rs/flex/plan.md#ram-to-flash-ratio) affects search performance the same way it affects other Flex workloads. More RAM increases throughput and lowers latency. Set it to at least 20% RAM for databases that use Redis Search on Flex.
 
 Configure the [query performance factor](/content/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor.md) for databases that use Redis Search on Flex. Reading index data from flash adds latency, and the query performance factor offsets it by running queries on more CPUs.
