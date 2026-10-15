@@ -5,21 +5,21 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Enable smart client handoffs (SCH) to avoid client disruptions during Redis Enterprise cluster maintenance and upgrades on Kubernetes.
+description: Enable smart client handoffs (SCH) to avoid client disruptions during cluster maintenance and upgrades on Redis Software for Kubernetes.
 linkTitle: Smart client handoffs
 weight: 98
 ---
 
-[Smart client handoffs]({{< relref "/develop/clients/sch" >}}) (SCH) let a Redis Enterprise cluster notify clients about planned maintenance shortly before it happens, so clients can reconnect or otherwise respond gracefully without significant interruptions in service. SCH is primarily useful during server software or hardware upgrades, where it provides *relaxed timeouts* and transparent *pre-handoffs* to new endpoints. See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for a full description of the feature.
+[Smart client handoffs]({{< relref "/develop/clients/sch" >}}) (SCH) let the cluster notify clients about planned maintenance shortly before it happens, so clients can reconnect or otherwise respond gracefully without significant interruptions in service. SCH is primarily useful during server software or hardware upgrades, where it provides *relaxed timeouts* and transparent *pre-handoffs* to new endpoints. See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for a full description of the feature.
 
-This page describes how to enable SCH for a Redis Enterprise cluster (REC) running on Kubernetes when your application and the cluster run within the same Kubernetes pod network, using IP-based access without TLS. External access over TLS with name-based addressing is not yet covered.
+This page describes how to enable SCH on Redis Software for Kubernetes when your application and the cluster run within the same Kubernetes pod network, using IP-based access without TLS. External access over TLS with name-based addressing is not yet covered.
 
 ## Prerequisites
 
-You need a RedisEnterpriseCluster (REC) running a version of Redis Enterprise Software that supports SCH:
+You need a RedisEnterpriseCluster (REC) running a version of Redis Software that supports SCH:
 
-- Redis Enterprise Software 8.0.2-17 or later for standalone (Enterprise cluster mode) connections.
-- Redis Enterprise Software 8.0.16-29 or later for [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+- Redis Software 8.0.2-17 or later for standalone (Enterprise cluster mode) connections.
+- Redis Software 8.0.16-29 or later for [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
 
 You also need Redis Software for Kubernetes 8.2.2-TBD or later.
 
@@ -99,13 +99,11 @@ CLIENT MAINT_NOTIFICATIONS ON
 
 The handshake differs because OSS Cluster API mode aligns with the configuration that determines the output of [`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}}), which contains the internal node IP addresses by default. In this mode, the server pushes `SMIGRATING` and `SMIGRATED` messages to the client. The `SMIGRATED` message carries information about topology changes, including the updated internal IP addresses.
 
-You can also observe the handshake server-side with the [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
-
 ## Validate SCH during an upgrade
 
-To confirm that SCH reduces disruption during maintenance, [upgrade the Redis Enterprise cluster]({{< relref "/operate/kubernetes/upgrade" >}}), which adds and removes nodes as the operator performs a rolling upgrade of the pods.
+To confirm that SCH reduces disruption during maintenance, [upgrade the cluster]({{< relref "/operate/kubernetes/upgrade" >}}), which adds and removes nodes as the operator performs a rolling upgrade of the pods.
 
-1. Make sure both the source and target Redis Enterprise Software versions support SCH.
+1. Make sure both the source and target Redis Software versions support SCH.
 1. Enable SCH as described above.
 1. Connect your clients and set their log level to `DEBUG`.
 1. Start the upgrade and watch the client debug output:
@@ -117,4 +115,4 @@ To confirm that SCH reduces disruption during maintenance, [upgrade the Redis En
 - [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) - Feature overview and client library support
 - [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) - Route requests directly with cluster-aware clients
 - [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - In-cluster and external database access
-- [Upgrade Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/upgrade" >}}) - Cluster and database upgrade procedures
+- [Upgrade Redis Software for Kubernetes]({{< relref "/operate/kubernetes/upgrade" >}}) - Cluster and database upgrade procedures
