@@ -54,7 +54,9 @@ for match in results.matches:
 from copy import deepcopy
 
 updated_content = deepcopy(faq_content)
-updated_content["payload"]["faq"]["answer"] += " Support can check the current stage but cannot guarantee a bank posting date."
+updated_content["payload"]["faq"]["answer"] += (
+    " Support can check the current stage but cannot guarantee a bank posting date."
+)
 updated = playbook.append_faq_version(faq_id=faq_id, content=updated_content)
 print("Review this version:", updated.version.version, updated.version.content)
 # STEP_END
@@ -94,9 +96,12 @@ while True:
 # STEP_START playbook-faq-lookup
 from redis_agent_playbook.models import Found
 
-lookup = playbook.lookup_entries(references=[
-    {"entry_id": faq_id}, {"entry_key": "refund-status"},
-])
+lookup = playbook.lookup_entries(
+    references=[
+        {"entry_id": faq_id},
+        {"entry_key": "refund-status"},
+    ]
+)
 print("Version limit:", lookup.max_versions)
 for result in lookup.results:
     if isinstance(result, Found):

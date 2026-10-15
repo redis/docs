@@ -13,7 +13,9 @@ print(playbook.get_playbook_health())
 # HIDE_END
 
 # STEP_START playbook-retrieval-discover
-discovery = playbook.discover_entries(query="Draft a reply for a customer whose refund shows Processing", limit=5)
+discovery = playbook.discover_entries(
+    query="Draft a reply for a customer whose refund shows Processing", limit=5
+)
 print(discovery.model_dump_json(by_alias=True, indent=2))
 # STEP_END
 
@@ -33,7 +35,9 @@ print("Preview budget reached:", pinned.budget_truncated or False)
 # STEP_END
 
 # STEP_START playbook-retrieval-load
-selected = playbook.get_skill_version(skill_id=selected_preview.entry_id, version=selected_preview.version)
+selected = playbook.get_skill_version(
+    skill_id=selected_preview.entry_id, version=selected_preview.version
+)
 skill = selected.content.payload.skill
 if skill is None:
     raise ValueError("Expected a skill")
@@ -42,7 +46,9 @@ resource = next((r for r in skill.resources if r.path == "references/reply-templ
 if resource is None:
     raise ValueError("Reply template is missing")
 response = playbook.get_skill_resource(
-    skill_id=selected.entry_id, version=selected.version, resource_id=resource.resource_id,
+    skill_id=selected.entry_id,
+    version=selected.version,
+    resource_id=resource.resource_id,
 )
 try:
     print(response.result.read().decode("utf-8"))
@@ -65,10 +71,12 @@ print(tuned.matches)
 # STEP_START playbook-retrieval-filter
 filtered = playbook.search_faqs(
     query="Where is my refund?",
-    filter_={"and_": [
-        {"eq": {"name": "locale", "value": "en-US"}},
-        {"eq": {"name": "topic", "value": "refund"}},
-    ]},
+    filter_={
+        "and_": [
+            {"eq": {"name": "locale", "value": "en-US"}},
+            {"eq": {"name": "topic", "value": "refund"}},
+        ]
+    },
 )
 print(filtered.model_dump_json(by_alias=True, indent=2))
 # STEP_END

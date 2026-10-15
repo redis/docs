@@ -24,10 +24,13 @@ async def main():
     ) as http:
         async with Client(streamable_http_client(url, http_client=http)) as client:
             print("Tools:", [tool.name for tool in (await client.list_tools()).tools])
-            result = await client.call_tool("discover_entries", {
-                "query": "Draft a reply to a customer whose refund status shows Processing.",
-                "limit": 3,
-            })
+            result = await client.call_tool(
+                "discover_entries",
+                {
+                    "query": "Draft a reply to a customer whose refund status shows Processing.",
+                    "limit": 3,
+                },
+            )
             print(json.dumps(read_result(result), indent=2))
 
 
