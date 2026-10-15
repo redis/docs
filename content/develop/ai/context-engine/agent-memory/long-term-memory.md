@@ -17,6 +17,8 @@ Long-term memory stores information that remains useful beyond one conversation.
 
 ## Memory fields
 
+When you create a memory directly, you must supply `id`, `text`, and `ownerId`. The server sets `createdAt` and `updatedAt`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+
 A long-term memory record includes:
 
 | Field | Purpose |

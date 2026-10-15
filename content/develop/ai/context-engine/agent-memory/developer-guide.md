@@ -26,17 +26,33 @@ Every client needs the service endpoint, Store ID, and application programming i
 
 ## Identify users and conversations
 
-Redis Agent Memory uses IDs to keep conversations and owners distinct. Choose them in your application, then reuse them in memory requests. For a travel assistant:
+Use one stable account ID for the current user across conversations. Get it from your application's authenticated identity, such as a verified identity-provider claim. Do not generate a new user ID for each chat or trust an owner ID supplied by a browser. This ID determines whose personal memories the application can return.
 
-| Identifier | Application choice |
-|:-----------|:-------------------|
-| `sessionId` | Generate a universally unique identifier (UUID) when the user starts a new chat and save it with the chat record. Reuse it for every turn in that chat. A new chat gets a new ID. |
-| `actorId` | Use the signed-in user's account ID for user messages and an agent ID, such as `travel-agent`, for assistant messages. |
-| `ownerId` | Use the same account ID when creating and searching that user's long-term memories. Reuse it across chats so the assistant can recall earlier preferences. |
+Some IDs come from your application; others come from Redis Agent Memory:
 
-For example, the quickstart uses `quickstart-user` for the user's actor and owner IDs, and `travel-planning-session` for one conversation. These fixed values let you repeat the example. In an application, use IDs from your account and chat records. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
+| Identifier | Who supplies it | How to use it |
+|:-----------|:----------------|:--------------|
+| `sessionId` | Your application, or the server if you omit it when adding the first event. | Save the returned `event.sessionId` and reuse it for later turns. A new chat needs a new ID. |
+| `actorId` | Your application, on every session event. | Use the current user's stable ID on the first event. Later messages can use an assistant ID, such as `travel-agent`. |
+| Session `ownerId` | The server copies it from the first event's `actorId`. | There is no separate `ownerId` input on a session-event request. Later actors do not change the session owner. |
+| Long-term memory `ownerId` | Your application for direct creation; extraction inherits the session owner. | Use the current user's stable ID for personal memories and owner filters. |
+| `eventId` | The server. | Save it from the event response if you need to refer to that event. |
+| Long-term memory `id` | Your application for direct creation; the server during extraction. | Supply a stable record ID when creating a memory directly. |
+| `namespaceId` | The server when it creates a namespace. | Save it and use it in `namespaceRef`. Supply the user's `ownerId` when creating a personal namespace. |
 
-Before retrieving a chat, check in your application's account data that the signed-in user can access it. Set the memory search's owner filter from that authenticated account. For example, a request from `user-42` must not be able to select `user-99` as its owner. A search filter limits results; it does not check who signed in.
+For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
+
+On-prem deployments can also enforce ownership on the server. When enabled, the first session event's `actorId` and any `ownerId` you supply must match the authenticated User ID, including case. Later events in an accessible session can use a different actor. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for configuration, identity requirements, and the limits of ordinary agent keys.
+
+### Authorize every memory request
+
+Unless server-side ownership enforcement is enabled, your application must decide which memories the user can access. Do this in trusted application code, such as your backend, before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories.
+
+* For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `filterOwnerId`. A request from `user-42` must not be able to select `user-99` as its owner.
+* For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
+* For requests that retrieve or change a record by ID, check that the record belongs to the user or to a shared namespace they can access. These endpoints do not all accept an owner filter; a session or memory ID is not proof of permission.
+
+Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces.md).
 
 ## Build context for each agent turn
 

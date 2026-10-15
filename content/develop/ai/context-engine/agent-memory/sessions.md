@@ -21,22 +21,25 @@ This page covers adding events, retrieving a conversation, and finding session I
 
 A session event represents one message from a user, assistant, or system. To add one, send `POST /v1/stores/{storeId}/session-memory/events`, or call `add_session_event` in Python or `addSessionEvent` in TypeScript.
 
-1. Choose the conversation's session ID and the sender's actor ID. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
+1. Set the first event's `actorId` to the current user's stable, authenticated ID. The server uses it as the session owner. Later events can identify other actors, such as the assistant.
+1. Supply a `sessionId`, or omit it to let the server create one. Save the returned `event.sessionId` for later requests. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
 1. Set the message's `role`, `content`, and `createdAt` timestamp.
 1. Send the request using the [quickstart's session-event example]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#1-build-conversation-context-with-session-memory" >}}). Repeat it for each new message, using the same session ID throughout the conversation.
 
-Redis Agent Memory adds an event ID and the time it stored the message. Each stored event can include:
+Redis Agent Memory adds the event ID and storage timestamp. The event fields are:
 
-| Field | Purpose |
-|:------|:--------|
-| `eventId` | Server-generated identifier for the event. |
-| `sessionId` | Session that contains the event. |
-| `actorId` | User, agent, or other actor that produced the event. |
-| `role` | Role of the message in the conversation. |
-| `content` | Message content, including its text. |
-| `createdAt` | Time the event occurred in the application. |
-| `systemTimestamp` | Time Redis Agent Memory stored the event. |
-| `metadata` | Optional application-specific information associated with the event. |
+| Field | Who supplies it | Purpose |
+|:------|:----------------|:--------|
+| `eventId` | Server-generated. | Identifies the event. |
+| `sessionId` | Client-supplied, or server-generated when omitted. | Identifies the session that contains the event. |
+| `actorId` | Required from the client. | Identifies the user, agent, or other actor that produced the event. |
+| `role` | Required from the client. | Role of the message in the conversation. |
+| `content` | Required from the client. | Message content, including its text. |
+| `createdAt` | Required from the client. | Time the event occurred in the application. |
+| `systemTimestamp` | Server-generated. | Time Redis Agent Memory stored the event. |
+| `metadata` | Optional from the client. | Application-specific information associated with the event. |
+
+The session's `ownerId` is returned when you retrieve the session; it is not a session-event input. With [server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement), the first event's `actorId` must match the authenticated User ID.
 
 ## Retrieve conversation context
 
@@ -50,9 +53,13 @@ curl --fail-with-body --silent --show-error \
 
 The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
 
+Without server-side ownership enforcement, your application must check that the current user can access this session before retrieving it. The request selects a session by ID; it does not include an owner filter.
+
 ## List sessions
 
 To let a user reopen an earlier conversation, first find its session ID. `GET /v1/stores/{storeId}/session-memory` lists IDs by owner or namespace; it does not return the conversation events. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+
+For a user's personal conversations, set `filterOwnerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned when you [create a namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}):
 

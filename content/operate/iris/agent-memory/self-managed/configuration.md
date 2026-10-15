@@ -41,6 +41,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `databases` | Required. Store Redis, as `databases."1".urls`. |
 | `embedding.models.default_embedding_model`, `embedding.models.dimensions` | Required. The embedding model and its vector size. The Control Plane's `embedding.dimensions` must match. |
 | `auth` | Data Plane authentication. Defaults to `agent_key`. |
+| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `false`. Requires a matching authenticated User ID for personal access; ordinary unbound agent keys do not provide one. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
 | `inference_providers` | Required when any `llm` block is set. Each entry holds a provider's `endpoint`. |
 | `server` | Data Plane bind address and port. |
 | `license.license_path` | Path where the license Secret is mounted. |
@@ -55,6 +56,8 @@ entry. The endpoint goes in `inference_providers.<name>.endpoint`, not in the `l
 
 In the chart-rendered configuration, the chart writes the agent-key introspection settings for you.
 Leave `auth.method` unset to keep the `agent_key` default.
+
+For ownership enforcement, use `memory.ownership.enabled` in Helm values or `ownership.enabled` in a BYO Data Plane configuration file. `MEM_OWNERSHIP_ENABLED` overrides the file setting. Enabling this option does not bind agent keys to users or rewrite existing owners.
 
 ## Bring-your-own (BYO) configuration
 

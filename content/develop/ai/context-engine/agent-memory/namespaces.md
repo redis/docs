@@ -36,7 +36,9 @@ Pass `namespaceRef: {"namespaceId": "<namespace-id>"}` when you start a session.
 
 For direct long-term memory creation, set `namespaceRef` on each record. To move existing records, use `MoveLongTermMemories` with their IDs and the destination `namespaceRef`. Check both `moved` and `errors` in the response before treating a batch as complete.
 
-Search with `filter.namespaceRef.eq` for one namespace or `filter.namespaceRef.in` for several IDs. These filters match exact namespace IDs; they do not expand a parent into its descendants. List the children and include their IDs when you need to search several levels of a hierarchy. Keep the `ownerId` filter when recalling one user's memories. Namespace scope and search filters do not replace your application's access checks.
+Search with `filter.namespaceRef.eq` for one namespace or `filter.namespaceRef.in` for several IDs. These filters match exact namespace IDs; they do not expand a parent into its descendants. List the children and include their IDs when you need to search several levels of a hierarchy. Keep the `ownerId` filter when recalling one user's memories.
+
+Without server-side ownership enforcement, your application must check that the current user can access each namespace before querying it. With enforcement enabled, personal namespace access follows the root owner's authenticated User ID. Shared namespaces are accessible to callers with the required store permission; enforcement does not add team membership checks. If a shared namespace is only for one team, enforce that rule in your application or use separate stores and grants. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 ## Manage namespaces
 
