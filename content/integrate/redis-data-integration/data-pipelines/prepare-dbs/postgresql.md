@@ -194,8 +194,10 @@ to identify the old row when it publishes an `UPDATE` or `DELETE`. By default, P
 uses the table's primary key. A table without a primary key has no usable replica identity
 unless you configure one. Inserts do not need a replica identity.
 
-Run the following query to find ordinary tables that do not have a primary key and use the
-default identity, or that explicitly have no identity:
+Run the following query while connected to the database that RDI uses. You do not put the
+database name in the query; select that database in your SQL editor or connection settings.
+The query checks all non-system schemas. To check only one schema, uncomment the marked line
+and replace `<schema_name>` with your schema name.
 
 ```sql
 SELECT n.nspname AS schema_name,
@@ -210,6 +212,8 @@ FROM pg_class AS c
 JOIN pg_namespace AS n ON n.oid = c.relnamespace
 WHERE c.relkind = 'r'
   AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+  -- Optional: uncomment and replace <schema_name> to check one schema only.
+  -- AND n.nspname = '<schema_name>'
   AND (
       c.relreplident = 'n'
       OR (
@@ -250,9 +254,9 @@ PostgreSQL publication:
 
 | Mode | Behavior | Recommended use |
 | --- | --- | --- |
+| **`all_tables` (default)** | Creates a `FOR ALL TABLES` publication when the publication does not exist. If it already exists, RDI uses the existing publication. | Use when all tables in the database should be published, after checking their replica identities. |
 | `filtered` | Creates or updates the publication to contain the tables configured for the RDI source. | Recommended when RDI captures selected tables. RDI manages the publication when the pipeline is redeployed with a changed table filter. |
 | `disabled` | Does not create or change the publication. The publication must already exist. | Use when a database administrator manages the publication. |
-| `all_tables` | Creates a `FOR ALL TABLES` publication when the publication does not exist. If it already exists, RDI uses the existing publication. | Use when all tables in the database should be published, after checking their replica identities. This is the RDI default. |
 
 The `all_tables` mode can publish changes for tables that are not listed in the RDI
 pipeline. If an application later updates or deletes a row in a published table without
@@ -267,11 +271,15 @@ CREATE PUBLICATION rdi_publication
 FOR TABLE public.customers, public.orders;
 ```
 
-Then set the following source properties:
+Then set the following properties under the PostgreSQL source in your RDI `config.yaml`:
 
 ```yaml
-publication.name: rdi_publication
-publication.autocreate.mode: disabled
+sources:
+  <source_name>:
+    advanced:
+      source:
+        publication.name: rdi_publication
+        publication.autocreate.mode: disabled
 ```
 
 ### PostgreSQL publication error FAQ
