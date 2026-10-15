@@ -97,7 +97,17 @@ See [Ports and port ranges used by Redis Software](/content/operate/rs/networkin
 
 - The `db_conns_auditing` cluster policy and database configuration field is deprecated. Use the `audit_settings.audit_mode` field instead. Setting `db_conns_auditing` to `true` is equivalent to setting `audit_mode` to `connection`. See [Audit events](/content/operate/rs/security/audit-events.md) for the current auditing configuration.
 
-- The `gradual_src_mode`, `gradual_sync_mode`, and `gradual_sync_max_shards_per_source` parameters are deprecated. Use `gradual_sync_policy` instead. You can set it with [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md) or the REST API.
+- The `gradual_src_mode`, `gradual_src_max_sources`, `gradual_sync_mode`, and `gradual_sync_max_shards_per_source` parameters are deprecated. Use `gradual_sync_policy` instead. You can set it with [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md) or the REST API.
+
+    > [!WARNING]
+    > Upgrading to Redis Software version 8.2 can overwrite these settings. Contact Redis Support before you upgrade if any of them differ from these values:
+    >
+    > - `gradual_sync_mode`: `auto` or `enabled`
+    > - `gradual_src_mode`: `disabled`
+    > - `gradual_src_max_sources`: `1`
+    > - `gradual_sync_max_shards_per_source`: `1`
+    >
+    > To check the current values, run [`rladmin info db`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-db).
 
 - The `old_password` field in `POST /v1/users/password` and `PUT /v1/users/password` requests is deprecated and ignored. It was optional and had no effect when adding or resetting a password, so you can remove it from these requests. `old_password` is still required for `DELETE /v1/users/password`, which uses it to identify the password to delete.
 
