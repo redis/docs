@@ -58,19 +58,63 @@ Redis Search on Flex supports:
 
 ## Limitations
 
+Redis Search on Flex doesn't support some Redis Search commands, field types, and options. If you use one of them, the command returns an error.
+
+### Commands
+
 Redis Search on Flex doesn't support:
-
-- `FLAT` vector indexes. Use `HNSW` instead.
-
-- `GEOSHAPE` fields.
 
 - [`FT.ALTER`](/content/commands/ft.alter.md). To change an index schema, drop the index and create it again.
 
-- Cursors, including [`FT.CURSOR`](/content/commands/ft.cursor-read.md) and the `WITHCURSOR` option of `FT.AGGREGATE`.
+- [`FT.HYBRID`](/content/commands/ft.hybrid.md) and [`FT.TAGVALS`](/content/commands/ft.tagvals.md).
 
-- Highlighting search results.
+- The `DD` option of [`FT.DROPINDEX`](/content/commands/ft.dropindex.md).
 
-- Synonyms, spell check, dictionaries, and autocomplete suggestions, including `FT.SYNUPDATE`, `FT.SPELLCHECK`, `FT.DICTADD`, and `FT.SUGADD`.
+- Cursors, including [`FT.CURSOR READ`](/content/commands/ft.cursor-read.md), [`FT.CURSOR DEL`](/content/commands/ft.cursor-del.md), and the `WITHCURSOR` option of `FT.AGGREGATE`.
+
+- Synonyms: `FT.SYNUPDATE` and `FT.SYNDUMP`.
+
+- Spell check and dictionaries: `FT.SPELLCHECK`, `FT.DICTADD`, `FT.DICTDEL`, and `FT.DICTDUMP`.
+
+- Autocomplete suggestions: `FT.SUGADD`, `FT.SUGGET`, `FT.SUGDEL`, and `FT.SUGLEN`.
+
+### Field types and index options
+
+Redis Search on Flex doesn't support:
+
+- `GEOSHAPE` fields.
+
+- `FLAT` and `SVS-VAMANA` vector indexes. Use `HNSW` instead.
+
+- `FLOAT64`, `BFLOAT16`, `INT8`, and `UINT8` vectors. Use `FLOAT32` or `FLOAT16` instead.
+
+- The `WITHSUFFIXTRIE` option on `TEXT` and `TAG` fields.
+
+- The `NOINDEX`, `SORTABLE`, and `UNF` field options.
+
+- `FT.CREATE` options other than `ON`, `PREFIX`, `FILTER`, `LANGUAGE`, `LANGUAGE_FIELD`, `SCORE`, `SCORE_FIELD`, `STOPWORDS`, and `SKIPINITIALSCAN`.
+
+### Query options
+
+Redis Search on Flex doesn't support:
+
+- Prefix, suffix, infix, and wildcard queries on `TAG` fields.
+
+- The `SUMMARIZE`, `HIGHLIGHT`, `WITHOUTCOUNT`, `SLOP`, and `INORDER` options of `FT.SEARCH`.
+
+- `DIALECT 4`.
+
+- The `HAMMING` scorer, which requires document payloads.
+
+Filtered vector queries must set a [filter mode](/content/develop/ai/search-and-query/vectors/_index.md#filter-mode) with `HYBRID_POLICY`. Redis Search on Flex doesn't select one automatically.
+
+### Behavior differences
+
+- Hash field expiration isn't reflected in the index or in query results.
+
+- In `FT.AGGREGATE`, numeric values from fields that aren't in the index schema sort as strings. To sort them numerically, convert them with `APPLY to_number(@<field>)`.
+
+### Database limitations
 
 The following database limitations also apply:
 
