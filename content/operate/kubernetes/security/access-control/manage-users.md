@@ -111,11 +111,7 @@ In Rotatable mode the operator makes referenced Kubernetes Secrets immutable, so
 
 `status.passwordSecrets` lists each active Secret with its resolved version.
 
-Whether connections that authenticated with the removed password are
-actively disconnected is controlled by the cluster's
-`disconnectClientsOnPasswordRemoval` setting and, when that is `Auto`, by
-the database's own setting — see
-[Disconnect clients on password removal]({{< relref "/operate/kubernetes/re-clusters/#disconnect-clients-on-password-removal" >}}).
+The cluster's `disconnectClientsOnPasswordRemoval` setting controls whether connections that authenticated with the removed password are actively disconnected. When the cluster setting is `Auto`, the database's own setting controls it. See [Disconnect clients on password removal](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal).
 
 ## Update the email address
 

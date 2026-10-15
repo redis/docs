@@ -25,29 +25,13 @@ Manage your Redis Enterprise cluster lifecycle and configuration:
 
 ### Disconnect clients on password removal
 
-Redis Software 8.0.2 and later can actively disconnect client connections
-that authenticated with a removed, revoked, or rotated password. In Redis
-Software you configure this setting through the REST API — see the
-[cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster/" >}})
-and [bdb object]({{< relref "/operate/rs/references/rest-api/objects/bdb/" >}}).
-Starting with operator version X.Y.Z, the operator configures it through
-the custom resources instead:
+Redis Software 8.0.2 and later can actively disconnect client connections that authenticated with a removed, revoked, or rotated password. In Redis Software, you configure this setting through the REST API. See the [cluster object](/content/operate/rs/references/rest-api/objects/cluster/_index.md) and [database (`bdb`) object](/content/operate/rs/references/rest-api/objects/bdb/_index.md). Starting with operator version X.Y.Z, the operator configures it through the custom resources instead:
 
-<!-- TODO: replace all occurrences of X.Y.Z with the first operator release
-that includes this feature -->
+<!-- TODO: replace all occurrences of X.Y.Z with the first operator release that includes this feature -->
 
-- Cluster-wide policy: `spec.disconnectClientsOnPasswordRemoval` on the REC
-  (`Enabled`, `Disabled`, or `Auto`).
-- Per-database setting: `spec.disconnectClientsOnPasswordRemoval` on the
-  [REDB]({{< relref "/operate/kubernetes/re-databases/db-controller#disconnect-clients-on-password-removal" >}})
-  (boolean; the Redis Software default is `false`). Takes effect only when
-  the cluster-wide policy is `Auto`.
-- Active-Active databases:
-  `spec.globalConfigurations.disconnectClientsOnPasswordRemoval` on the
-  REAADB, propagated to all participating clusters — see
-  [Set global database configurations]({{< relref "/operate/kubernetes/active-active/global-config" >}}).
-  Takes effect when the cluster-wide policy on the participating clusters
-  is `Auto`.
+- Cluster-wide policy: `spec.disconnectClientsOnPasswordRemoval` on the REC (`Enabled`, `Disabled`, or `Auto`).
+- Per-database setting: `spec.disconnectClientsOnPasswordRemoval` on the [REDB](/content/operate/kubernetes/re-databases/db-controller.md#disconnect-clients-on-password-removal) (boolean; the Redis Software default is `false`). Takes effect only when the cluster-wide policy is `Auto`.
+- Active-Active databases: `spec.globalConfigurations.disconnectClientsOnPasswordRemoval` on the REAADB, propagated to all participating clusters. See [Set global database configurations](/content/operate/kubernetes/active-active/global-config.md). Takes effect when the cluster-wide policy on the participating clusters is `Auto`.
 
 Set the cluster-wide policy in your REC specification:
 
@@ -56,26 +40,12 @@ spec:
   disconnectClientsOnPasswordRemoval: Enabled
 ```
 
-Allowed values are `Enabled`, `Disabled`, and `Auto`. `Auto` (the Redis
-Software default) defers the decision to each database's own setting.
-`Enabled` and `Disabled` force the behavior for all databases in the
-cluster, ignoring the per-database setting.
+Allowed values are `Enabled`, `Disabled`, and `Auto`. `Auto` (the Redis Software default) defers the decision to each database's own setting. `Enabled` and `Disabled` force the behavior for all databases in the cluster, ignoring the per-database setting.
 
 Whether the operator owns the setting depends on your upgrade path:
 
-- Resources **created by operator version X.Y.Z or later**: the operator
-  owns the setting from creation. Configure it only through the custom
-  resource — changes made through the Redis Software REST API or admin
-  console are reverted the next time the operator reconciles the resource.
-  Removing the field from the spec reverts the setting to its Redis
-  Software default (`Auto` for the cluster, `false` for a database); it
-  does not keep the last value.
-- Resources **that existed before you upgraded to operator version X.Y.Z**:
-  values configured through the Redis Software REST API are preserved. The
-  operator takes ownership only once you set the field in the custom
-  resource. From then on, ownership is permanent — if you later remove the
-  field, the setting reverts to the Redis Software default, not to the
-  previously configured value.
+- Resources **created by operator version X.Y.Z or later**: the operator owns the setting from creation. Configure it only through the custom resource. Changes made through the Redis Software REST API or admin console are reverted the next time the operator reconciles the resource. Removing the field from the spec reverts the setting to its Redis Software default (`Auto` for the cluster, `false` for a database); it does not keep the last value.
+- Resources **that existed before you upgraded to operator version X.Y.Z**: values configured through the Redis Software REST API are preserved. The operator takes ownership only once you set the field in the custom resource. From then on, ownership is permanent. If you later remove the field, the setting reverts to the Redis Software default, not to the previously configured value.
 
 ## Storage and performance
 
