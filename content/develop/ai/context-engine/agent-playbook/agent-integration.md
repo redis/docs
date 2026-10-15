@@ -19,7 +19,8 @@ Both framework examples use the same task:
 
 The request names no skill. The agent selects one from its name and description in the retrieved previews.
 
-**Task → SDK discovery → task and retrieved context → MCP skill loading → template fetch → customer reply**
+![An application discovers published Playbooks context for a task before the model turn. During the turn, the agent can load skill instructions and files through MCP, then return its response.](/images/ai/context-engine/agent-playbook-session.svg)
+{width="700"}
 
 Initial SDK discovery replaces routine MCP discovery at the start of the turn. MCP discovery remains available for follow-up questions and publication changes. Progressive disclosure concerns skill instructions and files; the available tool definitions remain the same.
 

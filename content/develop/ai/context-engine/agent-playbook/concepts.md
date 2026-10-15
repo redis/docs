@@ -55,7 +55,8 @@ A version is a complete, immutable snapshot of an entry's authored content. Upda
 
 The latest version and the published version can differ. Version 2 of a refund procedure can remain under review while agents retrieve version 1. Publishing version 2 switches retrieval to the update and retains version 1 for rollback.
 
-<Diagram WIP>
+![Creating an entry starts an unpublished version 1. Publishing version 1 makes it retrievable. Appending version 2 keeps version 1 published until you publish version 2. You can publish version 1 again to roll back, or withdraw the entry so agents retrieve nothing.](/images/ai/context-engine/agent-playbook-versions.svg)
+{width="700"}
 
 Management operations let you inspect drafts and historical versions with the required permissions. See the [version model]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference#schema/Version" >}}) for fields and types.
 
