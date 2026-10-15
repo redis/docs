@@ -31,15 +31,17 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The chart always deploys the Data Plane, the workers, the Control Plane, and the Identity Service.
-You provide the Redis databases.
+The chart deploys the Data Plane, the workers, and the Control Plane, and bundles the Identity
+Service by default. You provide the Redis databases. To point the Data Plane at an Identity
+Service the chart does not install, see the `identityService.enabled=false` entries in
+[Helm values to review](/content/operate/iris/agent-memory/self-managed/prerequisites.md#helm-values-to-review).
 
 | Component | Purpose | Default service |
 | --- | --- | --- |
 | Redis Agent Memory Data Plane | Store-scoped runtime memory API. | `redis-agent-memory:9000` |
 | Redis Agent Memory worker | Background promotion, summarization, and forgetting work. | No public service |
 | Redis Agent Memory Control Plane | Admin API for creating and managing stores. | `redis-agent-memory-controlplane:9100` |
-| Identity Service | Mints, rotates, revokes, and checks agent keys. | `redis-agent-memory-identity-service:9200` |
+| Identity Service (bundled) | Mints, rotates, revokes, and checks agent keys. | `redis-agent-memory-iris-identity-service:9200` |
 | Store Redis | Holds session memory, long-term memory, indexes, and TTL data. | Customer-provided |
 | Job Redis | Holds background work for Redis Agent Memory workers. | Customer-provided |
 | Metadata Redis | Holds Control Plane store records. The Identity Service keeps agent-key records in the Metadata Redis named in its own metadata Secret. | Customer-provided |

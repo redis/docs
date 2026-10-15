@@ -115,15 +115,18 @@ To supply a complete configuration file in your own Secret instead, see
 
 ## Release artifacts and image tags
 
-Chart `0.7.0` defaults every image tag to `0.7.0`. Set an image tag only to pin a mirrored image.
+Chart `1.0.0` requires `image.tag` and `controlplane.image.tag` at install or upgrade time; set
+each to the Redis Agent Memory version you deploy. The bundled Identity Service needs no tag of
+its own: it runs the image version the pinned `iris-identity-service` chart carries. Set
+`identityService.image.*` only to mirror the image or pin another tag.
 
 Use the chart version supplied by Redis for the release. The published chart is
 `redis-ai/redis-agent-memory` from `https://helm.redis.io/ai`.
 
 Standard customer installs use the public Docker Hub images published by the
-Redis Agent Memory self-managed release: `docker.io/redislabs/agent-memory:0.7.0`,
-`docker.io/redislabs/agent-memory-control-plane:0.7.0`, and
-`docker.io/redislabs/iris-identity-service:0.7.0`.
+Redis Agent Memory self-managed release: `docker.io/redislabs/agent-memory:<ram-version>` and
+`docker.io/redislabs/agent-memory-control-plane:<ram-version>`, plus
+`docker.io/redislabs/iris-identity-service` at the version the pinned chart carries.
 
 ## Air-gapped and private registry installs
 
@@ -131,28 +134,33 @@ Mirror these images into your internal registry:
 
 | Image | Needed |
 | --- | --- |
-| `redislabs/agent-memory:0.7.0` | Always (Data Plane and workers) |
-| `redislabs/agent-memory-control-plane:0.7.0` | Always |
-| `redislabs/iris-identity-service:0.7.0` | Always |
+| `redislabs/agent-memory:<ram-version>` | Always (Data Plane and workers) |
+| `redislabs/agent-memory-control-plane:<ram-version>` | Always |
+| `redislabs/iris-identity-service:<ids-version>` | With the bundled Identity Service (the default); skip only with `identityService.enabled=false` |
 | `replicated/troubleshoot:0.131.0` | Support-bundle health checks, on by default (`supportPackage.*`) |
 | `hibiken/asynqmon:0.7.2` | Optional, with `controlplane.queueMonitor` |
 | `python:3.13-alpine` | Optional, with `tests.smoke` |
 
+`<ids-version>` is the `appVersion` of the `iris-identity-service` chart the Redis Agent Memory
+chart pins. Read it with
+`helm show chart redis-ai/redis-agent-memory --version <chart-version>` and
+`helm show chart redis-ai/iris-identity-service --version <pinned-version>`.
+
 ```bash
-docker pull redislabs/agent-memory:0.7.0
-docker tag redislabs/agent-memory:0.7.0 \
-  registry.example.com/redislabs/agent-memory:0.7.0
-docker push registry.example.com/redislabs/agent-memory:0.7.0
+docker pull redislabs/agent-memory:<ram-version>
+docker tag redislabs/agent-memory:<ram-version> \
+  registry.example.com/redislabs/agent-memory:<ram-version>
+docker push registry.example.com/redislabs/agent-memory:<ram-version>
 
-docker pull redislabs/agent-memory-control-plane:0.7.0
-docker tag redislabs/agent-memory-control-plane:0.7.0 \
-  registry.example.com/redislabs/agent-memory-control-plane:0.7.0
-docker push registry.example.com/redislabs/agent-memory-control-plane:0.7.0
+docker pull redislabs/agent-memory-control-plane:<ram-version>
+docker tag redislabs/agent-memory-control-plane:<ram-version> \
+  registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
+docker push registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
 
-docker pull redislabs/iris-identity-service:0.7.0
-docker tag redislabs/iris-identity-service:0.7.0 \
-  registry.example.com/redislabs/iris-identity-service:0.7.0
-docker push registry.example.com/redislabs/iris-identity-service:0.7.0
+docker pull redislabs/iris-identity-service:<ids-version>
+docker tag redislabs/iris-identity-service:<ids-version> \
+  registry.example.com/redislabs/iris-identity-service:<ids-version>
+docker push registry.example.com/redislabs/iris-identity-service:<ids-version>
 ```
 
 If the registry requires authentication, create an image pull Secret:
@@ -178,12 +186,15 @@ identityService:
   image:
     repository: registry.example.com/redislabs/iris-identity-service
 
-imagePullSecrets:
-  - name: ram-registry
+global:
+  imagePullSecrets:
+    - name: ram-registry
 ```
 
-Omit `imagePullSecrets` if the internal registry does not require
-authentication.
+Use `global.imagePullSecrets`, which the chart and the bundled Identity Service both read; the
+local `imagePullSecrets` reaches only the Redis Agent Memory pods, and the chart refuses it when
+the Identity Service image is mirrored. Omit pull Secrets if the internal registry does not
+require authentication.
 
 For air-gapped deployments, also set:
 
@@ -257,8 +268,10 @@ namespace.
 | Secret rollouts | `license.existingSecretChecksum`, `config.existingSecretChecksum`, `controlplane.config.existingSecretChecksum` | Rolling pods after externally managed Secret changes. |
 | Control Plane | `controlplane.image.*`, `controlplane.configData`, `controlplane.adminToken.*` | Mirroring the Control Plane image, setting its configuration, or bringing your own admin token. |
 | Control Plane internal token | `controlplane.internalToken.*` | Bringing your own token for Identity Service checks against the Control Plane. |
-| Identity Service | `identityService.*` | Mirroring the Identity Service image, naming its metadata Secret, or bringing your own control token. |
-| Security profile | `security.profile` | Selecting the [FIPS-oriented posture](/content/operate/iris/agent-memory/self-managed/operations.md#fips-oriented-posture). |
+| Identity Service (bundled) | `identityService.*` | The published `iris-identity-service` subchart's contract: naming its metadata Secret, mirroring its image, bringing your own control token (`identityService.control.*`), or adding service configuration (`identityService.configData`). |
+| External Identity Service | `identityService.enabled=false`, `dataplane.identityServiceBaseURL`, `externalIdentityService.*` | Installing no Identity Service objects and pointing the Data Plane at one you run elsewhere. |
+| Umbrella fallbacks | `global.*` | Sharing `security.profile`, `imagePullSecrets`, and `tls.caCertSecret` with the bundled Identity Service; the chart's own `security.profile`, `imagePullSecrets`, and `tls.caCertSecret` do not reach it. |
+| Security profile | `global.security.profile` | Selecting the [FIPS-oriented posture](/content/operate/iris/agent-memory/self-managed/operations.md#fips-oriented-posture) for Redis Agent Memory and the bundled Identity Service. |
 | Support bundles | `supportPackage.*` | Configuring support-bundle collection and its health checks. |
 | Preflight checks | `preflight.*` | Rendering the preflight checks spec as a ConfigMap. |
 | Helm tests | `tests.*` | Running [chart tests](/content/operate/iris/agent-memory/self-managed/operations.md#chart-tests) with `helm test`. |

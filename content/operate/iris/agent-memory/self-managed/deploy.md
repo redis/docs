@@ -83,7 +83,7 @@ chart's defaults disagree here: the Data Plane defaults to `agent_key` authentic
 `workerAuth.enabled` defaults to `false`. With `agent_key`, you must configure worker identity. The
 values in [step 3](#3-create-ram-valuesyaml) do this.
 
-In version 0.7.0, the Data Plane fetches the JWKS without credentials and trusts only the
+The Data Plane fetches the JWKS without credentials and trusts only the
 certificate authority (CA) bundle in its image. What you set up depends on where the cluster's
 issuer is served:
 
@@ -118,7 +118,7 @@ kubectl create clusterrolebinding redis-agent-memory-oidc-discovery \
 This binding grants only `get` on `/.well-known/openid-configuration` and `/openid/v1/jwks`, which
 serve issuer metadata and public signing keys, not secrets. It applies to unauthenticated callers
 across the whole cluster. It has no effect where the API server disables anonymous authentication.
-On those clusters, version 0.7.0 has no working setup for `agent_key` with workers.
+On those clusters, there is no working setup for `agent_key` with workers.
 
 ## 3. Create `ram-values.yaml`
 
@@ -197,7 +197,11 @@ memory:
     enabled: false
   session_summary_view:
     enabled: false
+image:
+  tag: <ram-version>
 controlplane:
+  image:
+    tag: <ram-version>
   config:
     render: true
   configData:
@@ -228,7 +232,9 @@ tls:
 - `tls.caCertSecret` names the CA Secret from [step 2](#prepare-worker-identity-for-your-platform).
   Remove it on EKS and AKS.
 - The chart writes the agent-key introspection settings and the Control Plane internal token for you.
-- Image tags are not set, so the chart defaults (`0.7.0`) apply.
+- `<ram-version>` is the Redis Agent Memory version you deploy. `image.tag` and
+  `controlplane.image.tag` are required; the chart has no default. The bundled Identity Service
+  takes its image tag from the pinned chart, so it needs none.
 
 {{< note >}}
 No external model provider? To try the API with local models, see [Evaluate locally](#evaluate-locally).
@@ -246,7 +252,7 @@ its row. The rows are checklist items CL-1 to CL-6.
 | <a id="cl-2"></a>CL-2 | `memory.promote_session_memory.strategies.instruct.llm` is set | Worker pods `CrashLoopBackOff` (server stays Ready); log: `promote_session_memory: Strategies: strategies.instruct.llm is required.` | Add the `instruct.llm` block |
 | <a id="cl-3"></a>CL-3 | Each `llm.provider` names an `inference_providers` entry | Server and worker pods `CrashLoopBackOff`; log: `panic: config validation failed: promote_session_memory.strategies.instruct.llm: provider "<name>" is not defined in inference_providers (defined: <names>)` | Add `memory.inference_providers.<name>` or fix the name |
 | <a id="cl-4"></a>CL-4 | `memory.dataplane_client.base_url` is `http://redis-agent-memory:9000` | Pods Ready, but no memories appear; worker log: `getting session memory: Get "http://<wrong-host>:9000/v1/stores/<store-id>/session-memory/..."` … `dial tcp: lookup <wrong-host>` (the rest depends on the cluster DNS) | Set `http://redis-agent-memory:9000` |
-| <a id="cl-5"></a>CL-5 | No image tag is set, or it exists on Docker Hub | Server and worker pods `ImagePullBackOff`; event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Remove `*.image.tag` (defaults `0.7.0`) |
+| <a id="cl-5"></a>CL-5 | `image.tag` and `controlplane.image.tag` are set, and each tag exists on Docker Hub | `helm install` fails with `image.tag is required and must be set explicitly to the RAM version being deployed`; or server and worker pods `ImagePullBackOff`, event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Set both tags to the Redis Agent Memory version you deploy |
 | <a id="cl-6"></a>CL-6 | `auth.worker_identity` matches the worker (issuer, audience, subject with your namespace) | Pods Ready, but no memories appear; worker log: `memory-dataplane API error: status 401`; the Data Plane logs `401` on `GET /v1/stores/<store-id>/session-memory/<session-id>` with no reason | Fix `issuer` from `/.well-known/openid-configuration` and the namespace in `subject`. The same symptom appears when the Data Plane cannot fetch the cluster JWKS, so also check [worker identity for your platform](#prepare-worker-identity-for-your-platform) |
 {{< /table-scrollable >}}
 
@@ -256,7 +262,7 @@ its row. The rows are checklist items CL-1 to CL-6.
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.7.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f ram-values.yaml
 kubectl -n <namespace-name> get pods -w
@@ -268,7 +274,7 @@ If you want Helm to wait, set an explicit timeout that matches the environment:
 
 ```bash
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.7.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f ram-values.yaml \
   --wait \
@@ -281,7 +287,7 @@ helm install redis-agent-memory redis-ai/redis-agent-memory \
 kubectl -n <namespace-name> get pods -l app.kubernetes.io/name=redis-agent-memory
 ```
 
-The server, worker, `redis-agent-memory-controlplane`, and `redis-agent-memory-identity-service`
+The server, worker, `redis-agent-memory-controlplane`, and `redis-agent-memory-iris-identity-service`
 pods are Ready.
 
 Run each `port-forward` in this guide in its own terminal. Port-forward the Data Plane and check its
@@ -319,9 +325,9 @@ The response carries `storeId`.
 Use the Identity Service control token:
 
 ```bash
-kubectl -n <namespace-name> port-forward svc/redis-agent-memory-identity-service 9200:9200
+kubectl -n <namespace-name> port-forward svc/redis-agent-memory-iris-identity-service 9200:9200
 IDS_CONTROL_TOKEN=$(kubectl -n <namespace-name> get secret \
-  redis-agent-memory-identity-service-control-token -o jsonpath='{.data.token}' | base64 -d)
+  redis-agent-memory-iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 -d)
 curl -sS -X POST http://localhost:9200/v1/api-keys \
   -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
   -H "Content-Type: application/json" \
