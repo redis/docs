@@ -12,6 +12,8 @@ weight: 15
 
 OpenShift routes allow requests to be routed to the database or cluster API from outside the cluster. For more information about routes, see [OpenShift documentation](https://docs.openshift.com/container-platform/4.13/networking/routes/route-configuration.html).
 
+To expose Active-Active databases and cluster endpoints through the Kubernetes Gateway API, see [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md).
+
 ## Prerequisites
 
 * Before you can connect to your database from outside the cluster, you'll need the root CA certificate of the DMC Proxy server to validate the server certificate.
