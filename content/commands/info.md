@@ -38,7 +38,7 @@ history:
 - - 8.6.0
   - Added per-type memory allocation size histograms, enabled with the `key-memory-histograms` config directive.
 - - 8.12.0
-  - Added streams to the keysizes section's histograms.
+  - Added streams to the keysizes section's histograms, and added the streams section, enabled with the `stream-stats` config directive.
 linkTitle: INFO
 railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
@@ -66,6 +66,7 @@ The optional parameter(s) can be used to select a specific section of informatio
 *   `modules`: Modules section
 *   `keyspace`: Database-related statistics
 *   `keysizes`: Statistics on the distribution of key sizes for each data type
+*   `streams`: Statistics on the distribution of stream consumer groups, pending entries, and consumers
 *   `errorstats`: Redis error statistics
 *   `hotkeys`: Hotkeys tracking information
 
@@ -663,6 +664,30 @@ db1_distrib_hashes_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2
 db1_distrib_hashes_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_streams_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
 db1_distrib_streams_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+```
+
+The **streams** section shows the health of stream consumer groups across each database, so you can spot a growing backlog without running [`XINFO`](/content/commands/xinfo.md) on every stream. It's available starting with Redis 8.12.0. Like the keysizes section, it reports base-2 logarithmic histograms, one line per database:
+
+*   `dbXXX_stream_distrib_streams_cgroups`: The number of consumer groups per stream. Every stream is counted, so bin `0` holds the streams with no groups, and the line totals the stream keys in the database.
+*   `dbXXX_stream_distrib_cgroups_pel`: The number of entries in each consumer group's pending entries list (PEL).
+*   `dbXXX_stream_distrib_cgroups_consumers`: The number of consumers in each consumer group.
+
+The section isn't part of the default set. `INFO streams`, `INFO all`, and `INFO everything` return it, but its histogram lines appear only while the `stream-stats` config directive is enabled. `stream-stats` is disabled by default, and you can change it at runtime with [`CONFIG SET`](/content/commands/config-set.md).
+
+Enabling `stream-stats` at runtime doesn't scan the existing keyspace. An existing stream and its groups are counted only once a consumer group command (`XREADGROUP`, `XACK`, `XACKDEL`, `XCLAIM`, `XAUTOCLAIM`, `XNACK`, or `XGROUP`) touches them, so the histograms can under-count until then, but they never over-count. Streams created while `stream-stats` is enabled are counted immediately. Disabling `stream-stats` hides the histograms. If you enable it again and no stream or consumer group changed in the meantime, the counts are kept; otherwise they start over.
+
+The histograms tell you that a problem exists, such as a consumer group with a large PEL, but not which stream it's in. Use [`XINFO GROUPS`](/content/commands/xinfo-groups.md) or [`XPENDING`](/content/commands/xpending.md) to find it.
+
+Here's sample output from a two-database instance of Redis with `stream-stats` enabled:
+
+```
+# Streams
+db0_stream_distrib_streams_cgroups:0=1,1=1,2=1
+db0_stream_distrib_cgroups_pel:0=1,2=1,32=1
+db0_stream_distrib_cgroups_consumers:0=1,1=1,2=1
+db1_stream_distrib_streams_cgroups:1=1
+db1_stream_distrib_cgroups_pel:1=1
+db1_stream_distrib_cgroups_consumers:1=1
 ```
 
 The **debug** section contains experimental metrics, which might change or get removed in future versions.
