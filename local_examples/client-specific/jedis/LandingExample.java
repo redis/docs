@@ -1,5 +1,8 @@
 // EXAMPLE: landing
 // BINDER_ID jedis-landing
+// REMOVE_START
+import org.junit.jupiter.api.Test;
+// REMOVE_END
 // STEP_START import
 import redis.clients.jedis.RedisClient;
 import java.util.HashMap;
@@ -29,6 +32,9 @@ public class LandingExample {
         hash.put("company", "Redis");
         hash.put("age", "29");
 
+        // REMOVE_START
+        jedis.del("user-session:123");
+        // REMOVE_END
         Long res3 = jedis.hset("user-session:123", hash);
         System.out.println(res3); // >>> 4
 

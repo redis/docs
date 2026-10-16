@@ -355,6 +355,10 @@ The code below shows these differences, but the index is otherwise very similar 
 the one created previously for hashes:
 
 ```php
+try {
+    $client->ftdropindex("vector_json_idx");
+} catch (Exception $e){}
+
 $jsonSchema = [
     new TextField("$.content", "content"),
     new TagField("$.genre", "genre"),
