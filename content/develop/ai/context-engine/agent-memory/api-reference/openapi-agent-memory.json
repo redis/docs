@@ -1852,6 +1852,213 @@
                     "Session Memory"
                 ]
             }
+        },
+        "/v1/stores/{storeId}/sessions": {
+            "get": {
+                "description": "Returns paginated session rows with metadata and caller-selected order. The ID-only ListSessions operation remains unchanged.",
+                "operationId": "ListSessionSummaries",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of sessions to return. Defaults to 100. Allowed range: 1-1000.",
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 1000,
+                            "minimum": 1,
+                            "description": "Maximum number of sessions to return. Defaults to 100. Allowed range: 1-1000.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "description": "Opaque token from a previous response for the next page. Bound to the effective filters and sort.",
+                        "schema": {
+                            "type": "string",
+                            "description": "Opaque token from a previous response for the next page. Bound to the effective filters and sort."
+                        }
+                    },
+                    {
+                        "name": "filterOwnerId",
+                        "in": "query",
+                        "description": "Filter sessions by owner. Combined with namespaceRef using AND. Mutually exclusive with includeAll.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Filter sessions by owner. Combined with namespaceRef using AND. Mutually exclusive with includeAll."
+                        }
+                    },
+                    {
+                        "name": "namespaceRef",
+                        "in": "query",
+                        "description": "Filter by stable namespace ID. Combined with filterOwnerId using AND. Mutually exclusive with includeAll.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Filter by stable namespace ID. Combined with filterOwnerId using AND. Mutually exclusive with includeAll."
+                        }
+                    },
+                    {
+                        "name": "includeAll",
+                        "in": "query",
+                        "description": "Set to true to list all visible sessions. Required when no filter is given; mutually exclusive with filters.",
+                        "schema": {
+                            "type": "boolean",
+                            "description": "Set to true to list all visible sessions. Required when no filter is given; mutually exclusive with filters."
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Sort field. Defaults to updatedAt.",
+                        "schema": {
+                            "$ref": "#/components/schemas/SessionListSortBy"
+                        }
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "description": "Sort direction. Defaults to desc for timestamps and asc for sessionId.",
+                        "schema": {
+                            "$ref": "#/components/schemas/SessionListSortOrder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListSessionSummaries 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListSessionSummariesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Session Memory"
+                ]
+            }
         }
     },
     "components": {
@@ -3429,6 +3636,148 @@
                     "createdAt",
                     "id",
                     "text",
+                    "updatedAt"
+                ]
+            },
+            "ResourceSuspendedErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource exists but is suspended by an administrator.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 423,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ResourceSuspendedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ResourceSuspendedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for suspended resources.",
+                "enum": [
+                    "/errors/resource-suspended"
+                ]
+            },
+            "ListSessionSummariesResponseContent": {
+                "type": "object",
+                "description": "Paginated session rows for a store.",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SessionListItem"
+                        }
+                    },
+                    "total": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "nextPageToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "items",
+                    "total"
+                ]
+            },
+            "SessionListItem": {
+                "type": "object",
+                "description": "One session row without events or summary text. Owner ID and timestamps are absent when unknown on legacy sessions.",
+                "properties": {
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Session identifier (1-64 chars, alphanumeric and dashes). When the server generates one, it uses a 32-character UUID without dashes."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Absent for a legacy session that has no recorded owner."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRef"
+                    }
+                },
+                "required": [
+                    "sessionId"
+                ]
+            },
+            "NamespaceRef": {
+                "type": "object",
+                "description": "Reference to a namespace resource with its stable identifier and current display data.",
+                "properties": {
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Stable namespace resource identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "Current namespace name."
+                    },
+                    "path": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Current namespace path."
+                    }
+                },
+                "required": [
+                    "name",
+                    "namespaceId",
+                    "path"
+                ]
+            },
+            "SessionListSortOrder": {
+                "type": "string",
+                "enum": [
+                    "asc",
+                    "desc"
+                ]
+            },
+            "SessionListSortBy": {
+                "type": "string",
+                "enum": [
+                    "sessionId",
+                    "createdAt",
                     "updatedAt"
                 ]
             }
