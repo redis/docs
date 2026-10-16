@@ -63,7 +63,7 @@ dependencies to your `pom.xml` file:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>7.2.0</version>
+    <version>8.0.2</version>
 </dependency>
 <dependency>
     <groupId>ai.djl.huggingface</groupId>
@@ -86,7 +86,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-implementation 'redis.clients:jedis:7.2.0'
+implementation 'redis.clients:jedis:8.0.2'
 implementation 'ai.djl.huggingface:tokenizers:0.33.0'
 implementation 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 implementation 'ai.djl:api:0.33.0'
@@ -230,6 +230,8 @@ ID: doc:1, Distance: 0.114169836044, Content: That is a very happy person
 ID: doc:2, Distance: 0.610845506191, Content: That is a happy dog
 ID: doc:3, Distance: 1.48624765873, Content: Today is a sunny day
 ```
+
+The exact distances may differ slightly on your system.
 
 Note that the results are ordered according to the value of the `distance`
 field, with the lowest distance indicating the greatest similarity to the query.

@@ -84,7 +84,7 @@ extends PredisTestCase
         // STEP_START query1
         $res = $r->ftSearch("idx:users", "Paul @age:[30 40]");
         echo json_encode($res), PHP_EOL;
-        // >>> [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"London\"}"]]
+        // >>> [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"Tel Aviv\"}"]]
         // STEP_END
 
         // STEP_START query2
@@ -156,7 +156,7 @@ extends PredisTestCase
         // STEP_START query1_hash
         $res = $r->ftSearch("hash-idx:users", "Paul @age:[30 40]");
         echo json_encode($res), PHP_EOL;
-        // >>> [1,"huser:3",["age","35","city","Tel Aviv","email","paul.zamir@example.com","name","Paul Zamir"]]
+        // >>> [1,"huser:3",["name","Paul Zamir","email","paul.zamir@example.com","age","35","city","Tel Aviv"]]
         // STEP_END
         // REMOVE_START
         $this->assertEquals(

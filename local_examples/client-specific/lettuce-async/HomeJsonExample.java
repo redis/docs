@@ -220,7 +220,7 @@ public class HomeJsonExample {
             huser3.put("city", "Tel Aviv");
 
             CompletableFuture<Long> addHashUser1 = asyncCommands.hset("huser:1", huser1).thenApply(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
@@ -228,7 +228,7 @@ public class HomeJsonExample {
             }).toCompletableFuture();
 
             CompletableFuture<Long> addHashUser2 = asyncCommands.hset("huser:2", huser2).thenApply(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
@@ -236,7 +236,7 @@ public class HomeJsonExample {
             }).toCompletableFuture();
 
             CompletableFuture<Long> addHashUser3 = asyncCommands.hset("huser:3", huser3).thenApply(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
