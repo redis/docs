@@ -7,6 +7,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math"
+	"os"
 
 	"github.com/knights-analytics/hugot"
 	"github.com/redis/go-redis/v9"
@@ -80,7 +81,7 @@ func main() {
 
 	// STEP_START embedder
 	// Create a Hugot session
-	session, err := hugot.NewGoSession()
+	session, err := hugot.NewGoSession(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -91,10 +92,15 @@ func main() {
 		}
 	}()
 
-	// Download the model
+	// Create the directory for the model files and download the model
+	err = os.MkdirAll("./models/", 0o755)
+	if err != nil {
+		panic(err)
+	}
+
 	downloadOptions := hugot.NewDownloadOptions()
 	downloadOptions.OnnxFilePath = "onnx/model.onnx" // Specify which ONNX file to use
-	modelPath, err := hugot.DownloadModel("sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
+	modelPath, err := hugot.DownloadModel(ctx, "sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
 	if err != nil {
 		panic(err)
 	}
@@ -106,7 +112,7 @@ func main() {
 	}
 
 	// Create the feature extraction pipeline
-	embeddingPipeline, err := hugot.NewPipeline(session, config)
+	embeddingPipeline, err := session.NewPipeline(config)
 	if err != nil {
 		panic(err)
 	}
@@ -124,7 +130,7 @@ func main() {
 	}
 
 	// Generate embeddings using Hugot
-	embeddingResult, err := embeddingPipeline.RunPipeline(sentences)
+	embeddingResult, err := embeddingPipeline.RunPipeline(ctx, sentences)
 	if err != nil {
 		panic(err)
 	}
@@ -173,7 +179,7 @@ func main() {
 
 	// STEP_START query
 	// Generate query embedding using Hugot
-	queryResult, err := embeddingPipeline.RunPipeline([]string{
+	queryResult, err := embeddingPipeline.RunPipeline(ctx, []string{
 		"That is a happy person",
 	})
 
@@ -272,7 +278,7 @@ func main() {
 
 	// STEP_START json_query
 	// Generate query embedding for JSON search using Hugot
-	jsonQueryResult, err := embeddingPipeline.RunPipeline([]string{
+	jsonQueryResult, err := embeddingPipeline.RunPipeline(ctx, []string{
 		"That is a happy person",
 	})
 
