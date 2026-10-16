@@ -297,14 +297,13 @@ was specified as an array.
 {{< clients-example set="home_query_vec" step="json_query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a KNN vector search on JSON documents with semantic similarity ranking" difficulty="advanced" >}}
 {{< /clients-example >}}
 
-The distance values are not identical to the hash query because the
-string representations of the vectors used here are stored with different
-precisions. However, the relative order of the results is the same:
+The embeddings are generated from the same text as the hash documents, so the
+query returns the same distances:
 
 ```
-ID: jdoc:1, Content: That is a very happy person, Distance: 0.628328084946
-ID: jdoc:2, Content: That is a happy dog, Distance: 0.895147025585
-ID: jdoc:3, Content: Today is a sunny day, Distance: 1.49569523335
+ID: jdoc:1, Content: That is a very happy person, Distance: 0.114169836044
+ID: jdoc:2, Content: That is a happy dog, Distance: 0.610845506191
+ID: jdoc:3, Content: Today is a sunny day, Distance: 1.48624765873
 ```
 
 ## Learn more

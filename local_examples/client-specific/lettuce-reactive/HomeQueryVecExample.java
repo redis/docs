@@ -246,9 +246,9 @@ public class HomeQueryVecExample {
             // STEP_START json_data
             JsonParser parser = reactiveCommands.getJsonParser();
 
-            String jSentence1 = "\"That is a very happy person\"";
+            String jSentence1 = "That is a very happy person";
             JsonObject jDoc1 = parser.createJsonObject();
-            jDoc1.put("content", parser.createJsonValue(jSentence1));
+            jDoc1.put("content", parser.createJsonValue("\"" + jSentence1 + "\""));
             jDoc1.put("genre", parser.createJsonValue("\"persons\""));
 
             try {
@@ -264,9 +264,9 @@ public class HomeQueryVecExample {
                 // REMOVE_END
             }).then();
 
-            String jSentence2 = "\"That is a happy dog\"";
+            String jSentence2 = "That is a happy dog";
             JsonObject jDoc2 = parser.createJsonObject();
-            jDoc2.put("content", parser.createJsonValue(jSentence2));
+            jDoc2.put("content", parser.createJsonValue("\"" + jSentence2 + "\""));
             jDoc2.put("genre", parser.createJsonValue("\"pets\""));
 
             try {
@@ -282,9 +282,9 @@ public class HomeQueryVecExample {
                 // REMOVE_END
             }).then();
 
-            String jSentence3 = "\"Today is a sunny day\"";
+            String jSentence3 = "Today is a sunny day";
             JsonObject jDoc3 = parser.createJsonObject();
-            jDoc3.put("content", parser.createJsonValue(jSentence3));
+            jDoc3.put("content", parser.createJsonValue("\"" + jSentence3 + "\""));
             jDoc3.put("genre", parser.createJsonValue("\"weather\""));
 
             try {
@@ -328,9 +328,9 @@ public class HomeQueryVecExample {
 
                             System.out.println("ID: " + r.getId() + ", Content: " + content + ", Distance: " + distance);
                         });
-                        // >>> ID: jdoc:1, Content: That is a very happy person, Distance: 0.628328084946
-                        // >>> ID: jdoc:2, Content: That is a happy dog, Distance: 0.895147025585
-                        // >>> ID: jdoc:3, Content: Today is a sunny day, Distance: 1.49569523335
+                        // >>> ID: jdoc:1, Content: That is a very happy person, Distance: 0.114169836044
+                        // >>> ID: jdoc:2, Content: That is a happy dog, Distance: 0.610845506191
+                        // >>> ID: jdoc:3, Content: Today is a sunny day, Distance: 1.48624765873
                         // REMOVE_START
                         assertThat(result.getCount()).isEqualTo(3);
                         // REMOVE_END
