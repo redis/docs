@@ -15,7 +15,7 @@ title: Query interactive demo
 weight: 11
 ---
 
-Redis Search finds data by what's in it, through an index. This demo queries the restaurants and orders of a food delivery app, stored as hashes. It starts with the data and its index, then runs three kinds of query: full-text search, filters with sorting, and aggregations. For each query, it shows the command, the data it finds, and the exact reply.
+Redis Search lets you query data through an index you create. This demo uses restaurant and order data from a food delivery app, stored as hashes. It starts by showing the data and a possible index. Next, three kinds of queries are demonstrated: full-text search, filter and sort, and aggregation. For each query, it shows the command, the matching data, and the exact reply.
 
 The demo runs in your browser and doesn't connect to Redis. Its commands and replies were recorded from Redis, and each command works as shown in `redis-cli` once you create the indexes and add the data. The restaurants and orders are the same sample data as the [Context Retriever interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
 
