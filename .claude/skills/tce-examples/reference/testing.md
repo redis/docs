@@ -130,8 +130,11 @@ The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10),
 portable pins predated the first release with the command: jedis 7.5.3 (needs 8.0.0),
 lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
 already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
-the cached `npm i redis` 6.1.0 (needs 6.2.0) and ioredis 5.11.1 (needs 6.0.0) in `work/`,
-and go-redis v9.18.0 in `fidelity/go-redis.mod` (needs 9.22.0, which also needs Go 1.24).
+the cached `npm i redis` 6.1.0 (needs 6.2.0), and ioredis 5.11.1 (needs 6.0.0) in `work/`.
+
+The go-redis pin in `fidelity/go-redis.mod` was raised to v9.22.0 (`go 1.24`) in DOC-7197,
+so it now supports HIMPORT. On a machine whose Go toolchain is older than 1.24, `run.sh`
+reports every Go set as SKIP rather than running it.
 
 A run against those pins fails with "method not found" or "unknown command", which looks
 like an example bug but is a pin gap. Until the pins are raised (a separate change, because
