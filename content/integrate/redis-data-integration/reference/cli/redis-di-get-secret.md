@@ -9,8 +9,8 @@ aliases:
 ---
 
 Gets a single secret of a pipeline and prints it in the compact `list-secrets` table format. The API
-never returns secret values, so the output shows only the key and whether it is set, not the stored
-value.
+never returns secret values, so the output shows the key, database, type, configuration reference,
+and whether it is set, not the stored value.
 
 ## Usage
 

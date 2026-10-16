@@ -34,6 +34,10 @@ complete each step.
 > [!NOTE]
 > Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Snowflake as a source database.
 
+When you configure a Snowflake source, RDI can test the connection and let you browse
+schemas, tables, and columns before you start replication. Use this discovery to confirm
+that the RDI role can access the objects you want to replicate.
+
 ```checklist {id="snowflakelist"}
 - [ ] [Set up Snowflake permissions](#1-set-up-snowflake-permissions)
 - [ ] [Configure authentication](#2-configure-authentication)

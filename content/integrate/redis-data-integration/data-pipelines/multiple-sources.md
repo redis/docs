@@ -42,9 +42,10 @@ A source name must:
 - Start with a lowercase letter.
 - Contain only lowercase letters, digits, and dashes.
 - End with a letter or a digit.
+- Not contain two consecutive dashes.
 - Be at most 22 characters long.
 
-The names `rdi` and `target` are reserved and cannot be used for sources.
+The names `api`, `rdi`, and `target` are reserved and cannot be used for sources.
 
 > [!WARNING]
 > If your pipeline has a source created before RDI supported multiple sources, do not name a new
@@ -74,6 +75,11 @@ lists the names derived from a source named `mysql`.
 | Dead-letter queue streams | `dlq:data:{rdi}:mysql.<qualified_table_name>` |
 | Metric collection | `collector-mysql_metrics` |
 | Metrics endpoint path on a VM installation | `/collector-mysql/metrics` |
+
+These are the names in the `default` pipeline. In any other pipeline, the Kubernetes resource
+names start with the pipeline name and two dashes, and the Redis keys contain the pipeline's
+hash tag instead of `{rdi}`. See
+[Name your pipelines](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#name-your-pipelines).
 
 In the stream names, `<qualified_table_name>` is the qualified table name:
 `<database>.<table>` for MySQL and MariaDB, `<database>.<collection>` for MongoDB,

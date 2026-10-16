@@ -17,7 +17,8 @@ weight: 30
 ---
 
 > [!NOTE]
-> Before upgrading to RDI 2.0.0, review the
+> Before upgrading to RDI 2.2.0, review the
+> [RDI 2.2.0 changes](#upgrading-to-rdi-220), and review the
 > [processor default change](#upgrading-to-rdi-200).
 
 ## Upgrading a VM installation
@@ -87,7 +88,8 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
 
 If there is an active pipeline, upgrade RDI on the active VM first. 
 This will cause a short pipeline downtime of up to two minutes. 
-Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
+Afterwards, wait until `redis-di info` reports the upgraded VM as the leader, then upgrade RDI
+on the passive VM. This will not cause any downtime.
 
 > [!WARNING]
 > When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
@@ -177,6 +179,79 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
+## Upgrading to RDI 2.2.0
+
+RDI 2.2.0 changes pipeline creation, source naming, leader election, secret handling, and source
+metadata behavior. Review these changes before upgrading.
+
+### The operator no longer creates an empty pipeline
+
+A new RDI installation has no pipeline until you create one. Create an empty pipeline with
+`redis-di deploy --empty`, or deploy a configuration with `redis-di deploy` or
+`PUT /api/v2/pipelines/{name}`. If you upgrade from an RDI version before 1.8, deploy the
+configuration again after the upgrade; the operator no longer creates the `default` pipeline from
+legacy `rdi:config:*` keys.
+
+### Rename sources that the new naming rules reject
+
+RDI 2.2.0 reserves the source name `api` and rejects source names that contain consecutive
+dashes (`--`). Rename any such source before you redeploy the pipeline configuration, and update
+the source's secrets, its secret references in `config.yaml`, and the `server_name` of its jobs.
+See [Name your sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#name-your-sources)
+for the naming rules, and
+[Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source)
+for what renaming a source implies.
+
+### Upgrade high-availability instances in order
+
+Upgrade the active instance first. Upgrade the other instance only after `redis-di info` reports
+the upgraded instance as the leader. If you use a Google Cloud Storage (GCS) lease and need to
+downgrade to a version before 1.19.1, delete the lease object before downgrading so the older
+leader can create it again. For example:
+
+```bash
+gcloud storage rm gs://<bucket>/<object>
+```
+
+For disaster recovery deployments, RDI 2.2.0 also supports a DynamoDB global table with
+multi-Region strong consistency as the leader election lease. Set `operator.leaderElection.leaseType`
+to `dynamodb` and configure `operator.leaderElection.dynamoDBLease` with the Region, table name,
+and optional lease-item key. The table must have a string partition key named `id`. You can provide
+an AWS shared credentials file or use the default AWS credential chain.
+
+### Review rejected internal-key overrides
+
+RDI 2.2.0 rejects advanced overrides for internal Redis keys and consumer groups. Remove these
+properties before submitting or redeploying a configuration:
+
+- `topic.delimiter`, `offset.storage.redis.key`, and `schema.history.internal.redis.key` in
+  `sources.<name>.advanced.source`.
+- `stream.name.pattern` and `consumer.group` in `processors.advanced.source`, and `counters.key`
+  in `processors.advanced.processor`.
+- `streamPrefix` in `sources.<name>.advanced.riotx`.
+
+RDI does not migrate state stored under custom keys or consumer groups. A Debezium collector that
+used custom metadata keys takes a new snapshot after the change.
+
+### Review truststore and schema-history changes
+
+Debezium collectors and the Collector API trust system certificate authorities (CAs) by default.
+Set `operator.dataPlane.collector.useSystemTruststore` and
+`operator.dataPlane.collectorApi.useSystemTruststore` to `false` to trust custom CAs only.
+
+For SQL Server and MariaDB, RDI now limits schema history to captured tables. If you add a table
+to an existing source without resetting it, the source stops with an unknown schema error instead
+of streaming changes into an incomplete target. Set `store.only.captured.tables.ddl` to `false`
+in `advanced.source` to keep the previous behavior.
+
+### Use named pipelines after the upgrade
+
+RDI 2.2.0 supports pipeline names other than `default`. Finish upgrading all instances before
+creating a named pipeline, and do not downgrade after creating one. Your existing `default`
+pipeline keeps its resource names, Redis keys, and metrics paths. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for the naming rules and for how to manage several pipelines.
+
 ## Upgrading to RDI 2.0.0
 
 RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
@@ -198,10 +273,11 @@ For an existing pipeline that uses the classic processor, choose one of these op
 If your pipeline already uses `processors.type: flink`, no processor change
 is needed. Continue with the upgrade instructions for your installation.
 
-### Clearing a pipeline replaces deleting it
+### Clearing a pipeline is different from deleting it
 
-`DELETE /api/v2/pipelines/{name}` no longer empties a pipeline, and `redis-di delete` no longer
-works. Clear the configuration with `redis-di deploy --empty`, or with
+`DELETE /api/v2/pipelines/{name}` does not empty a pipeline. In RDI 2.2.0, use
+`redis-di delete` to delete the pipeline, or clear the configuration with
+`redis-di deploy --empty`, or with
 `PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
 [Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline).
 
