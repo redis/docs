@@ -50,8 +50,10 @@ order. `start` and `end` are inclusive, zero-based **element ranks** in that
 ordered array. For set-bit offsets `{10, 20, 30}`, ranks `1` through `2` return
 `{20, 30}`. The arguments are not bit or byte offsets.
 
-The command accepts the native `bitmap` type only. A string-backed bitmap or any
-other existing type returns `WRONGTYPE`. It does not convert strings, change
+The command validates `start`, then `end`, before checking the key type, so an
+invalid rank returns an argument error even for a key of another type. With
+valid ranks, it accepts the native `bitmap` type only; a string-backed bitmap or
+any other existing type returns `WRONGTYPE`. It does not convert strings, change
 the bitmap, or change its expiration, and works on existing native bitmaps
 regardless of the current `bitmap-default-roaring` setting.
 
