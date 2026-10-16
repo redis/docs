@@ -153,7 +153,8 @@ public class HomeJsonExample {
 
             // STEP_START query3
             AggregateArgs<String, String> aggArgs = AggregateArgs.<String, String> builder()
-                    .groupBy(GroupBy.<String, String> of("@city").reduce(Reducer.<String, String> count().as("count"))).build();
+                    .groupBy(GroupBy.<String, String> of("@city").reduce(Reducer.<String, String> count().as("count")))
+                    .sortBy("@city", SortDirection.ASC).build();
             CompletableFuture<AggregationReply<String, String>> query3 = searchCommands.ftAggregate("idx:users", "*", aggArgs)
                     .thenApply(res -> {
                         List<SearchReply<String, String>> replies = res.getReplies();
@@ -171,7 +172,7 @@ public class HomeJsonExample {
                         assertThat(replies.get(0).getResults().stream().map(result -> {
                             return String.format("City: %s, Count: %s", result.getFields().get("city"),
                                     result.getFields().get("count"));
-                        }).sorted().toArray()).containsExactly("City: London, Count: 1", "City: Tel Aviv, Count: 2");
+                        }).toArray()).containsExactly("City: London, Count: 1", "City: Tel Aviv, Count: 2");
                         // REMOVE_END
                         return res;
                     }).toCompletableFuture();

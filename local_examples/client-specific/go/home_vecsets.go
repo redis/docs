@@ -76,9 +76,9 @@ var peopleData = map[string]PersonData{
 // STEP_END
 
 func main() {
+	// STEP_START model
 	ctx := context.Background()
 
-	// STEP_START model
 	// Create a new Hugot session
 	session, err := hugot.NewGoSession(ctx)
 	if err != nil {
@@ -235,6 +235,7 @@ func main() {
 	// Maryam Mirzakhani, Marie Curie
 	// STEP_END
 
+	// STEP_START science_query
 	queryValue = "science"
 
 	queryResult, err = embeddingPipeline.RunPipeline(ctx, []string{queryValue})
@@ -257,6 +258,8 @@ func main() {
 	fmt.Printf("'science': %v\n", strings.Join(scienceResults, ", "))
 	// >>> 'science': Marie Curie, Linus Pauling, Maryam Mirzakhani, Paul Erdos,
 	// Marie Fredriksson, Freddie Mercury, Masako Natsume, Chaim Topol
+	// STEP_END
+
 	// STEP_START filtered_query
 	queryValue = "science"
 
