@@ -210,6 +210,7 @@
     });
 
     ui.tab.addEventListener('click', function () {
+      opener = ui.tab;
       open({ focus: true });
       pinLast(true);
     });
@@ -278,7 +279,12 @@
     setTimeout(function () { if (!state.open) ui.pane.hidden = true; }, reducedMotion() ? 0 : 220);
     updateTab();
     if (hadFocus) {
-      var back = opener && document.contains(opener) ? opener : (ui.tab.hidden ? null : ui.tab);
+      /* Back to whatever opened the pane, else the tab that reopens it, but
+         only to one that's on screen. Below 1280px the link's rail is hidden,
+         and focusing a hidden element leaves focus nowhere. */
+      var back = [opener, ui.tab].filter(function (t) {
+        return t && document.contains(t) && t.getClientRects().length > 0;
+      })[0];
       if (back) back.focus({ preventScroll: true });
     }
   }
