@@ -7,7 +7,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math"
-	"os"
 
 	"github.com/knights-analytics/hugot"
 	"github.com/redis/go-redis/v9"
@@ -92,12 +91,7 @@ func main() {
 		}
 	}()
 
-	// Create the directory for the model files and download the model
-	err = os.MkdirAll("./models/", 0o755)
-	if err != nil {
-		panic(err)
-	}
-
+	// Download the model
 	downloadOptions := hugot.NewDownloadOptions()
 	downloadOptions.OnnxFilePath = "onnx/model.onnx" // Specify which ONNX file to use
 	modelPath, err := hugot.DownloadModel(ctx, "sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
@@ -112,7 +106,7 @@ func main() {
 	}
 
 	// Create the feature extraction pipeline
-	embeddingPipeline, err := session.NewPipeline(config)
+	embeddingPipeline, err := hugot.NewPipeline(session, config)
 	if err != nil {
 		panic(err)
 	}
