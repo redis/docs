@@ -119,10 +119,48 @@ In addition, the very same `tls-replication` directive will determine whether Se
 port, that accepts connections from other Sentinels, will support TLS as well. That is,
 Sentinel will be configured with `tls-port` if and only if `tls-replication` is enabled. 
 
+### TLS groups
+
+Starting with Redis 8.12, the `tls-groups` configuration directive controls the named
+groups (key exchange groups, such as elliptic curves) that Redis offers and accepts during
+the TLS handshake. Set it to a colon-separated list, in order of preference from highest to
+lowest:
+
+```
+tls-groups X25519:prime256v1
+```
+
+Redis passes the value to OpenSSL unchanged, so any group name that the linked OpenSSL
+build accepts is valid. See the `SSL_CTX_set1_groups_list(3ssl)` manpage for the syntax.
+When `tls-groups` is unset, OpenSSL uses its default list.
+
+The setting applies to incoming client connections and to the outgoing connections Redis
+makes for replication, cluster, and other server-to-server links. Both sides of a connection
+must share at least one group, or the handshake fails.
+
+You can change `tls-groups` at runtime with `CONFIG SET`. When TLS is enabled and OpenSSL
+rejects a group name, the command fails and the previous setting stays in effect. Set it to
+an empty string to return to the OpenSSL default.
+
+`redis-cli` and `redis-benchmark` accept the same list with the `--tls-groups` option.
+
+#### Build requirements
+
+`tls-groups` requires OpenSSL 1.0.2 or later. Building with `BUILD_TLS=yes` against an
+older OpenSSL fails at compile time. To build TLS support without this option, define
+`TLS_NO_GROUPS`:
+
+```sh
+make BUILD_TLS=yes CFLAGS=-DTLS_NO_GROUPS
+```
+
+In such a build, setting `tls-groups` makes TLS configuration fail instead of being
+ignored, and `redis-cli` and `redis-benchmark` don't accept `--tls-groups`.
+
 ### Additional configuration
 
 Additional TLS configuration is available to control the choice of TLS protocol
-versions, ciphers and cipher suites, etc. Please consult the self documented
+versions, ciphers, cipher suites, named groups, etc. Please consult the self documented
 `redis.conf` for more information.
 
 ### Performance considerations
