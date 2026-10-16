@@ -169,6 +169,39 @@ public class HomeQueryVecExample {
             // STEP_END
             CompletableFuture.allOf(addDoc1, addDoc2, addDoc3).join();
 
+            // STEP_START himport_data
+            String[][] docData = {
+                    { "doc:1", "That is a very happy person", "persons" },
+                    { "doc:2", "That is a happy dog", "pets" },
+                    { "doc:3", "Today is a sunny day", "weather" } };
+
+            List<RedisFuture<String>> himportDocs = new ArrayList<>();
+
+            try (HashImport<ByteBuffer> fieldset = HashImport.of(id -> ByteBuffer.wrap(("himport:" + id).getBytes()),
+                    ByteBuffer.wrap("content".getBytes()), ByteBuffer.wrap("genre".getBytes()),
+                    ByteBuffer.wrap("embedding".getBytes()))) {
+                for (String[] doc : docData) {
+                    ByteBuffer docEmbedding = null;
+
+                    try {
+                        docEmbedding = floatArrayToByteBuffer(predictor.predict(doc[1]));
+                    } catch (Exception e) {
+                        // ...
+                    }
+
+                    himportDocs.add(binAsyncCommands.himportSet(ByteBuffer.wrap(doc[0].getBytes()), fieldset,
+                            ByteBuffer.wrap(doc[1].getBytes()), ByteBuffer.wrap(doc[2].getBytes()), docEmbedding));
+                }
+            }
+
+            CompletableFuture<Void> importDocs = CompletableFuture
+                    .allOf(himportDocs.stream().map(RedisFuture::toCompletableFuture).toArray(CompletableFuture[]::new));
+            // STEP_END
+            importDocs.join();
+            // REMOVE_START
+            himportDocs.forEach(f -> assertThat(f.toCompletableFuture().join()).isEqualTo("OK"));
+            // REMOVE_END
+
             // STEP_START query
             String query = "That is a happy person";
             float[] queryEmbedding = null;

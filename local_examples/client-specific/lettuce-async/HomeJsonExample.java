@@ -262,6 +262,34 @@ public class HomeJsonExample {
                     }).toCompletableFuture();
             // STEP_END
             query1Hash.join();
+
+            // STEP_START add_hash_himport
+            List<RedisFuture<String>> himportUsers = new ArrayList<>();
+
+            try (HashImport<String> fieldset = HashImport.of("name", "email", "age", "city")) {
+                himportUsers.add(asyncCommands.himportSet("huser:1", fieldset,
+                        "Paul John", "paul.john@example.com", "42", "London"));
+                himportUsers.add(asyncCommands.himportSet("huser:2", fieldset,
+                        "Eden Zamir", "eden.zamir@example.com", "29", "Tel Aviv"));
+                himportUsers.add(asyncCommands.himportSet("huser:3", fieldset,
+                        "Paul Zamir", "paul.zamir@example.com", "35", "Tel Aviv"));
+            }
+
+            CompletableFuture<Void> importUsers = CompletableFuture
+                    .allOf(himportUsers.stream().map(RedisFuture::toCompletableFuture).toArray(CompletableFuture[]::new));
+            // STEP_END
+            importUsers.join();
+            // REMOVE_START
+            himportUsers.forEach(f -> assertThat(f.toCompletableFuture().join()).isEqualTo("OK"));
+            assertThat(asyncCommands.objectEncoding("huser:3").toCompletableFuture().join()).startsWith("template");
+            SearchReply<String, String> himportQueryRes = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
+                    .toCompletableFuture().join();
+            assertThat(himportQueryRes.getCount()).isEqualTo(1);
+            assertThat(himportQueryRes.getResults().get(0).getId()).isEqualTo("huser:3");
+            assertThat(himportQueryRes.getResults().get(0).getFields()).containsOnly(
+                    Map.entry("name", "Paul Zamir"), Map.entry("email", "paul.zamir@example.com"),
+                    Map.entry("age", "35"), Map.entry("city", "Tel Aviv"));
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }
