@@ -220,7 +220,7 @@ func ExampleClient_search_json() {
 	// STEP_END
 
 	// Output:
-	// {1 [{user:3 <nil> <nil> <nil> map[$:{"age":35,"city":"Tel Aviv","email":"paul.zamir@example.com","name":"Paul Zamir"}] <nil>}]}
+	// {1 [{user:3 <nil> <nil> <nil> map[$:{"age":35,"city":"Tel Aviv","email":"paul.zamir@example.com","name":"Paul Zamir"}] <nil>}] []}
 	// London
 	// Tel Aviv
 	// 0
@@ -376,5 +376,5 @@ func ExampleClient_search_hash() {
 	// REMOVE_END
 
 	// Output:
-	// {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir] <nil>}]}
+	// {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir] <nil>}] []}
 }

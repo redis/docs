@@ -57,12 +57,12 @@ separate section to explain the
 ## Initialize
 
 First, install [`go-redis`](/content/develop/clients/go/_index.md)
-if you haven't already done so. Then, install
-[`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot)
-using the following command:
+if you haven't already done so. Then, install v0.7.7 of
+[`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot),
+which requires Go 1.26.5 or later, using the following command:
 
 ```bash
-go get github.com/knights-analytics/hugot
+go get github.com/knights-analytics/hugot@v0.7.7
 ```
 
 Add the following imports to your module's main program file:
@@ -129,10 +129,10 @@ you use the `doc:` prefix specified in the index definition.
 
 Use the `RunPipeline()` method of `FeatureExtractionPipeline`
 as shown below to create the embeddings that represent the `content` fields.
-This method takes an array of strings and outputs a corresponding
-array of `FeatureExtractionOutput` objects.
-The `Embeddings` field of `FeatureExtractionOutput` contains the array of float
-values that you need for the index. Use the `floatsToBytes()` function defined
+This method takes a context and an array of strings and returns a single
+`FeatureExtractionOutput` object.
+Its `Embeddings` field contains one array of float values for each input
+string, in the same order. These are the vectors that you need for the index. Use the `floatsToBytes()` function defined
 above to convert this array to a `byte` string.
 
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and store hash documents with vector fields using HSet" difficulty="intermediate" >}}
