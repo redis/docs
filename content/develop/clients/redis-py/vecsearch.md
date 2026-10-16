@@ -171,7 +171,7 @@ for more information about using query parameters with embeddings).
 {{< /clients-example >}}
 
 The code is now ready to run, but note that it may take a while to complete when
-you run it for the first time (which happens because RedisVL must download the
+you run it for the first time (which happens because `sentence-transformers` must download the
 `all-MiniLM-L6-v2` model data before it can
 generate the embeddings). When you run the code, it outputs the following result
 object (slightly formatted here for clarity):
@@ -201,6 +201,8 @@ Result{
     ]
 }
 ```
+
+The exact distances may differ slightly on your system.
 
 Note that the results are ordered according to the value of the `vector_distance`
 field, with the lowest distance indicating the greatest similarity to the query.

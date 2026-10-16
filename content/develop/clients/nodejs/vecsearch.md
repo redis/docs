@@ -171,6 +171,8 @@ doc:2: 'That is a happy dog', Score: 0.836842417717
 doc:3: 'Today is a sunny day', Score: 1.50889515877
 ```
 
+The exact distances may differ slightly on your system.
+
 ## Differences with JSON documents
 
 JSON documents support richer data modeling with nested fields. Key differences from hash documents:

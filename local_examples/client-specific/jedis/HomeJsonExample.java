@@ -225,7 +225,7 @@ public class HomeJsonExample {
         for (Document doc: paulHashDocs) {
             System.out.println(doc.getId());
         }
-        // >>> user:3
+        // >>> huser:3
         // STEP_END
         // REMOVE_START
         assertEquals("huser:3", paulHashDocs.get(0).getId());

@@ -481,6 +481,8 @@ ID: doc:3, Properties: [
 ]
 ```
 
+The exact distances may differ slightly on your system.
+
 The results are ordered according to the value of the `score`
 field, which represents the vector distance here. The lowest distance indicates
 the greatest similarity to the query.

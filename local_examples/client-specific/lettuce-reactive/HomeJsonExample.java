@@ -202,21 +202,21 @@ public class HomeJsonExample {
             huser3.put("city", "Tel Aviv");
 
             Mono<Long> addHashUser1 = reactiveCommands.hset("huser:1", huser1).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser2 = reactiveCommands.hset("huser:2", huser2).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser3 = reactiveCommands.hset("huser:3", huser3).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
