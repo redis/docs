@@ -151,7 +151,7 @@ than it seems. Compact hashes (`HIMPORT`, Redis 8.10) are the known case (DOC-71
   re-creates its keys without deleting them first passes on a clean server and fails on the
   second run.
 
-So run any example that touches compact hashes **twice in a row against the same server**.
+Run any example that touches compact hashes **twice in a row against the same server**.
 If the second run differs, add a hidden `REMOVE` delete of the keys after the connect step.
 When an example rewrites identical values over existing keys, also run a copy with the
 original write removed. Otherwise a stale index or cached value can produce the expected
