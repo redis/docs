@@ -208,6 +208,52 @@ $client->hmset("doc:2",[
 ]);
 ```
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hmset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once by calling `himport()` with
+[`PREPARE`](/content/commands/himport-prepare.md), then create each
+document by calling it with [`SET`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/php/transpipe.md) to send all the
+imports in one round trip:
+
+```php
+$docs = [
+    ["doc:0", "That is a very happy person", "persons"],
+    ["doc:1", "That is a happy dog", "pets"],
+    ["doc:2", "Today is a sunny day", "weather"],
+];
+
+$client->pipeline(function ($pipe) use ($docs, $extractor) {
+    $pipe->himport('PREPARE', "doc", ["content", "genre", "embedding"]);
+
+    foreach ($docs as [$key, $content, $genre]) {
+        $emb = $extractor($content, normalize: true, pooling: 'mean');
+
+        $pipe->himport('SET', $key, "doc", [
+            $content,
+            $genre,
+            pack('g*', ...$emb[0])
+        ]);
+    }
+});
+```
+
+`HIMPORT SET` replaces any existing key, so running this code after the
+`hmset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `Predis` v3.6.0 or later, and `Predis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.
