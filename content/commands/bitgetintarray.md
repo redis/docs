@@ -12,11 +12,19 @@ arity: 2
 categories:
 - docs
 - develop
+- stack
 - oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
-complexity: O(C + M) where C is the number of bitmap containers and M is the number of returned integers.
-description: Returns all set-bit offsets in a native bitmap as an ascending array of integers.
+complexity: O(C + M) where C is the number of bitmap containers and M is the number
+  of returned integers.
+description: Returns all set-bit offsets in a native bitmap as an ascending array
+  of integers.
 group: bitmap
 hidden: false
 key_specs:
@@ -33,6 +41,15 @@ key_specs:
       limit: 0
     type: range
 linkTitle: BITGETINTARRAY
+railroad_diagram: /images/railroad/bitgetintarray.svg
+reply_schema:
+  description: Set-bit offsets in ascending order, or an empty array for a missing
+    or empty bitmap.
+  items:
+    minimum: 0
+    type: integer
+  type: array
+  uniqueItems: true
 since: 8.12.0
 summary: Returns all set-bit offsets in a native bitmap as an ascending array of integers.
 syntax_fmt: BITGETINTARRAY key
@@ -40,13 +57,7 @@ title: BITGETINTARRAY
 ---
 
 Returns every offset whose bit is set to `1` in a native Roaring bitmap, in
-ascending order. A missing key or a bitmap with no set bits returns an empty
-array.
-
-The command accepts the native `bitmap` type only. A string-backed bitmap or any
-other existing type returns `WRONGTYPE`. It does not convert strings, change
-the bitmap, or change its expiration, and works on existing native bitmaps
-regardless of the current `bitmap-default-roaring` setting.
+ascending order.
 
 ## Required arguments
 
@@ -58,7 +69,7 @@ The name of the key that holds the native bitmap.
 
 ## Examples
 
-```redis
+{{% redis-cli %}}
 redis> CONFIG SET bitmap-default-roaring yes
 OK
 redis> SETBIT members 10 1
@@ -71,9 +82,20 @@ redis> BITGETINTARRAY members
 1) (integer) 10
 2) (integer) 20
 3) (integer) 30
-```
+{{% /redis-cli %}}
 
-## Performance considerations
+## Details
+
+### Key behavior
+
+A missing key or a bitmap with no set bits returns an empty array.
+
+The command accepts the native `bitmap` type only. A string-backed bitmap or any
+other existing type returns `WRONGTYPE`. It does not convert strings, change
+the bitmap, or change its expiration, and works on existing native bitmaps
+regardless of the current `bitmap-default-roaring` setting.
+
+### Performance considerations
 
 The complete array is returned in one response, without the 100,000,000-element
 span limit imposed by `BITRANGEINTARRAY`. The result must still fit the server
@@ -90,13 +112,30 @@ Offsets retain the native bitmap's full supported range, including values
 above `4294967295` when the bitmap was created with a sufficiently large
 `proto-max-bulk-len`. Clients must preserve the precision of returned integers.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
-For both RESP2 and RESP3, an [array reply]({{< relref
-"/develop/reference/protocol-spec#arrays" >}}) of integer set-bit offsets in
-ascending order, or an empty array for a missing or empty bitmap.
+{{< multitabs id="bitgetintarray-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets in ascending order, or an empty array for a missing or empty bitmap.
+
+-tab-sep-
+
+[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets in ascending order, or an empty array for a missing or empty bitmap.
+
+{{< /multitabs >}}
+
+## See also
+
+[`BITRANGEINTARRAY`]({{< relref "/commands/bitrangeintarray" >}})
 
 ## Related topics
 
 - [Roaring-compressed bitmaps]({{< relref "/develop/data-types/strings/bitmaps#roaring-compressed-bitmaps" >}})
-- [`BITRANGEINTARRAY`]({{< relref "/commands/bitrangeintarray" >}})

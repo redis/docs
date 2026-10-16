@@ -21,7 +21,7 @@ weight: 20
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
 
-Starting with Redis Open Source 8.12, Redis can store bitmaps in two
+Starting with Redis 8.12, Redis can store bitmaps in two
 representations:
 
 * By default, a bitmap is a set of bit-oriented operations defined on a
@@ -417,8 +417,15 @@ RDB snapshots, [`DUMP`]({{< relref "/commands/dump" >}}) and
 preserve the native bitmap type. When a write creates or converts a native
 bitmap because `bitmap-default-roaring` is `yes`, Redis propagates the
 representation transition explicitly so replicas produce the same type even if
-their local setting differs. The conversion adds an internal transition record
-to the replication stream or incremental AOF in addition to the bitmap command.
+their local setting differs.
+
+For `SETBIT` and writing `BITFIELD` operations, Redis records the representation
+transition as `BITCONVERT` before the bitmap command. For `BITOP`, Redis uses
+`BITROAROP` to preserve a native result selected by `bitmap-default-roaring`.
+These commands are reserved for internal replication and AOF loading. Ordinary
+clients cannot invoke them or discover them through `COMMAND` introspection; direct calls
+return `ERR unknown command`. Applications should use the public bitmap
+commands and `bitmap-default-roaring` to create and modify native bitmaps.
 
 {{< warning >}}
 Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
