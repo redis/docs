@@ -3,6 +3,8 @@
 package com.redis.app;
 // REMOVE_END
 // STEP_START import
+import redis.clients.jedis.HashImport;
+import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.search.*;
 import redis.clients.jedis.search.schemafields.*;
@@ -54,7 +56,7 @@ public class HomeQueryVec {
         // STEP_END
 
         // STEP_START connect
-        RedisClient jedis = new RedisClient("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
         // REMOVE_START
         jedis.del(
             "doc:1", "doc:2", "doc:3",
@@ -130,6 +132,31 @@ public class HomeQueryVec {
         Map<String, String> doc3 = Map.of(  "content", sentence3, "genre", "weather");
         jedis.hset("doc:3", doc3);
         jedis.hset("doc:3".getBytes(), "embedding".getBytes(), embedding3);
+        // STEP_END
+
+        // STEP_START himport_data
+        String[][] docData = {
+            {"doc:1", "That is a very happy person", "persons"},
+            {"doc:2", "That is a happy dog", "pets"},
+            {"doc:3", "Today is a sunny day", "weather"}
+        };
+
+        try (HashImport fields = HashImport.of("content", "genre", "embedding");
+                Pipeline pipeline = jedis.pipelined()) {
+            for (String[] doc : docData) {
+                byte[] docEmbedding;
+
+                try {
+                    docEmbedding = floatsToByteString(predictor.predict(doc[1]));
+                } catch (Exception e) {
+                    docEmbedding = new byte[384 * Float.BYTES];
+                }
+
+                pipeline.himportSet(doc[0].getBytes(), fields,
+                        doc[1].getBytes(), doc[2].getBytes(), docEmbedding);
+            }
+            pipeline.sync();
+        }
         // STEP_END
         
         // STEP_START query

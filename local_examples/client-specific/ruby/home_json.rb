@@ -176,4 +176,26 @@ assert_equal(1, find_paul_hash_result.total)
 assert_equal('3', find_paul_hash_result.documents.first.id)
 # REMOVE_END
 
+# STEP_START add_hash_himport
+fields = %w[name email age city]
+
+himport_res = r.pipelined do |pipe|
+  pipe.himport_prepare('huser', fields)
+  [['huser:1', user1], ['huser:2', user2], ['huser:3', user3]].each do |key, user|
+    pipe.himport_set(key, 'huser', fields.map { |f| user[f] })
+  end
+end
+# STEP_END
+# REMOVE_START
+assert_equal(%w[OK OK OK OK], himport_res)
+assert_equal(true, r.object('encoding', 'huser:3').start_with?('template'))
+himport_query_res = hash_index.search('Paul @age:[30 40]')
+assert_equal(1, himport_query_res.total)
+assert_equal('3', himport_query_res.documents.first.id)
+assert_equal({
+  'name' => 'Paul Zamir', 'email' => 'paul.zamir@example.com',
+  'age' => '35', 'city' => 'Tel Aviv'
+}, himport_query_res.documents.first.attributes)
+# REMOVE_END
+
 r.close

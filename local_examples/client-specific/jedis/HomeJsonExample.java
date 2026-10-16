@@ -6,9 +6,13 @@ package io.redis.examples;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 // REMOVE_END
 // STEP_START import
+import redis.clients.jedis.HashImport;
+import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.RedisClient;
+import redis.clients.jedis.Response;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.json.Path2;
 import redis.clients.jedis.search.*;
@@ -16,6 +20,7 @@ import redis.clients.jedis.search.aggr.*;
 import redis.clients.jedis.search.schemafields.*;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +52,7 @@ public class HomeJsonExample {
         // STEP_END
 
         // STEP_START connect
-        RedisClient jedis = new RedisClient("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
         // STEP_END
 
         // STEP_START cleanup_json
@@ -224,6 +229,34 @@ public class HomeJsonExample {
         // STEP_END
         // REMOVE_START
         assertEquals("huser:3", paulHashDocs.get(0).getId());
+        // REMOVE_END
+
+        // STEP_START add_hash_himport
+        List<Response<String>> himportRes = new ArrayList<>();
+
+        try (HashImport fields = HashImport.of("name", "email", "age", "city");
+                Pipeline pipeline = jedis.pipelined()) {
+            himportRes.add(pipeline.himportSet("huser:1", fields,
+                    "Paul John", "paul.john@example.com", "42", "London"));
+            himportRes.add(pipeline.himportSet("huser:2", fields,
+                    "Eden Zamir", "eden.zamir@example.com", "29", "Tel Aviv"));
+            himportRes.add(pipeline.himportSet("huser:3", fields,
+                    "Paul Zamir", "paul.zamir@example.com", "35", "Tel Aviv"));
+            pipeline.sync();
+        }
+        // STEP_END
+        // REMOVE_START
+        assertEquals(List.of("OK", "OK", "OK"), himportRes.stream().map(Response::get).toList());
+        assertTrue(jedis.objectEncoding("huser:3").startsWith("template"));
+        SearchResult himportQueryRes = jedis.ftSearch("hash-idx:users", "Paul @age:[30 40]");
+        assertEquals(1, himportQueryRes.getTotalResults());
+        Document himportDoc = himportQueryRes.getDocuments().get(0);
+        assertEquals("huser:3", himportDoc.getId());
+        Map<String, String> himportFields = new HashMap<>();
+        himportDoc.getProperties().forEach(e -> himportFields.put(e.getKey(), String.valueOf(e.getValue())));
+        assertEquals(Map.of(
+            "name", "Paul Zamir", "email", "paul.zamir@example.com", "age", "35", "city", "Tel Aviv"
+        ), himportFields);
         // REMOVE_END
 
         // STEP_START close

@@ -162,6 +162,34 @@ the name of the hash index is different). The results are returned as
 {{< clients-example set="ruby_home_json" step="query1_hash" description="Query with filters: Search hash documents using text matching and numeric range filters (same as JSON queries)" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the hash documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`himport_prepare()`](/content/commands/himport-prepare.md), then create each
+document with [`himport_set()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/ruby/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="ruby_home_json" step="add_hash_himport" description="Bulk ingestion: Import hash documents as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_hash_data" >}}
+{{< /clients-example >}}
+
+`himport_set()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents. The query returns
+the same result, although the fields can appear in a different order.
+
+> [!NOTE]
+> `HIMPORT` requires `redis-rb` v6.0.0 or later, and `redis-rb` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## More information
 
 See the [Redis Search](/content/develop/ai/search-and-query/_index.md) docs

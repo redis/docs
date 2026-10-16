@@ -150,6 +150,33 @@ embedding that represents the `content` field, then pass the result through the
 {{< clients-example set="ruby_home_query_vec" step="add_data" lang_filter="Ruby" description="Foundational: Store hash documents with vector embeddings generated from text content" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`himport_prepare()`](/content/commands/himport-prepare.md), then create each
+document with [`himport_set()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/ruby/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="ruby_home_query_vec" step="himport_data" lang_filter="Ruby" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`himport_set()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `redis-rb` v6.0.0 or later, and `redis-rb` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.

@@ -138,6 +138,33 @@ above to convert this array to a `byte` string.
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and store hash documents with vector fields using HSet" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `HSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`HImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`HImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/go/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Go" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`HImportSet()` replaces any existing key, so running this code after the
+`HSet()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `go-redis` v9.22.0 or later, and `go-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.

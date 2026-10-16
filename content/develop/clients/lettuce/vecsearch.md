@@ -186,6 +186,39 @@ the exceptions in production code).
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Generate embeddings and store hash documents with vector data using ByteBufferCodec" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Create a `HashImport` object with the field names, then create each document
+with [`himportSet()`](/content/commands/himport-set.md), passing only its values,
+in the same order as the field names. Lettuce declares the field names with
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time you use
+the `HashImport` object on a connection. On the `ByteBufferCodec` connection,
+`HashImport.of()` takes `ByteBuffer` field names and a function that creates a
+name for the field set from a numeric ID. Issue all the imports before you wait
+for any reply, so that Lettuce
+[pipelines](/content/develop/clients/lettuce/transpipe.md) them instead of
+waiting for each reply in turn. With the reactive API, wait for the imports
+inside the `try` block, because a `Mono` that you subscribe to after the
+`HashImport` object closes fails:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Java-Async,Java-Reactive" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using a HashImport fieldset and pipelined HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`himportSet()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires Lettuce v7.7.0 or later, and Lettuce marks its support as
+> experimental, so the API might change. Redis Cloud and Redis Software don't
+> support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.

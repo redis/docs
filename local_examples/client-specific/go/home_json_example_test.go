@@ -329,6 +329,52 @@ func ExampleClient_search_hash() {
 	// >>> {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv...
 	// STEP_END
 
+	// STEP_START add_hash_himport
+	fields := []string{"name", "email", "age", "city"}
+
+	err = rdb.HImportPrepare(ctx, "huser", fields...).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	pipe := rdb.Pipeline()
+
+	for i, user := range []map[string]interface{}{user1, user2, user3} {
+		values := make([]interface{}, len(fields))
+		for j, field := range fields {
+			values[j] = user[field]
+		}
+
+		pipe.HImportSet(ctx, fmt.Sprintf("huser:%d", i+1), "huser", values...)
+	}
+
+	if _, err := pipe.Exec(ctx); err != nil {
+		panic(err)
+	}
+	// STEP_END
+	// REMOVE_START
+	himportEncoding, err := rdb.ObjectEncoding(ctx, "huser:3").Result()
+	if err != nil {
+		panic(err)
+	}
+	if len(himportEncoding) < 8 || himportEncoding[:8] != "template" {
+		panic(fmt.Sprintf("huser:3 is not a compact hash: %v", himportEncoding))
+	}
+
+	himportQueryRes, err := rdb.FTSearch(
+		ctx,
+		"hash-idx:users",
+		"Paul @age:[30 40]",
+	).Result()
+	if err != nil {
+		panic(err)
+	}
+	if himportQueryRes.Total != 1 || himportQueryRes.Docs[0].ID != "huser:3" ||
+		fmt.Sprint(himportQueryRes.Docs[0].Fields) != "map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir]" {
+		panic(fmt.Sprintf("unexpected HIMPORT query result: %v", himportQueryRes))
+	}
+	// REMOVE_END
+
 	// Output:
 	// {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir] <nil>}]}
 }

@@ -341,6 +341,58 @@ HashEntry[] doc3 = {
 db.HashSet("doc:3", doc3);
 ```
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `HashSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once by creating a `HashImport` object with
+`HashImport.Create()`. The client declares the field names on each connection
+with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time
+you use the object there, so you don't call it yourself. Then create each
+document with [`HashImportAsync()`](/content/commands/himport-set.md), passing
+only its values, in the same order as the field names. Use a
+[batch](/content/develop/clients/dotnet/transpipe.md) to send all the
+imports in one round trip:
+
+```csharp
+using var docFields = HashImport.Create("content", "genre", "embedding");
+
+var docs = new[] {
+    ("doc:1", "That is a very happy person", "persons"),
+    ("doc:2", "That is a happy dog", "pets"),
+    ("doc:3", "Today is a sunny day", "weather"),
+};
+
+var batch = db.CreateBatch();
+var imports = new List<Task>();
+
+foreach (var (key, content, genre) in docs)
+{
+    imports.Add(batch.HashImportAsync(
+        key,
+        docFields,
+        new RedisValue[] { content, genre, GetEmbedding(predEngine, content) }
+    ));
+}
+
+batch.Execute();
+Task.WaitAll(imports.ToArray());
+```
+
+`HashImportAsync()` replaces any existing key, so running this code after the
+`HashSet()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `StackExchange.Redis` v3.3.1 or later. If your
+> `NRedisStack` version depends on an earlier version, add the
+> `StackExchange.Redis` package to your project explicitly. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.
