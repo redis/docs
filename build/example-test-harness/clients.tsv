@@ -62,3 +62,8 @@ predis	PHP	php	php	predis|php	predis	{Set}Test.php	examples	predis	.	php
 ruby	Ruby	redis_rb	redis_rb	ruby	ruby	{set}.rb	examples	ruby	.	ruby
 rust-sync	Rust-Sync	redis_rs_sync	redis_rs_sync	rust-sync	rust-sync	{set}.rs	redis/examples	rust-sync	tests	rust-sync
 rust-async	Rust-Async	redis_rs_async	redis_rs_async	rust-async	rust-async	{set}.rs	redis/examples	rust-async	tests	rust-async
+
+# Iris service API variants use the scoped Playbooks checks, not native Redis command runners.
+iris-python	Python (Iris)	-	-	python	-	{set}.py	-	-	-	-
+iris-typescript	TypeScript (Iris)	-	-	typescript	-	{set}.mts	-	-	-	-
+iris-curl	cURL (Iris)	-	-	curl	-	{set}.sh	-	-	-	-
