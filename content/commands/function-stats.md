@@ -44,9 +44,9 @@ The reply is map with two keys:
 2. `engines`: this is a map of maps. Each entry in the map represent a single engine.
    Engine map contains statistics about the engine like number of functions and number of libraries.
 
-You can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]({{< relref "/commands/function-kill" >}}) command.
+You can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`](/content/commands/function-kill.md) command.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Redis Software and Redis Cloud compatibility
 

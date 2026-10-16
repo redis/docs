@@ -1,6 +1,11 @@
 ---
 Title: Write-behind foreach example
-aliases: null
+aliases:
+- /integrate/redis-data-integration/data-transformation/examples/foreach-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/foreach-example/
+- /integrate/redis-data-integration/write behind/foreach-example/
+- /integrate/redis-data-integration/write-behind/foreach-example/
+- /integrate/redis-data-integration/write-behind/data-transformation/transformation-examples/foreach-example/
 alwaysopen: false
 categories:
 - docs

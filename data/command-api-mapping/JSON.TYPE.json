@@ -310,6 +310,27 @@
           "description": "The JSON type at the requested path."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_type(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root)"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, String, nil",
+          "description": "the type name(s): an Array for a JSONPath, a single string for a legacy path"
+        }
+      }
     ]
   }
 }

@@ -33,7 +33,7 @@ title: BF.ADD
 ---
 Adds an item to a Bloom filter.
 
-This command is similar to [`BF.MADD`]({{< relref "commands/bf.madd/" >}}), except that only one item can be added.
+This command is similar to [`BF.MADD`](/content/commands/bf.madd.md), except that only one item can be added.
 
 ## Required arguments
 
@@ -41,7 +41,7 @@ This command is similar to [`BF.MADD`]({{< relref "commands/bf.madd/" >}}), exce
 
 is key name for a Bloom filter to add the item to.
 
-If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}})).
+If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`](/content/commands/bf.reserve.md)).
 </details>
 
 <details open><summary><code>item</code></summary>
@@ -71,13 +71,13 @@ redis> BF.ADD bf item1
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 -tab-sep-
 
 One of the following:
-* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Boolean reply](/content/develop/reference/protocol-spec.md#booleans): `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 {{< /multitabs >}}

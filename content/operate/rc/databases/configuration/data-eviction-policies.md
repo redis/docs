@@ -16,7 +16,7 @@ aliases:
 
 The data eviction policy of a database controls what happens when new data exceeds the memory size of a database.  Typically, such situations require _evicting_ (or deleting) data previously added to the database.  
 
-You can [edit database details]({{< relref "/operate/rc/databases/view-edit-database.md" >}}) to change the **Data eviction policy** setting at the database level.
+You can [edit database details](/content/operate/rc/databases/view-edit-database.md) to change the **Data eviction policy** setting at the database level.
 
 ## Available policies
 
@@ -37,14 +37,14 @@ For each database, you can choose from these data eviction policies:
 
 To avoid data eviction, make sure your database is large enough to hold required values. 
 
-Redis Cloud supports [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) on Redis Cloud Pro and [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) on Redis Cloud Essentials
+Redis Cloud supports [Auto Tiering](/content/operate/rs/databases/flash/_index.md) on Redis Cloud Pro and [Redis Flex](/content/operate/rc/databases/create-database/create-flex-database.md) on Redis Cloud Essentials
 to prevent data eviction but maintain high performance.
 
 Auto Tiering and Redis Flex can extend your database across RAM and Flash Memory and intelligently manage "hot" (active) data in RAM and "cold" (less active) data in Flash memory (SSD).
 
 ## Active-Passive replication considerations
 
-When using [Active-Passive replication]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}), eviction and expiration only operate on the source (active) database. The target database does not evict or expire data while Active-Passive is enabled. 
+When using [Active-Passive replication](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive), eviction and expiration only operate on the source (active) database. The target database does not evict or expire data while Active-Passive is enabled. 
 
 Do not write to the target database while Active-Passive is enabled. Doing so can cause the following issues:
 
@@ -54,4 +54,4 @@ Do not write to the target database while Active-Passive is enabled. Doing so ca
 
 ## Active-Active replication considerations
 
-The eviction policy mechanism for [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) kicks in earlier than for standalone databases because it requires propagation to all regions. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. If memory usage continues to rise while the keys are being evicted, the rate of eviction will increase to prevent reaching the Out-of-Memory state.
+The eviction policy mechanism for [Active-Active databases](/content/operate/rc/databases/active-active/_index.md) kicks in earlier than for standalone databases because it requires propagation to all regions. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. If memory usage continues to rise while the keys are being evicted, the rate of eviction will increase to prevent reaching the Out-of-Memory state.

@@ -20,7 +20,7 @@ weight: 3
 
 A full-text search finds words or phrases within larger texts. You can search within a specific text field or across all text fields. 
 
-This article provides a good overview of the most relevant full-text search capabilities. Please find further details about all the full-text search features in the [reference documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/" >}}).
+This article provides a good overview of the most relevant full-text search capabilities. Please find further details about all the full-text search features in the [reference documentation](/content/develop/ai/search-and-query/advanced-concepts/_index.md).
 
 The examples in this article use a schema with the following fields:
 
@@ -45,7 +45,7 @@ Instead of searching across all text fields, you might want to limit the search 
 FT.SEARCH index "@field: word"
 ```
 
-Words that occur very often in natural language, such as `the` or `a` for the English language, aren't indexed and will not return a search result. You can find further details in the [stop words article]({{< relref "/develop/ai/search-and-query/advanced-concepts/stopwords" >}}).
+Words that occur very often in natural language, such as `the` or `a` for the English language, aren't indexed and will not return a search result. You can find further details in the [stop words article](/content/develop/ai/search-and-query/advanced-concepts/stopwords.md).
 
 The following example searches for all bicycles that have the word 'kids' in the description:
 
@@ -55,7 +55,7 @@ FT.SEARCH idx:bicycle "@description: kids"
 
 ## Phrase
 
-A phrase is a sentence, sentence fragment, or small group of words. You can find further details about how to find exact phrases in the [exact match article]({{< relref "/develop/ai/search-and-query/query/exact-match" >}}).
+A phrase is a sentence, sentence fragment, or small group of words. You can find further details about how to find exact phrases in the [exact match article](/content/develop/ai/search-and-query/query/exact-match.md).
 
 
 ## Word prefix
@@ -70,9 +70,8 @@ FT.SEARCH index "prefix*"
 FT.SEARCH index "@field: prefix*"
 ```
 
-{{% alert title="Important" color="warning" %}}
-The prefix needs to be at least two characters long.
-{{% /alert  %}}
+> [!NOTE] Important
+> The prefix needs to be at least two characters long.
 
 Here is an example that shows you how to search for bicycles with a brand that starts with 'ka':
 
@@ -130,9 +129,8 @@ To perform a fuzzy search on a specific text field, use the `@field:(...)` synta
 FT.SEARCH index "@field:(%word%)"
 ```
 
-{{% alert title="Important" %}}
-Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (for example, `@field:("%word%")`) converts the query into an exact match search, and the `%` characters are treated as literal characters rather than fuzzy operators.
-{{% /alert  %}}
+> [!NOTE] Important
+> Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (for example, `@field:("%word%")`) converts the query into an exact match search, and the `%` characters are treated as literal characters rather than fuzzy operators.
 
 The following example shows the correct way to perform a fuzzy search with distance one on the `description` field:
 

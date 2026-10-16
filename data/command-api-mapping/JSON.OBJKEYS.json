@@ -310,6 +310,27 @@
           "description": "The keys contained in the JSON object at the requested path."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_objkeys(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root)"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "an array of key-name arrays (JSONPath) or a single array of key names (legacy path); nil for a non-object match"
+        }
+      }
     ]
   }
 }

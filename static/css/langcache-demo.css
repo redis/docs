@@ -1,0 +1,169 @@
+/* =========================================================================
+   Redis LangCache scripted demo
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the Iris demos share one look. Scoped under `.rlc`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+.rlc { --rlc-warn: #b35900; }
+.rlc .rcr-tab.is-locked { opacity: .45; cursor: not-allowed; }
+.rlc .rlc-empty { color: var(--rcr-faint); font-size: 13px; }
+.rlc .rlc-chip {
+  display: inline-block; font-size: 11px; font-weight: 600; color: var(--rcr-muted);
+  background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 999px; padding: 0 8px;
+  white-space: nowrap;
+}
+.rlc .rlc-chip.is-bad { color: var(--rcr-bad); background: rgba(198, 40, 40, .07); border-color: rgba(198, 40, 40, .25); }
+.rlc .rcr-btn:disabled { opacity: .5; cursor: default; }
+.rlc .rlc-small { padding: 3px 10px; font-size: 12.5px; border-radius: 6px; }
+
+/* ---- service settings ---- */
+.rlc .rlc-settings { padding: 0; margin-bottom: 12px; }
+.rlc-settings > summary {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; cursor: pointer;
+  padding: 9px 12px; list-style: none; font-size: 13.5px;
+}
+.rlc-settings > summary::-webkit-details-marker { display: none; }
+.rlc-settings > summary::before { content: "\25B8"; color: var(--rcr-faint); font-size: 11px; }
+.rlc-settings[open] > summary::before { content: "\25BE"; }
+.rlc-settings-title { font-weight: 600; }
+.rlc-setgrid { display: grid; gap: 8px; padding: 2px 12px 0; }
+.rlc-set { display: grid; grid-template-columns: 1fr; gap: 3px; font-size: 13px; }
+.rlc-set .rcr-lbl { align-self: center; }
+@container (min-width: 560px) {
+  .rlc .rlc-set { grid-template-columns: 170px 1fr; column-gap: 12px; align-items: center; }
+  .rlc .rlc-set > .rcr-faint { grid-column: 2; }
+}
+.rlc .rlc-settings > .rcr-note { padding: 0 12px 12px; }
+
+/* ---- layout: the log beside the cache, or the two lanes, when there's room ---- */
+.rlc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
+@container (min-width: 560px) {
+  .rcr .rlc-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .rcr .rlc-grid.rlc-lanes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+/* ---- the request log ---- */
+/* minmax(0, 1fr): a one-line row truncates instead of widening its column. */
+.rlc-log { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.rlc-req { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.rlc-who { font-size: 12.5px; color: var(--rcr-muted); }
+.rlc .rlc-who .rcr-mono { font-size: 11px; color: var(--rcr-faint); }
+.rlc-reply { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3px; justify-items: start; }
+.rlc-srcline { font-size: 11.5px; color: var(--rcr-faint); padding-left: 4px; }
+.rlc-src { font-weight: 700; margin-right: 3px; }
+.rlc-src.is-cache { color: var(--rcr-ok); }
+.rlc-src.is-llm { color: var(--rlc-warn); }
+.rlc-verdict { display: inline-block; font-size: 10.5px; font-weight: 700; line-height: 16px; white-space: nowrap; border-radius: 999px; padding: 0 7px; margin-left: 4px; border: 1px solid; }
+.rlc-verdict.is-ok { color: var(--rcr-ok); background: rgba(26, 127, 75, .08); border-color: rgba(26, 127, 75, .3); }
+.rlc-verdict.is-bad { color: var(--rcr-bad); background: rgba(198, 40, 40, .07); border-color: rgba(198, 40, 40, .3); }
+.rlc-verdict.is-warn { color: var(--rlc-warn); background: rgba(179, 89, 0, .07); border-color: rgba(179, 89, 0, .3); }
+.rlc-verdict.is-none { color: var(--rcr-muted); background: var(--rcr-surface-2); border-color: var(--rcr-line); }
+
+/* Hit or miss, on the search call cards and the collapsed rows. */
+.rlc-tag {
+  flex: none; font-size: 10.5px; font-weight: 700; line-height: 16px; white-space: nowrap; border-radius: 999px; padding: 0 7px; border: 1px solid;
+}
+.rlc-tag-hit { color: var(--rcr-ok); background: rgba(26, 127, 75, .08); border-color: rgba(26, 127, 75, .3); }
+.rlc-tag-miss { color: var(--rcr-muted); background: var(--rcr-surface-2); border-color: var(--rcr-line-strong); }
+
+/* Status codes line up in a column: tabular figures give every digit the same width. */
+.rlc .rcr-status { font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 3px; }
+/* An API call still in flight: the same row as a call card's summary, without the details. */
+.rlc .rlc-callrow { display: flex; align-items: center; gap: 8px; padding: 7px 10px; min-width: 0; }
+/* The app's own LLM call is outside LangCache, so it gets its own colour. */
+.rlc-llm {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px; min-width: 0;
+  border: 1px solid var(--rcr-line); border-left: 3px solid var(--rlc-warn); border-radius: 8px; background: #fff;
+}
+.rlc-llm .rcr-lbl { color: var(--rlc-warn); }
+.rlc-event { font-size: 13.5px; background: var(--rcr-surface-2); border: 1px dashed var(--rcr-line-strong); border-radius: 8px; padding: 7px 10px; }
+.rlc .rlc-event .rcr-lbl { margin-right: 4px; }
+.rlc .rlc-nocall { font-size: 12.5px; color: var(--rcr-muted); padding-left: 4px; }
+
+.rlc-past { border-bottom: 1px solid var(--rcr-line); }
+.rlc-past > summary {
+  display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; padding: 5px 2px; font-size: 13px; min-width: 0;
+}
+.rlc-past > summary::-webkit-details-marker { display: none; }
+.rlc-past > summary::before { content: "\25B8"; color: var(--rcr-faint); font-size: 11px; }
+.rlc-past[open] > summary::before { content: "\25BE"; }
+.rlc-past[open] > .rlc-req { padding: 4px 0 10px; }
+.rlc-pastwho { flex: none; font-weight: 600; }
+.rlc-pasttext { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--rcr-muted); }
+
+/* ---- choosing the next question ---- */
+.rlc-composer { border-top: 1px dashed var(--rcr-line-strong); margin-top: 10px; padding-top: 10px; }
+.rlc .rlc-composer > .rcr-lbl { display: block; margin-bottom: 6px; }
+.rlc-options { display: grid; gap: 6px; }
+.rlc .rlc-option { text-align: left; border-radius: 10px; padding: 7px 12px; font-size: 13.5px; line-height: 1.4; }
+.rlc-optwho { display: block; font-size: 11px; font-weight: 600; color: var(--rcr-faint); }
+
+/* ---- the cache ---- */
+.rlc .rlc-cache { border-top: 3px solid var(--rcr-ok); }
+.rlc-lane .rlc-cache { border-top-width: 1px; margin-top: 10px; background: var(--rcr-surface-2); }
+.rlc-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+.rlc-metric { background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 8px; padding: 6px 9px; min-width: 0; }
+.rlc-mval { display: block; font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rlc-mlbl { display: block; font-size: 11px; color: var(--rcr-muted); line-height: 1.3; }
+.rlc-metric.is-bad .rlc-mval { color: var(--rcr-bad); }
+@container (min-width: 560px) { .rcr .rlc-metrics-3 { grid-template-columns: repeat(3, 1fr); } }
+.rlc-entry { padding: 6px 4px; border-bottom: 1px solid var(--rcr-line); font-size: 13px; border-radius: 6px; transition: background-color .25s; }
+.rlc-entry:last-of-type { border-bottom: 0; }
+.rlc-eprompt { font-weight: 600; }
+.rlc-eresp { color: var(--rcr-muted); font-size: 12.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rlc-emeta { font-size: 11px; color: var(--rcr-faint); margin-top: 2px; }
+.rlc .rlc-emeta .rcr-mono { font-size: 11px; }
+.rlc-attr { display: inline-block; font-family: var(--rcr-mono); font-size: 10.5px; color: var(--rcr-accent-2); background: rgba(89, 97, 255, .07); border-radius: 4px; padding: 0 5px; margin-left: 6px; }
+.rlc .rlc-entry.is-used { background: rgba(26, 127, 75, .09); }
+.rlc-entry.is-stale .rlc-eresp { color: var(--rcr-bad); }
+.rlc-entry.is-deleted { opacity: .55; }
+.rlc-entry.is-deleted .rlc-eprompt, .rlc-entry.is-deleted .rlc-eresp { text-decoration: line-through; }
+.rlc-fresh { animation: rlc-in .9s ease-out; }
+@keyframes rlc-in { from { background: rgba(89, 97, 255, .16); } to { background: transparent; } }
+
+/* ---- step 2: threshold ---- */
+.rlc-thrctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 10px; font-size: 13px; }
+.rlc-ctl { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rlc-range { width: 220px; max-width: 100%; accent-color: var(--rcr-accent-2); }
+.rlc-thrval { min-width: 92px; }
+.rlc-rows { display: grid; grid-template-columns: minmax(0, 1fr); }
+.rlc-row { border-bottom: 1px solid var(--rcr-line); }
+.rlc-row:last-child { border-bottom: 0; }
+.rlc-row > summary {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 12px; align-items: center; cursor: pointer; list-style: none; padding: 7px 2px;
+}
+.rlc-row > summary::-webkit-details-marker { display: none; }
+@container (min-width: 560px) { .rcr .rlc-row > summary { grid-template-columns: minmax(0, 1fr) 128px 176px; } }
+.rlc-rowq { min-width: 0; }
+.rlc-rowtext { display: block; font-size: 13.5px; font-weight: 600; }
+.rlc-rowmeta { display: block; font-size: 11.5px; color: var(--rcr-faint); }
+.rlc-row .rlc-verdict { margin-left: 0; justify-self: start; }
+.rlc-row[open] > .rcr-callbody { padding: 0 2px 10px; }
+.rlc-score { display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.rlc-bar { position: relative; width: 80px; height: 6px; border-radius: 3px; background: var(--rcr-line); flex: none; }
+.rlc-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--rcr-faint); }
+.rlc-row.is-ok .rlc-fill { background: var(--rcr-ok); }
+.rlc-row.is-bad .rlc-fill { background: var(--rcr-bad); }
+.rlc-tick { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--rcr-ink); border-radius: 1px; }
+
+/* ---- step 3: the two lanes ---- */
+.rlc .rlc-lane { border-top: 3px solid var(--rcr-line-strong); }
+.rlc .rlc-lane.is-scoped { border-top-color: var(--rcr-accent-2); }
+.rlc-lanehead { margin-bottom: 8px; }
+.rlc-lanetitle { font-weight: 700; font-size: 14px; }
+.rlc-lane.is-scoped .rlc-lanetitle { color: var(--rcr-accent-2); }
+.rlc-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+
+/* ---- notes and controls ---- */
+.rlc .rlc-callout {
+  border-left: 3px solid var(--rcr-accent-2); background: var(--rcr-surface-2); border-radius: 0 8px 8px 0;
+  padding: 8px 12px; margin-top: 12px; font-size: 13.5px;
+}
+.rlc-callout p + p { margin-top: 6px !important; }
+.rlc-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rlc-fresh { animation: none; }
+  .rlc-entry { transition: none; }
+}

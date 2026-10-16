@@ -28,7 +28,7 @@ Get the LDAP configuration.
 
 | Permission name |
 |-----------------|
-| [view_ldap_config]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_ldap_config" >}}) |
+| [view_ldap_config](/content/operate/rs/8.0/references/rest-api/permissions.md#view_ldap_config) |
 
 ### Request {#get-request} 
 
@@ -45,7 +45,7 @@ Get the LDAP configuration.
 
 ### Response {#get-response} 
 
-Returns an [LDAP object]({{< relref "/operate/rs/8.0/references/rest-api/objects/ldap" >}}).
+Returns an [LDAP object](/content/operate/rs/8.0/references/rest-api/objects/ldap.md).
 
 #### Example JSON body
 
@@ -89,7 +89,7 @@ Set or update the cluster LDAP configuration.
 
 | Permission name |
 |-----------------|
-| [config_ldap]({{< relref "/operate/rs/8.0/references/rest-api/permissions#config_ldap" >}}) |
+| [config_ldap](/content/operate/rs/8.0/references/rest-api/permissions.md#config_ldap) |
 
 ### Request {#put-request} 
 
@@ -122,7 +122,7 @@ Set or update the cluster LDAP configuration.
 
 #### Request body
 
-Include an [LDAP object]({{< relref "/operate/rs/8.0/references/rest-api/objects/ldap" >}}) with updated fields in the request body.
+Include an [LDAP object](/content/operate/rs/8.0/references/rest-api/objects/ldap.md) with updated fields in the request body.
 
 ### Response {#put-response} 
 
@@ -153,7 +153,7 @@ Clear the LDAP configuration.
 
 | Permission name |
 |-----------------|
-| [config_ldap]({{< relref "/operate/rs/8.0/references/rest-api/permissions#config_ldap" >}}) |
+| [config_ldap](/content/operate/rs/8.0/references/rest-api/permissions.md#config_ldap) |
 
 ### Request {#delete-request} 
 

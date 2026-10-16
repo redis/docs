@@ -107,6 +107,66 @@ public class HashExample {
       assertEquals("3", res13);
       assertEquals("[1, 1]", res14.toString());
       // REMOVE_END
+
+      // STEP_START hexpire
+      jedis.del("sensor:sensor1");
+      Map<String, String> sensor1 = new HashMap<>();
+      sensor1.put("air_quality", "256");
+      sensor1.put("battery_level", "89");
+      jedis.hset("sensor:sensor1", sensor1);
+
+      // Set a TTL of 60 seconds on two fields of the hash.
+      List<Long> res15 = jedis.hexpire("sensor:sensor1", 60, "air_quality", "battery_level");
+      System.out.println(res15); // [1, 1]
+
+      // Retrieve the remaining TTL for those fields.
+      List<Long> res16 = jedis.httl("sensor:sensor1", "air_quality", "battery_level");
+      System.out.println(res16.size()); // 2
+      // STEP_END
+
+      // REMOVE_START
+      assertEquals("[1, 1]", res15.toString());
+      assertEquals(2, res16.size());
+      assert res16.stream().allMatch(ttl -> ttl > 0 && ttl <= 60);
+      // REMOVE_END
+
+      // STEP_START hpexpire
+      jedis.del("sensor:sensor1");
+      jedis.hset("sensor:sensor1", sensor1);
+
+      // Set the TTL of the 'air_quality' field in milliseconds.
+      List<Long> res17 = jedis.hpexpire("sensor:sensor1", 60000, "air_quality");
+      System.out.println(res17); // [1]
+
+      // Retrieve the remaining TTL in milliseconds.
+      List<Long> res18 = jedis.hpttl("sensor:sensor1", "air_quality");
+      System.out.println(res18.size()); // 1
+      // STEP_END
+
+      // REMOVE_START
+      assertEquals("[1]", res17.toString());
+      assert res18.stream().allMatch(pttl -> pttl > 0 && pttl <= 60000);
+      // REMOVE_END
+
+      // STEP_START hexpireat
+      jedis.del("sensor:sensor1");
+      jedis.hset("sensor:sensor1", sensor1);
+
+      // Set the expiration of 'air_quality' to a Unix time 24 hours from now.
+      long expireAt = System.currentTimeMillis() / 1000L + 24 * 60 * 60;
+      List<Long> res19 = jedis.hexpireAt("sensor:sensor1", expireAt, "air_quality");
+      System.out.println(res19); // [1]
+
+      // Retrieve the expiration time as a Unix timestamp in seconds.
+      List<Long> res20 = jedis.hexpireTime("sensor:sensor1", "air_quality");
+      System.out.println(res20.size()); // 1
+      // STEP_END
+
+      // REMOVE_START
+      assertEquals("[1]", res19.toString());
+      long nowSecs = System.currentTimeMillis() / 1000L;
+      assert res20.stream().allMatch(ts -> ts > nowSecs);
+      // REMOVE_END
     }
   }
 }

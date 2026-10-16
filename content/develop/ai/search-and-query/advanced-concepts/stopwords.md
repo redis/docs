@@ -1,6 +1,7 @@
 ---
 aliases:
 - /interact/search-and-query/advanced-concepts/stopwords
+- /develop/interact/search-and-query/advanced-concepts/stopwords/
 
 categories:
 - docs
@@ -36,7 +37,7 @@ The following words are treated as stop words by default:
 
 ## Overriding the default stop word list
 
-Stop words for an index can be defined (or disabled completely) on index creation using the `STOPWORDS` argument with the [[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) command.
+Stop words for an index can be defined (or disabled completely) on index creation using the `STOPWORDS` argument with the [[`FT.CREATE`](/content/commands/ft.create.md) command.
 
 The format is `STOPWORDS {number} {stopword} ...` where number is the number of stop words given. The `STOPWORDS` argument must come before the `SCHEMA` argument. For example:
 
@@ -46,7 +47,7 @@ FT.CREATE myIndex STOPWORDS 3 foo bar baz SCHEMA title TEXT body TEXT
 
 ## Disable the use of stop words
 
-Disabling stop words completely can be done by passing `STOPWORDS 0` to [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+Disabling stop words completely can be done by passing `STOPWORDS 0` to [`FT.CREATE`](/content/commands/ft.create.md).
 
 
 ## Avoiding stop word detection in search queries

@@ -1,6 +1,7 @@
 ---
 Title: redis-di delete-all-contexts
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-delete-all-contexts/
 alwaysopen: false
 categories:
   - docs

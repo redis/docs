@@ -27,13 +27,13 @@ summary: Returns a count of commands.
 syntax_fmt: COMMAND COUNT
 title: COMMAND COUNT
 ---
-Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of number of total commands in this Redis server.
+Returns [Integer reply](/content/develop/reference/protocol-spec.md#integers) of number of total commands in this Redis server.
 
 ## Examples
 
 {{% redis-cli %}}
 redis> COMMAND COUNT
-(integer) 436
+(integer) 447
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

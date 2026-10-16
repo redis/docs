@@ -29,7 +29,7 @@ Checks whether the current node has a valid connection to the cluster's primary 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_info]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_info](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 

@@ -84,8 +84,8 @@ title: XPENDING
 ---
 Fetching data from a stream via a consumer group, and not acknowledging
 such data, has the effect of creating *pending entries*. This is
-well explained in the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) command, and even better in our
-[introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}). The [`XACK`]({{< relref "/commands/xack" >}}) command
+well explained in the [`XREADGROUP`](/content/commands/xreadgroup.md) command, and even better in our
+[introduction to Redis Streams](/content/develop/data-types/streams/_index.md). The [`XACK`](/content/commands/xack.md) command
 will immediately remove the pending entry from the Pending Entries List (PEL)
 since once a message is successfully processed, there is no longer need
 for the consumer group to track it and to remember the current owner
@@ -95,12 +95,12 @@ The `XPENDING` command is the interface to inspect the list of pending
 messages, and is as thus a very important command in order to observe
 and understand what is happening with a streams consumer groups: what
 clients are active, what messages are pending to be consumed, or to see
-if there are idle messages. Moreover this command, together with [`XCLAIM`]({{< relref "/commands/xclaim" >}})
+if there are idle messages. Moreover this command, together with [`XCLAIM`](/content/commands/xclaim.md)
 is used in order to implement recovering of consumers that are failing
 for a long time, and as a result certain messages are not processed: a
 different consumer can claim the message and continue. This is better
-explained in the [streams intro]({{< relref "/develop/data-types/streams" >}}) and in the
-[`XCLAIM`]({{< relref "/commands/xclaim" >}}) command page, and is not covered here.
+explained in the [streams intro](/content/develop/data-types/streams/_index.md) and in the
+[`XCLAIM`](/content/commands/xclaim.md) command page, and is not covered here.
 
 ## Required arguments
 
@@ -158,7 +158,7 @@ When `XPENDING` is called with just a key name and a consumer group
 name, it just outputs a summary about the pending messages in a given
 consumer group. In the following example, we create a consumer group and
 immediately create a pending message by reading from the group with
-[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}).
+[`XREADGROUP`](/content/commands/xreadgroup.md).
 
 ```
 > XGROUP CREATE mystream group55 0-0
@@ -199,7 +199,7 @@ at least one pending message, and the number of pending messages it has.
 The summary provides a good overview, but sometimes we are interested in the
 details. In order to see all the pending messages with more associated
 information we need to also pass a range of IDs, in a similar way we do it with
-[`XRANGE`]({{< relref "/commands/xrange" >}}), and a non optional *count* argument, to limit the number
+[`XRANGE`](/content/commands/xrange.md), and a non optional *count* argument, to limit the number
 of messages returned per call:
 
 ```
@@ -215,14 +215,14 @@ is detailed information for each message in the pending entries list. For
 each message four attributes are returned:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be an empty string.
+2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`](/content/commands/xnack.md), this field will be an empty string.
 3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.
 4. The number of times this message was delivered.
 
 The deliveries counter, that is the fourth element in the array, is incremented
-when some other consumer *claims* the message with [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or when the
-message is delivered again via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), when accessing the history
-of a consumer in a consumer group (see the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) page for more info).
+when some other consumer *claims* the message with [`XCLAIM`](/content/commands/xclaim.md), or when the
+message is delivered again via [`XREADGROUP`](/content/commands/xreadgroup.md), when accessing the history
+of a consumer in a consumer group (see the [`XREADGROUP`](/content/commands/xreadgroup.md) page for more info).
 
 It is possible to pass an additional argument to the command, in order
 to see the messages having a specific owner:
@@ -242,7 +242,7 @@ a single consumer.
 ### Idle time filter
 
 It is also possible to filter pending stream entries by their idle-time,
-given in milliseconds (useful for [`XCLAIM`]({{< relref "/commands/xclaim" >}})ing entries that have not been
+given in milliseconds (useful for [`XCLAIM`](/content/commands/xclaim.md)ing entries that have not been
 processed for some time):
 
 ```
@@ -257,7 +257,7 @@ that are idle for over 9 seconds, whereas in the second case only those of
 ### Exclusive ranges and iterating the PEL
 
 The `XPENDING` command allows iterating over the pending entries just like
-[`XRANGE`]({{< relref "/commands/xrange" >}}) and [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) allow for the stream's entries. You can do this by
+[`XRANGE`](/content/commands/xrange.md) and [`XREVRANGE`](/content/commands/xrevrange.md) allow for the stream's entries. You can do this by
 prefixing the ID of the last-read pending entry with the `(` character that
 denotes an open (exclusive) range, and proving it to the subsequent call to the
 command.

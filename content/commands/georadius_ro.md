@@ -128,9 +128,9 @@ syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [W
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUS_RO
 ---
-Read-only variant of the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command.
+Read-only variant of the [`GEORADIUS`](/content/commands/georadius.md) command.
 
-This command is identical to the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
+This command is identical to the [`GEORADIUS`](/content/commands/georadius.md) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
 
 ## Required arguments
 

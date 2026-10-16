@@ -79,14 +79,14 @@ redis> TOPK.INCRBY topk foo 3 bar 2 42 30
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing either dropped elements or [nil (null bulk string)](/content/develop/reference/protocol-spec.md#bulk-strings).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing either dropped elements or [null](/content/develop/reference/protocol-spec.md#nulls).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).
 
 {{< /multitabs >}}

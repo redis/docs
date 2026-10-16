@@ -18,13 +18,13 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 - Apply the operator bundle and verify it's running.
 - Create a Redis Enterprise cluster (REC).
 
-This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/7.8.4/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/7.8.4/reference" >}}).
+This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift](/content/operate/kubernetes/7.8.4/deployment/openshift/_index.md). For details on what is currently supported, see [supported distributions](/content/operate/kubernetes/7.8.4/reference/_index.md).
 
 ## Prerequisites
 
 To deploy Redis Enterprise for Kubernetes, you'll need:
 
-- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/7.8.4/reference" >}})
+- Kubernetes cluster in a [supported distribution](/content/operate/kubernetes/7.8.4/reference/_index.md)
 - minimum of three worker nodes
 - Kubernetes client (kubectl)
 - access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
@@ -52,13 +52,12 @@ You can use an existing namespace as long as it does not contain any existing Re
 
 ## Install the operator
 
-Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes]({{< relref "/operate/kubernetes/release-notes/_index.md" >}}) for each version.
+Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes](/content/operate/kubernetes/release-notes/_index.md) for each version.
 
 The operator [definition and reference materials](https://github.com/RedisLabs/redis-enterprise-k8s-docs) are available on GitHub. The operator definitions are [packaged as a single generic YAML file](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/bundle.yaml).
 
-{{<note>}}
-If you do not pull images from DockerHub or another public registry, you need to use a [private container registry]({{< relref "/operate/kubernetes/7.8.4/deployment/container-images#manage-image-sources" >}}).
-{{</note>}}
+> [!NOTE]
+> If you do not pull images from DockerHub or another public registry, you need to use a [private container registry](/content/operate/kubernetes/7.8.4/deployment/container-images.md#manage-image-sources).
 
 ### Download the operator bundle
 
@@ -91,7 +90,8 @@ kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8
   deployment.apps/redis-enterprise-operator created
   ```
 
-{{<warning>}}DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).{{</warning>}}
+> [!WARNING]
+> DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).
 
 #### Verify the operator is running
 
@@ -113,13 +113,12 @@ redis-enterprise-operator   1/1     1            1           0m36s
 A Redis Enterprise cluster (REC) is created from a `RedisEnterpriseCluster` custom resource
 that contains cluster specifications.
 
-The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api">}}) for more information on the various options available.
+The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](/content/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api.md) for more information on the various options available.
 
 1. Create a file that defines a Redis Enterprise cluster with three nodes.
 
-    {{<note>}}
-The REC name (`my-rec` in this example) cannot be changed after cluster creation.
-    {{</note>}}
+    > [!NOTE]
+    > The REC name (`my-rec` in this example) cannot be changed after cluster creation.
 
     ```sh
     cat <<EOF > my-rec.yaml
@@ -146,11 +145,10 @@ The REC name (`my-rec` in this example) cannot be changed after cluster creation
         memory: 16Gi
     ```
 
-    {{<note>}}
-Each cluster must have at least 3 nodes. Single-node RECs are not supported.
-    {{</note>}}
+    > [!NOTE]
+    > Each cluster must have at least 3 nodes. Single-node RECs are not supported.
 
-    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more information on sizing Redis Enterprise node resource requests.
+    See the [Redis Enterprise hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) for more information on sizing Redis Enterprise node resource requests.
   
 1. Apply your custom resource file in the same namespace as `my-rec.yaml`.
 
@@ -258,4 +256,4 @@ The operator bundle includes a webhook file. The webhook will intercept requests
 
 You can create multiple databases within the same namespace as your REC or in other namespaces.
 
-See [manage Redis Enterprise databases for Kubernetes]({{< relref "/operate/kubernetes/7.8.4/re-databases/db-controller.md" >}}) to create a new REDB.
+See [manage Redis Enterprise databases for Kubernetes](/content/operate/kubernetes/7.8.4/re-databases/db-controller.md) to create a new REDB.

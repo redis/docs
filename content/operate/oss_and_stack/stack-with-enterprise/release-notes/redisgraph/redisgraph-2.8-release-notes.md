@@ -184,7 +184,7 @@ Details:
 - Features:
 
     - [#2403](https://github.com/RedisGraph/RedisGraph/pull/2403) Introduce `toFloat` function
-    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG]({{< relref "/commands/slowlog" >}})
+    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG](/content/commands/slowlog.md)
 
 - Bug fixes:
 
@@ -195,9 +195,8 @@ Details:
     - [#2407](https://github.com/RedisGraph/RedisGraph/issues/2407) Crash on double to string
     - [#2422](https://github.com/RedisGraph/RedisGraph/pull/2422) `toJSON` returned floating points cropped to 6 decimals
 
-{{<note>}}
-New RDB version (v12). RDB files created with v2.8.14 or later are not backward compatible.
-{{</note>}}
+> [!NOTE]
+> New RDB version (v12). RDB files created with v2.8.14 or later are not backward compatible.
 
 ## v2.8.13 (May 2022)
 
@@ -231,9 +230,8 @@ Details:
     - [#2298](https://github.com/RedisGraph/RedisGraph/issues/2298) Query returns wrong result: wrong value when fetching a string property from a map
     - [#2318](https://github.com/RedisGraph/RedisGraph/pull/2318) Memory leak
 
-{{<note>}}
-Duplicate column names in a query are no longer valid. For example, the query `GRAPH.QUERY g "MATCH (e) RETURN e, e"` is not valid. If you need to return the same column twice, you can rewrite the query as `GRAPH.QUERY g "MATCH (e) RETURN e, e as e2"`.
-{{</note>}}
+> [!NOTE]
+> Duplicate column names in a query are no longer valid. For example, the query `GRAPH.QUERY g "MATCH (e) RETURN e, e"` is not valid. If you need to return the same column twice, you can rewrite the query as `GRAPH.QUERY g "MATCH (e) RETURN e, e as e2"`.
 
 ## v2.8.11 (March 2022)
 
@@ -245,7 +243,7 @@ Details:
 
 - Bug fixes:
 
-    - [#2259](https://github.com/RedisGraph/RedisGraph/issues/2259), [#2258](https://github.com/RedisGraph/RedisGraph/pull/2258) Fix memory leak and potential crash on [RDB]({{< relref "/operate/oss_and_stack/management/persistence" >}}) saving
+    - [#2259](https://github.com/RedisGraph/RedisGraph/issues/2259), [#2258](https://github.com/RedisGraph/RedisGraph/pull/2258) Fix memory leak and potential crash on [RDB](/content/operate/oss_and_stack/management/persistence.md) saving
 
 ## v2.8.10 (March 2022)
 
@@ -257,7 +255,7 @@ Details:
 
 - Features:
 
-    - [#2245](https://github.com/RedisGraph/RedisGraph/pull/2245) Support graphs [eviction]({{< relref "/develop/reference/eviction" >}})
+    - [#2245](https://github.com/RedisGraph/RedisGraph/pull/2245) Support graphs [eviction](/content/develop/reference/eviction/index.md)
 
 - Bug fixes:
 
@@ -271,7 +269,7 @@ Details:
 
 - Improvements:
 
-    - [#2235](https://github.com/RedisGraph/RedisGraph/pull/2235) Improved [RDB]({{< relref "/operate/oss_and_stack/management/persistence" >}}) loading performance
+    - [#2235](https://github.com/RedisGraph/RedisGraph/pull/2235) Improved [RDB](/content/operate/oss_and_stack/management/persistence.md) loading performance
 
 ## v2.8.9 (March 2022)
 
@@ -311,11 +309,10 @@ RedisGraph 2.8 introduces multi-labeled nodes, indexes over relationship propert
 
 - Multi-labeled nodes
 
-    {{<note>}}
-The `labels` function's signature has changed. The function now returns a list of labels instead of a single label.
-<br /><br />
-If you are using this function and upgrading to RedisGraph 2.8, a simple fix is to replace any call to `labels(x)` with `labels(x)[0]`. This returns the first label associated with node `x`. For uni-labeled nodes, the result in RedisGraph 2.8 is similar to the results of `labels(x)` in RedisGraph 2.4.
-    {{</note>}}
+    > [!NOTE]
+    > The `labels` function's signature has changed. The function now returns a list of labels instead of a single label.
+    > <br /><br />
+    > If you are using this function and upgrading to RedisGraph 2.8, a simple fix is to replace any call to `labels(x)` with `labels(x)[0]`. This returns the first label associated with node `x`. For uni-labeled nodes, the result in RedisGraph 2.8 is similar to the results of `labels(x)` in RedisGraph 2.4.
   
 - Indexes over relationship properties
 - Enhanced full-text search

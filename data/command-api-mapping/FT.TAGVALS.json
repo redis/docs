@@ -152,6 +152,27 @@
           "description": "Distinct tag values"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_tagvals(index_name, field_name)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "field_name",
+            "type": "String",
+            "description": "the TAG field name"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the distinct tag values (normalized to lowercase unless the field is case-sensitive)"
+        }
+      }
     ]
   }
 }

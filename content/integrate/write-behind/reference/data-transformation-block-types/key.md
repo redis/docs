@@ -1,6 +1,8 @@
 ---
 Title: key
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/key/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/key/
 alwaysopen: false
 categories:
   - docs

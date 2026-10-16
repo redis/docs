@@ -30,7 +30,7 @@ in the Microsoft docs to learn how to configure Azure to use Entra ID authentica
 
 ## Install
 
-Install [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) first,
+Install [`Lettuce`](/content/develop/clients/lettuce/_index.md) first,
 if you have not already done so.
 
 If you are using Maven, add
@@ -166,14 +166,14 @@ enable automatic re-authentication.
 The connection uses
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
 which is recommended and enabled by default for managed identities. See
-[TLS connection]({{< relref "/develop/clients/lettuce/connect#tls-connection" >}}) for more information.
+[TLS connection](/content/develop/clients/lettuce/connect.md#tls-connection) for more information.
 
-{{< note >}} The `Lettuce` client library doesn't manage the lifecycle of
-the `TokenBasedRedisCredentialsProvider` instance for you. You can reuse the
-same instance for as many clients and connections as you want. When you have
-finished using the credentials provider, call its `close()` method, as shown
-at the end of the example.
-{{< /note >}}
+> [!NOTE]
+> The `Lettuce` client library doesn't manage the lifecycle of
+> the `TokenBasedRedisCredentialsProvider` instance for you. You can reuse the
+> same instance for as many clients and connections as you want. When you have
+> finished using the credentials provider, call its `close()` method, as shown
+> at the end of the example.
 
 ```java
 // Entra ID credentials provider for Service Principal Identity with Client Secret.

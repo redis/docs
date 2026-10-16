@@ -14,10 +14,24 @@ weight: 95
 ---
 ## Requirements
 
-RedisTimeSeries v1.10.24 requires:
+RedisTimeSeries v1.10.27 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v1.10.27 (Sep 2026)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security**
+  - Prevent heap buffer overflows and invalid memory access when restoring malformed time-series data.
+
+- Bug fixes:
+  - Fix `TS.INCRBY` replication to preserve the primary’s timestamp when using server-generated timestamps.
 
 ## v1.10.24 (May 2026)
 
@@ -141,8 +155,7 @@ Bug fixes (since 1.10-RC3):
 
 - [#1494](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1494) Potential crash when using an invalid argument value
 
-{{<note>}}
-- The version inside Redis will be 1.10.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-
-- Minimal Redis version: 7.2
-{{</note>}}
+> [!NOTE]
+> - The version inside Redis will be 1.10.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+>
+> - Minimal Redis version: 7.2

@@ -70,13 +70,13 @@ RDB and AOF files are compatible between 32-bit and 64-bit instances
 
 ## Bit and byte level operations
 
-Redis 2.2 introduced new bit and byte level operations: [`GETRANGE`](/commands/getrange), [`SETRANGE`](/commands/setrange), [`GETBIT`](/commands/getbit) and [`SETBIT`](/commands/setbit).
+Redis 2.2 introduced new bit and byte level operations: [`GETRANGE`](/content/commands/getrange.md), [`SETRANGE`](/content/commands/setrange.md), [`GETBIT`](/content/commands/getbit.md) and [`SETBIT`](/content/commands/setbit.md).
 Using these commands you can treat the Redis string type as a random access array.
 For instance, if you have an application where users are identified by a unique progressive integer number,
 you can use a bitmap to save information about the subscription of users in a mailing list,
 setting the bit for subscribed and clearing it for unsubscribed, or the other way around.
 With 100 million users this data will take just 12 megabytes of RAM in a Redis instance.
-You can do the same using [`GETRANGE`](/commands/getrange) and [`SETRANGE`](/commands/setrange) to store one byte of information for each user.
+You can do the same using [`GETRANGE`](/content/commands/getrange.md) and [`SETRANGE`](/content/commands/setrange.md) to store one byte of information for each user.
 This is just an example but it is possible to model several problems in very little space with these new primitives.
 
 ## Use hashes when possible
@@ -105,7 +105,7 @@ with a constant time complexity in the average case, like a hash table.
 But many times hashes contain just a few fields. When hashes are small we can
 instead just encode them in an O(N) data structure, like a linear
 array with length-prefixed key-value pairs. Since we do this only when N
-is small, the amortized time for [`HGET`](/commands/hget) and [`HSET`](/commands/hset) commands is still O(1): the
+is small, the amortized time for [`HGET`](/content/commands/hget.md) and [`HSET`](/content/commands/hset.md) commands is still O(1): the
 hash will be converted into a real hash table as soon as the number of elements
 it contains grows too large (you can configure the limit in redis.conf).
 
@@ -241,7 +241,7 @@ To store user keys, Redis allocates at most as much memory as the `maxmemory`
 setting enables (however there are small extra allocations possible).
 
 The exact value can be set in the configuration file or set later via
-[`CONFIG SET`](/commands/config-set) (for more info, see [Using memory as an LRU cache]({{< relref "/develop/reference/eviction" >}})).
+[`CONFIG SET`](/content/commands/config-set.md) (for more info, see [Using memory as an LRU cache](/content/develop/reference/eviction/index.md)).
 There are a few things that should be noted about how Redis manages memory:
 
 * Redis will not always free up (return) memory to the OS when keys are removed.

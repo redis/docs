@@ -2,6 +2,7 @@
 
 ```json metadata
 {
+  "schema_version": {{ site.Params.aiSchemaVersion | jsonify }},
   "title": {{ .Title | jsonify }},
   "description": {{ (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace | jsonify }},
   "categories": {{ .Params.categories | jsonify }}{{ if .Params.arguments }},
@@ -25,4 +26,9 @@
 {{- /* Process content with shared partial (shortcode expansion, HTML unescaping, etc.) */ -}}
 {{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site "Page" .) -}}
 
-{{ $content }}
+{{- /* The leading newlines are emitted explicitly rather than left as literal blank
+       lines in this template, because the trim markers above would swallow them: the
+       content would then start on the same line as the metadata block's closing fence.
+       A closing fence may be followed only by whitespace, so it would stop closing
+       anything and the rest of the page would be read as part of the code block. */ -}}
+{{ printf "\n\n%s" $content }}

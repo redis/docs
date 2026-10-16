@@ -18,7 +18,7 @@ weight: 3
 ---
 
 Redis supports two different
-[schema types]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}})
+[schema types](/content/develop/ai/search-and-query/indexing/field-and-type-options.md)
 for geospatial data:
 
 -   [`GEO`](#geo): This uses a simple format where individual geospatial
@@ -29,7 +29,7 @@ for geospatial data:
     coordinates or Cartesian coordinates.
 
 The sections below explain how to index these schema types. See the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
+[Geospatial](/content/develop/ai/search-and-query/advanced-concepts/geo.md)
 reference page for a full description of both types.
 
 ## `GEO`
@@ -56,7 +56,7 @@ OK
    2) "{\"description\":\"Navy Blue Slippers\",\"price\":45.99,\"city\":\"Denver\",\"location\":\"-104.991531, 39.742043\"}"
 {{< /clients-example >}}
 
-See [Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
+See [Geospatial queries](/content/develop/ai/search-and-query/query/geo-spatial.md)
 for more information about the available options.
 
 ## `GEOSHAPE`
@@ -90,5 +90,5 @@ OK
 
 You can also run queries to find whether shapes in the index completely contain
 or overlap each other. See
-[Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
+[Geospatial queries](/content/develop/ai/search-and-query/query/geo-spatial.md)
 for more information.

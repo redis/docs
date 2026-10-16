@@ -1,6 +1,7 @@
 ---
 Title: redis-di deploy
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-deploy/
 alwaysopen: false
 categories:
   - docs

@@ -1,6 +1,7 @@
 ---
 Title: redis-di list-contexts
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-list-contexts/
 alwaysopen: false
 categories:
   - docs

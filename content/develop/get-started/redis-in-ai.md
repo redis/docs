@@ -7,6 +7,8 @@ categories:
 description: Understand key benefits of using Redis for AI.
 linktitle: GenAI apps
 weight: 20
+aliases:
+- /develop/ai/genai-apps/
 ---
 
 Redis enables high-performance, scalable, and reliable data management, making it a key component for GenAI apps, chatbots, and AI agents. By leveraging Redis for fast data retrieval, caching, and vector search capabilities, you can enhance AI-powered interactions, reduce latency, and improve user experience.
@@ -21,7 +23,7 @@ Redis excels in storing and indexing vector embeddings that semantically represe
 - **Session Management**: in-memory data structures simplify managing session states in conversational AI scenarios.
 - **Flexibility**: Redis supports diverse data structures (for example, strings, hashes, lists, sets), allowing tailored solutions for GenAI apps.
 
-[RedisVL]({{< relref "/develop/ai/redisvl" >}}) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
+[RedisVL](/content/develop/ai/redisvl/_index.md) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
 
 ---
 
@@ -65,7 +67,7 @@ Redis is a powerful tool to elevate your GenAI applications, enabling them to de
 
 ## Resources
 
-Check out the [Redis for AI]({{< relref "/develop/ai" >}}) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
+Check out the [Redis for AI](/content/develop/ai/_index.md) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
 
 ## Continue learning with Redis University
 

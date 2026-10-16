@@ -42,32 +42,32 @@ By following the strategies outlined in this guide, you can:
 
 Planning your indexes strategically requires understanding your application’s query patterns and tailoring indexes to match.
 Begin by identifying the types of searches your application performs—such as full-text search, range queries, or geospatial lookups—and the fields involved.
-Categorize fields based on their purpose: searchable fields (e.g., [`TEXT`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#text-fields" >}}) for full-text searches), filterable fields (e.g., [`TAG`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#tag-fields" >}}) for exact match searches), and sortable fields (e.g., [`NUMERIC`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#numeric-fields" >}}) for range queries or sorting).
+Categorize fields based on their purpose: searchable fields (e.g., [`TEXT`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#text-fields) for full-text searches), filterable fields (e.g., [`TAG`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#tag-fields) for exact match searches), and sortable fields (e.g., [`NUMERIC`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#numeric-fields) for range queries or sorting).
 Match field types to their intended use and avoid indexing fields that are rarely queried to conserve resources. Here's the list of index types:
 
-- [`TEXT`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#text-fields" >}}): use `TEXT` for free-text searches and set weights if some fields are more important.
-- [`TAG`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#tag-fields" >}}): use `TAG` for categorical data (e.g., product categories) that benefit from exact matching and filtering.
-- [`NUMERIC`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#numeric-fields" >}}): use `NUMERIC` for numeric ranges (e.g., prices, timestamps).
-- [`GEO`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#geo-fields" >}}): use `GEO` for geospatial coordinates (e.g., latitude/longitude).
-- [`GEOSHAPE`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#geoshape-fields" >}}): use `GEOSHAPE` to represent locations as points, but also to define shapes and query the interactions between points and shapes (e.g., to find all points that are contained within an enclosing shape).
-- [`VECTOR`]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options#vector-fields" >}}): use `VECTOR` for high-dimensional similarity searches.
+- [`TEXT`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#text-fields): use `TEXT` for free-text searches and set weights if some fields are more important.
+- [`TAG`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#tag-fields): use `TAG` for categorical data (e.g., product categories) that benefit from exact matching and filtering.
+- [`NUMERIC`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#numeric-fields): use `NUMERIC` for numeric ranges (e.g., prices, timestamps).
+- [`GEO`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#geo-fields): use `GEO` for geospatial coordinates (e.g., latitude/longitude).
+- [`GEOSHAPE`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#geoshape-fields): use `GEOSHAPE` to represent locations as points, but also to define shapes and query the interactions between points and shapes (e.g., to find all points that are contained within an enclosing shape).
+- [`VECTOR`](/content/develop/ai/search-and-query/indexing/field-and-type-options.md#vector-fields): use `VECTOR` for high-dimensional similarity searches.
 
-See [these pages]({{< relref "/develop/ai/search-and-query/query" >}}) for discussions and examples on how best to use these index types.
+See [these pages](/content/develop/ai/search-and-query/query/_index.md) for discussions and examples on how best to use these index types.
 
 Next, simulate queries on a sample dataset to identify potential bottlenecks.
-Use tools like [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}) to analyze query execution and refine your schema if needed.
-For example, assign weights to `TEXT` fields for prioritizing results or use the `PREFIX` option of [`FT.CREATE`]({{< relref "commands/ft.create" >}}) to limit indexing to specific key patterns. Note that you can use multiple `PREFIX` clauses when you create an index (see [below](#index-creation))
+Use tools like [`FT.PROFILE`](/content/commands/ft.profile.md) to analyze query execution and refine your schema if needed.
+For example, assign weights to `TEXT` fields for prioritizing results or use the `PREFIX` option of [`FT.CREATE`](/content/commands/ft.create.md) to limit indexing to specific key patterns. Note that you can use multiple `PREFIX` clauses when you create an index (see [below](#index-creation))
 After creating the index, validate its performance with real queries and monitor usage with the available tools:
 
-- [`FT.EXPLAIN`]({{< relref "commands/ft.explain" >}}) and [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli" >}}) allow you to see how Redis Search parses a given search query. `FT.EXPLAIN` returns a structured breakdown of the query execution plan, while `FT.EXPLAINCLI` presents a more readable, tree-like format for easier interpretation. These commands are useful for diagnosing query structure and ensuring it aligns with the intended logic.
-- [`FT.INFO`]({{< relref "commands/ft.info" >}}) provides detailed statistics about an index, including the number of indexed documents, memory usage, and configuration settings. It helps in monitoring index growth, assessing memory consumption, and verifying index structure to detect potential inefficiencies.
-- [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}) runs a query while capturing execution details, which helps to reveal query performance bottlenecks. It provides insights into processing time, key accesses, and filter application, making it a crucial tool for fine-tuning complex queries and optimizing search efficiency.
+- [`FT.EXPLAIN`](/content/commands/ft.explain.md) and [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md) allow you to see how Redis Search parses a given search query. `FT.EXPLAIN` returns a structured breakdown of the query execution plan, while `FT.EXPLAINCLI` presents a more readable, tree-like format for easier interpretation. These commands are useful for diagnosing query structure and ensuring it aligns with the intended logic.
+- [`FT.INFO`](/content/commands/ft.info.md) provides detailed statistics about an index, including the number of indexed documents, memory usage, and configuration settings. It helps in monitoring index growth, assessing memory consumption, and verifying index structure to detect potential inefficiencies.
+- [`FT.PROFILE`](/content/commands/ft.profile.md) runs a query while capturing execution details, which helps to reveal query performance bottlenecks. It provides insights into processing time, key accesses, and filter application, making it a crucial tool for fine-tuning complex queries and optimizing search efficiency.
 
 Avoid over-indexing. Indexing every field increases memory usage and can slow down updates.
 Only index the fields that are essential for your planned queries.
 
 ## Index creation {#index-creation}
-   - Use the [`FT.CREATE`]({{< relref "commands/ft.create" >}}) command to define an index schema.
+   - Use the [`FT.CREATE`](/content/commands/ft.create.md) command to define an index schema.
    - Assign weights to `TEXT` fields to prioritize certain fields in full-text search results.
    - Use the `PREFIX` option to restrict indexing to keys with specific patterns.
       Using multiple PREFIX clauses when creating an index allows you to index multiple key patterns under a single index. This is useful in several scenarios:
@@ -105,9 +105,9 @@ Best practices for aliasing:
 
 Tools for managing aliases:
 
-- Assign an alias: [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd" >}}) `my_alias my_index`
-- Update an alias: [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate" >}}) `my_alias new_index`
-- Remove an alias: [`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel" >}}) `my_alias`
+- Assign an alias: [`FT.ALIASADD`](/content/commands/ft.aliasadd.md) `my_alias my_index`
+- Update an alias: [`FT.ALIASUPDATE`](/content/commands/ft.aliasupdate.md) `my_alias new_index`
+- Remove an alias: [`FT.ALIASDEL`](/content/commands/ft.aliasdel.md) `my_alias`
 
 Monitoring and troubleshooting aliases:
 
@@ -147,16 +147,16 @@ Monitoring and troubleshooting aliases:
 ## Monitoring index performance
 
 - Use the `FT.PROFILE` command to analyze query performance and identify bottlenecks.
-- Regularly monitor memory usage with the [`INFO`]({{< relref "commands/info" >}}) `memory` and `FT.INFO` commands to detect growth patterns and optimize resource allocation.
+- Regularly monitor memory usage with the [`INFO`](/content/commands/info.md) `memory` and `FT.INFO` commands to detect growth patterns and optimize resource allocation.
 
 ## Index maintenance
 
 - If schema changes are required, create a new index with the updated schema and reassign the alias once the index is ready.
-- Use [Redis key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) to automatically remove outdated records and keep indexes lean.
+- Use [Redis key expiration](/content/develop/using-commands/keyspace.md#key-expiration) to automatically remove outdated records and keep indexes lean.
 
 ### FT.ALTER vs. aliasing
 
-Use [`FT.ALTER`]({{< relref "commands/ft.alter" >}}) when you need to add new fields to an existing index without rebuilding it, minimizing downtime and resource usage. However, `FT.ALTER` cannot remove or modify existing fields, limiting its flexibility.
+Use [`FT.ALTER`](/content/commands/ft.alter.md) when you need to add new fields to an existing index without rebuilding it, minimizing downtime and resource usage. However, `FT.ALTER` cannot remove or modify existing fields, limiting its flexibility.
 
 Use index aliasing when making schema changes that require reindexing, such as modifying field types or removing fields. In this case, create a new index with the updated schema, populate it, and then use `FT.ALIASUPDATE` to seamlessly switch queries to the new index without disrupting application functionality.
 
@@ -172,7 +172,7 @@ Use index aliasing when making schema changes that require reindexing, such as m
 
 ## Cleaning up
 
-- Use the [`FT.DROPINDEX`]({{< relref "commands/ft.dropindex" >}}) command to remove unused indexes and free up memory. Be cautious with the `DD` (Delete Documents) flag to avoid unintended data deletion.
+- Use the [`FT.DROPINDEX`](/content/commands/ft.dropindex.md) command to remove unused indexes and free up memory. Be cautious with the `DD` (Delete Documents) flag to avoid unintended data deletion.
 - Make sure no keys remain that were previously associated with dropped indexes if the data is no longer relevant.
 
 ## Documentation and automation

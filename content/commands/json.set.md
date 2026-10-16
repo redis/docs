@@ -72,6 +72,8 @@ If the key does not exist, a new JSON document can be created only by setting th
 
 `JSON.SET` can also create new object members when the parent object exists.
 
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled, `JSON.SET` also creates missing parent objects, and can create a new key from a path other than the root. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
+
 [Examples](#examples)
 
 ## Required arguments
@@ -88,7 +90,7 @@ A JSONPath expression that resolves to zero or more locations within the JSON do
 - The root of the document is specified as `$` or `.`.
 - If `path` resolves to one or more existing locations, the value at each matched location is replaced with `value`.
 - If the final token of `path` is a non-existing object member and the parent location exists and is an object, the member is created and set to `value`.
-- If any intermediate path element does not exist, the path cannot be created, and the command returns nil.
+- If any intermediate path element does not exist, the path cannot be created, and the command returns nil. If `json-auto-create-deep-paths` is enabled, the command creates the missing objects instead.
 
 Optional arguments `NX` and `XX` modify this behavior for both new keys and existing JSON keys.
 </details>
@@ -188,6 +190,19 @@ redis> JSON.SET doc $.x.y 2
 </details>
 
 <details open>
+<summary><b>create missing parent objects (requires <code>json-auto-create-deep-paths</code>)</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '{"a":{}}'
+OK
+redis> JSON.SET doc $.a.b.c 5
+OK
+redis> JSON.GET doc $
+"[{\"a\":{\"b\":{\"c\":5}}}]"
+{{< / highlight >}}
+</details>
+
+<details open>
 <summary><b>XX condition unmet</b></summary>
 
 {{< highlight bash >}}
@@ -220,34 +235,36 @@ redis> JSON.SET nonexistentkey $.x 5
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Null reply](/content/develop/reference/protocol-spec.md#nulls): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) expected ...` - if the value is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) Error occurred on position ... expected ...` - if the path is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`). If `json-auto-create-deep-paths` is enabled, only if `path` also contains an array index or recursive descent (`..`).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR recursion limit exceeded` - if `json-auto-create-deep-paths` is enabled and creating `path` would exceed the nesting depth limit.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Null reply](/content/develop/reference/protocol-spec.md#nulls): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) expected ...` - if the value is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) Error occurred on position ... expected ...` - if the path is invalid.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`). If `json-auto-create-deep-paths` is enabled, only if `path` also contains an array index or recursive descent (`..`).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR recursion limit exceeded` - if `json-auto-create-deep-paths` is enabled and creating `path` would exceed the nesting depth limit.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): `(error) value out of range for ...` - if one or more values of a FP array are out of range for the given type.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) 
+[`JSON.GET`](/content/commands/json.get.md) | [`JSON.MGET`](/content/commands/json.mget.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

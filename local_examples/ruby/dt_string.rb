@@ -7,10 +7,10 @@ r = Redis.new
 
 # STEP_START set_get
 res1 = r.set('bike:1', 'Deimos')
-puts res1 # OK
+puts res1 # >>> OK
 
 res2 = r.get('bike:1')
-puts res2 # Deimos
+puts res2 # >>> Deimos
 # STEP_END
 
 # REMOVE_START
@@ -23,12 +23,12 @@ raise "Expected 'Deimos'" unless res2 == 'Deimos'
 r.set('bike:1', 'Deimos')
 
 res3 = r.set('bike:1', 'bike', nx: true)
-puts res3 # false
+puts res3 # >>> false
 
-puts r.get('bike:1') # Deimos
+puts r.get('bike:1') # >>> Deimos
 
 res4 = r.set('bike:1', 'bike', xx: true)
-puts res4 # true
+puts res4 # >>> true
 # STEP_END
 
 # REMOVE_START
@@ -39,10 +39,10 @@ raise "Expected 'bike'" unless r.get('bike:1') == 'bike'
 
 # STEP_START mset
 res5 = r.mset('bike:1', 'Deimos', 'bike:2', 'Ares', 'bike:3', 'Vanth')
-puts res5 # OK
+puts res5 # >>> OK
 
 res6 = r.mget('bike:1', 'bike:2', 'bike:3')
-puts res6.inspect # ["Deimos", "Ares", "Vanth"]
+puts res6.inspect # >>> ["Deimos", "Ares", "Vanth"]
 # STEP_END
 
 # REMOVE_START
@@ -54,10 +54,10 @@ raise 'Expected all bike names' unless res6 == ['Deimos', 'Ares', 'Vanth']
 r.set('total_crashes', 0)
 
 res7 = r.incr('total_crashes')
-puts res7 # 1
+puts res7 # >>> 1
 
 res8 = r.incrby('total_crashes', 10)
-puts res8 # 11
+puts res8 # >>> 11
 # STEP_END
 
 # REMOVE_START

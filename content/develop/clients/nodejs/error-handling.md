@@ -20,8 +20,8 @@ handling for brevity. This page shows how to apply error handling
 techniques in node-redis for real world code.
 For an overview of some common general error types and strategies for
 handling them, see
-[Error handling]({{< relref "/develop/clients/error-handling" >}}).
-See also [Production usage]({{< relref "/develop/clients/nodejs/produsage" >}})
+[Error handling](/content/develop/clients/error-handling.md).
+See also [Production usage](/content/develop/clients/nodejs/produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -39,7 +39,7 @@ node-redis throws errors as rejected promises. Common error types include:
 | `ReplyError` (`WRONGTYPE`) | Type mismatch | ❌ | Fix schema or code |
 | `ReplyError` (`BUSY`, `TRYAGAIN`, `LOADING`) | Redis busy/loading | ⚠️ | Retry with backoff (bounded) |
 
-See [Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
+See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 ## Async/await in examples
@@ -93,14 +93,14 @@ client.on('error', error => {
 
 ## Applying error handling patterns
 
-The [Error handling]({{< relref "/develop/clients/error-handling" >}})
+The [Error handling](/content/develop/clients/error-handling.md)
 overview describes four common error handling patterns. The sections
 below show how to implement these patterns in node-redis:
 
 ### Pattern 1: Fail fast
 
 Catch specific errors that represent unrecoverable errors and re-throw them (see
-[Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
+[Pattern 1: Fail fast](/content/develop/clients/error-handling.md#pattern-1-fail-fast)
 for a full description).
 
 ```javascript
@@ -117,7 +117,7 @@ try {
 ### Pattern 2: Graceful degradation
 
 Catch connection errors and fall back to an alternative (see
-[Pattern 2: Graceful degradation]({{< relref "/develop/clients/error-handling#pattern-2-graceful-degradation" >}})
+[Pattern 2: Graceful degradation](/content/develop/clients/error-handling.md#pattern-2-graceful-degradation)
 for a full description).
 
 ```javascript
@@ -137,7 +137,7 @@ return database.get(key);
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors like timeouts (see
-[Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
+[Pattern 3: Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff)
 for a full description).
 
 ```javascript
@@ -164,13 +164,13 @@ async function getWithRetry(key, { attempts = 3, baseDelayMs = 100 } = {}) {
 
 Note that you can also configure node-redis to reconnect to the
 server automatically when the connection is lost. See
-[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+[Reconnect after disconnection](/content/develop/clients/nodejs/connect.md#reconnect-after-disconnection)
 for more information.
 
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
-[Pattern 4: Log and continue]({{< relref "/develop/clients/error-handling#pattern-4-log-and-continue" >}})
+[Pattern 4: Log and continue](/content/develop/clients/error-handling.md#pattern-4-log-and-continue)
 for a full description).
 
 ```javascript
@@ -187,5 +187,5 @@ try {
 
 ## See also
 
-- [Error handling]({{< relref "/develop/clients/error-handling" >}})
-- [Production usage]({{< relref "/develop/clients/nodejs/produsage" >}})
+- [Error handling](/content/develop/clients/error-handling.md)
+- [Production usage](/content/develop/clients/nodejs/produsage.md)

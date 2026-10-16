@@ -77,7 +77,7 @@ title: XDELEX
 
 Deletes one or multiple entries from the stream at the specified `key`.
 
-`XDELEX` is an extension of the Redis Streams [`XDEL`]({{< relref "/commands/xdel" >}}) command that provides more control over how message entries are deleted concerning consumer groups.
+`XDELEX` is an extension of the Redis Streams [`XDEL`](/content/commands/xdel.md) command that provides more control over how message entries are deleted concerning consumer groups.
 
 ## Required arguments
 
@@ -104,7 +104,7 @@ Note: The IDS block can be at any position in the command, same as other command
 
 Specifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:
 
-- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]({{< relref "/commands/xdel" >}}).
+- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`](/content/commands/xdel.md).
 - `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.
 - `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.
 </details>
@@ -159,7 +159,7 @@ redis> XRANGE mystream - +
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.
@@ -169,7 +169,7 @@ One of the following:
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
 * [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:
     * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.
     * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.

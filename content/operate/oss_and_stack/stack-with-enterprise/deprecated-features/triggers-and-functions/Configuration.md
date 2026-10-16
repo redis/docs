@@ -24,11 +24,11 @@ The following sections describe the configuration options and how to set them.
 ## Bootstrap configuration
 
 You can set your configuration options when the module is loaded.
-When the module is loaded at start time, the module configuration can be defined in the Redis configuration file. When loading the module at runtime the configuration can be given to the [`MODULE LOADEX`]({{< relref "/commands/module-loadex" >}}) command. Each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
+When the module is loaded at start time, the module configuration can be defined in the Redis configuration file. When loading the module at runtime the configuration can be given to the [`MODULE LOADEX`](/content/commands/module-loadex.md) command. Each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
 
 ## Runtime configuration
 
-You may set certain configuration options at runtime. Setting a configuration at runtime is done using [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command. Here each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
+You may set certain configuration options at runtime. Setting a configuration at runtime is done using [`CONFIG SET`](/content/commands/config-set.md) command. Here each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
 
 Example:
 

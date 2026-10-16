@@ -177,6 +177,27 @@
           "description": "The next batch of aggregation results"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_cursor_read(index_name, cursor_id)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor_id",
+            "type": "Integer",
+            "description": "the cursor id returned by a previous WITHCURSOR aggregation"
+          }
+        ],
+        "returns": {
+          "type": "Search::AggregateResult",
+          "description": "the next rows, with #cursor set to the next cursor id (0 when exhausted)"
+        }
+      }
     ]
   }
 }

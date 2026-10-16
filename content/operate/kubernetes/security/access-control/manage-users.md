@@ -12,13 +12,13 @@ weight: 10
 
 A `RedisEnterpriseUser` resource defines a Redis Software user. The operator creates the user in Redis Software and keeps it in sync with the resource. Passwords live in Kubernetes Secrets that the resource references by name.
 
-This page covers creating users, changing passwords, and recovering locked accounts. To grant a user permissions, see [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}).
+This page covers creating users, changing passwords, and recovering locked accounts. To grant a user permissions, see [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md).
 
 ## Before you start
 
 - Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - The `RedisEnterpriseUser` resource and every referenced password Secret must live in the operator namespace.
-- Passwords must satisfy the cluster's [password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}).
+- Passwords must satisfy the cluster's [password complexity rules](/content/operate/rs/security/access-control/manage-passwords/password-complexity-rules.md).
 
 ## Create a user
 
@@ -62,9 +62,9 @@ The new user has no permissions until you create a role binding. The operator as
 | `spec.username` | No | Defaults to a generated value. ASCII only, excluding `&`, `<`, `>`, `"`. The effective value appears in `status.username`. |
 | `spec.passwordSecrets` | Yes | At least one Secret. Each Secret must have a `password` key. |
 | `spec.passwordMode` | No | `Single` (default) or `Rotatable`. See [Choose a password mode](#choose-a-password-mode). |
-| `spec.alerts` | No | Email alert settings. Effective only when [cluster alerts]({{< relref "/operate/rs/clusters/configure/cluster-settings#alert-settings" >}}) are configured. |
+| `spec.alerts` | No | Email alert settings. Effective only when [cluster alerts](/content/operate/rs/clusters/configure/cluster-settings.md#alert-settings) are configured. |
 
-For the full schema, see [`RedisEnterpriseUser`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_user_api" >}}).
+For the full schema, see [`RedisEnterpriseUser`](/content/operate/kubernetes/reference/api/redis_enterprise_user_api.md).
 
 ### Use a generated username
 
@@ -152,13 +152,13 @@ The `status` block reports observed state from Redis Software:
 `status.signinStatus: Locked` means the user failed too many sign-in attempts. The operator skips password changes while the user is locked, so you must update the resource before unlocking — otherwise the operator can later reconcile the old desired password back onto the user.
 
 1. Update the password in the `RedisEnterpriseUser` source of truth: change the referenced Secret value (Single mode) or add a new Secret reference (Rotatable mode).
-2. Follow the [Redis Software unlock procedure]({{< relref "/operate/rs/security/access-control/manage-users/login-lockout#unlock-locked-user-accounts" >}}) to reset and unlock the account in the cluster.
+2. Follow the [Redis Software unlock procedure](/content/operate/rs/security/access-control/manage-users/login-lockout.md#unlock-locked-user-accounts) to reset and unlock the account in the cluster.
 
 `status.signinStatus: PasswordExpired` clears once you set a new password through the resource.
 
 ## Delete a user
 
-Delete every binding that references the user before deleting the user itself. Use the recipes in [Find bindings that reference a role or user]({{< relref "/operate/kubernetes/security/access-control/manage-bindings#find-bindings-that-reference-a-role-or-user" >}}) to list them, delete each by name, then delete the user:
+Delete every binding that references the user before deleting the user itself. Use the recipes in [Find bindings that reference a role or user](/content/operate/kubernetes/security/access-control/manage-bindings.md#find-bindings-that-reference-a-role-or-user) to list them, delete each by name, then delete the user:
 
 ```sh
 kubectl delete redisenterpriserolebinding alice-orders-viewer
@@ -192,7 +192,7 @@ Other things to check:
 
 ## Related topics
 
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign roles to this user.
-- [Default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}) — the built-in cluster admin account, managed outside the CRD model.
-- [Password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}) and [password expiration]({{< relref "/operate/rs/security/access-control/manage-passwords/password-expiration" >}}).
-- [`RedisEnterpriseUser` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_user_api" >}}).
+- [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md) — assign roles to this user.
+- [Default user](/content/operate/rs/security/access-control/manage-users/default-user.md) — the built-in cluster admin account, managed outside the CRD model.
+- [Password complexity rules](/content/operate/rs/security/access-control/manage-passwords/password-complexity-rules.md) and [password expiration](/content/operate/rs/security/access-control/manage-passwords/password-expiration.md).
+- [`RedisEnterpriseUser` API reference](/content/operate/kubernetes/reference/api/redis_enterprise_user_api.md).

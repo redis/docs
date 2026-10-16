@@ -42,26 +42,26 @@ By default, RDI records the following logs in the host VM file system at
 | :-- | :-- |
 | `rdi_collector-collector-initializer.log` | Initializing the collector. |
 | `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/architecture" >}}) operations. |
-| `rdi_rdi-rdi-operator.log` | Main [RDI control plane]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}) component. |
+| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md) operations. |
+| `rdi_rdi-rdi-operator.log` | Main [RDI control plane](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed) component. |
 | `rdi_processor-processor.log` | RDI stream processing. |
 
 Logs are recorded at the minimum `INFO` level in a simple format that
 log analysis tools can use.
 
-{{< note >}}Often during the initial sync phase, the collector source log will contain a message
-saying RDI is out of
-memory. This is not an error but an informative message to say that RDI
-is applying *backpressure* to the collector. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
-in the Architecture guide for more information.
-{{< /note >}}
+> [!NOTE]
+> Often during the initial sync phase, the collector source log will contain a message
+> saying RDI is out of
+> memory. This is not an error but an informative message to say that RDI
+> is applying *backpressure* to the collector. See
+> [Backpressure mechanism](/content/integrate/redis-data-integration/architecture/_index.md#backpressure-mechanism)
+> in the Architecture guide for more information.
 
 ## Dump support package
 
 If you need to send a comprehensive set of forensics data to Redis support,
 run the
-[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package" >}})
+[`redis-di dump-support-package`](/content/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package.md)
 command from the CLI.
 
 This command gathers the following data:

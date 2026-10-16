@@ -38,10 +38,10 @@ summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER SLAVES node-id
 title: CLUSTER SLAVES
 ---
-**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}). The command `CLUSTER SLAVES` will continue to work for backward compatibility.
+**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`CLUSTER REPLICAS`](/content/commands/cluster-replicas.md). The command `CLUSTER SLAVES` will continue to work for backward compatibility.
 
 The command provides a list of replica nodes replicating from the specified
-master node. The list is provided in the same format used by [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) (please refer to its documentation for the specification of the format).
+master node. The list is provided in the same format used by [`CLUSTER NODES`](/content/commands/cluster-nodes.md) (please refer to its documentation for the specification of the format).
 
 The command will fail if the specified node is not known or if it is not
 a master according to the node table of the node receiving the command.

@@ -165,6 +165,7 @@ content/               # Markdown source files
 
 ## See Also
 
+- [DOC_DOWNLOADS.md](./DOC_DOWNLOADS.md) - Packaging the docs for the download widget
 - [DEVELOPER_TASKS.md](./DEVELOPER_TASKS.md) - Task decision tree
 - [for-ais-only/render_hook_docs/](./render_hook_docs/) - Render hook documentation
 - [for-ais-only/metadata_docs/](./metadata_docs/) - Metadata documentation

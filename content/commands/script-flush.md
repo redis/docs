@@ -51,7 +51,7 @@ Flush the Lua scripts cache.
 By default, `SCRIPT FLUSH` will synchronously flush the cache.
 Starting with Redis 6.2, setting the `lazyfree-lazy-user-flush` configuration directive to `yes` changes the default flush mode to asynchronous.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts please see [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Optional arguments
 

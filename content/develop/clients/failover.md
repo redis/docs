@@ -18,6 +18,7 @@ topics:
 - resilience
 - health checks
 relatedPages:
+- /develop/clients/dotnet/failover
 - /develop/clients/jedis/failover
 - /develop/clients/redis-py/failover
 scope: overview
@@ -37,13 +38,14 @@ along with their release state and available features.
 
 | Client | Basic failover | Pub/sub failover | OSS Cluster failover | Failback |
 | :-- | :-- | :-- | :-- | :-- |
-| [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No | No | Yes |
-| [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | Yes | Yes | Yes |
-| [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes | No | Yes |
+| [Jedis](/content/develop/clients/jedis/failover.md) | Yes | No | No | Yes |
+| [redis-py](/content/develop/clients/redis-py/failover.md) | Yes  (Preview) | Yes | Yes | Yes |
+| [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes (Preview) | Yes | No | Yes |
+| [StackExchange.Redis](/content/develop/clients/dotnet/failover.md) | Yes | Yes | Yes | Yes |
 
 ## Concepts
 
-You may have several [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}})
+You may have several [Active-Active databases](/content/operate/rs/databases/active-active/_index.md)
 or independent Redis servers that are all suitable to serve your app.
 Typically, you would prefer to use some database endpoints over others for a particular
 instance of your app (perhaps the ones that are closest geographically to the app server
@@ -55,14 +57,15 @@ than to let the app fail completely.
 unacceptably slow connections and automatically switching to the best available endpoint 
 when they occur. This requires you to specify a list of endpoints to try, ordered by priority. The diagram below shows this process:
 
-{{< image filename="images/failover/failover-client-reconnect.svg" alt="Failover and client reconnection" >}}
+![Failover and client reconnection](/images/failover/failover-client-reconnect.svg)
 
 The complementary technique of *failback* then involves periodically checking the health
 of all endpoints that have failed. If any endpoints recover, the failback mechanism
 automatically switches the connection to the one with the highest priority. 
 This could potentially be repeated until the optimal endpoint is available again.
 
-{{< image filename="images/failover/failover-client-failback.svg" alt="Failback: client switches back to original server" width="75%" >}}
+![Failback: client switches back to original server](/images/failover/failover-client-failback.svg)
+{width="75%"}
 
 ### Detecting connection problems
 
@@ -79,7 +82,7 @@ The status of the attempted command calls is kept in a "sliding window", which
 is simply a buffer where the least recent item is dropped as each new
 one is added. The buffer can be configured to have a fixed number of failures and/or a failure ratio (specified as a percentage), both based on a time window.
 
-{{< image filename="images/failover/failover-sliding-window.svg" alt="Sliding window of recent connection attempts" >}}
+![Sliding window of recent connection attempts](/images/failover/failover-sliding-window.svg)
 
 When the number of failures in the window exceeds a configured
 threshold, the circuit breaker declares the server to be unhealthy and triggers
@@ -104,10 +107,10 @@ Clients periodically run a "health check" on each server to see if it has recove
 Several health check strategies are implemented in all clients:
 
 -   **Ping**: This is the default strategy, which just sends a
-    [`PING`]({{< relref "/commands/ping" >}}) command and ensures that it gives the
+    [`PING`](/content/commands/ping.md) command and ensures that it gives the
     expected response.
 -   **Lag aware** (Redis Software only): This strategy uses the
-    [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to check the
+    [REST API](/content/operate/rs/references/rest-api/_index.md) to check the
     synchronization lag between a specific database and the others in the Active-Active
     setup. If the lag is within a specified tolerance, the server is considered healthy.
 -   **Custom**: You can implement your own health check strategy to use information

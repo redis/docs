@@ -18,7 +18,7 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 
 For this quick start, you need:
 
-- A Redis Software cluster with the [RedisGears module and JVM plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/install" >}})
+- A Redis Software cluster with the [RedisGears module and JVM plugin installed](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears.md#install-redisgears) and [enabled on a database](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/install.md)
 - `redis-cli` with connectivity to a Redis database
 
 ## Tutorial
@@ -70,11 +70,10 @@ Use the `RG.JEXECUTE` command to run your code:
 $ redis-cli -x -h {host} -p {port} RG.JEXECUTE {package.MainClass} < {filepath}/{JAR name}.jar
 ```
 
-{{<note>}}
-When you use [`GearsBuilder.run()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run" >}}), `RG.JEXECUTE` runs your code immediately.
-<br></br>
-However, if you use [`GearsBuilder.register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}), `RG.JEXECUTE` only outputs an `OK` message if it registers successfully. Your registered code will run whenever certain database events occur.
-{{</note>}}
+> [!NOTE]
+> When you use [`GearsBuilder.run()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run.md), `RG.JEXECUTE` runs your code immediately.
+> <br></br>
+> However, if you use [`GearsBuilder.register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md), `RG.JEXECUTE` only outputs an `OK` message if it registers successfully. Your registered code will run whenever certain database events occur.
 
 ## Example code
 
@@ -82,7 +81,7 @@ You can use these code examples with your own Maven project to try out batch pro
 
 ### Batch processing
 
-If you use the [`GearsBuilder.run()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run" >}}) function within your code, then the functions you add to the pipeline will run exactly once when you use `RG.JEXECUTE` with your JAR file.
+If you use the [`GearsBuilder.run()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run.md) function within your code, then the functions you add to the pipeline will run exactly once when you use `RG.JEXECUTE` with your JAR file.
 
 The following example calculates the average rating of all restaurant reviews stored in your database.
 
@@ -169,7 +168,7 @@ $ redis-cli -x -h {host} -p {port} \
 
 ### Event processing
 
-If you use the [`GearsBuilder.register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}) function in your code, then the functions you add to the pipeline will run every time a certain database event occurs.
+If you use the [`GearsBuilder.register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md) function in your code, then the functions you add to the pipeline will run every time a certain database event occurs.
 
 The following example registers a pipeline of functions to automatically update the maximum age every time you add a new person hash to your database.
 

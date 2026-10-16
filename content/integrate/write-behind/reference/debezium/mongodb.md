@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for mongodb
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/mongodb/
+- /integrate/redis-data-integration/write-behind/reference/debezium/mongodb/
 alwaysopen: false
 categories:
   - docs

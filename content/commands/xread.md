@@ -10,6 +10,18 @@ arguments:
   optional: true
   token: COUNT
   type: integer
+- display_text: maxcount
+  name: maxcount
+  optional: true
+  since: 8.10.0
+  token: MAXCOUNT
+  type: integer
+- display_text: maxsize
+  name: maxsize
+  optional: true
+  since: 8.10.0
+  token: MAXSIZE
+  type: integer
 - display_text: milliseconds
   name: milliseconds
   optional: true
@@ -44,13 +56,17 @@ command_flags:
 - blocking
 - movablekeys
 complexity: 'For each stream mentioned: O(M) with M being the number of elements returned.
-  If M is constant (for example, always asking for the first 10 elements with COUNT), you
-  can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the
-  O(N) time in order to serve the N clients blocked on the stream getting new data.'
+  If M is constant (for example, always asking for the first 10 elements with COUNT),
+  you can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay
+  the O(N) time in order to serve the N clients blocked on the stream getting new
+  data.'
 description: Returns messages from multiple streams with IDs greater than the ones
   requested. Blocks until a message is available otherwise.
 group: stream
 hidden: false
+history:
+- - 8.10.0
+  - Added the `MAXCOUNT` and `MAXSIZE` options.
 key_specs:
 - RO: true
   access: true
@@ -70,21 +86,20 @@ railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
-  \  [id ...]"
+syntax_fmt: "XREAD [COUNT\_count] [MAXCOUNT\_maxcount] [MAXSIZE\_maxsize]\n  [BLOCK\_\
+  milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Read data from one or more streams, returning only entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar
-fashion to [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) and others.
+fashion to [`BRPOP`](/content/commands/brpop.md) or [`BZPOPMIN`](/content/commands/bzpopmin.md) and others.
 
-If you are new to streams, see [Introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
+If you are new to streams, see [Introduction to Redis Streams](/content/develop/data-types/streams/_index.md).
 
 ## Required arguments
 
@@ -102,6 +117,18 @@ The maximum number of entries to return per stream.
 
 </details>
 
+<details open><summary><code>MAXCOUNT maxcount</code></summary>
+
+Added in Redis 8.10. The maximum number of entries to return in total across all streams named in the command. Unlike `COUNT`, which limits entries on a per-stream basis, `MAXCOUNT` applies a single cumulative budget for the whole command. It must be a positive integer, and it must be greater than or equal to `COUNT` when both are given. When `COUNT` is omitted, `MAXCOUNT` alone bounds the total. See [The MAXCOUNT and MAXSIZE options](#the-maxcount-and-maxsize-options) for details.
+
+</details>
+
+<details open><summary><code>MAXSIZE maxsize</code></summary>
+
+Added in Redis 8.10. The maximum size, in bytes, of the reply across all streams named in the command. It must be a positive integer. At least one entry is always returned, so a single entry larger than `MAXSIZE` is still returned rather than yielding an empty reply. See [The MAXCOUNT and MAXSIZE options](#the-maxcount-and-maxsize-options) for details.
+
+</details>
+
 <details open><summary><code>BLOCK milliseconds</code></summary>
 
 Block for up to this many milliseconds if no entries are available. `0` blocks indefinitely.
@@ -113,15 +140,15 @@ Block for up to this many milliseconds if no entries are available. `0` blocks i
 ### Non-blocking usage
 
 If the **BLOCK** option is not used, the command is synchronous, and can
-be considered somewhat related to [`XRANGE`]({{< relref "/commands/xrange" >}}): it will return a range of items
-inside streams, however it has two fundamental differences compared to [`XRANGE`]({{< relref "/commands/xrange" >}})
+be considered somewhat related to [`XRANGE`](/content/commands/xrange.md): it will return a range of items
+inside streams, however it has two fundamental differences compared to [`XRANGE`](/content/commands/xrange.md)
 even if we just consider the synchronous usage:
 
 * This command can be called with multiple streams if we want to read at
   the same time from a number of keys. This is a key feature of `XREAD` because
   especially when blocking with **BLOCK**, to be able to listen with a single
   connection to multiple keys is a vital feature.
-* While [`XRANGE`]({{< relref "/commands/xrange" >}}) returns items in a range of IDs, `XREAD` is more suited in
+* While [`XRANGE`](/content/commands/xrange.md) returns items in a range of IDs, `XREAD` is more suited in
   order to consume the stream starting from the first entry which is greater
   than any other entry we saw so far. So what we pass to `XREAD` is, for each
   stream, the ID of the last element that we received from that stream.
@@ -130,7 +157,7 @@ For example, if I have two streams `mystream` and `writers`, and I want to
 read data from both the streams starting from the first element they contain,
 I could call `XREAD` like in the following example.
 
-Note: we use the **COUNT** option in the example, so that for each stream
+Note: we use the `COUNT` option in the example, so that for each stream
 the call will return at maximum two elements per stream.
 
 ```
@@ -208,7 +235,7 @@ also supports a blocking mode).
 
 ### Incomplete IDs
 
-To use incomplete IDs is valid, like it is valid for [`XRANGE`]({{< relref "/commands/xrange" >}}). However
+To use incomplete IDs is valid, like it is valid for [`XRANGE`](/content/commands/xrange.md). However
 here the sequence part of the ID, if missing, is always interpreted as
 zero, so the command:
 
@@ -226,7 +253,7 @@ is exactly equivalent to
 
 In its synchronous form, the command can get new data as long as there
 are more items available. However, at some point, we'll have to wait for
-producers of data to use [`XADD`]({{< relref "/commands/xadd" >}}) to push new entries inside the streams
+producers of data to use [`XADD`](/content/commands/xadd.md) to push new entries inside the streams
 we are consuming. In order to avoid polling at a fixed or adaptive interval
 the command is able to block if it could not return any data, according
 to the specified streams and IDs, and automatically unblock once one of
@@ -260,7 +287,7 @@ a null reply because the timeout has elapsed without new data arriving:
 ### The special `$` ID.
 
 When blocking sometimes we want to receive just entries that are added
-to the stream via [`XADD`]({{< relref "/commands/xadd" >}}) starting from the moment we block. In such a case
+to the stream via [`XADD`](/content/commands/xadd.md) starting from the moment we block. In such a case
 we are not interested in the history of already added entries. For
 this use case, we would have to check the stream top element ID, and use
 such ID in the `XREAD` command line. This is not clean and requires to
@@ -302,8 +329,58 @@ This requests the last available entry in a stream. For example:
 > XREAD STREAMS streamA streamB streamC streamD + + + +
 ```
 
-Note that when using this special ID for a stream, the **COUNT** option will
+Note that when using this special ID for a stream, the `COUNT` option will
 be ignored (for the specific stream) since only the last entry can be returned.
+
+### The MAXCOUNT and MAXSIZE options
+
+Added in Redis 8.10, the `MAXCOUNT` and `MAXSIZE` options cap the *cumulative*
+reply across all streams named in a single command. This is different from
+`COUNT`, which limits the number of entries returned on a *per-stream* basis.
+Because `XREAD` accepts multiple streams in one call, a read over N streams with
+`COUNT C` can return up to `N * C` entries, and the total reply size is otherwise
+unbounded. `MAXCOUNT` and `MAXSIZE` give clients a reliable way to bound the
+work and memory of a single multi-stream read.
+
+* `MAXCOUNT` caps the total number of entries returned across all streams. It
+  must be a positive integer, and it must be greater than or equal to `COUNT`
+  when both are given (since it is a cumulative cap over a per-stream limit).
+  When `COUNT` is omitted, `MAXCOUNT` alone bounds the total, filling from
+  the first stream onward.
+* `MAXSIZE` caps the total reply size in bytes. It must be a positive integer.
+* At least one entry is always returned. The byte budget is never enforced
+  until at least one entry has been emitted across the whole reply, so a single
+  entry larger than `MAXSIZE` is still returned rather than yielding an empty
+  reply.
+* When both options are given, whichever bound is reached first wins.
+
+Given three streams, each with 100 entries:
+
+```
+> XREAD COUNT 50 STREAMS s1 s2 s3 0 0 0
+# returns 150 entries total (50 per stream)
+
+> XREAD COUNT 50 MAXCOUNT 80 STREAMS s1 s2 s3 0 0 0
+# returns 80 entries total — capped across all streams
+
+> XREAD MAXCOUNT 7 STREAMS s1 s2 s3 0 0 0
+# returns 7 entries total, all from s1
+
+> XREAD MAXCOUNT 5 MAXSIZE 100000 STREAMS s1 s2 s3 0 0 0
+# returns 5 entries (MAXCOUNT is the tighter bound)
+```
+
+A single oversized entry is always returned, even when it exceeds `MAXSIZE`:
+
+```
+> XADD bigstream 1-1 f <5000-byte value>
+> XREAD MAXSIZE 50 STREAMS bigstream 0
+1) 1) "bigstream"
+   2) 1) 1) "1-1"
+         2) 1) "f"
+            2) "<5000-byte value>"
+# the single entry exceeds MAXSIZE but is still returned
+```
 
 ### How multiple clients blocked on a single stream are served
 
@@ -316,10 +393,10 @@ use cases.
 
 However note that with streams this is not a problem: stream entries
 are not removed from the stream when clients are served, so every
-client waiting will be served as soon as an [`XADD`]({{< relref "/commands/xadd" >}}) command provides
+client waiting will be served as soon as an [`XADD`](/content/commands/xadd.md) command provides
 data to the stream.
 
-Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
+Reading the [Redis Streams introduction](/content/develop/data-types/streams/_index.md) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.
 

@@ -41,9 +41,8 @@ summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
 title: JSON.MSET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets
@@ -52,9 +51,8 @@ Set or update one or more JSON values according to the specified `key`-`path`-`v
 
 A JSON value is a hierarchical structure. If you change a value in a specific path - nested values are affected.
 
-{{% warning %}}
-When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
-{{% /warning %}}
+> [!WARNING]
+> When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
 
 [Examples](#examples)
 
@@ -68,6 +66,8 @@ is key to modify.
 <details open><summary><code>path</code></summary>
 
 is JSONPath to specify. For new Redis keys the `path` must be the root. For existing keys, when the entire `path` exists, the value that it contains is replaced with the `json` value. For existing keys, when the `path` exists, except for the last element, a new child is added with the `json` value.
+
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled, `JSON.MSET` also creates missing parent objects in `path`, for both new and existing keys. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
 
 </details>
 
@@ -95,6 +95,17 @@ redis> JSON.GET doc3
 {{< / highlight >}}
 </details>
 
+<details open>
+<summary><b>Create a new key from nested paths (requires <code>json-auto-create-deep-paths</code>)</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.MSET doc4 $.a.b.c 5 doc4 $.d.e.f 6
+OK
+redis> JSON.GET doc4 $
+"[{\"a\":{\"b\":{\"c\":5}},\"d\":{\"e\":{\"f\":6}}}]"
+{{< / highlight >}}
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -108,22 +119,22 @@ redis> JSON.GET doc3
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) | [`JSON.GET`]({{< relref "commands/json.get/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.MGET`](/content/commands/json.mget.md) | [`JSON.GET`](/content/commands/json.get.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

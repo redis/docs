@@ -1,6 +1,8 @@
 ---
 Title: filter
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/filter/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/filter/
 alwaysopen: false
 categories:
   - docs

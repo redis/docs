@@ -46,7 +46,7 @@ summary: Returns the expiration time of a key as a Unix milliseconds timestamp.
 syntax_fmt: PEXPIRETIME key
 title: PEXPIRETIME
 ---
-`PEXPIRETIME` has the same semantic as [`EXPIRETIME`]({{< relref "/commands/expiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
+`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](/content/commands/expiretime.md), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
 
 ## Required arguments
 

@@ -38,7 +38,7 @@ summary: Returns information about one, multiple or all commands.
 syntax_fmt: COMMAND INFO [command-name [command-name ...]]
 title: COMMAND INFO
 ---
-Returns details about multiple Redis commands using the same format as [`COMMAND`]({{< relref "/commands/command" >}}), except you can specify which commands are inspected.
+Returns details about multiple Redis commands using the same format as [`COMMAND`](/content/commands/command.md), except you can specify which commands are inspected.
 
 If you request details about non-existing commands, nil is returned.
 
@@ -127,6 +127,7 @@ redis> COMMAND INFO get set eval
        3) skip_monitor
        4) no_mandatory_keys
        5) movablekeys
+       6) script_runner
     4) (integer) 0
     5) (integer) 0
     6) (integer) 0
@@ -165,6 +166,7 @@ redis> COMMAND INFO foo evalsha config bar
        3) skip_monitor
        4) no_mandatory_keys
        5) movablekeys
+       6) script_runner
     4) (integer) 0
     5) (integer) 0
     6) (integer) 0

@@ -240,6 +240,42 @@
           "description": "Spell check suggestions"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_spellcheck(index_name, query, distance: nil, include: nil, exclude: nil)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query whose terms are checked"
+          },
+          {
+            "name": "distance",
+            "type": "Integer",
+            "description": "maximum Levenshtein distance for suggestions (DISTANCE)"
+          },
+          {
+            "name": "include",
+            "type": "String",
+            "description": "a custom dictionary to include terms from (TERMS INCLUDE)"
+          },
+          {
+            "name": "exclude",
+            "type": "String",
+            "description": "a custom dictionary to exclude terms from (TERMS EXCLUDE)"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "each misspelled term mapped to an array of { \"suggestion\" => String, \"score\" => Numeric }"
+        }
+      }
     ]
   }
 }

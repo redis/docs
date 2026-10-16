@@ -10,7 +10,7 @@ description: null
 weight: 33
 ---
 
-Tags are key-value pairs that let you categorize your databases. You can create tags and add them to your databases to associate them with each other. Once you've added tags, you can filter your databases in the [database list]({{< relref "/operate/rc/databases/view-edit-database#manage-the-database-list" >}}) or in the [cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) by tag key or value. 
+Tags are key-value pairs that let you categorize your databases. You can create tags and add them to your databases to associate them with each other. Once you've added tags, you can filter your databases in the [database list](/content/operate/rc/databases/view-edit-database.md#manage-the-database-list) or in the [cost report](/content/operate/rc/billing-and-payments/cost-report.md) by tag key or value. 
 
 ## Manage tags
 
@@ -23,13 +23,14 @@ After you open the [tag manager](#tag-manager), you can use it to add, edit, or 
 
 ### Open tag manager from the Configuration tab {#configuration-tab}
 
-To learn how to navigate to your database, see [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}}). Select the **Configuration** tab to view the tags that are set for your database. For Essentials databases, the **Manage tags** button is at the top of the tab; for Pro databases, go to the **General** section.
+To learn how to navigate to your database, see [View and edit databases](/content/operate/rc/databases/view-edit-database.md). Select the **Configuration** tab to view the tags that are set for your database. For Essentials databases, the **Manage tags** button is at the top of the tab; for Pro databases, go to the **General** section.
 
-{{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
+![The Configuration tab of the Database details screen.](/images/rc/database-details-configuration-tab-general-flexible.png)
 
 Select **Manage Tags** to open the [tag manager](#tag-manager).
 
-{{<image filename="images/rc/tags-button-manage-tags.png" width=120px alt="The Manage tags button." >}}
+![The Manage tags button.](/images/rc/tags-button-manage-tags.png)
+{width="120px"}
 
 ### Open tag manager from the database list {#database-list}
 
@@ -37,21 +38,22 @@ Using the database list allows you to manage tags for multiple databases without
 
 To get to the database list, select **Databases** from the main menu. 
 
-{{<image filename="images/rc/tags-database-list.png" alt="The database list with databases that are tagged." >}}
+![The database list with databases that are tagged.](/images/rc/tags-database-list.png)
 
 Hover over the database and select **Manage tags**, or select **More actions** > **Manage tags** to open the [tag manager](#tag-manager).
 
-{{<image filename="images/rc/tags-icon-manage-tags.png#no-click" width=30px alt="Manage tags button." class="inline">}}
-{{<image filename="images/rc/tags-icon-more-actions.png#no-click" width=30px alt="More actions button." class="inline">}}
+![Manage tags button.](/images/rc/tags-icon-manage-tags.png#no-click)
+![More actions button.](/images/rc/tags-icon-more-actions.png#no-click)
 
 ### Use the tag manager {#tag-manager}
 
 The tag manager shows any tags that are associated with the database and allows you to create, edit, or delete tags.
 
-{{<image filename="images/rc/tags-tag-manager.png" alt="The tag manager." >}}
+![The tag manager.](/images/rc/tags-tag-manager.png)
 
 {{< embed-md "rc-tags-tag-module.md" >}}
 
 Select **Save tags** to save your changes.
 
-{{<image filename="images/rc/tags-button-save-tags.png" width=100px alt="The Save tags button." >}}
+![The Save tags button.](/images/rc/tags-button-save-tags.png)
+{width="100px"}

@@ -37,9 +37,9 @@ title: SCRIPT EXISTS
 ---
 Returns information about the existence of the scripts in the script cache.
 
-This command accepts one or more SHA1 digests and returns a list of 1 and 0 values to indicate whether each script exists in the script cache. Before you run a pipeline, use this command to check whether Redis has loaded the scripts you need. For missing scripts, use [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}); then use [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) in the pipeline to save bandwidth.
+This command accepts one or more SHA1 digests and returns a list of 1 and 0 values to indicate whether each script exists in the script cache. Before you run a pipeline, use this command to check whether Redis has loaded the scripts you need. For missing scripts, use [`SCRIPT LOAD`](/content/commands/script-load.md); then use [`EVALSHA`](/content/commands/evalsha.md) instead of [`EVAL`](/content/commands/eval.md) in the pipeline to save bandwidth.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts see [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Required arguments
 

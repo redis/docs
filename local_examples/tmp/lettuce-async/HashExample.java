@@ -158,11 +158,93 @@ public class HashExample {
                     .toCompletableFuture();
             // STEP_END
 
+            // STEP_START hexpire
+            Map<String, String> sensor1 = new HashMap<>();
+            sensor1.put("air_quality", "256");
+            sensor1.put("battery_level", "89");
+
+            CompletableFuture<Void> hExpire = asyncCommands.del("sensor:sensor1")
+                    .thenCompose(delRes -> asyncCommands.hset("sensor:sensor1", sensor1))
+                    // Set a TTL of 60 seconds on two fields of the hash.
+                    .thenCompose(hsetRes -> asyncCommands.hexpire("sensor:sensor1", 60, "air_quality", "battery_level"))
+                    .thenCompose(res15 -> {
+                        System.out.println(res15); // >>> [1, 1]
+                        // REMOVE_START
+                        assertThat(res15).isEqualTo(Arrays.asList(1L, 1L));
+                        // REMOVE_END
+                        // Retrieve the remaining TTL for those fields.
+                        return asyncCommands.httl("sensor:sensor1", "air_quality", "battery_level");
+                    })
+                    // REMOVE_START
+                    .thenApply(res16 -> {
+                        assertThat(res16).hasSize(2);
+                        assertThat(res16.stream().allMatch(ttl -> ttl > 0 && ttl <= 60)).isTrue();
+                        return res16;
+                    })
+                    // REMOVE_END
+                    .thenAccept(res16 -> System.out.println(res16.size()))
+                    // >>> 2
+                    .toCompletableFuture();
+            // STEP_END
+
+            // STEP_START hpexpire
+            CompletableFuture<Void> hpExpire = hExpire
+                    .thenCompose(prev -> asyncCommands.del("sensor:sensor1"))
+                    .thenCompose(delRes -> asyncCommands.hset("sensor:sensor1", sensor1))
+                    // Set the TTL of the 'air_quality' field in milliseconds.
+                    .thenCompose(hsetRes -> asyncCommands.hpexpire("sensor:sensor1", 60000, "air_quality"))
+                    .thenCompose(res17 -> {
+                        System.out.println(res17); // >>> [1]
+                        // REMOVE_START
+                        assertThat(res17).isEqualTo(Arrays.asList(1L));
+                        // REMOVE_END
+                        // Retrieve the remaining TTL in milliseconds.
+                        return asyncCommands.hpttl("sensor:sensor1", "air_quality");
+                    })
+                    // REMOVE_START
+                    .thenApply(res18 -> {
+                        assertThat(res18).hasSize(1);
+                        assertThat(res18.stream().allMatch(pttl -> pttl > 0 && pttl <= 60000)).isTrue();
+                        return res18;
+                    })
+                    // REMOVE_END
+                    .thenAccept(res18 -> System.out.println(res18.size()))
+                    // >>> 1
+                    .toCompletableFuture();
+            // STEP_END
+
+            // STEP_START hexpireat
+            long expireAtSeconds = System.currentTimeMillis() / 1000L + 24 * 60 * 60;
+            CompletableFuture<Void> hExpireAt = hpExpire
+                    .thenCompose(prev -> asyncCommands.del("sensor:sensor1"))
+                    .thenCompose(delRes -> asyncCommands.hset("sensor:sensor1", sensor1))
+                    // Set the expiration of 'air_quality' to a Unix time 24 hours from now.
+                    .thenCompose(hsetRes -> asyncCommands.hexpireat("sensor:sensor1", expireAtSeconds, "air_quality"))
+                    .thenCompose(res19 -> {
+                        System.out.println(res19); // >>> [1]
+                        // REMOVE_START
+                        assertThat(res19).isEqualTo(Arrays.asList(1L));
+                        // REMOVE_END
+                        // Retrieve the expiration time as a Unix timestamp in seconds.
+                        return asyncCommands.hexpiretime("sensor:sensor1", "air_quality");
+                    })
+                    // REMOVE_START
+                    .thenApply(res20 -> {
+                        assertThat(res20).hasSize(1);
+                        assertThat(res20.get(0)).isGreaterThan(System.currentTimeMillis() / 1000L);
+                        return res20;
+                    })
+                    // REMOVE_END
+                    .thenAccept(res20 -> System.out.println(res20.size()))
+                    // >>> 1
+                    .toCompletableFuture();
+            // STEP_END
+
             CompletableFuture.allOf(
                     // REMOVE_START
                     delResult,
                     // REMOVE_END
-                    hIncrBy, incrByGetMget).join();
+                    hIncrBy, incrByGetMget, hExpireAt).join();
         } finally {
             redisClient.shutdown();
         }

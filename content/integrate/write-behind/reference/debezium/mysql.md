@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for mysql
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/mysql/
+- /integrate/redis-data-integration/write-behind/reference/debezium/mysql/
 alwaysopen: false
 categories:
   - docs

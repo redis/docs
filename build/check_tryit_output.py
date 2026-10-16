@@ -236,6 +236,11 @@ _NORM = [
     (re.compile(r'\b\d{13}-\d+\b'), "<stream-id>"),   # auto stream IDs (ms-seq)
     (re.compile(r'\b\d{10}-\d+\b'), "<stream-id>"),
     (re.compile(r'\b1[6-9]\d{8,11}\b'), "<timestamp>"),  # unix seconds/ms (2022+)
+    # TS.INFO's memoryUsage: per-key allocator overhead, not a documented contract.
+    # It shifts with the module version and, for a series with labels, between
+    # sessions on the *same* version — so a captured value never reproduces.
+    (re.compile(r'(?m)^(\s*\d+\) memoryUsage\n\s*\d+\) \(integer\) )\d+'),
+     r"\g<1><memory>"),
 ]
 
 
@@ -261,6 +266,15 @@ UNORDERED_CMDS = {
     "HKEYS", "HVALS", "HGETALL",
     # search/aggregate without SORTBY: result order is not guaranteed
     "FT.SEARCH", "FT.AGGREGATE",
+    # NOTE: the label-index commands (TS.QUERYINDEX, TS.MGET, TS.MRANGE,
+    # TS.MREVRANGE, TS.QUERYLABELS) are deliberately NOT here. They resolve keys
+    # through the same timeseries label index, and it returns them sorted
+    # lexicographically regardless of insertion order (measured across differing
+    # insertion orders), so exact comparison is stable. Listing them would only
+    # weaken it: their replies are nested per key, and the multiset key flattens
+    # a nested reply to sorted lines, which would stop a sample value moving
+    # between keys from registering. If a future module version does reshuffle
+    # them, a MISMATCH is the signal you want, not a silent pass.
     # COMMAND INFO/DOCS: a command's subcommands list is in registration/hash
     # order, not guaranteed (e.g. config|set, config|get, ... may reshuffle)
     "COMMAND",
@@ -279,15 +293,24 @@ NONDETERMINISTIC_CMDS = {"SPOP", "SRANDMEMBER", "ZRANDMEMBER", "HRANDFIELD"}
 # TTL that ticks down, or the specific client connection — so a captured value
 # never reproduces exactly. Auto-skipped the same way (the example still shows a
 # representative value and runs live in the terminal).
-VOLATILE_CMDS = {"TIME", "PTTL", "PEXPIRETIME", "EXPIRETIME", "LASTSAVE", "CLIENT"}
+VOLATILE_CMDS = {"TIME", "PTTL", "PEXPIRETIME", "EXPIRETIME", "LASTSAVE", "CLIENT",
+                 # hash-field TTLs in milliseconds tick down the same way PTTL does
+                 "HPTTL", "HPEXPIRETIME"}
 
-_IDX = re.compile(r'^\s*\d+\)\s+')  # a redis-cli "N) " list index
+_IDX = re.compile(r'^(?:\s*\d+\)\s+)+')  # a redis-cli "N) " index, or a nested chain of them
 
 
 def _multiset(text):
     """Order-insensitive key: the sorted list of element lines with their
     "N) " index stripped. Two renderings of the same flat reply in different
-    orders produce the same key."""
+    orders produce the same key.
+
+    The whole leading *chain* of indices is stripped, not just the outermost one,
+    because redis-cli puts a nested list's first element on the same line as its
+    parent's index ("10) 1)  1) \"config|set\""), while the siblings below it start
+    with their own index alone ("    2)  1) \"config|rewrite\""). Stripping only the
+    first index would leave those two forms unequal, so reordering a nested list
+    would still read as a mismatch even for an UNORDERED_CMDS reply."""
     return sorted(_IDX.sub("", ln).strip() for ln in text.split("\n") if ln.strip())
 
 

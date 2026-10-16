@@ -117,7 +117,7 @@ Redis Enterprise for Kubernetes only supports the following ingress controllers 
 - Istio Gateway - Service mesh integration with advanced traffic management.
 - Ingress-NGINX - SSL passthrough is off by default; start the controller with `--enable-ssl-passthrough`. The community `kubernetes/ingress-nginx` project is retired (maintenance ended March 2026); existing deployments only.
 
-See [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) for detailed configuration steps.
+See [Ingress routing](/content/operate/kubernetes/networking/ingress.md) for detailed configuration steps.
 
 ### OpenShift routes
 
@@ -138,7 +138,7 @@ spec:
     termination: passthrough
 ```
 
-See [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) for complete setup instructions.
+See [OpenShift routes](/content/operate/kubernetes/networking/routes.md) for complete setup instructions.
 
 ## Service ports and configuration
 
@@ -214,7 +214,7 @@ spec:
 
 ### Rotate the database password
 
-To rotate a database password, update the `password` key in the database secret. See [Change the REDB password]({{< relref "/operate/kubernetes/security/authentication/manage-redb-credentials#change-the-redb-password" >}}).
+To rotate a database password, update the `password` key in the database secret. See [Change the REDB password](/content/operate/kubernetes/security/authentication/manage-redb-credentials.md#change-the-redb-password).
 
 ### Default user configuration
 
@@ -297,7 +297,7 @@ client.on('connect', () => {
 
 ## Related topics
 
-- [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Configure external access with ingress controllers
-- [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) - External access using OpenShift routes  
-- [Database controller]({{< relref "/operate/kubernetes/re-databases/db-controller" >}}) - Database lifecycle management
-- [Security]({{< relref "/operate/kubernetes/security" >}}) - TLS configuration and access control
+- [Ingress routing](/content/operate/kubernetes/networking/ingress.md) - Configure external access with ingress controllers
+- [OpenShift routes](/content/operate/kubernetes/networking/routes.md) - External access using OpenShift routes  
+- [Database controller](/content/operate/kubernetes/re-databases/db-controller.md) - Database lifecycle management
+- [Security](/content/operate/kubernetes/security/_index.md) - TLS configuration and access control

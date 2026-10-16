@@ -1,0 +1,41 @@
+{{- /*
+  Stable, unique id for a page record in the JSON and Markdown outputs.
+
+  Takes a Page. Returns its content path with the ".md" extension and any trailing
+  "/_index" removed, so content/develop/clients/redis-py.md becomes
+  "develop/clients/redis-py" and content/develop/clients/_index.md becomes
+  "develop/clients".
+
+  This replaces a bare filename. ContentBaseName is not unique across the corpus --
+  "message_history" named 58 different pages, "install" 42 -- so any consumer treating
+  id as a primary key silently collapsed them, with no error to notice. The content
+  path is unique by construction, because two files cannot share one path, and it is
+  stable across builds because nothing about it depends on build order. A dedup
+  suffix would not be: the page that got the plain id and the page that got "-1" could
+  swap between builds, quietly repointing anyone who had stored either.
+
+  Slashes are kept rather than flattened to hyphens. Flattening reintroduces a
+  collision risk ("a/b-c" and "a-b/c" both becoming "a-b-c") for no real gain, and the
+  path form matches how the URL is already structured.
+
+  Pages with no backing file -- generated pages, taxonomy terms -- fall back to the
+  urlized title, which is what the previous implementation did for them.
+
+  Shared by single.json, section.json and section.json's children[] entries so all
+  three agree. children[].id must equal the child page's own id or the navigation
+  graph does not resolve.
+*/ -}}
+
+{{- $id := "" -}}
+{{- with .File -}}
+  {{- /* Not ".Path | replace ..." -- piping makes .Path the LAST argument, so the
+         backslash becomes the input and every id comes out as a single backslash. */ -}}
+  {{- $path := replace .Path "\\" "/" -}}
+  {{- $path = strings.TrimSuffix ".md" $path -}}
+  {{- $path = strings.TrimSuffix "/_index" $path -}}
+  {{- $id = $path -}}
+{{- end -}}
+{{- if not $id -}}
+  {{- $id = .Title | urlize -}}
+{{- end -}}
+{{- return $id -}}

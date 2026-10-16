@@ -63,12 +63,11 @@ summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
 title: SUNIONSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
+This command is equal to [`SUNION`](/content/commands/sunion.md), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
@@ -131,3 +130,7 @@ redis> SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of the elements in the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SUNION`](/content/commands/sunion.md) | [`SUNIONCARD`](/content/commands/sunioncard.md)

@@ -54,9 +54,8 @@ Considerations:
 
 The following diagram shows a centralized proxy architecture with a standby proxy instance:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/centralized-proxy.svg" alt="Diagram of a centralized proxy architecture with active and standby proxy instances routing to Active-Active database members" width="50%">
-</div>
+![Diagram of a centralized proxy architecture with active and standby proxy instances routing to Active-Active database members](/images/active-active-disaster-recovery/centralized-proxy.svg)
+{width="50%" class="mx-auto"}
 
 ## Co-locate to reduce latency and improve scalability
 
@@ -74,9 +73,8 @@ Considerations:
 
 The following diagram shows a co-located proxy architecture where each application server has its own proxy:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/co-located-proxy-and-app.svg" alt="Diagram of co-located proxy architecture where each application server has its own proxy instance" width="50%">
-</div>
+![Diagram of co-located proxy architecture where each application server has its own proxy instance](/images/active-active-disaster-recovery/co-located-proxy-and-app.svg)
+{width="50%" class="mx-auto"}
 
 ## Pool proxies for scalability
 
@@ -94,6 +92,5 @@ Considerations:
 
 The following diagram shows a pool of proxies:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/proxy-pool.svg" alt="Diagram of a pool of active proxy instances" width="50%">
-</div>
+![Diagram of a pool of active proxy instances](/images/active-active-disaster-recovery/proxy-pool.svg)
+{width="50%" class="mx-auto"}

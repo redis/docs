@@ -33,4 +33,4 @@ redis-rb is the recommended Ruby client for Redis, providing a simple and intuit
 
 ## Getting Started
 
-Refer to the complete [Ruby guide]({{< relref "/develop/clients/ruby" >}}) to install, connect, and use redis-rb with detailed examples.
+Refer to the complete [Ruby guide](/content/develop/clients/ruby/_index.md) to install, connect, and use redis-rb with detailed examples.

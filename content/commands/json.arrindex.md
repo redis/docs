@@ -66,9 +66,8 @@ is JSONPath to specify.
 
 is value to find its index in one or more arrays. 
 
-{{% alert title="About using strings with JSON commands" color="warning" %}}
-To specify a string as an array value to index, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
-{{% /alert %}}
+> [!NOTE] About using strings with JSON commands
+> To specify a string as an array value to index, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
 </details>
 
 ## Optional arguments
@@ -83,10 +82,8 @@ is inclusive start value to specify in a slice of the array to search. Default i
 is exclusive stop value to specify in a slice of the array to search, including the last element. Default is `0`. Negative values are interpreted as starting from the end.
 </details>
 
-{{% alert title="About out-of-range indexes" color="warning" %}}
-
-Out-of-range indexes round to the array's start and end. An inverse index range (such as the range from 1 to 0) returns unfound or `-1`.
-{{% /alert %}}
+> [!NOTE] About out-of-range indexes
+> Out-of-range indexes round to the array's start and end. An inverse index range (such as the range from 1 to 0) returns unfound or `-1`.
 
 ## Examples
 
@@ -155,24 +152,24 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
+With `$`-based path argument: [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the first position in the array, `-1` if unfound, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the first position in the array, `-1` if unfound, or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not an array.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
+With `$`-based path argument (default): [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the first position in the array, `-1` if unfound, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the first position in the array, `-1` if unfound, or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not an array.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.ARRAPPEND`](/content/commands/json.arrappend.md) | [`JSON.ARRINSERT`](/content/commands/json.arrinsert.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)
 

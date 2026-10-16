@@ -13,9 +13,47 @@ url: '/operate/rs/8.0/installing-upgrading/upgrading/upgrade-active-active/'
 
 ## Upgrade an Active-Active database
 
-To upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/8.0/databases/active-active" >}}):
+To upgrade an [Active-Active (CRDB) database](/content/operate/rs/8.0/databases/active-active/_index.md), you can upgrade all database instances with a single REST API request or upgrade each instance separately with `rladmin` and `crdb-cli`. The REST API method requires Redis Software version 8.0.18 or later.
 
-1. [Upgrade Redis Software]({{< relref "/operate/rs/8.0/installing-upgrading/upgrading/upgrade-cluster" >}}) on each node in the clusters where the Active-Active instances are located.
+{{< multitabs id="upgrade-active-active-db"
+    tab1="REST API"
+    tab2="rladmin and crdb-cli" >}}
+
+1. [Upgrade Redis Software](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-cluster.md) on each node in the clusters where the Active-Active instances are located.
+
+1. [Check the status](#check-database-status) of all Active-Active database instances.
+
+1. Find the `<CRDB-GUID>` of your Active-Active database with the [`crdb-cli crdb list`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/list.md) command:
+
+    ```sh
+    crdb-cli crdb list
+    ```
+
+    Look for the fully qualified domain name (`CLUSTER-FQDN`) of your cluster and use the associated `GUID`.
+
+1. Use an [upgrade Active-Active database](/content/operate/rs/8.0/references/rest-api/requests/crdbs/upgrade.md) REST API request. The request upgrades the Redis version and modules of all database instances across regions, then upgrades the feature set version after all instances are upgraded.
+
+    ```sh
+    POST https://<host>:<port>/v1/crdbs/<crdb-guid>/upgrade
+    {
+        "preserve_roles": true,
+        // Additional fields
+    }
+    ```
+
+    For additional upgrade options, see the [request body](/content/operate/rs/8.0/references/rest-api/requests/crdbs/upgrade.md#request-body) section of the Active-Active database upgrade requests reference.
+
+1. Check the upgrade's progress with the ID of the [CRDB task](/content/operate/rs/8.0/references/rest-api/requests/crdb_tasks/_index.md#get-crdb_task) returned by the upgrade request:
+
+    ```sh
+    GET https://<host>:<port>/v1/crdb_tasks/<task-id>
+    ```
+
+    The task's `status` is `finished` when the upgrade is complete.
+
+-tab-sep-
+
+1. [Upgrade Redis Software](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-cluster.md) on each node in the clusters where the Active-Active instances are located.
 
 1. [Check the status](#check-database-status) of all Active-Active database instances.
 
@@ -23,21 +61,23 @@ To upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/8.0/databa
 
 1. If the status indicates `OLD CRDB FEATURESET VERSION`, [upgrade the featureset version](#upgrade-featureset-version). See [Feature version guidelines](#feature-version-guidelines) for more information.
 
-1. If your Active-Active database uses modules, [update module information](#update-module-information). To check if your database uses modules, run [`rladmin status modules`]({{<relref "/operate/rs/8.0/references/cli-utilities/rladmin/status#status-modules">}}):
+1. If your Active-Active database uses modules, [update module information](#update-module-information). To check if your database uses modules, run [`rladmin status modules`](/content/operate/rs/8.0/references/cli-utilities/rladmin/status.md#status-modules):
 
     ```sh
     rladmin status modules db { db:<ID> | <database-name> }
     ```
 
+{{< /multitabs >}}
+
 ## Check database status
 
-To check the status of an Active-Active database instance, run [`rladmin status`]({{<relref "/operate/rs/8.0/references/cli-utilities/rladmin/status">}}):
+To check the status of an Active-Active database instance, run [`rladmin status`](/content/operate/rs/8.0/references/cli-utilities/rladmin/status.md):
 
 ```sh
   rladmin status
 ```
 
-{{< image filename="/images/rs/crdb-upgrade-node.png" >}}
+![](/images/rs/crdb-upgrade-node.png)
 
 The statuses of the Active-Active instances on the node can indicate:
 
@@ -51,7 +91,7 @@ The statuses of the Active-Active instances on the node can indicate:
 
 For each Active-Active database instance:
 
-1. Upgrade the Redis database version and enabled modules with [`rladmin upgrade db`]({{<relref "/operate/rs/8.0/references/cli-utilities/rladmin/upgrade#upgrade-db">}}):
+1. Upgrade the Redis database version and enabled modules with [`rladmin upgrade db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/upgrade.md#upgrade-db):
 
     ```sh
     rladmin upgrade db { db:<ID> | <database-name> }
@@ -59,15 +99,15 @@ For each Active-Active database instance:
 
 1. If the CRDB protocol version is old, read the warning message carefully and confirm that you want to update the CRDB protocol. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
-    {{< image filename="/images/rs/crdb-upgrade-protocol.png" >}}
+    ![](/images/rs/crdb-upgrade-protocol.png)
 
     After confirmation, the Active-Active instance will use the new Redis version and CRDB protocol version.
 
-    {{<note>}}
-You can use the `keep_crdt_protocol_version` option to upgrade the database version without upgrading the CRDB protocol version. However, you must upgrade the CRDB protocol before you update the CRDB feature set version.
-
-If you use `keep_crdt_protocol_version`, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}) command.
-    {{</note>}}
+    > [!NOTE]
+    > You can use the `keep_crdt_protocol_version` option to upgrade the database version without upgrading the CRDB protocol version. However, you must upgrade the CRDB protocol before you update the CRDB feature set version.
+    >
+    > If you use `keep_crdt_protocol_version`, make sure that you upgrade the CRDB protocol soon after with the [`rladmin upgrade db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/upgrade.md#upgrade-db) command.
+    >
 
 ### CRDB protocol version guidelines
 
@@ -101,7 +141,7 @@ If the feature set version is old, as indicated by the `OLD CRDB FEATURESET VERS
 
 1. Find the `<CRDB-GUID>` of your Active-Active database.
 
-    You can use the [`crdb-cli crdb list`]({{<relref "/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/list">}}) command:
+    You can use the [`crdb-cli crdb list`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/list.md) command:
 
     ```sh
     crdb-cli crdb list
@@ -150,6 +190,12 @@ If your Active-Active database uses modules:
     Do you want to continue? (y/n): y
     ```
 
+{{<warning>}}
+`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules. If a participating cluster's configuration still lists outdated module versions after the upgrade, [contact Redis support](https://redis.io/support/) for help updating them.
+{{</warning>}}
+
 ## Upgrade limitations
 
-- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, you cannot use module commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.
+- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, if you add a module to the database during the upgrade, you cannot use that module's commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.
+
+    This limitation applies only when you add modules to a database during the upgrade. If the database already had modules configured before the upgrade, this limitation does not apply.

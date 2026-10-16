@@ -74,22 +74,22 @@ where different users are represented by incremental user IDs, it is possible
 to remember a single bit information (for example, knowing whether
 a user wants to receive a newsletter) of 4 billion users using just 512 MB of memory.
 
-The [`SETBIT`]({{< relref "/commands/setbit" >}}) command takes as its first argument the bit number, and as its second
+The [`SETBIT`](/content/commands/setbit.md) command takes as its first argument the bit number, and as its second
 argument the value to set the bit to, which is 1 or 0. The command
 automatically enlarges the string if the addressed bit is outside the
 current string length.
 
-[`GETBIT`]({{< relref "/commands/getbit" >}}) just returns the value of the bit at the specified index.
+[`GETBIT`](/content/commands/getbit.md) just returns the value of the bit at the specified index.
 Out of range bits (addressing a bit that is outside the length of the string
 stored into the target key) are always considered to be zero.
 
 There are three commands operating on group of bits:
 
-1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
-2. [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) performs population counting, reporting the number of bits set to 1.
-3. [`BITPOS`]({{< relref "/commands/bitpos" >}}) finds the first bit having the specified value of 0 or 1.
+1. [`BITOP`](/content/commands/bitop.md) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
+2. [`BITCOUNT`](/content/commands/bitcount.md) performs population counting, reporting the number of bits set to 1.
+3. [`BITPOS`](/content/commands/bitpos.md) finds the first bit having the specified value of 0 or 1.
 
-Both [`BITPOS`]({{< relref "/commands/bitpos" >}}) and [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) are able to operate with byte ranges of the
+Both [`BITPOS`](/content/commands/bitpos.md) and [`BITCOUNT`](/content/commands/bitcount.md) are able to operate with byte ranges of the
 string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
 {{< clients-example set="bitmap_tutorial" step="bitcount" description="Bit counting: Use BITCOUNT to count the number of set bits in a bitmap when you need to get population counts" buildsUpon="ping" runnable="false" try_it="false" >}}
@@ -99,26 +99,26 @@ string, instead of running for the whole length of the string. We can trivially 
 
 For example imagine you want to know the longest streak of daily visits of
 your web site users. You start counting days starting from zero, that is the
-day you made your web site public, and set a bit with [`SETBIT`]({{< relref "/commands/setbit" >}}) every time
+day you made your web site public, and set a bit with [`SETBIT`](/content/commands/setbit.md) every time
 the user visits the web site. As a bit index you simply take the current unix
 time, subtract the initial offset, and divide by the number of seconds in a day
 (normally, 3600\*24).
 
 This way for each user you have a small string containing the visit
-information for each day. With [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) it is possible to easily get
+information for each day. With [`BITCOUNT`](/content/commands/bitcount.md) it is possible to easily get
 the number of days a given user visited the web site, while with
-a few [`BITPOS`]({{< relref "/commands/bitpos" >}}) calls, or simply fetching and analyzing the bitmap client-side,
+a few [`BITPOS`](/content/commands/bitpos.md) calls, or simply fetching and analyzing the bitmap client-side,
 it is possible to easily compute the longest streak.
 
 ### Bitwise operations
 
-The [`BITOP`]({{< relref "/commands/bitop" >}}) command performs bitwise
+The [`BITOP`](/content/commands/bitop.md) command performs bitwise
 operations over two or more source keys, storing the result in a destination key.
 
 The examples below show the available operations using three keys: `A` (with bit pattern
 `11011000`), `B` (`00011001`), and `C` (`01101100`).
 
-{{< image filename="/images/dev/bitmap/BitopSetup.svg" alt="Bitop setup" >}}
+![Bitop setup](/images/dev/bitmap/BitopSetup.svg)
 
 Numbering the bits from left to right, starting at zero, the following `SETBIT` commands 
 will create these bitmaps:
@@ -163,7 +163,7 @@ will create these bitmaps:
 
 Set a bit in the destination key to 1 only if it is set in all the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopAnd.svg" alt="Bitop AND" >}}
+![Bitop AND](/images/dev/bitmap/BitopAnd.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_and" description="AND operation: Use BITOP AND to find bits set in all source bitmaps when you need to find common bits across multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP AND R A B C
@@ -176,7 +176,7 @@ Set a bit in the destination key to 1 only if it is set in all the source keys.
 #### `OR`
 Set a bit in the destination key to 1 if it is set in at least one of the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopOr.svg" alt="Bitop OR" >}}
+![Bitop OR](/images/dev/bitmap/BitopOr.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_or" description="OR operation: Use BITOP OR to find bits set in at least one source bitmap when you need to combine multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP OR R A B C
@@ -192,7 +192,7 @@ For two source keys, set a bit in the destination key to 1 if the value of the b
 different in the two keys. For three or more source keys, the result of XORing the first two 
 keys is then XORed with the next key, and so forth.
 
-{{< image filename="/images/dev/bitmap/BitopXor.svg" alt="Bitop XOR" >}}
+![Bitop XOR](/images/dev/bitmap/BitopXor.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_xor" description="XOR operation: Use BITOP XOR to find bits that differ between bitmaps when you need to identify differences" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP XOR R A B
@@ -207,7 +207,7 @@ keys is then XORed with the next key, and so forth.
 Set a bit in the destination key to 1 if it is not set in the source key (this
 is the only unary operator).
 
-{{< image filename="/images/dev/bitmap/BitopNot.svg" alt="Bitop NOT" >}}
+![Bitop NOT](/images/dev/bitmap/BitopNot.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_not" description="NOT operation: Use BITOP NOT to invert all bits in a bitmap when you need to negate a set" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP NOT R A
@@ -222,7 +222,7 @@ is the only unary operator).
 Set a bit in the destination key to 1 if it is set in the first source key, but not in any 
 of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopDiff.svg" alt="Bitop DIFF" >}}
+![Bitop DIFF](/images/dev/bitmap/BitopDiff.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_diff" description="DIFF operation: Use BITOP DIFF to find bits set in the first bitmap but not in others when you need set difference" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP DIFF R A B C
@@ -237,7 +237,7 @@ of the other source keys.
 Set a bit in the destination key to 1 if it is not set in the first source key, 
 but set in at least one of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopDiff1.svg" alt="Bitop DIFF1" >}}
+![Bitop DIFF1](/images/dev/bitmap/BitopDiff1.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_diff1" description="DIFF1 operation: Use BITOP DIFF1 to find bits not in the first bitmap but in at least one other when you need inverse difference" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP DIFF1 R A B C
@@ -251,7 +251,7 @@ but set in at least one of the other source keys.
 
 Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopAndOr.svg" alt="Bitop ANDOR" >}}
+![Bitop ANDOR](/images/dev/bitmap/BitopAndOr.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_andor" description="ANDOR operation: Use BITOP ANDOR to find bits in the first bitmap and at least one other when you need intersection with union" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP ANDOR R A B C
@@ -265,7 +265,7 @@ Set a bit in the destination key to 1 if it is set in the first source key and a
 
 Set a bit in the destination key to 1 if it is set in exactly one of the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopOne.svg" alt="Bitop ONE" >}}
+![Bitop ONE](/images/dev/bitmap/BitopOne.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_one" description="ONE operation: Use BITOP ONE to find bits set in exactly one bitmap when you need exclusive membership" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP ONE R A B C
@@ -287,14 +287,14 @@ reduce memory use for sparse bitmaps, such as membership or event indexes over
 a large integer ID space. Long runs of set bits can also compress well. Small
 bitmaps and irregular dense bitmaps can use as much or more memory than strings
 because compressed containers have their own metadata. Compare
-[`MEMORY USAGE`]({{< relref "/commands/memory-usage" >}}) and command latency
+[`MEMORY USAGE`](/content/commands/memory-usage.md) and command latency
 with representative data before enabling Roaring bitmaps for a workload.
 
 ### Enable Roaring bitmap creation
 
 The `bitmap-default-roaring` configuration parameter is `no` by default. Set it
 to `yes` in your Redis configuration file, or enable it at runtime with
-[`CONFIG SET`]({{< relref "/commands/config-set" >}}):
+[`CONFIG SET`](/content/commands/config-set.md):
 
 {{< clients-example set="bitmap_tutorial" step="roaring" description="Compressed storage: Enable native Roaring creation for sparse bitmaps when you don't need to access their raw bytes with string commands" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
 > CONFIG SET bitmap-default-roaring yes
@@ -313,18 +313,17 @@ bitmap
 
 Changing the configuration does not immediately convert existing keys:
 
-* With `bitmap-default-roaring no`, [`SETBIT`]({{< relref "/commands/setbit" >}})
-  and write forms of [`BITFIELD`]({{< relref "/commands/bitfield" >}}) create
+* With `bitmap-default-roaring no`, [`SETBIT`](/content/commands/setbit.md)
+  and write forms of [`BITFIELD`](/content/commands/bitfield.md) create
   string-backed bitmaps. Existing native bitmaps remain native and continue to
   accept bitmap commands.
 * With `bitmap-default-roaring yes`, those commands create missing keys as
   native bitmaps. A write to an existing string converts the complete string
   to a native bitmap before applying the write. The conversion preserves its
   bits, logical length, expiration, and key metadata.
-* Read-only bitmap commands don't convert a string. [`SET`]({{< relref
-  "/commands/set" >}}) also continues to create a string, regardless of this
+* Read-only bitmap commands don't convert a string. [`SET`](/content/commands/set.md) also continues to create a string, regardless of this
   setting.
-* [`BITOP`]({{< relref "/commands/bitop" >}}) stores a non-empty result as a
+* [`BITOP`](/content/commands/bitop.md) stores a non-empty result as a
   native destination when the setting is `yes`. When the setting is `no`, its
   destination is native if at least one source is native; an operation with
   only string sources produces a string destination.
@@ -335,42 +334,41 @@ value, as it can replace any other Redis type.
 
 ### Command and type compatibility
 
-[`SETBIT`]({{< relref "/commands/setbit" >}}),
-[`GETBIT`]({{< relref "/commands/getbit" >}}),
-[`BITCOUNT`]({{< relref "/commands/bitcount" >}}),
-[`BITPOS`]({{< relref "/commands/bitpos" >}}),
-[`BITOP`]({{< relref "/commands/bitop" >}}),
-[`BITFIELD`]({{< relref "/commands/bitfield" >}}), and
-[`BITFIELD_RO`]({{< relref "/commands/bitfield_ro" >}}) work with both
+[`SETBIT`](/content/commands/setbit.md),
+[`GETBIT`](/content/commands/getbit.md),
+[`BITCOUNT`](/content/commands/bitcount.md),
+[`BITPOS`](/content/commands/bitpos.md),
+[`BITOP`](/content/commands/bitop.md),
+[`BITFIELD`](/content/commands/bitfield.md), and
+[`BITFIELD_RO`](/content/commands/bitfield_ro.md) work with both
 representations and keep their existing reply and range semantics. Setting a
 zero bit beyond the current logical end extends either representation, and
 bits between the old and new ends read as zero.
 
 The representations are intentionally visible to clients:
 
-* [`TYPE`]({{< relref "/commands/type" >}}) returns `string` for a string-backed
+* [`TYPE`](/content/commands/type.md) returns `string` for a string-backed
   bitmap and `bitmap` for a native one.
-* [`OBJECT ENCODING`]({{< relref "/commands/object-encoding" >}}) returns
+* [`OBJECT ENCODING`](/content/commands/object-encoding.md) returns
   `bitmap-roaring` for a native bitmap.
-* Generic string commands such as [`GET`]({{< relref "/commands/get" >}}),
-  [`STRLEN`]({{< relref "/commands/strlen" >}}),
-  [`GETRANGE`]({{< relref "/commands/getrange" >}}), and
-  [`APPEND`]({{< relref "/commands/append" >}}) return a wrong-type error for a
+* Generic string commands such as [`GET`](/content/commands/get.md),
+  [`STRLEN`](/content/commands/strlen.md),
+  [`GETRANGE`](/content/commands/getrange.md), and
+  [`APPEND`](/content/commands/append.md) return a wrong-type error for a
   native bitmap. Applications that read or modify bitmap bytes with string
   commands should keep using the default string representation.
 
 Both representations limit accepted bit offsets according to
 `proto-max-bulk-len`. An existing bitmap can have a longer logical length if it
-was created or loaded while that limit was higher. [`BITOP`]({{< relref
-"/commands/bitop" >}}) operates on the complete logical length of such a
+was created or loaded while that limit was higher. [`BITOP`](/content/commands/bitop.md) operates on the complete logical length of such a
 source. In particular, `BITOP NOT` can allocate a dense result of that length,
 so account for its memory cost before lowering the limit.
 
 ### Retrieve set-bit offsets
 
-[`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}}) returns all set-bit
+[`BITGETINTARRAY`](/content/commands/bitgetintarray.md) returns all set-bit
 offsets of a native bitmap in ascending order.
-[`BITRANGEINTARRAY`]({{< relref "/commands/bitrangeintarray" >}}) returns an
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns an
 inclusive slice by zero-based element rank:
 
 ```redis
@@ -408,12 +406,12 @@ without the range command's span limit, subject to platform reply-length
 and client output-buffer limits. Separate range calls do not share a snapshot,
 so concurrent writes can shift ranks between pages. For benchmark methodology
 and historical comparisons against redis-roaring, see
-[Integer-array command benchmarks]({{< relref "/develop/data-types/strings/bitmap-intarray-benchmarks" >}}).
+[Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md).
 
 ### Persistence and replication
 
-RDB snapshots, [`DUMP`]({{< relref "/commands/dump" >}}) and
-[`RESTORE`]({{< relref "/commands/restore" >}}), AOF rewrites, and replication
+RDB snapshots, [`DUMP`](/content/commands/dump.md) and
+[`RESTORE`](/content/commands/restore.md), AOF rewrites, and replication
 preserve the native bitmap type. When a write creates or converts a native
 bitmap because `bitmap-default-roaring` is `yes`, Redis propagates the
 representation transition explicitly so replicas produce the same type even if
@@ -444,8 +442,8 @@ the Nth bit to address inside the key with `bit-number MOD M`.
 
 ## Performance
 
-[`SETBIT`]({{< relref "/commands/setbit" >}}) and [`GETBIT`]({{< relref "/commands/getbit" >}}) are O(1).
-[`BITOP`]({{< relref "/commands/bitop" >}}) is O(n), where _n_ is the logical
+[`SETBIT`](/content/commands/setbit.md) and [`GETBIT`](/content/commands/getbit.md) are O(1).
+[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the logical
 length of the longest source bitmap.
 For Roaring bitmaps, actual CPU and memory costs also depend on the distribution
 of set bits and the resulting compressed containers. In particular, `BITOP NOT`

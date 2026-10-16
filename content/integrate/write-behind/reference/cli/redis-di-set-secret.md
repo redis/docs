@@ -1,6 +1,7 @@
 ---
 Title: redis-di set-secret
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-set-secret/
 alwaysopen: false
 categories:
   - docs

@@ -22,17 +22,16 @@ url: '/operate/rs/8.0/references/rest-api/requests/crdbs/updates/'
 
 Modify Active-Active configuration.
 
-{{<warning>}}
-This is a very powerful API request and can cause damage if used incorrectly.
-{{</warning>}}
+> [!WARNING]
+> This is a very powerful API request and can cause damage if used incorrectly.
 
-To add or remove instances, you must use this API. For simple configuration updates, use [`PATCH /crdbs/{crdb_guid}`]({{<relref "/operate/rs/8.0/references/rest-api/requests/crdbs#patch-crdbs">}}) instead.
+To add or remove instances, you must use this API. For simple configuration updates, use [`PATCH /crdbs/{crdb_guid}`](/content/operate/rs/8.0/references/rest-api/requests/crdbs/_index.md#patch-crdbs) instead.
 
 Updating `default_db_config` affects both existing and new instances.
 
 When you update `db_config`, it changes the configuration of the specified database instance. This field overrides any corresponding fields in `default_db_config`.
 
-For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object]({{<relref "/operate/rs/8.0/references/rest-api/objects/crdb/database_config">}}) reference.
+For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object](/content/operate/rs/8.0/references/rest-api/objects/crdb/database_config.md) reference.
 
 ### Request {#post-request} 
 
@@ -61,11 +60,11 @@ For a list of which settings must be identical across all instances and which to
 
 #### Request body
 
-Include a [CRDB modify_request object]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.
+Include a [CRDB modify_request object](/content/operate/rs/8.0/references/rest-api/objects/crdb/modify_request.md) with updated fields in the request body.
 
 ### Response {#post-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/8.0/references/rest-api/objects/crdb_task.md).
 
 ### Status codes {#post-status-codes} 
 

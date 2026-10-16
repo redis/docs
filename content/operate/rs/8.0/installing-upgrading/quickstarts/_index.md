@@ -14,14 +14,14 @@ url: '/operate/rs/8.0/installing-upgrading/quickstarts/'
 
 Try out Redis Software using one of the following quickstarts:
 
-- [Redis Software quickstart]({{< relref "/operate/rs/8.0/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Software quickstart](/content/operate/rs/8.0/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
 
-- [Docker quickstart for Redis Software]({{< relref "/operate/rs/8.0/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Docker quickstart for Redis Software](/content/operate/rs/8.0/installing-upgrading/quickstarts/docker-quickstart.md)
 
 Additional quickstart guides are available to help you:
 
-- Set up a [Redis Flex or Auto Tiering cluster]({{< relref "/operate/rs/8.0/databases/flash/quickstart" >}}) to optimize  memory resources.
+- Set up a [Redis Flex or Auto Tiering cluster](/content/operate/rs/8.0/databases/flash/quickstart.md) to optimize  memory resources.
 
-- Set up an [Active-Active cluster]({{< relref "/operate/rs/8.0/databases/active-active/get-started.md" >}}) to enable high availability.
+- Set up an [Active-Active cluster](/content/operate/rs/8.0/databases/active-active/get-started.md) to enable high availability.
 
-- [Benchmark]({{< relref "/operate/rs/8.0/clusters/optimize/memtier-benchmark.md" >}}) Redis Software performance.
+- [Benchmark](/content/operate/rs/8.0/clusters/optimize/memtier-benchmark.md) Redis Software performance.

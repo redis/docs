@@ -27,7 +27,7 @@ To configure and enable LDAP from the Cluster Manager UI:
 
 1. In **Set LDAP**, configure [LDAP server settings](#ldap-server-settings), [bind credentials](#bind-credentials), [authentication query](#authentication-query), and [authorization query](#authorization-query).
 
-   {{<image filename="images/rs/screenshots/access-control/ldap-config.png" alt="The LDAP configuration screen in the Cluster Manager UI" >}}
+   ![The LDAP configuration screen in the Cluster Manager UI](/images/rs/screenshots/access-control/ldap-config.png)
 
 1. Select **Save & Enable**.
 
@@ -94,6 +94,6 @@ However, if you enable multi-factor authentication (MFA) for your LDAP server, y
 
 ## More info
 
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/8.0/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/8.0/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/8.0/security/" >}})
+- Map LDAP groups to [access control roles](/content/operate/rs/8.0/security/access-control/ldap/map-ldap-groups-to-roles.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/8.0/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Software [security and practices](/content/operate/rs/8.0/security/_index.md)

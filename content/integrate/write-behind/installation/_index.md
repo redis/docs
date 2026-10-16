@@ -1,6 +1,7 @@
 ---
 Title: Installation
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/installation/
 alwaysopen: false
 categories:
 - docs

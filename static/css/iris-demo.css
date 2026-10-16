@@ -1,0 +1,233 @@
+/* =========================================================================
+   Redis Iris scripted demo: a guided tour of one request
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the Iris demos share one look. Scoped under `.iris`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+/* One colour per service, used by its map node, its step, and the parts of the reply it supplied. */
+.iris .iris-svc-cache { --svc: #b35900; --svc-bg: rgba(179, 89, 0, .09); }
+.iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
+.iris .iris-svc-retriever { --svc: #6a4cff; --svc-bg: rgba(106, 76, 255, .09); }
+.iris .iris-svc-rdi { --svc: #0b7a99; --svc-bg: rgba(11, 122, 153, .09); }
+
+/* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
+.iris-stagewrap { position: relative; margin-bottom: 12px; }
+.iris-stage { position: relative; aspect-ratio: 893 / 570; border-radius: 11px; overflow: hidden; background: #0D212C; }
+/* The four published versions of the drawing, stacked twice. In a stack, a step shows the versions it needs and the
+   script sets how they blend; isolation keeps that blend inside the stack. The new stack fades in over the old one. */
+.iris-artset { position: absolute; inset: 0; isolation: isolate; opacity: 0; transition: opacity .45s; }
+.iris .iris-art { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; margin: 0; opacity: 0; pointer-events: none; user-select: none; }
+.iris .iris-art.is-on { opacity: 1; }
+.iris-over { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.iris-route { fill: none; stroke: none; }
+.iris-hit { fill: transparent; cursor: pointer; }
+.iris-pk-glow { fill: #ff4438; opacity: .9; }
+.iris-pk-core { fill: #fff; }
+/* Maya, the user, in the drawing's own style. Her link to the agent is dimmed, as the drawing dims a link, except on the steps she's part of. */
+.iris-maya { pointer-events: none; }
+.iris-maya-name { font-family: "Space Mono", var(--rcr-mono); font-size: 8.4px; letter-spacing: .3px; fill: #fff; }
+.iris-maya-link { opacity: .4; transition: opacity .45s; }
+.iris-maya-link circle { opacity: 0; transition: opacity .45s; }
+.iris-maya-link.is-lit, .iris-maya-link.is-lit circle { opacity: 1; }
+/* The Data Integration gear, turning as on redis.io/iris, in the drawing's own colors. Dimmed like the drawing dims it. */
+.iris-gear { pointer-events: none; }
+.iris-gear-patch { fill: #0D212C; }
+.iris-gear-back, .iris-gear-walls path { fill: #351D22; }
+.iris-gear-face { fill: #89302E; }
+.iris-gear-walls path, .iris-gear-face { stroke: #FF4438; stroke-width: .84px; stroke-linejoin: round; stroke-linecap: round; }
+.iris-gear-body, .iris-gear-ahead { transition: opacity .45s; }
+.iris-gear:not(.is-lit) .iris-gear-body { opacity: .4; }
+.iris-gear-ahead.is-dim, .iris-gear:not(.is-lit) .iris-gear-ahead.is-lit { opacity: 0; }
+.iris-gear:not(.is-lit) .iris-gear-ahead.is-dim { opacity: 1; }
+.iris-tag {
+  position: absolute; pointer-events: none; white-space: nowrap; font-family: var(--rcr-mono); font-size: 10px; font-weight: 600;
+  color: #091a23; background: #fff; border-radius: 6px; padding: 3px 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+  opacity: 0; transition: opacity .25s;
+}
+.iris-tag.is-on { opacity: 1; }
+@container (max-width: 400px) { .rcr .iris-tag { font-size: 9px; padding: 2px 6px; } }
+
+/* ---- POSTGRES and the Redis logo: a button shaped like each, and a ring on its own outline that pulses on the step where the data changes ---- */
+.iris .iris-databtn { position: absolute; z-index: 1; margin: 0; border: 0; padding: 0; background: transparent; cursor: pointer; }
+.iris .iris-databtn:focus { outline: none; }
+.iris-ring {
+  fill: none; stroke: #FF4438; stroke-width: 2px; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none;
+  transform-box: fill-box; transform-origin: center;
+}
+.iris-stage.is-step-rdi .iris-pulse { animation: iris-pulse 1.8s ease-out infinite; }
+.iris-stagewrap:has(.iris-pgbtn:hover) .iris-ring[data-src="pg"]:not(.iris-pulse),
+.iris-stagewrap:has(.iris-redisbtn:hover) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; }
+.iris-stagewrap:has(.iris-pgbtn:focus-visible) .iris-ring[data-src="pg"]:not(.iris-pulse),
+.iris-stagewrap:has(.iris-redisbtn:focus-visible) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; stroke: #fff; stroke-width: 2.5px; }
+@keyframes iris-pulse { 0% { opacity: .95; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
+
+/* ---- the PostgreSQL data window, over the diagram only, styled like it ---- */
+.iris-modal { position: absolute; inset: 0; z-index: 2; border-radius: 11px; overflow: hidden; }
+/* Fades and blurs the diagram behind the window, in the diagram's own navy. */
+.iris-backdrop {
+  position: absolute; inset: 0; background: rgba(13, 33, 44, .7); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  animation: iris-fade .25s ease-out;
+}
+@keyframes iris-fade { from { opacity: 0; } to { opacity: 1; } }
+.iris-window {
+  position: absolute; inset: 8px; display: flex; flex-direction: column;
+  background: #0D212C; border: 1px solid #3d5866; border-radius: 11px; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); color: #d8e3e8; overflow: hidden;
+  animation: iris-pop .25s ease-out;
+}
+@keyframes iris-pop { from { opacity: 0; transform: translateY(6px) scale(.985); } to { opacity: 1; transform: none; } }
+.iris-winhead { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-bottom: 1px solid #163341; }
+.iris-winlbl {
+  font-family: var(--rcr-mono); font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
+  background: #163341; border: 1px solid #8A99A0; border-radius: 4px; padding: 3px 8px;
+}
+.iris-winsub { font-family: var(--rcr-mono); font-size: 11px; color: #8A99A0; }
+.iris .iris-close {
+  margin-left: auto; flex: none; width: 26px; height: 26px; border-radius: 6px; border: 1px solid #3d5866; background: transparent;
+  color: #d8e3e8; font-size: 18px; line-height: 1; cursor: pointer;
+}
+.iris .iris-close:hover { border-color: #8A99A0; background: #163341; }
+.iris .iris-close:focus-visible, .iris .iris-wintab:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 68, 56, .8); }
+.iris-wintabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px 0; }
+.iris .iris-wintab {
+  font-family: var(--rcr-mono); font-size: 10.5px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer;
+  color: #8A99A0; background: transparent; border: 1px solid #3d5866; border-radius: 999px; padding: 3px 10px;
+}
+.iris .iris-wintab[aria-selected="true"] { color: #fff; background: #163341; border-color: #8A99A0; }
+.iris-wincount { color: #5C707A; margin-left: 2px; }
+.iris-wintab[aria-selected="true"] .iris-wincount { color: #B9C2C6; }
+.iris-winbody { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 8px 10px 9px; gap: 7px; }
+.iris-tablewrap { flex: 0 1 auto; overflow: auto; min-height: 0; border: 1px solid #163341; border-radius: 8px; }
+.iris-tablewrap:focus-visible { outline: 2px solid #FF4438; outline-offset: 2px; }
+.iris-pgtable { border-collapse: separate; border-spacing: 0; margin: 0; width: 100%; font-family: var(--rcr-mono); font-size: 10.5px; white-space: nowrap; }
+.iris-pgtable th {
+  position: sticky; top: 0; z-index: 1; text-align: left; font-weight: 600; font-size: 10px; letter-spacing: .5px; text-transform: uppercase;
+  color: #8A99A0; background: #102a37; padding: 5px 8px; border-bottom: 1px solid #163341;
+}
+.iris-pgtable td { padding: 4px 8px; border-bottom: 1px solid #12303e; color: #B9C2C6; background: #0D212C; }
+/* id stays pinned on the left while the rest scrolls, and name too when there's room (is-pin2). */
+.iris-pgtable tr > :first-child, .iris-pgtable.is-pin2 tr > :nth-child(2) { position: sticky; left: 0; z-index: 1; }
+.iris-pgtable thead tr > :first-child, .iris-pgtable.is-pin2 thead tr > :nth-child(2) { z-index: 2; }
+.iris-tablewrap.is-scrolled .iris-pgtable:not(.is-pin2) tr > :first-child,
+.iris-tablewrap.is-scrolled .iris-pgtable.is-pin2 tr > :nth-child(2) { box-shadow: 6px 0 8px -6px rgba(0, 0, 0, .6); }
+.iris-pgtable .is-num { text-align: right; }
+.iris-pgtable tr:last-child td { border-bottom: 0; }
+.iris-pgtable tr.is-used td { color: #fff; background: #2a2329; }
+.iris-pgtable tr.is-used td:first-child { box-shadow: inset 3px 0 0 #FF4438; }
+.iris-tablewrap.is-scrolled .iris-pgtable:not(.is-pin2) tr.is-used td:first-child { box-shadow: inset 3px 0 0 #FF4438, 6px 0 8px -6px rgba(0, 0, 0, .6); }
+.iris-pgtable tr.is-changed td { background: #3a242a; }
+.iris-old { color: #5C707A; text-decoration: line-through; }
+.iris-new { color: #fff; font-weight: 700; border-radius: 3px; padding: 0 3px; }
+.iris-flip.is-before .iris-old { display: none; }
+.iris-flip.is-flipped .iris-new { animation: iris-cell .9s ease-out; }
+@keyframes iris-cell { from { background: #FF4438; } to { background: transparent; } }
+.iris-winnote { flex: none; font-size: 12px; line-height: 1.4; color: #B9C2C6; }
+/* On a phone the window has the diagram's small height to work with. */
+@container (max-width: 400px) {
+  .rcr .iris-window { inset: 5px; }
+  .rcr .iris-winhead { padding: 5px 8px; }
+  .rcr .iris-winsub { display: none; }
+  .rcr .iris-wintabs { gap: 4px; padding: 6px 8px 0; flex-wrap: nowrap; }
+  .rcr .iris-wintab { font-size: 9.5px; padding: 2px 7px; }
+  .rcr .iris-winbody { padding: 6px 8px 7px; gap: 5px; }
+  .rcr .iris-pgtable { font-size: 10px; }
+  .rcr .iris-pgtable th { font-size: 9px; letter-spacing: .3px; }
+  .rcr .iris-pgtable td, .rcr .iris-pgtable th { padding: 3px 6px; }
+  .rcr .iris-winnote { font-size: 11px; line-height: 1.35; }
+}
+
+/* ---- the step ---- */
+.iris .iris-stepcard { border-top: 3px solid var(--svc, var(--rcr-ink)); }
+.iris-stephead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: 11.5px; color: var(--rcr-faint); }
+.iris-count { font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--svc, var(--rcr-muted)); }
+.iris .iris-clock { font-size: 11.5px; }
+.iris-title { font-size: 17px; font-weight: 700; line-height: 1.3; margin: 4px 0 6px; color: var(--rcr-ink); }
+.iris-text { font-size: 14px; line-height: 1.55; color: var(--rcr-muted); max-width: 68ch; }
+.iris-fact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 10px; padding: 9px 11px; border-radius: 8px; background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); font-size: 13px; }
+.iris-factrow { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 2px 10px; align-items: baseline; }
+.iris-factlbl { font-size: 10.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--rcr-faint); }
+.iris .iris-fact code { white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; }
+.iris-kv { font-family: var(--rcr-mono); font-size: 11.5px; color: var(--rcr-muted); }
+.iris-kv b { color: var(--rcr-ink); }
+.iris-more { color: var(--rcr-faint); font-size: 12px; }
+.iris-memtype {
+  justify-self: start; font-size: 9.5px; font-weight: 700; letter-spacing: .3px; border-radius: 4px; padding: 0 5px;
+  border: 1px solid var(--rcr-line); background: #fff; color: var(--rcr-ok);
+}
+.iris-tool { grid-template-columns: minmax(0, 1fr); gap: 1px; }
+.iris .iris-toolname { justify-self: start; color: var(--svc); font-weight: 700; }
+.iris-toolres { font-weight: 600; color: var(--rcr-ink); }
+.iris .iris-askmsg { justify-self: end; max-width: 92%; }
+.iris .iris-depth { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--svc, var(--rcr-accent-2)); text-decoration: none; }
+.iris .iris-depth:hover { text-decoration: underline; }
+
+/* ---- what the agent knows so far ---- */
+.iris-tray { margin-top: 10px; }
+.iris .iris-tray > .rcr-lbl { display: block; margin-bottom: 5px; }
+.iris-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris-chip { font-size: 12.5px; border-radius: 6px; padding: 2px 8px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); color: var(--rcr-ink); }
+.iris-chip.is-new { animation: iris-in .9s ease-out; }
+@keyframes iris-in { from { box-shadow: inset 0 -2px 0 var(--src), 0 0 0 3px var(--src-bg); transform: translateY(2px); } to { transform: none; } }
+
+/* ---- the reply, credited by source ---- */
+.iris-reply { display: grid; gap: 6px; justify-items: start; }
+.iris .iris-replymsg { max-width: 100%; line-height: 1.65; background: #fff; }
+/* A highlighter in four clearly different hues, so each part reads as its service at a glance. */
+.iris-src { border-radius: 3px; padding: 1px 3px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.iris-src-rdi { --src: #0b7a99; --src-bg: #cdebf4; }
+.iris-src-retriever { --src: #6a4cff; --src-bg: #e3ddff; }
+.iris-src-memory { --src: #1a7f4b; --src-bg: #cfeedd; }
+.iris-src-cache { --src: #b35900; --src-bg: #fde0c2; }
+/* The key: one chip per service, styled like its parts of the reply. */
+.iris-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.iris-legend .rcr-lbl { flex-basis: 100%; }
+.iris .iris-key {
+  margin: 0; border: 0; border-radius: 4px; padding: 3px 9px; font: inherit; font-size: 12.5px; font-weight: 600; line-height: 1.35; cursor: pointer;
+  color: color-mix(in srgb, var(--src) 85%, #000); background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); transition: background .15s, color .15s;
+}
+.iris .iris-key.is-on { background: color-mix(in srgb, var(--src) 32%, #fff); }
+.iris .iris-key[aria-pressed="true"] { color: #fff; background: var(--src); }
+.iris .iris-key:focus-visible { outline: 2px solid var(--src); outline-offset: 2px; }
+/* Picking a service fades the rest of the reply and strengthens its parts. */
+.iris-replymsg, .iris-src { transition: color .15s, background .15s, box-shadow .15s; }
+.iris-reply.is-picking .iris-replymsg { color: #a3adb2; }
+.iris-reply.is-picking .iris-src { background: transparent; box-shadow: none; }
+.iris-reply.is-picking .iris-src.is-on { color: var(--rcr-ink); background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src), 0 0 0 1px var(--src); }
+.iris-totals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-size: 13px; color: var(--rcr-muted); }
+.iris-totals b { color: var(--rcr-ink); }
+
+/* ---- what if a service were missing ---- */
+.iris-whatif { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
+.iris-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris .iris-pick.is-on { color: #fff; background: var(--svc); border-color: var(--svc); }
+.iris .iris-pickhint { margin: 0; }
+.iris-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+@container (min-width: 560px) { .rcr .iris-compare { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.iris-with, .iris-without { border: 1px solid var(--rcr-line); border-left-width: 3px; border-radius: 8px; padding: 7px 10px; font-size: 13px; background: #fff; }
+.iris-with { border-left-color: var(--rcr-ok); }
+.iris-without { border-left-color: var(--rcr-bad); background: rgba(198, 40, 40, .03); }
+.iris-cmplbl { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--rcr-faint); margin-bottom: 2px; }
+.iris-check { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; align-items: start; border: 1px solid var(--rcr-line); border-radius: 8px; padding: 7px 9px; font-size: 13px; background: #fff; }
+.iris-checkmark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
+.iris-check.is-ok .iris-checkmark { background: var(--rcr-ok); }
+.iris-check.is-slow .iris-checkmark, .iris-check.is-warn .iris-checkmark { background: #b35900; }
+.iris-check.is-bad .iris-checkmark { background: var(--rcr-bad); }
+.iris-check.is-bad { background: rgba(198, 40, 40, .05); border-color: rgba(198, 40, 40, .25); }
+.iris-checklabel { display: block; font-weight: 600; }
+.iris-checktext { display: block; font-size: 12px; color: var(--rcr-muted); }
+.iris .iris-why { margin: 0; font-size: 13.5px; color: var(--rcr-muted); }
+
+/* ---- navigation ---- */
+.iris-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin-top: 14px; }
+.iris .rcr-btn:disabled { opacity: .5; cursor: default; }
+.iris-dots { display: flex; justify-content: center; gap: 6px; }
+.iris .iris-dot { width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; background: var(--rcr-line-strong); cursor: pointer; }
+.iris .iris-dot.is-done { background: var(--rcr-faint); }
+.iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle { transition: none; }
+  .iris-window, .iris-backdrop, .iris-flip.is-flipped .iris-new { animation: none; }
+  .iris-stage.is-step-rdi .iris-pulse { animation: none; opacity: 1; }
+  .iris-chip.is-new { animation: none; }
+}

@@ -1,6 +1,7 @@
 ---
 Title: redis-di status
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-status/
 alwaysopen: false
 categories:
   - docs

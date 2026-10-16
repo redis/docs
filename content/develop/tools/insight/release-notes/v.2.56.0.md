@@ -5,6 +5,8 @@ date: 2024-09-09 00:00:00 +0000
 description: Redis Insight v2.56
 weight: 1
 
+aliases:
+- /develop/connect/insight/release-notes/v.2.56.0/
 ---
 ## 2.56 (September 2024)
 This is the General Availability (GA) release of Redis Insight 2.56.

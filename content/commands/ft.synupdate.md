@@ -97,21 +97,21 @@ OK
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SYNDUMP`]({{< relref "commands/ft.syndump/" >}}) 
+[`FT.SYNDUMP`](/content/commands/ft.syndump.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

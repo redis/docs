@@ -92,7 +92,7 @@ Verify that time is synchronized with the time server using one of the following
 
 #### Review system logs
 
-Review system logs including the syslog or journal for any error messages, warnings, or critical events. See [Logging]({{< relref "/operate/rs/clusters/logging" >}}) for more information.
+Review system logs including the syslog or journal for any error messages, warnings, or critical events. See [Logging](/content/operate/rs/clusters/logging/_index.md) for more information.
 
 ## Identify issues caused by security hardening
 
@@ -136,7 +136,7 @@ Review system logs including the syslog or journal for any error messages, warni
     rlcheck
     ```
 
-- Run [`rladmin status issues_only`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) and verify that no issues appear:
+- Run [`rladmin status issues_only`](/content/operate/rs/references/cli-utilities/rladmin/status.md) and verify that no issues appear:
 
     ```sh
     $ rladmin status issues_only
@@ -154,7 +154,7 @@ Review system logs including the syslog or journal for any error messages, warni
 
     ```
 
-- Run [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}). For each shard, `USED_MEMORY` should be less than 25 GB.
+- Run [`rladmin status shards`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-shards). For each shard, `USED_MEMORY` should be less than 25 GB.
 
     ```sh
     $ rladmin status shards
@@ -163,7 +163,7 @@ Review system logs including the syslog or journal for any error messages, warni
     db:1     db1          redis:1     node:1    master    0-16383     2.13MB            OK  
     ```
 
-- Run [`rladmin cluster running_actions`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/running_actions" >}}) and confirm that no tasks are currently running (active):
+- Run [`rladmin cluster running_actions`](/content/operate/rs/references/cli-utilities/rladmin/cluster/running_actions.md) and confirm that no tasks are currently running (active):
 
     ```sh
     $ rladmin cluster running_actions
@@ -192,15 +192,15 @@ Review system logs including the syslog or journal for any error messages, warni
 
 #### Client application issues
 
-1. To identify possible client application issues, test connectivity from the client machine to the database using [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+1. To identify possible client application issues, test connectivity from the client machine to the database using [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md):
 
-    [`INFO`]({{< relref "/commands/info" >}}):
+    [`INFO`](/content/commands/info.md):
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> INFO
     ```
 
-    [`PING`]({{< relref "/commands/ping" >}}):
+    [`PING`](/content/commands/ping.md):
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> PING
@@ -248,7 +248,7 @@ Review system logs including the syslog or journal for any error messages, warni
 
 #### Server-side latency
 
-- Make sure the database's used memory does not reach the configured database max memory limit. For more details, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).
+- Make sure the database's used memory does not reach the configured database max memory limit. For more details, see [Database memory limits](/content/operate/rs/databases/memory-performance/memory-limit.md).
 
 - Try to correlate the time of the latency with any surge in the following metrics:
 
@@ -260,15 +260,15 @@ Review system logs including the syslog or journal for any error messages, warni
 
     - Expired keys 
 
-- Run [`SLOWLOG GET`]({{< relref "/commands/slowlog-get" >}}) using [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to identify slow commands such as [`KEYS`]({{< relref "/commands/keys" >}}) or [`HGETALL`]({{< relref "/commands/hgetall" >}}:
+- Run [`SLOWLOG GET`](/content/commands/slowlog-get.md) using [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to identify slow commands such as [`KEYS`](/content/commands/keys.md) or [`HGETALL`](/content/commands/hgetall.md):
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> SLOWLOG GET <number of entries>
     ```
 
-    Consider using alternative commands such as [`SCAN`]({{< relref "/commands/scan" >}}), [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}})
+    Consider using alternative commands such as [`SCAN`](/content/commands/scan.md), [`SSCAN`](/content/commands/sscan.md), [`HSCAN`](/content/commands/hscan.md) and [`ZSCAN`](/content/commands/zscan.md)
 
-- Keys with large memory footprints can cause latency. To identify such keys, compare the keys returned by [`SLOWLOG GET`]({{< relref "/commands/slowlog-get" >}}) with the output of the following commands:
+- Keys with large memory footprints can cause latency. To identify such keys, compare the keys returned by [`SLOWLOG GET`](/content/commands/slowlog-get.md) with the output of the following commands:
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> --memkeys
@@ -280,9 +280,9 @@ Review system logs including the syslog or journal for any error messages, warni
 
 - For additional diagnostics, see:
 
-    - [Diagnosing latency issues]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}})
+    - [Diagnosing latency issues](/content/operate/oss_and_stack/management/optimization/latency.md)
 
-    - [View Redis slow log]({{< relref "/operate/rs/clusters/logging/redis-slow-log" >}})
+    - [View Redis slow log](/content/operate/rs/clusters/logging/redis-slow-log.md)
 
 #### Client-side latency
 

@@ -34,7 +34,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-datadog.png" alt="screenshot of datadog dashboard">}}
+![screenshot of datadog dashboard](/images/rc/redis-cloud-datadog.png)
 ## Install Redis' Datadog Integration for Redis Cloud
 
 Installing the Datadog integration is a two-step process. Firstly, the installation must be part of your configuration. 
@@ -88,4 +88,4 @@ A number of additional dashboards will be included in the next release (v1.1.0).
 
 ## Monitor metrics
 
-See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability" >}}) for monitoring details.
+See [Observability and monitoring guidance](/content/integrate/prometheus-with-redis-enterprise/observability.md) for monitoring details.

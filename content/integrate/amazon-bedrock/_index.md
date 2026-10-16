@@ -17,6 +17,8 @@ summary: With Amazon Bedrock, users can access foundational AI models from a var
   artificial intelligence.
 type: integration
 weight: 3
+aliases:
+- /integrate/aws-bedrock/
 ---
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) streamlines GenAI deployment by offering foundational models (FMs) as a unified API, eliminating complex infrastructure management. It lets you create AI-powered [Agents](https://aws.amazon.com/bedrock/agents/) that execute complex tasks. Through [Knowledge Bases](https://aws.amazon.com/bedrock/knowledge-bases/) within Amazon Bedrock, you can seamlessly tether FMs to your proprietary data sources using retrieval-augmented generation (RAG). This direct integration amplifies the FM's intelligence based on your organization's resources.
@@ -27,11 +29,11 @@ For more information about the Redis integration with Amazon Bedrock, see the [A
 
 To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
-1. [Set up a Redis Cloud subscription and vector database]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}}) for Bedrock.
+1. [Set up a Redis Cloud subscription and vector database](/content/integrate/amazon-bedrock/set-up-redis.md) for Bedrock.
 
-1. [Create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}) connected to your vector database.
+1. [Create a knowledge base](/content/integrate/amazon-bedrock/create-knowledge-base.md) connected to your vector database.
 
-1. [Create an agent]({{< relref "/integrate/amazon-bedrock/create-agent" >}}) connected to your knowledge base.
+1. [Create an agent](/content/integrate/amazon-bedrock/create-agent.md) connected to your knowledge base.
 
 ## More info
 

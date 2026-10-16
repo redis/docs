@@ -82,9 +82,8 @@ summary: Performs bitwise operations on multiple strings, and stores the result.
 syntax_fmt: BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]
 title: BITOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Perform a bitwise operation between multiple keys (containing string values) and
@@ -183,15 +182,13 @@ zero bytes up to the length of the longest string.
 
 ### Pattern: real time metrics using bitmaps
 
-`BITOP` is a good complement to the pattern documented in the [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) command
+`BITOP` is a good complement to the pattern documented in the [`BITCOUNT`](/content/commands/bitcount.md) command
 documentation.
 Different bitmaps can be combined in order to obtain a target bitmap where
 the population counting operation is performed.
 
 See the article called "[Fast easy realtime metrics using Redis
-bitmaps][hbgc212fermurb]" for an interesting use cases.
-
-[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps
+bitmaps](http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps)" for an interesting use cases.
 
 ### Performance considerations
 

@@ -24,9 +24,8 @@ To prevent `systemd-resolved` from using port 53:
     sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
     ```
 
-    {{< note >}}
-You might encounter a temporary name resolution error (`sudo: unable to resolve host {hostname}: Temporary failure in name resolution`), which should be fixed when you restart `systemd-resolved` in the next step.
-    {{< /note >}}
+    > [!NOTE]
+    > You might encounter a temporary name resolution error (`sudo: unable to resolve host {hostname}: Temporary failure in name resolution`), which should be fixed when you restart `systemd-resolved` in the next step.
 
 2. Restart the DNS service:
 

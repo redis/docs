@@ -104,8 +104,7 @@ returns an error directing the caller to `BITRANGEINTARRAY`. Configured client
 output-buffer limits also apply and can disconnect a client whose reply grows
 too large.
 
-For large bitmaps, use [`BITRANGEINTARRAY`]({{< relref
-"/commands/bitrangeintarray" >}}) to request a bounded page. Response size and
+For large bitmaps, use [`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) to request a bounded page. Response size and
 serialization cost grow with the number of set bits.
 
 Offsets retain the native bitmap's full supported range, including values
@@ -134,8 +133,8 @@ above `4294967295` when the bitmap was created with a sufficiently large
 
 ## See also
 
-[`BITRANGEINTARRAY`]({{< relref "/commands/bitrangeintarray" >}})
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md)
 
 ## Related topics
 
-- [Roaring-compressed bitmaps]({{< relref "/develop/data-types/strings/bitmaps#roaring-compressed-bitmaps" >}})
+- [Roaring-compressed bitmaps](/content/develop/data-types/strings/bitmaps.md#roaring-compressed-bitmaps)

@@ -1,6 +1,7 @@
 ---
 Title: Write to a Redis string
-aliases: null
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-string-example/
 alwaysopen: false
 categories:
 - docs
@@ -24,7 +25,7 @@ The `title` is then written to the Redis target database as a string under a cus
 form `AlbumTitle:42`, where the `42` is the primary key value of the table (the `albumid` column).
 
 The `connection` is an optional parameter that refers to the corresponding connection name defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}). 
+[`config.yaml`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md). 
 When you specify the `data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. Here, the `string` data type also requires an `args` subsection
 with a `value` argument that specifies the column you want to capture from the source table.
 

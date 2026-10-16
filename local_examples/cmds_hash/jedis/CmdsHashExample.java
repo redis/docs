@@ -215,6 +215,26 @@ public class CmdsHashExample {
         jedis.del("myhash");
         // REMOVE_END
 
+        // STEP_START hlen
+        // `hset` returns 1 because `field1` is a new field.
+        long hLenResult1 = jedis.hset("myhash", "field1", "Hello");
+        System.out.println(hLenResult1);    // >>> 1
+
+        // `hset` returns 1 because `field2` is also a new field.
+        long hLenResult2 = jedis.hset("myhash", "field2", "World");
+        System.out.println(hLenResult2);    // >>> 1
+
+        long hLenResult3 = jedis.hlen("myhash");
+        System.out.println(hLenResult3);    // >>> 2
+        // STEP_END
+        // REMOVE_START
+        // Tests for 'hlen' step.
+        assertEquals(1L, hLenResult1);
+        assertEquals(1L, hLenResult2);
+        assertEquals(2L, hLenResult3);
+        jedis.del("myhash");
+        // REMOVE_END
+
 // HIDE_START
         jedis.close();
     }

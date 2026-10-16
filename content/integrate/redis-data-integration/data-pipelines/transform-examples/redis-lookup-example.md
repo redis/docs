@@ -16,7 +16,7 @@ weight: 40
 ---
 
 You can use the
-[`redis.lookup`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/lookup" >}})
+[`redis.lookup`](/content/integrate/redis-data-integration/reference/data-transformation/lookup.md)
 transformation to read existing data from Redis during the `transform` stage of a
 job. This lets you enrich an incoming record with values that are already present
 in the target database.
@@ -26,31 +26,30 @@ that is already stored in Redis and use `redis.lookup` in an `album` table job t
 add selected artist details to each album record before writing it to the target
 database.
 
-{{< warning >}}
-Do not rely on `redis.lookup` to *denormalize* data that RDI writes from another
-table in the **same pipeline**. RDI can't guarantee that the looked-up data will be
-present or up to date when the lookup runs, for the following reasons:
-
-- **Snapshot order isn't guaranteed.** During the initial snapshot, RDI can't
-  guarantee that the table you look up is ingested before the table that depends
-  on it. If a dependent job runs before the referenced key has been written, the
-  lookup misses.
-- **Change (CDC) order isn't guaranteed.** If a parent and child record are
-  inserted or updated at around the same time, RDI has no way to order these
-  events, so the lookup can still miss.
-- **Parent updates don't refresh existing keys.** Even if the lookup succeeds,
-  updating the source record later does *not* update the keys that already copied
-  its values. The denormalized data becomes stale.
-
-The only case where `redis.lookup` is safe for enrichment is when you can guarantee
-that the looked-up data is present in the target database *independently* of the
-RDI pipeline (for example, a reference table that is loaded and maintained
-separately).
-
-To denormalize data that RDI ingests, use a supported technique instead. See
-[Data denormalization]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization" >}})
-for one-to-one joins (using `merge`) and one-to-many joins (using nesting).
-{{< /warning >}}
+> [!WARNING]
+> Do not rely on `redis.lookup` to *denormalize* data that RDI writes from another
+> table in the **same pipeline**. RDI can't guarantee that the looked-up data will be
+> present or up to date when the lookup runs, for the following reasons:
+>
+> - **Snapshot order isn't guaranteed.** During the initial snapshot, RDI can't
+>   guarantee that the table you look up is ingested before the table that depends
+>   on it. If a dependent job runs before the referenced key has been written, the
+>   lookup misses.
+> - **Change (CDC) order isn't guaranteed.** If a parent and child record are
+>   inserted or updated at around the same time, RDI has no way to order these
+>   events, so the lookup can still miss.
+> - **Parent updates don't refresh existing keys.** Even if the lookup succeeds,
+>   updating the source record later does *not* update the keys that already copied
+>   its values. The denormalized data becomes stale.
+>
+> The only case where `redis.lookup` is safe for enrichment is when you can guarantee
+> that the looked-up data is present in the target database *independently* of the
+> RDI pipeline (for example, a reference table that is loaded and maintained
+> separately).
+>
+> To denormalize data that RDI ingests, use a supported technique instead. See
+> [Data denormalization](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md)
+> for one-to-one joins (using `merge`) and one-to-many joins (using nesting).
 
 ## Reading a hash field
 
@@ -58,8 +57,8 @@ The `redis.lookup` transformation works by executing a Redis command and adding 
 result to the record. You specify the command and its arguments in the
 `transform` configuration with the `cmd` and `args` properties. For example, the
 following transformation job uses the
-[`HGET`]({{< relref "/commands/hget" >}}) command to read the `name` field from an
-artist [hash]({{< relref "/develop/data-types/hashes" >}}) and adds it to the
+[`HGET`](/content/commands/hget.md) command to read the `name` field from an
+artist [hash](/content/develop/data-types/hashes.md) and adds it to the
 album record under the `artist` field. A particularly important thing to note
 here is that the `args` elements are all interpreted as [JMESPath](https://jmespath.org/)
 expressions, but YAML syntax allows for each element to be a quoted string. This means that
@@ -121,13 +120,13 @@ extra `artist` field obtained by looking up the artist with the `artistid`:
 
 ## Embedding a JSON document
 
-If you are using [JSON]({{< relref "/develop/data-types/json" >}}) objects,
+If you are using [JSON](/content/develop/data-types/json/_index.md) objects,
 you can read the whole of one object and embed it
 as a field of another. The following example shows how to do this using a temporary field
 to hold the result of the `redis.lookup` command. It then uses
-[`add_field`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/add_field" >}})
+[`add_field`](/content/integrate/redis-data-integration/reference/data-transformation/add_field.md)
 to insert the new field and
-[`remove_field`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/remove_field" >}})
+[`remove_field`](/content/integrate/redis-data-integration/reference/data-transformation/remove_field.md)
 to remove the temporary field and the now-redundant `artistid` field before writing the album object.
 
 ```yaml

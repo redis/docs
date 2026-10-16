@@ -20,8 +20,8 @@ An API object that represents a node in the cluster.
 | addr | string | Internal IP address of node |
 | architecture | string | Hardware architecture (read-only) |
 | bigredis_storage_path | string | Flash storage path (read-only) |
-| bigstore_driver | 'ibm-capi-ga1'<br />'ibm-capi-ga2'<br />'ibm-capi-ga4'<br />'speedb'<br />'rocksdb' | Bigstore driver name or none (deprecated as of Redis Software v7.2, use the [cluster object]({{< relref "/operate/rs/8.0/references/rest-api/objects/cluster" >}})'s `bigstore_driver` instead) |
-| bigstore_enabled | boolean | If `true`, then flash storage is enabled on this node for [Redis Flex and Auto Tiering]({{<relref "/operate/rs/8.0/databases/flash">}}) databases. Configurable during [bootstrapping]({{<relref "/operate/rs/8.0/references/rest-api/requests/bootstrap#post-bootstrap">}}). After bootstrapping, it is read-only. |
+| bigstore_driver | 'ibm-capi-ga1'<br />'ibm-capi-ga2'<br />'ibm-capi-ga4'<br />'speedb'<br />'rocksdb' | Bigstore driver name or none (deprecated as of Redis Software v7.2, use the [cluster object](/content/operate/rs/8.0/references/rest-api/objects/cluster/_index.md)'s `bigstore_driver` instead) |
+| bigstore_enabled | boolean | If `true`, then flash storage is enabled on this node for [Redis Flex and Auto Tiering](/content/operate/rs/8.0/databases/flash/_index.md) databases. Configurable during [bootstrapping](/content/operate/rs/8.0/references/rest-api/requests/bootstrap/_index.md#post-bootstrap). After bootstrapping, it is read-only. |
 | bigstore_size | integer | Storage size of bigstore storage (read-only) |
 | cores | integer | Total number of CPU cores (read-only) |
 | ephemeral_storage_path | string | Ephemeral storage path (read-only) |

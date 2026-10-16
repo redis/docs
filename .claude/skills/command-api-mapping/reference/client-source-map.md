@@ -18,6 +18,7 @@ here yet; use the "finding new command files" recipe below.
 | `nredisstack_sync` / `nredisstack_async` | github.com/redis/NRedisStack | `master` | C# |
 | `php` | github.com/predis/predis | `main` | PHP |
 | `redis_rs_sync` / `redis_rs_async` | github.com/redis-rs/redis-rs | `main` | Rust |
+| `redis_rb` | github.com/redis/redis-rb | `master` | Ruby |
 
 (Branch names drift; if a fetch 404s, try `main`/`master`/`develop`.)
 
@@ -47,6 +48,9 @@ here yet; use the "finding new command files" recipe below.
 - **php (predis)** — `src/ClientInterface.php` for most signatures; container commands
   (XGROUP, XINFO) define subcommands in `@method` docblocks under `src/Command/Container/`.
 - **redis-rs** — `redis/src/commands/mod.rs` (the `implement_commands!` macro block).
+- **redis_rb** — per-type modules under `lib/redis/commands/` (`hashes.rb`, `strings.rb`, …).
+  Some methods are overridden in `lib/redis.rb` (for example the HIMPORT fieldset registry);
+  map the public method name from `commands/`.
 
 ## Finding new command files (the AR* lesson)
 

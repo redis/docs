@@ -48,7 +48,7 @@ The returned type is one of the following strings:
 | `array` | A JSON array (an ordered list of values). |
 
 1. <a name="table-note-1"></a>
-A floating-point homogeneous array (FPHA) stored with the [`JSON.SET`]({{< relref "commands/json.set/" >}}) `FPHA` argument still reports as `array`, and its elements report as `number`. The FP type (`FP16`, `BF16`, `FP32`, or `FP64`) is an internal storage representation and is not exposed by `JSON.TYPE`.
+A floating-point homogeneous array (FPHA) stored with the [`JSON.SET`](/content/commands/json.set.md) `FPHA` argument still reports as `array`, and its elements report as `number`. The FP type (`FP16`, `BF16`, `FP32`, or `FP64`) is an internal storage representation and is not exposed by `JSON.TYPE`.
 
 [Examples](#examples)
 
@@ -93,23 +93,23 @@ redis> JSON.TYPE doc $..dummy
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each element is the type of the matching value.
+With `$`-based path argument: [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings), where each element is the type of the matching value.
 
-With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+With `.`-based path argument: [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) representing the type of the matching value.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the type of the matching value.
+With `$`-based path argument (default): [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [array replies](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings), where each nested array contains the type of the matching value.
 
-With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+With `.`-based path argument: [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) representing the type of the matching value.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.ARRLEN`](/content/commands/json.arrlen.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

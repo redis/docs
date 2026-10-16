@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-delete-context/
 ---
 
 Deletes a context from the `~/.redis-di` context file. Because this is destructive, the command asks
@@ -24,7 +25,7 @@ redis-di delete-context <name> [flags]
 | `--force` | Skip the confirmation prompt. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

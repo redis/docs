@@ -14,20 +14,20 @@ title: Redis recommendation engine with Predis
 weight: 8
 ---
 
-This guide shows you how to build a small Redis-backed product recommendation service in PHP with [`predis/predis`]({{< relref "/develop/clients/php" >}}) and the [`codewithkyrian/transformers`](https://transformers.codewithkyrian.com/) (TransformersPHP) library. It includes a local web server built on PHP's built-in development server so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
+This guide shows you how to build a small Redis-backed product recommendation service in PHP with [`predis/predis`](/content/develop/clients/php/_index.md) and the [`codewithkyrian/transformers`](https://transformers.codewithkyrian.com/) (TransformersPHP) library. It includes a local web server built on PHP's built-in development server so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
 
 ## Overview
 
-Each product is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers every field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass — no cross-store joins.
+Each product is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers every field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass — no cross-store joins.
 
-Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}). [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
+Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md). [`FT.SEARCH`](/content/commands/ft.search.md) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
 
 That gives you:
 
-* A single round trip for retrieval — vector KNN + structured filters in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for retrieval — vector KNN + structured filters in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Sub-millisecond hot path once the query is embedded; embedding the query is the bottleneck, and that's a model-side cost, not a Redis one.
 * Real-time session signals — a click writes a new session vector and bumps an affinity counter; the next query reads them and folds them in.
-* No-downtime embedding refresh — [`HSET`]({{< relref "/commands/hset" >}}) on the vector field, and the HNSW index reflects the change on the next query.
+* No-downtime embedding refresh — [`HSET`](/content/commands/hset.md) on the vector field, and the HNSW index reflects the change on the next query.
 
 ## How it works
 
@@ -37,7 +37,7 @@ There are two distinct paths: a **query path** runs every time the application w
 
 1. The application calls `$embedder->encodeOne($queryText)` to turn a natural-language query into a 384-element `float[]`.
 2. The application reads the user's session vector and affinities from the user features hash. If a session vector exists, it gets blended into the query vector with a tunable weight, so the user's recent clicks pull retrieval toward what they've been engaging with.
-3. `$recommender->candidateRetrieve($queryVec, ...)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
+3. `$recommender->candidateRetrieve($queryVec, ...)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
 4. `$recommender->rerank($candidates, $userFeatures)` subtracts a log-scaled per-category affinity bonus from each candidate's distance and re-sorts the list closest-first. The log scaling keeps repeated clicks from running away with the ranking.
 
 ### Click path (per user interaction)
@@ -45,12 +45,12 @@ There are two distinct paths: a **query path** runs every time the application w
 When the user clicks a product, `$recommender->recordClick($userId, $productId)` does the following:
 
 1. Reads the clicked item's embedding from its hash.
-2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`]({{< relref "/commands/hset" >}}). This is a read-modify-write — atomic against any single write but not against a concurrent click for the same user; in practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`]({{< relref "/commands/multi" >}}) or a small Lua script.
-3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) — atomic, no read needed — and the click count with [`HINCRBY`]({{< relref "/commands/hincrby" >}}).
+2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`](/content/commands/hset.md). This is a read-modify-write — atomic against any single write but not against a concurrent click for the same user; in practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`](/content/commands/multi.md) or a small Lua script.
+3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md) — atomic, no read needed — and the click count with [`HINCRBY`](/content/commands/hincrby.md).
 
 The next query path picks both changes up the next time it reads the user features hash.
 
-Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`]({{< relref "/commands/hset" >}}), and the HNSW index reflects the change on the next query without a rebuild.
+Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`](/content/commands/hset.md), and the HNSW index reflects the change on the next query without a rebuild.
 
 ## The recommender helper
 
@@ -144,7 +144,7 @@ FT.CREATE recommend:idx
     embedding   VECTOR HNSW 6 TYPE FLOAT32 DIM 384 DISTANCE_METRIC COSINE
 ```
 
-Predis exposes Redis Search through dedicated client methods (`ftcreate`, `ftsearch`, `ftinfo`, `ftdropindex`, `fttagvals`) and matching schema-field classes (`TextField`, `TagField`, `NumericField`, `VectorField`) — see [`Recommender.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/recommendation-engine/php/Recommender.php). For a step-by-step walk-through of the typed Predis API for vector indexing, see the [PHP vector-search reference]({{< relref "/develop/clients/php/vecsearch" >}}).
+Predis exposes Redis Search through dedicated client methods (`ftcreate`, `ftsearch`, `ftinfo`, `ftdropindex`, `fttagvals`) and matching schema-field classes (`TextField`, `TagField`, `NumericField`, `VectorField`) — see [`Recommender.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/recommendation-engine/php/Recommender.php). For a step-by-step walk-through of the typed Predis API for vector indexing, see the [PHP vector-search reference](/content/develop/clients/php/vecsearch.md).
 
 Per-user state is a separate hash. The session vector is stored as raw `float32` bytes the same way; affinity counters are stored as plain numeric strings, one field per category, prefixed with `aff:` so they don't collide with anything else.
 
@@ -211,7 +211,7 @@ foreach ($CATALOG as $product) {
 }
 ```
 
-In production the equivalent of this script lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`]({{< relref "/commands/hset" >}}). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
+In production the equivalent of this script lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`](/content/commands/hset.md). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
 
 ## The interactive demo
 
@@ -270,8 +270,8 @@ In production the equivalent of this script lives in an offline pipeline: embed 
     example). The download adds ~70 MB on the first install.
 
 4.  Make sure a Redis instance with the Redis Search module is running locally on
-    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-    [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+    port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+    [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 
 5.  Generate the catalogue with pre-computed embeddings. The first run downloads the
     `Xenova/all-MiniLM-L6-v2` model (~80 MB) into the local TransformersPHP cache:

@@ -3,8 +3,6 @@ using StackExchange.Redis;
 // REMOVE_START
 using NRedisStack.Tests;
 
-#pragma warning disable SER001 // Experimental StackExchange.Redis API usage is expected in doc samples
-
 namespace Doc;
 [Collection("DocsTests")]
 // REMOVE_END

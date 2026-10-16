@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-describe-job/
 ---
 
 Describes a single job of a pipeline, printing its source properties followed by tables that
@@ -24,7 +25,7 @@ redis-di describe-job <name> [flags]
 | `-p`, `--pipeline` | Pipeline to target (default `default`). |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

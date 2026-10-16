@@ -154,7 +154,7 @@ whose reply grows too large.
 The unsigned 32-bit restriction applies to ranks, not returned offsets. Offsets
 retain the native bitmap's full supported range, including values above
 `4294967295`. Clients must preserve the precision of returned integers. Use
-[`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}}) to return all set-bit
+[`BITGETINTARRAY`](/content/commands/bitgetintarray.md) to return all set-bit
 offsets in one response.
 
 ## Redis Software and Redis Cloud compatibility
@@ -179,8 +179,8 @@ offsets in one response.
 
 ## See also
 
-[`BITGETINTARRAY`]({{< relref "/commands/bitgetintarray" >}})
+[`BITGETINTARRAY`](/content/commands/bitgetintarray.md)
 
 ## Related topics
 
-- [Roaring-compressed bitmaps]({{< relref "/develop/data-types/strings/bitmaps#roaring-compressed-bitmaps" >}})
+- [Roaring-compressed bitmaps](/content/develop/data-types/strings/bitmaps.md#roaring-compressed-bitmaps)

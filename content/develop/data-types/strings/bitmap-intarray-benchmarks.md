@@ -13,7 +13,7 @@ This guide contains the benchmark methodology and historical measurements
 associated with [redis/redis#15986](https://github.com/redis/redis/pull/15986).
 The historical results are retained from that pull request and were measured
 before the native commands were renamed. They are not measurements of the
-latest revision. See the [bitmap guide]({{< relref "/develop/data-types/strings/bitmaps" >}})
+latest revision. See the [bitmap guide](/content/develop/data-types/strings/bitmaps.md)
 for command usage.
 
 The benchmark script lives in the Redis source repository at
