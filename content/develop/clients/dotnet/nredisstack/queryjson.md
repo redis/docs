@@ -108,7 +108,7 @@ Specify query options to return only the `city` field:
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city, sorted by city name.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="cs_home_json" step="query3" description="Aggregation queries: Use GROUP BY and COUNT operations to summarize and analyze indexed data" difficulty="advanced" >}}
 {{< /clients-example >}}

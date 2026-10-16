@@ -93,7 +93,7 @@ A separate call to [`VSetAttr()`](/content/commands/vsetattr.md) then adds the
 access this during a query or by using the
 [`VGetAttr()`](/content/commands/vgetattr.md) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and add data to a vector set with VAdd including attribute metadata" difficulty="intermediate" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and add data to a vector set with VAdd, then set attribute metadata with VSetAttr" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
