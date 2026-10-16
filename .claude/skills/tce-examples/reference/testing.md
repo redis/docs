@@ -139,6 +139,24 @@ raising them can break other sets), test such a set outside `run.sh`. Give each 
 scratch project pinned to its first supporting release, with its own throwaway
 `redis:<version>` container on a spare port, and change the port only in the scratch copy.
 
+## Run twice: state that survives a rerun
+
+Some server-side state outlives the example that created it, so one green run proves less
+than it seems. Compact hashes (`HIMPORT`, Redis 8.10) are the known case (DOC-7196):
+
+- A compact hash returns its fields in a different order from the declared one (age, city,
+  name, email for the search examples), so any print or assert of a whole hash or search
+  document changes. Queries that `RETURN` named fields are unaffected.
+- `HSET` on a key that's already a compact hash keeps it compact. An example that
+  re-creates its keys without deleting them first passes on a clean server and fails on the
+  second run.
+
+So run any example that touches compact hashes **twice in a row against the same server**.
+If the second run differs, add a hidden `REMOVE` delete of the keys after the connect step.
+When an example rewrites identical values over existing keys, also run a copy with the
+original write removed. Otherwise a stale index or cached value can produce the expected
+output on its own.
+
 ## Codex evaluation (Phase 4)
 
 An independent reviewer with fresh context. It catches what the harness structurally cannot:
