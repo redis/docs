@@ -39,6 +39,7 @@ checklist as you complete each step.
 - [ ] [Install the logical decoding output plug-in](#install-the-logical-decoding-output-plug-in)
 - [ ] [Configure the PostgreSQL server](#configure-the-postgresql-server)
 - [ ] [Set up permissions](#set-up-permissions)
+- [ ] [Check replica identity and choose a publication mode](#check-replica-identity-and-choose-a-publication-mode)
 - [ ] [Set privileges for Debezium to create PostgreSQL publications with pgoutput](#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput)
 - [ ] [Configure PostgreSQL for replication with the Debezium connector host](#configure-postgresql-for-replication-with-the-debezium-connector-host)
 ```
@@ -183,6 +184,128 @@ needs to perform replications, but you might also need to grant other permission
 CREATE ROLE <name> REPLICATION LOGIN;
 ```
 
+## Check replica identity and choose a publication mode
+
+Before you start RDI, check the tables that RDI will capture and choose how PostgreSQL
+should publish their changes.
+
+PostgreSQL needs a [replica identity](https://www.postgresql.org/docs/current/logical-replication-publication.html)
+to identify the old row when it publishes an `UPDATE` or `DELETE`. By default, PostgreSQL
+uses the table's primary key. A table without a primary key has no usable replica identity
+unless you configure one. Inserts do not need a replica identity.
+
+Run the following query while connected to the database that RDI uses. You do not put the
+database name in the query; select that database in your SQL editor or connection settings.
+The query checks all non-system schemas. To check only one schema, uncomment the marked line
+and replace `<schema_name>` with your schema name.
+
+```sql
+SELECT n.nspname AS schema_name,
+       c.relname AS table_name,
+       CASE c.relreplident
+           WHEN 'd' THEN 'default'
+           WHEN 'n' THEN 'nothing'
+           WHEN 'f' THEN 'full'
+           WHEN 'i' THEN 'index'
+       END AS replica_identity
+FROM pg_class AS c
+JOIN pg_namespace AS n ON n.oid = c.relnamespace
+WHERE c.relkind = 'r'
+  AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+  -- Optional: uncomment and replace <schema_name> to check one schema only.
+  -- AND n.nspname = '<schema_name>'
+  AND (
+      c.relreplident = 'n'
+      OR (
+          c.relreplident = 'd'
+          AND NOT EXISTS (
+              SELECT 1
+              FROM pg_index AS i
+              WHERE i.indrelid = c.oid
+                AND i.indisprimary
+          )
+      )
+  )
+ORDER BY n.nspname, c.relname;
+```
+
+If this query returns a table that will be published, add a primary key where possible.
+You can also configure a suitable unique index as the replica identity:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY USING INDEX <unique_index_name>;
+```
+
+As a fallback, you can record the full old row in the write-ahead log:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY FULL;
+```
+
+`REPLICA IDENTITY FULL` can increase write-ahead log volume and reduce performance, so use
+it only when a primary key or suitable unique index is not possible. The `keys` setting in
+an RDI table definition creates a key for the Redis record. It does not create a PostgreSQL
+primary key or replica identity.
+
+### Choose a publication mode
+
+The `publication.autocreate.mode` setting controls how RDI and Debezium manage the
+PostgreSQL publication:
+
+| Mode | Behavior | Recommended use |
+| --- | --- | --- |
+| **`all_tables` (default)** | Creates a `FOR ALL TABLES` publication when the publication does not exist. If it already exists, RDI uses the existing publication. | Use when all tables in the database should be published, after checking their replica identities. |
+| `filtered` | Creates or updates the publication to contain the tables configured for the RDI source. | Recommended when RDI captures selected tables. RDI manages the publication when the pipeline is redeployed with a changed table filter. |
+| `disabled` | Does not create or change the publication. The publication must already exist. | Use when a database administrator manages the publication. |
+
+The `all_tables` mode can publish changes for tables that are not listed in the RDI
+pipeline. If an application later updates or deletes a row in a published table without
+a replica identity, PostgreSQL can reject that application write. For this reason,
+`filtered` is the recommended mode for a pipeline that captures only selected tables.
+
+For a customer-managed publication, create an explicit table list and disable automatic
+publication management. For example:
+
+```sql
+CREATE PUBLICATION rdi_publication
+FOR TABLE public.customers, public.orders;
+```
+
+Then set the following properties under the PostgreSQL source in your RDI `config.yaml`:
+
+```yaml
+sources:
+  <source_name>:
+    advanced:
+      source:
+        publication.name: rdi_publication
+        publication.autocreate.mode: disabled
+```
+
+### PostgreSQL publication error FAQ
+
+#### I get this PostgreSQL error. What should I do?
+
+You may see the following error when an application updates a published table without a
+replica identity:
+
+```text
+SQLSTATE 55000
+ERROR: cannot update table "example_table" because it does not have a replica identity and publishes updates
+HINT: To enable updating the table, set REPLICA IDENTITY using ALTER TABLE.
+```
+
+Check whether the table should be captured by RDI. If it should, add a primary key or
+configure a suitable replica identity. As a fallback, run:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY FULL;
+```
+
+If the table should not be captured, use `publication.autocreate.mode: filtered` or remove
+the table from the customer-managed publication. If you changed the RDI table filters or
+publication mode, redeploy the pipeline so RDI applies the new configuration.
+
 ## Set privileges for Debezium to create PostgreSQL publications with `pgoutput`
 
 The Debezium user needs specific permissions to work with the `pgoutput` plug-in.
@@ -241,10 +364,11 @@ the replication group using the following commands:
     ALTER TABLE table_name OWNER TO replication_group;
     ```
 
-You must also set the value of the `publication.autocreate.mode` parameter to `filtered`
-to allow Debezium to specify the publication configuration. See the
+If you want Debezium to create or update a publication for the tables configured in the RDI
+source, set `publication.autocreate.mode` to `filtered`. See the
 [Debezium documentation for `publication.autocreate.mode`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-publication-autocreate-mode)
-to learn more about this setting.
+to learn more about this setting. If a database administrator manages an existing
+publication, use `disabled` instead, as described in [Choose a publication mode](#choose-a-publication-mode).
 
 ## Configure PostgreSQL for replication with the Debezium connector host
 
