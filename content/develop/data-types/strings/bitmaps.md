@@ -418,8 +418,9 @@ representation transition explicitly so replicas produce the same type even if
 their local setting differs.
 
 For `SETBIT` and writing `BITFIELD` operations, Redis records the representation
-transition as `BITCONVERT` before the bitmap command. For `BITOP`, Redis uses
-`BITROAROP` to preserve a native result selected by `bitmap-default-roaring`.
+transition as [`BITCONVERT`](/content/commands/bitconvert.md) before the bitmap
+command. For `BITOP`, Redis uses [`BITROAROP`](/content/commands/bitroarop.md) to
+preserve a native result selected by `bitmap-default-roaring`.
 These commands are reserved for internal replication and AOF loading. Ordinary
 clients cannot invoke them or discover them through `COMMAND` introspection; direct calls
 return `ERR unknown command`. Applications should use the public bitmap
