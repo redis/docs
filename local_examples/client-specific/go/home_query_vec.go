@@ -150,6 +150,27 @@ func main() {
 	}
 	// STEP_END
 
+	// STEP_START himport_data
+	err = rdb.HImportPrepare(ctx, "doc", "content", "genre", "embedding").Err()
+	if err != nil {
+		panic(err)
+	}
+
+	pipe := rdb.Pipeline()
+
+	for i, emb := range embeddings {
+		pipe.HImportSet(ctx,
+			fmt.Sprintf("doc:%v", i),
+			"doc",
+			sentences[i], tags[i], floatsToBytes(emb),
+		)
+	}
+
+	if _, err := pipe.Exec(ctx); err != nil {
+		panic(err)
+	}
+	// STEP_END
+
 	// STEP_START query
 	// Generate query embedding using Hugot
 	queryResult, err := embeddingPipeline.RunPipeline([]string{
