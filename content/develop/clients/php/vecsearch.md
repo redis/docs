@@ -91,10 +91,24 @@ The code below shows how to use the
 tokenizer to generate the embeddings. The vectors that represent the
 embeddings have 384 dimensions, regardless of the length of the input
 text. Here, the `pipeline()` call creates the `$extractor` function that
-generates embeddings from text:
+generates embeddings from text.
+
+The `all-MiniLM-L6-v2` model expects mean pooling followed by normalization
+to unit length (see the
+[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+page for more information). In TransformersPHP v0.6.2, the `normalize: true`
+option has no effect. The `$embed()` function below calls `$extractor()` with
+mean pooling and then normalizes the vector itself:
 
 ```php
 $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
+
+$embed = function (string $text) use ($extractor): array {
+    $emb = $extractor($text, pooling: 'mean')[0];
+    $norm = sqrt(array_sum(array_map(fn($x) => $x * $x, $emb)));
+
+    return array_map(fn($x) => $x / $norm, $emb);
+};
 ```
 
 ## Create the index
@@ -159,14 +173,8 @@ You can now supply the data objects, which will be indexed automatically
 when you add them with [`hmset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
-Use the `$extractor()` function as shown below to create the embedding that
-represents the `content` field. Note that `$extractor()` can generate multiple
-embeddings from multiple strings parameters at once, so it returns an array of
-embedding vectors. Here, there is only one embedding in the returned array.
-The `normalize:` and `pooling:` named parameters relate to details
-of the embedding model (see the
-[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-page for more information).
+Use the `$embed()` function as shown below to create the embedding that
+represents the `content` field.
 
 To add an embedding as a field of a hash object, you must encode the
 vector array as a binary string. The built-in
@@ -181,30 +189,30 @@ below).
 
 ```php
 $content = "That is a very happy person";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:0",[
     "content" => $content,
     "genre" => "persons",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 
 $content = "That is a happy dog";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:1",[
     "content" => $content,
     "genre" => "pets",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 
 $content = "Today is a sunny day";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:2",[
     "content" => $content,
     "genre" => "weather",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 ```
 
@@ -231,16 +239,16 @@ $docs = [
     ["doc:2", "Today is a sunny day", "weather"],
 ];
 
-$client->pipeline(function ($pipe) use ($docs, $extractor) {
+$client->pipeline(function ($pipe) use ($docs, $embed) {
     $pipe->himport('PREPARE', "doc", ["content", "genre", "embedding"]);
 
     foreach ($docs as [$key, $content, $genre]) {
-        $emb = $extractor($content, normalize: true, pooling: 'mean');
+        $emb = $embed($content);
 
         $pipe->himport('SET', $key, "doc", [
             $content,
             $genre,
-            pack('g*', ...$emb[0])
+            pack('g*', ...$emb)
         ]);
     }
 });
@@ -262,7 +270,7 @@ text. Redis calculates the vector distance between the query vector and each
 embedding vector in the index as it runs the query. You can request the results to be
 sorted to rank them in order of ascending distance.
 
-The code below creates the query embedding using the `$extractor()` function, as with
+The code below creates the query embedding using the `$embed()` function, as with
 the indexing, and passes it as a parameter when the query executes (see
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
@@ -277,16 +285,16 @@ the fields you requested (again as alternating key-value pairs).
 
 ```php
 $queryText = "That is a happy person";
-$queryEmb = $extractor($queryText, normalize: true, pooling: 'mean');
+$queryEmb = $embed($queryText);
 
 $result = $client->ftsearch(
     "vector_idx",
     '*=>[KNN 3 @embedding $vec AS vector_distance]',
-    new SearchArguments()
+    (new SearchArguments())
         ->addReturn(1, "vector_distance")
         ->dialect("2")
         ->params([
-            "vec", pack('g*', ...$queryEmb[0])
+            "vec", pack('g*', ...$queryEmb)
         ])
         ->sortBy("vector_distance")
 );
@@ -302,11 +310,11 @@ for ($i = 1; $i < ($numResults * 2 + 1); $i += 2) {
     echo "Field: {$fields[0]}, Value: {$fields[1]}" . PHP_EOL; 
 }        
 // >>> Key: doc:0
-// >>> Field: vector_distance, Value: 3.76152896881
+// >>> Field: vector_distance, Value: 0.133717402816
 // >>> Key: doc:1
-// >>> Field: vector_distance, Value: 18.6544265747
+// >>> Field: vector_distance, Value: 0.621603608131
 // >>> Key: doc:2
-// >>> Field: vector_distance, Value: 44.6189727783
+// >>> Field: vector_distance, Value: 1.46157670021
 ```
 
 Assuming you have added the code from the steps above to your source file,
@@ -318,14 +326,16 @@ generate the embeddings). When you run the code, it outputs the following result
 ```
 Number of results: 3
 Key: doc:0
-Field: vector_distance, Value: 3.76152896881
+Field: vector_distance, Value: 0.133717402816
 Key: doc:1
-Field: vector_distance, Value: 18.6544265747
+Field: vector_distance, Value: 0.621603608131
 Key: doc:2
-Field: vector_distance, Value: 44.6189727783
+Field: vector_distance, Value: 1.46157670021
 ```
 
-Note that the results are ordered according to the value of the `distance`
+The exact distances may differ slightly on your system.
+
+Note that the results are ordered according to the value of the `vector_distance`
 field, with the lowest distance indicating the greatest similarity to the query.
 As you would expect, the text *"That is a very happy person"* (from the `doc:0`
 document)
@@ -375,48 +385,48 @@ that specify the fields have roughly the same structure as the ones used for
 to generate a JSON string representation of the array.
 
 An important difference with JSON indexing is that the vectors are
-specified using arrays instead of binary strings. Simply add the
+specified using arrays instead of binary strings. Add the
 embedding as an array field without using the `pack()` function as you
 would with a hash.
 
 ```php
 $content = "That is a very happy person";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:0", "$",
     json_encode(
         [
             "content" => $content,
             "genre" => "persons",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
 );
 
 $content = "That is a happy dog";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:1","$", 
     json_encode(
         [
             "content" => $content,
             "genre" => "pets",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
 );
 
 $content = "Today is a sunny day";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:2", "$",
     json_encode(
         [
             "content" => $content,
             "genre" => "weather",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
@@ -432,16 +442,16 @@ the `embedding` field of the JSON was specified as an array.
 
 ```php
 $queryText = "That is a happy person";
-$queryEmb = $extractor($queryText, normalize: true, pooling: 'mean');
+$queryEmb = $embed($queryText);
 
 $result = $client->ftsearch(
     "vector_json_idx",
     '*=>[KNN 3 @embedding $vec AS vector_distance]',
-    new SearchArguments()
+    (new SearchArguments())
         ->addReturn(1, "vector_distance")
         ->dialect("2")
         ->params([
-            "vec", pack('g*', ...$queryEmb[0])
+            "vec", pack('g*', ...$queryEmb)
         ])
         ->sortBy("vector_distance")
 );
@@ -453,11 +463,11 @@ query is the same as for hash:
 ```
 Number of results: 3
 Key: jdoc:0
-Field: vector_distance, Value: 3.76152896881
+Field: vector_distance, Value: 0.133717402816
 Key: jdoc:1
-Field: vector_distance, Value: 18.6544265747
+Field: vector_distance, Value: 0.621603608131
 Key: jdoc:2
-Field: vector_distance, Value: 44.6189727783
+Field: vector_distance, Value: 1.46157670021
 ```
 
 ## Learn more
