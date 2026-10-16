@@ -135,6 +135,72 @@ Operation mapping:
 | `write` | Add/delete session events, delete session memory, set session summary, set session property, create/update/delete long-term memory. |
 {{< /table-scrollable >}}
 
+## Server-side ownership enforcement
+
+Store grants let a caller use a store. Ownership enforcement adds a check within that store: a caller can access their own personal records and shared records. This option is available for on-prem deployments and is disabled by default.
+
+With enforcement disabled, `ownerId` is client-supplied information, not an access check. Your application must authenticate the user and restrict every request to that user's personal memories or shared memories they can access. For searches and session lists, derive the owner filter from the authenticated user. For direct-ID requests, check access before making the request. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+
+### Match stored owners to authenticated users
+
+Use one stable user ID across your application and its identity provider (IdP). It must meet the identifier format in the [API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md). Enforcement compares stored owners with the authenticated User ID, including case. It does not take the current user's identity from an `ownerId` field in the request.
+
+The source of that authenticated ID depends on the credential:
+
+| Credential | Source of the authenticated User ID |
+| --- | --- |
+| Agent key with a user binding | The user ID associated with the key. The client cannot change it by sending a different owner ID. |
+| Agent key without a user binding | No User ID. With enforcement enabled, it can access shared records but cannot access personal records or create a record for a named owner. |
+| OpenID Connect (OIDC) token | The verified token claim selected by `auth.oidc.user_id_claim`, which defaults to `sub`. Claim mapping alone does not grant store access. |
+
+There are two limits to the current identity setup:
+
+* The Identity Service's `POST /v1/api-keys` endpoint does not accept a user binding or copy the creator's User ID into the key. The key created in the [deployment walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#7-mint-an-agent-key) is unbound. Configuring an IdP claim does not bind that key to a user.
+* Direct OIDC authentication in the Redis Agent Memory Data Plane is a preview. It validates tokens but does not yet resolve the subject's store grants. A valid token alone therefore receives `403 Forbidden` for store operations.
+
+Before enabling enforcement for personal memories, confirm that your deployment can supply an authenticated User ID. The standard key-minting walkthrough alone does not meet this requirement.
+
+For example, if the authenticated User ID is `user-42`:
+
+| Operation | Required owner value |
+| --- | --- |
+| Start a session | Set the first event's `actorId` to `user-42`. The server copies it to the session's `ownerId`; the event request has no separate owner field. |
+| Add to an accessible session | You can use another `actorId`, such as `travel-agent`, for an assistant message. This does not change the session owner. |
+| Create a long-term memory directly | Set `ownerId` to `user-42`. This applies even when placing the record in a shared namespace. |
+| Create a personal namespace root | Set `ownerId` to `user-42`. Child namespaces inherit the root owner. |
+
+Changing a long-term memory's owner also requires the new `ownerId` to match the authenticated User ID. An attempt to assign another user as owner returns `403 Forbidden`.
+
+### Enable ownership enforcement
+
+For an existing store, first confirm that its namespace placement index migration is complete. Compare the owners of existing personal sessions, memories, and namespace roots with the authenticated user IDs your deployment supplies. The setting does not rewrite stored owners. A mismatch, or a missing owner, makes those personal records inaccessible to ordinary callers after enforcement is enabled.
+
+In chart-rendered Helm values, set:
+
+```yaml
+memory:
+  ownership:
+    enabled: true
+```
+
+In a bring-your-own Data Plane configuration file, use the same setting at the root:
+
+```yaml
+ownership:
+  enabled: true
+```
+
+The environment variable `MEM_OWNERSHIP_ENABLED` overrides the file setting. Its default is `false`. Apply the configuration to the Data Plane servers, then verify access with two different users:
+
+1. Confirm each user can retrieve their own personal records and search for them.
+1. Confirm neither user can retrieve the other's personal records by ID or find them by changing an owner filter.
+1. Confirm both users can access shared records when their store grants allow it.
+1. Confirm an unbound agent key cannot read personal records or create a session with a named user as its first actor.
+
+Search and list operations apply ownership restrictions in addition to client filters. An owner filter cannot expand access. Direct-ID requests for another user's personal record return `404 Not Found`.
+
+Shared scope grants access to all callers with the required store permission. It does not restrict access to a particular team. Keep team membership checks in your application, or separate teams into stores with different grants. Configured worker identities retain access across owners for background work; do not give worker credentials to applications.
+
 ## Worker callbacks
 
 Redis Agent Memory workers consume background jobs and call the Data Plane to read

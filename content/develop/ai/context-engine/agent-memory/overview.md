@@ -58,6 +58,14 @@ Your application gives Agent Memory the conversation for extracting long-term me
 
 Extraction reads the whole session. You only need to send each new turn as it happens. You don't need to resend earlier turns for a later one to be understood in context.
 
+## Namespaces
+
+Namespaces group related conversations and long-term memories. For example, a travel application can keep a user's trip plans in a personal `travel` namespace. A shared namespace can hold information that several users need, such as a team's travel policy.
+
+Each namespace has a stable ID. Your application uses that ID when it stores or retrieves memories, even if the namespace's name changes. Namespaces are optional; you can use session and long-term memory without creating one.
+
+See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for examples. To store conversation events or recall information across conversations, see [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}) and [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}).
+
 ## FAQ
 
 **Do I still need a separate store for conversation state?**
@@ -68,6 +76,6 @@ Both paths are supported. Use direct writes for bulk imports or external knowled
 
 ## Next steps
 
-- Try the [Agent Memory interactive demo](content/develop/ai/context-engine/agent-memory/interactive-demo.md) to watch session memory and long-term memory change during a conversation.
+- Try the [Agent Memory interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) to watch session memory and long-term memory change during a conversation.
 - [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
-- [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}), [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}), or [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to see session memory, extraction, and summarization in action.
+- [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to store a conversation and search extracted memories with Python, TypeScript, or curl. Then [try automatic summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#try-automatic-summarization" >}}) to see how older messages become a summary.

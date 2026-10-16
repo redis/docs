@@ -33,4 +33,4 @@ Try different messages to see how they change what the service remembers. Open *
 ## Next steps
 
 - [Create an Agent Memory service](/content/operate/iris/agent-memory/create-service.md) on Redis Cloud.
-- Follow the [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) or the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) to try the same flow with a real service.
+- Follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to try the same example with Python, TypeScript, or curl against a real service.
