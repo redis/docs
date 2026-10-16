@@ -90,7 +90,7 @@ Some differences may be intentional but can affect application behavior. In thos
 ### Limitations
 
 Be aware of the following limitations when redirecting dynamic endpoints:
-- The target database must be a Redis Cloud Pro database on the same account as the source database.
+- The target database must be a Redis Cloud Pro database in a different subscription from the source database, under the same account.
 - Active-Active databases are currently not supported as either a source or target database (coming soon).
 - Databases using GCP Private Service Connect or AWS PrivateLink are currently not supported for endpoint redirection (coming soon).
 
