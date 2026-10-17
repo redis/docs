@@ -1,66 +1,123 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="972" viewBox="0 0 480 972" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="1194" viewBox="0 0 480 1194" role="img" aria-labelledby="title desc">
 <title id="title">PostgreSQL: slots and WAL</title>
-<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed. A third panel shows a slot invalidated by an idle timeout even if WAL remains on disk.</desc>
-<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
-<rect width="480" height="100%" rx="12" fill="#fff"/>
-<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
-<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">PostgreSQL: slots and WAL</text>
-<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
-<rect x="12" y="84" width="456" height="280" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
-<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved position</text>
-<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="214" r="6" fill="#162638"/>
-<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">WAL retained by slot</text>
-<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The slot keeps the required WAL.</text>
-<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Disk usage grows while RDI is stopped.</text>
-<text x="28" y="347" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Disk used</text>
-<rect x="146" y="346" width="32" height="5" rx="2" fill="#2563a6"/>
-<rect x="191" y="342" width="32" height="9" rx="2" fill="#2563a6"/>
-<rect x="236" y="338" width="32" height="13" rx="2" fill="#2563a6"/>
-<rect x="281" y="334" width="32" height="17" rx="2" fill="#2563a6"/>
-<rect x="326" y="330" width="32" height="21" rx="2" fill="#2563a6"/>
-<rect x="12" y="380" width="456" height="280" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="411" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
-<text x="28" y="437" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="492" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="248" y="492" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="472" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved position</text>
-<path d="M132 479V534" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="510" r="6" fill="#162638"/>
-<text x="445" y="472" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 479V534" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="189" y="517" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
-<text x="345" y="517" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
-<text x="30" y="558" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 552H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="558" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="589" font-size="18" font-weight="400" text-anchor="start" fill="#162638">A slot limit allows WAL removal.</text>
-<text x="28" y="610" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The invalidated slot cannot resume.</text>
-<rect x="12" y="676" width="456" height="280" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="707" font-size="21" font-weight="700" text-anchor="start" fill="#162638">3  Idle timeout: cannot resume</text>
-<text x="28" y="733" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="788" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="788" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="768" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved position</text>
-<path d="M132 775V830" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="806" r="6" fill="#162638"/>
-<text x="445" y="768" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 775V830" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="813" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">WAL may still exist</text>
-<text x="30" y="854" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 848H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="854" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="885" font-size="18" font-weight="400" text-anchor="start" fill="#162638">PostgreSQL 18: enabled idle timeout</text>
-<text x="28" y="906" font-size="18" font-weight="400" text-anchor="start" fill="#162638">invalidates the slot at a checkpoint.</text>
-<text x="28" y="927" font-size="18" font-weight="400" text-anchor="start" fill="#162638">WAL availability alone is not enough.</text>
+<desc id="desc">Illustrative Friday-to-Sunday interruption. A red bookmark marks the saved capture position. Solid dark blocks show retained history; hatched blocks show removed history. The first timeline can resume. The second cannot resume because required history is missing. PostgreSQL also shows growing WAL storage and a third timeline where an enabled idle timeout invalidates the slot even if WAL remains.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F9F9F9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#B9C2C6" stroke-width="1"/></pattern></defs>
+<style>@font-face{font-family:"CDC Space Grotesk";font-style:normal;font-weight:300 700;src:url(data:font/woff2;base64,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) format("woff2");}</style>
+<rect x=".5" y=".5" width="479" height="1193" rx="16" fill="#FFFFFF" stroke="#E8EBEC"/>
+<path d="M16 0H464Q480 0 480 16V120H0V16Q0 0 16 0Z" fill="#091A23"/>
+<g font-family="CDC Space Grotesk, Arial, sans-serif">
+<rect x="24" y="23" width="32" height="4" fill="#FF4438"/>
+<text x="68" y="30" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start" letter-spacing="1.4">RDI / SOURCE HISTORY</text>
+<text x="24" y="68" font-size="32" font-weight="600" fill="#FFFFFF" text-anchor="start">PostgreSQL</text>
+<text x="24" y="98" font-size="17" font-weight="400" fill="#B9C2C6" text-anchor="start">Replication slots and WAL</text>
+<g transform="translate(0 132)">
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#DCFF1E"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#091A23" text-anchor="middle">01</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History retained</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#5C707A" text-anchor="start">Resume succeeds</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved position</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">WAL retained by slot</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#DCFF1E"/>
+<path d="M30 264L34 268L41 260" fill="none" stroke="#091A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">The slot keeps the required WAL.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">Disk usage grows while RDI is stopped.</text>
+<text x="56" y="328" font-size="16" font-weight="500" fill="#5C707A" text-anchor="start">WAL storage grows</text>
+<rect x="252" y="326" width="22" height="6" rx="2" fill="#091A23"/>
+<rect x="283" y="322" width="22" height="10" rx="2" fill="#091A23"/>
+<rect x="314" y="318" width="22" height="14" rx="2" fill="#091A23"/>
+<rect x="345" y="314" width="22" height="18" rx="2" fill="#091A23"/>
+<rect x="376" y="310" width="22" height="22" rx="2" fill="#091A23"/>
+<rect x="407" y="306" width="22" height="26" rx="2" fill="#091A23"/>
+<path d="M250 335H432" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+</g>
+<g transform="translate(0 482)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">02</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History removed</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved position</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="240" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="264" y="128" width="192" height="32" fill="#163341"/>
+<path d="M296 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M328 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M360 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M392 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M424 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="180" y="185" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Removed</text>
+<text x="360" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Retained</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">A slot limit allows WAL removal.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">The invalidated slot cannot resume.</text>
+</g>
+<g transform="translate(0 802)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">03</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">Slot invalidated</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved position</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">WAL may still exist</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">PostgreSQL 18: enabled idle timeout</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">invalidates the slot at a checkpoint.</text>
+<text x="56" y="312" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">WAL availability alone is not enough.</text>
+</g>
+<path d="M24 1142H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<text x="24" y="1172" font-size="16" font-weight="400" fill="#5C707A" text-anchor="start">Illustrative times · not retention defaults</text>
 </g>
 </svg>

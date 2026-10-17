@@ -1,43 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="824" viewBox="0 0 480 824" role="img" aria-labelledby="title desc">
 <title id="title">MongoDB: operation-log history</title>
-<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed.</desc>
-<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
-<rect width="480" height="100%" rx="12" fill="#fff"/>
-<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
-<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">MongoDB: operation-log history</text>
-<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
-<rect x="12" y="84" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
-<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Resume token</text>
-<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="214" r="6" fill="#162638"/>
-<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Oplog history</text>
-<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The token still has enough history.</text>
-<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The change stream can resume.</text>
-<rect x="12" y="360" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="391" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
-<text x="28" y="417" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="472" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="248" y="472" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="452" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Resume token</text>
-<path d="M132 459V514" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="490" r="6" fill="#162638"/>
-<text x="445" y="452" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 459V514" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="189" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
-<text x="345" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
-<text x="30" y="538" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 532H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="538" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="569" font-size="18" font-weight="400" text-anchor="start" fill="#162638">A write burst replaces old history.</text>
-<text x="28" y="590" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The token alone cannot recover it.</text>
+<desc id="desc">Illustrative Friday-to-Sunday interruption. A red bookmark marks the saved capture position. Solid dark blocks show retained history; hatched blocks show removed history. The first timeline can resume. The second cannot resume because required history is missing.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F9F9F9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#B9C2C6" stroke-width="1"/></pattern></defs>
+<style>@font-face{font-family:"CDC Space Grotesk";font-style:normal;font-weight:300 700;src:url(data:font/woff2;base64,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) format("woff2");}</style>
+<rect x=".5" y=".5" width="479" height="823" rx="16" fill="#FFFFFF" stroke="#E8EBEC"/>
+<path d="M16 0H464Q480 0 480 16V120H0V16Q0 0 16 0Z" fill="#091A23"/>
+<g font-family="CDC Space Grotesk, Arial, sans-serif">
+<rect x="24" y="23" width="32" height="4" fill="#FF4438"/>
+<text x="68" y="30" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start" letter-spacing="1.4">RDI / SOURCE HISTORY</text>
+<text x="24" y="68" font-size="32" font-weight="600" fill="#FFFFFF" text-anchor="start">MongoDB</text>
+<text x="24" y="98" font-size="17" font-weight="400" fill="#B9C2C6" text-anchor="start">Resume tokens and oplog history</text>
+<g transform="translate(0 132)">
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#DCFF1E"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#091A23" text-anchor="middle">01</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History retained</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#5C707A" text-anchor="start">Resume succeeds</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Resume token</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Oplog history</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#DCFF1E"/>
+<path d="M30 264L34 268L41 260" fill="none" stroke="#091A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">The token still has enough history.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">The change stream can resume.</text>
+</g>
+<g transform="translate(0 452)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">02</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History removed</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Resume token</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="240" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="264" y="128" width="192" height="32" fill="#163341"/>
+<path d="M296 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M328 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M360 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M392 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M424 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="180" y="185" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Removed</text>
+<text x="360" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Retained</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">A write burst replaces old history.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">The token alone cannot recover it.</text>
+</g>
+<path d="M24 772H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<text x="24" y="802" font-size="16" font-weight="400" fill="#5C707A" text-anchor="start">Illustrative times · not retention defaults</text>
 </g>
 </svg>

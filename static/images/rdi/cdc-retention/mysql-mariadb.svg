@@ -1,43 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="824" viewBox="0 0 480 824" role="img" aria-labelledby="title desc">
 <title id="title">MySQL and MariaDB: binary logs</title>
-<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed.</desc>
-<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
-<rect width="480" height="100%" rx="12" fill="#fff"/>
-<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
-<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">MySQL and MariaDB: binary logs</text>
-<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
-<rect x="12" y="84" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
-<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved position</text>
-<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="214" r="6" fill="#162638"/>
-<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Binary logs</text>
-<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The required log file is retained.</text>
-<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Capture can read missed changes.</text>
-<rect x="12" y="360" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="391" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
-<text x="28" y="417" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="472" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="248" y="472" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="452" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved position</text>
-<path d="M132 459V514" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="490" r="6" fill="#162638"/>
-<text x="445" y="452" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 459V514" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="189" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
-<text x="345" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
-<text x="30" y="538" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 532H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="538" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="569" font-size="18" font-weight="400" text-anchor="start" fill="#162638">The required log file was purged.</text>
-<text x="28" y="590" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Its events are no longer available.</text>
+<desc id="desc">Illustrative Friday-to-Sunday interruption. A red bookmark marks the saved capture position. Solid dark blocks show retained history; hatched blocks show removed history. The first timeline can resume. The second cannot resume because required history is missing.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F9F9F9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#B9C2C6" stroke-width="1"/></pattern></defs>
+<style>@font-face{font-family:"CDC Space Grotesk";font-style:normal;font-weight:300 700;src:url(data:font/woff2;base64,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) format("woff2");}</style>
+<rect x=".5" y=".5" width="479" height="823" rx="16" fill="#FFFFFF" stroke="#E8EBEC"/>
+<path d="M16 0H464Q480 0 480 16V120H0V16Q0 0 16 0Z" fill="#091A23"/>
+<g font-family="CDC Space Grotesk, Arial, sans-serif">
+<rect x="24" y="23" width="32" height="4" fill="#FF4438"/>
+<text x="68" y="30" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start" letter-spacing="1.4">RDI / SOURCE HISTORY</text>
+<text x="24" y="68" font-size="32" font-weight="600" fill="#FFFFFF" text-anchor="start">MySQL and MariaDB</text>
+<text x="24" y="98" font-size="17" font-weight="400" fill="#B9C2C6" text-anchor="start">Positions in the binary logs</text>
+<g transform="translate(0 132)">
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#DCFF1E"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#091A23" text-anchor="middle">01</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History retained</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#5C707A" text-anchor="start">Resume succeeds</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved position</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Binary logs</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#DCFF1E"/>
+<path d="M30 264L34 268L41 260" fill="none" stroke="#091A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">The required log file is retained.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">Capture can read missed changes.</text>
+</g>
+<g transform="translate(0 452)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">02</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History removed</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved position</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="240" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="264" y="128" width="192" height="32" fill="#163341"/>
+<path d="M296 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M328 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M360 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M392 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M424 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="180" y="185" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Removed</text>
+<text x="360" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Retained</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">The required log file was purged.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">Its events are no longer available.</text>
+</g>
+<path d="M24 772H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<text x="24" y="802" font-size="16" font-weight="400" fill="#5C707A" text-anchor="start">Illustrative times · not retention defaults</text>
 </g>
 </svg>

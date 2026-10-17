@@ -1,43 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="824" viewBox="0 0 480 824" role="img" aria-labelledby="title desc">
 <title id="title">Oracle: required redo history</title>
-<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed.</desc>
-<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
-<rect width="480" height="100%" rx="12" fill="#fff"/>
-<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
-<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">Oracle: required redo history</text>
-<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
-<rect x="12" y="84" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
-<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved SCN</text>
-<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="214" r="6" fill="#162638"/>
-<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Redo history</text>
-<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Required redo is still available.</text>
-<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">LogMiner can continue reading.</text>
-<rect x="12" y="360" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="391" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
-<text x="28" y="417" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="472" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="248" y="472" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="452" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved SCN</text>
-<path d="M132 459V514" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="490" r="6" fill="#162638"/>
-<text x="445" y="452" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 459V514" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="189" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
-<text x="345" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
-<text x="30" y="538" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 532H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="538" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="569" font-size="18" font-weight="400" text-anchor="start" fill="#162638">A required archive was removed.</text>
-<text x="28" y="590" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Newer redo cannot fill the gap.</text>
+<desc id="desc">Illustrative Friday-to-Sunday interruption. A red bookmark marks the saved capture position. Solid dark blocks show retained history; hatched blocks show removed history. The first timeline can resume. The second cannot resume because required history is missing.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F9F9F9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#B9C2C6" stroke-width="1"/></pattern></defs>
+<style>@font-face{font-family:"CDC Space Grotesk";font-style:normal;font-weight:300 700;src:url(data:font/woff2;base64,d09GMgABAAAAABmIABQAAAAAORwAABkbAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoF0G51QHIQkP0hWQVKBJQZgP1NUQVRYJx4AgRYvRBEICqF8mkownDABNgIkA4ICC4EEAAQgBYQsByAMBxuNM6OikjW0FH9ZwBMRD90N4UXFS2B0KtrpQNvZnTrqTyN1vAgRkSAABIDU9fO8QgBgIABNq2Zr/KfDtnrhNVQjJJn1//9/0/+59j669xHkYCcHciBEmhJK25Sbx+C11HJNc5MrKp9A8sT0S8UqIjQlnB9w0/4lSC2tz7F1NaFIoCGEBNEa6jUqlLl4d2ba3X0VHnr2+3Vn3kc0ERqlQYRGJePNkmnGs0noVELcs6GZVJMhzK5NDjt9IX4AKwK4bZzSioUqFn/EW2RQZ6aAA+6lgJi2j7SMP+LM66k8rE9A4eMcB9AQMMrAst2Bguz7r2yW6bTmYGWUXg5WRp1xz9EF4b8jl7NPDZGDEEezutPujva0d0/a2yMd+Hb/WTIcPQjuSzow0SNERthnybhGihgyigAoCimJnDn+JLUO0RHo2PxYeq5uyzQLEncvz7hDXIVosIoVLGPK0uN87vGaB+ESAFcBAMBXMCZGRXRpiKxJEEOEECWVEONqIGpaoNaTQzWRUDFcoToEipkPQqN6pWRbIiEUPJbEplv+MA0g94F4LDrlT2BoLDryJuT/QvAPsGEAlgvpNxtBCw1KAAQ7Ph06ekJRddNyXA/7QUiMK6qmG6aQlhOLJ3wgAKFMAh2dbXNBwcI9s9JQQAGgJfaZf2BGGrIBqAyZ1SoYkYWHt4UeILDEKb/zGd/yO3/zP0ecieCWMfedU6YKTdPd1E8Zeip+Ef+JczRgGkgAwSg0JovDFVOsVJnxJhASKTdNhSrVGjRqJtWKQuNgpX6AU6FQYY36ZvG6ZWGqOjCAuFISdZz1X0ilKmcAivsAQ7VV/Aao6okrAKANpAL2hUmT2U8Q5WrN+Kqf8fmkvt2r9t2b/qTPgs0vrgKBa5VLcKRvsHcsyBB73cTXOdyd0E/oMtXzJ+V6sWUQW9yCpViG5QrCWOLhKvaxsNL9g4u7QkmhOvBK1EcKcBpndV/+JBMirAjJIxVqq3ubAMMKOez4FW6mTp6Rura5Apr/AyAKKz1OjbpiYlM8ADN0ypq6ZHoy6pAnyZ6oryv8rOh+q21AvOi5ATwTjctGvAV07LH0lcf2aKS5ihUZKx8NvEg0WE9PpN70AdFQAwOPgpT5F8QkQdmLzpq9PUI5MmGYjao25aroh+xAjO8ElpnoX2oMC1+5SDdLbKHSQ2TMQwwCxCz/UxnPaWQTQE2xh4c8iu1B5GjA0GIkbiDEiJDp8zDqZjcj+/Ii3aNVNdQssWw6+4YyfLmCaQYO+cVhrpjdoy/MatEvWXVVRmMVqv5Tvb5G/hKTM5hqPUSFyRR7DKP3TES/5V8fe+RZiKT0ouXsKC37IH/d2x9R2/3RNdMiq4X8V1BOYWyP9PQMM5PPtgGmQ0cgFvPhRlYG24uoTME4KXITz7qYRj77BGC8Lv1EVPJ9V/SZRxs76eCrejaIyBaL+I31fSSI/qgK9T0YcBaGwkW+Jl4kw0ifoOmTaNYJLzdaVKoqWvg1CYi2k7aAKl1+1FJ9csi+2rNvlmKEPytk31iWGw21GlrWNvOTafYvZtKpNIQZZanohhuq7LAt/Btn3NnRrCn3F9K86AKejlYghZTeM5wfKu21yQhMBiBHZLxyFQSqVJuqVq1p6tWr0KhRJbEWVaRwNTQ0GiCYjVgSEIohXBrHfeMQl5CEsqkAwATkAAy6rBwGAwAAMXk8AEsaIAPgA6QAAD2YTgjSjmpcxkVzMQpjvFYcm8u3bSKECMQkmZ1Kzi3ZBM6RxJIyXgokpgGCGHRBypieEhPq3sd8g9NYYANnscQOJsywjXO4gDnWsIIDnMEWdvEQzuMUVnESJ3AMPEapXPhW597UGiXK4O6gI5tdIgjGHTYRmkAUUgaDUbFSdTCOgnLx2tyTI8NQ9X8W3QI0LKT64oAvjCSHgHSTtUuzh2eAOSigAng7nWGYNJgwiissviZDFrjjzT5O+l8i8VUnyTRrhiYIbvJxS3lLZSzEg7huYgCMGA385XXMc03eC3uwKNiOVj06M/1adxMlNRnz0StgsdZb8bkR3Cp16qXiEiSMLaDHZnSNt3QSBOMx8zQ37gpV/kY/yi5itiXGpmdwWDw85WpET8mYTD6p4JFCZbF6fS0s0DyxCVWGEESroszL74lQkVBAci/9QKVk1Dzw5djx08rsgxLpg+FEK+al/2Dky6cQjlZqr2wBAgBUrUERd1xFb+XNXNKztVYi4+pcJ91wC2FBd3VdD4QRS6FooKT65SJLp1vYxGyhkN3joeFWXh6g5BqqgAPsICwAcGV3aWgCkhjBeGjOMzsGj/YHQnfzf/xvgbJLFQAQAPQ+vwMItxUb997DBgTQtYf6ZyEAwOCpIA4krFYiBVgweqvIFCK0NHQGyWl5nyIQ9dkPAEBMyWmI2vMWGgAMwAEeloTnswvwFWERQhIMI4tObn4pc8139w8BoSYMHbM2Dn5xg/aXol4dov/33/7d3/tzv+37fbdv99ohgKyxaUrD/q3ZA4wkMUMN1EAdMbFkEArAIyfDGTTwNdpSpTJVyAXXZjG1O74eqMMA7REwA9CUYDBkU3pgKUjYpRFS/JnCMYXIKh8MBUfFIcwmMee8UwkdYQlL0WKW42TEBsMT4zLjjAQ7X08WnIytjKUTn+C9kLs6mTZiBccxJhVLSQq1REU3riiGdUj5kSdC3iXDwmO55vMDIv76l6jzyTc8gIjOK15/A+2nWuQjkmjfkqQqyH4FS2SVeilVEs8OG1Y68yCEJalTuFQEN4ri1NkQ7x0yejBV3C4iQnnEr4lHJSxCvB92cx9eiqbaTfHYPo3brcgZnbAYt8FfBI+IFE3qFdPf6rMv1Hc+1urrEo+ztMe/btj+fINw3V/s0O5CtObwccnoKSVsjN8q/TIofcz9+vnQHJGiOsMrjn5SSUOC9uqIxHubv2xZkBhHfl5brAqINsnkB/q/S/npriwku3qZRn7bkV70Uymxke2HNOXChu/mpKYLTeIzbAZgzZK85vJD+19uzWfuI7kgSZ1+yXXgJ+R8UGxKkpy03QiL7DekQphs5s9FyZNX08S6+Xmx7zMvY/fkJgRsc4xLTNPDBfLy8yFwzntKqeJFqXOGE8lGsUlznFBKoVLX8z1fsPn1qGVdRx5dZRo+UcSUmyglFiVN73TcbDp+7J2TvLP41/72o53YOKc/sWtiy3Z5gB+226/vSE8mV5IWQJriQSRukip/hiYhZB0REL65tU4NphuRdQ30tlWxIIKSLZNbat704ndJvtCu4E36l+4fALa5rbx5cxsqSHW4ViXaxdzQS63FQB+qnM1z77w4w44hg0dFlcpdAztDIw5hUUfqLiKTDe05me3EbhLeLHeeJ/c2JNO2DSHPUGVj8y9uPmkVr0/B7JoG9dJtey5lJea2BvThXfQOvGX+kffdwxkRr1Pdpwq1/3nymuMYtNsLd2zbdGTT6WDhgmXr5nDoLE9gKBYfmj14YpC0eKxkegrp/DkDTyaIG93mbiJ3/b4NO5fv3Ld+fU9rb3pmas7auTP7073g+c5Zoo9rI2zZgwR6HCNiXB2h02qMprsjchun7bbK6I/6FRli6+J3d2PP+OJRak8izyjJe1p1S/mZTAvhhL3QZi/cvkS0vea0bUFrYuAHiRsS8UFDENx92ZUwiXqlQ5Vr0nV9hokuNP1G/yiaOi239r7XOlxmPUfvMHe9BoRtmy3TDblK6dJ4OuTxhrs0dSvMgn//f4u/QWpubSWcfQ0GQ7qZDhmdTbOiWWcXSi0R7agnbuQ/MUPBOoVVrSb9w2Lgdn8hyohfVoDNtmVkmkHHh/SHkUTA74ccKRRwUIPTZVCQWjlz1ath7C61PV/mKRizpTeUN+vELf+3CyU3qlU6hqGt1HPbHkj17hoy1B31jAl4zTJaKBNl5T6/npn0fnsk5Mauy/QNzc1GCQTtLh9lwvzEKFmPvTRm5cm1KVKdacfaqQx165A7e1Ph7PCrwenoAwJ7kNumNKmZ3p7bocnAockYk+Gu9EVjNW2qksudYrFPna0GgSbv2jQPXtyidI0lQq3NpEiK++ulzgyQDG7hjb2E1TdHCT9m8lFMLBuFbUtT6ulWzLb3OhiijPp+pWrAKjqCBvoTXXqrmvR+1eGs+Xd1jNURdlktURc88YVj+LENFX3V8/AhgWDFKfzUNdCcwNqp4ZSKSdSxMlHhrW7DaaHgbezFxxYezgyo1Om/z6JKfcHsUG9vr95QdrCvD3ya3NW7F/STZXJvvcyrqyErujr1Olsy3v3nS27mDPaPN33Csep/eOkT7FP8jzEKvn0Ejf3CNKlVZvlfMY5JzkgsNbXmlnbSJPutlWi3mqunNCQhgI2/nuy4nxIfGCBhI7etaYrM2DBbTNI8613dLHJPciiQHeAGj7vbEHSA9+dX1FS61nqHkQ4iH4BWbuU9fhHjf/P3NW7+Y5m/DmLGPR3USPVaLYC48tcwuug3vBp7a7ilVUkrGLVWDBNt3yJnfuzCLMw4qYY0i+sb9FPXf/ihRXS2TpMwOZzdVsy4cL+1Walgamtrbik/nNAp+LHJ0GeF7PGHKroP4YfukHcu4BdCAsEMHEpM2cJq7NbZaVRJnbrBZ1/9nj56F4skOrWDc098T0UfYYse9ULCIFHFHVKL+sGun+M8geCl3JF/UojVkpVgBij0FzJR0VcNlD1n3ZbNxzbHtXNOu81WxGJzUudSqI3BKwrg3fY+lvFa7fxRILbb5J6YlCkVFljranUytqXb2eFM+YL5pN2m6c/gZvOQTBXR5OhlnihOlwm6rBWL8AkXlcD5eUlyldqdAmbZk6JJh0sLjExLbqWLthAbV66xfyB/4LeO/3z8hM+wwtcmjH99byvsghv2CNWzCl+1vGvL8GU1Ef2fJxx3iEXhTL+U+XwvojjZ94sPAdtCTHmHInawPQLOw/OdUTqFpRSDbz2+XnnmzIUW4gt3yJPKy8kMOmPh5dXlInND0wGymMO4NVptF4Ur9PLPH23v/E8DvGxaXC6L3BoLrE6XVW7paamXHGqhJAcl+qVRLYcAHYMCAA0SDUBHY/SNv3oQaikBdGdWqnZpqgIgBMq0y+4Y2ALAp9gJEOBHbCM/KpdNm8+wUeDx3UA60VeggVxIP/oCIABQ730vGB/w/v8bHZNAIYxhLMJG7MIx3MYL+JEKEAviRjLIcuQB8j1aiBIsgS5Cr6Kvoe+hP6J/YPE5weOszaz7rDfZwM4pCsXIDrNXsE+zb7K/Yz9m/5fD5ZSopOrjDHL2ct7lItwcbqkm0qo1ldbBncs9yD3BfY77Kg3LCLLBAaCN/8BFDCY/AnHuZXXRq19XqiTvcZcDt7OK+9VXIArffXdlGDBxiysGlmq8FRBx9Hs/G+Tqem7AloKNwirgsEsesZjqW6bp9AscYIiLB5rJoU4KU1nigw1kUQrGiNO3ZxNWKes10r15Z3a6AQW2+QONn5WucRyNiI75CAUmBrF/5kOCkduuJ4hBq3YkWTv6mtokzx2hH4EkZO+kETH1SPzqm+1NstyhPsRxDGdz2er2anYShyD1O2RKaJJjShYBfA0OjotvogtPlx7ZuASAIooXfSbtfqVSOcQxj9VkF6vIDs561/QiFYvQhVKGnGTPJ76w+mnzwIGPUUvN8TMzNHhFQ57A+sYx4WTN7xBHV/wika8beQhtN7pExEVoP9QMLiT3mI7khf1NZdD2HigJAimFLnE3Hk+L9Dt4ap2sl9F5x1S0BoKLIvDDFdXgK1izoMvTXeLAgYAuqv/IhTjhCbPu6pIAdJG33eGscKXTJy9KvEDUl4GWQj8LrMuuPiUsxkTfMJxCgnBOJ63G+4TaP9gkx0UrRAcGzVZvKBn9a8w3ZJg43psr0OYbKoulc+Win4zZCS2QqFdi+enP/4eVEs+BnN5QMVNxR5YEXeGzClpDewtlXWDADiOT8Y6WWd2kuVfbkG1JihvQ/h7L0cjepGf+uv98BR5so4WurOug1cHD5npNQTJ4dNZb3OjYlRPVM7ph46jbBQzjjEQJ65RsqEcXPTFvra0HBXZ8RhjCTZBHlxsCKZJJWKTXoOnu3Xjkn7ciCj4xhxuh05LDtTqCq82x7cV19QHtmOQS69OTgeeQtkK6fXraz2CvWsxDT4fJNH19aGxsODFWwJI6jwLM3JdTEieXMFXRlNxMzuAKq+zYqoRias9xQ138erYmYlmqkcOSxOzsdFqNXBzXGY5CrgspSGhLflZoVoU9W1MSk42LLaXV0F+S28ZwogTdxkxzvpirVEDcAnKlGiRYQch1uRLXPTE8NrYY303LALPtJaTI3HHlrOvbg7qyNnaGnS2a5y3tyre+9W9dVHFYN0+EaggSsmVbFHfc13MicwEwkNl1+q1qqsLkTF6jgfsNFqDluOIH2rLriqCnrdZqpPgPf02fh0aKWnV6cIc8dVkiN2iUVZow7hzPzVRmyhWrnQE3kO46pyyzCVO5WG58/GWVU11/xgIHRmglXpXzZrOgpU4sdSJDK1Ql1Fg20zOvW5VP+TmP0Z943rNqNlBg1zha8t00CXExzaVWJ3BpkaAntzOBAnwVCnnm8H1ROy+80Ejdk61hFHaVYyOC1DvEcTeaF6VOQAHg+sh4qW2uWgqSnu/HjLhava1NyQ8M/YuXo/EaXTUprrrnJYbiKd/3km5CuQA1k1+1SeNgiC4liDNnUwsP3domKUZG0oawyEgrCANst4oYGxI4o++OiQrex72Kv48zNSWzrzz5lcBt2Ta2pfOBDxoPZK/AqWq1qu6UbcC1kTGlJxc9d4OwMzleMDldh95nppFDF2pi2ybF+HhQTy5xmbuJHs8wg8hOS4KfbzJjsWC8TK10NqQwiZxheLsb1IFLKEGhZDYwwmKiE9evCUdGRivrhoaQVe+6MwSX1HZW4Rbbiqdq+oVKoHn8rAnGpsHOiXZmHxPmb+ZH2F1NgoyqOXGxAUJfd+wo2HrqvpGCMARuOOaVnsqmTA+4Bm+OD5xguBQWckkRB/mt9gQILkbdu2r11VYL/+cgPlgIhAuNHeV/kMfIf7RNsYd1ZgZxgiLoKu8LZ1XbtcvZLqyygIBulMmYgCc2Xt9CSKTo8OHQYPUKqXtjLnHZWPo/Rx+ABdsqKapVIejujgIgXpIuOOGPxsbyn8tHv3VeuYgDBTV+asrp6FC7HQItc3g4rK/b8hdXO2NZeoZZytoPVfOoqK9EpYqMS1LEJ+r1RVbHkVdJY80nX1c4KlStuEWcWBP/iAin5QCOOty1U6ybYKmeCxoPpHrksRKm8WRvayNBV9Imylbu66099RRqlMQrFUm61cOCthpxZY5hjIPV/3nKcNaio5xy1o1jQuLGMhFucMRjOKOdcjOZUmm8HAjT7JboB+gB70EQdp3ANQ0TCdJY1OR4o7GE+hdw3LlzyM37IinAiXESxpe31GbFj+1571VtqS0ZAGAmqEDU0gBny+qWs20Hx/CoPxh44cpouckSo1C/o+eYR4+SwTBvkF1YkA1iTdcOOqTAkblGqoyOlOEKtQDVobKNmzJnZovcEQRBq0yvCMb7ZmqsampRIhRM5CY6c1aAZPecBsjtBosSfIxYGGni2X/FJsHs79+Bd8iGTIjDJZSCSV6DG5pEGUBK1BC7+RRAX2I4kOtWiGn7Bi5dMlwfk6Z5+rTuccJ7erK8wCTSCs0XzVD9nA3tTYrchuUfFjQ4vfMGK0Nfe7qhKOPsU49lD0IUDMR7m6qK9vb/379/k7oIoTtvIuROnS0BFFrtDJ0wPmLnJu1y8KGkKDTY4FOnDBCVJfs8AOhAvGtsya9qwG4VQiglCYvMGHVlBJaeQs+U3dWgcglRM7+tXOG7jvYoKqTK0ePlUqxtTeqad4SiwyatEBhv6+zqE8AF3mQF0QYrEaKLTmZiiiJY0faTQ0N+WvhKh/xoEBt4MPbXjsXDcCn1Uh+NNSS3YktCealx4okzih44U/9BqUqFSoahPoLkJLsyeQGEVnpHL30+YQh40QGE5wtgcPBJyd5VSJ41OD8AwL8vS+8DgH2/vteC6L731vArgIYBAIIvS+v4yxn0NB1SxwfTauwIBgqwZfCyo5V71PISeFLg0DbOGJfTuCbgzt3ygUl5bmb1A8+rNp2813UZQlFuhCJfbSGDoBGUnh7QMaqQS5W+3fAZsyULjWehiVCPlkNCA2lQXUwXqwh4/I43dR/sORFVzQQIRF4y9VB28fJOEPEYuA5puqKQbzWUb1dwNNDhsj+++RPQqG5jxt94cEvnhJ4A3o9CPAVep79TRd87AtgMx5aH6qQCvS3Lu3HUMgH8BJADyJjnDmAchw7g6v6RqxAPUPlR3V9TjstORoAVj8MBBBEvz8uMiHBp9+EpMOLNthqRMd8MKX36zSIiIXZ0EVcdemQnG3FJpLLJDCNm6TMNgnWhMMCSHDpjdib3izxDDZEabvKtnDETodnokzLWbAlNrI8Y7hm9hgL7psSlDYqz0GhymqMzZYzdqG/4tRKjbclZDj36nmyIf4pEE/GtpWJk82GudP3ojeCh0rwpIzkiM3AO5A0j8/igXe6uVZ1tmNaIIQPLeHTRW7dO4jey6OavvAk=) format("woff2");}</style>
+<rect x=".5" y=".5" width="479" height="823" rx="16" fill="#FFFFFF" stroke="#E8EBEC"/>
+<path d="M16 0H464Q480 0 480 16V120H0V16Q0 0 16 0Z" fill="#091A23"/>
+<g font-family="CDC Space Grotesk, Arial, sans-serif">
+<rect x="24" y="23" width="32" height="4" fill="#FF4438"/>
+<text x="68" y="30" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start" letter-spacing="1.4">RDI / SOURCE HISTORY</text>
+<text x="24" y="68" font-size="32" font-weight="600" fill="#FFFFFF" text-anchor="start">Oracle</text>
+<text x="24" y="98" font-size="17" font-weight="400" fill="#B9C2C6" text-anchor="start">SCNs and required redo history</text>
+<g transform="translate(0 132)">
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#DCFF1E"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#091A23" text-anchor="middle">01</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History retained</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#5C707A" text-anchor="start">Resume succeeds</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved SCN</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Redo history</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#DCFF1E"/>
+<path d="M30 264L34 268L41 260" fill="none" stroke="#091A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">Required redo is still available.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">LogMiner can continue reading.</text>
+</g>
+<g transform="translate(0 452)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">02</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History removed</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved SCN</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="240" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="264" y="128" width="192" height="32" fill="#163341"/>
+<path d="M296 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M328 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M360 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M392 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M424 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="180" y="185" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Removed</text>
+<text x="360" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Retained</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">A required archive was removed.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">Newer redo cannot fill the gap.</text>
+</g>
+<path d="M24 772H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<text x="24" y="802" font-size="16" font-weight="400" fill="#5C707A" text-anchor="start">Illustrative times · not retention defaults</text>
 </g>
 </svg>

@@ -1,44 +1,80 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="844" viewBox="0 0 480 844" role="img" aria-labelledby="title desc">
 <title id="title">SQL Server: CDC change tables</title>
-<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed.</desc>
-<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
-<rect width="480" height="100%" rx="12" fill="#fff"/>
-<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
-<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">SQL Server: CDC change tables</text>
-<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
-<rect x="12" y="84" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
-<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved LSN</text>
-<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="214" r="6" fill="#162638"/>
-<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Captured change rows</text>
-<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Required change rows remain.</text>
-<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">RDI continues reading CDC tables.</text>
-<rect x="12" y="360" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-<text x="28" y="391" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
-<text x="28" y="417" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
-<rect x="30" y="472" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
-<rect x="248" y="472" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
-<text x="132" y="452" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved LSN</text>
-<path d="M132 459V514" stroke="#162638" stroke-width="3"/>
-<circle cx="132" cy="490" r="6" fill="#162638"/>
-<text x="445" y="452" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
-<path d="M442 459V514" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="189" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
-<text x="345" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
-<text x="30" y="538" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
-<path d="M100 532H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
-<text x="450" y="538" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
-<text x="28" y="569" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Cleanup removed required rows.</text>
-<text x="28" y="590" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Transaction-log backups alone</text>
-<text x="28" y="611" font-size="18" font-weight="400" text-anchor="start" fill="#162638">do not restore this CDC history.</text>
+<desc id="desc">Illustrative Friday-to-Sunday interruption. A red bookmark marks the saved capture position. Solid dark blocks show retained history; hatched blocks show removed history. The first timeline can resume. The second cannot resume because required history is missing.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F9F9F9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#B9C2C6" stroke-width="1"/></pattern></defs>
+<style>@font-face{font-family:"CDC Space Grotesk";font-style:normal;font-weight:300 700;src:url(data:font/woff2;base64,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) format("woff2");}</style>
+<rect x=".5" y=".5" width="479" height="843" rx="16" fill="#FFFFFF" stroke="#E8EBEC"/>
+<path d="M16 0H464Q480 0 480 16V120H0V16Q0 0 16 0Z" fill="#091A23"/>
+<g font-family="CDC Space Grotesk, Arial, sans-serif">
+<rect x="24" y="23" width="32" height="4" fill="#FF4438"/>
+<text x="68" y="30" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start" letter-spacing="1.4">RDI / SOURCE HISTORY</text>
+<text x="24" y="68" font-size="32" font-weight="600" fill="#FFFFFF" text-anchor="start">SQL Server</text>
+<text x="24" y="98" font-size="17" font-weight="400" fill="#B9C2C6" text-anchor="start">Positions in CDC change tables</text>
+<g transform="translate(0 132)">
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#DCFF1E"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#091A23" text-anchor="middle">01</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History retained</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#5C707A" text-anchor="start">Resume succeeds</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved LSN</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="24" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="48" y="128" width="408" height="32" fill="#163341"/>
+<path d="M80 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M144 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M176 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M208 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M240 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M272 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M304 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M336 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M368 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M400 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M432 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="276" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Captured change rows</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#DCFF1E"/>
+<path d="M30 264L34 268L41 260" fill="none" stroke="#091A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">Required change rows remain.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">RDI continues reading CDC tables.</text>
+</g>
+<g transform="translate(0 452)">
+<path d="M24 0H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<rect x="24" y="22" width="32" height="32" rx="6" fill="#091A23"/>
+<text x="40" y="45" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">02</text>
+<text x="68" y="44" font-size="25" font-weight="600" fill="#091A23" text-anchor="start">History removed</text>
+<text x="68" y="70" font-size="18" font-weight="500" fill="#D52D1F" text-anchor="start">Cannot resume</text>
+<text x="24" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="start">Saved LSN</text>
+<text x="456" y="105" font-size="17" font-weight="600" fill="#091A23" text-anchor="end">Restart</text>
+<rect x="24" y="128" width="240" height="32" fill="url(#removed)" stroke="#B9C2C6"/>
+<rect x="264" y="128" width="192" height="32" fill="#163341"/>
+<path d="M296 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M328 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M360 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M392 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M424 132V156" fill="none" stroke="#5C707A" stroke-width="1"/>
+<path d="M112 112V168" fill="none" stroke="#D52D1F" stroke-width="2"/>
+<path d="M103 116H121V139L112 133L103 139Z" fill="#FF4438" stroke="#091A23" stroke-width="1"/>
+<path d="M444 112V168" fill="none" stroke="#091A23" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="180" y="185" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Removed</text>
+<text x="360" y="185" font-size="16" font-weight="500" fill="#091A23" text-anchor="middle">Retained</text>
+<path d="M112 211H444M438 207L444 211L438 215" fill="none" stroke="#5C707A" stroke-width="1.3"/>
+<text x="112" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="middle">Friday</text>
+<text x="444" y="236" font-size="16" font-weight="500" fill="#5C707A" text-anchor="end">Sunday</text>
+<text x="277" y="236" font-size="15" font-weight="400" fill="#5C707A" text-anchor="middle">Source keeps writing</text>
+<circle cx="35" cy="264" r="11" fill="#D52D1F"/>
+<path d="M31 260L39 268M39 260L31 268" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="270" font-size="17" font-weight="500" fill="#091A23" text-anchor="start">Cleanup removed required rows.</text>
+<text x="56" y="291" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">Transaction-log backups alone</text>
+<text x="56" y="312" font-size="17" font-weight="400" fill="#091A23" text-anchor="start">do not restore this CDC history.</text>
+</g>
+<path d="M24 792H456" fill="none" stroke="#E8EBEC" stroke-width="1"/>
+<text x="24" y="822" font-size="16" font-weight="400" fill="#5C707A" text-anchor="start">Illustrative times · not retention defaults</text>
 </g>
 </svg>
