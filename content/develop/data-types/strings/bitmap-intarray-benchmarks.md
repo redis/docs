@@ -12,8 +12,9 @@ weight: 21
 This guide contains the benchmark methodology and historical measurements
 associated with [redis/redis#15986](https://github.com/redis/redis/pull/15986).
 The historical results are retained from that pull request and were measured
-before the native commands were renamed. They are not measurements of the
-latest revision. See the [bitmap guide](/content/develop/data-types/strings/bitmaps.md)
+before the native commands were renamed and later consolidated into
+`BITRANGEINTARRAY`. They are not measurements of the latest revision.
+See the [bitmap guide](/content/develop/data-types/strings/bitmaps.md)
 for command usage.
 
 The benchmark script lives in the Redis source repository at
@@ -21,9 +22,17 @@ The benchmark script lives in the Redis source repository at
 Run the commands below from a Redis checkout that includes the integer-array
 commands.
 
-`bitroar-intarray-bench.py` measures `BITGETINTARRAY` and `BITRANGEINTARRAY` against
+`bitroar-intarray-bench.py` measures `BITRANGEINTARRAY` against
 isolated Redis processes over Unix sockets. It needs Python 3.9+ and a normal
 optimized Redis build; no Python packages or existing server are required.
+
+The current harness retains the historical `get-all` workload label for
+comparison files. It now invokes `BITRANGEINTARRAY key 0 -1` for a full native
+read, while the reference module still uses `R.GETINTARRAY` or
+`R64.GETINTARRAY`. The `range-all` workload continues to use explicit first and
+last ranks on both backends. Other range workloads keep their bounded ranks.
+For native calls, `end = -1` returns all elements from `start` onward without
+the 100,000,000-element span cap; explicit end ranks retain that cap.
 
 ```sh
 make -j4
@@ -106,15 +115,16 @@ Large-array throughput naturally includes reply serialization, buffering, and
 network/client costs; small-page throughput can be limited by round-trip
 overhead. These measurements are diagnostic results, not CI pass/fail gates.
 
-## Historical measured comparison before the command rename (2026-10-15)
+## Historical measured comparison before the command rename and consolidation (2026-10-15)
 
-These measurements used the equivalent implementation before its public native
-commands were renamed from `R.GETINTARRAY` / `R.RANGEINTARRAY` to
-`BITGETINTARRAY` / `BITRANGEINTARRAY`. The rename leaves the command algorithms
-unchanged. No full timing run was repeated for the rename: the source revisions,
-binary hashes, raw command names, and results below describe the original run.
-The reference module continues to use `R.*` / `R64.*` names in both versions of
-the harness.
+These measurements used two native commands named `R.GETINTARRAY` and
+`R.RANGEINTARRAY`. They were subsequently renamed to `BITGETINTARRAY` and
+`BITRANGEINTARRAY`, then consolidated into `BITRANGEINTARRAY` with `end = -1`
+for unbounded reads. No full timing run was repeated for the rename or the
+consolidation: the source revisions, binary hashes, raw command names, and
+results below describe the original run. The reference module continues to
+use its separate `GETINTARRAY` and `RANGEINTARRAY` commands under the `R.*` /
+`R64.*` prefixes.
 
 This run measured all 50 workloads against both implementations, with three
 trials per backend. Full replies and exact command counts passed validation.
@@ -165,8 +175,9 @@ taskset -c 0,1 python3 tools/bitroar-intarray-bench.py \
   > /workspace/scratch/bitroar-intarray-comparison.log 2>&1
 ```
 
-The current harness issues the renamed native `BIT*` commands; it does not
-reproduce the historical `R.*` labels. The raw JSON retains all samples,
+The current harness issues only native `BITRANGEINTARRAY` calls, using `0 -1`
+for the retained `get-all` workload label. It does not reproduce the historical
+native `R.*` commands. The raw JSON retains all samples,
 warmups, request counts, exact reply sizes,
 latency metrics, build settings, and binary hashes. The JSON and stdout log are
 local review artifacts at the paths above, not files in the repository.

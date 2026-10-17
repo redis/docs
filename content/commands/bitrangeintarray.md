@@ -49,13 +49,12 @@ key_specs:
 linkTitle: BITRANGEINTARRAY
 railroad_diagram: /images/railroad/bitrangeintarray.svg
 reply_schema:
-  description: Set-bit offsets at the inclusive ranks in ascending order. Missing
-    or empty bitmaps, reversed ranges, and starts beyond the last rank return an empty
-    array.
+  description: Set-bit offsets at the inclusive ranks in ascending order. An end of
+    -1 includes all remaining set bits. Missing or empty bitmaps, reversed bounded
+    ranges, and starts beyond the last rank return an empty array.
   items:
     minimum: 0
     type: integer
-  maxItems: 100000000
   type: array
   uniqueItems: true
 since: 8.12.0
@@ -65,7 +64,7 @@ syntax_fmt: BITRANGEINTARRAY key start end
 title: BITRANGEINTARRAY
 ---
 
-Returns a page of set-bit offsets from a native Roaring bitmap in ascending
+Returns a range of set-bit offsets from a native Roaring bitmap in ascending
 order, selected by their inclusive, zero-based element ranks.
 
 ## Required arguments
@@ -85,8 +84,9 @@ The first element rank to return, inclusive. Must be an integer from `0` through
 
 <details open><summary><code>end</code></summary>
 
-The last element rank to return, inclusive. Must be an integer from `0` through
-`4294967295`.
+The last element rank to return, inclusive. Use `-1` to return every element
+from `start` through the end of the bitmap. Otherwise, use an integer from `0`
+through `4294967295`.
 
 </details>
 
@@ -101,6 +101,13 @@ redis> SETBIT members 20 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
+redis> BITRANGEINTARRAY members 0 -1
+1) (integer) 10
+2) (integer) 20
+3) (integer) 30
+redis> BITRANGEINTARRAY members 1 -1
+1) (integer) 20
+2) (integer) 30
 redis> BITRANGEINTARRAY members 1 2
 1) (integer) 20
 2) (integer) 30
@@ -118,17 +125,23 @@ redis> BITRANGEINTARRAY members 2 1
 
 `start` and `end` are inclusive, zero-based **element ranks** in the ordered
 array of set-bit offsets. For set-bit offsets `{10, 20, 30}`, ranks `1` through
-`2` return `{20, 30}`. The arguments are not bit or byte offsets. Negative ranks
-and ranks outside the unsigned 32-bit range return an error.
+`2` return `{20, 30}`. The arguments are not bit or byte offsets. `start` must
+fit the unsigned 32-bit range. `end` must fit the same range or be `-1`.
 
-For a non-reversed range, the requested span `end - start + 1` must be at most
-`100000000`, even if the key is missing or contains fewer set bits. Larger spans
-return an error. This per-call limit matches redis-roaring and does not limit
-the bitmap's cardinality or stored offsets.
+With a nonnegative `end` and a non-reversed range, the requested span
+`end - start + 1` must be at most `100000000`, even if the key is missing or
+contains fewer set bits. Larger spans return an error. This limit matches
+redis-roaring's bounded-range behavior.
 
-A missing or empty bitmap, a reversed range (`start > end`), or a start rank
-beyond the last element returns an empty array. An end rank beyond the last
-element is truncated to the available elements.
+With `end` set to `-1`, the command returns all remaining elements without the
+100,000,000-element span limit. `BITRANGEINTARRAY key 0 -1` returns the complete
+array, including elements at ranks above `4294967295` when the bitmap has that
+many set bits. The starting rank is still limited to `4294967295`.
+
+A missing or empty bitmap, a reversed bounded range (`start > end` with
+nonnegative `end`), or a start rank beyond the last element returns an empty
+array. A nonnegative end rank beyond the last element is truncated to the
+available elements.
 
 ### Key behavior
 
@@ -151,11 +164,15 @@ the first page even when they return the same number of integers.
 Configured client output-buffer limits still apply and can disconnect a client
 whose reply grows too large.
 
-The unsigned 32-bit restriction applies to ranks, not returned offsets. Offsets
+An unbounded response must fit the server platform's reply-length
+representation (`LONG_MAX` elements). If the number of remaining elements is
+too large, the command returns an error directing you to use a bounded range.
+Response size and serialization cost grow with the number of returned elements.
+
+The rank argument restrictions do not limit stored offsets. Returned offsets
 retain the native bitmap's full supported range, including values above
-`4294967295`. Clients must preserve the precision of returned integers. Use
-[`BITGETINTARRAY`](/content/commands/bitgetintarray.md) to return all set-bit
-offsets in one response.
+`4294967295` when the bitmap was created with a sufficiently large
+`proto-max-bulk-len`. Clients must preserve the precision of returned integers.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -169,17 +186,13 @@ offsets in one response.
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets at the inclusive ranks in ascending order. Missing or empty bitmaps, reversed ranges, and starts beyond the last rank return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets at the inclusive ranks in ascending order. An end of -1 includes all remaining set bits. Missing or empty bitmaps, reversed bounded ranges, and starts beyond the last rank return an empty array.
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets at the inclusive ranks in ascending order. Missing or empty bitmaps, reversed ranges, and starts beyond the last rank return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays) of [integers](../../develop/reference/protocol-spec#integers): Set-bit offsets at the inclusive ranks in ascending order. An end of -1 includes all remaining set bits. Missing or empty bitmaps, reversed bounded ranges, and starts beyond the last rank return an empty array.
 
 {{< /multitabs >}}
-
-## See also
-
-[`BITGETINTARRAY`](/content/commands/bitgetintarray.md)
 
 ## Related topics
 

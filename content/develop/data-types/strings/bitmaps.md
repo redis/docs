@@ -366,10 +366,9 @@ so account for its memory cost before lowering the limit.
 
 ### Retrieve set-bit offsets
 
-[`BITGETINTARRAY`](/content/commands/bitgetintarray.md) returns all set-bit
-offsets of a native bitmap in ascending order.
-[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns an
-inclusive slice by zero-based element rank:
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
+offsets of a native bitmap in ascending order, selected by inclusive,
+zero-based element ranks. Use `0 -1` to return all set-bit offsets:
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
@@ -380,7 +379,7 @@ redis> SETBIT members 20 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
-redis> BITGETINTARRAY members
+redis> BITRANGEINTARRAY members 0 -1
 1) (integer) 10
 2) (integer) 20
 3) (integer) 30
@@ -389,23 +388,25 @@ redis> BITRANGEINTARRAY members 1 2
 2) (integer) 30
 ```
 
-These commands accept only native bitmaps; string-backed bitmaps return
+The command accepts only native bitmaps; string-backed bitmaps return
 `WRONGTYPE`. Missing keys and bitmaps with no set bits return empty arrays.
-Both commands are read-only, preserve expiration, and work on existing native
-bitmaps regardless of `bitmap-default-roaring`.
+It is read-only, preserves expiration, and works on existing native bitmaps
+regardless of `bitmap-default-roaring`.
 
-Range arguments are element ranks, not bit offsets. They must be unsigned
-32-bit integers, and the requested inclusive span must not exceed
-100,000,000 elements, even for missing keys. A reversed range or a start beyond
-the last rank returns an empty array; an end beyond the last rank is truncated.
-The rank and span limits do not constrain stored offsets: returned integers
-retain the bitmap's full supported range.
+Range arguments are element ranks, not bit offsets. `start` must be an unsigned
+32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a
+nonnegative `end`, the requested inclusive span must not exceed 100,000,000
+elements, even for missing keys. A reversed bounded range or a start beyond the
+last rank returns an empty array; an end beyond the last rank is truncated.
+The rank and span limits do not constrain stored offsets.
 
-Use bounded pages for large results. `BITGETINTARRAY` returns the entire array
-without the range command's span limit, subject to platform reply-length
-and client output-buffer limits. Separate range calls do not share a snapshot,
-so concurrent writes can shift ranks between pages. For benchmark methodology
-and historical comparisons against redis-roaring, see
+With `end` set to `-1`, the command returns every remaining element without the
+span limit, including elements at ranks above `4294967295`. Platform
+reply-length and client output-buffer limits still apply.
+
+Use bounded pages for large results. Separate range calls do not share a
+snapshot, so concurrent writes can shift ranks between pages. For benchmark
+methodology and historical comparisons against redis-roaring, see
 [Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md).
 
 ### Persistence and replication
