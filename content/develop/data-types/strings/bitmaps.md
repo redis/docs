@@ -21,12 +21,22 @@ weight: 20
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
 
-Bitmaps are not an actual data type, but a set of bit-oriented operations
-defined on the String type which is treated like a bit vector.
-Since strings are binary safe blobs and their maximum length is 512 MB,
-they are suitable to set up to 2^32 different bits.
+Starting with Redis 8.12, Redis can store bitmaps in two
+representations:
 
-You can perform bitwise operations on one or more strings.
+* By default, a bitmap is a set of bit-oriented operations defined on a
+  string, which is treated like a bit vector.
+* When enabled, Redis can instead store a bitmap as a distinct, native
+  `bitmap` type with the `bitmap-roaring` compressed encoding.
+
+Both representations support the existing bit-oriented commands. Native
+bitmaps also support retrieving set-bit offsets as integer arrays. With the default
+512 MB `proto-max-bulk-len`, they can address up to 2^32 different bits.
+Native bitmaps are not strings, so generic string commands don't operate on
+them. See [Roaring-compressed bitmaps](#roaring-compressed-bitmaps) before
+enabling the native representation.
+
+You can perform bitwise operations on one or more bitmaps.
 Some examples of bitmap use cases include:
 
 * Efficient set representations for cases where the members of a set correspond to the integers 0-N.
@@ -265,6 +275,164 @@ Set a bit in the destination key to 1 if it is set in exactly one of the source 
 # Hex value: 0xa5 = 0b10100101
 {{< /clients-example >}}
 
+## Roaring-compressed bitmaps
+
+A string-backed bitmap allocates bytes through the highest addressed bit. This
+is efficient for dense bitmaps, but a small number of set bits spread across a
+large range can leave most of the string filled with zeros.
+
+A native Roaring bitmap stores set-bit positions in compressed containers while
+preserving the same logical byte length and bitmap command behavior. This can
+reduce memory use for sparse bitmaps, such as membership or event indexes over
+a large integer ID space. Long runs of set bits can also compress well. Small
+bitmaps and irregular dense bitmaps can use as much or more memory than strings
+because compressed containers have their own metadata. Compare
+[`MEMORY USAGE`](/content/commands/memory-usage.md) and command latency
+with representative data before enabling Roaring bitmaps for a workload.
+
+### Enable Roaring bitmap creation
+
+The `bitmap-default-roaring` configuration parameter is `no` by default. Set it
+to `yes` in your Redis configuration file, or enable it at runtime with
+[`CONFIG SET`](/content/commands/config-set.md):
+
+{{< clients-example set="bitmap_tutorial" step="roaring" description="Compressed storage: Enable native Roaring creation for sparse bitmaps when you don't need to access their raw bytes with string commands" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
+> CONFIG SET bitmap-default-roaring yes
+OK
+> SETBIT events:2026-07 1000000 1
+(integer) 0
+> TYPE events:2026-07
+bitmap
+> OBJECT ENCODING events:2026-07
+"bitmap-roaring"
+> BITCOUNT events:2026-07
+(integer) 1
+> GET events:2026-07
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+{{< /clients-example >}}
+
+Changing the configuration does not immediately convert existing keys:
+
+* With `bitmap-default-roaring no`, [`SETBIT`](/content/commands/setbit.md)
+  and write forms of [`BITFIELD`](/content/commands/bitfield.md) create
+  string-backed bitmaps. Existing native bitmaps remain native and continue to
+  accept bitmap commands.
+* With `bitmap-default-roaring yes`, those commands create missing keys as
+  native bitmaps. A write to an existing string converts the complete string
+  to a native bitmap before applying the write. The conversion preserves its
+  bits, logical length, expiration, and key metadata.
+* Read-only bitmap commands don't convert a string. [`SET`](/content/commands/set.md) also continues to create a string, regardless of this
+  setting.
+* [`BITOP`](/content/commands/bitop.md) stores a non-empty result as a
+  native destination when the setting is `yes`. When the setting is `no`, its
+  destination is native if at least one source is native; an operation with
+  only string sources produces a string destination.
+
+There is no command that converts a native bitmap back to a string while
+preserving its contents. `SET` can replace a native bitmap with a new string
+value, as it can replace any other Redis type.
+
+### Command and type compatibility
+
+[`SETBIT`](/content/commands/setbit.md),
+[`GETBIT`](/content/commands/getbit.md),
+[`BITCOUNT`](/content/commands/bitcount.md),
+[`BITPOS`](/content/commands/bitpos.md),
+[`BITOP`](/content/commands/bitop.md),
+[`BITFIELD`](/content/commands/bitfield.md), and
+[`BITFIELD_RO`](/content/commands/bitfield_ro.md) work with both
+representations and keep their existing reply and range semantics. Setting a
+zero bit beyond the current logical end extends either representation, and
+bits between the old and new ends read as zero.
+
+The representations are intentionally visible to clients:
+
+* [`TYPE`](/content/commands/type.md) returns `string` for a string-backed
+  bitmap and `bitmap` for a native one.
+* [`OBJECT ENCODING`](/content/commands/object-encoding.md) returns
+  `bitmap-roaring` for a native bitmap.
+* Generic string commands such as [`GET`](/content/commands/get.md),
+  [`STRLEN`](/content/commands/strlen.md),
+  [`GETRANGE`](/content/commands/getrange.md), and
+  [`APPEND`](/content/commands/append.md) return a wrong-type error for a
+  native bitmap. Applications that read or modify bitmap bytes with string
+  commands should keep using the default string representation.
+
+Both representations limit accepted bit offsets according to
+`proto-max-bulk-len`. An existing bitmap can have a longer logical length if it
+was created or loaded while that limit was higher. [`BITOP`](/content/commands/bitop.md) operates on the complete logical length of such a
+source. In particular, `BITOP NOT` can allocate a dense result of that length,
+so account for its memory cost before lowering the limit.
+
+### Retrieve set-bit offsets
+
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
+offsets of a native bitmap in ascending order, selected by inclusive,
+zero-based element ranks. Use `0 -1` to return all set-bit offsets:
+
+```redis
+redis> CONFIG SET bitmap-default-roaring yes
+OK
+redis> SETBIT members 10 1
+(integer) 0
+redis> SETBIT members 20 1
+(integer) 0
+redis> SETBIT members 30 1
+(integer) 0
+redis> BITRANGEINTARRAY members 0 -1
+1) (integer) 10
+2) (integer) 20
+3) (integer) 30
+redis> BITRANGEINTARRAY members 1 2
+1) (integer) 20
+2) (integer) 30
+```
+
+The command accepts only native bitmaps; string-backed bitmaps return
+`WRONGTYPE`. Missing keys and bitmaps with no set bits return empty arrays.
+It is read-only, preserves expiration, and works on existing native bitmaps
+regardless of `bitmap-default-roaring`.
+
+Range arguments are element ranks, not bit offsets. `start` must be an unsigned
+32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a
+nonnegative `end`, the requested inclusive span must not exceed 100,000,000
+elements, even for missing keys. A reversed bounded range or a start beyond the
+last rank returns an empty array; an end beyond the last rank is truncated.
+The rank and span limits do not constrain stored offsets.
+
+With `end` set to `-1`, the command returns every remaining element without the
+span limit, including elements at ranks above `4294967295`. Platform
+reply-length and client output-buffer limits still apply.
+
+Use bounded pages for large results. Separate range calls do not share a
+snapshot, so concurrent writes can shift ranks between pages. For benchmark
+methodology and historical comparisons against redis-roaring, see
+[Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md).
+
+### Persistence and replication
+
+RDB snapshots, [`DUMP`](/content/commands/dump.md) and
+[`RESTORE`](/content/commands/restore.md), AOF rewrites, and replication
+preserve the native bitmap type. When a write creates or converts a native
+bitmap because `bitmap-default-roaring` is `yes`, Redis propagates the
+representation transition explicitly so replicas produce the same type even if
+their local setting differs.
+
+For `SETBIT` and writing `BITFIELD` operations, Redis records the representation
+transition as [`BITCONVERT`](/content/commands/bitconvert.md) before the bitmap
+command. For `BITOP`, Redis uses [`BITROAROP`](/content/commands/bitroarop.md) to
+preserve a native result selected by `bitmap-default-roaring`.
+These commands are reserved for internal replication and AOF loading. Ordinary
+clients cannot invoke them or discover them through `COMMAND` introspection; direct calls
+return `ERR unknown command`. Applications should use the public bitmap
+commands and `bitmap-default-roaring` to create and modify native bitmaps.
+
+{{< warning >}}
+Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
+any Redis server that will load its RDB, DUMP payloads, or AOF. Older versions
+don't understand the native bitmap persistence format.
+{{< /warning >}}
+
 ## Split bitmaps into multiple keys
 
 Bitmaps are trivial to split into multiple keys, for example for
@@ -277,7 +445,12 @@ the Nth bit to address inside the key with `bit-number MOD M`.
 ## Performance
 
 [`SETBIT`](/content/commands/setbit.md) and [`GETBIT`](/content/commands/getbit.md) are O(1).
-[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the length of the longest string in the comparison.
+[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the logical
+length of the longest source bitmap.
+For Roaring bitmaps, actual CPU and memory costs also depend on the distribution
+of set bits and the resulting compressed containers. In particular, `BITOP NOT`
+can turn a sparse bitmap into a dense result. Benchmark representative data and
+operations when choosing a representation.
 
 ## Learn more
 
