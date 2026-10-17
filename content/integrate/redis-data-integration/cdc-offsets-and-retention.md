@@ -45,88 +45,103 @@ The collector's offset is also different from the processor's **checkpoint**. Th
 
 The bookmark idea applies across sources, but the way each database retains history differs. The examples assume capture was working before the interruption. A source restart, replacement, or failover can introduce separate capture-state requirements.
 
-### Oracle: keep the required redo history
+### Oracle: keep a complete, readable redo chain
 
-Oracle records changes in redo logs. With LogMiner, RDI reads online and archived redo logs and tracks progress using SCNs. An SCN identifies a position in database history; it is not a timestamp with a fixed lifetime.
+Oracle records changes in redo logs. With LogMiner, RDI reads online and archived redo and tracks system change numbers (SCNs). An SCN does not expire as a number. The problem is whether Oracle can provide the history needed from that position.
 
-Online redo logs are reused. Archived logs let a reader reach further back, but only while the required files remain available to the mining process. If cleanup removes a required archive during an outage, the collector can no longer continue from its saved position. Having newer logs does not fill the gap.
+Cleanup can remove an old archive, but a gap in the middle also matters. The file containing the saved SCN and the newest files can all exist while a required file between them is missing. With Oracle Real Application Clusters (RAC), mining needs the required redo from all relevant threads.
 
-![Oracle timelines show a saved SCN with all required redo available, then a saved SCN whose required archived redo has been removed.](/images/rdi/cdc-retention/oracle.svg)
+![Oracle archive files form a complete readable chain, or a missing middle file prevents continuation even though the saved SCN's file still exists.](/images/rdi/cdc-retention/oracle.svg)
 {width="560"}
 
-Plan archive retention and storage with your database administrator. Check the archive destination RDI actually reads, not only whether backups exist elsewhere. Long-running transactions can also require older redo than the most recent visible activity suggests.
+Unavailable does not always mean deleted. Archiving might be delayed, or the archive destination might be inaccessible. Check availability before choosing a fresh snapshot. See [Oracle LogMiner requirements](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-logminer-utility.html).
 
-XStream uses an Oracle capture process and an outbound server, with its own restart position and capture checkpoints. Preserve the history and state required by that capture process; do not apply a LogMiner error diagnosis unchanged to XStream. See [Prepare Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md), [Oracle LogMiner](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-logminer-utility.html), and [XStream restartability](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/xstream-out-concepts.html).
+An outage is not the only risk. A long transaction can hold the restart position in older redo while other transactions continue. Quiet captured activity can also leave the saved offset behind. Monitor the saved position, not just recent events or process uptime. Use the [connector's offset and heartbeat guidance](https://debezium.io/documentation/reference/3.5/connectors/oracle.html#low-change-frequency-offset-management) for your Oracle configuration.
 
-### MySQL and MariaDB: keep the binary logs
-
-MySQL and MariaDB record changes in binary logs, often called *binlogs*. A resume position identifies the required place in this history. Using transaction identifiers does not preserve the underlying events after their logs are removed.
-
-Automatic expiration or a manual purge can remove a file that a disconnected collector still needs. Increasing retention after that purge does not bring the file back.
-
-![Binary-log timelines show successful resume while the required file remains, then failed resume after that file is purged.](/images/rdi/cdc-retention/mysql-mariadb.svg)
+![A long-running Oracle transaction holds an older restart position while other transactions commit. Removing that older redo makes a later restart unsafe.](/images/rdi/cdc-retention/oracle-transactions.svg)
 {width="560"}
 
-Set retention for the interruption you need to tolerate and leave enough disk space for peak writes. Coordinate manual cleanup with CDC readers. Managed services can expose different retention controls, so use the instructions for your deployment in [Prepare MySQL and MariaDB](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb.md). The [MySQL purge reference](https://dev.mysql.com/doc/refman/8.0/en/purge-binary-logs.html) and [MariaDB binary-log guide](https://mariadb.com/docs/server/server-management/server-monitoring-logs/binary-log/using-and-maintaining-the-binary-log) describe the underlying cleanup behavior.
+Two other cases need a different diagnosis. During a snapshot, a “snapshot too old” error concerns [undo history for consistent reads](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html), not streaming redo retention. With XStream, recovery also depends on Oracle's capture checkpoints and outbound-server state; a saved client position alone is insufficient. See [Prepare Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md) and [XStream restartability](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/xstream-out-concepts.html).
 
-### PostgreSQL: retain history without filling the disk
+### MySQL and MariaDB: preserve files and source continuity
 
-PostgreSQL records changes in its write-ahead log (WAL). RDI reads through a logical replication slot and tracks a log sequence number (LSN).
+MySQL and MariaDB record changes in binary logs, often called *binlogs*. A bookmark can name a file and a position inside it. Rotating to a new file is normal. Older files must remain available until capture has read them.
 
-A slot can retain WAL that its reader still needs, even while RDI is stopped. This makes PostgreSQL different from a simple rolling time window: the immediate problem may be growing disk usage rather than removed history.
+Expiration or manual purging can remove required events. Resetting the binary logs can remove history immediately, regardless of the planned retention window. The source tables can remain intact throughout.
 
-Retention is not unconditional. A configured slot retention limit can allow required WAL to be removed. Newer PostgreSQL versions also support invalidating slots after an idle timeout. A dropped or invalidated slot cannot be treated as a healthy saved bookmark.
-
-![PostgreSQL timelines show WAL retained during an outage with growing storage, required WAL removed after a size limit, and an inactive slot invalidated by a timeout.](/images/rdi/cdc-retention/postgresql.svg)
+![Binary-log file rotation preserves unread events, purging a required file removes them, and switching servers requires checking whether the saved position maps to the new source history.](/images/rdi/cdc-retention/mysql-mariadb.svg)
 {width="560"}
 
-Monitor slot health, retained WAL, and free disk together. Choose limits that balance recovery time with database storage capacity. Parameter names and available controls differ across PostgreSQL versions; see [Manage WAL retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#manage-wal-retention).
+A source switch is a separate risk. File positions belong to a particular server's history. Global transaction identifiers (GTIDs) help identify transactions across servers; they do not recreate deleted events. Before a migration or failover, check that the replacement source has the required history and that your RDI configuration can resume from it.
 
-The same model applies to Supabase, Neon, AlloyDB for PostgreSQL, Amazon Aurora PostgreSQL, and other managed PostgreSQL services. Check provider-specific slot cleanup, storage, and failover policies rather than assuming that every service retains an idle slot indefinitely.
+Size retention and storage for peak writes. Coordinate purges and log resets with capture. See [Prepare MySQL and MariaDB](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb.md), [MySQL purging](https://dev.mysql.com/doc/refman/8.0/en/purge-binary-logs.html), [MySQL log resets](https://dev.mysql.com/doc/refman/8.4/en/reset-binary-logs-and-gtids.html), and [MariaDB transaction positioning](https://mariadb.com/docs/server/ha-and-performance/standard-replication/gtid).
 
-### SQL Server: retain the captured change rows
+### PostgreSQL: preserve WAL and slot state
 
-SQL Server CDC captures changes from the transaction log into change tables. RDI reads those captured changes using an LSN-based position.
+PostgreSQL records changes in its write-ahead log (WAL). RDI uses a logical replication slot and tracks a log sequence number (LSN). A valid slot can retain needed WAL while RDI is stopped. Disk usage can therefore grow throughout an outage. A full disk is a storage failure, not an expired LSN.
 
-The CDC cleanup process removes old entries from the change tables. If RDI returns after its required entries have been cleaned up, keeping transaction-log backups alone does not make those entries available through the CDC reader.
+Two configured limits can break continuity differently. A finite slot size limit can allow required WAL to be removed at a checkpoint. PostgreSQL 18 can also invalidate an inactive slot at a checkpoint after an enabled idle timeout, even if WAL files remain. That timeout is disabled by default.
 
-![SQL Server timelines show an LSN inside retained CDC change-table history, then outside the available range after cleanup.](/images/rdi/cdc-retention/sql-server.svg)
+![PostgreSQL shows a slot retaining growing WAL, a size limit followed by checkpoint-time WAL removal, and a separate idle timer that invalidates the slot even when WAL remains.](/images/rdi/cdc-retention/postgresql.svg)
 {width="560"}
 
-Plan CDC change-table retention for consumer interruptions. Monitor both capture progress into those tables and RDI's progress through them. Capture delays and reader delays are different problems. See [Prepare SQL Server](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server.md) and Microsoft's [CDC administration guide](https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server).
+Keeping WAL is only part of recovery. Dropping and recreating a slot does not restore its old decoding state. After failover, the new primary needs usable slot state and the required history. A routine restart of the same database does not itself remove a persistent slot.
 
-### MongoDB: keep enough operation-log history
-
-MongoDB change streams provide a **resume token** that identifies where reading can continue. Resuming requires enough history in the replica set's operation log, or *oplog*.
-
-For a size-limited oplog, a busy day can retain fewer hours of history than a quiet day. A collector that resumes successfully after one weekend might fail after another weekend with a large write burst.
-
-![MongoDB timelines show a resume token whose history remains in the oplog, then history overwritten during a write burst.](/images/rdi/cdc-retention/mongodb.svg)
+![An original PostgreSQL primary has saved slot state, while a replacement primary has WAL but lacks that slot state. Reusing the slot name does not restore it.](/images/rdi/cdc-retention/postgresql-slot-state.svg)
 {width="560"}
 
-Monitor the actual oplog time window. Size it for peak activity, and consider a minimum retention period where available. A minimum retention period can require the oplog to grow beyond its configured size, so account for storage too. Managed-service controls vary. See [Prepare MongoDB](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb.md) and the [MongoDB oplog guide](https://www.mongodb.com/docs/manual/core/replica-set-oplog/).
+Monitor slot health, retained WAL, and free disk together. See [Manage WAL retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#manage-wal-retention) for version-specific controls and [PostgreSQL failover guidance](https://www.postgresql.org/docs/18/logical-replication-failover.html) for slot continuity. Supabase, Neon, AlloyDB, Amazon Aurora PostgreSQL, and other managed variants can have additional cleanup, storage, and failover policies. Do not assume they preserve every idle slot.
+
+### SQL Server: watch both capture stages
+
+SQL Server first captures transaction-log changes into CDC change tables. RDI then reads those tables using an LSN-based position. If source capture stops, newer changes cannot reach RDI yet and the transaction log can grow. If RDI falls behind while capture continues, CDC cleanup can remove rows it still needs.
+
+![SQL Server copies the transaction log into CDC tables before RDI reads them. Cleanup can overtake RDI's saved LSN, or maintenance can delete the old capture instance and its table.](/images/rdi/cdc-retention/sql-server.svg)
+{width="560"}
+
+History can also disappear during maintenance. Disabling a capture instance deletes its change table, even inside the retention window. A new instance does not recreate those old rows. Follow the [schema-change guidance](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server.md#drop-the-old-capture-table) before removing an old instance.
+
+Monitor source capture and RDI reading separately. Keeping transaction-log backups alone does not make cleaned-up CDC rows available to this reader. See Microsoft's [CDC administration](https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server) and [capture-instance removal](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sys-sp-cdc-disable-table-transact-sql) references.
+
+### MongoDB: account for write volume and old values
+
+MongoDB change streams provide a **resume token**. Resuming requires enough history in the replica set's operation log, or *oplog*. For a size-limited oplog, a busy day covers fewer hours than a quiet day. The same weekend interruption can therefore succeed once and fail after a large write burst.
+
+![Two equal-size MongoDB oplogs cover different periods. Quiet writes preserve Friday's token through Sunday; busy writes leave only Sunday's history.](/images/rdi/cdc-retention/mongodb.svg)
+{width="560"}
+
+Some pipelines also need a document's old values, called a **pre-image**. Custom Redis keys can depend on fields that changed or were deleted. An event can remain in the oplog after its pre-image is gone. A usable resume token does not guarantee that all required old values remain.
+
+![MongoDB retains a change event in the oplog while its document pre-image is unavailable. This can affect pipelines using custom Redis keys without making the resume token invalid.](/images/rdi/cdc-retention/mongodb-pre-images.svg)
+{width="560"}
+
+Monitor the actual oplog time window and any required pre-images. A minimum oplog retention period can require extra storage. Dropping or renaming watched objects can also [invalidate a stream, depending on its watch scope](https://www.mongodb.com/docs/manual/reference/change-events/invalidate/); this is separate from history expiry. See [Prepare MongoDB](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb.md), [oplog retention](https://www.mongodb.com/docs/manual/core/replica-set-oplog/), and [pre-image retention](https://www.mongodb.com/docs/manual/changestreams/#change-streams-with-document-pre--and-post-images).
 
 ### Spanner: distinguish two retention windows
 
-Spanner change streams retain change records for a configured period. RDI needs its streaming resume point to remain within the available change-stream history. Once those records expire, a later restart cannot read them from the stream.
+Spanner has two independent histories. **Database version retention** keeps older row versions for RDI's fixed-timestamp snapshot. A slow or interrupted snapshot can lose access to that timestamp. **Change-stream retention** keeps change records for streaming. Increasing one window does not extend the other.
 
-![Spanner timelines show a streaming resume point within change-stream retention and a point older than the retained records.](/images/rdi/cdc-retention/spanner.svg)
+![Spanner compares two separate histories: both can cover the work, snapshot row versions can expire while change records remain, or streaming history can expire after a completed snapshot.](/images/rdi/cdc-retention/spanner.svg)
 {width="560"}
 
-Spanner also has **database version retention**. That separate setting matters when RDI reads a consistent snapshot at a particular timestamp. Increasing version retention does not substitute for sufficient change-stream retention during streaming.
+Changes to the stream can remove history before an outage ends. Reducing retention makes records outside the new window unavailable immediately. Dropping a stream deletes its records; recreating the same name does not restore them.
 
-Plan the change-stream window for interruptions and the version window for snapshot duration. See [Prepare Spanner](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md) and Google's [change-stream overview](https://docs.cloud.google.com/spanner/docs/change-streams).
+Also preserve what the stream watches. Suspending capture or excluding a required table or operation means those changes were never recorded. Longer retention cannot recover events that were never captured.
 
-### Snowflake: consume changes before the stream becomes stale
+Plan version history for snapshot duration and change-stream history for lag, interruptions, and catch-up. See [Prepare Spanner](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md), [timestamp limits](https://docs.cloud.google.com/spanner/docs/timestamp-bounds#maximum_timestamp_staleness), and [change-stream management](https://docs.cloud.google.com/spanner/docs/change-streams/manage).
 
-Snowflake streams track an offset against source-table history. The stream does not hold an independent, permanent copy of every change. If the history needed by its offset is no longer retained, the stream becomes **stale**.
+### Snowflake: preserve table history and identity
 
-![Snowflake timelines show a usable stream offset with retained table history and a stale stream after required history is no longer retained.](/images/rdi/cdc-retention/snowflake.svg)
+Snowflake streams track an offset against source-table history. They do not hold a permanent copy of every change. If the required history is no longer retained, the stream becomes **stale**. Replacing the source table can also break continuity immediately: an old stream does not follow a new table that reuses the same name.
+
+![Snowflake retains table versions for a stream offset, loses required versions through retention, or replaces the source table with a new object that the old stream does not follow.](/images/rdi/cdc-retention/snowflake.svg)
 {width="560"}
 
-Monitor stream staleness and the reported `STALE_AFTER` time. Account for table retention and Snowflake's retention-extension rules; do not assume that a stream keeps history indefinitely. Reading a stream with a query alone does not necessarily advance its offset: Snowflake distinguishes querying from consuming changes in a committed transaction.
+Monitor staleness and the predicted `STALE_AFTER` time. A plain query does not advance a stream's offset. RDI manages its streams; do not manually consume or replace them to clear an error.
 
-Snowflake support in RDI is in preview. See [Prepare Snowflake](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake.md) and Snowflake's [stream retention and staleness guidance](https://docs.snowflake.com/en/user-guide/streams-intro#data-retention-period-and-staleness).
+RDI also checks whether streams have data. Snowflake can protect an empty stream from staleness when that check returns false. This does not protect pending changes during a collector outage.
+
+Snowflake support is in preview. See [Prepare Snowflake](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake.md), [stream staleness](https://docs.snowflake.com/en/user-guide/streams-intro#data-retention-period-and-staleness), and [empty-stream checks](https://docs.snowflake.com/en/sql-reference/functions/system_stream_has_data#usage-notes).
 
 ## Plan for the whole interruption
 
@@ -138,7 +153,7 @@ Use a conservative planning budget:
 
 This is a planning aid, not a universal database setting. For example, a 48-hour outage budget needs more than 48 hours of retained history if capture was already behind. Catch-up also needs spare processing capacity while the application continues writing.
 
-Before maintenance, check capture progress, available history, and storage. For size-based limits, estimate how much history peak writes produce, not just average writes. Where history is retained by a slot, check how much additional disk an outage could consume.
+Before maintenance, check capture progress, available history, and storage. After restoring or replacing a source, also verify that the saved offset still belongs to its history and capture state. For size-based limits, estimate how much history peak writes produce, not just average writes. Where history is retained by a slot, check how much additional disk an outage could consume.
 
 Alert while there is still time to act. Combine [RDI monitoring](/content/integrate/redis-data-integration/observability.md) with source-database checks. A running process or a saved offset does not prove that capture is advancing or that its history remains available. Confirm managed-service limits and cleanup policies with the database owner.
 

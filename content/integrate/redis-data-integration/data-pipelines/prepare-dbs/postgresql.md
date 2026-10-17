@@ -166,7 +166,7 @@ the default value of about 200 milliseconds will apply.
 Logical replication slots retain write-ahead log (WAL) needed by their readers,
 including during an RDI outage. Retained WAL can grow until it fills the disk.
 Configured limits or slot invalidation can also prevent RDI from resuming.
-See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#postgresql-retain-history-without-filling-the-disk)
+See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#postgresql-preserve-wal-and-slot-state)
 for the conceptual explanation.
 
 Choose controls for your PostgreSQL version:
