@@ -17,7 +17,7 @@ weight: 31
 
 Redis Data Integration (RDI) can resume after an interruption only if the source still provides the change history and capture state it needs. Saving a position does not preserve that history.
 
-Imagine that RDI stops on Friday and starts again on Sunday. Your application keeps writing to Oracle during those two days. RDI remembers where it stopped, but Oracle has removed some of the redo logs needed to continue. The collector reports that its saved system change number (SCN) is no longer available.
+Imagine that RDI stops on Friday and starts again on Sunday. In this example, Oracle is the source database. Your application keeps writing to it during those two days. RDI remembers where it stopped, but Oracle has removed some of the redo logs needed to continue. The collector reports that its saved system change number (SCN) is no longer available.
 
 The source tables still exist. RDI has not forgotten its position. What is missing is the history between that position and the present.
 
