@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+<title id="title">Oracle: required redo history</title>
+<desc id="desc">Time moves from earlier to later. A vertical bookmark marks where capture stopped. In the first panel the required history is retained. In the second panel required history is removed.</desc>
+<defs><pattern id="removed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f1f5f9"/><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="#94a3b8" stroke-width="1"/></pattern></defs>
+<rect width="480" height="100%" rx="12" fill="#fff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#162638">
+<text x="20" y="34" font-size="23" font-weight="700" text-anchor="start" fill="#162638">Oracle: required redo history</text>
+<text x="20" y="62" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Illustration · no fixed expiration time</text>
+<rect x="12" y="84" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="28" y="115" font-size="21" font-weight="700" text-anchor="start" fill="#162638">1  History retained: resume succeeds</text>
+<text x="28" y="141" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
+<rect x="30" y="196" width="30" height="36" fill="url(#removed)" stroke="#94a3b8"/>
+<rect x="60" y="196" width="390" height="36" fill="#dbeafe" stroke="#2563a6"/>
+<text x="132" y="176" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved SCN</text>
+<path d="M132 183V238" stroke="#162638" stroke-width="3"/>
+<circle cx="132" cy="214" r="6" fill="#162638"/>
+<text x="445" y="176" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
+<path d="M442 183V238" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="270" y="221" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Redo history</text>
+<text x="30" y="262" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
+<path d="M100 256H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
+<text x="450" y="262" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
+<text x="28" y="293" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Required redo is still available.</text>
+<text x="28" y="314" font-size="18" font-weight="400" text-anchor="start" fill="#162638">LogMiner can continue reading.</text>
+<rect x="12" y="360" width="456" height="260" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="28" y="391" font-size="21" font-weight="700" text-anchor="start" fill="#162638">2  History removed: cannot resume</text>
+<text x="28" y="417" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Capture stops; source writes continue</text>
+<rect x="30" y="472" width="218" height="36" fill="url(#removed)" stroke="#94a3b8"/>
+<rect x="248" y="472" width="202" height="36" fill="#dbeafe" stroke="#2563a6"/>
+<text x="132" y="452" font-size="18" font-weight="700" text-anchor="middle" fill="#162638">Saved SCN</text>
+<path d="M132 459V514" stroke="#162638" stroke-width="3"/>
+<circle cx="132" cy="490" r="6" fill="#162638"/>
+<text x="445" y="452" font-size="18" font-weight="700" text-anchor="end" fill="#162638">Restart</text>
+<path d="M442 459V514" stroke="#162638" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="189" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#475569">Removed</text>
+<text x="345" y="497" font-size="18" font-weight="400" text-anchor="middle" fill="#164f86">Retained</text>
+<text x="30" y="538" font-size="17" font-weight="400" text-anchor="start" fill="#475569">Earlier</text>
+<path d="M100 532H371m-7-5 7 5-7 5" fill="none" stroke="#64748b" stroke-width="1.5"/>
+<text x="450" y="538" font-size="17" font-weight="400" text-anchor="end" fill="#475569">Later</text>
+<text x="28" y="569" font-size="18" font-weight="400" text-anchor="start" fill="#162638">A required archive was removed.</text>
+<text x="28" y="590" font-size="18" font-weight="400" text-anchor="start" fill="#162638">Newer redo cannot fill the gap.</text>
+</g>
+</svg>

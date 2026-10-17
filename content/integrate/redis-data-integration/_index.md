@@ -102,4 +102,7 @@ RDI can capture data from any of the following sources:
 
 ## Documentation
 
+Learn why a saved capture position can become unusable in
+[Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md).
+
 Learn more about RDI from the other pages in this section:
