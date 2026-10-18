@@ -134,17 +134,19 @@ to capture changes.
     GRANT USAGE ON SCHEMA <schema> TO <username>;
     ```
 
-    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.">
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
 
 1. <a id="grant-privileges-for-the-future"></a>
-    Connect to your database as the `postgres` user and grant the new user the necessary privileges for the future:
+    Connect to your database as the role that creates your application tables, such as your migration role, and grant the Debezium user access to that role's future tables:
 
     ```sql
-    ALTER DEFAULT PRIVILEGES IN SCHEMA <schema>
+    ALTER DEFAULT PRIVILEGES FOR ROLE <table_owner> IN SCHEMA <schema>
         GRANT SELECT ON TABLES TO <username>;
     ```
 
-    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
+    Replace `<table_owner>` with the role that runs `CREATE TABLE`, `<schema>` with the schema name, and `<username>` with the Debezium user. You can also run this command as an administrator with permission to change that role's default privileges.
+
+    Repeat for each table creator and schema. Defaults set for `postgres` apply only to tables created by `postgres`; a migration role does not inherit those defaults through role membership. This command does not grant access to existing tables, which require the earlier `GRANT SELECT` command.
 
 1. <a id="create-publication"></a>
     Connect to your database as the `postgres` user and create a publication for the database:
