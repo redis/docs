@@ -47,7 +47,7 @@ Each source has its own retention rules. These are source-database settings, not
 
 ### Oracle: keep a complete, readable redo chain
 
-**Retention controls: cleanup rules and disk space.** There is no single "keep CDC for this many hours" setting. Backup and cleanup jobs can remove archived logs based on their age or backup status. Oracle can also free disk space in its fast recovery area by removing logs that its deletion rules allow. Check both the [archive deletion policy](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/configuring-rman-client-basic.html) and any scheduled cleanup jobs.
+**Retention controls: cleanup rules and disk space.** There is no single "keep CDC for this many hours" setting. Backup and cleanup jobs can remove archived logs based on their age or backup status. Oracle can also free disk space in its fast recovery area by removing logs that its deletion rules allow. Check both the [archive deletion policy](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/configuring-rman-client-basic.html#GUID-FA142760-8ACB-43DA-939C-8407618D2D0F) and any scheduled cleanup jobs.
 
 Oracle records changes in redo logs. With LogMiner, RDI reads online and archived redo and tracks system change numbers (SCNs). An SCN does not expire as a number. The problem is whether Oracle can provide the history needed from that position.
 
@@ -69,7 +69,7 @@ Two other cases need a different diagnosis. During a snapshot, a “snapshot too
 
 ### MySQL and MariaDB: preserve files and source continuity
 
-**Retention controls: an age limit, automatic cleanup, and manual or scheduled purges.** [MySQL](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) and MariaDB can expire old log files. Cleanup happens at events such as server startup or log rotation, not necessarily at the exact expiry time. [MariaDB 11.4 and later](https://mariadb.com/docs/server/server-management/server-monitoring-logs/binary-log/using-and-maintaining-the-binary-log#limiting-the-binlog-size) can also limit the total log size on disk. A limit on the size of each individual file only controls rotation; it does not set the total retention window.
+**Retention controls: an age limit, automatic cleanup, and manual or scheduled purges.** [MySQL](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) and MariaDB can expire old log files. Cleanup can happen at server startup or when the binary log is flushed, including during rotation. It does not necessarily happen at the exact expiry time. In MySQL 8.0.29 and later, `binlog_expire_logs_auto_purge` can disable automatic cleanup even when an age limit is set. [MariaDB 11.4 and later](https://mariadb.com/docs/server/server-management/server-monitoring-logs/binary-log/using-and-maintaining-the-binary-log#limiting-the-binlog-size) can also limit the total log size on disk. A limit on each individual file's size only controls rotation; it does not set the total retention window.
 
 MySQL and MariaDB record changes in binary logs, often called *binlogs*. A bookmark can name a file and a position inside it. Rotating to a new file is normal. Older files must remain available until capture has read them.
 
@@ -143,6 +143,8 @@ Monitor the actual oplog time window and any required pre-images. Dropping or re
 
 Spanner has two independent histories. **Database version retention** keeps older row versions for RDI's fixed-timestamp snapshot. A slow or interrupted snapshot can lose access to that timestamp. **Change-stream retention** keeps change records for streaming. Increasing one window does not extend the other.
 
+Keep both retention durations in [RDI's source configuration](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md#5-configure-rdi-for-spanner) in sync with the database settings. RDI uses its configured durations for retention checks; changing only the database settings does not update RDI.
+
 ![Spanner compares two separate histories: both can cover the work, snapshot row versions can expire while change records remain, or streaming history can expire after a completed snapshot.](/images/rdi/cdc-retention/spanner.svg)
 {width="560"}
 
@@ -154,18 +156,20 @@ Plan version history for snapshot duration and change-stream history for lag, in
 
 ### Snowflake: preserve table history and identity
 
-**Retention controls: time in days, with automatic management.** Table-history retention and the allowed extension for streams with unread changes determine the window. You do not set a stream memory limit or schedule its cleanup. Extra retained history uses storage. See [stream retention and staleness](https://docs.snowflake.com/en/user-guide/streams-intro#data-retention-period-and-staleness).
+**Retention controls: time in days, with automatic management.** On the source table, `DATA_RETENTION_TIME_IN_DAYS` sets how long Snowflake keeps old table versions through its **Time Travel** feature. `MAX_DATA_EXTENSION_TIME_IN_DAYS` limits how far Snowflake can extend retention to protect streams; its default is 14 days. Check both settings and any extension held by RDI's existing stream. Do not assume that every saved timestamp has 14 days of protection. These controls use storage, not a stream memory limit. See [Snowflake retention rules](https://docs.snowflake.com/en/user-guide/streams-intro#data-retention-period-and-staleness).
 
-Snowflake streams track an offset against source-table history. They do not hold a permanent copy of every change. If the required history is no longer retained, the stream becomes **stale**. Replacing the source table can also break continuity immediately: an old stream does not follow a new table that reuses the same name.
+RDI's bookmark is a saved table timestamp. When RDI resumes, it creates a stream at that timestamp to read the changes since then. It also recreates the stream when fetching later batches. If the required history is gone, creating the stream at the saved timestamp fails. Creating a new stream does not bring back old history.
 
-![Snowflake retains table versions for a stream offset, loses required versions through retention, or replaces the source table with a new object that the old stream does not follow.](/images/rdi/cdc-retention/snowflake.svg)
+![Snowflake lets RDI recreate a stream when its saved timestamp is still available. Creation fails when that history has expired or when the timestamp predates a replacement table's history.](/images/rdi/cdc-retention/snowflake.svg)
 {width="560"}
 
-Monitor staleness and the predicted `STALE_AFTER` time. A plain query does not advance a stream's offset. RDI manages its streams; do not manually consume or replace them to clear an error.
+Replacing a table is another risk. RDI creates streams using the configured table name, which can now refer to the replacement. The name alone does not prove that the original history is still available. If the saved timestamp predates the replacement table's history, RDI cannot create the stream at that time.
+
+Monitor how old RDI's saved timestamp is against the history still available for that table. The existing stream's `STALE_AFTER` value is a useful warning, but it does not prove that RDI can recreate a stream from its saved timestamp. RDI manages its streams; do not manually consume or replace them to clear an error.
 
 RDI also checks whether streams have data. Snowflake can protect an empty stream from staleness when that check returns false. This does not protect pending changes during a collector outage.
 
-Snowflake support is in preview. See [Prepare Snowflake](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake.md), [stream staleness](https://docs.snowflake.com/en/user-guide/streams-intro#data-retention-period-and-staleness), and [empty-stream checks](https://docs.snowflake.com/en/sql-reference/functions/system_stream_has_data#usage-notes).
+Snowflake support is in private preview. See [Prepare Snowflake](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake.md), [creating a stream at a past timestamp](https://docs.snowflake.com/en/sql-reference/sql/create-stream#usage-notes), and [empty-stream checks](https://docs.snowflake.com/en/sql-reference/functions/system_stream_has_data#usage-notes).
 
 ## Plan for the whole interruption
 
