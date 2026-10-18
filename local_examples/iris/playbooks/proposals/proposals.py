@@ -1,7 +1,7 @@
 # EXAMPLE: iris_playbook_proposals
 # HIDE_START
 import os
-from redis_agent_playbook import Playbook
+from redis_agent_playbook import Playbook, models
 
 playbook = Playbook(
     os.environ["PLAYBOOK_URL"],
@@ -29,7 +29,11 @@ while True:
 
 # STEP_START playbook-proposal-search
 related = playbook.search_proposals(
-    query="Contact support about a missing refund", minimum_score=0.7, limit=5
+    query="Contact support about a missing refund",
+    minimum_score=0.7,
+    action_type="add",
+    entry_type="faq",
+    limit=5,
 )
 for match in related.matches:
     print(match.proposal.proposal_id, match.score, match.proposal.action)
@@ -53,7 +57,13 @@ action = {
         },
     }
 }
-proposal = playbook.create_proposal(action=action)
+proposal = playbook.create_proposal(
+    action=action,
+    source={
+        "type": "document",
+        "reference": {"documentId": "sample-refund-policy"},
+    },
+)
 proposal_id = proposal.proposal_id
 print(proposal_id, proposal.proposal_revision)
 # STEP_END
@@ -67,9 +77,8 @@ observed_at = datetime.now(timezone.utc)
 evidence = playbook.submit_proposal_evidence(
     proposal_id=proposal_id,
     evidence_id=evidence_id,
-    schema_version=1,
     observed_at=observed_at,
-    producer={"name": "docs-example", "version": "1"},
+    producer={"name": "docs-example", "prompt_version": "refund-review-v1"},
     source={
         "type": "document",
         "reference": {"documentId": "sample-refund-policy"},
@@ -115,15 +124,24 @@ print(final_review.action, final_review.evidence)
 # STEP_END
 
 # STEP_START playbook-proposal-accept
+from redis_agent_playbook import models
+
 accepted = playbook.accept_proposal(
     proposal_id=proposal_id,
     expected_proposal_revision=final_review.proposal_revision,
 )
-print(accepted.entry.entry_id, accepted.version.version, accepted.version.content)
+if not isinstance(accepted.result, models.VersionCreated):
+    raise ValueError("Review the unrecognized acceptance result before publishing")
+receipt = accepted.result.version_created
+accepted_version = playbook.get_faq_version(
+    faq_id=receipt.entry_id,
+    version=receipt.version,
+)
+print(receipt.entry_id, receipt.version, accepted_version.content)
 # STEP_END
 
 # STEP_START playbook-proposal-publish
-playbook.publish_faq(faq_id=accepted.entry.entry_id, version=accepted.version.version)
+playbook.publish_faq(faq_id=receipt.entry_id, version=receipt.version)
 # STEP_END
 
 # STEP_START playbook-proposal-history

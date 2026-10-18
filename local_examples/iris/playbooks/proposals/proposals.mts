@@ -30,7 +30,11 @@ while (true) {
 
 // STEP_START playbook-proposal-search
 const related = await playbook.searchProposals({
-  query: "Contact support about a missing refund", minimumScore: 0.7, limit: 5,
+  query: "Contact support about a missing refund",
+  minimumScore: 0.7,
+  actionType: "add",
+  entryType: "faq",
+  limit: 5,
 });
 for (const match of related.matches) console.log(match.proposal.proposalId, match.score, match.proposal.action);
 // STEP_END
@@ -47,7 +51,13 @@ const action = { add: {
     } },
   } },
 } };
-const proposal = await playbook.createProposal({ action });
+const proposal = await playbook.createProposal({
+  action,
+  source: {
+    type: "document",
+    reference: { documentId: "sample-refund-policy" },
+  },
+});
 const proposalId = proposal.proposalId;
 console.log(proposalId, proposal.proposalRevision);
 // STEP_END
@@ -57,9 +67,8 @@ const { randomUUID } = await import("node:crypto");
 const evidenceId = "evd_" + randomUUID().replaceAll("-", "");
 const observedAt = new Date();
 const evidence = await playbook.submitProposalEvidence(proposalId, evidenceId, {
-  schemaVersion: 1,
   observedAt,
-  producer: { name: "docs-example", version: "1" },
+  producer: { name: "docs-example", promptVersion: "refund-review-v1" },
   source: {
     type: "document",
     reference: { documentId: "sample-refund-policy" },
@@ -75,10 +84,12 @@ console.log(JSON.stringify(reviewed, null, 2));
 // STEP_END
 
 // STEP_START playbook-proposal-replace
+if (!("add" in reviewed.action)) throw new Error("Expected an add proposal");
+if (!("newEntry" in reviewed.action.add.target)) throw new Error("Expected a new-entry target");
 const reviewedContent = reviewed.action.add.candidate.content;
 if (!("faq" in reviewedContent.payload)) throw new Error("Expected an FAQ proposal");
 const revisedAction = { add: {
-  target: reviewed.action.add.target,
+  target: { newEntry: reviewed.action.add.target.newEntry },
   candidate: { content: {
     ...reviewedContent,
     payload: { faq: {
@@ -111,11 +122,16 @@ console.log(finalReview.action, finalReview.evidence);
 const accepted = await playbook.acceptProposal(proposalId, {
   expectedProposalRevision: finalReview.proposalRevision,
 });
-console.log(accepted.entry.entryId, accepted.version.version, accepted.version.content);
+if (!("versionCreated" in accepted.result)) {
+  throw new Error("Review the unrecognized acceptance result before publishing");
+}
+const receipt = accepted.result.versionCreated;
+const acceptedVersion = await playbook.getFaqVersion(receipt.entryId, receipt.version);
+console.log(receipt.entryId, receipt.version, acceptedVersion.content);
 // STEP_END
 
 // STEP_START playbook-proposal-publish
-await playbook.publishFaq(accepted.entry.entryId, { version: accepted.version.version });
+await playbook.publishFaq(receipt.entryId, { version: receipt.version });
 // STEP_END
 
 // STEP_START playbook-proposal-history

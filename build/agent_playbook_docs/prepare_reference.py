@@ -41,7 +41,7 @@ GROUPS = {
         ("PurgeProposal", "Purge a proposal"),
     ],
     "Maintenance": [
-        ("GetPlaybookHealth", "Check playbook health"), ("ClearPlaybook", "Clear playbook content"),
+        ("GetPlaybookHealth", "Check playbook health"),
     ],
 }
 
