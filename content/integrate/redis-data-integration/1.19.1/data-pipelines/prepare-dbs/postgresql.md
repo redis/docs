@@ -214,19 +214,27 @@ WHERE c.relkind = 'r'
   AND (
       c.relreplident = 'n'
       OR (
-          c.relreplident = 'd'
+          c.relreplident IN ('d', 'i')
           AND NOT EXISTS (
               SELECT 1
               FROM pg_index AS i
               WHERE i.indrelid = c.oid
-                AND i.indisprimary
+                AND i.indislive
+                AND i.indisvalid
+                AND i.indisunique
+                AND i.indimmediate
+                AND i.indpred IS NULL
+                AND CASE WHEN c.relreplident = 'd'
+                         THEN i.indisprimary
+                         ELSE i.indisreplident
+                    END
           )
       )
   )
 ORDER BY n.nspname, c.relname;
 ```
 
-If this query returns a table that will be published, add a primary key where possible.
+If this query returns a table that will be published, add a primary key that is not `DEFERRABLE` where possible. A deferrable primary key cannot serve as the replica identity.
 You can also configure a suitable unique index as the replica identity:
 
 ```sql
