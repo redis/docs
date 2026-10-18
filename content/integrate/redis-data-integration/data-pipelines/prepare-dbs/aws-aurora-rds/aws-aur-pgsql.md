@@ -150,18 +150,24 @@ to capture changes.
     Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
 
 1. <a id="create-publication"></a>
-    Configure the PostgreSQL publication. For most RDI deployments, follow the
-    [PostgreSQL publication and replica identity guidance]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql" >}})
-    and use `publication.autocreate.mode: filtered` when RDI captures selected tables.
-
-    If you intentionally want to publish every table in the database, first check that
-    every table has a primary key or another replica identity. Then connect to your database
-    as the `postgres` user and run:
+    Connect to your database as the `postgres` user and create a publication containing
+    only the tables RDI should capture. First [check their replica identities](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode).
+    Replace the example table names with your selected tables:
 
     ```sql
-    CREATE PUBLICATION dbz_publication FOR ALL TABLES;
+    CREATE PUBLICATION rdi_publication
+    FOR TABLE public.customers, public.orders;
     ```
 
-    Do not use this command without checking the replica identity of all tables. A later
-    `UPDATE` or `DELETE` on a published table without a replica identity can fail in the
-    application that writes to PostgreSQL.
+    Set `publication.name` to `rdi_publication` and `publication.autocreate.mode` to
+    `disabled` under the source's advanced source settings. On Redis Cloud, enter these
+    values under [**Collector properties**](/content/operate/rc/rdi/setup.md#postgresql-publications).
+    Update the publication's table list when you change the tables RDI captures.
+
+    Alternatively, let RDI manage the publication with `publication.autocreate.mode: filtered`
+    after granting the [required ownership and creation permissions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput).
+
+    Use `FOR ALL TABLES` only when you intend to publish every current and future table.
+    An application `UPDATE` or `DELETE` on any published table without replica identity can
+    fail, even if RDI does not capture that table. If you already created an all-tables
+    publication, follow [Replace an existing all-tables publication](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#replace-an-existing-all-tables-publication).

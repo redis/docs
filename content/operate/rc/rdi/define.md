@@ -130,9 +130,17 @@ Use **Collector properties** for additional source and sink settings. These sett
 ![The advanced properties dialog with separate collector source and sink properties.](/images/rc/rdi/rdi-advanced-properties.png)
 {width="80%"}
 
+For PostgreSQL, [configure the publication properties](/content/operate/rc/rdi/setup.md#postgresql-publications)
+before deployment. Use `disabled` for an administrator-managed table-list publication, or
+`filtered` with the required permissions for RDI to manage it.
+
 ## Select data {#dataset}
 
 Select each source in the **Sources** list and choose the data to ingest from that source.
+
+For PostgreSQL, this selection does not narrow an existing `FOR ALL TABLES` publication.
+If your administrator manages the publication, update its table list to match the selection.
+See [PostgreSQL publications](/content/operate/rc/rdi/setup.md#postgresql-publications).
 
 > [!WARNING]
 > Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery](/content/operate/rc/rdi/faq.md#data-recovery).
@@ -155,6 +163,10 @@ Select each source in the **Sources** list and choose the data to ingest from th
 
     ![The key control beside the column used to identify a record.](/images/rc/rdi/rdi-unique-key-selected.png)
     {width="500px"}
+
+    For PostgreSQL, choosing a key here does not create a primary key or replica identity
+    in the source database. [Configure replica identity](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+    separately for tables that publish updates or deletes.
 
 1. Repeat for the other sources, then select **Continue**.
 

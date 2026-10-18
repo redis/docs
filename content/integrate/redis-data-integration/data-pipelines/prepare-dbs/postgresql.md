@@ -242,10 +242,27 @@ As a fallback, you can record the full old row in the write-ahead log:
 ALTER TABLE <table_name> REPLICA IDENTITY FULL;
 ```
 
-`REPLICA IDENTITY FULL` can increase write-ahead log volume and reduce performance, so use
-it only when a primary key or suitable unique index is not possible. The `keys` setting in
-an RDI table definition creates a key for the Redis record. It does not create a PostgreSQL
-primary key or replica identity.
+`REPLICA IDENTITY FULL` can increase write-ahead log volume and reduce performance.
+Use it when no suitable key is available or when RDI needs the full old row, such as
+[denormalizing child tables with nesting](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md#using-nesting).
+The `keys` setting in an RDI table definition creates a key for the Redis record.
+It does not create a PostgreSQL primary key or replica identity.
+
+### Understand which row values are available
+
+Replica identity controls the old row values available to logical decoding for updates
+and deletes. With the default identity, PostgreSQL uses the primary key; it does not
+provide a complete old row. `REPLICA IDENTITY FULL` records all old column values.
+
+Update events are not generally limited to changed fields. However, PostgreSQL can omit
+unchanged large values stored through The Oversized-Attribute Storage Technique (TOAST)
+when they are not part of the replica identity. Debezium represents unavailable values
+with a placeholder. With `FULL`, these values are available in the event's old and new row
+images. See [Debezium's TOAST guidance](https://debezium.io/documentation/reference/3.0/connectors/postgresql.html#postgresql-toasted-values).
+
+For example, nesting a child record requires its `parent_key` to identify the parent
+Redis document, including when the child is deleted. Set `REPLICA IDENTITY FULL` on
+PostgreSQL child tables as required by the [nesting instructions](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md#using-nesting).
 
 ### Choose a publication mode
 
@@ -259,12 +276,17 @@ PostgreSQL publication:
 | `disabled` | Does not create or change the publication. The publication must already exist. | Use when a database administrator manages the publication. |
 
 The `all_tables` mode can publish changes for tables that are not listed in the RDI
-pipeline. If an application later updates or deletes a row in a published table without
-a replica identity, PostgreSQL can reject that application write. For this reason,
+pipeline, including tables created in the future. If an application later updates or
+deletes a row in a published table without a replica identity, PostgreSQL can reject
+that application write. For this reason,
 `filtered` is the recommended mode for a pipeline that captures only selected tables.
 
+The `filtered` mode requires permission to create the publication and ownership rights on
+the tables it manages. Use a separate publication for each source with different table
+filters, so one source does not change another source's publication.
+
 For a customer-managed publication, create an explicit table list and disable automatic
-publication management. For example:
+publication management. Replace the example table names with the tables you want to capture:
 
 ```sql
 CREATE PUBLICATION rdi_publication
@@ -281,6 +303,43 @@ sources:
         publication.name: rdi_publication
         publication.autocreate.mode: disabled
 ```
+
+For RDI on Redis Cloud, enter these properties under **Collector properties** in the
+source configuration. See [Configure PostgreSQL publications on Redis Cloud](/content/operate/rc/rdi/setup.md#postgresql-publications).
+With `disabled`, update the publication's table list yourself when changing the source's
+selected tables. Selecting a table in RDI does not add it to a customer-managed publication.
+
+### Replace an existing all-tables publication
+
+Changing the RDI table selection does not narrow a `FOR ALL TABLES` publication.
+Changing `publication.autocreate.mode` to `filtered` also does not convert it:
+PostgreSQL rejects attempts to set, add, or remove individual tables in that publication.
+
+Have your database administrator plan the change with the owners of every consumer of
+the publication:
+
+1. Check existing publications in the source database:
+
+    ```sql
+    SELECT pubname, puballtables, pubupdate, pubdelete
+    FROM pg_publication;
+    ```
+
+1. Identify every consumer of the broad publication and coordinate a maintenance window.
+1. Stop the affected RDI sources before replacing the publication.
+1. Replace the broad publication with an explicit table-list publication. You can recreate
+   it under the same name, or create a new publication and update each consumer's publication
+   name. For RDI, use `publication.autocreate.mode: disabled` for an administrator-managed
+   publication. On Redis Cloud, contact support if the running source's collector properties
+   cannot be edited in the console.
+1. Remove the old broad publication only after coordinating all consumers. Leaving it in
+   place still subjects its tables to replica-identity requirements, even if RDI uses a
+   different publication or is stopped.
+1. Resume the affected sources and verify inserts, updates, and deletes reach Redis.
+
+Keep the replication slots and saved RDI offsets during this change. Do not reset the
+pipeline or drop its slot as a publication repair. If other consumers still need the broad
+publication, configure replica identity on its affected tables instead of removing it.
 
 ### PostgreSQL publication error FAQ
 
@@ -302,9 +361,12 @@ configure a suitable replica identity. As a fallback, run:
 ALTER TABLE <table_name> REPLICA IDENTITY FULL;
 ```
 
-If the table should not be captured, use `publication.autocreate.mode: filtered` or remove
-the table from the customer-managed publication. If you changed the RDI table filters or
-publication mode, redeploy the pipeline so RDI applies the new configuration.
+If the table should not be captured, remove it from an explicit table-list publication or
+use `filtered` with the required permissions. For an existing `FOR ALL TABLES` publication,
+follow [Replace an existing all-tables publication](#replace-an-existing-all-tables-publication).
+Check all publications containing the table: another publication that publishes updates or
+deletes can still require replica identity. After changing RDI configuration, redeploy the
+pipeline so RDI applies it.
 
 ## Set privileges for Debezium to create PostgreSQL publications with `pgoutput`
 
