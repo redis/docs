@@ -8,7 +8,7 @@
     "@langchain/openai": "1.6.2",
     "@modelcontextprotocol/sdk": "1.32.1",
     "@openai/agents": "0.19.0",
-    "@redis-iris/agent-playbook": "0.1.0-alpha.2",
+    "@redis-iris/agent-playbook": "0.1.0-alpha.3",
     "langchain": "1.5.16"
   },
   "devDependencies": {

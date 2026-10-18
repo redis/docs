@@ -233,6 +233,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "default": 50,
               "maximum": 200,
               "minimum": 1,
               "format": "int32"
@@ -1092,6 +1093,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "default": 50,
               "maximum": 200,
               "minimum": 1,
               "format": "int32"
@@ -2189,6 +2191,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "default": 50,
               "maximum": 200,
               "minimum": 1,
               "format": "int32"
@@ -3048,6 +3051,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "default": 50,
               "maximum": 200,
               "minimum": 1,
               "format": "int32"
@@ -4577,6 +4581,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "default": 50,
               "maximum": 200,
               "minimum": 1,
               "format": "int32"
@@ -4587,6 +4592,20 @@
             "in": "query",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "actionType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ProposalActionType"
+            }
+          },
+          {
+            "name": "entryType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EntryType"
             }
           }
         ],
@@ -6222,168 +6241,6 @@
         ],
         "summary": "Check playbook health"
       }
-    },
-    "/v1/playbooks/{playbookId}/clear": {
-      "post": {
-        "operationId": "ClearPlaybook",
-        "parameters": [
-          {
-            "name": "playbookId",
-            "in": "path",
-            "description": "Opaque Playbook identifier.",
-            "schema": {
-              "type": "string",
-              "pattern": "^pb_[0-9a-f]{32}$",
-              "description": "Opaque Playbook identifier."
-            },
-            "required": true
-          },
-          {
-            "name": "scope",
-            "in": "query",
-            "description": "Content to clear. Omission clears all entries and proposals while preserving the Playbook.",
-            "schema": {
-              "$ref": "#/components/schemas/ClearScope"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ClearPlaybook 200 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClearPlaybookResponseContent"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "RequestValidationError 400 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RequestValidationErrorResponseContent"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "AuthenticationError 401 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "ForbiddenError 403 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFoundError 404 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
-                }
-              }
-            }
-          },
-          "408": {
-            "description": "TimeoutError 408 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorResponseContent"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "PlaybookConflictError 409 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlaybookConflictErrorResponseContent"
-                }
-              }
-            }
-          },
-          "413": {
-            "description": "PayloadTooLargeError 413 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
-                }
-              }
-            }
-          },
-          "423": {
-            "description": "ResourceSuspendedError 423 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
-                }
-              }
-            }
-          },
-          "424": {
-            "description": "FailedDependencyError 424 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "TooManyRequestsError 429 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "PlaybookInternalError 500 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlaybookInternalErrorResponseContent"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "PlaybookServiceUnavailableError 503 response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Maintenance"
-        ],
-        "summary": "Clear playbook content"
-      }
     }
   },
   "components": {
@@ -6403,17 +6260,14 @@
       },
       "AcceptProposalResponseContent": {
         "type": "object",
+        "description": "Historical completion receipt, independent of the target's current state.",
         "properties": {
-          "entry": {
-            "$ref": "#/components/schemas/StableEntry"
-          },
-          "version": {
-            "$ref": "#/components/schemas/Version"
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
-          "entry",
-          "version"
+          "result"
         ]
       },
       "AddProposalAction": {
@@ -6621,28 +6475,6 @@
           }
         ]
       },
-      "ClearPlaybookResponseContent": {
-        "type": "object",
-        "properties": {
-          "deletedEntriesCount": {
-            "type": "integer",
-            "description": "Number of entries removed by this successful attempt. Entries already absent at\nthe start of the attempt are ignored and do not contribute to the count.",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "deletedEntriesCount"
-        ]
-      },
-      "ClearScope": {
-        "type": "string",
-        "enum": [
-          "all",
-          "entries",
-          "proposals"
-        ],
-        "default": "all"
-      },
       "ContentMetadata": {
         "type": "object",
         "description": "Author-provided context shared by FAQ, Skill and proposal authoring.",
@@ -6729,6 +6561,9 @@
       "CreateProposalRequestContent": {
         "type": "object",
         "properties": {
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalActionInput"
           }
@@ -6750,7 +6585,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -6761,6 +6596,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -6783,6 +6619,9 @@
             "description": "UTC timestamp resolved to microsecond precision.",
             "format": "date-time"
           },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalAction"
           },
@@ -6792,11 +6631,13 @@
               "$ref": "#/components/schemas/ProposalEvidence"
             },
             "maxItems": 100
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidence",
           "evidenceCount",
@@ -7050,7 +6891,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -7061,6 +6902,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -7083,6 +6925,9 @@
             "description": "UTC timestamp resolved to microsecond precision.",
             "format": "date-time"
           },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalAction"
           },
@@ -7092,11 +6937,13 @@
               "$ref": "#/components/schemas/ProposalEvidence"
             },
             "maxItems": 100
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidence",
           "evidenceCount",
@@ -7286,6 +7133,7 @@
       },
       "EvidenceProducer": {
         "type": "object",
+        "description": "Caller-declared producing component, prompt, and source-code build revision.\nThese fields describe the original observation and are not authenticated attribution.",
         "properties": {
           "name": {
             "type": "string",
@@ -7293,16 +7141,19 @@
             "minLength": 1,
             "pattern": "^[a-z0-9][a-z0-9.-]*$"
           },
-          "version": {
+          "promptVersion": {
             "type": "string",
             "maxLength": 64,
             "minLength": 1,
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$"
+          },
+          "commitSHA": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"
           }
         },
         "required": [
-          "name",
-          "version"
+          "name"
         ]
       },
       "FailedDependencyErrorResponseContent": {
@@ -7679,7 +7530,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -7690,6 +7541,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -7712,6 +7564,9 @@
             "description": "UTC timestamp resolved to microsecond precision.",
             "format": "date-time"
           },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalAction"
           },
@@ -7721,11 +7576,13 @@
               "$ref": "#/components/schemas/ProposalEvidence"
             },
             "maxItems": 100
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidence",
           "evidenceCount",
@@ -8285,6 +8142,23 @@
           }
         ]
       },
+      "ProposalAcceptanceResult": {
+        "description": "Clients must preserve unrecognized result members.",
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "versionCreated",
+            "properties": {
+              "versionCreated": {
+                "$ref": "#/components/schemas/ProposalVersionCreated"
+              }
+            },
+            "required": [
+              "versionCreated"
+            ]
+          }
+        ]
+      },
       "ProposalAction": {
         "description": "Exactly one action. Response clients must preserve unrecognized members.",
         "oneOf": [
@@ -8335,6 +8209,12 @@
           }
         ]
       },
+      "ProposalActionType": {
+        "type": "string",
+        "enum": [
+          "add"
+        ]
+      },
       "ProposalCandidate": {
         "type": "object",
         "description": "Complete suggested authored content. Resource URIs are derived on output.",
@@ -8352,7 +8232,7 @@
         "description": "Launch proposal authoring accepts FAQ content only.",
         "properties": {
           "content": {
-            "$ref": "#/components/schemas/FaqAuthoredContent"
+            "$ref": "#/components/schemas/ProposalInputContent"
           }
         },
         "required": [
@@ -8372,16 +8252,11 @@
       },
       "ProposalEvidence": {
         "type": "object",
+        "description": "Immutable reviewer context relevant to the proposal's underlying need. An\nobservation may disagree with the proposed answer; it is not a vote or proof.\nEvidence survives candidate edits and is never copied into an accepted entry.",
         "properties": {
-          "schemaVersion": {
-            "type": "integer",
-            "maximum": 1,
-            "minimum": 1,
-            "format": "int32"
-          },
           "observedAt": {
             "type": "string",
-            "description": "UTC timestamp resolved to microsecond precision.",
+            "description": "Time of the source observation, not submission or retry time.",
             "format": "date-time"
           },
           "producer": {
@@ -8392,14 +8267,14 @@
           },
           "evidenceId": {
             "type": "string",
-            "pattern": "^evd_[0-9a-f]{32}$"
+            "pattern": "^evd_[0-9a-f]{32}$",
+            "description": "Identity scoped to this proposal: exact replay is unchanged; changed payload conflicts."
           }
         },
         "required": [
           "evidenceId",
           "observedAt",
           "producer",
-          "schemaVersion",
           "source"
         ]
       },
@@ -8408,6 +8283,52 @@
         "enum": [
           "added",
           "alreadyPresent"
+        ]
+      },
+      "ProposalInputContent": {
+        "type": "object",
+        "description": "Proposal input owns its payload independently of normalized read content.",
+        "properties": {
+          "intents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 2048,
+              "minLength": 1
+            },
+            "maxItems": 5,
+            "uniqueItems": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/AttributeMap"
+          },
+          "metadata": {
+            "description": "Author-provided JSON metadata. Its normalized JSON encoding must not exceed 65,536 bytes or nesting depth 16; deployments may enforce lower limits. Exceeding the byte limit returns payload-too-large, while excessive nesting returns invalid-data."
+          },
+          "payload": {
+            "$ref": "#/components/schemas/ProposalInputPayload"
+          }
+        },
+        "required": [
+          "payload"
+        ]
+      },
+      "ProposalInputPayload": {
+        "description": "Launch accepts FAQ only; future package inputs add their own members.",
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "faq",
+            "properties": {
+              "faq": {
+                "$ref": "#/components/schemas/FaqContent"
+              }
+            },
+            "required": [
+              "faq"
+            ],
+            "additionalProperties": false
+          }
         ]
       },
       "ProposalPreview": {
@@ -8424,7 +8345,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -8435,6 +8356,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -8463,7 +8385,6 @@
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidenceCount",
           "inboxExpiresAt",
@@ -8487,7 +8408,7 @@
       },
       "ProposalSource": {
         "type": "object",
-        "description": "Caller-supplied context for a proposal or supporting evidence, not verified\nattribution. Reference and content, when present, are source-specific JSON\nobjects. Playbook does not interpret their fields.",
+        "description": "Caller-supplied origin and observed material, not verified attribution.\nOn a proposal this is immutable creation context, excluded from evidenceCount.\nOn evidence this describes an additional observation relevant to the same need.\nReference locates the input; content preserves the submitter's observation or\nexcerpt. Both, when present, must be JSON objects. Their fields are source-specific.\nRAM extraction uses agent-memory-session or agent-memory-summary references and\nquestionAnswer content; its question/answer are model-derived, not verbatim events.\nSee docs/specs/MOD-18196-playbook-extraction-readiness-follow-up.md for that contract.",
         "properties": {
           "type": {
             "type": "string",
@@ -8543,6 +8464,35 @@
             ],
             "additionalProperties": false
           }
+        ]
+      },
+      "ProposalVersionCreated": {
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string",
+            "pattern": "^ent_[0-9a-f]{32}$",
+            "description": "Opaque stable entry identifier."
+          },
+          "entryType": {
+            "$ref": "#/components/schemas/EntryType"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "format": "int32"
+          },
+          "contentDigest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+          }
+        },
+        "required": [
+          "contentDigest",
+          "entryId",
+          "entryType",
+          "version"
         ]
       },
       "ProposalView": {
@@ -8729,7 +8679,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -8740,6 +8690,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -8762,6 +8713,9 @@
             "description": "UTC timestamp resolved to microsecond precision.",
             "format": "date-time"
           },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalAction"
           },
@@ -8771,11 +8725,13 @@
               "$ref": "#/components/schemas/ProposalEvidence"
             },
             "maxItems": 100
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidence",
           "evidenceCount",
@@ -8928,7 +8884,7 @@
           "contentDigest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "SHA-256 digest of normalized authored Playbook content in sha256:<lowercase-hex> form. The canonicalization contract is documented as playbook-entry-v1."
+            "description": "Present for actions that author content; absent for candidate-free actions."
           },
           "proposalRevision": {
             "type": "integer",
@@ -8939,6 +8895,7 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
+            "description": "Attached records only, excluding creation source; not distinct sessions or confidence.",
             "format": "int32"
           },
           "createdAt": {
@@ -8961,6 +8918,9 @@
             "description": "UTC timestamp resolved to microsecond precision.",
             "format": "date-time"
           },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
           "action": {
             "$ref": "#/components/schemas/ProposalAction"
           },
@@ -8970,11 +8930,13 @@
               "$ref": "#/components/schemas/ProposalEvidence"
             },
             "maxItems": 100
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProposalAcceptanceResult"
           }
         },
         "required": [
           "action",
-          "contentDigest",
           "createdAt",
           "evidence",
           "evidenceCount",
@@ -9051,6 +9013,12 @@
       "SearchProposalsRequestContent": {
         "type": "object",
         "properties": {
+          "actionType": {
+            "$ref": "#/components/schemas/ProposalActionType"
+          },
+          "entryType": {
+            "$ref": "#/components/schemas/EntryType"
+          },
           "query": {
             "type": "string",
             "maxLength": 4096,
@@ -9064,11 +9032,11 @@
           },
           "limit": {
             "type": "integer",
+            "default": 10,
             "maximum": 50,
             "minimum": 1,
             "description": "Maximum result count. Omission uses 10.",
-            "format": "int32",
-            "default": 10
+            "format": "int32"
           }
         },
         "required": [
@@ -9285,15 +9253,9 @@
       "SubmitProposalEvidenceRequestContent": {
         "type": "object",
         "properties": {
-          "schemaVersion": {
-            "type": "integer",
-            "maximum": 1,
-            "minimum": 1,
-            "format": "int32"
-          },
           "observedAt": {
             "type": "string",
-            "description": "UTC timestamp resolved to microsecond precision.",
+            "description": "Time of the source observation, not submission or retry time.",
             "format": "date-time"
           },
           "producer": {
@@ -9306,7 +9268,6 @@
         "required": [
           "observedAt",
           "producer",
-          "schemaVersion",
           "source"
         ]
       },
@@ -9547,9 +9508,6 @@
           "latestVersion",
           "updatedAt"
         ]
-      },
-      "PageLimit": {
-        "default": 50
       }
     },
     "securitySchemes": {

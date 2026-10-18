@@ -152,6 +152,8 @@ class ContractFixture:
     def proposal_preview(self, proposal):
         preview = deepcopy(proposal)
         preview.pop('evidence')
+        preview.pop('source', None)
+        preview.pop('result', None)
         content = preview['action']['add']['candidate']['content']
         preview['action']['add']['candidate']['content'] = {
             'payload': {'faq': {'question': content['payload']['faq']['question']}},
@@ -337,6 +339,8 @@ class ContractFixture:
             result = {'proposalId': pid, 'status': 'open', 'contentDigest': DIGEST, 'proposalRevision': 1,
                       'evidenceCount': 0, 'createdAt': NOW, 'updatedAt': NOW, 'inboxExpiresAt': NOW,
                       'purgeAt': NOW, 'action': body['action'], 'evidence': []}
+            if 'source' in body:
+                result['source'] = body['source']
             self.proposals[pid] = deepcopy(result)
             code = 201
         elif name == 'GetProposal':
@@ -368,8 +372,16 @@ class ContractFixture:
             p = self.proposals[pid]
             assert p['status'] == 'open'
             assert body['expectedProposalRevision'] == p['proposalRevision']
-            result = self.create('faq', p['action']['add']['candidate']['content'])
+            created = self.create('faq', p['action']['add']['candidate']['content'])
+            receipt = {
+                'entryId': created['entry']['entryId'],
+                'entryType': 'faq',
+                'version': created['version']['version'],
+                'contentDigest': created['version']['contentDigest'],
+            }
+            result = {'result': {'versionCreated': receipt}}
             p['status'] = 'promoted'
+            p['result'] = deepcopy(result['result'])
         else:
             raise AssertionError(name)
         if result is not None:

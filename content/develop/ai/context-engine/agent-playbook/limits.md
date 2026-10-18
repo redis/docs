@@ -75,10 +75,9 @@ Entry and proposal lists can include a separately measured first-page `total`. A
 | Evidence records per proposal | 100 |
 | Total evidence payload per proposal | 256 KiB |
 | Individual evidence payload | 12 KiB |
-| Evidence schema version | `1` |
 | Proposal search results | 1–50; default `10` |
 
-Unreviewed proposals leave the inbox at `inboxExpiresAt` and become unavailable after `purgeAt`. With the default policy, creation, new evidence, candidate replacement, and restoration set deadlines of 30 days for inbox review and 60 days for retention. Dismissing a proposal moves it to trash immediately and starts a 30-day retention window. An exact evidence retry does not refresh the deadlines.
+The optional creation source is separate from attached evidence and does not increment `evidenceCount`. Unreviewed proposals leave the inbox at `inboxExpiresAt` and become unavailable after `purgeAt`. With the default policy, creation, new evidence, candidate replacement, and restoration set deadlines of 30 days for inbox review and 60 days for retention. Dismissing a proposal moves it to trash immediately and starts a 30-day retention window. An exact evidence retry does not refresh the deadlines.
 
 Proposal retention does not affect an accepted FAQ's history. Store required review records outside the inbox.
 
@@ -136,16 +135,13 @@ Bulk deletion is not atomic across the batch. Earlier deletions can remain appli
 
 ## Remove content in bulk
 
-<!-- TODO: Before launch, align clearing guidance and the API reference with the control-plane migration and next SDK contract. -->
-
-Use a key with `write` permission for bulk deletion or clearing. Choose the scope explicitly before sending a request:
+Use a key with `write` permission for bulk deletion. Choose the entry type before sending a request:
 
 | Task | Python method | TypeScript method | HTTP request |
 |:-----|:--------------|:------------------|:-------------|
 | Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `deleteFaqs({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/faqs` with an `entryIds` array |
 | Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `deleteSkills({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/skills` with an `entryIds` array |
-| Clear a playbook's entries, proposals, or both | `clear_playbook(scope=...)` | `clearPlaybook(scope)` | `POST /v1/playbooks/{playbookId}/clear?scope=...` |
 
-Bulk deletion accepts 1–100 entry identifiers of the selected type. Clearing accepts `entries`, `proposals`, or `all`; omitting the scope means `all`. Clearing preserves the playbook and its configuration, but permanently removes the selected content. It can make partial progress before a failure. The returned `deletedEntriesCount` counts entries removed by that request, not proposals.
+Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
 
 For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills#withdraw-or-delete-a-skill" >}}).

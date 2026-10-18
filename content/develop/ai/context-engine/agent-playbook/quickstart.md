@@ -26,14 +26,14 @@ Follow one tab throughout the page. The SDKs are alpha prereleases pinned to the
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-agent-playbook==0.1.0a2
+python -m pip install redis-agent-playbook==0.1.0a3
 ```
 
 **TypeScript**
 
 ```bash
 npm init -y
-npm install @redis-iris/agent-playbook@0.1.0-alpha.2
+npm install @redis-iris/agent-playbook@0.1.0-alpha.3
 npm install --save-dev tsx typescript @types/node
 ```
 
@@ -124,7 +124,7 @@ Every Python SDK operation has an `_async` counterpart. This standalone example 
 
 {{< clients-example set="iris_playbook_async" step="playbook-async-search" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-`timeout_ms` sets a request timeout in milliseconds on the client or an individual operation. For custom headers, proxies, or transport settings, pass an `httpx.Client` as `client` or an `httpx.AsyncClient` as `async_client`. You own and close a client you supply. See the [Python SDK's custom HTTP client documentation](https://pypi.org/project/redis-agent-playbook/0.1.0a2/#custom-http-client) for configuration examples.
+`timeout_ms` sets a request timeout in milliseconds on the client or an individual operation. For custom headers, proxies, or transport settings, pass an `httpx.Client` as `client` or an `httpx.AsyncClient` as `async_client`. You own and close a client you supply. See the [Python SDK's custom HTTP client documentation](https://pypi.org/project/redis-agent-playbook/0.1.0a3/#custom-http-client) for configuration examples.
 
 ## Next steps
 

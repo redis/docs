@@ -1,7 +1,7 @@
 pytest==9.1.1
 openapi-spec-validator==0.9.0
 PyYAML==6.0.3
-redis-agent-playbook==0.1.0a2
+redis-agent-playbook==0.1.0a3
 openai-agents==0.23.1
 mcp==2.3.0
 pytoml==0.1.21

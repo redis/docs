@@ -28,13 +28,14 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/search" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data '{"query":"Contact support about a missing refund","minimumScore":0.7,"limit":5}' \
+  --data '{"query":"Contact support about a missing refund","minimumScore":0.7,"actionType":"add","entryType":"faq","limit":5}' \
   | jq '.matches[] | {proposalId: .proposal.proposalId, score, action: .proposal.action}'
 # STEP_END
 
 # STEP_START playbook-proposal-create
 cat > proposal.json <<'JSON'
-{"action":{"add":{
+{"source":{"type":"document","reference":{"documentId":"sample-refund-policy"}},
+"action":{"add":{
   "target":{"newEntry":{}},
   "candidate":{"content":{
     "intents":["Contact support about a missing refund"],
@@ -57,8 +58,8 @@ jq '{proposalId, proposalRevision}' proposal-created.json
 # STEP_START playbook-proposal-evidence
 EVIDENCE_ID="evd_$(openssl rand -hex 16)"
 jq -n --arg observedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
-  schemaVersion: 1, observedAt: $observedAt,
-  producer: {name: "docs-example", version: "1"},
+  observedAt: $observedAt,
+  producer: {name: "docs-example", promptVersion: "refund-review-v1"},
   source: {
     type: "document",
     reference: {documentId: "sample-refund-policy"},
@@ -116,16 +117,20 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{expectedProposalRevision: .proposalRevision}' final-review.json)" > accepted.json
-jq '{entryId: .entry.entryId, version: .version.version, content: .version.content}' accepted.json
+ACCEPTED_FAQ_ID=$(jq -er '.result.versionCreated.entryId' accepted.json)
+ACCEPTED_VERSION=$(jq -er '.result.versionCreated.version' accepted.json)
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_API/faqs/$ACCEPTED_FAQ_ID/versions/$ACCEPTED_VERSION" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  | jq '{entryId, version, content}'
 # STEP_END
 
 # STEP_START playbook-proposal-publish
-ACCEPTED_FAQ_ID=$(jq -er '.entry.entryId' accepted.json)
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/faqs/$ACCEPTED_FAQ_ID/publication" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data "$(jq '{version: .version.version}' accepted.json)" | jq .publication
+  --data "$(jq '{version: .result.versionCreated.version}' accepted.json)" | jq .publication
 # STEP_END
 
 # STEP_START playbook-proposal-history

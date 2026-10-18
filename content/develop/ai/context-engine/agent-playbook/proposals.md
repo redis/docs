@@ -44,11 +44,11 @@ Search open proposals before submitting another candidate. Search excludes trash
 
 ## Create a proposal
 
-Prepare a question and answer, with intents describing the task and attributes for audience filters. Submit them with `create_proposal` as an `add` action targeting `newEntry`. You can supply an entry key for the FAQ that acceptance will create.
+Prepare a question and answer, with intents describing the task and attributes for audience filters. Submit them with `create_proposal` as an `add` action targeting `newEntry`. You can supply an entry key for the FAQ that acceptance will create and immutable source context that explains where the proposal originated.
 
 The candidate enters the inbox without changing what agents retrieve.
 
-Save the returned proposal identifier and `proposalRevision`. The revision identifies the candidate a reviewer edits or accepts.
+Save the returned proposal identifier and `proposalRevision`. The revision identifies the candidate a reviewer edits or accepts. A creation source does not count as attached evidence.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
@@ -65,9 +65,8 @@ Submit source context to the open proposal with `submit_proposal_evidence`. Each
 | Field | Purpose |
 |:------|:--------|
 | `evidenceId` | Identifier for this observation. Reuse it for an exact retry. |
-| `schemaVersion` | Evidence format version; currently `1`. |
 | `observedAt` | Time of the source observation. |
-| `producer` | Name and version of the application or agent submitting it. |
+| `producer` | Application or agent name, with optional prompt version and commit hash. |
 | `source` | Source type, with optional reference and content objects. |
 
 Attach a supporting passage and a reference the reviewer can check. The service does not independently verify caller-supplied attribution.
@@ -82,7 +81,7 @@ This example attaches a policy excerpt. The HTTP example uses `openssl` to gener
 
 ## Review and edit a candidate
 
-1. List the inbox or search proposals for the topic you want to review.
+1. List the inbox or search proposals for the topic you want to review. Filter by action or entry type when the inbox contains multiple proposal kinds.
 1. Retrieve the complete proposal, including its candidate and evidence.
 1. Check that the sources support the answer, its conditions, and its intended audience.
 1. Replace the candidate with `replace_proposal` if it needs changes, supplying `expectedProposalRevision` for the revision you read.
@@ -112,11 +111,11 @@ Test dismissal and restoration before accepting the sample. Purging instead ends
 
 ## Accept and publish
 
-Use `accept_proposal` with the reviewed revision. It creates one unpublished FAQ and returns its entry and version.
+Use `accept_proposal` with the reviewed revision. It creates one unpublished FAQ and returns a historical `result.versionCreated` receipt. The receipt identifies the new entry and version, but it does not contain the authored content or confirm that the target still exists.
 
 The `promoting` and `promoted` states prevent further review changes. If acceptance is interrupted, retry it to resume or retrieve the recorded FAQ. Use that FAQ rather than creating a replacement.
 
-Inspect the returned FAQ, then [publish its version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}). Acceptance does not grant publication permission.
+Read the accepted FAQ version with the receipt, then [publish that version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}). Acceptance does not grant publication permission. If the client returns an unrecognized result type, inspect or upgrade the client before acting on it.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-final-review" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
 
