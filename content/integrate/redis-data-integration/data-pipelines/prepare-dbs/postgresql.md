@@ -211,6 +211,13 @@ slot storage. A finite slot limit can protect disk space at the cost of losing
 required history. Increasing the limit after that history is removed does not
 restore it. Do not drop or recreate an RDI slot as a routine disk-cleanup step.
 
+The slot's `confirmed_flush_lsn` is the position the collector has acknowledged.
+PostgreSQL starts logical streaming at the requested position or
+`confirmed_flush_lsn`, whichever is later. Moving only RDI's saved offset backward
+does not rewind the slot, even if older WAL remains on disk. Keeping unread history
+for normal resume is different from replaying already acknowledged changes.
+See the [PostgreSQL replication protocol](https://www.postgresql.org/docs/17/protocol-replication.html).
+
 ## Set up permissions
 
 The Debezium connector needs a database user that has the REPLICATION and LOGIN roles so that it
