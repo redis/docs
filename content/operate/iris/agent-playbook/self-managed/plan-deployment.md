@@ -22,6 +22,8 @@ Choose the deployment's tenant, storage, and embedding configuration before you 
 | Embeddings | Configure explicit provider, model, and dimension choices. Each playbook selects one at creation. |
 | API exposure | Keep administrative services private. Expose the data plane to approved applications through your platform's network controls. |
 | Credentials | Choose chart-generated service credentials or externally managed Secret references. Give applications separate scoped API keys. |
+| Operator identity | Choose bootstrap tokens or OpenID Connect (OIDC) access for human operators. |
+| Extraction | If you extract FAQ proposals from Redis Agent Memory, plan a durable queue, a generation model, workload identity, and network paths between both products. |
 
 ## Choose an embedding model
 
@@ -43,4 +45,4 @@ The published chart starts one replica of each service and leaves `resources` un
 
 Plan coordinated storage backups and configuration recovery in [Operations]({{< relref "/operate/iris/agent-playbook/self-managed/operations#back-up-the-deployment" >}}).
 
-<!-- TODO: Add qualified production sizing and availability guidance. Confirm the extraction worker, queue, source connections, and identity-provider deployment paths for the target release before documenting those setups. -->
+<!-- TODO: Add qualified production sizing and availability guidance for the launch release. -->

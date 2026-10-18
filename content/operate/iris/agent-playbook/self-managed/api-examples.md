@@ -31,21 +31,44 @@ The local HTTP addresses use the Kubernetes port-forwards. For application deplo
 
 ## Create a playbook
 
-Select a provider, model, and dimension count from the deployment's `inference.models`. This request matches the [embedding configuration example]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#embedding-configuration" >}}):
+List the models configured for this deployment:
+
+```bash
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_CONTROL_URL/v1/models" \
+  -H "Authorization: Bearer $PLAYBOOK_ADMIN_TOKEN" > models.json
+jq '.models[] | select(.purpose == "embedding")' models.json
+```
+
+Select one returned embedding identity and prepare the create request:
+
+```bash
+export EMBEDDING_PROVIDER='<provider>'
+export EMBEDDING_MODEL='<model>'
+export EMBEDDING_DIMENSIONS='<dimensions>'
+
+jq -n \
+  --arg provider "$EMBEDDING_PROVIDER" \
+  --arg model "$EMBEDDING_MODEL" \
+  --argjson dimensions "$EMBEDDING_DIMENSIONS" \
+  '{
+    name: "Support",
+    embedding: {
+      provider: $provider,
+      model: $model,
+      dimensions: $dimensions
+    }
+  }' > playbook-request.json
+```
+
+Create the playbook:
 
 ```bash
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_CONTROL_URL/v1/playbooks" \
   -H "Authorization: Bearer $PLAYBOOK_ADMIN_TOKEN" \
   -H 'Content-Type: application/json' \
-  --data '{
-    "name": "Support",
-    "embedding": {
-      "provider": "openai",
-      "model": "text-embedding-3-small",
-      "dimensions": 1536
-    }
-  }' > playbook.json
+  --data-binary @playbook-request.json > playbook.json
 export PLAYBOOK_ID="$(jq -er '.playbookId' playbook.json)"
 ```
 

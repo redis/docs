@@ -6,16 +6,17 @@
         "description": "On-prem administrative API for Playbook provisioning and policy."
     },
     "paths": {
-        "/v1/playbooks": {
+        "/v1/models": {
             "get": {
-                "operationId": "ListPlaybooks",
+                "description": "Lists models supported by this deployment. On-prem returns the configured embedding allowlist; cloud may also advertise extraction models.",
+                "operationId": "ListModels",
                 "responses": {
                     "200": {
-                        "description": "ListPlaybooks 200 response",
+                        "description": "ListModels 200 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ListPlaybooksResponseContent"
+                                    "$ref": "#/components/schemas/ListModelsResponseContent"
                                 }
                             }
                         }
@@ -41,11 +42,11 @@
                         }
                     },
                     "403": {
-                        "description": "ForbiddenError 403 response",
+                        "description": "ExtractionForbiddenError 403 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -91,19 +92,123 @@
                         }
                     },
                     "503": {
-                        "description": "ServiceUnavailableError 503 response",
+                        "description": "PlaybookServiceUnavailableError 503 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "models"
+                ]
+            }
+        },
+        "/v1/playbooks": {
+            "get": {
+                "description": "Lists the account's Playbooks. Cloud requests require JSESSIONID and X-CSRF-Token in addition to the operator JWT. If a selected database is unavailable, its Playbook remains listed without endpoint, database name or accessCidrs enrichment.",
+                "operationId": "ListPlaybooks",
+                "responses": {
+                    "200": {
+                        "description": "ListPlaybooks 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListPlaybooksResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "playbooks"
+                ]
             },
             "post": {
-                "description": "Creates and provisions one Playbook. A deployment-configured per-tenant limit applies; the on-prem default is 128.",
+                "description": "Creates and provisions one Playbook. A deployment-configured per-tenant limit applies; the on-prem default is 128. Cloud requests require JSESSIONID and X-CSRF-Token in addition to the operator JWT.",
                 "operationId": "CreatePlaybook",
                 "requestBody": {
                     "content": {
@@ -147,11 +252,11 @@
                         }
                     },
                     "403": {
-                        "description": "ForbiddenError 403 response",
+                        "description": "ExtractionForbiddenError 403 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -207,16 +312,19 @@
                         }
                     },
                     "503": {
-                        "description": "ServiceUnavailableError 503 response",
+                        "description": "PlaybookServiceUnavailableError 503 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "playbooks"
+                ]
             }
         },
         "/v1/playbooks/{playbookId}": {
@@ -260,11 +368,11 @@
                         }
                     },
                     "403": {
-                        "description": "ForbiddenError 403 response",
+                        "description": "ExtractionForbiddenError 403 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -310,18 +418,22 @@
                         }
                     },
                     "503": {
-                        "description": "ServiceUnavailableError 503 response",
+                        "description": "PlaybookServiceUnavailableError 503 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "playbooks"
+                ]
             },
             "get": {
+                "description": "Reads one Playbook. Cloud requests require JSESSIONID and X-CSRF-Token in addition to the operator JWT.",
                 "operationId": "GetPlaybook",
                 "parameters": [
                     {
@@ -368,11 +480,11 @@
                         }
                     },
                     "403": {
-                        "description": "ForbiddenError 403 response",
+                        "description": "ExtractionForbiddenError 403 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -418,18 +530,22 @@
                         }
                     },
                     "503": {
-                        "description": "ServiceUnavailableError 503 response",
+                        "description": "PlaybookServiceUnavailableError 503 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "playbooks"
+                ]
             },
             "patch": {
+                "description": "Updates mutable Playbook settings. Cloud requests require JSESSIONID and X-CSRF-Token in addition to the operator JWT.",
                 "operationId": "UpdatePlaybook",
                 "requestBody": {
                     "content": {
@@ -485,11 +601,11 @@
                         }
                     },
                     "403": {
-                        "description": "ForbiddenError 403 response",
+                        "description": "ExtractionForbiddenError 403 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -535,16 +651,933 @@
                         }
                     },
                     "503": {
-                        "description": "ServiceUnavailableError 503 response",
+                        "description": "PlaybookServiceUnavailableError 503 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "playbooks"
+                ]
+            }
+        },
+        "/v1/playbooks/{playbookId}/clear": {
+            "post": {
+                "description": "Administratively clears all (default), entries, or proposals from a ready Playbook, preserving configuration and index readiness. Requires product_admin or suite_admin. Cleanup is not atomic across content: failures can leave partial progress; retry the same scope after resolving the failure. Without new writes, repeating a successful clear removes no additional entry families.",
+                "operationId": "ClearPlaybook",
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "in": "query",
+                        "description": "Content to clear. Omission clears all entries and proposals while preserving the Playbook.",
+                        "schema": {
+                            "$ref": "#/components/schemas/ClearScope"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ClearPlaybook 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClearPlaybookResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "playbooks"
+                ]
+            }
+        },
+        "/v1/playbooks/{playbookId}/extraction/bindings": {
+            "get": {
+                "operationId": "ListExtractionBindings",
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListExtractionBindings 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListExtractionBindingsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
+            },
+            "post": {
+                "description": "Registers a client-supplied RAM store reference and FAQ policy. Returns preparing and enabled=false. The control plane asynchronously provisions extraction-worker RAM source read and Playbook destination read/propose grants; both accepted grants make the binding ready, refused grants make it blocked, and dependency outages remain pending for retry. The worker validates live RAM access when extraction runs. Poll GET until ready, then PATCH to enable.",
+                "operationId": "CreateExtractionBinding",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateExtractionBindingRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "CreateExtractionBinding 202 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateExtractionBindingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ExtractionConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
+            }
+        },
+        "/v1/playbooks/{playbookId}/extraction/bindings/{bindingId}": {
+            "delete": {
+                "operationId": "DeleteExtractionBinding",
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "bindingId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^bind_[a-f0-9]{32}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "DeleteExtractionBinding 202 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteExtractionBindingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
+            },
+            "get": {
+                "operationId": "GetExtractionBinding",
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "bindingId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^bind_[a-f0-9]{32}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetExtractionBinding 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetExtractionBindingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
+            },
+            "patch": {
+                "description": "Updates FAQ policy or activation using expectedVersion. Supply job or enabled. Enabling requires ready status; pause is allowed while extraction is disabled. The deployment gate blocks policy updates and activation. Source identity is immutable; create a replacement binding to change stores. Stale revisions return conflict.",
+                "operationId": "UpdateExtractionBinding",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateExtractionBindingRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "bindingId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^bind_[a-f0-9]{32}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateExtractionBinding 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateExtractionBindingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ExtractionConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
+            }
+        },
+        "/v1/playbooks/{playbookId}/extraction/stores": {
+            "get": {
+                "description": "Returns tenant-scoped deployment-configured store suggestions, which may be empty. A client may submit another syntactically valid storeId. No RAM call or approval check occurs.",
+                "operationId": "ListExtractionStores",
+                "parameters": [
+                    {
+                        "name": "playbookId",
+                        "in": "path",
+                        "description": "Opaque Playbook identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^pb_[0-9a-f]{32}$",
+                            "description": "Opaque Playbook identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListExtractionStores 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListExtractionStoresResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ExtractionForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "PlaybookServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "extraction"
+                ]
             }
         }
     },
@@ -635,6 +1668,28 @@
                     "/errors/invalid-data"
                 ]
             },
+            "ClearPlaybookResponseContent": {
+                "type": "object",
+                "properties": {
+                    "deletedEntriesCount": {
+                        "type": "integer",
+                        "description": "Entry families removed by this attempt. Proposal-only clear returns zero. Partial failures may already have removed content even though no successful response is returned.",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "deletedEntriesCount"
+                ]
+            },
+            "ClearScope": {
+                "type": "string",
+                "enum": [
+                    "all",
+                    "entries",
+                    "proposals"
+                ],
+                "default": "all"
+            },
             "ConflictErrorResponseContent": {
                 "type": "object",
                 "description": "The request conflicts with the current state of the resource.",
@@ -674,9 +1729,88 @@
                     "/errors/conflict"
                 ]
             },
+            "CreateExtractionBindingRequestContent": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJobConfiguration"
+                    }
+                },
+                "required": [
+                    "job",
+                    "source"
+                ]
+            },
+            "CreateExtractionBindingResponseContent": {
+                "type": "object",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "properties": {
+                    "bindingId": {
+                        "type": "string",
+                        "pattern": "^bind_[a-f0-9]{32}$"
+                    },
+                    "playbookId": {
+                        "type": "string",
+                        "pattern": "^pb_[0-9a-f]{32}$",
+                        "description": "Opaque Playbook identifier."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJob"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/ExtractionBindingStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                    },
+                    "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Optimistic configuration revision, independent of schedules and job runs.",
+                        "format": "int64"
+                    },
+                    "blockedReason": {
+                        "type": "string",
+                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "bindingId",
+                    "createdAt",
+                    "enabled",
+                    "job",
+                    "playbookId",
+                    "source",
+                    "status",
+                    "updatedAt",
+                    "version"
+                ]
+            },
             "CreatePlaybookRequestContent": {
                 "type": "object",
                 "properties": {
+                    "databaseId": {
+                        "type": "string",
+                        "pattern": "^[1-9][0-9]*$",
+                        "description": "Existing SM Cloud database ID. Required in Neptune; omitted for on-prem storage."
+                    },
                     "name": {
                         "type": "string",
                         "maxLength": 128,
@@ -700,6 +1834,9 @@
             "CreatePlaybookResponseContent": {
                 "type": "object",
                 "properties": {
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
+                    },
                     "playbookId": {
                         "type": "string",
                         "pattern": "^pb_[0-9a-f]{32}$",
@@ -748,6 +1885,95 @@
                     "state",
                     "tenantId",
                     "updatedAt"
+                ]
+            },
+            "DatabaseBinding": {
+                "type": "object",
+                "description": "Create-only SM database identity. Connection endpoints and credentials remain internal.",
+                "properties": {
+                    "subscriptionId": {
+                        "type": "string",
+                        "pattern": "^[1-9][0-9]*$"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "pattern": "^[1-9][0-9]*$"
+                    },
+                    "provider": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1
+                    },
+                    "region": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "databaseId",
+                    "provider",
+                    "region",
+                    "subscriptionId"
+                ]
+            },
+            "DeleteExtractionBindingResponseContent": {
+                "type": "object",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "properties": {
+                    "bindingId": {
+                        "type": "string",
+                        "pattern": "^bind_[a-f0-9]{32}$"
+                    },
+                    "playbookId": {
+                        "type": "string",
+                        "pattern": "^pb_[0-9a-f]{32}$",
+                        "description": "Opaque Playbook identifier."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJob"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/ExtractionBindingStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                    },
+                    "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Optimistic configuration revision, independent of schedules and job runs.",
+                        "format": "int64"
+                    },
+                    "blockedReason": {
+                        "type": "string",
+                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "bindingId",
+                    "createdAt",
+                    "enabled",
+                    "job",
+                    "playbookId",
+                    "source",
+                    "status",
+                    "updatedAt",
+                    "version"
                 ]
             },
             "DiscoveryConfig": {
@@ -820,6 +2046,242 @@
                     "provider"
                 ]
             },
+            "ExtractionBinding": {
+                "type": "object",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "properties": {
+                    "bindingId": {
+                        "type": "string",
+                        "pattern": "^bind_[a-f0-9]{32}$"
+                    },
+                    "playbookId": {
+                        "type": "string",
+                        "pattern": "^pb_[0-9a-f]{32}$",
+                        "description": "Opaque Playbook identifier."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJob"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/ExtractionBindingStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                    },
+                    "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Optimistic configuration revision, independent of schedules and job runs.",
+                        "format": "int64"
+                    },
+                    "blockedReason": {
+                        "type": "string",
+                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "bindingId",
+                    "createdAt",
+                    "enabled",
+                    "job",
+                    "playbookId",
+                    "source",
+                    "status",
+                    "updatedAt",
+                    "version"
+                ]
+            },
+            "ExtractionBindingSource": {
+                "type": "object",
+                "description": "Typed RAM store reference. This release accepts only redis_agent_memory and a client-supplied storeId. The source is implicitly whole-store. When the deployment enables the RAM connection, server-side preparation verifies store access. Namespace selection and extraction workers arrive later; credentials are never accepted here. Unknown fields are rejected.",
+                "properties": {
+                    "storeId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ExtractionSourceType"
+                    }
+                },
+                "required": [
+                    "storeId",
+                    "type"
+                ]
+            },
+            "ExtractionBindingStatus": {
+                "type": "string",
+                "enum": [
+                    "preparing",
+                    "ready",
+                    "blocked",
+                    "deleting"
+                ]
+            },
+            "ExtractionConflictErrorResponseContent": {
+                "type": "object",
+                "description": "Binding version/state conflict, or extraction disabled by deployment configuration. Disabled extraction still permits inspection, pause and deletion.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ExtractionConflictErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ExtractionConflictErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/conflict",
+                    "/errors/extraction-disabled"
+                ]
+            },
+            "ExtractionForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "Caller authorization failure.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ExtractionForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ExtractionForbiddenErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/insufficient-permissions"
+                ]
+            },
+            "ExtractionJob": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/ExtractionJobType"
+                    },
+                    "intervalSeconds": {
+                        "type": "integer",
+                        "maximum": 300,
+                        "minimum": 300,
+                        "description": "Read-only platform scan cadence, fixed at 300 seconds.",
+                        "format": "int32"
+                    },
+                    "idleWindowSeconds": {
+                        "type": "integer",
+                        "maximum": 86400,
+                        "minimum": 60,
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "idleWindowSeconds",
+                    "intervalSeconds",
+                    "type"
+                ]
+            },
+            "ExtractionJobConfiguration": {
+                "type": "object",
+                "description": "One extraction kind and its user-owned policy. Scan cadence is fixed at 300 seconds and is not accepted in requests. Omitted idleWindowSeconds defaults to 1800 on create and retains its existing value on update. Idle bounds are 60–86400 seconds. Model context and output budgets are deployment-owned worker settings rather than binding fields. Job type is immutable; changing extraction kind requires a new binding. Policy changes advance the binding version and do not reset completed-source deduplication.",
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/ExtractionJobType"
+                    },
+                    "idleWindowSeconds": {
+                        "type": "integer",
+                        "maximum": 86400,
+                        "minimum": 60,
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "type"
+                ]
+            },
+            "ExtractionJobType": {
+                "type": "string",
+                "description": "Exactly one extraction job kind. Skill extraction is reserved for future implementation and is currently rejected.",
+                "enum": [
+                    "faq"
+                ]
+            },
+            "ExtractionSourceType": {
+                "type": "string",
+                "enum": [
+                    "redis_agent_memory"
+                ]
+            },
+            "ExtractionStore": {
+                "type": "object",
+                "properties": {
+                    "storeId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Optional deployment-configured suggestion; not an approval or verification of this store."
+                    }
+                },
+                "required": [
+                    "storeId"
+                ]
+            },
             "FailedDependencyErrorResponseContent": {
                 "type": "object",
                 "description": "A dependent resource required to process the request is unavailable or unhealthy.",
@@ -883,48 +2345,71 @@
                     "rule"
                 ]
             },
-            "ForbiddenErrorResponseContent": {
+            "GetExtractionBindingResponseContent": {
                 "type": "object",
-                "description": "The caller is authenticated but not allowed to access the requested resource.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
                 "properties": {
-                    "title": {
+                    "bindingId": {
                         "type": "string",
-                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                        "pattern": "^bind_[a-f0-9]{32}$"
+                    },
+                    "playbookId": {
+                        "type": "string",
+                        "pattern": "^pb_[0-9a-f]{32}$",
+                        "description": "Opaque Playbook identifier."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJob"
                     },
                     "status": {
+                        "$ref": "#/components/schemas/ExtractionBindingStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                    },
+                    "version": {
                         "type": "integer",
-                        "default": 403,
-                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
-                        "format": "int32"
+                        "minimum": 1,
+                        "description": "Optimistic configuration revision, independent of schedules and job runs.",
+                        "format": "int64"
                     },
-                    "detail": {
+                    "blockedReason": {
                         "type": "string",
-                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
                     },
-                    "instance": {
+                    "createdAt": {
                         "type": "string",
-                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
                     },
-                    "type": {
-                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
                     }
                 },
                 "required": [
+                    "bindingId",
+                    "createdAt",
+                    "enabled",
+                    "job",
+                    "playbookId",
+                    "source",
                     "status",
-                    "title",
-                    "type"
-                ]
-            },
-            "ForbiddenErrorType": {
-                "type": "string",
-                "description": "Problem type URI for authorization errors.",
-                "enum": [
-                    "/errors/insufficient-permissions"
+                    "updatedAt",
+                    "version"
                 ]
             },
             "GetPlaybookResponseContent": {
                 "type": "object",
                 "properties": {
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
+                    },
                     "playbookId": {
                         "type": "string",
                         "pattern": "^pb_[0-9a-f]{32}$",
@@ -973,6 +2458,48 @@
                     "state",
                     "tenantId",
                     "updatedAt"
+                ]
+            },
+            "ListExtractionBindingsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "bindings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ExtractionBinding"
+                        }
+                    }
+                },
+                "required": [
+                    "bindings"
+                ]
+            },
+            "ListExtractionStoresResponseContent": {
+                "type": "object",
+                "properties": {
+                    "stores": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ExtractionStore"
+                        }
+                    }
+                },
+                "required": [
+                    "stores"
+                ]
+            },
+            "ListModelsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "models": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SupportedModel"
+                        }
+                    }
+                },
+                "required": [
+                    "models"
                 ]
             },
             "ListPlaybooksResponseContent": {
@@ -1038,6 +2565,9 @@
             "Playbook": {
                 "type": "object",
                 "properties": {
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
+                    },
                     "playbookId": {
                         "type": "string",
                         "pattern": "^pb_[0-9a-f]{32}$",
@@ -1088,6 +2618,44 @@
                     "updatedAt"
                 ]
             },
+            "PlaybookServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PlaybookServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "PlaybookServiceUnavailableErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/service-unavailable",
+                    "/errors/playbook-not-ready"
+                ]
+            },
             "PlaybookState": {
                 "type": "string",
                 "enum": [
@@ -1124,8 +2692,9 @@
                     "maxOpenProposals": 5000
                 }
             },
-            "ServiceUnavailableErrorResponseContent": {
+            "ResourceSuspendedErrorResponseContent": {
                 "type": "object",
+                "description": "The requested resource exists but is suspended by an administrator.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -1133,7 +2702,7 @@
                     },
                     "status": {
                         "type": "integer",
-                        "default": 503,
+                        "default": 423,
                         "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
                         "format": "int32"
                     },
@@ -1146,7 +2715,7 @@
                         "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
                     },
                     "type": {
-                        "$ref": "#/components/schemas/ServiceUnavailableErrorType"
+                        "$ref": "#/components/schemas/ResourceSuspendedErrorType"
                     }
                 },
                 "required": [
@@ -1155,10 +2724,44 @@
                     "type"
                 ]
             },
-            "ServiceUnavailableErrorType": {
+            "ResourceSuspendedErrorType": {
                 "type": "string",
+                "description": "Problem type URI for suspended resources.",
                 "enum": [
-                    "/errors/service-unavailable"
+                    "/errors/resource-suspended"
+                ]
+            },
+            "SupportedModel": {
+                "type": "object",
+                "properties": {
+                    "provider": {
+                        "type": "string"
+                    },
+                    "model": {
+                        "type": "string"
+                    },
+                    "purpose": {
+                        "type": "string"
+                    },
+                    "dimensions": {
+                        "type": "integer",
+                        "maximum": 4096,
+                        "minimum": 1,
+                        "format": "int32"
+                    },
+                    "credentialsRequired": {
+                        "type": "boolean"
+                    },
+                    "funding": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "credentialsRequired",
+                    "funding",
+                    "model",
+                    "provider",
+                    "purpose"
                 ]
             },
             "TimeoutErrorResponseContent": {
@@ -1239,6 +2842,84 @@
                     "/errors/unexpected-error"
                 ]
             },
+            "UpdateExtractionBindingRequestContent": {
+                "type": "object",
+                "properties": {
+                    "expectedVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "format": "int64"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJobConfiguration"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "expectedVersion"
+                ]
+            },
+            "UpdateExtractionBindingResponseContent": {
+                "type": "object",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "properties": {
+                    "bindingId": {
+                        "type": "string",
+                        "pattern": "^bind_[a-f0-9]{32}$"
+                    },
+                    "playbookId": {
+                        "type": "string",
+                        "pattern": "^pb_[0-9a-f]{32}$",
+                        "description": "Opaque Playbook identifier."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractionBindingSource"
+                    },
+                    "job": {
+                        "$ref": "#/components/schemas/ExtractionJob"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/ExtractionBindingStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                    },
+                    "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Optimistic configuration revision, independent of schedules and job runs.",
+                        "format": "int64"
+                    },
+                    "blockedReason": {
+                        "type": "string",
+                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "UTC timestamp resolved to microsecond precision.",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "bindingId",
+                    "createdAt",
+                    "enabled",
+                    "job",
+                    "playbookId",
+                    "source",
+                    "status",
+                    "updatedAt",
+                    "version"
+                ]
+            },
             "UpdatePlaybookRequestContent": {
                 "type": "object",
                 "properties": {
@@ -1262,6 +2943,9 @@
             "UpdatePlaybookResponseContent": {
                 "type": "object",
                 "properties": {
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
+                    },
                     "playbookId": {
                         "type": "string",
                         "pattern": "^pb_[0-9a-f]{32}$",

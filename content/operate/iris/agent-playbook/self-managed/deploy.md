@@ -70,11 +70,19 @@ If your dependencies use a private certificate authority, also [create its CA Se
    helm repo update redis-ai
    ```
 
-3. Install the pinned chart with the prepared values:
+3. Set the chart version from the approved release manifest:
+
+   ```bash
+   export PLAYBOOK_CHART_VERSION='<chart-version>'
+   ```
+
+   The matching chart is not published yet. Do not substitute the development version from the source chart.
+
+4. Install the pinned chart with the prepared values:
 
    ```bash
    helm install playbook redis-ai/redis-agent-playbook \
-     --version 0.1.0-alpha.3 \
+     --version "$PLAYBOOK_CHART_VERSION" \
      --namespace "$PLAYBOOK_NAMESPACE" \
      -f playbook-values.yaml \
      --wait --timeout 10m

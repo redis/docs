@@ -145,7 +145,7 @@ Both paths feed the same review inbox. They currently support new FAQs; skill ex
 ### Extract FAQs from agent usage in Redis Agent Memory
 
 1. [Record session events in Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/developer-guide.md#work-with-session-memory), including user questions and agent responses under the correct conversation identity. Retrieving playbook knowledge alone does not record an interaction.
-1. Ask your administrator to configure and enable extraction for the source store and destination playbook. Proposal permissions alone do not enable it.
+1. Ask your administrator to [configure and enable extraction]({{< relref "/operate/iris/agent-playbook/self-managed/extraction" >}}) for the source store and destination playbook. Proposal permissions alone do not enable it.
 1. Let a representative conversation become idle, then [inspect the inbox](/content/develop/ai/context-engine/agent-playbook/proposals.md#find-proposals-to-review) for suggestions and new evidence.
 
 Each playbook can extract from one whole Redis Agent Memory store in the same tenant; selecting individual namespaces is not supported. Keep source conversations available for extraction and review. Later events in a completed conversation do not automatically trigger another extraction.

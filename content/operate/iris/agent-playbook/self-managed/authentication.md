@@ -77,4 +77,69 @@ Set each grant's `tenant` to the deployment's `tenantId` and scope it to a playb
 
 For rotation and revocation, see [Operations]({{< relref "/operate/iris/agent-playbook/self-managed/operations#rotate-or-revoke-application-keys" >}}).
 
-<!-- TODO: Document the supported identity-provider and browser-administration setup after control-plane authentication is aligned with the launch chart. Chart 0.1.0-alpha.3 and current service source use different configuration paths. -->
+## Configure operator OIDC access
+
+You can keep the bootstrap tokens and also accept OpenID Connect (OIDC) access tokens from your identity provider. The control plane and data plane share one issuer, tenant source, audience, and trusted group mapping.
+
+Add this overlay to `playbook-values.yaml`:
+
+```yaml
+auth:
+  oidc:
+    audience: <iris-api-audience>
+
+dataplane:
+  oidc:
+    enabled: true
+    issuer: https://<identity-provider-host>/<issuer-path>
+    jwksURI: https://<identity-provider-host>/<jwks-path>
+    tenantIDClaim: <tenant-claim>
+    roleClaims:
+      - groups
+    roleMappings:
+      <viewer-group>: viewer
+      <operator-group>: operator
+      <playbook-admin-group>: product_admin
+
+controlplane:
+  oidc:
+    enabled: true
+```
+
+Set exactly one of `tenantIDClaim` and `staticTenantID`. A resolved or static tenant must equal `tenantId`. Use a static tenant only when the issuer and mapped groups are restricted to this deployment's tenant.
+
+The control plane applies these role tiers:
+
+| Role | Control-plane access |
+| --- | --- |
+| `viewer` | List models and read playbooks. |
+| `operator` | Viewer access plus create and update playbooks and manage extraction bindings. |
+| `product_admin`, `suite_admin` | Operator access plus clear or delete playbooks. |
+
+On the data plane, explicitly mapped `product_admin` and `suite_admin` users receive full access within the configured tenant. Unmapped claim values grant no access, even when a value matches an Iris role name. Keep service identities out of human administrator groups.
+
+The issuer and JSON Web Key Set (JWKS) endpoints must use HTTPS unless you set the development-only `allowInsecureTransport: true`. The Federal Information Processing Standards (FIPS)-oriented profile requires HTTPS. Mount a private certificate authority through `tls.caCertSecret` when required.
+
+## Configure OIDC access to API-key administration
+
+Identity Service Control has a separate OIDC policy. Configure it when operators must manage application keys without the bootstrap control token:
+
+```yaml
+identityService:
+  controlAuth:
+    oidc:
+      enabled: true
+      issuer: https://<identity-provider-host>/<issuer-path>
+      jwks_uri: https://<identity-provider-host>/<jwks-path>
+      audience:
+        - <identity-service-audience>
+      role_mappings:
+        <playbook-admin-group>: product_admin
+    roleBindings:
+      - claim_value: <playbook-admin-group>
+        scope: product
+        product: playbook
+        role: product_admin
+```
+
+The control token remains available as a deployment-administration credential. By default, `identityService.apiKeyTenant.singleTenantID` inherits `tenantId`. Identity Service fills an omitted grant tenant with that value and rejects grants for another tenant.

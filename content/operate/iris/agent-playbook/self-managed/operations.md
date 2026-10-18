@@ -25,8 +25,8 @@ Inspect pods and the affected service's logs when readiness fails:
 
 ```bash
 kubectl -n "$PLAYBOOK_NAMESPACE" get pods -l app.kubernetes.io/instance=playbook
-kubectl -n "$PLAYBOOK_NAMESPACE" describe pod <pod-name>
-kubectl -n "$PLAYBOOK_NAMESPACE" logs deploy/<deployment-name>
+kubectl -n "$PLAYBOOK_NAMESPACE" describe pod '<pod-name>'
+kubectl -n "$PLAYBOOK_NAMESPACE" logs 'deploy/<deployment-name>'
 ```
 
 Find deployment names in [Deploy]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#install-the-chart" >}}). Redact credentials and content before sharing logs or configuration.
@@ -38,6 +38,8 @@ Find deployment names in [Deploy]({{< relref "/operate/iris/agent-playbook/self-
 | Application receives `401` | Send its current API-key token, not an administrative or service token. Check expiry, rotation, and revocation. |
 | Application receives `403` | Check the key's tenant, playbook identifier, and action grants in [Authentication and access]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#tenant-and-grant-scope" >}}). |
 | Embedding requests fail | Check provider reachability, credentials, and matching model settings in [Configuration]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#embedding-configuration" >}}). |
+
+Scrape `/metrics` on the control plane, data plane, and extraction worker. All three can export traces through the shared [tracing configuration]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#configure-security-and-tracing" >}}).
 
 ## Rotate or revoke application keys
 
@@ -63,6 +65,19 @@ curl --fail-with-body --silent --show-error \
 ```
 
 Key validation is cached. The chart's `identityService.runtimeCache.hardTTLSeconds` defaults to 300 seconds. Allow for cached access decisions and verify that the old credential is denied before treating revocation as complete.
+
+## Clear playbook content
+
+Use the bootstrap admin token or an OpenID Connect (OIDC) token with the `product_admin` or `suite_admin` role to remove entries, proposals, or both while preserving the playbook and its configuration. For example, clear entries:
+
+```bash
+curl --fail-with-body --silent --show-error \
+  -X POST "$PLAYBOOK_CONTROL_URL/v1/playbooks/$PLAYBOOK_ID/clear?scope=entries" \
+  -H "Authorization: Bearer $PLAYBOOK_ADMIN_TOKEN" \
+  | jq '.deletedEntriesCount'
+```
+
+Set `scope` to `entries`, `proposals`, or `all`. Omitting it uses `all`. Clearing is not atomic across content. Resolve a failure and retry the same scope. The operation does not suspend the playbook or stop concurrent writers, including extraction workers.
 
 ## Suspend or remove a playbook
 
@@ -134,8 +149,9 @@ Coordinate metadata and content snapshots. A metadata-only restore cannot recove
 Review the target release's configuration and compatibility requirements. Keep its packaged image versions together and recalculate checksums for changed Secrets.
 
 ```bash
+export PLAYBOOK_CHART_VERSION='<chart-version>'
 helm upgrade playbook redis-ai/redis-agent-playbook \
-  --version <chart-version> \
+  --version "$PLAYBOOK_CHART_VERSION" \
   --namespace "$PLAYBOOK_NAMESPACE" \
   -f playbook-values.yaml \
   --wait --timeout 10m
@@ -147,9 +163,12 @@ Check all service rollouts:
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-controlplane
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-dataplane
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-identity-service
+if kubectl -n "$PLAYBOOK_NAMESPACE" get deploy/playbook-worker >/dev/null 2>&1; then
+  kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-worker
+fi
 helm test playbook --namespace "$PLAYBOOK_NAMESPACE" --logs
 ```
 
 Reconnect [local port-forwards]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#connect-to-the-apis" >}}), then repeat [application-access checks]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples#verify-application-access" >}}). Review release compatibility before rollback; Helm does not restore Redis data.
 
-<!-- TODO: Add administrative clearing and extraction operations after their launch API/configuration alignment is reviewed. Do not infer their availability from newer service source. -->
+For extraction worker rollout, health checks, pause, and cleanup, see [Configure background FAQ extraction]({{< relref "/operate/iris/agent-playbook/self-managed/extraction" >}}).

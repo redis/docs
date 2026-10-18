@@ -38,15 +38,15 @@ The Identity Service can use the metadata deployment with a separate Redis user.
 
 ## Images and network access
 
-Chart `0.1.0-alpha.3` supplies these image tags:
+The approved release manifest supplies the image tags. The source chart intentionally leaves each tag empty.
 
 | Component | Image |
 | --- | --- |
-| Control plane | `redislabs/iris-agent-playbook-control:0.1.0-alpha.3` |
-| Data plane | `redislabs/iris-agent-playbook-data:0.1.0-alpha.3` |
-| Identity Service | `redislabs/iris-identity-service:0.9.0` |
+| Control plane | `redislabs/iris-agent-playbook-control:<playbook-control-plane-image-tag>` |
+| Data plane and extraction worker | `redislabs/iris-agent-playbook-data:<playbook-data-plane-image-tag>` |
+| Identity Service | `redislabs/iris-identity-service:<identity-service-image-tag>` |
 
-The published release images target `linux/amd64`. Confirm that your cluster can run them. The Identity Service has its own version; do not replace its tag with the Playbook tag.
+Confirm that your cluster can run the platforms listed in the release manifest. The Identity Service has its own version; do not replace its tag with a Playbook image tag.
 
 Allow chart downloads, image pulls, Redis connections, and data-plane access to the embedding provider. For a disconnected installation, mirror the release images and use a downloaded chart package. Configure the corresponding image repositories and `imagePullSecrets` in [Helm values]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#helm-values" >}}).
 

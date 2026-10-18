@@ -11,5 +11,7 @@
   "data_plane_contract_sha256": "991a428a09c362b4b45e1f90bf32c5d9980c6933d2f31d12b2dd730d5a6f34b3",
   "sdk_example_overlay_path": ".speakeasy/playbook/overlay-code-samples.yaml",
   "sdk_example_overlay_sha256": "d5e203a097e155fb26f2032a934febee24ebc247ce5b06319c963e8b7bcc8d51",
+  "control_plane_contract_path": "out/smithy/public/playbook-cp/PlaybookControlPlaneService.openapi.json",
+  "control_plane_contract_sha256": "8e168dffbe2ec1b6f7b0ee03548725e3084116bbe4534899473c54408572604b",
   "service_revision": "304467e3e3acf5ff9e6800e03055f0a7806bc14d"
 }

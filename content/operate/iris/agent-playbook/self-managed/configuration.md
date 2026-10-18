@@ -11,7 +11,7 @@ weight: 30
 hideListLinks: true
 ---
 
-These examples use chart `0.1.0-alpha.3`, release `playbook`, and `fullnameOverride: playbook`.
+These examples use release `playbook` and `fullnameOverride: playbook`. Set the unreleased chart and image versions from the approved release manifest.
 
 ## Storage configuration
 
@@ -41,27 +41,27 @@ The [deploy procedure]({{< relref "/operate/iris/agent-playbook/self-managed/dep
 
 Put endpoints and provider credentials in `inference.yaml`. Helm values contain only the model identity.
 
-This example uses OpenAI `text-embedding-3-small` with 1,536 dimensions. Use the provider and model approved for your deployment, and keep the identity identical to `inference.models` in Helm values.
+This example uses an OpenAI-compatible connection named `private-embeddings`. Use the provider and model approved for your deployment. The connection name must match `provider` in `inference.models`.
 
 Save `inference.yaml`:
 
 ```yaml
-inference:
-  models:
-    - provider: openai
-      model: text-embedding-3-small
-      dimensions: 1536
-      client:
-        endpoint:
-          base_url: https://api.openai.com/v1
-        credentials:
-          type: static
-          api_key: <embedding-provider-api-key>
+embedders_connection_details:
+  private-embeddings:
+    protocol: openai
+    base_url: https://<embedding-provider-host>/v1
+    credentials:
+      type: static
+      api_key: <embedding-provider-api-key>
+    http_client:
+      timeout: 30s
+      max_retry_attempts: 3
+    batching:
+      embeddings:
+        enabled: true
 ```
 
-This file format belongs to chart `0.1.0-alpha.3`. Review the configuration format when updating the chart and images.
-
-<!-- TODO: Update the private embedding configuration for the launch release's connection format. Confirm supported provider configurations before adding more examples. -->
+The private endpoint and credential reach only the data plane. Preserve the provider, model, and dimension identity when changing connection settings. A vector-space change requires a new playbook.
 
 ## Helm values
 
@@ -70,6 +70,18 @@ Save `playbook-values.yaml`, replacing `<tenant-id>` with the deployment's tenan
 ```yaml
 fullnameOverride: playbook
 tenantId: <tenant-id>
+
+controlplane:
+  image:
+    tag: <playbook-control-plane-image-tag>
+
+dataplane:
+  image:
+    tag: <playbook-data-plane-image-tag>
+
+identityService:
+  image:
+    tag: <identity-service-image-tag>
 
 storage:
   existingSecret: playbook-storage
@@ -80,20 +92,20 @@ license:
 inference:
   existingSecret: playbook-inference
   models:
-    - provider: openai
-      model: text-embedding-3-small
-      dimensions: 1536
+    - provider: private-embeddings
+      model: <embedding-model-name>
+      dimensions: <embedding-dimensions>
 
 tests:
   enabled: true
 ```
 
-The chart supplies matching image versions and generates the service credentials. Set [existing credential Secrets]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#supply-service-credentials" >}}) if you manage those credentials externally.
+Use image tags from one approved release manifest. The chart generates the service credentials unless you set [existing credential Secrets]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#supply-service-credentials" >}}).
 
 | Area | Values | Purpose |
 | --- | --- | --- |
 | Tenant | `tenantId` | Tenant shared by this deployment and its application grants. |
-| Storage | `storage.existingSecret`, `storage.playbookKey`, `storage.identityServiceKey` | Secret containing the Playbook and Identity Service Redis configuration. |
+| Storage | `storage.existingSecret`, `storage.playbookKey`, `storage.identityServiceKey`, `storage.keyPrefix`, `storage.maxPlaybooksPerTenant` | Storage Secret, key namespace, and tenant inventory limit. The default maximum is 128 playbooks. |
 | Storage rollout | `storage.existingSecretChecksum` | Roll consuming pods after the storage Secret changes. |
 | License | `license.existingSecret`, `license.secretKey`, `license.existingSecretChecksum` | License Secret and rollout marker. The default key is `license`. |
 | Embeddings | `inference.models`, `inference.existingSecret`, `inference.secretKey`, `inference.existingSecretChecksum` | Public model identities and private configuration. The default Secret key is `inference.yaml`. |
@@ -102,9 +114,13 @@ The chart supplies matching image versions and generates the service credentials
 | Services | `controlplane.service.*`, `dataplane.service.*`, `identityService.service.*` | Service type and port. |
 | Service connections | `dataplane.identityServiceBaseURL`, `identityService.playbookControlPlaneBaseURL` | Override the chart's in-cluster service endpoints. |
 | Private certificate authority | `tls.caCertSecret`, `tls.caCertSecretChecksum` | Trust additional certificate authorities and roll pods when they change. |
+| Operator OpenID Connect (OIDC) | `auth.oidc.audience`, `dataplane.oidc`, `controlplane.oidc`, `identityService.controlAuth` | Validate operator identity provider tokens. |
+| Security | `serviceAccount`, `security.profile`, pod security contexts | Configure workload identity and the optional FIPS-oriented profile. |
+| Tracing | `tracing.enabled`, `tracing.otlpGRPCEndpoint`, `tracing.capture` | Send OpenTelemetry spans to a deployment-owned collector. |
+| Extraction | `extraction`, `worker` | Connect Redis Agent Memory and run optional background FAQ extraction. |
 | Chart checks | `tests.enabled` | Render the health and security-profile test resources used by `helm test`. |
 
-Use `helm show values redis-ai/redis-agent-playbook --version 0.1.0-alpha.3` for the complete values file.
+After the matching chart is published, use `helm show values redis-ai/redis-agent-playbook --version "$PLAYBOOK_CHART_VERSION"` for the complete values file.
 
 ## Trust a private CA
 
@@ -122,7 +138,22 @@ tls:
   caCertSecret: playbook-redis-ca
 ```
 
-The chart mounts the CA for all three services. Keep certificate verification enabled.
+The chart mounts the CA for all enabled workloads. Keep certificate verification enabled.
+
+## Configure security and tracing
+
+Set `security.profile: fips` only with images built for the Federal Information Processing Standards (FIPS) profile. Storage URLs must use `rediss://`. Set explicit HTTPS values for `dataplane.identityServiceBaseURL` and `identityService.playbookControlPlaneBaseURL`. The profile configures the processes but does not provide Transport Layer Security (TLS) termination or establish compliance by itself.
+
+To export traces, configure a trusted local OpenTelemetry Protocol (OTLP) collector:
+
+```yaml
+tracing:
+  enabled: true
+  otlpGRPCEndpoint: <collector-host>:4317
+  capture: none
+```
+
+The exporter uses plaintext gRPC for the collector hop. Keep the collector on a trusted network. `tracing.capture` affects data-plane serving traces only.
 
 ## Playbook settings
 
