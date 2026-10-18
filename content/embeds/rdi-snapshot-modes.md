@@ -19,8 +19,8 @@ while the snapshot is interrupted can remain as stale records in the target beca
 the new snapshot does not replay their delete events.
 
 Use `when_needed` with monitoring and alerting. Recovery can start a long-running
-snapshot, which can increase latency and leave stale target records until recovery
-finishes.
+snapshot, which can increase latency. Missed deletes can leave stale target records
+even after the snapshot finishes.
 
 #### Missed deletes can leave stale target records {#missed-deletes}
 
@@ -40,6 +40,14 @@ reference. A listed value is not necessarily supported by every connector.
 | `initial_only` | Take an initial snapshot without streaming subsequent changes. | Restart an interrupted initial snapshot; do not capture subsequent changes after it completes. | Snapshot without ongoing change capture. |
 | `no_data` | Skip existing rows. Initialize any required schema or source position, then stream changes. | Resume streaming if the position is valid. No data snapshot to recover unavailable history. | Skip existing rows and start streaming according to the connector's rules. |
 | `never` | Skip the data snapshot where this mode is supported. | Resume according to the connector's rules; no data snapshot recovery. | Connector-specific startup behavior; existing rows are not reloaded. |
+
+{{< note >}}
+On Kubernetes deployments, the collector exits after completing an `initial_only`
+snapshot. Kubernetes restarts it, but the collector sees that the snapshot is complete
+and exits again. This restart loop can make the source appear disconnected in
+monitoring. Check snapshot completion separately from collector connectivity;
+`initial_only` mode does not capture subsequent changes.
+{{< /note >}}
 
 An interrupted initial snapshot can restart when the collector starts again, including
 with `initial` and `initial_only`.
