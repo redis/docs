@@ -39,7 +39,7 @@ The source continues maintaining its history while RDI is disconnected. If the r
 
 *These timelines are illustrations, not database defaults. The important boundary is the oldest history still available when capture resumes.*
 
-The collector's offset is also different from the processor's **checkpoint**. The offset tracks capture from the source. The checkpoint tracks processing of events already captured into RDI. A processor can be behind even while capture is current. If the backlog eventually stops capture through [backpressure](/content/integrate/redis-data-integration/architecture/_index.md#backpressure-mechanism), source retention becomes important again.
+RDI handles changes in two steps: the collector reads them from the source, then the processor transforms them and writes them to the target. This page focuses on the collector's bookmark. The processor separately tracks its progress so it can recover after a restart. See [Checkpointing](/content/integrate/redis-data-integration/architecture/_index.md#checkpointing) for that part of the pipeline.
 
 ## See how each source keeps history
 
@@ -145,7 +145,7 @@ Snowflake support is in preview. See [Prepare Snowflake](/content/integrate/redi
 
 ## Plan for the whole interruption
 
-RDI does not have to be completely down for history to become unavailable. A network failure, lost source access, or sustained capture lag can leave its position behind. A slow target can build a backlog until backpressure stops capture. Source cleanup continues independently.
+RDI does not have to be completely down for history to become unavailable. A network failure, lost source access, or sustained capture lag can leave its position behind. A slow target can build a backlog until [backpressure](/content/integrate/redis-data-integration/architecture/_index.md#backpressure-mechanism) stops capture. Source cleanup continues independently.
 
 Use a conservative planning budget:
 
