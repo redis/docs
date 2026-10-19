@@ -169,7 +169,7 @@ Repeat the preparation for each source. Keep track of which endpoint service and
 
 If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it. For how traffic flows over PrivateLink, how to connect to an on-premises database over AWS Direct Connect, and how to keep the connection available during failover, see the [AWS PrivateLink reference](/content/operate/rc/rdi/networking/aws-privatelink.md).
 
-The following diagrams show the network setup for the different database setups:
+Choose the diagram and instructions for your source database:
 
 - Database hosted on an AWS EC2 instance:
 
@@ -178,8 +178,10 @@ The following diagrams show the network setup for the different database setups:
 
 - Database hosted on AWS RDS or AWS Aurora:
 
-    ![The network setup for a database hosted on AWS RDS or AWS Aurora.](/images/rc/rdi/rdi-setup-diagram-aurora.png)
-    {width="80%"}
+    ![RDI connects to the RDS or Aurora writer through PrivateLink and an internal network load balancer. Lambda updates the target IP address after an RDS event.](/images/rc/rdi/rdi-setup-diagram-aurora-lambda.svg)
+    {width="100%"}
+
+    Solid arrows show database connections. Dashed arrows show how Lambda updates the target group when the database address changes. Lambda does not carry database traffic.
 
 Select the steps for your database setup.
 
@@ -201,7 +203,9 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. Create a dedicated security group in the source database VPC for the network load balancer. Leave its inbound rules empty for this PrivateLink connection. Allow outbound TCP traffic to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
+1. Create a security group for the network load balancer in the source database VPC:
+    - **Inbound rules**: Leave empty. You will disable inbound rule checks for PrivateLink traffic in a later step.
+    - **Outbound rules**: Allow TCP to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
 1. In the load balancer settings, select this group under **Security groups**.
 1. In **Listeners and routing**: 
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-target-group.html) with the following settings:
@@ -252,16 +256,14 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 --tab-sep--
 
-To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
+Connect the network load balancer (NLB) directly to your RDS or Aurora database. The database address can change after failover or maintenance. We recommend using the Lambda function to keep the NLB target group up to date.
 
-To connect to your RDS or Aurora database, we recommend using a Lambda function approach. This provides a reliable and secure connection method for all database types.
-
-1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming requests to your database.
+1. [Create a network load balancer](#create-network-load-balancer-rds) that forwards TCP connections to your database.
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
-1. [Set up Lambda function connectivity](#setup-lambda-function) to route requests to your database.
+1. [Set up the Lambda function](#setup-lambda-function) to update the target group when the database address changes.
 
 > [!NOTE]
-> If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide](/content/operate/rc/rdi/rds-proxy.md). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
+> RDS Proxy is not recommended for RDI and does not support PostgreSQL logical replication. If you need this alternative for a compatible database, see the [RDS Proxy setup guide](/content/operate/rc/rdi/rds-proxy.md).
 
 ### Create network load balancer {#create-network-load-balancer-rds}
 
@@ -271,7 +273,9 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. Create a dedicated security group in the source database VPC for the network load balancer. Leave its inbound rules empty for this PrivateLink connection. Allow outbound TCP traffic to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
+1. Create a security group for the network load balancer in the source database VPC:
+    - **Inbound rules**: Leave empty. You will disable inbound rule checks for PrivateLink traffic in a later step.
+    - **Outbound rules**: Allow TCP to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
 1. In the load balancer settings, select this group under **Security groups**.
 1. In **Listeners and routing**:
     1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-target-group.html) with the following settings:
@@ -327,12 +331,12 @@ After you create the endpoint service, you need to add Redis Cloud as an Allowed
 
 For more details on AWS PrivateLink, see [Share your services through AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html).
 
-### Set up Lambda function connectivity {#setup-lambda-function}
+### Set up Lambda to update database addresses {#setup-lambda-function}
 
 > [!NOTE]
-> Setting up the Lambda function is optional but recommended for production environments. The Lambda function provides automatic failover handling and a more robust connection to your RDS or Aurora database.
+> The Lambda function is optional but recommended for production. Without it, you must update the target group yourself when the database address changes.
 
-The Lambda function monitors RDS failover events and automatically updates the NLB Target Group to point to the new primary instance's IP address. This ensures RDI reconnects automatically after a failover.
+RDS sends event notifications through Amazon Simple Notification Service (SNS). SNS invokes the Lambda function. Lambda looks up the current writer address using the Domain Name System (DNS) and updates the NLB target group. RDI can reconnect after the new database target is ready.
 
 #### Option 1: Use the Redis Terraform module
 

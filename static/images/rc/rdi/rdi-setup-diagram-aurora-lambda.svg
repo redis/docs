@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+<title id="title">RDI connects directly to RDS or Aurora through AWS PrivateLink</title>
+<desc id="desc">RDI connects through a VPC endpoint, an endpoint service, and an internal network load balancer to the database writer. The target group stores the writer IP address. On an RDS event, SNS invokes Lambda. Lambda resolves the writer endpoint with DNS and updates the target group. Lambda does not carry database traffic. The load balancer and database have separate security groups. SNS and Lambda are shown outside the customer VPC.</desc>
+<defs>
+  <marker id="data-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#697f8a"/></marker>
+  <marker id="control-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#765293"/></marker>
+</defs>
+<rect width="1440" height="760" fill="white"/>
+<style>
+text { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; fill: #172f3b; }
+.box { fill: white; stroke: #8d9fa7; stroke-width: 2; }
+.data { fill: none; stroke: #697f8a; stroke-width: 2.5; marker-end: url(#data-arrow); }
+.control { fill: none; stroke: #765293; stroke-width: 2.5; stroke-dasharray: 8 6; marker-end: url(#control-arrow); }
+</style>
+<text x="720" y="42" font-size="26" text-anchor="middle" >RDI with RDS or Aurora: direct connection and Lambda updates</text>
+<rect class="box" x="340" y="78" width="1080" height="615" rx="20" />
+<text x="880" y="111" font-size="24" text-anchor="middle" >Customer AWS account</text>
+<rect class="box" x="20" y="135" width="300" height="280" rx="16" />
+<text x="170" y="173" font-size="23" text-anchor="middle" >Redis Cloud VPC</text>
+<rect class="box" x="565" y="135" width="830" height="280" rx="16" />
+<text x="980" y="173" font-size="23" text-anchor="middle" >Customer VPC</text>
+<rect class="box" x="580" y="205" width="235" height="155" rx="10" stroke-dasharray="8 6"/>
+<rect class="box" x="1100" y="205" width="275" height="155" rx="10" stroke-dasharray="8 6"/>
+<text x="698" y="344" font-size="17" text-anchor="middle" >NLB security group</text>
+<text x="1238" y="344" font-size="17" text-anchor="middle" >Database security group</text>
+<rect class="box" x="45" y="245" width="85" height="65" rx="5" />
+<text x="87" y="284" font-size="24" text-anchor="middle" >RDI</text>
+<rect class="box" x="160" y="235" width="140" height="85" rx="5" />
+<text x="230" y="267" font-size="22" text-anchor="middle" >VPC</text>
+<text x="230" y="298" font-size="22" text-anchor="middle" >endpoint</text>
+<rect class="box" x="370" y="235" width="175" height="85" rx="5" />
+<text x="457" y="267" font-size="22" text-anchor="middle" >Endpoint</text>
+<text x="457" y="298" font-size="22" text-anchor="middle" >service</text>
+<rect class="box" x="590" y="235" width="215" height="85" rx="5" />
+<text x="698" y="267" font-size="18" text-anchor="middle" >Internal network</text>
+<text x="698" y="298" font-size="21" text-anchor="middle" >load balancer</text>
+<rect class="box" x="860" y="235" width="195" height="85" rx="5" />
+<text x="958" y="266" font-size="19" text-anchor="middle" >IP target group</text>
+<text x="958" y="298" font-size="21" text-anchor="middle" >Writer IP</text>
+<rect class="box" x="1120" y="235" width="235" height="85" rx="5" />
+<text x="1238" y="267" font-size="23" text-anchor="middle" >RDS / Aurora</text>
+<text x="1238" y="298" font-size="20" text-anchor="middle" >Database writer</text>
+<path class="data" d="M130 277 H160"/>
+<path class="data" d="M300 277 H370"/>
+<path class="data" d="M545 277 H590"/>
+<path class="data" d="M805 277 H860"/>
+<path class="data" d="M1055 277 H1120"/>
+<text x="336" y="221" font-size="16" text-anchor="middle" >PrivateLink</text>
+<text x="980" y="195" font-size="16" text-anchor="middle" >PostgreSQL example: TCP 5432 for the listener, target and health check</text>
+<rect class="box" x="1120" y="510" width="235" height="80" rx="5" />
+<text x="1238" y="542" font-size="23" text-anchor="middle" >Amazon SNS</text>
+<text x="1238" y="573" font-size="18" text-anchor="middle" >1. Invoke Lambda</text>
+<rect class="box" x="850" y="510" width="230" height="80" rx="5" />
+<text x="965" y="542" font-size="22" text-anchor="middle" >Lambda function</text>
+<text x="965" y="573" font-size="18" text-anchor="middle" >Update addresses</text>
+<rect class="box" x="590" y="510" width="220" height="80" rx="5" />
+<text x="700" y="542" font-size="23" text-anchor="middle" >DNS lookup</text>
+<text x="700" y="570" font-size="17" text-anchor="middle" >2. Resolve writer</text>
+<path class="control" d="M1355 277 H1384 V475 H1238 V510"/>
+<text x="1248" y="463" font-size="18" text-anchor="start" >RDS event</text>
+<path class="control" d="M1120 550 H1080"/>
+<path class="control" d="M850 550 H810"/>
+<path class="control" d="M958 510 V320"/>
+<text x="942" y="465" font-size="17" text-anchor="end" >3. Update target IP</text>
+<text x="880" y="628" font-size="20" text-anchor="middle" >Lambda keeps the target group pointed at the current writer.</text>
+<text x="880" y="660" font-size="20" text-anchor="middle" >Database connections go through the NLB, not through Lambda.</text>
+<path d="M 260 728 H 320" class="data"/>
+<text x="338" y="734" font-size="18" text-anchor="start" >Database connection</text>
+<path d="M 780 728 H 840" class="control"/>
+<text x="858" y="734" font-size="18" text-anchor="start" >Failover update</text>
+</svg>
