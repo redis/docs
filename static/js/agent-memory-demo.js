@@ -661,7 +661,16 @@
       r.type = "button";
       r.disabled = st.turn === 0 && !st.extracted && st.lunch == null && st.tab === "chat";
       r.addEventListener("click", restart);
-      row.appendChild(r);
+      var left = el("div", "rcr-navleft"), at = TABS.map(function (t) { return t[0]; }).indexOf(st.tab);
+      if (at > 0) {   // back to the step before, like its tab; disabled while a step animates, like Next
+        var pv = el("button", "rcr-btn rcr-prev", "← Previous: " + esc(TABS[at - 1][2].charAt(0).toLowerCase() + TABS[at - 1][2].slice(1)));
+        pv.type = "button";
+        pv.disabled = st.busy;
+        pv.addEventListener("click", function () { advance(TABS[at - 1][0]); });
+        left.appendChild(pv);
+      }
+      left.appendChild(r);
+      row.appendChild(left);
       if (primary) {
         var b = el("button", "rcr-btn rcr-btn-primary", esc(st.busy && primary.busy ? primary.busy : primary.label));
         b.type = "button";
