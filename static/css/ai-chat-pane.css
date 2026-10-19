@@ -37,8 +37,10 @@ html.ai-pane-tight main > :is(section, aside):has(a[data-ai-chat-open]) {
   display: none;
 }
 /* Narrower still, the 24rem section nav would leave the text a phone-width
-   column, so it steps aside too until the pane is collapsed. */
-html.ai-pane-narrow body > main > div:has(> nav#sidebar) {
+   column, so it steps aside too until the pane is collapsed. The sidebar id
+   is on the nav itself in docs-nav.html, and on a div inside the nav in
+   docs-nav-collapsed.html (Commands and Integrate list pages). */
+html.ai-pane-narrow body > main > :has(#sidebar) {
   display: none;
 }
 
