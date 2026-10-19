@@ -137,7 +137,19 @@ to capture changes.
     Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
 
 1. <a id="grant-privileges-for-the-future"></a>
-    Connect as the role that creates your application tables and grant the Debezium user access to future tables:
+    For example, your database setup might use three roles:
+
+    - `postgres`: the administrator setting up RDI.
+    - `app_migrations`: the role that creates application tables.
+    - `debezium`: the user RDI uses to read those tables.
+
+    These names are examples. Use your existing roles.
+
+    The administrator can grant Debezium access to existing tables, so the initial snapshot works. Later, `app_migrations` creates a new table. Defaults set for `postgres` do not give Debezium access to that table, so reading it can fail.
+
+    Set the defaults for the role that creates the tables. In this example, use `app_migrations` as `<table_creator>` and `debezium` as the Debezium user.
+
+    Connect as the table creator and grant the Debezium user access to future tables:
 
     ```sql
     ALTER DEFAULT PRIVILEGES FOR ROLE <table_creator> IN SCHEMA <schema>
@@ -146,7 +158,7 @@ to capture changes.
 
     Replace `<table_creator>` with the role that runs `CREATE TABLE`, often your migration role. Replace `<schema>` with the schema name and `<username>` with the Debezium user. An administrator with permission to change that role's defaults can also run this command.
 
-    Repeat for each table creator and schema. This command covers future tables only. Keep the grants for existing tables. Running it as `postgres` without `FOR ROLE` covers only tables created by `postgres`.
+    Repeat for each table creator and schema. This command covers future tables only. Keep the grants for existing tables.
 
 1. <a id="create-publication"></a>
     Connect to your database as the `postgres` user and create a publication for the database:

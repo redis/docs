@@ -189,7 +189,21 @@ GRANT USAGE ON SCHEMA <schema> TO <debezium_user>;
 GRANT SELECT ON ALL TABLES IN SCHEMA <schema> TO <debezium_user>;
 ```
 
-These grants cover existing tables. To grant access to future tables, connect as the role that creates your application tables and run:
+These grants cover existing tables.
+
+For example, your database setup might use three roles:
+
+- `postgres`: the administrator setting up RDI.
+- `app_migrations`: the role that creates application tables.
+- `debezium`: the user RDI uses to read those tables.
+
+These names are examples. Use your existing roles.
+
+The administrator can grant Debezium access to existing tables, so the initial snapshot works. Later, `app_migrations` creates a new table. Defaults set for `postgres` do not give Debezium access to that table, so reading it can fail.
+
+Set the defaults for the role that creates the tables. In this example, use `app_migrations` as `<table_creator>` and `debezium` as the Debezium user.
+
+To grant access to future tables, connect as the table creator and run:
 
 ```sql
 ALTER DEFAULT PRIVILEGES FOR ROLE <table_creator> IN SCHEMA <schema>
@@ -198,7 +212,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE <table_creator> IN SCHEMA <schema>
 
 Replace `<table_creator>` with the role that runs `CREATE TABLE`, often your migration role. Replace `<schema>` with the schema name and `<debezium_user>` with the Debezium user. An administrator with permission to change that role's defaults can also run this command.
 
-Repeat for each table creator and schema. Running the command as `postgres` without `FOR ROLE` covers only tables created by `postgres`. Read access does not add a table to a publication or the RDI pipeline.
+Repeat for each table creator and schema. Read access does not add a table to a publication or the RDI pipeline.
 
 ## Set privileges for Debezium to create PostgreSQL publications with `pgoutput`
 
