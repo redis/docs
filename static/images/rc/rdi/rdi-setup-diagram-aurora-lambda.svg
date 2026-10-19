@@ -1,71 +1,117 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="850" viewBox="0 0 1440 850" role="img" aria-labelledby="title desc">
 <title id="title">RDI connects directly to RDS or Aurora through AWS PrivateLink</title>
 <desc id="desc">RDI connects through a VPC endpoint, an endpoint service, and an internal network load balancer to the database writer. The target group stores the writer IP address. On an RDS event, SNS invokes Lambda. Lambda resolves the writer endpoint with DNS and updates the target group. Lambda does not carry database traffic. The load balancer and database have separate security groups. SNS and Lambda are shown outside the customer VPC.</desc>
 <defs>
-  <marker id="data-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#697f8a"/></marker>
-  <marker id="control-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#765293"/></marker>
+  <marker id="data-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#84959e"/></marker>
+  <marker id="control-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#526875"/></marker>
 </defs>
-<rect width="1440" height="760" fill="white"/>
+<rect width="1440" height="850" fill="white"/>
 <style>
-text { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; fill: #172f3b; }
-.box { fill: white; stroke: #8d9fa7; stroke-width: 2; }
-.data { fill: none; stroke: #697f8a; stroke-width: 2.5; marker-end: url(#data-arrow); }
-.control { fill: none; stroke: #765293; stroke-width: 2.5; stroke-dasharray: 8 6; marker-end: url(#control-arrow); }
+text { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; fill: #163341; }
+.box { fill: white; stroke: #8a9ba4; stroke-width: 2; }
+.icon { fill: none; stroke: #163341; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.accent { stroke: #ff4438; }
+.data { fill: none; stroke: #84959e; stroke-width: 2.5; marker-end: url(#data-arrow); }
+.control { fill: none; stroke: #526875; stroke-width: 2.5; stroke-dasharray: 8 6; marker-end: url(#control-arrow); }
 </style>
 <text x="720" y="42" font-size="26" text-anchor="middle" >RDI with RDS or Aurora: direct connection and Lambda updates</text>
-<rect class="box" x="340" y="78" width="1080" height="615" rx="20" />
+<rect class="box" x="340" y="78" width="1080" height="685" rx="20" />
 <text x="880" y="111" font-size="24" text-anchor="middle" >Customer AWS account</text>
-<rect class="box" x="20" y="135" width="300" height="280" rx="16" />
+<rect class="box" x="20" y="135" width="300" height="315" rx="16" />
 <text x="170" y="173" font-size="23" text-anchor="middle" >Redis Cloud VPC</text>
-<rect class="box" x="565" y="135" width="830" height="280" rx="16" />
+<rect class="box" x="565" y="135" width="830" height="315" rx="16" />
 <text x="980" y="173" font-size="23" text-anchor="middle" >Customer VPC</text>
-<rect class="box" x="580" y="205" width="235" height="155" rx="10" stroke-dasharray="8 6"/>
-<rect class="box" x="1100" y="205" width="275" height="155" rx="10" stroke-dasharray="8 6"/>
-<text x="698" y="344" font-size="17" text-anchor="middle" >NLB security group</text>
-<text x="1238" y="344" font-size="17" text-anchor="middle" >Database security group</text>
-<rect class="box" x="45" y="245" width="85" height="65" rx="5" />
-<text x="87" y="284" font-size="24" text-anchor="middle" >RDI</text>
-<rect class="box" x="160" y="235" width="140" height="85" rx="5" />
-<text x="230" y="267" font-size="22" text-anchor="middle" >VPC</text>
-<text x="230" y="298" font-size="22" text-anchor="middle" >endpoint</text>
-<rect class="box" x="370" y="235" width="175" height="85" rx="5" />
-<text x="457" y="267" font-size="22" text-anchor="middle" >Endpoint</text>
-<text x="457" y="298" font-size="22" text-anchor="middle" >service</text>
-<rect class="box" x="590" y="235" width="215" height="85" rx="5" />
-<text x="698" y="267" font-size="18" text-anchor="middle" >Internal network</text>
-<text x="698" y="298" font-size="21" text-anchor="middle" >load balancer</text>
-<rect class="box" x="860" y="235" width="195" height="85" rx="5" />
-<text x="958" y="266" font-size="19" text-anchor="middle" >IP target group</text>
-<text x="958" y="298" font-size="21" text-anchor="middle" >Writer IP</text>
-<rect class="box" x="1120" y="235" width="235" height="85" rx="5" />
-<text x="1238" y="267" font-size="23" text-anchor="middle" >RDS / Aurora</text>
-<text x="1238" y="298" font-size="20" text-anchor="middle" >Database writer</text>
-<path class="data" d="M130 277 H160"/>
-<path class="data" d="M300 277 H370"/>
-<path class="data" d="M545 277 H590"/>
-<path class="data" d="M805 277 H860"/>
-<path class="data" d="M1055 277 H1120"/>
+<rect class="box" x="580" y="205" width="235" height="205" rx="10" stroke-dasharray="8 6"/>
+<rect class="box" x="1100" y="205" width="275" height="205" rx="10" stroke-dasharray="8 6"/>
+<text x="698" y="395" font-size="17" text-anchor="middle" >NLB security group</text>
+<text x="1238" y="395" font-size="17" text-anchor="middle" >Database security group</text>
+<rect class="box" x="45" y="235" width="85" height="125" rx="5" />
+<text x="87" y="336" font-size="24" text-anchor="middle" >RDI</text>
+<rect class="box" x="160" y="235" width="140" height="125" rx="5" />
+<text x="230" y="313" font-size="22" text-anchor="middle" >VPC</text>
+<text x="230" y="344" font-size="22" text-anchor="middle" >endpoint</text>
+<rect class="box" x="370" y="235" width="175" height="125" rx="5" />
+<text x="457" y="313" font-size="22" text-anchor="middle" >Endpoint</text>
+<text x="457" y="344" font-size="22" text-anchor="middle" >service</text>
+<rect class="box" x="590" y="235" width="215" height="125" rx="5" />
+<text x="698" y="313" font-size="18" text-anchor="middle" >Internal network</text>
+<text x="698" y="344" font-size="21" text-anchor="middle" >load balancer</text>
+<rect class="box" x="860" y="235" width="195" height="125" rx="5" />
+<text x="958" y="313" font-size="19" text-anchor="middle" >IP target group</text>
+<text x="958" y="344" font-size="21" text-anchor="middle" >Writer IP</text>
+<rect class="box" x="1120" y="235" width="235" height="125" rx="5" />
+<text x="1238" y="313" font-size="23" text-anchor="middle" >RDS / Aurora</text>
+<text x="1238" y="344" font-size="20" text-anchor="middle" >Database writer</text>
+<path class="data" d="M130 298 H160"/>
+<path class="data" d="M300 298 H370"/>
+<path class="data" d="M545 298 H590"/>
+<path class="data" d="M805 298 H860"/>
+<path class="data" d="M1055 298 H1120"/>
 <text x="336" y="221" font-size="16" text-anchor="middle" >PrivateLink</text>
 <text x="980" y="195" font-size="16" text-anchor="middle" >PostgreSQL example: TCP 5432 for the listener, target and health check</text>
-<rect class="box" x="1120" y="510" width="235" height="80" rx="5" />
-<text x="1238" y="542" font-size="23" text-anchor="middle" >Amazon SNS</text>
-<text x="1238" y="573" font-size="18" text-anchor="middle" >1. Invoke Lambda</text>
-<rect class="box" x="850" y="510" width="230" height="80" rx="5" />
-<text x="965" y="542" font-size="22" text-anchor="middle" >Lambda function</text>
-<text x="965" y="573" font-size="18" text-anchor="middle" >Update addresses</text>
-<rect class="box" x="590" y="510" width="220" height="80" rx="5" />
-<text x="700" y="542" font-size="23" text-anchor="middle" >DNS lookup</text>
-<text x="700" y="570" font-size="17" text-anchor="middle" >2. Resolve writer</text>
-<path class="control" d="M1355 277 H1384 V475 H1238 V510"/>
-<text x="1248" y="463" font-size="18" text-anchor="start" >RDS event</text>
-<path class="control" d="M1120 550 H1080"/>
-<path class="control" d="M850 550 H810"/>
-<path class="control" d="M958 510 V320"/>
-<text x="942" y="465" font-size="17" text-anchor="end" >3. Update target IP</text>
-<text x="880" y="628" font-size="20" text-anchor="middle" >Lambda keeps the target group pointed at the current writer.</text>
-<text x="880" y="660" font-size="20" text-anchor="middle" >Database connections go through the NLB, not through Lambda.</text>
-<path d="M 260 728 H 320" class="data"/>
-<text x="338" y="734" font-size="18" text-anchor="start" >Database connection</text>
-<path d="M 780 728 H 840" class="control"/>
-<text x="858" y="734" font-size="18" text-anchor="start" >Failover update</text>
+<rect class="box" x="1120" y="565" width="235" height="110" rx="5" />
+<text x="1238" y="630" font-size="23" text-anchor="middle" >Amazon SNS</text>
+<text x="1238" y="660" font-size="18" text-anchor="middle" >1. Invoke Lambda</text>
+<rect class="box" x="850" y="565" width="230" height="110" rx="5" />
+<text x="965" y="630" font-size="22" text-anchor="middle" >Lambda function</text>
+<text x="965" y="660" font-size="18" text-anchor="middle" >Update addresses</text>
+<rect class="box" x="590" y="565" width="220" height="110" rx="5" />
+<text x="700" y="630" font-size="23" text-anchor="middle" >DNS lookup</text>
+<text x="700" y="660" font-size="17" text-anchor="middle" >2. Resolve writer</text>
+<path class="control" d="M1355 298 H1384 V525 H1238 V565"/>
+<text x="1248" y="513" font-size="18" text-anchor="start" >RDS event</text>
+<path class="control" d="M1120 620 H1080"/>
+<path class="control" d="M850 620 H810"/>
+<path class="control" d="M958 565 V360"/>
+<text x="942" y="515" font-size="17" text-anchor="end" >3. Update target IP</text>
+<text x="880" y="713" font-size="20" text-anchor="middle" >Lambda keeps the target group pointed at the current writer.</text>
+<text x="880" y="745" font-size="20" text-anchor="middle" >Database connections go through the NLB, not through Lambda.</text>
+<path d="M 260 815 H 320" class="data"/>
+<text x="338" y="821" font-size="18" text-anchor="start" >Database connection</text>
+<path d="M 780 815 H 840" class="control"/>
+<text x="858" y="821" font-size="18" text-anchor="start" >Failover update</text>
+
+<g class="icon" aria-hidden="true">
+  <g transform="translate(87 278)">
+    <path d="M-21-10 A24 24 0 1 0 21-10"/>
+    <path d="M-23-3 L-21-10 L-14-8"/>
+    <path class="accent" d="M-5-16 H5 L7-10 L12-7 L18-8 L23 0 L19 5 V10 L23 15 L18 23 L12 21 L7 24 L5 30 H-5 L-7 24 L-12 21 L-18 23 L-23 15 L-19 10 V5 L-23 0 L-18-8 L-12-7 L-7-10 Z" transform="translate(0 -6) scale(.65)"/>
+    <circle cx="0" cy="-1" r="5"/>
+  </g>
+  <g transform="translate(230 269)">
+    <rect x="-18" y="-11" width="36" height="25" rx="3"/>
+    <path class="accent" d="M-8 1 H8 M3-4 L8 1 L3 6"/>
+    <path d="M-26 1 H-18 M18 1 H26"/>
+  </g>
+  <g transform="translate(457 269)">
+    <path d="M-18-11 H-8 V14 H-18 Z M8-11 H18 V14 H8 Z"/>
+    <path class="accent" d="M-8 1 H8 M3-4 L8 1 L3 6"/>
+  </g>
+  <g transform="translate(698 269)">
+    <rect x="-6" y="-16" width="12" height="10" rx="2"/>
+    <path d="M0-6 V2 M-22 2 H22 M-22 2 V9 M0 2 V9 M22 2 V9"/>
+    <g class="accent"><rect x="-28" y="9" width="12" height="10" rx="2"/><rect x="-6" y="9" width="12" height="10" rx="2"/><rect x="16" y="9" width="12" height="10" rx="2"/></g>
+  </g>
+  <g transform="translate(958 269)">
+    <circle r="18"/><circle class="accent" r="10"/>
+    <path d="M-24 0 H-14 M14 0 H24 M0-24 V-14 M0 14 V24"/>
+    <circle r="2" fill="#ff4438" stroke="none"/>
+  </g>
+  <g transform="translate(1238 269)">
+    <path d="M-19-12 V15 C-19 25 19 25 19 15 V-12 M-19 1 C-19 11 19 11 19 1 M-19 10 C-19 20 19 20 19 10"/>
+    <ellipse class="accent" cy="-12" rx="19" ry="7"/>
+  </g>
+  <g transform="translate(1238 594)">
+    <path d="M-16-11 H16 V8 H0 L-8 15 V8 H-16 Z"/>
+    <path class="accent" d="M-8-4 H8 M-8 2 H4"/>
+  </g>
+  <g transform="translate(965 594)">
+    <rect x="-20" y="-19" width="40" height="36" rx="5"/>
+    <path class="accent" stroke-width="3" d="M-9-11 H-3 L8 11 H14 M0-5 L-10 11"/>
+  </g>
+  <g transform="translate(700 594)">
+    <circle cx="-3" cy="-3" r="13"/><path d="M7 7 L18 18"/>
+    <path class="accent" d="M-11-3 H5 M-3-11 V5"/>
+  </g>
+</g>
 </svg>
