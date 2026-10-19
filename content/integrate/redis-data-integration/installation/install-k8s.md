@@ -283,12 +283,18 @@ also use mTLS, you must set the client certificate and private key contents in
 
 ### Configure an Amazon DynamoDB lease
 
-For a disaster recovery deployment with an Active-Active RDI database, you can use an
-Amazon DynamoDB global table for leader election. The table must have a string partition
-key named `id` and use multi-Region strong consistency. Use a separate table replica
-Region for each RDI instance.
+For disaster recovery between two RDI sites that share an Active-Active RDI database, use DynamoDB for operator leader election. This lease does not replicate pipeline data.
 
-Set the lease type and table details in your Helm values file:
+#### Prepare the table
+
+- Create a multi-Region strong consistency (MRSC) global table across exactly three supported AWS Regions: one replica in each RDI site's Region, plus a third replica or a witness in a third Region. A witness cannot serve reads or writes. See [AWS's DynamoDB global table guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-global-table-design.html).
+- Choose MRSC when you create the table. DynamoDB defaults global tables to multi-Region eventual consistency (MREC), and you cannot change the consistency mode later. An existing table must be empty before you convert it to MRSC.
+- Use a single string partition key named `id`, with no sort key. Do not enable DynamoDB TTL; MRSC tables do not support it.
+- Allow outbound HTTPS access from each RDI operator to the DynamoDB endpoint in its Region.
+
+#### Configure the lease
+
+Set the lease type and table details in your Helm values file. Use the same table and `keyName` at both sites, and set `region` to each site's replica Region. Use a different `keyName` for each independent DR pair that shares the table.
 
 ```yaml
 operator:
@@ -301,18 +307,18 @@ operator:
       # keyName: rdi-lease
 ```
 
-You can provide an Amazon Web Services (AWS) shared credentials file when you install or
-upgrade RDI:
+#### Credentials and permissions
+
+RDI uses the AWS default credential provider chain when you omit the credentials file. On EKS, prefer temporary credentials from an IAM role through EKS Pod Identity or IRSA. You can also pass an AWS shared credentials file when you install or upgrade RDI:
 
 ```bash
 helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi \
   --set-file operator.leaderElection.dynamoDBLease.credentials=<aws-credentials-file>
 ```
 
-If you omit the credentials file, RDI uses the AWS default credential provider chain.
-Grant the RDI operator permission to call `dynamodb:DescribeTable`, `dynamodb:PutItem`,
-and `dynamodb:DeleteItem`. RDI rejects a missing or incorrectly defined table and does
-not use eventual consistency for the lease.
+The RDI operator needs `dynamodb:DescribeTable`, `dynamodb:PutItem`, and `dynamodb:DeleteItem` on the replica table in each RDI Region. It does not need DynamoDB access to the witness. Table creation and MRSC setup require separate administrator permissions.
+
+At startup, RDI exits if it confirms that the table is missing or misconfigured. If it cannot run `DescribeTable` because of a permission or network error, it logs the error and continues without the check; lease operations may then fail.
 
 If you are deploying to [OpenShift](https://docs.openshift.com/), you must
 set `global.openshift` to `true`:
