@@ -103,10 +103,21 @@
     return { open: !!s.open, width: Number(s.width) || DEFAULT_WIDTH, messages: messages };
   }
 
+  /* A question that hasn't gone out yet, with its answer, stays out of what
+     the next page gets: Copilot never saw it, so it isn't part of the
+     conversation there. */
   function save() {
+    var sent = [];
+    state.messages.forEach(function (m) {
+      if (m.role === 'assistant' && m.unsent) {
+        if (sent.length && sent[sent.length - 1].role === 'user') sent.pop();
+        return;
+      }
+      sent.push(m);
+    });
     try {
       sessionStorage.setItem(KEY, JSON.stringify({
-        open: state.open, width: state.width, messages: state.messages.slice(-KEEP)
+        open: state.open, width: state.width, messages: sent.slice(-KEEP)
       }));
     } catch (e) {}
   }
@@ -583,7 +594,7 @@
     var fresh = !state.messages.length;
     var user = { role: 'user', text: q };
     if (label) user.label = label;
-    var bot = { role: 'assistant', q: q, text: '', status: 'streaming', refs: [] };
+    var bot = { role: 'assistant', q: q, text: '', status: 'streaming', refs: [], unsent: true };
     state.messages.push(user, bot);
     save();
 
@@ -616,6 +627,8 @@
           bot.refs = refs;
           if (bot.status === 'done') { paint(node, bot); save(); }
         });
+        delete bot.unsent;
+        save();
         return fetch(ASK, {
           method: 'POST',
           credentials: 'same-origin',
