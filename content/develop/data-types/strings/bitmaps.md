@@ -388,10 +388,12 @@ redis> BITRANGEINTARRAY members 1 2
 2) (integer) 30
 ```
 
-The command accepts only native bitmaps; string-backed bitmaps return
-`WRONGTYPE`. Missing keys and bitmaps with no set bits return empty arrays.
-It is read-only, preserves expiration, and works on existing native bitmaps
-regardless of `bitmap-default-roaring`.
+The command validates ranks and handles reversed or oversized bounded ranges
+before checking the key type. For other valid ranges, it accepts only native
+bitmaps; string-backed bitmaps and other types return `WRONGTYPE`. Missing keys
+and bitmaps with no set bits return empty arrays. It is read-only, preserves
+expiration, and works on existing native bitmaps regardless of
+`bitmap-default-roaring`.
 
 Range arguments are element ranks, not bit offsets. `start` must be an unsigned
 32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a

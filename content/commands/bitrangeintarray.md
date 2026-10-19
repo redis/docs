@@ -130,7 +130,8 @@ fit the unsigned 32-bit range. `end` must fit the same range or be `-1`.
 
 With a nonnegative `end` and a non-reversed range, the requested span
 `end - start + 1` must be at most `100000000`, even if the key is missing or
-contains fewer set bits. Larger spans return an error. This limit matches
+contains fewer set bits. Larger spans return
+`ERR range too large: maximum 100000000 elements`. This limit matches
 redis-roaring's bounded-range behavior.
 
 With `end` set to `-1`, the command returns all remaining elements without the
@@ -145,11 +146,13 @@ available elements.
 
 ### Key behavior
 
-The command validates `start`, then `end`, before checking the key type, so an
-invalid rank returns an argument error even for a key of another type. With
-valid ranks, it accepts the native `bitmap` type only; a string-backed bitmap or
-any other existing type returns `WRONGTYPE`. It does not convert strings, change
-the bitmap, or change its expiration, and works on existing native bitmaps
+The command validates `start`, then `end`, before looking up the key. An invalid
+rank returns an argument error even for a key of another type. With valid ranks,
+a reversed bounded range returns an empty array, and an oversized bounded span
+returns the range error, before checking the key type. For other ranges, the
+command accepts the native `bitmap` type only; a string-backed bitmap or any
+other existing type returns `WRONGTYPE`. It does not convert strings, change the
+bitmap, or change its expiration, and works on existing native bitmaps
 regardless of the current `bitmap-default-roaring` setting.
 
 ### Pagination and performance
