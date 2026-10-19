@@ -429,11 +429,10 @@ clients cannot invoke them or discover them through `COMMAND` introspection; dir
 return `ERR unknown command`. Applications should use the public bitmap
 commands and `bitmap-default-roaring` to create and modify native bitmaps.
 
-{{< warning >}}
-Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
-any Redis server that will load its RDB, DUMP payloads, or AOF. Older versions
-don't understand the native bitmap persistence format.
-{{< /warning >}}
+> [!WARNING]
+> Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
+> any Redis server that will load its RDB, DUMP payloads, or AOF. Older versions
+> don't understand the native bitmap persistence format.
 
 ## Split bitmaps into multiple keys
 
