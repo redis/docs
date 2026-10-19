@@ -609,7 +609,7 @@
       frame = requestAnimationFrame(function () { frame = 0; paint(node, bot); });
     }
 
-    (fresh ? post(RESET).catch(function () {}) : Promise.resolve())
+    (fresh ? forget() : resetting || Promise.resolve())
       .then(function () {
         references(q, ctrl.signal).then(function (refs) {
           bot.refs = refs;
@@ -669,8 +669,20 @@
     renderAll();
     updateTab();
     sync();
-    post(RESET).catch(function () {});
+    forget();
     ui.input.focus({ preventScroll: true });
+  }
+
+  var resetting = null;   // the POST /chat/reset in flight, if any
+
+  /* Clears the server side of the conversation. One reset at a time, and a
+     question waits for it: a reset that landed after the next question was
+     sent would wipe the context the pane is showing. */
+  function forget() {
+    if (!resetting) {
+      resetting = post(RESET).catch(function () {}).then(function () { resetting = null; });
+    }
+    return resetting;
   }
 
   function references(q, signal) {
