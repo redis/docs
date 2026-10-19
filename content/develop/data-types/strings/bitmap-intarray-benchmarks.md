@@ -19,8 +19,7 @@ for command usage.
 
 The benchmark script lives in the Redis source repository at
 [`tools/bitroar-intarray-bench.py`](https://github.com/redis/redis/blob/unstable/tools/bitroar-intarray-bench.py).
-Run the commands below from a Redis checkout that includes the integer-array
-commands.
+Run the commands below from a Redis checkout that includes `BITRANGEINTARRAY`.
 
 `bitroar-intarray-bench.py` measures `BITRANGEINTARRAY` against
 isolated Redis processes over Unix sockets. It needs Python 3.9+ and a normal
