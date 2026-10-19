@@ -983,14 +983,22 @@
   /* Keep whatever has arrived of an answer when the reader moves on. */
   window.addEventListener('pagehide', save);
 
-  /* Back/forward cache: another page may have moved the conversation on. */
+  /* Back/forward cache: the page comes back as it was left, but the pages
+     since may have moved the conversation on, or started one. Take the stored
+     state whether or not this page had built the pane. Its own copy is stale,
+     and the pagehide save would write it over the conversation. */
   window.addEventListener('pageshow', function (e) {
-    if (!e.persisted || !ui) return;
+    if (!e.persisted) return;
     stop();
     busy = null;
     state = load();
-    renderAll();
-    sync();
+    if (!ui) {
+      if (!state.open && !state.messages.length) return;
+      build();
+    } else {
+      renderAll();
+      sync();
+    }
     if (state.open) { open({ instant: true }); pinLast(true); }
     else { layout(state); ui.pane.classList.remove('is-in'); ui.pane.hidden = true; updateTab(); }
   });
