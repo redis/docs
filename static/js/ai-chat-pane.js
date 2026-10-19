@@ -994,10 +994,11 @@
     e.preventDefault();
     opener = link;
     open({ focus: true });
-    /* Asked about this page already: show that answer rather than ask again. */
-    var users = state.messages.filter(function (m) { return m.role === 'user'; });
-    var last = users[users.length - 1];
-    if (busy || (last && last.text === q)) pinLast(false);
+    /* Asked about this page already and answered: show that answer rather than
+       ask again. An answer that was stopped, failed or cut off is asked again. */
+    var last = state.messages[state.messages.length - 1];
+    var answered = last && last.role === 'assistant' && last.q === q && last.status === 'done';
+    if (busy || answered) pinLast(false);
     else explain(link);
   });
 
