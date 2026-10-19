@@ -183,6 +183,26 @@ needs to perform replications, but you might also need to grant other permission
 CREATE ROLE <name> REPLICATION LOGIN;
 ```
 
+### Grant access to existing and future tables
+
+The Debezium user needs read access to snapshot table data. If it does not already have this access, run these commands as an administrator with permission to grant access:
+
+```sql
+GRANT USAGE ON SCHEMA <schema> TO <debezium_user>;
+GRANT SELECT ON ALL TABLES IN SCHEMA <schema> TO <debezium_user>;
+```
+
+These grants cover existing tables. To grant access to future tables, connect as the role that creates your application tables and run:
+
+```sql
+ALTER DEFAULT PRIVILEGES FOR ROLE <table_creator> IN SCHEMA <schema>
+    GRANT SELECT ON TABLES TO <debezium_user>;
+```
+
+Replace `<table_creator>` with the role that runs `CREATE TABLE`, often your migration role. Replace `<schema>` with the schema name and `<debezium_user>` with the Debezium user. An administrator with permission to change that role's defaults can also run this command.
+
+Repeat for each table creator and schema. Running the command as `postgres` without `FOR ROLE` covers only tables created by `postgres`. Read access does not add a table to a publication or the RDI pipeline.
+
 ## Set privileges for Debezium to create PostgreSQL publications with `pgoutput`
 
 The Debezium user needs specific permissions to work with the `pgoutput` plug-in.
