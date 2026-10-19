@@ -46,6 +46,7 @@
   var KEEP = 40;          // messages kept in the stored transcript
   var MAX_SOURCES = 4;
   var TIMEOUT = 90000;    // end to end, for one answer
+  var POST_TIMEOUT = 15000;   // for a reset
   var NOTICE = 'Redis Copilot is powered by OpenAI API and is for general info only; ' +
     'avoid inputting confidential or personal data.';
 
@@ -609,7 +610,7 @@
       frame = requestAnimationFrame(function () { frame = 0; paint(node, bot); });
     }
 
-    (fresh ? forget() : resetting || Promise.resolve())
+    untilAborted(fresh ? forget() : resetting || Promise.resolve(), ctrl.signal)
       .then(function () {
         references(q, ctrl.signal).then(function (refs) {
           bot.refs = refs;
@@ -704,9 +705,25 @@
       .catch(function () { return []; });
   }
 
+  /* Gives up after a while, so a request that never gets a reply can't hold
+     a question back for good. */
   function post(url) {
-    return fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-      .then(function (r) { if (!r.ok) throw httpError(r.status); return r; });
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, POST_TIMEOUT);
+    return fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' }, signal: ctrl.signal })
+      .then(function (r) { clearTimeout(timer); if (!r.ok) throw httpError(r.status); return r; },
+        function (err) { clearTimeout(timer); throw err; });
+  }
+
+  /* Settles as promise does, or rejects as soon as signal aborts: Stop and the
+     time limit have to work while a question is still waiting for a reset. */
+  function untilAborted(promise, signal) {
+    return new Promise(function (resolve, reject) {
+      function abort() { reject(new Error('Aborted')); }
+      if (signal.aborted) return abort();
+      signal.addEventListener('abort', abort);
+      promise.then(resolve, reject);
+    });
   }
 
   function httpError(status) {
