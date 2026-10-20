@@ -79,10 +79,11 @@
   /* Redis commands written out as text: one or more, separated by blank lines, with \ continuations and <placeholders>.
      As in Insight, a query that starts a line of its own is colored as a plain string. */
   function redis(text) {
-    var re = /(\s+)|(\\(?=\s|$))|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(<[^>\n]*>)|([^\s"']+)/g, m, out = "", n = 0, cmd = "", ft = false, prev = "", nl = false;
+    var re = /(\s+)|(\\(?=\s|$))|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(<[^>\n]*>)|([^\s"']+)|([\s\S])/g, m, out = "", n = 0, cmd = "", ft = false, prev = "", nl = false;
     while ((m = re.exec(text))) {
       if (m[1]) { if (/\n\s*\n/.test(m[1])) n = 0; nl = /\n/.test(m[1]); out += esc(m[1]); continue; }
       if (m[2]) { out += span("hl-faint", m[2]); continue; }
+      if (m[6]) { out += esc(m[6]); continue; }   // a quote with no closing quote, kept as it is
       var t = m[0], cls = "";
       if (n === 0) { cmd = t; ft = /^FT\./i.test(t); cls = "hl-cmd"; }
       else if (m[4]) cls = "hl-faint";
@@ -135,10 +136,11 @@
 
   /* A shell command such as curl: the command, its flags and methods, URLs, strings, and \ continuations. */
   function shell(text) {
-    var re = /(\s+)|(\\(?=\n|$))|("(?:[^"\\]|\\.)*"|'(?:[^']|'\\'')*')|([^\s"']+)/g, m, out = "", first = true;
+    var re = /(\s+)|(\\(?=\n|$))|("(?:[^"\\]|\\.)*"|'(?:[^']|'\\'')*')|([^\s"']+)|([\s\S])/g, m, out = "", first = true;
     while ((m = re.exec(text))) {
       if (m[1]) { out += esc(m[1]); continue; }
       if (m[2]) { out += span("hl-faint", m[2]); continue; }
+      if (m[5]) { out += esc(m[5]); continue; }   // a quote with no closing quote, kept as it is
       var t = m[0], cls;
       if (m[3]) cls = /^["'](https?:|\$\w+\/)/.test(t) ? "hl-key" : "hl-str";   // a URL, including one that starts with a $VARIABLE
       else if (first) cls = "hl-cmd";
