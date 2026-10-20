@@ -275,12 +275,6 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known limitations
 
-#### TimeSeries and Search command failures during online module upgrades
-
-During an online module upgrade, Redis Software can temporarily reject TimeSeries and Search commands across the database, including commands for healthy shards. Rejected commands return the error `ERR could not perform command '<command>' because shards topology update is either transient or has failed`. Rejected writes are not applied and are not retried automatically. Commands succeed again after the topology update reaches all primary shards.
-
-Schedule module upgrades during a maintenance window. Make sure applications handle this error, retry eligible operations, and do not treat a rejected write as successful.
-
 #### Increased memory usage in FIPS mode
 
 FIPS-enabled builds use more memory than non-FIPS builds. Each Go-based control-plane service uses roughly 34 MB more when running in FIPS mode, which adds up to approximately 210 MB of additional memory per node. Account for this overhead when sizing FIPS-enabled deployments. This limitation affects FIPS-enabled builds only.
