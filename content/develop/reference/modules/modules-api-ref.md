@@ -2525,7 +2525,7 @@ The parameters are the following:
 * **metaname**: A 4 characters metadata class name that MUST be unique in the Redis
   Modules ecosystem. Use the charset A-Z a-z 0-9, plus the two "-_" characters.
   Redis prepends "META-" to it internally to form the 9 characters entity name
-  (e.g. "idx1" becomes "META-idx1"). To use both lower case and upper case
+  (for example, "idx1" becomes "META-idx1"). To use both lower case and upper case
   letters helps in order to prevent collisions.
 
 * **metaver**: Encoding version, which is the version of the serialization
@@ -2654,7 +2654,7 @@ The parameters are the following:
   - Callback should write data using RDB assisting functions: `RedisModule_Save*()`.
   - `meta` is passed as a pointer to the 8-byte metadata slot.
   - If the callback writes nothing, the class entry is dropped from the RDB
-    for that key, i.e. nothing is persisted for this class.
+    for that key and nothing is persisted for this class.
 
 * **aof_rewrite**: A callback function pointer for AOF rewrite (optional).
   Called during AOF rewrite to emit commands that reconstruct the metadata.
