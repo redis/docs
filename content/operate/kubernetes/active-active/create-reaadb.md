@@ -24,9 +24,11 @@ To create an Active-Active database, make sure you've completed all the followin
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
-3. Configure the REC [`ingressOrRoutes` field](/content/operate/kubernetes/networking/ingressorroutespec.md) and [create DNS records](/content/operate/kubernetes/networking/ingressorroutespec.md#configure-dns/).
+3. Configure the REC [`ingressOrRouteSpec` field](/content/operate/kubernetes/networking/ingressorroutespec.md) and [create DNS records](/content/operate/kubernetes/networking/ingressorroutespec.md#configure-dns/).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
    * Database hostname suffix (`.db-<rec-name>-<rec-namespace>.<subdomain>`)
+
+   To use the Kubernetes Gateway API instead, see [Expose Active-Active databases](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases).
 
 4. [Prepare participating clusters](/content/operate/kubernetes/active-active/prepare-clusters.md)
    * RERC name (`<rerc-name`>)
@@ -49,6 +51,8 @@ Example RERC (`rerc-raegan`) for the REC named `rec-arlington` in the namespace 
 {{<embed-yaml "k8s/rerc-raegan.md" "rerc-raegan.yaml">}}
 
 For more details on RERC fields, see the [RERC API reference](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md).
+
+If you use [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases), also set `replicationPort` in each RERC.
 
 2. Create a Redis Enterprise remote cluster from each RERC custom resource file.
   
