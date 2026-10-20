@@ -66,6 +66,9 @@
      questions, which score just under the default threshold on purpose. */
   var SAME_INTENT = { cancel: 0.91, fee: 0.94, late: 0.82 };
   var CROSS_INTENT = { "cancel|fee": 0.44, "cancel|late": 0.37, "fee|late": 0.41 };
+  /* Restart's icon: a counterclockwise arrow. */
+  var RESTART_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>';
+
   function pairKey(a, b) { return [a, b].sort().join("|"); }
   function jitter(a, b) { return (parseInt(hash8(pairKey(a, b)), 16) % 5 - 2) / 100; }
   function questionSim(a, b) {
@@ -375,6 +378,15 @@
       if (i) panels[t[0]].hidden = true;
     });
     root.appendChild(tabs);
+    /* Restart, as an icon in the window's top-right corner, on every step. It's off until there's something to restart. */
+    var restartBtn = el("button", "rcr-restart", RESTART_ICON);
+    restartBtn.type = "button";
+    restartBtn.setAttribute("aria-label", "Restart the demo");
+    restartBtn.title = "Restart the demo";
+    restartBtn.addEventListener("click", function () { restart(); });
+    root.classList.add("has-restart");
+    root.appendChild(restartBtn);
+    function syncRestart() { restartBtn.disabled = !st.asked.length && st.tab === "questions"; }
     Object.keys(panels).forEach(function (k) { root.appendChild(panels[k]); });
 
     /* Animations run as timed steps; the last step renders the final state.
@@ -403,6 +415,7 @@
     }
     function syncTabs() {
       root.setAttribute("data-busy", st.busy ? "true" : "false");
+      syncRestart();
       Array.prototype.forEach.call(tabs.children, function (b) {
         var why = lockReason(b.dataset.tab);
         b.classList.toggle("is-locked", !!why);
@@ -475,10 +488,7 @@
     }
     function controlsRow(primary) {
       var row = el("div", "rlc-controls");
-      var r = el("button", "rcr-btn", "Restart");
-      r.type = "button";
-      r.disabled = !st.asked.length && st.tab === "questions";
-      r.addEventListener("click", restart);
+      syncRestart();
       var left = el("div", "rcr-navleft"), at = TABS.map(function (t) { return t[0]; }).indexOf(st.tab);
       if (at > 0) {   // back to the step before, like its tab; disabled while a step animates, like Next
         var pv = el("button", "rcr-btn rcr-prev", "← Previous: " + esc(TABS[at - 1][2].charAt(0).toLowerCase() + TABS[at - 1][2].slice(1)));
@@ -487,15 +497,17 @@
         pv.addEventListener("click", function () { advance(TABS[at - 1][0]); });
         left.appendChild(pv);
       }
-      left.appendChild(r);
-      row.appendChild(left);
+      row.appendChild(left);   // kept even when empty, so the right-hand buttons stay on the right
+      /* On the right: the step's action or Next. */
+      var right = el("div", "rcr-navright");
       if (primary) {
         var b = el("button", "rcr-btn rcr-btn-primary", esc(primary.label));
         b.type = "button";
         b.disabled = st.busy;
         b.addEventListener("click", primary.fn);
-        row.appendChild(b);
+        right.appendChild(b);
       }
+      if (right.children.length) row.appendChild(right);
       return row;
     }
     function pre(obj) { return el("pre", "rcr-code rcr-code-sm", jsonHtml(obj)); }
