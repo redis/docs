@@ -115,8 +115,7 @@ LangCache tile, link, or named mention to those pages. The request-flow diagram'
 `langcache` node ID is an identifier its edges refer to; never rename a node ID to match
 a label.
 
-_Transitional. Once the Iris-wide pages link to LangCache again, or the LangCache pages
-move out of these directories, delete this section._
+_Transitional. Once the Iris-wide pages link to LangCache again, delete this section._
 
 ## Preview banners carry product status
 
