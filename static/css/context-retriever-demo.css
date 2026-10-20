@@ -99,6 +99,22 @@
 .rcr-jn { color: #b35900; }
 .rcr-jl { color: #c62828; }
 
+/* Syntax highlighting from demo-highlight.js, in every demo's code blocks. The colors are Redis Insight's
+   Workbench colors, darkened where they're too light to read on a light background. */
+.rcr .hl-cmd { color: #7547de; }     /* a command or language keyword */
+.rcr .hl-kw { color: #2c7d5d; }      /* an option; Insight's #8cd7b9 */
+.rcr .hl-key { color: #c724a1; }     /* an index name or URL; Insight's #de47bb */
+.rcr .hl-field { color: #b02c30; }   /* an @field */
+.rcr .hl-query { color: #4c68d5; }   /* a query; Insight's #7b90e0 */
+.rcr .hl-op { color: #167b80; }      /* a query operator; Insight's #b9f0f3 */
+.rcr .hl-fn { color: #7d53e0; }      /* a function in a query; Insight's #9e7ee8 */
+.rcr .hl-str { color: #a65b3c; }     /* a string; Insight's dark #ce9178 */
+.rcr .hl-num { color: #567844; }     /* a number; Insight's dark #b5cea8, as its light #098658 matches the option green */
+.rcr .hl-com { color: var(--rcr-faint); font-style: italic; }
+.rcr .hl-faint { color: var(--rcr-faint); }
+.rcr .hl-ok { color: #567844; font-weight: 600; }
+.rcr .hl-err { color: var(--rcr-bad); }
+
 /* ---- step 1: keys ---- */
 .rcr-keylist { max-height: 420px; overflow: auto; padding: 6px; }
 .rcr-group summary {
