@@ -26,6 +26,7 @@ For how certificate-based authentication works in Redis Software, see [Certifica
 
 ## Before you start
 
+- Requires Redis Software for Kubernetes operator `<version>-<build>` or later.
 - You need a certificate authority (CA) that signs your client certificates, and its CA certificate in PEM format.
 - You need a client certificate and private key for the operator, signed by that CA.
 - Disabling basic authentication requires Redis Software 8.2.0 or later.
