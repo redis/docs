@@ -128,11 +128,11 @@
     var pane = el('aside', 'aicp');
     pane.id = 'ai-chat-pane';
     pane.hidden = true;
-    pane.setAttribute('aria-label', 'Redis Copilot');
+    pane.setAttribute('aria-label', 'AI chatbot');
     pane.innerHTML =
       '<div class="aicp-resize" title="Drag to resize. Double-click to reset."></div>' +
       '<div class="aicp-head">' +
-        '<h2 class="aicp-title">' + ICONS.sparkles + 'Redis Copilot</h2>' +
+        '<h2 class="aicp-title">' + ICONS.sparkles + 'AI chatbot</h2>' +
         '<a class="aicp-btn" href="' + FULL + '" target="_blank" rel="noopener" title="Continue in the full chat page">' +
           ICONS.external + '<span class="aicp-sr">Continue in the full chat page</span></a>' +
         '<button type="button" class="aicp-btn" data-act="reset" title="New chat">' +
@@ -152,10 +152,10 @@
     var tab = el('button', 'aicp-tab');
     tab.type = 'button';
     tab.hidden = true;
-    tab.title = 'Open Redis Copilot';
+    tab.title = 'Open the AI chatbot';
     tab.setAttribute('aria-controls', pane.id);
     tab.setAttribute('aria-expanded', 'false');
-    tab.innerHTML = ICONS.sparkles + '<span>Redis Copilot</span>';
+    tab.innerHTML = ICONS.sparkles + '<span>AI chatbot</span>';
 
     document.body.appendChild(pane);
     document.body.appendChild(tab);
