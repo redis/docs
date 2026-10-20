@@ -72,7 +72,7 @@ Redis Search on Flex stores search indexes on flash, so large indexes don't need
 
 To use Redis Search on Flex, you need Redis Software for Kubernetes version 8.2.6 or later and Redis database version 8.8 or later.
 
-To turn on Redis Search on Flex, set `searchOnBigstore` to `true` when you create a Flex database:
+To turn on Redis Search on Flex, set `searchOnBigstore` and `isRof` to `true` when you create a Flex database:
 
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
@@ -87,7 +87,7 @@ spec:
   searchOnBigstore: true
 ```
 
-`searchOnBigstore` requires `isRof: true`. You can't change `searchOnBigstore` after you create the database.
+You can't change `searchOnBigstore` after you create the database.
 
 Set `rofRamSize` to at least 20% of `memorySize` for databases that use Redis Search on Flex.
 
