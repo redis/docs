@@ -30,8 +30,9 @@ comparison files. It now invokes `BITRANGEINTARRAY key 0 -1` for a full native
 read, while the reference module still uses `R.GETINTARRAY` or
 `R64.GETINTARRAY`. The `range-all` workload continues to use explicit first and
 last ranks on both backends. Other range workloads keep their bounded ranks.
-For native calls, `end = -1` returns all elements from `start` onward without
-the 100,000,000-element span cap; explicit end ranks retain that cap.
+Current native calls limit every requested span to 100,000,000 elements,
+including `end = -1`. Negative ranks count from the end. These API changes do
+not affect the smaller datasets used in the historical results.
 
 ```sh
 make -j4

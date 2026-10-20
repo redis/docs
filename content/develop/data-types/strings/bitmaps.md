@@ -368,7 +368,8 @@ so account for its memory cost before lowering the limit.
 
 [`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
 offsets of a native bitmap in ascending order, selected by inclusive,
-zero-based element ranks. Use `0 -1` to return all set-bit offsets:
+zero-based element ranks. Use `0 -1` to return all set-bit offsets, up to the
+100,000,000-element limit:
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
@@ -386,25 +387,28 @@ redis> BITRANGEINTARRAY members 0 -1
 redis> BITRANGEINTARRAY members 1 2
 1) (integer) 20
 2) (integer) 30
+redis> BITRANGEINTARRAY members -1 -1
+1) (integer) 30
 ```
 
-The command validates ranks and handles reversed or oversized bounded ranges
-before checking the key type. For other valid ranges, it accepts only native
-bitmaps; string-backed bitmaps and other types return `WRONGTYPE`. Missing keys
-and bitmaps with no set bits return empty arrays. It is read-only, preserves
-expiration, and works on existing native bitmaps regardless of
-`bitmap-default-roaring`.
+Range arguments are element ranks, not bit offsets. Nonnegative ranks must fit
+an unsigned 32-bit integer. Negative ranks can use the full signed 64-bit range
+and count from the end: `-1` is the last element and `-2` is the second-to-last.
+A negative start before the first element is clamped to `0`. A negative end
+before the first element, a reversed range, or a start beyond the last element
+returns an empty array.
 
-Range arguments are element ranks, not bit offsets. `start` must be an unsigned
-32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a
-nonnegative `end`, the requested inclusive span must not exceed 100,000,000
-elements, even for missing keys. A reversed bounded range or a start beyond the
-last rank returns an empty array; an end beyond the last rank is truncated.
-The rank and span limits do not constrain stored offsets.
+Every requested span is limited to 100,000,000 elements, including `0 -1`.
+Larger nonempty spans return an error after resolving negative ranks and before
+truncating an end beyond the last element. The rank and span
+limits do not constrain stored offsets. Client output-buffer limits still apply.
 
-With `end` set to `-1`, the command returns every remaining element without the
-span limit, including elements at ranks above `4294967295`. Platform
-reply-length and client output-buffer limits still apply.
+The command validates arguments before looking up the key. When both ranks are
+nonnegative, reversed and oversized ranges are handled before key lookup, even
+for missing or wrong-type keys. Other ranges require a native bitmap; strings
+and other types return `WRONGTYPE`. Missing and empty bitmaps return empty arrays
+after validation. The command is read-only, preserves expiration, and works
+regardless of `bitmap-default-roaring`.
 
 Use bounded pages for large results. Separate range calls do not share a
 snapshot, so concurrent writes can shift ranks between pages. For benchmark
