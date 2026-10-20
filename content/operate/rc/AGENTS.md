@@ -18,17 +18,17 @@ conflict.
 | Redis Cloud console | Redis Cloud Console, admin console | "admin console" is correct for a third-party identity provider's console. |
 | Redis Cloud Essentials, Essentials | Fixed | Pages use both forms freely, with no first-mention rule. |
 | Redis Cloud Pro, Pro | Flexible | "Annual" is a current Pro billing term, not a legacy name. |
-| Redis Flex, Flex | Redis on Flash | See the Auto Tiering note. |
-| Redis Cloud Bring your own Cloud (BYOC) | | Match the BYOC index page title. |
+| Redis Flex, Flex | Redis on Flash, Auto Tiering | Former names. See the Auto Tiering note. |
+| Redis Cloud Bring your own Cloud (BYOC) | | Casing varies across pages; match the page. |
+| Redis Cloud REST API, Redis Cloud API | | Both appear in prose; match the page. |
 | Google Cloud | GCP, Google Cloud Platform | `gcp` stays where it is literal: shortcode arguments, anchors, paths. |
 
 **Older changelogs keep the names of their time.** The 2023 and 2024 entries say "Fixed"
 and "Flexible"; leave them. Image filenames ending in `-flexible` are paths, not prose.
 
-**Flex and Auto Tiering are not cleanly separated.** The Flex create page offers tiered
-RAM and Flash on Essentials and Pro. "Auto Tiering" survives as a console label in
-settings tables, and one page still presents it as a separate Pro option. Use "Flex" in
-new prose, keep "Auto Tiering" where it is a console label, and flag contradictions.
+**Auto Tiering is the former name for Flex.** Use "Flex" in new prose. Keep "Auto
+Tiering" only where it is still a console label in a settings table. Pages that present
+Auto Tiering as a separate Pro option predate the rename; do not copy them.
 
 Plan limits, prices, and feature tables change. Link to
 [Subscription plans](/content/operate/rc/subscriptions/_index.md) or the Essentials plan
@@ -55,7 +55,8 @@ Cloud prose; API schema names such as `CrdbRegionSpec` are literals.
   Member, Viewer, and Logs Viewer, defined in
   `security/access-control/access-management.md`. Prose capitalizes them as names:
   "Billing Admins can add payment methods." The RS lowercase "cluster admin" rule does
-  not apply.
+  not apply. Some pages call the Owner role "Account Owner" or "Account Admin"; match the
+  page.
 - **Data access roles** govern what a database user can do, through role-based access
   control (RBAC) and ACL rules, under `security/access-control/data-access-control/`.
 
@@ -182,7 +183,5 @@ Published pages carry no audit trail. Strip verification notes and source lists.
 - **Plan applicability is unclear.** Never infer whether a feature covers Essentials, Pro,
   Flex, or BYOC.
 - **A limit, quota, price, or region list would have to be restated.** Link instead.
-- **Pages disagree on a name**, such as Flex and Auto Tiering, or the Owner role, which some
-  pages call "Account Owner" or "Account Admin".
 - **Internal material contradicts a published page.** It may describe unreleased behavior.
 - **A term appears that this file does not cover.**

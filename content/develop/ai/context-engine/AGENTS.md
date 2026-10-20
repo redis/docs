@@ -72,15 +72,15 @@ only once gets a `> [!WARNING]` to save it. Console screenshots live in `/images
 | Redis Agent Memory | First mention on Agent Memory's own pages. Later mentions use either form, and the self-managed pages repeat the full name throughout. Do not sweep one form into the other. |
 | Context Retriever | The usual form, including on first mention. "Redis Context Retriever" appears on its index pages. |
 | LangCache | The usual form. "Redis LangCache" appears in a few titles and intros; leave them. Never "Langcache", "Lang Cache", or "LC". |
-| self-managed | The deployment mode on your own Kubernetes. Two develop landing pages call it "Redis Software"; that is not a precedent. |
+| self-managed | The deployment mode on your own Kubernetes. Most pages say "self-managed", and two develop landing pages say "Redis Software"; match the page. |
 
 Pages covering several services — landing, concepts, request flow — use the short forms.
 Abbreviations such as RAM, AM, CR, and LC never appear in prose; the `ram-values.yaml`
 filename and `LC-CL-1` checklist anchors are literals.
 
 The Context Retriever Python package is `redis-context-retriever` and imports as
-`context_surfaces`. Link text calling it the "Context Surfaces Python Client" names the
-client only; never use "Context Surfaces" as a name for Context Retriever.
+`context_surfaces`. Some link text calls it the "Context Surfaces Python Client"; keep that
+where it names the Python client, and match the page.
 
 ## Components, isolation units, and credentials
 
@@ -95,7 +95,8 @@ Credential names differ by deployment mode and service and are not interchangeab
   by the Identity Service, for the Data Plane. The `## Credentials` table on each
   authentication page is the canonical list; link to it rather than restating it.
 - **Redis Cloud, Agent Memory and LangCache**: prose says both "service key" and "API
-  key". The console labels are **API keys** and **New API key**; bold them as shown.
+  key"; match the page. The console labels are **API keys** and **New API key**; bold
+  them as shown.
 - **Redis Cloud, Context Retriever**: an **admin key** for administration and an **agent
   key** for tool calls.
 

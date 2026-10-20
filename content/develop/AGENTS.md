@@ -54,7 +54,7 @@ legacy pages as they are unless updating them is the task.
 | Use | For | Not |
 | --- | --- | --- |
 | Redis Search | The search and query capability. A proper noun with no article: "Redis Search has...". "The Redis Search index" is fine. | Redis Query Engine, Query Engine, RQE |
-| Redis hashes, Redis JSON, Redis time series | Data types in prose. Take the type's casing from its page title. | RedisJSON, RedisTimeSeries, RedisBloom as names for what the reader uses |
+| Redis hashes, Redis JSON, Redis time series | Data types in prose. Several forms appear; match the page. | RedisJSON, RedisTimeSeries, RedisBloom as names for what the reader uses |
 | Redis Open Source | The distribution: "available in Redis Open Source, Redis Software, and Redis Cloud". | open-source Redis, Redis OSS, Redis Stack, Redis Community Edition |
 | Redis Software | The self-managed commercial product. | Redis Enterprise |
 | Redis 8.10 | A server version. | Redis v8.10 |
@@ -92,7 +92,7 @@ not convert them in passing.
 - **A server version boundary goes in the sentence that introduces the behavior**:
   "Beginning with Redis 8.10, the JSON data type supports...". In a table cell, "(since
   Redis 8.6)". The client index-and-query pages say "From Redis Open Source 8.10, you can
-  also...". Both forms are current; do not convert one to the other.
+  also...". Both forms are current; match the page, and do not convert one to the other.
 - **A client version requirement is a `> [!NOTE]`**: "Client-side caching requires
   `node-redis` v5.1.0 or later." Client versions take a `v`; Redis versions don't.
 - **Preview or experimental status goes in `bannerText`**: "This feature is currently in
