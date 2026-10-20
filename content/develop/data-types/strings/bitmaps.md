@@ -403,12 +403,11 @@ Larger nonempty spans return an error after resolving negative ranks and before
 truncating an end beyond the last element. The rank and span
 limits do not constrain stored offsets. Client output-buffer limits still apply.
 
-The command validates arguments before looking up the key. When both ranks are
-nonnegative, reversed and oversized ranges are handled before key lookup, even
-for missing or wrong-type keys. Other ranges require a native bitmap; strings
-and other types return `WRONGTYPE`. Missing and empty bitmaps return empty arrays
-after validation. The command is read-only, preserves expiration, and works
-regardless of `bitmap-default-roaring`.
+The command validates rank arguments before looking up the key. With valid rank
+arguments, missing keys return empty arrays; strings and other non-bitmap types
+return `WRONGTYPE`, including for reversed or oversized ranges. Native bitmaps
+then undergo range validation. The command is read-only, preserves expiration,
+and works regardless of `bitmap-default-roaring`.
 
 Use bounded pages for large results. Separate range calls do not share a
 snapshot, so concurrent writes can shift ranks between pages. For benchmark

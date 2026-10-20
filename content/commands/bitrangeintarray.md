@@ -142,12 +142,11 @@ that remains before the first element returns an empty array. A reversed range
 or empty bitmap also returns an empty array.
 
 The requested inclusive span must not exceed `100000000` elements, including
-when `end` is `-1`. Larger spans return
-`ERR range too large: maximum 100000000 elements`. For nonnegative ranks, this
-check runs even if the key is missing or contains fewer set bits. For negative
-ranks, missing or empty bitmaps and empty normalized ranges return an empty
-array first. Other ranges are checked after resolving the ranks against the
-bitmap's cardinality, before truncating an end beyond the last element.
+when `end` is `-1`. On existing native bitmaps, larger spans return
+`ERR range too large: maximum 100000000 elements`, even when the bitmap has
+fewer set bits. This check runs after resolving negative ranks and before
+truncating an end beyond the last element. Ranges with a negative rank that
+normalize to an empty result return an empty array before this check.
 
 `BITRANGEINTARRAY key 0 -1` returns all set-bit offsets when the bitmap contains
 at most 100,000,000 set bits. Use smaller ranges for larger bitmaps. Negative
@@ -156,15 +155,14 @@ ranks can select elements beyond rank `4294967295`; the same span limit applies.
 ### Key behavior
 
 The command validates `start`, then `end`, before looking up the key. An invalid
-rank returns an argument error even for a key of another type. If both ranks
-are nonnegative, a reversed range returns an empty array and an oversized span
-returns the range error before checking the key type. Ranges with negative ranks
-require a key lookup before rank normalization and span validation.
+rank returns an argument error even for a missing key or a key of another type.
+With valid rank arguments, a missing key returns an empty array, including for
+an oversized range.
 
 The command accepts the native `bitmap` type only; other existing types return
-`WRONGTYPE`, except for the nonnegative range checks described here. It does not
-convert strings, change the bitmap, or change its expiration. It works on existing
-native bitmaps regardless of the current `bitmap-default-roaring` setting.
+`WRONGTYPE` before checking for reversed or oversized ranges. It does not convert
+strings, change the bitmap, or change its expiration. It works on existing native
+bitmaps regardless of the current `bitmap-default-roaring` setting.
 
 ### Pagination and performance
 
