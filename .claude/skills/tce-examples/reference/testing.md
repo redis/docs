@@ -130,14 +130,35 @@ The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10),
 portable pins predated the first release with the command: jedis 7.5.3 (needs 8.0.0),
 lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
 already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
-the cached `npm i redis` 6.1.0 (needs 6.2.0) and ioredis 5.11.1 (needs 6.0.0) in `work/`,
-and go-redis v9.18.0 in `fidelity/go-redis.mod` (needs 9.22.0, which also needs Go 1.24).
+the cached `npm i redis` 6.1.0 (needs 6.2.0), and ioredis 5.11.1 (needs 6.0.0) in `work/`.
+
+The go-redis pin in `fidelity/go-redis.mod` was raised to v9.22.0 (`go 1.24`) in DOC-7197,
+so it now supports HIMPORT. On a machine whose Go toolchain is older than 1.24, `run.sh`
+reports every Go set as SKIP rather than running it.
 
 A run against those pins fails with "method not found" or "unknown command", which looks
 like an example bug but is a pin gap. Until the pins are raised (a separate change, because
 raising them can break other sets), test such a set outside `run.sh`. Give each client a
 scratch project pinned to its first supporting release, with its own throwaway
 `redis:<version>` container on a spare port, and change the port only in the scratch copy.
+
+## Run twice: state that survives a rerun
+
+Some server-side state outlives the example that created it, so one green run proves less
+than it seems. Compact hashes (`HIMPORT`, Redis 8.10) are the known case (DOC-7196):
+
+- A compact hash returns its fields in a different order from the declared one (age, city,
+  name, email for the search examples), so any print or assert of a whole hash or search
+  document changes. Queries that `RETURN` named fields are unaffected.
+- `HSET` on a key that's already a compact hash keeps it compact. An example that
+  re-creates its keys without deleting them first passes on a clean server and fails on the
+  second run.
+
+Run any example that touches compact hashes **twice in a row against the same server**.
+If the second run differs, add a hidden `REMOVE` delete of the keys after the connect step.
+When an example rewrites identical values over existing keys, also run a copy with the
+original write removed. Otherwise a stale index or cached value can produce the expected
+output on its own.
 
 ## Codex evaluation (Phase 4)
 

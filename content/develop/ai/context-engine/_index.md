@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
 weight: 30
-bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
 ---
 
 Give your AI agents the context layer they need to reliably act on business data.
@@ -19,7 +19,6 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-langcache-64-duotone.png" title="LangCache" description="Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
 </div>
 

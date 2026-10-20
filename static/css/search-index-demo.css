@@ -1,0 +1,105 @@
+/* =========================================================================
+   Redis Search scripted demo: indexing
+   Additions to context-retriever-demo.css and search-demo.css, which the
+   shortcode loads first so the scripted demos share one look. Scoped under
+   `.rsi`; the root element also carries `.rcr` and `.rsq` for the shared
+   tokens and pieces.
+   ========================================================================= */
+
+/* ---- errors, gaps in the data, and hashes left out ---- */
+.rsi .rsi-count-err { color: var(--rcr-bad); }
+.rsi-gap { color: var(--rcr-bad); font-weight: 600; }
+
+/* Labels are upper case; the literals inside them, such as a field name or a key prefix, keep their case. */
+.rsi .rcr-lbl code { text-transform: none; }
+.rsi ul.rsi-list { margin: 6px 0 0; padding-left: 1.2em; list-style: disc; }
+.rsi ul.rsi-list li { margin: 2px 0; padding: 0; }
+.rsi-hint { font-size: 12px; color: var(--rcr-faint); }
+
+/* ---- the data: one row per document, the headers showing how the index treats each field ---- */
+.rsi-data { margin-bottom: 12px; }
+.rsi .rsi-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0 3px; margin: 2px 0 6px; font-size: 13px; line-height: 1.4; }
+.rsi .rsi-table th { padding: 2px 8px 4px; border: 0; background: none; text-align: left; vertical-align: bottom; color: var(--rcr-muted); font-size: 11.5px; font-weight: 600; }
+.rsi .rsi-table th:first-child { width: 31%; }
+.rsi .rsi-table.has-3 th:first-child { width: 27%; }
+.rsi .rsi-table.has-3 th:nth-child(2) { width: 31%; }
+.rsi .rsi-table th .rcr-mono { font-size: 11.5px; }
+.rsi .rsi-table td { padding: 6px 8px; border: 0; border-top: 1px solid var(--rcr-line); border-bottom: 1px solid var(--rcr-line); background: var(--rcr-surface-2); vertical-align: top; overflow-wrap: break-word; }
+.rsi .rsi-table td:first-child { border-left: 1px solid var(--rcr-line); border-radius: 8px 0 0 8px; }
+.rsi .rsi-table td:last-child { border-right: 1px solid var(--rcr-line); border-radius: 0 8px 8px 0; }
+.rsi .rsi-table td[colspan] { border-radius: 8px; }
+.rsi .rsi-table tr[data-key] { cursor: pointer; }
+.rsi .rsi-table tr[data-key]:hover td { border-color: var(--rcr-line-strong); }
+.rsi .rsi-table tr.is-hit td { background: rgba(255, 68, 56, .07); border-color: rgba(255, 68, 56, .35); }
+.rsi .rsi-table tr.is-hit:hover td { border-color: rgba(255, 68, 56, .55); }
+.rsi .rsi-table tr.is-open td { border-color: var(--rcr-accent-2); }
+.rsi .rsi-table tr.is-out td { color: var(--rcr-faint); }
+.rsi .rsi-table tr.rsi-docrow td, .rsi .rsi-table tr.rsi-docrow td:first-child { padding: 0; border: 0; background: none; }
+.rsi .rsi-table tr.rsi-docrow .rsq-doc { margin: 0 0 4px; }
+.rsi .rsi-table code { font-size: 11.5px; }
+.rsi .rsi-open { display: inline; padding: 0; border: 0; background: none; color: inherit; font-size: 11.5px; text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.rsi .rsi-open:focus-visible { outline: none; border-radius: 3px; box-shadow: 0 0 0 3px var(--rcr-focus); }
+.rsi .rsi-type { display: inline-block; padding: 0 5px; border-radius: 4px; background: var(--rcr-line); color: var(--rcr-ink); font-size: 10px; font-weight: 700; letter-spacing: .02em; }
+.rsi .rsi-type.is-marked { background: rgba(89, 97, 255, .14); color: var(--rcr-accent-2); }
+.rsi-back { display: block; margin-top: 3px; font-size: 12px; color: var(--rcr-accent-2); }
+.rsi-tag { display: inline-block; margin-left: 5px; color: var(--rcr-accent-2); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; text-decoration: none; }
+.rsi tr.is-out .rsi-tag { color: var(--rcr-muted); }
+
+.rsi .rsi-table tr[hidden] { display: none; }
+/* On narrow screens each row becomes a card: the key on top, the fields under their headers. */
+@container (max-width: 440px) {
+  .rsi .rsi-table, .rsi .rsi-table thead, .rsi .rsi-table tbody { display: block; }
+  .rsi .rsi-table tr { display: grid; grid-template-columns: var(--cols); column-gap: 12px; margin-bottom: 4px; padding: 6px 9px; font-size: 12.5px;
+    border: 1px solid var(--rcr-line); border-radius: 8px; background: var(--rcr-surface-2); }
+  .rsi .rsi-table thead tr { margin-bottom: 2px; padding: 0 9px; border: 0; background: none; }
+  .rsi .rsi-table th, .rsi .rsi-table td, .rsi .rsi-table td:first-child, .rsi .rsi-table td:last-child { padding: 0; border: 0; border-radius: 0; background: none; }
+  .rsi .rsi-table th:first-child { display: none; }
+  .rsi .rsi-table td.rsi-key, .rsi .rsi-table td[colspan], .rsi .rsi-table .rsi-wide { grid-column: 1 / -1; }
+  .rsi .rsi-table td.rsi-key { margin-bottom: 2px; }
+  .rsi .rsi-table tr[data-key]:hover { border-color: var(--rcr-line-strong); }
+  .rsi .rsi-table tr.is-hit { border-color: rgba(255, 68, 56, .35); background: rgba(255, 68, 56, .07); }
+  .rsi .rsi-table tr.is-hit td { background: none; }
+  .rsi .rsi-table tr.is-open { border-color: var(--rcr-accent-2); }
+  .rsi .rsi-table tr.rsi-docrow { padding: 0; border: 0; background: none; }
+  .rsi .rsi-table tr[hidden] { display: none; }
+}
+
+
+/* ---- step 4: what FT.INFO reports ---- */
+.rsi-info { display: grid; gap: 8px; margin: 4px 0; padding: 10px 12px; border: 1px solid var(--rcr-line); border-radius: 8px; }
+.rsi-infohead { font-size: 12.5px; font-weight: 600; }
+.rsi-inforow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; }
+@container (min-width: 620px) { .rsi-inforow { grid-template-columns: 13.5em minmax(0, 1fr); gap: 14px; } }
+.rsi .rsi-k { color: var(--rcr-muted); font-size: 12px; }
+.rsi .rsi-v { overflow-wrap: anywhere; }
+
+/* ---- the step's FT.CREATE, part by part, each part with what it means ---- */
+.rsi-create { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--rcr-line); border-radius: 10px; background: var(--rcr-code-bg); }
+.rsi-createhead { margin-bottom: 6px; font-size: 12.5px; font-weight: 600; }
+.rsi-cline { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 12px; padding: 1px 0; font-size: 12.5px; line-height: 1.45; }
+.rsi-ccode { font-family: var(--rcr-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.rsi-ccode.rsi-d1 { padding-left: 2ch; }
+.rsi-ccode.rsi-d2 { padding-left: 4ch; }
+.rsi-ccode, .rsi-cnote { --ch: 7.5px; }   /* one monospace character at 12.5px, so the notes indent with the code above them */
+.rsi-cnote { color: var(--rcr-muted); }
+.rsi .rsi-cnote code { font-size: 11.5px; background: rgba(9, 26, 35, .06); }
+.rsi-createcap { margin-top: 6px; font-size: 12px; }
+.rsi .rsi-copy { padding: 0; border: 0; background: none; color: var(--rcr-accent-2); font-size: 12px; font-weight: 600; cursor: pointer; }
+.rsi .rsi-copy:focus-visible { outline: none; border-radius: 3px; box-shadow: 0 0 0 3px var(--rcr-focus); }
+@container (max-width: 440px) {
+  .rsi-cline { grid-template-columns: minmax(0, 1fr); gap: 0; margin-bottom: 4px; }
+  .rsi-cnote { padding-left: calc(var(--ch) * 2); font-size: 12px; }
+  .rsi-cnote.rsi-d1 { padding-left: calc(var(--ch) * 4); }
+  .rsi-cnote.rsi-d2 { padding-left: calc(var(--ch) * 6); }
+}
+
+/* the query, as typed, then what it asks for */
+.rsi-output { margin-top: 12px; }
+.rsi .rsi-output pre.rsq-pre { margin: 0; max-height: 320px; background: var(--rcr-surface); }
+.rsi .rsi-output pre.rsq-pre.is-err { color: var(--rcr-bad); }
+.rsi-qline { font-family: var(--rcr-mono); font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rsi-qnote { margin-top: 4px; font-size: 12.5px; color: var(--rcr-muted); }
+.rsi .rsi-qnote code { font-size: 11.5px; background: rgba(9, 26, 35, .06); }
+
+/* ---- the parts of a command the controls change ---- */
+.rsi mark.rsi-mark { background: rgba(89, 97, 255, .14); color: inherit; border-radius: 3px; padding: 0 1px; }

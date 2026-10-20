@@ -120,7 +120,7 @@
   padding: 8px 12px; margin-top: 12px; font-size: 13.5px;
 }
 .ram-callout p + p { margin-top: 6px !important; }
-.ram-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
+.ram-controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
 .ram .rcr-btn:disabled { opacity: .5; cursor: default; }
 /* Status codes line up in a column: Geist's default digits have different
    widths ("1" is 384 units, "0" is 671), so "201" and "200" would end at
