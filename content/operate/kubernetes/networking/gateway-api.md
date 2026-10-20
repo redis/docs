@@ -30,7 +30,8 @@ Before you configure Gateway API routing, you need:
 - Gateway API custom resource definitions (CRDs) version 1.5 or later, installed from the standard channel. The operator requires `TLSRoute` v1, which earlier versions don't provide.
 - A Gateway controller that supports `TLSRoute` with TLS passthrough.
 - A Gateway with listeners that use protocol `TLS` and TLS mode `Passthrough`.
-- DNS records that resolve each fully qualified domain name (FQDN) you expose to the Gateway's address.
+- Gateway listeners that accept routes from the REC namespace. By default, a listener accepts routes only from the Gateway's own namespace. If the Gateway is in another namespace, set `allowedRoutes.namespaces.from` to `All`, or to `Selector` with a selector that matches the REC namespace. Otherwise, the Gateway rejects every route with reason `NotAllowedByListeners`.
+- DNS records that resolve each fully qualified domain name (FQDN) you expose to the Gateway's address. For Active-Active databases, every participating cluster must also be able to resolve these names, because replication traffic uses them.
 
 The following example shows the listeners of a Gateway that uses one listener for the cluster endpoints and one for databases:
 
@@ -42,11 +43,17 @@ spec:
     protocol: TLS
     tls:
       mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: redis-tls
     port: <database-listener-port>
     protocol: TLS
     tls:
       mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: All
 ```
 
 ## Set cluster-wide defaults
@@ -133,7 +140,7 @@ The section supports these fields:
 
 Active-Active databases are configured only at the REC level. The REAADB has no Gateway settings of its own.
 
-Each participating cluster needs its own `fqdnSuffix`, so that SNI routes each hostname to the right cluster.
+Each participating cluster needs its own `fqdnSuffix`, so that each database hostname is unique to its cluster and SNI routes it to the right cluster.
 
 To expose Active-Active databases:
 
@@ -193,7 +200,7 @@ The operator then creates the route on each peer cluster automatically.
 
 If the REAADB is in a consumer namespace, its route name and hostname use `<consumer-namespace>-<reaadb-name>` in place of the database name.
 
-To test the database, write a key through one cluster's Gateway and read it through another's. Use each cluster's database hostname as both the host and the SNI value. This example uses a client certificate and key, and the `--insecure` option skips certificate verification for the test.
+To test the database, write a key through one cluster's Gateway and read it through another's. Use each cluster's database hostname as both the host and the SNI value. This example uses a client certificate and key, which you need only if the database requires client authentication. The `--insecure` option skips certificate verification for the test.
 
 ```sh
 redis-cli --tls --insecure --cert <client-cert-file> --key <client-key-file> \
