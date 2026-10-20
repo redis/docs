@@ -22,9 +22,9 @@ legacy pages as they are unless updating them is the task.
 ## Generated content — fix it at the source
 
 - **`ai/redisvl/` is synced daily from `redis/redis-vl-python`** by
-  `build/redisvl_docs_sync.py`. Each run replaces `api/`, `user_guide/`, `overview/`,
-  `concepts/`, and the version folders, so fix those pages upstream. The section's
-  `_index.md`, `install.md`, and `interactive-demo.md` are written by hand.
+  `build/redisvl_docs_sync.py`. Each run replaces `api/`, `user_guide/`, `overview/`, and
+  `concepts/`, at the root and in the recent version folders, so fix those pages
+  upstream. `_index.md`, `install.md`, and `interactive-demo.md` are written by hand.
 - **`reference/modules/modules-api-ref.md` is generated from the Redis source.** Do not
   edit its body.
 - **`data/examples.json` is built by `build/make.py`**, and `data/command-api-mapping.json`
@@ -35,8 +35,8 @@ legacy pages as they are unless updating them is the task.
 - **Directory names and sidebar labels differ.** `setup/` is "Get started" and
   `get-started/` is "Quick starts". Go by the section index's `linkTitle`.
 - **A client topic** gets a page in each client's directory under `clients/`. A topic that
-  spans every client also gets a shared page in `clients/` that links to each client's
-  page, as `error-handling.md` and `failover.md` do. `clients/dotnet/` covers
+  spans several clients also gets a shared page in `clients/` that links to each client's
+  page, as `error-handling.md` does. `clients/dotnet/` covers
   StackExchange.Redis; pages that need NRedisStack go in `clients/dotnet/nredisstack/`.
 - **A use case** is `use-cases/<use-case>/`: an overview `_index.md`, plus one directory
   per client holding a guide `_index.md` and its runnable source files.
@@ -46,7 +46,8 @@ legacy pages as they are unless updating them is the task.
   added after it is scored with `.claude/skills/vet-redis-client/`.
 - **Indexes that set `hideListLinks: true` list their children by hand**, including
   `clients/_index.md`, `data-types/_index.md`, `use-cases/_index.md`, and every use-case
-  overview. A new page under one is unreachable until you add it to that index.
+  overview. A new page under one still appears in the sidebar, but not in the index's own
+  list until you add it there.
 
 ## Product and capability names
 
@@ -62,18 +63,16 @@ legacy pages as they are unless updating them is the task.
 introduced JSONPath"), a GitHub repository, the module build steps in
 `data-types/json/developer.md`, and literals such as package names and URL slugs.
 
-**Some recent pages still carry old names**: "Query Engine" on the redis-rb pages, "Redis
-Query Engine v2.6.24" in `ai/search-and-query/administration/configuration.md`, "Redis
-Enterprise" in the prefetch-cache guides, and Redis Stack in the prerequisites of the
-semantic-cache, recommendation-engine, and memory-layer guides. Do not copy them, and do not
-rename them while editing for another reason.
+**Some recent pages still carry old names**, such as "Query Engine", "Redis Enterprise",
+"Redis Stack", and "Redis TimeSeries". Do not copy them, and do not rename them while
+editing for another reason.
 _Delete this paragraph once none remain._
 
 **Client library names follow the table in `clients/_index.md`, including case.**
-Lowercase names stay lowercase at the start of a sentence ("go-redis supports..."), and
-never "Node-Redis". Code formatting of a client name in prose varies; match the page.
-Headings and landing-page `linkTitle` values that name a client read
-`<client> (<Language>)`, such as "redis-rb (Ruby)".
+Lowercase names stay lowercase at the start of a sentence ("go-redis supports..."). Do
+not write "Node-Redis", though a few pages do. Code formatting of a client name in prose
+varies; match the page. Landing-page `linkTitle` values read `<client> (<Language>)`, such
+as "redis-rb (Ruby)".
 
 **A use case names the pattern, never a product.** The do-it-yourself agent memory example
 is the "memory layer" use case so it doesn't read as Redis Agent Memory. Its overview, like
@@ -82,12 +81,11 @@ the feature-store overview, points to the matching Redis product under `## Ecosy
 ## Primary and replica — not the operate convention
 
 Recently written client pages say "primary" and "replica": "the name of the primary that
-the Sentinels monitor". "Master" and "slave" appear only as literals, such as `MasterName`,
-`SentinelServerType::Master`, `mymaster`, and `slave_for()`. `clients/connection-urls.md`
-calls the Sentinel setting "the master name", after its parameters; match the page.
-
-The Redis Open Source operate pages use "master". Do not carry that rule here, and do not
-convert legacy develop pages, such as `reference/sentinel-clients.md`, in passing.
+the Sentinels monitor". In new prose, keep "master" and "slave" to literals, such as
+`MasterName`, `SentinelServerType::Master`, `mymaster`, and `slave_for()`. The Redis Open
+Source operate pages say "master"; do not carry that here. Some develop pages still say
+"master", including `clients/connection-urls.md` and `reference/sentinel-clients.md`. Do
+not convert them in passing.
 
 ## Versions, status, and availability
 
@@ -105,19 +103,19 @@ convert legacy develop pages, such as `reference/sentinel-clients.md`, in passin
 
 ## Client library pages
 
-- **Each client directory has the same set of pages**: landing, connect, production usage,
-  pipelines and transactions, error handling, and more. A new page for one client copies
-  the filename, `title`, and `linkTitle` of the same page in another client's directory.
-  `hiredis` has its own page set for the C API. Weights differ between directories; place
-  a new page among its siblings and do not renumber.
+- **Client directories share most page names, but not a fixed set**, and `hiredis` has its
+  own set for the C API. A new page for one client copies the filename, `title`, and
+  `linkTitle` of the same page in another client's directory, where one exists. Weights
+  differ between directories; place a new page among its siblings and do not renumber.
 - **A capability added for every client goes on each client's page under the same heading,
   in the same position.** Connect pages run: basic connection, cluster, Sentinel, TLS, then
   client-specific options. Jedis nests the middle three as H3 sections.
-- **The code form depends on the page.** Pages that run commands on data, such as JSON,
-  probabilistic, query, vector, and pipeline pages, use `clients-example` with that
-  client's `lang_filter` and an empty body. Connect, production usage, failover, and error
-  handling pages use fenced blocks. A few older usage pages, such as `nodejs/prob.md` and
-  `php/vecsearch.md`, use fenced blocks; copy `ruby/transpipe.md` or `ruby/vecsearch.md`.
+- **The code form depends on the page.** Connect, production usage, failover, and error
+  handling pages use fenced blocks. Pages that run commands on data, such as JSON,
+  probabilistic, query, vector, and pipeline pages, are mixed: shared-set
+  `clients-example` blocks with a `lang_filter`, client-specific sets with none, and some
+  fenced blocks. For a new data page, copy `ruby/transpipe.md` or `ruby/vecsearch.md`,
+  which use a shared set with `lang_filter` and an empty body.
 - **Some landing pages use `jupyter-example`**, a cell the reader can run. It needs a
   notebook environment for the language, so do not convert a landing page in passing.
 
@@ -128,14 +126,16 @@ The code in a `clients-example` tab is not in the page. The page names a `set` a
 block in an example file. Read `.claude/skills/tce-examples/SKILL.md` before you add or
 change one. These are the mistakes that break a page:
 
-- **Editing the wrong copy.** Example files live in `local_examples/<set>/<client>/` or in
-  the client's repository, and the `local_examples/` copy wins when both exist. Never edit
-  `data/examples.json`, and never write examples in `tmp/clients/`.
+- **Editing the wrong copy.** Example files live under `local_examples/` or in the client's
+  repository, and the `local_examples/` copy wins when both exist. The set comes from the
+  file's `EXAMPLE:` line, not its folder. Never edit `data/examples.json`, and never write
+  examples in `tmp/clients/`, the test harness's working copy.
 - **Guessing a client's identity.** `build/example-test-harness/clients.tsv` lists each
   client's directory names, filenames, and the exact tab name `lang_filter` must match.
 - **Publishing scaffolding.** A file starts with `EXAMPLE: <set>`. `HIDE_START`/`HIDE_END`
-  folds setup away, and `REMOVE_START`/`REMOVE_END` strips assertions and cleanup. Every
-  comment outside those blocks is published. See `for-ais-only/tcedocs/SPECIFICATION.md`.
+  folds setup away, and `REMOVE_START`/`REMOVE_END` strips assertions and cleanup. Apart
+  from step and test markers, comments outside those blocks are published. See
+  `for-ais-only/tcedocs/SPECIFICATION.md`.
 - **Drifting step names.** Step names are lowercase and identical in every client's file.
 - **Positional parameters.** Use named ones: `set`, `step`, `description`, `difficulty`,
   `buildsUpon`. Every current page does, despite what `for-ais-only/tcedocs/README.md`
@@ -144,9 +144,9 @@ change one. These are the mistakes that break a page:
   If it isn't there, add it with `.claude/skills/command-api-mapping/` or omit that client.
 - **A transcript that isn't real output.** The shortcode body is the redis-cli tab: each
   command after a `> ` prompt, then its reply exactly as redis-cli prints it. Readers run
-  it with **Try it**. A step that needs an earlier step's data sets `needs_prereq="true"`
-  against its set's one `prereq="true"` step, and a blocking command such as `BRPOP` gets
-  `runnable="false"`. `build/check_tryit_output.py --page <glob>` checks the replies.
+  it with **Try it**. A `prereq="true"` block becomes page setup that every Try it on the
+  page runs first; `needs_prereq` is the older model. A blocking command such as `BRPOP`
+  gets `runnable="false"`. `build/check_tryit_output.py --page <glob>` checks the replies.
 
 ## Data type pages
 
@@ -158,19 +158,21 @@ change one. These are the mistakes that break a page:
 
 ## Use-case pages
 
-The layout rules in `.agents/skills/redis-use-case-ports/assets/redis-conventions.md` are
-current, except that it says to link with `relref`; use the root file's `.md` paths
-instead. Copy `use-cases/job-queue/`.
+`.agents/skills/redis-use-case-ports/assets/redis-conventions.md` describes the use-case
+layout, but only partly matches current pages: it says to link with `relref`, which the
+root file replaces with `.md` paths, and several use cases skip its weight table and its
+guide outline. Copy `use-cases/job-queue/`, and where the conventions file and the pages
+disagree, follow the pages.
 
 - **Overviews share one outline**: the same six H2 sections in the same order, from "When
   to use..." to "Code examples to build your own...", which lists one guide per client.
-- **Guide frontmatter**: `linkTitle: <client> example (<Language>)`,
-  `title: Redis <use case> with <client>`, and the conventions file's per-client weight.
-  The older rate-limiter, leaderboard, and time-series-dashboard titles, such as "Go rate
-  limiter", are not the model.
-- **Guide snippets are excerpts of the source files beside them.** Change both together.
-  Link a source file by its `https://github.com/redis/docs/blob/main/...` URL, never a
-  relative path, which breaks on the published site. The cache-aside guides still do.
+- **Guide frontmatter**: `linkTitle: <client> example (<Language>)` and
+  `title: Redis <use case> with <client>`. Older guides use other forms, such as "Go rate
+  limiter"; they are not the model.
+- **Guide snippets draw on the source files beside them.** When you change one, check the
+  other. Link a source file by its `https://github.com/redis/docs/blob/main/...` URL, never
+  a relative path, which returns 404 on the published site for most file types. The
+  cache-aside guides still use relative paths.
 - **Only the guide is Markdown.** Hugo publishes every `.md` file under `content/`, so a
   `README.md` beside the code becomes a page.
 - **Each guide has an alias for its client's other name**, such as `.../python` on a
@@ -179,9 +181,9 @@ instead. Copy `use-cases/job-queue/`.
 ## Callouts, code, and command links
 
 - Callouts are `> [!NOTE]`, `> [!WARNING]`, and `> [!TIP]`. The `{{< note >}}` shortcode
-  family was retired here in September 2026; do not copy it from history or an old branch.
-- Code outside a tabbed example is a fenced block with a language tag. Do not introduce
-  the `highlight` shortcode.
+  family was retired here in October 2026; do not copy it from history or an old branch.
+- Code outside a tabbed example is a fenced block with a language tag. Many older blocks
+  have no tag; add one to any block you write. Do not introduce the `highlight` shortcode.
 - A command name in link text is code-formatted:
   ``[`CLIENT TRACKING`](/content/commands/client-tracking.md)``. In a multi-word command's
   filename, a hyphen joins the words.
