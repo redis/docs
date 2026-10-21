@@ -9,6 +9,7 @@ on:
       - 'build/components/example.py'
       - 'build/local_examples.py'
       - 'build/example-test-harness/clients.tsv'
+      - 'config.toml'
       - 'layouts/partials/process-markdown-content.html'
       - 'layouts/_default/apireference.html'
       - '.github/workflows/check-playbook-docs.yml'

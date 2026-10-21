@@ -5,7 +5,7 @@ import os
 
 from agents import Agent, Runner
 from agents.mcp import MCPServerStreamableHttp
-from redis_agent_playbook import Playbook
+from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
 
 TASK = os.environ.get(
     "AGENT_TASK", "Draft a reply to a customer whose refund status shows Processing."
@@ -27,11 +27,13 @@ async def main():
     url = os.environ["PLAYBOOK_URL"].rstrip("/")
     playbook_id = os.environ["PLAYBOOK_ID"]
     api_key = os.environ["PLAYBOOK_API_KEY"]
-    async with Playbook(
-        url, playbook_id=playbook_id, api_key=api_key, retry_config=None
+    async with AgentPlaybook(
+        AgentPlaybookSettings(
+            url=url, playbook_id=playbook_id, api_key=api_key
+        )
     ) as playbook:
         try:
-            context = await playbook.discover_entries_async(query=TASK, limit=3)
+            context = await playbook.client.discover_entries_async(query=TASK, limit=3)
         except Exception as error:
             raise RuntimeError("Playbook discovery failed; no model call was made.") from error
 

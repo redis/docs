@@ -27,6 +27,7 @@ const skillId = requiredEnv("PLAYBOOK_SKILL_ID");
 const pinned = await playbook.discoverEntries({
   query: "Draft a reply for a customer whose refund shows Processing",
   pinnedEntries: [{ entryId: skillId }],
+  limit: 5,
 });
 const selectedPreview = pinned.pinnedEntries[0];
 if (!selectedPreview) throw new Error("Pinned skill is missing");

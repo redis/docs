@@ -58,6 +58,7 @@ for (const match of results.matches) {
 const discovery = await playbook.discoverEntries({
   query: "Help a customer find their refund status",
   filter: { eq: { name: "topic", value: "refund" } },
+  limit: 5,
 });
 console.log(JSON.stringify(discovery, null, 2));
 // STEP_END

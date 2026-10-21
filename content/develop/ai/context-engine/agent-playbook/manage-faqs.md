@@ -19,6 +19,8 @@ Use an existing playbook and an API key with `write` permission to create and ma
 
 Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}), then append this page's snippets in order. Run each write once.
 
+The CLI uses flat FAQ JSON files and `faqs push` to reconcile content by entry key. A changed file appends a version; an unchanged file does not. Publication remains a separate command.
+
 ## Write an answer
 
 Write a question in the language a user would use. Include conditions that distinguish it from similar questions, such as the product or region. Make the answer self-contained: the agent receives it without the source conversation or document.
@@ -45,7 +47,7 @@ Submit the complete content with `create_faq`. The sample assigns `refund-status
 
 The new FAQ is unpublished. Review it before publishing; search and discovery do not return it yet.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Promote a reviewed proposal
 
@@ -62,13 +64,13 @@ Acceptance returns an entry and version for one unpublished FAQ. Save those valu
 
 Test a paraphrase such as “Where can I see my refund?” and a nearby question the answer does not cover, such as “How do I request a refund?” Check the returned entry and audience, then use the [retrieval guide]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) to tune matching.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Publish the version you reviewed.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publication" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-publication" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Update an answer
 
@@ -76,15 +78,15 @@ Append a complete replacement version to the same entry with `append_faq_version
 
 Coordinate publishers for the same entry. Concurrent publication changes are last-write-wins. Publishing an already published version is a no-op.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-update" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-update" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 The identifier stays the same, and search still serves the first publication. Review and publish the new version, then search again.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-republish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-republish" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Republish the first version to roll back.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-rollback" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-rollback" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## List entries and inspect history
 
@@ -92,17 +94,21 @@ Use `list_faqs` to list entries, including unpublished ones, and `get_faq` to re
 
 Follow the pagination cursor until it is absent, even after an empty page. Keep filters and sort settings unchanged. The optional first-page `total` is a separately measured count; absence means unknown, not zero. Lists can change while you page through them.
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+CLI lists and version history follow all cursors automatically and return an array. Use `--page` for one page with `nextCursor`, and `--cursor` to continue it. The CLI's version output currently omits `contentDigest`; use an SDK or cURL example when you need that field.
+
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 To select only published or unpublished entries, set `published` to `true` or `false`. Omit it to include both.
 
 Listing full version history requires `write` or `publish`. Versions arrive newest first. This example uses the FAQ created in this guide:
 
-{{< clients-example set="iris_playbook_faqs" step="playbook-faq-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Look up entry state
 
 Use `lookup_entries` with `write` or `publish` permission to inspect known FAQs or skills. Supply 1–100 references, each containing either an entry identifier or an entry key. Results preserve request order and report missing entries explicitly. The batch is not a fixed snapshot.
+
+The published CLI has no batch lookup command. Use one of the SDK or cURL tabs for this operation.
 
 Each found entry includes `latest`, optional `publication`, and `versionCount`. The response also reports the playbook's `maxVersions` limit. The two version summaries include `contentDigest`: a server-generated hash of normalized authored content. Compare their digests to check whether the latest and published content match. It is not a hash of the uploaded ZIP or the raw request, and it is not an idempotency key.
 
@@ -116,8 +122,8 @@ Use `withdraw_faq` to stop serving the answer while retaining the entry and its 
 
 Set `PLAYBOOK_FAQ_ID` to the printed entry identifier before running a withdrawal or deletion example with the same connection values.
 
-{{< clients-example set="iris_playbook_faqs_withdraw" step="playbook-faq-withdraw" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs_withdraw" step="playbook-faq-withdraw" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 When you no longer need the sample history, delete the entry.
 
-{{< clients-example set="iris_playbook_faqs_delete" step="playbook-faq-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_faqs_delete" step="playbook-faq-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}

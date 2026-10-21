@@ -89,3 +89,13 @@ Evidence gives reviewers source context for a proposal. It can come from backgro
 More evidence means more submitted observations, not greater factual accuracy. Check the candidate against its sources before accepting and publishing it.
 
 See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) for the procedure.
+
+## Extraction
+
+**Extraction** turns agent interactions into suggested reusable knowledge. Redis Agent Memory stores the conversations; Redis Agent Playbooks uses those conversations to propose answers for review. For example, a support conversation that resolves a refund question can suggest a FAQ for future agents.
+
+An administrator connects a Redis Agent Memory store to a playbook through an **extraction binding** and enables a background worker. The worker reads eligible idle sessions, derives questions and answers from their events or summaries, and compares them with published FAQs and open proposals. It can create a proposal or attach another observation as evidence to an existing open proposal. An observation already covered by a published FAQ can require no new proposal.
+
+You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same inbox and review process: acceptance creates an unpublished FAQ, and publication makes the reviewed version available to agents.
+
+Extraction and proposal generation currently support FAQs. Skill extraction is planned for a future release. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbook/proposals.md#automate-proposal-generation) for both approaches and their review requirements.

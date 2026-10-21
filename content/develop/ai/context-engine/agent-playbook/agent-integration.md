@@ -34,7 +34,7 @@ These programs connect to a playbook from your application runtime, which must r
 export OPENAI_API_KEY='<your-openai-api-key>'
 ```
 
-Python requires Python 3.10 or later; TypeScript requires Node.js 22 or later. Follow one framework and language. The dependency versions are pinned to the tested examples.
+Python requires Python 3.11 or later; TypeScript requires Node.js 22 or later. Follow one framework and language. The dependency versions are pinned to the tested examples.
 
 ## Use OpenAI Agents SDK
 

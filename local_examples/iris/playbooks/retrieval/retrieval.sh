@@ -22,7 +22,7 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/discover" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data "$(jq -n --arg id "$PLAYBOOK_SKILL_ID" '{query: "Draft a reply for a customer whose refund shows Processing", pinnedEntries: [{entryId: $id}]}')" > discovery.json
+  --data "$(jq -n --arg id "$PLAYBOOK_SKILL_ID" '{query: "Draft a reply for a customer whose refund shows Processing", pinnedEntries: [{entryId: $id}], limit: 5}')" > discovery.json
 jq '.pinnedEntries[0] | {entryId, version}' discovery.json
 # STEP_END
 

@@ -137,6 +137,8 @@ def get_client_name_from_language_and_path(language: str, path: str,
             return 'TypeScript (Iris)'
     if language == 'bash':
         if 'iris' in path:
+            if path.endswith('.cli.sh'):
+                return 'CLI (Iris)'
             return 'cURL (Iris)'
     if language == 'c#':
         variant = 'Async' if 'async' in path else 'Sync'

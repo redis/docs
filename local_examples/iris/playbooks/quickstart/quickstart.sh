@@ -59,7 +59,7 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/discover" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data '{"query":"Help a customer find their refund status","filter":{"eq":{"name":"topic","value":"refund"}}}' | jq .
+  --data '{"query":"Help a customer find their refund status","filter":{"eq":{"name":"topic","value":"refund"}},"limit":5}' | jq .
 # STEP_END
 
 # STEP_START playbook-quickstart-update
