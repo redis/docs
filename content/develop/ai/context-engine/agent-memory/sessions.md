@@ -57,6 +57,8 @@ Without server-side ownership enforcement, your application must check that the 
 
 ## List sessions
 
+To retrieve metadata rows ordered by recent activity, use `GET /v1/stores/{storeId}/sessions`, `list_session_summaries` in Python, or `listSessionSummaries` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for SDK examples, pagination, and legacy field handling.
+
 To let a user reopen an earlier conversation, first find its session ID. `GET /v1/stores/{storeId}/session-memory` lists IDs by owner or namespace; it does not return the conversation events. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
 
 For a user's personal conversations, set `filterOwnerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).

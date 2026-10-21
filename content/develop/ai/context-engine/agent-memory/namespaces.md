@@ -44,7 +44,7 @@ Without server-side ownership enforcement, your application must check that the 
 
 | Operation | Behavior |
 |:----------|:---------|
-| List | List roots, or pass `parentId` to list direct children. Follow `nextPageToken` for additional pages. |
+| List | List roots, or pass `parentId` to list direct children. Sort by `id`, `name`, `createdAt`, or `updatedAt` with `sortBy`; `sortOrder` accepts `asc` or `desc`. Defaults are `id` and `asc`. Follow `nextPageToken` with the same filters and sort options. |
 | Get | Retrieve the current name, path, scope, and state by ID. |
 | Rename | Update `name`; continue using the same ID for placement and retrieval. |
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. The update application programming interface (API) does not offer an unarchive transition. |
@@ -234,3 +234,7 @@ curl --fail-with-body --silent --show-error \
 {{< /multitabs >}}
 
 The namespace filter selects that exact namespace. To search its children too, list them and include their IDs with `filter.namespaceRef.in`.
+
+## Route and admit shared memories
+
+An explicit namespace destination must pass its admission rules. Direct creation without a namespace stays unassigned. To route an existing shared memory, omit `namespaceRef` from a move request. Personal and unassigned memories are not candidates for automatic routing. See [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespace-routing.md) for policy setup, examples, and per-item errors.

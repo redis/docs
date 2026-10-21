@@ -79,6 +79,8 @@ The endpoint must include `https://`. Keep the API key out of source control, ap
 
 ## Install the SDK
 
+These examples use the beta software development kits (SDKs): Python `0.5.0b1` and TypeScript `0.4.0-beta.1`. Install these versions explicitly; an unversioned install can select a stable release. Your service must support the operation you call. Installing a beta SDK does not enable server features.
+
 {{< multitabs id="installation" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
 Create and activate a virtual environment with [uv](https://docs.astral.sh/uv/):
@@ -86,7 +88,7 @@ Create and activate a virtual environment with [uv](https://docs.astral.sh/uv/):
 ```sh
 uv venv
 source .venv/bin/activate
-uv pip install "redis-agent-memory==0.4.0"
+uv pip install "redis-agent-memory==0.5.0b1"
 ```
 
 -tab-sep-
@@ -95,7 +97,7 @@ uv pip install "redis-agent-memory==0.4.0"
 mkdir agent-memory-quickstart
 cd agent-memory-quickstart
 npm init -y
-npm install @redis-iris/agent-memory@0.3.0
+npm install @redis-iris/agent-memory@0.4.0-beta.1
 npm install --save-dev tsx
 ```
 
@@ -137,8 +139,8 @@ def main():
         store_id=STORE_ID,
         api_key=os.environ["API_KEY"],
     ) as agent_memory:
-        health = agent_memory.health()
-        show("Service health", health)
+        health = agent_memory.store_health()
+        show("Store health", health)
 
 
 if __name__ == "__main__":
@@ -175,8 +177,8 @@ const agentMemory = new AgentMemory({
 });
 
 async function run() {
-  const health = await agentMemory.health();
-  console.log("Service health:");
+  const health = await agentMemory.storeHealth();
+  console.log("Store health:");
   console.dir(health, { depth: null });
 }
 
@@ -199,12 +201,12 @@ Verify that the service is available:
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/health" | jq
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
 ```
 
 {{< /multitabs >}}
 
-A healthy response confirms that the client can reach Redis Agent Memory and authenticate with the API key. The first store request validates the Store ID.
+The store health response checks the configured Store ID and reports the status of its memory features. Inspect the overall `status` and individual `features` before continuing.
 
 The next steps extend the client you just created:
 

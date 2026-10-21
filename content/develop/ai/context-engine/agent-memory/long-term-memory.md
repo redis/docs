@@ -57,6 +57,54 @@ For domain-specific fields and extraction instructions, see [Custom memory types
 
 For controls that apply during automatic extraction, see [Exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
 
+### Filter and sort without semantic search
+
+Omit `text` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:
+
+{{< multitabs id="filter-only-memory-search" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+
+```python
+        recent_memories = agent_memory.search_long_term_memory(request={
+            "filter_": {"owner_id": {"eq": USER_ID}},
+            "sort_by": "updatedAt",
+            "sort_order": "desc",
+            "limit": 10,
+        })
+        show("Recent memories", recent_memories)
+```
+
+-tab-sep-
+
+```typescript
+  const recentMemories = await agentMemory.searchLongTermMemory({
+    filter: { ownerId: { eq: userId } },
+    sortBy: "updatedAt", sortOrder: "desc", limit: 10,
+  });
+  console.dir(recentMemories, { depth: null });
+```
+
+-tab-sep-
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data "$(jq -n --arg owner "$OWNER_ID" \
+    '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "desc", limit: 10}')" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" | jq
+```
+
+{{< /multitabs >}}
+
+Use the client and identifiers from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). Add the Python snippet inside the `with` block and the TypeScript snippet inside `run`.
+
+`sortBy` accepts `createdAt` or `updatedAt` only when `text` is absent. `sortOrder` accepts `asc` or `desc`, defaults to `desc`, and requires `sortBy`. Semantic searches remain ranked by similarity and cannot use these sort fields. `limit` accepts 1–100 and defaults to 10. Pass `nextPageToken` as `pageToken` with the same query to continue.
+
+Top-level filters use `filterOp: "all"` (AND) by default; `"any"` uses OR. To restrict a query to a user, keep the owner condition mandatory. Do not use `"any"` with separate owner and namespace conditions when both must match. These retrieval filters do not replace application access checks.
+
+For custom fields, use `filter.attributes`, keyed by the field name, with the operators described in [`AttributeFilterClause`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchLongTermMemory). Combine it with `memoryType` to select the registered custom type.
+
 ## Custom memory types
 
 Custom memory types capture structured information specific to your business domain.
