@@ -106,7 +106,7 @@ It connects to a single node over TCP or TLS, authenticating with a password or 
 
 ### DBine
 
-[DBine](https://dbine.com) is a free, open-source (MIT) desktop database manager for macOS, Windows, and Linux, made by AddLayer. It shows Redis in the same window as the rest of the 130+ databases and cloud services it supports. The Redis support provides:
+[DBine](https://dbine.com) is a free, open-source (Apache 2.0) desktop database manager for macOS, Windows, and Linux, made by AddLayer. It shows Redis in the same window as the rest of the 130+ databases and cloud services it supports. The Redis support provides:
 
 * A key browser that lists keys with `SCAN` (never `KEYS`), with `MATCH` patterns and, on Redis 6 or later, filtering by type. Strings, hashes, lists, sets, sorted sets, streams, and JSON keys are shown with their TTL.
 * A command editor that runs single commands or scripts and shows each reply.
