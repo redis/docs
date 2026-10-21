@@ -246,6 +246,17 @@ addition to the CAs of your secrets. To trust only the CAs of your secrets, as b
 `operator.dataPlane.collector.useSystemTruststore` and
 `operator.dataPlane.collectorApi.useSystemTruststore` to `false` in your Helm values.
 
+### Update tools that read the VM log files
+
+On a VM installation, RDI 2.2.0 stores the log files of each pipeline in
+`/opt/rdi/logs/pipelines/<pipeline>/` and those of the control plane in
+`/opt/rdi/logs/control-plane/`, with new file names, such as
+`pipelines/default/collector-mysql-collector-source.log`. Update any scripts or tools that read
+the log files by path. RDI does not delete the log files at the previous paths, so delete them
+once you no longer need them. See
+[RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs) for the new
+file names.
+
 ### Reset MariaDB sources after you add tables
 
 RDI 2.2.0 limits the schema history of a MariaDB source to the tables that it captures, as it

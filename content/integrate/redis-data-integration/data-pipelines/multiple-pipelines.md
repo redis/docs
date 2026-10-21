@@ -57,8 +57,10 @@ resources that RDI creates for it. A pipeline name must:
 - Not contain two consecutive dashes.
 
 The name `rdi` is reserved and cannot be used for a pipeline. You can't rename a pipeline.
-To move a pipeline to a new name, deploy its configuration as a new pipeline and delete the
-old one. The new pipeline starts with a new
+To move a pipeline to a new name, export its configuration with
+[`redis-di export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md),
+set its secrets for the new pipeline, deploy the configuration as the new pipeline, and delete
+the old one. The new pipeline starts with a new
 [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md).
 
 The pipeline named `default` is special in two ways:

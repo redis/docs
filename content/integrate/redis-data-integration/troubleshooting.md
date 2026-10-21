@@ -35,16 +35,27 @@ help you to pinpoint the source of the error.
 
 ## RDI logs
 
-By default, RDI records the following logs in the host VM file system at
-`/opt/rdi/logs` (or whichever path you specified during installation);
+By default, RDI records its logs in the host VM file system at `/opt/rdi/logs` (or whichever
+path you specified during installation). The logs of each pipeline are in the
+`pipelines/<pipeline>/` directory, and the logs of the control plane are in the `control-plane/`
+directory. Each file is named after the component and the container that wrote it, as in
+`<component>-<container>.log`.
+
+The following table lists the main log files of the `default` pipeline with a source named
+`mysql`. For any other pipeline, replace `default` with the pipeline name.
 
 | Filename | Phase |
 | :-- | :-- |
-| `rdi_collector-collector-initializer.log` | Initializing the collector. |
-| `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md) operations. |
-| `rdi_rdi-rdi-operator.log` | Main [RDI control plane](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed) component. |
-| `rdi_processor-processor.log` | RDI stream processing. |
+| `pipelines/default/collector-mysql-collector-initializer.log` | Initializing the collector. |
+| `pipelines/default/collector-mysql-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
+| `pipelines/default/collector-mysql-collector-source.log` | Collector [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md) operations. |
+| `pipelines/default/flink-processor-jobmanager-jobmanager.log` and `pipelines/default/flink-processor-taskmanager-taskmanager.log` | Stream processing with the Flink processor. |
+| `pipelines/default/processor-processor.log` | Stream processing with the classic processor. |
+| `control-plane/rdi-operator-manager.log` | Main [RDI control plane](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed) component. |
+| `control-plane/rdi-api-rdi-api.log` | RDI API. |
+
+RDI versions before 2.2.0 store all the log files directly in `/opt/rdi/logs`, with names such
+as `rdi_collector-collector-source.log`.
 
 Logs are recorded at the minimum `INFO` level in a simple format that
 log analysis tools can use.

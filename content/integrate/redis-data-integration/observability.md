@@ -451,7 +451,10 @@ RDI uses [fluentd](https://www.fluentd.org/) and
 for its Kubernetes (K8s) components.
 So whenever a containerized component is removed by the RDI operator process or by K8s,
 the logs are available for you to inspect.
-By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`.
+By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`, with the logs of each
+pipeline in a `pipelines/<pipeline>/` directory and the logs of the control plane in a
+`control-plane/` directory. See [RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs)
+for the names of the log files.
 The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.

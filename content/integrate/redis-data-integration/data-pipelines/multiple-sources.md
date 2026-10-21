@@ -218,6 +218,11 @@ from a new
 [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md)
 rather than from the position it had reached.
 
+RDI reports the pipeline as `pending` until it has deleted the source's data. If the deletion
+takes longer than 90 seconds, for example because the collector's pods do not terminate, RDI
+reports the pipeline as `error`. It keeps retrying, and clears the error once the data is
+deleted.
+
 The source's secrets are not deleted, so remove them yourself with
 [`redis-di delete-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-secret.md)
 if you no longer need them. The records the pipeline wrote to the target database are not deleted

@@ -493,8 +493,10 @@ kubectl delete namespace rdi
 ```
 
 The first command deletes all your pipelines, so that the RDI operator removes their components
-before you uninstall it.
+before you uninstall it. On a follower instance with leader election enabled, deleting the
+pipelines keeps their keys in the RDI database, because the active instance still uses them.
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`](/content/develop/tools/cli.md) and run a
-[`FLUSHALL`](/content/commands/flushall.md) command.
+[`FLUSHALL`](/content/commands/flushall.md) command. Do not do this while another RDI instance
+still uses the same RDI database.

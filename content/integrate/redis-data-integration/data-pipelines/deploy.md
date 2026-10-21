@@ -349,6 +349,21 @@ reference page for the full list of options.
 You can also use [Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 to configure and deploy pipelines for both VM and K8s installations.
 
+## Export a pipeline configuration
+
+Use [`redis-di export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md)
+to write the configuration of a deployed pipeline to a directory, as `config.yaml` and
+`jobs/*.yaml`. You can then edit the files and deploy them again, or deploy them to another
+pipeline or RDI instance:
+
+```bash
+redis-di export --dir <path to pipeline folder>
+redis-di deploy --dir <path to pipeline folder>
+```
+
+The export contains secret references but no secret values, so set the secrets of the
+pipeline first when you deploy the export to another pipeline or RDI instance.
+
 ## Display the pipeline status
 
 Once a pipeline is deployed, use the
@@ -420,6 +435,8 @@ pipeline stops while the reset runs and starts again afterwards:
 ```bash
 redis-di reset --source mysql
 ```
+
+If a reset fails, the pipeline stays in the `error` state until a later reset succeeds.
 
 ## Clear a pipeline {#clear-a-pipeline}
 

@@ -100,9 +100,10 @@ The commands group as follows:
   [`describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md) (alias `status`),
   [`deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md) (alias `set`),
   [`start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md),
-  [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md), and
-  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md), and
-  [`delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md).
+  [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md),
+  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md),
+  [`delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md), and
+  [`export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md).
 - **Instance settings**: [`list-settings`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-settings.md),
   [`get-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-setting.md),
   [`set-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-setting.md), and
