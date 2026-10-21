@@ -90,7 +90,8 @@ and **RDI database load** before you change capacity:
   connectivity before adding processor replicas.
 - If the RDI database stays full or reports out-of-memory (OOM) errors, check
   ingestion and processing rates, database memory, and throughput. OOM alone
-  does not identify which capacity setting to change.
+  does not identify which capacity setting to change. See
+  [Increase RDI database throughput](#increase-rdi-database-throughput).
 
 Change one setting at a time and compare the same representative workload.
 Confirm that the change improves throughput or reduces pending records before
@@ -163,9 +164,10 @@ For multiple pipelines, check **Used memory** and **Ops/sec** the same way as
 for a single pipeline.
 
 When you increase **Throughput**, choose a value with as many shards as you
-have pipelines. Each pipeline writes to one shard, even if it has several
-sources. When the number of shards matches the number of pipelines, each
-pipeline writes to its own shard.
+have pipelines. Each pipeline writes to its own hash slot, and all sources in
+a pipeline share that slot. RDI spreads the pipelines' hash slots across the
+slot range, so when the number of shards matches the number of pipelines,
+each pipeline's slot is on a different shard.
 
 | Throughput | Nodes | Shards |
 | --- | ---: | ---: |
