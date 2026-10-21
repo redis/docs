@@ -15,6 +15,8 @@ Your application brings two kinds of memory to a conversation: the messages exch
 
 This guide uses a travel assistant to show where those requests belong in your application. Complete the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) first to create a service and send your first requests. For how the two kinds of memory work, see the [overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}).
 
+<a id="connect-to-a-redis-agent-memory-service"></a>
+
 ## Configure the application
 
 Every client needs the service endpoint, Store ID, and application programming interface (API) key. The endpoint tells the client where to connect. The Store ID selects the memory store, and the key authenticates the request.
