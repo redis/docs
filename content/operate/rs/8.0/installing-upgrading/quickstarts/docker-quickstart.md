@@ -117,7 +117,7 @@ The simplest topology is to run a single-node Redis Software cluster with a sing
 
 Single-node clusters have limited functionality. For example, Redis Software can't use replication or protect against failures if the cluster has only one node.
 
-{{< image filename="/images/rs/RS-Docker-container.png" >}}
+![](/images/rs/RS-Docker-container.png)
 
 ### Multiple nodes on one host {#multi-node-one-host}
 
@@ -125,7 +125,7 @@ You can create a multi-node Redis Software cluster by deploying multiple contain
 
 However, this will also have several limitations.  For example, you cannot map the same port on multiple containers on the same host.
 
-{{< image filename="/images/rs/RS-Docker-cluster-single-host.png" >}}
+![](/images/rs/RS-Docker-cluster-single-host.png)
 
 ### Multiple nodes and hosts {#multi-node-multi-host}
 
@@ -133,4 +133,4 @@ You can create a multi-node Redis Software cluster with multiple containers by d
 
 This topology minimizes interference between containers, allowing for the testing of more Redis Software features.
 
-{{< image filename="/images/rs/RS-Docker-cluster-multi-host.png" >}}
+![](/images/rs/RS-Docker-cluster-multi-host.png)

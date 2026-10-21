@@ -37,7 +37,7 @@ To export data from a database using the Cluster Manager UI:
 
 1. On the **Databases** screen, select the database from the list, then select **Configuration**.
 
-1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
+1. Click ![Toggle actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) to open a list of additional actions.
 
 1. Select **Export**.
 

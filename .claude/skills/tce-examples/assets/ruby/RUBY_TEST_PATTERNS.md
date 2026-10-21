@@ -88,12 +88,16 @@ r = Redis.new
 ```ruby
 res = r.hgetall('myhash')
 puts res.inspect
-# >>> {"field1"=>"value1", "field2"=>"value2"}
+# >>> {"field1" => "value1", "field2" => "value2"}
 ```
 
 Note the `=>` hash-rocket form — that is what `inspect` actually emits. Output comments are
 published verbatim, so writing the modern `{field1: "value1"}` there would show readers
 something Ruby never printed.
+
+Ruby 3.4 and later put spaces around the `=>` (`{"field1" => "value1"}`); earlier versions
+print `{"field1"=>"value1"}`. Older files in `local_examples/` use the unspaced form. Write
+the form your run actually printed, and don't rewrite existing files to match.
 
 ### 4. Replies are strings, except counters
 

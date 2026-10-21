@@ -33,7 +33,7 @@ You can grant cluster access, database access, or both to each role. These roles
 
 The following diagram shows three different options for roles and users:
 
-{{<image filename="images/rs/rbac-diagram.png" alt="Role-based access control diagram.">}}
+![Role-based access control diagram.](/images/rs/rbac-diagram.png)
 
 - Role A was created with permission to access the cluster and perform management-related actions. Because user A was assigned role A, they can access the cluster but cannot access databases.
 

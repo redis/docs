@@ -45,6 +45,10 @@ For a list of all available v2 metrics, see [Prometheus metrics v2](/content/ope
 
 The v2 scraping endpoint also exposes metrics for `node_exporter`. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
+## Local metrics storage
+
+[Local metrics storage](/content/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage.md) keeps a history of metrics on each node. It's disabled by default.
+
 ## Transition from Prometheus v1 to Prometheus v2
 
 If you are already using the existing scraping endpoint for integration, do the following to transition from v1 metrics to v2 metrics:

@@ -2,6 +2,7 @@
 aliases:
 - /data-types/json/
 - /manual/data-types/json/
+- /stack/json/
 categories:
 - docs
 - develop

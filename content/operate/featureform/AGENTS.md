@@ -50,7 +50,7 @@ for the product in prose.
 
 The concepts page at `content/develop/ai/featureform/concepts.md` defines the resource
 types and is the canonical source for them. Do not restate those definitions on another
-page — link to it with `{{< relref "/develop/ai/featureform/concepts" >}}`. The
+page — link to it with `[Featureform concepts](/content/develop/ai/featureform/concepts.md)`. The
 distinctions below are the ones most often gotten wrong.
 
 - **Features and labels have the same shape and different jobs.** A feature is model

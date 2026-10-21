@@ -31,7 +31,8 @@ Before you can use RedisGears with Python, you need to install the RedisGears mo
 
 1. From the Redis Software admin console's **databases** page, select the **Add** button to create a new database:
 
-    {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}
+    ![The Add icon](/images/rs/icon_add.png)
+    {width="30px"}
 
 1. Confirm that you want to create a new Redis database with the **Next** button.
 
@@ -41,7 +42,8 @@ Before you can use RedisGears with Python, you need to install the RedisGears mo
 
 1. Select **Add Configuration**, enter <nobr>`Plugin gears_python CreateVenv 1`</nobr> in the box, then select the **OK** button:
 
-    {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}
+    ![The Save icon](/images/rs/icon_save.png)
+    {width="30px"}
 
     > [!NOTE]
     > Only RedisGears v1.2 and later require this configuration.

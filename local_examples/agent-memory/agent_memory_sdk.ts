@@ -15,8 +15,8 @@ async function checkHealth() {
     apiKey,
   });
 
-  const health = await agentMemory.health();
-  console.log("Service health:");
+  const health = await agentMemory.storeHealth();
+  console.log("Store health:");
   console.dir(health, { depth: null });
 }
 

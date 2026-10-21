@@ -30,7 +30,7 @@ You can use Uptrace to:
 - Set up automatic alerts and receive notifications via email, Slack, Telegram, and others.
 - Monitor your app performance and logs using [OpenTelemetry tracing](https://uptrace.dev/opentelemetry/distributed-tracing.html).
 
-{{< image filename="/images/rs/uptrace-redis-nodes.png" >}}
+![](/images/rs/uptrace-redis-nodes.png)
 
 ## Install Collector and Uptrace
 

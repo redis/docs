@@ -73,7 +73,7 @@ Done
 
 Upgrades Redis modules in use by a specific database.
 
-For more information, see [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
+For more information, see [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md).
 
 ```sh
 rladmin upgrade module
@@ -92,7 +92,7 @@ rladmin upgrade module
 | version                    | module version number    | Upgrades the module to the specified version                                                                               |
 | module_args                | 'keep_args'<br />string    | Module configuration options                                                                                                       |
 
-For more information about module configuration options, see [Module configuration options](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md#module-configuration-options).
+For more information about module configuration options, see [Module configuration options](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md#module-configuration-options).
 
 ### Returns
 

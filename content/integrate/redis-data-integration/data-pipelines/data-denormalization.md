@@ -129,7 +129,8 @@ You can also use custom keys for the parent entity, as long as you use the same 
 To join one-to-many relationships, you can use the *Nesting* strategy.
 With this, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside it as a JSON map attribute. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
 
-{{< image filename="/images/rdi/ingest/nest-flow.webp" width="500px" >}}
+![](/images/rdi/ingest/nest-flow.webp)
+{width="500px"}
 
 
 To configure normalization, you must first configure the parent entity to use JSON as the target data type. Add `data_type: json` to the parent job as shown in the example below:
@@ -218,11 +219,10 @@ There are several important things to note when you use nesting:
   ALTER TABLE <TABLE_NAME> REPLICA IDENTITY FULL;
   ```
   
-  This configuration affects the information written to the write-ahead log (WAL) and whether it is available
-  for RDI to capture. By default, PostgreSQL only records
-  modified fields in the log, which means that it might omit the `parent_key`. This can cause incorrect updates to the
-  Redis key in the destination database.
-  See the
-  [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
-  for more information about this.
+  Nesting needs the child's `parent_key` to identify the parent Redis document, including
+  when the child is deleted. The default replica identity does not provide the full old
+  row, so a non-key `parent_key` can be unavailable. `FULL` records all old column values
+  in the write-ahead log (WAL). It can increase WAL volume and reduce performance.
+  See [Which PostgreSQL row values are available](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#understand-which-row-values-are-available)
+  for the difference between old row values and unchanged large values.
 - Prior to RDI v1.12.1, there is a known limitation if you change the foreign key of a child object. In that scenario, the child object will be added to the new parent, but the old parent will not be updated.

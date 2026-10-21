@@ -17,7 +17,7 @@ url: '/operate/rs/8.0/references/metrics/'
 
 In the Redis Software Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts](/content/operate/rs/8.0/monitoring/_index.md).
 
-{{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
+![The database metrics page.](/images/rs/screenshots/metrics/db-metrics.png)
 
 See the following topics for metrics definitions:
 - [Database operations](/content/operate/rs/8.0/references/metrics/database-operations.md) for database metrics

@@ -15,7 +15,9 @@ type: integration
 weight: 1
 ---
 
-{{< image-card image="images/redisinsight-download.svg" alt="Download Redis Insight icon" title="Download Redis Insight" url="https://redis.io/downloads/#insight" class="max-w-xs" >}}
+<div class="max-w-xs">
+  {{< tile-card color="bg-red-bubble" title="Download Redis Insight" description="Download Redis Insight for your platform" url="https://redis.io/downloads/#insight" >}}
+</div>
 
 Redis Insight is a powerful tool for visualizing and optimizing data in Redis, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
 

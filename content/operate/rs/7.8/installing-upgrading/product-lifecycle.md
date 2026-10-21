@@ -14,7 +14,7 @@ url: '/operate/rs/7.8/installing-upgrading/product-lifecycle/'
 The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
 
-Redis Enterprise modules follow the [modules lifecycle](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md).
+Redis Enterprise modules follow the [modules lifecycle](/content/operate/rs/installing-upgrading/modules-lifecycle.md).
 
 ## Release numbers
 

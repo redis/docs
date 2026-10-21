@@ -49,7 +49,7 @@ To configure and enable LDAP from the Cluster Manager UI:
 
 1. In **Set LDAP**, configure [LDAP server settings](#ldap-server-settings), [bind credentials](#bind-credentials), [authentication query](#authentication-query), and [authorization query](#authorization-query).
 
-   {{<image filename="images/rs/screenshots/access-control/ldap-config.png" alt="The LDAP configuration screen in the Cluster Manager UI" >}}
+   ![The LDAP configuration screen in the Cluster Manager UI](/images/rs/screenshots/access-control/ldap-config.png)
 
 1. Select **Save & Enable**.
 

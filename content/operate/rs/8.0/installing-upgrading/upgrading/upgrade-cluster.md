@@ -52,7 +52,7 @@ Before upgrading a cluster:
         
     1. Review each node's `SHARDS` field. If the value is yellow, the node is in maintenance mode.
 
-        {{< image filename="/images/rs/maintenance_mode.png" >}}
+        ![](/images/rs/maintenance_mode.png)
 
     1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`](/content/operate/rs/8.0/references/cli-utilities/rladmin/node/maintenance-mode.md#node-maintenance_mode-off) command. See [Deactivate maintenance mode](/content/operate/rs/8.0/clusters/maintenance-mode.md#deactivate-maintenance-mode) for additional details.
 

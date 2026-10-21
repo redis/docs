@@ -65,9 +65,8 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
 
 #### `dialect(dialect)`
 
@@ -277,11 +276,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -419,9 +417,8 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
 
 #### `dialect(dialect)`
 
@@ -641,11 +638,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1239,11 +1235,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1515,11 +1510,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1767,11 +1761,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 

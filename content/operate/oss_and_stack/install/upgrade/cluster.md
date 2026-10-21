@@ -14,7 +14,7 @@ weight: 30
 > The supported upgrade paths are:
 > - Redis Open Source 7.x (with or without modules) to Redis 8 in Redis Open Source
 > - Redis Stack 7.2 or 7.4 to Redis 8 in Redis Open Source
-</br>
+
 > [!NOTE]
 > It's essential to practice upgrading Redis in a controlled environment before upgrading it in a production environment.
 > Docker is an excellent tool to use for this purpose.

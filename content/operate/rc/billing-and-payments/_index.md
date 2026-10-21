@@ -17,7 +17,7 @@ The **Billing & Payments** screen:
 - Helps you manage your payment methods
 - Applies coupon credits to your account
 
-{{<image filename="images/rc/billing-billing-history-tab.png" alt="The Billing & Payments screen shows billing transactions and manage payment methods." >}}
+![The Billing & Payments screen shows billing transactions and manage payment methods.](/images/rc/billing-billing-history-tab.png)
 
 The following tabs are available:
 
@@ -36,13 +36,14 @@ The following tabs are available:
 
     A **Pay Now** button appears in selected regions.
 
-    {{<image filename="images/rc/billing-payments-pay-now.png" width="100px" alt="Use the Pay Now button to Pay your invoice in selected regions." >}} 
+    ![Use the Pay Now button to Pay your invoice in selected regions.](/images/rc/billing-payments-pay-now.png)
+    {width="100px"}
     
     Select this button to pay your invoice.
 
 - The **Payment Methods** tab lists your current payment methods. Your account uses a single default credit card for all active subscriptions. A **Default** badge identifies that card, but only when your account has more than one stored card; if you have only one card, it's implicitly the default.
 
-    {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
+    ![The Payments Methods tab helps you manage payments for your subscriptions.](/images/rc/billing-payment-method-tab.png)
 
     Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
 
@@ -52,7 +53,7 @@ The following tabs are available:
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
-    {{<image filename="images/rc/billing-payments-credits-tab.png" alt="The Credits tab lets you apply coupons to your account and shows credits that have already been applied." >}}
+    ![The Credits tab lets you apply coupons to your account and shows credits that have already been applied.](/images/rc/billing-payments-credits-tab.png)
 
     | Detail | Description |
     |:-------|:------------|
@@ -74,7 +75,8 @@ To download an invoice:
 
 3.  Select the **Download invoice** icon displayed to the right of the invoice amount.
 
-    {{<image filename="images/rc/icon-billing-download.png" width="50px" alt="Use the download icon to download a PDF for the selected invoice." >}}
+    ![Use the download icon to download a PDF for the selected invoice.](/images/rc/icon-billing-download.png)
+    {width="50px"}
 
 The invoice is downloaded as an Acrobat PDF file.  Use your browser's download features to manage the file.
 
@@ -90,7 +92,8 @@ To add a new credit card:
 
 3.  Select the **Add Credit Card** button to save your changes.
 
-    {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
+    ![Use the Save Card button to save new payment details.](/images/rc/button-billing-save-card.png)
+    {width="150px"}
 
     > [!NOTE]
     > If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
@@ -138,7 +141,8 @@ Coupons apply credits to your Redis Cloud account.  To redeem a coupon:
 
 2.  Enter the coupon code and then select the **Apply** button.
 
-    {{<image filename="images/rc/button-billing-payments-apply.png" width="80px" alt="Use the Apply button to redeem a coupon." >}}
+    ![Use the Apply button to redeem a coupon.](/images/rc/button-billing-payments-apply.png)
+    {width="80px"}
 
     The value of the coupon is applied to your account when accepted.  
 

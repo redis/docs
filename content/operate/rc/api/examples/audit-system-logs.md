@@ -12,7 +12,8 @@ System logs collect and report actions performed on various entities in your Red
 
 To view the log, sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select **Logs** from the main menu.
 
-{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud console menu to view your subscription system log." width="100%">}} 
+![Choose the Logs command from the Redis Cloud console menu to view your subscription system log.](/images/rc/system-logs.png)
+{width="100%"}
 
 To learn more, see [System logs](/content/operate/rc/logs-reports/system-logs.md).
 

@@ -71,11 +71,13 @@ To create a new database and configure additional settings:
 
     - Click the **+** button next to **Databases** in the navigation menu:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-plus-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-plus-drop-down.png)
+        {width="350px"}
         
     - Go to the **Databases** screen and select **Create database**:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-button-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-button-drop-down.png)
+        {width="350px"}
 
 1. Select the database type:
 

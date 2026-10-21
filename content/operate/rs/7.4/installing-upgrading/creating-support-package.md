@@ -109,7 +109,8 @@ To create a support package from the Cluster Manager UI:
 
 1. In the navigation menu, select **Support**.
 
-    {{<image filename="images/rs/screenshots/create-support-package.png"  width="60%" alt="Select Support and create a support package.">}}
+    ![Select Support and create a support package.](/images/rs/screenshots/create-support-package.png)
+    {width="60%"}
 
 1. Select **Proceed**.
 

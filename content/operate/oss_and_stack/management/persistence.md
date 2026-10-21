@@ -9,6 +9,7 @@ linkTitle: Persistence
 title: Redis persistence
 aliases:
 - /management/persistence/
+- /manual/persistence/
 weight: 7
 ---
 

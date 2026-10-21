@@ -133,7 +133,7 @@ To get started with custom monitoring with Prometheus on Docker:
 1. In your browser, sign in to Prometheus at `http://localhost:9090` to make sure the server is running.
 1. Select **Status** and then **Targets** to check that Prometheus is collecting data from the Redis Cloud cluster.
 
-    {{<image filename="images/rs/prometheus-target.png" alt="The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.">}}
+    ![The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.](/images/rs/prometheus-target.png)
 
     If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 
@@ -154,7 +154,7 @@ Once the Prometheus and Grafana Docker containers are running, and Prometheus is
 
 1. Select **Prometheus** from the list of data source types.
 
-    {{<image filename="images/rs/prometheus-datasource.png" alt="The Prometheus data source in the list of data sources on Grafana.">}}
+    ![The Prometheus data source in the list of data sources on Grafana.](/images/rs/prometheus-datasource.png)
 
 1. Enter the Prometheus configuration information:
 
@@ -162,7 +162,7 @@ Once the Prometheus and Grafana Docker containers are running, and Prometheus is
     - URL: `http://prometheus-server:9090`
     - Access: `Server`
 
-    {{<image filename="images/rc/prometheus-connection.png" alt="The Prometheus connection form in Grafana.">}}
+    ![The Prometheus connection form in Grafana.](/images/rc/prometheus-connection.png)
 
     > [!NOTE]
     > - If the network port is not accessible to the Grafana server, select the **Browser** option from the Access menu.

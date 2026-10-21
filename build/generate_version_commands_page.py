@@ -161,9 +161,8 @@ weight: {weight}
 
 This page provides a comprehensive reference of all Redis commands available in Redis {version_display}, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
 
-{{{{< note >}}}}
-Redis {version_display} includes all commands from previous versions plus new commands introduced in {version_display}. Commands marked with **⭐ New in {version_display}** were added in this release.
-{{{{< /note >}}}}
+> [!NOTE]
+> Redis {version_display} includes all commands from previous versions plus new commands introduced in {version_display}. Commands marked with **⭐ New in {version_display}** were added in this release.
 
 ## Quick Navigation
 

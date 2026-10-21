@@ -72,15 +72,15 @@ You can migrate resources by using the `rladmin` command-line interface
 
 To remove a node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to remove.
+1. On the **Nodes** screen, click ![More actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) for the node you want to remove.
 
-    {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
+    ![Click the more actions button for a node to access node actions.](/images/rs/screenshots/nodes/secondary-nodes-more-actions.png)
 
 1. Select **Remove node** from the list.
 
 1. If there are shards on the node, select **Confirm node removal**.
 
-    {{<image filename="images/rs/screenshots/nodes/confirm-node-removal-selected.png" alt="The Confirm node removal checkbox is selected, and the Remove button is clickable.">}}
+    ![The Confirm node removal checkbox is selected, and the Remove button is clickable.](/images/rs/screenshots/nodes/confirm-node-removal-selected.png)
 
     If the node has no shards, the **Confirm node removal** checkbox does not appear.
 

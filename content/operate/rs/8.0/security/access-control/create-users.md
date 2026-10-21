@@ -25,7 +25,7 @@ To add a user to the cluster:
 
 1. From the **Access Control > Users** tab in the Cluster Manager UI, select **+ Add user**.
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/users-screen.png" alt="The list of existing users on the Access Control > Users screen.">}}
+    ![The list of existing users on the Access Control > Users screen.](/images/rs/screenshots/access-control/7-22-updates/users-screen.png)
 
 1. Enter the name, email, and password of the new user.
 
@@ -35,7 +35,7 @@ To add a user to the cluster:
     > - To use [single sign-on (SSO)](/content/operate/rs/8.0/security/access-control/saml-sso.md), users must have email addresses.
     >
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
+    ![Create user panel with fields for username, email, password, and alerts.](/images/rs/screenshots/access-control/7-22-updates/create-user-panel.png)
 
 1. Select the **Alerts** the user should receive by email:
 
@@ -47,7 +47,7 @@ To add a user to the cluster:
 
 1. Assign a **Role** to the user to grant permissions for cluster management and data access.
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-role-select.png" alt="Add role to new user." >}}
+    ![Add role to new user.](/images/rs/screenshots/access-control/7-22-updates/create-user-role-select.png)
 
 1. Click **Save user**.
 
@@ -61,11 +61,11 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
 1. In the **User roles** section, click **Edit**.
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/edit-user-roles.png" alt="The User roles section of the Edit user panel." >}}
+    ![The User roles section of the Edit user panel.](/images/rs/screenshots/access-control/7-22-updates/edit-user-roles.png)
 
 1. Select a role to assign to the user.
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/edit-user-select-role.png" alt="Select role for user." >}}
+    ![Select role for user.](/images/rs/screenshots/access-control/7-22-updates/edit-user-select-role.png)
 
 1. Click **Done** to close the **Roles** dialog.
 

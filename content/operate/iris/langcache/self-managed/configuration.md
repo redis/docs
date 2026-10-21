@@ -110,7 +110,8 @@ does not accept per-cache embedding credentials.
 
 When `identityService.mode: bundled` is set, the bundled Identity
 Service needs its own Metadata Redis connection. This connection can be the same Redis
-instance as the Control Plane's Metadata Redis, in a separate namespace.
+instance as the Control Plane's Metadata Redis, in a separate keyspace (records use the
+fixed key prefix `iris:apikey`).
 
 ```yaml
 metadata:

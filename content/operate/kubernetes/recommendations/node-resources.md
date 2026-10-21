@@ -38,6 +38,14 @@ name:gke-7253cc19-42g0	MemoryPressure:False	DiskPressure:False
 
 For more information about monitoring node conditions, see [Node conditions](https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#node-conditions) on [kubernetes.io](https://kubernetes.io/docs/home/).
 
+## Transparent Huge Pages
+
+Redis recommends disabling Transparent Huge Pages (THP) on every Kubernetes node that hosts Redis Software pods. THP causes a latency penalty and increases memory usage, and Redis logs a warning at startup when it is enabled.
+
+The operator does not manage this setting. Kubernetes has no API object for kernel tunables, so you configure THP on the nodes themselves.
+
+Check the current setting on your nodes and disable THP where it is enabled. For instructions, see your platform's documentation. For background on how THP affects Redis, see [Latency induced by transparent huge pages](/content/operate/oss_and_stack/management/optimization/latency.md#latency-induced-by-transparent-huge-pages).
+
 ## Resource quotas
 
 Kubernetes uses the `ResourceQuota` object to limit resource consumption per namespace. This lets you limit the number of objects created by a namespace or the amount of compute resources consumed by a namespace. 

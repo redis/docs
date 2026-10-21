@@ -42,12 +42,14 @@ Keep the API key out of source control, application logs, and other unsecured lo
 
 ## Install the SDK
 
+These examples use the beta software development kits (SDKs): Python `0.5.0b1` and TypeScript `0.4.0-beta.1`. Install these versions explicitly; an unversioned install can select a stable release. Your service must support the operation you call. Installing a beta SDK does not enable server features.
+
 {{< multitabs id="agent-memory-install"
     tab1="Python"
     tab2="TypeScript" >}}
 
 ```sh
-python -m pip install redis-agent-memory
+python -m pip install "redis-agent-memory==0.5.0b1"
 ```
 
 -tab-sep-
@@ -56,7 +58,7 @@ python -m pip install redis-agent-memory
 mkdir agent-memory-quickstart
 cd agent-memory-quickstart
 npm init -y
-npm install @redis-iris/agent-memory
+npm install @redis-iris/agent-memory@0.4.0-beta.1
 npm install --save-dev tsx
 ```
 
@@ -80,7 +82,7 @@ or:
 npx tsx quickstart.ts
 ```
 
-A healthy response confirms that the client can reach Redis Agent Memory and authenticate with the API key. The first store request validates the Store ID.
+The store health response checks the configured Store ID and reports the status of its memory features. Inspect the overall `status` and individual `features` before continuing.
 
 ## 1. Build conversation context with session memory
 
@@ -179,5 +181,6 @@ See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-servic
 ## Next steps
 
 * Review the [Python SDK package and reference](https://pypi.org/project/redis-agent-memory/) or the [TypeScript SDK package and reference](https://www.npmjs.com/package/@redis-iris/agent-memory).
+* Generate a complete conversational agent with the [AI agent builder](/content/develop/ai/agent-builder/_index.md). Select **Redis Iris Conversational Assistant** and **Python**.
 * Try the [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).
 * Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).

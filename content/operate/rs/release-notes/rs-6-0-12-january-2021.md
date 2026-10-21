@@ -18,7 +18,7 @@ This version includes the following new features and improvements:
 - [Synchronization](/content/operate/rs/databases/active-active/_index.md#syncer-process) can now be [distributed across the nodes](/content/operate/rs/databases/active-active/synchronization-mode.md) of Active-Active or Active-Passive databases
 - You can [disable several internal RS services](/content/operate/rs/clusters/optimize/turn-off-services.md) to free up more memory
 - User accounts can have multiple passwords to allow for [password rotation](/content/operate/rs/security/access-control/manage-passwords/rotate-passwords.md)
-- [Dependencies are automatically installed](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) when you add modules to a cluster
+- [Dependencies are automatically installed](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md#rest-api-method) when you add modules to a cluster
 - [Envoy replaces NGINX](/content/operate/rs/networking/port-configurations.md) for internal cluster administration
 - Automatic recovery of the [syncer process](/content/operate/rs/databases/active-active/_index.md#syncer-process)s from out-of-memory (preview mode)
 
@@ -34,7 +34,7 @@ And other functional and stability improvements.
 ### Product lifecycle information
 
 - End of Life (EOL) for Redis Enterprise Software 6.0 and previous RS versions, can be found [here](/content/operate/rs/installing-upgrading/product-lifecycle.md).
-- EOL for Redis modules can be found [here](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md#modules-endoflife-schedule).
+- EOL for Redis modules can be found [here](/content/operate/rs/installing-upgrading/modules-lifecycle.md#modules-endoflife-schedule).
 
 ### Deprecation Notice
 
@@ -116,7 +116,7 @@ The following GA releases of Redis modules are bundled with RS 6.0.12:
 - [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version [1.4.7](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/_index.md)
 - [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version [2.2.4](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md)
 
-To use the updated modules with a database, you must [upgrade the module on the database](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
+To use the updated modules with a database, you must [upgrade the module on the database](/content/operate/rs/installing-upgrading/modules/upgrade-module.md).
 
 ## Additional capabilities
 

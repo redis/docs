@@ -15,8 +15,8 @@ def check_health():
         store_id=STORE_ID,
         api_key=os.environ["API_KEY"],
     ) as agent_memory:
-        health = agent_memory.health()
-        print("Service health:")
+        health = agent_memory.store_health()
+        print("Store health:")
         print(health.model_dump_json(by_alias=True, indent=2))
 
 

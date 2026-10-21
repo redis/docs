@@ -41,9 +41,8 @@ Before you use your own key, make sure:
 - The provider account can use the models that you select.
 - You understand the provider's billing, service terms, and data-handling policies. The selected LLM processes session content used for extraction and summarization. The embedding model processes the text needed to create embeddings for long-term-memory storage and search.
 
-{{< note >}}
-The model provider API key is different from an Agent Memory service API key. Applications use a service API key to call the Agent Memory API. Agent Memory uses the model provider API key to call the selected AI models.
-{{< /note >}}
+> [!NOTE]
+> The model provider API key is different from an Agent Memory service API key. Applications use a service API key to call the Agent Memory API. Agent Memory uses the model provider API key to call the selected AI models.
 
 ## Use your own key when you create a service
 
@@ -63,13 +62,12 @@ To configure your own model provider key:
 
 1. Complete the other service settings, then select **Create**.
 
-{{<image filename="images/rc/agent-memory-ai-model-create.png" alt="The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings." >}}
+![The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings.](/images/rc/agent-memory-ai-model-create.png)
 
 The key is used for both the LLM and embedding calls. Redis stores the key securely and does not show it again after you create the service.
 
-{{<warning>}}
-The credential source, provider, and embedding model are fixed after you create the service. A service created with Redis-managed credentials cannot later use your provider key. A service created with your key cannot switch to Redis-managed credentials.
-{{</warning>}}
+> [!WARNING]
+> The credential source, provider, and embedding model are fixed after you create the service. A service created with Redis-managed credentials cannot later use your provider key. A service created with your key cannot switch to Redis-managed credentials.
 
 ## View the current model configuration
 
@@ -81,7 +79,7 @@ To view the configuration:
 
 1. On the **Configuration** tab, find **AI model and credentials**.
 
-{{<image filename="images/rc/agent-memory-ai-model-details.png" alt="The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status." >}}
+![The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status.](/images/rc/agent-memory-ai-model-details.png)
 
 The **User-managed** status confirms that the service uses your provider key. Redis does not display or return the saved value.
 
@@ -99,7 +97,7 @@ To update the service:
 
 1. Select **Save**.
 
-{{<image filename="images/rc/agent-memory-ai-model-edit.png" alt="The AI model and credentials section in edit mode. The provider and embedding model are read-only. The LLM model and Replace API key settings are editable." >}}
+![The AI model and credentials section in edit mode. The provider and embedding model are read-only. The LLM model and Replace API key settings are editable.](/images/rc/agent-memory-ai-model-edit.png)
 
 After the update completes, new operations use the replacement key. Operations that were already in progress can continue to use the previous key. The replacement applies to both LLM and embedding calls.
 

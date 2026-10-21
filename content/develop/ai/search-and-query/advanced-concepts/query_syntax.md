@@ -181,7 +181,7 @@ Finally, there's new [`FT.SEARCH`](/content/commands/ft.search.md) syntax that a
 
 Here's an example using two stacked polygons that represent a box contained within a house.
 
-{{< image filename="develop/ai/search-and-query/img/polygons.png" >}}
+![](/images/dev/rqe/polygons.png)
 
 First, create an index using a `FLAT` `GEOSHAPE`, representing a 2D X Y coordinate system.
 

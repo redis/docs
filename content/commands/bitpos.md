@@ -100,7 +100,7 @@ order to index bytes starting from the end of the string, where -1 is the last
 byte, -2 is the penultimate, and so forth. When `BIT` is specified, -1 is the last
 bit, -2 is the penultimate, and so forth.
 
-Non-existent keys are treated as empty strings.
+If the key does not exist, it is treated as an infinite array of zero bits: searching for a clear bit (0) returns 0, while searching for a set bit (1) returns -1. In contrast, an existing empty string (a key holding "") contains no bits at all, so searching for either 0 or 1 always returns -1.
 
 ## Required arguments
 

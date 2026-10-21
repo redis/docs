@@ -18,7 +18,7 @@ This guide shows how to connect a data pipeline to a self-managed Microsoft SQL 
 The setup in this guide uses:
 
 - A SQL Server Always On availability group with a primary replica and one or more readable secondary replicas. The replicas can be in more than one site for disaster recovery.
-- A [Network Load Balancer and PrivateLink endpoint service]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) in your AWS VPC. The NLB target group points to the replica that the pipeline should read from, which is usually a readable secondary. If the replicas are on premises, the NLB reaches them over AWS Direct Connect.
+- A [Network Load Balancer and PrivateLink endpoint service](/content/operate/rc/rdi/setup.md#set-up-connectivity) in your AWS VPC. The NLB target group points to the replica that the pipeline should read from, which is usually a readable secondary. If the replicas are on premises, the NLB reaches them over AWS Direct Connect.
 - A Lambda function that updates the NLB target group when the deployment fails over. See [Automate the NLB update](#automate-the-nlb-update).
 
 ```mermaid {width="100%"}
@@ -52,7 +52,7 @@ The listener can still be useful inside your own network. For example, the Lambd
 
 ## Connect to a readable secondary
 
-To make the pipeline read from a readable secondary instead of the primary, add the following property to the collector in your [pipeline configuration]({{<relref "/operate/rc/rdi/view-edit#edit-collector-properties">}}):
+To make the pipeline read from a readable secondary instead of the primary, add the following property to the collector in your [pipeline configuration](/content/operate/rc/rdi/view-edit.md#edit-collector-properties):
 
 ```yaml
 driver.applicationIntent: ReadOnly
@@ -104,9 +104,8 @@ When the replica that the pipeline connects to fails, something must point the N
 
 - **Event-driven**: When the deployment fails over, a script on any SQL Server node publishes to an SNS topic, and the SNS topic invokes the Lambda function. The Lambda function resolves a known address, such as the availability group listener DNS name, to find the replica to register in the target group. This avoids the detection delay of health checks.
 
-    {{< note >}}
-Verify what the listener DNS name resolves to in your deployment before you rely on it. A listener DNS name usually resolves to the listener's virtual IP address, which routes to the primary replica. In that case the pipeline reads from the primary after the failover, which works, but the read load moves off the secondary.
-    {{< /note >}}
+    > [!NOTE]
+    > Verify what the listener DNS name resolves to in your deployment before you rely on it. A listener DNS name usually resolves to the listener's virtual IP address, which routes to the primary replica. In that case the pipeline reads from the primary after the failover, which works, but the read load moves off the secondary.
 
 - **Health-check driven**: The NLB's own health checks detect the failure and trigger the Lambda function through a CloudWatch alarm. The Lambda function finds the replacement server, for example by an EC2 tag. This needs no changes on the SQL Server side, but detection takes several minutes.
 
@@ -116,7 +115,7 @@ With either trigger, add an email subscription to the SNS topic so that a person
 
 Disaster recovery with an availability group is safe for the pipeline. When a secondary is promoted, or you point the NLB at another in-sync replica, the pipeline reconnects and resumes from its saved position with no reset and no data loss. The availability group is responsible for keeping its replicas synchronized, so a promoted replica holds the committed transactions the pipeline has already read. For more information, see [Availability modes for an availability group](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/availability-modes-always-on-availability-groups) in the SQL Server documentation.
 
-If instead you restore the database from an old backup, rather than recovering it through the availability group, you risk a different situation: the restored database can be behind the position the pipeline has already processed, so the pipeline has nowhere valid to resume from. If you restore from a backup, [reset the pipeline]({{<relref "/operate/rc/rdi/view-edit#reset-data-pipeline">}}) afterward to take a fresh snapshot.
+If instead you restore the database from an old backup, rather than recovering it through the availability group, you risk a different situation: the restored database can be behind the position the pipeline has already processed, so the pipeline has nowhere valid to resume from. If you restore from a backup, [reset the pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) afterward to take a fresh snapshot.
 
 If the restored server is standalone and not yet part of the availability group, enable snapshot isolation before you reset, or the snapshot fails and retries until you do:
 

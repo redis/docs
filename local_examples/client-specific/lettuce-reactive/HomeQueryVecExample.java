@@ -5,6 +5,9 @@ package io.redis.examples.reactive;
 // Lettuce client and Redis Search classes.
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.codec.RedisCodec;
+import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.api.reactive.RedisReactiveCommands;
 import io.lettuce.core.search.arguments.*;
 import io.lettuce.core.search.SearchReply;
@@ -34,12 +37,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HomeQueryVecExample {
 
     // STEP_START helper_method
-    private ByteBuffer floatArrayToByteBuffer(float[] vector) {
+    private byte[] floatArrayToByteArray(float[] vector) {
         ByteBuffer buffer = ByteBuffer.allocate(vector.length * 4).order(ByteOrder.LITTLE_ENDIAN);
         for (float value : vector) {
             buffer.putFloat(value);
         }
-        return (ByteBuffer) buffer.flip();
+        return buffer.array();
     }
     // STEP_END
 
@@ -66,9 +69,10 @@ public class HomeQueryVecExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect();
-                StatefulRedisConnection<ByteBuffer, ByteBuffer> binConnection = redisClient.connect(new ByteBufferCodec())) {
+                StatefulRedisConnection<String, byte[]> binConnection = redisClient
+                        .connect(RedisCodec.of(StringCodec.UTF8, ByteArrayCodec.INSTANCE))) {
             RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
-            RedisReactiveCommands<ByteBuffer, ByteBuffer> binReactiveCommands = binConnection.reactive();
+            RedisReactiveCommands<String, byte[]> binReactiveCommands = binConnection.reactive();
             // ...
             // STEP_END
             // REMOVE_START
@@ -98,17 +102,17 @@ public class HomeQueryVecExample {
             // STEP_START add_data
             String sentence1 = "That is a very happy person";
 
-            Map<ByteBuffer, ByteBuffer> doc1 = new HashMap<>();
-            doc1.put(ByteBuffer.wrap("content".getBytes()), ByteBuffer.wrap(sentence1.getBytes()));
-            doc1.put(ByteBuffer.wrap("genre".getBytes()), ByteBuffer.wrap("persons".getBytes()));
+            Map<String, byte[]> doc1 = new HashMap<>();
+            doc1.put("content", sentence1.getBytes(StandardCharsets.UTF_8));
+            doc1.put("genre", "persons".getBytes(StandardCharsets.UTF_8));
 
             try {
-                doc1.put(ByteBuffer.wrap("embedding".getBytes()), floatArrayToByteBuffer(predictor.predict(sentence1)));
+                doc1.put("embedding", floatArrayToByteArray(predictor.predict(sentence1)));
             } catch (Exception e) {
                 // ...
             }
 
-            Mono<Long> addDoc1 = binReactiveCommands.hset(ByteBuffer.wrap("doc:1".getBytes()), doc1).doOnNext(result -> {
+            Mono<Long> addDoc1 = binReactiveCommands.hset("doc:1", doc1).doOnNext(result -> {
                 System.out.println(result); // >>> 3
                 // REMOVE_START
                 assertThat(result).isEqualTo(3L);
@@ -117,17 +121,17 @@ public class HomeQueryVecExample {
 
             String sentence2 = "That is a happy dog";
 
-            Map<ByteBuffer, ByteBuffer> doc2 = new HashMap<>();
-            doc2.put(ByteBuffer.wrap("content".getBytes()), ByteBuffer.wrap(sentence2.getBytes()));
-            doc2.put(ByteBuffer.wrap("genre".getBytes()), ByteBuffer.wrap("pets".getBytes()));
+            Map<String, byte[]> doc2 = new HashMap<>();
+            doc2.put("content", sentence2.getBytes(StandardCharsets.UTF_8));
+            doc2.put("genre", "pets".getBytes(StandardCharsets.UTF_8));
 
             try {
-                doc2.put(ByteBuffer.wrap("embedding".getBytes()), floatArrayToByteBuffer(predictor.predict(sentence2)));
+                doc2.put("embedding", floatArrayToByteArray(predictor.predict(sentence2)));
             } catch (Exception e) {
                 // ...
             }
 
-            Mono<Long> addDoc2 = binReactiveCommands.hset(ByteBuffer.wrap("doc:2".getBytes()), doc2).doOnNext(result -> {
+            Mono<Long> addDoc2 = binReactiveCommands.hset("doc:2", doc2).doOnNext(result -> {
                 System.out.println(result); // >>> 3
                 // REMOVE_START
                 assertThat(result).isEqualTo(3L);
@@ -136,17 +140,17 @@ public class HomeQueryVecExample {
 
             String sentence3 = "Today is a sunny day";
 
-            Map<ByteBuffer, ByteBuffer> doc3 = new HashMap<>();
-            doc3.put(ByteBuffer.wrap("content".getBytes()), ByteBuffer.wrap(sentence3.getBytes()));
-            doc3.put(ByteBuffer.wrap("genre".getBytes()), ByteBuffer.wrap("weather".getBytes()));
+            Map<String, byte[]> doc3 = new HashMap<>();
+            doc3.put("content", sentence3.getBytes(StandardCharsets.UTF_8));
+            doc3.put("genre", "weather".getBytes(StandardCharsets.UTF_8));
 
             try {
-                doc3.put(ByteBuffer.wrap("embedding".getBytes()), floatArrayToByteBuffer(predictor.predict(sentence3)));
+                doc3.put("embedding", floatArrayToByteArray(predictor.predict(sentence3)));
             } catch (Exception e) {
                 // ...
             }
 
-            Mono<Long> addDoc3 = binReactiveCommands.hset(ByteBuffer.wrap("doc:3".getBytes()), doc3).doOnNext(result -> {
+            Mono<Long> addDoc3 = binReactiveCommands.hset("doc:3", doc3).doOnNext(result -> {
                 System.out.println(result); // >>> 3
                 // REMOVE_START
                 assertThat(result).isEqualTo(3L);
@@ -154,6 +158,33 @@ public class HomeQueryVecExample {
             });
             // STEP_END
             Mono.when(addDoc1, addDoc2, addDoc3).block();
+
+            // STEP_START himport_data
+            String[][] docData = {
+                    { "doc:1", "That is a very happy person", "persons" },
+                    { "doc:2", "That is a happy dog", "pets" },
+                    { "doc:3", "Today is a sunny day", "weather" } };
+
+            List<Mono<String>> himportDocs = new ArrayList<>();
+
+            try (HashImport<String> fieldset = HashImport.of("content", "genre", "embedding")) {
+                for (String[] doc : docData) {
+                    byte[] docEmbedding = null;
+
+                    try {
+                        docEmbedding = floatArrayToByteArray(predictor.predict(doc[1]));
+                    } catch (Exception e) {
+                        // ...
+                    }
+
+                    himportDocs.add(binReactiveCommands.himportSet(doc[0], fieldset, doc[1].getBytes(StandardCharsets.UTF_8),
+                            doc[2].getBytes(StandardCharsets.UTF_8), docEmbedding));
+                }
+
+                // Subscribe before the fieldset closes.
+                Mono.when(himportDocs).block();
+            }
+            // STEP_END
 
             // STEP_START query
             String query = "That is a happy person";
@@ -165,27 +196,21 @@ public class HomeQueryVecExample {
                 // ...
             }
 
-            SearchArgs<ByteBuffer, ByteBuffer> searchArgs = SearchArgs.<ByteBuffer, ByteBuffer> builder()
-                    .param(ByteBuffer.wrap("vec".getBytes()), floatArrayToByteBuffer(queryEmbedding))
-                    .returnField(ByteBuffer.wrap("content".getBytes()))
-                    .returnField(ByteBuffer.wrap("vector_distance".getBytes()))
-                    .sortBy(SortByArgs.<ByteBuffer> builder().attribute(ByteBuffer.wrap("vector_distance".getBytes())).build())
-                    .build();
+            SearchArgs<String, byte[]> searchArgs = SearchArgs.<String, byte[]> builder()
+                    .param("vec", floatArrayToByteArray(queryEmbedding)).returnField("content").returnField("vector_distance")
+                    .sortBy(SortByArgs.<String> builder().attribute("vector_distance").build()).build();
 
-            Mono<SearchReply<ByteBuffer, ByteBuffer>> hashQuery = binReactiveCommands
-                    .ftSearch(ByteBuffer.wrap("vector_idx".getBytes()),
-                            ByteBuffer.wrap("*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes()), searchArgs)
+            Mono<SearchReply<String, byte[]>> hashQuery = binReactiveCommands
+                    .ftSearch("vector_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes(StandardCharsets.UTF_8),
+                            searchArgs)
                     .doOnNext(result -> {
-                        List<SearchReply.SearchResult<ByteBuffer, ByteBuffer>> results = result.getResults();
+                        List<SearchReply.SearchResult<String, byte[]>> results = result.getResults();
 
                         results.forEach(r -> {
-                            String id = StandardCharsets.UTF_8.decode(r.getId()).toString();
-                            String content = StandardCharsets.UTF_8
-                                    .decode(r.getFields().get(ByteBuffer.wrap("content".getBytes()))).toString();
-                            String distance = StandardCharsets.UTF_8
-                                    .decode(r.getFields().get(ByteBuffer.wrap("vector_distance".getBytes()))).toString();
+                            String content = new String(r.getFields().get("content"), StandardCharsets.UTF_8);
+                            String distance = new String(r.getFields().get("vector_distance"), StandardCharsets.UTF_8);
 
-                            System.out.println("ID: " + id + ", Content: " + content + ", Distance: " + distance);
+                            System.out.println("ID: " + r.getId() + ", Content: " + content + ", Distance: " + distance);
                         });
                         // >>> ID: doc:1, Content: That is a very happy person, Distance: 0.114169836044
                         // >>> ID: doc:2, Content: That is a happy dog, Distance: 0.610845506191
@@ -221,9 +246,9 @@ public class HomeQueryVecExample {
             // STEP_START json_data
             JsonParser parser = reactiveCommands.getJsonParser();
 
-            String jSentence1 = "\"That is a very happy person\"";
+            String jSentence1 = "That is a very happy person";
             JsonObject jDoc1 = parser.createJsonObject();
-            jDoc1.put("content", parser.createJsonValue(jSentence1));
+            jDoc1.put("content", parser.createJsonValue("\"" + jSentence1 + "\""));
             jDoc1.put("genre", parser.createJsonValue("\"persons\""));
 
             try {
@@ -239,9 +264,9 @@ public class HomeQueryVecExample {
                 // REMOVE_END
             }).then();
 
-            String jSentence2 = "\"That is a happy dog\"";
+            String jSentence2 = "That is a happy dog";
             JsonObject jDoc2 = parser.createJsonObject();
-            jDoc2.put("content", parser.createJsonValue(jSentence2));
+            jDoc2.put("content", parser.createJsonValue("\"" + jSentence2 + "\""));
             jDoc2.put("genre", parser.createJsonValue("\"pets\""));
 
             try {
@@ -257,9 +282,9 @@ public class HomeQueryVecExample {
                 // REMOVE_END
             }).then();
 
-            String jSentence3 = "\"Today is a sunny day\"";
+            String jSentence3 = "Today is a sunny day";
             JsonObject jDoc3 = parser.createJsonObject();
-            jDoc3.put("content", parser.createJsonValue(jSentence3));
+            jDoc3.put("content", parser.createJsonValue("\"" + jSentence3 + "\""));
             jDoc3.put("genre", parser.createJsonValue("\"weather\""));
 
             try {
@@ -287,31 +312,25 @@ public class HomeQueryVecExample {
                 // ...
             }
 
-            SearchArgs<ByteBuffer, ByteBuffer> jsonSearchArgs = SearchArgs.<ByteBuffer, ByteBuffer> builder()
-                    .param(ByteBuffer.wrap("vec".getBytes()), floatArrayToByteBuffer(jsonQueryEmbedding))
-                    .returnField(ByteBuffer.wrap("content".getBytes()))
-                    .returnField(ByteBuffer.wrap("vector_distance".getBytes()))
-                    .sortBy(SortByArgs.<ByteBuffer> builder().attribute(ByteBuffer.wrap("vector_distance".getBytes())).build())
-                    .build();
+            SearchArgs<String, byte[]> jsonSearchArgs = SearchArgs.<String, byte[]> builder()
+                    .param("vec", floatArrayToByteArray(jsonQueryEmbedding)).returnField("content").returnField("vector_distance")
+                    .sortBy(SortByArgs.<String> builder().attribute("vector_distance").build()).build();
 
-            Mono<SearchReply<ByteBuffer, ByteBuffer>> jsonQuery = binReactiveCommands
-                    .ftSearch(ByteBuffer.wrap("vector_json_idx".getBytes()),
-                            ByteBuffer.wrap("*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes()), jsonSearchArgs)
+            Mono<SearchReply<String, byte[]>> jsonQuery = binReactiveCommands
+                    .ftSearch("vector_json_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes(StandardCharsets.UTF_8),
+                            jsonSearchArgs)
                     .doOnNext(result -> {
-                        List<SearchReply.SearchResult<ByteBuffer, ByteBuffer>> results = result.getResults();
+                        List<SearchReply.SearchResult<String, byte[]>> results = result.getResults();
 
                         results.forEach(r -> {
-                            String id = StandardCharsets.UTF_8.decode(r.getId()).toString();
-                            String content = StandardCharsets.UTF_8
-                                    .decode(r.getFields().get(ByteBuffer.wrap("content".getBytes()))).toString();
-                            String distance = StandardCharsets.UTF_8
-                                    .decode(r.getFields().get(ByteBuffer.wrap("vector_distance".getBytes()))).toString();
+                            String content = new String(r.getFields().get("content"), StandardCharsets.UTF_8);
+                            String distance = new String(r.getFields().get("vector_distance"), StandardCharsets.UTF_8);
 
-                            System.out.println("ID: " + id + ", Content: " + content + ", Distance: " + distance);
+                            System.out.println("ID: " + r.getId() + ", Content: " + content + ", Distance: " + distance);
                         });
-                        // >>> ID: jdoc:1, Content: "That is a very happy person", Distance: 0.628328084946
-                        // >>> ID: jdoc:2, Content: "That is a happy dog", Distance: 0.895147025585
-                        // >>> ID: jdoc:3, Content: "Today is a sunny day", Distance: 1.49569523335
+                        // >>> ID: jdoc:1, Content: That is a very happy person, Distance: 0.114169836044
+                        // >>> ID: jdoc:2, Content: That is a happy dog, Distance: 0.610845506191
+                        // >>> ID: jdoc:3, Content: Today is a sunny day, Distance: 1.48624765873
                         // REMOVE_START
                         assertThat(result.getCount()).isEqualTo(3);
                         // REMOVE_END

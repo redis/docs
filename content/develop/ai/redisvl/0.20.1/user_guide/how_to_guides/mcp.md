@@ -51,9 +51,8 @@ Run it over SSE:
 uvx --from redisvl[mcp] rvl mcp --config /path/to/mcp.yaml --transport sse --host 0.0.0.0 --port 9000
 ```
 
-{{< warning >}}
-Streamable HTTP and SSE endpoints are **unauthenticated by default**. Only bind to public interfaces (`--host 0.0.0.0`) on trusted networks or behind an authenticating reverse proxy. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
-{{< /warning >}}
+> [!WARNING]
+> Streamable HTTP and SSE endpoints are **unauthenticated by default**. Only bind to public interfaces (`--host 0.0.0.0`) on trusted networks or behind an authenticating reverse proxy. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
 
 Run it in read-only mode to expose search without upsert:
 

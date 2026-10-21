@@ -16,6 +16,8 @@ Choose Redis when your application needs:
 - Sub-millisecond latency: Both vector search and data operations respond in under one millisecond.
 - Unified caching and search: Store frequently accessed data alongside vector embeddings.
 - Transactional consistency: Perform atomic operations across state and memory.
+- Agent memory: Session and long-term memory without building your own vector index.
+- Semantic caching: Return cached LLM responses for semantically similar prompts.
 
 Example: An AI agent that maintains conversation history (state), performs semantic search over past conversations (vectors), and caches API responses (key-value) with sub-millisecond latency.
 
@@ -39,8 +41,11 @@ Choose Redis when your application needs:
 - High-throughput workloads: Process millions of operations per second.
 - Flexible data modeling: Store schema-less JSON documents, time-series data, and vectors.
 - Simplified deployment: Avoid query planner tuning or index optimization.
+- Context retrieval: Give agents governed tools to query business data instead of direct database access.
 
 Example: A live analytics dashboard that ingests events via Streams, maintains counters in Sorted Sets, caches computed results, and performs real-time vector similarity search on user behavior patterns.
+
+You don't have to replace Postgres to get these benefits. [Redis Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) streams changes from PostgreSQL and other relational databases into Redis within seconds. Postgres stays your system of record, and your application or agents read from Redis.
 
 ## Decision matrix
 
@@ -50,6 +55,7 @@ Use Redis when your application needs:
 - Sub-millisecond latency
 - Real-time streaming
 - Pub/Sub messaging
+- Agent memory, semantic caching, or context retrieval
 
 ## Selection criteria
 
@@ -58,8 +64,21 @@ Use this decision tree to determine if Redis is the right choice for your use ca
 ```decision-tree {id="redis-selection-tree"}
 id: redis-selection-tree
 scope: database-selection
-rootQuestion: state-and-vectors
+rootQuestion: agent-context
 questions:
+    agent-context:
+        text: "Do you need agent memory, semantic caching, or context retrieval?"
+        whyAsk: "Redis provides agent memory, semantic caching, and governed context retrieval for AI agents through the Redis Iris services"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Choose Redis"
+                    id: redis-agent-context
+                    sentiment: positive
+            no:
+                value: "No"
+                nextQuestion: state-and-vectors
     state-and-vectors:
         text: "Do you need both state management and vector search in one database?"
         whyAsk: "Redis combines key-value storage and vector search, eliminating the need for separate databases - this is Redis's key AI differentiator"
@@ -120,6 +139,7 @@ questions:
 ## Related topics
 
 - [Redis for AI applications]({{< relref "/develop/ai" >}})
+- [Redis Iris context engine]({{< relref "/develop/ai/context-engine" >}})
 - [Redis Streams documentation]({{< relref "/develop/data-types/streams" >}})
 - [Redis JSON documentation]({{< relref "/develop/data-types/json" >}})
 - [Redis client libraries]({{< relref "/develop/clients" >}})

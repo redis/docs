@@ -52,11 +52,11 @@ To add the Redis Sink connector to your Confluent Cloud environment from the Red
 
 1. Select the **Configure** button in the **Confluent** tile. 
 
-    {{<image filename="images/rc/account-settings-integrations-confluent.png" alt="The Confluent integration tile." >}}
+    ![The Confluent integration tile.](/images/rc/account-settings-integrations-confluent.png)
 
 1. This will take you to [New Sink Connector](https://confluent.cloud/go/new-sink-connector/RedisSink) on Confluent Cloud. If you have more than one Confluent Cloud environment or Cluster, select your environment and cluster from the lists and select **Continue**.
 
-    {{<image filename="images/rc/confluent-create-connector.png" alt="Select your environment and cluster from the Create a Connector selector." >}}
+    ![Select your environment and cluster from the Create a Connector selector.](/images/rc/confluent-create-connector.png)
 
 1. From there, follow the steps to [Enter the connector details](https://docs.confluent.io/cloud/current/connectors/cc-redis-sink.html#step-4-enter-the-connector-details) on the Confluent documentation.
 

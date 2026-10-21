@@ -45,7 +45,7 @@ To configure minimum TLS versions using the Cluster Manager UI:
 
 1. Select the minimum TLS version for cluster connections, database connections, and the discovery service:
 
-    {{<image filename="images/rs/screenshots/cluster/security-tls-protocols-edit.png" alt="Cluster > Security > TLS settings in edit mode in the Cluster Manager UI." >}}
+    ![Cluster > Security > TLS settings in edit mode in the Cluster Manager UI.](/images/rs/screenshots/cluster/security-tls-protocols-edit.png)
   
 1. Select the TLS mode for the discovery service:
 

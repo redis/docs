@@ -51,9 +51,8 @@ Run it over SSE:
 uvx --from redisvl[mcp] rvl mcp --config /path/to/mcp.yaml --transport sse --host 0.0.0.0 --port 9000 --allow-unauthenticated
 ```
 
-{{< warning >}}
-Streamable HTTP and SSE endpoints are **unauthenticated by default**. Binding to a non-loopback host without auth fails closed unless you pass `--allow-unauthenticated`; binding to loopback without auth only warns. For real deployments, enable JWT authentication (see [Authenticate RedisVL MCP]({{< relref "mcp_authentication" >}})) rather than using `--allow-unauthenticated`. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
-{{< /warning >}}
+> [!WARNING]
+> Streamable HTTP and SSE endpoints are **unauthenticated by default**. Binding to a non-loopback host without auth fails closed unless you pass `--allow-unauthenticated`; binding to loopback without auth only warns. For real deployments, enable JWT authentication (see [Authenticate RedisVL MCP]({{< relref "mcp_authentication" >}})) rather than using `--allow-unauthenticated`. When not using `--read-only`, the `upsert-records` tool is also exposed to any client that can reach the server.
 
 Run it in read-only mode to expose search without upsert:
 

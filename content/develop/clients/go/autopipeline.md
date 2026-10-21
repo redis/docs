@@ -141,12 +141,13 @@ The configuration options are:
 | Field | Description |
 | :---- | :---------- |
 | `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200. |
-| `MaxBatchBytes` | Soft limit on the total size of arguments (in bytes) for a batch, so that large values flush as several bounded writes instead of one very large one. Defaults to 0, meaning no byte limit. |
+| `MaxBatchBytes` | Soft limit on the total size of arguments (in bytes) for a batch, so that large values flush as several bounded writes instead of one very large one. Defaults to 128 KiB in v9.23.0 or later. In v9.22.0, the default is 0, meaning no byte limit. |
 | `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. Defaults to 0, which adds no accumulation wait. |
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` to be greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` set to `true` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
 | `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, values greater than 1 require `Unordered` to be set to `true`. |
+| `MaxQueuedCommands` | Maximum number of commands the autopipeliner has accepted but not yet completed. A command submitted at the limit fails immediately with `ErrAutoPipelineQueueFull` instead of being queued, which bounds client memory when the server is slower than your goroutines. Because each command is rejected separately, a later command can succeed after an earlier one failed, so check the error of any command that a later one depends on. Defaults to 0, meaning no limit. Requires v9.23.0 or later. |
 
 `MaxBatchSize` is the one default that differs between the two methods. If you
 set no options at all, `AutoPipeline()` uses a built-in preset that targets 300
@@ -154,10 +155,10 @@ commands instead of 200. As soon as you supply `AutoPipelineOptions`, either on
 the client or to `AutoPipelineWithOptions()`, that preset no longer applies, and
 a `MaxBatchSize` you leave unset means 200.
 
-Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
-the client's pipeline connections, which you size with the
-`PipelineReadBufferSize`, `PipelineWriteBufferSize`, and `PipelinePoolSize`
-fields of the client's options.
+Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches run
+on the client's separate pipeline connection pool, which you size with the
+fields described in
+[Connection pooling](/content/develop/clients/go/produsage.md#connection-pooling).
 
 Each client holds at most two autopipeliners: one for the blocking method and
 one for the asynchronous method. Each of them is a

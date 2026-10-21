@@ -35,7 +35,7 @@ If you sign in with a non-root user, you must add `/opt/redislabs/bin/` to your 
 
 `crdb-cli` commands use the syntax: `crdb-cli <command> <arguments>` to let you:
 
-- Create, list, update, flush, or delete an Active-Active database.
+- Create, list, update, upgrade, flush, or delete an Active-Active database.
 - Add or remove an instance of the Active-Active database on a specific cluster.
 
 Each command creates a task.

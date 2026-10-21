@@ -9,20 +9,18 @@ This guide explains how the RedisVL MCP server authenticates clients on its HTTP
 transports and how it gates read vs write access. It also draws the boundary
 between what RedisVL enforces and what belongs in a gateway or policy layer.
 
-{{< note >}}
-Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
-The `stdio` transport is a local subprocess with no network surface and is never
-authenticated.
-{{< /note >}}
+> [!NOTE]
+> Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
+> The `stdio` transport is a local subprocess with no network surface and is never
+> authenticated.
 
-{{< note >}}
-Authentication is a separate concern from **transport security** (Host/Origin
-validation), which is always on for the HTTP transports and defends against DNS
-rebinding independently of auth. See
-[Transport Security](mcp.md#transport-security-host-origin-validation). Both
-layers apply together: auth decides *who* may call; the Host/Origin guard
-rejects requests whose claimed authority is not allowlisted.
-{{< /note >}}
+> [!NOTE]
+> Authentication is a separate concern from **transport security** (Host/Origin
+> validation), which is always on for the HTTP transports and defends against DNS
+> rebinding independently of auth. See
+> [Transport Security](mcp.md#transport-security-host-origin-validation). Both
+> layers apply together: auth decides *who* may call; the Host/Origin guard
+> rejects requests whose claimed authority is not allowlisted.
 
 ## What RedisVL Enforces
 
@@ -41,11 +39,10 @@ On each request it checks:
 - **Required scopes** to connect, and (optionally) a **read scope** to call
   `search-records` and a **write scope** to call `upsert-records`.
 
-{{< note >}}
-This is **coarse** authorization: it decides whether a caller may connect and
-whether it may read or write. It does **not** map token claims to a Redis ACL
-user, a per-tenant index, or query filters. See [The Authorization Boundary]().
-{{< /note >}}
+> [!NOTE]
+> This is **coarse** authorization: it decides whether a caller may connect and
+> whether it may read or write. It does **not** map token claims to a Redis ACL
+> user, a per-tenant index, or query filters. See [The Authorization Boundary]().
 
 ## OAuth: Which Part RedisVL Handles
 

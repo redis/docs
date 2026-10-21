@@ -9,14 +9,15 @@ hideListLinks: true
 linktitle: Concepts
 title: How Redis Iris works
 weight: 5
-bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
 ---
 
 Redis Iris sits between your agent and your data. It's one system. Your agent asks for context. Iris returns it through the fastest available path: a cached answer, a remembered fact, or a live lookup against your business data. That data can live in Redis or in another database you connect. You don't wire together separate lookups yourself. Iris decides which path answers the request.
 
 Use Redis Iris when you want agents to respond with cached answers instead of repeat model calls, recall what they've learned across turns and sessions, and act on live business data. Iris builds and maintains that infrastructure for you.
 
-{{< image filename="images/ai/context-engine/iris-mental-model.svg" alt="An agent connects to Redis Iris, which stores memories, caches answers, and retrieves context, all backed by Redis or a connected database." width="650" >}}
+![An agent connects to Redis Iris, which stores memories, caches answers, and retrieves context, all backed by Redis or a connected database.](/images/ai/context-engine/iris-mental-model.svg)
+{width="650"}
 
 ## The mental model
 
@@ -84,6 +85,6 @@ Run all three fully managed on Redis Cloud, or self-managed on your own infrastr
 ## Next steps
 
 - [How a request flows through Redis Iris]({{< relref "/develop/ai/context-engine/concepts/request-flow" >}})
-- [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
+- Interactive demos for [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser

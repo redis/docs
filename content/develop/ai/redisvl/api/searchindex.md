@@ -16,7 +16,7 @@ aliases:
 
 ## SearchIndex
 
-### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
+### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, validate_on_load=False, owns_client=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database.
 
@@ -44,9 +44,20 @@ index.load(data)
 index.delete(drop=True)
 ```
 
-Initialize the RedisVL search index with a schema, Redis client
-(or URL string with other connection args), connection_args, and other
-kwargs.
+Pass `redis_client` to use a client you configured yourself. The index
+leaves such a client open when it is disconnected or garbage collected;
+pass `owns_client=True` to hand that responsibility over.
+
+```python
+from redis import Redis
+from redisvl.index import SearchIndex
+
+client = Redis.from_url("redis://localhost:6379", socket_timeout=5)
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_client=client)
+```
+
+Initialize the RedisVL search index with a schema and either a Redis
+client or a URL string with other connection kwargs.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
@@ -58,6 +69,17 @@ kwargs.
     args.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the Redis client when the index is disconnected or garbage
+    collected. Defaults to None, meaning the index owns a client
+    only if it created one itself. Pass True to hand over a client
+    you created, or False to keep one the index would otherwise
+    close, in which case closing it becomes your responsibility.
+* **Raises:**
+  * **ValueError** – If `schema` is not an IndexSchema.
+  * **TypeError** – If `redis_client` is the wrong flavour, or if a
+        keyword that no longer exists is passed. `connection_args`
+        and `redis_kwargs` are both now `connection_kwargs`.
 
 #### `aggregate(*args, **kwargs)`
 
@@ -111,36 +133,17 @@ NOTE: This method requires custom behavior for Redis Cluster because
 here, we can’t easily give control of the keys we’re clearing to the
 user so they can separate them based on hash tag.
 
-{{< note >}}
-The sweep enumerates through the index, so it removes only what the
-index currently returns, and it can stop early – against an index
-still being backfilled, or when a page’s keys cannot be deleted. The
-returned count is the only signal, and `0` does not distinguish an
-empty index from a sweep that deleted nothing. Re-running is safe.
-{{< /note >}}
+> [!NOTE]
+> The sweep enumerates through the index, so it removes only what the
+> index currently returns, and it can stop early – against an index
+> still being backfilled, or when a page’s keys cannot be deleted. The
+> returned count is the only signal, and `0` does not distinguish an
+> empty index from a sweep that deleted nothing. Re-running is safe.
 
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
   int
-
-#### `connect(redis_url=None, **kwargs)`
-
-Connect to a Redis instance using the provided redis_url, falling
-back to the REDIS_URL environment variable (if available).
-
-Note: Additional keyword arguments (\*\*kwargs) can be used to provide
-extra options specific to the Redis connection.
-
-* **Parameters:**
-  **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
-  connect to.
-* **Raises:**
-  * **redis.exceptions.ConnectionError** – If the connection to the Redis
-        server fails.
-  * **ValueError** – If the Redis URL is not provided nor accessible
-        through the REDIS_URL environment variable.
-  * **ModuleNotFoundError** – If required Redis modules are not installed.
 
 #### `create(overwrite=False, drop=False)`
 
@@ -188,7 +191,11 @@ as absent to keep [create](#create) away from this path.
 
 #### `disconnect()`
 
-Disconnect from the Redis database.
+Close the Redis client if this index owns it.
+
+Always invalidates the cached SQL schema. When the index does not own
+the client (see `owns_client`), the client is left open and the
+index remains usable.
 
 #### `drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 
@@ -226,19 +233,17 @@ this re-queries from offset 0 each round (the same strategy as
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
-/ [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
-{{< /note >}}
+> [!NOTE]
+> [update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
+> / [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each key is
-unlinked atomically, but batches are applied incrementally with no
-rollback, so a crash or connection error mid-run leaves the already
--deleted documents gone and the rest in place. Deletes are
-idempotent: re-running the same call after a failure removes only
-whatever still matches, converging on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each key is
+> unlinked atomically, but batches are applied incrementally with no
+> rollback, so a crash or connection error mid-run leaves the already
+> -deleted documents gone and the rest in place. Deletes are
+> idempotent: re-running the same call after a failure removes only
+> whatever still matches, converging on the intended state.
 
 #### `drop_documents(ids, batch_size=500)`
 
@@ -361,6 +366,13 @@ Initialize from an existing search index in Redis by index name.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the client. Defaults to True when this method created the
+    client from redis_url, and False when you supplied one.
+  * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client
+    connection args, used only when this method creates the
+    client from `redis_url`. Other keyword arguments are
+    treated the same way.
 * **Raises:**
   **ValueError** – If redis_url or redis_client is not provided.
 
@@ -485,30 +497,27 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause on a
-**unique** field. Redis documents that `LIMIT` without sorting is
-non-deterministic, so pages may otherwise repeat or miss documents.
-Very deep pagination is also bounded server-side by
-`search-max-search-results` (1,000,000 by default, but 10,000 on
-some managed tiers), past which the search errors rather than ending.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
 
-{{< note >}}
-A yielded batch may contain fewer than `page_size` documents, and an
-empty batch is never yielded. On Redis 8+ a matched document whose
-data expires while the search is running is skipped; each batch
-reports how many were skipped via `dropped_count` (and
-`complete`), including skips inherited from a page that was dropped
-in its entirety. Pagination still runs to the end of the result set in
-that case.
-{{< /note >}}
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `query(query)`
 
@@ -548,20 +557,6 @@ to the redis-py ft().search() method.
   Raw Redis search results.
 * **Return type:**
   Result
-
-#### `set_client(redis_client, **kwargs)`
-
-Manually set the Redis client to use with the search index.
-
-This method configures the search index to use a specific Redis or
-Async Redis client. It is useful for cases where an external,
-custom-configured client is preferred instead of creating a new one.
-
-* **Parameters:**
-  **redis_client** (*Redis*) – A Redis or Async Redis
-  client instance to be used for the connection.
-* **Raises:**
-  **TypeError** – If the provided client is not valid.
 
 #### `update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 
@@ -612,20 +607,18 @@ search-and-indexing concepts guide).
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
-upsert by key).
-{{< /note >}}
+> [!NOTE]
+> [drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
+> upsert by key).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each
-document is updated atomically (one `HSET`/`JSON.MERGE`), but
-batches use a non-transactional pipeline and are applied
-incrementally with no rollback, so a crash or connection error
-mid-run can leave some documents updated and others not. Because
-the update is a fixed field set, it is idempotent: re-running the
-same call after a failure converges on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each
+> document is updated atomically (one `HSET`/`JSON.MERGE`), but
+> batches use a non-transactional pipeline and are applied
+> incrementally with no rollback, so a crash or connection error
+> mid-run can leave some documents updated and others not. Because
+> the update is a fixed field set, it is idempotent: re-running the
+> same call after a failure converges on the intended state.
 
 Keys are resolved before writing, so a document may be deleted by
 another client in between. Each write is conditional on the key
@@ -676,7 +669,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, **kwargs)`
+### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, validate_on_load=False, owns_client=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -705,6 +698,18 @@ await index.load(data)
 await index.delete(drop=True)
 ```
 
+Pass `redis_client` to use a client you configured yourself. The index
+leaves such a client open when it is disconnected or garbage collected;
+pass `owns_client=True` to hand that responsibility over.
+
+```python
+from redis.asyncio import Redis
+from redisvl.index import AsyncSearchIndex
+
+client = Redis.from_url("redis://localhost:6379", socket_timeout=5)
+index = AsyncSearchIndex.from_yaml("schemas/schema.yaml", redis_client=client)
+```
+
 Initialize the RedisVL async search index with a schema.
 
 * **Parameters:**
@@ -717,6 +722,17 @@ Initialize the RedisVL async search index with a schema.
     args.
   * **validate_on_load** (*bool* *,* *optional*) – Whether to validate data against schema
     when loading. Defaults to False.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the Redis client when the index is disconnected or garbage
+    collected. Defaults to None, meaning the index owns a client
+    only if it created one itself. Pass True to hand over a client
+    you created, or False to keep one the index would otherwise
+    close, in which case closing it becomes your responsibility.
+* **Raises:**
+  * **ValueError** – If `schema` is not an IndexSchema.
+  * **TypeError** – If `redis_client` is the wrong flavour, or if a
+        keyword that no longer exists is passed. `connection_args`
+        and `redis_kwargs` are both now `connection_kwargs`.
 
 #### `async aggregate(*args, **kwargs)`
 
@@ -787,13 +803,6 @@ identically here.
 * **Return type:**
   int
 
-#### `connect(redis_url=None, **kwargs)`
-
-[DEPRECATED] Connect to a Redis instance. Use connection parameters in \_\_init_\_.
-
-* **Parameters:**
-  **redis_url** (*str* *|* *None*)
-
 #### `async create(overwrite=False, drop=False)`
 
 Asynchronously create an index in Redis with the current schema
@@ -840,7 +849,21 @@ as absent to keep [create](#create) away from this path.
 
 #### `async disconnect()`
 
-Disconnect from the Redis database.
+Close the Redis client if this index owns it.
+
+Always invalidates the cached SQL schema. When the index does not own
+the client (see `owns_client`), the client is left open and the
+index remains usable.
+
+#### `disconnect_sync()`
+
+Close an owned Redis client from synchronous code.
+
+For callers outside an event loop, such as `__del__` or a shutdown
+hook. Honours `owns_client` exactly as [disconnect](#disconnect) does.
+
+Does nothing if a loop is already running, since it cannot await the
+close from inside one. Use [disconnect](#disconnect) there.
 
 #### `async drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 
@@ -976,6 +999,13 @@ Initialize from an existing search index in Redis by index name.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
+  * **owns_client** (*Optional* *[* *bool* *]* *,* *optional*) – Whether the index closes
+    the client. Defaults to True when this method created the
+    client from redis_url, and False when you supplied one.
+  * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client
+    connection args, used only when this method creates the
+    client from `redis_url`. Other keyword arguments are
+    treated the same way.
 
 #### `classmethod from_yaml(schema_path, **kwargs)`
 
@@ -1118,30 +1148,27 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause on a
-**unique** field. Redis documents that `LIMIT` without sorting is
-non-deterministic, so pages may otherwise repeat or miss documents.
-Very deep pagination is also bounded server-side by
-`search-max-search-results` (1,000,000 by default, but 10,000 on
-some managed tiers), past which the search errors rather than ending.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause on a
+> **unique** field. Redis documents that `LIMIT` without sorting is
+> non-deterministic, so pages may otherwise repeat or miss documents.
+> Very deep pagination is also bounded server-side by
+> `search-max-search-results` (1,000,000 by default, but 10,000 on
+> some managed tiers), past which the search errors rather than ending.
 
-{{< note >}}
-A yielded batch may contain fewer than `page_size` documents, and an
-empty batch is never yielded. On Redis 8+ a matched document whose
-data expires while the search is running is skipped; each batch
-reports how many were skipped via `dropped_count` (and
-`complete`), including skips inherited from a page that was dropped
-in its entirety. Pagination still runs to the end of the result set in
-that case.
-{{< /note >}}
+> [!NOTE]
+> A yielded batch may contain fewer than `page_size` documents, and an
+> empty batch is never yielded. On Redis 8+ a matched document whose
+> data expires while the search is running is skipped; each batch
+> reports how many were skipped via `dropped_count` (and
+> `complete`), including skips inherited from a page that was dropped
+> in its entirety. Pagination still runs to the end of the result set in
+> that case.
 
 #### `async query(query)`
 
@@ -1181,14 +1208,6 @@ to the redis-py ft().search() method.
   Raw Redis search results.
 * **Return type:**
   Result
-
-#### `set_client(redis_client)`
-
-[DEPRECATED] Manually set the Redis client to use with the search index.
-This method is deprecated; please provide connection parameters in \_\_init_\_.
-
-* **Parameters:**
-  **redis_client** (*Redis* *|* *RedisCluster* *|* *Redis* *|* *RedisCluster*)
 
 #### `async update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
 

@@ -8,7 +8,7 @@ categories:
 description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
-weight: 10
+weight: 30
 bannerText: LangCache is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 aliases:
@@ -20,10 +20,10 @@ Cut LLM costs and improve response times with semantic caching.
 LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly: no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
-  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
-  {{< tile-card color="bg-teal-300" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
 </div>
 
 ## What is LangCache?
@@ -94,6 +94,8 @@ Imagine you’re using an LLM to build an agent to answer questions about your c
 
 These prompts may have slight variations, but they essentially ask the same question. LangCache can help you avoid calling the LLM for each of these prompts by caching the response to the first prompt and returning it for any similar prompts.
 
+To watch a cache answer paraphrased questions, try the [interactive demo](/content/develop/ai/context-engine/langcache/interactive-demo.md).
+
 Using LangCache as a semantic caching service has the following benefits:
 
 - **Lower LLM costs**:  Reduce costly LLM calls by easily storing the most frequently-requested responses.
@@ -116,7 +118,7 @@ LangCache works well for the following use cases:
 
 The following diagram displays how you can integrate LangCache into your GenAI app:
 
-{{< image filename="images/rc/langcache-process.png" alt="The LangCache process diagram." >}}
+![The LangCache process diagram.](/images/rc/langcache-process.png)
 
 1. A user sends a prompt to your AI app.
 1. Your app sends the prompt to LangCache through the `POST /v1/caches/{cacheId}/entries/search` endpoint.

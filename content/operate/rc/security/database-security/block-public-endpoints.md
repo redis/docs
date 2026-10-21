@@ -56,7 +56,9 @@ To turn on passwordless authentication:
 
 1. From the database **Configuration** tab, select **Edit**.
 1. In the **Security** section, select **Use passwordless auth** to turn on passwordless authentication.
-    {{<image filename="images/rc/database-configuration-security-passwordless.png" alt="Turn on passwordless authentication for the default user." >}}
+
+    ![Turn on passwordless authentication for the default user.](/images/rc/database-configuration-security-passwordless.png)
+
 1. Select **Save database** to save your changes.
 
 ## Private connectivity methods

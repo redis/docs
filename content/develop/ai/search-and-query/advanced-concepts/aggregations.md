@@ -377,7 +377,7 @@ Collect documents within each group as an array of key-value maps, projecting ei
 - Fields missing from a document are omitted from that entry (sparse output, with no NULL placeholders).
 - `DISTINCT` (optional) deduplicates entries with identical projected fields, keeping the best representative according to the sort keys. When `DISTINCT` is omitted, all documents are retained including duplicates.
 - `SORTBY` (optional) sorts documents within each group by one or more fields with `ASC`/`DESC`.
-- `LIMIT` (optional) limits the number of documents returned per group.
+- `LIMIT` (optional) limits the number of documents returned per group. Neither `offset` nor `count` can exceed [`search-max-aggregate-results`](/content/develop/ai/search-and-query/administration/configuration.md#search-max-aggregate-results). A larger value returns the error `LIMIT offset exceeds maximum of <N>` or `LIMIT count exceeds maximum of <N>`.
 
 Each collected entry is returned as a key-value map (matching the standard `FT.AGGREGATE` result format). The `COLLECT` output is an array of such maps nested under the alias. For example:
 

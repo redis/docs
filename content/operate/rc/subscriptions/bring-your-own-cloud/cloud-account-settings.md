@@ -39,7 +39,8 @@ To create or edit a cloud account in Redis Cloud:
 
     This displays a list of cloud accounts associated with your Redis Cloud subscription.
 
-    {{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="80%">}}
+    ![Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription.](/images/rc/account-settings-cloud-account-tab.png)
+    {width="80%"}
 
 The **Cloud account** tab lets you manage cloud accounts associated with your Redis Cloud subscription.
 
@@ -49,11 +50,13 @@ The **Cloud Account** tab is only available for accounts with Redis Cloud Bring 
 
 To add a new cloud account to your Redis Cloud subscription, select the **Add** button from the **BYOC Accounts** tab of the Account Settings screen.
 
-{{<image filename="images/rc/icon-add.png" width="30px" alt="Use the Add button to add new cloud accounts to your Redis Cloud subscription." width="36px">}}
+![Use the Add button to add new cloud accounts to your Redis Cloud subscription.](/images/rc/icon-add.png)
+{width="36px"}
 
 This displays the **Bring your own Cloud (BYOC)** dialog.
 
-{{<image filename="images/rc/account-settings-prompt-add-cloud-account.png" alt="Use the Bring your own Cloud prompt to enter the details of the cloud account." width="75%">}}
+![Use the Bring your own Cloud prompt to enter the details of the cloud account.](/images/rc/account-settings-prompt-add-cloud-account.png)
+{width="75%"}
 
 Each of the following fields are required.
 
@@ -66,7 +69,8 @@ Each of the following fields are required.
 
 Use the **Add account** button to save your cloud account details.
 
-{{<image filename="images/rc/button-cloud-account-add.png" alt="Use the Add account button to save the details of your new cloud account." width="140px">}}
+![Use the Add account button to save the details of your new cloud account.](/images/rc/button-cloud-account-add.png)
+{width="140px"}
 
 Be sure to create the resources before adding the cloud account to your subscription, as they're used to verify access to the cloud account.  The details can be saved only after access is verified.
 
@@ -84,11 +88,13 @@ For help, see [Create IAM resources](/content/operate/rc/subscriptions/bring-you
 
 To update the details of a cloud account associated with your Redis Cloud subscription, select the cloud account from the **Cloud account** tab and then select the **Edit** button.
 
-{{<image filename="images/rc/icon-edit.png" alt="Use the Edit button to update cloud account details." width="36px">}}
+![Use the Edit button to update cloud account details.](/images/rc/icon-edit.png)
+{width="36px"}
 
 This displays the **Edit cloud account** dialog:
 
-{{<image filename="images/rc/account-settings-prompt-edit-cloud-account.png" alt="Use the Edit cloud account prompt to update the details of the cloud account." width="75%">}}
+![Use the Edit cloud account prompt to update the details of the cloud account.](/images/rc/account-settings-prompt-edit-cloud-account.png)
+{width="75%"}
 
 |Setting|Description|
 |-------|-----------|
@@ -99,13 +105,15 @@ This displays the **Edit cloud account** dialog:
 
 Use the **Update account** button to save your changes.
 
-{{<image filename="images/rc/button-cloud-account-update.png" alt="Use the Update account button to save the updated cloud account details." width="140px">}}
+![Use the Update account button to save the updated cloud account details.](/images/rc/button-cloud-account-update.png)
+{width="140px"}
 
 ## Delete cloud account
 
 To remove a cloud account from your Redis cloud subscription, select the cloud account from the **Cloud account** tab and then select the **Delete** button.
 
-{{<image filename="images/rc/icon-delete-lb.png" alt="Use the Delete button to remove cloud account details." width="36px">}}
+![Use the Delete button to remove cloud account details.](/images/rc/icon-delete-lb.png)
+{width="36px"}
 
 ## Dedicated IAM resources
 

@@ -27,7 +27,7 @@ Supported platforms are listed in the [release notes](/content/operate/kubernete
 
 The image below illustrates the components of a single namespace, three node deployment.
 
-{{< image filename="/images/k8s/k8s-arch-v4.png" >}}
+![](/images/k8s/k8s-arch-v4.png)
 
 ## Operator
 
@@ -67,7 +67,7 @@ For settings managed by the operator, any changes made outside of the CR YAML fi
 
 A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances ([shards](/content/operate/rs/references/terminology.md)).
 
-{{< image filename="/images/k8s/k8s-node-arch.png">}}
+![](/images/k8s/k8s-node-arch.png)
 
 A Redis cluster is created and managed by the [RedisEnterpriseCluster (REC)](/content/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api.md) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases ([REDB](#redisenterprisedatabase-redb)) and Active-Active databases ([REAADB](#redisenterpriseactiveactivedatabase-reaadb)).
 
