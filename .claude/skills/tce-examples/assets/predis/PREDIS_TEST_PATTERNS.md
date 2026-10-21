@@ -129,6 +129,13 @@ echo json_encode($all) . PHP_EOL;
 // >>> {"field1":"value1","field2":"value2"}
 ```
 
+`echo` prints an empty line for a `null` reply, so a `// >>> (null)` comment after it is
+wrong. Use `var_export`:
+
+```php
+echo var_export($res, true) . PHP_EOL; // >>> NULL
+```
+
 ### 5. Hash Operations
 ```php
 // Single field — returns the number of new fields

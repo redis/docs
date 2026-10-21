@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="850" viewBox="0 0 1440 850" role="img" aria-labelledby="title desc">
+<title id="title">RDI connects directly to RDS or Aurora through AWS PrivateLink</title>
+<desc id="desc">RDI connects through a VPC endpoint, an endpoint service, and an internal network load balancer to the database writer. The target group stores the writer IP address. On an RDS event, SNS invokes Lambda. Lambda resolves the writer endpoint with DNS and updates the target group. Lambda does not carry database traffic. The load balancer and database have separate security groups. SNS and Lambda are shown outside the customer VPC.</desc>
+<defs>
+  <marker id="data-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#84959e"/></marker>
+  <marker id="control-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#526875"/></marker>
+</defs>
+<rect width="1440" height="850" fill="white"/>
+<style>
+text { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; fill: #163341; }
+.box { fill: white; stroke: #8a9ba4; stroke-width: 2; }
+.data { fill: none; stroke: #84959e; stroke-width: 2.5; marker-end: url(#data-arrow); }
+.control { fill: none; stroke: #526875; stroke-width: 2.5; stroke-dasharray: 8 6; marker-end: url(#control-arrow); }
+</style>
+<text x="720" y="42" font-size="26" text-anchor="middle" >RDI with RDS or Aurora: direct connection and Lambda updates</text>
+<rect class="box" x="340" y="78" width="1080" height="685" rx="20" />
+<text x="880" y="111" font-size="24" text-anchor="middle" >Customer AWS account</text>
+<rect class="box" x="20" y="135" width="300" height="315" rx="16" />
+<text x="170" y="173" font-size="23" text-anchor="middle" >Redis Cloud VPC</text>
+<rect class="box" x="565" y="135" width="830" height="315" rx="16" />
+<text x="980" y="173" font-size="23" text-anchor="middle" >Customer VPC</text>
+<rect class="box" x="580" y="205" width="235" height="205" rx="10" stroke-dasharray="8 6"/>
+<rect class="box" x="1100" y="205" width="275" height="205" rx="10" stroke-dasharray="8 6"/>
+<text x="698" y="395" font-size="17" text-anchor="middle" >NLB security group</text>
+<text x="1238" y="395" font-size="17" text-anchor="middle" >Database security group</text>
+<rect class="box" x="45" y="235" width="85" height="125" rx="5" />
+<text x="87" y="336" font-size="24" text-anchor="middle" >RDI</text>
+<rect class="box" x="160" y="235" width="140" height="125" rx="5" />
+<text x="230" y="290" font-size="22" text-anchor="middle" >VPC</text>
+<text x="230" y="321" font-size="22" text-anchor="middle" >endpoint</text>
+<rect class="box" x="370" y="235" width="175" height="125" rx="5" />
+<text x="457" y="290" font-size="22" text-anchor="middle" >Endpoint</text>
+<text x="457" y="321" font-size="22" text-anchor="middle" >service</text>
+<rect class="box" x="590" y="235" width="215" height="125" rx="5" />
+<text x="698" y="290" font-size="18" text-anchor="middle" >Internal network</text>
+<text x="698" y="321" font-size="21" text-anchor="middle" >load balancer</text>
+<rect class="box" x="860" y="235" width="195" height="125" rx="5" />
+<text x="958" y="290" font-size="19" text-anchor="middle" >IP target group</text>
+<text x="958" y="321" font-size="21" text-anchor="middle" >Writer IP</text>
+<rect class="box" x="1120" y="235" width="235" height="125" rx="5" />
+<text x="1238" y="313" font-size="23" text-anchor="middle" >RDS / Aurora</text>
+<text x="1238" y="344" font-size="20" text-anchor="middle" >Database writer</text>
+<path class="data" d="M130 298 H160"/>
+<path class="data" d="M300 298 H370"/>
+<path class="data" d="M545 298 H590"/>
+<path class="data" d="M805 298 H860"/>
+<path class="data" d="M1055 298 H1120"/>
+<text x="336" y="221" font-size="16" text-anchor="middle" >PrivateLink</text>
+<text x="980" y="195" font-size="16" text-anchor="middle" >PostgreSQL example: TCP 5432 for the listener, target and health check</text>
+<rect class="box" x="1120" y="565" width="235" height="110" rx="5" />
+<text x="1238" y="612" font-size="23" text-anchor="middle" >Amazon SNS</text>
+<text x="1238" y="642" font-size="18" text-anchor="middle" >1. Invoke Lambda</text>
+<rect class="box" x="850" y="565" width="230" height="110" rx="5" />
+<text x="965" y="612" font-size="22" text-anchor="middle" >Lambda function</text>
+<text x="965" y="642" font-size="18" text-anchor="middle" >Update addresses</text>
+<rect class="box" x="590" y="565" width="220" height="110" rx="5" />
+<text x="700" y="612" font-size="23" text-anchor="middle" >DNS lookup</text>
+<text x="700" y="642" font-size="17" text-anchor="middle" >2. Resolve writer</text>
+<path class="control" d="M1355 298 H1384 V525 H1238 V565"/>
+<text x="1248" y="513" font-size="18" text-anchor="start" >RDS event</text>
+<path class="control" d="M1120 620 H1080"/>
+<path class="control" d="M850 620 H810"/>
+<path class="control" d="M958 565 V360"/>
+<text x="942" y="515" font-size="17" text-anchor="end" >3. Update target IP</text>
+<text x="880" y="713" font-size="20" text-anchor="middle" >Lambda keeps the target group pointed at the current writer.</text>
+<text x="880" y="745" font-size="20" text-anchor="middle" >Database connections go through the NLB, not through Lambda.</text>
+<path d="M 260 815 H 320" class="data"/>
+<text x="338" y="821" font-size="18" text-anchor="start" >Database connection</text>
+<path d="M 780 815 H 840" class="control"/>
+<text x="858" y="821" font-size="18" text-anchor="start" >Failover update</text>
+
+<svg x="55" y="245" width="64" height="64" aria-hidden="true" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21.1732 53.027C20.8466 53.027 20.52 52.9379 20.2132 52.7697L16.6699 50.6813C15.8979 50.2161 15.5416 49.2561 15.8286 48.4049L16.9668 45.0695C16.373 44.2678 15.888 43.4067 15.502 42.4764L12.127 41.8132C11.2362 41.645 10.583 40.8433 10.583 39.9228V35.756C10.583 34.8356 11.2362 34.0339 12.127 33.8656L15.5218 33.1926C15.8979 32.2919 16.3829 31.4408 16.9668 30.6589L15.8187 27.274C15.5317 26.403 15.888 25.4429 16.6501 24.9877L20.1934 22.8993C20.9951 22.4341 21.9848 22.5925 22.5985 23.2952L24.8947 26.0071C25.8349 25.8883 26.7653 25.8883 27.6956 26.0071L29.9819 23.3051C30.6054 22.5925 31.5952 22.4242 32.3969 22.8894L35.9303 24.9778C36.7023 25.433 37.0685 26.3931 36.7814 27.2542L35.6333 30.649C36.2173 31.4309 36.7023 32.282 37.0784 33.1827L40.4732 33.8557C41.3639 34.0339 42.0172 34.8257 42.0172 35.7461V39.9129C42.0172 40.8334 41.3639 41.6351 40.4732 41.8033L37.108 42.4665C36.7319 43.3968 36.2371 44.2579 35.6432 45.0596L36.7715 48.3851C37.0586 49.266 36.7022 50.226 35.9204 50.6813L32.4068 52.7598C31.5952 53.2249 30.6153 53.0666 30.0017 52.354L27.7649 49.7114C26.7851 49.84 25.825 49.84 24.8353 49.7114L22.6084 52.3441C22.2224 52.7895 21.6879 53.0171 21.1534 53.0171L21.1732 53.027ZM21.1534 24.6412L17.6794 26.69L19.2036 31.0449L18.8572 31.4705C18.1446 32.3513 17.5805 33.3312 17.1846 34.4001L16.9965 34.9246L12.5229 35.8055L12.5823 39.9228L16.9866 40.7542L17.1747 41.2887C17.5607 42.3774 18.1248 43.377 18.8473 44.2579L19.1937 44.6835L17.7091 49.0383L21.1534 51.0376L24.0633 47.5933L24.6274 47.6923C25.7557 47.8902 26.8741 47.8902 28.0024 47.6923L28.5666 47.5933L31.4764 51.0376L34.9405 48.9889L33.4361 44.6835L33.7825 44.2579C34.505 43.377 35.0692 42.3774 35.4552 41.2887L35.6432 40.7542L40.107 39.8733L40.0476 35.756L35.6333 34.9246L35.4453 34.4001C35.0494 33.3312 34.4852 32.3414 33.7726 31.4705L33.4262 31.0449L34.9207 26.6405L31.4764 24.6412L28.5072 28.1449L27.9529 28.0459C26.8642 27.8579 25.7755 27.8579 24.6868 28.0459L24.1325 28.1449L21.1633 24.6412H21.1534Z" fill="#FF4438"/>
+<path d="M26.3084 43.0306C23.4382 43.0306 21.1123 40.6949 21.1123 37.8345C21.1123 34.9742 23.4481 32.6384 26.3084 32.6384C29.1688 32.6384 31.5046 34.9742 31.5046 37.8345C31.5046 40.6949 29.1688 43.0306 26.3084 43.0306ZM26.3084 34.6079C24.5368 34.6079 23.0918 36.053 23.0918 37.8246C23.0918 39.5962 24.5368 41.0413 26.3084 41.0413C28.0801 41.0413 29.5251 39.5962 29.5251 37.8246C29.5251 36.053 28.0801 34.6079 26.3084 34.6079Z" fill="#163341"/>
+<path d="M17.193 18.594L16.3418 16.8124C19.4694 15.3278 22.8246 14.5756 26.3085 14.5756C28.9115 14.5756 31.4056 15.0012 33.7414 15.8029C33.7711 16.5452 33.8503 17.2776 33.979 17.9902C31.5937 17.0599 29.0105 16.5551 26.3085 16.5551C23.1215 16.5551 20.0533 17.238 17.193 18.594Z" fill="#163341"/>
+<path d="M49.5676 37.8345C49.5676 50.6516 39.1357 61.0934 26.3087 61.0934C13.4817 61.0934 3.0498 50.6516 3.0498 37.8345C3.0498 33.7865 4.10883 29.8473 6.08831 26.3634L4.08903 25.0966L9.85922 22.4243L9.9186 28.7982L7.76097 27.4224C5.97944 30.5896 5.02929 34.1626 5.02929 37.8345C5.02929 49.5629 14.5803 59.1139 26.3087 59.1139C38.0371 59.1139 47.5881 49.5629 47.5881 37.8345C47.5881 35.0335 47.0438 32.3612 46.054 29.9067C46.7666 30.0354 47.499 30.1046 48.2413 30.1145C49.1024 32.5295 49.5676 35.1325 49.5676 37.8345Z" fill="#163341"/>
+<path d="M61 15.5C61 22.4 55.41 28 48.5 28C47.1 28 45.75 27.77 44.5 27.34H44.48C43.81 27.11 43.17 26.83 42.56 26.5C42.52 26.48 42.47 26.45 42.42 26.42C40.84 25.54 39.47 24.33 38.41 22.88C37.8 22.04 37.28 21.13 36.89 20.15C36.32 18.71 36 17.14 36 15.5C36 8.6 41.6 3 48.5 3C55.4 3 61 8.6 61 15.5Z" fill="#FF4438"/>
+<path d="M55.2005 16.1766C54.1612 17.3968 53.0428 18.8055 50.7946 18.8055C48.795 18.8055 48.0494 17.1416 47.9929 15.7995C48.4335 16.6647 49.2921 17.3746 50.6252 17.3413C53.2009 17.2637 54.9633 15.0785 54.9633 13.093C54.9633 10.7193 53.0767 9 49.8005 9C47.4507 9 44.5473 9.843 42.6381 11.163C42.6155 12.5273 43.4289 14.302 43.7226 14.1024C45.372 12.9932 46.6825 12.2722 47.9591 11.9061C46.0724 13.8805 41.5536 18.4616 41 19.2713C41.0565 20.0145 42.0393 22 42.5138 22C42.6607 22 42.785 21.9224 42.9318 21.7893C44.2875 20.3473 45.4059 19.0606 46.3887 17.8183C46.5356 19.6374 47.4846 21.8669 50.1507 21.8669C52.5344 21.8669 54.9068 20.2474 55.98 16.5981C56.1156 16.1544 55.5282 15.7995 55.2005 16.1766ZM52.4779 13.2261C52.4779 14.3797 51.2691 14.9454 50.1733 14.9454C49.5858 14.9454 49.134 14.8012 48.7724 14.6126C49.439 13.6809 50.0829 12.7159 50.7833 11.6954C52.0147 11.884 52.4779 12.5273 52.4779 13.2261Z" fill="white"/>
+</svg>
+<svg x="1210" y="241" width="56" height="56" aria-hidden="true" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M57.0331 11V25.958C57.0331 28.491 47.5136 32.0252 32.0049 32.0252C16.4963 32.0252 6.96685 28.491 6.96685 25.958V11H5V52.9403C5 58.2367 18.5811 61 32.0049 61C45.4287 61 59 58.2267 59 52.9403V11H57.0331ZM32.0049 58.9976C16.4963 58.9976 6.96685 55.4634 6.96685 52.9403V42.8783C11.1956 46.0621 21.6494 47.7141 32.0049 47.7141C42.3604 47.7141 52.8044 46.0621 57.0331 42.8783V52.9403C57.0331 55.4734 47.5136 58.9976 32.0049 58.9976ZM32.0049 45.7117C16.4963 45.7117 6.96685 42.1774 6.96685 39.6544V29.1918C11.1956 32.3757 21.6494 34.0276 32.0049 34.0276C42.3604 34.0276 52.8044 32.3757 57.0331 29.1918V39.6544C57.0331 42.1874 47.5136 45.7117 32.0049 45.7117Z" fill="#163341"/>
+<path d="M32.0049 19C18.5811 19 5 16.2489 5 11.005C5 5.76102 18.5811 3 32.0049 3C45.4287 3 59 5.75109 59 11.005C59 16.2588 45.4189 19 32.0049 19ZM32.0049 4.98634C16.4963 4.98634 6.96685 8.49224 6.96685 11.005C6.96685 13.5177 16.4963 17.0137 32.0049 17.0137C47.5136 17.0137 57.0331 13.5078 57.0331 11.005C57.0331 8.50217 47.5136 4.98634 32.0049 4.98634Z" fill="#FF4438"/>
+</svg>
+</svg>

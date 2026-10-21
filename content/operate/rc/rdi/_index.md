@@ -114,6 +114,9 @@ Once your data pipeline is defined, you can [view and edit](/content/operate/rc/
 
 For complete production setups, including SQL Server failover handling, see [Production use cases](/content/operate/rc/rdi/use-cases/_index.md).
 
+To plan workspace capacity and scale a pipeline, see [Scale a Cloud RDI pipeline]({{<
+relref "/operate/rc/rdi/scale-pipeline" >}}).
+
 ## Billing and common questions
 
 See the [RDI Cloud FAQ](/content/operate/rc/rdi/faq.md) for billing examples, reset and flush behavior, and working with multiple sources.

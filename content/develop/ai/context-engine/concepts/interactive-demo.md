@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
 weight: 10
-bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
 aliases:
 - /develop/ai/context-engine/interactive-demo/
 ---

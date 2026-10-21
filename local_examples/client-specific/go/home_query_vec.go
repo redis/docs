@@ -80,7 +80,7 @@ func main() {
 
 	// STEP_START embedder
 	// Create a Hugot session
-	session, err := hugot.NewGoSession()
+	session, err := hugot.NewGoSession(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -94,7 +94,7 @@ func main() {
 	// Download the model
 	downloadOptions := hugot.NewDownloadOptions()
 	downloadOptions.OnnxFilePath = "onnx/model.onnx" // Specify which ONNX file to use
-	modelPath, err := hugot.DownloadModel("sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
+	modelPath, err := hugot.DownloadModel(ctx, "sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
 	if err != nil {
 		panic(err)
 	}
@@ -124,7 +124,7 @@ func main() {
 	}
 
 	// Generate embeddings using Hugot
-	embeddingResult, err := embeddingPipeline.RunPipeline(sentences)
+	embeddingResult, err := embeddingPipeline.RunPipeline(ctx, sentences)
 	if err != nil {
 		panic(err)
 	}
@@ -150,9 +150,30 @@ func main() {
 	}
 	// STEP_END
 
+	// STEP_START himport_data
+	err = rdb.HImportPrepare(ctx, "doc", "content", "genre", "embedding").Err()
+	if err != nil {
+		panic(err)
+	}
+
+	pipe := rdb.Pipeline()
+
+	for i, emb := range embeddings {
+		pipe.HImportSet(ctx,
+			fmt.Sprintf("doc:%v", i),
+			"doc",
+			sentences[i], tags[i], floatsToBytes(emb),
+		)
+	}
+
+	if _, err := pipe.Exec(ctx); err != nil {
+		panic(err)
+	}
+	// STEP_END
+
 	// STEP_START query
 	// Generate query embedding using Hugot
-	queryResult, err := embeddingPipeline.RunPipeline([]string{
+	queryResult, err := embeddingPipeline.RunPipeline(ctx, []string{
 		"That is a happy person",
 	})
 
@@ -251,7 +272,7 @@ func main() {
 
 	// STEP_START json_query
 	// Generate query embedding for JSON search using Hugot
-	jsonQueryResult, err := embeddingPipeline.RunPipeline([]string{
+	jsonQueryResult, err := embeddingPipeline.RunPipeline(ctx, []string{
 		"That is a happy person",
 	})
 

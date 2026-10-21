@@ -145,3 +145,9 @@ pending commands execute and activate their callbacks.
 Use `redisAsyncFree()` to disconnect immediately. If you do this then
 any pending callbacks from commands that have already executed will be
 called with a `NULL` reply pointer.
+
+## Redis Sentinel
+
+`hiredis` doesn't support [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md).
+It has no API to find the current primary from a set of Sentinels or to reconnect after a
+failover.

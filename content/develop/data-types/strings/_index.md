@@ -47,7 +47,7 @@ The [`SET`](/content/commands/set.md) command has interesting options that are p
 arguments. For example, I may ask [`SET`](/content/commands/set.md) to fail if the key already exists,
 or the opposite, that it only succeed if the key already exists:
 
-{{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to control key existence when you need atomic compare-and-set behavior" difficulty="intermediate" buildsUpon="set_get" >}}
+{{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to set a key only if it doesn't exist yet, or only if it already exists" difficulty="intermediate" buildsUpon="set_get" >}}
 # Recreate the bike:1 key so this example runs on its own.
 > SET bike:1 Deimos
 OK
@@ -56,6 +56,29 @@ OK
 > SET bike:1 bike XX
 OK
 {{< /clients-example >}}
+
+Starting with Redis 8.4, [`SET`](/content/commands/set.md) can also check the key's current value before it writes.
+With the `IFEQ` option, `SET` succeeds only if the current value equals the one you pass.
+This lets a client update a value it read earlier without overwriting a change that another client made in the meantime, a pattern known as compare-and-swap (CAS).
+The [`DELEX`](/content/commands/delex.md) command applies the same check to deletion (compare-and-delete):
+
+{{< clients-example set="set_tutorial" step="cas_cad" lang_filter="Python,Node.js,Java-Sync,Java-Async,Java-Reactive,Go,C#-Sync (SE.Redis),PHP,Rust-Sync,Rust-Async" description="Compare-and-swap and compare-and-delete: Use the IFEQ option with SET and DELEX to update or delete a key only if its value hasn't changed since you read it" difficulty="intermediate" buildsUpon="setnx_xx" >}}
+> SET bike:1 Deimos
+OK
+> SET bike:1 Ares IFEQ Deimos
+OK
+> SET bike:1 Zeus IFEQ Deimos
+(nil)
+> GET bike:1
+"Ares"
+> DELEX bike:1 IFEQ Deimos
+(integer) 0
+> DELEX bike:1 IFEQ Ares
+(integer) 1
+{{< /clients-example >}}
+
+The `IFNE` option reverses the check, and the `IFDEQ` and `IFDNE` options compare a hash digest of the value instead of the value itself.
+Use [`DIGEST`](/content/commands/digest.md) to get the digest of a key's value.
 
 There are a number of other commands for operating on strings. For example
 the [`GETSET`](/content/commands/getset.md) command sets a key to a new value, returning the old value as the
