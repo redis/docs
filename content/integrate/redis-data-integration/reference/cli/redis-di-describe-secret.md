@@ -8,10 +8,9 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Describes a single secret of a pipeline. The API never returns secret values, so the output shows
-the key, database, type, configuration reference, and whether it is set, not the stored value.
-
-The **Config Reference** row contains the placeholder to use in `config.yaml`, such as
+Describes a single secret of a pipeline. The output shows the key, database, type, and
+configuration reference of the secret, but not its value, because the API never returns secret
+values. The `Config Reference` field contains the placeholder to use in `config.yaml`, such as
 `${TARGET_DB_PASSWORD}`.
 
 ## Usage
@@ -34,4 +33,13 @@ This command also accepts the
 
 ```bash
 redis-di describe-secret PASSWORD --db target
+```
+
+The output looks like the following:
+
+```
+Key:               PASSWORD
+Db:                target
+Type:              simple
+Config Reference:  ${TARGET_DB_PASSWORD}
 ```

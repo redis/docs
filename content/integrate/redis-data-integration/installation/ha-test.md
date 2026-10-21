@@ -103,3 +103,37 @@ To clean up after the test, remove the `iptables` rule that you added to block t
 ```sudo iptables -D FORWARD -d <databse_ip> -j DROP```
 
 Use `sudo iptables -S | grep <database_ip>` to verify that the rule has been removed.
+
+## Trigger a failover manually
+
+To move the pipelines to the other instance without simulating a failure, for example before
+maintenance, put the leader in standby with the
+[`standby_mode`](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode)
+instance setting. Each instance has its own settings, so run these commands with a CLI
+[context](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts) that points
+to the instance you want to change.
+
+1. On the leader, set `standby_mode` to `true`:
+
+   ```
+   redis-di set-setting standby_mode true
+   ```
+
+   The leader gives up the leadership and its pipelines change to `standby`.
+
+1. Check that the other instance has taken over. Its
+   [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+   output shows `Leader Election Mode: leader`, and its pipelines are active again.
+
+1. When the maintenance is over, delete the setting on the old leader, so that it takes part in
+   the leader election again:
+
+   ```
+   redis-di delete-setting standby_mode
+   ```
+
+   The old leader becomes a follower, and the other instance remains the leader.
+
+You can also set and delete `standby_mode` with `PATCH /api/v2/settings`. See
+[RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+for details.

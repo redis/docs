@@ -283,24 +283,10 @@ can only be performed against the primary instance.
 You can still set pipeline secrets for an instance when it is on standby. Secrets are maintained per
 instance and are not replicated between the two, because they can legitimately differ in some cases.
 
-To place an instance in standby without changing its installation configuration, set the
-runtime standby setting:
-
-```bash
-redis-di set-setting standby_mode true
-```
-
-Delete the setting to let the instance rejoin leader election:
-
-```bash
-redis-di delete-setting standby_mode
-```
-
-You can also set or delete `standby_mode` with `PATCH /api/v2/settings`. Use
-`GET /api/v2/settings` or `redis-di list-settings` to inspect the current settings.
-The runtime setting overrides `operator.leaderElection.standbyMode` until you delete it.
-
-You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover](/content/integrate/redis-data-integration/installation/ha-test.md) to learn how to do this.
+You may find it useful to trigger a failover deliberately, either to check that RDI is correctly
+configured to handle it, or to move the pipelines to the other instance before maintenance. See
+[Test HA failover](/content/integrate/redis-data-integration/installation/ha-test.md) to learn
+how to do this.
 
 ## Prepare your source databases
 

@@ -17,9 +17,8 @@ weight: 30
 ---
 
 > [!NOTE]
-> Before upgrading to RDI 2.2.0, review the
-> [RDI 2.2.0 changes](#upgrading-to-rdi-220), and review the
-> [processor default change](#upgrading-to-rdi-200).
+> Before you upgrade, review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220). If you upgrade
+> from RDI 1.19.x or earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
 
 ## Upgrading a VM installation
 
@@ -181,48 +180,47 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 
 ## Upgrading to RDI 2.2.0
 
-RDI 2.2.0 changes pipeline creation, source naming, leader election, secret handling, and source
-metadata behavior. Review these changes before upgrading.
+Check the following changes before you upgrade from RDI 2.0.0. If you upgrade from RDI 1.19.x or
+earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
 
-### The operator no longer creates an empty pipeline
+### Upgrade the leader first
 
-A new RDI installation has no pipeline until you create one. Create an empty pipeline with
-`redis-di deploy --empty`, or deploy a configuration with `redis-di deploy` or
-`PUT /api/v2/pipelines/{name}`. If you upgrade from an RDI version before 1.8, deploy the
-configuration again after the upgrade; the operator no longer creates the `default` pipeline from
-legacy `rdi:config:*` keys.
+If you run two RDI instances with leader election, upgrade the leader first. Upgrade the other
+instance only after
+[`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+on the upgraded instance shows `Leader Election Mode: leader`. This applies both to a VM
+installation with [high availability](#upgrading-a-vm-installation-with-high-availability) and
+to a disaster recovery setup with a Google Cloud Storage (GCS) lease.
 
-### Rename sources that the new naming rules reject
+The first upgraded instance that becomes the leader saves its pipelines as the backup that RDI
+restores at every later failover. This matters most when you upgrade from a version before
+2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
+would delete your pipelines at the next failover.
 
-RDI 2.2.0 reserves the source name `api` and rejects source names that contain consecutive
-dashes (`--`). Rename any such source before you redeploy the pipeline configuration, and update
-the source's secrets, its secret references in `config.yaml`, and the `server_name` of its jobs.
-See [Name your sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#name-your-sources)
-for the naming rules, and
-[Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source)
-for what renaming a source implies.
+### Validate your configurations before you redeploy them
 
-### Upgrade high-availability instances in order
+RDI 2.2.0 rejects some configurations that earlier versions accepted. After the upgrade, check
+each configuration with `redis-di deploy --dry-run` before you deploy it again, and fix the
+following:
 
-Upgrade the active instance first. Upgrade the other instance only after `redis-di info` reports
-the upgraded instance as the leader. If you use a Google Cloud Storage (GCS) lease and need to
-downgrade to a version before 1.19.1, delete the lease object before downgrading so the older
-leader can create it again. For example:
+- A source named `api`, or a source name that contains consecutive dashes (`--`). Rename the
+  source, and update its secrets, its secret references in `config.yaml`, and the `server_name`
+  of its jobs. See
+  [Name your sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#name-your-sources)
+  for the naming rules, and
+  [Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source)
+  for what renaming a source implies.
+- A secret provider name that contains consecutive dashes. Rename the provider, and update the
+  references to it in `config.yaml`.
+- Job files with fields, types, or expression languages that their transformation blocks or
+  output arguments do not support.
+- The internal key overrides described in
+  [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
 
-```bash
-gcloud storage rm gs://<bucket>/<object>
-```
+### Remove overrides of internal Redis keys
 
-For disaster recovery deployments, RDI 2.2.0 also supports a DynamoDB global table with
-multi-Region strong consistency as the leader election lease. Set `operator.leaderElection.leaseType`
-to `dynamodb` and configure `operator.leaderElection.dynamoDBLease` with the Region, table name,
-and optional lease-item key. The table must have a string partition key named `id`. You can provide
-an AWS shared credentials file or use the default AWS credential chain.
-
-### Review rejected internal-key overrides
-
-RDI 2.2.0 rejects advanced overrides for internal Redis keys and consumer groups. Remove these
-properties before submitting or redeploying a configuration:
+RDI 2.2.0 always uses the Redis keys and consumer groups that it generates, and rejects the
+following properties:
 
 - `topic.delimiter`, `offset.storage.redis.key`, and `schema.history.internal.redis.key` in
   `sources.<name>.advanced.source`.
@@ -230,27 +228,66 @@ properties before submitting or redeploying a configuration:
   in `processors.advanced.processor`.
 - `streamPrefix` in `sources.<name>.advanced.riotx`.
 
-RDI does not migrate state stored under custom keys or consumer groups. A Debezium collector that
-used custom metadata keys takes a new snapshot after the change.
+The operator uses the generated keys for your existing pipelines as soon as you upgrade, even
+before you redeploy them, and RDI does not migrate the state stored under custom keys or consumer
+groups. As a result:
 
-### Review truststore and schema-history changes
+- A Debezium collector that used custom offset or schema history keys takes a new snapshot.
+- A Flink processor that used a custom consumer group replays the entries retained in its
+  streams.
+- The entries left in streams with custom names or prefixes are no longer consumed.
 
-Debezium collectors and the Collector API trust system certificate authorities (CAs) by default.
-Set `operator.dataPlane.collector.useSystemTruststore` and
-`operator.dataPlane.collectorApi.useSystemTruststore` to `false` to trust custom CAs only.
+Remove these properties from your configurations before you deploy them again.
 
-For SQL Server and MariaDB, RDI now limits schema history to captured tables. If you add a table
-to an existing source without resetting it, the source stops with an unknown schema error instead
-of streaming changes into an incomplete target. Set `store.only.captured.tables.ddl` to `false`
-in `advanced.source` to keep the previous behavior.
+### Check which certificate authorities RDI trusts
 
-### Use named pipelines after the upgrade
+Debezium collectors and the Collector API now trust the system certificate authorities (CAs) in
+addition to the CAs of your secrets. To trust only the CAs of your secrets, as before, set
+`operator.dataPlane.collector.useSystemTruststore` and
+`operator.dataPlane.collectorApi.useSystemTruststore` to `false` in your Helm values.
 
-RDI 2.2.0 supports pipeline names other than `default`. Finish upgrading all instances before
-creating a named pipeline, and do not downgrade after creating one. Your existing `default`
-pipeline keeps its resource names, Redis keys, and metrics paths. See
+### Reset MariaDB sources after you add tables
+
+RDI 2.2.0 limits the schema history of a MariaDB source to the tables that it captures, as it
+already did for MySQL sources. If you add a table to the `tables` list of an existing MariaDB
+source, or a database to its `databases` list, [reset the source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source).
+Otherwise, the source stops with an unknown schema error when the new table first changes. To
+keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
+`false` in the `advanced.source` section of the source.
+
+### Create pipelines explicitly
+
+The operator no longer creates an empty `default` pipeline when you install RDI. An installation
+that you upgrade from RDI 1.8.0 or later keeps its pipeline, so this affects you only in the
+following cases:
+
+- If your scripts or tools expect a `default` pipeline right after you install RDI, make them
+  create it first, for example with `redis-di deploy --empty`.
+- If you upgrade from a version before 1.8.0, RDI does not recreate the pipeline from its old
+  configuration. Uninstall the old version, install RDI 2.2.0, and deploy your configuration
+  again.
+
+### Create named pipelines after you upgrade every instance
+
+RDI 2.2.0 supports pipeline names other than `default`. Finish upgrading all the RDI instances
+before you create a named pipeline. Your existing `default` pipeline keeps its resource names,
+Redis keys, and metrics paths. See
 [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
 for the naming rules and for how to manage several pipelines.
+
+### Downgrade from RDI 2.2.0
+
+If you need to return to an earlier version after you upgrade to RDI 2.2.0, check the following
+first:
+
+- Do not downgrade after you create a pipeline other than `default`.
+- If you use a GCS lease, delete the lease object before you downgrade, for example with
+  `gcloud storage rm gs://<bucket>/<object>`. Earlier versions cannot read the lease that RDI
+  2.2.0 writes, so the downgraded leader can acquire the lease only after it creates the object
+  again.
+- If you downgrade to a version before 2.0.0, delete the `rdi:migration-number` key and the
+  `rdi:resources:pipelines.rdi.redis.com:*` keys from the RDI database before you upgrade again.
+  Otherwise, the upgraded instance restores your pipelines from the outdated backup in these keys.
 
 ## Upgrading to RDI 2.0.0
 

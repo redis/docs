@@ -25,7 +25,8 @@ redis-di get-setting <name> [flags]
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
-The supported setting is `standby_mode`.
+See [RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+for the available settings and what each one does.
 
 ## Example
 

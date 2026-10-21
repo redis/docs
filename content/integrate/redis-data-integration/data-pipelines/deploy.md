@@ -44,8 +44,18 @@ while the other keys are only relevant for TLS/mTLS connections.
 RDI also accepts a generic secret key for another connection parameter. The key can contain up to
 63 uppercase letters, digits, and underscores, must start with a letter, and must use the `--db`
 option. For example, set a source-specific port with `redis-di set-secret PORT --db mysql 3306`
-and reference it as `${MYSQL_DB_PORT}`. Generic keys can also be stored as files with `--file`; the
-configuration reference then resolves to the mounted file path.
+and reference it as `${MYSQL_DB_PORT}`.
+
+A generic key is a simple value by default. To store it as a file instead, such as an additional
+CA certificate, pass `--type file`. RDI then mounts the file, and the reference resolves to the
+path of the mounted file. For example:
+
+```bash
+redis-di set-secret EXTRA_CA --db mysql --type file --file /path/to/extra-ca.crt
+```
+
+The `--file` option only tells the command to read the value from a local file. It works with
+any key, and it does not change the type of the secret.
 
 You can reference a secret in `config.yaml` using an environment variable that is derived from
 the secret key and the database name. The variable name consists of the database name in
@@ -53,7 +63,7 @@ uppercase (with each dash replaced by an underscore), followed by `_DB_`, follow
 For example, if you set `PASSWORD` with `--db mysql` the corresponding environment variable
 is `MYSQL_DB_PASSWORD`, which the source references as
 `${MYSQL_DB_PASSWORD}`. If you set `PASSWORD` with `--db target`, the environment variable is `TARGET_DB_PASSWORD`. The sample
-[config.yaml file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#example)
+[config.yaml file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#extended-configuration-example)
 shows these references in use, and
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)
 covers the source naming rules.
@@ -112,10 +122,10 @@ pipeline is only partially updated. See [Wait for changes to complete](#wait) be
 
 ### Manage secrets with the CLI
 
-Along with `set-secret`, the CLI has commands to list, inspect, and delete secrets. Because the API
-never returns secret values, these commands show the secret keys, database, type, configuration
-reference, and whether they are set, not the stored values. The configuration reference is the
-placeholder to use in `config.yaml`.
+Along with `set-secret`, the CLI has commands to list, inspect, and delete secrets. These commands
+show the key, database, type, and configuration reference of each secret, but not its value,
+because the API never returns secret values. The configuration reference is the placeholder to use
+in `config.yaml`.
 
 ```bash
 # List all the secrets of a pipeline, with the database each one belongs to
@@ -124,7 +134,7 @@ redis-di list-secrets
 # List only the secrets of one database
 redis-di list-secrets --db mysql
 
-# Show a single secret and whether it is set
+# Show a single secret and its configuration reference
 redis-di describe-secret PASSWORD --db mysql
 
 # Delete a secret (prompts for confirmation unless you add --force)
@@ -292,26 +302,35 @@ kubectl label secret target-db-ssl --namespace=rdi --overwrite \
 ## Deploy a pipeline
 
 When you have created your configuration, including the [jobs](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md), you are
-ready to deploy. Use the
+ready to deploy. A new RDI installation has no pipeline, so create the pipeline with an empty
+configuration first, and then deploy your configuration to it with the
 [`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md)
-command to deploy a pipeline:
+command:
 
 ```bash
+redis-di deploy --empty
 redis-di deploy --dir <path to pipeline folder>
 ```
 
+Creating the pipeline first lets RDI validate your configuration against the source and target
+databases. RDI runs these checks through a component of the pipeline, which starts only once the
+pipeline exists. If you deploy a configuration straight away with `redis-di deploy --dir`, the
+command still creates the pipeline, but RDI checks only the configuration itself.
+
 The pipeline name is optional and defaults to `default`. To deploy another pipeline, pass its
-name. The command creates the pipeline if it does not exist yet:
+name to both commands:
 
 ```bash
+redis-di deploy orders --empty
 redis-di deploy orders --dir <path to pipeline folder>
 ```
 
 See [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
-for the pipeline naming rules and for how RDI validates the configuration of a new pipeline.
+for the pipeline naming rules.
 
-RDI first validates the configuration and then deploys it if it is correct. You can control the
-validation and what happens after deployment with the following options:
+When you deploy a configuration to an existing pipeline, RDI first validates the configuration
+and then deploys it if it is correct. You can control the validation and what happens after
+deployment with the following options:
 
 - `--dry-run`: Validate the configuration without deploying it. Off by default.
 - `--validate-tables`: Validate the configuration against the source and target databases, for

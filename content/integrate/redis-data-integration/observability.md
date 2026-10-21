@@ -55,7 +55,12 @@ You can use the CLI to determine the metrics endpoints instead of assembling the
 The `Components` section of
 [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 has a `Metrics Endpoints` column listing each component's externally-reachable metrics URLs,
-so a pipeline with several sources shows the URL of every collector.
+so a pipeline with several sources shows the URL of every collector. Pass a pipeline name, as in
+`redis-di describe orders`, for a pipeline other than `default`.
+
+To get the endpoints of every pipeline at once, for example in a script, run
+`redis-di list -o json` or send a `GET /api/v2/pipelines` request. The `external_endpoints`
+field of each component in the response lists its URLs.
 
 RDI discovers these endpoints from each component's `Ingress` resources, so a component
 without an ingress has none, and the list is empty until the ingress controller assigns an
@@ -71,10 +76,41 @@ For VM installations, the metrics are available by default on the following endp
 
 Above, `<RDI_HTTPS_PORT>` is the HTTPS port you specified when installing RDI, or 443 if you kept the default.
 
-For a named pipeline, prefix the collector and Flink processor paths with the pipeline
-name. For example, use `/orders/collector-mysql/metrics` and `/orders/processor/metrics`
-for a pipeline named `orders`. The default pipeline keeps the paths shown above. The classic
-processor endpoint reports the metrics of the `default` pipeline only. See
+For a pipeline other than `default`, the collector and Flink processor paths start with the
+pipeline name, for example `/orders/collector-mysql/metrics` and `/orders/processor/metrics`
+for a pipeline named `orders`. The classic processor endpoint is not prefixed, and it reports
+the metrics of the `default` pipeline only.
+
+RDI does not include a Prometheus server in a VM installation, so add a scrape job to your own
+Prometheus server for each endpoint. The metrics do not identify the pipeline by themselves, so
+add a `pipeline` label to the jobs of each pipeline to filter its metrics in your queries and
+dashboards. For example, for the `orders` pipeline:
+
+```yaml
+scrape_configs:
+  - job_name: rdi-orders-collector-mysql
+    scheme: https
+    metrics_path: /orders/collector-mysql/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+  - job_name: rdi-orders-processor
+    scheme: https
+    metrics_path: /orders/processor/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+```
+
+If the RDI HTTPS endpoint uses a self-signed certificate, set `insecure_skip_verify: true` in
+`tls_config` instead of `ca_file`. Add the jobs of a pipeline when you create it, and remove them
+when you delete it. See
 [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#monitor-each-pipeline)
 for more information.
 

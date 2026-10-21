@@ -492,9 +492,8 @@ helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
-> [!NOTE]
-> The line `kubectl delete pipelines --all -n rdi` deletes all your pipelines, and is only
-> needed for RDI 1.8.0 or above.
+The first command deletes all your pipelines, so that the RDI operator removes their components
+before you uninstall it.
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`](/content/develop/tools/cli.md) and run a

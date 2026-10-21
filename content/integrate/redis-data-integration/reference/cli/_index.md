@@ -107,6 +107,8 @@ The commands group as follows:
   [`get-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-setting.md),
   [`set-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-setting.md), and
   [`delete-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-setting.md).
+  See [RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+  for the available settings.
 - **Secrets**: [`list-secrets`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-secrets.md),
   [`get-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-secret.md),
   [`describe-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-secret.md),

@@ -201,7 +201,6 @@ sources:
       riotx:
         poll: "30s"
         snapshot: "INITIAL"              # Or "NEVER" to skip initial snapshot
-        # streamPrefix: "data:"          # Optional: Redis stream prefix
         # streamLimit: 100000            # Optional: Max stream length
         # keyColumns:                    # Recommended: stable key columns
         #   - "id"
@@ -256,7 +255,6 @@ Configure under `sources.<name>.advanced.riotx`:
 |----------------|---------|-------------|----------------------------------------------|
 | `poll`         | string  | `"30s"`     | Polling interval for stream changes          |
 | `snapshot`     | string  | `"INITIAL"` | Snapshot mode: `INITIAL` or `NEVER`          |
-| `streamPrefix` | string  | `"data:"`   | Prefix for the Redis stream written by RDI   |
 | `streamLimit`  | integer | -           | Maximum stream length (XTRIM MAXLEN)         |
 | `keyColumns`   | array   | -           | Stable source columns to use as message keys |
 | `clearOffset`  | boolean | `false`     | Clear existing offset on start               |

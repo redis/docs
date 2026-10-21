@@ -30,6 +30,12 @@ lowercase letter, end with a letter or a digit, contain only lowercase letters, 
 dashes, and not contain consecutive dashes. The name `rdi` is reserved. See
 [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md).
 
+When the command creates a pipeline, RDI checks the configuration itself, but not against the
+source and target databases. RDI runs those checks through a component of the pipeline, which
+starts only once the pipeline exists, so `--validate-tables` and `--validate-cdc` have no effect
+on the first deployment. To have a new configuration checked against its databases, create the
+pipeline empty first and then deploy the configuration, as shown in the [example](#example).
+
 ## Options
 
 | Option              | Description                                                                          |
@@ -54,6 +60,10 @@ redis-di deploy
 
 # Validate a configuration folder without deploying it
 redis-di deploy --dir /opt/rdi/config --dry-run
+
+# Create the orders pipeline empty, then deploy and validate its configuration
+redis-di deploy orders --empty
+redis-di deploy orders --dir /opt/rdi/config
 
 # Clear the pipeline by deploying an empty configuration
 redis-di deploy --empty

@@ -111,29 +111,21 @@ kubectl -n rdi get pipeline orders -o jsonpath='{.spec.hashTag}'
 
 ## Create a pipeline
 
-Create a pipeline by deploying a configuration under its name with
+Create a pipeline with an empty configuration first, and then deploy its configuration with
 [`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md):
-
-```bash
-redis-di deploy orders --dir <path to pipeline folder>
-```
-
-The command creates the pipeline if it does not exist and updates it otherwise. If you omit the
-name, it deploys the `default` pipeline.
-
-When `deploy` creates a pipeline, RDI validates the configuration itself, but not against the
-source and target databases. RDI validates a configuration against the databases through a
-component of the pipeline, so this validation is only available once the pipeline exists. To
-validate the configuration of a new pipeline against its databases, create the pipeline with
-an empty configuration first, and then deploy the configuration:
 
 ```bash
 redis-di deploy orders --empty
 redis-di deploy orders --dir <path to pipeline folder>
 ```
 
-An empty pipeline is stopped and has no collectors or stream processor.
-See [Deploy a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#deploy-a-pipeline)
+An empty pipeline is stopped and has no collectors or stream processor. Creating it first lets
+RDI validate the configuration against the source and target databases when you deploy it,
+because RDI runs these checks through a component of the pipeline, which starts only once the
+pipeline exists. You can also create the pipeline and deploy its configuration in one step with
+`redis-di deploy orders --dir <path to pipeline folder>`, but RDI then checks only the
+configuration itself. If you omit the name, the commands act on the `default` pipeline. See
+[Deploy a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#deploy-a-pipeline)
 for the other `deploy` options.
 
 With RDI API v2, create a pipeline with `POST /api/v2/pipelines`, passing the name in the
@@ -288,9 +280,11 @@ The metrics of each pipeline are separate:
 
 - On a VM installation, the metrics endpoint paths of a pipeline other than `default` start
   with the pipeline name, for example `/orders/collector-mysql/metrics` and
-  `/orders/processor/metrics`. When you create a pipeline, add its endpoints to the scrape
-  configuration of your Prometheus server, and add a `pipeline` label to them yourself if you
-  want to filter the metrics by pipeline.
+  `/orders/processor/metrics`. The metrics themselves carry no `pipeline` label. For example,
+  the `name` label of the Debezium collector metrics holds the source name, which can be the
+  same in several pipelines. When you create a pipeline, add a scrape job for each of its
+  endpoints to your Prometheus server, with a `pipeline` label, as shown in
+  [VM installation](/content/integrate/redis-data-integration/observability.md#vm-installation).
 - On a Helm installation, the ServiceMonitors of the Debezium collector, the Flink collector,
   and the Flink processor add a `pipeline` label with the pipeline name, for example
   `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
@@ -313,11 +307,18 @@ each one.
 
 ## Configure ingresses for several pipelines
 
-On a Helm installation, the ingress settings under `operator.dataPlane` in your Helm values file
-apply to every pipeline. For a pipeline other than `default`, RDI adds the pipeline name to the
-beginning of the ingress path prefix, so the ingresses of different pipelines do not claim the
-same paths. For example, with the default path prefix `/processor`, the Flink processor of the
-`orders` pipeline is reachable at `/orders/processor`.
+On a Helm installation, the ingresses of the data plane components are disabled by default. The
+ingress settings under `operator.dataPlane` in your Helm values file apply to every pipeline,
+since there are no per-pipeline ingress settings. For a pipeline other than `default`, RDI adds
+`/<pipeline>` to the beginning of the path prefix of the Debezium collector, Flink collector,
+and Flink processor ingresses, so the ingresses of different pipelines do not claim the same
+paths. For example, with the default path prefix `/processor`, the Flink processor ingress of
+the `orders` pipeline serves the Flink web UI at `/orders/processor`, and, if
+`operator.dataPlane.flinkProcessor.metricsAggregator.enabled` is `true`, its metrics at
+`/orders/processor/metrics`.
+
+The ingress of the classic processor metrics exporter, under `operator.dataPlane.metricsExporter`,
+is not pipeline-aware, so use the Flink processor if you enable ingresses for several pipelines.
 
 An empty or `/` path prefix stays unchanged. If you use such a prefix with more than one
 pipeline, include the `$PIPELINE` variable in the ingress hosts to give each pipeline its own
@@ -338,4 +339,6 @@ RDI replaces `$PIPELINE` with the pipeline name, so the host of the `orders` pip
 `orders-processor.example.com`. For the `default` pipeline, RDI removes `$PIPELINE` together
 with an adjacent dash, or else an adjacent dot, so its host is `processor.example.com`. The
 `$PIPELINE` variable is available in the ingress hosts of the Debezium collector, the Flink
-collector, and the Flink processor.
+collector, and the Flink processor, but not in their path prefixes.
+
+On a VM installation, RDI configures these ingresses for you, so you do not need to change them.

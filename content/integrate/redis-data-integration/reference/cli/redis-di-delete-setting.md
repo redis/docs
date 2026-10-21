@@ -8,9 +8,9 @@ categories: ["redis-di"]
 aliases: []
 ---
 
-Deletes a runtime setting of the RDI instance. The setting returns to its configured default.
-Because this can change leader election, the command asks for confirmation unless you pass
-`--force`.
+Deletes a runtime setting of the RDI instance, so that the corresponding installation value
+applies again. Because this can change the behavior of the instance, the command asks for
+confirmation unless you pass `--force`.
 
 ## Usage
 
@@ -27,7 +27,8 @@ redis-di delete-setting <name> [flags]
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
-The supported setting is `standby_mode`. Deleting it lets the instance rejoin leader election.
+See [RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+for the available settings and what deleting each one does.
 
 ## Example
 

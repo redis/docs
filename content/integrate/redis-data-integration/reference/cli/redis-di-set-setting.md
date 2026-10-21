@@ -16,9 +16,11 @@ Sets a runtime setting of the RDI instance.
 redis-di set-setting <name> <value>
 ```
 
-The supported setting is `standby_mode`. Set it to `true` to remove the instance from leader
-election and allow another instance to take over. The runtime setting overrides
-`operator.leaderElection.standbyMode`.
+A setting that you set overrides the corresponding installation value until you delete it with
+[`redis-di delete-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-setting.md).
+Changing a setting does not restart the RDI operator or the RDI API. See
+[RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+for the available settings, their values, and what each one does.
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
