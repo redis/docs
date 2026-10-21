@@ -129,6 +129,10 @@ If you lose any outputs, run `terraform output` to view them again.
     {width="80%"}
 
 1. Under **Source configuration**, enter the `database` and `port` Terraform outputs in the matching fields.
+1. Under **Collector properties**, set `publication.autocreate.mode` to `filtered` so RDI
+   creates a publication for the selected tables. This example uses the `postgres` user,
+   which has the required permissions. For an administrator-managed publication or an
+   existing all-tables publication, follow [PostgreSQL publications](/content/operate/rc/rdi/setup.md#postgresql-publications).
 1. Select **Test source** and correct any validation errors, then select **Continue**.
 1. In **Select data**, select the schemas, tables, and columns to ingest. Review the selected key for each table.
 
