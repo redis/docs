@@ -91,6 +91,10 @@ and [recovery guidance](/content/integrate/redis-data-integration/troubleshootin
 
 ## Checkpointing
 
+The processor checkpoint is separate from the collector's position in source change
+history. See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md)
+for how source retention affects recovery after an interruption.
+
 RDI uses Redis streams to store the sequence of change events
 captured from the sources. The events are then retrieved in order
 from the streams, processed, and written to the target. The stream

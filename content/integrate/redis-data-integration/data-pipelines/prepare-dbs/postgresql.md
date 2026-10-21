@@ -148,18 +148,11 @@ wal_level = logical
 
 You can also set other PostgreSQL streaming replication parameters if you need them.
 For example, you can use `max_wal_senders` and `max_replication_slots` to increase
-the number of connectors that can access the sending server concurrently,
-and `wal_keep_size` to limit the maximum WAL size that a replication slot retains.
+the number of connectors that can access the sending server concurrently.
 The
 [configuration parameters](https://www.postgresql.org/docs/current/runtime-config-replication.html#RUNTIME-CONFIG-REPLICATION-SENDER)
 documentation describes all the parameters you can use.
 
-PostgreSQL’s logical decoding uses replication slots. These are guaranteed to retain all the WAL
-segments that Debezium needs even when Debezium suffers an outage. You should monitor replication
-slots carefully to avoid excessive disk consumption and other conditions such as catalog bloat that can arise
-if a replication slot is used infrequently. See the PostgreSQL documentation about
-[replication slots](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION-SLOTS)
-for more information.
 If you are using a `synchronous_commit` setting other than `on`, then you should set `wal_writer_delay`
 to a value of about 10 milliseconds to ensure a low latency for change events. If you don't set this then
 the default value of about 200 milliseconds will apply.
@@ -168,6 +161,63 @@ the default value of about 200 milliseconds will apply.
 > This guide summarizes the operation of the PostgreSQL write-ahead log, but we strongly
 > recommend you consult the [PostgreSQL write-ahead log](https://www.postgresql.org/docs/current/wal-configuration.html)
 > documentation to get a better understanding.
+
+### Manage WAL retention
+
+Logical replication slots retain write-ahead log (WAL) needed by their readers,
+including during an RDI outage. Retained WAL can grow until it fills the disk.
+Configured limits or slot invalidation can also prevent RDI from resuming.
+See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#postgresql-preserve-wal-and-slot-state)
+for the conceptual explanation.
+
+Choose controls for your PostgreSQL version:
+
+| PostgreSQL version | Retention controls |
+| :-- | :-- |
+| 10–12 | `wal_keep_segments` specifies a **minimum** number of retained segments, not a maximum for a replication slot. These versions do not have `max_slot_wal_keep_size`. |
+| 13–17 | `wal_keep_size` replaces `wal_keep_segments` and still specifies a **minimum**. `max_slot_wal_keep_size` limits how much WAL a slot can retain at checkpoint time. Its default, `-1`, allows unlimited retention. |
+| 18 | The same size controls apply. `idle_replication_slot_timeout` can also invalidate an inactive slot at a checkpoint. Its default, `0`, disables this timeout. |
+
+See the [PostgreSQL 13 release notes](https://www.postgresql.org/docs/release/13.0/)
+and [PostgreSQL 18 replication settings](https://www.postgresql.org/docs/18/runtime-config-replication.html)
+for these version differences. Managed services can apply additional limits.
+
+Check the settings available on your server:
+
+```sql
+SELECT name, setting, unit
+FROM pg_settings
+WHERE name IN (
+    'wal_keep_segments', 'wal_keep_size',
+    'max_slot_wal_keep_size', 'idle_replication_slot_timeout'
+);
+```
+
+Monitor slot state, retained WAL, and free disk together. The following query works
+across these versions. Status fields that a version does not provide return `NULL`.
+
+```sql
+SELECT slot_name, active, restart_lsn, confirmed_flush_lsn,
+       pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS retained_bytes,
+       to_jsonb(s)->>'wal_status' AS wal_status,
+       to_jsonb(s)->>'invalidation_reason' AS invalidation_reason
+FROM pg_replication_slots AS s
+WHERE slot_type = 'logical';
+```
+
+`retained_bytes` measures the log distance from the slot's oldest required position;
+it is not the total disk usage of the WAL directory. Size retention for peak writes
+and the interruption you need to tolerate. A small `wal_keep_size` does not cap
+slot storage. A finite slot limit can protect disk space at the cost of losing
+required history. Increasing the limit after that history is removed does not
+restore it. Do not drop or recreate an RDI slot as a routine disk-cleanup step.
+
+The slot's `confirmed_flush_lsn` is the position the collector has acknowledged.
+PostgreSQL starts logical streaming at the requested position or
+`confirmed_flush_lsn`, whichever is later. Moving only RDI's saved offset backward
+does not rewind the slot, even if older WAL remains on disk. Keeping unread history
+for normal resume is different from replaying already acknowledged changes.
+See the [PostgreSQL replication protocol](https://www.postgresql.org/docs/17/protocol-replication.html).
 
 ## Set up permissions
 
