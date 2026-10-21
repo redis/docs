@@ -52,6 +52,42 @@ Without server-side ownership enforcement, your application must check that the 
 
 Creating a namespace at an occupied location returns `409 Conflict`, including when the existing namespace is archived. Save and reuse the returned ID instead of creating the same namespace on each agent turn. For request fields and error responses, see the [namespace API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/CreateNamespace).
 
+## Sort namespaces
+
+Use the client from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). This example lists shared roots by name:
+
+{{< multitabs id="namespace-sort" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+
+```python
+        namespaces = agent_memory.list_namespaces(
+            scope="SHARED", limit=20, sort_by="name", sort_order="asc",
+        )
+        show("Shared namespaces", namespaces)
+```
+
+-tab-sep-
+
+```typescript
+  const namespaces = await agentMemory.listNamespaces(
+    undefined, "SHARED", undefined, 20, undefined, undefined, "name", "asc",
+  );
+  console.dir(namespaces, { depth: null });
+```
+
+-tab-sep-
+
+```sh
+curl --fail-with-body --silent --show-error --get \
+  --header "Authorization: Bearer $API_KEY" \
+  --data-urlencode 'scope=SHARED' --data-urlencode 'limit=20' \
+  --data-urlencode 'sortBy=name' --data-urlencode 'sortOrder=asc' \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq
+```
+
+{{< /multitabs >}}
+
+Add the Python snippet inside the `with` block and the TypeScript snippet inside `run`. In TypeScript, request options remain the sixth argument; `sortBy` and `sortOrder` are seventh and eighth. Name sorting uses the display name with Redis text collation, rather than the hierarchy path. Equal sort values use namespace ID ascending as a tie-breaker.
+
 ## Create a personal namespace
 
 Complete the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) first. Reuse its client, connection values, and user and session identifiers. Add Python snippets inside the `with` block and TypeScript snippets inside `run`. Run curl commands in the same shell. Run each write once; comment out completed writes and their output statements before rerunning an SDK file.
