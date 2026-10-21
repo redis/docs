@@ -368,8 +368,7 @@ so account for its memory cost before lowering the limit.
 
 [`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
 offsets of a native bitmap in ascending order, selected by inclusive,
-zero-based element ranks. Use `0 -1` to return all set-bit offsets, up to the
-100,000,000-element limit:
+zero-based element ranks. Use `0 -1` to return all set-bit offsets:
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
@@ -398,16 +397,15 @@ A negative start before the first element is clamped to `0`. A negative end
 before the first element, a reversed range, or a start beyond the last element
 returns an empty array.
 
-Every requested span is limited to 100,000,000 elements, including `0 -1`.
-Larger nonempty spans return an error after resolving negative ranks and before
-truncating an end beyond the last element. The rank and span
-limits do not constrain stored offsets. Client output-buffer limits still apply.
+An end beyond the last element is truncated to the last element. The command
+does not cap the number of returned elements. The rank argument restrictions
+do not constrain stored offsets. Client output-buffer limits still apply;
+exceeding a limit disconnects the client and stops enumeration.
 
 The command validates rank arguments before looking up the key. With valid rank
 arguments, missing keys return empty arrays; strings and other non-bitmap types
-return `WRONGTYPE`, including for reversed or oversized ranges. Native bitmaps
-then undergo range validation. The command is read-only, preserves expiration,
-and works regardless of `bitmap-default-roaring`.
+return `WRONGTYPE` before range normalization. The command is read-only,
+preserves expiration, and works regardless of `bitmap-default-roaring`.
 
 Use bounded pages for large results. Separate range calls do not share a
 snapshot, so concurrent writes can shift ranks between pages. For benchmark

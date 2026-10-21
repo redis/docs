@@ -50,9 +50,9 @@ linkTitle: BITRANGEINTARRAY
 railroad_diagram: /images/railroad/bitrangeintarray.svg
 reply_schema:
   description: Set-bit offsets at the inclusive ranks in ascending order. Negative
-    ranks count from the end, with -1 selecting the last set bit. Ranges are limited
-    to 100000000 elements. Missing or empty bitmaps, reversed ranges after normalization,
-    and starts beyond the last rank return an empty array.
+    ranks count from the end, with -1 selecting the last set bit. Missing or empty
+    bitmaps, reversed ranges after normalization, and starts beyond the last rank
+    return an empty array.
   items:
     minimum: 0
     type: integer
@@ -128,7 +128,7 @@ redis> BITRANGEINTARRAY members 2 1
 
 ## Details
 
-### Ranks and range limits
+### Ranks and ranges
 
 `start` and `end` are inclusive, zero-based **element ranks** in the ordered
 array of set-bit offsets, not bit or byte offsets. For `{10, 20, 30}`, ranks
@@ -141,28 +141,21 @@ that remains before the first element returns an empty array. A reversed range
 (after resolving negative ranks), a start beyond the last element, or a missing
 or empty bitmap also returns an empty array.
 
-The requested inclusive span must not exceed `100000000` elements, including
-when `end` is `-1`. On existing native bitmaps, larger spans return
-`ERR range too large: maximum 100000000 elements`, even when the bitmap has
-fewer set bits. This check runs after resolving negative ranks and before
-truncating an end beyond the last element. Ranges with a negative rank that
-normalize to an empty result return an empty array before this check.
-
-`BITRANGEINTARRAY key 0 -1` returns all set-bit offsets when the bitmap contains
-at most 100,000,000 set bits. Use smaller ranges for larger bitmaps. Negative
-ranks can select elements beyond rank `4294967295`; the same span limit applies.
+An end beyond the last element is truncated to the last element.
+`BITRANGEINTARRAY key 0 -1` returns all set-bit offsets. Negative ranks can
+select elements beyond rank `4294967295`. The command does not cap the number
+of returned elements.
 
 ### Key behavior
 
 The command validates `start`, then `end`, before looking up the key. An invalid
 rank returns an argument error even for a missing key or a key of another type.
-With valid rank arguments, a missing key returns an empty array, including for
-an oversized range.
+With valid rank arguments, a missing key returns an empty array.
 
 The command accepts the native `bitmap` type only; other existing types return
-`WRONGTYPE` before checking for reversed or oversized ranges. It does not convert
-strings, change the bitmap, or change its expiration. It works on existing native
-bitmaps regardless of the current `bitmap-default-roaring` setting.
+`WRONGTYPE` before normalizing the range. It does not convert strings, change
+the bitmap, or change its expiration. It works on existing native bitmaps
+regardless of the current `bitmap-default-roaring` setting.
 
 ### Pagination and performance
 
@@ -173,8 +166,8 @@ set bits between pages can shift ranks and cause skipped or repeated offsets.
 The command seeks to the first rank and iterates forward. Seeking a distant
 rank can still traverse bitmap containers, so later pages can cost more than
 the first page even when they return the same number of integers.
-Configured client output-buffer limits still apply and can disconnect a client
-whose reply grows too large.
+Configured client output-buffer limits still apply. If a reply exceeds a limit,
+Redis disconnects the client and stops enumeration.
 
 Response size and serialization cost grow with the number of returned elements.
 
@@ -195,11 +188,11 @@ retain the native bitmap's full supported range, including values above
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Set-bit offsets at the inclusive ranks in ascending order. Negative ranks count from the end, with -1 selecting the last set bit. Ranges are limited to 100000000 elements. Missing or empty bitmaps, reversed ranges after normalization, and starts beyond the last rank return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays): Set-bit offsets at the inclusive ranks in ascending order. Negative ranks count from the end, with -1 selecting the last set bit. Missing or empty bitmaps, reversed ranges after normalization, and starts beyond the last rank return an empty array.
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Set-bit offsets at the inclusive ranks in ascending order. Negative ranks count from the end, with -1 selecting the last set bit. Ranges are limited to 100000000 elements. Missing or empty bitmaps, reversed ranges after normalization, and starts beyond the last rank return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays): Set-bit offsets at the inclusive ranks in ascending order. Negative ranks count from the end, with -1 selecting the last set bit. Missing or empty bitmaps, reversed ranges after normalization, and starts beyond the last rank return an empty array.
 
 {{< /multitabs >}}
 
