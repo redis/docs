@@ -255,17 +255,24 @@ Otherwise, the source stops with an unknown schema error when the new table firs
 keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
 `false` in the `advanced.source` section of the source.
 
+### Upgrade from a version before 1.8.0 in two steps
+
+Do not upgrade an installation of a version before 1.8.0 directly to RDI 2.2.0. These versions
+keep the pipeline configuration in the RDI database and run the collector and stream processor
+without a pipeline resource. RDI versions 1.8.0 to 2.0.0 convert them into the `default` pipeline
+when you upgrade, but RDI 2.2.0 no longer does. After a direct upgrade, RDI has no pipeline, and
+the old collector and stream processor keep running without RDI managing them.
+
+Upgrade to RDI 2.0.0 first, as described in the
+[RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
+Check that the `default` pipeline runs, and then upgrade to RDI 2.2.0.
+
 ### Create pipelines explicitly
 
 The operator no longer creates an empty `default` pipeline when you install RDI. An installation
-that you upgrade from RDI 1.8.0 or later keeps its pipeline, so this affects you only in the
-following cases:
-
-- If your scripts or tools expect a `default` pipeline right after you install RDI, make them
-  create it first, for example with `redis-di deploy --empty`.
-- If you upgrade from a version before 1.8.0, RDI does not recreate the pipeline from its old
-  configuration. Uninstall the old version, install RDI 2.2.0, and deploy your configuration
-  again.
+that you upgrade keeps its pipeline, so this affects only new installations. If your scripts or
+tools expect a `default` pipeline right after you install RDI, make them create it first, for
+example with `redis-di deploy --empty`.
 
 ### Create named pipelines after you upgrade every instance
 
