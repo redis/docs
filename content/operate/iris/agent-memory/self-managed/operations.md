@@ -185,15 +185,36 @@ environments where the in-cluster test path is allowed.
 
 ## FIPS-oriented posture
 
-The chart supports an opt-in FIPS-oriented posture for regulated environments:
+The chart supports an opt-in FIPS-oriented posture for regulated environments.
+Enabling it takes the profile plus two `https://` endpoints. The chart's
+in-cluster defaults for both are plaintext `http://`, and the posture refuses
+them:
 
 ```yaml
 security:
   profile: fips
+memory:
+  auth:
+    agent_keys:
+      introspection:
+        # Data Plane to Identity Service agent-key introspection.
+        base_url: https://<identity-service-tls-endpoint>
+identityService:
+  productValidation:
+    products:
+      memory:
+        # Identity Service to Control Plane grant validation.
+        baseURL: https://<control-plane-tls-endpoint>
 ```
 
+The chart doesn't terminate Transport Layer Security (TLS) for either endpoint.
+Your hosting environment must provide both, for example with a service mesh,
+ingress, or TLS-terminating proxy in front of the Identity Service and Control
+Plane Services. The calling pods must trust both certificates.
+
 You can also apply the bundled FIPS values overlay with the normal values file.
-Download the chart to get `values-fips.yaml` from the chart root:
+Download the chart to get `values-fips.yaml` from the chart root, and set the
+two endpoints in `ram-values.yaml` or on the command line:
 
 ```bash
 helm pull redis-ai/redis-agent-memory --version 0.7.0 --untar
@@ -202,7 +223,9 @@ helm upgrade --install redis-agent-memory redis-ai/redis-agent-memory \
   --version <chart-version> \
   --namespace <namespace-name> \
   -f ram-values.yaml \
-  -f redis-agent-memory/values-fips.yaml
+  -f redis-agent-memory/values-fips.yaml \
+  --set memory.auth.agent_keys.introspection.base_url=https://<identity-service-tls-endpoint> \
+  --set identityService.productValidation.products.memory.baseURL=https://<control-plane-tls-endpoint>
 ```
 
 When enabled, the chart sets `GODEBUG=fips140=on` on the Data Plane, worker,
@@ -215,11 +238,17 @@ customer's compliance boundary.
 
 When the posture is active, the Data Plane and worker reject config that:
 
-- enables `skip_verify` on outbound HTTP clients; or
+- enables `skip_verify` on outbound HTTP clients;
+- sets `allow_insecure_transport` on any authentication block, even a disabled
+  one; or
 - uses non-`rediss://` URLs for Redis connections covered by the posture.
 
 The Control Plane runs under the same posture and rejects non-`rediss://`
 `metadata.urls` or `databases."1".urls`.
+
+The Identity Service sends the Control Plane internal token on every grant
+validation. Under the posture it refuses to start unless each product validator
+URL uses `https://`, and the chart refuses to render one that doesn't.
 
 The Redis Agent Memory API listener itself speaks HTTP inside the cluster. Edge TLS termination
 is owned by the hosting environment, such as ingress, service mesh, or external
