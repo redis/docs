@@ -7,7 +7,7 @@ import re
 from openapi_spec_validator import validate
 
 from check_sdk_source import check
-from examples import CLIENTS, GUIDES, bundle, calls, processed, source_path, step
+from examples import ALL_CLIENTS, CLIENTS, GUIDES, bundle, calls, processed, source_path, step
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -37,7 +37,8 @@ def test_tce_sources_cover_rendered_steps():
         for attrs in calls(page):
             files = bundle(attrs["set"])
             clients = attrs["lang_filter"].split(",")
-            for suffix, client in CLIENTS.items():
+            assert set(clients).issubset(ALL_CLIENTS.values())
+            for suffix, client in ALL_CLIENTS.items():
                 if client in clients:
                     assert step(files[suffix], attrs["step"])
                     source, _ = processed(files[suffix])

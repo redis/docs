@@ -59,6 +59,7 @@ class ContractFixture:
         self.model_requests = []
         self.tool_error = tool_error
         self.omit_totals = False
+        self.strict_pagination = True
         self.resource_contents = {DIGEST: FILE_TEXT.encode()}
         self.skill_id = self.create('skill', self.skill_content())['entry']['entryId']
         self.publish(self.skill_id, 1)
@@ -291,12 +292,14 @@ class ContractFixture:
             result = self.entries[eid]
         elif name in ('ListFaqs', 'ListSkills'):
             kind = 'faq' if name == 'ListFaqs' else 'skill'
-            assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'desc'
-            assert query.get('limit') == '50'
+            if self.strict_pagination:
+                assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'desc'
+                assert query.get('limit') == '50'
             entries = [entry for entry in self.entries.values() if entry['entryType'] == kind]
             result = self.page(entries, 'faqs' if kind == 'faq' else 'skills', query)
         elif name in ('ListFaqVersions', 'ListSkillVersions'):
-            assert query.get('limit') == '50'
+            if self.strict_pagination:
+                assert query.get('limit') == '50'
             result = self.page(list(reversed(self.versions[eid])), 'versions', query, include_total=False)
         elif name == 'LookupEntries':
             results = []
@@ -324,6 +327,10 @@ class ContractFixture:
         elif name in ('DeleteFaq', 'DeleteSkill'):
             del self.entries[eid]
             result, code = None, 204
+        elif name in ('DeleteFaqs', 'DeleteSkills'):
+            for entry_id in body['entryIds']:
+                del self.entries[entry_id]
+            result = {'deletedEntriesCount': len(body['entryIds'])}
         elif name in ('SearchFaqs', 'SearchSkills', 'DiscoverEntries'):
             ids = [key for key, e in self.entries.items() if 'publication' in e]
             if name != 'DiscoverEntries':

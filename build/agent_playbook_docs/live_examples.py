@@ -22,7 +22,7 @@ from uuid import uuid4
 
 from redis_agent_playbook import Playbook
 
-from examples import AGENT_GUIDES, GUIDES, agent_scripts, full_examples, scripts, skill_package, standalone_python
+from examples import AGENT_GUIDES, GUIDES, agent_scripts, cli_script, full_examples, scripts, skill_package, standalone_python
 
 HERE = Path(__file__).resolve().parent
 
@@ -91,9 +91,13 @@ def cases():
     for guide in GUIDES:
         for suffix, source in scripts(guide).items():
             result[f"{guide}.{suffix}"] = (guide, suffix, source)
+        if source := cli_script(guide):
+            result[f"{guide}.cli.sh"] = (guide, "cli.sh", source)
     for path, source in full_examples().items():
         if path.name != "prepare_skill.sh":
-            result[f"{path.stem}_copy{path.suffix}"] = (path.stem, path.suffix[1:], source)
+            suffix = "cli.sh" if path.name.endswith(".cli.sh") else path.suffix[1:]
+            guide = path.name.removesuffix("." + suffix)
+            result[f"{guide}_copy.{suffix}"] = (guide, suffix, source)
     result["async_search.py"] = ("async_search", "py", standalone_python("quickstart", "Use Python asynchronously"))
     for (guide, suffix), source in agent_scripts().items():
         result[f"{guide}.{suffix}"] = (guide, suffix, source)
@@ -143,6 +147,7 @@ def run_case(name, case, args, log_dir):
                 raise RuntimeError("Skill package preparation failed")
             env = {**os.environ, "PLAYBOOK_URL": args.dp_url, "PLAYBOOK_ID": playbook_id,
                    "PLAYBOOK_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
+            env["PATH"] = str(Path(sys.executable).parent) + ":" + env["PATH"]
             with Playbook(args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
                 if guide in ("retrieval", "limits", "async_search", *AGENT_GUIDES):
                     env["PLAYBOOK_FAQ_ID"] = seed(client, directory, "faq")
@@ -162,6 +167,7 @@ def run_case(name, case, args, log_dir):
                     "py": [sys.executable, str(path)],
                     "mts": [str(HERE / "node_modules/.bin/tsx"), str(path)],
                     "sh": ["bash", str(path)],
+                    "cli.sh": ["bash", str(path)],
                 }[suffix]
                 completed = subprocess.run(command, env=env, cwd=directory, text=True,
                                            capture_output=True, timeout=180)

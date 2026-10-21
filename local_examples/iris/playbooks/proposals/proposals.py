@@ -1,21 +1,23 @@
 # EXAMPLE: iris_playbook_proposals
 # HIDE_START
 import os
-from redis_agent_playbook import Playbook, models
+from redis_agent_playbook import models
+from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
 
-playbook = Playbook(
-    os.environ["PLAYBOOK_URL"],
-    playbook_id=os.environ["PLAYBOOK_ID"],
-    api_key=os.environ["PLAYBOOK_API_KEY"],
-    retry_config=None,
+playbook = AgentPlaybook(
+    AgentPlaybookSettings(
+        url=os.environ["PLAYBOOK_URL"],
+        playbook_id=os.environ["PLAYBOOK_ID"],
+        api_key=os.environ["PLAYBOOK_API_KEY"],
+    )
 )
-print(playbook.get_playbook_health())
+print(playbook.client.get_playbook_health())
 # HIDE_END
 
 # STEP_START playbook-proposal-inbox
 cursor = None
 while True:
-    page = playbook.list_proposals(
+    page = playbook.client.list_proposals(
         view="inbox", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
     )
     if cursor is None:
@@ -28,7 +30,7 @@ while True:
 # STEP_END
 
 # STEP_START playbook-proposal-search
-related = playbook.search_proposals(
+related = playbook.client.search_proposals(
     query="Contact support about a missing refund",
     minimum_score=0.7,
     action_type="add",
@@ -57,7 +59,7 @@ action = {
         },
     }
 }
-proposal = playbook.create_proposal(
+proposal = playbook.client.create_proposal(
     action=action,
     source={
         "type": "document",
@@ -74,7 +76,7 @@ from uuid import uuid4
 
 evidence_id = "evd_" + uuid4().hex
 observed_at = datetime.now(timezone.utc)
-evidence = playbook.submit_proposal_evidence(
+evidence = playbook.client.submit_proposal_evidence(
     proposal_id=proposal_id,
     evidence_id=evidence_id,
     observed_at=observed_at,
@@ -83,7 +85,10 @@ evidence = playbook.submit_proposal_evidence(
         "type": "document",
         "reference": {"documentId": "sample-refund-policy"},
         "content": {
-            "excerpt": "For refund inquiries, collect the order number and request date. Do not request full card details."
+            "excerpt": (
+                "For refund inquiries, collect the order number and request date. "
+                "Do not request full card details."
+            )
         },
     },
 )
@@ -91,7 +96,7 @@ print(evidence.disposition)
 # STEP_END
 
 # STEP_START playbook-proposal-read
-reviewed = playbook.get_proposal(proposal_id=proposal_id)
+reviewed = playbook.client.get_proposal(proposal_id=proposal_id)
 print(reviewed.model_dump_json(by_alias=True, indent=2))
 # STEP_END
 
@@ -100,7 +105,7 @@ revised_action = reviewed.action.model_dump(exclude_unset=True)
 revised_action["add"]["candidate"]["content"]["payload"]["faq"]["answer"] += (
     " Do not send full card details."
 )
-revised = playbook.replace_proposal(
+revised = playbook.client.replace_proposal(
     proposal_id=proposal_id,
     action=revised_action,
     expected_proposal_revision=reviewed.proposal_revision,
@@ -109,31 +114,31 @@ print(revised.proposal_revision, revised.action)
 # STEP_END
 
 # STEP_START playbook-proposal-trash
-playbook.dismiss_proposal(
+playbook.client.dismiss_proposal(
     proposal_id=proposal_id,
     expected_proposal_revision=revised.proposal_revision,
 )
-playbook.restore_proposal(proposal_id=proposal_id)
+playbook.client.restore_proposal(proposal_id=proposal_id)
 # To purge a trashed proposal instead of restoring it:
-# playbook.purge_proposal(proposal_id=proposal_id)
+# playbook.client.purge_proposal(proposal_id=proposal_id)
 # STEP_END
 
 # STEP_START playbook-proposal-final-review
-final_review = playbook.get_proposal(proposal_id=proposal_id)
+final_review = playbook.client.get_proposal(proposal_id=proposal_id)
 print(final_review.action, final_review.evidence)
 # STEP_END
 
 # STEP_START playbook-proposal-accept
 from redis_agent_playbook import models
 
-accepted = playbook.accept_proposal(
+accepted = playbook.client.accept_proposal(
     proposal_id=proposal_id,
     expected_proposal_revision=final_review.proposal_revision,
 )
 if not isinstance(accepted.result, models.VersionCreated):
     raise ValueError("Review the unrecognized acceptance result before publishing")
 receipt = accepted.result.version_created
-accepted_version = playbook.get_faq_version(
+accepted_version = playbook.client.get_faq_version(
     faq_id=receipt.entry_id,
     version=receipt.version,
 )
@@ -141,13 +146,13 @@ print(receipt.entry_id, receipt.version, accepted_version.content)
 # STEP_END
 
 # STEP_START playbook-proposal-publish
-playbook.publish_faq(faq_id=receipt.entry_id, version=receipt.version)
+playbook.client.publish_faq(faq_id=receipt.entry_id, version=receipt.version)
 # STEP_END
 
 # STEP_START playbook-proposal-history
 cursor = None
 while True:
-    page = playbook.list_proposals(
+    page = playbook.client.list_proposals(
         view="trash", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
     )
     if cursor is None:

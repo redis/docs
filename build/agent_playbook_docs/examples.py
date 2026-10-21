@@ -23,10 +23,11 @@ AGENT_GUIDES = ("openai_agent", "langgraph_agent")
 PAGE_NAMES = {"faqs": "manage-faqs", "skills": "manage-skills"}
 CLIENTS = {}
 for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitlines():
-    if row.startswith("iris-"):
+    if row.startswith("iris-") and not row.startswith("iris-cli\t"):
         fields = row.split("\t")
         CLIENTS[fields[6].rsplit(".", 1)[1]] = fields[1]
 assert set(CLIENTS) == {"py", "mts", "sh"}
+ALL_CLIENTS = {**CLIENTS, "cli.sh": "CLI (Iris)"}
 CALLS = re.compile(r'\{\{< clients-example\s+([^>]*?)/>\}\}', re.S)
 ATTRS = re.compile(r'(\w+)="([^"]*)"')
 FENCE = re.compile(r"```(?:python|typescript|bash)\n(.*?)\n```", re.S)
@@ -54,8 +55,8 @@ def processed(path):
 def bundle(set_id):
     result = {}
     for path in SOURCES.rglob("*"):
-        suffix = path.suffix.lstrip(".")
-        if suffix in CLIENTS and get_example_id_from_file(str(path)) == set_id:
+        suffix = "cli.sh" if path.name.endswith(".cli.sh") else path.suffix.lstrip(".")
+        if suffix in ALL_CLIENTS and get_example_id_from_file(str(path)) == set_id:
             assert suffix not in result, f"Duplicate {suffix} source in {set_id}"
             result[suffix] = path
     assert result, f"Unknown Playbook example set: {set_id}"
@@ -78,7 +79,7 @@ def blocks(page):
     result = []
     seen = set()
     for attrs in calls(page):
-        if len(attrs.get("lang_filter", "").split(",")) != 3:
+        if not set(CLIENTS.values()).issubset(attrs.get("lang_filter", "").split(",")):
             continue
         name = attrs["step"]
         assert name not in seen, f"Duplicate step in {page}: {name}"
@@ -106,7 +107,23 @@ def scripts(page, omit=()):
 
 def full_examples():
     return {source_path(page, suffix): processed(source_path(page, suffix))[0]
-            for page in ("quickstart", "skills") for suffix in CLIENTS}
+            for page in ("quickstart", "skills") for suffix in ALL_CLIENTS}
+
+
+def cli_script(page):
+    selected = [attrs for attrs in calls(page)
+                if "CLI (Iris)" in attrs.get("lang_filter", "").split(",")
+                and not attrs["set"].endswith(("_delete", "_withdraw"))]
+    if not selected:
+        return None
+    pieces = []
+    if page != "quickstart":
+        pieces.append(step(source_path("quickstart", "cli.sh"), "playbook-connect"))
+    for attrs in selected:
+        pieces.append(step(bundle(attrs["set"])["cli.sh"], attrs["step"]))
+    if page == "skills":
+        pieces.insert(0, skill_package())
+    return "set -euo pipefail\n\n" + "\n\n".join(pieces) + "\n"
 
 
 def agent_scripts():
@@ -131,8 +148,12 @@ if __name__ == "__main__":
     for page in GUIDES:
         for suffix, source in scripts(page).items():
             (args.output / f"{page}_example.{suffix}").write_text(source)
+        if source := cli_script(page):
+            (args.output / f"{page}_example.cli.sh").write_text(source)
     for path, source in full_examples().items():
-        (args.output / f"{path.stem}_copy{path.suffix}").write_text(source)
+        suffix = "cli.sh" if path.name.endswith(".cli.sh") else path.suffix[1:]
+        name = path.name.removesuffix("." + suffix)
+        (args.output / f"{name}_copy.{suffix}").write_text(source)
     for (page, suffix), source in agent_scripts().items():
         (args.output / f"{page}_example.{suffix}").write_text(source)
     (args.output / "async_search_example.py").write_text(standalone_python("quickstart", "Use Python asynchronously"))

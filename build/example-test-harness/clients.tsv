@@ -67,3 +67,4 @@ rust-async	Rust-Async	redis_rs_async	redis_rs_async	rust-async	rust-async	{set}.
 iris-python	Python (Iris)	-	-	python	-	{set}.py	-	-	-	-
 iris-typescript	TypeScript (Iris)	-	-	typescript	-	{set}.mts	-	-	-	-
 iris-curl	cURL (Iris)	-	-	curl	-	{set}.sh	-	-	-	-
+iris-cli	CLI (Iris)	-	-	bash	-	{set}.cli.sh	-	-	-	-
