@@ -233,6 +233,10 @@
   }
   function cmdline(argv) { return argv.map(function (a, i) { return token(argv, i); }).join(" "); }
 
+  /* Syntax highlighting comes from demo-highlight.js, which the shortcode loads first. */
+  function hl(argv, i) { return window.DemoHL.arg(argv, i, token(argv, i)); }
+  function hlReply(text) { return window.DemoHL.reply(text); }
+
   /* --------------------------------------------------------------- the widget */
 
   var STEPS = [
@@ -529,7 +533,7 @@
 
     /* A transcript line: the prompt, the command, and, when asked, its reply. */
     function line(argv, reply, withReply) {
-      return '<span class="rsq-prompt">&gt; </span>' + cmdHtml(argv) + "\n" + (withReply ? esc(reply) : "");
+      return '<span class="rsq-prompt">&gt; </span>' + cmdHtml(argv) + "\n" + (withReply ? hlReply(reply) : "");
     }
     /* A key as written and as read back, exactly as redis-cli prints it. */
     function docBox(key) {
@@ -567,7 +571,7 @@
       box.appendChild(el("div", "rsi-createhead", "The index, part by part"));
       lines.forEach(function (l) {
         var toks = [];
-        for (var j = l.from; j <= l.to; j++) { var t = esc(token(argv, j)); toks.push(m[j] ? '<mark class="rsi-mark">' + t + "</mark>" : t); }
+        for (var j = l.from; j <= l.to; j++) { var t = hl(argv, j); toks.push(m[j] ? '<mark class="rsi-mark">' + t + "</mark>" : t); }
         box.appendChild(el("div", "rsi-cline", '<span class="rsi-ccode rsi-d' + l.depth + '">' + toks.join(" ") + '</span><span class="rsi-cnote rsi-d' + l.depth + '">' + l.note + "</span>"));
       });
       var foot = el("div", "rcr-faint rsi-createcap", "One part per line here. In redis-cli, it's a single line. "), copy = el("button", "rsi-copy", "Copy as one line");
@@ -609,7 +613,7 @@
     function outputBlock(c) {
       var box = el("div", "rsi-create rsi-output"), cap = "Exactly what redis-cli prints.";
       box.appendChild(el("div", "rsi-createhead", "The output"));
-      box.appendChild(el("pre", "rcr-code rsq-pre rsq-cmdline" + (c.error ? " is-err" : ""), esc(c.reply.replace(/\n$/, ""))));   // an error reply in red
+      box.appendChild(el("pre", "rcr-code rsq-pre rsq-cmdline" + (c.error ? " is-err" : ""), hlReply(c.reply.replace(/\n$/, ""))));   // an error reply in red
       if (c.query[0] === "FT.INFO") cap += " Sizes, timings, and counters vary from server to server.";
       else if (st.tab === "keys") cap += " The keys come back in Redis's own order.";
       box.appendChild(el("div", "rcr-faint rsi-createcap", cap));
@@ -630,7 +634,7 @@
     }
     function cmdHtml(argv) {
       var m = marks(argv);
-      return argv.map(function (a, i) { var t = esc(token(argv, i)); return m[i] ? '<mark class="rsi-mark">' + t + "</mark>" : t; }).join(" ");
+      return argv.map(function (a, i) { var t = hl(argv, i); return m[i] ? '<mark class="rsi-mark">' + t + "</mark>" : t; }).join(" ");
     }
     render();
   }

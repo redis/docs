@@ -11,6 +11,7 @@
 
 {{- if not (.Page.Store.Get "rcrAssetsEmitted") -}}
 <link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}"></script>
 <script defer src="{{ "js/context-retriever-demo.js" | relURL }}"></script>
 {{- .Page.Store.Set "rcrAssetsEmitted" true -}}
 {{- end -}}

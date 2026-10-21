@@ -155,6 +155,10 @@
   }
   function cmdline(argv) { return argv.map(function (a, i) { return token(argv, i); }).join(" "); }
 
+  /* Syntax highlighting comes from demo-highlight.js, which the shortcode loads first. */
+  function hl(argv, i) { return window.DemoHL.arg(argv, i, token(argv, i)); }
+  function hlReply(text) { return window.DemoHL.reply(text); }
+
   /* ------------------------------------------------ step 3: filter and sort */
 
   function filterQuery(f) {
@@ -416,7 +420,7 @@
 
     /* A transcript line: the prompt, the command, and its reply. */
     function line(argv, reply) {
-      return '<span class="rsq-prompt">&gt; </span>' + cmdHtml(argv) + "\n" + esc(reply);
+      return '<span class="rsq-prompt">&gt; </span>' + cmdHtml(argv) + "\n" + hlReply(reply);
     }
     /* A key as written and as read back, exactly as redis-cli prints it. */
     function docBox(key) {
@@ -445,7 +449,7 @@
       box.appendChild(el("div", "rsi-createhead", "The index, part by part"));
       lines.forEach(function (l) {
         var toks = [];
-        for (var j = l.from; j <= l.to; j++) toks.push(esc(token(argv, j)));
+        for (var j = l.from; j <= l.to; j++) toks.push(hl(argv, j));
         box.appendChild(el("div", "rsi-cline", '<span class="rsi-ccode rsi-d' + l.depth + '">' + toks.join(" ") + '</span><span class="rsi-cnote rsi-d' + l.depth + '">' + l.note + "</span>"));
       });
       var foot = el("div", "rcr-faint rsi-createcap", "One part per line here. In redis-cli, it's a single line. "), copy = el("button", "rsi-copy", "Copy as one line");
@@ -491,7 +495,7 @@
     function outputBlock(c) {
       var box = el("div", "rsi-create rsi-output");
       box.appendChild(el("div", "rsi-createhead", "The output"));
-      box.appendChild(el("pre", "rcr-code rsq-pre rsq-cmdline", esc(c.reply.replace(/\n$/, ""))));
+      box.appendChild(el("pre", "rcr-code rsq-pre rsq-cmdline", hlReply(c.reply.replace(/\n$/, ""))));
       box.appendChild(el("div", "rcr-faint rsi-createcap", esc("Exactly what redis-cli prints." +
         (st.tab === "text" ? " The <b> tags around matched words come from HIGHLIGHT." : ""))));
       return box;
@@ -506,7 +510,7 @@
     }
     function cmdHtml(argv) {
       var m = marks(argv);
-      return argv.map(function (a, i) { var t = esc(token(argv, i)); return m[i] ? '<mark class="rsi-mark">' + t + "</mark>" : t; }).join(" ");
+      return argv.map(function (a, i) { var t = hl(argv, i); return m[i] ? '<mark class="rsi-mark">' + t + "</mark>" : t; }).join(" ");
     }
 
     render();
