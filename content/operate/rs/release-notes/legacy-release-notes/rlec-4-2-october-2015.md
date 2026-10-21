@@ -11,7 +11,7 @@ weight: 97
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md)
 before running through the upgrade process.
 
 ## New features
@@ -23,7 +23,7 @@ before running through the upgrade process.
     performance profiles that are optimized for either cloud or
     non-cloud environments. For additional details, refer to the
     [Performance
-    optimization]({{< relref "/operate/rs/clusters/optimize/optimization.md" >}})
+    optimization](/content/operate/rs/clusters/optimize/optimization.md)
     section.
 - SLA for AOF rewrite - enables the administrator to configure
     database parameters, by running the rladmin tune command, related to
@@ -48,29 +48,29 @@ before running through the upgrade process.
     administrator to specify which IP address is used for internal
     traffic and which IP addresses are used for external traffic. For
     additional details, refer to [Multi-IP &
-    IPv6]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}})
+    IPv6](/content/operate/rs/networking/multi-ip-ipv6.md)
     support.
 - IPv6 support for external traffic - on a node that has multiple
     IPs, external IP addresses can be of IPv6 type. For additional
     details, refer to [Multi-IP &
-    IPv6]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}})
+    IPv6](/content/operate/rs/networking/multi-ip-ipv6.md)
     support section.
 - Support for OpenStack Object Store ("Swift") location for import /
     export / backup. For additional details, refer to [Database
-    backup]({{< relref "/operate/rs/databases/import-export/schedule-backups.md" >}})
+    backup](/content/operate/rs/databases/import-export/schedule-backups.md)
     and [Importing data to a
-    database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}})
+    database](/content/operate/rs/databases/import-export/import-data.md)
     sections.
 - Import of a sharded database - support for importing data of a
     sharded database by indicating multiple files paths. For additional
     details, refer to the [Importing data to a
-    database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}})
+    database](/content/operate/rs/databases/import-export/import-data.md)
     section.
 - Enable running the install script in silent mode using "-y"
     parameter for default answers ("Y") or "-c" for file path parameters
     for custom answers. For additional details, refer to [Accessing and
     installing the setup
-    package]({{< relref "/operate/rs/installing-upgrading" >}})
+    package](/content/operate/rs/installing-upgrading/_index.md)
     section.
 - New rladmin command-line-interface "info" command allows for
     fetching current value of tunable parameters.
@@ -140,9 +140,9 @@ before running through the upgrade process.
 
 - **Issue**: When upgrading a node to a new RLEC version (refer to
     [Upgrading
-    nodes]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+    nodes](/content/operate/rs/installing-upgrading/upgrading/_index.md)
     while the node is in the offline state (refer to [Taking a node
-    offline]({{< relref "/operate/rs/clusters/remove-node.md" >}}),
+    offline](/content/operate/rs/clusters/remove-node.md),
     the upgrade process succeeds but might result in an unstable
     cluster.
     

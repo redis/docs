@@ -94,22 +94,21 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
 syntax_fmt: BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
 title: BLMOVE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).
-When `source` contains elements, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
-When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
+`BLMOVE` is the blocking variant of [`LMOVE`](/content/commands/lmove.md).
+When `source` contains elements, this command behaves exactly like [`LMOVE`](/content/commands/lmove.md).
+When used inside a [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) block or a Lua script, this command behaves exactly like [`LMOVE`](/content/commands/lmove.md).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
 A `timeout` of zero can be used to block indefinitely.
 
-This command comes in place of the now deprecated [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}). Doing
+This command comes in place of the now deprecated [`BRPOPLPUSH`](/content/commands/brpoplpush.md). Doing
 `BLMOVE RIGHT LEFT` is equivalent.
 
-See [`LMOVE`]({{< relref "/commands/lmove" >}}) for more information.
+See [`LMOVE`](/content/commands/lmove.md) for more information.
 
 ## Required arguments
 
@@ -147,11 +146,11 @@ The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
 
 ### Pattern: reliable queue
 
-Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
+Please see the pattern description in the [`LMOVE`](/content/commands/lmove.md) documentation.
 
 ### Pattern: circular list
 
-Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
+Please see the pattern description in the [`LMOVE`](/content/commands/lmove.md) documentation.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -14,20 +14,20 @@ title: Redis recommendation engine with NRedisStack
 weight: 5
 ---
 
-This guide shows you how to build a small Redis-backed product recommendation service in C# with [`NRedisStack`]({{< relref "/develop/clients/dotnet" >}}) (the Redis Stack wrapper on top of [StackExchange.Redis](https://seredis.dev/)) and the [`SmartComponents.LocalEmbeddings`](https://www.nuget.org/packages/SmartComponents.LocalEmbeddings) library, which ships a bundled 384-dimensional [BAAI `bge-micro-v2`](https://huggingface.co/TaylorAI/bge-micro-v2) ONNX model (no API key, no shared library to install). The other ports in this guide series use [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), also a 384-dim encoder; the index schema is identical, so the same `FT.SEARCH` query shape works for both. It includes a local web server built on `System.Net.HttpListener` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
+This guide shows you how to build a small Redis-backed product recommendation service in C# with [`NRedisStack`](/content/develop/clients/dotnet/_index.md) (the Redis Stack wrapper on top of [StackExchange.Redis](https://seredis.dev/)) and the [`SmartComponents.LocalEmbeddings`](https://www.nuget.org/packages/SmartComponents.LocalEmbeddings) library, which ships a bundled 384-dimensional [BAAI `bge-micro-v2`](https://huggingface.co/TaylorAI/bge-micro-v2) ONNX model (no API key, no shared library to install). The other ports in this guide series use [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), also a 384-dim encoder; the index schema is identical, so the same `FT.SEARCH` query shape works for both. It includes a local web server built on `System.Net.HttpListener` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
 
 ## Overview
 
-Each product is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers every field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass — no cross-store joins.
+Each product is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers every field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass — no cross-store joins.
 
-Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}). [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
+Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md). [`FT.SEARCH`](/content/commands/ft.search.md) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
 
 That gives you:
 
-* A single round trip for retrieval — vector KNN + structured filters in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for retrieval — vector KNN + structured filters in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Sub-millisecond hot path once the query is embedded; embedding the query is the bottleneck, and that's a model-side cost, not a Redis one.
 * Real-time session signals — a click writes a new session vector and bumps an affinity counter; the next query reads them and folds them in.
-* No-downtime embedding refresh — [`HSET`]({{< relref "/commands/hset" >}}) on the vector field, and the HNSW index reflects the change on the next query.
+* No-downtime embedding refresh — [`HSET`](/content/commands/hset.md) on the vector field, and the HNSW index reflects the change on the next query.
 
 ## How it works
 
@@ -37,7 +37,7 @@ There are two distinct paths: a **query path** runs every time the application w
 
 1. The application calls `embedder.EncodeOne(queryText)` to turn a natural-language query into a 384-dimensional `float[]`.
 2. The application reads the user's session vector and affinities from the user features hash. If a session vector exists, it gets blended into the query vector with a tunable weight, so the user's recent clicks pull retrieval toward what they've been engaging with.
-3. `recommender.CandidateRetrieve(queryVec, opts)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
+3. `recommender.CandidateRetrieve(queryVec, opts)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
 4. `recommender.Rerank(candidates, userFeatures, weight)` subtracts a log-scaled per-category affinity bonus from each candidate's distance and re-sorts the list closest-first. The log scaling keeps repeated clicks from running away with the ranking.
 
 ### Click path (per user interaction)
@@ -45,12 +45,12 @@ There are two distinct paths: a **query path** runs every time the application w
 When the user clicks a product, `recommender.RecordClick(userId, productId)` does the following:
 
 1. Reads the clicked item's embedding from its hash.
-2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`]({{< relref "/commands/hset" >}}). This is a read-modify-write — atomic against any single write but not against a concurrent click for the same user; in practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`]({{< relref "/commands/multi" >}}) or a small Lua script.
-3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) — atomic, no read needed — and the click count with [`HINCRBY`]({{< relref "/commands/hincrby" >}}).
+2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`](/content/commands/hset.md). This is a read-modify-write — atomic against any single write but not against a concurrent click for the same user; in practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`](/content/commands/multi.md) or a small Lua script.
+3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md) — atomic, no read needed — and the click count with [`HINCRBY`](/content/commands/hincrby.md).
 
 The next query path picks both changes up the next time it reads the user features hash.
 
-Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`]({{< relref "/commands/hset" >}}), and the HNSW index reflects the change on the next query without a rebuild.
+Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`](/content/commands/hset.md), and the HNSW index reflects the change on the next query without a rebuild.
 
 ## The recommender helper
 
@@ -220,7 +220,7 @@ var file = new CatalogFile
 File.WriteAllText("catalog.json", JsonSerializer.Serialize(file, opts));
 ```
 
-In production the equivalent of this script lives in an offline pipeline: embed once on catalog updates and ship the vectors into Redis with [`HSET`]({{< relref "/commands/hset" >}}). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
+In production the equivalent of this script lives in an offline pipeline: embed once on catalog updates and ship the vectors into Redis with [`HSET`](/content/commands/hset.md). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
 
 ## The interactive demo
 
@@ -257,7 +257,7 @@ The server holds one `Embedder` instance and one `Recommender` for the lifetime 
     cd docs/content/develop/use-cases/recommendation-engine/dotnet
     ```
 
-2.  Make sure a Redis instance with the Redis Search module is running locally on port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+2.  Make sure a Redis instance with the Redis Search module is running locally on port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 
 3.  Generate the catalog with pre-computed embeddings. The first run loads the ONNX model bundled with `SmartComponents.LocalEmbeddings` (no external download):
 

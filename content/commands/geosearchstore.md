@@ -176,14 +176,13 @@ syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONL
   \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but it stores the result in the provided `destination`.
+This command is similar to [`GEOSEARCH`](/content/commands/geosearch.md), but it stores the result in the provided `destination`.
 
-This command replaces the now deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}).
+This command replaces the now deprecated [`GEORADIUS`](/content/commands/georadius.md) and [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md).
 
 By default, it stores the results in the `destination` sorted set with their geospatial information.
 

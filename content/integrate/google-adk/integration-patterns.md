@@ -28,14 +28,13 @@ adk-redis offers two approaches for connecting agents to memory. Each has differ
 
 Both use `backend="redis-agent-memory"`, the default, on Redis Cloud or
 self-managed. See
-[Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory#choose-a-deployment" >}})
+[Redis Agent Memory](/content/integrate/google-adk/redis-agent-memory.md#choose-a-deployment)
 for the deployment options.
 
-{{< note >}}
-A third approach, MCP memory tools, is only available on the deprecated
-[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
-backend.
-{{< /note >}}
+> [!NOTE]
+> A third approach, MCP memory tools, is only available on the deprecated
+> [Agent Memory Server](/content/integrate/google-adk/agent-memory-server.md)
+> backend.
 
 ## 1. ADK services (framework-managed)
 
@@ -143,11 +142,11 @@ The pattern works on `redis-agent-memory`. The
 example that demonstrates it,
 [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid),
 is currently written against the deprecated backend; see
-[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples-still-on-this-backend" >}}).
+[Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md#examples-still-on-this-backend).
 
 ## More info
 
 - [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services on Redis Agent Memory
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}): MCP tools and other deprecated-backend patterns
+- [Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md): MCP tools and other deprecated-backend patterns
 - [Car dealership tutorial](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/)

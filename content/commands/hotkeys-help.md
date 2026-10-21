@@ -42,10 +42,10 @@ Returns helpful text about `HOTKEYS` commands and parameters.
     tab1="RESP2"
     tab2="RESP3" >}}
 
-Returns an [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the list of `HOTKEYS` subcommands and their descriptions.
+Returns an [array reply](/content/develop/reference/protocol-spec.md#arrays) with the list of `HOTKEYS` subcommands and their descriptions.
 
 -tab-sep-
 
-Returns an [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the list of `HOTKEYS` subcommands and their descriptions.
+Returns an [array reply](/content/develop/reference/protocol-spec.md#arrays) with the list of `HOTKEYS` subcommands and their descriptions.
 
 {{< /multitabs >}}

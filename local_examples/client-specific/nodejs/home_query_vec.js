@@ -2,9 +2,9 @@
 // STEP_START import
 import * as transformers from '@xenova/transformers';
 import {
-    VectorAlgorithms,
+    SCHEMA_VECTOR_FIELD_ALGORITHM,
     createClient,
-    SchemaFieldTypes,
+    SCHEMA_FIELD_TYPE,
 } from 'redis';
 // STEP_END
 
@@ -33,15 +33,15 @@ try {
 // STEP_START create_index
 await client.ft.create('vector_idx', {
     'content': {
-        type: SchemaFieldTypes.TEXT,
+        type: SCHEMA_FIELD_TYPE.TEXT,
     },
     'genre': {
-        type: SchemaFieldTypes.TAG,
+        type: SCHEMA_FIELD_TYPE.TAG,
     },
     'embedding': {
-        type: SchemaFieldTypes.VECTOR,
+        type: SCHEMA_FIELD_TYPE.VECTOR,
         TYPE: 'FLOAT32',
-        ALGORITHM: VectorAlgorithms.HNSW,
+        ALGORITHM: SCHEMA_VECTOR_FIELD_ALGORITHM.HNSW,
         DISTANCE_METRIC: 'L2',
         DIM: 768,
     }
@@ -86,6 +86,16 @@ await Promise.all([
 ]);
 // STEP_END
 
+// STEP_START himport_data
+await client.hImportPrepare('doc', ['content', 'genre', 'embedding']);
+
+await Promise.all(
+    [doc1, doc2, doc3].map((doc, i) => client.hImportSet(
+        `doc:${i + 1}`, 'doc', [doc.content, doc.genre, doc.embedding]
+    ))
+);
+// STEP_END
+
 // STEP_START query
 const similar = await client.ft.search(
     'vector_idx',
@@ -115,17 +125,17 @@ try {
 // STEP_START json_index
 await client.ft.create('vector_json_idx', {
     '$.content': {
-        type: SchemaFieldTypes.TEXT,
+        type: SCHEMA_FIELD_TYPE.TEXT,
         AS: 'content',
     },
     '$.genre': {
-        type: SchemaFieldTypes.TAG,
+        type: SCHEMA_FIELD_TYPE.TAG,
         AS: 'genre',
     },
     '$.embedding': {
-        type: SchemaFieldTypes.VECTOR,
+        type: SCHEMA_FIELD_TYPE.VECTOR,
         TYPE: 'FLOAT32',
-        ALGORITHM: VectorAlgorithms.HNSW,
+        ALGORITHM: SCHEMA_VECTOR_FIELD_ALGORITHM.HNSW,
         DISTANCE_METRIC: 'L2',
         DIM: 768,
         AS: 'embedding',

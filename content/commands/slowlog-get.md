@@ -59,7 +59,7 @@ Each entry from the slow log is comprised of the following seven values:
 3. The amount of time needed for its execution, in microseconds.
 4. The array composing the arguments of the command.
 5. Client IP address and port.
-6. Client name if set via the [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}) command.
+6. Client name if set via the [`CLIENT SETNAME`](/content/commands/client-setname.md) command.
 7. The total number of arguments in the command, including the command name. Added in Redis 8.10.
 
 The logged argument array (value 4) is truncated when the command has more arguments than the `slowlog-max-argc` configuration directive allows (32 by default). In that case, the last logged element is replaced with a string of the form `... (N more arguments)`. The total argument count (value 7) always reflects the command's original argument count, captured before truncation, so it can be read directly without parsing that string.
@@ -108,7 +108,7 @@ The logged argument array (element 4) is truncated to 32 items, with the final i
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). Also, the client IP address, port, and name are not returned by Redis Software. |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](/content/develop/programmability/_index.md). Also, the client IP address, port, and name are not returned by Redis Software. |
 
 ## Return information
 

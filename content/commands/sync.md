@@ -33,10 +33,10 @@ Initiates a replication stream from the master.
 
 The `SYNC` command is called by Redis replicas for initiating a replication
 stream from the master. It has been replaced in newer versions of Redis by
- [`PSYNC`]({{< relref "/commands/psync" >}}).
+ [`PSYNC`](/content/commands/psync.md).
 
 For more information about replication in Redis please check the
-[replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).
+[replication page](/content/operate/oss_and_stack/management/replication.md).
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -31,7 +31,8 @@ see the main [Client-side geographic failover](/content/develop/clients/failover
 
 ## Failover configuration
 
-Failover support is available in StackExchange.Redis v3.1.0 and later. The failover
+Failover support is available in StackExchange.Redis v3.1.0 and later, and the
+`SER007` experimental marker was retired in v3.3.0. The failover
 types live in the `StackExchange.Redis.Availability` namespace, so you should add the following
 `using` directives to your source file:
 
@@ -39,26 +40,6 @@ types live in the `StackExchange.Redis.Availability` namespace, so you should ad
 using StackExchange.Redis;
 using StackExchange.Redis.Availability;
 ```
-
-> [!NOTE]
-> The failover feature is fully supported and intended for production use.
-> However, because it is a large, new API surface, the types in the
-> `StackExchange.Redis.Availability` namespace are marked with the `[Experimental]`
-> attribute so that the library can reserve the right to adjust them without the usual
-> backwards-compatibility guarantees. (This marker is expected to be removed in a later
-> 3.1.x release.) As a result, the compiler reports the `SER007` diagnostic when you use
-> these types. Suppressing this diagnostic is the normal way to use the feature. To do so,
-> either add the following to your `.csproj` file:
->
-> ```xml
-> <NoWarn>$(NoWarn);SER007</NoWarn>
-> ```
->
-> or suppress it locally in your source file:
->
-> ```csharp
-> #pragma warning disable SER007
-> ```
 
 The example below shows a simple case with a list of two servers,
 `redis-east` and `redis-west`, where `redis-east` is the preferred
@@ -132,6 +113,7 @@ endpoint:
 | `HealthCheck` | Group default | Per-member [health check](#health-check-configuration) override. |
 | `CircuitBreaker` | Group default | Per-member [circuit breaker](#circuit-breaker-configuration) override. |
 | `FailbackDelay` | Group default | Per-member [failback delay](#failback-configuration) override. |
+| `FailbackHealthCheck` | Group default | Per-member [failback health check](#failback-health-checks) override. |
 | `SkipInitialHealthCheck` | `false` | If `true`, skip the health check performed when the member is first added to the group. |
 
 Note that you can also adjust weights at runtime, for example in response to changing conditions:
@@ -337,6 +319,91 @@ rotation as soon as it passes a health check. If you use a value of `TimeSpan.Ma
 automatic failback is effectively disabled. However, you can use the `ResetIsUnhealthy()` or
 `TryFailoverTo()` methods to enable a member manually (see [Manual failover](#manual-failover)
 for more information).
+
+When two members are otherwise equally good candidates, the group keeps the member that is
+already active rather than switching between them.
+
+#### Failback health checks
+
+A [health check](#health-check-configuration) tells you whether a member is alive, but
+that isn't always enough to decide whether to fail back to it. For example, in an
+[Active-Active](/content/operate/rs/databases/active-active/_index.md) deployment, a region that
+has just recovered can be reachable but still behind the other regions. Failing back to it
+too early means your app reads stale data and makes changes based on it.
+
+From v3.4.5, you can add a *failback health check* that a member must pass before it can
+become the active member. Set it for the whole group with
+`MultiGroupOptions.FailbackHealthCheck`, or for one member with
+`ConnectionGroupMember.FailbackHealthCheck`. The value is a `HealthCheck`, so you can use a
+[custom probe](#custom-health-check-probes) or the built-in
+[lag-aware check](#lag-aware-failback-check) for Redis Software. No failback health check
+is configured by default.
+
+A failback health check works differently from the main health check:
+
+- It only decides whether an inactive member is *eligible* to become active. It never
+  marks a member as unhealthy, and it never moves traffic away from the active member.
+- A member is eligible only if the check reports that it is healthy. A result of
+  unhealthy or inconclusive (for example, when the probe can't reach the service it
+  queries) leaves the member ineligible.
+- If no connected member is eligible, the group falls back to selecting from the members
+  that are alive, so a precaution against stale data doesn't cause an outage. A member
+  selected this way is *provisional*: the group switches to an eligible member as soon as
+  one is available, regardless of weight.
+- Calling `TryFailoverTo()` overrides the failback health check, in the same way that it
+  overrides `IsUnhealthy`.
+
+#### Lag-aware failback check (Redis Software only) {#lag-aware-failback-check}
+
+For Redis Software Active-Active databases, `HealthCheck.LagAware()` uses the cluster's
+[database availability API](/content/operate/rs/monitoring/db-availability.md) to check
+whether a member is available and has caught up with the other regions. The only option
+you must supply is a callback that returns the cluster's management credentials:
+
+```csharp
+ConnectionGroupMember member = new("redis-14460.us-west.example.com:14460,password=<db-password>", name: "US West")
+{
+    Weight = 10,
+    FailbackHealthCheck = HealthCheck.LagAware(new LagAwareOptions
+    {
+        // Called for every request, so the credentials can rotate.
+        Credentials = _ => new(new NetworkCredential("<mgmt-username>", "<mgmt-password>")),
+    }),
+};
+```
+
+These are the cluster's REST API credentials, not the database's. A user with the
+`db_viewer` management role is sufficient. If the cluster can't be queried (for
+example, if the REST API is unreachable or rejects the credentials), the result is
+inconclusive, so the member stays ineligible but nothing fails over.
+
+The `LagAwareOptions` class provides the following properties:
+
+| Property | Default | Description |
+| :-- | :-- | :-- |
+| `Credentials` | (Required) | Callback that returns the cluster management credentials as a `NetworkCredential`. |
+| `RestEndpoint` | Derived | URL of the cluster's REST API. By default, this is derived from the member's first endpoint: `https://<cluster>:9443/` for an endpoint named `redis-<port>.<cluster>`, or `https://<host>:9443/` otherwise. Set it explicitly if you connect using a hostname that doesn't follow this pattern. Redirects are never followed. |
+| `DatabaseId` | Discovered | The database ID on the cluster. By default, the database is found by matching the member's first endpoint against the cluster's databases. |
+| `LagCheck` | `LagCheckMode.Auto` | Whether to check lag as well as availability. `Auto` checks lag only for Active-Active databases, `Enabled` always checks it (so a database that isn't Active-Active is always reported unavailable), and `Disabled` checks availability only. |
+| `LagTolerance` | Cluster setting | Maximum acceptable lag. By default, no tolerance is sent, so the cluster's own `availability_lag_tolerance_ms` setting applies. |
+| `CertificateValidation` | Platform default | Callback to validate the REST API's TLS certificate. |
+| `ClientCertificate` | None | Client certificate to present if the REST API requires mutual TLS. |
+
+The cluster's management certificate is usually self-signed, so it won't validate against
+the platform's trusted certificates. Call `TrustIssuer()` on your `LagAwareOptions` instance
+with the path to the cluster's certificate (or its issuer) to trust it. This is a separate
+setting from the TLS configuration for the database connection. Similarly, use
+`SetUserPfxCertificate()` (or `SetUserPemCertificate()`, on .NET 6 and later) to load a
+client certificate from a file.
+
+`HealthCheck.LagAware()` runs a single probe per check. To change the probe count or
+timeout, pass `HealthCheckProbe.LagAware(options)` as the `Probe` of a
+`HealthCheck.Builder` instead.
+
+When the link between regions breaks, the database availability API can keep reporting
+the database as caught up for around a minute before it detects the problem (as measured
+on Redis Software 8.0). A failback during that window isn't protected by the lag check, so
+set a [`FailbackDelay`](#failback-configuration) of at least a minute alongside it.
 
 ## Health check configuration
 

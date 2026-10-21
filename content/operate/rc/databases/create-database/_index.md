@@ -13,18 +13,18 @@ weight: 10
 
 A database is the heart of any Redis Cloud deployment. 
 
-The process for Creating a database depends on the type of [subscription plan]({{< relref "/operate/rc/subscriptions" >}}) you need.
+The process for Creating a database depends on the type of [subscription plan](/content/operate/rc/subscriptions/_index.md) you need.
 
 An **Essentials** plan is a fixed monthly price for a single database. It is cost-efficient and designed for low-throughput scenarios. It supports a range of availability, persistence, and backup options. Pricing supports low throughput workloads.
-- [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
-- [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
+- [Create an Essentials database](/content/operate/rc/databases/create-database/create-essentials-database.md)
+- [Create a Redis Flex database](/content/operate/rc/databases/create-database/create-flex-database.md)
 
 A **Free** plan is a type of Essentials plan designed for learning and building test projects. It gives you enough space to learn Redis concepts and develop application prototypes. You can upgrade to a paid Essentials plan at any time.
-- [Create a free database]({{< relref "/operate/rc/databases/create-database/create-free-database" >}})
+- [Create a free database](/content/operate/rc/databases/create-database/create-free-database.md)
 
 A **Pro** plan is an hourly price based on capacity. It supports more databases, larger databases, greater throughput, and unlimited connections. 
-- [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
-- [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}})
-- [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}})
+- [Create a Pro database with a new subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md)
+- [Create a Pro database in an existing subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md)
+- [Create an Active-Active database](/content/operate/rc/databases/active-active/create-active-active-database.md)
 
 

@@ -11,7 +11,7 @@ linkTitle: AWS PrivateLink
 weight: 1
 ---
 
-This page explains how a Data Integration pipeline reaches your source database over AWS PrivateLink, and how to keep the connection available when your database fails over. For the steps to create the PrivateLink connection, see [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}).
+This page explains how a Data Integration pipeline reaches your source database over AWS PrivateLink, and how to keep the connection available when your database fails over. For the steps to create the PrivateLink connection, see [Set up connectivity](/content/operate/rc/rdi/setup.md#set-up-connectivity).
 
 ## How traffic flows {#how-traffic-flows}
 
@@ -38,7 +38,7 @@ The following table shows which address each component sees:
 
 Your database always receives the connection from the NLB's own private IP address, never from a Redis Cloud address. PrivateLink and the NLB rewrite the source address as the traffic passes through (network address translation), so Redis Cloud addresses are never visible anywhere in your network. The only firewall rule your database needs is to allow connections from the NLB's subnets.
 
-Because PrivateLink translates addresses instead of routing between the two networks, the workspace CIDR can overlap with your own VPC or on-premises ranges without any conflict. It only needs to be valid on the Redis Cloud side. See [Create a Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for the workspace CIDR requirements.
+Because PrivateLink translates addresses instead of routing between the two networks, the workspace CIDR can overlap with your own VPC or on-premises ranges without any conflict. It only needs to be valid on the Redis Cloud side. See [Create a Data Integration workspace](/content/operate/rc/rdi/create-workspace.md) for the workspace CIDR requirements.
 
 ## Connect to a database outside the VPC {#connect-to-a-database-outside-the-vpc}
 
@@ -63,7 +63,7 @@ graph LR
 
 To set this up:
 
-- When you [create the network load balancer]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}), create a target group with target type **IP addresses** and register the database's IP address.
+- When you [create the network load balancer](/content/operate/rc/rdi/setup.md#set-up-connectivity), create a target group with target type **IP addresses** and register the database's IP address.
 - Make sure the VPC can route to that IP address and port, and that the database's firewall or allow list accepts connections from the NLB's subnets.
 
 ## Why failover needs an IP address update {#automate-failover}
@@ -74,5 +74,5 @@ To recover, the NLB target group must be updated to point to the new address. Th
 
 How you update the target group depends on your database:
 
-- **AWS RDS or Aurora**: Use the Lambda function that responds to RDS failover events and updates the target group automatically. To set it up, see [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}), select the **AWS RDS or Aurora** tab, and follow **Set up Lambda function connectivity**.
+- **AWS RDS or Aurora**: Use the Lambda function that responds to RDS failover events and updates the target group automatically. To set it up, see [Set up connectivity](/content/operate/rc/rdi/setup.md#set-up-connectivity), select the **AWS RDS or Aurora** tab, and follow **Set up Lambda function connectivity**.
 - **Self-managed database (EC2 or on premises)**: Update the target group from your own failover process. You can trigger the update from your database's failover events or from the NLB's health checks.

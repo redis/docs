@@ -59,7 +59,7 @@ title: HEXPIRETIME
 ---
 Returns the absolute Unix timestamp in seconds since Unix epoch at which the given key's field(s) will expire.
 
-See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command, which returns the same information with millisecond resolution.
+See also the [`HPEXPIRETIME`](/content/commands/hpexpiretime.md) command, which returns the same information with millisecond resolution.
 
 ## Required arguments
 

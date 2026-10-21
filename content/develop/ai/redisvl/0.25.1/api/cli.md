@@ -236,15 +236,14 @@ Indices:
 3. embeddings_index
 ```
 
-{{< note >}}
-`listall` uses `FT._LIST`, which Redis tags `@admin` as well as `@search`.
-An ACL that grants search access and then subtracts `@admin`, such as
-`+@search -@admin`, denies this command with a permission error even though the
-rest of the CLI works. The migration commands that discover indexes for you are
-denied by the same ACL: `rvl migrate helper`, `rvl migrate wizard` when no
-`-i/--index` is given, and `rvl migrate batch-plan --pattern`. See
-[Install RedisVL]({{< relref "../user_guide/installation" >}}).
-{{< /note >}}
+> [!NOTE]
+> `listall` uses `FT._LIST`, which Redis tags `@admin` as well as `@search`.
+> An ACL that grants search access and then subtracts `@admin`, such as
+> `+@search -@admin`, denies this command with a permission error even though the
+> rest of the CLI works. The migration commands that discover indexes for you are
+> denied by the same ACL: `rvl migrate helper`, `rvl migrate wizard` when no
+> `-i/--index` is given, and `rvl migrate batch-plan --pattern`. See
+> [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 #### `rvl index delete`
 
@@ -292,9 +291,8 @@ rvl index destroy (-i <index_name> | -s <schema_file>) [CONNECTION_OPTIONS]
 rvl index destroy -i my_index
 ```
 
-{{< warning >}}
-This command permanently deletes both the index and all documents stored with the index prefix. Ensure you have backups before running this command.
-{{< /warning >}}
+> [!WARNING]
+> This command permanently deletes both the index and all documents stored with the index prefix. Ensure you have backups before running this command.
 
 ### `rvl stats`
 
@@ -347,9 +345,8 @@ The command returns the following metrics:
 
 ### `rvl migrate`
 
-{{< warning >}}
-The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
-{{< /warning >}}
+> [!WARNING]
+> The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
 
 Manage document-preserving index migrations. This command group provides subcommands for planning, executing, and validating schema migrations that preserve existing data.
 
@@ -409,14 +406,13 @@ rvl migrate plan -i my_index --schema-patch changes.yaml --plan-out plan.yaml
 
 Execute a reviewed drop/recreate migration plan. Use `--async` for large migrations involving vector quantization.
 
-{{< warning >}}
-Hash vector quantization is unsupported when the same Redis keys are also
-indexed by another live RediSearch index that expects the old vector
-datatype. Quantization rewrites vector bytes in the document key itself, so
-other indexes covering the same key may drop the document or fail to index
-it. Use an application-level migration with new keys or fields when
-documents are shared across indexes.
-{{< /warning >}}
+> [!WARNING]
+> Hash vector quantization is unsupported when the same Redis keys are also
+> indexed by another live RediSearch index that expects the old vector
+> datatype. Quantization rewrites vector bytes in the document key itself, so
+> other indexes covering the same key may drop the document or fail to index
+> it. Use an application-level migration with new keys or fields when
+> documents are shared across indexes.
 
 **Syntax**
 

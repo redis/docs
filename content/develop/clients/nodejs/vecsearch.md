@@ -122,6 +122,33 @@ Use `Promise.all()` to batch the commands and reduce network round trips:
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Node.js" description="Practical pattern: Generate embeddings and store documents with vector fields using pipelined hSet() commands" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`hImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`hImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use `Promise.all()` to send
+all the imports as a [pipeline](/content/develop/clients/nodejs/transpipe.md),
+in one round trip:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Node.js" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and pipelined HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`hImportSet()` replaces any existing key, so running this code after the
+`hSet()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `node-redis` v6.2.0 or later, and `node-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 To query the index:
@@ -143,6 +170,8 @@ doc:1: 'That is a very happy person', Score: 0.127055495977
 doc:2: 'That is a happy dog', Score: 0.836842417717
 doc:3: 'Today is a sunny day', Score: 1.50889515877
 ```
+
+The exact distances may differ slightly on your system.
 
 ## Differences with JSON documents
 

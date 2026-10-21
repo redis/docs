@@ -10,15 +10,14 @@ weight: 40
 draft: true
 ---
 
-The [FLUSHALL]({{< relref "/commands/flushall" >}}) command provides a fast way to remove all data from a database.
+The [FLUSHALL](/content/commands/flushall.md) command provides a fast way to remove all data from a database.
 
-{{< note >}}
-When you _flush_ a database, you remove all data.<br/><br/>
-
-This _permanently_ removes all data from the database.  The data cannot be recovered, except by restoring from earlier backups.<br/><br/>
-
-We _strongly_ recommend backing up databases before flushing them.
-{{</note>}}
+> [!NOTE]
+> When you _flush_ a database, you remove all data.<br/><br/>
+>
+> This _permanently_ removes all data from the database.  The data cannot be recovered, except by restoring from earlier backups.<br/><br/>
+>
+> We _strongly_ recommend backing up databases before flushing them.
 
 ## How to use FLUSHALL
 
@@ -48,7 +47,7 @@ redis-cli -h redis-12345.server.cloud.redislabs.example.com -p 12345 -a xyz flus
 
 ### Redis Insight
 
-If you install [Redis Insight]({{< relref "/develop/tools/insight" >}}) and [add your database]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}}), you can use the Redis Insight workbench to run commands:
+If you install [Redis Insight](/content/develop/tools/insight/_index.md) and [add your database](/content/operate/rc/rc-quickstart.md#using-redisinsight), you can use the Redis Insight workbench to run commands:
 
 1.  Start Redis Insight and connect to your database.
 
@@ -56,7 +55,7 @@ If you install [Redis Insight]({{< relref "/develop/tools/insight" >}}) and [add
 
 3.  In the command area, enter `flushall` and then select the green **run** arrow.
 
-    {{<image filename="images/rc/redisinsight-cli-flushall-example.png" alt="You can use Redis Insight to issue commands to a database." >}}
+    ![You can use Redis Insight to issue commands to a database.](/images/rc/redisinsight-cli-flushall-example.png)
 
     The 'OK' response indicates that the command executed properly.
 <!--

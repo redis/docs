@@ -104,13 +104,13 @@ syntax_fmt: "SORT_RO key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET\
   \  pattern ...]] [ASC | DESC] [ALPHA]"
 title: SORT_RO
 ---
-Read-only variant of the [`SORT`]({{< relref "/commands/sort" >}}) command. It is exactly like the original [`SORT`]({{< relref "/commands/sort" >}}) but refuses the `STORE` option and can safely be used in read-only replicas.
+Read-only variant of the [`SORT`](/content/commands/sort.md) command. It is exactly like the original [`SORT`](/content/commands/sort.md) but refuses the `STORE` option and can safely be used in read-only replicas.
 
-Since the original [`SORT`]({{< relref "/commands/sort" >}}) has a `STORE` option it is technically flagged as a writing command in the Redis command table. For this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+Since the original [`SORT`](/content/commands/sort.md) has a `STORE` option it is technically flagged as a writing command in the Redis command table. For this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`](/content/commands/readonly.md) command of Redis Cluster).
 
-The `SORT_RO` variant was introduced in order to allow [`SORT`]({{< relref "/commands/sort" >}}) behavior in read-only replicas without breaking compatibility on command flags.
+The `SORT_RO` variant was introduced in order to allow [`SORT`](/content/commands/sort.md) behavior in read-only replicas without breaking compatibility on command flags.
 
-See original [`SORT`]({{< relref "/commands/sort" >}}) for more details.
+See original [`SORT`](/content/commands/sort.md) for more details.
 
 ## Required arguments
 

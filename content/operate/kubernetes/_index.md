@@ -30,82 +30,82 @@ Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www
 
 Deploy Redis Enterprise on your Kubernetes cluster and create your first database.
 
-- [Quick start deployment]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
-- [Deploy with Helm]({{< relref "/operate/kubernetes/deployment/helm" >}})
-- [Deploy on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift" >}})
-- [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}})
+- [Quick start deployment](/content/operate/kubernetes/deployment/quick-start.md)
+- [Deploy with Helm](/content/operate/kubernetes/deployment/helm.md)
+- [Deploy on OpenShift](/content/operate/kubernetes/deployment/openshift/_index.md)
+- [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md)
 
 ## Redis Enterprise clusters (REC)
 
-Create and manage [Redis Enterprise clusters]({{< relref "/operate/kubernetes/re-clusters" >}}) on Kubernetes.
+Create and manage [Redis Enterprise clusters](/content/operate/kubernetes/re-clusters/_index.md) on Kubernetes.
 
-- [Connect to admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console" >}})
-- [Redis Flex]({{< relref "/operate/kubernetes/flex" >}})
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}})
-- [Cluster recovery]({{< relref "/operate/kubernetes/re-clusters/cluster-recovery" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
+- [Connect to admin console](/content/operate/kubernetes/re-clusters/connect-to-admin-console.md)
+- [Redis Flex](/content/operate/kubernetes/flex/_index.md)
+- [Multi-namespace deployment](/content/operate/kubernetes/re-clusters/multi-namespace.md)
+- [Cluster recovery](/content/operate/kubernetes/re-clusters/cluster-recovery.md)
+- [REC API reference](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md)
 
 ## Redis Enterprise databases (REDB)
 
-Create and manage [Redis Enterprise databases]({{< relref "/operate/kubernetes/re-databases" >}}) using Kubernetes resources.
+Create and manage [Redis Enterprise databases](/content/operate/kubernetes/re-databases/_index.md) using Kubernetes resources.
 
-- [Database controller]({{< relref "/operate/kubernetes/re-databases/db-controller" >}})
-- [Create replica databases]({{< relref "/operate/kubernetes/re-databases/replica-redb" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
+- [Database controller](/content/operate/kubernetes/re-databases/db-controller.md)
+- [Create replica databases](/content/operate/kubernetes/re-databases/replica-redb.md)
+- [REDB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md)
 
 ## Active-Active databases
 
-Set up globally distributed [Active-Active databases]({{< relref "/operate/kubernetes/active-active" >}}) across multiple Kubernetes clusters.
+Set up globally distributed [Active-Active databases](/content/operate/kubernetes/active-active/_index.md) across multiple Kubernetes clusters.
 
-- [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
-- [Create Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}})
-- [Global configuration]({{< relref "/operate/kubernetes/active-active/global-config" >}})
-- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
+- [Prepare participating clusters](/content/operate/kubernetes/active-active/prepare-clusters.md)
+- [Create Active-Active database](/content/operate/kubernetes/active-active/create-reaadb.md)
+- [Global configuration](/content/operate/kubernetes/active-active/global-config.md)
+- [REAADB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md)
+- [Remote cluster API reference](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md)
 
 ## Security
 
-Manage [secure connections]({{< relref "/operate/kubernetes/security" >}}) and access control for your Redis Enterprise deployment.
+Manage [secure connections](/content/operate/kubernetes/security/_index.md) and access control for your Redis Enterprise deployment.
 
-- [Access control]({{< relref "/operate/kubernetes/security/access-control" >}})
-- [Manage REC credentials]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}})
-- [Internode encryption]({{< relref "/operate/kubernetes/security/certificates/internode-encryption" >}})
-- [LDAP authentication]({{< relref "/operate/kubernetes/security/authentication/ldap" >}})
+- [Access control](/content/operate/kubernetes/security/access-control/_index.md)
+- [Manage REC credentials](/content/operate/kubernetes/security/authentication/manage-rec-credentials.md)
+- [Manage REC certificates](/content/operate/kubernetes/security/certificates/manage-rec-certificates.md)
+- [Internode encryption](/content/operate/kubernetes/security/certificates/internode-encryption.md)
+- [LDAP authentication](/content/operate/kubernetes/security/authentication/ldap.md)
 
 ## Reference
 
 Use the Kubernetes API and command-line tools to manage your Redis Enterprise deployment.
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}})
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}})
+- [Redis Enterprise cluster API (REC)](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md)
+- [Redis Enterprise database API (REDB)](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md)
+- [Active-Active database API (REAADB)](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md)
+- [Remote cluster API (RERC)](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md)
 
 ## Logs & monitoring
 
 Monitor and troubleshoot your Redis Enterprise deployment.
 
-- [Collect logs]({{< relref "/operate/kubernetes/logs/collect-logs" >}})
-- [Connect to Prometheus operator]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}})
+- [Collect logs](/content/operate/kubernetes/logs/collect-logs.md)
+- [Connect to Prometheus operator](/content/operate/kubernetes/re-clusters/connect-prometheus-operator.md)
 
 ## Upgrade
 
 Keep your Redis Enterprise deployment up to date.
 
-- [Upgrade Redis cluster]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
-- [Upgrade with OpenShift CLI]({{< relref "/operate/kubernetes/upgrade/openshift-cli" >}})
-- [Upgrade with OLM]({{< relref "/operate/kubernetes/upgrade/upgrade-olm" >}})
+- [Upgrade Redis cluster](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md)
+- [Upgrade with OpenShift CLI](/content/operate/kubernetes/upgrade/openshift-cli.md)
+- [Upgrade with OLM](/content/operate/kubernetes/upgrade/upgrade-olm.md)
 
 ## Release notes
 
 Stay informed about new features, enhancements, and fixes.
 
-- [Release notes]({{< relref "/operate/kubernetes/release-notes" >}})
+- [Release notes](/content/operate/kubernetes/release-notes/_index.md)
 
 ## Related info
 
-- [Redis Enterprise Software]({{< relref "/operate/rs" >}})
-- [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
-- [Glossary]({{< relref "/glossary" >}})
+- [Redis Enterprise Software](/content/operate/rs/_index.md)
+- [Redis Cloud](/content/operate/rc/_index.md)
+- [Redis Open Source](/content/operate/oss_and_stack/_index.md)
+- [Glossary](/content/glossary/_index.md)

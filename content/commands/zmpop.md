@@ -70,19 +70,18 @@ summary: Returns the highest- or lowest-scoring members from one or more sorted 
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
-`ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:
+`ZMPOP` and [`BZMPOP`](/content/commands/bzmpop.md) are similar to the following, more limited, commands:
 
-- [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) or [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) which take only one key, and can return multiple elements.
-- [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) or [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}) which take multiple keys, but return only one element from just one key.
+- [`ZPOPMIN`](/content/commands/zpopmin.md) or [`ZPOPMAX`](/content/commands/zpopmax.md) which take only one key, and can return multiple elements.
+- [`BZPOPMIN`](/content/commands/bzpopmin.md) or [`BZPOPMAX`](/content/commands/bzpopmax.md) which take multiple keys, but return only one element from just one key.
 
-See [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) for the blocking variant of this command.
+See [`BZMPOP`](/content/commands/bzmpop.md) for the blocking variant of this command.
 
 When the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.
 The optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.

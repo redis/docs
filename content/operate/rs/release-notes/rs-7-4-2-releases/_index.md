@@ -16,16 +16,15 @@ toc: 'true'
 weight: 70
 ---
 
-{{< note >}}
-Redis Software 7.4 reaches end of life on November 30, 2026. After that date,
-7.4.x clusters no longer receive security patches, bug fixes, or maintenance
-releases, and support for 7.4-specific issues is limited per your subscription
-agreement.
-
-Plan your upgrade to a supported version. See the
-[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
-and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
-{{< /note >}}
+> [!NOTE]
+> Redis Software 7.4 reaches end of life on November 30, 2026. After that date,
+> 7.4.x clusters no longer receive security patches, bug fixes, or maintenance
+> releases, and support for 7.4-specific issues is limited per your subscription
+> agreement.
+>
+> Plan your upgrade to a supported version. See the
+> [supported upgrade paths](/content/operate/rs/references/upgrade-paths.md)
+> and the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule).
 
 ​[​Redis Enterprise Software version 7.4](https://redis.io/downloads/#software) is now available!
 
@@ -61,15 +60,15 @@ For more detailed release notes, select a build version from the following table
 
 #### End-of-life policy extension
 
-The end-of-life policy for Redis Enterprise Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
+The end-of-life policy for Redis Enterprise Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Enterprise Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md).
 
 #### Supported upgrade paths
 
-Redis Enterprise Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
+Redis Enterprise Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path](/content/operate/rs/installing-upgrading/upgrading/upgrade-cluster.md#supported-upgrade-paths). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
 
 The next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+See the [Redis Enterprise Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md) for more information about release numbers.
 
 ### Deprecations
 
@@ -79,7 +78,7 @@ See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/ins
 
 - The maintenance mode option `keep_slave_shards` is deprecated in `rladmin` and the REST API. Use `evict_ha_replica` and `evict_active_active_replica` instead.
 
-- `/v1/debuginfo` REST API paths are deprecated. Use the new paths [`/v1/cluster/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/cluster/debuginfo" >}}), [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/nodes/debuginfo" >}}), and [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
+- `/v1/debuginfo` REST API paths are deprecated. Use the new paths [`/v1/cluster/debuginfo`](/content/operate/rs/references/rest-api/requests/cluster/debuginfo.md), [`/v1/nodes/debuginfo`](/content/operate/rs/references/rest-api/requests/nodes/debuginfo.md), and [`/v1/bdbs/debuginfo`](/content/operate/rs/references/rest-api/requests/bdbs/debuginfo.md) instead.
 
 #### Legacy UI deprecation
 
@@ -93,11 +92,11 @@ To prepare for the future removal of Redis 6.0:
 
 - For Redis Enterprise 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
-- For Redis Enterprise 7.2.4 and 7.4.x clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+- For Redis Enterprise 7.2.4 and 7.4.x clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#redis-72-breaking-changes) and update any applications that connect to your database to handle these changes.
 
 #### End of triggers and functions preview
 
-The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+The [triggers and functions](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/_index.md) (RedisGears) preview has been discontinued.
 
 - Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
 
@@ -131,7 +130,7 @@ See the [RedisGraph end-of-life announcement](https://redis.com/blog/redisgraph-
 
 #### Operating system retirements
 
-- RHEL 7 and Oracle Linux 7 were previously announced as deprecated in the [Redis Enterprise Software 7.2.4 release notes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases#deprecations" >}}). As of Redis Enterprise Software 7.4.2, RHEL 7 and Oracle Linux 7 are no longer supported.
+- RHEL 7 and Oracle Linux 7 were previously announced as deprecated in the [Redis Enterprise Software 7.2.4 release notes](/content/operate/rs/release-notes/rs-7-2-4-releases/_index.md#deprecations). As of Redis Enterprise Software 7.4.2, RHEL 7 and Oracle Linux 7 are no longer supported.
 
 #### Security retirements
 
@@ -147,13 +146,13 @@ See the [RedisGraph end-of-life announcement](https://redis.com/blog/redisgraph-
 
 Starting with the next major version, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
-This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
+This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes](/content/operate/kubernetes/_index.md) product and use Ubuntu-specific commands.
 
 To use Ubuntu-based images after this change, you can specify the operating system suffix in the image tag. For example, use the image tag `7.4.2-216.focal` instead of `7.4.2-216`.
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference](/content/operate/rs/references/supported-platforms.md) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software and Redis Stack modules.
 
@@ -162,7 +161,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| [**End-of-life date**](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -181,9 +180,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 2. <a name="table-note-2"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
 
-3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation](/content/operate/kubernetes/reference/supported_k8s_distributions.md) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) of Redis Enterprise Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
@@ -197,13 +196,13 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS122570: REST API `POST /crdbs` responds with a confusing error message if the cluster does not have the requested CRDB-compatible module that complies with the requested featureset.
 
-    This issue was fixed in [Redis Enterprise Software version 7.4.2-126]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-126">}}).
+    This issue was fixed in [Redis Enterprise Software version 7.4.2-126](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-126.md).
 
 - RS123142: In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
 
     To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
 
-    This issue was fixed in [Redis Enterprise Software version 7.4.2-169]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169">}}).
+    This issue was fixed in [Redis Enterprise Software version 7.4.2-169](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169.md).
 
 ## Known limitations
 
@@ -213,11 +212,11 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 - Remove a node.
 
-    Use the REST API or legacy UI instead. See [Remove a cluster node]({{< relref "/operate/rs/clusters/remove-node" >}}) for instructions.
+    Use the REST API or legacy UI instead. See [Remove a cluster node](/content/operate/rs/clusters/remove-node.md) for instructions.
 
 - Purge an Active-Active instance.
 
-    Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
+    Use [`crdb-cli crdb purge-instance`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance.md) instead.
 
 - Search and export the log.
 
@@ -235,7 +234,7 @@ You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Enterprise c
 
 You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with modules. Databases that use Redis version 7.2 do not have this limitation.
 
-This limitation was fixed in [Redis Enterprise Software version 7.4.2-104]({{< relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-104" >}}).
+This limitation was fixed in [Redis Enterprise Software version 7.4.2-104](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-104.md).
 
 #### Firewalld configuration fails on RHEL 9 due to file permissions
 
@@ -258,4 +257,4 @@ As a workaround:
     $ /bin/firewall-cmd --add-service=redislabs
     ```
 
-This limitation was fixed in [Redis Enterprise Software version 7.4.2-129]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-129">}}).
+This limitation was fixed in [Redis Enterprise Software version 7.4.2-129](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-129.md).

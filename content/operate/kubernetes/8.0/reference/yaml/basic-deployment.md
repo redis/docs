@@ -13,7 +13,7 @@ url: '/operate/kubernetes/8.0/reference/yaml/basic-deployment/'
 
 This page provides complete YAML examples for a basic Redis Enterprise deployment on Kubernetes. These examples include all the essential components you need to deploy a Redis Enterprise cluster and create a database.
 
-For complete deployment instructions, see [Deploy on Kubernetes]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}}).
+For complete deployment instructions, see [Deploy on Kubernetes](/content/operate/kubernetes/8.0/deployment/quick-start.md).
 
 ## Service account
 
@@ -84,10 +84,10 @@ Edit the values in the downloaded YAML file based on your requirements, such as 
 
 ## Apply the configuration
 
-To deploy these YAML files, follow [Deploy on Kubernetes]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}}), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
+To deploy these YAML files, follow [Deploy on Kubernetes](/content/operate/kubernetes/8.0/deployment/quick-start.md), which provides step-by-step instructions for creating namespaces, deploying the operator, and applying these configuration files.
 
 ## Related documentation
 
-- [Deploy on Kubernetes]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}})
-- [REC API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}})
-- [REDB API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}})
+- [Deploy on Kubernetes](/content/operate/kubernetes/8.0/deployment/quick-start.md)
+- [REC API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md)
+- [REDB API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md)

@@ -45,9 +45,8 @@ syntax_fmt: "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2
   \ [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>"
 title: TS.QUERYINDEX
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
@@ -115,21 +114,21 @@ redis> TS.QUERYINDEX type=temperature
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The array is empty if no time series matches the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter expression.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) where each element is a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a time series key. The array is empty if no time series matches the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid filter expression.
 
 -tab-sep-
 
 One of the following:
-* [Set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The set is empty if no time series matches the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter expression.
+* [Set reply](/content/develop/reference/protocol-spec.md#sets) where each element is a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a time series key. The set is empty if no time series matches the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid filter expression.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.CREATE`]({{< relref "commands/ts.create/" >}}) | [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.MGET`]({{< relref "commands/ts.mget/" >}})
+[`TS.CREATE`](/content/commands/ts.create.md) | [`TS.MRANGE`](/content/commands/ts.mrange.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) | [`TS.MGET`](/content/commands/ts.mget.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

@@ -73,13 +73,13 @@ summary: Sets the expiration time of a key to a Unix timestamp.
 syntax_fmt: EXPIREAT key unix-time-seconds [NX | XX | GT | LT]
 title: EXPIREAT
 ---
-`EXPIREAT` has the same effect and semantic as [`EXPIRE`]({{< relref "/commands/expire" >}}), but instead of
+`EXPIREAT` has the same effect and semantic as [`EXPIRE`](/content/commands/expire.md), but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
 an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) (seconds since January 1, 1970). A
 timestamp in the past will delete the key immediately.
 
 Please for the specific semantics of the command refer to the documentation of
-[`EXPIRE`]({{< relref "/commands/expire" >}}).
+[`EXPIRE`](/content/commands/expire.md).
 
 ## Required arguments
 

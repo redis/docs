@@ -132,13 +132,13 @@ OK
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the filter was created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or the key already exists.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the filter was created successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or the key already exists.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the filter was created successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or the key already exists.
 
 {{< /multitabs >}}

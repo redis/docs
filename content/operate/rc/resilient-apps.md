@@ -19,7 +19,7 @@ These settings can be turned on when you create or edit your database.
 
 ### Enable data persistence
 
-Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
+Enabling [Data persistence](/content/operate/rc/databases/configuration/data-persistence.md) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
 
 Redis Cloud supports the following data persistence options:
 
@@ -34,7 +34,7 @@ If you do not enable data persistence, your data may be lost if the database goe
 
 ### Enable replication
 
-[Database replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows for automatic failover and greater fault tolerance. Replication can prevent data loss in the event of a hardware or zone failure. 
+[Database replication](/content/operate/rc/databases/configuration/high-availability.md) allows for automatic failover and greater fault tolerance. Replication can prevent data loss in the event of a hardware or zone failure. 
 
 Redis Cloud supports these replication settings:
 
@@ -48,7 +48,7 @@ It is best practice to enable replication for any databases that need to be high
 
 ### Create Active-Active databases for geographic availability
 
-For geographic availability, create [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), which provide:
+For geographic availability, create [Active-Active databases](/content/operate/rc/databases/active-active/_index.md), which provide:
 
 - **Geographic distribution**: Data is replicated across multiple regions and availability zones. Applications can read from and write to the nearest region, reducing latency for users worldwide.
 
@@ -58,54 +58,54 @@ For geographic availability, create [Active-Active databases]({{< relref "/opera
 
 ### Set manual maintenance windows
 
-Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) automatically while limiting service disruption as much as possible.
+Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance](/content/operate/rc/subscriptions/maintenance/_index.md) automatically while limiting service disruption as much as possible.
 
-For stable apps, you may want to control when Redis can perform maintenance on your databases. For Redis Cloud Pro subscriptions, you can [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
+For stable apps, you may want to control when Redis can perform maintenance on your databases. For Redis Cloud Pro subscriptions, you can [set manual maintenance windows](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
 
-A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
+A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance](/content/operate/rc/subscriptions/maintenance/_index.md#redis-cloud-essentials) for more information.
 
 ## Set up Redis clients
 
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client. Use the latest version of your client library to ensure you have access to the latest resilience features and security patches.
 
-See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+See [Clients](/content/develop/clients/_index.md) to learn how to connect with the official Redis clients.
 
 ### Use Smart Client Handoffs
 
-Some Redis client libraries support [Smart Client Handoffs (SCH)]({{< relref "/develop/clients/sch" >}}).
+Some Redis client libraries support [Smart Client Handoffs (SCH)](/content/develop/clients/sch.md).
 SCH allows the Cloud server to notify the client when server maintenance is about to start. The client can then take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for more information about SCH,
+See [Smart client handoffs](/content/develop/clients/sch.md) for more information about SCH,
 including a list of clients that support it.
 
 ### Production usage guides
 
 For production-ready configurations and best practices, see the production usage guides for each client:
 
-- [redis-py]({{< relref "/develop/clients/redis-py/produsage" >}})
-- [Node.js]({{< relref "/develop/clients/nodejs/produsage" >}})
-- [Jedis]({{< relref "/develop/clients/jedis/produsage" >}})
-- [Lettuce]({{< relref "/develop/clients/lettuce/produsage" >}})
-- [go-redis]({{< relref "/develop/clients/go/produsage" >}})
-- [StackExchange.Redis]({{< relref "/develop/clients/dotnet/produsage" >}})
+- [redis-py](/content/develop/clients/redis-py/produsage.md)
+- [Node.js](/content/develop/clients/nodejs/produsage.md)
+- [Jedis](/content/develop/clients/jedis/produsage.md)
+- [Lettuce](/content/develop/clients/lettuce/produsage.md)
+- [go-redis](/content/develop/clients/go/produsage.md)
+- [StackExchange.Redis](/content/develop/clients/dotnet/produsage.md)
 
 ### Re-attempt connections
 
 Some clients allow you to re-try connecting to your database if the connection fails. For these clients, we recommend that you implement connection re-attempts to ensure high availability and connection stability. 
 
-View your [client's docs]({{< relref "/develop/clients" >}}) to learn more.
+View your [client's docs](/content/develop/clients/_index.md) to learn more.
 
 ### Refresh DNS
 
 Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance then you should refresh your DNS entries. 
 
-Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs]({{< relref "/develop/clients" >}}) to learn more.
+Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs](/content/develop/clients/_index.md) to learn more.
 
 ### Use the WAIT and WAITAOF commands
 
-The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/waitaof" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
+The [WAIT](/content/commands/wait.md) and [WAITAOF](/content/commands/waitaof.md) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
 
-For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
+For more info, see [Use the WAIT command for strong consistency](/content/operate/rs/clusters/optimize/wait.md).
 
 ## Test failover behavior
 
@@ -115,6 +115,6 @@ For more info, see [How to run a Failover Test in Redis Cloud](https://support.r
 
 ## More info
 
-- [Redis Clients]({{< relref "/develop/clients" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
-- [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})
+- [Redis Clients](/content/develop/clients/_index.md)
+- [Active-Active Redis](/content/operate/rc/databases/active-active/_index.md)
+- [Active-Active Redis applications](/content/operate/rs/databases/active-active/develop/_index.md)

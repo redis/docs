@@ -77,6 +77,11 @@
 {{- $content = $content | replaceRE "\\{\\{&lt;\\s*image\\s+filename=&#34;/?([^&]+)&#34;[^}]*&gt;\\}\\}" "![$1](https://redis.io/docs/latest/$1)" -}}
 {{- /* Pattern for literal: {{< image filename="path" [alt="..."] >}} */ -}}
 {{- $content = $content | replaceRE `\{\{<\s*image\s+filename="/?([^"]+)"[^}]*>\}\}` "![$1](https://redis.io/docs/latest/$1)" -}}
+{{- /* Markdown images that replace the `image` shortcode (DOC-7128): drop the
+       `{width="..." class="..."}` line render-image.html reads, which would
+       otherwise reach the output as literal text, then absolutize the path. */ -}}
+{{- $content = $content | replaceRE `(?m)(!\[[^\]\n]*\]\([^)\n]*\))[ \t]*\n[ \t>]*\{(?:\s*\w+="[^"]*")+\s*\}[ \t]*$` "$1" -}}
+{{- $content = $content | replaceRE `(!\[[^\]\n]*\]\()/(?:static/)?images/` "${1}https://redis.io/docs/latest/images/" -}}
 
 {{- /* Process clients-example shortcodes to include all languages */ -}}
 {{- $content = partial "markdown-code-examples.html" (dict "RawContent" $content "Site" .Site) -}}

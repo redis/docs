@@ -15,10 +15,10 @@ url: '/operate/rs/8.0/databases/flash/'
 ---
 
 {{<banner-article>}}
-This article includes a general overview of Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases]({{<relref "/operate/rs/8.0/flex">}}) section instead.
+This article includes a general overview of Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases](/content/operate/rs/8.0/flex/_index.md) section instead.
 {{</banner-article>}}
 
-[Flex]({{<relref "/operate/rs/8.0/flex">}}) and Auto Tiering in Redis Software enable databases to use solid state drives (SSDs) to extend beyond DRAM capacity.
+[Flex](/content/operate/rs/8.0/flex/_index.md) and Auto Tiering in Redis Software enable databases to use solid state drives (SSDs) to extend beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
 Using SSDs can significantly reduce the infrastructure costs compared to only DRAM deployments. 
 
@@ -30,7 +30,7 @@ Flex is based on a high-performance storage engine (Speedb) that manages the com
 
 Just like all-RAM databases, Flex databases are compatible with existing Redis applications.
 
-Flex is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/flex" >}}).
+Flex is also supported on [Redis Cloud](/content/operate/rc/_index.md) and [Redis Enterprise Software for Kubernetes](/content/operate/kubernetes/flex/_index.md).
 
 ## Flex versus Auto Tiering
 
@@ -44,7 +44,7 @@ Redis database versions support Flex and Auto Tiering as follows:
 | 7.4 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span>|
 | 7.2 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-Flex requires the Speedb driver, while Auto Tiering can use either RocksDB or Speedb. See [Manage Auto Tiering storage engine]({{<relref "/operate/rs/8.0/databases/flash/storage-engine">}}) for more information.
+Flex requires the Speedb driver, while Auto Tiering can use either RocksDB or Speedb. See [Manage Auto Tiering storage engine](/content/operate/rs/8.0/databases/flash/storage-engine.md) for more information.
 
 ## Use cases
 
@@ -75,7 +75,8 @@ All data is accessed through RAM. If a key or value in flash memory is accessed,
 
 Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm keys and values are moved from RAM to flash storage.
 
-{{<note>}} When using Auto Tiering with Redis Search, indexes are also stored in RAM. Flex does not support Redis Search.{{</note>}}
+> [!NOTE]
+>  When using Auto Tiering with Redis Search, indexes are also stored in RAM. Flex does not support Redis Search.
 
 ## RAM to Flash ratio
 
@@ -93,7 +94,8 @@ Implementing Flex requires pre planning around memory and sizing. Considerations
 - For the best performance, the SSDs should be NVMe based, but SATA can also be used.
 - The available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).
 
-{{<note>}} The Redis Software database persistent and ephemeral storage should be on different disks, either local or attached. {{</note>}}
+> [!NOTE]
+>  The Redis Software database persistent and ephemeral storage should be on different disks, either local or attached. 
 
 After these requirements are met, you can create and manage both Flex databases and
 all-RAM databases in the same cluster.
@@ -108,8 +110,8 @@ When running in a cloud environment:
 - Flash memory is on the ephemeral SSDs of the cloud instance (for example the local NVMe of AWS i4i instances and Azure Lsv2 and Lsv3 series).
 - Persistent database storage needs to be network attached (for example, AWS EBS for AWS).
 
-{{<note>}}
-We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://aws.amazon.com/ec2/instance-types/#storage-optimized)" because of the performance of NVMe for flash memory. {{</note>}}
+> [!NOTE]
+> We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://aws.amazon.com/ec2/instance-types/#storage-optimized)" because of the performance of NVMe for flash memory. 
 
 ### On-premises environments
 
@@ -121,14 +123,15 @@ The following table shows which data types and features are supported for Flex a
 
 | Data type/feature | Flex support | Auto Tiering support |
 |-------------------|--------------|----------------------|
-| [Active-Active databases]({{<relref "/operate/rs/8.0/databases/active-active">}}) | <span title="Not supported">&#x274c;</span> |<span title="Supported">&#x2705;</span> Requires Redis<br />technical team's approval |
-| [JSON]({{<relref "/develop/data-types/json">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| [Probabilistic data structures]({{<relref "/develop/data-types/#probabilistic-data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
-| Standard [Redis data types]({{<relref "/develop/data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| [Time series]({{<relref "/develop/data-types/timeseries">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+| [Active-Active databases](/content/operate/rs/8.0/databases/active-active/_index.md) | <span title="Not supported">&#x274c;</span> |<span title="Supported">&#x2705;</span> Requires Redis<br />technical team's approval |
+| [JSON](/content/develop/data-types/json/_index.md) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Probabilistic data structures](/content/develop/data-types/_index.md#probabilistic-data-types) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+| Standard [Redis data types](/content/develop/data-types/_index.md) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Time series](/content/develop/data-types/timeseries/_index.md) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-{{<warning>}}Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
+> [!WARNING]
+> Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. 
 
 ## Size limits for keys and values
 
@@ -142,14 +145,14 @@ Keys or values larger than 4GB will be stored in RAM only, and warnings will app
 
 ## Next steps
 
-- [Get started with Flex databases for Redis Software]({{< relref "/operate/rs/8.0/flex/get-started" >}})
+- [Get started with Flex databases for Redis Software](/content/operate/rs/8.0/flex/get-started.md)
 
-- [Auto Tiering quick start]({{< relref "/operate/rs/8.0/databases/flash/quickstart" >}})
+- [Auto Tiering quick start](/content/operate/rs/8.0/databases/flash/quickstart.md)
 
-- [Ephemeral and persistent storage]({{< relref "/operate/rs/8.0/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+- [Ephemeral and persistent storage](/content/operate/rs/8.0/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage.md)
 
-- [Plan a Flex deployment for Redis Software]({{<relref "/operate/rs/8.0/flex/plan">}})
+- [Plan a Flex deployment for Redis Software](/content/operate/rs/8.0/flex/plan.md)
 
-- [Hardware requirements]({{< relref "/operate/rs/8.0/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
+- [Hardware requirements](/content/operate/rs/8.0/installing-upgrading/install/plan-deployment/hardware-requirements.md)
 
-- [Flex and Auto Tiering metrics]({{< relref "/operate/rs/8.0/references/metrics/auto-tiering" >}})
+- [Flex and Auto Tiering metrics](/content/operate/rs/8.0/references/metrics/auto-tiering.md)

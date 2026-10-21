@@ -11,13 +11,12 @@ weight: 50
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running macOS 14 (Sonoma), macOS 15 (Sequoia), or macOS 26 (Tahoe). These instructions apply to both Intel and Apple Silicon (ARM) Macs.
 
-{{< note >}}
-Three RediSearch-specific build constraints apply on macOS and are handled in the steps below:
-
-- The cross-language LTO that RediSearch enables by default requires Linux; its build script aborts on macOS with `Error: LTO is only supported on Linux`. Step 5 sets `LTO=0` to disable it.
-- RediSearch's Rust workspace uses edition 2024 and features stabilized in Rust 1.94, so the Rust toolchain in step 3 is pinned to `1.94.0`. Older Rust fails with `feature edition2024 is required`.
-- RediSearch's CMake build calls `libtool -static` (BSD libtool syntax). Step 6's `PATH` prepends `$HOMEBREW_PREFIX/opt/libtool/libexec/gnubin`, so Homebrew's GNU `libtool` is used for that step instead of macOS's `/usr/bin/libtool`.
-{{< /note >}}
+> [!NOTE]
+> Three RediSearch-specific build constraints apply on macOS and are handled in the steps below:
+>
+> - The cross-language LTO that RediSearch enables by default requires Linux; its build script aborts on macOS with `Error: LTO is only supported on Linux`. Step 5 sets `LTO=0` to disable it.
+> - RediSearch's Rust workspace uses edition 2024 and features stabilized in Rust 1.94, so the Rust toolchain in step 3 is pinned to `1.94.0`. Older Rust fails with `feature edition2024 is required`.
+> - RediSearch's CMake build calls `libtool -static` (BSD libtool syntax). Step 6's `PATH` prepends `$HOMEBREW_PREFIX/opt/libtool/libexec/gnubin`, so Homebrew's GNU `libtool` is used for that step instead of macOS's `/usr/bin/libtool`.
 
 ## 1. Install homebrew
 
@@ -119,7 +118,7 @@ build_dir/bin/redis-server redis.conf
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 build_dir/bin/redis-cli INFO

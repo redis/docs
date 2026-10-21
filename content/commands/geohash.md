@@ -50,7 +50,7 @@ summary: Returns members from a geospatial index as geohash strings.
 syntax_fmt: GEOHASH key [member [member ...]]
 title: GEOHASH
 ---
-Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]({{< relref "/commands/geoadd" >}})).
+Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`](/content/commands/geoadd.md)).
 
 Normally Redis represents positions of elements using a variation of the Geohash
 technique where positions are encoded using 52-bit integers. The encoding is

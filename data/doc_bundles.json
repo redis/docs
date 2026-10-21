@@ -89,7 +89,8 @@
     {
       "id": "redis-data-integration",
       "title": "Redis Data Integration",
-      "path": "integrate/redis-data-integration"
+      "path": "integrate/redis-data-integration",
+      "versions": "rdi"
     },
     {
       "id": "glossary",

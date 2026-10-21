@@ -22,13 +22,12 @@ clusters for test and development environments. Here are the steps:
 
 1. Test connectivity to the Active-Active database.
 
-To run an Active-Active database on installations from the [Redis Enterprise Software download package]({{< relref "/operate/rs/7.22/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}),
+To run an Active-Active database on installations from the [Redis Enterprise Software download package](/content/operate/rs/7.22/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md),
 set up two Redis Enterprise Software installations and continue from Step 2.
 
-{{<note>}}
-This getting started guide is for development or demonstration environments.
-For production environments, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.22/databases/active-active/create" >}}) for instructions.
-{{</note>}}
+> [!NOTE]
+> This getting started guide is for development or demonstration environments.
+> For production environments, see [Create an Active-Active geo-replicated database](/content/operate/rs/7.22/databases/active-active/create.md) for instructions.
 
 ## Run two containers
 
@@ -42,42 +41,40 @@ docker run -d --cap-add sys_resource -h rs1_node1 --name rs1_node1 -p 8443:8443 
 docker run -d --cap-add sys_resource -h rs2_node1 --name rs2_node1 -p 8445:8443 -p 9445:9443 -p 12002:12000 redislabs/redis
 ```
 
-{{<note>}}
-The `-h` option sets the hostname of the container, which is important for cluster setup and identification.
-
-The `--name` option assigns a name to the container, making it easier to manage and reference with Docker commands.
-
-The `-p` options map the Cluster Manager UI port (8443), REST API port (9443), and database access port differently for each container to make sure that all containers can be accessed from the host OS that is running the containers.
-{{</note>}}
+> [!NOTE]
+> The `-h` option sets the hostname of the container, which is important for cluster setup and identification.
+>
+> The `--name` option assigns a name to the container, making it easier to manage and reference with Docker commands.
+>
+> The `-p` options map the Cluster Manager UI port (8443), REST API port (9443), and database access port differently for each container to make sure that all containers can be accessed from the host OS that is running the containers.
 
 ## Set up two clusters
 
 1. For cluster 1, go to `https://localhost:8443` in a browser on the
 host machine to access the Redis Enterprise Software Cluster Manager UI.
 
-    {{<note>}}
-Depending on your browser, you may see a certificate error. Continue to the website.
-    {{</note>}}
+    > [!NOTE]
+    > Depending on your browser, you may see a certificate error. Continue to the website.
 
 1. Click **Create new cluster**:
 
-    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Enterprise Software, you need to set up a cluster." >}}
+    ![When you first install Redis Enterprise Software, you need to set up a cluster.](/images/rs/screenshots/cluster/setup/create-cluster.png)
 
 1. Enter an email and password for the administrator account, then click **Next** to proceed to cluster setup:
 
-    {{<image filename="images/rs/screenshots/cluster/setup/admin-credentials.png" alt="Set the credentials for your admin user." >}}
+    ![Set the credentials for your admin user.](/images/rs/screenshots/cluster/setup/admin-credentials.png)
 
 1. Enter your cluster license key if you have one. Otherwise, a trial version is installed.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/cluster-license-key.png" alt="Enter your cluster license key if you have one." >}}
+    ![Enter your cluster license key if you have one.](/images/rs/screenshots/cluster/setup/cluster-license-key.png)
 
 1. In the **Configuration** section of the **Cluster** settings page, enter a cluster FQDN, for example `cluster1.local`:
 
-    {{<image filename="images/rs/screenshots/cluster/setup/config-cluster1.png" alt="Configure the cluster FQDN." >}}
+    ![Configure the cluster FQDN.](/images/rs/screenshots/cluster/setup/config-cluster1.png)
 
 1. On the node setup screen, keep the default settings and click **Create cluster**:
 
-    {{<image filename="images/rs/screenshots/cluster/setup/node-settings.png" alt="Configure the node specific settings." >}}
+    ![Configure the node specific settings.](/images/rs/screenshots/cluster/setup/node-settings.png)
 
 1. Click **OK** to confirm that you are aware of the replacement of the HTTPS SSL/TLS
     certificate on the node, and proceed through the browser warning.
@@ -91,9 +88,8 @@ Depending on your browser, you may see a certificate error. Continue to the webs
 Now you have two Redis Enterprise Software clusters with FQDNs
 `cluster1.local` and `cluster2.local`.
 
-{{<note>}}
-Each Active-Active instance must have a unique fully-qualified domain name (FQDN).
-{{</note>}}
+> [!NOTE]
+> Each Active-Active instance must have a unique fully-qualified domain name (FQDN).
 
 ## Create an Active-Active database
 
@@ -103,17 +99,19 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 
     - Click the **+** button next to **Databases** in the navigation menu:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-plus-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-plus-drop-down.png)
+        {width="350px"}
         
     - Go to the **Databases** screen and select **Create database**:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-button-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-button-drop-down.png)
+        {width="350px"}
 
 1. Select **Active-Active database**.
 
 1. Enter the cluster's local admin credentials, then click **Save**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enter-local-admin-credentials-cluster1.png" alt="Enter the cluster's admin username and password.">}}
+    ![Enter the cluster's admin username and password.](/images/rs/screenshots/databases/active-active-databases/enter-local-admin-credentials-cluster1.png)
 
 1. Add participating clusters that will host instances of the Active-Active database:
 
@@ -123,38 +121,36 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 
         In the **Other participating clusters** list, add the address and admin credentials for the other cluster: `https://cluster2.local:9443`
 
-        {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster2.png" alt="Add cluster panel.">}}
+        ![Add cluster panel.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster2.png)
 
     1. Click **Join cluster** to add the cluster to the list of participating clusters. 
 
 1. Enter `database1` for **Database name** and `12000` for **Port**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-db-name-port.png" alt="Database name and port text boxes.">}}
+    ![Database name and port text boxes.](/images/rs/screenshots/databases/active-active-databases/quickstart-db-name-port.png)
 
 1. Configure additional settings:
 
     1. In the **High availability** section, turn off **Replication** since each cluster has only one node in this setup:
 
-        {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication-7-8-2.png" alt="Turn off replication in the High availability section.">}}
+        ![Turn off replication in the High availability section.](/images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication-7-8-2.png)
 
 
     1. In the **Clustering** section, either:
 
         - Make sure that **Sharding** is enabled and select the number of shards you want to have in the database. When database clustering is enabled,
-        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/7.22/databases/durability-ha/clustering" >}}).
+        databases are subject to limitations on [Multi-key commands](/content/operate/rs/7.22/databases/durability-ha/clustering.md).
         You can increase the number of shards in the database at any time.
 
-        - Turn off **Sharding** to use only one shard and avoid [Multi-key command]({{< relref "/operate/rs/7.22/databases/durability-ha/clustering" >}}) limitations.
+        - Turn off **Sharding** to use only one shard and avoid [Multi-key command](/content/operate/rs/7.22/databases/durability-ha/clustering.md) limitations.
 
-        {{< note >}}
-You cannot enable or turn off database clustering after the Active-Active database is created.
-        {{< /note >}}
+        > [!NOTE]
+        > You cannot enable or turn off database clustering after the Active-Active database is created.
 
 1. Click **Create**.
 
-    {{< note >}}
-{{< embed-md "docker-memory-limitation.md" >}}
-    {{< /note >}}
+    > [!NOTE]
+    > {{< embed-md "docker-memory-limitation.md" >}}
 
 1. After the Active-Active database is created, sign in to the Cluster Manager UIs for cluster 1 at `https://localhost:8443` and cluster 2 at `https://localhost:8445`.
 
@@ -169,4 +165,4 @@ You cannot enable or turn off database clustering after the Active-Active databa
 ## Test connection
 
 With the Redis database created, you are ready to connect to your
-database. See [Connect to Active-Active databases]({{< relref "/operate/rs/7.22/databases/active-active/connect" >}}) for tutorials and examples of multiple connection methods.
+database. See [Connect to Active-Active databases](/content/operate/rs/7.22/databases/active-active/connect.md) for tutorials and examples of multiple connection methods.

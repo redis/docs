@@ -60,12 +60,11 @@ summary: Removes and returns the member with the highest score from one or more 
 syntax_fmt: BZPOPMAX key [key ...] timeout
 title: BZPOPMAX
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BZPOPMAX` is the blocking variant of the sorted set [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) primitive.
+`BZPOPMAX` is the blocking variant of the sorted set [`ZPOPMAX`](/content/commands/zpopmax.md) primitive.
 
 It is the blocking version because it blocks the connection when there are no
 members to pop from any of the given sorted sets.
@@ -75,8 +74,8 @@ non-empty, with the given keys being checked in the order that they are given.
 The `timeout` argument is interpreted as a double value specifying the maximum
 number of seconds to block. A timeout of zero can be used to block indefinitely.
 
-See the [BZPOPMIN documentation]({{< relref "/commands/bzpopmin" >}}) for the exact semantics, since `BZPOPMAX`
-is identical to [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) with the only difference being that it pops members
+See the [BZPOPMIN documentation](/content/commands/bzpopmin.md) for the exact semantics, since `BZPOPMAX`
+is identical to [`BZPOPMIN`](/content/commands/bzpopmin.md) with the only difference being that it pops members
 with the highest scores instead of popping the ones with the lowest scores.
 
 ## Required arguments

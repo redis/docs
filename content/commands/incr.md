@@ -101,12 +101,12 @@ string representing the current date.
 
 This simple pattern can be extended in many ways:
 
-* It is possible to use `INCR` and [`EXPIRE`]({{< relref "/commands/expire" >}}) together at every page view to have
+* It is possible to use `INCR` and [`EXPIRE`](/content/commands/expire.md) together at every page view to have
   a counter counting only the latest N page views separated by less than the
   specified amount of seconds.
 * A client may use GETSET in order to atomically get the current counter value
   and reset it to zero.
-* Using other atomic increment/decrement commands like [`DECR`]({{< relref "/commands/decr" >}}) or [`INCRBY`]({{< relref "/commands/incrby" >}}) it
+* Using other atomic increment/decrement commands like [`DECR`](/content/commands/decr.md) or [`INCRBY`](/content/commands/incrby.md) it
   is possible to handle values that may get bigger or smaller depending on the
   operations performed by the user.
   Imagine for instance the score of different users in an online game.
@@ -145,7 +145,7 @@ But these counters are always incremented setting an expire of 10 seconds so tha
 they'll be removed by Redis automatically when the current second is a different
 one.
 
-Note the used of [`MULTI`]({{< relref "/commands/multi" >}}) and [`EXEC`]({{< relref "/commands/exec" >}}) in order to make sure that we'll both
+Note the used of [`MULTI`](/content/commands/multi.md) and [`EXEC`](/content/commands/exec.md) in order to make sure that we'll both
 increment and set the expire at every API call.
 
 #### Pattern: rate limiter 2
@@ -175,10 +175,10 @@ value greater than 10, otherwise it will expire and start again from 0.
 
 **In the above code there is a race condition**.
 If for some reason the client performs the `INCR` command but does not perform
-the [`EXPIRE`]({{< relref "/commands/expire" >}}) the key will be leaked until we'll see the same IP address again.
+the [`EXPIRE`](/content/commands/expire.md) the key will be leaked until we'll see the same IP address again.
 
-This can be easily fixed by turning the `INCR` with optional [`EXPIRE`]({{< relref "/commands/expire" >}}) into a Lua
-script that is then sent using the [`EVAL`]({{< relref "/commands/eval" >}}) command (only available since Redis version
+This can be easily fixed by turning the `INCR` with optional [`EXPIRE`](/content/commands/expire.md) into a Lua
+script that is then sent using the [`EVAL`](/content/commands/eval.md) command (only available since Redis version
 2.6).
 
 ```
@@ -213,11 +213,11 @@ ELSE
 END
 ```
 
-The [`RPUSHX`]({{< relref "/commands/rpushx" >}}) command only pushes the element if the key already exists.
+The [`RPUSHX`](/content/commands/rpushx.md) command only pushes the element if the key already exists.
 
-Note that we have a race here, but it is not a problem: [`EXISTS`]({{< relref "/commands/exists" >}}) may return
+Note that we have a race here, but it is not a problem: [`EXISTS`](/content/commands/exists.md) may return
 false but the key may be created by another client before we create it inside
-the [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block.
+the [`MULTI`](/content/commands/multi.md) / [`EXEC`](/content/commands/exec.md) block.
 However this race will just miss an API call under rare conditions, so the rate
 limiting will still work correctly.
 

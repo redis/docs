@@ -115,7 +115,7 @@ Increments or decrements the numeric value stored at `key` by the specified amou
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or a string that cannot be interpreted as a number.
 
-Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. When the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits, the default is to skip the operation and reply with `[current_value, 0]`, leaving the key and its TTL untouched. The `SATURATE` flag changes this behavior so the result is capped at the bound instead.
+Unlike [`INCR`](/content/commands/incr.md) and [`INCRBY`](/content/commands/incrby.md), `INCREX` returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. When the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits, the default is to skip the operation and reply with `[current_value, 0]`, leaving the key and its TTL untouched. The `SATURATE` flag changes this behavior so the result is capped at the bound instead.
 
 ## Required arguments
 
@@ -132,7 +132,7 @@ The name of the key to increment.
 Specifies the increment amount and type:
 
 * `BYFLOAT increment`: increment the value by the given long-double float. The key's existing value may be either an integer or a float, since integers can be promoted to floats losslessly. Results that would produce NaN or Infinity are rejected.
-* `BYINT increment`: increment the value by the given 64-bit signed integer. The increment may be negative to decrement the value. `BYINT` requires the key's existing value to be integer-typed; a stored float such as `"1.5"` cannot be parsed back as an integer. This is consistent with [`INCR`]({{< relref "/commands/incr" >}})/[`INCRBY`]({{< relref "/commands/incrby" >}}) (integer-only) and [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) (accepts both).
+* `BYINT increment`: increment the value by the given 64-bit signed integer. The increment may be negative to decrement the value. `BYINT` requires the key's existing value to be integer-typed; a stored float such as `"1.5"` cannot be parsed back as an integer. This is consistent with [`INCR`](/content/commands/incr.md)/[`INCRBY`](/content/commands/incrby.md) (integer-only) and [`INCRBYFLOAT`](/content/commands/incrbyfloat.md) (accepts both).
 
 If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in integer mode. `BYFLOAT` and `BYINT` are mutually exclusive.
 
@@ -280,7 +280,7 @@ redis> INCREX mykey7 BYINT 5 UBOUND 100 SATURATE
 
 ### Pattern: window counter rate limiter
 
-A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}), this typically requires a Lua script to be atomic.
+A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`](/content/commands/incr.md) and [`EXPIRE`](/content/commands/expire.md), this typically requires a Lua script to be atomic.
 
 `INCREX` requires a single native command. `UBOUND` enforces the rate cap — by default, once the cap is reached the operation is skipped — and `ENX` ensures that a new window with the correct duration is created if the previous one has expired; if a window already exists, it won't be extended. When the counter has already reached the cap, `actual_increment` is `0`, giving the caller immediate feedback without extra reads or error handling:
 
@@ -306,20 +306,20 @@ if actual_incr == 0:
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array:
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array:
 
 1. **New value** — the value of the key after the increment, or the unchanged current value when an out-of-bounds result caused the operation to be skipped.
 2. **Actual increment** — the increment that was actually applied. May differ from the requested increment when `SATURATE` caps the result at a bound, and is always `0` when an out-of-bounds result caused the operation to be skipped.
 
-Both elements are [Integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) in integer mode (default or `BYINT`), or [Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the float values in `BYFLOAT` mode.
+Both elements are [Integer replies](/content/develop/reference/protocol-spec.md#integers) in integer mode (default or `BYINT`), or [Bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) representing the float values in `BYFLOAT` mode.
 
 -tab-sep-
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array:
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array:
 
 1. **New value** — the value of the key after the increment, or the unchanged current value when an out-of-bounds result caused the operation to be skipped.
 2. **Actual increment** — the increment that was actually applied. May differ from the requested increment when `SATURATE` caps the result at a bound, and is always `0` when an out-of-bounds result caused the operation to be skipped.
 
-Both elements are [Integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) in integer mode (default or `BYINT`), or [Double replies]({{< relref "/develop/reference/protocol-spec#doubles" >}}) in `BYFLOAT` mode.
+Both elements are [Integer replies](/content/develop/reference/protocol-spec.md#integers) in integer mode (default or `BYINT`), or [Double replies](/content/develop/reference/protocol-spec.md#doubles) in `BYFLOAT` mode.
 
 {{< /multitabs >}}

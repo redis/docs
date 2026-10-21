@@ -30,9 +30,9 @@ summary: Forgets about watched keys of a transaction.
 syntax_fmt: UNWATCH
 title: UNWATCH
 ---
-Flushes all the previously watched keys for a [transaction]({{< relref "/develop/using-commands/transactions" >}}).
+Flushes all the previously watched keys for a [transaction](/content/develop/using-commands/transactions.md).
 
-If you call [`EXEC`]({{< relref "/commands/exec" >}}) or [`DISCARD`]({{< relref "/commands/discard" >}}), there's no need to manually call `UNWATCH`.
+If you call [`EXEC`](/content/commands/exec.md) or [`DISCARD`](/content/commands/discard.md), there's no need to manually call `UNWATCH`.
 
 ## Redis Software and Redis Cloud compatibility
 

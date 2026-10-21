@@ -55,7 +55,7 @@ These files are not in the custom directories:
     - /etc/opt/redislabs/redislabs_custom_install_version
     - /etc/opt/redislabs/redislabs_env_config.sh
 
-To specify directories during [installation]({{< relref "/operate/rs/7.22/installing-upgrading/install/install-on-linux" >}}), include installer flags as [command-line options]({{< relref "/operate/rs/7.22/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
+To specify directories during [installation](/content/operate/rs/7.22/installing-upgrading/install/install-on-linux.md), include installer flags as [command-line options](/content/operate/rs/7.22/installing-upgrading/install/install-script.md) when you run the `install.sh` script. For example:
 
 ```sh
 sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
@@ -79,7 +79,7 @@ To configure different mount points for data and log directories, use symbolic l
 
 ## Customize storage paths
 
-When you install Redis Enterprise Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup]({{< relref "/operate/rs/7.22/clusters/new-cluster-setup" >}}) or when [adding nodes]({{< relref "/operate/rs/7.22/clusters/add-node" >}}).
+When you install Redis Enterprise Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup](/content/operate/rs/7.22/clusters/new-cluster-setup.md) or when [adding nodes](/content/operate/rs/7.22/clusters/add-node.md).
 
 
 1. Specify the custom file location with the `--var-dir` option when you install Redis Enterprise Software:
@@ -105,7 +105,7 @@ When you install Redis Enterprise Software to custom directories, you can specif
    ls -l /path/to/custom/storage
    ```
 
-For more information about storage requirements, see [Persistent and ephemeral node storage]({{< relref "/operate/rs/7.22/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+For more information about storage requirements, see [Persistent and ephemeral node storage](/content/operate/rs/7.22/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage.md).
 
 ## Limitations
 

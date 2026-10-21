@@ -41,16 +41,16 @@ OK
 
 `BACKUP START` moves the backup state machine from `idle` to `snapshotting` and begins producing a fresh BASE snapshot through an append-only file rewrite (AOFRW). It works whether or not AOF persistence is enabled:
 
-* If AOF is enabled, Redis reuses the existing [multi-part AOF]({{< relref "/operate/oss_and_stack/management/persistence" >}}#append-only-file) directly.
+* If AOF is enabled, Redis reuses the existing [multi-part AOF](/content/operate/oss_and_stack/management/persistence.md#append-only-file) directly.
 * If AOF is disabled, Redis temporarily starts the AOF machinery without changing the configured `appendonly` value.
 * If an AOFRW is already active or scheduled and can be reused, the backup attaches to it.
 * If another child process is active, the backup enters the `pending` state and starts when an AOFRW can run.
 
-After the snapshot rewrite completes, Redis hard-links the BASE file into the backup directory and enters the `incrementing` state, where it continues to accumulate incremental writes until you call [`BACKUP SEAL`]({{< relref "/commands/backup-seal" >}}).
+After the snapshot rewrite completes, Redis hard-links the BASE file into the backup directory and enters the `incrementing` state, where it continues to accumulate incremental writes until you call [`BACKUP SEAL`](/content/commands/backup-seal.md).
 
 The backup directory (named by `backupdirname` and resolved under the Redis working directory `dir`) must be empty when you call `BACKUP START`. Only one backup can be in progress at a time.
 
-For the full workflow and restore procedure, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow and restore procedure, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -74,8 +74,8 @@ For the full workflow and restore procedure, see [Redis persistence]({{< relref 
 
 ## See also
 
-[`BACKUP SEAL`]({{< relref "commands/backup-seal/" >}}) | [`BACKUP STATUS`]({{< relref "commands/backup-status/" >}}) | [`BACKUP LIST`]({{< relref "commands/backup-list/" >}}) | [`BACKUP ABORT`]({{< relref "commands/backup-abort/" >}}) | [`BACKUP CLEANUP`]({{< relref "commands/backup-cleanup/" >}})
+[`BACKUP SEAL`](/content/commands/backup-seal.md) | [`BACKUP STATUS`](/content/commands/backup-status.md) | [`BACKUP LIST`](/content/commands/backup-list.md) | [`BACKUP ABORT`](/content/commands/backup-abort.md) | [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

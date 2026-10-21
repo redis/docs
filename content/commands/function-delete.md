@@ -40,7 +40,7 @@ Delete a library and all its functions.
 This command deletes the library called `library-name` and all functions in it.
 If the library doesn't exist, the server returns an error.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Required arguments
 

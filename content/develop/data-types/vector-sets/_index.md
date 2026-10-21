@@ -19,7 +19,7 @@ title: Redis vector sets
 weight: 130
 ---
 
-{{< command-group group="module" url_group="vector_set" title="Vector set command summary" show_link=true >}}
+{{< command-group group="vector_set" title="Vector set command summary" show_link=true >}}
 
 Vector sets are a data type similar to sorted sets, but instead of a score, vector set elements have a string representation of a vector.
 Vector sets allow you to add items to a set, and then either:
@@ -49,7 +49,8 @@ embeddings.
 The points we will use are A: (1.0, 1.0), B: (-1.0, -1.0), C: (-1.0, 1.0), D: (1.0. -1.0), and
 E: (1.0, 0), shown in the diagram below.
 
-{{<image filename="images/vecsets/VecSetExamplePoints.drawio.svg" alt="Example points on the coordinate plane." width="400px">}}
+![Example points on the coordinate plane.](/images/vecsets/VecSetExamplePoints.drawio.svg)
+{width="400px"}
 
 ### Basic operations
 

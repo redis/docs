@@ -55,7 +55,7 @@ title: MODULE LOADEX
 ---
 Loads a module from a dynamic library at runtime with configuration directives.
 
-This is an extended version of the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command.
+This is an extended version of the [`MODULE LOAD`](/content/commands/module-load.md) command.
 
 It loads and initializes the Redis module from the dynamic library specified by the `path` argument. The `path` should be the absolute path of the library, including the full filename.
 

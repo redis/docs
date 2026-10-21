@@ -10,7 +10,7 @@ description: Information about using streams with an Active-Active database.
 linkTitle: Streams
 weight: $weight
 ---
-A [Redis Stream]({{< relref "/develop/data-types/streams" >}}) is a data structure that acts like an append-only log.
+A [Redis Stream](/content/develop/data-types/streams/_index.md) is a data structure that acts like an append-only log.
 Each stream entry consists of:
 
 - A unique, monotonically increasing ID
@@ -63,11 +63,10 @@ In the example below, we write to a stream concurrently from two regions. Notice
 
 Notice also that the synchronized streams contain no duplicate IDs. As long as you allow the database to generate your stream IDs, you'll never have more than one stream entry with the same ID.
 
-{{< note >}}
-Redis Open Source uses one radix tree (referred to as `rax` in the code base) to implement each stream. However, Active-Active databases implement a single logical stream using one `rax` per region.
-Each region adds entries only to its associated `rax` (but can remove entries from all `rax` trees).
-This means that XREAD and XREADGROUP iterate simultaneously over all `rax` trees and return the appropriate entry by comparing the entry IDs from each `rax`.
-{{< /note >}}
+> [!NOTE]
+> Redis Open Source uses one radix tree (referred to as `rax` in the code base) to implement each stream. However, Active-Active databases implement a single logical stream using one `rax` per region.
+> Each region adds entries only to its associated `rax` (but can remove entries from all `rax` trees).
+> This means that XREAD and XREADGROUP iterate simultaneously over all `rax` trees and return the appropriate entry by comparing the entry IDs from each `rax`.
 
 ### Conflict resolution
 
@@ -145,9 +144,8 @@ Because Active-Active databases replicate asynchronously, providing your own IDs
 
 In this scenario, two entries with the ID `100-1` are added at _t1_. After syncing, the stream `x` contains two entries with the same ID.
 
-{{< note >}}
-Stream IDs in Redis Open Source consist of two integers separated by a dash ('-'). When the server generates the ID, the first integer is the current time in milliseconds, and the second integer is a sequence number. So, the format for stream IDs is MS-SEQ.
-{{< /note >}}
+> [!NOTE]
+> Stream IDs in Redis Open Source consist of two integers separated by a dash ('-'). When the server generates the ID, the first integer is the current time in milliseconds, and the second integer is a sequence number. So, the format for stream IDs is MS-SEQ.
 
 To prevent duplicate IDs and to comply with the original Redis streams design, Active-Active databases provide three ID modes for XADD:
 
@@ -157,9 +155,8 @@ To prevent duplicate IDs and to comply with the original Redis streams design, A
 
 The default and recommended mode is _strict_, which prevents duplicate IDs.
 
-{{% warning %}}
-Why do you want to prevent duplicate IDs? First, XDEL, XCLAIM, and other commands can affect more than one entry when duplicate IDs are present in a stream. Second, duplicate entries may be removed if a database is exported or renamed.
-{{% /warning %}}
+> [!WARNING]
+> Why do you want to prevent duplicate IDs? First, XDEL, XCLAIM, and other commands can affect more than one entry when duplicate IDs are present in a stream. Second, duplicate entries may be removed if a database is exported or renamed.
 
 To change XADD's ID generation mode, use the `rladmin` command-line utility:
 
@@ -209,15 +206,14 @@ Active-Active databases fully support consumer groups with Redis Streams. Here i
 | _t4_   | `XINFO GROUPS x` <br/>**→ [group1, group2]** | `XINFO GROUPS x` <br/>**→ [group1, group2]** |
 
 
-{{< note >}}
-Redis Open Source uses one radix tree (`rax`) to hold the global pending entries list and another `rax` for each consumer's PEL.
-The global PEL is a unification of all consumer PELs, which are disjoint.
-
-An Active-Active database stream maintains a global PEL and a per-consumer PEL for each region.
-
-When given an ID different from the special ">" ID, XREADGROUP iterates simultaneously over all of the PELs for all consumers.
-It returns the next entry by comparing entry IDs from the different PELs.
-{{< /note >}}
+> [!NOTE]
+> Redis Open Source uses one radix tree (`rax`) to hold the global pending entries list and another `rax` for each consumer's PEL.
+> The global PEL is a unification of all consumer PELs, which are disjoint.
+>
+> An Active-Active database stream maintains a global PEL and a per-consumer PEL for each region.
+>
+> When given an ID different from the special ">" ID, XREADGROUP iterates simultaneously over all of the PELs for all consumers.
+> It returns the next entry by comparing entry IDs from the different PELs.
 
 ### Conflict resolution
 

@@ -6,30 +6,29 @@
 
 1. Select **Create new cluster**.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Software, you need to set up a cluster." >}}
+    ![When you first install Redis Software, you need to set up a cluster.](/images/rs/screenshots/cluster/setup/create-cluster.png)
 
 2. Enter an email and password for the administrator account, then select **Next** to proceed to cluster setup.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/admin-credentials.png" alt="Set the credentials for your admin user." >}}
+    ![Set the credentials for your admin user.](/images/rs/screenshots/cluster/setup/admin-credentials.png)
 
     You can also use these credentials to connect to the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
 3. Enter your cluster license key if you have one. Otherwise, a trial version is installed.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/cluster-license-key.png" alt="Enter your cluster license key if you have one." >}}
+    ![Enter your cluster license key if you have one.](/images/rs/screenshots/cluster/setup/cluster-license-key.png)
 
 4. In the **Configuration** section, enter a cluster FQDN such as `cluster.local`, then select **Next**.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/config-cluster.png" alt="Configure the cluster FQDN." >}}
+    ![Configure the cluster FQDN.](/images/rs/screenshots/cluster/setup/config-cluster.png)
 
-    {{< warning >}}
-If the FQDN is `cluster.local`, you cannot configure DNS. You cannot change the FQDN after cluster creation.
-    {{< /warning >}}
+    > [!WARNING]
+    > If the FQDN is `cluster.local`, you cannot configure DNS. You cannot change the FQDN after cluster creation.
 
 1. On the node setup screen, select **Create cluster** to accept the defaults.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/node-settings.png" alt="Configure the node specific settings." >}}
+    ![Configure the node specific settings.](/images/rs/screenshots/cluster/setup/node-settings.png)
 
 6. Select **OK** to acknowledge the replacement of the HTTPS TLS certificate on the node.  If you receive a browser warning, you can proceed safely.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/https-page-refresh-modal.png" alt="Modal shown when a page refresh is needed because the certificates have been updated." >}}
+    ![Modal shown when a page refresh is needed because the certificates have been updated.](/images/rs/screenshots/cluster/setup/https-page-refresh-modal.png)

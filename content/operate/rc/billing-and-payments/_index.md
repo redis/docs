@@ -17,7 +17,7 @@ The **Billing & Payments** screen:
 - Helps you manage your payment methods
 - Applies coupon credits to your account
 
-{{<image filename="images/rc/billing-billing-history-tab.png" alt="The Billing & Payments screen shows billing transactions and manage payment methods." >}}
+![The Billing & Payments screen shows billing transactions and manage payment methods.](/images/rc/billing-billing-history-tab.png)
 
 The following tabs are available:
 
@@ -36,23 +36,24 @@ The following tabs are available:
 
     A **Pay Now** button appears in selected regions.
 
-    {{<image filename="images/rc/billing-payments-pay-now.png" width="100px" alt="Use the Pay Now button to Pay your invoice in selected regions." >}} 
+    ![Use the Pay Now button to Pay your invoice in selected regions.](/images/rc/billing-payments-pay-now.png)
+    {width="100px"}
     
     Select this button to pay your invoice.
 
 - The **Payment Methods** tab lists your current payment methods. Your account uses a single default credit card for all active subscriptions. A **Default** badge identifies that card, but only when your account has more than one stored card; if you have only one card, it's implicitly the default.
 
-    {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
+    ![The Payments Methods tab helps you manage payments for your subscriptions.](/images/rc/billing-payment-method-tab.png)
 
-    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
+    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
 
-    {{< note >}}
-If your account has more than one stored credit card, Redis Cloud shows a banner on login and on the Payment Methods page asking you to remove any cards you're not using: "Please remove any unused cards from your account. You can manage your credit cards anytime from the Billing & Payments page." You can dismiss this banner and continue using the console.
-    {{< /note >}}
+    > [!NOTE]
+    > If your account has more than one stored credit card, Redis Cloud shows a banner on login and on the Payment Methods page asking you to remove any cards you're not using: "Please remove any unused cards from your account. You can manage your credit cards anytime from the Billing & Payments page." You can dismiss this banner and continue using the console.
+    >
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
-    {{<image filename="images/rc/billing-payments-credits-tab.png" alt="The Credits tab lets you apply coupons to your account and shows credits that have already been applied." >}}
+    ![The Credits tab lets you apply coupons to your account and shows credits that have already been applied.](/images/rc/billing-payments-credits-tab.png)
 
     | Detail | Description |
     |:-------|:------------|
@@ -74,7 +75,8 @@ To download an invoice:
 
 3.  Select the **Download invoice** icon displayed to the right of the invoice amount.
 
-    {{<image filename="images/rc/icon-billing-download.png" width="50px" alt="Use the download icon to download a PDF for the selected invoice." >}}
+    ![Use the download icon to download a PDF for the selected invoice.](/images/rc/icon-billing-download.png)
+    {width="50px"}
 
 The invoice is downloaded as an Acrobat PDF file.  Use your browser's download features to manage the file.
 
@@ -90,11 +92,12 @@ To add a new credit card:
 
 3.  Select the **Add Credit Card** button to save your changes.
 
-    {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
+    ![Use the Save Card button to save new payment details.](/images/rc/button-billing-save-card.png)
+    {width="150px"}
 
-    {{< note >}}
-If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
-    {{< /note >}}
+    > [!NOTE]
+    > If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
+    >
 
 ## Set the default credit card
 
@@ -126,7 +129,7 @@ If your account has only one stored credit card, **Remove** is unavailable, beca
 
 ## Add marketplace account
 
-If you have a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account already associated with another Redis Account that you own, you can add it to your current account. 
+If you have a [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account already associated with another Redis Account that you own, you can add it to your current account. 
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
 
@@ -138,23 +141,23 @@ Coupons apply credits to your Redis Cloud account.  To redeem a coupon:
 
 2.  Enter the coupon code and then select the **Apply** button.
 
-    {{<image filename="images/rc/button-billing-payments-apply.png" width="80px" alt="Use the Apply button to redeem a coupon." >}}
+    ![Use the Apply button to redeem a coupon.](/images/rc/button-billing-payments-apply.png)
+    {width="80px"}
 
     The value of the coupon is applied to your account when accepted.  
 
 For help, contact [Support](https://redis.io/support/).
 
-{{< note >}}
-Generally, charges are non-refundable.
-
-For any special circumstances that may warrant a refund, please contact [Support](https://redis.io/support/) and be sure to provide detail about the reasons for the refund request.
-{{< /note >}}
+> [!NOTE]
+> Generally, charges are non-refundable.
+>
+> For any special circumstances that may warrant a refund, please contact [Support](https://redis.io/support/) and be sure to provide detail about the reasons for the refund request.
 
 ## Download cost report
 
 {{< embed-md "rc-cost-report-csv.md" >}}
 
-See [Cost report]({{< relref "/operate/rc/billing-and-payments/cost-report" >}}) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
+See [Cost report](/content/operate/rc/billing-and-payments/cost-report.md) and [How to download and visualize the cost report](https://support.redislabs.com/hc/en-us/articles/30042563097874-How-to-Download-and-Visualize-Redis-Cloud-Cost-Report) for more information.
 
 ## Troubleshoot
 

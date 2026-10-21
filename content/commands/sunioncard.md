@@ -60,12 +60,11 @@ summary: Returns the number of members of the union of multiple sets.
 syntax_fmt: "SUNIONCARD numkeys key [key ...] [APPROX] [LIMIT\_limit]"
 title: SUNIONCARD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Returns the cardinality of the union of the given sets. This is the count-only counterpart of [`SUNION`]({{< relref "/commands/sunion" >}}): it returns just the number of distinct elements in the union, not the members themselves.
+Returns the cardinality of the union of the given sets. This is the count-only counterpart of [`SUNION`](/content/commands/sunion.md): it returns just the number of distinct elements in the union, not the members themselves.
 
 ## Required arguments
 
@@ -130,7 +129,7 @@ When provided with the optional `LIMIT` argument (which defaults to `0`, meaning
 
 ### Approximate cardinality
 
-By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` option, it instead uses [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) internally to estimate the cardinality with a standard error of about 0.81%, without materializing the full union. This is useful for very large unions, where computing an exact count is expensive in both time and memory.
+By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` option, it instead uses [HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md) internally to estimate the cardinality with a standard error of about 0.81%, without materializing the full union. This is useful for very large unions, where computing an exact count is expensive in both time and memory.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -154,10 +153,10 @@ By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` 
 
 ## See also
 
-[`SUNION`]({{< relref "commands/sunion/" >}}) | [`SUNIONSTORE`]({{< relref "commands/sunionstore/" >}})
+[`SUNION`](/content/commands/sunion.md) | [`SUNIONSTORE`](/content/commands/sunionstore.md)
 
 ## Related topics
 
-- [Redis sets]({{< relref "/develop/data-types/sets" >}})
-- [Multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}})
+- [Redis sets](/content/develop/data-types/sets.md)
+- [Multi-key operations](/content/develop/using-commands/multi-key-operations.md)
 

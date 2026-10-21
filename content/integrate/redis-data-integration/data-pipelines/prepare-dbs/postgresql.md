@@ -39,6 +39,7 @@ checklist as you complete each step.
 - [ ] [Install the logical decoding output plug-in](#install-the-logical-decoding-output-plug-in)
 - [ ] [Configure the PostgreSQL server](#configure-the-postgresql-server)
 - [ ] [Set up permissions](#set-up-permissions)
+- [ ] [Check replica identity and choose a publication mode](#check-replica-identity-and-choose-a-publication-mode)
 - [ ] [Set privileges for Debezium to create PostgreSQL publications with pgoutput](#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput)
 - [ ] [Configure PostgreSQL for replication with the Debezium connector host](#configure-postgresql-for-replication-with-the-debezium-connector-host)
 ```
@@ -107,9 +108,10 @@ For simplicity, Debezium also provides a container image that compiles and insta
 on top of the upstream PostgreSQL server image. Use this image as an example of the steps
 involved in the installation.
 
-{{< note >}} The Debezium logical decoding plug-ins have been tested on Linux machines, but if you are
-using Windows or other operating systems, the installation steps might be different from
-those listed here. {{< /note >}}
+> [!NOTE]
+>  The Debezium logical decoding plug-ins have been tested on Linux machines, but if you are
+> using Windows or other operating systems, the installation steps might be different from
+> those listed here. 
 
 ### Plug-in differences
 
@@ -146,25 +148,76 @@ wal_level = logical
 
 You can also set other PostgreSQL streaming replication parameters if you need them.
 For example, you can use `max_wal_senders` and `max_replication_slots` to increase
-the number of connectors that can access the sending server concurrently,
-and `wal_keep_size` to limit the maximum WAL size that a replication slot retains.
+the number of connectors that can access the sending server concurrently.
 The
 [configuration parameters](https://www.postgresql.org/docs/current/runtime-config-replication.html#RUNTIME-CONFIG-REPLICATION-SENDER)
 documentation describes all the parameters you can use.
 
-PostgreSQL’s logical decoding uses replication slots. These are guaranteed to retain all the WAL
-segments that Debezium needs even when Debezium suffers an outage. You should monitor replication
-slots carefully to avoid excessive disk consumption and other conditions such as catalog bloat that can arise
-if a replication slot is used infrequently. See the PostgreSQL documentation about
-[replication slots](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION-SLOTS)
-for more information.
 If you are using a `synchronous_commit` setting other than `on`, then you should set `wal_writer_delay`
 to a value of about 10 milliseconds to ensure a low latency for change events. If you don't set this then
 the default value of about 200 milliseconds will apply.
 
-{{< note >}}This guide summarizes the operation of the PostgreSQL write-ahead log, but we strongly
-recommend you consult the [PostgreSQL write-ahead log](https://www.postgresql.org/docs/current/wal-configuration.html)
-documentation to get a better understanding.{{< /note >}}
+> [!NOTE]
+> This guide summarizes the operation of the PostgreSQL write-ahead log, but we strongly
+> recommend you consult the [PostgreSQL write-ahead log](https://www.postgresql.org/docs/current/wal-configuration.html)
+> documentation to get a better understanding.
+
+### Manage WAL retention
+
+Logical replication slots retain write-ahead log (WAL) needed by their readers,
+including during an RDI outage. Retained WAL can grow until it fills the disk.
+Configured limits or slot invalidation can also prevent RDI from resuming.
+See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#postgresql-preserve-wal-and-slot-state)
+for the conceptual explanation.
+
+Choose controls for your PostgreSQL version:
+
+| PostgreSQL version | Retention controls |
+| :-- | :-- |
+| 10–12 | `wal_keep_segments` specifies a **minimum** number of retained segments, not a maximum for a replication slot. These versions do not have `max_slot_wal_keep_size`. |
+| 13–17 | `wal_keep_size` replaces `wal_keep_segments` and still specifies a **minimum**. `max_slot_wal_keep_size` limits how much WAL a slot can retain at checkpoint time. Its default, `-1`, allows unlimited retention. |
+| 18 | The same size controls apply. `idle_replication_slot_timeout` can also invalidate an inactive slot at a checkpoint. Its default, `0`, disables this timeout. |
+
+See the [PostgreSQL 13 release notes](https://www.postgresql.org/docs/release/13.0/)
+and [PostgreSQL 18 replication settings](https://www.postgresql.org/docs/18/runtime-config-replication.html)
+for these version differences. Managed services can apply additional limits.
+
+Check the settings available on your server:
+
+```sql
+SELECT name, setting, unit
+FROM pg_settings
+WHERE name IN (
+    'wal_keep_segments', 'wal_keep_size',
+    'max_slot_wal_keep_size', 'idle_replication_slot_timeout'
+);
+```
+
+Monitor slot state, retained WAL, and free disk together. The following query works
+across these versions. Status fields that a version does not provide return `NULL`.
+
+```sql
+SELECT slot_name, active, restart_lsn, confirmed_flush_lsn,
+       pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS retained_bytes,
+       to_jsonb(s)->>'wal_status' AS wal_status,
+       to_jsonb(s)->>'invalidation_reason' AS invalidation_reason
+FROM pg_replication_slots AS s
+WHERE slot_type = 'logical';
+```
+
+`retained_bytes` measures the log distance from the slot's oldest required position;
+it is not the total disk usage of the WAL directory. Size retention for peak writes
+and the interruption you need to tolerate. A small `wal_keep_size` does not cap
+slot storage. A finite slot limit can protect disk space at the cost of losing
+required history. Increasing the limit after that history is removed does not
+restore it. Do not drop or recreate an RDI slot as a routine disk-cleanup step.
+
+The slot's `confirmed_flush_lsn` is the position the collector has acknowledged.
+PostgreSQL starts logical streaming at the requested position or
+`confirmed_flush_lsn`, whichever is later. Moving only RDI's saved offset backward
+does not rewind the slot, even if older WAL remains on disk. Keeping unread history
+for normal resume is different from replaying already acknowledged changes.
+See the [PostgreSQL replication protocol](https://www.postgresql.org/docs/17/protocol-replication.html).
 
 ## Set up permissions
 
@@ -180,6 +233,198 @@ needs to perform replications, but you might also need to grant other permission
 ```sql
 CREATE ROLE <name> REPLICATION LOGIN;
 ```
+
+## Check replica identity and choose a publication mode
+
+Before you start RDI, check the tables that RDI will capture and choose how PostgreSQL
+should publish their changes.
+
+PostgreSQL needs a [replica identity](https://www.postgresql.org/docs/current/logical-replication-publication.html)
+to identify the old row when it publishes an `UPDATE` or `DELETE`. By default, PostgreSQL
+uses the table's primary key. A table without a primary key has no usable replica identity
+unless you configure one. Inserts do not need a replica identity.
+
+Run the following query while connected to the database that RDI uses. You do not put the
+database name in the query; select that database in your SQL editor or connection settings.
+The query checks all non-system schemas. To check only one schema, uncomment the marked line
+and replace `<schema_name>` with your schema name.
+
+```sql
+SELECT n.nspname AS schema_name,
+       c.relname AS table_name,
+       CASE c.relreplident
+           WHEN 'd' THEN 'default'
+           WHEN 'n' THEN 'nothing'
+           WHEN 'f' THEN 'full'
+           WHEN 'i' THEN 'index'
+       END AS replica_identity
+FROM pg_class AS c
+JOIN pg_namespace AS n ON n.oid = c.relnamespace
+WHERE c.relkind = 'r'
+  AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+  -- Optional: uncomment and replace <schema_name> to check one schema only.
+  -- AND n.nspname = '<schema_name>'
+  AND (
+      c.relreplident = 'n'
+      OR (
+          c.relreplident IN ('d', 'i')
+          AND NOT EXISTS (
+              SELECT 1
+              FROM pg_index AS i
+              WHERE i.indrelid = c.oid
+                AND i.indislive
+                AND i.indisvalid
+                AND i.indisunique
+                AND i.indimmediate
+                AND i.indpred IS NULL
+                AND CASE WHEN c.relreplident = 'd'
+                         THEN i.indisprimary
+                         ELSE i.indisreplident
+                    END
+          )
+      )
+  )
+ORDER BY n.nspname, c.relname;
+```
+
+If this query returns a table that will be published, add a primary key that is not `DEFERRABLE` where possible. A deferrable primary key cannot serve as the replica identity.
+You can also configure a suitable unique index as the replica identity:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY USING INDEX <unique_index_name>;
+```
+
+As a fallback, you can record the full old row in the write-ahead log:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY FULL;
+```
+
+`REPLICA IDENTITY FULL` can increase write-ahead log volume and reduce performance.
+Use it when no suitable key is available or when RDI needs the full old row, such as
+[denormalizing child tables with nesting](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md#using-nesting).
+The `keys` setting in an RDI table definition creates a key for the Redis record.
+It does not create a PostgreSQL primary key or replica identity.
+
+### Understand which row values are available
+
+Replica identity controls the old row values available to logical decoding for updates
+and deletes. With the default identity, PostgreSQL uses the primary key; it does not
+provide a complete old row. `REPLICA IDENTITY FULL` records all old column values.
+
+Update events are not generally limited to changed fields. However, PostgreSQL can omit
+unchanged large values stored through The Oversized-Attribute Storage Technique (TOAST)
+when they are not part of the replica identity. Debezium represents unavailable values
+with a placeholder. With `FULL`, these values are available in the event's old and new row
+images. See [Debezium's TOAST guidance](https://debezium.io/documentation/reference/3.0/connectors/postgresql.html#postgresql-toasted-values).
+
+For example, nesting a child record requires its `parent_key` to identify the parent
+Redis document, including when the child is deleted. Set `REPLICA IDENTITY FULL` on
+PostgreSQL child tables as required by the [nesting instructions](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md#using-nesting).
+
+### Choose a publication mode
+
+The `publication.autocreate.mode` setting controls how RDI and Debezium manage the
+PostgreSQL publication:
+
+| Mode | Behavior | Recommended use |
+| --- | --- | --- |
+| **`all_tables` (default)** | Creates a `FOR ALL TABLES` publication when the publication does not exist. If it already exists, RDI uses the existing publication. | Use when all tables in the database should be published, after checking their replica identities. |
+| `filtered` | Creates or updates the publication to contain the tables configured for the RDI source. | Recommended when RDI captures selected tables. RDI manages the publication when the pipeline is redeployed with a changed table filter. |
+| `disabled` | Does not create or change the publication. The publication must already exist. | Use when a database administrator manages the publication. |
+
+The `all_tables` mode can publish changes for tables that are not listed in the RDI
+pipeline, including tables created in the future. If an application later updates or
+deletes a row in a published table without a replica identity, PostgreSQL can reject
+that application write. For this reason,
+`filtered` is the recommended mode for a pipeline that captures only selected tables.
+
+The `filtered` mode requires permission to create the publication and ownership rights on
+the tables it manages. Use a separate publication for each source with different table
+filters, so one source does not change another source's publication.
+
+For a customer-managed publication, create an explicit table list and disable automatic
+publication management. Replace the example table names with the tables you want to capture:
+
+```sql
+CREATE PUBLICATION rdi_publication
+FOR TABLE public.customers, public.orders;
+```
+
+Then set the following properties under the PostgreSQL source in your RDI `config.yaml`:
+
+```yaml
+sources:
+  <source_name>:
+    advanced:
+      source:
+        publication.name: rdi_publication
+        publication.autocreate.mode: disabled
+```
+
+For RDI on Redis Cloud, enter these properties under **Collector properties** in the
+source configuration. See [Configure PostgreSQL publications on Redis Cloud](/content/operate/rc/rdi/setup.md#postgresql-publications).
+With `disabled`, update the publication's table list yourself when changing the source's
+selected tables. Selecting a table in RDI does not add it to a customer-managed publication.
+
+### Replace an existing all-tables publication
+
+Changing the RDI table selection does not narrow a `FOR ALL TABLES` publication.
+Changing `publication.autocreate.mode` to `filtered` also does not convert it:
+PostgreSQL rejects attempts to set, add, or remove individual tables in that publication.
+
+Have your database administrator plan the change with the owners of every consumer of
+the publication:
+
+1. Check existing publications in the source database:
+
+    ```sql
+    SELECT pubname, puballtables, pubupdate, pubdelete
+    FROM pg_publication;
+    ```
+
+1. Identify every consumer of the broad publication and coordinate a maintenance window.
+1. Stop the affected RDI sources before replacing the publication.
+1. Replace the broad publication with an explicit table-list publication. You can recreate
+   it under the same name, or create a new publication and update each consumer's publication
+   name. For RDI, use `publication.autocreate.mode: disabled` for an administrator-managed
+   publication. On Redis Cloud, contact support if the running source's collector properties
+   cannot be edited in the console.
+1. Remove the old broad publication only after coordinating all consumers. Leaving it in
+   place still subjects its tables to replica-identity requirements, even if RDI uses a
+   different publication or is stopped.
+1. Resume the affected sources and verify inserts, updates, and deletes reach Redis.
+
+Keep the replication slots and saved RDI offsets during this change. Do not reset the
+pipeline or drop its slot as a publication repair. If other consumers still need the broad
+publication, configure replica identity on its affected tables instead of removing it.
+
+### PostgreSQL publication error FAQ
+
+#### I get this PostgreSQL error. What should I do?
+
+You may see the following error when an application updates a published table without a
+replica identity:
+
+```text
+SQLSTATE 55000
+ERROR: cannot update table "example_table" because it does not have a replica identity and publishes updates
+HINT: To enable updating the table, set REPLICA IDENTITY using ALTER TABLE.
+```
+
+Check whether the table should be captured by RDI. If it should, add a primary key or
+configure a suitable replica identity. As a fallback, run:
+
+```sql
+ALTER TABLE <table_name> REPLICA IDENTITY FULL;
+```
+
+If the table should not be captured, remove it from an explicit table-list publication or
+use `filtered` with the required permissions. For an existing `FOR ALL TABLES` publication,
+follow [Replace an existing all-tables publication](#replace-an-existing-all-tables-publication).
+Check all publications containing the table: another publication that publishes updates or
+deletes can still require replica identity. After changing RDI configuration, redeploy the
+pipeline so RDI applies it.
 
 ## Set privileges for Debezium to create PostgreSQL publications with `pgoutput`
 
@@ -239,10 +484,11 @@ the replication group using the following commands:
     ALTER TABLE table_name OWNER TO replication_group;
     ```
 
-You must also set the value of the `publication.autocreate.mode` parameter to `filtered`
-to allow Debezium to specify the publication configuration. See the
+If you want Debezium to create or update a publication for the tables configured in the RDI
+source, set `publication.autocreate.mode` to `filtered`. See the
 [Debezium documentation for `publication.autocreate.mode`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-publication-autocreate-mode)
-to learn more about this setting.
+to learn more about this setting. If a database administrator manages an existing
+publication, use `disabled` instead, as described in [Choose a publication mode](#choose-a-publication-mode).
 
 ## Configure PostgreSQL for replication with the Debezium connector host
 

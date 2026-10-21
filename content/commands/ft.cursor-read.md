@@ -39,7 +39,7 @@ Read next results from an existing cursor
 
 [Examples](#examples)
 
-See [Cursor API]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
+See [Cursor API](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#cursor-api) for more details.
 
 ## Required arguments
 
@@ -58,7 +58,7 @@ is id of the cursor.
 <details open>
 <summary><code>[COUNT read_size]</code></summary>
 
-is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
+is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`](/content/commands/ft.aggregate.md).
 </details>
 
 ## Examples
@@ -84,22 +84,22 @@ is number of results to read. This parameter overrides `COUNT` specified in [`FT
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with search results and metadata.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) with search results and metadata.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: cursor not found.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with structured search results and metadata.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor not found.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with structured search results and metadata.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: cursor not found.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CURSOR DEL`]({{< relref "commands/ft.cursor-del/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
+[`FT.CURSOR DEL`](/content/commands/ft.cursor-del.md) | [`FT.AGGREGATE`](/content/commands/ft.aggregate.md)
 
 ## Related topics
 
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)
+- [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)

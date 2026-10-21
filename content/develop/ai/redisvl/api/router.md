@@ -10,7 +10,7 @@ aliases:
 
 ## Semantic Router
 
-### `class SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs={}, create_index=True)`
+### `class SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs=None, create_index=True)`
 
 Semantic Router for managing and querying route vectors.
 
@@ -85,12 +85,11 @@ Delete every route reference, leaving the index in place.
 Clears by index membership. Available under `create_index=False`;
 dropping the index is [delete](#delete).
 
-{{< warning >}}
-The stored `route_config` is left as it was, here and on the
-default path. A separate process calling [from_existing](#from_existing)
-afterwards will report routes whose reference vectors are gone.
-[remove_route](#remove_route) keeps the two in step.
-{{< /warning >}}
+> [!WARNING]
+> The stored `route_config` is left as it was, here and on the
+> default path. A separate process calling [from_existing](#from_existing)
+> afterwards will report routes whose reference vectors are gone.
+> [remove_route](#remove_route) keeps the two in step.
 
 * **Return type:**
   None
@@ -105,7 +104,7 @@ Delete the semantic router index and its persisted route config.
 * **Return type:**
   None
 
-#### `delete_route_references(route_name='', reference_ids=[], keys=[])`
+#### `delete_route_references(route_name='', reference_ids=None, keys=None)`
 
 Get references for an existing semantic router route.
 
@@ -114,8 +113,8 @@ Get references for an existing semantic router route.
   * **Optional** – The reference or list of references to delete.
   * **Optional** – List of fully qualified keys (prefix:router:reference_id) to delete.
   * **route_name** (*str*)
-  * **reference_ids** (*list* *[* *str* *]*)
-  * **keys** (*list* *[* *str* *]*)
+  * **reference_ids** (*list* *[* *str* *]*  *|* *None*)
+  * **keys** (*list* *[* *str* *]*  *|* *None*)
 * **Returns:**
   Number of objects deleted
 * **Return type:**
@@ -191,7 +190,7 @@ Get a route by its name.
 * **Return type:**
   Optional[[Route](#route)]
 
-#### `get_route_references(route_name='', reference_ids=[], keys=[])`
+#### `get_route_references(route_name='', reference_ids=None, keys=None)`
 
 Get references for an existing route route.
 
@@ -199,8 +198,8 @@ Get references for an existing route route.
   * **router_name** (*str*) – The name of the router.
   * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
   * **route_name** (*str*)
-  * **reference_ids** (*list* *[* *str* *]*)
-  * **keys** (*list* *[* *str* *]*)
+  * **reference_ids** (*list* *[* *str* *]*  *|* *None*)
+  * **keys** (*list* *[* *str* *]*  *|* *None*)
 * **Returns:**
   Reference objects stored
 * **Return type:**

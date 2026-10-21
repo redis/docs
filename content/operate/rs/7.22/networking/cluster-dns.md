@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.22/networking/cluster-dns/'
 ---
 
-By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/7.22/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Open Source.
+By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service](/content/operate/rs/7.22/databases/durability-ha/discovery-service.md), which uses IP addresses to connect and complies with the [Redis Sentinel API](/content/operate/oss_and_stack/management/sentinel.md) supported by Redis Open Source.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.
 Nodes should only run the DNS server included with the software.  Running additional DNS servers can lead to unexpected behavior.
@@ -33,9 +33,8 @@ Whether you're administering Redis Enterprise Software or accessing databases, t
 The fully qualified domain name (FQDN) is the unique cluster identifier that enables clients to connect to the different components of Redis Enterprise Software.
 The FQDN is a crucial component of the high-availability mechanism because it's used internally to enable and implement automatic and transparent failover of nodes, databases, shards, and endpoints.
 
-{{< note >}}
-Setting the cluster's FQDN is a one-time operation, one that cannot be changed after being set.
-{{< /note >}}
+> [!NOTE]
+> Setting the cluster's FQDN is a one-time operation, one that cannot be changed after being set.
 
 The FQDN must always comply with the IETF's [RFC 952](https://datatracker.ietf.org/doc/html/rfc952) standard
 and section 2.1 of the [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) standard.
@@ -106,9 +105,9 @@ However, as the topology of the cluster changes and node with the given IP addre
 you need to remember the IP address of another node participating in this cluster to connect to the Cluster Manager UI and manage the cluster.
 
 Applications connecting to Redis Software databases have the same constraints.
-When using the IP-based connection method, you can use the [Discovery Service]({{< relref "/operate/rs/7.22/databases/durability-ha/discovery-service.md" >}})
+When using the IP-based connection method, you can use the [Discovery Service](/content/operate/rs/7.22/databases/durability-ha/discovery-service.md)
 to discover the database endpoint for a given database name as long as you have an IP address for at least one of the nodes in the cluster.
 The API used for discovery service is compliant with the Redis Sentinel API.
 
-To test your connection, try pinging the service.  For help, see [Connect to your database]({{< relref "/operate/rs/7.22/databases/connect/test-client-connectivity" >}}).
+To test your connection, try pinging the service.  For help, see [Connect to your database](/content/operate/rs/7.22/databases/connect/test-client-connectivity.md).
 

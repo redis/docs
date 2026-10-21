@@ -11,10 +11,9 @@ weight: 30
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 22.04 (Jammy).
 
-{{< note >}}
-Docker images used to produce these build notes:
-- ubuntu:22.04
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - ubuntu:22.04
 
 ## 1. Install required dependencies
 
@@ -50,9 +49,8 @@ sudo apt-get install -y --no-install-recommends \
 
 Install CMake using `pip3` and link it for system-wide access.
 
-{{< warning >}}
-CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
-{{< /warning>}}
+> [!WARNING]
+> CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
 
 ```bash
 pip3 install cmake==3.31.6
@@ -117,7 +115,7 @@ cd /usr/src/redis-<version>
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>

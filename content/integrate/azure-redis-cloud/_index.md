@@ -22,8 +22,8 @@ Redis Cloud on Azure provides a fully managed Redis service that integrates seam
 
 ## Regions
 
-Redis Cloud Essentials is available on multiple Microsoft Azure regions, see [Supported regions]({{< relref "/operate/rc/supported-regions/#microsoft-azure" >}}).
+Redis Cloud Essentials is available on multiple Microsoft Azure regions, see [Supported regions](/content/operate/rc/supported-regions.md#microsoft-azure).
 
 ## Getting Started
 
-Get started with [Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) to create and manage your Redis databases.
+Get started with [Redis Cloud](/content/operate/rc/rc-quickstart.md) to create and manage your Redis databases.

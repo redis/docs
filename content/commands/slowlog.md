@@ -31,4 +31,4 @@ A new entry is added to the slow log whenever a command exceeds the execution ti
 The maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.
 This is a container command for slow log management commands.
 
-See [`SLOWLOG GET`]({{< relref "/commands/slowlog-get" >}}) for a description of what's stored in the Redis slow log. To see the list of available commands use the [`SLOWLOG HELP`]({{< relref "/commands/slowlog-help" >}}) command.
+See [`SLOWLOG GET`](/content/commands/slowlog-get.md) for a description of what's stored in the Redis slow log. To see the list of available commands use the [`SLOWLOG HELP`](/content/commands/slowlog-help.md) command.

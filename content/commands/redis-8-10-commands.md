@@ -19,9 +19,8 @@ weight: -30
 
 This page provides a comprehensive reference of all Redis commands available in Redis 8.10, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
 
-{{< note >}}
-Redis 8.10 includes all commands from previous versions plus new commands introduced in 8.10. Commands marked with **⭐ New in 8.10** were added in this release.
-{{< /note >}}
+> [!NOTE]
+> Redis 8.10 includes all commands from previous versions plus new commands introduced in 8.10. Commands marked with **⭐ New in 8.10** were added in this release.
 
 ## Quick Navigation
 

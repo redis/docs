@@ -30,7 +30,7 @@ summary: Terminates a server-side Lua script during execution.
 syntax_fmt: SCRIPT KILL
 title: SCRIPT KILL
 ---
-Kills the currently executing [`EVAL`]({{< relref "/commands/eval" >}}) script, assuming no write operation was yet
+Kills the currently executing [`EVAL`](/content/commands/eval.md) script, assuming no write operation was yet
 performed by the script.
 
 This command is mainly useful to kill a script that is running for too much
@@ -44,7 +44,7 @@ In such a case, only `SHUTDOWN NOSAVE` can kill the script, killing
 the Redis process in a hard way and preventing it from persisting with half-written
 information.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts please refer to [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Redis Software and Redis Cloud compatibility
 

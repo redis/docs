@@ -79,7 +79,7 @@ are supported, with the following limitations:
     and pipelining are supported with Redis Cloud cluster
     as if it were a non-cluster DB.
 
-    [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) have stricter rules: multi-key write commands (DEL, MSET, UNLINK) can only run on keys in the same slot. Only MGET, EXISTS, and TOUCH are allowed across slots. See [Multi-key operations on Active-Active databases]({{< relref "/develop/using-commands/multi-key-operations#active-active-databases" >}}) for details.
+    [Active-Active databases](/content/operate/rc/databases/active-active/_index.md) have stricter rules: multi-key write commands (DEL, MSET, UNLINK) can only run on keys in the same slot. Only MGET, EXISTS, and TOUCH are allowed across slots. See [Multi-key operations on Active-Active databases](/content/develop/using-commands/multi-key-operations.md#active-active-databases) for details.
 
 ## Hashing policies and hash tags {#manage-the-hashing-policy}
 
@@ -97,7 +97,7 @@ Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when
 
 ### Redis hashing policy
 
-The Redis hashing policy is identical to the [hashing policy used by Redis Open Source]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
+The Redis hashing policy is identical to the [hashing policy used by Redis Open Source](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.
 - You are migrating data from Redis Open Source or other Redis-managed platforms.
 - Your application does not use hashtags in database key names.
@@ -121,19 +121,17 @@ In some cases, the Standard hashing policy behaves differently from the Redis ha
     - Standard hashing policy: substrings "foo}bar" and "foo}qux" will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
     - Redis hashing policy: the substring "foo" will be used for both keys, hashing them to the same slot.
 
-{{< note >}}
-To allow seamless transition between hashing policies, the following techniques are not recommended:
-- Using empty hashtags to hash different keys to the same hashslot
-- Using multiple curly brackets within a key’s name 
-{{< /note >}}
+> [!NOTE]
+> To allow seamless transition between hashing policies, the following techniques are not recommended:
+> - Using empty hashtags to hash different keys to the same hashslot
+> - Using multiple curly brackets within a key’s name 
 
 ### Custom hashing policy
 
-{{< note >}}
-The custom hashing policy is not available for accounts created after March 31, 2025.
-
-For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
-{{< /note >}}
+> [!NOTE]
+> The custom hashing policy is not available for accounts created after March 31, 2025.
+>
+> For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
 
 A Redis Cloud  cluster can be configured to use a custom hashing
 policy. A custom hashing policy is required when different keys need to
@@ -159,18 +157,17 @@ default RegEx rules that implement the standard hashing policy are:
 You can modify existing rules, add new ones, delete rules, or change
 their order to suit your application's requirements.
 
-{{< warning >}}
-If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
-(using [`FLUSHDB`]({{< relref "/commands/flushdb" >}})) before they're applied. 
-
-These changes include:
-
-1. Changing the hashing policy, either from standard to custom or vice versa.
-1. Changing the order of custom hashing policy rules.
-1. Adding rules before existing ones in the custom hashing policy.
-1. Deleting rules from the custom hashing policy.
-1. Disabling clustering for the database.
-{{< /warning >}}
+> [!WARNING]
+> If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
+> (using [`FLUSHDB`](/content/commands/flushdb.md)) before they're applied. 
+>
+> These changes include:
+>
+> 1. Changing the hashing policy, either from standard to custom or vice versa.
+> 1. Changing the order of custom hashing policy rules.
+> 1. Adding rules before existing ones in the custom hashing policy.
+> 1. Deleting rules from the custom hashing policy.
+> 1. Disabling clustering for the database.
 
 ### Custom hashing policy notes and limitations
 
@@ -197,15 +194,14 @@ After you select OSS Cluster API, you can select **Use external endpoint** if yo
 
 The OSS Cluster API is supported when a database uses the [standard hashing policy](#standard-hashing-policy) or the [Redis hashing policy](#redis-hashing-policy).
 
-Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API architecture](/content/operate/rs/clusters/optimize/oss-cluster-api.md) to determine if you should enable this feature for your database.
 
 ## Smooth scaling {#smooth-scaling}
 
 Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to traditional resharding, it is significantly faster and reduces latency spikes and disconnects during scaling.
 
-{{< note >}}
-Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
-{{< /note >}}
+> [!NOTE]
+> Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
 
 ### Prerequisites
 

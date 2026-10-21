@@ -15,7 +15,7 @@ aliases:
 - /integrate/redis-mcp/ciient-conf/
 ---
 
-When you have [installed]({{< relref "/integrate/redis-mcp/install" >}})
+When you have [installed](/content/integrate/redis-mcp/install.md)
 the Redis MCP server, you must also configure your client app to use it.
 The sections below describe the ways you can do this.
 
@@ -72,7 +72,7 @@ If you need to supply environment variables or command line parameters:
 1.  Click the **Add MCP** button underneath the list of Easy MCP integrations.
 1.  Enter `Redis` in the name field and paste the appropriate command line in the
     command field (see 
-    [Configuration]({{< relref "/integrate/redis-mcp/install#configuration" >}}) for
+    [Configuration](/content/integrate/redis-mcp/install.md#configuration) for
     more information about the available command line options).
 1.  Click the **+ Variable** button to add any environment variables that you need.
 1.  Click **Add** to add the server.
@@ -125,7 +125,7 @@ You can also optionally set the environment for the command shell here in the
 ```
 
 If you are using
-[Docker]({{< relref "/integrate/redis-mcp/install#install-using-docker" >}})
+[Docker](/content/integrate/redis-mcp/install.md#install-using-docker)
 to deploy the server, change the `command` and `args` sections of the
 configuration as shown below:
 
@@ -205,7 +205,7 @@ with [`uvx`](https://docs.astral.sh/uv/guides/tools/#running-tools):
 ```
 
 You can also add
-[environment variables]({{< relref "/integrate/redis-mcp/install#environment-variables" >}}) 
+[environment variables](/content/integrate/redis-mcp/install.md#environment-variables) 
 in the `env` section of the configuration:
 
 ```json
@@ -230,7 +230,7 @@ for more information.
 ## Redis Cloud MCP
 
 If you are using
-[Redis Cloud MCP]({{< relref "/integrate/redis-mcp/install#redis-cloud-mcp" >}}),
+[Redis Cloud MCP](/content/integrate/redis-mcp/install.md#redis-cloud-mcp),
 the configuration is similar to [basic MCP](#manual-configuration), but with a
 few differences. Set the client to run the server using the `node` command, as shown 
 in the example for Claude Desktop below:
@@ -251,7 +251,7 @@ in the example for Claude Desktop below:
 ```
 
 Here, the environment includes the Redis Cloud API key and API secret key
-(see [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}) for more
+(see [Redis Cloud REST API](/content/operate/rc/api/_index.md) for more
 information).
 
 If you are deploying Redis Cloud MCP with Docker, use a configuration like

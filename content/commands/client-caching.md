@@ -43,10 +43,10 @@ title: CLIENT CACHING
 This command controls the tracking of the keys in the next command executed
 by the connection, when tracking is enabled in `OPTIN` or `OPTOUT` mode.
 Please check the
-[client side caching documentation]({{< relref "/develop/clients/client-side-caching" >}}) for
+[client side caching documentation](/content/develop/clients/client-side-caching.md) for
 background information.
 
-When tracking is enabled in Redis, using the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command, it is
+When tracking is enabled in Redis, using the [`CLIENT TRACKING`](/content/commands/client-tracking.md) command, it is
 possible to specify the `OPTIN` or `OPTOUT` options, so that keys
 in read only commands are not automatically remembered by the server to
 be invalidated later. When we are in `OPTIN` mode, we can enable the

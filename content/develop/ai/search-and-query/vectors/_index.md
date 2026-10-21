@@ -3,6 +3,7 @@ aliases:
 - /develop/interact/search-and-query/advanced-concepts/vectors
 - /interact/search-and-query/advanced-concepts/vectors/
 - /develop/ai/vector-fields/
+- /stack/search/reference/vectors/
 categories:
 - docs
 - develop

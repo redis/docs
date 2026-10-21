@@ -86,7 +86,7 @@ For IDMP, each producer application is responsible for:
 
 Here's an illustration of how message processing in Redis Streams works with and without idempotent production:
 
-{{< image filename="images/dev/stream/stream-idempotency.png" alt="Idempotent message processing in Redis Streams" >}}
+![Idempotent message processing in Redis Streams](/images/dev/stream/stream-idempotency.png)
 
 ## Stream configuration
 

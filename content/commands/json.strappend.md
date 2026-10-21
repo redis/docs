@@ -51,9 +51,8 @@ is a Redis key storing a value of type JSON.
 
 is a string to append to the JSON strings at the paths matching `path`.
 
-{{% alert title="About using strings with JSON commands" color="warning" %}}
-To specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
-{{% /alert %}}
+> [!NOTE] About using strings with JSON commands
+> To specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
 </details>
 
 ## Optional arguments
@@ -101,44 +100,44 @@ redis> JSON.GET doc $
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not a string.
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#null-bulk-strings) if the match is not a string.
+  - An [integer reply](/content/develop/reference/protocol-spec.md#integers): the new length of the string.
 
 If `path` is a legacy path expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string at the first match.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not a string.
+- An [integer reply](/content/develop/reference/protocol-spec.md#integers): the new length of the string at the first match.
 
 -tab-sep-
 
 If `path` is a JSONPath expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
-- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not a string.
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- An empty [array reply](/content/develop/reference/protocol-spec.md#arrays) if `path` has no matches.
+- An [array reply](/content/develop/reference/protocol-spec.md#arrays) where each array element corresponds to one match:
+  - [`nil`](/content/develop/reference/protocol-spec.md#nulls) if the match is not a string.
+  - An [integer reply](/content/develop/reference/protocol-spec.md#integers): the new length of the string.
 
 If `path` is a legacy path expression:
 
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
-- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string at the first match.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `key` does not exist.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if `path` has no matches.
+- A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) if the first match is not a string.
+- An [integer reply](/content/develop/reference/protocol-spec.md#integers): the new length of the string at the first match.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) | [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}})
+[`JSON.STRLEN`](/content/commands/json.strlen.md) | [`JSON.ARRAPPEND`](/content/commands/json.arrappend.md)
 
 ## Related topics
 
-* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
-* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [The JSON data type](/content/develop/data-types/json/_index.md)
+* [JSONPath](/content/develop/data-types/json/path.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

@@ -14,7 +14,7 @@ url: '/operate/rs/7.22/references/rest-api/requests/bdbs/stats/'
 ---
 
 {{<banner-article>}}
-The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/7.22/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2](/content/operate/rs/7.22/monitoring/metrics_stream_engine.md) instead for real-time monitoring and metrics collection.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -34,7 +34,7 @@ Get statistics for all databases.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_bdb_stats]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_all_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_all_bdb_stats](/content/operate/rs/7.22/references/rest-api/permissions.md#view_all_bdb_stats) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -61,7 +61,7 @@ GET /v1/bdbs/stats?interval=1hour&stime=2014-08-28T10:00:00Z
 
 ### Response {#get-all-response}
 
-Returns [statistics]({{< relref "/operate/rs/7.22/references/rest-api/objects/statistics" >}}) for all databases.
+Returns [statistics](/content/operate/rs/7.22/references/rest-api/objects/statistics/_index.md) for all databases.
 
 #### Example JSON body
 
@@ -175,7 +175,7 @@ Get statistics for a specific database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_stats]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_bdb_stats](/content/operate/rs/7.22/references/rest-api/permissions.md#view_bdb_stats) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -208,7 +208,7 @@ GET /v1/bdbs/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 
 ### Response {#get-response}
 
-Returns [statistics]({{< relref "/operate/rs/7.22/references/rest-api/objects/statistics" >}}) for a specific database.
+Returns [statistics](/content/operate/rs/7.22/references/rest-api/objects/statistics/_index.md) for a specific database.
 
 #### Example JSON body
 

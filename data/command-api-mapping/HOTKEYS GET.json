@@ -1,16 +1,136 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_py": [
+      {
+        "signature": "hotkeys_get(**kwargs)",
+        "params": [],
+        "returns": {
+          "type": "list[dict[str | bytes, Any]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "HotkeysInfo hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "HotkeysInfo",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "HotkeysReply hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "HotkeysReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<HotkeysReply> hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<HotkeysReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<HotkeysReply> hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "Mono<HotkeysReply>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HotKeysGet(ctx context.Context)",
+        "params": [],
+        "returns": {
+          "type": "*HotKeysCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "HotkeysGetReply | null",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HotKeysResult? HotKeysGet(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "HotKeysResult?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<HotKeysResult?> HotKeysGetAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<HotKeysResult?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "get()",
+        "params": [],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hotkeys_get()",
+        "params": [],
+        "returns": {
+          "type": "RedisResult<Option<HotkeysResponse>>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hotkeys_get()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<'_, Option<HotkeysResponse>>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

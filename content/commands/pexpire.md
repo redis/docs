@@ -73,7 +73,7 @@ summary: Sets the expiration time of a key in milliseconds.
 syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]
 title: PEXPIRE
 ---
-This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is
+This command works exactly like [`EXPIRE`](/content/commands/expire.md) but the time to live of the key is
 specified in milliseconds instead of seconds.
 
 ## Required arguments

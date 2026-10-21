@@ -90,6 +90,12 @@ If you need scoping of some kind, prefix the channels with the name of the envir
 
 ## Wire protocol example
 
+In this example, client A subscribes to two channels, client B publishes to one of them, and then client A unsubscribes from both:
+
+![Client A subscribes to channels first and second, client B publishes Hello to second, and client A unsubscribes from both](/images/dev/pubsub/pubsub-wire-sequence.svg)
+
+The same exchange on the wire, starting with client A's subscription:
+
 ```
 SUBSCRIBE first second
 *3
@@ -181,6 +187,8 @@ PSUBSCRIBE f*
 ```
 
 In the above example, if a message is sent to channel `foo`, the client will receive two messages: one of type `message` and one of type `pmessage`.
+
+![One PUBLISH to foo reaches a client subscribed to both foo and f* as a message and a pmessage](/images/dev/pubsub/pubsub-pattern-and-channel.svg)
 
 ## The meaning of the subscription count with pattern matching
 

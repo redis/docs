@@ -38,7 +38,7 @@ summary: Defines a session-local fieldset that maps a name to a sorted set of fi
 syntax_fmt: HIMPORT PREPARE fieldset-name field [field ...]
 title: HIMPORT PREPARE
 ---
-Defines a session-local fieldset that maps a name to an ordered list of field names, to be used by later [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) commands on the same connection.
+Defines a session-local fieldset that maps a name to an ordered list of field names, to be used by later [`HIMPORT SET`](/content/commands/himport-set.md) commands on the same connection.
 
 ## Required arguments
 
@@ -50,7 +50,7 @@ The name to give the fieldset. The fieldset is scoped to the current connection.
 
 <details open><summary><code>field [field ...]</code></summary>
 
-One or more field names to store under the fieldset, in the order you intend to supply their values to [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}). A field name must not appear more than once in the same fieldset.
+One or more field names to store under the fieldset, in the order you intend to supply their values to [`HIMPORT SET`](/content/commands/himport-set.md). A field name must not appear more than once in the same fieldset.
 
 </details>
 
@@ -63,7 +63,7 @@ OK
 
 ## Details
 
-A fieldset is scoped to the client connection: it is not visible to other clients and is discarded when the connection closes or the client issues the [`RESET`]({{< relref "/commands/reset" >}}) command. A connection can prepare several fieldsets, each under its own name.
+A fieldset is scoped to the client connection: it is not visible to other clients and is discarded when the connection closes or the client issues the [`RESET`](/content/commands/reset.md) command. A connection can prepare several fieldsets, each under its own name.
 
 The command returns an error if the same field name is given more than once.
 
@@ -89,4 +89,4 @@ The command returns an error if the same field name is given more than once.
 
 ## See also
 
-[`HIMPORT SET`]({{< relref "commands/himport-set/" >}}) | [`HIMPORT DISCARD`]({{< relref "commands/himport-discard/" >}}) | [`HIMPORT DISCARDALL`]({{< relref "commands/himport-discardall/" >}})
+[`HIMPORT SET`](/content/commands/himport-set.md) | [`HIMPORT DISCARD`](/content/commands/himport-discard.md) | [`HIMPORT DISCARDALL`](/content/commands/himport-discardall.md)

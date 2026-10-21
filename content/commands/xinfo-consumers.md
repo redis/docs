@@ -59,8 +59,8 @@ The following information is provided for each consumer in the group:
 
 * **name**: the consumer's name
 * **pending**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged
-* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), [`XCLAIM`]({{< relref "/commands/xclaim" >}}), [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}))
-* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) that actually read some entries into the PEL, [`XCLAIM`]({{< relref "/commands/xclaim" >}})/[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) that actually claimed some entries)
+* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`](/content/commands/xreadgroup.md), [`XCLAIM`](/content/commands/xclaim.md), [`XAUTOCLAIM`](/content/commands/xautoclaim.md))
+* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`](/content/commands/xreadgroup.md) that actually read some entries into the PEL, [`XCLAIM`](/content/commands/xclaim.md)/[`XAUTOCLAIM`](/content/commands/xautoclaim.md) that actually claimed some entries)
 
 Note that before Redis 7.2.0, **idle** used to denote the time passed since last successful interaction.
 In 7.2.0, **inactive** was added and **idle** was changed to denote the time passed since last attempted interaction.

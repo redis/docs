@@ -137,10 +137,9 @@ For Flex deployments on Kubernetes, ensure the cluster has sufficient physical r
 
 - Adequate vCPU to support increased shard count or throughput.
 
-{{<warning>}}
-Scaling operations will fail or underperform if the underlying cluster is resource-constrained.
-{{</warning>}}
+> [!WARNING]
+> Scaling operations will fail or underperform if the underlying cluster is resource-constrained.
 
 PVC expansion is not supported with `redisOnFlashSpec`. Plan flash storage capacity upfront and don't enable `enablePersistentVolumeResize` in the REC `persistentSpec`.
 
-See Flex [hardware requirements]({{<relref "/operate/kubernetes/flex/plan#hardware-requirements">}}) for more information.
+See Flex [hardware requirements](/content/operate/kubernetes/flex/plan.md#hardware-requirements) for more information.

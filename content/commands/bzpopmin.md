@@ -60,12 +60,11 @@ summary: Removes and returns the member with the lowest score from one or more s
 syntax_fmt: BZPOPMIN key [key ...] timeout
 title: BZPOPMIN
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.
+`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`](/content/commands/zpopmin.md) primitive.
 
 It is the blocking version because it blocks the connection when there are no
 members to pop from any of the given sorted sets.
@@ -75,8 +74,8 @@ non-empty, with the given keys being checked in the order that they are given.
 The `timeout` argument is interpreted as a double value specifying the maximum
 number of seconds to block. A timeout of zero can be used to block indefinitely.
 
-See the [BLPOP documentation]({{< relref "/commands/blpop" >}}) for the exact semantics, since `BZPOPMIN` is
-identical to [`BLPOP`]({{< relref "/commands/blpop" >}}) with the only difference being the data structure being
+See the [BLPOP documentation](/content/commands/blpop.md) for the exact semantics, since `BZPOPMIN` is
+identical to [`BLPOP`](/content/commands/blpop.md) with the only difference being the data structure being
 popped from.
 
 ## Required arguments

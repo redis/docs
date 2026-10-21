@@ -17,36 +17,36 @@ Configure networking and external access for your Redis Enterprise deployment on
 
 Connect applications to your Redis Enterprise databases:
 
-- [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
+- [Database connectivity](/content/operate/kubernetes/networking/database-connectivity.md) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
 
 ## External routing methods
 
 Choose the appropriate method for your environment to enable external access:
 
-- [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Use HAProxy ingress controller with `ingress` API resources (the community NGINX ingress controller is retired)
-- [Istio ingress routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}}) - Use Istio service mesh with `Gateway` and `VirtualService` API resources
-- [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) - Use OpenShift-specific route resources for external traffic
+- [Ingress routing](/content/operate/kubernetes/networking/ingress.md) - Use HAProxy ingress controller with `ingress` API resources (the community NGINX ingress controller is retired)
+- [Istio ingress routing](/content/operate/kubernetes/networking/istio-ingress.md) - Use Istio service mesh with `Gateway` and `VirtualService` API resources
+- [OpenShift routes](/content/operate/kubernetes/networking/routes.md) - Use OpenShift-specific route resources for external traffic
 
 ## Automatic ingress configuration
 
 For Active-Active databases, configure automatic ingress creation:
 
-- [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
+- [REC external routing](/content/operate/kubernetes/networking/ingressorroutespec.md) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
 
 ## `ingressOrRouteSpec` for Active-Active databases
 
-Versions 6.4.2 or later of Redis Enterprise for Kubernetes include a feature for ingress configuration. The `ingressOrRouteSpec` field is available in the RedisEnterpriseCluster spec to automatically create an Ingress (or route) for the API service and databases (REAADB) on that REC. See [REC external routing]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) for more details.
+Versions 6.4.2 or later of Redis Enterprise for Kubernetes include a feature for ingress configuration. The `ingressOrRouteSpec` field is available in the RedisEnterpriseCluster spec to automatically create an Ingress (or route) for the API service and databases (REAADB) on that REC. See [REC external routing](/content/operate/kubernetes/networking/ingressorroutespec.md) for more details.
 
 This feature only supports automatic Ingress creation for Active-Active databases created and managed with the RedisEnterpriseActiveActiveDatabase (REAADB) custom resource. Use with the standard Redis Enterprise database (REDB) is not currently supported.
 
 ## OSS Cluster API support
 
-[OSS Cluster API]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) is supported for both internal and external clients:
+[OSS Cluster API](/content/operate/kubernetes/networking/cluster-aware-clients.md) is supported for both internal and external clients:
 
 - **Internal clients** running on pods within the same Kubernetes cluster can connect directly to Redis Enterprise pods using pod IPs.
 - **External clients** outside the Kubernetes cluster can connect through LoadBalancer services when `enableExternalAccess: true` is configured in the database specification. This creates a separate LoadBalancer service for each Redis Enterprise pod. Note that LoadBalancers are resources that can significantly increase operational costs.
 
-See [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) for configuration details.
+See [Enable cluster-aware clients (OSS Cluster API)](/content/operate/kubernetes/networking/cluster-aware-clients.md) for configuration details.
 
 ## REC domain name
 

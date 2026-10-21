@@ -24,9 +24,8 @@ As of Redis Software version 8.0.16, the Cluster Manager UI supports both [globa
 
 Global configuration changes are applied to all participating clusters in the Active-Active database. However, if your Active-Active mesh contains local configurations, they will continue to override global settings on the database instances where they are applied.
 
-{{< warning >}}
-Applying global configuration changes will override any local settings created using the API or earlier Cluster Manager UI versions. To keep local changes, manage them in the [**Local** configuration tab](#change-local-configuration).
-{{< /warning >}}
+> [!WARNING]
+> Applying global configuration changes will override any local settings created using the API or earlier Cluster Manager UI versions. To keep local changes, manage them in the [**Local** configuration tab](#change-local-configuration).
 
 <br />
 
@@ -40,7 +39,7 @@ To make global configuration changes in the Cluster Manager UI:
 
 1. While on the **Global** tab, click **Edit**.
 
-    <img src="../../../../../images/rs/screenshots/databases/active-active-databases/global-config-tab.png" alt="The global configuration tab is selected.">
+    ![The global configuration tab is selected.](/images/rs/screenshots/databases/active-active-databases/global-config-tab.png)
 
 1. Make your configuration changes.
 
@@ -48,7 +47,7 @@ To make global configuration changes in the Cluster Manager UI:
 
 -tab-sep-
 
-To change the global configuration from the command line, use [`crdb-cli crdb update`]({{< relref "/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/update" >}}):
+To change the global configuration from the command line, use [`crdb-cli crdb update`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/crdb/update.md):
 
 ```sh
 crdb-cli crdb update --crdb-guid <guid> --<setting-name> <setting-value>
@@ -74,7 +73,7 @@ To change the local configuration in the Cluster Manager UI:
 
 1. Go to the **Local** tab.
 
-    <img src="../../../../../images/rs/screenshots/databases/active-active-databases/local-config-tab.png" alt="The local configuration tab is selected.">
+    ![The local configuration tab is selected.](/images/rs/screenshots/databases/active-active-databases/local-config-tab.png)
 
 1. Click **Edit**, then make your configuration changes.
 
@@ -82,7 +81,7 @@ To change the local configuration in the Cluster Manager UI:
 
 -tab-sep-
 
-To change the local configuration from the command line, use [`rladmin tune db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/tune#tune-db" >}}):
+To change the local configuration from the command line, use [`rladmin tune db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/tune.md#tune-db):
 
 ```sh
 rladmin tune db { db:<id> | <name> } <setting-name> <setting-value>
@@ -96,20 +95,20 @@ Replace the placeholders `<placeholder>` with your own values.
 
 In the Cluster Manager UI, an Active-Active database's **Global** configuration tab indicates when a local configuration differs from the global configuration:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-warning.png" alt="On the global configuration tab, a warning is visible that says: 'This Active Active mesh contains local configurations which will not be affected by the global settings'." >}}
+![On the global configuration tab, a warning is visible that says: 'This Active Active mesh contains local configurations which will not be affected by the global settings'.](/images/rs/screenshots/databases/active-active-databases/local-config-warning.png)
 
 If a warning symbol appears next to a setting on the **Global** configuration tab, point to the warning symbol to show details about the local configuration differences:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-warning-details.png" alt="An example that shows memory eviction is set to noeviction globally but allkeys-lru locally." >}}
+![An example that shows memory eviction is set to noeviction globally but allkeys-lru locally.](/images/rs/screenshots/databases/active-active-databases/local-config-warning-details.png)
 
 On the **Local** configuration tab, any locally configured settings that differ from the global settings are marked with a **Local configuration** label:
 
-{{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-tag.png" alt="A local configuration label appears next to Memory eviction allkeys-lru." >}}
+![A local configuration label appears next to Memory eviction allkeys-lru.](/images/rs/screenshots/databases/active-active-databases/local-config-tag.png)
 
 ## Participating clusters
 
 You can add and remove participating clusters of an Active-Active database to change the topology.
-To manage the changes to Active-Active topology, use [`crdb-cli`]({{< relref "/operate/rs/8.0/references/cli-utilities/crdb-cli/" >}}) or the participating clusters list in the Cluster Manager UI.
+To manage the changes to Active-Active topology, use [`crdb-cli`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/_index.md) or the participating clusters list in the Cluster Manager UI.
 
 ### Add participating clusters
 
@@ -120,9 +119,8 @@ After you add new participating clusters to an existing Active-Active database,
 the new database instance can accept connections and read operations.
 The new instance does not accept write operations until it is in the syncing state.
 
-{{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/8.0/databases/flash">}}), you cannot add participating clusters that run on RAM only.
-{{</note>}}
+> [!NOTE]
+> If an Active-Active database [runs on flash memory](/content/operate/rs/8.0/databases/flash/_index.md), you cannot add participating clusters that run on RAM only.
 
 To add a new participating cluster to an existing Active-Active configuration using the Cluster Manager UI:
 
@@ -134,7 +132,7 @@ To add a new participating cluster to an existing Active-Active configuration us
 
 1. In the **Add cluster** configuration panel, enter the new cluster's URL, port number, and the admin username and password for the new participating cluster:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png" alt="Add cluster panel.">}}
+    ![Add cluster panel.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png)
 
 1. Click **Join cluster** to add the cluster to the list of participating clusters. 
 
@@ -158,21 +156,21 @@ To remove a participating cluster using the Cluster Manager UI:
 
 1. In the **Participating clusters** section, point to the cluster you want to delete in the **Other participating clusters** list:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png" alt="Edit and delete buttons appear when you point to an entry in the Other participating clusters list.">}}
+    ![Edit and delete buttons appear when you point to an entry in the Other participating clusters list.](/images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png)
 
-1. Click {{< image filename="/images/rs/buttons/delete-button.png#no-click" alt="The Delete button" width="25px" class="inline" >}} to remove the cluster.
+1. Click ![The Delete button](/images/rs/buttons/delete-button.png#no-click) to remove the cluster.
 
 1. Click **Save**.
 
 ## Replication backlog
 
-Redis databases that use [replication for high availability]({{< relref "/operate/rs/8.0/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
+Redis databases that use [replication for high availability](/content/operate/rs/8.0/databases/durability-ha/replication.md) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
 
 By default, both the database and Active-Active replication backlogs are set to one percent (1%) of the database size divided by the number of shards. This can range between 1MB to 250MB per shard for each backlog.
 
 ### Change the replication backlog size
 
-Use the [`crdb-cli`]({{< relref "/operate/rs/8.0/references/cli-utilities/crdb-cli" >}}) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
+Use the [`crdb-cli`](/content/operate/rs/8.0/references/cli-utilities/crdb-cli/_index.md) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
 
 Update the database replication backlog configuration with the `crdb-cli` command shown below.
 

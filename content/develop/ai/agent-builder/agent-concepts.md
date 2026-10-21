@@ -22,13 +22,13 @@ AI agents are autonomous systems that go far beyond simple chatbots. They combin
 
 ### Core agent architecture
 
-{{< image filename="/images/ai_agent/ai-agent-architecture-diagram.svg" alt="AI agent architecture" >}}
+![AI agent architecture](/images/ai_agent/ai-agent-architecture-diagram.svg)
 
 ### The agent processing cycle
 
 Every user interaction follows a 6-step cycle that makes agents intelligent:
 
-{{< image filename="/images/ai_agent/simple-processing-cycle.svg" alt="AI agent processing cycle" >}}
+![AI agent processing cycle](/images/ai_agent/simple-processing-cycle.svg)
 
 Why this cycle matters:
 - Maintains context across multiple conversations
@@ -82,120 +82,125 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 - **Managed option**: The [Redis Iris Context Engine](/content/develop/ai/context-engine/agent-memory/_index.md) provides short-term (session) and long-term memory as a managed service — with semantic long-term search — so you don't have to build the vector index and storage yourself
 - [Explore Redis data structures →](/content/develop/data-types/_index.md)
 
+### Managed agent context with Redis Iris
+
+You can build each part of an agent's context layer yourself from Redis data structures, or use the [Redis Iris context engine](/content/develop/ai/context-engine/_index.md) services as a pre-built solution. Each service runs fully managed on Redis Cloud, or self-managed on your own infrastructure, and has a REST API.
+
+| Agent need | Build it yourself with Redis | Redis Iris service |
+|:--|:--|:--|
+| Remember the user across sessions | Streams, Hashes, and vector search for session and long-term memory | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) stores session events, summarizes long sessions, and extracts long-term memories in the background. |
+| Avoid repeat LLM calls | Vector search plus your own cache logic | [LangCache](/content/develop/ai/context-engine/langcache/_index.md) returns a cached response when a new prompt is semantically similar to a cached one. |
+| Query business data safely | Hand-written tools or generated queries per agent | [Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
+| Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
+
+LangCache, Agent Memory, and Context Retriever are currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
+
 ## Types of agents you can build
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
 
-<div>
-
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200  mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Conversational assistants</h3>
 
 Build chatbots and virtual assistants that:
 - Maintain natural conversations with context and memory
-- Handle multiple topics within a single conversation
 - Provide personalized responses based on user history
-- Escalate to human agents when needed
 
 [Build a conversational agent →](../)
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Recommendation engines</h3>
 
 Create intelligent recommendation systems that:
 - Learn from user behavior and preferences
 - Provide real-time personalized suggestions
-- Handle both explicit feedback (ratings) and implicit signals (clicks, time spent)
-- Scale to millions of users and items
 
 [Build a recommendation agent →](../)
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+<h3 class="no-toc">Knowledge assistants (RAG)</h3>
+
+Build retrieval-augmented generation agents that:
+- Ingest documents and answer questions with citations
+- Combine vector search with semantic caching for fast, grounded responses
+
+[Build a knowledge assistant →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+<h3 class="no-toc">Redis Iris conversational assistants</h3>
+
+Build conversational agents backed by managed Redis Iris Agent Memory that:
+- Get session and long-term memory without building a vector index
+- Extract durable memories automatically in the background
+
+[Build a Redis Iris agent →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Task automation agents</h3>
 
 Automate complex workflows and business processes:
 - Execute multi-step tasks with decision-making
 - Integrate with APIs and external systems
-- Handle error recovery and retry logic
-- Monitor and report on task completion
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Data analysis agents</h3>
 
 Process and analyze large datasets intelligently:
 - Perform statistical analysis and pattern recognition
-- Generate insights and reports automatically
 - Handle real-time data streams
-- Create visualizations and dashboards
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-<h3 class="no-toc">Content generation agents</h3>
-
-Create and manage content at scale:
-- Generate articles, summaries, and documentation
-- Adapt content for different audiences and formats
-- Maintain brand voice and style consistency
-- Handle content moderation and quality control
-</div>
-
-</div>
-
-<div>
-
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Customer support agents</h3>
 
 Provide intelligent customer service:
 - Answer questions using knowledge bases
 - Route complex issues to human agents
-- Track customer satisfaction and feedback
-- Learn from interactions to improve responses
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Research and retrieval agents</h3>
 
 Find and synthesize information from multiple sources:
 - Search across documents, databases, and web content
 - Summarize findings and extract key insights
-- Fact-check and verify information accuracy
-- Maintain up-to-date knowledge repositories
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Monitoring and alerting agents</h3>
 
 Watch systems and notify when action is needed:
-- Monitor application performance and health
 - Detect anomalies and security threats
 - Send intelligent alerts with context
-- Suggest remediation actions
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Personal productivity agents</h3>
 
 Help users manage tasks and information:
 - Schedule meetings and manage calendars
 - Organize and prioritize tasks
-- Provide reminders and follow-ups
-- Learn user preferences and habits
 </div>
 
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
 <h3 class="no-toc">Trading and financial agents</h3>
 
 Make intelligent financial decisions:
 - Analyze market data and trends
 - Execute trades based on predefined strategies
-- Manage risk and portfolio optimization
-- Generate financial reports and insights
 </div>
 
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+<h3 class="no-toc">Content generation agents</h3>
+
+Create and manage content at scale:
+- Generate articles, summaries, and documentation
+- Adapt content for different audiences and formats
 </div>
 
 </div>
@@ -305,6 +310,7 @@ Production-ready agents include built-in reliability features:
 ### Performance optimization
 
 - Cache frequently accessed information
+- Cache LLM responses semantically, so paraphrased questions skip the model call. [LangCache](/content/develop/ai/context-engine/langcache/_index.md) does this as a managed service
 - Use efficient data structures for fast retrieval
 - Scale resources based on demand
 
@@ -321,8 +327,11 @@ Production-ready agents include built-in reliability features:
 
 - Data encryption: Encrypt sensitive data at rest and in transit
 - Access controls: Implement proper authentication and authorization
+- Governed data access: Give agents defined tools instead of direct database access. [Context Retriever](/content/develop/ai/context-engine/context-retriever/concepts.md) generates these tools and uses access tags to filter what each agent can see
 - Data retention: Automatic cleanup of personal data per regulations
+- Sensitive data in memory: Keep information such as payment card numbers out of long-term memory. Agent Memory [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) guide automatic extraction away from it
 - Audit logging: Track all data access and modifications
+- Memory integrity: Validate content before it is written to agent memory and verify protected records on read. Memory written from tool results, web pages, or other agents can carry instructions that are replayed into later prompts ([OWASP Top 10 for Agentic Applications, ASI06](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/); [MITRE ATLAS AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000)). [OWASP Agent Memory Guard](https://github.com/OWASP/www-project-agent-memory-guard) is an open-source guard for this with adapters for LangChain, OpenAI Agents SDK, AutoGen, CrewAI, and mem0
 
 ### Scaling Strategies
 
@@ -334,7 +343,7 @@ Production-ready agents include built-in reliability features:
 
 ### Cost Optimization
 
-- LLM cost management: Use appropriate models for different tasks
+- LLM cost management: Use appropriate models for different tasks, and serve repeat questions from a semantic cache such as [LangCache](/content/develop/ai/context-engine/langcache/_index.md)
 - Redis memory optimization: Efficient data structures and TTL policies
 - API rate limiting: Prevent excessive external API calls
 - Resource monitoring: Track and optimize compute and storage costs
@@ -367,6 +376,8 @@ Ready to build your AI agent with Redis?
 
 **Learn more:**
 - [Redis Iris Context Engine — Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) for managed session and long-term agent memory
+- [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) for how memory, caching, and governed data access work together
+- Interactive demos for [Agent Memory](/content/develop/ai/context-engine/agent-memory/interactive-demo.md), [LangCache](/content/develop/ai/context-engine/langcache/interactive-demo.md), and [Context Retriever](/content/develop/ai/context-engine/context-retriever/interactive-demo.md) that run in your browser
 - [Redis Vector Search documentation](/content/develop/ai/search-and-query/vectors/_index.md)
 - [RedisVL Python library](/content/develop/clients/redis-vl.md) for vector operations and AI workflows
 - [Redis data structures guide](/content/develop/data-types/_index.md)

@@ -92,22 +92,22 @@ redis> TDIGEST.BYRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-points, populated with value_1, value_2, ..., value_R:
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk strings](/content/develop/reference/protocol-spec.md#bulk-strings) as floating-points, populated with value_1, value_2, ..., value_R:
     * an accurate result when `rank` is `0`, the value of the smallest observation.
     * an accurate result when `rank` is _n_-1, the value of the largest observation, where _n_ denotes the number of observations added to the sketch.
     * `inf` when `rank` is equal to _n_ or larger than _n_.
     * `nan` for all ranks when the given sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [doubles]({{< relref "/develop/reference/protocol-spec#doubles" >}}) as floating-points, populated with value_1, value_2, ..., value_R:
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [doubles](/content/develop/reference/protocol-spec.md#doubles) as floating-points, populated with value_1, value_2, ..., value_R:
     * an accurate result when `rank` is `0`, the value of the smallest observation.
     * an accurate result when `rank` is _n_-1, the value of the largest observation, where _n_ denotes the number of observations added to the sketch.
     * `inf` when `rank` is equal to _n_ or larger than _n_.
     * `nan` for all ranks when the given sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or incorrect number of arguments.
 
 {{< /multitabs >}}

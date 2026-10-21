@@ -12,9 +12,9 @@ weight: 60
 url: '/operate/rs/7.8/references/rest-api/permissions/'
 ---
 
-Some Redis Enterprise [REST API requests]({{< relref "/operate/rs/7.8/references/rest-api/requests" >}}) may require the user to have specific permissions.
+Some Redis Enterprise [REST API requests](/content/operate/rs/7.8/references/rest-api/requests/_index.md) may require the user to have specific permissions.
 
-Administrators can assign a predefined role to a user with the [Cluster Manager UI]({{< relref "/operate/rs/7.8/security/access-control/create-users" >}}) or a [<nobr>`PUT /v1/users/{uid}`</nobr> API request]({{< relref "/operate/rs/7.8/references/rest-api/requests/users#put-user" >}}) to grant necessary permissions to them.
+Administrators can assign a predefined role to a user with the [Cluster Manager UI](/content/operate/rs/7.8/security/access-control/create-users.md) or a [<nobr>`PUT /v1/users/{uid}`</nobr> API request](/content/operate/rs/7.8/references/rest-api/requests/users/_index.md#put-user) to grant necessary permissions to them.
 
 ## Roles
 

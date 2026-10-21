@@ -22,7 +22,7 @@ The current monitoring system, which is deprecated as of Redis Software version 
 
     - This historical data is used to generate trends and performance insights over time.
 
-- [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}}):
+- [Statistics APIs](/content/operate/rs/references/rest-api/objects/statistics/_index.md):
 
     - This set of RESTful APIs exposes metrics collected at regular intervals from clusters, nodes, databases, shards, and endpoints.
 
@@ -36,7 +36,7 @@ The current monitoring system, which is deprecated as of Redis Software version 
       
 - v1 Prometheus scraping endpoint:
 
-    - Redis Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/get-started">}}).
+    - Redis Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana](/content/operate/rs/monitoring/get-started.md).
 
     - This endpoint fetches data from the internal storage, providing basic monitoring integration.
 
@@ -56,7 +56,7 @@ The internal monitoring system, while functional, has several limitations that a
 
 ### Transition to the metrics stream engine
 
-To improve monitoring and address current limitations, Redis Software is transitioning to a new observability foundation: the [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
+To improve monitoring and address current limitations, Redis Software is transitioning to a new observability foundation: the [metrics stream engine](/content/operate/rs/monitoring/metrics_stream_engine/_index.md).
 
 This modern monitoring stack introduces:
 
@@ -68,11 +68,11 @@ This modern monitoring stack introduces:
 
 We recommend migrating to the metrics stream engine for enhanced accuracy, scalability, and future-proof observability.
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+If you are already using the existing scraping endpoint for integration, follow [this guide](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2.md) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 ### Transition cluster manager alerts
 
-As part of Redis Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/monitoring/metrics_stream_engine/alerts-v1-to-v2">}}) for guidance.
+As part of Redis Software's transition to the [new metrics stream engine](/content/operate/rs/monitoring/metrics_stream_engine/_index.md), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan](/content/operate/rs/monitoring/metrics_stream_engine/alerts-v1-to-v2.md) for guidance.
 
 ## Cluster manager metrics
 
@@ -92,9 +92,9 @@ To choose which metrics to display in the two large graphs at the top of the pag
 We recommend that you show two similar metrics in the top graphs so you can compare them side-by-side.
 
 See the following topics for metrics definitions:
-- [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
-- [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
-- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases
+- [Database operations](/content/operate/rs/references/metrics/database-operations.md) for database metrics
+- [Resource usage](/content/operate/rs/references/metrics/resource-usage.md) for resource and database usage metrics
+- [Auto Tiering](/content/operate/rs/references/metrics/auto-tiering.md) for additional metrics for [Auto Tiering ](/content/operate/rs/databases/flash/_index.md) databases
 
 ## Cluster alerts
 
@@ -106,10 +106,9 @@ Configured alerts are shown:
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
-{{< note >}}
-If you enable alerts for "Node joined" or "Node removed" actions,
-you must also enable "Receive email alerts" so that the notifications are sent.
-{{< /note >}}
+> [!NOTE]
+> If you enable alerts for "Node joined" or "Node removed" actions,
+> you must also enable "Receive email alerts" so that the notifications are sent.
 
 To enable alerts for a cluster:
 
@@ -137,8 +136,8 @@ To enable alerts for a database:
 To send cluster and database alerts by email:
 
 1. In **Cluster > Alert Settings**, click **Edit**.
-1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/clusters/configure/cluster-settings#configuring-email-server-settings" >}}).
+1. Select **Set an email** to configure the [email server settings](/content/operate/rs/clusters/configure/cluster-settings.md#configuring-email-server-settings).
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/security/access-control/create-users#add-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts](/content/operate/rs/security/access-control/create-users.md#add-users) that you want each user to receive.

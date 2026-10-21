@@ -23,6 +23,6 @@ summary: A container for Access List Control commands.
 syntax_fmt: ACL
 title: ACL
 ---
-This is a container command for [Access Control List]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) commands.
+This is a container command for [Access Control List](/content/operate/oss_and_stack/management/security/acl.md) commands.
 
-To see the list of available commands you can call [`ACL HELP`]({{< relref "/commands/acl-help" >}}).
+To see the list of available commands you can call [`ACL HELP`](/content/commands/acl-help.md).
