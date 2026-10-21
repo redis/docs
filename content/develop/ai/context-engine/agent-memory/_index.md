@@ -140,3 +140,5 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
 For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md).
 
 To generate a complete conversational agent that uses Agent Memory, open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and select **Redis Iris Conversational Assistant**.
+
+To build a conversation list with recent activity and pagination, see [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md).

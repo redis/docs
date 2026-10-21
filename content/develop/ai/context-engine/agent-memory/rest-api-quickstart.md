@@ -51,7 +51,7 @@ Verify that the service is available:
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/health" | jq
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
 ```
 
 ## 1. Build conversation context with session memory
@@ -105,7 +105,7 @@ curl --fail-with-body --silent --show-error \
 The response includes `sessionId` and the available owner, creation, update,
 and namespace details. It defaults to newest `updatedAt` first. Use
 `nextPageToken` as `pageToken` with the same filter and sort options for the
-next page. The existing `/session-memory` list returns session IDs.
+next page. The existing `/session-memory` list returns session IDs. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for Python, TypeScript, and curl pagination examples and filter rules.
 
 ## 2. Recall automatically extracted information
 
