@@ -2,13 +2,11 @@
 # STEP_START playbook-connect
 set -euo pipefail
 
-playbook_cli() {
-  IRIS_AGENT_PLAYBOOK_CONTENT_API_KEY="$PLAYBOOK_API_KEY" \
-    iris --json --no-input agent-playbook \
-    --url "$PLAYBOOK_URL" --playbook-id "$PLAYBOOK_ID" "$@"
-}
+export IRIS_AGENT_PLAYBOOK_URL="$PLAYBOOK_URL"
+export IRIS_AGENT_PLAYBOOK_ID="$PLAYBOOK_ID"
+export IRIS_AGENT_PLAYBOOK_CONTENT_API_KEY="$PLAYBOOK_API_KEY"
 
-playbook_cli health
+iris agent-playbook health
 # STEP_END
 
 # STEP_START playbook-quickstart-create
@@ -21,19 +19,19 @@ cat > faq.json <<'JSON'
   "attributes": {"locale": "en-US", "topic": "refund"}
 }
 JSON
-playbook_cli faqs validate faq.json
-playbook_cli faqs push faq.json > faq-draft.json
+iris agent-playbook faqs validate faq.json
+iris --json agent-playbook faqs push faq.json > faq-draft.json
 FAQ_ID=$(jq -er '.results[0].entryId' faq-draft.json)
 VERSION=$(jq -er '.results[0].version' faq-draft.json)
 jq . faq-draft.json
 # STEP_END
 
 # STEP_START playbook-quickstart-publish
-playbook_cli faqs get "$FAQ_ID" --version "$VERSION" | jq .content
+iris --json agent-playbook faqs get "$FAQ_ID" --version "$VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-quickstart-publication
-playbook_cli faqs publish "$FAQ_ID" --version "$VERSION"
+iris agent-playbook faqs publish "$FAQ_ID" --version "$VERSION"
 # STEP_END
 
 # STEP_START playbook-quickstart-search
@@ -44,7 +42,7 @@ cat > search.json <<'JSON'
   "limit": 5
 }
 JSON
-playbook_cli faqs search --input search.json | jq .matches
+iris --json agent-playbook faqs search --input search.json | jq .matches
 # STEP_END
 
 # STEP_START playbook-quickstart-discover
@@ -55,18 +53,18 @@ cat > discover.json <<'JSON'
   "limit": 5
 }
 JSON
-playbook_cli discover --input discover.json | jq .
+iris --json agent-playbook discover --input discover.json | jq .
 # STEP_END
 
 # STEP_START playbook-quickstart-update
 jq '.answer += " Support can check the current stage but cannot guarantee a bank posting date."' \
   faq.json > faq-update.json
-playbook_cli faqs push faq-update.json > faq-updated.json
+iris --json agent-playbook faqs push faq-update.json > faq-updated.json
 UPDATED_VERSION=$(jq -er '.results[0].version' faq-updated.json)
-playbook_cli faqs get "$FAQ_ID" --version "$UPDATED_VERSION" | jq .content
+iris --json agent-playbook faqs get "$FAQ_ID" --version "$UPDATED_VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-quickstart-republish
-playbook_cli faqs publish "$FAQ_ID" --version "$UPDATED_VERSION"
-playbook_cli faqs search --input search.json | jq .matches
+iris agent-playbook faqs publish "$FAQ_ID" --version "$UPDATED_VERSION"
+iris --json agent-playbook faqs search --input search.json | jq .matches
 # STEP_END
