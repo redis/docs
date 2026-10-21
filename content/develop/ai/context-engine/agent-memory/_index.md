@@ -122,12 +122,12 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
     <p>Explore the Redis Agent Memory workflow with the Python SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}">Open the Python quickstart</a></p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/sdk-quickstart" >}}">Open the Python quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
     <p>Explore the Redis Agent Memory workflow with the TypeScript SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}">Open the TypeScript quickstart</a></p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/sdk-quickstart" >}}">Open the TypeScript quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
