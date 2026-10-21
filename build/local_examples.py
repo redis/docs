@@ -24,6 +24,7 @@ from components.command_enricher import enrich_commands
 EXTENSION_TO_LANGUAGE = {
     '.py': 'python',
     '.js': 'node.js',
+    '.ts': 'typescript',
     '.go': 'go',
     '.c': 'c',
     '.h': 'c',
@@ -101,13 +102,20 @@ def get_client_name_from_language_and_path(language: str, path: str,
 
     For Python (.py) files, override based on path substrings:
     - If 'redisvl' in path -> RedisVL
+    - If 'agent-memory' in path -> Agent Memory (Python)
     - Otherwise -> Python
+
+    For TypeScript (.ts) files, override based on path substrings:
+    - If 'agent-memory' in path -> Agent Memory (TypeScript)
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
     if language == 'node.js':
         if 'ioredis' in path:
             return 'ioredis'
+    if language == 'typescript':
+        if 'agent-memory' in path:
+            return 'Agent Memory (TypeScript)'
     if language == 'java':
         if 'lettuce-sync' in path:
             return 'Lettuce-Sync'
@@ -123,6 +131,8 @@ def get_client_name_from_language_and_path(language: str, path: str,
     if language == 'python':
         if 'redisvl' in path:
             return 'RedisVL'
+        if 'agent-memory' in path:
+            return 'Agent Memory (Python)'
     if language == 'c#':
         variant = 'Async' if 'async' in path else 'Sync'
         client = 'NRedisStack' if is_nredisstack_example(content) else 'SE.Redis'

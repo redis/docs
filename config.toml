@@ -87,7 +87,7 @@ gitHubRepo = "https://github.com/redis/docs"
 aiSchemaVersion = 2
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async", "Agent Memory (Python)", "Agent Memory (TypeScript)"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate/docs"
 
@@ -120,6 +120,8 @@ rdi_current_version = "2.0.0"
 "Ruby"={quickstartSlug="redis-rb", langId="ruby", clientId="redis-rb", clientName="redis-rb", mappingClientId="redis_rb"}
 "Rust-Sync"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs", mappingClientId="redis_rs_sync"}
 "Rust-Async"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs", mappingClientId="redis_rs_async"}
+"Agent Memory (Python)"={quickstartSlug="", langId="python", clientId="agent-memory-python", clientName="Agent Memory (Python)", mappingClientId=""}
+"Agent Memory (TypeScript)"={quickstartSlug="", langId="typescript", clientId="agent-memory-typescript", clientName="Agent Memory (TypeScript)", mappingClientId=""}
 
 # Mount directories for duplicate content
 [module]

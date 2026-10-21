@@ -24,6 +24,7 @@ TEST_MARKER = {
 PREFIXES = {
     'python': '#',
     'node.js': '//',
+    'typescript': '//',
     'ioredis': '//',
     'java': '//',
     'java-sync': '//',
