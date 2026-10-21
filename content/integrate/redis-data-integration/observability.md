@@ -76,10 +76,10 @@ For VM installations, the metrics are available by default on the following endp
 
 Above, `<RDI_HTTPS_PORT>` is the HTTPS port you specified when installing RDI, or 443 if you kept the default.
 
-For a pipeline other than `default`, the collector and Flink processor paths start with the
-pipeline name, for example `/orders/collector-mysql/metrics` and `/orders/processor/metrics`
-for a pipeline named `orders`. The classic processor endpoint is not prefixed, and it reports
-the metrics of the `default` pipeline only.
+For a pipeline other than `default`, the paths start with the pipeline name. For a pipeline named
+`orders`, they are `/orders/collector-mysql/metrics` for a source named `mysql`,
+`/orders/processor/metrics` for the Flink processor, and `/orders/metrics-exporter/metrics` for
+the classic processor.
 
 RDI does not include a Prometheus server in a VM installation, so add a scrape job to your own
 Prometheus server for each endpoint. The metrics do not identify the pipeline by themselves, so
@@ -180,8 +180,8 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
 > [!NOTE]
 > The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
 
-For Debezium collectors, Flink collectors, and Flink processors, RDI adds a `pipeline`
-label to the ServiceMonitor metrics. Use this label to select metrics for a specific
+For Debezium collectors, Flink collectors, Flink processors, and the classic processor
+metrics exporter, RDI adds a `pipeline` label to the ServiceMonitor metrics. Use this label to select metrics for a specific
 pipeline, such as `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
 
 ## Collector metrics

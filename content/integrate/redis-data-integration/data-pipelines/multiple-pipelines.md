@@ -92,7 +92,8 @@ secret provider named `my-vault`, next to the names for the `default` pipeline.
 | Dead-letter queue streams | `dlq:data:{rdi}:mysql.<qualified_table_name>` | `dlq:data:{<hash_tag>}:mysql.<qualified_table_name>` |
 | Collector metrics endpoint path on a VM installation | `/collector-mysql/metrics` | `/orders/collector-mysql/metrics` |
 | Flink processor metrics endpoint path on a VM installation | `/processor/metrics` | `/orders/processor/metrics` |
-| `pipeline` label of the collector and Flink processor metrics on a Helm installation | `default` | `orders` |
+| Classic processor metrics endpoint path on a VM installation | `/metrics` | `/orders/metrics-exporter/metrics` |
+| `pipeline` label of the collector and stream processor metrics on a Helm installation | `default` | `orders` |
 
 The secret references in `config.yaml` do not contain the pipeline name. A source named
 `mysql` references `${MYSQL_DB_USERNAME}` and `${MYSQL_DB_PASSWORD}` in every pipeline, and
@@ -279,27 +280,22 @@ change the status of the others.
 The metrics of each pipeline are separate:
 
 - On a VM installation, the metrics endpoint paths of a pipeline other than `default` start
-  with the pipeline name, for example `/orders/collector-mysql/metrics` and
-  `/orders/processor/metrics`. The metrics themselves carry no `pipeline` label. For example,
+  with the pipeline name, for example `/orders/collector-mysql/metrics`,
+  `/orders/processor/metrics` for the Flink processor, and `/orders/metrics-exporter/metrics`
+  for the classic processor. The metrics themselves carry no `pipeline` label. For example,
   the `name` label of the Debezium collector metrics holds the source name, which can be the
   same in several pipelines. When you create a pipeline, add a scrape job for each of its
   endpoints to your Prometheus server, with a `pipeline` label, as shown in
   [VM installation](/content/integrate/redis-data-integration/observability.md#vm-installation).
 - On a Helm installation, the ServiceMonitors of the Debezium collector, the Flink collector,
-  and the Flink processor add a `pipeline` label with the pipeline name, for example
-  `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
+  the Flink processor, and the classic processor metrics exporter add a `pipeline` label with
+  the pipeline name, for example `pipeline="orders"`, or `pipeline="default"` for the
+  `default` pipeline.
 - The `rdi_operator_pipeline_phase` operator metric reports the phase of each pipeline, with
   the pipeline name in its `name` label.
 
 See [Accessing the metrics](/content/integrate/redis-data-integration/observability.md#accessing-the-metrics)
 for the full list of endpoints.
-
-> [!NOTE]
-> The metrics exporter of the classic processor reports the metrics of the `default` pipeline
-> only. Use the [Flink processor](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md)
-> for any other pipeline whose stream processor metrics you need.
-
-<!-- Remove this note once RDSC-5778 makes the classic metrics exporter pipeline-aware. -->
 
 The [support package](/content/integrate/redis-data-integration/observability.md#dump-support-package)
 contains the diagnostics of every pipeline, in a separate `pipelines/<pipeline>` directory for
@@ -310,19 +306,20 @@ each one.
 On a Helm installation, the ingresses of the data plane components are disabled by default. The
 ingress settings under `operator.dataPlane` in your Helm values file apply to every pipeline,
 since there are no per-pipeline ingress settings. For a pipeline other than `default`, RDI adds
-`/<pipeline>` to the beginning of the path prefix of the Debezium collector, Flink collector,
-and Flink processor ingresses, so the ingresses of different pipelines do not claim the same
-paths. For example, with the default path prefix `/processor`, the Flink processor ingress of
-the `orders` pipeline serves the Flink web UI at `/orders/processor`, and, if
-`operator.dataPlane.flinkProcessor.metricsAggregator.enabled` is `true`, its metrics at
-`/orders/processor/metrics`.
+`/<pipeline>` to the beginning of the path prefix of each data plane ingress, so the ingresses
+of different pipelines do not claim the same paths. For example, with the default path prefix
+`/processor`, the Flink processor ingress of the `orders` pipeline serves the Flink web UI at
+`/orders/processor`, and, if `operator.dataPlane.flinkProcessor.metricsAggregator.enabled` is
+`true`, its metrics at `/orders/processor/metrics`.
 
-The ingress of the classic processor metrics exporter, under `operator.dataPlane.metricsExporter`,
-is not pipeline-aware, so use the Flink processor if you enable ingresses for several pipelines.
+An empty or `/` path prefix stays unchanged, with one exception. The ingress of the classic
+processor metrics exporter, under `operator.dataPlane.metricsExporter`, has an empty path prefix
+by default. If you set no hosts for it, RDI replaces the empty prefix of a pipeline other than
+`default` with `/<pipeline>/metrics-exporter`, so the classic processor metrics of the `orders`
+pipeline are at `/orders/metrics-exporter/metrics`.
 
-An empty or `/` path prefix stays unchanged. If you use such a prefix with more than one
-pipeline, include the `$PIPELINE` variable in the ingress hosts to give each pipeline its own
-host:
+If you use an empty or `/` path prefix together with hosts and more than one pipeline, include
+the `$PIPELINE` variable in the ingress hosts to give each pipeline its own host:
 
 ```yaml
 operator:
@@ -339,6 +336,7 @@ RDI replaces `$PIPELINE` with the pipeline name, so the host of the `orders` pip
 `orders-processor.example.com`. For the `default` pipeline, RDI removes `$PIPELINE` together
 with an adjacent dash, or else an adjacent dot, so its host is `processor.example.com`. The
 `$PIPELINE` variable is available in the ingress hosts of the Debezium collector, the Flink
-collector, and the Flink processor, but not in their path prefixes.
+collector, the Flink processor, and the classic processor metrics exporter, but not in their
+path prefixes.
 
 On a VM installation, RDI configures these ingresses for you, so you do not need to change them.
