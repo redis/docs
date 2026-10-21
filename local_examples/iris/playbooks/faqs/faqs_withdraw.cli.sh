@@ -1,13 +1,11 @@
 # EXAMPLE: iris_playbook_faqs_withdraw
 # HIDE_START
 set -euo pipefail
-playbook_cli() {
-  IRIS_AGENT_PLAYBOOK_CONTENT_API_KEY="$PLAYBOOK_API_KEY" \
-    iris --json --no-input agent-playbook \
-    --url "$PLAYBOOK_URL" --playbook-id "$PLAYBOOK_ID" "$@"
-}
+export IRIS_AGENT_PLAYBOOK_URL="$PLAYBOOK_URL"
+export IRIS_AGENT_PLAYBOOK_ID="$PLAYBOOK_ID"
+export IRIS_AGENT_PLAYBOOK_CONTENT_API_KEY="$PLAYBOOK_API_KEY"
 # HIDE_END
 
 # STEP_START playbook-faq-withdraw
-playbook_cli faqs withdraw "$PLAYBOOK_FAQ_ID"
+iris agent-playbook faqs withdraw "$PLAYBOOK_FAQ_ID"
 # STEP_END

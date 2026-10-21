@@ -56,7 +56,7 @@ export PLAYBOOK_API_KEY='<playbook-api-key>'
 
 Keep keys out of skill files, source control, and model prompts.
 
-The Python examples use the unified `redis-iris` package. `AgentPlaybook` provides discovery and skill-loading helpers; its public `.client` property exposes the generated SDK for authoring, search, and review. Connection settings use the same environment variables as the other tabs. The CLI helper passes those values to `iris` and selects the same tutorial key for content operations.
+The Python examples use the unified `redis-iris` package. `AgentPlaybook` provides discovery and skill-loading helpers; its public `.client` property exposes the generated SDK for authoring, search, and review. The CLI tab exports the standard `IRIS_AGENT_PLAYBOOK_*` connection variables and runs `iris agent-playbook` commands directly. Commands use `--json` when saving a response or processing it with jq.
 
 ## Connect to the playbook
 
