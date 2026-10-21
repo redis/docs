@@ -109,3 +109,5 @@ After your service is ready, follow the [quickstart]({{< relref "/develop/ai/con
 * [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}): Organize memories and manage namespace hierarchies.
 
 * [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.
+
+For shared placement rules, see [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespace-routing.md). To build a conversation list, see [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md).
