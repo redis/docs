@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-delete-context/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-delete-context/
 ---
 
 Deletes a context from the `~/.redis-di` context file. Because this is destructive, the command asks
