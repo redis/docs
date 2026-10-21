@@ -33,6 +33,7 @@ You'll need to configure the following fields to connect Prometheus to Redis Ent
 | Section | Field | Value |
 |---|---|---|
 | `spec.endpoints` | `port` | Name of exposed port (`prometheus`) |
+| `spec.endpoints` | `path` | Metrics endpoint path (`/v2` for Redis Software 7.8.2 or later) |
 | `spec.namespaceSelector` | `matchNames` | Namespace for your REC |
 | `spec.selector` | `matchLabels` | REC service label (`app: redis.io/service=prom-metrics`) |
 
@@ -51,6 +52,7 @@ spec:
   endpoints:
   - interval: 15s
     port: prometheus
+    path: /v2
     scheme: https
     tlsConfig:
       insecureSkipVerify: true

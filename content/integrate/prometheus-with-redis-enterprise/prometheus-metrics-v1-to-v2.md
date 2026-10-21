@@ -18,7 +18,7 @@ You can [integrate Redis Software with Prometheus and Grafana](/content/integrat
 
 As of Redis Software version 7.8.2, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available. V1 metrics are deprecated but still available.
 
-To transition from v1 metrics to v2 metrics, you need to change the `metrics_path` in your Prometheus configuration file from `/` to `/v2` to use the new scraping endpoint.
+To transition from v1 metrics to v2 metrics, you need to change the `metrics_path` in your Prometheus configuration file from `/` (or `/metrics`) to `/v2` to use the new scraping endpoint. The `/v2` endpoint also includes complete `# TYPE` metadata headers for all exported series.
 
 Here's an example of the updated scraping configuration in `prometheus.yml`:
 
