@@ -17,7 +17,8 @@ aliases:
 
 Redis Agent Memory is distributed as container images on Docker Hub plus a Helm
 chart in the Redis AI Helm repository. The chart deploys the Redis Agent Memory Data
-Plane, Redis Agent Memory workers, the Redis Agent Memory Control Plane, and the Identity Service.
+Plane, Redis Agent Memory workers, and the Redis Agent Memory Control Plane. Install Identity
+Service separately with the `iris-identity-service` chart `0.10.0` before connecting Memory chart `0.8.0`.
 
 You provide the Redis databases, provider credentials, Kubernetes exposure, and
 license material used by the deployment.
@@ -31,7 +32,7 @@ license material used by the deployment.
 | Item | Where it comes from |
 | ---- | ------------------- |
 | Container images | Docker Hub: `redislabs/agent-memory`, `redislabs/agent-memory-control-plane`, and `redislabs/iris-identity-service` |
-| Helm chart | `redis-agent-memory` chart in the Redis AI Helm repository, or a chart package provided by Redis |
+| Helm charts | `redis-agent-memory` `0.8.0` and `iris-identity-service` `0.10.0` in the Redis AI Helm repository |
 | Redis databases | You provide Store Redis, Job Redis, and Metadata Redis |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 | Provider credentials | You provide embedding provider credentials and, when worker features are enabled, promotion or summarization LLM credentials |
@@ -61,7 +62,7 @@ databases.
 | --- | --- | --- | --- |
 | Store Redis | Always | `databases."1".urls` | Session memory JSON, long-term memory hashes, RediSearch indexes, vectors, and TTL-managed data. |
 | Metadata Redis | Always | `metadata.urls`, and optionally `metadata.namespace` (default `iris:memory`) | Store records. |
-| Job Redis | Always | `background_jobs.redis.urls` | Background work, retry state, delayed jobs, and idempotency markers. |
+| Job Redis | Always | `background_jobs.redis.urls` and, when execution idempotency is enabled, `background_jobs.idempotency.urls` | Background work, retry state, delayed jobs, and execution markers. The two settings can use the same Redis. |
 {{< /table-scrollable >}}
 
 The Identity Service reads its Metadata Redis from `metadata.urls` in its own metadata Secret and
@@ -95,13 +96,17 @@ Plane store records, and losing the Identity Service Metadata Redis removes agen
   chart package or locally downloaded chart.
 - **Runtime access:** Redis Agent Memory pods must reach the Redis databases and any
   embedding or LLM provider endpoints used by the deployment.
+- **Identity Service:** the Data Plane must reach its runtime endpoint. Identity Service must
+  reach the Memory Control Plane's grant validator and its own Metadata Redis. Provide TLS
+  endpoints and trust for both service hops; see [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md).
 - **Data Plane exposure:** use NetworkPolicy, ingress, gateway, service mesh,
   private load balancer, or equivalent controls to restrict API access.
 
 ## Credentials and Secrets
 
-The chart renders the configuration from Helm values (`config.render: true`). Credentials stay out
-of the values: you put them in an overlay Secret. You create three Secrets:
+When `config.render: true` is set, as in the walkthrough, the chart renders configuration from
+Helm values. This option defaults to `false`. Credentials stay in an overlay Secret. Create the following Secrets for the
+[two-release installation](/content/operate/iris/agent-memory/self-managed/deploy.md#2-create-secrets):
 
 | Secret | Default key | Holds |
 | --- | --- | --- |
@@ -109,23 +114,24 @@ of the values: you put them in an overlay Secret. You create three Secrets:
 | Overlay Secret | `overlay.yaml` | Redis URLs and provider credentials. |
 | Identity Service metadata Secret | `metadata.yaml` | The Identity Service's Metadata Redis URL. |
 
-The chart generates four more Secrets for the tokens and service credentials listed in
-[Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
+Also create `memory-dp-credential` and `memory-internal-token`, shared by both releases,
+and `ids-control-token`, read only by Identity Service. The walkthrough supplies a `ram-ca`
+certificate bundle for service trust. Memory generates its Control Plane admin token unless
+you provide one. See [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
 
 To supply a complete configuration file in your own Secret instead, see
 [Bring-your-own (BYO) configuration](/content/operate/iris/agent-memory/self-managed/configuration.md#bring-your-own-byo-configuration).
 
 ## Release artifacts and image tags
 
-Chart `0.7.0` defaults every image tag to `0.7.0`. Set an image tag only to pin a mirrored image.
+The published Memory chart `0.8.0` defaults `image.tag` and `controlplane.image.tag` to `0.8.0`.
+Identity Service chart `0.10.0` defaults its image to its own application version, `0.10.0`.
+Set tags explicitly when pinning images or using a mirror. The releases have independent versions.
 
-Use the chart version supplied by Redis for the release. The published chart is
-`redis-ai/redis-agent-memory` from `https://helm.redis.io/ai`.
-
-Standard customer installs use the public Docker Hub images published by the
-Redis Agent Memory self-managed release: `docker.io/redislabs/agent-memory:0.7.0`,
-`docker.io/redislabs/agent-memory-control-plane:0.7.0`, and
-`docker.io/redislabs/iris-identity-service:0.7.0`.
+Both charts are published at `https://helm.redis.io/ai` as `redis-ai/redis-agent-memory`
+and `redis-ai/iris-identity-service`. Their standard images are
+`redislabs/agent-memory:0.8.0`, `redislabs/agent-memory-control-plane:0.8.0`, and
+`redislabs/iris-identity-service:0.10.0`.
 
 ## Air-gapped and private registry installs
 
@@ -133,28 +139,34 @@ Mirror these images into your internal registry:
 
 | Image | Needed |
 | --- | --- |
-| `redislabs/agent-memory:0.7.0` | Always (Data Plane and workers) |
-| `redislabs/agent-memory-control-plane:0.7.0` | Always |
-| `redislabs/iris-identity-service:0.7.0` | Always |
+| `redislabs/agent-memory:<ram-version>` | Always (Data Plane and workers) |
+| `redislabs/agent-memory-control-plane:<ram-version>` | Always |
+| `redislabs/iris-identity-service:<ids-version>` | On the separate Identity Service release, required for default agent-key authentication |
 | `replicated/troubleshoot:0.131.0` | Support-bundle health checks, on by default (`supportPackage.*`) |
 | `hibiken/asynqmon:0.7.2` | Optional, with `controlplane.queueMonitor` |
 | `python:3.13-alpine` | Optional, with `tests.smoke` |
+| `curlimages/curl:8.17.0` | Optional, for `helm test` on the Identity Service release (`tests.image` in `values-ids.yaml`) |
+
+For this release, `<ram-version>` is `0.8.0` and `<ids-version>` is `0.10.0`.
+Inspect each package with `helm show chart redis-ai/redis-agent-memory --version 0.8.0`
+and `helm show chart redis-ai/iris-identity-service --version 0.10.0`. Memory does not pin
+or install the Identity Service chart.
 
 ```bash
-docker pull redislabs/agent-memory:0.7.0
-docker tag redislabs/agent-memory:0.7.0 \
-  registry.example.com/redislabs/agent-memory:0.7.0
-docker push registry.example.com/redislabs/agent-memory:0.7.0
+docker pull redislabs/agent-memory:<ram-version>
+docker tag redislabs/agent-memory:<ram-version> \
+  registry.example.com/redislabs/agent-memory:<ram-version>
+docker push registry.example.com/redislabs/agent-memory:<ram-version>
 
-docker pull redislabs/agent-memory-control-plane:0.7.0
-docker tag redislabs/agent-memory-control-plane:0.7.0 \
-  registry.example.com/redislabs/agent-memory-control-plane:0.7.0
-docker push registry.example.com/redislabs/agent-memory-control-plane:0.7.0
+docker pull redislabs/agent-memory-control-plane:<ram-version>
+docker tag redislabs/agent-memory-control-plane:<ram-version> \
+  registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
+docker push registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
 
-docker pull redislabs/iris-identity-service:0.7.0
-docker tag redislabs/iris-identity-service:0.7.0 \
-  registry.example.com/redislabs/iris-identity-service:0.7.0
-docker push registry.example.com/redislabs/iris-identity-service:0.7.0
+docker pull redislabs/iris-identity-service:<ids-version>
+docker tag redislabs/iris-identity-service:<ids-version> \
+  registry.example.com/redislabs/iris-identity-service:<ids-version>
+docker push registry.example.com/redislabs/iris-identity-service:<ids-version>
 ```
 
 If the registry requires authentication, create an image pull Secret:
@@ -176,16 +188,27 @@ controlplane:
   image:
     repository: registry.example.com/redislabs/agent-memory-control-plane
 
-identityService:
-  image:
-    repository: registry.example.com/redislabs/iris-identity-service
-
-imagePullSecrets:
-  - name: ram-registry
+global:
+  imagePullSecrets:
+    - name: ram-registry
 ```
 
-Omit `imagePullSecrets` if the internal registry does not require
-authentication.
+Configure the separate Identity Service release in `values-ids.yaml`:
+
+```yaml
+image:
+  repository: registry.example.com/redislabs/iris-identity-service
+  tag: "0.10.0"
+tests:
+  image: registry.example.com/curlimages/curl:8.17.0
+global:
+  imagePullSecrets:
+    - name: ram-registry
+```
+
+Each release reads its own `imagePullSecrets`, falling back to `global.imagePullSecrets`.
+Values passed to Memory do not configure Identity Service. Omit pull Secrets if the registry
+does not require authentication.
 
 For air-gapped deployments, also set:
 
@@ -194,16 +217,13 @@ airgap:
   enabled: true
 ```
 
-With `airgap.enabled: true`, the chart fails if a repository still points at Docker Hub. For the
-Identity Service, the error is:
-
-```text
-airgap.enabled=true requires identityService.image.repository to point to a mirrored registry reachable from the cluster
-```
+Memory's `airgap.enabled: true` checks Memory's own image repositories. It does not validate
+the separate Identity Service release. Mirror that release's image and chart dependencies
+separately, and confirm that every configured repository is reachable from the cluster.
 
 ## System requirements
 
-Default chart values:
+Default values for Memory and the separate Identity Service chart:
 
 | Component | Default | Purpose |
 | --------- | ------- | ------- |
@@ -259,8 +279,10 @@ namespace.
 | Secret rollouts | `license.existingSecretChecksum`, `config.existingSecretChecksum`, `controlplane.config.existingSecretChecksum` | Rolling pods after externally managed Secret changes. |
 | Control Plane | `controlplane.image.*`, `controlplane.configData`, `controlplane.adminToken.*` | Mirroring the Control Plane image, setting its configuration, or bringing your own admin token. |
 | Control Plane internal token | `controlplane.internalToken.*` | Bringing your own token for Identity Service checks against the Control Plane. |
-| Identity Service | `identityService.*` | Mirroring the Identity Service image, naming its metadata Secret, or bringing your own control token. |
-| Security profile | `security.profile` | Selecting the [FIPS-oriented posture](/content/operate/iris/agent-memory/self-managed/operations.md#fips-oriented-posture). |
+| Identity Service connection | `dataplane.identityServiceBaseURL`, `identityService.credential.*`, `identityService.allowInsecureTransport` | Connecting to the separately installed runtime endpoint. The credential Secret is registered on that release. |
+| Identity Service configuration | Separate `values-ids.yaml`: `metadata`, `control`, `runtime`, `productValidation`, `subjectGrants` | Configuring the Identity Service release, not Memory. |
+| Shared fallbacks | `global.security.profile`, `global.imagePullSecrets`, `global.tls.caCertSecret` | Providing fallback values within each release. Pass shared values to both releases; local values take precedence. |
+| Security profile | `security.profile` or `global.security.profile` | Selecting the [FIPS-oriented posture](/content/operate/iris/agent-memory/self-managed/operations.md#fips-oriented-posture); configure it separately on each release. |
 | Support bundles | `supportPackage.*` | Configuring support-bundle collection and its health checks. |
 | Preflight checks | `preflight.*` | Rendering the preflight checks spec as a ConfigMap. |
 | Helm tests | `tests.*` | Running [chart tests](/content/operate/iris/agent-memory/self-managed/operations.md#chart-tests) with `helm test`. |
