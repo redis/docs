@@ -171,7 +171,8 @@ No. Set the desired processor replica count with
 ### How do I increase processing capacity for a pipeline?
 
 First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck).
-Then tune the collector, RDI database, or processor. Check shared
+Then tune the collector, [RDI database](/content/operate/rc/rdi/scale-pipeline.md#increase-rdi-database-throughput),
+or processor. Check shared
 workspace network capacity before adding sources or processor replicas.
 
 ### Can I see that the processor has scaled in the console?
