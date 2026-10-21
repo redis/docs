@@ -686,3 +686,138 @@ html.ai-pane-resizing .aicp-resize::after {
     opacity: .6;
   }
 }
+
+/* ------------------------------------------------------------ Iris pages --
+   Iris pages are dark (body.iris-dark, see partials/is-iris-page.html), and
+   so is the pane on them, in the --iris-* colors that iris-dark.css sets on
+   body. That file only restyles <main>, and the pane is outside it. */
+body.iris-dark .aicp {
+  border-color: var(--iris-border);
+  background: var(--iris-bg);
+  color: var(--iris-text);
+  color-scheme: dark;
+}
+/* The restore placeholder is on html, outside body and its colors, so these
+   are --iris-bg and --iris-border. */
+html.ai-pane-restoring:has(> body.iris-dark)::after {
+  border-color: #3d5866;
+  background: #091A23;
+}
+
+body.iris-dark .aicp-head,
+body.iris-dark .aicp-rate,
+body.iris-dark .aicp-md hr,
+body.iris-dark .aicp-md blockquote,
+body.iris-dark .aicp-table th,
+body.iris-dark .aicp-table td,
+body.iris-dark .aicp-form {
+  border-color: var(--iris-border);
+}
+body.iris-dark .aicp-btn,
+body.iris-dark .aicp-vote,
+body.iris-dark .aicp-notice,
+body.iris-dark .aicp-empty p,
+body.iris-dark .aicp-status,
+body.iris-dark .aicp-sources-label,
+body.iris-dark .aicp-rate,
+body.iris-dark .aicp-rate-ask i,
+body.iris-dark .aicp-md blockquote,
+body.iris-dark .aicp-foot {
+  color: var(--iris-muted);
+}
+body.iris-dark .aicp-title,
+body.iris-dark .aicp-md :is(h3, h4, h5, strong),
+body.iris-dark .aicp-vote[aria-pressed="true"] {
+  color: var(--iris-heading);
+}
+body.iris-dark .aicp-btn:hover,
+body.iris-dark .aicp-vote:hover:not(:disabled) {
+  background: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+body.iris-dark .aicp-status.is-error,
+body.iris-dark .aicp-rate-note.is-error {
+  color: #ff6b6b;   /* the error red iris-dark.css uses in the scripted demos */
+}
+
+body.iris-dark .aicp-notice,
+body.iris-dark .aicp-md :not(pre) > code,
+body.iris-dark .aicp-table th {
+  background: var(--iris-surface);
+}
+body.iris-dark .aicp-user {
+  background: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+
+/* Chips, source links, and fields */
+body.iris-dark .aicp-chip,
+body.iris-dark .aicp-source,
+body.iris-dark .aicp-rate-cancel,
+body.iris-dark .aicp-rate-ask textarea,
+body.iris-dark .aicp-field {
+  border-color: var(--iris-border);
+  background: var(--iris-surface);
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-chip:hover,
+body.iris-dark .aicp-rate-cancel:hover,
+body.iris-dark .aicp-rate-ask textarea:focus,
+body.iris-dark .aicp-field:focus-within {
+  border-color: var(--iris-muted);
+}
+body.iris-dark .aicp-rate-ask {
+  color: var(--iris-text);
+}
+
+/* Send buttons: light on the dark pane, red on hover as on light pages. */
+body.iris-dark .aicp-send,
+body.iris-dark .aicp-rate-send {
+  border-color: var(--iris-heading);
+  background: var(--iris-heading);
+  color: var(--iris-bg);
+}
+body.iris-dark .aicp-send:hover:not(:disabled),
+body.iris-dark .aicp-rate-send:hover:not(:disabled) {
+  border-color: var(--iris-accent);
+  background: var(--iris-accent);
+  color: #fff;
+}
+body.iris-dark .aicp-send:disabled,
+body.iris-dark .aicp-rate-send:disabled {
+  border-color: var(--iris-surface-hover);
+  background: var(--iris-surface-hover);
+  color: var(--iris-muted);
+}
+
+/* Code blocks, framed like the ones on Iris pages */
+body.iris-dark .aicp-code {
+  border: 1px solid var(--iris-border);
+  background: var(--iris-surface);
+}
+body.iris-dark .aicp-code-bar {
+  background: var(--iris-surface-hover);
+  color: var(--iris-muted);
+}
+body.iris-dark .aicp-code pre {
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-copy {
+  border-color: var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-copy:hover {
+  border-color: var(--iris-muted);
+  color: var(--iris-heading);
+}
+
+/* The collapsed pane's tab */
+body.iris-dark .aicp-tab {
+  border-color: var(--iris-border);
+  background: var(--iris-surface);
+  color: var(--iris-text);
+  box-shadow: -4px 0 14px rgba(0, 0, 0, .35);
+}
+body.iris-dark .aicp-tab:hover {
+  background: var(--iris-surface-hover);
+}

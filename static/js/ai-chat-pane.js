@@ -483,7 +483,8 @@
       if (!form.isConnected) return;
       widget = ts.render(check, {
         sitekey: SITEKEY,
-        theme: 'light',
+        /* Iris pages are dark, and so is the pane on them (ai-chat-pane.css). */
+        theme: document.body.classList.contains('iris-dark') ? 'dark' : 'light',
         callback: function (t) { token = t; send.disabled = false; },
         'expired-callback': function () { token = ''; send.disabled = true; },
         'error-callback': function () {
