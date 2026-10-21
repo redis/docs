@@ -32,6 +32,8 @@ Playbook API keys can grant these actions:
 
 `write` does not include `publish` or `propose`. You can assign authoring and publication to different people or applications.
 
+For self-managed key administration, see [Authentication and access]({{< relref "/operate/iris/agent-playbook/self-managed/authentication" >}}).
+
 ## Entries
 
 An entry is a reusable answer or procedure. Redis Agent Playbooks supports two types:

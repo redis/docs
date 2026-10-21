@@ -12,7 +12,7 @@ Repeated setup prose was shortened. Authoring now contrasts broad questions/desc
 
 ## Operator documentation handoff
 
-**Planning only: do not create operator pages in this change.** Follow the existing Iris layout, especially `content/operate/iris/agent-memory/` and its `self-managed/` section. Agent Memory's developer quickstarts link service creation and connection details to operator pages; Context Retriever links its Cloud setup and self-managed bootstrap separately. Keep Playbooks developer guides focused on content authoring, retrieval, and runtime integration.
+**The developer PR does not include operator pages.** The separate stacked branch `MOD-19679-playbook-operator-docs` now starts the self-managed operator scaffold; see its [operator review handoff](agent-playbook-operator-docs-review.md) for verified routes, release sources, and remaining work. It follows the existing Iris layout, especially `content/operate/iris/agent-memory/` and its `self-managed/` section. Keep developer guides focused on content authoring, retrieval, and runtime integration.
 
 The intended section is `content/operate/iris/agent-playbook/`, matching the singular developer URL. These are proposed destinations, not published routes or claims that every deployment option is available:
 
@@ -25,7 +25,7 @@ The intended section is `content/operate/iris/agent-playbook/`, matching the sin
 | `self-managed/` | Index, prerequisites, deployment planning, data-plane configuration, deployment procedures, authentication, operations, and control-plane reference. Link its setup route from Quickstart and its configuration guidance from Retrieval. Keep administrative credentials separate from runtime keys. |
 | Source connection and extraction settings | Link from Proposals only after the separate extraction work is implemented and reviewed. Configuration is operator work; reviewing candidates remains developer work. |
 
-Unresolved TODO comments mark the overview, quickstart, retrieval settings, and extraction handoffs. Until the pages exist, the public docs state the administrator prerequisite and the absence of setup guidance. There are no relrefs to proposed paths, placeholder operator pages, or invented console instructions. When operator pages land, replace the temporary handoff wording, resolve the TODOs, and check page and anchor links together.
+The developer PR leaves operator handoffs unresolved. The operator stack adds working links for the overview, quickstart, key administration, and retrieval settings. Extraction setup and managed onboarding remain deferred. Do not link the remaining proposed paths or invent console instructions; resolve their handoffs when verified guidance exists.
 
 ## Completeness assessment
 

@@ -142,6 +142,6 @@ Use a key with `write` permission for bulk deletion. Choose the entry type befor
 | Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `deleteFaqs({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/faqs` with an `entryIds` array |
 | Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `deleteSkills({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/skills` with an `entryIds` array |
 
-Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
+Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can [clear entries, proposals, or both through the control plane]({{< relref "/operate/iris/agent-playbook/self-managed/operations#clear-playbook-content" >}}).
 
 For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills#withdraw-or-delete-a-skill" >}}).
