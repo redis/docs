@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "> **NOTE:** RDI API v1 is deprecated as of RDI 1.19.0. Use RDI API v2 for new integrations and migrate existing clients. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API migration guide](https://redis.io/docs/latest/integrate/redis-data-integration/reference/api-migration/).\n\nAPI for Redis Data Integration services",
-    "version": "2.0.0"
+    "version": "2.2.0"
   },
   "paths": {
     "/": {
@@ -26,7 +26,9 @@
     },
     "/api/v1/login": {
       "post": {
-        "tags": ["login"],
+        "tags": [
+          "login"
+        ],
         "summary": "Login",
         "description": "Login route.\n\nArgs:\n    credentials (CredentialsInfo): User credentials.\n\nReturns:\n    TokenInfo: Token information.",
         "operationId": "login_api_v1_login_post",
@@ -67,7 +69,9 @@
     },
     "/api/v1/pipelines/start": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Start Pipeline",
         "description": "Starts a pipeline.",
         "operationId": "start_pipeline_api_v1_pipelines_start_post",
@@ -132,7 +136,9 @@
     },
     "/api/v1/pipelines/stop": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Stop Pipeline",
         "description": "Stops a pipeline.",
         "operationId": "stop_pipeline_api_v1_pipelines_stop_post",
@@ -197,7 +203,9 @@
     },
     "/api/v1/pipelines/reset": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Reset Pipeline",
         "description": "Resets a pipeline.",
         "operationId": "reset_pipeline_api_v1_pipelines_reset_post",
@@ -262,7 +270,9 @@
     },
     "/api/v1/actions/{action_id}": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Action",
         "description": "Gets an action status by ID.",
         "operationId": "get_action_api_v1_actions__action_id__get",
@@ -328,7 +338,9 @@
     },
     "/api/v1/me": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Protected Route",
         "description": "Protected route.\n\nArgs:\n    token_data (dict): Token data.\n\nReturns:\n    Dict[str, Any]: Token data.",
         "operationId": "protected_route_api_v1_me_get",
@@ -375,7 +387,10 @@
     },
     "/api/v1/pipelines/sources": {
       "put": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Update Sources",
         "description": "Updates the sources in RDI settings.",
         "operationId": "update_sources_api_v1_pipelines_sources_put",
@@ -480,7 +495,10 @@
     },
     "/api/v1/pipelines/sources/{name}": {
       "put": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Upsert Source By Name",
         "description": "Upserts a source in RDI settings by its name.",
         "operationId": "upsert_source_by_name_api_v1_pipelines_sources__name__put",
@@ -592,7 +610,10 @@
         }
       },
       "patch": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Partial Update Source By Name",
         "description": "Partially updates a source in RDI settings by name.",
         "operationId": "partial_update_source_by_name_api_v1_pipelines_sources__name__patch",
@@ -624,7 +645,10 @@
                     "active": true,
                     "tables": {
                       "my_table": {
-                        "columns": ["id", "name"]
+                        "columns": [
+                          "id",
+                          "name"
+                        ]
                       }
                     }
                   }
@@ -698,7 +722,10 @@
         }
       },
       "delete": {
-        "tags": ["secure", "sources"],
+        "tags": [
+          "secure",
+          "sources"
+        ],
         "summary": "Delete Source By Name",
         "description": "Deletes a source from RDI settings by its name.",
         "operationId": "delete_source_by_name_api_v1_pipelines_sources__name__delete",
@@ -784,7 +811,10 @@
     },
     "/api/v1/pipelines/targets": {
       "put": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Update Targets",
         "description": "Updates the targets in RDI settings.",
         "operationId": "update_targets_api_v1_pipelines_targets_put",
@@ -882,7 +912,10 @@
     },
     "/api/v1/pipelines/targets/{name}": {
       "put": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Upsert Target By Name",
         "description": "Upserts a target in RDI settings by its name.",
         "operationId": "upsert_target_by_name_api_v1_pipelines_targets__name__put",
@@ -987,7 +1020,10 @@
         }
       },
       "patch": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Partial Update Target By Name",
         "description": "Partially updates a target in RDI settings by name.",
         "operationId": "partial_update_target_by_name_api_v1_pipelines_targets__name__patch",
@@ -1090,7 +1126,10 @@
         }
       },
       "delete": {
-        "tags": ["secure", "targets"],
+        "tags": [
+          "secure",
+          "targets"
+        ],
         "summary": "Delete Target By Name",
         "description": "Deletes a target from RDI settings by its name.",
         "operationId": "delete_target_by_name_api_v1_pipelines_targets__name__delete",
@@ -1176,7 +1215,10 @@
     },
     "/api/v1/pipelines/secret-providers/{name}": {
       "put": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Upsert Secret Provider By Name",
         "description": "Upserts a secret-provider in RDI settings by its name.",
         "operationId": "upsert_secret_provider_by_name_api_v1_pipelines_secret_providers__name__put",
@@ -1289,7 +1331,10 @@
         }
       },
       "patch": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Partial Update Secret Provider By Name",
         "description": "Partially updates a secret provider in RDI settings by name.",
         "operationId": "partial_update_secret_provider_by_name_api_v1_pipelines_secret_providers__name__patch",
@@ -1390,7 +1435,10 @@
         }
       },
       "delete": {
-        "tags": ["secure", "secret-providers"],
+        "tags": [
+          "secure",
+          "secret-providers"
+        ],
         "summary": "Delete Secret Provider By Name",
         "description": "Deletes a secret-provider from RDI settings by its name.",
         "operationId": "delete_secret_provider_by_name_api_v1_pipelines_secret_providers__name__delete",
@@ -1476,7 +1524,10 @@
     },
     "/api/v1/pipelines/sources/dry-run": {
       "post": {
-        "tags": ["secure", "connection"],
+        "tags": [
+          "secure",
+          "connection"
+        ],
         "summary": "Sources Dry Run",
         "description": "Tests the connection to the source database.",
         "operationId": "sources_dry_run_api_v1_pipelines_sources_dry_run_post",
@@ -1589,7 +1640,9 @@
     },
     "/api/v1/pipelines/targets/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Multiple Targets Dry Run",
         "description": "Tests connection to the target database(s).",
         "operationId": "multiple_targets_dry_run_api_v1_pipelines_targets_dry_run_post",
@@ -1683,7 +1736,9 @@
     },
     "/api/v1/pipelines/target/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Single Target Dry Run",
         "description": "Tests connection by name to the target database.",
         "operationId": "single_target_dry_run_api_v1_pipelines_target_dry_run_post",
@@ -1757,7 +1812,9 @@
     },
     "/api/v1/pipelines/sources/{source_name}/columns": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Columns",
         "description": "Returns metadata for the specified schema and tables, for the specified source.",
         "operationId": "get_columns_api_v1_pipelines_sources__source_name__columns_get",
@@ -1902,7 +1959,9 @@
     },
     "/api/v1/pipelines/sources/{source_name}/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Schemas",
         "description": "Returns all available schemas for the specified source.\nFor databases that do not support schemas (such as MySQL), returns available databases instead.",
         "operationId": "get_schemas_api_v1_pipelines_sources__source_name__schemas_get",
@@ -2018,7 +2077,9 @@
     },
     "/api/v1/pipelines/sources/{source_name}/databases": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Databases",
         "description": "Returns all available databases for the specified source.",
         "operationId": "get_databases_api_v1_pipelines_sources__source_name__databases_get",
@@ -2134,7 +2195,9 @@
     },
     "/api/v1/pipelines/sources/{source_name}/metadata": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Metadata",
         "description": "Returns metadata for the specified schema and tables, for the specified source.",
         "operationId": "get_metadata_api_v1_pipelines_sources__source_name__metadata_get",
@@ -2286,7 +2349,9 @@
     },
     "/api/v1/pipelines/sources/{source_name}/tables": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Tables",
         "description": "Returns available tables in the specified schema for the specified source.",
         "operationId": "get_tables_api_v1_pipelines_sources__source_name__tables_get",
@@ -2413,7 +2478,10 @@
     },
     "/api/v1/pipelines": {
       "get": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Get Pipelines",
         "description": "Returns the current pipeline.",
         "operationId": "get_pipelines_api_v1_pipelines_get",
@@ -2468,7 +2536,10 @@
         }
       },
       "post": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Post Pipelines",
         "description": "Updates the current pipeline completely, or creates it if it doesn't exist, using the provided configuration.\nBefore creating or updating, validates the provided configuration for schema compliance and integrity.",
         "operationId": "post_pipelines_api_v1_pipelines_post",
@@ -2527,7 +2598,9 @@
                               "invoiceid",
                               "invoicedate"
                             ],
-                            "keys": ["invoiceid"]
+                            "keys": [
+                              "invoiceid"
+                            ]
                           },
                           "public.track": {
                             "columns": [
@@ -2541,11 +2614,18 @@
                               "albumid",
                               "unitprice"
                             ],
-                            "keys": ["trackid"]
+                            "keys": [
+                              "trackid"
+                            ]
                           },
                           "public.mediatype": {
-                            "columns": ["mediatypeid", "name"],
-                            "keys": ["mediatypeid"]
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
                           },
                           "public.customer": {
                             "columns": [
@@ -2563,11 +2643,18 @@
                               "email",
                               "supportrepid"
                             ],
-                            "keys": ["customerid"]
+                            "keys": [
+                              "customerid"
+                            ]
                           },
                           "public.genre": {
-                            "columns": ["genreid", "name"],
-                            "keys": ["genreid"]
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
                           },
                           "public.invoiceline": {
                             "columns": [
@@ -2577,11 +2664,18 @@
                               "invoiceid",
                               "unitprice"
                             ],
-                            "keys": ["invoicelineid"]
+                            "keys": [
+                              "invoicelineid"
+                            ]
                           },
                           "public.playlist": {
-                            "columns": ["playlistid", "name"],
-                            "keys": ["playlistid"]
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
                           },
                           "public.employee": {
                             "columns": [
@@ -2601,19 +2695,38 @@
                               "fax",
                               "email"
                             ],
-                            "keys": ["employeeid"]
+                            "keys": [
+                              "employeeid"
+                            ]
                           },
                           "public.album": {
-                            "columns": ["albumid", "artistid", "title"],
-                            "keys": ["albumid"]
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
                           },
                           "public.artist": {
-                            "columns": ["name", "artistid"],
-                            "keys": ["artistid"]
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
                           },
                           "public.playlisttrack": {
-                            "columns": ["playlistid", "trackid"],
-                            "keys": ["playlistid", "trackid"]
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
                           }
                         }
                       }
@@ -2716,7 +2829,10 @@
                           "message": "Job 'users' table 'dbz.users' was not found in the list of captured source tables.",
                           "details": {
                             "job": "users",
-                            "captured_tables": ["customers", "invoices"]
+                            "captured_tables": [
+                              "customers",
+                              "invoices"
+                            ]
                           }
                         }
                       ]
@@ -2792,7 +2908,10 @@
         }
       },
       "patch": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Patch Pipelines",
         "description": "Updates the current pipeline partially by merging with the provided configuration using JSON Merge Patch semantics.\nBefore updating, validates the merged configuration for schema compliance and integrity.",
         "operationId": "patch_pipelines_api_v1_pipelines_patch",
@@ -2851,7 +2970,9 @@
                               "invoiceid",
                               "invoicedate"
                             ],
-                            "keys": ["invoiceid"]
+                            "keys": [
+                              "invoiceid"
+                            ]
                           },
                           "public.track": {
                             "columns": [
@@ -2865,11 +2986,18 @@
                               "albumid",
                               "unitprice"
                             ],
-                            "keys": ["trackid"]
+                            "keys": [
+                              "trackid"
+                            ]
                           },
                           "public.mediatype": {
-                            "columns": ["mediatypeid", "name"],
-                            "keys": ["mediatypeid"]
+                            "columns": [
+                              "mediatypeid",
+                              "name"
+                            ],
+                            "keys": [
+                              "mediatypeid"
+                            ]
                           },
                           "public.customer": {
                             "columns": [
@@ -2887,11 +3015,18 @@
                               "email",
                               "supportrepid"
                             ],
-                            "keys": ["customerid"]
+                            "keys": [
+                              "customerid"
+                            ]
                           },
                           "public.genre": {
-                            "columns": ["genreid", "name"],
-                            "keys": ["genreid"]
+                            "columns": [
+                              "genreid",
+                              "name"
+                            ],
+                            "keys": [
+                              "genreid"
+                            ]
                           },
                           "public.invoiceline": {
                             "columns": [
@@ -2901,11 +3036,18 @@
                               "invoiceid",
                               "unitprice"
                             ],
-                            "keys": ["invoicelineid"]
+                            "keys": [
+                              "invoicelineid"
+                            ]
                           },
                           "public.playlist": {
-                            "columns": ["playlistid", "name"],
-                            "keys": ["playlistid"]
+                            "columns": [
+                              "playlistid",
+                              "name"
+                            ],
+                            "keys": [
+                              "playlistid"
+                            ]
                           },
                           "public.employee": {
                             "columns": [
@@ -2925,19 +3067,38 @@
                               "fax",
                               "email"
                             ],
-                            "keys": ["employeeid"]
+                            "keys": [
+                              "employeeid"
+                            ]
                           },
                           "public.album": {
-                            "columns": ["albumid", "artistid", "title"],
-                            "keys": ["albumid"]
+                            "columns": [
+                              "albumid",
+                              "artistid",
+                              "title"
+                            ],
+                            "keys": [
+                              "albumid"
+                            ]
                           },
                           "public.artist": {
-                            "columns": ["name", "artistid"],
-                            "keys": ["artistid"]
+                            "columns": [
+                              "name",
+                              "artistid"
+                            ],
+                            "keys": [
+                              "artistid"
+                            ]
                           },
                           "public.playlisttrack": {
-                            "columns": ["playlistid", "trackid"],
-                            "keys": ["playlistid", "trackid"]
+                            "columns": [
+                              "playlistid",
+                              "trackid"
+                            ],
+                            "keys": [
+                              "playlistid",
+                              "trackid"
+                            ]
                           }
                         }
                       }
@@ -3053,7 +3214,10 @@
                           "message": "Job 'users' table 'dbz.users' was not found in the list of captured source tables.",
                           "details": {
                             "job": "users",
-                            "captured_tables": ["customers", "invoices"]
+                            "captured_tables": [
+                              "customers",
+                              "invoices"
+                            ]
                           }
                         }
                       ]
@@ -3131,7 +3295,10 @@
     },
     "/api/v1/pipelines/undeploy": {
       "post": {
-        "tags": ["secure", "deploy"],
+        "tags": [
+          "secure",
+          "deploy"
+        ],
         "summary": "Undeploy Pipelines",
         "description": "Undeploys a pipeline.",
         "operationId": "undeploy_pipelines_api_v1_pipelines_undeploy_post",
@@ -3206,7 +3373,9 @@
     },
     "/api/v1/pipelines/jobs/functions": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Functions",
         "description": "Retrieves a list of all supported JMESPath functions (builtin and custom) that can be used in JMESPath.",
         "operationId": "pipelines_jobs_functions_api_v1_pipelines_jobs_functions_get",
@@ -3251,7 +3420,9 @@
     },
     "/api/v1/pipelines/config/templates/ingest/{db_type}": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Config Templates",
         "description": "Returns the YAML template describing the config for the specified db type.",
         "operationId": "pipelines_config_templates_api_v1_pipelines_config_templates_ingest__db_type__get",
@@ -3362,7 +3533,9 @@
     },
     "/api/v1/pipelines/jobs/templates/ingest": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Templates",
         "description": "Returns the YAML templates describing how to create a job",
         "operationId": "pipelines_jobs_templates_api_v1_pipelines_jobs_templates_ingest_get",
@@ -3437,7 +3610,9 @@
     },
     "/api/v1/pipelines/jobs/dry-run": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Job Dry Run",
         "description": "Executes a job using input data in a dry-run mode.",
         "operationId": "job_dry_run_api_v1_pipelines_jobs_dry_run_post",
@@ -3512,7 +3687,9 @@
     },
     "/api/v1/pipelines/strategies": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Strategies",
         "description": "Retrieves available strategies.",
         "operationId": "pipelines_strategies_api_v1_pipelines_strategies_get",
@@ -3557,7 +3734,9 @@
     },
     "/api/v1/pipelines/config/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Config Schemas",
         "description": "Retrieves config schema.",
         "operationId": "pipelines_config_schemas_api_v1_pipelines_config_schemas_get",
@@ -3604,7 +3783,9 @@
     },
     "/api/v1/pipelines/jobs/schemas": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Pipelines Jobs Schemas",
         "description": "Retrieves job schemas.",
         "operationId": "pipelines_jobs_schemas_api_v1_pipelines_jobs_schemas_get",
@@ -3651,7 +3832,10 @@
     },
     "/api/v1/pipelines/processors": {
       "put": {
-        "tags": ["secure", "processors"],
+        "tags": [
+          "secure",
+          "processors"
+        ],
         "summary": "Update Processors",
         "description": "Updates multiple processor properties in RDI settings.\nThe request body should be a dictionary with property names as keys and new values as values.",
         "operationId": "update_processors_api_v1_pipelines_processors_put",
@@ -3749,7 +3933,10 @@
     },
     "/api/v1/pipelines/processors/{prop}": {
       "put": {
-        "tags": ["secure", "processors"],
+        "tags": [
+          "secure",
+          "processors"
+        ],
         "summary": "Upsert Processors Property",
         "description": "Upserts a single processor property by property name.\nThe request body should contain a single 'value' field with the new value for the property.\nThe property name is specified in the URL path.",
         "operationId": "upsert_processors_property_api_v1_pipelines_processors__prop__put",
@@ -3867,7 +4054,10 @@
     },
     "/api/v1/secrets/{secret_name}": {
       "put": {
-        "tags": ["secure", "secrets"],
+        "tags": [
+          "secure",
+          "secrets"
+        ],
         "summary": "Set Multi Key Secret",
         "description": "Stores multiple key-value pairs under a single secret name in the key store.\nNOTE: {secret_name} is legacy and is not used - calculated automatically\n\nArgs:\n    secret_name (str): The secret name (legacy, not used - kept for backward compatibility).\n    secret_keys (SecretKeyModel): The secret key/value pairs to set.\n\nReturns:\n    OperationResponse: The operation response.",
         "operationId": "set_multi_key_secret_api_v1_secrets__secret_name__put",
@@ -3943,7 +4133,10 @@
     },
     "/api/v1/secrets": {
       "put": {
-        "tags": ["secure", "secrets"],
+        "tags": [
+          "secure",
+          "secrets"
+        ],
         "summary": "Set Secrets",
         "description": "Sets multiple secret values in the key store for multiple secret names.\n\nArgs:\n    secrets (SecretsModel): Collection of secrets to store.\n\nReturns:\n    OperationResponse: The operation response.",
         "operationId": "set_secrets_api_v1_secrets_put",
@@ -4008,7 +4201,9 @@
     },
     "/api/v1/monitoring/statistics": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Statistics",
         "description": "Retrieves RDI statistics.",
         "operationId": "statistics_api_v1_monitoring_statistics_get",
@@ -4063,7 +4258,9 @@
     },
     "/api/v1/status": {
       "get": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Get Status",
         "description": "Retrieves RDI status.",
         "operationId": "get_status_api_v1_status_get",
@@ -4108,7 +4305,9 @@
     },
     "/api/v1/trace/start": {
       "post": {
-        "tags": ["secure"],
+        "tags": [
+          "secure"
+        ],
         "summary": "Start Trace",
         "description": "Starts a trace session for troubleshooting data transformation.\n\nTracing is no longer supported; the operator does not process trace tasks anymore.",
         "operationId": "start_trace_api_v1_trace_start_post",
@@ -4173,7 +4372,10 @@
     },
     "/api/v2/pipelines": {
       "get": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Get Pipelines",
         "description": "Gets all pipelines.",
         "operationId": "get_pipelines_api_v2_pipelines_get",
@@ -4220,7 +4422,10 @@
         }
       },
       "post": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Create Pipeline",
         "description": "Creates a new pipeline.",
         "operationId": "create_pipeline_api_v2_pipelines_post",
@@ -4350,7 +4555,10 @@
     },
     "/api/v2/pipelines/{name}": {
       "get": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Get Pipeline",
         "description": "Gets a pipeline by name.",
         "operationId": "get_pipeline_api_v2_pipelines__name__get",
@@ -4416,7 +4624,10 @@
         }
       },
       "put": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Update Pipeline",
         "description": "Updates a pipeline completely, or creates it if it doesn't exist.",
         "operationId": "update_pipeline_api_v2_pipelines__name__put",
@@ -4569,7 +4780,10 @@
         }
       },
       "patch": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Patch Pipeline",
         "description": "Updates a pipeline partially (only updates specified fields).",
         "operationId": "patch_pipeline_api_v2_pipelines__name__patch",
@@ -4732,7 +4946,10 @@
         }
       },
       "delete": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Delete Pipeline",
         "description": "Deletes a pipeline by name.",
         "operationId": "delete_pipeline_api_v2_pipelines__name__delete",
@@ -4813,7 +5030,10 @@
     },
     "/api/v2/pipelines/{name}/status": {
       "get": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Get Pipeline Status",
         "description": "Gets the status of a pipeline by name.",
         "operationId": "get_pipeline_status_api_v2_pipelines__name__status_get",
@@ -4881,7 +5101,10 @@
     },
     "/api/v2/pipelines/{name}/start": {
       "post": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Start Pipeline",
         "description": "Starts a pipeline, or a single source when one is given.",
         "operationId": "start_pipeline_api_v2_pipelines__name__start_post",
@@ -4987,7 +5210,10 @@
     },
     "/api/v2/pipelines/{name}/stop": {
       "post": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Stop Pipeline",
         "description": "Stops a pipeline, or a single source when one is given.",
         "operationId": "stop_pipeline_api_v2_pipelines__name__stop_post",
@@ -5093,7 +5319,10 @@
     },
     "/api/v2/pipelines/{name}/reset": {
       "post": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Reset Pipeline",
         "description": "Resets a pipeline, or a single source when one is given.",
         "operationId": "reset_pipeline_api_v2_pipelines__name__reset_post",
@@ -5199,7 +5428,11 @@
     },
     "/api/v2/pipelines/{name}/metric-collections": {
       "get": {
-        "tags": ["v2", "pipelines", "metric-collections"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "metric-collections"
+        ],
         "summary": "Get Metric Collections",
         "description": "Gets all metric collections for a pipeline.",
         "operationId": "get_metric_collections_api_v2_pipelines__name__metric_collections_get",
@@ -5271,7 +5504,11 @@
     },
     "/api/v2/pipelines/{name}/metric-collections/{collection_name}": {
       "get": {
-        "tags": ["v2", "pipelines", "metric-collections"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "metric-collections"
+        ],
         "summary": "Get Metric Collection",
         "description": "Gets a metric collection for a pipeline.",
         "operationId": "get_metric_collection_api_v2_pipelines__name__metric_collections__collection_name__get",
@@ -5360,7 +5597,10 @@
     },
     "/api/v2/pipelines/{name}/dlqs": {
       "get": {
-        "tags": ["v2", "dlq"],
+        "tags": [
+          "v2",
+          "dlq"
+        ],
         "summary": "Get all DLQ streams with counts",
         "description": "Returns all tables that have DLQ records with their total counts. Table names are returned in the format: source_name.schema_name.table_name (for PostgreSQL, Oracle, SQL Server, Spanner) or source_name.database_name.table_name (for MySQL, MariaDB, MongoDB).",
         "operationId": "get_all_dlqs_api_v2_pipelines__name__dlqs_get",
@@ -5438,7 +5678,10 @@
     },
     "/api/v2/pipelines/{name}/dlqs/{full_table_name}/records": {
       "get": {
-        "tags": ["v2", "dlq"],
+        "tags": [
+          "v2",
+          "dlq"
+        ],
         "summary": "Get DLQ records for a specific stream",
         "description": "Returns the DLQ records for a specific table with pagination. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
         "operationId": "get_dlq_records_api_v2_pipelines__name__dlqs__full_table_name__records_get",
@@ -5593,7 +5836,10 @@
     },
     "/api/v2/pipelines/{name}/dlqs/{full_table_name}": {
       "get": {
-        "tags": ["v2", "dlq"],
+        "tags": [
+          "v2",
+          "dlq"
+        ],
         "summary": "Get DLQ info for a specific stream",
         "description": "Returns the DLQ count for a specific stream. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
         "operationId": "get_dlq_by_table_name_api_v2_pipelines__name__dlqs__full_table_name__get",
@@ -5682,7 +5928,11 @@
     },
     "/api/v2/pipelines/{name}/secrets": {
       "get": {
-        "tags": ["v2", "pipelines", "secrets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "secrets"
+        ],
         "summary": "Get Pipeline Secrets",
         "description": "Lists pipeline secrets, optionally filtered to a single database.",
         "operationId": "get_pipeline_secrets_api_v2_pipelines__name__secrets_get",
@@ -5757,7 +6007,7 @@
             },
             "description": "Forbidden"
           },
-          "404": {
+          "422": {
             "content": {
               "application/json": {
                 "schema": {
@@ -5765,12 +6015,16 @@
                 }
               }
             },
-            "description": "Not Found"
+            "description": "Unprocessable Entity"
           }
         }
       },
       "post": {
-        "tags": ["v2", "pipelines", "secrets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "secrets"
+        ],
         "summary": "Create Secret",
         "description": "Creates a new pipeline secret.",
         "operationId": "create_secret_api_v2_pipelines__name__secrets_post",
@@ -5815,11 +6069,11 @@
             "required": false,
             "schema": {
               "type": "boolean",
-              "description": "When true, require the source to already exist in the pipeline.",
+              "description": "When true, require the pipeline to exist and to define the source.",
               "default": false,
               "title": "Validate Source"
             },
-            "description": "When true, require the source to already exist in the pipeline."
+            "description": "When true, require the pipeline to exist and to define the source."
           }
         ],
         "requestBody": {
@@ -5899,7 +6153,11 @@
     },
     "/api/v2/pipelines/{name}/secrets/{key}": {
       "get": {
-        "tags": ["v2", "pipelines", "secrets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "secrets"
+        ],
         "summary": "Get Secret",
         "description": "Gets a pipeline secret by key.",
         "operationId": "get_secret_api_v2_pipelines__name__secrets__key__get",
@@ -5926,10 +6184,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Pipeline secret key",
+              "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter.",
               "title": "Key"
             },
-            "description": "Pipeline secret key"
+            "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter."
           },
           {
             "name": "db",
@@ -6004,7 +6262,11 @@
         }
       },
       "put": {
-        "tags": ["v2", "pipelines", "secrets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "secrets"
+        ],
         "summary": "Update Secret",
         "description": "Updates a pipeline secret, or creates it if it does not exist.",
         "operationId": "update_secret_api_v2_pipelines__name__secrets__key__put",
@@ -6031,10 +6293,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Pipeline secret key",
+              "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter.",
               "title": "Key"
             },
-            "description": "Pipeline secret key"
+            "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter."
           },
           {
             "name": "db",
@@ -6097,16 +6359,6 @@
             },
             "description": "Forbidden"
           },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
           "422": {
             "content": {
               "application/json": {
@@ -6120,7 +6372,11 @@
         }
       },
       "delete": {
-        "tags": ["v2", "pipelines", "secrets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "secrets"
+        ],
         "summary": "Delete Secret",
         "description": "Deletes a pipeline secret by key.",
         "operationId": "delete_secret_api_v2_pipelines__name__secrets__key__delete",
@@ -6147,10 +6403,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Pipeline secret key",
+              "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter.",
               "title": "Key"
             },
-            "description": "Pipeline secret key"
+            "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter."
           },
           {
             "name": "db",
@@ -6218,9 +6474,136 @@
         }
       }
     },
+    "/api/v2/settings": {
+      "get": {
+        "tags": [
+          "v2",
+          "settings"
+        ],
+        "summary": "Get Settings",
+        "description": "Gets the settings of the RDI instance that can be changed at runtime.",
+        "operationId": "get_settings_api_v2_settings_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Settings"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "v2",
+          "settings"
+        ],
+        "summary": "Patch Settings",
+        "description": "Updates the settings of the RDI instance that can be changed at runtime.\n\nApplies the body as a JSON merge patch.",
+        "operationId": "patch_settings_api_v2_settings_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Settings"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Settings"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
     "/api/v2/pipelines/{name}/source-schemas/{source_name}": {
       "get": {
-        "tags": ["v2", "pipelines"],
+        "tags": [
+          "v2",
+          "pipelines"
+        ],
         "summary": "Get Pipeline Source Schemas",
         "description": "Lists source schemas/databases, tables, and columns for a pipeline source.",
         "operationId": "get_pipeline_source_schemas_api_v2_pipelines__name__source_schemas__source_name__get",
@@ -6396,7 +6779,11 @@
     },
     "/api/v2/pipelines/{name}/flush-target/{target_name}": {
       "post": {
-        "tags": ["v2", "pipelines", "targets"],
+        "tags": [
+          "v2",
+          "pipelines",
+          "targets"
+        ],
         "summary": "Flush Target",
         "description": "Flushes the target Redis database.\n\nSends a FLUSHALL command to the target Redis database through the collector API.",
         "operationId": "flush_target_api_v2_pipelines__name__flush_target__target_name__post",
@@ -6525,7 +6912,10 @@
     },
     "/api/v2/info": {
       "get": {
-        "tags": ["v2", "info"],
+        "tags": [
+          "v2",
+          "info"
+        ],
         "summary": "Info",
         "description": "Gets the API version and the operator leader-election mode.",
         "operationId": "info_api_v2_info_get",
@@ -6569,7 +6959,9 @@
               }
             ],
             "title": "Action Id",
-            "examples": ["1234567890"]
+            "examples": [
+              "1234567890"
+            ]
           }
         },
         "type": "object",
@@ -6581,12 +6973,17 @@
           "action_id": {
             "type": "string",
             "title": "Action ID",
-            "examples": ["1715254593439-0"]
+            "examples": [
+              "1715254593439-0"
+            ]
           },
           "status": {
             "$ref": "#/components/schemas/TaskStatus",
             "title": "Action status",
-            "examples": ["completed", "failed"]
+            "examples": [
+              "completed",
+              "failed"
+            ]
           },
           "output": {
             "anyOf": [
@@ -6617,7 +7014,10 @@
           }
         },
         "type": "object",
-        "required": ["action_id", "status"],
+        "required": [
+          "action_id",
+          "status"
+        ],
         "title": "ActionResponse"
       },
       "Client": {
@@ -6625,12 +7025,16 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "examples": ["975820001001"]
+            "examples": [
+              "975820001001"
+            ]
           },
           "addr": {
             "type": "string",
             "title": "Addr",
-            "examples": ["172.17.0.1:56982"]
+            "examples": [
+              "172.17.0.1:56982"
+            ]
           },
           "age_sec": {
             "anyOf": [
@@ -6643,7 +7047,10 @@
               }
             ],
             "title": "Age Sec",
-            "examples": [1111, "N/A"]
+            "examples": [
+              1111,
+              "N/A"
+            ]
           },
           "idle_sec": {
             "anyOf": [
@@ -6656,16 +7063,27 @@
               }
             ],
             "title": "Idle Sec",
-            "examples": [1111, "N/A"]
+            "examples": [
+              1111,
+              "N/A"
+            ]
           },
           "user": {
             "type": "string",
             "title": "User",
-            "examples": ["default"]
+            "examples": [
+              "default"
+            ]
           }
         },
         "type": "object",
-        "required": ["id", "addr", "age_sec", "idle_sec", "user"],
+        "required": [
+          "id",
+          "addr",
+          "age_sec",
+          "idle_sec",
+          "user"
+        ],
         "title": "Client"
       },
       "ComponentType": {
@@ -6687,7 +7105,10 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/Result",
-            "examples": ["success", "failed"]
+            "examples": [
+              "success",
+              "failed"
+            ]
           },
           "error": {
             "anyOf": [
@@ -6701,7 +7122,9 @@
           }
         },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "ConnectionStatus"
       },
       "ConnectionStatusSingleConnection": {
@@ -6736,7 +7159,10 @@
           }
         },
         "type": "object",
-        "required": ["connected", "error"],
+        "required": [
+          "connected",
+          "error"
+        ],
         "title": "ConnectionStatusSingleConnection"
       },
       "CredentialsInfo": {
@@ -6752,7 +7178,9 @@
             ],
             "title": "Username",
             "description": "RDI database user",
-            "examples": ["admin"]
+            "examples": [
+              "admin"
+            ]
           },
           "password": {
             "anyOf": [
@@ -6765,7 +7193,9 @@
             ],
             "title": "Password",
             "description": "RDI database password",
-            "examples": ["secret-password"]
+            "examples": [
+              "secret-password"
+            ]
           }
         },
         "type": "object",
@@ -6786,7 +7216,10 @@
           }
         },
         "type": "object",
-        "required": ["totals", "streams"],
+        "required": [
+          "totals",
+          "streams"
+        ],
         "title": "DataStreams"
       },
       "DataStreamsStatistics": {
@@ -6803,7 +7236,9 @@
             ],
             "title": "Total",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "pending": {
             "anyOf": [
@@ -6817,7 +7252,9 @@
             ],
             "title": "Pending",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "inserted": {
             "anyOf": [
@@ -6831,7 +7268,9 @@
             ],
             "title": "Inserted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "updated": {
             "anyOf": [
@@ -6845,7 +7284,9 @@
             ],
             "title": "Updated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deleted": {
             "anyOf": [
@@ -6859,7 +7300,9 @@
             ],
             "title": "Deleted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "filtered": {
             "anyOf": [
@@ -6873,7 +7316,9 @@
             ],
             "title": "Filtered",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "rejected": {
             "anyOf": [
@@ -6887,7 +7332,9 @@
             ],
             "title": "Rejected",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deduplicated": {
             "anyOf": [
@@ -6901,7 +7348,9 @@
             ],
             "title": "Deduplicated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "last_arrival": {
             "type": "string",
@@ -6909,7 +7358,9 @@
           }
         },
         "type": "object",
-        "required": ["last_arrival"],
+        "required": [
+          "last_arrival"
+        ],
         "title": "DataStreamsStatistics"
       },
       "DataStreamsStatisticsTotal": {
@@ -6926,7 +7377,9 @@
             ],
             "title": "Total",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "pending": {
             "anyOf": [
@@ -6940,7 +7393,9 @@
             ],
             "title": "Pending",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "inserted": {
             "anyOf": [
@@ -6954,7 +7409,9 @@
             ],
             "title": "Inserted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "updated": {
             "anyOf": [
@@ -6968,7 +7425,9 @@
             ],
             "title": "Updated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deleted": {
             "anyOf": [
@@ -6982,7 +7441,9 @@
             ],
             "title": "Deleted",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "filtered": {
             "anyOf": [
@@ -6996,7 +7457,9 @@
             ],
             "title": "Filtered",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "rejected": {
             "anyOf": [
@@ -7010,7 +7473,9 @@
             ],
             "title": "Rejected",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           },
           "deduplicated": {
             "anyOf": [
@@ -7024,7 +7489,9 @@
             ],
             "title": "Deduplicated",
             "default": 0,
-            "examples": [0]
+            "examples": [
+              0
+            ]
           }
         },
         "type": "object",
@@ -7038,11 +7505,16 @@
             },
             "type": "array",
             "title": "Databases",
-            "examples": ["database1", "database2"]
+            "examples": [
+              "database1",
+              "database2"
+            ]
           }
         },
         "type": "object",
-        "required": ["databases"],
+        "required": [
+          "databases"
+        ],
         "title": "DatabaseResponse",
         "description": "Database response class."
       },
@@ -7104,12 +7576,16 @@
             "minimum": 0.0,
             "title": "Total Count",
             "description": "Total number of records in the DLQ stream",
-            "examples": [1500]
+            "examples": [
+              1500
+            ]
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["total_count"],
+        "required": [
+          "total_count"
+        ],
         "title": "DlqTableInfo",
         "description": "Model representing DLQ info for a single table."
       },
@@ -7125,7 +7601,9 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/RdiStatus",
-            "examples": ["ready"]
+            "examples": [
+              "ready"
+            ]
           },
           "connected": {
             "anyOf": [
@@ -7137,7 +7615,9 @@
               }
             ],
             "title": "Connected",
-            "examples": [true]
+            "examples": [
+              true
+            ]
           },
           "version": {
             "anyOf": [
@@ -7149,7 +7629,10 @@
               }
             ],
             "title": "Version",
-            "examples": ["1.2.3", "1.2.0b17"]
+            "examples": [
+              "1.2.3",
+              "1.2.0b17"
+            ]
           },
           "error": {
             "anyOf": [
@@ -7161,11 +7644,15 @@
               }
             ],
             "title": "Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           }
         },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "Entity"
       },
       "ErrorCode": {
@@ -7188,7 +7675,9 @@
           "detail": {
             "type": "string",
             "title": "Detail",
-            "examples": ["Detailed error message"]
+            "examples": [
+              "Detailed error message"
+            ]
           },
           "errors": {
             "anyOf": [
@@ -7206,7 +7695,9 @@
           }
         },
         "type": "object",
-        "required": ["detail"],
+        "required": [
+          "detail"
+        ],
         "title": "ExtendedErrorResponse",
         "description": "Model representing an API error response with an additional list of errors."
       },
@@ -7224,7 +7715,10 @@
           }
         },
         "type": "object",
-        "required": ["success", "message"],
+        "required": [
+          "success",
+          "message"
+        ],
         "title": "FlushResponse",
         "description": "Response model for the target flush operation."
       },
@@ -7259,7 +7753,9 @@
           }
         },
         "type": "object",
-        "required": ["version"],
+        "required": [
+          "version"
+        ],
         "title": "InfoResponse",
         "description": "Response model containing information about the API and operator."
       },
@@ -7311,7 +7807,10 @@
           }
         },
         "type": "object",
-        "required": ["job", "input_data"],
+        "required": [
+          "job",
+          "input_data"
+        ],
         "title": "JobDryRunBody"
       },
       "JobDryRunSuccessResponse": {
@@ -7340,12 +7839,19 @@
           }
         },
         "type": "object",
-        "required": ["transformation", "output"],
+        "required": [
+          "transformation",
+          "output"
+        ],
         "title": "JobDryRunSuccessResponse"
       },
       "LeaderElectionMode": {
         "type": "string",
-        "enum": ["disabled", "leader", "follower"],
+        "enum": [
+          "disabled",
+          "leader",
+          "follower"
+        ],
         "title": "LeaderElectionMode",
         "description": "Operator leader-election mode."
       },
@@ -7381,7 +7887,9 @@
           }
         },
         "type": "object",
-        "required": ["tables"],
+        "required": [
+          "tables"
+        ],
         "title": "MetadataResponse",
         "description": "Metadata response class."
       },
@@ -7398,7 +7906,9 @@
           }
         },
         "type": "object",
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "title": "OperationResponse",
         "description": "Represents the response of an operation."
       },
@@ -7406,11 +7916,15 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/RdiStatus",
-            "examples": ["ready"]
+            "examples": [
+              "ready"
+            ]
           },
           "state": {
             "$ref": "#/components/schemas/State",
-            "examples": ["cdc"]
+            "examples": [
+              "cdc"
+            ]
           },
           "last_error": {
             "anyOf": [
@@ -7422,7 +7936,9 @@
               }
             ],
             "title": "Last Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           },
           "tasks": {
             "items": {
@@ -7433,7 +7949,11 @@
           }
         },
         "type": "object",
-        "required": ["status", "state", "tasks"],
+        "required": [
+          "status",
+          "state",
+          "tasks"
+        ],
         "title": "Pipeline"
       },
       "PipelineComponentResponse": {
@@ -7508,7 +8028,11 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["name", "type", "version"],
+        "required": [
+          "name",
+          "type",
+          "version"
+        ],
         "title": "PipelineComponentResponse",
         "description": "Response model containing the details of a pipeline component."
       },
@@ -7540,7 +8064,9 @@
           "summary": {
             "type": "string",
             "title": "Summary",
-            "examples": ["Decodes a base64(RFC 4648) encoded string"]
+            "examples": [
+              "Decodes a base64(RFC 4648) encoded string"
+            ]
           },
           "arguments": {
             "items": {
@@ -7551,7 +8077,10 @@
           }
         },
         "type": "object",
-        "required": ["summary", "arguments"],
+        "required": [
+          "summary",
+          "arguments"
+        ],
         "title": "PipelineFunction"
       },
       "PipelineFunctionArgument": {
@@ -7573,7 +8102,9 @@
             ],
             "title": "Type",
             "default": "string",
-            "examples": ["string"]
+            "examples": [
+              "string"
+            ]
           },
           "display_text": {
             "anyOf": [
@@ -7593,7 +8124,9 @@
           }
         },
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "title": "PipelineFunctionArgument"
       },
       "PipelineMetricCollectionResponse": {
@@ -7614,7 +8147,11 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["name", "component", "metrics"],
+        "required": [
+          "name",
+          "component",
+          "metrics"
+        ],
         "title": "PipelineMetricCollectionResponse",
         "description": "Response model containing the details of a metric collection."
       },
@@ -7702,7 +8239,11 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["name", "active", "config"],
+        "required": [
+          "name",
+          "active",
+          "config"
+        ],
         "title": "PipelineResponse",
         "description": "Response model containing the details of a pipeline."
       },
@@ -7710,7 +8251,8 @@
         "properties": {
           "key": {
             "type": "string",
-            "title": "Key"
+            "title": "Key",
+            "description": "Secret key: one of USERNAME, PASSWORD, CACERT, CERT, KEY, KEY_PASSWORD, one of their legacy SOURCE_DB_* or TARGET_DB_* forms, or a generic key of at most 63 upper case letters, digits, and underscores, starting with a letter."
           },
           "value": {
             "type": "string",
@@ -7718,14 +8260,21 @@
           },
           "type": {
             "type": "string",
-            "enum": ["simple", "file", "binary_file"],
+            "enum": [
+              "simple",
+              "file",
+              "binary_file"
+            ],
             "title": "Type",
             "default": "simple"
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["key", "value"],
+        "required": [
+          "key",
+          "value"
+        ],
         "title": "PipelineSecretCreateRequest",
         "description": "Request model for creating a new pipeline secret."
       },
@@ -7741,13 +8290,27 @@
           },
           "type": {
             "type": "string",
-            "enum": ["simple", "file", "binary_file"],
+            "enum": [
+              "simple",
+              "file",
+              "binary_file"
+            ],
             "title": "Type"
+          },
+          "config_reference": {
+            "type": "string",
+            "title": "Config Reference",
+            "description": "How to reference the secret in the pipeline configuration, for example ${MYSQL_DB_USERNAME}."
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["key", "db", "type"],
+        "required": [
+          "key",
+          "db",
+          "type",
+          "config_reference"
+        ],
         "title": "PipelineSecretResponse",
         "description": "Response model for a pipeline secret."
       },
@@ -7759,14 +8322,20 @@
           },
           "type": {
             "type": "string",
-            "enum": ["simple", "file", "binary_file"],
+            "enum": [
+              "simple",
+              "file",
+              "binary_file"
+            ],
             "title": "Type",
             "default": "simple"
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["value"],
+        "required": [
+          "value"
+        ],
         "title": "PipelineSecretUpdateRequest",
         "description": "Request model for updating an existing pipeline secret."
       },
@@ -7883,7 +8452,9 @@
           }
         },
         "type": "object",
-        "required": ["strategies"],
+        "required": [
+          "strategies"
+        ],
         "title": "PipelinesStrategiesResponse"
       },
       "ProcessingPerformance": {
@@ -7892,55 +8463,73 @@
             "type": "integer",
             "minimum": 0.0,
             "title": "Total Batches",
-            "examples": [100]
+            "examples": [
+              100
+            ]
           },
           "batch_size_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Batch Size Avg",
-            "examples": [50.2]
+            "examples": [
+              50.2
+            ]
           },
           "read_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Read Time Avg",
-            "examples": [10.5]
+            "examples": [
+              10.5
+            ]
           },
           "transform_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Transform Time Avg",
-            "examples": [2.3]
+            "examples": [
+              2.3
+            ]
           },
           "write_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Write Time Avg",
-            "examples": [4.4]
+            "examples": [
+              4.4
+            ]
           },
           "process_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Process Time Avg",
-            "examples": [20.3]
+            "examples": [
+              20.3
+            ]
           },
           "ack_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Ack Time Avg",
-            "examples": [5.2]
+            "examples": [
+              5.2
+            ]
           },
           "total_time_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Total Time Avg",
-            "examples": [35.5]
+            "examples": [
+              35.5
+            ]
           },
           "rec_per_sec_avg": {
             "type": "number",
             "minimum": 0.0,
             "title": "Rec Per Sec Avg",
-            "examples": [100.1]
+            "examples": [
+              100.1
+            ]
           }
         },
         "type": "object",
@@ -7961,11 +8550,15 @@
         "properties": {
           "value": {
             "title": "Value",
-            "examples": ["hash"]
+            "examples": [
+              "hash"
+            ]
           }
         },
         "type": "object",
-        "required": ["value"],
+        "required": [
+          "value"
+        ],
         "title": "ProcessorProperty"
       },
       "ProcessorPropertyName": {
@@ -7994,7 +8587,12 @@
       },
       "ProcessorState": {
         "type": "string",
-        "enum": ["unknown", "running", "idling", "stopped"],
+        "enum": [
+          "unknown",
+          "running",
+          "idling",
+          "stopped"
+        ],
         "title": "ProcessorState",
         "description": "Enum for the state of the stream processor."
       },
@@ -8003,12 +8601,16 @@
           "rdi_version": {
             "type": "string",
             "title": "Rdi Version",
-            "examples": ["N/A"]
+            "examples": [
+              "N/A"
+            ]
           },
           "address": {
             "type": "string",
             "title": "Address",
-            "examples": ["172.17.0.2:12006"]
+            "examples": [
+              "172.17.0.2:12006"
+            ]
           },
           "run_status": {
             "anyOf": [
@@ -8020,27 +8622,43 @@
               }
             ],
             "title": "Run Status",
-            "examples": ["stopped"]
+            "examples": [
+              "stopped"
+            ]
           },
           "sync_mode": {
             "type": "string",
             "title": "Sync Mode",
-            "examples": ["N/A"]
+            "examples": [
+              "N/A"
+            ]
           }
         },
         "type": "object",
-        "required": ["rdi_version", "address", "run_status", "sync_mode"],
+        "required": [
+          "rdi_version",
+          "address",
+          "run_status",
+          "sync_mode"
+        ],
         "title": "RdiPipelineStatus"
       },
       "RdiStatus": {
         "type": "string",
-        "enum": ["stopped", "ready", "not-ready"],
+        "enum": [
+          "stopped",
+          "ready",
+          "not-ready"
+        ],
         "title": "RdiStatus",
         "description": "RDI component status."
       },
       "Result": {
         "type": "string",
-        "enum": ["success", "failed"],
+        "enum": [
+          "success",
+          "failed"
+        ],
         "title": "Result",
         "description": "Represents the result of an operation."
       },
@@ -8052,11 +8670,16 @@
             },
             "type": "array",
             "title": "Schemas",
-            "examples": ["schema1", "schema2"]
+            "examples": [
+              "schema1",
+              "schema2"
+            ]
           }
         },
         "type": "object",
-        "required": ["schemas"],
+        "required": [
+          "schemas"
+        ],
         "title": "SchemaResponse",
         "description": "Schema response class."
       },
@@ -8091,14 +8714,43 @@
           }
         ]
       },
+      "Settings": {
+        "properties": {
+          "standby_mode": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Standby Mode",
+            "description": "Whether the instance is in standby mode, so it does not participate in the leader election. Takes effect only if leader election is enabled."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Settings",
+        "description": "Settings of the RDI instance that can be changed at runtime."
+      },
       "SnapshotStatus": {
         "type": "string",
-        "enum": ["running", "failed", "paused", "completed", "N/A"],
+        "enum": [
+          "running",
+          "failed",
+          "paused",
+          "completed",
+          "N/A"
+        ],
         "title": "SnapshotStatus"
       },
       "SortOrder": {
         "type": "string",
-        "enum": ["asc", "desc"],
+        "enum": [
+          "asc",
+          "desc"
+        ],
         "title": "SortOrder",
         "description": "Sort order for DLQ records."
       },
@@ -8107,7 +8759,9 @@
           "type": {
             "type": "string",
             "title": "Type",
-            "examples": ["varchar"]
+            "examples": [
+              "varchar"
+            ]
           },
           "size": {
             "anyOf": [
@@ -8119,30 +8773,42 @@
               }
             ],
             "title": "Size",
-            "examples": [255]
+            "examples": [
+              255
+            ]
           },
           "primary_key": {
             "type": "boolean",
             "title": "Primary Key",
             "default": false,
-            "examples": [false]
+            "examples": [
+              false
+            ]
           },
           "unique_constraint": {
             "type": "boolean",
             "title": "Unique Constraint",
             "default": false,
-            "examples": [false]
+            "examples": [
+              false
+            ]
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["type"],
+        "required": [
+          "type"
+        ],
         "title": "SourceColumnResponse",
         "description": "Metadata for a single source column."
       },
       "SourceSchemaDetails": {
         "type": "string",
-        "enum": ["schemas", "tables", "columns"],
+        "enum": [
+          "schemas",
+          "tables",
+          "columns"
+        ],
         "title": "SourceSchemaDetails",
         "description": "Detail level for source metadata responses."
       },
@@ -8195,7 +8861,9 @@
               }
             ],
             "title": "Cdc Ready",
-            "examples": [true]
+            "examples": [
+              true
+            ]
           },
           "columns": {
             "anyOf": [
@@ -8238,12 +8906,18 @@
           }
         },
         "type": "object",
-        "required": ["sources"],
+        "required": [
+          "sources"
+        ],
         "title": "SourcesOutput"
       },
       "State": {
         "type": "string",
-        "enum": ["cdc", "initial-sync", "not-running"],
+        "enum": [
+          "cdc",
+          "initial-sync",
+          "not-running"
+        ],
         "title": "State",
         "description": "Represents the state of a pipeline."
       },
@@ -8296,13 +8970,17 @@
           "type": {
             "$ref": "#/components/schemas/DbType",
             "default": "redis",
-            "examples": ["redis"]
+            "examples": [
+              "redis"
+            ]
           },
           "host": {
             "type": "string",
             "title": "Host",
             "default": "localhost",
-            "examples": ["localhost"]
+            "examples": [
+              "localhost"
+            ]
           },
           "port": {
             "type": "integer",
@@ -8310,7 +8988,10 @@
             "title": "Port",
             "description": "Positive int or \"${ENV_VAR_NAME}\" placeholder",
             "default": 5432,
-            "examples": [5432, "${DB_PORT}"]
+            "examples": [
+              5432,
+              "${DB_PORT}"
+            ]
           },
           "database": {
             "anyOf": [
@@ -8322,7 +9003,9 @@
               }
             ],
             "title": "Database",
-            "examples": ["rdi"]
+            "examples": [
+              "rdi"
+            ]
           },
           "user": {
             "anyOf": [
@@ -8334,12 +9017,16 @@
               }
             ],
             "title": "User",
-            "examples": ["rdi"]
+            "examples": [
+              "rdi"
+            ]
           },
           "password": {
             "type": "string",
             "title": "Password",
-            "examples": ["********"]
+            "examples": [
+              "********"
+            ]
           },
           "status": {
             "type": "string",
@@ -8348,7 +9035,10 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["password", "status"],
+        "required": [
+          "password",
+          "status"
+        ],
         "title": "StatisticsConnection"
       },
       "StatisticsResponse": {
@@ -8383,7 +9073,9 @@
           },
           "snapshot_status": {
             "$ref": "#/components/schemas/SnapshotStatus",
-            "examples": ["running"]
+            "examples": [
+              "running"
+            ]
           }
         },
         "type": "object",
@@ -8435,12 +9127,17 @@
           }
         },
         "type": "object",
-        "required": ["components", "pipelines"],
+        "required": [
+          "components",
+          "pipelines"
+        ],
         "title": "StatusResponse"
       },
       "Strategy": {
         "type": "string",
-        "enum": ["ingest"],
+        "enum": [
+          "ingest"
+        ],
         "title": "Strategy",
         "description": "Defines available strategies."
       },
@@ -8448,7 +9145,9 @@
         "properties": {
           "strategy": {
             "$ref": "#/components/schemas/Strategy",
-            "examples": ["ingest"]
+            "examples": [
+              "ingest"
+            ]
           },
           "databases": {
             "items": {
@@ -8456,11 +9155,19 @@
             },
             "type": "array",
             "title": "Databases",
-            "examples": ["mongodb", "mysql", "oracle", "sqlserver"]
+            "examples": [
+              "mongodb",
+              "mysql",
+              "oracle",
+              "sqlserver"
+            ]
           }
         },
         "type": "object",
-        "required": ["strategy", "databases"],
+        "required": [
+          "strategy",
+          "databases"
+        ],
         "title": "StrategyModel"
       },
       "Table": {
@@ -8468,7 +9175,9 @@
           "cdc_ready": {
             "type": "boolean",
             "title": "Cdc Ready",
-            "examples": [true]
+            "examples": [
+              true
+            ]
           },
           "columns": {
             "additionalProperties": true,
@@ -8477,7 +9186,10 @@
           }
         },
         "type": "object",
-        "required": ["cdc_ready", "columns"],
+        "required": [
+          "cdc_ready",
+          "columns"
+        ],
         "title": "Table"
       },
       "TableResponse": {
@@ -8488,11 +9200,16 @@
             },
             "type": "array",
             "title": "Tables",
-            "examples": ["table1", "table2"]
+            "examples": [
+              "table1",
+              "table2"
+            ]
           }
         },
         "type": "object",
-        "required": ["tables"],
+        "required": [
+          "tables"
+        ],
         "title": "TableResponse",
         "description": "Table response class."
       },
@@ -8507,7 +9224,9 @@
           }
         },
         "type": "object",
-        "required": ["targets"],
+        "required": [
+          "targets"
+        ],
         "title": "TargetsOutput"
       },
       "Task": {
@@ -8529,22 +9248,35 @@
               }
             ],
             "title": "Error",
-            "examples": ["Error message"]
+            "examples": [
+              "Error message"
+            ]
           },
           "created_at": {
             "type": "string",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
             "title": "Created At",
-            "examples": ["2024-03-03T10:23:12"]
+            "examples": [
+              "2024-03-03T10:23:12"
+            ]
           }
         },
         "type": "object",
-        "required": ["name", "status", "created_at"],
+        "required": [
+          "name",
+          "status",
+          "created_at"
+        ],
         "title": "Task"
       },
       "TaskStatus": {
         "type": "string",
-        "enum": ["pending", "processing", "failed", "completed"],
+        "enum": [
+          "pending",
+          "processing",
+          "failed",
+          "completed"
+        ],
         "title": "TaskStatus",
         "description": "Defines task statuses for Operator"
       },
@@ -8553,11 +9285,15 @@
           "template": {
             "type": "string",
             "title": "Template",
-            "examples": ["template1"]
+            "examples": [
+              "template1"
+            ]
           }
         },
         "type": "object",
-        "required": ["template"],
+        "required": [
+          "template"
+        ],
         "title": "TemplateResponse"
       },
       "TokenInfo": {
@@ -8572,7 +9308,10 @@
           }
         },
         "type": "object",
-        "required": ["access_token", "token_type"],
+        "required": [
+          "access_token",
+          "token_type"
+        ],
         "title": "TokenInfo",
         "description": "Token information"
       },
@@ -8582,19 +9321,25 @@
             "type": "integer",
             "title": "The maximum number of traced change records.",
             "default": 10,
-            "examples": [10]
+            "examples": [
+              10
+            ]
           },
           "rejected_only": {
             "type": "boolean",
             "title": "Indicating whether to trace only rejected change records.",
             "default": false,
-            "examples": [false]
+            "examples": [
+              false
+            ]
           },
           "timeout": {
             "type": "integer",
             "title": "The maximum duration of the trace in seconds.",
             "default": 20,
-            "examples": [20]
+            "examples": [
+              20
+            ]
           }
         },
         "type": "object",
@@ -8634,7 +9379,11 @@
           }
         },
         "type": "object",
-        "required": ["loc", "msg", "type"],
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
         "title": "ValidationError"
       },
       "redis_di_api__models__errors__Error": {
@@ -8664,7 +9413,10 @@
           }
         },
         "type": "object",
-        "required": ["code", "message"],
+        "required": [
+          "code",
+          "message"
+        ],
         "title": "Error",
         "description": "Generic error model"
       },
@@ -8673,7 +9425,9 @@
           "detail": {
             "type": "string",
             "title": "Detail",
-            "examples": ["Detailed error message"]
+            "examples": [
+              "Detailed error message"
+            ]
           },
           "errors": {
             "anyOf": [
@@ -8691,7 +9445,9 @@
           }
         },
         "type": "object",
-        "required": ["detail"],
+        "required": [
+          "detail"
+        ],
         "title": "ErrorResponse",
         "description": "Generic error response model"
       },
@@ -8700,11 +9456,15 @@
           "detail": {
             "type": "string",
             "title": "Detail",
-            "examples": ["Detailed error message"]
+            "examples": [
+              "Detailed error message"
+            ]
           }
         },
         "type": "object",
-        "required": ["detail"],
+        "required": [
+          "detail"
+        ],
         "title": "ErrorResponse",
         "description": "Model representing an API error response."
       },
@@ -8719,7 +9479,9 @@
           }
         },
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "title": "Error"
       }
     },
