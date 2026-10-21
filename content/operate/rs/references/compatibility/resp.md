@@ -84,7 +84,7 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
 - Cluster Manager UI:
 
-    1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
+    1. On the **Databases** screen, select ![Toggle actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) to open a list of additional actions.
 
     1. Select **Upgrade configuration**.
 

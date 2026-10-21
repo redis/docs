@@ -44,11 +44,12 @@ To add resource tags when you create a new BYOC subscription:
 
 1. Select **Add additional tag** to add a tag. 
 
-    {{<image filename="images/rc/tags-button-add-additional-tag.png" alt="The Add additional tag button." width="200px" >}}
+    ![The Add additional tag button.](/images/rc/tags-button-add-additional-tag.png)
+    {width="200px"}
 
 1. Enter a **Key** and **Value** for the tag.
 
-    {{<image filename="images/rc/byoc-resource-tags-add-tags-new.png" alt="The Add additional tag button." >}}
+    ![The Add additional tag button.](/images/rc/byoc-resource-tags-add-tags-new.png)
 
     After you add your first tag, you can:
 
@@ -56,11 +57,13 @@ To add resource tags when you create a new BYOC subscription:
 
     - Select **Delete** next to a tag to delete it.
 
-        {{<image filename="images/rc/icon-delete-lb.png" width="36px" alt="Delete button." >}}
+        ![Delete button.](/images/rc/icon-delete-lb.png)
+        {width="36px"}
 
     - Select **Add additional tag** to add another tag.
 
-        {{<image filename="images/rc/tags-button-add-additional-tag.png" alt="The Add additional tag button." width="200px" >}}
+        ![The Add additional tag button.](/images/rc/tags-button-add-additional-tag.png)
+        {width="200px"}
 
 1. Continue creating your subscription.
 
@@ -76,11 +79,11 @@ You can add, edit, or remove resource tags on an existing BYOC subscription at a
 
 1. In **General > AWS Resource tags**, select **Edit**.
 
-    {{<image filename="images/rc/icon-edit-subscription-name.png" alt="Use the **Edit** button to edit resource tags." >}}
+    ![Use the **Edit** button to edit resource tags.](/images/rc/icon-edit-subscription-name.png)
 
     This opens the **AWS Resource tags** sidebar. 
 
-    {{<image filename="images/rc/byoc-resource-tags-edit-existing.png" alt="The AWS Resource tags sidebar." >}}
+    ![The AWS Resource tags sidebar.](/images/rc/byoc-resource-tags-edit-existing.png)
 
 1. From here, you can:
 
@@ -88,11 +91,13 @@ You can add, edit, or remove resource tags on an existing BYOC subscription at a
 
     - Select **Delete** next to a tag to delete it.
 
-        {{<image filename="images/rc/icon-delete-lb.png" width="36px" alt="Delete button." >}}
+        ![Delete button.](/images/rc/icon-delete-lb.png)
+        {width="36px"}
 
     - Select **Add additional tag** to add another tag.
 
-        {{<image filename="images/rc/tags-button-add-additional-tag.png" alt="The Add additional tag button." width="200px" >}}
+        ![The Add additional tag button.](/images/rc/tags-button-add-additional-tag.png)
+        {width="200px"}
 
 1. Select **Save tags** to save your changes.
 

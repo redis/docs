@@ -18,7 +18,7 @@ For this quick start tutorial, you need:
 
     - A [Redis Cloud](/content/operate/oss_and_stack/stack-with-enterprise/stack-quickstart.md) database
 
-    - A [Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) database
+    - A [Redis Software](/content/operate/rs/installing-upgrading/modules/add-module-to-database.md) database
 
 - [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) command-line tool
 
@@ -233,7 +233,7 @@ You can use the [Redis Insight](/content/develop/tools/insight/_index.md) workbe
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 
-{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with Redis Insight workbench.">}}
+![Visualize a graph with Redis Insight workbench.](/images/modules/visualize-graph.png)
 
 ## More info
 

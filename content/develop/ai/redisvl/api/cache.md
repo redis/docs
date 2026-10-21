@@ -147,9 +147,8 @@ Async drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-{{< note >}}
-At least one of ids or keys must be provided.
-{{< /note >}}
+> [!NOTE]
+> At least one of ids or keys must be provided.
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -171,10 +170,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -279,11 +277,10 @@ Clears by key prefix, not by index membership, so it removes every key
 under `{name}:` and nothing outside it. Available under
 `create_index=False`; dropping the index is [delete](#delete).
 
-{{< warning >}}
-Under `create_index=False` the prefix is unverified, so this can
-delete keys the index never covered and miss entries it does. See
-[Install RedisVL]({{< relref "../user_guide/installation" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Under `create_index=False` the prefix is unverified, so this can
+> delete keys the index never covered and miss entries it does. See
+> [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 * **Return type:**
   None
@@ -316,9 +313,8 @@ Drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-{{< note >}}
-At least one of ids or keys must be provided.
-{{< /note >}}
+> [!NOTE]
+> At least one of ids or keys must be provided.
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -340,10 +336,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `set_threshold(distance_threshold)`
 
@@ -587,10 +582,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -708,10 +702,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `set_ttl(ttl=None)`
 
@@ -938,10 +931,9 @@ Deletes every Redis key under the cache’s prefix (`<name>:`) with
 `SCAN` + `DEL`. The cache object itself stays usable for future
 writes.
 
-{{< note >}}
-`SCAN` is not a point-in-time snapshot, so this is a best-effort
-sweep rather than an atomic flush:
-{{< /note >}}
+> [!NOTE]
+> `SCAN` is not a point-in-time snapshot, so this is a best-effort
+> sweep rather than an atomic flush:
 
 - Keys written by other clients while the sweep is in progress may
   or may not be deleted, so the cache is not guaranteed to be empty
@@ -1045,10 +1037,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async aget(content, model_name)`
 
@@ -1231,11 +1222,10 @@ Each item in the input list should be a dictionary with the following fields:
 * **Return type:**
   List[str]
 
-{{< note >}}
-The batch is pipelined, not transactional, so on a Redis Cluster it
-fans out across shards. If it fails partway, some entries will have
-been written; the operation is idempotent, so simply retry it.
-{{< /note >}}
+> [!NOTE]
+> The batch is pipelined, not transactional, so on a Redis Cluster it
+> fans out across shards. If it fails partway, some entries will have
+> been written; the operation is idempotent, so simply retry it.
 
 ```python
 # Store multiple embeddings asynchronously
@@ -1289,10 +1279,9 @@ Deletes every Redis key under the cache’s prefix (`<name>:`) with
 `SCAN` + `DEL`. The cache object itself stays usable for future
 writes.
 
-{{< note >}}
-`SCAN` is not a point-in-time snapshot, so this is a best-effort
-sweep rather than an atomic flush:
-{{< /note >}}
+> [!NOTE]
+> `SCAN` is not a point-in-time snapshot, so this is a best-effort
+> sweep rather than an atomic flush:
 
 - Keys written by other clients while the sweep is in progress may
   or may not be deleted, so the cache is not guaranteed to be empty
@@ -1388,10 +1377,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `get(content, model_name)`
 
@@ -1574,11 +1562,10 @@ Each item in the input list should be a dictionary with the following fields:
 * **Return type:**
   List[str]
 
-{{< note >}}
-The batch is pipelined, not transactional, so on a Redis Cluster it
-fans out across shards. If it fails partway, some entries will have
-been written; the operation is idempotent, so simply retry it.
-{{< /note >}}
+> [!NOTE]
+> The batch is pipelined, not transactional, so on a Redis Cluster it
+> fans out across shards. If it fails partway, some entries will have
+> been written; the operation is idempotent, so simply retry it.
 
 ```python
 # Store multiple embeddings

@@ -20,11 +20,13 @@ Available options depend on your database plan and **Type**.
 
 All Redis Cloud Essentials databases with versions prior to Redis 8.0 support [Redis Stack](/content/operate/oss_and_stack/_index.md), which enables the most frequently used capabilities.
 
-{{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis." width="75%">}}
+![For Essentials, the Type setting in the General section includes an option for Redis.](/images/rc/new-database-general-type-free-stack.png)
+{width="75%"}
 
 When the database **Type** is set to _Redis_, the Advanced capabilities section of the database details page displays the advanced capabilities included with the database and their versions.
 
-{{<image filename="images/rc/database-details-modules-stack-free.png" alt="For Essentials, the Database details page lists the capabilities and versions added by Redis Stack." width="75%">}}
+![For Essentials, the Database details page lists the capabilities and versions added by Redis Stack.](/images/rc/database-details-modules-stack-free.png)
+{width="75%"}
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default.
 
@@ -34,7 +36,8 @@ Redis Cloud is updated on a regular basis, which includes the advanced capabilit
 
 By default, Redis Cloud Pro databases load all supported advanced capabilities. For versions prior to Redis 8.0, you can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings](/content/operate/rc/databases/create-database/create-pro-database-new.md) and select **More options** when adding your database in the **Sizing tab** to view advanced capability settings.
 
-{{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilities included in your database." width="75%">}}
+![For Pro databases, you can select the capabilities included in your database.](/images/rc/database-details-redis-module-select-flexible.png)
+{width="75%"}
 
 You can select more than one advanced capability for a database, though there are limits:
 
@@ -67,7 +70,8 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 The query performance factor adds extra compute power specifically for search and query. When you create a Pro database with search and query, you can increase your search queries per second by the selected factor.
 
-{{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="50%">}}
+![For Pro databases, you can select the query performance factor for your database.](/images/rc/database-details-query-performance-factor-pro.png)
+{width="50%"}
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database](/content/operate/rc/databases/create-database/_index.md) with the desired performance factor and [migrate data](/content/operate/rc/databases/migrate-databases.md) from the test database to your new database.
 

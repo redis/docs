@@ -77,7 +77,7 @@ To check the status of an Active-Active database instance, run [`rladmin status`
   rladmin status
 ```
 
-{{< image filename="/images/rs/crdb-upgrade-node.png" >}}
+![](/images/rs/crdb-upgrade-node.png)
 
 The statuses of the Active-Active instances on the node can indicate:
 
@@ -99,7 +99,7 @@ For each Active-Active database instance:
 
 1. If the CRDB protocol version is old, read the warning message carefully and confirm that you want to update the CRDB protocol. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
-    {{< image filename="/images/rs/crdb-upgrade-protocol.png" >}}
+    ![](/images/rs/crdb-upgrade-protocol.png)
 
     After confirmation, the Active-Active instance will use the new Redis version and CRDB protocol version.
 
@@ -189,6 +189,10 @@ If your Active-Active database uses modules:
     Verify that all CRDB database instances and their modules have been updated.
     Do you want to continue? (y/n): y
     ```
+
+{{<warning>}}
+`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules. If a participating cluster's configuration still lists outdated module versions after the upgrade, [contact Redis support](https://redis.io/support/) for help updating them.
+{{</warning>}}
 
 ## Upgrade limitations
 

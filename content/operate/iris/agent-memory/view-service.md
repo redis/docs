@@ -19,7 +19,7 @@ After you have [created your first Agent Memory service]({{< relref "/operate/ir
 
 This page displays a list of all Agent Memory services associated with your account.
 
-{{<image filename="images/rc/agent-memory-service-list.png" alt="The Agent Memory service in the Agent Memory service list." >}}
+![The Agent Memory service in the Agent Memory service list.](/images/rc/agent-memory-service-list.png)
 
 Select your Agent Memory service from the list to view the service's details.
 
@@ -40,7 +40,7 @@ Some of these settings can be changed after service creation. To do so, select t
 
 The **General settings** section provides the connection details and general settings for your Agent Memory service.
 
-{{<image filename="images/rc/agent-memory-view-general.png" alt="The General settings for the Agent Memory service." >}}
+![The General settings for the Agent Memory service.](/images/rc/agent-memory-view-general.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -57,7 +57,7 @@ Follow the [Redis Agent Memory REST API quickstart]({{< relref "/develop/ai/cont
 
 The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, and the automatic summarization settings for session memory.
 
-{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The Memory configuration section for the Agent Memory service." >}}
+![The Memory configuration section for the Agent Memory service.](/images/rc/agent-memory-view-memory-configuration.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -74,7 +74,7 @@ The **AI model and credentials** section appears when the service uses your mode
 
 Provider and model values shown in the screenshot are examples.
 
-{{<image filename="images/rc/agent-memory-ai-model-details.png" alt="The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status." >}}
+![The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status.](/images/rc/agent-memory-ai-model-details.png)
 
 The provider and embedding model are read-only. You can change the LLM model or replace the provider key. For update steps, key rotation behavior, security, and troubleshooting guidance, see [Configure AI models for Agent Memory]({{< relref "/operate/iris/agent-memory/model-configuration" >}}).
 
@@ -82,7 +82,7 @@ The provider and embedding model are read-only. You can change the LLM model or 
 
 The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
 
-{{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Agent Memory service." >}}
+![The Memory types & extraction section for the Agent Memory service.](/images/rc/agent-memory-view-memory-types.png)
 
 #### Custom memory types
 
@@ -101,11 +101,10 @@ To change a custom memory type's name or fields, you must create a new service. 
 
 The **Sensitive-data exclusions** section shows the [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) configured for the service.
 
-{{< note >}}
-Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
-{{< /note >}}
+> [!NOTE]
+> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
-{{<image filename="images/rc/agent-memory-view-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section for the Agent Memory service." >}}
+![The Sensitive-data exclusions section for the Agent Memory service.](/images/rc/agent-memory-view-sensitive-data-exclusions.png)
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -118,15 +117,14 @@ Turning semantic exclusions off keeps the exclusion prompt you saved, so you can
 
 Changing exclusions affects memories extracted after you save. Memories already in long-term memory are not re-evaluated, and there is no way to remove only the memories that match your exclusions. The only way to clear memories stored before you configured exclusions is to [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
 
-{{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
-{{</warning>}}
+> [!WARNING]
+> Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 
 ### Actions
 
 The **Actions** section lets you flush or delete your Agent Memory service.
 
-{{<image filename="images/rc/agent-memory-view-actions.png" alt="The actions for the Agent Memory service." >}}
+![The actions for the Agent Memory service.](/images/rc/agent-memory-view-actions.png)
 
 #### Flush memory entries
 
@@ -167,7 +165,7 @@ The **Metrics** tab provides a series of graphs showing performance data for you
 
 The **API keys** tab shows a list of all API keys for your service.
 
-{{<image filename="images/rc/agent-memory-view-api-keys.png" alt="The actions for the Agent Memory service." >}}
+![The actions for the Agent Memory service.](/images/rc/agent-memory-view-api-keys.png)
 
 Here, you can generate a new API key or remove any keys that are no longer in use. You can generate or remove service API keys at any time.
 
@@ -177,26 +175,29 @@ To generate a new service key:
 
 1. Select **New API key**.
 
-    {{<image filename="images/rc/agent-memory-new-api-key.png" alt="The New API key button." width=150px >}}
+    ![The New API key button.](/images/rc/agent-memory-new-api-key.png)
+    {width="150px"}
 
 1. Enter a new name for your API key.
 
-    {{<image filename="images/rc/agent-memory-add-api-key.png" alt="The Add API key window." width="37.5%" >}}
+    ![The Add API key window.](/images/rc/agent-memory-add-api-key.png)
+    {width="37.5%"}
 
 1. Select **Generate key** to generate your new API key.
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=40% >}}
+    ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
+    {width="40%"}
 
-    {{<warning>}}
-This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
-
-If you lose the service key value, you will need to generate a new key again.
-    {{</warning>}}
+    > [!WARNING]
+    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
+    >
+    > If you lose the service key value, you will need to generate a new key again.
 
 ### Delete API key
 
 To delete an API key, select the **Delete API key** button next to the old key.
 
-{{<image filename="images/rc/icon-delete-lb.png" width="36px" alt="Delete button." >}}
+![Delete button.](/images/rc/icon-delete-lb.png)
+{width="36px"}

@@ -41,7 +41,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
     1. Go to the **Access Control > Users** tab:
 
-        {{<image filename="images/rs/access-control-user-panel.png" alt="Add role with name" >}}
+        ![Add role with name](/images/rs/access-control-user-panel.png)
     
     1. Click **+ Add user**.
 
@@ -66,17 +66,19 @@ Every instance of an Active-Active database can receive write operations, and al
 
     - Click the **+** button next to **Databases** in the navigation menu:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-plus-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-plus-drop-down.png)
+        {width="350px"}
         
     - Go to the **Databases** screen and select **Create database**:
 
-        {{<image filename="images/rs/screenshots/databases/create-db-button-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        ![Create database menu has two options: Single Region and Active-Active database.](/images/rs/screenshots/databases/create-db-button-drop-down.png)
+        {width="350px"}
 
 1. Select **Active-Active database**.
 
 1. Enter the cluster's local admin credentials, then click **Save**:
 
-    {{<image filename="images/rs/screenshots/databases/active-active-databases/enter-local-admin-credentials.png" alt="Enter the cluster's admin username and password.">}}
+    ![Enter the cluster's admin username and password.](/images/rs/screenshots/databases/active-active-databases/enter-local-admin-credentials.png)
     
 1. Add participating clusters that will host instances of the Active-Active database:
 
@@ -84,7 +86,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
     1. In the **Add cluster** configuration panel, enter the new cluster's URL, port number, and the admin username and password for the new participating cluster:
 
-        {{<image filename="images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png" alt="Add cluster panel.">}}
+        ![Add cluster panel.](/images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png)
 
         > [!NOTE]
         > If an Active-Active database [runs on flash memory](/content/operate/rs/databases/flash/_index.md), you cannot add participating clusters that run on RAM only.

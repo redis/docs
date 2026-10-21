@@ -23,7 +23,7 @@ Cloud releases roll out automatically on a regular basis, so there's nothing to 
 
 ## Self-managed releases
 
-Self-managed Radar ships as a Helm chart and an RPM, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`. Each release's notes list the exact chart version and container images under **Downloads**.
+Self-managed Radar ships as a Helm chart and an RPM, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://redis.io/downloads/#Modules_Tools_and_Integration), the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`. Each release's notes list the exact chart version, container images, and packages under **Downloads**.
 
 Radar ships on two support tracks:
 
@@ -36,5 +36,6 @@ Install a new release when you're ready to upgrade. See [Install Radar]({{< relr
 
 | Release                                                            | Support track | What changed                         |
 |--------------------------------------------------------------------|---------------|--------------------------------------|
+| [2026.10.1]({{< relref "/operate/radar/release-notes/2026-10-1" >}}) | STS           | Alert descriptions, complete usage exports, and air-gapped OpenShift installs. |
 | [2026.9.5]({{< relref "/operate/radar/release-notes/2026-9-5" >}}) | STS           | Connect clusters with an agent.      |
 | [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release.                     |

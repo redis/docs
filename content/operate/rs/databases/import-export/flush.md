@@ -93,7 +93,7 @@ To flush data from an Active-Active database, use one of the following methods:
 
     1. On the **Databases** screen, select the database from the list, then click **Configuration**.
 
-    1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
+    1. Click ![Toggle actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) to open a list of additional actions.
 
     1. Select **Flush database**.
 

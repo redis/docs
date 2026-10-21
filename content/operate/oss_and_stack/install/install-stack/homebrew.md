@@ -16,7 +16,7 @@ weight: 6
 
 > [!NOTE]
 > Installation using Homebrew is only supported on macOS.
-&nbsp;
+
 > [!NOTE]
 > If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
 

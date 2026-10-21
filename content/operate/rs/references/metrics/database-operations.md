@@ -13,7 +13,7 @@ weight: $weight
 
 The following metrics are available in the Redis Software Cluster Manager UI.
 
-{{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
+![The database metrics page.](/images/rs/screenshots/metrics/db-metrics.png)
 
 ## Evicted objects/sec
 

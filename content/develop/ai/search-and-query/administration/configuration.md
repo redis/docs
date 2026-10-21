@@ -267,7 +267,7 @@ Default: `128`
 
 ### search-max-aggregate-results
 
-The maximum number of results to be returned by the `FT.AGGREGATE` command if `LIMIT` is used.
+The maximum number of results to be returned by the `FT.AGGREGATE` command if `LIMIT` is used. It also caps the `offset` and `count` of the [`COLLECT` reducer's](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#collect) `LIMIT`.
 
 Type: integer
 

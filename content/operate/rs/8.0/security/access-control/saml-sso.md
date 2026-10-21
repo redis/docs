@@ -85,7 +85,7 @@ To set up SAML single sign-on for a Redis Software cluster:
 
 1. Go to **Access Control > Single Sign-On**.
 
-    <img src="../../../../../images/rs/screenshots/access-control/sso/sso-before-config.png" alt="The single sign-on configuration screen.">
+    ![The single sign-on configuration screen.](/images/rs/screenshots/access-control/sso/sso-before-config.png)
 
 1. In the **Service Provider (Redis) metadata** section, find **Service-provider's public certificate + private key** and click **Upload**.
 
@@ -130,7 +130,7 @@ To download the service provider's metadata using the Cluster Manager UI:
 
     1. **Metadata file**
 
-    <img src="../../../../../images/rs/screenshots/access-control/sso/sp-metadata-after-cert-upload.png" alt="The service provider Redis metadata section.">
+    ![The service provider Redis metadata section.](/images/rs/screenshots/access-control/sso/sp-metadata-after-cert-upload.png)
 
 1. Optionally copy the following values for future SAML app setup in the identity provider. You can also find these values in the service provider's metadata file.
 
@@ -256,7 +256,7 @@ tab2="REST API" >}}
 
 1. Enter the **Identity Provider metadata** settings. 
 
-    <img src="../../../../../images/rs/screenshots/access-control/sso/edit-idp-metadata.png" alt="The identity provider metadata dialog.">
+    ![The identity provider metadata dialog.](/images/rs/screenshots/access-control/sso/edit-idp-metadata.png)
 
 1. Click **Save**.
 
@@ -371,7 +371,7 @@ To enforce single sign-on using the Cluster Manager UI:
 
 1. Select **Enforce SSO-only login**.
 
-    <img src="../../../../../images/rs/screenshots/access-control/sso/enforce-sso.png" alt="Enforce SSO-only login is selected.">
+    ![Enforce SSO-only login is selected.](/images/rs/screenshots/access-control/sso/enforce-sso.png)
 
 1. Click **Save**.
 

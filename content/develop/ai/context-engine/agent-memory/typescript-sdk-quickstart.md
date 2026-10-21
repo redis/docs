@@ -316,5 +316,6 @@ See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-servic
 ## Next steps
 
 * Review the [TypeScript SDK package and reference](https://www.npmjs.com/package/@redis-iris/agent-memory).
+* Generate a complete conversational agent with the [AI agent builder](/content/develop/ai/agent-builder/_index.md). Select **Redis Iris Conversational Assistant** and **JavaScript**.
 * Try the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).
 * Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).

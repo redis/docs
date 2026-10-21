@@ -125,6 +125,15 @@ You can run the query above again to check that `log-bin` is now `ON`.
 > If you don't enable automated backups first then the settings above will have no
 > effect.
 
+&nbsp;
+
+> [!NOTE]
+> If you are using [Google Cloud SQL for MySQL](https://cloud.google.com/sql/docs/mysql),
+> you enable binary logging and set `binlog_row_image` through Cloud SQL instead of the
+> server configuration file. See
+> [Prepare Google Cloud SQL for MySQL for RDI](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/gcp-cloud-sql-mysql.md)
+> for the full setup.
+
 ## 3. Enable GTIDs
 
 *Global transaction identifiers (GTIDs)* uniquely identify the transactions that occur

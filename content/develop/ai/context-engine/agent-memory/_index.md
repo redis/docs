@@ -8,7 +8,7 @@ categories:
 description: Store agent memory for AI applications in Redis.
 linkTitle: Agent Memory
 hideListLinks: true
-weight: 20
+weight: 10
 bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 aliases:
@@ -24,10 +24,10 @@ When enabled, automatic summarization compacts session memory by summarizing old
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card color="bg-blue-300" title="Overview" description="What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="Python SDK" description="Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="TypeScript SDK" description="Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
-  {{< tile-card color="bg-teal-300" title="REST API" description="Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Overview" description="How session and long-term memory work, and what runs in the background" url="/develop/ai/context-engine/agent-memory/overview" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Python quickstart" description="Get started with Redis Agent Memory in Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="TypeScript quickstart" description="Get started with Redis Agent Memory in TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="REST quickstart" description="Get started with Redis Agent Memory using curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
 </div>
 
 ## Why use Redis Agent Memory?
@@ -65,6 +65,8 @@ Redis Agent Memory provides two memory tiers:
     </ul>
   </div>
 </div>
+
+To watch both tiers change during a conversation, try the [interactive demo](/content/develop/ai/context-engine/agent-memory/interactive-demo.md).
 
 ### Example: Travel planning agent
 
@@ -136,3 +138,5 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
 </div>
 
 For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md).
+
+To generate a complete conversational agent that uses Agent Memory, open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and select **Redis Iris Conversational Assistant**.

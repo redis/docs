@@ -7,6 +7,8 @@ categories:
 - getting started
 description: Connect AI agents to Redis documentation and give them Redis-specific skills.
 weight: 60
+aliases:
+- /develop/getting-started/build-with-an-agent/
 ---
 
 Redis publishes two agent-facing tools that work alongside the client libraries and MCP servers covered elsewhere in these docs:

@@ -1,0 +1,59 @@
+/* =========================================================================
+   Redis Search scripted demo: querying
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the scripted demos share one look. Scoped under `.rsq`; the root
+   element also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+/* ---- the controls ---- */
+.rsq-controls { display: grid; gap: 10px; margin-bottom: 12px; }
+.rsq-choice { display: grid; gap: 5px; min-width: 0; }
+.rsq-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.rsq .rsq-opt { padding: 4px 11px; font-size: 13px; }
+.rsq .rsq-opt.is-on { border-color: var(--rcr-accent-2); color: var(--rcr-accent-2); background: rgba(89, 97, 255, .07); font-weight: 600; }
+.rsq .rsq-opt code { background: none; padding: 0; font-size: 12px; color: inherit; }
+.rsq-filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 10px 12px; border: 1px solid var(--rcr-line); border-radius: 10px; background: var(--rcr-surface-2); }
+@container (min-width: 560px) { .rsq-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+/* ---- the results ---- */
+.rsq-results { margin-bottom: 12px; }
+.rsq-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.rsq-axis { font-size: 11.5px; color: var(--rcr-faint); margin-bottom: 2px; }
+.rsq-empty { font-size: 13px; color: var(--rcr-faint); }
+.rsq-row { display: grid; gap: 1px; padding: 7px 10px; border: 1px solid rgba(255, 68, 56, .25); border-radius: 8px; background: rgba(255, 68, 56, .06); font-size: 13.5px; cursor: pointer; }
+.rsq-row:hover { border-color: rgba(255, 68, 56, .45); }
+.rsq-row:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--rcr-focus); }
+.rsq-row.is-open { border-color: var(--rcr-accent-2); }
+.rsq-meta { font-size: 11.5px; color: var(--rcr-muted); margin-left: 8px; }
+.rsq-desc { font-size: 13px; color: var(--rcr-muted); }
+.rsq mark.rsq-hit { background: #fde0c2; color: var(--rcr-ink); border-radius: 3px; padding: 0 2px; box-shadow: inset 0 -2px 0 #b35900; }
+.rsq-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.rsq-pager .rcr-faint { margin-right: 4px; }
+.rsq-group { display: grid; grid-template-columns: minmax(0, 1fr) minmax(60px, 140px) 4.6em; align-items: center; gap: 10px; padding: 6px 9px; border-radius: 8px; background: var(--rcr-surface-2); }
+.rsq-gname { display: grid; min-width: 0; font-size: 13.5px; }
+.rsq-gname .rsq-meta { margin-left: 0; }
+.rsq-bar { position: relative; height: 8px; border-radius: 4px; background: var(--rcr-line); }
+.rsq-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--rcr-accent); }
+.rsq-val { text-align: right; font-size: 12.5px; }
+.rsq-note { margin-top: 10px; padding: 9px 12px; border-left: 3px solid var(--rcr-accent-2); border-radius: 0 8px 8px 0; background: rgba(89, 97, 255, .06); font-size: 13.5px; }
+
+/* ---- what redis-cli shows: the command, the reply, the index, and the documents ---- */
+.rsq-codehead { flex-wrap: wrap; }
+.rsq-codehead .rcr-subtabs { margin-bottom: 0; border-bottom: 0; }
+.rsq pre.rsq-pre { font-size: 12px; line-height: 1.5; white-space: pre; overflow-x: auto; margin-bottom: 8px; max-height: 420px; }
+.rsq-prompt { color: var(--rcr-faint); user-select: none; }
+.rsq-doc { min-width: 0; margin: 2px 0 8px; }
+.rsq .rsq-doc pre.rsq-pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: none; }
+.rsq-keys { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 8px; }
+.rsq .rsq-keys .rsq-opt { font-size: 12px; }
+/* The command is one line for redis-cli; it wraps here so all of it is in view. */
+.rsq pre.rsq-pre.rsq-cmdline { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---- step 4: the groups an aggregation returns ---- */
+.rsq-groups { margin-top: 12px; }
+.rsq .rsq-groups .rsq-group { background: var(--rcr-surface); }
+
+/* In the query demo's tables, each field's type sits on its own line under the field name, so long names don't break. */
+.rsq[data-search] .rsi-table th .rsi-type { display: table; margin-top: 2px; }
+/* In the stacked layout, the table-mode column widths don't apply, so every header gets its column's full width. */
+@container (max-width: 440px) { .rsq[data-search] .rsi-table th:nth-child(n), .rsq[data-search] .rsi-table.has-3 th:nth-child(n) { width: auto; } }

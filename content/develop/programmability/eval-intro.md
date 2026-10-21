@@ -12,6 +12,7 @@ categories:
 aliases:
 - /develop/interact/programmability/eval-intro
 - /interact/programmability/eval-intro/
+- /manual/programmability/eval-intro/
 description: 'Executing Lua in Redis
 
   '

@@ -21,19 +21,21 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Search AWS Marketplace for [Redis Cloud: Real-Time Data Layer for AI Apps & Agents](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
 
-    {{<image filename="images/rc/aws-marketplace-rc-listing.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
+    ![The Redis Cloud listing on AWS Marketplace](/images/rc/aws-marketplace-rc-listing.png)
 
     Or, click on the URL provided by your Redis seller for a private offer for [Redis Cloud - Annual Commits](https://aws.amazon.com/marketplace/pp/prodview-e6y7ork67pjwg?sr=0-3&ref_=beagle&applicationId=AWSMPContessa) and accept the private offer.
 
 1.  Locate the **Set Up Your Account button**, and then select it to begin mapping your Redis Cloud account with your AWS Marketplace account.
 
-    {{<image filename="images/rc/aws-marketplace-account-setup-button.png" alt="Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account." width="50%">}}
+    ![Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account.](/images/rc/aws-marketplace-account-setup-button.png)
+    {width="50%"}
 
 1.  Sign in to the [Redis Cloud console](https://cloud.redis.io). If you do not yet have an account, you will need to create one. You must have the **Account Owner** role.
 
 1.  Select the Redis Cloud account(s) to be mapped to your AWS Marketplace account and confirm that your Marketplace account will pay for your Redis Cloud resources going forward.
 
-    {{<image filename="images/rc/aws-marketplace-map-account-dialog.png" alt="Use the AWS Marketplace dialog to map your Redis Cloud account to your AWS Marketplace account." width="80%">}}
+    ![Use the AWS Marketplace dialog to map your Redis Cloud account to your AWS Marketplace account.](/images/rc/aws-marketplace-map-account-dialog.png)
+    {width="80%"}
 
 1.  Use the **Connect account** button to confirm your choice.
 

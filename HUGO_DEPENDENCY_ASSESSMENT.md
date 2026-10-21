@@ -297,7 +297,8 @@ currently specify alt text.
 
 The current image shortcode declares a default width of 75%, but does not
 apply it. Only explicitly provided widths appear in the rendered `img`
-element. See [`layouts/shortcodes/image.html`](layouts/shortcodes/image.html).
+element. (DOC-7128 has since retired that shortcode. Images now render through
+[`layouts/_default/_markup/render-image.html`](layouts/_default/_markup/render-image.html).)
 
 ## Code blocks and tables
 

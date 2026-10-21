@@ -57,7 +57,7 @@ outside the Redis
 Enterprise cluster where the target database is kept. However, RDI keeps
 its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
-{{< image filename="images/rdi/ingest/ingest-dataflow.webp" >}}
+![](/images/rdi/ingest/ingest-dataflow.webp)
 
 When you first start RDI, the target database is empty and so all
 of the data in the source databases is essentially "change" data.
@@ -80,7 +80,20 @@ are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
 to say that all writes after the first one make no change to the
 overall state).
 
+{{< note >}}
+The delivery guarantee applies to change events captured by RDI. If a Debezium
+collector's saved source position becomes unavailable, a new snapshot cannot replay
+changes whose source log history has expired. Missed deletes can leave stale records
+in the target. See the
+[missed-delete timeline](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
+{{< /note >}}
+
 ## Checkpointing
+
+The processor checkpoint is separate from the collector's position in source change
+history. See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md)
+for how source retention affects recovery after an interruption.
 
 RDI uses Redis streams to store the sequence of change events
 captured from the sources. The events are then retrieved in order
@@ -141,7 +154,7 @@ with the control plane.
 
 The diagram below shows all RDI components and the interactions between them:
 
-{{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
+![](/images/rdi/ingest/ingest-control-plane.webp)
 
 ## Stream processor implementations
 
@@ -170,7 +183,7 @@ The two operators running on both VMs use a leader election algorithm to decide 
 VM is the active one (the "leader").
 The diagram below shows this configuration:
 
-{{< image filename="images/rdi/ingest/ingest-active-passive-vms.webp" >}}
+![](/images/rdi/ingest/ingest-active-passive-vms.webp)
 
 See [Install on VMs](/content/integrate/redis-data-integration/installation/install-vm.md)
 for more information.

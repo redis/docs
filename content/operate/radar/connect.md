@@ -18,13 +18,14 @@ After installing Redis Radar, it's time to connect your clusters. Add each clust
 |---|---|---|
 | [Redis Software](#connect-a-redis-software-cluster) | The cluster REST API, over HTTPS on port 9443 | A hostname or IP address, plus an account on the cluster |
 | [Redis Open Source](#connect-a-redis-open-source-instance) | Direct access to the Redis instance | A hostname and port, plus credentials if the instance requires them |
-| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An account key and a user secret |
+| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An API account key and an API user key |
 | [Amazon ElastiCache](#connect-amazon-elasticache) | The AWS control-plane APIs | Read-only AWS credentials and the regions to scan |
 | [Google Memorystore](#connect-google-memorystore) | The Google Cloud APIs | A read-only service account, plus the project and regions to scan |
 
 Radar encrypts every credential before storing it. Credentials are never returned through the API and never written to logs.
 
-{{<image filename="images/radar/add-connection.png" alt="The Add connection dialog, with the connection type selector open" width="75%">}}
+![The Add connection dialog, with the connection type selector open](/images/radar/add-connection.png)
+{width="75%"}
 
 ## Self-managed connections
 
@@ -53,11 +54,11 @@ Radar tests the connection before it saves anything. If the test fails, Radar sh
 
 Radar always reaches the REST API over HTTPS.
 
-{{<image filename="images/radar/add-connection-redis-software.png" alt="The Add connection dialog set to connection type Redis Software" width="75%">}}
+![The Add connection dialog set to connection type Redis Software](/images/radar/add-connection-redis-software.png)
+{width="75%"}
 
-{{< note >}}
-Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
-{{< /note >}}
+> [!NOTE]
+> Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
 
 ### Connect a Redis Open Source instance
 
@@ -71,7 +72,8 @@ Radar connects straight to the instance, so it needs network access to that endp
 6. Select **Use TLS (rediss://)** if the instance requires an encrypted connection.
 7. Select **Add connection**.
 
-{{<image filename="images/radar/add-connection-redis-open-source.png" alt="The Add connection dialog set to connection type Redis Open Source" width="75%">}}
+![The Add connection dialog set to connection type Redis Open Source](/images/radar/add-connection-redis-open-source.png)
+{width="75%"}
 
 ## Cloud connections
 
@@ -81,7 +83,7 @@ Connect a Redis Cloud account, Amazon ElastiCache, or Google Memorystore. These 
 
 For every connection you need:
 
-- **API credentials for the provider.** A Redis Cloud account key and user secret, read-only AWS credentials, or a read-only Google Cloud service account. Radar never writes to your Redis Cloud subscription or provider account.
+- **API credentials for the provider.** A Redis Cloud API account key and API user key, read-only AWS credentials, or a read-only Google Cloud service account. Radar never writes to your Redis Cloud subscription or provider account.
 - **The regions to scan, for Amazon ElastiCache and Google Memorystore.** Radar only scans the regions you list.
 - **Network access from Radar to the provider's API.** Radar connects outbound only.
 
@@ -89,14 +91,15 @@ For every connection you need:
 
 A Redis Cloud connection uses the Redis Cloud API, so it covers every subscription and database in the account at once.
 
-1. Create a Redis Cloud API key. You need both the **account key** and a **user secret**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
+1. Create a Redis Cloud API key. You need both the **API account key** and an **API user key**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
 2. In Radar, select **Add connection**.
 3. Set the **connection type** to **Redis Cloud**.
 4. Enter a **display name**.
-5. Enter the **account key** and the **user secret**.
+5. Enter the **API account key** and the **API user key**.
 6. Select **Add connection**.
 
-{{<image filename="images/radar/add-connection-redis-cloud.png" alt="The Add connection dialog set to connection type Redis Cloud" width="75%">}}
+![The Add connection dialog set to connection type Redis Cloud](/images/radar/add-connection-redis-cloud.png)
+{width="75%"}
 
 ### Connect Amazon ElastiCache
 
@@ -148,11 +151,11 @@ Radar derives the AWS account ID itself, so you do not enter it.
 
 Both the API server and the worker need outbound HTTPS on port 443 to the AWS control-plane endpoints in every region you configure: `sts`, `elasticache`, `monitoring`, `tagging`, and `ec2`. Radar never opens a connection to a cache endpoint.
 
-{{<image filename="images/radar/add-connection-amazon-elasticache.png" alt="The Add connection dialog set to connection type Amazon ElastiCache" width="75%">}}
+![The Add connection dialog set to connection type Amazon ElastiCache](/images/radar/add-connection-amazon-elasticache.png)
+{width="75%"}
 
-{{< note >}}
-Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
-{{< /note >}}
+> [!NOTE]
+> Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
 
 ### Connect Google Memorystore
 
@@ -206,7 +209,8 @@ On a self-managed install, Radar authenticates with a service account key:
 
 Both the API server and the worker need outbound HTTPS on port 443 to `oauth2.googleapis.com`, `redis.googleapis.com`, `memorystore.googleapis.com`, `memcache.googleapis.com`, and `monitoring.googleapis.com`. Allowing `*.googleapis.com` covers the whole path.
 
-{{<image filename="images/radar/add-connection-google-memorystore.png" alt="The Add connection dialog set to connection type Google Memorystore" width="75%">}}
+![The Add connection dialog set to connection type Google Memorystore](/images/radar/add-connection-google-memorystore.png)
+{width="75%"}
 
 ## Secure cluster connections
 
@@ -231,9 +235,8 @@ To remove a connection:
 
 Removing a connection permanently deletes the health and usage data Radar collected through it. It does not affect the underlying Redis deployment or cloud account, and it cannot be undone.
 
-{{< warning >}}
-For a Redis Cloud account connection, removing it removes every subscription discovered through that account, not just one database.
-{{< /warning >}}
+> [!WARNING]
+> For a Redis Cloud account connection, removing it removes every subscription discovered through that account, not just one database.
 
 ## Next steps
 

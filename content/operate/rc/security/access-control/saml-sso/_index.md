@@ -44,7 +44,8 @@ You can also initiate single sign-on from the [Redis Cloud console](https://clou
 
 1. From the Redis Cloud console's [sign-in screen](https://cloud.redis.io/#/login), select **SSO**.
 
-    {{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
+    ![Sign in with SSO button](/images/rc/button-sign-in-sso.png)
+    {width="50px"}
 
 1. Enter the email address associated with your SAML user account.
 
@@ -86,31 +87,37 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
 1. Select the **Setup SAML SSO** button:
 
-    {{<image filename="images/rc/button-access-management-sso-setup.png" width="120px" alt="Setup SSO button">}}
+    ![Setup SSO button](/images/rc/button-access-management-sso-setup.png)
+    {width="120px"}
 
 1. From the **SAML** screen of the [Redis Cloud console](https://cloud.redis.io), you must verify you own the domains associated with your SAML configuration. Select **Add domain** to open the **Manage domain bindings** panel.
 
-    {{<image filename="images/rc/saml-button-add-domain.png" width="120px" alt="Add domain button">}}
+    ![Add domain button](/images/rc/saml-button-add-domain.png)
+    {width="120px"}
 
-    {{<image filename="images/rc/saml-manage-domain-bindings.png" width="80%" alt="The Manage domain bindings panel">}}
+    ![The Manage domain bindings panel](/images/rc/saml-manage-domain-bindings.png)
+    {width="80%"}
 
 1. Select **Copy** to copy the provided TXT DNS record. For each domain you want to associate with your SAML setup, add the copied TXT record to its DNS records. 
 
 1. Select **Add domain** to add a domain. 
 
-    {{<image filename="images/rc/saml-button-add-domain.png" width="120px" alt="Add domain button">}}
+    ![Add domain button](/images/rc/saml-button-add-domain.png)
+    {width="120px"}
 
-1. Enter the domain name and select {{<image filename="images/rc/saml-button-confirm.png#no-click" width="20px" alt="Confirm domain" class="inline">}} to save it, or select {{<image filename="images/rc/saml-button-cancel.png#no-click" width="20px" alt="Cancel" class="inline">}} to cancel.
+1. Enter the domain name and select ![Confirm domain](/images/rc/saml-button-confirm.png#no-click) to save it, or select ![Cancel](/images/rc/saml-button-cancel.png#no-click) to cancel.
 
-    {{<image filename="images/rc/saml-enter-domain.png" width="80%" alt="Enter domain name in the Domain field.">}}
+    ![Enter domain name in the Domain field.](/images/rc/saml-enter-domain.png)
+    {width="80%"}
 
 1. After you save the domain name, its status is **Pending**. Select **Verify** to verify it. 
 
-    {{<image filename="images/rc/saml-domain-pending.png" width="80%" alt="The Manage domain bindings panel, with a pending domain">}}
+    ![The Manage domain bindings panel, with a pending domain](/images/rc/saml-domain-pending.png)
+    {width="80%"}
 
     We'll check the domain's DNS records for the provided TXT record. If the TXT record does not exist or we can't resolve your domain, we won't be able to verify the domain and users with that domain won't be able to sign in using SAML SSO. 
     
-    Select {{<image filename="images/rc/icon-delete-teal.png#no-click" width="25px" alt="delete domain" class="inline">}} to delete a domain if it was added by mistake.
+    Select ![delete domain](/images/rc/icon-delete-teal.png#no-click) to delete a domain if it was added by mistake.
 
     If we find the TXT record, the domain's status will change to **Verified**.
 
@@ -118,7 +125,8 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
 1. Select **Close** to close the domain binding panel.
 
-    {{<image filename="images/rc/saml-button-close.png" width="100px" alt="Close button">}}
+    ![Close button](/images/rc/saml-button-close.png)
+    {width="100px"}
 
 After you verify at least one domain, you can select **Manage domains** to open the **Manage domain bindings** panel again and add or verify more domains.
 
@@ -186,7 +194,7 @@ After you set up the SAML integration app and create a SAML user in your identit
 
 1. Configure the **Identity Provider metadata** settings. 
 
-    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}}
+    ![SAML Single Sign-On configuration screen.](/images/rc/access-management-saml-config.png)
 
     To do so, you need the following metadata values from your identity provider:
 
@@ -201,7 +209,8 @@ After you set up the SAML integration app and create a SAML user in your identit
 
 1. Select **Enable**.
 
-    {{<image filename="images/rc/saml-enable-button.png" width="100px" alt="Enable button">}}
+    ![Enable button](/images/rc/saml-enable-button.png)
+    {width="100px"}
 
 1. From the **SAML activation** dialog box, select **Continue**.
 
@@ -285,7 +294,7 @@ To link other accounts to an existing SAML SSO configuration:
 
 1. Select **Get token**.
 
-    {{<image filename="images/rc/saml/popup-saml-get-token.png" alt="Get Token popup">}}
+    ![Get Token popup](/images/rc/saml/popup-saml-get-token.png)
 
     Select **Copy** to copy the linking token.
 
@@ -297,7 +306,8 @@ To link other accounts to an existing SAML SSO configuration:
 
 1. Select **Link account**.
 
-    {{<image filename="images/rc/saml/button-saml-link-account.png" alt="The Link Account button" width=150px >}}
+    ![The Link Account button](/images/rc/saml/button-saml-link-account.png)
+    {width="150px"}
 
 1. In the **Convert existing users** dialog, select **Confirm conversion** to finish linking the accounts.
 

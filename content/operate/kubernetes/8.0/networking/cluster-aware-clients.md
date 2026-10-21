@@ -13,9 +13,8 @@ url: '/operate/kubernetes/8.0/networking/cluster-aware-clients/'
 
 The OSS Cluster API improves performance by allowing cluster-aware Redis clients to discover database topology and route requests directly. This feature supports cluster-aware clients running on the same Kubernetes cluster (internal) and cluster-aware clients outside the Kubernetes cluster (external).
 
-{{< note >}}
-Enabling external access for OSS Cluster API creates a separate LoadBalancer service for each Redis Enterprise pod in addition to the LoadBalancer service for the cluster endpoint. LoadBalancers are resources that can significantly increase operational costs; plan your infrastructure budget accordingly.
-{{< /note >}}
+> [!NOTE]
+> Enabling external access for OSS Cluster API creates a separate LoadBalancer service for each Redis Enterprise pod in addition to the LoadBalancer service for the cluster endpoint. LoadBalancers are resources that can significantly increase operational costs; plan your infrastructure budget accordingly.
 
 ## Prerequisites
 

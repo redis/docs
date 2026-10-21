@@ -36,7 +36,7 @@ func main() {
 }
 ```
 
-You can also connect using a connection string:
+You can also connect using a connection URL:
 
 ```go
 opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
@@ -46,6 +46,11 @@ if err != nil {
 
 client := redis.NewClient(opt)
 ```
+
+> [!NOTE]
+> go-redis supports [connection URLs](/content/develop/clients/connection-urls.md#go-redis-go) through `redis.ParseURL()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
 
 After connecting, you can test the connection by  storing and retrieving
 a simple [string](/content/develop/data-types/strings/_index.md):
@@ -77,6 +82,45 @@ client := redis.NewClusterClient(&redis.ClusterOptions{
     // To route commands by latency or randomly, enable one of the following.
     //RouteByLatency: true,
     //RouteRandomly: true,
+})
+```
+
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+use `NewFailoverClient()`. Set `MasterName` to the name of the primary that the Sentinels
+monitor, and list one or more Sentinels in `SentinelAddrs`. The client asks the Sentinels
+for the current primary and switches to the new one after a failover.
+
+```go
+client := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+})
+```
+
+The Sentinels and the data nodes have separate credentials. Set `SentinelPassword` for the
+Sentinels, and `Username` and `Password` for the primary and replicas:
+
+```go
+client := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:       "mymaster",
+    SentinelAddrs:    []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+    SentinelPassword: "sentinel-secret", // use your Sentinel password
+    Username:         "default",         // use your Redis user
+    Password:         "secret",          // use your Redis password
+})
+```
+
+To send commands to a replica, set `ReplicaOnly`. The client sends every command to a
+random replica, including writes, which fail, so use this option only for a client that
+reads:
+
+```go
+replica := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"localhost:26379", "localhost:26380", "localhost:26381"},
+    ReplicaOnly:   true,
 })
 ```
 
@@ -138,7 +182,7 @@ for more information about SCH.
 
 > [!NOTE]
 > Using SCH with go-redis requires v9.16.0 or later for
-> basic connections, and v9.18.0 or later for
+> standard routing, and v9.18.0 or later for
 > [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 By default, `go-redis` always attempts to connect via SCH but falls back to

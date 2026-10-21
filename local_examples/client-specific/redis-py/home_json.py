@@ -170,6 +170,7 @@ assert huser2Set
 assert huser3Set
 # REMOVE_END
 
+
 # STEP_START query1_hash
 findPaulHashResult = r.ft("hash-idx:users").search(
     Query("Paul @age:[30 40]")
@@ -185,6 +186,26 @@ assert str(findPaulHashResult) == (
     "{'id': 'huser:3', 'payload': None, 'name': 'Paul Zamir', " +
     "'email': 'paul.zamir@example.com', 'age': '35', 'city': 'Tel Aviv'}]}"
 )
+# REMOVE_END
+
+# STEP_START add_hash_himport
+fields = ["name", "email", "age", "city"]
+r.himport_prepare("huser", fields)
+
+with r.pipeline(transaction=False) as pipe:
+    for key, user in [("huser:1", user1), ("huser:2", user2), ("huser:3", user3)]:
+        pipe.himport_set(key, "huser", [user[f] for f in fields])
+    himportRes = pipe.execute()
+# STEP_END
+# REMOVE_START
+assert himportRes == [True, True, True]
+assert r.object("encoding", "huser:3").startswith("template")
+himportQueryRes = r.ft("hash-idx:users").search(Query("Paul @age:[30 40]"))
+assert himportQueryRes.total == 1
+assert vars(himportQueryRes.docs[0]) == {
+    "id": "huser:3", "payload": None, "name": "Paul Zamir",
+    "email": "paul.zamir@example.com", "age": "35", "city": "Tel Aviv",
+}
 # REMOVE_END
 
 r.close()

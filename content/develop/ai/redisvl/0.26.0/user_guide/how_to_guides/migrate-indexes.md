@@ -5,9 +5,8 @@ url: '/develop/ai/redisvl/0.26.0/user_guide/how_to_guides/migrate-indexes/'
 ---
 
 
-{{< warning >}}
-The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
-{{< /warning >}}
+> [!WARNING]
+> The index migrator is an **experimental** feature. APIs, CLI commands, and on-disk formats (plans, checkpoints, backups) may change in future releases. Review migration plans carefully before applying to production indexes.
 
 This guide shows how to safely change your index schema using the RedisVL migrator.
 
@@ -114,17 +113,16 @@ quantization, the directory stores original vector bytes for resume and
 rollback. For index-only migrations, the directory is still validated and
 recorded in the report, but no vector backup files are written.
 
-{{< warning >}}
-Hash vector quantization is supported only when the Redis keys being
-quantized are not also indexed by another live RediSearch index that
-expects the old vector datatype. Quantization rewrites vector bytes in
-the document itself; any other index that covers the same key sees those
-new bytes and may silently drop the document or fail to index it. If the
-same documents are intentionally shared across multiple indexes, do not
-use the migrator for that quantization change. Use an application-level
-migration that creates new keys or fields and coordinates every affected
-index schema.
-{{< /warning >}}
+> [!WARNING]
+> Hash vector quantization is supported only when the Redis keys being
+> quantized are not also indexed by another live RediSearch index that
+> expects the old vector datatype. Quantization rewrites vector bytes in
+> the document itself; any other index that covers the same key sees those
+> new bytes and may silently drop the document or fail to index it. If the
+> same documents are intentionally shared across multiple indexes, do not
+> use the migrator for that quantization change. Use an application-level
+> migration that creates new keys or fields and coordinates every affected
+> index schema.
 
 ### Batch Flow: wizard/plan then batch-plan then batch-apply
 
@@ -892,14 +890,13 @@ or lost. If a retained completed backup is found after rollback, the executor
 does not skip the migration unless the live index already matches the target
 schema; it treats the completed backup as stale and starts a fresh backup.
 
-{{< note >}}
-**Single-worker vs multi-worker resume:** In single-worker mode, the full
-backup is written *before* the index is dropped, so a crash at any point
-leaves a complete backup on disk. In multi-worker mode, dump and quantize
-are fused (each worker reads, backs up, and converts its shard in one pass
-*after* the index drop). A crash during this fused phase may leave partial
-backup shards. Re-running detects and resumes from partial state.
-{{< /note >}}
+> [!NOTE]
+> **Single-worker vs multi-worker resume:** In single-worker mode, the full
+> backup is written *before* the index is dropped, so a crash at any point
+> leaves a complete backup on disk. In multi-worker mode, dump and quantize
+> are fused (each worker reads, backs up, and converts its shard in one pass
+> *after* the index drop). A crash during this fused phase may leave partial
+> backup shards. Re-running detects and resumes from partial state.
 
 ### Rollback
 
@@ -923,11 +920,10 @@ This reads every batch from the backup files and pipeline-HSETs the original
 rvl index create --schema original_schema.yaml --url redis://localhost:6379
 ```
 
-{{< note >}}
-Rollback requires that the backup directory still contains the original
-backup files. Backups are retained automatically after migration; do not
-delete the directory until you are certain rollback is no longer needed.
-{{< /note >}}
+> [!NOTE]
+> Rollback requires that the backup directory still contains the original
+> backup files. Backups are retained automatically after migration; do not
+> delete the directory until you are certain rollback is no longer needed.
 
 ### Python API for Rollback
 
@@ -1308,11 +1304,10 @@ before mutation. Approximate size: `num_docs × dims × bytes_per_element`.
 
 ### HNSW vs FLAT Index Capacity
 
-{{< note >}}
-When migrating from **HNSW** to **FLAT**, the target index may report a
-*higher* document count than the source. This is not a bug; it reflects
-a fundamental difference in how the two algorithms store vectors.
-{{< /note >}}
+> [!NOTE]
+> When migrating from **HNSW** to **FLAT**, the target index may report a
+> *higher* document count than the source. This is not a bug; it reflects
+> a fundamental difference in how the two algorithms store vectors.
 
 HNSW maintains a navigable small-world graph with per-node neighbor lists.
 This graph overhead limits how many vectors can fit in available memory.

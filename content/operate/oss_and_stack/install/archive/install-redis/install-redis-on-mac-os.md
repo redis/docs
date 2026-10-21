@@ -1,6 +1,7 @@
 ---
 aliases:
 - /operate/oss_and_stack/install/install-redis/install-redis-on-mac-os
+- /getting-started/installation/install-redis-on-mac-os/
 categories:
 - docs
 - operate

@@ -49,7 +49,7 @@ Data transformation involves two stages:
 
 The diagram below shows the flow of data through the pipeline:
 
-{{< image filename="/images/rdi/ingest/RDIPipeDataflow.webp" >}}
+![](/images/rdi/ingest/RDIPipeDataflow.webp)
 
 You can provide a job file for each source table that needs a custom
 transformation. You can also add a *default job file* for any tables that don't have their own.

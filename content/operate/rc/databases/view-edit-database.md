@@ -248,11 +248,11 @@ You can:
 
 - Search by typing into the search box located above the database list.
 
-    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}
+    ![Use the search bar to filter the list.](/images/rc/database-list-search.png)
 
 - Filter by selecting a filter type and then selecting the checkbox next to the options you want to include from the dropdown.  Select the Filter toggle, located on the right of the search bar, if the filter types are hidden.
 
-    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
+    ![Use the filter toggle to display filter options.](/images/rc/database-list-filter.png)
 
     You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, **Tags**, and **Version**.  
 
@@ -260,19 +260,19 @@ You can:
 
     To remove a filter click the **x** to the right of the name of that filter.  To remove all filters, select **Clear all**.
 
-    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
+    ![Use the filter toggle to display filter options.](/images/rc/database-list-filter-selected.png)
 
 - Select **Columns** to change what information is displayed on the list.
 
-    {{<image filename="images/rc/database-list-columns.png" alt="Use the columns toggle to display column options." >}}
+    ![Use the columns toggle to display column options.](/images/rc/database-list-columns.png)
 
 - Select the **Export** button to export the current view as a CSV file.
 
-    {{<image filename="images/rc/icon-export-to-csv.png" alt="The Export button exports the current list view to CSV." >}}
+    ![The Export button exports the current list view to CSV.](/images/rc/icon-export-to-csv.png)
 
 - Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
 
-    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
+    ![Use the arrows in the list header to sort the list.](/images/rc/icon-list-sort-asc.png#no-click) ![The direction of the arrow corresponds to the direction of the sort.](/images/rc/icon-list-sort-desc.png#no-click)
 
     Select the arrow icon to change the sort order.  One sort order can be active at any given time.
 

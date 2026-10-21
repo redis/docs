@@ -69,7 +69,7 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 ## Module commands
 
-For Redis Enterprise Software, you can [manage Redis modules](/content/operate/oss_and_stack/stack-with-enterprise/install/_index.md) from the Cluster Manager UI or with [REST API requests](/content/operate/rs/7.4/references/rest-api/requests/modules/_index.md).
+For Redis Enterprise Software, you can [manage Redis modules](/content/operate/rs/installing-upgrading/modules/_index.md) from the Cluster Manager UI or with [REST API requests](/content/operate/rs/7.4/references/rest-api/requests/modules/_index.md).
 
 Redis Cloud manages modules for you and lets you [enable modules](/content/operate/rc/databases/create-database/_index.md#modules) when you create a database.
 

@@ -176,7 +176,7 @@ Ruby's keyword arguments make the constructor parameters self-documenting, and t
 * **refill_interval**: Time in seconds between refills
 
 For example:
-* `capacity: 10, refill_rate: 1, refill_interval: 1.0` allows 10 requests per second with bursts up to 10
+* `capacity: 10, refill_rate: 1, refill_interval: 1.0` allows 1 request per second with bursts up to 10
 * `capacity: 100, refill_rate: 10, refill_interval: 1.0` allows 10 requests per second with bursts up to 100
 * `capacity: 60, refill_rate: 1, refill_interval: 60.0` allows 1 request per minute with bursts up to 60
 

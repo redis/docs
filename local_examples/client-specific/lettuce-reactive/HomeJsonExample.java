@@ -202,21 +202,21 @@ public class HomeJsonExample {
             huser3.put("city", "Tel Aviv");
 
             Mono<Long> addHashUser1 = reactiveCommands.hset("huser:1", huser1).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser2 = reactiveCommands.hset("huser:2", huser2).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser3 = reactiveCommands.hset("huser:3", huser3).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
@@ -240,6 +240,30 @@ public class HomeJsonExample {
                     });
             // STEP_END
             query1Hash.block();
+
+            // STEP_START add_hash_himport
+            try (HashImport<String> fieldset = HashImport.of("name", "email", "age", "city")) {
+                Mono<String> import1 = reactiveCommands.himportSet("huser:1", fieldset,
+                        "Paul John", "paul.john@example.com", "42", "London");
+                Mono<String> import2 = reactiveCommands.himportSet("huser:2", fieldset,
+                        "Eden Zamir", "eden.zamir@example.com", "29", "Tel Aviv");
+                Mono<String> import3 = reactiveCommands.himportSet("huser:3", fieldset,
+                        "Paul Zamir", "paul.zamir@example.com", "35", "Tel Aviv");
+
+                // Subscribe before the fieldset closes.
+                Mono.when(import1, import2, import3).block();
+            }
+            // STEP_END
+            // REMOVE_START
+            assertThat(reactiveCommands.objectEncoding("huser:3").block()).startsWith("template");
+            SearchReply<String, String> himportQueryRes = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
+                    .block();
+            assertThat(himportQueryRes.getCount()).isEqualTo(1);
+            assertThat(himportQueryRes.getResults().get(0).getId()).isEqualTo("huser:3");
+            assertThat(himportQueryRes.getResults().get(0).getFields()).containsOnly(
+                    Map.entry("name", "Paul Zamir"), Map.entry("email", "paul.zamir@example.com"),
+                    Map.entry("age", "35"), Map.entry("city", "Tel Aviv"));
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

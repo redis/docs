@@ -18,17 +18,19 @@ To view the details of a Redis Cloud Essentials subscription:
 
 1.  Select the target subscription from the subscription list.
 
-    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." width=50% >}}
+    ![The Subscription list shows your current subscriptions.](/images/rc/subscription-list-select.png)
+    {width="50%"}
 
 1.  Your subscription details appear, along with a summary of your database details.
 
-    {{<image filename="images/rc/subscription-details-fixed-databases-tab.png" alt="The Databases tab of the subscription details page is the default view." >}}
+    ![The Databases tab of the subscription details page is the default view.](/images/rc/subscription-details-fixed-databases-tab.png)
 
 From here, you can:
 
 - Select the **Plan upgrade** button to update your subscription plan, high availability settings, or payment method.
 
-    {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." width=150px >}}
+    ![Select the Upgrade plan button to update your subscription settings.](/images/rc/button-subscription-upgrade-plan.png)
+    {width="150px"}
 
 - Select the **Overview** tab to view and edit subscription details.
 
@@ -38,7 +40,8 @@ The following sections provide more details.
 
 Use the **Plan upgrade** button to update your Redis Cloud Essentials plan, your high availability settings, or your payment method. Upgrading your database between Redis Cloud Essentials plans does not impact database availability during the update.
 
-{{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Use the Plan upgrade button to change selected Redis Cloud Essentials subscription detils." width=150px >}}
+![Use the Plan upgrade button to change selected Redis Cloud Essentials subscription detils.](/images/rc/button-subscription-upgrade-plan.png)
+{width="150px"}
 
 For information on how to upgrade to Redis Cloud Pro, see [upgrade subscription plan from Essentials to Pro](/content/operate/rc/subscriptions/upgrade-essentials-pro.md).
 
@@ -46,7 +49,7 @@ For information on how to upgrade to Redis Cloud Pro, see [upgrade subscription 
 
 To change your plan's [high availability](/content/operate/rc/databases/configuration/high-availability.md) and [data persistence](/content/operate/rc/databases/configuration/data-persistence.md) settings, change them in the **Configure your settings** panel.
 
-{{<image filename="images/rc/subscription-fixed-high-availability-panel.png" alt="Use the Configure your settings panel to set Essentials subscription settings." >}}
+![Use the Configure your settings panel to set Essentials subscription settings.](/images/rc/subscription-fixed-high-availability-panel.png)
 
 You can switch between **No replication** and **Single-zone replication** at any time, but you cannot choose **Multi-zone replication** after your subscription is created. You also cannot switch from **Multi-zone replication** to another high availability option.
 
@@ -54,7 +57,8 @@ You can switch between **No replication** and **Single-zone replication** at any
 
 To change your subscription plan, select the desired plan from the list and select the **Upgrade plan** button:
 
-{{<image filename="images/rc/subscription-change-fixed-tiers.png" width="100%" alt="Select the desired subscription plan from the ones shown." >}}
+![Select the desired subscription plan from the ones shown.](/images/rc/subscription-change-fixed-tiers.png)
+{width="100%"}
 
 Each Redis Cloud Essentials plan provides a variety of benefits, including increased memory and number of connections.
 For a comparison of available plans, see [Redis Cloud Essentials plans](/content/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details.md).
@@ -72,7 +76,7 @@ If you change your subscription to a lower plan, make sure your data fits within
 
 To change your subscription payment method, update the **Payment method** settings.  You can select a known payment method from the drop-down list or use the **Add** button to add a new one.
 
-{{<image filename="images/rc/subscription-change-credit-card.png" alt="Use the Credit card drop-down to set your subscription payment method." >}}
+![Use the Credit card drop-down to set your subscription payment method.](/images/rc/subscription-change-credit-card.png)
 
 Payment method changes require the Owner or Billing Admin roles. To verify your role, select **Access Management** from the admin menu and then locate your credentials in the **Team** tab.
 
@@ -80,13 +84,15 @@ Payment method changes require the Owner or Billing Admin roles. To verify your 
 
 Use the **Update Database** button to save changes.
 
-{{<image filename="images/rc/button-subscription-upgrade-plan-blue.png" alt="Use the Upgrade plan button to save your subscription plan changes." width="150px" >}}
+![Use the Upgrade plan button to save your subscription plan changes.](/images/rc/button-subscription-upgrade-plan-blue.png)
+{width="150px"}
 
 ## Subscription overview
 
 The **Overview** tab summarizes your Redis Cloud Essentials subscription details using a series of panels:
 
-{{<image filename="images/rc/subscription-details-fixed-overview-tab.png" width="75%" alt="The Overview tab displays the details of your Fixed subscription." >}}
+![The Overview tab displays the details of your Fixed subscription.](/images/rc/subscription-details-fixed-overview-tab.png)
+{width="75%"}
 
 The following details are displayed:
 
@@ -107,4 +113,5 @@ The following details are displayed:
 
 The **Delete Database** button lets you [delete your database](/content/operate/rc/databases/delete-database.md).
 
-{{<image filename="images/rc/button-delete-database-essentials-overview.png" alt="Use the Delete subscription button to delete your subscription plan." width="150px" >}}
+![Use the Delete subscription button to delete your subscription plan.](/images/rc/button-delete-database-essentials-overview.png)
+{width="150px"}

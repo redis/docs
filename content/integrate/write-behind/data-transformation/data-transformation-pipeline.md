@@ -25,7 +25,7 @@ The ingested format and types are different from one source to another. Currentl
 
 Each job describes the transformation logic to perform on data from a single source. The source is typically a database table or collection and is specified as the full name of this table/collection. The job may include filtering logic to skip data that matches a condition. Other logical steps in the job will transform the data into the desired output that will be stored in Redis as hashes or JSON.
 
-{{< image filename="/images/rdi/data-transformation-pipeline.png" >}}
+![](/images/rdi/data-transformation-pipeline.png)
 
 ## Default job
 In situations where there is a need to perform a transformation on all ingested records without creating a specific job for specific tables, the default job is used. The transformation associated with this job will be applied to all tables that lack their own explicitly defined jobs. The default job must have a table name of "*", and only one instance of this type of job is permitted.

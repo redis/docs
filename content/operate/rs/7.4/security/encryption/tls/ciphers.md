@@ -54,11 +54,11 @@ To configure cipher suites using the Cluster Manager UI:
 
 1. In the **Cipher suites lists** section, click **Configure**:
 
-    {{<image filename="images/rs/screenshots/cluster/security-tls-cipher-suites-view.png" alt="Cipher suites lists as shown in the Cluster Manager UI." >}}
+    ![Cipher suites lists as shown in the Cluster Manager UI.](/images/rs/screenshots/cluster/security-tls-cipher-suites-view.png)
 
 1. Edit the TLS cipher suites in the text boxes:
 
-    {{<image filename="images/rs/screenshots/cluster/security-tls-cipher-suites-edit.png" alt="Edit cipher suites drawer in the Cluster Manager UI." >}}
+    ![Edit cipher suites drawer in the Cluster Manager UI.](/images/rs/screenshots/cluster/security-tls-cipher-suites-edit.png)
 
 1. Click **Save**.
 

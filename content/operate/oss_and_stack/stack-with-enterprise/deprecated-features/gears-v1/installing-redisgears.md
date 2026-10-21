@@ -101,7 +101,7 @@ rladmin upgrade db shopping-cart and module module_name rg version 10209 module_
 ```
 
 > [!NOTE]
-> These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
+> These command examples also upgrade the database to the latest Redis version on the cluster. For more module upgrade information and examples, see [Upgrade modules](/content/operate/rs/installing-upgrading/modules/upgrade-module.md).
 
 ## Uninstall RedisGears
 

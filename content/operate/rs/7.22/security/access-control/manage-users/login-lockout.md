@@ -43,7 +43,7 @@ To change the user login lockout settings using the Cluster Manager UI:
 
 1. In the **Lockout threshold** section, make sure the checkbox is selected.
 
-    {{<image filename="images/rs/screenshots/cluster/security-preferences-lockout-threshold.png" alt="The Lockout threshold configuration section" >}}
+    ![The Lockout threshold configuration section](/images/rs/screenshots/cluster/security-preferences-lockout-threshold.png)
 
 1. Configure the following **Lockout threshold** settings:
 
@@ -140,15 +140,15 @@ To unlock a user account in the Cluster Manager UI:
 
 1. Go to **Access Control > Users**. Locked users have a "User is locked out" label:
 
-   <img src="../../../../../../images/rs/screenshots/access-control/7-22-updates/users-locked-out.png" alt="The Access Control > Users configuration screen in the Cluster Manager UI">
+   ![The Access Control > Users configuration screen in the Cluster Manager UI](/images/rs/screenshots/access-control/7-22-updates/users-locked-out.png)
 
 1. Point to the "User is locked out" label, then click **Reset to unlock** when it appears:
 
-   <img src="../../../../../../images/rs/screenshots/access-control/7-22-updates/users-reset-to-unlock.png" alt="Reset to unlock button appears when you point to a locked user in the list">
+   ![Reset to unlock button appears when you point to a locked user in the list](/images/rs/screenshots/access-control/7-22-updates/users-reset-to-unlock.png)
 
 1. In the **Reset user password** dialog, enter a new password for the user:
 
-   <img src="../../../../../../images/rs/screenshots/access-control/users-reset-user-password-dialog.png" alt="Reset user password dialog">
+   ![Reset user password dialog](/images/rs/screenshots/access-control/users-reset-user-password-dialog.png)
 
 1. Select **Save** to reset the user's password and unlock their account.
 

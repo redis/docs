@@ -36,11 +36,11 @@ To replace proxy, syncer, or internode encryption certificates using the Cluster
     - For the proxy certificate, expand **Server authentication**.
     - For the syncer certificate, expand **Replica Of and Active-Active authentication**.
 
-    <img src="../../../../../images/rs/screenshots/cluster/security-certs-with-ine-expand-proxy-cert.png" alt="Expanded proxy certificate for server authentication.">
+    ![Expanded proxy certificate for server authentication.](/images/rs/screenshots/cluster/security-certs-with-ine-expand-proxy-cert.png)
 
 1. Click **Replace Certificate** to open the dialog.
 
-    <img src="../../../../../images/rs/screenshots/cluster/security-replace-proxy-cert.png" alt="Replace proxy certificate dialog.">
+    ![Replace proxy certificate dialog.](/images/rs/screenshots/cluster/security-replace-proxy-cert.png)
 
 1. Upload the key file.
 

@@ -25,35 +25,35 @@ To create the Microsoft Entra SAML Toolkit integration application:
 
 1. From the main menu, select **Microsoft Entra ID > Enterprise Applications**. Select **New application** to add a new application.
 
-    {{<image filename="images/rc/saml/ad_saml_1.png" >}}
+    ![](/images/rc/saml/ad_saml_1.png)
 
 1. Select **Microsoft Entra SAML Toolkit** from the list of apps.
 
-    {{<image filename="images/rc/saml/ad_saml_2.png" >}}
+    ![](/images/rc/saml/ad_saml_2.png)
 
 1. Name the application **Redis Cloud** and then select **Create**. 
 
-    {{<image filename="images/rc/saml/ad_saml_3.png" >}}
+    ![](/images/rc/saml/ad_saml_3.png)
 
 1. Select **Properties** and upload the Redis logo. 
 
-    {{<image filename="images/rc/saml/ad_saml_17.png" >}}
+    ![](/images/rc/saml/ad_saml_17.png)
 
     Select **Save**.
 
 1. Once you've created the application, go to the **Application Overview** and select **Set up single sign on**.
 
-    {{<image filename="images/rc/saml/ad_saml_4.png" >}}
+    ![](/images/rc/saml/ad_saml_4.png)
 
 1. Select **SAML** as the single sign-on method.
 
-    {{<image filename="images/rc/saml/ad_saml_5.png" >}}
+    ![](/images/rc/saml/ad_saml_5.png)
 
 1. Go to **Step 1** in the configuration screen and select **Edit**.
 
     Enter some mock data in the required fields.
 
-    {{<image filename="images/rc/saml/ad_saml_8.png" >}}
+    ![](/images/rc/saml/ad_saml_8.png)
 
     Select **Save** to save your changes.
 
@@ -61,14 +61,14 @@ To create the Microsoft Entra SAML Toolkit integration application:
 
    * Certificate (Base 64) is required to complete SAML configuration in the Redis Cloud console. Select **Download** to download it.
 
-     {{<image filename="images/rc/saml/ad_saml_7.png" >}}
+     ![](/images/rc/saml/ad_saml_7.png)
 
 1. Go to **Step 4** in the configuration screen, and note down or copy the following information:
 
    * **Login URL** is used as the "IdP server URL" in the SAML configuration in admin console.
    * **Microsoft Entra Identifier** is used as the "Issuer (IdP Entity ID)" in the SAML configuration in admin console.
   
-    {{<image filename="images/rc/saml/ad_saml_6.png" >}}
+    ![](/images/rc/saml/ad_saml_6.png)
 
 ## Step 2: Configure SAML support in Redis Cloud
 
@@ -88,23 +88,23 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
    * **IdP server URL**: Login URL
    * **Assertion signing certificate**: Drag-and-drop the certificate file you downloaded to disk in the form text area
 
-     {{<image filename="images/rc/saml/sm_saml_1.png" >}}
+     ![](/images/rc/saml/sm_saml_1.png)
 
    Once you click the **Enable** button, wait a few seconds for the status to change.
 
 1. You will then be able to **download** the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
+    ![](/images/rc/saml/sm_saml_3.png)
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
    * **EntityID**: The unique name of the service provider (SP)
 
-    {{<image filename="images/rc/saml/sm_saml_4.png" >}}
+    ![](/images/rc/saml/sm_saml_4.png)
 
    * **Location**: The location of the assertion consumer service
 
-    {{<image filename="images/rc/saml/sm_saml_5.png" >}}
+    ![](/images/rc/saml/sm_saml_5.png)
 
 ## Step 3: Finish SAML configuration in Microsoft Entra ID
 
@@ -124,11 +124,11 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     Select **Save**.
 
-      {{<image filename="images/rc/saml/ad_saml_23.png" >}}
+      ![](/images/rc/saml/ad_saml_23.png)
 
 1. Go to step 2, **Attributes & Claims** and select **Edit**.
 
-    {{<image filename="images/rc/saml/ad_saml_24.png" >}}
+    ![](/images/rc/saml/ad_saml_24.png)
 
 1. Configure these attributes and claims:
 
@@ -147,40 +147,41 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
             * **`role`** must be lowercase and one of `owner`, `member`, `manager`, `billing_admin`, or `viewer`. Note the underscore in `billing_admin`.
             * Redis Cloud reads a **single value** for this claim. If it resolves to multiple values, only one is used — see [Claim conditions and user groups](#claim-conditions-and-user-groups).
 
-          {{<image filename="images/rc/saml/ad_saml_14.png" >}}
+          ![](/images/rc/saml/ad_saml_14.png)
         
         > [!NOTE]
         > Make sure the **Namespace** field is empty when modifying these claims.
         >
-        > {{<image filename="images/rc/saml/ad_saml_namespace_field.png" >}}
+        > ![](/images/rc/saml/ad_saml_namespace_field.png)
         >
 
 
 1. To add a user to the application, select **User and Groups > Add user/group**.
 
-    {{<image filename="images/rc/saml/ad_saml_15.png" >}}
+    ![](/images/rc/saml/ad_saml_15.png)
 
 1. Add the user and select **Assign**.
 
-    {{<image filename="images/rc/saml/ad_saml_16.png" >}}
+    ![](/images/rc/saml/ad_saml_16.png)
 
 ## Step 4: Return to Redis Cloud console
 
 1. Return to Redis Cloud console and select **Activate**.
 
-    {{<image filename="images/rc/saml/sm_saml_8.png" >}}
+    ![](/images/rc/saml/sm_saml_8.png)
 
 1. A popup appears, explaining that you must log in with the credentials of a Microsoft Entra user to test the SAML connection. Select **Continue** to go to the Microsoft login screen.
 
 1. The Microsoft login screen will appear. Enter the credentials and click **Sign In**.
 
-    {{<image filename="images/rc/saml/ad_saml_19.png" >}}
+    ![](/images/rc/saml/ad_saml_19.png)
 
 If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
-{{<image filename="images/rc/button-sign-in-sso.png" width="50px" alt="Sign in with SSO button">}}
+![Sign in with SSO button](/images/rc/button-sign-in-sso.png)
+{width="50px"}
 
 ## Claim conditions and user groups
 
@@ -216,7 +217,7 @@ Microsoft Entra can build the claim value from the names of the groups a user be
 > [!NOTE]
 > Set the group claim **Source attribute** to the group **name**, not **Group ID**. If the source is Group ID, the emitted value is a GUID that never matches the `redis-<role>` regex. For groups synced from on-premises Active Directory, use `sAMAccountName`; for cloud-only groups, enable the group-name option.
 
-{{<image filename="images/rc/saml/ad_saml_20.png" >}}
+![](/images/rc/saml/ad_saml_20.png)
 
 ### Users in multiple groups
 
@@ -252,18 +253,18 @@ Confirm that `redisAccountMapping` contains clean `accountId=role` pairs, with n
 
 If you correctly set the up the **Sign on URL**, the SAML application appears by default on the user's **My Apps** panel.
 
-{{<image filename="images/rc/saml/ad_saml_25.png" >}}
+![](/images/rc/saml/ad_saml_25.png)
 
 While assigning the user to the app, a notification will appear:
 
-{{<image filename="images/rc/saml/ad_saml_26.png" >}}
+![](/images/rc/saml/ad_saml_26.png)
 
 Therefore, if you sign into `https://myapplications.microsoft.com/`, the application will be available.
 
 If the app is not available, make sure that the App is registered. It should be done automatically.
 
-{{<image filename="images/rc/saml/ad_saml_27.png" >}}
+![](/images/rc/saml/ad_saml_27.png)
 
-{{<image filename="images/rc/saml/ad_saml_28.png" >}}
+![](/images/rc/saml/ad_saml_28.png)
 
 You can also access the app directly by using the **User access Url** from App Properties.

@@ -18,13 +18,12 @@ weight: $weight
 | [POST](#post-local-services) | `/v1/local/services` | Modify or perform operations on local processes |
 | [POST](#post-services) | `/v1/services` | Modify or perform operations on primary node processes |
 
-{{<warning>}}
-This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
-
-Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
-
-For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
-{{</warning>}}
+> [!WARNING]
+> This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
+>
+> Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
+>
+> For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
 
 ## Get local services {#get-local-services}
 
@@ -99,13 +98,12 @@ Supported `operation_type` values:
 - start
 - restart
 
-{{<warning>}}
-This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
-
-Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
-
-For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
-{{</warning>}}
+> [!WARNING]
+> This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
+>
+> Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
+>
+> For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
 
 ### Request {#post-local-request}
 
@@ -168,13 +166,12 @@ Supported `operation_type` values:
 - start
 - restart
 
-{{<warning>}}
-This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
-
-Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
-
-For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
-{{</warning>}}
+> [!WARNING]
+> This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
+>
+> Stop, start, or restart optional services only. Changing the status of required services can negatively affect cluster behavior and cause a complete loss of the cluster and its data.
+>
+> For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
 
 ### Request {#post-request}
 

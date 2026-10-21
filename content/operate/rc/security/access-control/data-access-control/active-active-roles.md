@@ -16,13 +16,14 @@ For [Active-Active databases](/content/operate/rc/databases/active-active/_index
 
 1. Go to **Data Access Control > Roles** and either select `+` to create a new role or point to an existing role and select the pencil icon to edit it.
 
-    {{<image filename="images/rc/data-access-control-roles-add-or-edit.png" width="300px" alt="Add or edit a role." >}}
+    ![Add or edit a role.](/images/rc/data-access-control-roles-add-or-edit.png)
+    {width="300px"}
 
 1. In the **Associations** section of the **Edit role** or **Create new role** screen, you can select `+` to create a new association or point to an existing association and select the pencil icon to edit it.
 
 1. Select one or more Active-Active databases from the **Databases** list. Active-Active databases are marked with a globe icon.
 
-    {{<image filename="images/rc/roles-select-aa-database.png" alt="List of databases. Active-Active databases are marked with a globe icon." >}}
+    ![List of databases. Active-Active databases are marked with a globe icon.](/images/rc/roles-select-aa-database.png)
 
 1. To set the role's default level of access to the selected databases, choose a **Redis ACL** from the list and select the check mark to confirm the association.
 
@@ -32,7 +33,7 @@ For [Active-Active databases](/content/operate/rc/databases/active-active/_index
 
 1. Select the ACL name next to a region to change which ACL applies to that region.
 
-    {{<image filename="images/rc/roles-assign-rules-active-active.png" alt="Assign different ACL rules for different regions." >}}
+    ![Assign different ACL rules for different regions.](/images/rc/roles-assign-rules-active-active.png)
 
     In addition to the ACL rules that are already configured, you can set a role to have **No-Access** in a region. This is a special rule that prevents a user with this role from running any commands when connecting to the database in that region.
 

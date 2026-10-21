@@ -121,7 +121,7 @@ Uploads a new module to the cluster.
 The request must contain a Redis module, bundled using [RedisModule
 Packer](https://github.com/RedisLabs/RAMP). For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/).
 
-See [Install a module on a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) for more information.
+See [Install a module on a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md#rest-api-method) for more information.
 
 #### Permissions
 
@@ -213,7 +213,7 @@ Asynchronously uploads a new module to the cluster.
 
 The request must contain a Redis module bundled using [RedisModule Packer](https://github.com/RedisLabs/RAMP).
 
-For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/). See [Install a module on a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) for more information.
+For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/). See [Install a module on a cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md#rest-api-method) for more information.
 
 #### Permissions
 

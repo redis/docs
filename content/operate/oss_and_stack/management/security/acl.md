@@ -597,7 +597,7 @@ For Sentinel, allow the user to access the following commands both in the master
 
 Sentinel does not need to access any key in the database but does use Pub/Sub, so the ACL rule would be the following (note: [`AUTH`](/content/commands/auth.md) is not needed since it is always allowed):
 
-    ACL SETUSER sentinel-user on >somepassword allchannels +multi +slaveof +ping +exec +subscribe +config|rewrite +role +publish +info +client|setname +client|kill +script|kill
+    ACL SETUSER sentinel-user on >somepassword resetchannels &__sentinel__:hello +multi +slaveof +ping +exec +subscribe +config|rewrite +role +publish +info +client|setname +client|kill +script|kill
 
 Redis replicas require the following commands to be allowed on the master instance:
 

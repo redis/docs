@@ -15,9 +15,8 @@ url: '/operate/kubernetes/7.8.6/re-clusters/auto-tiering/'
 
 Redis Enterprise Software for Kubernetes supports using Auto Tiering (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.
 
-{{<note>}}
-NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
-{{</note>}}
+> [!NOTE]
+> NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
 
 Before creating your Redis clusters or databases, these SSDs must be:
 
@@ -28,11 +27,11 @@ Before creating your Redis clusters or databases, these SSDs must be:
   - You can use a [local volume provisioner](https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner/blob/master/README.md) to do this [dynamically](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#dynamic)
 - a [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/#local) resource with a unique name
 
-For more information on node storage, see [Node persistent and ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+For more information on node storage, see [Node persistent and ephemeral storage](/content/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage.md).
 
 ## Create a Redis Enterprise cluster
 
-To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}}):
+To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource](/content/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api.md):
 
 - enable Auto Tiering (`enabled: true`)
 - flash storage driver (`bigStoreDriver`)
@@ -40,9 +39,11 @@ To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to spe
 - storage class name (`storageClassName`)
 - minimal flash disk size (`flashDiskSize`)
 
-{{<note>}} Clusters upgraded to version 7.2.4-2 from an earlier version will change the `bigStoreDriver` (previously called `flashStorageEngine`) to the new default `speedb`, regardless of previous configuration. {{</note>}}
+> [!NOTE]
+>  Clusters upgraded to version 7.2.4-2 from an earlier version will change the `bigStoreDriver` (previously called `flashStorageEngine`) to the new default `speedb`, regardless of previous configuration. 
 
-{{<warning>}}Switching between storage engines (`speedb` and `rocksdb`) requires guidance by Redis Support or your Account Manager.{{</warning>}}
+> [!WARNING]
+> Switching between storage engines (`speedb` and `rocksdb`) requires guidance by Redis Support or your Account Manager.
 
 Here is an example of an REC custom resource with these attributes:
 
@@ -83,6 +84,5 @@ spec:
   rofRamSize: 0.5GB
 ```
 
-{{< note >}}
-This example defines both `memorySize` and `rofRamSize`. When using Auto Tiering, `memorySize` refers to the total combined memory size (RAM + flash) allocated for the database. `rofRamSize` specifies only the RAM capacity for the database. `rofRamSize` must be at least 10% of `memorySize`.
-{{< /note >}}
+> [!NOTE]
+> This example defines both `memorySize` and `rofRamSize`. When using Auto Tiering, `memorySize` refers to the total combined memory size (RAM + flash) allocated for the database. `rofRamSize` specifies only the RAM capacity for the database. `rofRamSize` must be at least 10% of `memorySize`.

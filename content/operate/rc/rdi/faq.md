@@ -14,25 +14,50 @@ weight: 6
 
 ### What happens when I reset the pipeline? {#reset-pipeline}
 
-A pipeline reset clears the internal RDI state for all sources, including their saved positions. When the pipeline runs, RDI takes a new snapshot of the selected data from every source, applies the current transformations, and then resumes streaming changes. If you reset a stopped pipeline, it remains stopped until you start it.
+A pipeline reset clears the internal RDI state for all sources, including their saved positions. When the pipeline runs, each source follows its configured initial data load settings. With the default `initial` mode, Debezium sources take new snapshots, apply the current transformations, and resume streaming. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. If you reset a stopped pipeline, it remains stopped until you start it.
 
 A reset does **not** flush the target Redis database. Records already in the target remain until RDI overwrites or deletes them through normal processing. Keys that are no longer produced by the current dataset or transformations can remain in the target after a reset. For example, changing a transformation's key prefix and resetting creates keys with the new prefix without deleting keys with the old prefix.
 
-See [Reset data pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) for the steps.
+See [Reset data pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) for the steps.
+
+### Why can records remain after a recovery snapshot? {#missed-deletes}
+
+A new snapshot can leave stale records in Redis. If a source row was deleted while
+collection was interrupted and the required log history expired, the snapshot cannot
+replay its delete event. This applies to Debezium sources with `type: cdc`, including
+automatic snapshots with `when_needed` and snapshots after a manual reset.
+
+The sequence is:
+
+1. A source row is copied to Redis.
+1. Collection stops, and the collector saves its source position.
+1. The source deletes the row while Redis still has it.
+1. The saved position becomes unavailable, so the delete cannot be replayed.
+1. `when_needed` mode takes a new snapshot. The deleted row is absent.
+1. Streaming resumes, but Redis still has the stale row because its delete was missed.
+
+An interruption alone does not cause this gap. The saved position must become
+unavailable. The snapshot does not clean up the target, and a reset does not flush it.
+See the [detailed missed-delete sequence](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
 
 ### What happens when I flush the target database?
 
 **Flush target database** permanently deletes all data from the shared target, including data from every source and data written outside RDI. Stop the pipeline before flushing. The source databases are not changed.
 
-Flushing does not clear RDI's saved source positions. If you only start the pipeline afterwards, it resumes from those positions. It does not automatically reload records that have not changed in the source.
+Flushing does not clear RDI's saved source positions. Starting a Debezium source follows its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode). With the default `initial` mode and a valid saved position, it resumes streaming without reloading unchanged source rows.
 
-See [Flush the target database]({{< relref "/operate/rc/rdi/view-edit#flush-the-target-database" >}}).
+See [Flush the target database](/content/operate/rc/rdi/view-edit.md#flush-the-target-database).
 
 ### How do I reload data after a flush? {#reload-after-flush}
 
+Before reloading, check each source's initial data load settings. For Debezium sources,
+select a [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) that loads existing rows, such as
+`initial`. Modes that skip data snapshots cannot refill the target's existing rows.
+
 1. Wait for the flush to finish.
-1. [Reset the pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) while it is stopped, and wait for the reset to finish.
-1. [Start the pipeline]({{< relref "/operate/rc/rdi/view-edit#stop-and-restart-data-pipeline" >}}) to take new snapshots of the selected data from all sources.
+1. [Reset the pipeline](/content/operate/rc/rdi/view-edit.md#reset-data-pipeline) while it is stopped, and wait for the reset to finish.
+1. [Start the pipeline](/content/operate/rc/rdi/view-edit.md#stop-and-restart-data-pipeline) to take new snapshots of the selected data from all sources.
 1. Check each source's initial sync progress and record counts on the **Dashboard** and **Metrics** tabs. Wait for initial sync to finish before relying on the target as a complete copy of the selected data.
 
 RDI reloads data available in the source databases using the current dataset and transformation settings. It cannot restore data that existed only in the target.
@@ -41,29 +66,55 @@ RDI reloads data available in the source databases using the current dataset and
 
 ### What happens when I reset one source? {#reset-one-source}
 
-RDI clears the selected source's internal state and takes a new snapshot of its selected data. The whole pipeline, including the other sources and the processor, restarts during this operation. Other sources keep their saved positions and resume streaming without a new snapshot.
+RDI clears the selected source's internal state, including its saved position. With the default `initial` mode, a Debezium source takes a new data snapshot. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. The whole pipeline, including the other sources and the processor, restarts. Other sources keep their saved positions but follow their configured modes on restart; `always` mode takes another snapshot even with a preserved position.
 
 All records already in the target remain, including records from the reset source. The new snapshot can overwrite that source's records. Resetting a source does not selectively delete its target data.
 
-See [Reset a source]({{< relref "/operate/rc/rdi/view-edit#reset-source" >}}).
+See [Reset a source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 ### Can I flush data for a single source? {#flush-one-source}
 
 Currently, RDI cannot flush target data for a single source. Connect to the target Redis database and selectively delete the records you want to remove. Identify them from your key naming and transformation rules, and check that other sources do not write to the same keys. Do not use **Flush target database** for this purpose: it deletes data for all sources.
 
-Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, [reset that source]({{< relref "/operate/rc/rdi/view-edit#reset-source" >}}).
+Stop the affected source before deleting its records and allow its pending records to finish processing. Starting the source resumes ingestion, and later changes can recreate records. To reload all its selected data, select a mode that takes a data snapshot, then [reset that source](/content/operate/rc/rdi/view-edit.md#reset-source).
 
 ### Does deleting a source delete its target data?
 
-No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source]({{< relref "/operate/rc/rdi/view-edit#remove-source" >}}).
+No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source](/content/operate/rc/rdi/view-edit.md#remove-source).
+
+## Capacity and network planning
+
+### What CIDR range should I use for Cloud RDI?
+
+Plan the Classless Inter-Domain Routing (CIDR) range for all pipelines in the
+workspace, including future sources and processor replicas. You cannot enlarge
+it after creation. See [Plan workspace network capacity](/content/operate/rc/rdi/scale-pipeline.md#plan-workspace-network-capacity)
+for the `/22`, `/21`, and `/20` capacity table and its configuration.
+
+### How do I change a workspace CIDR that is too small? {#change-workspace-cidr}
+
+You cannot change or enlarge the CIDR of an existing workspace in place.
+To use a larger range, [delete the existing workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace),
+[create a workspace](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace)
+with the larger CIDR, and redeploy your pipelines.
+
+Before you delete anything, record your pipeline configuration, source settings,
+transformation jobs, and secret references. Recreation interrupts ingestion
+and removes the saved pipeline state. Redeployed sources take new initial
+snapshots. Records already written to the target database remain there.
+
+For help planning the recreation and connectivity changes, open a
+[Redis support ticket](https://redis.io/support/) before deleting anything. Include
+your subscription and workspace identifiers, current CIDR, and planned totals for
+sources and processor replicas across all pipelines.
 
 ## Upgrades and maintenance
 
 ### What happens during an RDI Cloud upgrade?
 
-Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window]({{< relref "/operate/rc/rdi#maintenance-windows" >}}).
+Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window](/content/operate/rc/rdi/_index.md#maintenance-windows).
 
-During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. A streaming pipeline then resumes from its saved state and processes the changes accumulated during the interruption.
+During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. With the default `initial` mode and valid saved positions, Debezium sources resume streaming and process the accumulated changes. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) or unavailable source history can change this behavior.
 
 A routine upgrade does not flush the target database or require you to reset the pipeline. Existing target records remain available, but they may temporarily lag behind the source data.
 
@@ -108,4 +159,30 @@ Yes. RDI usage is based on the running collectors and processor replicas, not th
 
 Creating a workspace or saving a setup draft does not start RDI usage billing. Billing starts when a pipeline is deployed. Stopping the pipeline reduces usage to the workspace charge. Deleting the deployed pipeline ends new RDI usage when no deployed pipelines remain in the workspace; usage already recorded for the hour can still be billed.
 
-Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/rc/rdi/create-workspace#delete-workspace" >}}) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.
+Delete an unused pipeline and then [delete its workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.
+
+## Processor scaling
+
+### Does Cloud RDI automatically scale the processor?
+
+No. Set the desired processor replica count with
+`advanced.resources.taskManager.replicas`. See [Increase processor capacity](/content/operate/rc/rdi/scale-pipeline.md#increase-processor-capacity).
+
+### How do I increase processing capacity for a pipeline?
+
+First [identify the bottleneck](/content/operate/rc/rdi/scale-pipeline.md#identify-the-bottleneck).
+Then tune the collector, [RDI database](/content/operate/rc/rdi/scale-pipeline.md#increase-rdi-database-throughput),
+or processor. Check shared
+workspace network capacity before adding sources or processor replicas.
+
+### Can I see that the processor has scaled in the console?
+
+Yes. The **Dashboard** shows running and configured processor replicas next to
+the processor status. See [Confirm the applied capacity](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+for how to read the count and handle a persistent mismatch.
+
+### Can I use billing to confirm a scaling change?
+
+No. Billing does not show scaling changes in real time. Use the Dashboard or
+the [Redis Cloud application programming interface (API)](/content/operate/rc/rdi/scale-pipeline.md#confirm-the-applied-capacity)
+to confirm the running count.

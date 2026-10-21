@@ -20,9 +20,8 @@ Whether you're administering Redis Software or accessing databases, there are tw
 The fully qualified domain name (FQDN) is the unique cluster identifier that enables clients to connect to the different components of Redis Software.
 The FQDN is a crucial component of the high-availability mechanism because it's used internally to enable and implement automatic and transparent failover of nodes, databases shards, and endpoints.
 
-{{< note >}}
-Setting the cluster's FQDN is a one-time operation, one that cannot be changed after being set.
-{{< /note >}}
+> [!NOTE]
+> Setting the cluster's FQDN is a one-time operation, one that cannot be changed after being set.
 
 The FQDN must always comply with the IETF's [RFC 952](https://datatracker.ietf.org/doc/html/rfc952) standard
 and section 2.1 of the [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) standard.

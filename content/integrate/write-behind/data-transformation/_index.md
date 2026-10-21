@@ -30,7 +30,7 @@ There are two types of data transformations in Write-behind:
 1. If the user wants to add or modify this default mapping, Write-behind provides declarative data transformations. These transformations are represented in YAML files. Each file contains a job, which is a set of transformations per source table. See
 [declarative transformations](/content/integrate/write-behind/data-transformation/data-transformation-pipeline.md) for more information.
 
-{{< image filename="/images/rdi/data-transformation-flow.png" >}}
+![](/images/rdi/data-transformation-flow.png)
 
 ## More info
 

@@ -10,20 +10,18 @@ This guide explains how the RedisVL MCP server authenticates clients on its HTTP
 transports and how it gates read vs write access. It also draws the boundary
 between what RedisVL enforces and what belongs in a gateway or policy layer.
 
-{{< note >}}
-Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
-The `stdio` transport is a local subprocess with no network surface and is never
-authenticated.
-{{< /note >}}
+> [!NOTE]
+> Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
+> The `stdio` transport is a local subprocess with no network surface and is never
+> authenticated.
 
-{{< note >}}
-Authentication is a separate concern from **transport security** (Host/Origin
-validation), which is always on for the HTTP transports and defends against DNS
-rebinding independently of auth. See
-[Transport Security](mcp.md#transport-security-host-origin-validation). Both
-layers apply together: auth decides *who* may call; the Host/Origin guard
-rejects requests whose claimed authority is not allowlisted.
-{{< /note >}}
+> [!NOTE]
+> Authentication is a separate concern from **transport security** (Host/Origin
+> validation), which is always on for the HTTP transports and defends against DNS
+> rebinding independently of auth. See
+> [Transport Security](mcp.md#transport-security-host-origin-validation). Both
+> layers apply together: auth decides *who* may call; the Host/Origin guard
+> rejects requests whose claimed authority is not allowlisted.
 
 ## What RedisVL Enforces
 
@@ -42,11 +40,8 @@ On each request it checks:
 - **Required scopes** to connect, and (optionally) a **read scope** to call
   `search-records` and a **write scope** to call `upsert-records`.
 
-{{< note >}}
-This is **coarse** authorization: it decides whether a caller may connect and
-whether it may read or write. It does **not** map token claims to a Redis ACL
-user, a per-tenant index, or query filters. See [The Authorization Boundary]().
-{{< /note >}}
+> [!NOTE]
+> This is **coarse** authorization: it decides whether a caller may connect and whether it may read or write. It does **not** map token claims to a Redis ACL user or a per-tenant index. A custom tool profile can additionally scope its queries to a tenant claim; see [The Authorization Boundary]().
 
 ## OAuth: Which Part RedisVL Handles
 
@@ -182,29 +177,24 @@ A token like the following would then pass the read gate, because
 
 ## The Authorization Boundary
 
-RedisVL MCP authenticates the caller and gates read vs write. It does **not**
-translate token claims (such as a tenant id or role) into a specific Redis ACL
-user, a per-tenant index, or injected query filters. The server holds one Redis
-connection for one index, established at startup.
+RedisVL MCP authenticates the caller, gates read vs write, and can scope every query a custom tool profile runs to a tenant carried in the token. It does **not** translate token claims into a specific Redis ACL user or a per-tenant index: every caller shares the server’s Redis connection, established at startup.
 
-Fine-grained, per-tenant data isolation belongs in a **gateway or policy layer**
-in front of the MCP server, which validates the token, looks up a binding of
-claim to Redis identity, and injects credentials and filters.
+To scope queries by tenant inside RedisVL, add `lock.inject` to a profile; see Tenant Scoping With Claim Injection in [Run RedisVL MCP]({{< relref "mcp" >}}). That filter is then the only thing separating tenants, so read the threat model in [RedisVL MCP]({{< relref "../../concepts/mcp" >}}) before relying on it.
+
+Isolation enforced by Redis itself, rather than by a query filter, belongs in a **gateway or policy layer** in front of the MCP server, which validates the token, looks up a binding of claim to Redis identity, and injects the matching credentials.
 
 ```mermaid
 flowchart LR
     subgraph Gateway["Gateway / policy layer (out of scope for RedisVL)"]
-        T[Validate token] --> M["Map claims to<br/>Redis user + index + filters"]
+        T[Validate token] --> M["Map claims to<br/>Redis user + index"]
     end
     subgraph RedisVL["RedisVL MCP (this guide)"]
-        A[Validate JWT] --> S[Gate read / write by scope]
+        A[Validate JWT] --> S[Gate read / write by scope] --> I["Inject tenant filter<br/>(profiles with lock.inject)"]
     end
     Client --> Gateway --> RedisVL --> Redis[(Redis)]
 ```
 
-Use RedisVL’s JWT validation for authentication and coarse read/write
-authorization. Layer a gateway on top when you need per-tenant Redis ACL
-enforcement.
+Use RedisVL’s JWT validation for authentication, read/write authorization, and tenant-scoped queries. Layer a gateway on top when you need per-tenant Redis ACL enforcement.
 
 When such a gateway or reverse proxy terminates the connection and forwards a
 rewritten `Host` header, set `server.transport_security.enabled: false` (or
@@ -214,3 +204,4 @@ proxy’s rewritten `Host` is not rejected by the Host/Origin guard.
 ## See Also
 
 - [Run RedisVL MCP]({{< relref "mcp" >}}): run and configure the RedisVL MCP server.
+- [RedisVL MCP]({{< relref "../../concepts/mcp" >}}): custom tool profiles, tenant scoping, and its threat model.

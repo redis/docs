@@ -97,6 +97,10 @@ this for you) and let the next `helm upgrade` mint a fresh one.
 
 Rotate agent keys minted for LangCache caches through the Identity Service;
 see [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples#identity-service-api-examples" >}}).
+Rotation returns a **new** `keyId` with the new token. Use the new `keyId` for later update,
+rotate, and revoke calls. The old key stays valid for `graceSeconds` (default 3600, maximum
+604800), and the response includes `oldExpiresAt`. Revoking the old `keyId` ends its grace
+period early.
 
 ## Updates
 
@@ -193,11 +197,12 @@ vectors, and cache records — see the redactor spec shipped in the same
 namespace (`langcache-support-redactors`) for the exact rules.
 
 `preflight.enabled: true` (the default) ships a cluster preflight check as
-both a ConfigMap and a standalone file (`support/langcache-preflight.yaml`
-in the chart source) for `kubectl preflight` before you install:
+both a ConfigMap and a standalone file in the chart package for `kubectl preflight`. Pull
+the chart and run it before you install:
 
 ```bash
-kubectl preflight support/langcache-preflight.yaml
+helm pull redis-ai/langcache --version 0.0.1 --untar
+kubectl preflight langcache/support/langcache-preflight.yaml
 ```
 
 ## Network policy

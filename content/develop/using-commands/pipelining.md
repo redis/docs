@@ -104,7 +104,7 @@ call. Consequently, the number of total queries performed per second
 initially increases almost linearly with longer pipelines, and eventually
 reaches 10 times the baseline obtained without pipelining, as shown in this figure.
 
-{{< image filename="/images/dev/reference/pipeline_iops.webp" alt="Pipeline size and IOPs" >}}
+![Pipeline size and IOPs](/images/dev/reference/pipeline_iops.webp)
 
 ## A real world code example
 

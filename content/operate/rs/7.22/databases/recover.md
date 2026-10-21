@@ -108,7 +108,7 @@ GET https://<host>:<port>/v1/modules
 
     1. Download any missing modules versions from the [Redis download center](https://redis.io/downloads/#tools).
 
-    1. [Install the downloaded modules on the cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md) using one of the following methods:
+    1. [Install the downloaded modules on the cluster](/content/operate/rs/installing-upgrading/modules/add-module-to-cluster.md) using one of the following methods:
 
         {{< multitabs id="install-modules" 
         tab1="Cluster Manager UI"

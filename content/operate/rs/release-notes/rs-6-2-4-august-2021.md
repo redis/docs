@@ -63,7 +63,7 @@ Redis Enterprise Software v5.6.0 will reach end of life (EOF) on October 31, 202
 
 To learn more, see the Redis Enterprise Software [product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md), which details the release number and the end-of-life schedule for Redis Enterprise Software.
 
-Redis Enterprise modules have individual release numbers [and lifecycles](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md).
+Redis Enterprise modules have individual release numbers [and lifecycles](/content/operate/rs/installing-upgrading/modules-lifecycle.md).
 
 ### Deprecation notices
 
@@ -131,7 +131,7 @@ Redis Enterprise Software v6.2.4 includes the following Redis modules:
          
 To utilize data plane encryption for existing databases with modules, update the module to the latest version prior to enabling data plane encryption. 
 
-For help, see [Upgrade the module for a database](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
+For help, see [Upgrade the module for a database](/content/operate/rs/installing-upgrading/modules/upgrade-module.md).
 
 ### Module-related enhancements
 

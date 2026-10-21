@@ -561,11 +561,23 @@
       if (name === "ask") renderAsk();
     }
 
-    function next(label, target) {
-      var b = el("button", "rcr-btn rcr-btn-primary", esc(label));
-      b.type = "button";
-      b.addEventListener("click", function () { show(target); });
-      var w = el("div", "rcr-next"); w.appendChild(b); return w;
+    /* The row at the end of a step: back to the step before, if there is one, and on to `target`. */
+    function next(label, target, back) {
+      var w = el("div", "rcr-next");
+      if (back) {
+        var t = TABS.filter(function (x) { return x[0] === back; })[0];
+        var pb = el("button", "rcr-btn rcr-prev", "← Previous: " + esc(t[2].charAt(0).toLowerCase() + t[2].slice(1)));
+        pb.type = "button";
+        pb.addEventListener("click", function () { show(back); });
+        w.appendChild(pb);
+      }
+      if (label) {
+        var b = el("button", "rcr-btn rcr-btn-primary", esc(label));
+        b.type = "button";
+        b.addEventListener("click", function () { show(target); });
+        w.appendChild(b);
+      }
+      return w;
     }
 
     /* ---- step 1: keys ---- */
@@ -633,7 +645,7 @@
       idx.appendChild(el("p", "rcr-note", "Tag fields use the <code>INDEXMISSING</code> option, so the database must run Redis 7.4 or later. " +
         "Tag fields used for access control, which this demo doesn't include, also get <code>INDEXEMPTY</code>. The index names are illustrative."));
       p.appendChild(idx);
-      p.appendChild(next("Next: ask questions over MCP", "ask"));
+      p.appendChild(next("Next: ask questions over MCP", "ask", "keys"));
     }
 
     /* Point an entity at the documents a template matches. When they're
@@ -799,6 +811,7 @@
       p.appendChild(chips);
       var chat = el("div", "rcr-chat"); chat.setAttribute("aria-live", "polite");
       p.appendChild(chat);
+      p.appendChild(next(null, null, "model"));
       handshake(log);
     }
 

@@ -118,7 +118,7 @@ Redis Enterprise for Kubernetes only supports the following ingress controllers 
 - HAProxy Ingress - Built-in SSL passthrough support  
 - Istio Gateway - Service mesh integration with advanced traffic management
 
-See [Ingress routing]({{< relref "/operate/kubernetes/8.0/networking/ingress" >}}) for detailed configuration steps.
+See [Ingress routing](/content/operate/kubernetes/8.0/networking/ingress.md) for detailed configuration steps.
 
 ### OpenShift routes
 
@@ -139,7 +139,7 @@ spec:
     termination: passthrough
 ```
 
-See [OpenShift routes]({{< relref "/operate/kubernetes/8.0/networking/routes" >}}) for complete setup instructions.
+See [OpenShift routes](/content/operate/kubernetes/8.0/networking/routes.md) for complete setup instructions.
 
 ## Service ports and configuration
 
@@ -294,7 +294,7 @@ client.on('connect', () => {
 
 ## Related topics
 
-- [Ingress routing]({{< relref "/operate/kubernetes/8.0/networking/ingress" >}}) - Configure external access with ingress controllers
-- [OpenShift routes]({{< relref "/operate/kubernetes/8.0/networking/routes" >}}) - External access using OpenShift routes  
-- [Database controller]({{< relref "/operate/kubernetes/8.0/re-databases/db-controller" >}}) - Database lifecycle management
-- [Security]({{< relref "/operate/kubernetes/8.0/security" >}}) - TLS configuration and access control
+- [Ingress routing](/content/operate/kubernetes/8.0/networking/ingress.md) - Configure external access with ingress controllers
+- [OpenShift routes](/content/operate/kubernetes/8.0/networking/routes.md) - External access using OpenShift routes  
+- [Database controller](/content/operate/kubernetes/8.0/re-databases/db-controller.md) - Database lifecycle management
+- [Security](/content/operate/kubernetes/8.0/security/_index.md) - TLS configuration and access control
