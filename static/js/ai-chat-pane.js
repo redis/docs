@@ -22,10 +22,17 @@
    the chat page sends. The conversation lives server side, against the chat
    app's session cookie, which is what lets a follow-up say "it".
 
-   The pane keeps its own copy of the transcript in sessionStorage, so it can
-   follow the reader to the next page. A pane that starts empty resets the
-   server side first, so the bot never answers from context the reader can't
-   see.
+   That cookie is shared by every tab and lasts until the browser closes, so
+   there is one conversation per browser, and the pane shows that one in
+   every tab. It keeps the transcript in localStorage, which every tab shares
+   too: the transcript follows the reader to the next page, and a tab shows
+   what another adds or clears as it happens. One tab asks at a time; while
+   another tab's answer arrives, Send waits. A transcript left from an earlier
+   browser session goes, because the chat app's conversation went with it
+   (see newSession). When there's no conversation, the first question resets
+   the server side first, so the bot never answers from context the reader
+   can't see. Whether the pane is open, and its width, stay per tab, in
+   sessionStorage.
 
    /chat only exists on redis.io, and it sends no CORS headers. Staging builds
    are on redis.io too, so the pane works there as is. A local build needs a
@@ -41,11 +48,14 @@
   var REFS = '/chat/references';
   var RESET = '/chat/reset';
   var FULL = '/chat/';
-  var KEY = 'aiChatPane.v1';
+  var KEY = 'aiChatPane.v1';              // sessionStorage: this tab's pane, open or not, and its width
+  var TRANSCRIPT = 'aiChatPane.chat.v1';  // localStorage: the conversation, for every tab
+  var SESSION = 'aiChatPane';             // the cookie that marks this browser session
   var DEFAULT_WIDTH = 440;
   var KEEP = 40;          // messages kept in the stored transcript
   var MAX_SOURCES = 4;
   var TIMEOUT = 90000;    // end to end, for one answer
+  var GRACE = 5000;       // past TIMEOUT, an answer still marked as arriving belongs to a tab that's gone
   var POST_TIMEOUT = 15000;   // for a reset
   var NOTICE = 'Redis Copilot is powered by OpenAI API and is for general info only; ' +
     'avoid inputting confidential or personal data.';
@@ -83,29 +93,61 @@
 
   var html = document.documentElement;
   var layout = window.aiChatPaneLayout || function () { return DEFAULT_WIDTH; };
+  /* With localStorage blocked, each page keeps the conversation to itself. */
+  var SHARED = (function () { try { return !!window.localStorage; } catch (e) { return false; } })();
+  if (newSession()) {
+    try { localStorage.removeItem(TRANSCRIPT); } catch (e) {}
+  }
   var state = load();
   var ui = null;        // built on first use
-  var busy = null;      // { ctrl, bot } while an answer streams
+  var busy = null;      // { ctrl, bot, node } while this tab's answer streams
   var opener = null;    // where focus goes back to on collapse
   var owners = new WeakMap();   // answer node -> its message
+  var views = {};       // message id -> its answer node
 
   /* ------------------------------------------------------------- state -- */
 
   function load() {
+    var s = read(sessionStorage, KEY);
+    return { open: !!s.open, width: Number(s.width) || DEFAULT_WIDTH, messages: loadMessages() };
+  }
+
+  function read(store, key) {
     var s = null;
-    try { s = JSON.parse(sessionStorage.getItem(KEY)); } catch (e) {}
-    if (!s || typeof s !== 'object') s = {};
-    var messages = (Array.isArray(s.messages) ? s.messages : []).filter(function (m) {
+    try { s = JSON.parse(store.getItem(key)); } catch (e) {}
+    return s && typeof s === 'object' ? s : {};
+  }
+
+  function loadMessages() {
+    var s = read(localStorage, TRANSCRIPT);
+    return (Array.isArray(s.messages) ? s.messages : []).filter(function (m) {
       return m && typeof m.text === 'string' && (m.role === 'user' || m.role === 'assistant');
+    }).map(function (m) {
+      if (!m.id) m.id = newId();
+      /* An answer marked as arriving is being written by this tab or another,
+         within the time limit. Past it, the tab writing it has gone. */
+      if (m.status === 'streaming' && !(Date.now() - (m.since || 0) < TIMEOUT + GRACE)) m.status = 'interrupted';
+      return m;
     });
-    /* An answer still streaming when the reader left the page stopped there. */
-    messages.forEach(function (m) { if (m.status === 'streaming') m.status = 'interrupted'; });
-    return { open: !!s.open, width: Number(s.width) || DEFAULT_WIDTH, messages: messages };
+  }
+
+  function newId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+
+  /* The chat app's conversation cookie ends with the browser session, and the
+     conversation with it. A transcript stored in an earlier session would show
+     context the bot no longer has, so it goes. This cookie, also a session
+     cookie, is how the pane tells: it's missing in a new browser session. */
+  function newSession() {
+    if (new RegExp('(?:^|;\\s*)' + SESSION + '=1(?:;|$)').test(document.cookie)) return false;
+    document.cookie = SESSION + '=1; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
+    return true;
   }
 
   /* A question that hasn't gone out yet, with its answer, stays out of what
-     the next page gets: Copilot never saw it, so it isn't part of the
-     conversation there. */
+     the next page and the other tabs get: Copilot never saw it, so it isn't
+     part of the conversation there. */
   function save() {
     var sent = [];
     state.messages.forEach(function (m) {
@@ -115,11 +157,85 @@
       }
       sent.push(m);
     });
-    try {
-      sessionStorage.setItem(KEY, JSON.stringify({
-        open: state.open, width: state.width, messages: sent.slice(-KEEP)
-      }));
-    } catch (e) {}
+    saveView();
+    try { localStorage.setItem(TRANSCRIPT, JSON.stringify({ messages: sent.slice(-KEEP) })); } catch (e) {}
+  }
+
+  /* Just this tab's pane, so opening or resizing it never writes the
+     conversation over what another tab has. */
+  function saveView() {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ open: state.open, width: state.width })); } catch (e) {}
+  }
+
+  /* Another tab saved the conversation: show what it has. Turns are added and
+     answers repainted in place, so a scrolled view or a downvote comment being
+     typed survives; only a conversation that no longer starts the same way,
+     after a new chat, is drawn again. */
+  function adopt(messages) {
+    if (busy) {
+      var i = indexOf(messages, busy.bot.id);
+      if (i !== -1) messages[i] = busy.bot;
+      /* Not sent yet, so not stored yet: the question stays at the end. */
+      else if (busy.bot.unsent) messages.push(state.messages[state.messages.length - 2], busy.bot);
+      /* A new chat in another tab ended the conversation this answer was for. */
+      else { stop(); busy = null; }
+    }
+    var old = state.messages;
+    state.messages = messages;
+    expireLater();
+    if (!ui) {
+      if (messages.length) build();
+      return;
+    }
+    var continues = old.length && old.length <= messages.length &&
+      old.every(function (m, k) { return m.id === messages[k].id; });
+    if (!continues) {
+      var top = ui.log.scrollTop;
+      renderAll();
+      ui.log.scrollTop = top;
+    } else {
+      messages.forEach(function (m, k) {
+        if (k >= old.length) addTurn(m);
+        else if (m === old[k]) return;
+        /* Unchanged: keep the message the answer's buttons act on. */
+        else if (JSON.stringify(m) === JSON.stringify(old[k])) messages[k] = old[k];
+        else if (m.role === 'assistant') refresh(m, old[k]);
+      });
+    }
+    updateTab();
+    sync();
+  }
+
+  function indexOf(messages, id) {
+    for (var k = 0; k < messages.length; k++) if (messages[k].id === id) return k;
+    return -1;
+  }
+
+  /* An answer from another tab, finished, rated, or stopped since. */
+  function refresh(m, was) {
+    var node = views[m.id];
+    if (!node || !node.isConnected) return;
+    owners.set(node, m);
+    paint(node, m);
+    var row = node.querySelector('.aicp-rate');
+    if (row && m.rating !== was.rating) row.replaceWith(rateRow(m));
+  }
+
+  /* Whether another tab is getting an answer now. */
+  function answeringElsewhere() {
+    return state.messages.some(function (m) { return m.status === 'streaming' && !(busy && m === busy.bot); });
+  }
+
+  /* When the tab writing an answer goes without saying so, the answer is
+     marked as stopped once the time limit has passed. */
+  var expiry = 0;
+  function expireLater() {
+    clearTimeout(expiry);
+    var due = Infinity;
+    state.messages.forEach(function (m) {
+      if (m.status === 'streaming' && !(busy && m === busy.bot)) due = Math.min(due, (m.since || 0) + TIMEOUT + GRACE);
+    });
+    if (due < Infinity) expiry = setTimeout(function () { adopt(loadMessages()); }, Math.max(0, due - Date.now()) + 50);
   }
 
   /* ---------------------------------------------------------------- UI -- */
@@ -179,10 +295,11 @@
       e.preventDefault();
       if (busy) { stop(); return; }
       var q = ui.input.value.trim();
-      if (!q) return;
+      /* The text stays put when another tab is getting an answer. */
+      if (!q || !ask(q)) return;
       ui.input.value = '';
       grow();
-      ask(q);
+      sync();
     });
 
     ui.input.addEventListener('input', function () { grow(); sync(); });
@@ -251,7 +368,7 @@
         ui.handle.removeEventListener('pointerup', done);
         ui.handle.removeEventListener('pointercancel', done);
         html.classList.remove('ai-pane-resizing');
-        save();
+        saveView();
       }
       ui.handle.addEventListener('pointermove', move);
       ui.handle.addEventListener('pointerup', done);
@@ -260,7 +377,7 @@
     ui.handle.addEventListener('dblclick', function () {
       state.width = DEFAULT_WIDTH;
       layout(state);
-      save();
+      saveView();
     });
   }
 
@@ -268,7 +385,7 @@
     opts = opts || {};
     if (!ui) build();
     state.open = true;
-    save();
+    saveView();
     layout(state);
     ui.pane.hidden = false;
     if (!ui.pane.classList.contains('is-in')) {
@@ -285,7 +402,7 @@
     if (!ui || !state.open) return;
     var hadFocus = ui.pane.contains(document.activeElement);
     state.open = false;
-    save();
+    saveView();
     layout(state);
     ui.pane.classList.remove('is-in');
     setTimeout(function () { if (!state.open) ui.pane.hidden = true; }, reducedMotion() ? 0 : 220);
@@ -307,12 +424,15 @@
     ui.tab.setAttribute('aria-expanded', String(state.open));
   }
 
-  /* Send turns into Stop while an answer streams. */
+  /* Send turns into Stop while an answer streams, and waits while another
+     tab's answer arrives. */
   function sync() {
     if (!ui) return;
     var streaming = !!busy;
+    var elsewhere = !streaming && answeringElsewhere();
     var label = streaming ? 'Stop' : 'Send';
-    ui.send.disabled = !streaming && !ui.input.value.trim();
+    ui.send.disabled = !streaming && (elsewhere || !ui.input.value.trim());
+    ui.input.placeholder = elsewhere ? 'Wait for the answer in your other tab' : 'Ask a follow-up question';
     ui.send.title = label;
     ui.send.innerHTML = (streaming ? ICONS.stop : ICONS.send) + '<span class="aicp-sr">' + label + '</span>';
     ui.log.setAttribute('aria-busy', String(streaming));
@@ -327,16 +447,20 @@
 
   function renderAll() {
     ui.log.innerHTML = '';
+    views = {};
     ui.log.appendChild(el('p', 'aicp-notice', NOTICE));
     if (!state.messages.length) {
       ui.log.appendChild(emptyState());
       return;
     }
-    var turn = null;
-    state.messages.forEach(function (m) {
-      if (m.role === 'user' || !turn) turn = ui.log.appendChild(el('div', 'aicp-turn'));
-      turn.appendChild(m.role === 'user' ? el('div', 'aicp-user', m.label || m.text) : botNode(m));
-    });
+    state.messages.forEach(addTurn);
+  }
+
+  /* A question starts a turn, and its answer joins it. */
+  function addTurn(m) {
+    var turns = ui.log.querySelectorAll('.aicp-turn'), turn = turns[turns.length - 1];
+    if (m.role === 'user' || !turn) turn = ui.log.appendChild(el('div', 'aicp-turn'));
+    turn.appendChild(m.role === 'user' ? el('div', 'aicp-user', m.label || m.text) : botNode(m));
   }
 
   function emptyState() {
@@ -356,6 +480,9 @@
     var node = el('div', 'aicp-bot');
     node.appendChild(el('div', 'aicp-answer'));
     owners.set(node, m);
+    views[m.id] = node;
+    /* Drawn again while it streams: the stream paints into the new node. */
+    if (busy && busy.bot === m) busy.node = node;
     paint(node, m);
     return node;
   }
@@ -589,44 +716,42 @@
     ask(q, title ? 'Explain this page: ' + title : 'Explain this page');
   }
 
+  /* True if the question went in: it waits while another tab gets an answer. */
   function ask(q, label) {
-    if (busy || !q) return;
+    if (busy || !q) return false;
     if (!ui) build();
+    /* Another tab may have moved the conversation on since this one last heard. */
+    if (SHARED) adopt(loadMessages());
+    if (answeringElsewhere()) return false;
     var fresh = !state.messages.length;
-    var user = { role: 'user', text: q };
+    var user = { id: newId(), role: 'user', text: q };
     if (label) user.label = label;
-    var bot = { role: 'assistant', q: q, text: '', status: 'streaming', refs: [], unsent: true };
+    var bot = { id: newId(), role: 'assistant', q: q, text: '', status: 'streaming', since: Date.now(), refs: [], unsent: true };
     state.messages.push(user, bot);
     save();
 
+    /* The stream paints into job.node, which a redraw replaces (botNode). */
+    var ctrl = new AbortController();
+    var job = busy = { ctrl: ctrl, bot: bot, node: null };
     if (fresh) renderAll();
-    else {
-      var t = el('div', 'aicp-turn');
-      t.appendChild(el('div', 'aicp-user', label || q));
-      t.appendChild(botNode(bot));
-      ui.log.appendChild(t);
-    }
+    else { addTurn(user); addTurn(bot); }
     var turn = ui.log.lastElementChild;
-    var node = turn.lastElementChild;
     pin(turn, fresh);
     updateTab();
-
-    var ctrl = new AbortController();
-    busy = { ctrl: ctrl, bot: bot };
     sync();
     var timedOut = false;
     var timer = setTimeout(function () { timedOut = true; ctrl.abort(); }, TIMEOUT);
     var frame = 0;
     function repaint() {
       if (frame) return;
-      frame = requestAnimationFrame(function () { frame = 0; paint(node, bot); });
+      frame = requestAnimationFrame(function () { frame = 0; paint(job.node, bot); });
     }
 
     untilAborted(fresh ? forget() : resetting || Promise.resolve(), ctrl.signal)
       .then(function () {
         references(q, ctrl.signal).then(function (refs) {
           bot.refs = refs;
-          if (bot.status === 'done') { paint(node, bot); save(); }
+          if (bot.status === 'done') { paint(job.node, bot); save(); }
         });
         delete bot.unsent;
         save();
@@ -665,11 +790,12 @@
       .then(function () {
         clearTimeout(timer);
         if (frame) { cancelAnimationFrame(frame); frame = 0; }
-        if (busy && busy.bot === bot) busy = null;
-        paint(node, bot);
+        if (busy === job) busy = null;
+        paint(job.node, bot);
         save();
         sync();
       });
+    return true;
   }
 
   function stop() {
@@ -1024,8 +1150,22 @@
     };
   })());
 
-  /* Keep whatever has arrived of an answer when the reader moves on. */
-  window.addEventListener('pagehide', save);
+  /* Keep whatever has arrived of an answer when the reader moves on. Leaving
+     ends the request, so the other tabs see the answer as stopped. With no
+     answer arriving there's nothing new to keep, and a tab that's been in the
+     background mustn't write its copy over the conversation. */
+  window.addEventListener('pagehide', function () {
+    if (!busy) return;
+    busy.bot.status = 'interrupted';
+    save();
+  });
+
+  /* Another tab changed the conversation. */
+  if (SHARED) {
+    window.addEventListener('storage', function (e) {
+      if (e.storageArea === localStorage && (e.key === TRANSCRIPT || e.key === null)) adopt(loadMessages());
+    });
+  }
 
   /* Back/forward cache: the page comes back as it was left, but the pages
      since may have moved the conversation on, or started one. Take the stored
@@ -1036,6 +1176,7 @@
     stop();
     busy = null;
     state = load();
+    expireLater();
     if (!ui) {
       if (!state.open && !state.messages.length) return;
       build();
@@ -1047,6 +1188,7 @@
     else { layout(state); ui.pane.classList.remove('is-in'); ui.pane.hidden = true; updateTab(); }
   });
 
+  expireLater();
   if (state.open || state.messages.length) build();
   if (state.open) {
     open({ instant: true });
