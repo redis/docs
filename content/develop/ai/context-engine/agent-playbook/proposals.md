@@ -4,67 +4,63 @@ categories:
 - docs
 - develop
 - ai
-description: Create proposals, attach evidence, review candidates, and promote approved answers into unpublished FAQs.
+description: Turn suggested answers from agents and applications into reviewed FAQs for your playbook.
 hideListLinks: true
-linktitle: Review proposals
-title: Review proposals
+linktitle: Proposals
+title: Proposals
 weight: 40
 ---
 
-Review suggested answers as proposals. Check each candidate against its evidence, accept it into an unpublished FAQ, and publish the reviewed version.
+Use proposals to turn answers from agent conversations, documents, or application events into knowledge other agents can reuse. An agent or application suggests an answer; a reviewer checks its evidence before accepting and publishing it as a frequently asked question (FAQ).
 
-The current proposal workflow adds new FAQs. It does not create skills or revise existing entries.
+Proposals currently add new FAQs. They do not create skills or revise existing entries. To correct an existing answer, use [FAQ versioning](/content/develop/ai/context-engine/agent-playbook/manage-faqs.md#update-an-answer).
 
-To fill the inbox from agent usage, see [Automate proposal generation](/content/develop/ai/context-engine/agent-playbook/proposals.md#automate-proposal-generation). You can use background extraction from Redis Agent Memory or build a producer with the proposal and evidence APIs.
+Start with the walkthrough, or [automate suggestions](/content/develop/ai/context-engine/agent-playbook/proposals.md#automate-proposal-generation) from Redis Agent Memory or your own application. Suggestions do not affect agent responses until you publish the accepted FAQ.
 
 ![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
 {width="700"}
 
 ## Before you begin
 
-Use an existing playbook and API keys with these permissions:
+Use an existing playbook and application programming interface (API) keys with these permissions:
 
 - `propose` to create candidates and attach evidence.
 - `write` to edit, accept, dismiss, restore, or purge proposals.
 - `publish` to publish the FAQ returned by acceptance.
 
-Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}), then append this page's snippets in order. Run each write once.
-
-This walkthrough needs all three permissions on `PLAYBOOK_API_KEY`. Applications can use separate keys for suggestion, review, and publication.
+For this walkthrough, give `PLAYBOOK_API_KEY` all three permissions and follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}). Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
 
 ## Find proposals to review
 
-A key with `read` permission can list, search, and inspect proposals. The inbox contains open candidates and acceptances in `promoting` state. Only open candidates can be edited. Read the complete proposal and its evidence before deciding what to accept.
+A key with `read` permission can list, search, and inspect proposals. The inbox contains candidates awaiting review and any acceptance still in progress. Only open candidates can be edited.
 
-Follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged. An absent first-page `total` means unknown.
+For software development kit (SDK) and cURL lists, follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged; an absent `total` means unknown. The command-line interface (CLI) follows cursors automatically. Use `--page` for one page with `items` and `nextCursor`, then `--cursor` to continue.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-inbox" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Search open proposals before submitting another candidate. Search excludes trash, promotion history, and published FAQs. Review similar questions to check whether they need the same answer.
+Search before submitting another candidate. Compare similar questions to decide whether they need the same answer. Proposal search covers open candidates, not trash, accepted proposals, or [published FAQs](/content/develop/ai/context-engine/agent-playbook/retrieval.md#search).
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Create a proposal
 
-Prepare a question and answer, with intents describing the task and attributes for audience filters. Submit them with `create_proposal` as an `add` action targeting `newEntry`. You can supply an entry key for the FAQ that acceptance will create and immutable source context that explains where the proposal originated.
+Write a self-contained question and answer. Add intents for the task and attributes for its audience, then call `create_proposal` with an `add` action targeting `newEntry`. You can supply an entry key for the resulting FAQ and immutable source context that a reviewer can check.
 
-The candidate enters the inbox without changing what agents retrieve.
-
-Save the returned proposal identifier and `proposalRevision`. The revision identifies the candidate a reviewer edits or accepts. A creation source does not count as attached evidence.
+Save the proposal identifier and `proposalRevision`. Use the revision to identify the candidate you edit or accept.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-The CLI reads a flat FAQ candidate file and a separate creation-source JSON file. It constructs the proposal action for you. Proposal and evidence JSON use the API field names; neither operation publishes content.
+The CLI takes a flat FAQ candidate file and a separate source file in JavaScript Object Notation (JSON), and constructs the proposal action for you.
 
 ### Handle an existing candidate
 
-Creation or candidate replacement can return `409` with type `/errors/proposal-already-exists`. Read the existing proposal before submitting more content. Catch `PlaybookConflictErrorResponseContent` and read its identifier from `error.data.existing_proposal_id`.
+If creation or replacement returns `409` with type `/errors/proposal-already-exists`, read the existing proposal. Python exposes its identifier as `error.data.existing_proposal_id` on `PlaybookConflictErrorResponseContent`.
 
-If the existing open candidate addresses the same need, use its identifier to [attach evidence]({{< relref "/develop/ai/context-engine/agent-playbook/proposals#attach-evidence" >}}). Review its current revision before editing or accepting it. Restore a trashed candidate before adding evidence; promoted candidates remain locked against review changes. Duplicate detection is advisory, so concurrent submissions can still produce candidates that need consolidation during review.
+If the open candidate addresses the same need, [attach evidence]({{< relref "/develop/ai/context-engine/agent-playbook/proposals#attach-evidence" >}}) to it rather than creating another suggestion. Review its current revision before editing or accepting it.
 
 ## Attach evidence
 
-Submit source context to the open proposal with `submit_proposal_evidence`. Each observation includes:
+Use `submit_proposal_evidence` to add another observation to an open proposal. For example, attach a policy excerpt that supports the answer or a conversation that reveals a missing condition.
 
 | Field | Purpose |
 |:------|:--------|
@@ -73,41 +69,39 @@ Submit source context to the open proposal with `submit_proposal_evidence`. Each
 | `producer` | Application or agent name, with optional prompt version and commit hash. |
 | `source` | Source type, with optional reference and content objects. |
 
-Attach a supporting passage and a reference the reviewer can check. The service does not independently verify caller-supplied attribution.
+Include a supporting passage and a reference the reviewer can check. Redis Agent Playbooks does not independently verify caller-supplied attribution. An evidence count measures observations, not correctness or independent users.
 
 Evidence is immutable. Retrying the same identifier and payload returns `alreadyPresent`. Reusing that identifier for changed content returns a conflict. Use a new identifier for a new observation.
 
-Evidence stays with the proposal. Acceptance does not copy it into the FAQ. See [evidence limits]({{< relref "/develop/ai/context-engine/agent-playbook/limits#proposal-and-evidence-limits" >}}) before attaching large source content.
+The creation source explains the first suggestion and does not increase `evidenceCount`. Attached evidence stays with the proposal; acceptance does not copy it into the FAQ. Check [evidence limits]({{< relref "/develop/ai/context-engine/agent-playbook/limits#proposal-and-evidence-limits" >}}) before attaching large passages.
 
-This example attaches a policy excerpt. The HTTP example uses `openssl` to generate an identifier. Keep that identifier and payload for exact retries.
+This example attaches a policy excerpt. The cURL and CLI tabs use `openssl` to generate an identifier.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-evidence" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Review and edit a candidate
 
-1. List the inbox or search proposals for the topic you want to review. Filter by action or entry type when the inbox contains multiple proposal kinds.
-1. Retrieve the complete proposal, including its candidate and evidence.
+1. Retrieve the complete proposal and its evidence with `get_proposal`.
 1. Check that the sources support the answer, its conditions, and its intended audience.
-1. Replace the candidate with `replace_proposal` if it needs changes, supplying `expectedProposalRevision` for the revision you read.
+1. Check for sensitive or conversation-specific details that should not become reusable guidance.
+1. Replace the candidate with `replace_proposal` if it needs changes. Supply the complete action and `expectedProposalRevision` for the revision you read.
 1. Review the returned candidate and record its new revision.
 
-Editing replaces the complete proposed action and preserves existing evidence.
-
-If another reviewer changes the candidate, the revision check fails. Read and review the current candidate before trying again. An evidence count can guide review priority, but it is not a correctness score.
+Editing preserves evidence. If another reviewer changes the candidate, the revision check fails; review the current answer before trying again.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-read" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-After checking the source excerpt, add its guidance about card details. Start from the action you just read, preserve its other fields, and supply that revision.
+Add the excerpt's guidance about card details. Preserve the other fields from the proposal you just read.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-replace" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Dismiss, restore, or purge
 
-Dismiss a candidate you do not want to accept. It moves to trash, where you can inspect or restore it before its retention deadline. Restore a trashed proposal before editing it, attaching evidence, or accepting it.
+Dismiss a candidate you do not want to accept. You can inspect or restore it from trash before its retention deadline. Restore it before editing, attaching evidence, or accepting it.
 
-Open proposals also leave the inbox when their review window expires. Check `inboxExpiresAt` and `purgeAt` rather than treating the inbox as permanent storage. Candidate edits, new evidence, and restoration refresh the review deadlines.
+Open proposals also expire. Check `inboxExpiresAt` and `purgeAt`, and see [review and retention limits](/content/develop/ai/context-engine/agent-playbook/limits.md#proposal-and-evidence-limits) for how activity changes those deadlines.
 
-Purge a trashed proposal when you want to remove it permanently. Save any review records your application needs before the proposal is purged.
+Purge a trashed proposal to remove it permanently. Save any review records your application needs first.
 
 Test dismissal and restoration before accepting the sample. Purging instead ends the walkthrough for that proposal.
 
@@ -115,11 +109,11 @@ Test dismissal and restoration before accepting the sample. Purging instead ends
 
 ## Accept and publish
 
-Use `accept_proposal` with the reviewed revision. It creates one unpublished FAQ and returns a historical `result.versionCreated` receipt. The receipt identifies the new entry and version, but it does not contain the authored content or confirm that the target still exists.
+Call `accept_proposal` with the revision you reviewed. Acceptance creates one unpublished FAQ. Use the entry identifier and version in `result.versionCreated` to read that FAQ, then [publish the reviewed version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}) with a key that has `publish` permission.
 
-The `promoting` and `promoted` states prevent further review changes. If acceptance is interrupted, retry it to resume or retrieve the recorded FAQ. Use that FAQ rather than creating a replacement.
+A proposal being accepted (`promoting`) or already accepted (`promoted`) cannot be edited. If acceptance is interrupted, retry it rather than creating another FAQ. The returned receipt is historical: it does not contain the answer or confirm that the FAQ still exists. Inspect the FAQ before acting on a retried result.
 
-Read the accepted FAQ version with the receipt, then [publish that version]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#publish-a-version" >}}). Acceptance does not grant publication permission. If the client returns an unrecognized result type, inspect or upgrade the client before acting on it.
+If your client cannot recognize the result type, inspect the result or upgrade the client before publishing.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-final-review" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -135,67 +129,49 @@ The accepted FAQ remains after this example. Delete it with the [FAQ cleanup pro
 
 ## Inspect promotion history
 
-The trash view includes dismissed or expired proposals and retained `promoted` history. A promoted proposal cannot be restored or edited. Read its detail with `get_proposal` while it is retained, or purge it when its review record is no longer needed. Purging the proposal does not delete the accepted FAQ. A `promoting` proposal remains in the inbox for acceptance recovery and cannot be purged.
+Use the trash view to inspect dismissed, expired, and accepted proposals while they are retained. Accepted proposals cannot be restored or edited. Purging their review record does not delete the FAQ. An acceptance still in progress remains in the inbox and cannot be purged.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-history" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-CLI proposal lists follow every cursor automatically. Use `--page` for a response with `items`, `nextCursor`, and optional `total`, then `--cursor` to continue. Candidate replacement and acceptance examples pass the revision from the saved review rather than selecting the current revision automatically.
-
 ## Automate proposal generation
 
-Use automation to turn agent usage into candidates for the review inbox. Both approaches currently propose new FAQs. Skill extraction and skill proposals are planned for a future release; updating a published FAQ still uses the [FAQ versioning workflow](/content/develop/ai/context-engine/agent-playbook/manage-faqs.md#update-an-answer).
+Choose how your application contributes suggestions:
 
-| Approach | Source and responsibilities | Use it when |
-| --- | --- | --- |
-| Background extraction from Redis Agent Memory | Your agent records session events. A configured worker extracts candidates, compares existing knowledge, and submits proposals or evidence. | You want to derive reusable answers from conversations stored in Redis Agent Memory. |
-| Direct proposal and evidence API calls | Your application selects observations, generates candidates, compares existing knowledge, and submits proposals or evidence. | You need custom triggers, source systems, or candidate-generation rules. |
+- **Redis Agent Memory:** Derive reusable answers from recorded agent conversations through background extraction.
+- **Proposal and evidence APIs:** Generate suggestions from your own sources and triggers, such as resolved support cases or evaluation findings.
 
-Give a custom producer `propose` permission, which includes `read`. Keep review and publication with callers that have the corresponding permissions. Creating proposals or attaching evidence does not change what agents retrieve.
+Both paths feed the same review inbox. They currently support new FAQs; skill extraction and skill proposals are planned for a future release.
 
 ### Extract FAQs from agent usage in Redis Agent Memory
 
-1. [Record session events in Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/developer-guide.md#work-with-session-memory). Include the user's questions and the agent's responses under the correct user and conversation identities. Retrieving playbook knowledge alone does not record the interaction in Redis Agent Memory.
-1. Ask your administrator to configure the source connection and extraction worker. This includes a generation model, worker access to both products, and an extraction binding between the source store and destination playbook. Proposal permissions alone do not enable extraction.
-1. Have the administrator enable the binding after it becomes ready and the worker is healthy. A binding selects a whole store in the same tenant as the playbook. There is currently one binding per playbook, with no per-binding namespace selection.
-1. Let a representative conversation become idle. The binding's default idle window is 30 minutes, and its scan cadence is five minutes. These intervals determine eligibility; they are not a completion-time guarantee.
-1. [Inspect the proposal inbox](/content/develop/ai/context-engine/agent-playbook/proposals.md#find-proposals-to-review) and read the candidate's creation source and attached evidence.
+1. [Record session events in Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/developer-guide.md#work-with-session-memory), including user questions and agent responses under the correct conversation identity. Retrieving playbook knowledge alone does not record an interaction.
+1. Ask your administrator to configure and enable extraction for the source store and destination playbook. Proposal permissions alone do not enable it.
+1. Let a representative conversation become idle, then [inspect the inbox](/content/develop/ai/context-engine/agent-playbook/proposals.md#find-proposals-to-review) for suggestions and new evidence.
 
-The worker derives reusable questions and answers from retained events or a session summary. It compares each observation with published FAQs and open proposals:
+Each playbook can extract from one whole Redis Agent Memory store in the same tenant; selecting individual namespaces is not supported. Keep source conversations available for extraction and review. Later events in a completed conversation do not automatically trigger another extraction.
 
-| Comparison result | Effect |
-| --- | --- |
-| A published FAQ already covers the observation | The worker leaves the published entry unchanged; no proposal may be needed. |
-| An open proposal addresses the same need | The worker attaches evidence without replacing the candidate. The observation can include a differing answer for review. |
-| The observation represents a new need, or the match is uncertain | The worker creates a new FAQ proposal with its original source context. |
-
-An empty inbox does not necessarily indicate a failure. A session might still be active, contain no reusable answer, or support existing published knowledge. Model input limits can also restrict how much of a session is examined. Completed sessions are not automatically reprocessed when later events arrive. Keep source sessions available long enough for extraction and review, and ask the operator to inspect worker health and processing outcomes when expected results are missing.
+Not every conversation produces a proposal. It might still be active, contain no reusable answer, or support an existing FAQ or open candidate. Extraction can add evidence to an open proposal without replacing its answer. It never updates a published FAQ. For timing, eligibility, and troubleshooting, use the operator's extraction guide.
 
 ### Review background extraction results
 
-Extracted proposals use the same review, acceptance, and publication steps as manually submitted proposals. Read the full proposal with `get_proposal`; its creation source and evidence provide context that compact inbox results omit.
-
-For Redis Agent Memory sources, check the store, owner, session, and cited event identifiers. Summary-derived observations include a summary reference and supporting quotes. Extracted question and answer text is model-derived and can differ from the source wording. The optional model assessment `conflict: true` flags a differing answer; `false` reports no detected conflict. An absent assessment does not mean the answers agree.
-
-Check factual support, audience, and sensitive or conversation-specific details before accepting a candidate. An evidence count measures observations, not correctness or the number of independent users. Acceptance retains the review record with the proposal and creates an unpublished FAQ. [Publish the reviewed version](/content/develop/ai/context-engine/agent-playbook/proposals.md#accept-and-publish) separately.
+Open the proposal's source conversation or supporting quotes and check the generated answer against them. Extraction suggests reusable wording, which can differ from the conversation or reflect conflicting observations. Resolve those differences and remove conversation-specific details before following the [review and publication steps](/content/develop/ai/context-engine/agent-playbook/proposals.md#review-and-edit-a-candidate).
 
 ### Generate proposals with the proposal and evidence APIs
 
-Use a custom producer for events such as a resolved support conversation, an agent evaluation, or a reviewed document update. Redis Agent Memory is optional for this path. The API stores the candidate and observations you submit; your producer performs extraction and decides how observations relate to existing knowledge.
+Use the Python, TypeScript, cURL, or CLI examples in your application when you need custom sources or generation rules. Redis Agent Memory is optional for this path. Your application selects the source material and generates the suggested answer.
 
-Use this page's Python, TypeScript, cURL, or CLI examples as the submission steps in your producer:
+1. Extract a reusable question and answer from the source material, keeping a reference the reviewer can inspect.
+1. Compare it with [published FAQs](/content/develop/ai/context-engine/agent-playbook/retrieval.md#search) and [open proposals](/content/develop/ai/context-engine/agent-playbook/proposals.md#find-proposals-to-review). Check the question, conditions, and audience, rather than relying on similarity scores alone.
+1. [Attach evidence](/content/develop/ai/context-engine/agent-playbook/proposals.md#attach-evidence) if an open candidate addresses the same need. A differing answer can help the reviewer; evidence does not edit the candidate.
+1. [Create a proposal](/content/develop/ai/context-engine/agent-playbook/proposals.md#create-a-proposal) if the answer covers a new need. Save its identifier and revision.
+1. Route the candidate to a reviewer before accepting and publishing it.
 
-1. Select an observation and generate a reusable question and answer. Preserve a source reference that reviewers can inspect, and remove details that apply only to one conversation.
-1. Search both [published FAQs](/content/develop/ai/context-engine/agent-playbook/retrieval.md#search) and [open proposals](/content/develop/ai/context-engine/agent-playbook/proposals.md#find-proposals-to-review). Proposal search does not include published FAQs. Compare the question, conditions, and audience as well as the similarity score.
-1. If an open proposal addresses the same need, [attach evidence](/content/develop/ai/context-engine/agent-playbook/proposals.md#attach-evidence) with `submit_proposal_evidence`. Include the observation's time, producer, and source. A differing answer can be useful evidence for a reviewer; attaching it does not edit the candidate.
-1. If no suitable candidate exists, [create a proposal](/content/develop/ai/context-engine/agent-playbook/proposals.md#create-a-proposal) with `create_proposal`, an `add` action, a `newEntry` target, and a FAQ payload. Include immutable creation source context and retain the returned proposal identifier and revision.
-1. Route the proposal to a reviewer. If published knowledge needs correction, use the separate FAQ revision process; the current proposal API cannot propose an update to that entry.
-
-The creation `source` explains the first observation and does not increase `evidenceCount`. Attach evidence for additional observations. Your source's `reference` and `content` are source-specific JSON objects; custom producers do not need to imitate the Redis Agent Memory extraction schema. Identify generated answers and retain the supporting material a reviewer needs to evaluate them.
+Use a key with `propose` permission, which includes `read`. Keep review and publication permissions separate. Put source identifiers in `source.reference` and supporting material in `source.content`, using JSON objects appropriate to your source.
 
 #### Handle retries and concurrent observations
 
-Persist each evidence identifier and its original payload before sending it. Retry an uncertain evidence submission with the same identifier, timestamp, producer, and source. An exact retry returns `alreadyPresent`; changed content under the same identifier conflicts. Generate a new identifier for a new observation. The walkthrough generates a random identifier once; a background job must retain it across retries instead of generating another on each attempt.
+Persist evidence identifiers and their original payloads before submission so a background job can follow the [exact-retry rules](/content/develop/ai/context-engine/agent-playbook/proposals.md#attach-evidence). Do not generate another identifier on each retry.
 
-Proposal creation is not idempotent. After a timeout or ambiguous response, inspect the inbox before creating again. Handle `/errors/proposal-already-exists` by reading the returned existing proposal and deciding whether the observation belongs there. Search and duplicate detection do not guarantee uniqueness under concurrent submissions, so allow reviewers to consolidate equivalent candidates.
+Proposal creation is not idempotent: after an uncertain response, inspect the inbox before creating again. Follow [existing-candidate handling](/content/develop/ai/context-engine/agent-playbook/proposals.md#handle-an-existing-candidate) for duplicate errors. Concurrent submissions can still produce equivalent candidates that need review.
 
-Recheck a proposal if an evidence target has been dismissed, promoted, or purged. Leave restoration and candidate edits to an authorized reviewer. Respect [proposal and evidence limits](/content/develop/ai/context-engine/agent-playbook/limits.md#proposal-and-evidence-limits), and retain failed observations for investigation rather than retrying a permanent validation error indefinitely.
+Recheck the proposal if its state changes, and leave restoration or edits to an authorized reviewer. Check [proposal and evidence limits](/content/develop/ai/context-engine/agent-playbook/limits.md#proposal-and-evidence-limits) and retain failed observations for investigation instead of retrying permanent validation errors.
