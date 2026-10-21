@@ -33,7 +33,7 @@ The following table summarizes the considerations to prepare a MongoDB database 
 | MongoDB Topology    | Replica Set, Sharded Cluster, or MongoDB Atlas                              |
 | User Roles          | readAnyDatabase, clusterMonitor                                             |
 | Oplog               | Sufficient size for snapshot and streaming                                  |
-| Pre/Post Images     | Enable on collections **only if using a custom key**                        |
+| Pre/Post Images     | Enable when the pipeline needs old document values, including custom keys and set output types |
 | Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
 | MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as the source's `CACERT` secret in RDI       |
 | MongoDB mTLS        | X.509 authentication requires source TLS secrets and MongoDB SSL properties |
@@ -48,7 +48,7 @@ complete each step.
 - [ ] [Configure oplog size](#1-configure-oplog-size)
 - [ ] [Create a MongoDB user for RDI](#2-create-a-mongodb-user-for-rdi)
 - [ ] [Connection string format](#3-connection-string-format)
-- [ ] [Enable change streams and pre/post images (only if using a custom key)](#4-enable-change-streams-and-prepost-images-only-if-using-a-custom-key)
+- [ ] [Enable pre-images when required](#4-enable-pre-images-when-required)
 - [ ] [MongoDB Atlas specific requirements](#5-mongodb-atlas-specific-requirements)
 - [ ] [Self-hosted MongoDB mTLS and X.509 authentication](#6-self-hosted-mongodb-mtls-and-x509-authentication)
 - [ ] [Network and security](#7-network-and-security)
@@ -107,13 +107,15 @@ mongodb://${MONGODB_DB_USERNAME}:${MONGODB_DB_PASSWORD}@host:30000
 - For Atlas, adjust the connection string accordingly (see example below).
 - Set `replicaSet` and `authSource` as appropriate for your deployment.
 
-## 4. Enable change streams and pre/post images (only if using a custom key)
+<a id="4-enable-change-streams-and-prepost-images-only-if-using-a-custom-key"></a>
 
-Change Streams are required only if you are using a custom key in your RDI pipeline. Change streams are available by default on replica sets, sharded clusters, and MongoDB Atlas.
+## 4. Enable pre-images when required
 
-If your RDI pipeline uses a custom key, you must enable pre- and post-images on the relevant collections to capture the document state before and after updates or deletes. This allows RDI to access both the previous and updated versions of documents during change events, ensuring accurate synchronization.
+RDI uses MongoDB change streams for ongoing replication, with both default and custom Redis keys. Change streams are available on replica sets, sharded clusters, and MongoDB Atlas.
 
-Use the command below to enable change streams and pre/post images:
+A **pre-image** contains a document's values before an update or deletion. For example, if a custom Redis key uses an email address, changing that address requires RDI to remove the old Redis key and write the new one. The pre-image supplies the old address. A **post-image** contains the document after an insert or update; a deleted document has no post-image.
+
+Jobs that use custom output keys or set output types require pre-images. Enable document pre- and post-images on the relevant collections with this command. It enables the extra document images, not change streams themselves:
 
 ```javascript
 db.runCommand({
@@ -121,6 +123,10 @@ db.runCommand({
   changeStreamPreAndPostImages: { enabled: true }
 });
 ```
+
+Also set `capture.mode` in the source's advanced settings to a mode ending in `_with_pre_image`, such as `change_streams_update_full_with_pre_image`. Enabling images on the collection alone does not make the collector request them. See the [source configuration reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings).
+
+Keep required pre-images available for the lag and interruptions you need to tolerate. A change event can remain available after its pre-image is gone. See [MongoDB history and old values](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#mongodb-account-for-write-volume-and-old-values) and [MongoDB pre- and post-images](https://www.mongodb.com/docs/manual/changestreams/#change-streams-with-document-pre--and-post-images).
 
 ## 5. MongoDB Atlas specific requirements
 
