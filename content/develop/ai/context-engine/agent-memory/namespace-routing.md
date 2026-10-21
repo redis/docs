@@ -13,7 +13,7 @@ weight: 14
 
 Namespace routing selects a shared namespace for an eligible memory. Admission rules check whether a memory can enter a destination. Use routing to organize shared memories by content, and admission rules to reject content that does not belong in a namespace.
 
-The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. Your service must support namespace routing and have it enabled. The beta software development kits (SDKs) expose these operations in Python `0.5.0b1` and TypeScript `0.4.0-beta.1`; installing an SDK does not enable routing on the service.
+The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. Your service must support namespace routing and have it enabled.
 
 ## Understand placement and admission
 
@@ -33,7 +33,7 @@ Strategies within a rule run in list order; the first match fires the rule. An a
 
 ## Configure a policy
 
-Create a shared namespace with `CreateNamespace`, and save its returned ID as `SHARED_NAMESPACE_ID`. Use `scope: "SHARED"` and omit `ownerId`. Install the beta SDK for your language, then set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
+Create a shared namespace with `CreateNamespace`, and save its returned ID as `SHARED_NAMESPACE_ID`. Use `scope: "SHARED"` and omit `ownerId`. Install the software development kit (SDK) for your language, then set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
 
 This example accepts text containing `travel` into that namespace. The regular expression is case-insensitive. **PUT replaces the entire policy**, so read the current policy first and retain any rules you still need.
 

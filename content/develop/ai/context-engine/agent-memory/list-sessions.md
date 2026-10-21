@@ -30,7 +30,7 @@ A request without filters must set `includeAll=true`. Do not combine `includeAll
 
 The default is `sortBy=updatedAt` and `sortOrder=desc`, so recent activity appears first. `sortBy` accepts `sessionId`, `createdAt`, or `updatedAt`. When omitted, `sortOrder` is `asc` for `sessionId` and `desc` for timestamps. `limit` accepts 1–1000 and defaults to 100.
 
-The examples use Python `redis-agent-memory==0.5.0b1` or TypeScript `@redis-iris/agent-memory@0.4.0-beta.1`. Install that beta explicitly and use a service that supports the endpoint. Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, and `OWNER_ID` in your shell. See the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service) for connection details.
+Install `redis-agent-memory` for Python or `@redis-iris/agent-memory` for TypeScript. Use a service that supports the endpoint. Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, and `OWNER_ID` in your shell. See the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service) for connection details.
 
 These examples list all pages for one owner, with the most recently updated sessions first:
 
