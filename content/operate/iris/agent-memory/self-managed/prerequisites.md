@@ -62,7 +62,7 @@ databases.
 | --- | --- | --- | --- |
 | Store Redis | Always | `databases."1".urls` | Session memory JSON, long-term memory hashes, RediSearch indexes, vectors, and TTL-managed data. |
 | Metadata Redis | Always | `metadata.urls`, and optionally `metadata.namespace` (default `iris:memory`) | Store records. |
-| Job Redis | Always | `background_jobs.redis.urls` | Background work, retry state, delayed jobs, and idempotency markers. |
+| Job Redis | Always | `background_jobs.redis.urls` and, when execution idempotency is enabled, `background_jobs.idempotency.urls` | Background work, retry state, delayed jobs, and execution markers. The two settings can use the same Redis. |
 {{< /table-scrollable >}}
 
 The Identity Service reads its Metadata Redis from `metadata.urls` in its own metadata Secret and
@@ -104,8 +104,8 @@ Plane store records, and losing the Identity Service Metadata Redis removes agen
 
 ## Credentials and Secrets
 
-The chart renders the configuration from Helm values (`config.render: true`). Credentials stay out
-of the values: you put them in an overlay Secret. Create the following Secrets for the
+When `config.render: true` is set, as in the walkthrough, the chart renders configuration from
+Helm values. This option defaults to `false`. Credentials stay in an overlay Secret. Create the following Secrets for the
 [two-release installation](/content/operate/iris/agent-memory/self-managed/deploy.md#2-create-secrets):
 
 | Secret | Default key | Holds |
@@ -145,6 +145,7 @@ Mirror these images into your internal registry:
 | `replicated/troubleshoot:0.131.0` | Support-bundle health checks, on by default (`supportPackage.*`) |
 | `hibiken/asynqmon:0.7.2` | Optional, with `controlplane.queueMonitor` |
 | `python:3.13-alpine` | Optional, with `tests.smoke` |
+| `curlimages/curl:8.17.0` | Optional, for `helm test` on the Identity Service release (`tests.image` in `values-ids.yaml`) |
 
 For this release, `<ram-version>` is `0.8.0` and `<ids-version>` is `0.10.0`.
 Inspect each package with `helm show chart redis-ai/redis-agent-memory --version 0.8.0`
@@ -198,6 +199,8 @@ Configure the separate Identity Service release in `values-ids.yaml`:
 image:
   repository: registry.example.com/redislabs/iris-identity-service
   tag: "0.10.0"
+tests:
+  image: registry.example.com/curlimages/curl:8.17.0
 global:
   imagePullSecrets:
     - name: ram-registry

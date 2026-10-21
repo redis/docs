@@ -35,6 +35,30 @@ if the endpoints use public certificates.
 
 Before you begin, review the [prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md).
 
+### Isolated lab without TLS
+
+For a network-isolated lab without the Federal Information Processing Standards (FIPS) profile,
+you can use the in-cluster HTTP Services instead of TLS frontends. In `ram-values.yaml`, change:
+
+```yaml
+dataplane:
+  identityServiceBaseURL: http://ids-iris-identity-service:9200
+identityService:
+  allowInsecureTransport: true
+  credential:
+    existingSecret: memory-dp-credential
+```
+
+In `values-ids.yaml`, change the validator URL to
+`productValidation.products.memory.baseURL: http://redis-agent-memory-controlplane:9100`.
+Keep the other settings in both files. Tokens travel over plaintext HTTP on these two hops;
+use TLS for production. FIPS refuses this configuration.
+
+For this lab option, skip `service-ca.crt` and the initial `ram-ca` creation in step 2, and omit
+`tls` from `values-ids.yaml`. For self-managed worker identity, still create `ram-ca` from the
+cluster CA as described in [Prepare worker identity](#prepare-worker-identity-for-your-platform).
+On EKS and AKS, omit Memory's `tls` block too unless another connection requires a private CA.
+
 ## 1. Create the namespace
 
 ```bash
@@ -57,7 +81,7 @@ kubectl -n <namespace-name> create secret generic memory-internal-token \
 kubectl -n <namespace-name> create secret generic ids-control-token \
   --from-literal=token="$(openssl rand -hex 32)"
 kubectl -n <namespace-name> create secret generic ram-ca \
-  --from-file=ca.crt=./service-ca.crt
+  --from-file=ca.crt=./service-ca.crt --save-config
 ```
 
 Both releases mount `memory-dp-credential` and `memory-internal-token`. You own these Secrets;
@@ -76,6 +100,8 @@ databases:
     urls: ["redis://<store-redis-host>:6379"]
 background_jobs:
   redis:
+    urls: ["redis://<job-redis-host>:6379"]
+  idempotency:
     urls: ["redis://<job-redis-host>:6379"]
 embedders_connection_details:
   openai:
@@ -163,7 +189,9 @@ issuer is served:
 
 Always take `jwks_uri` from the discovery document. Don't build it from the issuer, because the AKS
 path differs. On EKS and AKS, replace `issuer` and `jwks_uri` in the values and skip
-the rest of this section. Keep `tls.caCertSecret: ram-ca` for the service endpoints.
+the rest of this section. With TLS service endpoints, keep `tls.caCertSecret: ram-ca`
+for their trust bundle. For the HTTP-only lab option, omit this block unless another connection
+requires a private CA.
 
 On self-managed, GKE, and air-gapped clusters, add the cluster CA to the service CA bundle
 so the Data Plane also trusts the API server certificate:
@@ -174,6 +202,9 @@ cat service-ca.crt cluster-ca.crt > ram-ca.crt
 kubectl -n <namespace-name> create secret generic ram-ca \
   --from-file=ca.crt=./ram-ca.crt --dry-run=client -o yaml | kubectl apply -f -
 ```
+
+For the HTTP-only lab option, use `cp cluster-ca.crt ram-ca.crt` instead of the `cat` command;
+there is no service CA file to combine.
 
 The Data Plane also needs to read the JWKS without logging in. Allowing that is the cluster
 admin's decision:
@@ -240,6 +271,8 @@ memory:
           models:
             default_chat_model: <chat-model>
   background_jobs:
+    idempotency:
+      enabled: true
     redis:
       enabled: true
       queue_prefix: ram
@@ -298,6 +331,11 @@ tls:
 
 - `<chat-model>` is any chat model the endpoint serves.
 - `controlplane.configData.embedding.dimensions` must equal `memory.embedding.models.dimensions`.
+- `background_jobs.idempotency.enabled` prevents successful jobs from running again after
+  redelivery and serializes extraction for the same session. The walkthrough enables it for
+  workers and supplies its Redis URL through the overlay. Keep it enabled in production;
+  without it, workers warn that duplicate memories remain possible. This is separate from
+  queue submission deduplication.
 - `<service-account-issuer>` is the cluster's issuer. Read it with:
 
   ```bash
@@ -371,21 +409,22 @@ Check the separate Identity Service release too:
 kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=ids
 ```
 
-Wait for its pod to be Ready, and verify that both configured TLS endpoints route to their
-Services before creating a key.
+Wait for its pod to be Ready. With TLS frontends, verify that both configured endpoints route
+to their Services before creating a key. For the HTTP-only lab option, verify that both
+in-cluster Service addresses are reachable from the calling pods.
 
 Run each `port-forward` in this guide in its own terminal. Port-forward the Data Plane and check its
 health. The health check doesn't need an agent key:
 
 ```bash
 kubectl -n <namespace-name> port-forward svc/redis-agent-memory 9000:9000
-curl http://localhost:9000/health
+curl http://localhost:9000/health/readiness
 ```
 
 The response is:
 
 ```json
-{"status":"healthy"}
+{"status":"ready"}
 ```
 
 ## 6. Create a store
@@ -515,7 +554,14 @@ kubectl -n <namespace-name> apply -f ollama.yaml
 
 The first start downloads about 2 GB.
 
-In `ram-values.yaml`, replace the provider blocks with:
+Edit the existing `ram-values.yaml`: replace the complete `memory.embedding`,
+`memory.embedders_connection_details`, `memory.inference_providers`, and
+`memory.promote_session_memory` maps with the corresponding maps in this snippet. Also update
+`controlplane.configData.embedding.dimensions`. Keep the other settings, including authentication,
+worker callbacks, and `background_jobs.idempotency`.
+
+Apply these edits to the existing file. Passing the snippet as another `-f` file merges the maps
+and retains old OpenAI entries.
 
 ```yaml
 memory:
@@ -553,7 +599,30 @@ controlplane:
 
 `api_key: ollama` is a placeholder. The client requires a key, and Ollama ignores it.
 
-In `overlay.yaml`, remove `embedders_connection_details.openai` and both `api_key` entries.
+Replace `overlay.yaml` with the Redis-only overlay, removing the complete
+`embedders_connection_details` and `promote_session_memory` blocks:
+
+```yaml
+metadata:
+  urls: ["redis://<metadata-redis-host>:6379"]
+databases:
+  "1":
+    urls: ["redis://<store-redis-host>:6379"]
+background_jobs:
+  redis:
+    urls: ["redis://<job-redis-host>:6379"]
+  idempotency:
+    urls: ["redis://<job-redis-host>:6379"]
+```
+
+If Memory is already installed, update the `ram-secrets` Secret from this file, upgrade with
+the edited values, and restart the Data Plane, workers, and Control Plane so they reload the
+overlay. See [Secret rotation](/content/operate/iris/agent-memory/self-managed/operations.md#secret-rotation).
+
+Use this provider switch only in a disposable evaluation installation. Changing the settings
+does not migrate existing stores or their vector indexes. After switching, create a new store
+and agent key using steps 6–7 for local evaluation. Existing stores retain their original
+embedding dimensions and cannot be reused with this example.
 
 ## Next steps
 

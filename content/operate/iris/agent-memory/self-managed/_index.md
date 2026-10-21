@@ -69,8 +69,8 @@ and the Identity Service handles agent keys.
 
 ### API surfaces
 
-All Data Plane APIs except `/health` are scoped to a store. A store is the logical isolation
-boundary for memory data.
+Memory data APIs are scoped to a store, the logical isolation boundary for memory data.
+Service liveness and readiness endpoints are not store-scoped.
 
 When agent-key authentication is enabled, the grants on each agent key determine which stores and
 actions the key can access.
@@ -82,7 +82,7 @@ actions the key can access.
 | Namespaces | `/v1/stores/{storeId}/namespaces` | Namespace resources within a store. |
 | Model Context Protocol (MCP) | `/v1/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
 | Store health | `/v1/stores/{storeId}/health` | Read-only health for store-scoped features. |
-| Service health | `/health` | Operational status of the Data Plane. |
+| Service health | `/health/liveness`, `/health/readiness` | Process liveness and readiness to serve requests; neither requires an agent key. |
 | Control Plane | `/v1/stores`, `/v1/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
 | Identity Service | `/v1/api-keys` | Self-managed administration for agent keys. |
 

@@ -48,6 +48,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `license.license_path` | Path where the license Secret is mounted. |
 | `request_region` | Region used for background work routing. |
 | `background_jobs.redis` | Job Redis connection used by background workers. |
+| `background_jobs.idempotency` | Enable execution idempotency and extraction serialization for production workers. Requires `enabled: true` and `urls`; it can share Job Redis. |
 | `embedders_connection_details` | Embedding provider endpoint and credentials. |
 | `dataplane_client` | Worker callback client configuration. |
 | `promote_session_memory` | Promotion strategy and LLM connection used by workers. |
@@ -103,6 +104,10 @@ request_region:
   default: eu1
 
 background_jobs:
+  idempotency:
+    enabled: true
+    urls:
+      - redis://<job-redis-host>:6379
   redis:
     enabled: true
     queue_prefix: ram

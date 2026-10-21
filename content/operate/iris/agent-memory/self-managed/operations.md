@@ -32,9 +32,11 @@ aliases:
 
 ## Secret rotation
 
-Rotate Redis Agent Memory agent keys through the Identity Service API:
+Use the [Identity Service port-forward and control token](/content/operate/iris/agent-memory/self-managed/deploy.md#7-mint-an-agent-key)
+from the deployment procedure to rotate agent keys:
 
 ```bash
+IDS_URL=http://localhost:9200
 curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate?graceSeconds=3600" \
   -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
 ```
@@ -70,7 +72,32 @@ corresponding checksums, and roll the affected workloads on both releases:
 | `memory-dp-credential` | `identityService.credential.existingSecretChecksum` | `existingSecretChecksum` on the matching `runtime.serviceCredentials[]` entry |
 | `memory-internal-token` | `controlplane.internalToken.existingSecretChecksum` | `productValidation.products.memory.credential.existingSecretChecksum` |
 
-Apply `ram-values.yaml` to Memory and `values-ids.yaml` to Identity Service separately.
+For example, rotate `memory-dp-credential` in the walkthrough's namespace:
+
+```bash
+umask 077
+openssl rand -hex 32 | tr -d '\n' > memory-dp-token
+kubectl -n <namespace-name> create secret generic memory-dp-credential \
+  --from-file=token=./memory-dp-token --save-config --dry-run=client -o yaml | kubectl apply -f -
+RUNTIME_CREDENTIAL_CHECKSUM="$(shasum -a 256 ./memory-dp-token | awk '{print $1}')"
+
+helm upgrade ids redis-ai/iris-identity-service \
+  --version 0.10.0 \
+  --namespace <namespace-name> \
+  -f values-ids.yaml \
+  --set-string "runtime.serviceCredentials[0].existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
+helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
+  --version 0.8.0 \
+  --namespace <namespace-name> \
+  -f ram-values.yaml \
+  --set-string "identityService.credential.existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
+```
+
+In the walkthrough, `memory-dp` is entry `0` in `runtime.serviceCredentials`. With another list,
+update the matching entry. Persist the checksum in both values files for later upgrades, and
+verify the affected Deployments are Ready. For the internal token, use the corresponding paths
+in the table. For multiple namespaces, provision the new token value in each namespace.
+
 Coordinate rotation: mismatched runtime credentials reject authentication, and mismatched
 internal tokens prevent grant validation. Identity Service's operator control token is separate;
 its checksum is `control.existingSecretChecksum` on that release.
