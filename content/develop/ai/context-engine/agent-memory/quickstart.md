@@ -114,7 +114,7 @@ Use `curl` and `jq` directly. No SDK installation is required.
 
 Create `quickstart.py` or `quickstart.ts` with the complete example for your language. Replace `<ENDPOINT>` and `<STORE_ID>` with your service values. The endpoint must include `https://`.
 
-{{< clients-example set="agent_memory_quickstart" step="connect_health_check" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
+{{< clients-example set="agent_memory_sdk" step="connect_health_check" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
@@ -130,7 +130,7 @@ Session memory is the conversation transcript. Each message is an event, stored 
 
 1. Replace your SDK quickstart file with the complete example for your language. For curl, run the commands in order.
 
-{{< clients-example set="agent_memory_quickstart" step="add_session_event" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
+{{< clients-example set="agent_memory_sdk" step="add_session_event" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
 export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
 curl --fail-with-body --silent --show-error \
@@ -172,7 +172,7 @@ Redis Agent Memory processes session events in the background and creates long-t
 
 Wait at least one minute. Replace your SDK file with the complete search example, or run the curl command:
 
-{{< clients-example set="agent_memory_quickstart" step="search_long_term_memory_basic" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
+{{< clients-example set="agent_memory_sdk" step="search_long_term_memory_basic" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
