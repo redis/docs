@@ -33,6 +33,36 @@ See [Prepare source databases](/content/integrate/redis-data-integration/data-pi
 
 See the [RDI architecture overview](/content/integrate/redis-data-integration/architecture/_index.md#overview) for more information about CDC.
 
+### PostgreSQL publications {#postgresql-publications}
+
+For PostgreSQL sources, including databases hosted on EC2, Aurora/RDS, and Supabase,
+[check replica identity](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+before deploying. Selecting tables in the console does not narrow an existing
+`FOR ALL TABLES` publication. That publication includes current and future tables, and
+updates or deletes on any published table without replica identity can fail in your
+application.
+
+For a publication managed by your database administrator, create an explicit table list
+as shown in the [PostgreSQL preparation guide](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#choose-a-publication-mode).
+In **Configure source**, under **Collector properties**, open **Edit advanced properties**
+and enter these source properties:
+
+| Property | Value |
+|:--|:--|
+| `publication.name` | The name of the publication created by your administrator |
+| `publication.autocreate.mode` | `disabled` |
+
+Keep the publication's table list aligned with the source's selected tables. With
+`disabled`, RDI does not update the publication when you change the selection.
+
+To let RDI create and manage a publication for selected tables, use `filtered` instead.
+This requires [publication creation and table ownership permissions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput).
+Use a separate publication for each source with different table selections.
+
+If a source already uses `FOR ALL TABLES`, follow
+[Replace an existing all-tables publication](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#replace-an-existing-all-tables-publication).
+Changing the collector property alone does not convert that publication.
+
 ### Supabase {#supabase}
 
 You can use a hosted [Supabase](https://supabase.com/) PostgreSQL database as
