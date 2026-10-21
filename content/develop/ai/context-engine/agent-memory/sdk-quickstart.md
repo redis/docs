@@ -42,14 +42,12 @@ Keep the API key out of source control, application logs, and other unsecured lo
 
 ## Install the SDK
 
-These examples use the beta software development kits (SDKs): Python `0.5.0b1` and TypeScript `0.4.0-beta.1`. Install these versions explicitly; an unversioned install can select a stable release. Your service must support the operation you call. Installing a beta SDK does not enable server features.
-
 {{< multitabs id="agent-memory-install"
     tab1="Python"
     tab2="TypeScript" >}}
 
 ```sh
-python -m pip install "redis-agent-memory==0.5.0b1"
+python -m pip install redis-agent-memory
 ```
 
 -tab-sep-
@@ -58,7 +56,7 @@ python -m pip install "redis-agent-memory==0.5.0b1"
 mkdir agent-memory-quickstart
 cd agent-memory-quickstart
 npm init -y
-npm install @redis-iris/agent-memory@0.4.0-beta.1
+npm install @redis-iris/agent-memory
 npm install --save-dev tsx
 ```
 
