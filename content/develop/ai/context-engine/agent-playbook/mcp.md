@@ -19,19 +19,12 @@ Get the data-plane endpoint, playbook identifier, and an API key with `read` per
 
 Publish the sample [FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) or [skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) to test discovery. The basic clients use no model-provider key.
 
-Install the dependencies for your chosen language. Python requires Python 3.10 or later; TypeScript requires Node.js 22 or later.
+For the Python client, use Python 3.10 or later and install these dependencies:
 
 **Python**
 
 ```bash
 python -m pip install mcp==2.3.0 httpx2==2.13.1
-```
-
-**TypeScript**
-
-```bash
-npm install @modelcontextprotocol/sdk@1.32.1
-npm install --save-dev tsx typescript @types/node
 ```
 
 **HTTP**
@@ -78,9 +71,9 @@ See [Discovery]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#
 
 This client connects, lists tools, and prints discovery results for a refund task. For an agent that selects a skill and loads its instructions and files, see [the framework examples]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}).
 
-Copy the complete program and save it as `mcp_client.py`, `mcp_client.mts`, or `mcp_client.sh`. Run `python mcp_client.py`, `npx tsx mcp_client.mts`, or `bash mcp_client.sh` with the connection values you exported.
+Copy the complete program and save it as `mcp_client.py` or `mcp_client.sh`. Run `python mcp_client.py` or `bash mcp_client.sh` with the connection values you exported.
 
-{{< clients-example set="iris_playbook_mcp_client" step="playbook-mcp-client" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_mcp_client" step="playbook-mcp-client" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 Expect the three tool names followed by the discovery response as JSON. It includes matching FAQ answers and skill previews. Empty `pinnedEntries` and `discoveredEntries` arrays can reflect the query, publication, filters, or [preview budget]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#limit-discovery-previews" >}}). A request or tool error stops the program with an error.
 

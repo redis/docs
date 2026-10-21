@@ -28,11 +28,11 @@ Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engin
 
 Discovery returns answers and skill previews within a shared result limit. Pins include required entries; a preview budget limits returned content.
 
-Call `discover_entries` with a Python or TypeScript SDK, over HTTP, or through [MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). Load selected skill instructions and files with [progressive disclosure]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
+Use Python's `discover` helper, send an HTTP discovery request, or call `discover_entries` through [MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). Load selected skill instructions and files with [progressive disclosure]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
 
 Request up to five entries for the agent's task:
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-discover" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-discover" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Python's unified SDK exposes matches as `discovery.discovered` and pins as `discovery.pinned`. `as_prompt()` renders their context for an agent. The CLI accepts the same JSON discovery request as cURL through `--input FILE` and returns the API response with `--json`.
 
@@ -86,7 +86,7 @@ Export the identifier of a published skill, such as the sample in [Manage skills
 export PLAYBOOK_SKILL_ID='<published-skill-entry-id>'
 ```
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-pin" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-pin" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ### Limit discovery previews
 
@@ -99,7 +99,7 @@ Use the preview budget to limit the knowledge returned in one discovery response
 
 Empty results with `budgetTruncated: true` can mean matches did not fit. Shorten FAQ answers or skill descriptions, or raise the ceiling through your administrator. Increasing the result count does not increase the token budget. Type-specific search does not use this budget.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-budget" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-budget" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ### Load skills with progressive disclosure
 
@@ -117,7 +117,7 @@ Reader keys can load only the current publication. MCP tools apply this restrict
 
 The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect a client]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-a-client" >}}).
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-load" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-load" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 Use an SDK or cURL for this reader-only operation. The published CLI's skill-loading commands perform management lookup, which requires `write` or `publish`. Discovery and search CLI examples work with the reader key.
 
@@ -136,7 +136,7 @@ Semantic matching compares your query with the FAQ question or the skill's name 
 
 Retain returned entry identifiers and versions with the content you select.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-search" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-search" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ### Control relevance and result count
 
@@ -155,7 +155,7 @@ Similarity ranks matches; it does not measure answer correctness. Test “Where 
 
 For example, override the FAQ search threshold and result count for one request:
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-threshold" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-threshold" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ### Select an audience with filters
 
@@ -165,6 +165,6 @@ Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `
 
 An equality filter matches a scalar attribute or a member of a list-valued attribute. Boolean `true`, integer `1`, and string `"true"` are different values. Filters do not search metadata and do not replace playbook access grants.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Use entry lookup or list operations for management state. Lists use pagination cursors; search and discovery use result limits. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for request constraints and recovery.

@@ -34,7 +34,7 @@ These programs connect to a playbook from your application runtime, which must r
 export OPENAI_API_KEY='<your-openai-api-key>'
 ```
 
-Python requires Python 3.11 or later; TypeScript requires Node.js 22 or later. Follow one framework and language. The dependency versions are pinned to the tested examples.
+Use Python 3.11 or later and follow one framework. The dependency versions are pinned to the tested examples.
 
 ## Use OpenAI Agents SDK
 
@@ -46,21 +46,15 @@ The application calls asynchronous SDK discovery with the task and a result limi
 python -m pip install openai-agents==0.23.1 mcp==2.3.0
 ```
 
-**TypeScript**
+Copy the program into `openai_agent.py`. Run `python openai_agent.py`.
 
-```bash
-npm install @openai/agents@0.19.0
-```
-
-Copy the program into `openai_agent.py` or `openai_agent.mts`. Run `python openai_agent.py` or `npx tsx openai_agent.mts`.
-
-{{< clients-example set="iris_playbook_openai_agent" step="playbook-openai-agent" description="" lang_filter="Python (Iris),TypeScript (Iris)" max_lines="160" footer="hide" />}}
+{{< clients-example set="iris_playbook_openai_agent" step="playbook-openai-agent" description="" lang_filter="Python (Iris)" max_lines="160" footer="hide" />}}
 
 ## Use LangGraph
 
 A discovery node retrieves context through the SDK. An agent node passes that context to LangChain's agent builder with the MCP tools. The builder owns the model and tool loop; the graph makes the application-controlled retrieval step explicit. See the [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) for graph composition.
 
-The [Python MCP adapter](https://docs.langchain.com/oss/python/langchain/mcp) is beta; its API can change. The [JavaScript example](https://docs.langchain.com/oss/javascript/langchain/mcp) uses adapter v2.
+The [Python MCP adapter](https://docs.langchain.com/oss/python/langchain/mcp) is beta; its API can change.
 
 **Python**
 
@@ -68,15 +62,9 @@ The [Python MCP adapter](https://docs.langchain.com/oss/python/langchain/mcp) is
 python -m pip install "langchain[mcp]==1.4.5" langchain-openai==1.7.2 langgraph==1.2.15 fastmcp==4.1.0 mcp==2.3.0
 ```
 
-**TypeScript**
+Copy the program into `langgraph_agent.py`. Run `python langgraph_agent.py`.
 
-```bash
-npm install langchain@1.5.16 @langchain/openai@1.6.2 @langchain/langgraph@1.5.0 @langchain/mcp-adapters@2.0.1
-```
-
-Copy the program into `langgraph_agent.py` or `langgraph_agent.mts`. Run `python langgraph_agent.py` or `npx tsx langgraph_agent.mts`.
-
-{{< clients-example set="iris_playbook_langgraph_agent" step="playbook-langgraph-agent" description="" lang_filter="Python (Iris),TypeScript (Iris)" max_lines="160" footer="hide" />}}
+{{< clients-example set="iris_playbook_langgraph_agent" step="playbook-langgraph-agent" description="" lang_filter="Python (Iris)" max_lines="160" footer="hide" />}}
 
 ## Check the result
 

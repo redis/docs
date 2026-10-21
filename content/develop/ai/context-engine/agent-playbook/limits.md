@@ -105,7 +105,7 @@ For example, inspect a failed entry read without retrying it automatically. Use 
 export PLAYBOOK_FAQ_ID='<faq-entry-id>'
 ```
 
-{{< clients-example set="iris_playbook_limits" step="playbook-error-type" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_limits" step="playbook-error-type" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Resolve conflicts
 
@@ -137,10 +137,10 @@ Bulk deletion is not atomic across the batch. Earlier deletions can remain appli
 
 Use a key with `write` permission for bulk deletion. Choose the entry type before sending a request:
 
-| Task | Python method | TypeScript method | HTTP request |
-|:-----|:--------------|:------------------|:-------------|
-| Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `deleteFaqs({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/faqs` with an `entryIds` array |
-| Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `deleteSkills({ entryIds: ... })` | `DELETE /v1/playbooks/{playbookId}/skills` with an `entryIds` array |
+| Task | Python method | HTTP request |
+|:-----|:--------------|:-------------|
+| Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `DELETE /v1/playbooks/{playbookId}/faqs` with an `entryIds` array |
+| Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `DELETE /v1/playbooks/{playbookId}/skills` with an `entryIds` array |
 
 Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
 

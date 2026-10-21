@@ -34,7 +34,7 @@ A FAQ gives an agent a validated answer, such as where a customer can find their
 - **Relevant retrieval:** Match an agent's task with FAQ answers and skill previews using semantic discovery.
 - **Progressive skill loading:** Let agents inspect skill previews before loading full instructions and supporting files.
 - **Governed collaboration:** Separate reading, writing, publishing, and proposing with playbook access grants.
-- **Flexible integration:** Retrieve entries through Python, TypeScript, HTTP, or Model Context Protocol (MCP).
+- **Flexible integration:** Retrieve entries through Python, HTTP, or Model Context Protocol (MCP).
 
 ## Choose what to publish
 

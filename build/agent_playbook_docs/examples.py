@@ -76,10 +76,11 @@ def calls(page):
 
 
 def blocks(page):
+    """Collect published shared steps and their retained TypeScript test fixtures."""
     result = []
     seen = set()
     for attrs in calls(page):
-        if not set(CLIENTS.values()).issubset(attrs.get("lang_filter", "").split(",")):
+        if not {CLIENTS["py"], CLIENTS["sh"]}.issubset(attrs.get("lang_filter", "").split(",")):
             continue
         name = attrs["step"]
         assert name not in seen, f"Duplicate step in {page}: {name}"

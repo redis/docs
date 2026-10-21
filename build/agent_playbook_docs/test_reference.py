@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import re
+from xml.etree import ElementTree
 
 from openapi_spec_validator import validate
 
@@ -43,6 +44,26 @@ def test_tce_sources_cover_rendered_steps():
                     assert step(files[suffix], attrs["step"])
                     source, _ = processed(files[suffix])
                     assert "STEP_START" not in source and "EXAMPLE:" not in source
+
+
+def test_typescript_is_not_published_in_playbook_examples():
+    for page in (*GUIDES, "agent-integration"):
+        for attrs in calls(page):
+            assert "TypeScript (Iris)" not in attrs["lang_filter"].split(",")
+    for path in DOCS.glob("*.md"):
+        source = path.read_text()
+        assert not re.search(r"```(?:typescript|javascript)|\.mts\b|npx tsx|npm install", source), path
+    quickstart = (DOCS / "quickstart.md").read_text()
+    assert "https://www.npmjs.com/package/@redis-iris/agent-playbook" in quickstart
+
+
+def test_proposal_diagram_qualifies_default_retention_windows():
+    diagram = ElementTree.parse(
+        ROOT / "static/images/ai/context-engine/agent-playbook-proposals.svg"
+    )
+    labels = [node.text for node in diagram.iter("{http://www.w3.org/2000/svg}text")]
+    assert labels.count("30 DAYS BY DEFAULT") == 2
+    assert not any("60 DAYS" in label for label in labels)
 
 
 def test_optional_cleanup_is_separate_from_full_program_copies():

@@ -478,7 +478,7 @@ def normalized(calls):
 @pytest.mark.parametrize('page,omit_totals',
                          [(guide, False) for guide in GUIDES if guide != 'mcp'] +
                          [(guide, True) for guide in ('faqs', 'skills', 'proposals')])
-def test_displayed_tabs_execute_and_send_equivalent_requests(page, omit_totals, fixture_server, tmp_path):
+def test_reference_clients_execute_and_send_equivalent_requests(page, omit_totals, fixture_server, tmp_path):
     state, env = fixture_server
     traces = []
     for suffix in ('py', 'mts', 'sh'):
