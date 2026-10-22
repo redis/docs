@@ -13,21 +13,35 @@ hideListLinks: true
 weight: 4
 ---
 
-After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target.
+After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target, and one workspace can run several pipelines. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
-In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
+In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. If the workspace already has pipelines, select **Workspace actions > Add pipeline**. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
 
 ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
 {width="80%"}
 
 To create a pipeline:
 
+1. [**Name the pipeline**](#name-the-pipeline): Enter a name that is unique in the workspace.
 1. [**Settings**](#settings): Select the shared target, default data structure, and processor properties.
 1. [**Add sources**](#pipeline-setup): Select source types and give each source a unique name.
 1. [**Configure source**](#source-configuration): Configure and test connectivity and credentials for each source.
 1. [**Select data**](#dataset): Select schemas, tables, and columns for each source.
 1. [**Add transformations**](#transformations): Add jobs and assign them to sources.
 1. [**Review & deploy**](#review-and-deploy): Review all sources and deploy the pipeline.
+
+## Name the pipeline
+
+1. In the **Create new pipeline** dialog, enter a **Pipeline name**. Use 3 to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name.
+
+    ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
+    {width="376px"}
+
+1. Select **Create pipeline**.
+
+The pipeline appears in the workspace as a draft, and its setup opens. You can't change the name of a pipeline later. Pipelines created before Redis Cloud supported several pipelines per workspace are named `default`.
+
+You can set up one pipeline at a time. Until you deploy the pipeline or delete its draft, you can't add another pipeline to the workspace.
 
 ## Settings
 

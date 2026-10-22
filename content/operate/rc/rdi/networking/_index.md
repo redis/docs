@@ -15,7 +15,7 @@ Configure connectivity for each source in your Data Integration pipeline. Source
 
 ## Workspaces, sources, and targets
 
-Create one Data Integration workspace for each Pro subscription that needs a pipeline. All sources in a pipeline write to one target Redis database in that subscription. To write to targets in different subscriptions, set up a workspace and pipeline in each subscription.
+Create one Data Integration workspace for each Pro subscription that needs a pipeline. All sources in a pipeline write to one target Redis database in that subscription. A workspace can run several pipelines, and they can all use the workspace's VPC endpoints, so a source in one pipeline can reuse an endpoint service that a source in another pipeline already uses. To write to targets in different subscriptions, set up a workspace and pipeline in each subscription.
 
 Redis Cloud manages the workspace and its virtual private cloud (VPC) endpoints. A public source uses an Internet Protocol (IP) address or hostname. For a customer-managed source, you manage the endpoint service, Network Load Balancer (NLB), and database access rules. The endpoint service must be in the same AWS region as the workspace.
 

@@ -52,6 +52,8 @@ which presents the considerations in a straightforward question-and-answer forma
 
 An RDI data pipeline connects one or more source databases to one target Redis database. Sources can use the same or different supported database types. Each source has its own collector, connectivity, credentials, and selection of tables and columns. All sources share the pipeline's processor and target.
 
+A Data Integration workspace can run several pipelines. Each pipeline has its own name, sources, processor, and target, and you can deploy, stop, reset, or delete it independently of the others. All the pipelines of a workspace share its network range, connectivity, and RDI database. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
+
 Each source first imports its selected data during the *initial sync* phase, then captures changes during the *streaming* phase. The pipeline transforms the captured records and writes them to Redis. You can monitor and manage each source from the pipeline dashboard.
 
 RDI Cloud uses the Flink processor for all pipelines.
@@ -110,7 +112,7 @@ To create a new data pipeline, you need to:
 1. [Prepare each source database](/content/operate/rc/rdi/setup.md) and any associated credentials.
 1. [Define the source connection and data pipeline](/content/operate/rc/rdi/define.md) by selecting which tables to sync.
 
-Once your data pipeline is defined, you can [view and edit](/content/operate/rc/rdi/view-edit.md) it.
+Once your data pipeline is defined, you can [view and edit](/content/operate/rc/rdi/view-edit.md) it. To run more pipelines in the same workspace, see [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
 For complete production setups, including SQL Server failover handling, see [Production use cases](/content/operate/rc/rdi/use-cases/_index.md).
 
@@ -119,7 +121,7 @@ relref "/operate/rc/rdi/scale-pipeline" >}}).
 
 ## Billing and common questions
 
-See the [RDI Cloud FAQ](/content/operate/rc/rdi/faq.md) for billing examples, reset and flush behavior, and working with multiple sources.
+See the [RDI Cloud FAQ](/content/operate/rc/rdi/faq.md) for billing examples, reset and flush behavior, and working with multiple sources and pipelines.
 
 ## Maintenance windows
 

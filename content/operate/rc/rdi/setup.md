@@ -177,7 +177,8 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
     ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
     {width="80%"}
 
-1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
+1. For a new pipeline, enter its name in the **Create new pipeline** dialog and select **Create pipeline**. See [Name the pipeline](/content/operate/rc/rdi/define.md#name-the-pipeline) for the naming rules.
+1. Complete **Settings**, including the target database, and select **Continue**.
 1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources](/content/operate/rc/rdi/define.md#pipeline-setup) for naming rules.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
