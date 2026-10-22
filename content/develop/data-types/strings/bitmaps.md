@@ -321,8 +321,9 @@ Changing the configuration does not immediately convert existing keys:
   native bitmaps. A write to an existing string converts the complete string
   to a native bitmap before applying the write. The conversion preserves its
   bits, logical length, expiration, and key metadata.
-* Read-only bitmap commands don't convert a string. [`SET`](/content/commands/set.md) also continues to create a string, regardless of this
-  setting.
+* Read-only bitmap commands don't change a string's stored representation.
+  [`SET`](/content/commands/set.md) also continues to create a string, regardless
+  of this setting.
 * [`BITOP`](/content/commands/bitop.md) stores a non-empty result as a
   native destination when the setting is `yes`. When the setting is `no`, its
   destination is native if at least one source is native; an operation with
@@ -343,7 +344,12 @@ value, as it can replace any other Redis type.
 [`BITFIELD_RO`](/content/commands/bitfield_ro.md) work with both
 representations and keep their existing reply and range semantics. Setting a
 zero bit beyond the current logical end extends either representation, and
-bits between the old and new ends read as zero.
+bits between the old and new ends read as zero. The read-only commands in this
+list accept strings and native bitmaps regardless of `bitmap-default-roaring`.
+
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) also reads native
+bitmaps with either setting, but accepts strings only when the setting is `yes`.
+It temporarily converts strings for the read without changing their stored type.
 
 The representations are intentionally visible to clients:
 
@@ -367,8 +373,8 @@ so account for its memory cost before lowering the limit.
 ### Retrieve set-bit offsets
 
 [`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
-offsets of a native bitmap in ascending order, selected by inclusive,
-zero-based element ranks. Use `0 -1` to return all set-bit offsets:
+offsets in ascending order, selected by inclusive, zero-based element ranks.
+Use `0 -1` to return all set-bit offsets:
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
@@ -386,25 +392,31 @@ redis> BITRANGEINTARRAY members 0 -1
 redis> BITRANGEINTARRAY members 1 2
 1) (integer) 20
 2) (integer) 30
+redis> BITRANGEINTARRAY members -1 -1
+1) (integer) 30
 ```
 
-The command validates ranks and handles reversed or oversized bounded ranges
-before checking the key type. For other valid ranges, it accepts only native
-bitmaps; string-backed bitmaps and other types return `WRONGTYPE`. Missing keys
-and bitmaps with no set bits return empty arrays. It is read-only, preserves
-expiration, and works on existing native bitmaps regardless of
-`bitmap-default-roaring`.
+Range arguments are element ranks, not bit offsets. Nonnegative ranks must fit
+an unsigned 32-bit integer. Negative ranks can use the full signed 64-bit range
+and count from the end: `-1` is the last element and `-2` is the second-to-last.
+A negative start before the first element is clamped to `0`. A negative end
+before the first element, a reversed range, or a start beyond the last element
+returns an empty array.
 
-Range arguments are element ranks, not bit offsets. `start` must be an unsigned
-32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a
-nonnegative `end`, the requested inclusive span must not exceed 100,000,000
-elements, even for missing keys. A reversed bounded range or a start beyond the
-last rank returns an empty array; an end beyond the last rank is truncated.
-The rank and span limits do not constrain stored offsets.
+An end beyond the last element is truncated to the last element. The command
+does not cap the number of returned elements. The rank argument restrictions
+do not constrain stored offsets. Client output-buffer limits still apply;
+exceeding a limit disconnects the client and stops enumeration.
 
-With `end` set to `-1`, the command returns every remaining element without the
-span limit, including elements at ranks above `4294967295`. Platform
-reply-length and client output-buffer limits still apply.
+The command validates rank arguments before looking up the key. With valid rank
+arguments, missing keys return empty arrays. Native bitmaps work with either
+`bitmap-default-roaring` setting. Strings work only when it is `yes`; Redis
+uses a temporary Roaring bitmap, leaving the stored bytes, type, and expiration
+unchanged. With the setting `no`, strings return `WRONGTYPE`. Other types always
+return `WRONGTYPE` before range normalization.
+
+Each call on a string scans its full contents and allocates a temporary bitmap,
+even for a small range. Repeated pages repeat this cost.
 
 Use bounded pages for large results. Separate range calls do not share a
 snapshot, so concurrent writes can shift ranks between pages. For benchmark
