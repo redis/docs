@@ -26,8 +26,9 @@
    there is one conversation per browser, and the pane shows that one in
    every tab. It keeps the transcript in localStorage, which every tab shares
    too: the transcript follows the reader to the next page, and a tab shows
-   what another adds or clears as it happens. One tab asks at a time; while
-   another tab's answer arrives, Send waits. A transcript left from an earlier
+   what another adds or clears as it happens. One tab asks at a time: a
+   question is stored the moment it's asked, and while another tab's question
+   is on its way, Send waits. A transcript left from an earlier
    browser session goes, because the chat app's conversation went with it
    (see newSession). When there's no conversation, the first question resets
    the server side first, so the bot never answers from context the reader
@@ -55,7 +56,7 @@
   var KEEP = 40;          // messages kept in the stored transcript
   var MAX_SOURCES = 4;
   var TIMEOUT = 90000;    // end to end, for one answer
-  var GRACE = 5000;       // past TIMEOUT, an answer still marked as arriving belongs to a tab that's gone
+  var GRACE = 5000;       // past its time limit, an answer still marked as arriving belongs to a tab that's gone
   var POST_TIMEOUT = 15000;   // for a reset
   var NOTICE = 'Redis Copilot is powered by OpenAI API and is for general info only; ' +
     'avoid inputting confidential or personal data.';
@@ -119,16 +120,29 @@
   }
 
   function loadMessages() {
-    var s = read(localStorage, TRANSCRIPT);
-    return (Array.isArray(s.messages) ? s.messages : []).filter(function (m) {
-      return m && typeof m.text === 'string' && (m.role === 'user' || m.role === 'assistant');
-    }).map(function (m) {
-      if (!m.id) m.id = newId();
+    var s = read(localStorage, TRANSCRIPT), out = [];
+    (Array.isArray(s.messages) ? s.messages : []).forEach(function (m) {
+      /* Every message the pane saves has an id, which is how tabs match them. */
+      if (!m || typeof m.id !== 'string' || typeof m.text !== 'string' || (m.role !== 'user' && m.role !== 'assistant')) return;
       /* An answer marked as arriving is being written by this tab or another,
-         within the time limit. Past it, the tab writing it has gone. */
-      if (m.status === 'streaming' && !(Date.now() - (m.since || 0) < TIMEOUT + GRACE)) m.status = 'interrupted';
-      return m;
+         within the time limit. Past it, the tab writing it has gone. If its
+         question never went out, the bot never saw it, so both go. */
+      if (m.status === 'streaming' && !(Date.now() - (m.since || 0) < limitOf(m))) {
+        if (m.unsent) {
+          if (out.length && out[out.length - 1].role === 'user') out.pop();
+          return;
+        }
+        m.status = 'interrupted';
+      }
+      out.push(m);
     });
+    return out;
+  }
+
+  /* How long an answer can be on its way. One whose question hasn't gone out
+     is only waiting for a reset, which gives up sooner (post). */
+  function limitOf(m) {
+    return (m.unsent ? POST_TIMEOUT : TIMEOUT) + GRACE;
   }
 
   function newId() {
@@ -145,20 +159,12 @@
     return true;
   }
 
-  /* A question that hasn't gone out yet, with its answer, stays out of what
-     the next page and the other tabs get: Copilot never saw it, so it isn't
-     part of the conversation there. */
+  /* A question still waiting to go out is saved too, the moment it's asked:
+     the other tabs have to see it coming, or they could ask over it. If this
+     page goes first, it's taken out again (pagehide). */
   function save() {
-    var sent = [];
-    state.messages.forEach(function (m) {
-      if (m.role === 'assistant' && m.unsent) {
-        if (sent.length && sent[sent.length - 1].role === 'user') sent.pop();
-        return;
-      }
-      sent.push(m);
-    });
     saveView();
-    try { localStorage.setItem(TRANSCRIPT, JSON.stringify({ messages: sent.slice(-KEEP) })); } catch (e) {}
+    try { localStorage.setItem(TRANSCRIPT, JSON.stringify({ messages: state.messages.slice(-KEEP) })); } catch (e) {}
   }
 
   /* Just this tab's pane, so opening or resizing it never writes the
@@ -172,16 +178,24 @@
      typed survives; only a conversation that no longer starts the same way,
      after a new chat, is drawn again. */
   function adopt(messages) {
+    var resave = false;
     if (busy) {
       var i = indexOf(messages, busy.bot.id);
       if (i !== -1) messages[i] = busy.bot;
-      /* Not sent yet, so not stored yet: the question stays at the end. */
-      else if (busy.bot.unsent) messages.push(state.messages[state.messages.length - 2], busy.bot);
-      /* A new chat in another tab ended the conversation this answer was for. */
-      else { stop(); busy = null; }
+      /* Only a new chat saves an empty conversation: it ends this question. */
+      else if (!messages.length) { stop(); busy = null; }
+      /* Anything else without this question was saved by a tab that hadn't
+         seen it yet. Keep it, and save it again for the other tabs. */
+      else {
+        var j = state.messages.indexOf(busy.bot);
+        if (j > 0 && state.messages[j - 1].role === 'user') messages.push(state.messages[j - 1]);
+        messages.push(busy.bot);
+        resave = true;
+      }
     }
     var old = state.messages;
     state.messages = messages;
+    if (resave) save();
     expireLater();
     if (!ui) {
       if (messages.length) build();
@@ -233,7 +247,7 @@
     clearTimeout(expiry);
     var due = Infinity;
     state.messages.forEach(function (m) {
-      if (m.status === 'streaming' && !(busy && m === busy.bot)) due = Math.min(due, (m.since || 0) + TIMEOUT + GRACE);
+      if (m.status === 'streaming' && !(busy && m === busy.bot)) due = Math.min(due, (m.since || 0) + limitOf(m));
     });
     if (due < Infinity) expiry = setTimeout(function () { adopt(loadMessages()); }, Math.max(0, due - Date.now()) + 50);
   }
@@ -1151,12 +1165,17 @@
   })());
 
   /* Keep whatever has arrived of an answer when the reader moves on. Leaving
-     ends the request, so the other tabs see the answer as stopped. With no
-     answer arriving there's nothing new to keep, and a tab that's been in the
-     background mustn't write its copy over the conversation. */
+     ends the request, so the other tabs see the answer as stopped. A question
+     still waiting to go out never reached the bot, so it goes, with its
+     answer. With nothing in flight there's nothing new to keep, and a tab
+     that's been in the background mustn't write its copy over the
+     conversation. */
   window.addEventListener('pagehide', function () {
     if (!busy) return;
-    busy.bot.status = 'interrupted';
+    var i = state.messages.indexOf(busy.bot);
+    if (!busy.bot.unsent) busy.bot.status = 'interrupted';
+    else if (i > 0 && state.messages[i - 1].role === 'user') state.messages.splice(i - 1, 2);
+    else if (i !== -1) state.messages.splice(i, 1);
     save();
   });
 
