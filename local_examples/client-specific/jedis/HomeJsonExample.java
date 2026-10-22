@@ -135,6 +135,7 @@ public class HomeJsonExample {
         AggregationResult aggResult = jedis.ftAggregate("idx:users",
             new AggregationBuilder("*")
                 .groupBy("@city", Reducers.count().as("count"))
+                .sortByAsc("@city")
         );
 
         System.out.println(aggResult.getTotalResults()); // >>> 2
@@ -151,7 +152,7 @@ public class HomeJsonExample {
             new String[] {"London - 1", "Tel Aviv - 2"},
             aggResult.getRows().stream()
                     .map(r -> r.getString("city") + " - " + r.getString("count"))
-                    .sorted().toArray());
+                    .toArray());
         // REMOVE_END
 
         // STEP_START cleanup_hash

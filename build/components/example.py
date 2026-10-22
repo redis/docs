@@ -40,7 +40,8 @@ PREFIXES = {
     'ruby': '#',
     'rust': '//',
     'rust-sync': '//',
-    'rust-async': '//'
+    'rust-async': '//',
+    'bash': '#'
 }
 
 

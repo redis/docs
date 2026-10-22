@@ -121,7 +121,7 @@ the `city` field:
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="ruby_home_json" step="query3" description="Aggregation query: Group and count results by field values to analyze data patterns" difficulty="intermediate" >}}
 {{< /clients-example >}}

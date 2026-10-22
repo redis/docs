@@ -102,7 +102,8 @@ extends PredisTestCase
         // STEP_START query3
         $ftAggregateArguments = (new AggregateArguments())
             ->groupBy('@city')
-            ->reduce('COUNT', true, 'count');
+            ->reduce('COUNT', true, 'count')
+            ->sortBy(0, '@city', 'ASC');
 
         $res = $r->ftAggregate('idx:users', '*', $ftAggregateArguments);
         echo json_encode($res), PHP_EOL;
