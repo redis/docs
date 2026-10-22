@@ -40,10 +40,10 @@ Start by [installing](/content/develop/clients/go/_index.md#install) `go-redis` 
 [v9.10.0](https://github.com/redis/go-redis/releases/tag/v9.10.0)
 or later to use vector sets.
 
-Also, install `hugot`:
+Also, install v0.7.7 of `hugot`, which requires Go 1.26.5 or later:
 
 ```bash
-go get github.com/knights-analytics/hugot
+go get github.com/knights-analytics/hugot@v0.7.7
 ```
 
 In a new Go file, add the required imports:
@@ -81,7 +81,9 @@ elements to a vector set called `famousPeople`.
 
 Use the
 `RunPipeline()` method of `embeddingPipeline` to generate the
-embedding as an array of `float32` values, then use a loop like the one
+embedding. This method takes a context and an array of strings and returns a
+single `FeatureExtractionOutput` object. Its `Embeddings` field contains one array of `float32`
+values for each input string. Use a loop like the one
 shown below to convert the `float32` array to a `float64` array.
 You can then pass this array to the
 [`VAdd()`](/content/commands/vadd.md) command to set the embedding.
