@@ -92,6 +92,8 @@ PostgreSQL records changes in its write-ahead log (WAL). RDI uses a logical repl
 
 Two configured limits can break continuity differently. A finite slot size limit can allow required WAL to be removed at a checkpoint. PostgreSQL 18 can also invalidate an inactive slot at a checkpoint after an enabled idle timeout, even if WAL files remain. That timeout is disabled by default.
 
+For example, RDI stops consuming while the source keeps receiving writes. The required WAL grows beyond a configured slot limit, and PostgreSQL removes needed history at a checkpoint. The slot can still exist by name even though it can no longer resume replication. Restarting RDI or increasing the limit cannot restore that history. Check the [slot state](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#manage-wal-retention) before planning recovery; the slot name alone does not show whether it is usable.
+
 ![PostgreSQL shows a slot retaining growing WAL, a size limit followed by checkpoint-time WAL removal, and a separate idle timer that invalidates the slot even when WAL remains.](/images/rdi/cdc-retention/postgresql.svg)
 {width="560"}
 
