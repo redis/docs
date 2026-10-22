@@ -108,4 +108,5 @@ Stay informed about new features, enhancements, and fixes.
 - [Redis Enterprise Software](/content/operate/rs/_index.md)
 - [Redis Cloud](/content/operate/rc/_index.md)
 - [Redis Open Source](/content/operate/oss_and_stack/_index.md)
+- [Redis Iris](/content/operate/iris/_index.md), to run AI agent services such as Agent Memory with your Redis Software for Kubernetes deployment
 - [Glossary](/content/glossary/_index.md)

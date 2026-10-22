@@ -39,3 +39,4 @@ To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
 - [Amazon Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/)
 - [Detailed steps](https://github.com/redis-applied-ai/aws-redis-bedrock-stack/blob/main/README.md)
+- [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), for managed session and long-term memory for agents
