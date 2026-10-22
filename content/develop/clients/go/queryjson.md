@@ -148,7 +148,7 @@ returning the documents themselves.
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="go_home_json" step="query3" description="Aggregation: Perform aggregation queries to group and count documents by field values using FTAggregateWithArgs" difficulty="intermediate" >}}
 {{< /clients-example >}}
