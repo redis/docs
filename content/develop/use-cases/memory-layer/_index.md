@@ -64,7 +64,7 @@ The following libraries, frameworks, and managed services build on Redis for a m
 -   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) supports Redis as a chat history and memory backend, and [LangGraph & Redis](https://redis.io/blog/langgraph-redis-build-smarter-ai-agents-with-memory-persistence/) ships a Redis checkpointer for persisting graph state across runs.
 -   **AWS**: [Amazon Bedrock](/content/integrate/amazon-bedrock/_index.md) agent runtimes integrate with Redis for memory persistence and vector search.
 -   **Any language**: standard Redis client libraries cover the pattern below for custom agent loops.
--   **Managed**: [Redis Agent Memory Server](/content/develop/ai/context-engine/agent-memory/_index.md) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
+-   **Managed**: [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
 
 ## Code examples to build your own Redis memory layer
 
