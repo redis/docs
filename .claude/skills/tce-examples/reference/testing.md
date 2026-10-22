@@ -114,12 +114,12 @@ asserts cover every printed value — they are the only check the comments get.
 
 | | jedis | lettuce-sync | lettuce-async / reactive |
 |---|---|---|---|
-| portable (`pom-*.xml`) | 7.5.3 | 6.5.5.RELEASE | 7.7.0.RELEASE |
-| fidelity (`fidelity/pom-*.xml`) | 7.4.0 | 7.4.0.RELEASE | 7.4.0.RELEASE |
+| portable (`pom-*.xml`) | 8.0.2 | 6.5.5.RELEASE | 7.7.0.RELEASE |
+| fidelity (`fidelity/pom-*.xml`) | 8.0.2 | 7.4.0.RELEASE | 7.7.0.RELEASE |
 
-Not yet reconciled. The fidelity pins are what the current `local_examples/` Java files were
-actually tested against, so they're the known-good pair; the portable jedis 7.5.3 bump was
-deliberate (the search examples need the `RedisClient` API it introduced). Settling on one
+Jedis is reconciled at 8.0.2 in both modes (DOC-7213): every harness Jedis set passed in
+both modes before and after the bump, once the examples moved off `JedisPooled` and
+`new UnifiedJedis(String)`, which Jedis 8.0 removed. lettuce-sync is not yet reconciled. Settling on one
 version per client requires running both Java toolchains against the search sets and the
 Java-heavy command sets. Until that's done, **a Java example that passes in one mode may
 fail in the other**, and that's information rather than a bug.
@@ -127,8 +127,7 @@ fail in the other**, and that's information rather than a bug.
 ## Known gap: client pins older than new commands
 
 The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10), these
-portable pins predated the first release with the command: jedis 7.5.3 (needs 8.0.0),
-lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
+portable pins predated the first release with the command: lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
 already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
 the cached `npm i redis` 6.1.0 (needs 6.2.0), and ioredis 5.11.1 (needs 6.0.0) in `work/`.
 
