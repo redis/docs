@@ -1,6 +1,6 @@
 // EXAMPLE: observability
 // REMOVE_START
-package main
+package example_commands_test
 
 // REMOVE_END
 
@@ -21,7 +21,7 @@ import (
 
 // STEP_END
 
-func main() {
+func ExampleClient_observability() {
 	// STEP_START setup_meter_provider
 	ctx := context.Background()
 

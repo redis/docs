@@ -1,7 +1,9 @@
 // EXAMPLE: home_query_vec
-// STEP_START import
-package main
+// HIDE_START
+package example_commands_test
 
+// HIDE_END
+// STEP_START import
 import (
 	"context"
 	"encoding/binary"
@@ -28,7 +30,7 @@ func floatsToBytes(fs []float32) []byte {
 
 // STEP_END
 
-func main() {
+func ExampleClient_home_query_vec() {
 	// STEP_START connect
 	ctx := context.Background()
 	rdb := redis.NewClient(&redis.Options{
@@ -308,4 +310,12 @@ func main() {
 		)
 	}
 	// STEP_END
+
+	// Output:
+	// ID: doc:0, Distance:2.96991753578, Content:'That is a very happy person'
+	// ID: doc:1, Distance:17.3678283691, Content:'That is a happy dog'
+	// ID: doc:2, Distance:43.7771911621, Content:'Today is a sunny day'
+	// ID: jdoc:0, Distance:2.96991753578, Content:'That is a very happy person'
+	// ID: jdoc:1, Distance:17.3678283691, Content:'That is a happy dog'
+	// ID: jdoc:2, Distance:43.7771911621, Content:'Today is a sunny day'
 }
