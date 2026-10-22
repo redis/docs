@@ -8,13 +8,15 @@ but reusable for any example set.
 ## Usage
 
 ```bash
-./run.sh [--portable|--fidelity] <example_set> [client ...]
+./run.sh [--portable|--fidelity] [--with-models] <example_set> [client ...]
 # all clients, portable (default):
 ./run.sh ss_tutorial
 # one/some:
 ./run.sh set_tutorial rust-sync dotnet
 # resolve source paths only — no Redis, no toolchains:
 ./run.sh --list cmds_hash
+# the vector sets, which download an embedding model:
+./run.sh --with-models home_query_vec
 ```
 
 **Two modes.** `--portable` (default) is the original behaviour: each toolchain is
@@ -28,6 +30,21 @@ against local stubs. `--fidelity` runs in `tmp/clients/examples/` using the trac
 `legacy_src_path()` case block covers only the older sets whose files live elsewhere
 (`local_examples/tmp/datatypes/...`, `ruby/`, `php/`, `client-specific/`). Results print as a
 matrix; per-run logs land in `results/<set>_<client>.log`.
+
+**Embedding-model sets are opt-in.** `home_query_vec`, `ruby_home_query_vec` and
+`home_vecsets` download a sentence-embedding model on first run (hundreds of MB, minutes per
+client), so without `--with-models` they report `SKIP (downloads an embedding model ...)`.
+With the flag, portable runners install the model library into `work/` on demand:
+`sentence-transformers` (redis-py), `@xenova/transformers` (node-redis) and `informers`
+(Ruby). Go gets hugot v0.7.7 from the pin in `fidelity/go-redis.mod`, and Lettuce gets DJL
+from its poms. hugot v0.7.7 needs Go 1.26.5, but the Go SKIP check reads only the `go 1.24`
+directive, so on an older toolchain the Go vector sets FAIL instead of skipping. In `--fidelity` only go-redis and Lettuce run these sets; redis-py,
+node-redis and Ruby report SKIP, because adding the model library to their fidelity
+manifests would make every fidelity run of those clients install it. The C# and PHP
+`home_vecsets` files are top-level scripts with no test class, and .NET and PHP vecsearch
+keep their code inline on the page, so none of those are mapped. Jedis is unmapped for all
+the client-specific query sets until DOC-7213 (its `java_home_json` HIMPORT step needs
+Jedis 8.0).
 
 ⚠️ Several examples call `FLUSHALL`/`FLUSHDB`, and the harness flushes before each run.
 Point it only at a scratch Redis. Runs are serial for this reason.
@@ -100,6 +117,20 @@ If you have muscle memory or notes from the pre-`clients.tsv` version:
 - **The C# project directory can't be hardcoded.** Async examples stage under
   `tests/Doc/Async`; a wrapper fixed to `tests/Doc` would silently exercise the sync tree.
   `run_fidelity` passes the staged subdirectory through as a second argument.
+- **Staged manifests aren't refreshed by editing `fidelity/`.** Portable mode copies
+  `pom-*.xml` into `work/<client>/pom.xml` once and never again, and `bootstrap.sh` copies
+  `fidelity/*` into `tmp/clients/examples/<client>/` only when you run it. After changing a
+  manifest, delete the `work/` copy or re-run `./bootstrap.sh --no-clone`, then diff the
+  staged file against the tracked one before trusting a result. The go-redis manifest is the
+  exception in both modes: `go mod tidy` rewrites the staged `go.mod` in place, so `run.sh`
+  re-copies `fidelity/go-redis.mod` before every Go run.
+- **`go test` caches passing results.** Rerun an unchanged Go example and it prints
+  `ok ... (cached)` without connecting to Redis, so the "run twice" check proved nothing.
+  Both Go runners now pass `-count=1`.
+- **A Go Example without an `// Output:` comment compiles but never runs**, and `go test`
+  still reports `ok`. The `// Output:` comment must also be its own comment group: directly
+  after a `// STEP_END` line, with no blank line between, it merges into that group and the
+  Example is silently skipped (`no tests to run`).
 - The test scaffolding lives in `REMOVE_START` blocks; for py/ruby/node/go/rust/jedis/lettuce
   it's self-contained (stdlib asserts / JUnit), but **C# and PHP reference their repo's own
   test base classes**, which is why they need the stubs above.
@@ -117,7 +148,9 @@ You only need to touch `run.sh` when:
   `NRedisStack/` while `geoindex` and friends use `nredisstack/`, and a case-insensitive
   filesystem will happily resolve the wrong one into a path that doesn't exist in git;
 - the set cannot run against a scratch Redis by design → add it to `illustrative_reason()`
-  so it reports `SKIP` with a reason instead of `FAIL`.
+  so it reports `SKIP` with a reason instead of `FAIL`;
+- the set downloads an embedding model → add it to `model_set()` so it only runs with
+  `--with-models`, and make sure each mapped client's runner can install the model library.
 
 ## Fidelity mode dependency versions
 
