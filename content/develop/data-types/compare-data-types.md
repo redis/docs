@@ -130,6 +130,7 @@ and deques.
 Sets store collections of unique strings. They provide efficient
 operations for testing membership, adding and removing elements.
 They also support set operations like intersection, union, and difference.
+You can set expirations on individual set members.
 
 ### Sorted sets
 
@@ -207,7 +208,7 @@ questions:
         text: |
             Do you need to set expiration times on individual pieces of data
             within the document?
-        whyAsk: "Only hashes support efficient field-level access and expiration"
+        whyAsk: "Of the document types, only hashes support efficient field-level access and expiration"
         answers:
             yes:
                 value: "Yes"

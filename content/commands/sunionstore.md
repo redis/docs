@@ -111,6 +111,10 @@ redis> SMEMBERS key
 5) "e"
 {{% /redis-cli %}}
 
+## Details
+
+Members keep their expirations in `destination`. When a member has an expiration in more than one source set, `destination` gets the farthest one. Source sets in which the member has no expiration are ignored, so the member keeps an expiration if any source set gives it one. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
