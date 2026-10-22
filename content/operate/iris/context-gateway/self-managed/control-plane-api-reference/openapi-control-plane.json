@@ -1,0 +1,3113 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "ContextGatewayControlPlaneService",
+        "version": "0.0.1",
+        "description": "Administration API for Context Gateway resources and their Upstreams.\n\nEvery write completes synchronously and returns the final state. Creating an\nUpstream, changing its connection or authentication, and refreshing its catalog\nrun live discovery against the Upstream, bounded by the discovery timeout.\nThe tenant comes from the control-plane configuration, never from the request,\nand no response shows it.\n"
+    },
+    "paths": {
+        "/v1/gateways": {
+            "get": {
+                "operationId": "ListGateways",
+                "parameters": [
+                    {
+                        "name": "nextToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListGateways 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListGatewaysResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "CreateGateway",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateGatewayRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "CreateGateway 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateGatewayResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/gateways/{gatewayId}": {
+            "delete": {
+                "operationId": "DeleteGateway",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "expectedRevision",
+                        "in": "query",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteGateway 204 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GetGateway",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetGateway 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetGatewayResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "UpdateGateway",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateGatewayRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateGateway 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateGatewayResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/gateways/{gatewayId}/upstreams": {
+            "get": {
+                "operationId": "ListUpstreams",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "nextToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListUpstreams 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListUpstreamsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Registers the Upstream, then discovers and publishes its first catalog. A failed\nor timed-out initial discovery, or a failed tool generation, still creates the Upstream, with no activeCatalog,\nand reports the failure in initialCatalogFailure.\n",
+                "operationId": "CreateUpstream",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUpstreamRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CreateUpstream 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateUpstreamResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/gateways/{gatewayId}/upstreams/{upstreamId}": {
+            "delete": {
+                "description": "Marks the Upstream as being deleted, which every reader treats as absent, then\nreleases its namespace, removes its catalogs and current credentials, deletes\nthe record, and removes its Gateway index entry last. A retry of an Upstream\nthat is being deleted resumes the cleanup and returns 204.\n",
+                "operationId": "DeleteUpstream",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "upstreamId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "expectedRevision",
+                        "in": "query",
+                        "description": "Required for a readable Upstream; otherwise 400. Omitted for an unreadable record, whose revision cannot be read. Not checked when the Upstream is already being deleted.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "Required for a readable Upstream; otherwise 400. Omitted for an unreadable record, whose revision cannot be read. Not checked when the Upstream is already being deleted."
+                        }
+                    },
+                    {
+                        "name": "ignoreIndexSweepFailure",
+                        "in": "query",
+                        "description": "For a context-surface Upstream whose delete keeps answering 503 because its Surface index sweep fails. true still runs the sweep, but when it fails the delete goes on and leaves every index named idx:<upstreamId>:* on the Surface database, and the control plane logs that prefix. Omitted or false fails the delete with 503 instead. Ignored for an mcp Upstream.",
+                        "schema": {
+                            "type": "boolean",
+                            "description": "For a context-surface Upstream whose delete keeps answering 503 because its Surface index sweep fails. true still runs the sweep, but when it fails the delete goes on and leaves every index named idx:<upstreamId>:* on the Surface database, and the control plane logs that prefix. Omitted or false fails the delete with 503 instead. Ignored for an mcp Upstream."
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteUpstream 204 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GetUpstream",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "upstreamId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetUpstream 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUpstreamResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "displayName and enabled are metadata-only and run no discovery. A change to\nconnection or authentication discovers with the candidate configuration, and a\ncontextSurface swaps the data model of a context-surface Upstream and generates\nits catalog; either commits configuration and catalog together, or commits\nnothing.\n",
+                "operationId": "UpdateUpstream",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUpstreamRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "upstreamId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateUpstream 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateUpstreamResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ContextGatewayUnprocessableError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayUnprocessableErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/gateways/{gatewayId}/upstreams/{upstreamId}/refresh": {
+            "post": {
+                "description": "Discovers with the current configuration and publishes every offered tool, only\nif neither the configuration revision nor the active catalog revision changed\nmeanwhile. A 200 means the active catalog matches this discovery. Allowed on a\ndisabled Upstream.\n",
+                "operationId": "RefreshUpstreamCatalog",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "upstreamId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "RefreshUpstreamCatalog 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshUpstreamCatalogResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ContextGatewayConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ContextGatewayUnprocessableError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayUnprocessableErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/gateways/{gatewayId}/upstreams/{upstreamId}/tools": {
+            "get": {
+                "description": "Lists every tool of the active catalog in one page, ordered by name, with no\npaging. An Upstream with no published catalog answers an empty list. Each tool\nshows the result of the cacheable rule and, only when one is stored, its policy.\n",
+                "operationId": "ListUpstreamTools",
+                "parameters": [
+                    {
+                        "name": "gatewayId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "upstreamId",
+                        "in": "path",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$",
+                            "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListUpstreamTools 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListUpstreamToolsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ContextGatewayNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContextGatewayNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/health/live": {
+            "get": {
+                "operationId": "Live",
+                "responses": {
+                    "200": {
+                        "description": "Live 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LiveResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v1/health/ready": {
+            "get": {
+                "operationId": "Ready",
+                "responses": {
+                    "200": {
+                        "description": "Ready 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReadyResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ActiveCatalog": {
+                "type": "object",
+                "description": "The published catalog. Its catalog revision stays internal: no operation accepts it.",
+                "properties": {
+                    "toolCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "toolCount"
+                ]
+            },
+            "AuthenticationErrorResponseContent": {
+                "type": "object",
+                "description": "Authentication credentials are missing, malformed, or invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AuthenticationErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "AuthenticationErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authentication errors.",
+                "enum": [
+                    "/errors/authentication-failed"
+                ]
+            },
+            "AuthenticationInput": {
+                "type": "object",
+                "description": "One authentication method per header the Upstream receives. At most one method may send each header, compared case-insensitively; bearer sends Authorization.",
+                "properties": {
+                    "methods": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthenticationMethodInput"
+                        }
+                    }
+                }
+            },
+            "AuthenticationMethodInput": {
+                "description": "One member per method kind, each with exactly its own fields. A later kind, such\nas basic or oauth2ClientCredentials, is a new member, which is additive.",
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "title": "bearer",
+                        "properties": {
+                            "bearer": {
+                                "$ref": "#/components/schemas/BearerMethodInput"
+                            }
+                        },
+                        "required": [
+                            "bearer"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "title": "header",
+                        "properties": {
+                            "header": {
+                                "$ref": "#/components/schemas/HeaderMethodInput"
+                            }
+                        },
+                        "required": [
+                            "header"
+                        ]
+                    }
+                ]
+            },
+            "AuthenticationMethodOutput": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "title": "bearer",
+                        "properties": {
+                            "bearer": {
+                                "$ref": "#/components/schemas/BearerMethodOutput"
+                            }
+                        },
+                        "required": [
+                            "bearer"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "title": "header",
+                        "properties": {
+                            "header": {
+                                "$ref": "#/components/schemas/HeaderMethodOutput"
+                            }
+                        },
+                        "required": [
+                            "header"
+                        ]
+                    }
+                ]
+            },
+            "AuthenticationOutput": {
+                "type": "object",
+                "description": "Shows which headers the Upstream receives, never a value or a credential ID. A rotation shows as a new revision and updatedAt.",
+                "properties": {
+                    "methods": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthenticationMethodOutput"
+                        }
+                    }
+                },
+                "required": [
+                    "methods"
+                ]
+            },
+            "BadRequestErrorResponseContent": {
+                "type": "object",
+                "description": "Request validation or input decoding failed.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/BadRequestErrorType"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        },
+                        "description": "Optional field-level validation errors."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "BadRequestErrorType": {
+                "type": "string",
+                "description": "Problem type URI for bad request errors.",
+                "enum": [
+                    "/errors/invalid-data"
+                ]
+            },
+            "BearerMethodInput": {
+                "type": "object",
+                "description": "A secret is required on create and for a new method. Omitted on update keeps the current secret, unless the endpoint changes.",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "A secret value. Write-only: no output shape has a member that can carry it.",
+                        "format": "password"
+                    }
+                }
+            },
+            "BearerMethodOutput": {
+                "type": "object"
+            },
+            "CatalogFailure": {
+                "type": "object",
+                "description": "The outcome of a failed initial catalog (discovery or tool generation), in the RFC 9457 shape. Only CreateUpstreamOutput carries it; it is not stored.",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string"
+                    },
+                    "occurredAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "occurredAt",
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "Connection": {
+                "description": "Exactly one connection variant. The variant determines the kind on create; an explicit kind must agree. An update cannot change the stored kind.",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/MCPConnection"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ContextSurfaceConnection"
+                    }
+                ]
+            },
+            "ConnectionDatabase": {
+                "type": "object",
+                "description": "The Surface database of a context-surface Upstream.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "An unknown ID and an ID the tenant does not own are refused with the same 400."
+                    }
+                },
+                "required": [
+                    "id"
+                ],
+                "additionalProperties": false
+            },
+            "ContextGatewayConflictErrorResponseContent": {
+                "type": "object",
+                "description": "One schema per HTTP status preserves the complete problem catalog in generated\nclients, following the Playbook data plane's dedicated error-type enum pattern.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ContextGatewayConflictErrorType"
+                    },
+                    "upstreamId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Set only for namespace-conflict: the Upstream that holds the namespace, so that a client that lost a create response can read it."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ContextGatewayConflictErrorType": {
+                "type": "string",
+                "description": "Distinguish resource state conflicts by type, never by human-readable title.",
+                "enum": [
+                    "/errors/revision-conflict",
+                    "/errors/namespace-conflict",
+                    "/errors/gateway-not-empty",
+                    "/errors/catalog-publication-conflict"
+                ]
+            },
+            "ContextGatewayNotFoundErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 404,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ContextGatewayNotFoundErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ContextGatewayNotFoundErrorType": {
+                "type": "string",
+                "description": "Distinguish missing resources by type, never by human-readable title. A Gateway\nID owned by another tenant returns gateway-not-found with a body byte-identical\nto an unknown Gateway ID, so the response never discloses that the ID exists.",
+                "enum": [
+                    "/errors/gateway-not-found",
+                    "/errors/upstream-not-found"
+                ]
+            },
+            "ContextGatewayUnprocessableErrorResponseContent": {
+                "type": "object",
+                "description": "The request is well formed, but the work it asks for cannot succeed until the\nrejected credentials are fixed: an mcp Upstream's credentials with an update,\nor, for a context-surface Upstream, the Surface database login, which the\ndeployment administrator fixes in the Secret that supplies the deployment's\ndatabases registry. Nothing was changed.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 422,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ContextGatewayUnprocessableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ContextGatewayUnprocessableErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/resource-unavailable"
+                ]
+            },
+            "ContextSurface": {
+                "type": "object",
+                "description": "The settings of kind context-surface.",
+                "properties": {
+                    "dataModel": {
+                        "description": "The data model, a JSON object. The API schema does not describe it: the\ncontrol plane validates it and names each error by its path under\ncontextSurface.dataModel."
+                    }
+                }
+            },
+            "ContextSurfaceConnection": {
+                "type": "object",
+                "properties": {
+                    "database": {
+                        "$ref": "#/components/schemas/ConnectionDatabase"
+                    }
+                },
+                "required": [
+                    "database"
+                ],
+                "additionalProperties": false
+            },
+            "CreateGatewayRequestContent": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Selects the Gateway database for the Gateway's result state. Omitted means the Gateway has no Gateway database. An ID that is not in the registry is refused with 400."
+                    }
+                },
+                "required": [
+                    "displayName"
+                ]
+            },
+            "CreateGatewayResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Present only when the Gateway has a Gateway database."
+                    },
+                    "databaseName": {
+                        "type": "string",
+                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it."
+                    },
+                    "mcpEndpoint": {
+                        "type": "string",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "description": "The URL of this Gateway's MCP endpoint on the data plane: the data plane's public base URL, a deployment setting, plus /v1/gateways/{gatewayId}/mcp."
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "displayName",
+                    "id",
+                    "mcpEndpoint",
+                    "revision",
+                    "toolExposureMode",
+                    "updatedAt"
+                ]
+            },
+            "CreateUpstreamRequestContent": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Derived from displayName when omitted. A collision is a namespace-conflict; no suffix is generated."
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Defaults to true."
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationInput"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    }
+                },
+                "required": [
+                    "connection",
+                    "displayName"
+                ]
+            },
+            "CreateUpstreamResponseContent": {
+                "type": "object",
+                "description": "Only create returns initialCatalogFailure, so no other operation's generated client\nshows it. A persisted discovery outcome (open item O14) needs a new member, such\nas lastDiscovery, rather than a new meaning for this one.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "gatewayId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationOutput"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    },
+                    "activeCatalog": {
+                        "$ref": "#/components/schemas/ActiveCatalog"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "initialCatalogFailure": {
+                        "$ref": "#/components/schemas/CatalogFailure"
+                    }
+                },
+                "required": [
+                    "authentication",
+                    "connection",
+                    "createdAt",
+                    "displayName",
+                    "enabled",
+                    "gatewayId",
+                    "id",
+                    "kind",
+                    "namespace",
+                    "revision",
+                    "toolPolicies",
+                    "updatedAt"
+                ]
+            },
+            "DroppedToolPolicy": {
+                "type": "object",
+                "description": "The members of a stored tool policy that an endpoint change or a data model swap deleted, and why.",
+                "properties": {
+                    "tool": {
+                        "type": "string",
+                        "description": "The original tool name, exact and case-preserved."
+                    },
+                    "reason": {
+                        "$ref": "#/components/schemas/DroppedToolPolicyReason"
+                    },
+                    "notCacheableReason": {
+                        "$ref": "#/components/schemas/NotCacheableReason"
+                    },
+                    "policy": {
+                        "$ref": "#/components/schemas/ToolPolicy"
+                    }
+                },
+                "required": [
+                    "policy",
+                    "reason",
+                    "tool"
+                ]
+            },
+            "DroppedToolPolicyReason": {
+                "type": "string",
+                "enum": [
+                    "not-in-catalog",
+                    "not-cacheable"
+                ]
+            },
+            "FailedDependencyErrorResponseContent": {
+                "type": "object",
+                "description": "A dependent resource required to process the request is unavailable or unhealthy.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 424,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/FailedDependencyErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "FailedDependencyErrorType": {
+                "type": "string",
+                "description": "Problem type URI for failed-dependency errors.",
+                "enum": [
+                    "/errors/resource-unavailable",
+                    "/errors/database-out-of-memory"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "description": "Validation error details for a single request field.",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "Name of the invalid request field."
+                    },
+                    "rule": {
+                        "type": "string",
+                        "description": "Validation rule that was violated."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Human-readable validation error message."
+                    }
+                },
+                "required": [
+                    "field",
+                    "message",
+                    "rule"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "The caller is authenticated but not allowed to access the requested resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ForbiddenErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authorization errors.",
+                "enum": [
+                    "/errors/insufficient-permissions"
+                ]
+            },
+            "GatewayOutput": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Present only when the Gateway has a Gateway database."
+                    },
+                    "databaseName": {
+                        "type": "string",
+                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it."
+                    },
+                    "mcpEndpoint": {
+                        "type": "string",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "description": "The URL of this Gateway's MCP endpoint on the data plane: the data plane's public base URL, a deployment setting, plus /v1/gateways/{gatewayId}/mcp."
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "displayName",
+                    "id",
+                    "mcpEndpoint",
+                    "revision",
+                    "toolExposureMode",
+                    "updatedAt"
+                ]
+            },
+            "GetGatewayResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Present only when the Gateway has a Gateway database."
+                    },
+                    "databaseName": {
+                        "type": "string",
+                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it."
+                    },
+                    "mcpEndpoint": {
+                        "type": "string",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "description": "The URL of this Gateway's MCP endpoint on the data plane: the data plane's public base URL, a deployment setting, plus /v1/gateways/{gatewayId}/mcp."
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "displayName",
+                    "id",
+                    "mcpEndpoint",
+                    "revision",
+                    "toolExposureMode",
+                    "updatedAt"
+                ]
+            },
+            "GetUpstreamResponseContent": {
+                "type": "object",
+                "description": "The members that every Upstream response shares.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "gatewayId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationOutput"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    },
+                    "activeCatalog": {
+                        "$ref": "#/components/schemas/ActiveCatalog"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "authentication",
+                    "connection",
+                    "createdAt",
+                    "displayName",
+                    "enabled",
+                    "gatewayId",
+                    "id",
+                    "kind",
+                    "namespace",
+                    "revision",
+                    "toolPolicies",
+                    "updatedAt"
+                ]
+            },
+            "HeaderMethodInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$",
+                        "description": "Compared case-insensitively and stored lowercase. Authorization is rejected beside a bearer method."
+                    },
+                    "value": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Required on create and for a new method. Omitted on update keeps the current secret, unless the endpoint changes.",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "HeaderMethodOutput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$",
+                        "description": "Lowercase."
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "ListGatewaysResponseContent": {
+                "type": "object",
+                "properties": {
+                    "gateways": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GatewayOutput"
+                        }
+                    },
+                    "nextToken": {
+                        "type": "string",
+                        "description": "Present when more items follow. A client must follow it. This iteration never sets it."
+                    }
+                },
+                "required": [
+                    "gateways"
+                ]
+            },
+            "ListUpstreamToolsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "tools": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UpstreamTool"
+                        },
+                        "description": "Every tool of the active catalog, ordered by name. [] when no catalog is published."
+                    }
+                },
+                "required": [
+                    "tools"
+                ]
+            },
+            "ListUpstreamsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "upstreams": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UpstreamSummary"
+                        },
+                        "description": "The readable Upstreams. An Upstream that is being deleted is in neither list."
+                    },
+                    "unreadable": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UnreadableUpstream"
+                        },
+                        "description": "Upstream records that do not match the stored format. Omitted when empty. A client deletes such a record without expectedRevision."
+                    },
+                    "nextToken": {
+                        "type": "string",
+                        "description": "Present when more items follow. A client must follow it. This iteration never sets it."
+                    }
+                },
+                "required": [
+                    "upstreams"
+                ]
+            },
+            "LiveResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "MCPConnection": {
+                "type": "object",
+                "properties": {
+                    "endpoint": {
+                        "type": "string",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "description": "An absolute http or https URL without user information. Any other scheme, such as redis or rediss, is refused. The outbound destination policy, required before GA, is open item O8 in the contract."
+                    },
+                    "transport": {
+                        "$ref": "#/components/schemas/Transport"
+                    }
+                },
+                "required": [
+                    "endpoint"
+                ],
+                "additionalProperties": false
+            },
+            "NotCacheableReason": {
+                "type": "string",
+                "enum": [
+                    "destructive",
+                    "not-read-only",
+                    "invalid-annotation"
+                ]
+            },
+            "ReadyResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "RefreshUpstreamCatalogResponseContent": {
+                "type": "object",
+                "description": "The members that every Upstream response shares.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "gatewayId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationOutput"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    },
+                    "activeCatalog": {
+                        "$ref": "#/components/schemas/ActiveCatalog"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "authentication",
+                    "connection",
+                    "createdAt",
+                    "displayName",
+                    "enabled",
+                    "gatewayId",
+                    "id",
+                    "kind",
+                    "namespace",
+                    "revision",
+                    "toolPolicies",
+                    "updatedAt"
+                ]
+            },
+            "ResourceSuspendedErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource exists but is suspended by an administrator.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 423,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ResourceSuspendedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ResourceSuspendedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for suspended resources.",
+                "enum": [
+                    "/errors/resource-suspended"
+                ]
+            },
+            "ResultCachePolicy": {
+                "type": "object",
+                "properties": {
+                    "ttlSeconds": {
+                        "type": "integer",
+                        "maximum": 86400,
+                        "minimum": 1,
+                        "description": "How long a cached result lives, in seconds.",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "ttlSeconds"
+                ]
+            },
+            "ResultHandleCapture": {
+                "type": "string",
+                "enum": [
+                    "never"
+                ]
+            },
+            "ResultHandlePolicy": {
+                "type": "object",
+                "description": "Set exactly one member. An empty resultHandle is refused with 400.",
+                "properties": {
+                    "capture": {
+                        "$ref": "#/components/schemas/ResultHandleCapture"
+                    },
+                    "ttlSeconds": {
+                        "type": "integer",
+                        "maximum": 86400,
+                        "minimum": 1,
+                        "description": "How long a result handle of this tool lives, in seconds, in place of the deployment's result_handles.ttl. Refused together with capture never.",
+                        "format": "int32"
+                    }
+                }
+            },
+            "ServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "ServiceUnavailableErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/service-unavailable"
+                ]
+            },
+            "TimeoutErrorResponseContent": {
+                "type": "object",
+                "description": "The request timed out before the service could complete it.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 408,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TimeoutErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "TimeoutErrorType": {
+                "type": "string",
+                "description": "Problem type URI for timeout errors.",
+                "enum": [
+                    "/errors/timeout"
+                ]
+            },
+            "ToolExposureMode": {
+                "type": "string",
+                "description": "How a Gateway's clients find tools: the two modes the data plane serves. Adding\nanother mode later is an additive change.",
+                "enum": [
+                    "full",
+                    "search"
+                ]
+            },
+            "ToolPolicies": {
+                "type": "object",
+                "additionalProperties": {
+                    "$ref": "#/components/schemas/ToolPolicy"
+                },
+                "description": "Maps the original name of a tool in the Upstream's catalog, exact and case-preserved, to its policy."
+            },
+            "ToolPolicy": {
+                "type": "object",
+                "description": "One member per feature, each optional. A policy with no member is refused with 400.",
+                "properties": {
+                    "resultCache": {
+                        "$ref": "#/components/schemas/ResultCachePolicy"
+                    },
+                    "resultHandle": {
+                        "$ref": "#/components/schemas/ResultHandlePolicy"
+                    }
+                }
+            },
+            "Transport": {
+                "type": "string",
+                "enum": [
+                    "streamable-http"
+                ]
+            },
+            "UnexpectedErrorResponseContent": {
+                "type": "object",
+                "description": "The service failed with an unexpected internal error.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 500,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UnexpectedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                }
+            },
+            "UnexpectedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for unexpected internal errors.",
+                "enum": [
+                    "/errors/unexpected-error"
+                ]
+            },
+            "UnreadableReason": {
+                "type": "string",
+                "enum": [
+                    "invalid-stored-metadata"
+                ]
+            },
+            "UnreadableUpstream": {
+                "type": "object",
+                "description": "An Upstream record that ListUpstreams cannot read. It never carries the stored data.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "reason": {
+                        "$ref": "#/components/schemas/UnreadableReason"
+                    }
+                },
+                "required": [
+                    "id",
+                    "reason"
+                ]
+            },
+            "UpdateGatewayRequestContent": {
+                "type": "object",
+                "properties": {
+                    "expectedRevision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Omitted leaves it unchanged; null clears it.",
+                        "nullable": true
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Omitted leaves it unchanged; null clears it. An ID that is not in the registry is refused with 400.",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "expectedRevision"
+                ]
+            },
+            "UpdateGatewayResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "toolExposureMode": {
+                        "$ref": "#/components/schemas/ToolExposureMode"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "Present only when the Gateway has a Gateway database."
+                    },
+                    "databaseName": {
+                        "type": "string",
+                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it."
+                    },
+                    "mcpEndpoint": {
+                        "type": "string",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "description": "The URL of this Gateway's MCP endpoint on the data plane: the data plane's public base URL, a deployment setting, plus /v1/gateways/{gatewayId}/mcp."
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "displayName",
+                    "id",
+                    "mcpEndpoint",
+                    "revision",
+                    "toolExposureMode",
+                    "updatedAt"
+                ]
+            },
+            "UpdateUpstreamRequestContent": {
+                "type": "object",
+                "properties": {
+                    "expectedRevision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationInput"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    }
+                },
+                "required": [
+                    "expectedRevision"
+                ]
+            },
+            "UpdateUpstreamResponseContent": {
+                "type": "object",
+                "description": "The members that every Upstream response shares.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "gatewayId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "connection": {
+                        "$ref": "#/components/schemas/Connection"
+                    },
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationOutput"
+                    },
+                    "contextSurface": {
+                        "$ref": "#/components/schemas/ContextSurface"
+                    },
+                    "activeCatalog": {
+                        "$ref": "#/components/schemas/ActiveCatalog"
+                    },
+                    "toolPolicies": {
+                        "$ref": "#/components/schemas/ToolPolicies"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "droppedToolPolicies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DroppedToolPolicy"
+                        },
+                        "description": "The stored policies, or policy members, this update deleted, in tool name\norder. Only a connection.endpoint change or a data model swap (contextSurface) that does not send toolPolicies\ndeletes any: it keeps each stored policy the new endpoint's catalog allows\nand deletes the rest in the same commit as the new configuration. For a\ntool the cacheable rule vetoes, only resultCache is deleted and\nresultHandle stays stored. A policy is deleted whole only when the tool is\nnot in the catalog or nothing is left. Omitted when nothing was deleted."
+                    }
+                },
+                "required": [
+                    "authentication",
+                    "connection",
+                    "createdAt",
+                    "displayName",
+                    "enabled",
+                    "gatewayId",
+                    "id",
+                    "kind",
+                    "namespace",
+                    "revision",
+                    "toolPolicies",
+                    "updatedAt"
+                ]
+            },
+            "UpstreamKind": {
+                "type": "string",
+                "enum": [
+                    "mcp",
+                    "context-surface"
+                ]
+            },
+            "UpstreamSummary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "A UUID v4 as 32 lowercase hexadecimal characters, allocated by the control plane. Opaque to clients."
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Operator-facing label."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 63,
+                        "minLength": 1,
+                        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                        "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only."
+                    },
+                    "activeCatalog": {
+                        "$ref": "#/components/schemas/ActiveCatalog"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "displayName",
+                    "enabled",
+                    "id",
+                    "namespace",
+                    "revision",
+                    "updatedAt"
+                ]
+            },
+            "UpstreamTool": {
+                "type": "object",
+                "description": "A tool of the active catalog. It carries no input or output schema.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The original tool name, exact and case-preserved."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Present when the tool definition has one."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Present when the tool definition has one."
+                    },
+                    "annotations": {
+                        "description": "The annotations object as stored in the catalog. Present when the tool definition has one."
+                    },
+                    "cacheable": {
+                        "type": "boolean",
+                        "description": "The result of the cacheable rule, which reads only readOnlyHint and\ndestructiveHint. An absent hint vetoes nothing; an annotation never turns\ncaching on, only a resultCache policy does."
+                    },
+                    "notCacheableReason": {
+                        "$ref": "#/components/schemas/NotCacheableReason"
+                    },
+                    "policy": {
+                        "$ref": "#/components/schemas/ToolPolicy"
+                    }
+                },
+                "required": [
+                    "cacheable",
+                    "name"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "smithy.api.httpBearerAuth": {
+                "type": "http",
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "smithy.api.httpBearerAuth": []
+        }
+    ]
+}
