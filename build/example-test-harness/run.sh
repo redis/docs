@@ -319,6 +319,17 @@ legacy_src_path() {
     geoindex:go)                 echo local_examples/geoindex/go-redis/geo_index_test.go ;;
     geoindex:jedis)              echo local_examples/geoindex/jedis/GeoIndexExample.java ;;
     geoindex:dotnet)             echo local_examples/geoindex/nredisstack/GeoIndexExample.cs ;;
+    # Query JSON/hash pages (<client>/queryjson.md). Jedis java_home_json is deliberately
+    # unmapped: its HIMPORT step needs Jedis 8.0 (HashImport), newer than both Jedis pins.
+    # Blocked on DOC-7213.
+    py_home_json:python)         echo local_examples/client-specific/redis-py/home_json.py ;;
+    js_home_query:node)          echo local_examples/client-specific/nodejs/home-query.js ;;
+    go_home_json:go)             echo local_examples/client-specific/go/home_json_example_test.go ;;
+    lettuce_home_json:lettuce-async)    echo local_examples/client-specific/lettuce-async/HomeJsonExample.java ;;
+    lettuce_home_json:lettuce-reactive) echo local_examples/client-specific/lettuce-reactive/HomeJsonExample.java ;;
+    cs_home_json:dotnet)         echo local_examples/client-specific/dotnet-sync/HomeJsonExample.cs ;;
+    php_home_json:php)           echo local_examples/client-specific/php/HomeJsonTest.php ;;
+    ruby_home_json:ruby)         echo local_examples/client-specific/ruby/home_json.rb ;;
     *) echo "" ;;
   esac
 }
@@ -382,7 +393,9 @@ run_go() {
   # that package or the build fails before any test runs.
   printf 'package example_commands\n' >"$d/lib.go"
   cp "$1" "$d/ex_test.go"
-  (cd "$d" && go mod tidy >/dev/null 2>&1 && go test ./... ) >"$LOG" 2>&1; rc=$?
+  # -count=1: go caches a passing test result and replays it when the files and env are
+  # unchanged, so a second run never touches Redis ("ok ... (cached)") and proves nothing.
+  (cd "$d" && go mod tidy >/dev/null 2>&1 && go test -count=1 ./... ) >"$LOG" 2>&1; rc=$?
 }
 run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = { version = "1.3", features = ["json"] }
 serde_json = { version = "1", features = ["preserve_order"] }' ; }
@@ -469,6 +482,7 @@ class HarnessTestCase {
   function assertIsArray($v,$m=''){ if(!is_array($v)) throw new Exception("assertIsArray failed"); }
   function assertGreaterThan($e,$a,$m=''){ if(!($a>$e)) throw new Exception("assertGreaterThan: $a not > $e"); }
   function assertContains($n,$h,$m=''){ if(!in_array($n,$h)) throw new Exception("assertContains failed"); }
+  function assertStringStartsWith($p,$s,$m=''){ if(strpos((string)$s,$p)!==0) throw new Exception("assertStringStartsWith: ".var_export($s,true)." does not start with ".var_export($p,true)); }
 }
 class_alias('HarnessTestCase', 'PredisTestCase');
 if (!class_exists('PHPUnit\\Framework\\TestCase')) {
