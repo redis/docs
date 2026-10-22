@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Concepts
 title: Redis Context Gateway concepts
 weight: 3
+aliases:
+- /develop/ai/context-engine/context-retriever/concepts/
 ---
 
 ## Gateways
@@ -45,7 +47,7 @@ An **Upstream** is a source of tools. A Gateway supports two kinds:
 - An **MCP server** (`mcp`): any MCP server the Gateway reaches over Streamable HTTP. It can come from any vendor or from your own team. It does not need to use Redis.
 - A **Context Surface** (`context-surface`): tools generated from a data model over the records of a Redis database. See [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md).
 
-<!-- TODO: The Iris AGENTS.md does not cover the terms Gateway, Upstream, or Context Surface, and it warns against using "Context Surfaces" as a name for Context Retriever. Confirm these terms with the docs team. -->
+<!-- TODO: The Iris AGENTS.md does not cover the terms Gateway, Upstream, or Context Surface,. Confirm these terms with the docs team. -->
 
 Each Upstream has a **namespace**: 1 to 63 lowercase letters and digits, with single hyphens between them. The Control Plane derives it from the Upstream's display name when you leave it out. The Gateway serves each tool under its qualified name, the namespace, a dot, and the tool's original name, such as `billing.get_invoice`. Namespaces keep two Upstreams with the same tool name apart.
 
@@ -101,12 +103,6 @@ A result handle holds a large tool result in the Gateway database. When the depl
 A tool opts out with a `resultHandle` policy of `capture: never`, or sets its own handle lifetime with `ttlSeconds`. An agent can also hold a result of any size with `run_tool_as_handle`.
 
 A handle is bound to the caller that created it, and it survives a rotation of that caller's agent key. It ends when the agent releases it or its TTL expires. Handles are bounded by their TTL and the Gateway database's memory.
-
-## Context Gateway and Context Retriever
-
-Context Retriever is a separate service that generates tools from a data model and filters records with agent-key access tags.
-
-A Context Surface in Context Gateway also generates tools from a data model, but it is an Upstream of a Gateway. You manage it through the Gateway Control Plane, agents reach it with Gateway agent keys, and it does not filter records by access tags.
 
 ## Key terms
 

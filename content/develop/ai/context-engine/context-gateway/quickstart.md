@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Quickstart
 title: Redis Context Gateway quickstart
 weight: 10
+aliases:
+- /develop/ai/context-engine/context-retriever/quickstart/
 ---
 
 Use Redis Context Gateway to give a clinic front-desk assistant the tools of a clinic directory: find a provider by specialty, look up a clinic, and count providers without loading every record into the agent's context.

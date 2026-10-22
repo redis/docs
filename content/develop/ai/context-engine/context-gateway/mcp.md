@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: MCP
 title: Connect with MCP
 weight: 60
+aliases:
+- /develop/ai/context-engine/context-gateway/connect-agents/
 ---
 
 Connect any Model Context Protocol (MCP) client that supports Streamable HTTP and custom request headers. For framework examples, see [Integrate with an agent](/content/develop/ai/context-engine/context-gateway/agent-integration.md). For every tool, argument, and metadata key, see the [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md).

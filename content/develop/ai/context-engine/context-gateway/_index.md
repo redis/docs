@@ -9,6 +9,9 @@ description: Give an agent one MCP endpoint for the tools of any MCP server, plu
 linkTitle: Context Gateway
 hideListLinks: true
 weight: 22
+aliases:
+- /develop/ai/context-engine/context-retriever/
+- /develop/ai/context-engine/context-retriever/interactive-demo/
 ---
 
 Give each agent one Model Context Protocol (MCP) endpoint for every tool it needs, with one key and no Upstream credentials in the agent.

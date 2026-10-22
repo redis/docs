@@ -9,6 +9,8 @@ description: Deploy, configure, and operate Redis Context Gateway on a self-mana
 linkTitle: Self-managed
 weight: 40
 hideListLinks: true
+aliases:
+- /operate/iris/context-retriever/self-managed/
 ---
 
 The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Control Plane and Data Plane. You provide the Identity Service release, the Redis databases, and the license. The chart does not install Identity Service, Redis, Vault, or Secrets Store CSI (Container Storage Interface) Driver resources.

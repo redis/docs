@@ -14,9 +14,9 @@ bannerText: Agent Memory and Context Retriever are currently available in previe
 
 [How Redis Iris works]({{< relref "/develop/ai/context-engine/concepts" >}}) covers the mental model. This page traces the same idea through an actual request, capability by capability.
 
-Every capability in Iris manages the same limited resource: the model's context window. Semantic caching skips a model call when a similar one already ran. Agent Memory decides what's worth keeping from a conversation. Context Retriever returns exactly the data a tool call needs, instead of a raw query result. Treat "what goes into the next model call" as a budget. Manage it actively. It doesn't take care of itself once a request reaches Iris.
+Every capability in Iris manages the same limited resource: the model's context window. Semantic caching skips a model call when a similar one already ran. Agent Memory decides what's worth keeping from a conversation. Context Gateway returns the result of one tool call instead of a raw query result, and holds large results as handles. Treat "what goes into the next model call" as a budget. Manage it actively. It doesn't take care of itself once a request reaches Iris.
 
-These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: semantic caching for responses to similar prompts, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}) for governed access to business data. [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) runs in the background, keeping that business data fresh for Context Retriever to query.
+These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: semantic caching for responses to similar prompts, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) for tool calls to your MCP servers and your business data. [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) runs in the background, keeping that business data fresh for Context Gateway to query.
 
 Select a node in the diagram for a description of what that capability does, with a link to its docs. Select a scenario button to trace the path a request takes.
 
@@ -57,24 +57,20 @@ nodes:
                 url: "/develop/ai/context-engine/agent-memory/interactive-demo"
         docsUrl: "/develop/ai/context-engine/agent-memory"
     contextRetriever:
-        label: "Context Retriever"
+        label: "Context Gateway"
         type: process
         col: 1
         row: 2
         description: |
-            Context Retriever: governed tool calls. Calls governed, schema-first tools to fetch business data the agent needs.
-        links:
-            demo:
-                label: "Interactive demo"
-                url: "/develop/ai/context-engine/context-retriever/interactive-demo"
-        docsUrl: "/develop/ai/context-engine/context-retriever"
+            Context Gateway: tool calls through one endpoint. Calls the tools of MCP servers and Context Surfaces to fetch the business data the agent needs.
+        docsUrl: "/develop/ai/context-engine/context-gateway"
     dataIntegration:
         label: "Data Integration"
         type: process
         col: 0
         row: 3
         description: |
-            Data Integration: keeps business data fresh. Streams changes from source databases into the data layer Context Retriever queries.
+            Data Integration: keeps business data fresh. Streams changes from source databases into the data layer Context Gateway queries.
         docsUrl: "/develop/ai/context-engine/data-integration"
     cachedResponse:
         label: "Cached response"
@@ -169,9 +165,9 @@ paths:
         description: |
             For a question that depends on earlier turns or what's known about the user, Agent Memory supplies that recall before the model call.
     context:
-        label: "Needs business data: retrieves via Context Retriever"
+        label: "Needs business data: retrieves via Context Gateway"
         description: |
-            For a question that depends on live business data, Context Retriever calls governed tools to fetch it before the model call. Data Integration keeps that data fresh.
+            For a question that depends on live business data, Context Gateway calls tools to fetch it before the model call. Data Integration keeps that data fresh.
 ```
 
 ## Two things Iris changes
@@ -183,5 +179,5 @@ paths:
 ## Next steps
 
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
-- [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
-- Interactive demos for [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser
+- [Context Gateway concepts]({{< relref "/develop/ai/context-engine/context-gateway/concepts" >}})
+- An [interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) of Agent Memory that runs in your browser

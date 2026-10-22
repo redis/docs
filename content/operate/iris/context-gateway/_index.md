@@ -9,6 +9,12 @@ categories:
 - iris
 weight: 22
 hideListLinks: true
+aliases:
+- /operate/iris/context-retriever/
+- /operate/iris/context-retriever/create-service/
+- /operate/iris/context-retriever/view-service/
+- /operate/iris/context-retriever/view-admin-keys/
+- /operate/rc/context-engine/context-retriever/
 ---
 
 Deploy Redis Context Gateway on Kubernetes to give agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, plus tools over your Redis data.

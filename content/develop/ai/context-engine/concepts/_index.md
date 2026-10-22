@@ -79,12 +79,12 @@ Run all three fully managed on Redis Cloud, or self-managed on your own infrastr
 
 - Let Iris decide what's cached and what's fresh. Don't build a separate caching layer on top of the model call.
 - Write session events as they happen. Let background extraction decide what's durable, rather than deciding yourself on every turn.
-- Model your business data as entities and relationships once. Let Context Retriever generate the tools your agent calls, instead of writing a tool per query.
+- Model your business data as entities and relationships once. Let a Context Gateway Context Surface generate the tools your agent calls, instead of writing a tool per query.
 - Scope every write and lookup by user, session, or namespace. This keeps agents and users from colliding.
 
 ## Next steps
 
 - [How a request flows through Redis Iris]({{< relref "/develop/ai/context-engine/concepts/request-flow" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
-- [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
-- Interactive demos for [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}) that run in your browser
+- [Context Gateway concepts]({{< relref "/develop/ai/context-engine/context-gateway/concepts" >}})
+- An [interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) of Agent Memory that runs in your browser
