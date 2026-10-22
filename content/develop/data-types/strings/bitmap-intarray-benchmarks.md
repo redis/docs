@@ -34,6 +34,12 @@ Negative ranks count from the end. Current native calls do not cap the number
 of returned elements; client output-buffer limits still apply. These API changes
 do not affect the smaller historical datasets.
 
+The harness uses native bitmap keys. With `bitmap-default-roaring yes`,
+`BITRANGEINTARRAY` can also read strings by scanning the complete string and
+allocating a temporary Roaring bitmap on every call, including small ranges.
+The stored string is unchanged. String reads return `WRONGTYPE` when the
+setting is `no`. These measurements do not include temporary conversion costs.
+
 ```sh
 make -j4
 python3 tools/bitroar-intarray-bench.py --json-out /tmp/intarray-native.json

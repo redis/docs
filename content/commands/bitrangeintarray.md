@@ -30,7 +30,7 @@ command_flags:
 complexity: O(C + M) where C is the number of bitmap containers and M is the number
   of returned integers.
 description: Returns an inclusive range of set-bit offsets by their zero-based ranks
-  in a native bitmap.
+  in a bitmap.
 group: bitmap
 hidden: false
 key_specs:
@@ -60,19 +60,21 @@ reply_schema:
   uniqueItems: true
 since: 8.12.0
 summary: Returns an inclusive range of set-bit offsets by their zero-based ranks in
-  a native bitmap.
+  a bitmap.
 syntax_fmt: BITRANGEINTARRAY key start end
 title: BITRANGEINTARRAY
 ---
 
-Returns a range of set-bit offsets from a native Roaring bitmap in ascending
-order, selected by their inclusive, zero-based element ranks.
+Returns a range of set-bit offsets from a bitmap in ascending order, selected
+by their inclusive, zero-based element ranks. Strings are also accepted when
+`bitmap-default-roaring` is `yes`; their stored representation is unchanged.
 
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
 
-The name of the key that holds the native bitmap.
+The name of the key that holds a native bitmap, or a string when
+`bitmap-default-roaring` is `yes`.
 
 </details>
 
@@ -124,6 +126,22 @@ redis> BITRANGEINTARRAY members 3 4
 (empty array)
 redis> BITRANGEINTARRAY members 2 1
 (empty array)
+redis> SET rawbits a
+OK
+redis> BITRANGEINTARRAY rawbits 0 -1
+1) (integer) 1
+2) (integer) 2
+3) (integer) 7
+redis> GET rawbits
+"a"
+redis> TYPE rawbits
+string
+redis> CONFIG SET bitmap-default-roaring no
+OK
+redis> BITRANGEINTARRAY rawbits 0 -1
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+redis> CONFIG SET bitmap-default-roaring yes
+OK
 {{% /redis-cli %}}
 
 ## Details
@@ -152,10 +170,11 @@ The command validates `start`, then `end`, before looking up the key. An invalid
 rank returns an argument error even for a missing key or a key of another type.
 With valid rank arguments, a missing key returns an empty array.
 
-The command accepts the native `bitmap` type only; other existing types return
-`WRONGTYPE` before normalizing the range. It does not convert strings, change
-the bitmap, or change its expiration. It works on existing native bitmaps
-regardless of the current `bitmap-default-roaring` setting.
+Native `bitmap` keys work regardless of `bitmap-default-roaring`. Strings are
+accepted only when the setting is `yes`: Redis temporarily converts their bits
+to Roaring format for this read. The stored string bytes, type, and expiration
+are unchanged. With the setting `no`, strings return `WRONGTYPE`. Other existing
+types always return `WRONGTYPE`, before range normalization.
 
 ### Pagination and performance
 
@@ -163,16 +182,21 @@ Use successive rank ranges such as `0 99`, `100 199`, and `200 299` to page
 through a bitmap. Separate calls do not share a snapshot: inserting or removing
 set bits between pages can shift ranks and cause skipped or repeated offsets.
 
-The command seeks to the first rank and iterates forward. Seeking a distant
-rank can still traverse bitmap containers, so later pages can cost more than
-the first page even when they return the same number of integers.
+For native bitmaps, the command seeks to the first rank and iterates forward.
+Seeking a distant rank can still traverse bitmap containers, so later pages can
+cost more than the first page even when they return the same number of integers.
 Configured client output-buffer limits still apply. If a reply exceeds a limit,
 Redis disconnects the client and stops enumeration.
+
+Each call on a string scans the entire string and allocates a temporary Roaring
+bitmap before reading the requested ranks. This adds time proportional to the
+string length and temporary memory use, even for a small range. Repeated pages
+repeat this conversion.
 
 Response size and serialization cost grow with the number of returned elements.
 
 The rank argument restrictions do not limit stored offsets. Returned offsets
-retain the native bitmap's full supported range, including values above
+retain the bitmap's full supported range, including values above
 `4294967295` when the bitmap was created with a sufficiently large
 `proto-max-bulk-len`. Clients must preserve the precision of returned integers.
 
