@@ -109,19 +109,19 @@ assert_equal(['London', 'Tel Aviv'], sorted_cities.map { |doc| doc['city'] })
 # STEP_START query3
 request = Search::AggregateRequest.new('*')
                                   .group_by('@city', Search::Reducers.count.as('count'))
+                                  .sort_by(Search::Asc.new('@city'))
 
 agg_result = index.aggregate(request)
 
-agg_result.rows.sort_by { |row| row['city'] }.each do |row|
+agg_result.rows.each do |row|
   puts "#{row['city']} - #{row['count']}"
 end
 # >>> London - 1
 # >>> Tel Aviv - 2
 # STEP_END
 # REMOVE_START
-sorted_rows = agg_result.rows.sort_by { |row| row['city'] }
-assert_equal(['London', 'Tel Aviv'], sorted_rows.map { |row| row['city'] })
-assert_equal(%w[1 2], sorted_rows.map { |row| row['count'] })
+assert_equal(['London', 'Tel Aviv'], agg_result.rows.map { |row| row['city'] })
+assert_equal(%w[1 2], agg_result.rows.map { |row| row['count'] })
 # REMOVE_END
 
 # STEP_START cleanup_hash

@@ -108,7 +108,7 @@ Specify query options to return only the `city` field:
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< jupyter-example set="py_home_json" lang_filter="Python" step="query3" depends="import" description="Aggregation queries: Use GROUP BY and COUNT operations to summarize and analyze indexed data" difficulty="advanced" />}}
 

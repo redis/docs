@@ -76,11 +76,11 @@ var peopleData = map[string]PersonData{
 // STEP_END
 
 func main() {
+	// STEP_START model
 	ctx := context.Background()
 
-	// STEP_START model
 	// Create a new Hugot session
-	session, err := hugot.NewGoSession()
+	session, err := hugot.NewGoSession(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -95,6 +95,7 @@ func main() {
 	downloadOptions := hugot.NewDownloadOptions()
 	downloadOptions.OnnxFilePath = "onnx/model.onnx"
 	modelPath, err := hugot.DownloadModel(
+		ctx,
 		"sentence-transformers/all-MiniLM-L6-v2",
 		"./models/",
 		downloadOptions,
@@ -127,7 +128,7 @@ func main() {
 	// STEP_START add_data
 	for name, details := range peopleData {
 		// Generate embeddings using Hugot
-		result, err := embeddingPipeline.RunPipeline([]string{details.Description})
+		result, err := embeddingPipeline.RunPipeline(ctx, []string{details.Description})
 		if err != nil {
 			panic(err)
 		}
@@ -159,7 +160,7 @@ func main() {
 	// STEP_START basic_query
 	queryValue := "actors"
 
-	queryResult, err := embeddingPipeline.RunPipeline([]string{queryValue})
+	queryResult, err := embeddingPipeline.RunPipeline(ctx, []string{queryValue})
 	if err != nil {
 		panic(err)
 	}
@@ -185,7 +186,7 @@ func main() {
 	// STEP_START limited_query
 	queryValue = "actors"
 
-	queryResult, err = embeddingPipeline.RunPipeline([]string{queryValue})
+	queryResult, err = embeddingPipeline.RunPipeline(ctx, []string{queryValue})
 	if err != nil {
 		panic(err)
 	}
@@ -211,7 +212,7 @@ func main() {
 	// STEP_START entertainer_query
 	queryValue = "entertainer"
 
-	queryResult, err = embeddingPipeline.RunPipeline([]string{queryValue})
+	queryResult, err = embeddingPipeline.RunPipeline(ctx, []string{queryValue})
 	if err != nil {
 		panic(err)
 	}
@@ -234,9 +235,10 @@ func main() {
 	// Maryam Mirzakhani, Marie Curie
 	// STEP_END
 
+	// STEP_START science_query
 	queryValue = "science"
 
-	queryResult, err = embeddingPipeline.RunPipeline([]string{queryValue})
+	queryResult, err = embeddingPipeline.RunPipeline(ctx, []string{queryValue})
 	if err != nil {
 		panic(err)
 	}
@@ -256,10 +258,12 @@ func main() {
 	fmt.Printf("'science': %v\n", strings.Join(scienceResults, ", "))
 	// >>> 'science': Marie Curie, Linus Pauling, Maryam Mirzakhani, Paul Erdos,
 	// Marie Fredriksson, Freddie Mercury, Masako Natsume, Chaim Topol
+	// STEP_END
+
 	// STEP_START filtered_query
 	queryValue = "science"
 
-	queryResult, err = embeddingPipeline.RunPipeline([]string{queryValue})
+	queryResult, err = embeddingPipeline.RunPipeline(ctx, []string{queryValue})
 	if err != nil {
 		panic(err)
 	}

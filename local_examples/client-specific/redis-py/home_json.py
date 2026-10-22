@@ -118,15 +118,13 @@ assert str(citiesResult) == (
 # STEP_START query3
 req = aggregations.AggregateRequest("*").group_by(
     '@city', reducers.count().alias('count')
-)
+).sort_by(aggregations.Asc('@city'))
 
 aggResult = r.ft("idx:users").aggregate(req).rows
 print(aggResult)
 # >>> [['city', 'London', 'count', '1'], ['city', 'Tel Aviv', 'count', '2']]
 # STEP_END
 # REMOVE_START
-aggResult.sort(key=lambda row: row[1])
-
 assert str(aggResult) == (
     "[['city', 'London', 'count', '1'], ['city', 'Tel Aviv', 'count', '2']]"
 )
