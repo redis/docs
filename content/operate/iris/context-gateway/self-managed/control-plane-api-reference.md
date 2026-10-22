@@ -1,5 +1,5 @@
 ---
-Title: Context Gateway Control Plane API reference
+Title: Redis Context Gateway Control Plane API reference
 linkTitle: Control Plane API reference
 layout: apireference
 type: page
@@ -11,8 +11,8 @@ params:
   showPageContent: true
 ---
 
-Use the self-managed Control Plane API to create Gateways, register and update Upstreams, refresh tool catalogs, and list each Upstream's tools. This reference corresponds to the service contract for these guides.
+Use the self-managed Control Plane API to create Gateways, register and update Upstreams, refresh tool catalogs, and list each Upstream's tools.
 
-[Download the OpenAPI contract]({{< relref "/operate/iris/context-gateway/self-managed/control-plane-api-reference/" >}}openapi-control-plane.json), follow the [administration examples](/content/operate/iris/context-gateway/self-managed/api-examples.md), or review [authentication and access](/content/operate/iris/context-gateway/self-managed/authentication.md).
+[Download the OpenAPI contract]({{< relref "/operate/iris/context-gateway/self-managed/control-plane-api-reference/" >}}openapi-control-plane.json), follow the [administration examples](/content/operate/iris/context-gateway/self-managed/api-examples.md), or review [authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md).
 
-Agent-key management belongs to the Identity Service. Agents call tools through each Gateway's [MCP endpoint](/content/develop/ai/context-engine/context-gateway/connect-agents.md).
+Agent-key management belongs to the Identity Service. Agents call tools through each Gateway's Model Context Protocol (MCP) endpoint, described in the [MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md).

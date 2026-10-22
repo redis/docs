@@ -20,6 +20,7 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-context-retriever-64-duotone.png" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Context Gateway" description="One MCP endpoint for the tools of any MCP server and your Redis data" url="/develop/ai/context-engine/context-gateway" >}}
 </div>
 
 ## What is Redis Iris?

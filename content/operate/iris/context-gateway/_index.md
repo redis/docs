@@ -11,7 +11,7 @@ weight: 22
 hideListLinks: true
 ---
 
-Deploy Redis Context Gateway on Kubernetes to give agents one MCP endpoint for the tools of any MCP server, plus tools over your Redis data.
+Deploy Redis Context Gateway on Kubernetes to give agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, plus tools over your Redis data.
 
 ## Self-managed
 

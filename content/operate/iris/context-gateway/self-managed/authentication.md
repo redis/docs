@@ -49,7 +49,7 @@ An agent key needs a grant on each Gateway it uses:
 | `resourceId` | The Gateway ID. |
 | `actions` | `["use"]` or `["full"]` |
 
-One grant covers listing and calling every tool on the Gateway, including tools that change data. MCP tool annotations do not limit it.
+One grant covers listing and calling every tool on the Gateway, including tools that change data. Model Context Protocol (MCP) tool annotations do not limit it.
 
 The Identity Service mints a key only for a Gateway that exists in the tenant and is not being deleted. A revoked key stops working within the Identity Service cache lifetime, 300 seconds by default.
 
@@ -57,16 +57,31 @@ The [API examples](/content/operate/iris/context-gateway/self-managed/api-exampl
 
 ## Identity provider sign-in
 
-Turn on sign-in to let MCP clients use access tokens from your identity provider (IdP). The Data Plane validates each token against the configured issuer, key set, and audience, and serves protected resource metadata so that clients can find the IdP.
+Turn on sign-in to let MCP clients use access tokens from your identity provider (IdP). The Data Plane validates each token itself and serves protected resource metadata so that clients can find the IdP. IdP tokens are accepted only in `Authorization: Bearer`, never in `X-Api-Key`, and they never reach an Upstream.
 
-*Data Plane `auth.oidc` values: issuer, key set, audience, `user_id_claim`, and `role_mappings`.*
+Set these keys under `dataplane.config.auth.oidc`:
+
+| Key | Value |
+| --- | --- |
+| `enabled` | `true` |
+| `issuer` | Your IdP's issuer URL. |
+| `audience` | The audience that names the Gateway API, or each Gateway's exact URL. |
+| `jwks_uri` | Your IdP's JSON Web Key Set (JWKS) URL. |
+| `user_id_claim` | The claim that identifies a user. `sub` by default, `oid` for Microsoft Entra ID. |
+| `role_mappings` | Maps IdP role or group claim values to Iris roles, such as `gateway_user`. |
+
+Set `dataplane.config.oauth.public_base_url` to the Data Plane's public origin, the same value as `publicBaseURL`. The issuer and key set URLs must use HTTPS.
+
+### Grant signed-in users access
 
 Grant signed-in users access in either way:
 
 - Map an IdP group to the `gateway_user` role. The role grants `use` on every Gateway in the tenant.
-- Assign Identity Service subject grants to individual users for selected Gateways. To restrict a user to selected Gateways, do not map them to the all-Gateway role.
+- Assign Identity Service subject grants to individual users for selected Gateways, with `PUT /v1/subject-grants` on the Identity Service. A subject grant names the IdP's issuer, the user's `user_id_claim` value, and the same product, resource type, Gateway ID, and `use` action as an agent-key grant.
 
-<!-- TODO: Add the tested settings for Okta, Microsoft Entra ID, Auth0, and Keycloak. -->
+A specific subject grant cannot narrow the all-Gateway role, and removing a subject grant does not remove access that a role gives. To restrict a user to selected Gateways, don't map them to `gateway_user`.
+
+<!-- TODO: Add the subject grant request body and the tested settings for Okta, Microsoft Entra ID, Auth0, and Keycloak. -->
 
 ## Rotate credentials
 

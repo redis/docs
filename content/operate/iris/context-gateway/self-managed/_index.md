@@ -11,7 +11,9 @@ weight: 40
 hideListLinks: true
 ---
 
-The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Control Plane and Data Plane. You provide the Identity Service release, the Redis databases, and the license. The chart does not install Identity Service, Redis, Vault, or Secrets Store CSI Driver resources.
+The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Control Plane and Data Plane. You provide the Identity Service release, the Redis databases, and the license. The chart does not install Identity Service, Redis, Vault, or Secrets Store CSI (Container Storage Interface) Driver resources.
+
+Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
 
 The chart version that matches these guides is not published yet. Set the chart version and image tags from the approved release manifest when it becomes available.
 
@@ -61,3 +63,10 @@ Use separately managed Redis deployments for metadata, credentials, and customer
 3. [Deploy the chart](/content/operate/iris/context-gateway/self-managed/deploy.md).
 4. [Load administrative credentials](/content/operate/iris/context-gateway/self-managed/authentication.md).
 5. [Create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md).
+
+## Manage the deployment
+
+- [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md) and [Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md) through the Control Plane.
+- [Rotate or revoke agent keys](/content/operate/iris/context-gateway/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
+- [Check health, rotate credentials, back up, and upgrade](/content/operate/iris/context-gateway/self-managed/operations.md).
+- [Troubleshoot the deployment](/content/operate/iris/context-gateway/self-managed/reference.md#troubleshooting).
