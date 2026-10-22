@@ -62,7 +62,7 @@ Expand an example to copy the complete program. Save it as `quickstart.py`, `qui
 
 Keep the printed identifier for cleanup. SDK and cURL examples create another entry when rerun. The CLI uses `refund-status` as a stable entry key: `faqs push` creates missing content, appends changed content, and skips unchanged content. Start with an unused key for this walkthrough. After an uncertain write, inspect entry state before retrying.
 
-## 1. Create an FAQ
+## Create an FAQ
 
 Create one answer with a locale and topic for retrieval filters. Save the returned entry identifier and version.
 
@@ -72,7 +72,7 @@ The first version is `1`, and `publication` is absent or empty. You can review t
 
 The CLI prepares a flat FAQ JSON file and validates it locally before pushing it. Its result is an action report containing the entry identifier and version, rather than the HTTP creation response. `push` leaves the version unpublished unless you request publication.
 
-## 2. Review and publish the answer
+## Review and publish the answer
 
 Read the exact version you created.
 
@@ -84,7 +84,7 @@ Review the question and answer. Then publish the version you read.
 
 The publication response identifies the version that agents can retrieve.
 
-## 3. Search with a different question
+## Search with a different question
 
 Search with a paraphrase of the stored question.
 
@@ -92,7 +92,7 @@ Search with a paraphrase of the stored question.
 
 Check for your entry identifier, version `1`, and the answer about order history. Scores and rankings vary with the embedding model and other entries. If no match appears, repeat only the search after a short wait, then check the locale filter and [similarity threshold]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#control-relevance-and-result-count" >}}).
 
-## 4. Discover FAQs for an agent
+## Discover FAQs for an agent
 
 Discovery returns FAQ answers and skill previews in one request. This example filters for refund guidance to add to the agent's context.
 
@@ -100,7 +100,7 @@ Discovery returns FAQ answers and skill previews in one request. This example fi
 
 With no pins, `pinnedEntries` is empty. Matching published entries appear in `discoveredEntries`. Python exposes these collections as `discovery.pinned` and `discovery.discovered`; `as_prompt()` formats them for agent context. When you add skills later, discovery returns their previews without loading all their instructions.
 
-## 5. Publish an updated answer
+## Publish an updated answer
 
 Append a complete replacement version to the same entry. Include the attributes and intents you want to retain.
 

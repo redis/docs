@@ -57,6 +57,11 @@ def test_typescript_is_not_published_in_playbook_examples():
     assert "https://www.npmjs.com/package/@redis-iris/agent-playbook" in quickstart
 
 
+def test_quickstart_headings_work_with_toc_selectors():
+    source = (DOCS / "quickstart.md").read_text()
+    assert not re.search(r"^#{2,6}\s+\d", source, re.MULTILINE)
+
+
 def test_proposal_diagram_qualifies_default_retention_windows():
     diagram = ElementTree.parse(
         ROOT / "static/images/ai/context-engine/agent-playbook-proposals.svg"
