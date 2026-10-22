@@ -33,15 +33,13 @@ You can view your workspace in one of the following ways:
 - From the Redis Cloud console, go to the **Data integration** page, or
 - From your subscription, select the **Data Integration** tab
 
-![Workspace pipeline list showing a streaming pipeline and its Sources column.](/images/rc/rdi/rdi-2-workspace-sources.png)
+![A workspace with a draft pipeline and a running pipeline, with their sources, target database, and billing.](/images/rc/rdi/rdi-2-workspace-pipelines.png)
 {width="100%"}
-
-<!-- TODO: Replace rdi-2-workspace-sources.png with a screenshot of a workspace with two pipelines, one Running and one Draft. The current image shows the Streaming status, which the console now shows as Running. -->
 
 There, you'll see your workspace and its pipelines, one row per pipeline. The **Status** column shows **Draft** for a pipeline that you have not deployed yet, and the state of a deployed pipeline otherwise, such as **Running**, **Stopped**, or **Error**. The **Sources** column lists each pipeline's source names and database types. A source with unfinished configuration is marked **Pending setup**. Open its draft to continue setup. The **Billing** column shows **Not billed** for a draft, and the hourly rate of a deployed pipeline. To see your workspace details, including the deployment CIDR and region information, select **Workspace actions > Workspace details**.
 
-![Workspace actions menu with Workspace details and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
-{width="240px"}
+![Workspace actions menu with Add pipeline, Workspace details, and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
+{width="185px"}
 
 ## Add pipelines to a workspace
 
@@ -52,24 +50,20 @@ To add a pipeline:
 1. Open your workspace from the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
 1. Select **Add pipeline**. If the workspace already has pipelines, select **Workspace actions > Add pipeline**.
 
-    ![Workspace actions menu with Add pipeline, Workspace details, and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions-add-pipeline.png)
-    {width="240px"}
-
-    <!-- TODO: Add a screenshot of a workspace with one Running pipeline and the enabled Add pipeline control, as /images/rc/rdi/rdi-2-workspace-add-pipeline-enabled.png. Check whether the control is still in the Workspace actions menu or has moved to the workspace card, and update this step to match. -->
+    ![Workspace actions menu with Add pipeline, Workspace details, and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
+    {width="185px"}
 
 1. Enter a **Pipeline name**. Use 3 to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name. You can't change the name later.
 
-    ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
+    ![The Create new pipeline dialog with the name of a second pipeline.](/images/rc/rdi/rdi-2-create-second-pipeline.png)
     {width="376px"}
 
 1. Select **Create pipeline**.
 
-The new pipeline appears in the workspace with the **Draft** status. Redis Cloud doesn't bill a pipeline until you deploy it.
+The new pipeline appears in the workspace with the **Draft** status, next to the pipelines that already run. Redis Cloud doesn't bill a pipeline until you deploy it.
 
-![A new pipeline in the workspace with the Draft status.](/images/rc/rdi/rdi-2-workspace-draft-pipeline.png)
+![A workspace with a draft pipeline and a running pipeline, with their sources, target database, and billing.](/images/rc/rdi/rdi-2-workspace-pipelines.png)
 {width="100%"}
-
-<!-- TODO: Add a screenshot of the workspace with two pipelines, the first one Running and the second one Draft, as /images/rc/rdi/rdi-2-workspace-two-pipelines.png. -->
 
 Continue with [Create data pipeline](/content/operate/rc/rdi/define.md) to configure the pipeline's settings and sources and deploy it. You can set up one pipeline at a time. Until you deploy the new pipeline or delete its draft, **Add pipeline** is unavailable, and the console shows **A new pipeline can be added only when the current pending pipeline setup is complete.**
 
@@ -91,5 +85,5 @@ When you delete the last pipeline of a workspace, you can delete the workspace i
 
 To delete your workspace, select **Workspace actions > Delete workspace** from your workspace.
 
-![Workspace actions menu with Workspace details and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
-{width="240px"}
+![Workspace actions menu with Add pipeline, Workspace details, and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
+{width="185px"}
