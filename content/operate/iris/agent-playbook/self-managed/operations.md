@@ -16,9 +16,9 @@ hideListLinks: true
 With the [local port-forwards]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#connect-to-the-apis" >}}) running:
 
 ```bash
-curl --fail-with-body --silent --show-error http://localhost:9200/v1/health/ready
-curl --fail-with-body --silent --show-error http://localhost:9201/v1/health/ready
-curl --fail-with-body --silent --show-error http://localhost:9202/v1/health/ready
+curl --fail-with-body --silent --show-error http://localhost:9200/health/readiness
+curl --fail-with-body --silent --show-error http://localhost:9201/health/readiness
+curl --fail-with-body --silent --show-error http://localhost:9202/health/readiness
 ```
 
 Inspect pods and the affected service's logs when readiness fails:
@@ -64,7 +64,7 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $IDENTITY_CONTROL_TOKEN"
 ```
 
-Key validation is cached. The chart's `identityService.runtimeCache.hardTTLSeconds` defaults to 300 seconds. Allow for cached access decisions and verify that the old credential is denied before treating revocation as complete.
+Key validation is cached. The standalone Identity Service's `runtime.cache.hardTtlSeconds` defaults to 300 seconds. Allow for cached access decisions and verify that the old credential is denied before treating revocation as complete.
 
 ## Clear playbook content
 
@@ -108,7 +108,6 @@ Update an existing Secret from its source files. For example, update storage con
 ```bash
 kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-storage \
   --from-file=playbook-storage.yaml=./playbook-storage.yaml \
-  --from-file=identity-service-metadata.yaml=./identity-service-metadata.yaml \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
@@ -130,9 +129,9 @@ kubectl -n "$PLAYBOOK_NAMESPACE" get secret playbook-storage -o json \
 
 {{< /multitabs >}}
 
-Copy it into `storage.existingSecretChecksum` in `playbook-values.yaml` and [upgrade the chart]({{< relref "/operate/iris/agent-playbook/self-managed/operations#upgrade-the-chart" >}}) to roll its consumers. The checksum triggers rollout; it does not validate integrity. Use the same pattern for license and inference Secrets.
+Copy it into `storage.existingSecretChecksum` in `playbook-values.yaml` and [upgrade the chart]({{< relref "/operate/iris/agent-playbook/self-managed/operations#upgrade-the-chart" >}}) to roll its consumers. The checksum triggers rollout; it does not validate integrity. Use the same pattern for license and inference Secrets. Identity Service metadata uses its separate Secret and `metadata.existingSecretChecksum` in `identity-values.yaml`.
 
-For service credentials, update the Secret and its `existingSecretChecksum` for affected services. For immutable Secrets, create a new name and update the reference.
+For shared service credentials, update the Secret and its `existingSecretChecksum` on both releases where supported. Keep the runtime registration and product validator references aligned with Playbook. For immutable Secrets, create a new name and update the reference.
 
 ## Back up the deployment
 
@@ -146,7 +145,9 @@ Coordinate metadata and content snapshots. A metadata-only restore cannot recove
 
 ## Upgrade the chart
 
-Review the target release's configuration and compatibility requirements. Keep its packaged image versions together and recalculate checksums for changed Secrets.
+Review the target release's configuration and compatibility requirements. Keep its packaged image versions together and recalculate checksums for changed Secrets. Retain every values file used by the installation on each upgrade. Choose the command that matches your extraction setup.
+
+Without extraction:
 
 ```bash
 export PLAYBOOK_CHART_VERSION='<chart-version>'
@@ -157,16 +158,41 @@ helm upgrade playbook redis-ai/redis-agent-playbook \
   --wait --timeout 10m
 ```
 
+With extraction configured, use this command instead, retaining the extraction overlay:
+
+```bash
+export PLAYBOOK_CHART_VERSION='<chart-version>'
+helm upgrade playbook redis-ai/redis-agent-playbook \
+  --version "$PLAYBOOK_CHART_VERSION" \
+  --namespace "$PLAYBOOK_NAMESPACE" \
+  -f playbook-values.yaml \
+  -f playbook-extraction-values.yaml \
+  --wait --timeout 10m
+```
+
+Omitting that overlay resets the extraction and worker settings to their chart defaults.
+
 Check all service rollouts:
 
 ```bash
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-controlplane
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-dataplane
-kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-identity-service
 if kubectl -n "$PLAYBOOK_NAMESPACE" get deploy/playbook-worker >/dev/null 2>&1; then
   kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-worker
 fi
 helm test playbook --namespace "$PLAYBOOK_NAMESPACE" --logs
+```
+
+Upgrade Identity Service separately with its approved version and values, then verify its rollout:
+
+```bash
+export IDENTITY_CHART_VERSION='<identity-chart-version>'
+helm upgrade playbook-identity redis-ai/iris-identity-service \
+  --version "$IDENTITY_CHART_VERSION" \
+  --namespace "$PLAYBOOK_NAMESPACE" \
+  -f identity-values.yaml \
+  --wait --timeout 10m
+kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-identity-service
 ```
 
 Reconnect [local port-forwards]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#connect-to-the-apis" >}}), then repeat [application-access checks]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples#verify-application-access" >}}). Review release compatibility before rollback; Helm does not restore Redis data.

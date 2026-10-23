@@ -35,7 +35,7 @@ metadata:
     - rediss://<identity-user>:<identity-password>@<metadata-host>:6379
 ```
 
-The [deploy procedure]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#create-prerequisite-secrets" >}}) puts both files in one Secret under the chart's expected keys.
+The [deploy procedure]({{< relref "/operate/iris/agent-playbook/self-managed/deploy#create-prerequisite-secrets" >}}) creates separate Secrets for Playbook storage and the standalone Identity Service metadata.
 
 ## Embedding configuration
 
@@ -74,14 +74,17 @@ tenantId: <tenant-id>
 controlplane:
   image:
     tag: <playbook-control-plane-image-tag>
+  internalToken:
+    existingSecret: playbook-controlplane-internal
 
 dataplane:
   image:
     tag: <playbook-data-plane-image-tag>
+  identityServiceBaseURL: https://<identity-service-tls-endpoint>
 
 identityService:
-  image:
-    tag: <identity-service-image-tag>
+  credential:
+    existingSecret: playbook-dp-credential
 
 storage:
   existingSecret: playbook-storage
@@ -100,21 +103,52 @@ tests:
   enabled: true
 ```
 
-Use image tags from one approved release manifest. The chart generates the service credentials unless you set [existing credential Secrets]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#supply-service-credentials" >}}).
+Use image tags from the approved release manifest. The shared internal and runtime credentials must match the standalone Identity Service values. See [service credentials]({{< relref "/operate/iris/agent-playbook/self-managed/authentication#supply-service-credentials" >}}).
+
+Save `identity-values.yaml` for the separate Identity Service release, using the same tenant as Playbook:
+
+```yaml
+fullnameOverride: playbook-identity-service
+image:
+  tag: <identity-service-image-tag>
+metadata:
+  existingSecret: playbook-identity-metadata
+runtime:
+  apiKeyTenant:
+    singleTenantID: <tenant-id>
+  serviceCredentials:
+    - name: playbook-dp
+      subject: playbook-dp
+      allowedOperations: [api-key-introspect]
+      allowedProducts: [playbook]
+      existingSecret: playbook-dp-credential
+      secretKey: token
+productValidation:
+  products:
+    playbook:
+      baseURL: https://<playbook-control-plane-tls-endpoint>
+      credential:
+        existingSecret: playbook-controlplane-internal
+        secretKey: token
+```
+
+Provide certificate-verified routes to both configured TLS endpoints; the charts do not create TLS termination. Identity Service validates playbook grants through the control-plane endpoint. Configure it before installing, then wait for both releases and their routes before minting application keys.
+
+An existing Identity Service release can also serve Playbook. Merge the `playbook-dp` runtime credential and `playbook` validator into its existing lists and maps instead of replacing other products' configuration. Set `dataplane.identityServiceBaseURL` to that release's endpoint. Its single-tenant policy must match Playbook's `tenantId`.
 
 | Area | Values | Purpose |
 | --- | --- | --- |
 | Tenant | `tenantId` | Tenant shared by this deployment and its application grants. |
-| Storage | `storage.existingSecret`, `storage.playbookKey`, `storage.identityServiceKey`, `storage.keyPrefix`, `storage.maxPlaybooksPerTenant` | Storage Secret, key namespace, and tenant inventory limit. The default maximum is 128 playbooks. |
+| Storage | `storage.existingSecret`, `storage.playbookKey`, `storage.keyPrefix`, `storage.maxPlaybooksPerTenant` | Storage Secret, key namespace, and tenant inventory limit. The default maximum is 128 playbooks. |
 | Storage rollout | `storage.existingSecretChecksum` | Roll consuming pods after the storage Secret changes. |
 | License | `license.existingSecret`, `license.secretKey`, `license.existingSecretChecksum` | License Secret and rollout marker. The default key is `license`. |
 | Embeddings | `inference.models`, `inference.existingSecret`, `inference.secretKey`, `inference.existingSecretChecksum` | Public model identities and private configuration. The default Secret key is `inference.yaml`. |
-| Images | `controlplane.image.*`, `dataplane.image.*`, `identityService.image.*`, `imagePullSecrets` | Pin or mirror the release images. |
-| Capacity | `controlplane.replicaCount`, `dataplane.replicaCount`, `identityService.replicaCount`, each component's `resources` | Service replicas and Kubernetes resource requests and limits. |
-| Services | `controlplane.service.*`, `dataplane.service.*`, `identityService.service.*` | Service type and port. |
-| Service connections | `dataplane.identityServiceBaseURL`, `identityService.playbookControlPlaneBaseURL` | Override the chart's in-cluster service endpoints. |
+| Images | `controlplane.image.*`, `dataplane.image.*`, `imagePullSecrets` | Pin or mirror the release images. |
+| Capacity | `controlplane.replicaCount`, `dataplane.replicaCount`, each component's `resources` | Service replicas and Kubernetes resource requests and limits. |
+| Services | `controlplane.service.*`, `dataplane.service.*`, standalone Identity Service `service.*` | Service type and port. |
+| Service connections | `dataplane.identityServiceBaseURL`, standalone `productValidation.products.playbook.baseURL` | Connect the data plane to Identity Service and Identity Service to the control-plane validator. |
 | Private certificate authority | `tls.caCertSecret`, `tls.caCertSecretChecksum` | Trust additional certificate authorities and roll pods when they change. |
-| Operator OpenID Connect (OIDC) | `auth.oidc.audience`, `dataplane.oidc`, `controlplane.oidc`, `identityService.controlAuth` | Validate operator identity provider tokens. |
+| Operator OpenID Connect (OIDC) | `auth.oidc.audience`, `dataplane.oidc`, `controlplane.oidc`, standalone `controlAuth` | Validate operator identity provider tokens. |
 | Security | `serviceAccount`, `security.profile`, pod security contexts | Configure workload identity and the optional FIPS-oriented profile. |
 | Tracing | `tracing.enabled`, `tracing.otlpGRPCEndpoint`, `tracing.capture` | Send OpenTelemetry spans to a deployment-owned collector. |
 | Extraction | `extraction`, `worker` | Connect Redis Agent Memory and run optional background FAQ extraction. |
@@ -131,7 +165,7 @@ kubectl -n '<namespace-name>' create secret generic playbook-redis-ca \
   --from-file=ca.crt=./ca.crt
 ```
 
-Add this to `playbook-values.yaml` before installing:
+Add this to both `playbook-values.yaml` and `identity-values.yaml` before installing:
 
 ```yaml
 tls:
@@ -142,7 +176,7 @@ The chart mounts the CA for all enabled workloads. Keep certificate verification
 
 ## Configure security and tracing
 
-Set `security.profile: fips` only with images built for the Federal Information Processing Standards (FIPS) profile. Storage URLs must use `rediss://`. Set explicit HTTPS values for `dataplane.identityServiceBaseURL` and `identityService.playbookControlPlaneBaseURL`. The profile configures the processes but does not provide Transport Layer Security (TLS) termination or establish compliance by itself.
+Set `security.profile: fips` only with images built for the Federal Information Processing Standards (FIPS) profile. Storage URLs must use `rediss://`. Set explicit HTTPS values for `dataplane.identityServiceBaseURL` and standalone `productValidation.products.playbook.baseURL`. The profile configures the processes but does not provide Transport Layer Security (TLS) termination or establish compliance by itself.
 
 To export traces, configure a trusted local OpenTelemetry Protocol (OTLP) collector:
 

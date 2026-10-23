@@ -11,7 +11,7 @@ weight: 40
 hideListLinks: true
 ---
 
-The `redis-agent-playbook` Helm chart deploys the Playbook control plane, data plane, Identity Service, and optional extraction worker. You provide Redis databases, an embedding provider, and a Playbook license.
+The `redis-agent-playbook` Helm chart deploys the Playbook control plane, data plane, and optional extraction worker. Install Identity Service as a separate release. You provide Redis databases, an embedding provider, and a Playbook license.
 
 The chart version that matches these guides is not published yet. Set the chart version and image tags from the approved release manifest when it becomes available. Do not use the source chart's development version as a release version.
 
