@@ -66,6 +66,10 @@ redis> SCARD myset
 (integer) 2
 {{% /redis-cli %}}
 
+## Details
+
+If the set has member expirations, the count can include members whose TTL has expired but that Redis hasn't removed yet. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

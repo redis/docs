@@ -145,6 +145,10 @@ redis> ZINTER 2 zset1 zset2 WITHSCORES
 4) "4"
 {{% /redis-cli %}}
 
+## Details
+
+This command also accepts plain sets as input, treating each member as having a score of 1. If a plain-set input has member expirations, the command returns the error `ERR operation not supported on a set with member expirations`, because a sorted set can't hold member expirations. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
