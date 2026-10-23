@@ -201,14 +201,6 @@ example sets.
 - **Build:** the Hugo build passes with no unresolved link warnings, and every page is
   linked from the section index.
 
-## Reviewers
-
-| Role | Who | Reviews |
-|---|---|---|
-| Product owner | Aditi Gupta | Scope, positioning, Beta framing, final publication timing |
-| Technical reviewer | TBD | SDK and API accuracy, examples |
-| Docs reviewer | TBD | Style, structure, site mechanics |
-
 ## Remaining work
 
 - [ ] Write the ten pages and two diagrams.
