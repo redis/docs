@@ -11,7 +11,7 @@ weight: 40
 hideListLinks: true
 ---
 
-Install the control plane, data plane, and Identity Service with the `redis-agent-playbook` Helm chart.
+Install Identity Service as a separate release, then install the control plane and data plane with the `redis-agent-playbook` Helm chart.
 
 Prepare the files in [Configuration]({{< relref "/operate/iris/agent-playbook/self-managed/configuration" >}}) and save your [license]({{< relref "/operate/iris/agent-playbook/self-managed/prerequisites#required-software-and-access" >}}) as `license`.
 
@@ -32,12 +32,13 @@ kubectl create namespace "$PLAYBOOK_NAMESPACE"
 
 ## Create prerequisite Secrets
 
-1. Create the storage Secret from the two configuration files:
+1. Create separate storage configuration Secrets:
 
    ```bash
    kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-storage \
-     --from-file=playbook-storage.yaml=./playbook-storage.yaml \
-     --from-file=identity-service-metadata.yaml=./identity-service-metadata.yaml
+     --from-file=playbook-storage.yaml=./playbook-storage.yaml
+   kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-identity-metadata \
+     --from-file=metadata.yaml=./identity-service-metadata.yaml
    ```
 
 2. Create the license Secret:
@@ -53,6 +54,20 @@ kubectl create namespace "$PLAYBOOK_NAMESPACE"
    kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-inference \
      --from-file=inference.yaml=./inference.yaml
    ```
+
+4. Generate and provision the two shared service credentials:
+
+   ```bash
+   umask 077
+   openssl rand -hex 32 > playbook-controlplane-internal.token
+   openssl rand -hex 32 > playbook-dp.token
+   kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-controlplane-internal \
+     --from-file=token=./playbook-controlplane-internal.token
+   kubectl -n "$PLAYBOOK_NAMESPACE" create secret generic playbook-dp-credential \
+     --from-file=token=./playbook-dp.token
+   ```
+
+   The control plane and Identity Service share the internal token. The data plane and Identity Service share the runtime credential. Keep their source files in your secret manager, separate from public values.
 
 If your dependencies use a private certificate authority, also [create its CA Secret]({{< relref "/operate/iris/agent-playbook/self-managed/configuration#trust-a-private-ca" >}}).
 
@@ -73,12 +88,23 @@ If your dependencies use a private certificate authority, also [create its CA Se
 3. Set the chart version from the approved release manifest:
 
    ```bash
-   export PLAYBOOK_CHART_VERSION='<chart-version>'
+   export PLAYBOOK_CHART_VERSION='<playbook-chart-version>'
+   export IDENTITY_CHART_VERSION='<identity-chart-version>'
    ```
 
    The matching chart is not published yet. Do not substitute the development version from the source chart.
 
-4. Install the pinned chart with the prepared values:
+4. Install the standalone Identity Service first:
+
+   ```bash
+   helm install playbook-identity redis-ai/iris-identity-service \
+     --version "$IDENTITY_CHART_VERSION" \
+     --namespace "$PLAYBOOK_NAMESPACE" \
+     -f identity-values.yaml \
+     --wait --timeout 10m
+   ```
+
+5. Install Playbook with its prepared values:
 
    ```bash
    helm install playbook redis-ai/redis-agent-playbook \
@@ -88,7 +114,7 @@ If your dependencies use a private certificate authority, also [create its CA Se
      --wait --timeout 10m
    ```
 
-   This creates `playbook-controlplane`, `playbook-dataplane`, and `playbook-identity-service` because the values set `fullnameOverride: playbook`.
+   This creates `playbook-controlplane` and `playbook-dataplane` because the values set `fullnameOverride: playbook`. The separate Identity Service release creates `playbook-identity-service`.
 
 ## Verify the deployment
 
@@ -97,6 +123,8 @@ If your dependencies use a private certificate authority, also [create its CA Se
    ```bash
    kubectl -n "$PLAYBOOK_NAMESPACE" get pods \
      -l app.kubernetes.io/instance=playbook
+   kubectl -n "$PLAYBOOK_NAMESPACE" get pods \
+     -l app.kubernetes.io/instance=playbook-identity
    ```
 
 2. Run the chart's checks:

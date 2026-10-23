@@ -921,7 +921,7 @@
                 ]
             },
             "post": {
-                "description": "Registers a client-supplied RAM store reference and FAQ policy. Returns preparing and enabled=false. The control plane asynchronously provisions extraction-worker RAM source read and Playbook destination read/propose grants; both accepted grants make the binding ready, refused grants make it blocked, and dependency outages remain pending for retry. The worker validates live RAM access when extraction runs. Poll GET until ready, then PATCH to enable.",
+                "description": "Validates caller management consent, exact same-account RAM source ownership, destination readiness and execution scope synchronously. Success returns ready and enabled=false. Every explicit enable revalidates with the current caller. Pause/delete require destination management only and make no source or grant-administration request. A foreign or missing source is refused without revealing its metadata.",
                 "operationId": "CreateExtractionBinding",
                 "requestBody": {
                     "content": {
@@ -1458,7 +1458,7 @@
         },
         "/v1/playbooks/{playbookId}/extraction/stores": {
             "get": {
-                "description": "Returns tenant-scoped deployment-configured store suggestions, which may be empty. A client may submit another syntactically valid storeId. No RAM call or approval check occurs.",
+                "description": "Returns tenant-scoped store suggestions, which may be empty. A suggestion does not approve a store. A client may submit another syntactically valid storeId; CreateExtractionBinding checks the caller's access to the store.",
                 "operationId": "ListExtractionStores",
                 "parameters": [
                     {
@@ -1746,7 +1746,7 @@
             },
             "CreateExtractionBindingResponseContent": {
                 "type": "object",
-                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Creation synchronously validates caller consent and exact RAM source ownership, returning ready and disabled. Every explicit enable revalidates with the current caller. Consent is durable account-owned configuration.",
                 "properties": {
                     "bindingId": {
                         "type": "string",
@@ -1768,7 +1768,7 @@
                     },
                     "enabled": {
                         "type": "boolean",
-                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                        "description": "Activation intent. Creation is disabled. A separate enable PATCH revalidates current source consent and ownership, and can recover a blocked binding. Pausing clears intent without a RAM request or source permission."
                     },
                     "version": {
                         "type": "integer",
@@ -1778,7 +1778,7 @@
                     },
                     "blockedReason": {
                         "type": "string",
-                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                        "description": "Machine-readable runtime failure reason, such as source_not_found or source_access_denied. Clients must tolerate unknown reasons."
                     },
                     "createdAt": {
                         "type": "string",
@@ -1919,7 +1919,7 @@
             },
             "DeleteExtractionBindingResponseContent": {
                 "type": "object",
-                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Creation synchronously validates caller consent and exact RAM source ownership, returning ready and disabled. Every explicit enable revalidates with the current caller. Consent is durable account-owned configuration.",
                 "properties": {
                     "bindingId": {
                         "type": "string",
@@ -1941,7 +1941,7 @@
                     },
                     "enabled": {
                         "type": "boolean",
-                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                        "description": "Activation intent. Creation is disabled. A separate enable PATCH revalidates current source consent and ownership, and can recover a blocked binding. Pausing clears intent without a RAM request or source permission."
                     },
                     "version": {
                         "type": "integer",
@@ -1951,7 +1951,7 @@
                     },
                     "blockedReason": {
                         "type": "string",
-                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                        "description": "Machine-readable runtime failure reason, such as source_not_found or source_access_denied. Clients must tolerate unknown reasons."
                     },
                     "createdAt": {
                         "type": "string",
@@ -2048,7 +2048,7 @@
             },
             "ExtractionBinding": {
                 "type": "object",
-                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Creation synchronously validates caller consent and exact RAM source ownership, returning ready and disabled. Every explicit enable revalidates with the current caller. Consent is durable account-owned configuration.",
                 "properties": {
                     "bindingId": {
                         "type": "string",
@@ -2070,7 +2070,7 @@
                     },
                     "enabled": {
                         "type": "boolean",
-                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                        "description": "Activation intent. Creation is disabled. A separate enable PATCH revalidates current source consent and ownership, and can recover a blocked binding. Pausing clears intent without a RAM request or source permission."
                     },
                     "version": {
                         "type": "integer",
@@ -2080,7 +2080,7 @@
                     },
                     "blockedReason": {
                         "type": "string",
-                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                        "description": "Machine-readable runtime failure reason, such as source_not_found or source_access_denied. Clients must tolerate unknown reasons."
                     },
                     "createdAt": {
                         "type": "string",
@@ -2107,7 +2107,7 @@
             },
             "ExtractionBindingSource": {
                 "type": "object",
-                "description": "Typed RAM store reference. This release accepts only redis_agent_memory and a client-supplied storeId. The source is implicitly whole-store. When the deployment enables the RAM connection, server-side preparation verifies store access. Namespace selection and extraction workers arrive later; credentials are never accepted here. Unknown fields are rejected.",
+                "description": "Typed RAM store reference. Only redis_agent_memory with a client-supplied storeId is supported. The source is implicitly whole-store. The control plane verifies source consent and same-account/tenant RAM ownership on create and every explicit enable. Namespace selection is not supported. Credentials are never accepted here. Unknown fields are rejected.",
                 "properties": {
                     "storeId": {
                         "type": "string",
@@ -2127,7 +2127,6 @@
             "ExtractionBindingStatus": {
                 "type": "string",
                 "enum": [
-                    "preparing",
                     "ready",
                     "blocked",
                     "deleting"
@@ -2347,7 +2346,7 @@
             },
             "GetExtractionBindingResponseContent": {
                 "type": "object",
-                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Creation synchronously validates caller consent and exact RAM source ownership, returning ready and disabled. Every explicit enable revalidates with the current caller. Consent is durable account-owned configuration.",
                 "properties": {
                     "bindingId": {
                         "type": "string",
@@ -2369,7 +2368,7 @@
                     },
                     "enabled": {
                         "type": "boolean",
-                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                        "description": "Activation intent. Creation is disabled. A separate enable PATCH revalidates current source consent and ownership, and can recover a blocked binding. Pausing clears intent without a RAM request or source permission."
                     },
                     "version": {
                         "type": "integer",
@@ -2379,7 +2378,7 @@
                     },
                     "blockedReason": {
                         "type": "string",
-                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                        "description": "Machine-readable runtime failure reason, such as source_not_found or source_access_denied. Clients must tolerate unknown reasons."
                     },
                     "createdAt": {
                         "type": "string",
@@ -2863,7 +2862,7 @@
             },
             "UpdateExtractionBindingResponseContent": {
                 "type": "object",
-                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Ready means the configured extraction-worker grants were accepted; the worker validates live RAM access during execution. Without a configured RAM connection, preparation remains pending and cannot be enabled. This release has no extraction worker. Activation requires a separate PATCH after readiness.",
+                "description": "Durable tenant-owned metadata for one Playbook, one RAM store, and one FAQ policy. Creation synchronously validates caller consent and exact RAM source ownership, returning ready and disabled. Every explicit enable revalidates with the current caller. Consent is durable account-owned configuration.",
                 "properties": {
                     "bindingId": {
                         "type": "string",
@@ -2885,7 +2884,7 @@
                     },
                     "enabled": {
                         "type": "boolean",
-                        "description": "Activation intent. Creation is disabled; enabling requires ready status and a separate PATCH. Pausing clears intent and retains prepared source/destination grants."
+                        "description": "Activation intent. Creation is disabled. A separate enable PATCH revalidates current source consent and ownership, and can recover a blocked binding. Pausing clears intent without a RAM request or source permission."
                     },
                     "version": {
                         "type": "integer",
@@ -2895,7 +2894,7 @@
                     },
                     "blockedReason": {
                         "type": "string",
-                        "description": "Machine-readable source preparation or execution failure reason, such as source_grant_refused, source_not_found, or source_access_denied. Clients must tolerate unknown reasons."
+                        "description": "Machine-readable runtime failure reason, such as source_not_found or source_access_denied. Clients must tolerate unknown reasons."
                     },
                     "createdAt": {
                         "type": "string",

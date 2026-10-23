@@ -17,7 +17,8 @@ hideListLinks: true
 | --- | --- |
 | Kubernetes cluster and `kubectl` | Run the services and create Secrets in the deployment namespace. |
 | [Helm 3](https://docs.helm.sh/docs/v3/intro/install/) | Install `redis-ai/redis-agent-playbook` from `https://helm.redis.io/ai`. Check `helm version --short`. |
-| Bash, curl, and jq | Run the administrative API examples. Use a curl version that supports `--fail-with-body`. |
+| Bash, curl, jq, and OpenSSL | Run the administrative API examples. Use a curl version that supports `--fail-with-body`. |
+| Identity Service | Install the standalone `redis-ai/iris-identity-service` chart before Playbook, or register Playbook on an existing release. |
 | License | A Playbooks license or an Iris suite license that includes Playbooks. Contact your Redis representative. |
 | Embedding provider credentials | Configure a provider and model that the deployment can reach. |
 
@@ -29,7 +30,7 @@ The chart consumes existing Redis deployments. It does not provision them.
 
 | Redis deployment | Requirements | Use |
 | --- | --- | --- |
-| Metadata | Core Redis commands and Lua scripting. | Playbook configuration and Identity Service records. |
+| Metadata | Core Redis commands and Lua scripting; JSON commands when extraction is enabled. | Playbook configuration and Identity Service records. |
 | Content | JSON and Search capabilities, including vector indexes. | Authored content, proposals, and retrieval. |
 
 Use physically separate deployments for metadata and content. Different database numbers or credentials on the same Redis endpoint do not satisfy this requirement.

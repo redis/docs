@@ -23,7 +23,7 @@ Keep both administrative tokens out of application configuration and model promp
 
 ## Read the bootstrap credentials
 
-For [chart-generated credentials]({{< relref "/operate/iris/agent-playbook/self-managed/deploy" >}}), use an account that can read Secrets to load the administrative tokens:
+For the two releases' [chart-generated administrative credentials]({{< relref "/operate/iris/agent-playbook/self-managed/deploy" >}}), use an account that can read Secrets to load the administrative tokens:
 
 ```bash
 export PLAYBOOK_ADMIN_TOKEN="$(kubectl -n "$PLAYBOOK_NAMESPACE" get secret \
@@ -32,44 +32,41 @@ export IDENTITY_CONTROL_TOKEN="$(kubectl -n "$PLAYBOOK_NAMESPACE" get secret \
   playbook-identity-service-control-token -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
-The Secret names assume `fullnameOverride: playbook`. If you supply credentials externally, load them from your secret manager instead.
+The Secret names assume the Playbook and Identity Service naming overrides from the deployment values. If you supply credentials externally, load them from your secret manager instead.
 
 Use these tokens to [create a playbook and application keys]({{< relref "/operate/iris/agent-playbook/self-managed/api-examples" >}}). See [playbook grants]({{< relref "/develop/ai/context-engine/agent-playbook/concepts#playbooks" >}}) for allowed actions.
 
 ## Supply service credentials
 
-By default, the chart generates four service credentials. It retains their Secrets and reuses the values during live Helm upgrades.
+Use four distinct credentials. The installation procedure supplies existing Secrets for shared internal and runtime credentials; the two charts generate their own administrative tokens unless you supply them.
 
-For GitOps or offline chart rendering, supply existing Secrets to avoid generating new credentials on each render. Use a different value for each of the four credentials.
-
-| Credential | Helm Secret reference | Used by |
+| Credential | Playbook values | Identity Service values |
 | --- | --- | --- |
-| Control-plane admin token | `controlplane.adminToken.existingSecret` | Operators administering playbooks. |
-| Control-plane internal token | `controlplane.internalToken.existingSecret` | Identity Service validating playbook grants. |
-| Identity Service control token | `identityService.controlToken.existingSecret` | Operators administering application keys. |
-| Identity Service runtime token | `identityService.runtimeToken.existingSecret` | Data plane validating application keys. |
+| Control-plane admin token | `controlplane.adminToken.existingSecret` | Not shared. |
+| Control-plane internal token | `controlplane.internalToken.existingSecret` | `productValidation.products.playbook.credential.existingSecret` |
+| Identity Service control token | Not shared. | `control.existingSecret` |
+| Data-plane runtime credential | `identityService.credential.existingSecret` | `runtime.serviceCredentials[]` entry named `playbook-dp`: `existingSecret` |
 
-Each block supports `secretKey` (default `token`), `autoGenerate`, and `existingSecretChecksum`. Set `autoGenerate: false` to require an externally managed Secret.
+Secret keys default to `token`. The shared values must match on both releases. The runtime credential allows `api-key-introspect` for `playbook`; extraction needs no additional lookup operation. Preserve independently configured service-subject integrations.
 
-For example, provision four Secrets with a `token` key and add this overlay to `playbook-values.yaml`:
+To supply existing administrative tokens too, add this to `playbook-values.yaml`:
 
 ```yaml
 controlplane:
   adminToken:
     existingSecret: playbook-controlplane-admin
     autoGenerate: false
-  internalToken:
-    existingSecret: playbook-controlplane-internal
-    autoGenerate: false
-
-identityService:
-  controlToken:
-    existingSecret: playbook-identity-control
-    autoGenerate: false
-  runtimeToken:
-    existingSecret: playbook-identity-runtime
-    autoGenerate: false
 ```
+
+Add this to `identity-values.yaml`:
+
+```yaml
+control:
+  existingSecret: playbook-identity-control
+  autoGenerate: false
+```
+
+Provision those Secrets before installing. Load externally managed credentials from your secret manager instead of the chart-generated names.
 
 ## Tenant and grant scope
 
@@ -113,8 +110,8 @@ The control plane applies these role tiers:
 | Role | Control-plane access |
 | --- | --- |
 | `viewer` | List models and read playbooks. |
-| `operator` | Viewer access plus create and update playbooks and manage extraction bindings. |
-| `product_admin`, `suite_admin` | Operator access plus clear or delete playbooks. |
+| `operator` | Viewer access plus create and update playbooks; inspect extraction bindings, update their FAQ policy, pause, or delete them. |
+| `product_admin`, `suite_admin` | Operator access plus clear or delete playbooks; list extraction sources, create bindings, and enable or recover them. |
 
 On the data plane, explicitly mapped `product_admin` and `suite_admin` users receive full access within the configured tenant. Unmapped claim values grant no access, even when a value matches an Iris role name. Keep service identities out of human administrator groups.
 
@@ -122,24 +119,21 @@ The issuer and JSON Web Key Set (JWKS) endpoints must use HTTPS unless you set t
 
 ## Configure OIDC access to API-key administration
 
-Identity Service Control has a separate OIDC policy. Configure it when operators must manage application keys without the bootstrap control token:
+Identity Service Control has a separate OIDC policy. Add this to `identity-values.yaml` when operators must manage application keys without the bootstrap control token:
 
 ```yaml
-identityService:
-  controlAuth:
-    oidc:
-      enabled: true
-      issuer: https://<identity-provider-host>/<issuer-path>
-      jwks_uri: https://<identity-provider-host>/<jwks-path>
-      audience:
-        - <identity-service-audience>
-      role_mappings:
-        <playbook-admin-group>: product_admin
-    roleBindings:
-      - claim_value: <playbook-admin-group>
-        scope: product
-        product: playbook
-        role: product_admin
+controlAuth:
+  oidc:
+    enabled: true
+    issuer: https://<identity-provider-host>/<issuer-path>
+    jwks_uri: https://<identity-provider-host>/<jwks-path>
+    audience:
+      - <identity-service-audience>
+  roleBindings:
+    - claim_value: <playbook-admin-group>
+      scope: product
+      product: playbook
+      role: product_admin
 ```
 
-The control token remains available as a deployment-administration credential. By default, `identityService.apiKeyTenant.singleTenantID` inherits `tenantId`. Identity Service fills an omitted grant tenant with that value and rejects grants for another tenant.
+The control token remains available as a deployment-administration credential. Set `runtime.apiKeyTenant.singleTenantID` in the Identity Service values to Playbook's `tenantId`. Identity Service fills an omitted grant tenant with that value and rejects grants for another tenant.

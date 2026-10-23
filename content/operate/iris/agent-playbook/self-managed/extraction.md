@@ -24,91 +24,71 @@ Prepare these values before enabling extraction:
 | Redis Agent Memory store ID | Source store for one extraction binding. The store tenant must match `tenantId`. |
 | ServiceAccount issuer and JSON Web Key Set (JWKS) URI | Validate projected control-plane and worker tokens. |
 | Redis Agent Memory data-plane URL | Let the worker read sessions. |
-| Redis Agent Memory Identity Service URL | Let the Playbook control plane prepare source grants. |
+| Redis Agent Memory control-plane URL | Discover stores and verify source ownership. |
 | Queue Redis URL | Store extraction jobs. Use persistence, `noeviction`, and capacity monitoring. Do not reuse Playbook metadata or content Redis. |
 | Generation provider and model | Extract and consolidate FAQ candidates. These credentials are separate from the embedding configuration. |
 
-Use certificate-verified endpoints. Both data planes must reach the issuer's JWKS. Configure network policy for the control plane, worker, Redis, identity, and model-provider paths.
+Use certificate-verified endpoints. The Memory control plane and both data planes must reach the issuer's JWKS. Configure network policy for the control plane, worker, Redis, identity, and model-provider paths.
 
 ## Configure Redis Agent Memory trust
 
-Redis Agent Memory must trust the Playbook worker for store reads and the Playbook control plane for grant preparation. With release `playbook`, namespace `<namespace-name>`, and `fullnameOverride: playbook`, the subjects are:
+Redis Agent Memory trusts separate Playbook identities for source reads and ownership checks. With release `playbook`, namespace `<namespace-name>`, and `fullnameOverride: playbook`, the subjects are:
 
 - `system:serviceaccount:<namespace-name>:playbook-worker`
 - `system:serviceaccount:<namespace-name>:playbook-controlplane`
 
-Add these settings to the Redis Agent Memory values. Merge the list entries with its existing worker identities, grant policies, and runtime credentials:
+Add these settings to the Redis Agent Memory values. Merge entries with existing identity lists, preserving Memory's own worker and application agent-key authentication:
 
 ```yaml
 memory:
   auth:
-    service_subjects:
-      enabled: true
-      issuer: https://<service-account-issuer>
-      jwks_uri: https://<service-account-jwks-uri>
-      audience:
-        - api://memory-dp
-      subjects:
-        - system:serviceaccount:<namespace-name>:playbook-worker
-
-identityService:
-  subjectGrants:
-    allowed:
-      - product: memory
-        resourceType: mem-store
-        actions:
-          - read
-  controlAuth:
-    workloadIdentity:
-      enabled: true
-      issuer: https://<service-account-issuer>
-      jwks_uri: https://<service-account-jwks-uri>
-      audience:
-        - api://memory-identity-control
-      subjects:
-        - subject: system:serviceaccount:<namespace-name>:playbook-controlplane
-          tenant: <tenant-id>
-          roles:
-            - subject_grant_admin
+    method: agent_key
+    jwt_subjects:
+      - issuer: https://<service-account-issuer>
+        jwks_uri: https://<service-account-jwks-uri>
+        audience: [api://memory-dp]
+        subjects:
+          - subject: "system:serviceaccount:<namespace-name>:playbook-worker"
+            authority: static
+            roles: [viewer]
+            resources:
+              "mem-store:*":
+                permissions: [read]
+controlplane:
+  configData:
+    auth:
+      workload_identity:
+        enabled: true
+        issuer: https://<service-account-issuer>
+        jwks_uri: https://<service-account-jwks-uri>
+        audience: [api://memory-cp]
+        subjects:
+          - subject: "system:serviceaccount:<namespace-name>:playbook-controlplane"
+            tenant: "<tenant-id>"
+            roles: [viewer]
 ```
 
-The Redis Agent Memory data-plane runtime credential must also allow `subject-grant-lookup`. For example, preserve its current settings and include both runtime operations:
+The control-plane viewer must use the same tenant as Playbook's `tenantId`. Do not give it `suite_admin`, which bypasses Memory's ownership checks. This viewer verifies ownership; it does not supply the operator's consent. Playbook extraction needs no Identity Service subject grants, lookup credential, or Control administration identity. Keep unrelated service-subject integrations configured separately.
 
-```yaml
-identityService:
-  runtime:
-    serviceCredentials:
-      - name: memory-dp
-        subject: memory-dp
-        secretKey: token
-        autoGenerate: true
-        allowedOperations:
-          - api-key-introspect
-          - subject-grant-lookup
-        allowedProducts:
-          - memory
-```
+The `mem-store:*` wildcard gives this dedicated worker read access to all stores served by the Memory data plane. Binding configuration controls which sources it processes. Both Memory planes must trust the issuer's certificate authority and reach its JWKS endpoint.
 
 See the [Redis Agent Memory authentication guide]({{< relref "/operate/iris/agent-memory/self-managed/authentication" >}}) before changing an existing authentication configuration.
 
 ## Configure Playbooks extraction
 
-Save `playbook-extraction-values.yaml`. Start with the worker disabled:
+Save `playbook-extraction-values.yaml`. The worker starts without an active binding; creating a binding does not enable it:
 
 ```yaml
 extraction:
   enabled: true
-  sources:
-    - tenant_id: <tenant-id>
-      store_id: <memory-store-id>
   connection:
     enabled: true
     issuer: https://<service-account-issuer>
     jwksURI: https://<service-account-jwks-uri>
-    identityServiceBaseURL: https://<memory-identity-service-host>
+    ramControlPlaneBaseURL: https://<memory-control-plane-host>
 
 worker:
-  enabled: false
+  enabled: true
   replicaCount: 1
   region: <region>
   existingSecret: playbook-extraction-worker
@@ -118,7 +98,7 @@ worker:
   extractConcurrency: 1
 ```
 
-The chart adds its worker subject to the connection automatically. Use `extraction.connection.workerSubjects` only for additional worker identities. To discover stores from Redis Agent Memory instead of listing `extraction.sources`, configure `ramControlPlaneBaseURL` and its workload identity. Do not configure both discovery methods.
+The chart projects separate tokens for the control plane and worker. Their audiences must match the Memory trust configuration. The control plane discovers stores live; no per-store deployment list is required. Keep the configured service endpoints fixed for the deployment.
 
 Save the private worker configuration as `worker.yaml`:
 
@@ -168,7 +148,17 @@ helm upgrade playbook redis-ai/redis-agent-playbook \
 
 ## Create and enable a binding
 
-Create a disabled binding for the source store:
+Use the installation admin token, or a same-tenant OpenID Connect (OIDC) user mapped to `product_admin` or `suite_admin`, to list sources, create a binding, or enable it. Operator and viewer roles cannot authorize those actions.
+
+Discover the current source stores for the destination playbook:
+
+```bash
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_CONTROL_URL/v1/playbooks/$PLAYBOOK_ID/extraction/stores" \
+  -H "Authorization: Bearer $PLAYBOOK_ADMIN_TOKEN" | jq
+```
+
+Choose an owned store and create a disabled binding. The control plane verifies the exact source again; an earlier listing is not authorization:
 
 ```bash
 jq -n --arg store '<memory-store-id>' '{
@@ -190,17 +180,11 @@ curl --fail-with-body --silent --show-error \
 export BINDING_ID="$(jq -er '.bindingId' binding.json)"
 ```
 
-Read the binding until `status` is `ready`. A ready binding confirms store ownership and prepared source and destination grants. It does not confirm worker or model connectivity.
+Successful creation returns HTTP `202`, `status: ready`, and `enabled: false`. Readiness confirms caller consent, exact source ownership, destination readiness, and supported deployment scope. It does not confirm worker or model connectivity.
 
-Set `worker.enabled: true` in `playbook-extraction-values.yaml`, apply the values again, and verify the worker:
+Verify the worker before activation:
 
 ```bash
-helm upgrade playbook redis-ai/redis-agent-playbook \
-  --version "$PLAYBOOK_CHART_VERSION" \
-  --namespace "$PLAYBOOK_NAMESPACE" \
-  -f playbook-values.yaml \
-  -f playbook-extraction-values.yaml \
-  --wait --timeout 10m
 kubectl -n "$PLAYBOOK_NAMESPACE" rollout status deploy/playbook-worker
 ```
 
@@ -220,10 +204,14 @@ curl --fail-with-body --silent --show-error \
   --data-binary @activation.json > binding.json
 ```
 
+Every explicit enable revalidates the current caller's consent and source ownership. Permission denial or a Memory outage leaves the binding unchanged. Re-enabling a valid blocked binding clears its blocked reason. An enabled binding belongs to the tenant; removing its creator's individual role does not automatically stop it.
+
 The worker checks bindings every five minutes. Sessions must remain idle for 30 minutes by default. Set `job.idleWindowSeconds` from 60 to 86,400 when creating or updating a binding. Review generated proposals and evidence before publication.
 
 ## Pause or remove extraction
 
-Pause a binding by sending `enabled: false` with its current `expectedVersion`. Pausing retains prepared grants. Delete the binding and wait for reads to return `404` before disabling `extraction.connection` or removing Redis Agent Memory trust.
+An authorized destination manager can pause a binding with `enabled: false` and its current `expectedVersion`, or delete it. Neither operation requires source permissions or a successful Memory request. Both work when `extraction.enabled: false` or Memory is unavailable. Deletion removes scheduling intent, not source data, proposals, or FAQs.
 
-To stop new extraction configuration while retaining cleanup, set `extraction.enabled: false` and leave `extraction.connection.enabled: true`. Stop the worker only after pausing affected bindings. Scrape its `/metrics` endpoint on port `9203` and monitor queue age, permanent failures, exhausted attempts, lease loss, provider errors, and dispatch staleness.
+Pause and deletion fence subsequent extraction work. Requests already accepted by an external service can complete. They do not revoke the worker's static identity. To revoke its access, remove that worker's trust from both data planes and roll all replicas.
+
+Set `extraction.enabled: false` to block binding creation and activation. For an orderly shutdown, pause the bindings before stopping the worker. Scrape its `/metrics` endpoint on port `9203` and monitor queue age, permanent failures, exhausted attempts, lease loss, provider errors, and dispatch staleness.
