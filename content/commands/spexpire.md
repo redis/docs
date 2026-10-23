@@ -99,7 +99,7 @@ The time to live, in milliseconds. Each specified member is removed after this m
 
 <details open><summary><code>MEMBERS nummembers member [member ...]</code></summary>
 
-The set members to set expiration for. `nummembers` is the number of members, followed by that many member names.
+The set members to specify expiration for. `nummembers` is the number of members, followed by that many member names.
 
 </details>
 
@@ -109,25 +109,25 @@ The following options modify the command's behavior. They are mutually exclusive
 
 <details open><summary><code>NX</code></summary>
 
-For each specified member, set expiration only when the member has no expiration.
+For each specified member, apply the expiration only when the member has no expiration.
 
 </details>
 
 <details open><summary><code>XX</code></summary>
 
-For each specified member, set expiration only when the member has an existing expiration.
+For each specified member, apply the expiration only when the member has an existing expiration.
 
 </details>
 
 <details open><summary><code>GT</code></summary>
 
-For each specified member, set expiration only when the new expiration is greater than the current one. A member with no expiration is treated as having an infinite TTL for the purposes of `GT`.
+For each specified member, apply the expiration only when the new expiration is greater than the current one. A member with no expiration is treated as having an infinite TTL for the purposes of `GT`.
 
 </details>
 
 <details open><summary><code>LT</code></summary>
 
-For each specified member, set expiration only when the new expiration is less than the current one. A member with no expiration is treated as having an infinite TTL for the purposes of `LT`.
+For each specified member, apply the expiration only when the new expiration is less than the current one. A member with no expiration is treated as having an infinite TTL for the purposes of `LT`.
 
 </details>
 

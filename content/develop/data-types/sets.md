@@ -177,17 +177,17 @@ set without removing it using the [`SRANDMEMBER`](/content/commands/srandmember.
 
 ## Member expiration
 
-Redis 8.12 introduced the ability to set an expiration time or a time to live (TTL) on individual set members.
+Redis 8.12 introduced the ability to specify an expiration time or a time to live (TTL) for individual set members.
 Redis removes each member from the set automatically when its TTL expires.
 This capability is comparable to [key expiration](/content/develop/using-commands/keyspace.md#key-expiration) and to [hash field expiration](/content/develop/data-types/hashes.md#field-expiration), and it uses a similar set of commands.
 
-Use the following commands to set either an exact expiration time or a TTL for specific members:
+Use the following commands to specify either an exact expiration time or a TTL for specific members:
 
 * [`SEXPIRE`](/content/commands/sexpire.md): set the remaining TTL in seconds.
 * [`SPEXPIRE`](/content/commands/spexpire.md): set the remaining TTL in milliseconds.
 * [`SEXPIREAT`](/content/commands/sexpireat.md): set the expiration time to a timestamp[^1] specified in seconds.
 * [`SPEXPIREAT`](/content/commands/spexpireat.md): set the expiration time to a timestamp specified in milliseconds.
-* [`SADDEX`](/content/commands/saddex.md): add members to a set and optionally set their expiration time or TTL in the same command.
+* [`SADDEX`](/content/commands/saddex.md): add members to a set and optionally specify their expiration time or TTL in the same command.
 
 [^1]: All timestamps are specified in seconds or milliseconds since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time).
 

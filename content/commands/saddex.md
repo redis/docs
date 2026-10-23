@@ -97,7 +97,7 @@ syntax_fmt: "SADDEX key [MNX | MXX] [EX\_seconds | PX\_milliseconds |\n  EXAT\_u
   \ ...]"
 title: SADDEX
 ---
-Add one or more members to a set, and optionally set their expiration time or time to live (TTL). If the key doesn't exist, Redis creates a new set.
+Add one or more members to a set, and optionally specify their expiration time or time to live (TTL). If the key doesn't exist, Redis creates a new set.
 
 ## Required arguments
 

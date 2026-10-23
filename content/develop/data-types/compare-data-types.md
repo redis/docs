@@ -130,7 +130,7 @@ and deques.
 Sets store collections of unique strings. They provide efficient
 operations for testing membership, adding and removing elements.
 They also support set operations like intersection, union, and difference.
-You can set expirations on individual set members.
+You can specify expirations for individual set members.
 
 ### Sorted sets
 

@@ -110,7 +110,7 @@ redis> SMEMBERS key
 
 ## Details
 
-Members keep their expirations in `destination`. When a member has an expiration in more than one source set, `destination` gets the nearest one. Source sets in which the member has no expiration are ignored, so the member keeps an expiration if any source set gives it one. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+Members keep their expirations in `destination`. When a member has an expiration in more than one source set, `destination` gets the one nearest in the future. Source sets in which the member has no expiration are ignored, so the member keeps an expiration if any source set gives it one. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
 
 ## Redis Software and Redis Cloud compatibility
 
