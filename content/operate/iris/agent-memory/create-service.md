@@ -131,7 +131,7 @@ To add a custom memory type, select **Add type** and configure the following set
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Name** | A unique name for the custom memory type. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). The name must be unique within the service and cannot match a built-in memory type (`semantic`, `episodic`, `message`, or `session_summary_view`). |
+| **Name** | A unique name for the custom memory type. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). The name must be unique within the service and cannot match a built-in memory type. |
 | **Description** | A short description of what the memory type represents (1–200 characters). |
 | **Fields** | The structured fields that make up the memory type. See [Fields](#fields) below. |
 

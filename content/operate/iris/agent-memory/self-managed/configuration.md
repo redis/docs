@@ -373,8 +373,79 @@ memory:
       timeout: 30s
 ```
 
-Use the deployment's configured model-provider connection and supply its credential through the overlay Secret. The selected provider must support the required text or structured generation; the OpenAI connection uses `chat_completions` for structured output. These numbers are example limits, not service-wide defaults.
+Use the deployment's configured model-provider connection and supply its credential through the overlay Secret. The selected provider must support the required text or structured generation; the OpenAI connection uses `chat_completions` for structured output. These numbers are examples. Required bounds have no defaults when Summary Views are enabled; set them explicitly and validate them under your expected load.
+
+| Bounds | How to choose them |
+|:-------|:-------------------|
+| `max_input_tokens`, `generation.max_output_tokens` | Leave room for the prompt and output within the selected model’s context limit. |
+| `max_source_records`, `max_source_tokens`, `max_partitions`, `max_definitions` | Bound the amount of data each store can summarize and retain. Test representative source sizes and grouping values. |
+| `max_concurrent_refreshes`, `max_concurrent_refreshes_per_store` | Budget model-provider requests and Redis load. Both caps apply per worker replica; multiply by the replica count when sizing capacity. |
+| Debounce and reconciliation intervals | Balance result freshness against repeated generation cost. |
+| `generation.timeout`, `cleanup_timeout` | Allow measured generation and cleanup time while bounding stalled work. |
+| `page_size`, `cleanup_batch_size`, `schedule_repair_interval` | Test scan and cleanup throughput against Redis capacity. |
 
 With a bring-your-own file, place `summary_views` at the file root. Keep the Redis job backend, authenticated worker callbacks, and scheduling worker enabled. Roll out server and worker together, then [create and refresh a view](/content/develop/ai/context-engine/agent-memory/summary-views.md). A private view needs an authenticated user; an ordinary agent key alone does not supply one.
 
 Each view retains its source-access policy. Replace existing definitions when changing ownership enforcement rather than expecting a flag change to rewrite them.
+
+## Enable ingestion webhooks
+
+Start with the [self-managed deployment](/content/operate/iris/agent-memory/self-managed/deploy.md). These are process settings; a client cannot enable them through a request header.
+
+An operator must configure both Data Plane servers and workers:
+
+1. Enable `memory.webhooks.enabled` in chart-rendered configuration, or `webhooks.enabled` at the root of a bring-your-own file.
+1. Enable the Redis job backend and [authenticated worker callbacks](/content/operate/iris/agent-memory/self-managed/authentication.md#worker-callbacks).
+1. Configure the same signing-secret backend and prefix in the Control Plane, Data Plane, and worker. Supported backends are Vault and AWS Secrets Manager. The Control Plane writes keys; Data Plane processes read them.
+1. Serve the receiver over HTTPS with a certificate trusted by the Data Plane.
+1. For a private receiver address, allow its range in `memory.webhooks.private_cidrs` on both servers and workers.
+
+For example, allow one private receiver address in Helm values:
+
+```yaml
+memory:
+  webhooks:
+    enabled: true
+    private_cidrs:
+      - <receiver-private-ip>/32
+```
+
+Delivery checks all resolved addresses at connection time. Redirects and environment HTTP proxies are not used. An allowlist cannot permit loopback, link-local, metadata-service, multicast, or other protected addresses. A localhost URL is not a production callback endpoint.
+
+For Vault, use matching application configuration in the Data Plane and Control Plane:
+
+```yaml
+secrets:
+  provider: vault
+vault:
+  address: https://<vault-host>:8200
+  mount: secret
+  base_path: agent-memory
+```
+
+In chart-rendered values, put this under `memory` and `controlplane.configData`, respectively. Supply `vault.token` through a mounted configuration Secret. The Control Plane needs permission to write and delete signing-key versions; servers and workers need read permission. Keep real Vault tokens and callback keys out of source control.
+
+Before enabling output hooks on an existing deployment, upgrade workers first, then servers, and drain jobs queued by the older release. Keep hooks disabled until both sides support them. Setting the deployment flag to false stops delivery and fails selected work closed; it does not approve pending operations.
+
+For Active-Active backing databases, route every server and worker for a store through the same authoritative writer connection. Do not mix member addresses or use region-dependent aliases for that connection. Before changing writers, drain old writers, wait for replication, and restart the processes to clear old connections. A store with hook history fails closed if its persisted writer connection is missing or invalid; regional queue ownership does not make independent writers safe.
+
+Then [configure a store policy](/content/operate/iris/agent-memory/self-managed/api-examples.md#configure-a-webhook-policy) and deploy a [callback receiver](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#verify-callbacks-and-return-decisions).
+
+## Enable namespace routing
+
+Use the same switches on the server and worker. For chart-rendered configuration, add:
+
+```yaml
+memory:
+  namespace_features:
+    api: true
+    routing:
+      policy_api: true
+      automatic: true
+      admission: true
+      strategies: [matcher_spec]
+```
+
+For a bring-your-own file, put `namespace_features` at the file root. This example enables the `matcher_spec` strategy used by the regex policy in the routing guide.
+
+After rollout, use the read-policy request in [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespace-routing.md#configure-a-policy). A successful response confirms that the policy API is available. Read the returned `policy.enabled` value; saving a policy with `enabled: true` enables it for that store. API availability alone does not prove that automatic routing or admission is enabled, so check the process settings as well.

@@ -91,4 +91,4 @@ provides searchable context across sessions.
 
 Long-term memory `memoryType` is an open identifier. When omitted on create,
 Redis Agent Memory stores the record as `semantic`; built-in names include `semantic`,
-`episodic`, `message`, and `session_summary_view`.
+`episodic`, and `message`.

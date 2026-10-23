@@ -28,76 +28,7 @@ Every client needs the service endpoint, Store ID, and application programming i
 
 ### Manage a service with the Control Plane SDK
 
-The same package supplies two independently configured clients:
-
-| Client | Purpose | Connection and credential |
-|:-------|:--------|:--------------------------|
-| `AgentMemoryService` | Manage stores and extractors. Supply the store ID on each call. | Control Plane URL and operator `token`. |
-| `AgentMemory` | Read and write memory within the store selected by the constructor. | Data Plane URL, Store ID, and application credential. |
-
-Use the self-managed Control Plane admin token or supported operator token with `AgentMemoryService`. Its SDK uses `/v2/memory` routes; the self-managed `/v1` admin API remains available. The SDK does not derive a Data Plane URL or credential from a Control Plane response.
-
-Set `AGENT_MEMORY_CONTROL_PLANE_URL` and `AGENT_MEMORY_SERVICE_TOKEN` separately from `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY`. These examples read the store and check Data Plane health:
-
-{{< multitabs id="memory-service-sdk" tab1="Python" tab2="TypeScript" >}}
-
-```python
-import asyncio
-import os
-
-from redis_agent_memory import AgentMemory, AgentMemoryService
-
-
-async def main():
-    async with AgentMemoryService(
-        server_url=os.environ["AGENT_MEMORY_CONTROL_PLANE_URL"],
-        token=os.environ["AGENT_MEMORY_SERVICE_TOKEN"],
-    ) as service:
-        store = await service.get_store_async(store_id=os.environ["STORE_ID"])
-        print("Store:", store.name)
-    async with AgentMemory(
-        os.environ["AGENT_MEMORY_URL"], store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
-    ) as memory:
-        print((await memory.store_health_async()).status)
-
-
-asyncio.run(main())
-```
-
--tab-sep-
-
-```typescript
-import { AgentMemory, AgentMemoryService } from "@redis-iris/agent-memory";
-
-async function main() {
-  const { AGENT_MEMORY_CONTROL_PLANE_URL, AGENT_MEMORY_SERVICE_TOKEN,
-    AGENT_MEMORY_URL, STORE_ID, API_KEY } = process.env;
-  if (!AGENT_MEMORY_CONTROL_PLANE_URL || !AGENT_MEMORY_SERVICE_TOKEN ||
-      !AGENT_MEMORY_URL || !STORE_ID || !API_KEY) {
-    throw new Error("Set both planes' connection values.");
-  }
-  const service = new AgentMemoryService({
-    serverURL: AGENT_MEMORY_CONTROL_PLANE_URL, token: AGENT_MEMORY_SERVICE_TOKEN,
-  });
-  console.log("Store:", (await service.getStore(STORE_ID)).name);
-  const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
-  console.log((await memory.storeHealth()).status);
-}
-
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : "Request failed");
-  process.exitCode = 1;
-});
-```
-
-{{< /multitabs >}}
-
-If omitted, the Control Plane token is read from `AGENT_MEMORY_SERVICE_TOKEN`; it does not fall back to the Data Plane key. Python service models, errors, and retry helpers use `redis_agent_memory.controlplane`; Data Plane imports remain separate. Use each client's corresponding error classes.
-
-Store and extractor management, detectors, and memory-type reference data have Cloud and self-managed API implementations. The generated client also includes Cloud-only account database, end user license agreement (EULA), network, store-model, metrics, flush, and empty-store operations; those return `404` on-prem. The current Cloud Control Plane does not accept a programmatic credential for this SDK. Use the Cloud console for Cloud service setup rather than sending a Data Plane key or assuming a console session is a service token.
-
-See [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md#create-an-extractor) for extractor administration and the [self-managed Control Plane reference](/content/operate/iris/agent-memory/self-managed/control-plane-api-reference.md) for the admin REST API. Webhook-policy configuration uses the admin REST API; it is not a method on the current service SDK.
+For store and extractor administration, see [Manage a service with the Control Plane SDK](/content/operate/iris/agent-memory/self-managed/api-examples.md#manage-a-service-with-the-control-plane-sdk). Keep operator credentials separate from application credentials.
 
 ## Identify users and conversations
 
@@ -198,24 +129,23 @@ See [View and edit service configuration]({{< relref "/operate/iris/agent-memory
 
 A failed request is different from a successful search with no matches. Handle the returned error before you use the result:
 
-| Failure | Application response |
-|:--------|:---------------------|
-| Authentication error | Check the configured API key. Retrying with the same invalid key will not help. |
-| Invalid request | Read the error details and correct the field or filter before retrying. |
-| Search timeout | If the assistant can answer from the current conversation, continue without recalled memories. Otherwise, tell the user that memory is unavailable and ask them to retry. |
-| Event-write timeout | Retrieve the session and check whether the event was stored before sending it again. Compare its actor, timestamp, and content. Repeating a write can create a duplicate. |
-
 ### Handle typed errors and partial results
 
-| Status or result | Action |
-|:-----------------|:-------|
-| `401` | Refresh or correct the credential. An expired delegated user token needs the application's login/token lifecycle. |
-| `403` or a hidden personal-record `404` | Check store grants and authenticated ownership. Changing an owner filter does not grant access. |
-| `409` | Correct an archived namespace destination or a stale extractor/hook-policy revision before retrying. |
-| `423` | The resource is suspended. Restore its availability before retrying. |
-| `424` | Inspect the typed failed-dependency error and its problem type. |
-| `429` or retryable `5xx` | Use bounded backoff and honor retry timing. Retrying a write also needs its operation's idempotency or recovery contract. |
-| Successful bulk response with `errors` | Inspect every item. Other records can already be created, deleted, or moved. |
+| What you see | What it means | What to do |
+|:-------------|:--------------|:-----------|
+| Empty `items` | No memories match yet. | Continue with session context. |
+| Invalid request | A field or filter is invalid. | Correct it using the error details. |
+| `401` | The credential is invalid or expired. | Correct the key or refresh the user's token. |
+| `403` or a hidden personal-record `404` | Store access or ownership prevents the request. | Check grants and authenticated identity. An owner filter cannot grant access. |
+| `409` | A resource conflicts, such as an archived destination or stale revision. | Correct the destination or read the current revision before retrying. |
+| `423` | The resource is suspended. | Restore its availability. |
+| `424` | A dependency failed. | Inspect the typed error and problem type. |
+| `429` or retryable `5xx` | The request is throttled or temporarily unavailable. | Use bounded backoff and honor retry timing. |
+| Search timeout | Recall did not complete. | Use session context if it is enough to answer. Otherwise, report memory unavailability. |
+| Event-write timeout | The write may already have succeeded. | Retrieve the session before retrying; repeated writes can add duplicate events. |
+| Successful bulk response with `errors` | Some records failed; others may already be changed. | Inspect every item before deciding what to retry. |
+
+Before retrying a write, follow its idempotency or recovery contract.
 
 The operation's response contract determines its `424` exception class. For example, search uses `MemoryFailedDependencyErrorResponseContent`, while store health uses `FailedDependencyErrorResponseContent`. Both can report unavailable resources or database memory exhaustion; the memory response also covers model credentials and quota failures. Inspect the problem type as well as the class. Python exceptions are in `redis_agent_memory.errors`, with problem fields under `error.data`. TypeScript exceptions are in `@redis-iris/agent-memory/models/errors`.
 
@@ -252,23 +182,11 @@ async def main():
 asyncio.run(main())
 ```
 
-The ingestion-hook `503` retry error and `422` stopped error also have distinct types and recovery rules. See [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). Use store-scoped `store_health`/`storeHealth` for current servers; a retained SDK `health()` method does not establish that a server still serves `/health`.
+The ingestion-hook `503` retry error and `422` stopped error also have distinct types and recovery rules. See [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). To check the store, use `store_health` (Python) or `storeHealth` (TypeScript).
 
-### Preserve TypeScript argument positions when upgrading
+## Create long-term memories
 
-TypeScript listing methods use positional arguments. Their new parameters do not all occupy the same position:
-
-| Method | Relevant positions |
-|:-------|:-------------------|
-| `listNamespaces` | Request options remain sixth; `sortBy` and `sortOrder` are seventh and eighth. |
-| `listSessions` | `includeAll` is fourth, request options fifth, and namespace filtering sixth. |
-| `listSessionSummaries` | Namespace filtering is fourth, then `includeAll`, `sortBy`, `sortOrder`, and request options. |
-
-Pass `undefined` for skipped positions. Python uses named arguments. See [namespace sorting](/content/develop/ai/context-engine/agent-memory/namespaces.md#sort-namespaces) and [session listing](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for complete examples.
-
-### Create long-term memories
-
-Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID, and check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
+Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; ownership checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
 
 See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
 

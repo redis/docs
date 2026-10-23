@@ -11,7 +11,9 @@ title: Extract memories from documents with MemoryETL
 weight: 13
 ---
 
-MemoryETL extracts long-term memories from text or Markdown documents. For example, a travel assistant can learn facts from a destination guide before a user starts a conversation. An extractor selects a custom memory type and the instructions used to produce records.
+MemoryETL uses extract, transform, load (ETL) processing to turn text or Markdown documents into long-term memories. For example, a travel assistant can learn facts from a destination guide before a user starts a conversation.
+
+An **extractor** tells MemoryETL what to extract: a custom memory type and instructions for the model. Creating an extractor is an administrative task. Applications can then submit documents to it.
 
 Use [session extraction](/content/develop/ai/context-engine/agent-memory/sessions.md) for conversation events. Use [direct memory creation](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) when your application already has the records it wants to save.
 
@@ -26,91 +28,10 @@ Install the SDK using the [quickstart](/content/develop/ai/context-engine/agent-
 | `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY` | The Data Plane endpoint, store, and application credential. |
 | `OWNER_ID` | The authenticated application's user ID for this document. |
 | `USER_TOKEN` | The user's token for an enforced self-managed service. See [delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). |
-| `AGENT_MEMORY_CONTROL_PLANE_URL` | The Control Plane endpoint, separate from the Data Plane. |
-| `AGENT_MEMORY_SERVICE_TOKEN` | The Control Plane admin token or supported operator token. It is not the Data Plane agent key. |
-
-Keep Control Plane credentials in trusted operator code. A Cloud console session is not a programmatic Control Plane credential; these setup examples use the self-managed API.
 
 ## Create an extractor
 
-First register a custom memory type on the store. For a new `document_fact` type, run this once:
-
-```sh
-curl --fail-with-body --silent --show-error --request PATCH \
-  --header "Authorization: Bearer $AGENT_MEMORY_SERVICE_TOKEN" \
-  --header 'Content-Type: application/json' \
-  --data '{"addCustomMemoryTypes":[{"name":"document_fact","description":"Useful facts extracted from documents"}]}' \
-  "$AGENT_MEMORY_CONTROL_PLANE_URL/v2/memory/stores/$STORE_ID" | jq
-```
-
-Use an existing registered type instead if it already has the fields you need. Existing types cannot be redefined by adding them again.
-
-Create an extractor with `source: documents` and `strategy: custom`. Save its returned `id` as `EXTRACTOR_ID`:
-
-{{< multitabs id="document-extractor" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-import asyncio
-import os
-
-from redis_agent_memory import AgentMemoryService
-
-
-async def main():
-    async with AgentMemoryService(
-        server_url=os.environ["AGENT_MEMORY_CONTROL_PLANE_URL"],
-        token=os.environ["AGENT_MEMORY_SERVICE_TOKEN"],
-    ) as service:
-        extractor = await service.create_extractor_async(
-            store_id=os.environ["STORE_ID"],
-            name="Travel guide facts", memory_type="document_fact",
-            source="documents", strategy="custom",
-            prompt="Extract useful travel facts. Keep each fact in one memory.",
-        )
-        print(extractor.model_dump_json(by_alias=True))
-
-
-asyncio.run(main())
-```
-
--tab-sep-
-
-```typescript
-import { AgentMemoryService } from "@redis-iris/agent-memory";
-
-async function main() {
-  const { AGENT_MEMORY_CONTROL_PLANE_URL, AGENT_MEMORY_SERVICE_TOKEN, STORE_ID } = process.env;
-  if (!AGENT_MEMORY_CONTROL_PLANE_URL || !AGENT_MEMORY_SERVICE_TOKEN || !STORE_ID) {
-    throw new Error("Set the Control Plane connection values and STORE_ID.");
-  }
-  const service = new AgentMemoryService({
-    serverURL: AGENT_MEMORY_CONTROL_PLANE_URL, token: AGENT_MEMORY_SERVICE_TOKEN,
-  });
-  console.dir(await service.createExtractor(STORE_ID, {
-    name: "Travel guide facts", memoryType: "document_fact",
-    source: "documents", strategy: "custom",
-    prompt: "Extract useful travel facts. Keep each fact in one memory.",
-  }), { depth: null });
-}
-
-main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $AGENT_MEMORY_SERVICE_TOKEN" \
-  --header 'Content-Type: application/json' \
-  --data '{"name":"Travel guide facts","memoryType":"document_fact","source":"documents","strategy":"custom","prompt":"Extract useful travel facts. Keep each fact in one memory."}' \
-  "$AGENT_MEMORY_CONTROL_PLANE_URL/v2/memory/stores/$STORE_ID/extractors" | jq
-```
-
-{{< /multitabs >}}
-
-Set `destinationNamespaceId` when creating an extractor to place its output in one namespace in the same store. Use a stable namespace ID, not a display name. Personal destinations must be compatible with the document owner; shared placement does not make the original document accessible to every reader of the extracted memories.
-
-List or read extractors before editing them. Updates and removal require the current `expectedRevision`; a stale revision returns `409`. An update can change the name, prompt, enabled flag, or destination. An empty destination clears it; omission keeps it. Accepted ingestions retain their extractor snapshot, so a later edit does not change an existing run.
+Ask your operator to [register a memory type and create a document extractor](/content/operate/iris/agent-memory/self-managed/api-examples.md#create-an-extractor). Set `EXTRACTOR_ID` to the returned extractor ID. Applications use their Data Plane credential to submit documents.
 
 ## Submit and track a document
 
@@ -122,7 +43,19 @@ Kyoto has vegetarian restaurants near its central railway station.
 
 Only `text/plain` and `text/markdown` are accepted. Encode the UTF-8 bytes as base64 **once** before passing `content` to REST or an SDK. The SDK expects the encoded string, not a file object or raw text.
 
-Each submission requires `documentId`, `revision`, `content`, `mediaType`, `ownerId`, `extractorId`, and `idempotencyKey`. The document ID identifies a logical document. Its revision is immutable and case-sensitive; use a new revision when its content changes. Neither ID is the server-generated ingestion ID.
+Each submission requires these fields:
+
+| Field | Purpose | Example |
+|:------|:--------|:--------|
+| `documentId` | Your ID for the logical document. | `travel-guide` |
+| `revision` | An immutable, case-sensitive version. Use a new value when the content changes. | `1` |
+| `content` | The file's UTF-8 bytes, base64-encoded once. | The examples encode `travel-guide.md`. |
+| `mediaType` | The document's content type. | `text/plain` or `text/markdown` |
+| `ownerId` | The authenticated user the memories belong to. | Your verified `OWNER_ID`. |
+| `extractorId` | The extractor's returned `id`. | `$EXTRACTOR_ID` |
+| `idempotencyKey` | A key to reuse when retrying the same submission. | `travel-guide-revision-1` |
+
+The server returns a separate ingestion ID to track the run.
 
 The examples submit the file, poll for a terminal processing state, and list output memory IDs. Save the ingestion ID even if polling times out:
 

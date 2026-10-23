@@ -15,6 +15,17 @@ aliases:
 
 Long-term memory stores information that remains useful beyond one conversation. Use automatic extraction or direct creation to store memories, then search for information relevant to an agent turn.
 
+## Create long-term memories
+
+Redis Agent Memory provides two ways to create memories:
+
+* **Automatic extraction:** Redis Agent Memory processes session events asynchronously and creates durable memories from relevant information. Configure the extraction cadence to control how often session events are processed.
+* **Direct creation:** Your application creates one or more long-term memories through the application programming interface (API) or a software development kit (SDK). Use direct creation when importing existing information or when your application determines exactly what to store.
+
+Configure the long-term-memory time to live (TTL) separately from the session-memory TTL.
+
+See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
+
 ## Memory fields
 
 When you create a memory directly, you must supply `id`, `text`, and `ownerId`. The server sets `createdAt` and `updatedAt`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
@@ -34,17 +45,6 @@ A long-term memory record includes:
 | `createdAt` | Time the memory was created. |
 | `updatedAt` | Time the memory was last updated. |
 
-## Create long-term memories
-
-Redis Agent Memory provides two ways to create memories:
-
-* **Automatic extraction:** Redis Agent Memory processes session events asynchronously and creates durable memories from relevant information. Configure the extraction cadence to control how often session events are processed.
-* **Direct creation:** Your application creates one or more long-term memories through the application programming interface (API) or a software development kit (SDK). Use direct creation when importing existing information or when your application determines exactly what to store.
-
-Configure the long-term-memory time to live (TTL) separately from the session-memory TTL.
-
-See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
-
 ## Search long-term memory
 
 Search long-term memory semantically and narrow results with filters. Scope results with filters for owners, sessions, namespaces, topics, and memory types.
@@ -56,6 +56,29 @@ For request fields, filter operators, and response schemas, see [`SearchLongTerm
 For domain-specific fields and extraction instructions, see [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}). To group memories in a hierarchy, see [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}).
 
 For controls that apply during automatic extraction, see [Exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
+
+### Search by meaning
+
+Use the same connection values and owner ID as the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). This example finds memories about the user’s food preferences:
+
+{{< clients-example set="agent_memory_sdk" step="search_long_term_memory_basic" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
+curl --fail-with-body --silent --show-error \
+  --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data @- \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
+{
+  "text": "What dietary requirements and food preferences does the user have?",
+  "filter": {
+    "ownerId": {
+      "eq": "$OWNER_ID"
+    }
+  },
+  "limit": 5
+}
+JSON
+{{< /clients-example >}}
 
 ### Filter and sort without semantic search
 
@@ -89,7 +112,6 @@ Omit `text` to retrieve records by filters without a semantic query. For example
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" \
     '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "desc", limit: 10}')" \
@@ -104,11 +126,27 @@ Use the client and identifiers from the [quickstart](/content/develop/ai/context
 
 Top-level filters use `filterOp: "all"` (AND) by default; `"any"` uses OR. To restrict a query to a user, keep the owner condition mandatory. Do not use `"any"` with separate owner and namespace conditions when both must match. These retrieval filters do not replace application access checks.
 
-Set `filter.unnamespaced: true` to match records with neither a legacy namespace label nor a namespace resource. It cannot be combined with `namespace` or `namespaceRef`, and remains mandatory even with `filterOp: "any"`.
+Set `filter.unnamespaced: true` to match records with neither the older `namespace` string label nor a namespace resource. It cannot be combined with `namespace` or `namespaceRef`, and remains mandatory even with `filterOp: "any"`.
 
 [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) outputs are included in search by default. Set top-level `excludeDocumentManaged: true` to omit them. Returned `documentManaged` records cannot be overwritten through generic memory creation or PATCH requests; use the document-ingestion workflow to manage their content.
 
 For custom fields, use `filter.attributes`, keyed by the field name, with the operators described in [`AttributeFilterClause`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchLongTermMemory). Combine it with `memoryType` to select the registered custom type.
+
+For example, this search request combines the owner, type, and dietary requirement with `filterOp: "all"`. A `list` clause requires every listed value to be present:
+
+```json
+{
+  "filterOp": "all",
+  "filter": {
+    "ownerId": {"eq": "<user-id>"},
+    "memoryType": {"eq": "trip_preference"},
+    "attributes": {"dietary_requirements": {"list": ["vegetarian"]}}
+  },
+  "limit": 10
+}
+```
+
+Use exactly one typed clause per attribute: `string`, `number`, `boolean`, or `list`, matching the registered field type.
 
 ## Custom memory types
 
@@ -141,15 +179,49 @@ When this type is enabled, Redis Agent Memory can extract a structured `trip_pre
 
 ### Extract custom memories
 
-Complete the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) first. Reuse its client, connection values, and user and session identifiers. Add Python snippets inside the `with` block and TypeScript snippets inside `run`. Run curl commands in the same shell. Run each write once; comment out completed writes and their output statements before rerunning an SDK file.
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
 
-Custom memory types let an application extract structured information for its business domain. Configure and enable the `trip_preference` type with the fields in [Define a memory type]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#define-a-memory-type" >}}). Use this extraction prompt:
+In the Redis Cloud console, open your service’s **Configuration** tab, select **Edit**, and under **Memory types & extraction** select **Add type**. Configure and enable `trip_preference` with the fields in [Define a memory type]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#define-a-memory-type" >}}). Use this extraction prompt:
 
 ```text
 Extract trip requirements only when the user states a destination or travel plan. Preserve explicit dietary requirements and food preferences.
 ```
 
-After enabling the type, add the travel message from the quickstart to a new session. Wait at least one extraction interval before searching.
+After enabling the type, add a travel message to a new session. Run this write once, then wait at least one extraction interval before searching.
+
+{{< multitabs id="custom-memory-event" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+
+```python
+        agent_memory.add_session_event(
+            session_id="trip-preference-session", actor_id=USER_ID,
+            role=models.MessageRole.USER,
+            content=[models.Text(text="I am visiting Tokyo and Kyoto next month. I am vegetarian.")],
+            created_at=datetime.now(timezone.utc),
+        )
+```
+
+-tab-sep-
+
+```typescript
+  await agentMemory.addSessionEvent({
+    sessionId: "trip-preference-session", actorId: userId, role: "USER",
+    content: [{ text: "I am visiting Tokyo and Kyoto next month. I am vegetarian." }],
+    createdAt: new Date(),
+  });
+```
+
+-tab-sep-
+
+```sh
+curl --fail-with-body --silent --show-error --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data "$(jq -n --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    '{sessionId:"trip-preference-session",actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month. I am vegetarian."}],createdAt:$now}')" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" | jq
+```
+
+{{< /multitabs >}}
 
 Search for the structured memory:
 
@@ -190,7 +262,6 @@ Search for the structured memory:
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
@@ -328,7 +399,6 @@ If your application already has structured trip data, write it directly using th
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON | jq
@@ -351,15 +421,15 @@ JSON
 
 {{< /multitabs >}}
 
-Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Run this write once; the memory ID identifies the record within the store.
+Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating an eligible record with the same `id` again replaces that record. Ownership checks and protection for document-managed records still apply.
 
 See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
 ## Test semantic exclusions
 
-Complete the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) first. Reuse its client, connection values, and user and session identifiers. Add Python snippets inside the `with` block and TypeScript snippets inside `run`. Run curl commands in the same shell. Run each write once; comment out completed writes and their output statements before rerunning an SDK file.
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
 
-In the service configuration, enable **Semantic exclusions** and set this prompt:
+In the Redis Cloud console, open your service’s **Configuration** tab and select **Edit**. Under **Sensitive-data exclusions**, enable **Semantic exclusions** and set this prompt:
 
 ```text
 Do not keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes in long-term memory.
@@ -409,7 +479,6 @@ export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
@@ -466,7 +535,6 @@ Run the event write once. In the SDK files, comment out event creation and its o
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq

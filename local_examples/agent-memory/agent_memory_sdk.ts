@@ -2,7 +2,6 @@
 
 // STEP_START connect_health_check
 import { AgentMemory } from "@redis-iris/agent-memory";
-import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 const apiKey = process.env.API_KEY;
 if (!apiKey) {
@@ -14,20 +13,10 @@ const storeId = "<STORE_ID>";
 const sessionId = "travel-planning-session";
 const userId = process.env.OWNER_ID ?? "quickstart-user";
 
-const httpClient = new HTTPClient();
-const userToken = process.env.USER_TOKEN;
-if (userToken) {
-  httpClient.addHook("beforeRequest", (request) => {
-    request.headers.set("X-Iris-User-Token", userToken);
-    return request;
-  });
-}
-
 const agentMemory = new AgentMemory({
   serverURL,
   storeId,
   apiKey,
-  httpClient,
 });
 
 async function run() {
@@ -44,7 +33,6 @@ run().catch((error) => {
 
 // STEP_START add_session_event
 import { AgentMemory } from "@redis-iris/agent-memory";
-import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 const apiKey = process.env.API_KEY;
 if (!apiKey) {
@@ -56,20 +44,10 @@ const storeId = "<STORE_ID>";
 const sessionId = "travel-planning-session";
 const userId = process.env.OWNER_ID ?? "quickstart-user";
 
-const httpClient = new HTTPClient();
-const userToken = process.env.USER_TOKEN;
-if (userToken) {
-  httpClient.addHook("beforeRequest", (request) => {
-    request.headers.set("X-Iris-User-Token", userToken);
-    return request;
-  });
-}
-
 const agentMemory = new AgentMemory({
   serverURL,
   storeId,
   apiKey,
-  httpClient,
 });
 
 async function run() {
@@ -102,7 +80,6 @@ run().catch((error) => {
 
 // STEP_START search_long_term_memory_basic
 import { AgentMemory } from "@redis-iris/agent-memory";
-import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 const apiKey = process.env.API_KEY;
 if (!apiKey) {
@@ -114,20 +91,10 @@ const storeId = "<STORE_ID>";
 const sessionId = "travel-planning-session";
 const userId = process.env.OWNER_ID ?? "quickstart-user";
 
-const httpClient = new HTTPClient();
-const userToken = process.env.USER_TOKEN;
-if (userToken) {
-  httpClient.addHook("beforeRequest", (request) => {
-    request.headers.set("X-Iris-User-Token", userToken);
-    return request;
-  });
-}
-
 const agentMemory = new AgentMemory({
   serverURL,
   storeId,
   apiKey,
-  httpClient,
 });
 
 async function run() {

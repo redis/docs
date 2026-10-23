@@ -306,8 +306,6 @@ memory:
                 - write
   session_summarisation:
     enabled: false
-  session_summary_view:
-    enabled: false
 image:
   tag: "0.8.0"
 controlplane:

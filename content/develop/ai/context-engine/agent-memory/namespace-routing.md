@@ -13,7 +13,7 @@ weight: 14
 
 Namespace routing selects a shared namespace for an eligible memory. Admission rules check whether a memory can enter a destination. Use routing to organize shared memories by content, and admission rules to reject content that does not belong in a namespace.
 
-The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. Your service must support namespace routing and have it enabled.
+The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. For self-managed deployments, follow [Enable namespace routing](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-namespace-routing), then read and configure the store policy.
 
 ## Understand placement and admission
 
@@ -27,15 +27,13 @@ The policy applies to one store. It targets existing shared namespace resources,
 
 An automatic move keeps the current placement and returns a per-item error if routing is disabled, no destination qualifies, or the memory is personal or has no namespace. Inspect both `moved` and `errors` in a move response. Bulk creation also reports failures per record in `errors`. An explicit move to an archived namespace returns `409 Conflict`.
 
-An enabled `accept` rule selects a candidate destination. Accept rules run in list order. Every enabled `reject` rule for that destination applies, including rules later in the list. A matching reject vetoes the candidate. Automatic routing then tries another candidate; explicit placement fails rather than choosing another namespace.
-
-Strategies within a rule run in list order; the first match fires the rule. An accept rule with no strategies always matches. A reject rule with no strategies never matches. Use `matcher_spec` with a `regex` matcher for text patterns, or `llm_prompt` with `llmPrompt` for a model-evaluated instruction. Each strategy must contain only the block for its declared `kind`.
-
 ## Configure a policy
 
-Create a shared namespace with `CreateNamespace`, and save its returned ID as `SHARED_NAMESPACE_ID`. Use `scope: "SHARED"` and omit `ownerId`. Install the software development kit (SDK) for your language, then set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
+1. [Create a shared namespace](/content/develop/ai/context-engine/agent-memory/namespaces.md#create-a-shared-namespace) and save its ID as `SHARED_NAMESPACE_ID`.
+1. Install the software development kit (SDK) for your language.
+1. Set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
 
-This example accepts text containing `travel` into that namespace. The regular expression is case-insensitive. **PUT replaces the entire policy**, so read the current policy first and retain any rules you still need.
+This example accepts text containing `travel` into that namespace. The regular expression is case-insensitive. **PUT replaces the entire policy.** This example installs only the `travel` rule. On a store with existing rules, include those you want to keep in the `rules` array before sending the PUT. Reading the current policy does not merge it into the example automatically.
 
 {{< multitabs id="namespace-routing-policy" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
@@ -43,16 +41,14 @@ This example accepts text containing `travel` into that namespace. The regular e
 import asyncio
 import os
 
-import httpx
 from redis_agent_memory import AgentMemory
 
 
 async def main():
-    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
-    async with httpx.AsyncClient(headers=headers) as transport, AgentMemory(
+    async with AgentMemory(
         os.environ["AGENT_MEMORY_URL"],
         store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"], async_client=transport,
+        api_key=os.environ["API_KEY"],
     ) as agent_memory:
         current = await agent_memory.get_namespace_routing_async()
         print(current.model_dump_json(by_alias=True, indent=2))
@@ -79,23 +75,14 @@ asyncio.run(main())
 
 ```typescript
 import { AgentMemory } from "@redis-iris/agent-memory";
-import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 async function main() {
   const { AGENT_MEMORY_URL, STORE_ID, API_KEY, SHARED_NAMESPACE_ID } = process.env;
   if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !SHARED_NAMESPACE_ID) {
     throw new Error("Set AGENT_MEMORY_URL, STORE_ID, API_KEY, and SHARED_NAMESPACE_ID.");
   }
-  const httpClient = new HTTPClient();
-  const userToken = process.env.USER_TOKEN;
-  if (userToken) {
-    httpClient.addHook("beforeRequest", (request) => {
-      request.headers.set("X-Iris-User-Token", userToken);
-      return request;
-    });
-  }
   const agentMemory = new AgentMemory({
-    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
   });
   console.dir(await agentMemory.getNamespaceRouting(), { depth: null });
   const result = await agentMemory.putNamespaceRouting({
@@ -122,13 +109,11 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespace-routing" | jq
 
 curl --fail-with-body --silent --show-error \
   --request PUT \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
     '{policy: {enabled: true, rules: [{id: "travel", enabled: true,
@@ -140,11 +125,36 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
+## How rules are evaluated
+
+In this example, `travel` is an accept rule with one strategy, a regex matcher.
+
+An enabled `accept` rule selects a candidate destination. Accept rules run in list order. Every enabled `reject` rule for that destination applies, including rules later in the list. A matching reject vetoes the candidate. Automatic routing then tries another candidate; explicit placement fails rather than choosing another namespace.
+
+Strategies within a rule run in list order; the first match fires the rule. An accept rule with no strategies always matches. A reject rule with no strategies never matches. Use `matcher_spec` with a `regex` matcher for text patterns, or `llm_prompt` with `llmPrompt` for a model-evaluated instruction. Each strategy must contain only the block for its declared `kind`.
+
 A store without a saved policy returns an empty, disabled policy. Regular expressions use RE2 syntax. Lookaround, backreferences, invalid expressions, and patterns that can match empty text are not supported. A policy supports up to 32 rules and 8 strategies per rule. See [`PutNamespaceRouting`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/PutNamespaceRouting) for validation and error responses.
 
 ## Move memories with the policy
 
-To evaluate the policy for an existing shared memory, omit the destination from `MoveLongTermMemories`. Use IDs returned by a previous create or search request:
+To evaluate the policy for an existing shared memory, omit the destination from the move request. First create a test memory in another shared namespace. Run this setup once, after setting `OWNER_ID` to your application user:
+
+```sh
+SOURCE_NAMESPACE_ID=$(curl --fail-with-body --silent --show-error --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data '{"name":"routing-source","scope":"SHARED"}' \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId') || exit 1
+export MEMORY_ID='routing-travel-example'
+curl --fail-with-body --silent --show-error --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data "$(jq -n --arg id "$MEMORY_ID" --arg owner "$OWNER_ID" --arg ns "$SOURCE_NAMESPACE_ID" \
+    '{memories:[{id:$id,ownerId:$owner,text:"Travel policy allows train tickets.",namespaceRef:{namespaceId:$ns}}]}')" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" | jq
+```
+
+Continue only if the namespace request succeeds and the memory response has no per-record errors. Run the move in the same shell, or pass the exported `MEMORY_ID` to your SDK process:
 
 {{< multitabs id="namespace-routing-move" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
@@ -170,7 +180,6 @@ To evaluate the policy for an existing shared memory, omit the destination from 
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg id "$MEMORY_ID" '{memoryIds: [$id]}')" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/move" | jq

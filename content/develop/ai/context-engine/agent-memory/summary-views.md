@@ -38,7 +38,7 @@ Shared does not mean a particular team. Enforce team membership in your backend 
 
 ## Create, refresh, and read a view
 
-These examples create one private profile for `OWNER_ID`, request a full refresh, and poll its result. First store ordinary long-term memories with the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). A successful refresh with no matching sources returns `empty`.
+These examples create one private profile for `OWNER_ID`, request a full refresh, and poll its result. First [create ordinary long-term memories](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) in this self-managed store, using the delegated client and matching `OWNER_ID`. A successful refresh with no matching sources returns `empty`.
 
 Save the view ID for later requests. Creation and refresh are asynchronous; their responses do not contain generated output.
 
@@ -112,7 +112,13 @@ async function main() {
   console.dir(await memory.refreshSummaryView(view.id, { target: "full" }, options));
   for (let attempt = 0; attempt < 60; attempt++) {
     const result = await memory.getSummaryViewResult(
-      view.id, undefined, undefined, undefined, undefined, true, options,
+      view.id,   // viewId
+      undefined, // ownerId
+      undefined, // sessionId
+      undefined, // namespaceRef
+      undefined, // memoryType
+      true,      // includeSourceMemoryIds
+      options,   // request options
     );
     if (result.status === "failed") throw new Error(`Refresh failed: ${result.errorCode}`);
     if (result.status === "empty") {
@@ -181,8 +187,8 @@ Text output uses `value.text`; structured output uses `value.data`. Python outpu
 
 | Status | Application behavior |
 |:-------|:---------------------|
-| `cold` | No result is materialized for this scope. A grouped scope may be outside the active partition set. |
-| `pending` | Work is queued, or unsafe prior output is withheld while repair is pending. |
+| `cold` | No result is stored for this group. It may not have been generated yet, or it may have been evicted. |
+| `pending` | Work is queued. Previous output may be withheld because its sources changed or became inaccessible. |
 | `ready` | A value is available. Check `stale` and coverage fields. |
 | `empty` | No sources match. There is no generated value. |
 | `refreshing` | New work is running. A last good value can remain. |
@@ -240,7 +246,7 @@ The reconcile interval is required and must fit deployment limits. Debounce coal
 
 ## Check coverage and manage definitions
 
-Inspect `sourceMemoryCount` and `summarizedMemoryCount`. Selection can omit whole records (`sourcesOmitted`) or clip included content (`sourceContentTruncated`). `truncated` combines both. Equal record counts do not prove all source text was included. Concurrent writes can change the source set while counts are measured.
+Inspect `sourceMemoryCount` and `summarizedMemoryCount`. Selection can omit whole records (`sourcesOmitted`) or clip included content (`sourceContentTruncated`). `truncated` combines both. Check `truncated` even when every record was included: some text may have been cut. Concurrent writes can change the source set while counts are measured.
 
 Request `includeSourceMemoryIds=true` for the selected source IDs. These identify contributing records, not every match. `computedAt`, `sourceUpdatedAt`, and `definitionVersion` help assess freshness.
 
@@ -253,7 +259,15 @@ Request `includeSourceMemoryIds=true` for the selected source IDs. These identif
 
 REST paths are relative to `/v1/stores/{storeId}`. Lists return `items` and optional `nextPageToken`; pass it as `pageToken` with the same query. Definition states (`active`, `disabled`, `deleting`) are separate from result status.
 
-Name and description edits do not trigger generation. Material edits increment `definitionVersion`; a `groupBy` change also replaces the partition layout. `clearFilter: true` and `clearTimeWindow: true` remove those settings; do not also supply replacements. Owner, visibility, and source are immutable. Set `state: disabled` to disable a view; re-enabling requests refresh work.
+| Change | Effect |
+|:-------|:-------|
+| Name or description | Does not trigger generation. |
+| Filter, output, or refresh policy | Increments `definitionVersion`. |
+| `groupBy` | Increments `definitionVersion` and replaces the partition layout. |
+| Owner, visibility, or source | Cannot be changed. Create a new definition. |
+| `state: disabled` | Disables the view. Re-enabling requests refresh work. |
+
+`clearFilter: true` and `clearTimeWindow: true` remove those settings; do not also supply replacements.
 
 Deletion returns `202` while cleanup runs. Repeated deletion is idempotent; the definition becomes `deleting` before schedules and results are removed. Source memories remain.
 

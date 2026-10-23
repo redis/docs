@@ -48,7 +48,7 @@ Your application gives Agent Memory the conversation for extracting long-term me
 - **Session event**: One message in a conversation, added with `sessionId`, `actorId`, `role`, `content`, and `createdAt`.
 - **actorId**: Identifies who or what sent the event, a user, the agent, or a tool.
 - **ownerId**: Identifies who a long-term memory belongs to, for search and filtering later. Independent of who wrote the session event it came from.
-- **memoryType**: The long-term memory tier a fact is stored under, one of the built-in types (`semantic`, `episodic`, `message`, `session_summary_view`) or a custom type you define.
+- **memoryType**: The category of a long-term memory, such as `semantic`, `episodic`, or a custom type you define.
 
 ### How it works
 

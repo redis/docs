@@ -5559,13 +5559,13 @@
                     {
                         "name": "memoryType",
                         "in": "query",
-                        "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, `message`, and `session_summary_view`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes.\n",
+                        "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, and `message`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes.\n",
                         "schema": {
                             "type": "string",
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                            "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, `message`, and `session_summary_view`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes."
+                            "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, and `message`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes."
                         }
                     },
                     {
@@ -9195,7 +9195,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, `message`, and `session_summary_view`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes."
+                        "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, and `message`.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes."
                     }
                 }
             },

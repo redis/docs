@@ -18,7 +18,7 @@ aliases:
 - /operate/rc/context-engine/agent-memory/use-agent-memory/
 ---
 
-Store a travel-planning message, retrieve the conversation, and recall a preference extracted into long-term memory. Choose Python, TypeScript, or curl for each example.
+Build the memory for a travel assistant: save a conversation, retrieve it, and recall the user’s food preferences in a later conversation.
 
 ## Before you begin
 
@@ -76,9 +76,11 @@ export OWNER_ID='quickstart-user'
 
 {{< /multitabs >}}
 
+The SDK examples read `API_KEY` from your environment; replace `<ENDPOINT>` and `<STORE_ID>` in each file. The curl examples read all three values from your environment.
+
 The endpoint must include `https://`. Keep the API key out of source control, application logs, and other unsecured locations.
 
-For a self-managed service with ownership enforcement enabled, [configure delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key), then also export `USER_TOKEN` and set `OWNER_ID` to that token's verified user ID. The examples use these optional values. Leave `USER_TOKEN` unset for Cloud store credentials. Without `OWNER_ID`, the SDK examples use `quickstart-user` for this exercise.
+For a self-managed service with ownership enforcement, use the authenticated client setup in [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and set `OWNER_ID` to the verified user ID before using these examples.
 
 ## Install the SDK
 
@@ -112,20 +114,47 @@ Use `curl` and `jq` directly. No SDK installation is required.
 
 ## Create the client and check the service health
 
-Create `quickstart.py` or `quickstart.ts` with the complete example for your language. Replace `<ENDPOINT>` and `<STORE_ID>` with your service values. The endpoint must include `https://`.
+1. Create `quickstart.py` or `quickstart.ts` with the complete example for your language.
+1. Replace `<ENDPOINT>` and `<STORE_ID>` with your service values. The endpoint must include `https://`.
+1. Run `python quickstart.py` or `npx tsx quickstart.ts`. For curl, run the command in your configured shell.
+1. Check that the overall `status` and each entry under `features` are healthy.
 
 {{< clients-example set="agent_memory_sdk" step="connect_health_check" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
 {{< /clients-example >}}
 
-The store health response checks the configured Store ID and reports the status of its memory features. Inspect the overall `status` and individual `features` before continuing.
+The store health response checks the configured Store ID and reports the status of its memory features. Inspect the overall `status` and individual `features` before continuing. A healthy response looks like:
+
+```json
+{
+  "status": "healthy",
+  "features": {
+    "background_jobs": {
+      "status": "healthy"
+    },
+    "long_term_memory": {
+      "status": "healthy"
+    },
+    "session_memory": {
+      "status": "healthy"
+    },
+    "source_link": {
+      "status": "healthy"
+    },
+    "store_db": {
+      "status": "healthy"
+    }
+  }
+}
+```
 
 Run Python examples with `python quickstart.py` or TypeScript examples with `npx tsx quickstart.ts`. Each SDK example includes its client setup. Replace the file with the complete example for the next step, and use the same connection values and identifiers. Run curl commands in the shell where you exported the connection values.
 
-## 1. Build conversation context with session memory
+<a id="1-build-conversation-context-with-session-memory"></a>
+
+## Save and retrieve a conversation
 
 Session memory is the conversation transcript. Each message is an event, stored with the conversation's session ID and the sender's actor ID. The first request saves a user's travel plans. The second retrieves the conversation so you can check that the message was stored.
 
@@ -137,7 +166,6 @@ export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
@@ -157,7 +185,6 @@ JSON
 
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
 {{< /clients-example >}}
 
@@ -169,7 +196,9 @@ curl --fail-with-body --silent --show-error \
 
 Run the event write once. Repeating it adds the same message again. The next example searches without repeating the write.
 
-## 2. Recall automatically extracted information
+<a id="2-recall-automatically-extracted-information"></a>
+
+## Recall an extracted preference
 
 Redis Agent Memory processes session events in the background and creates long-term memories for information that may be useful in later conversations. You configured the extraction cadence to one minute when you created the service.
 
@@ -179,7 +208,6 @@ Wait at least one minute. Replace your SDK file with the complete search example
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq

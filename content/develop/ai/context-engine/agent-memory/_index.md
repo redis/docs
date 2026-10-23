@@ -24,7 +24,7 @@ When enabled, automatic summarization compacts session memory by summarizing old
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Overview icon" title="Overview — Understand the memory model" url="/develop/ai/context-engine/agent-memory/overview" >}}
+  {{< image-card image="images/ai-model.svg" alt="Overview icon" title="Overview — What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
   {{< image-card image="images/ai-cube.svg" alt="Quickstart icon" title="Quickstart — Make your first requests" url="/develop/ai/context-engine/agent-memory/quickstart" >}}
   {{< image-card image="images/ai-lib.svg" alt="Developer guide icon" title="Developer guide — Add memory to your application" url="/develop/ai/context-engine/agent-memory/developer-guide" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="Sessions icon" title="Sessions — Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
@@ -44,9 +44,29 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
 
 ## Two-tier memory model
 
-Session memory keeps the current conversation available to the agent. Long-term memory preserves useful information across conversations. See [Overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}) for an overview of both and the optional namespaces that organize them.
+Redis Agent Memory provides two memory tiers:
 
-To watch both tiers change during a conversation, try the [interactive demo](/content/develop/ai/context-engine/agent-memory/interactive-demo.md).
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
+    <p>Stores the ordered events and metadata for a conversation.</p>
+    <ul class="space-y-2">
+      <li><strong>Configurable retention:</strong> Set a time-to-live (TTL) to control how long session events are retained.</li>
+      <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Long-term memory</h3>
+    <p>Stores durable information that can be retrieved across sessions using semantic search and filters.</p>
+    <ul class="space-y-2">
+      <li><strong>Automatic extraction:</strong> Process session events asynchronously and store important information with vector embeddings and metadata.</li>
+      <li><strong>Custom memory types:</strong> Define domain-specific memories with structured fields and extraction instructions.</li>
+      <li><strong>Sensitive-data exclusions:</strong> Guide automatic extraction away from specified sensitive information.</li>
+      <li><strong>Direct memory creation:</strong> Create memories through the API or import knowledge from external sources.</li>
+      <li><strong>Configurable retention:</strong> Set a separate TTL for long-term memories.</li>
+    </ul>
+  </div>
+</div>
 
 ### Example: Travel planning agent
 

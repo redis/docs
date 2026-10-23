@@ -11,7 +11,7 @@ title: List and sort sessions
 weight: 10
 ---
 
-Use session listing to let a user reopen an earlier conversation. The session rows contain IDs and available owner, timestamp, and namespace metadata. They do not contain conversation events or summary text. Retrieve the selected session with `GetSessionMemory` to build the agent's conversation context.
+Use session listing to let a user reopen an earlier conversation. The session rows contain IDs and available owner, timestamp, and namespace metadata. They do not contain conversation events or summary text. Retrieve the selected session with `get_session_memory` (Python), `getSessionMemory` (TypeScript), or `GET /v1/stores/{storeId}/session-memory/{sessionId}` to build the agent's conversation context.
 
 ## Choose a listing operation
 
@@ -20,7 +20,7 @@ Use session listing to let a user reopen an earlier conversation. The session ro
 | Session IDs | `GET /v1/stores/{storeId}/session-memory` | `list_sessions` | `listSessions` |
 | Session rows with sorting | `GET /v1/stores/{storeId}/sessions` | `list_session_summaries` | `listSessionSummaries` |
 
-The second method's name refers to metadata rows, not generated conversation summaries. The ID-only operation remains available. Both operations return `items`, `total`, and an optional `nextPageToken`.
+The second method's name refers to metadata rows, not generated conversation summaries. Both operations return `items`, `total`, and an optional `nextPageToken`.
 
 For a user's personal conversations, set `filterOwnerId` to the user's authenticated ID. The session owner is the first event's `actorId`. Add `namespaceRef` to require an exact namespace ID as well. It does not include descendants, deprecated namespace labels, or sessions without a namespace resource. Owner and namespace matching is case-sensitive.
 
@@ -30,7 +30,7 @@ A request without filters must set `includeAll=true`. Do not combine `includeAll
 
 The default is `sortBy=updatedAt` and `sortOrder=desc`, so recent activity appears first. `sortBy` accepts `sessionId`, `createdAt`, or `updatedAt`. When omitted, `sortOrder` is `asc` for `sessionId` and `desc` for timestamps. `limit` accepts 1–1000 and defaults to 100.
 
-Install `redis-agent-memory` for Python or `@redis-iris/agent-memory` for TypeScript. Use a service that supports the endpoint. Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, and `OWNER_ID` in your shell. See the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service) for connection details.
+Install `redis-agent-memory` for Python or `@redis-iris/agent-memory` for TypeScript. Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, and `OWNER_ID` in your shell. See the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service) for connection details.
 
 These examples list all pages for one owner, with the most recently updated sessions first:
 
@@ -40,16 +40,14 @@ These examples list all pages for one owner, with the most recently updated sess
 import asyncio
 import os
 
-import httpx
 from redis_agent_memory import AgentMemory
 
 
 async def main():
-    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
-    async with httpx.AsyncClient(headers=headers) as transport, AgentMemory(
+    async with AgentMemory(
         os.environ["AGENT_MEMORY_URL"],
         store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"], async_client=transport,
+        api_key=os.environ["API_KEY"],
     ) as agent_memory:
         page_token = None
         while True:
@@ -72,28 +70,25 @@ asyncio.run(main())
 
 ```typescript
 import { AgentMemory } from "@redis-iris/agent-memory";
-import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 async function main() {
   const { AGENT_MEMORY_URL, STORE_ID, API_KEY, OWNER_ID } = process.env;
   if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !OWNER_ID) {
     throw new Error("Set AGENT_MEMORY_URL, STORE_ID, API_KEY, and OWNER_ID.");
   }
-  const httpClient = new HTTPClient();
-  const userToken = process.env.USER_TOKEN;
-  if (userToken) {
-    httpClient.addHook("beforeRequest", (request) => {
-      request.headers.set("X-Iris-User-Token", userToken);
-      return request;
-    });
-  }
   const agentMemory = new AgentMemory({
-    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
   });
   let pageToken: string | undefined;
   do {
     const page = await agentMemory.listSessionSummaries(
-      20, pageToken, OWNER_ID, undefined, undefined, "updatedAt", "desc",
+      20,          // limit
+      pageToken,   // pageToken
+      OWNER_ID,    // filterOwnerId
+      undefined,   // namespaceRef
+      undefined,   // includeAll
+      "updatedAt", // sortBy
+      "desc",      // sortOrder
     );
     console.dir(page.items, { depth: null });
     pageToken = page.nextPageToken;
@@ -110,7 +105,6 @@ page_token=''
 while :; do
   page=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
-    --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
     --data-urlencode "filterOwnerId=$OWNER_ID" \
     --data-urlencode 'sortBy=updatedAt' --data-urlencode 'sortOrder=desc' \
     --data-urlencode 'limit=20' --data-urlencode "pageToken=$page_token" \
@@ -125,6 +119,4 @@ done
 
 Pass each returned `nextPageToken` as `pageToken`. Keep filters and sort options unchanged; the token is bound to them. Stop when the token is absent. The token is opaque, so URL-encode it in REST requests. Changing a filter or sort requires a new request without the old token.
 
-Legacy sessions can omit `ownerId`, `createdAt`, or `updatedAt`. Handle those missing values when rendering a conversation list. A row's timestamps describe session metadata; they do not promise that background extraction or summarization has completed.
-
-TypeScript uses positional arguments. `listSessionSummaries` takes namespace filtering fourth, followed by `includeAll`, `sortBy`, and `sortOrder`. The older `listSessions` method keeps its previous argument order: `includeAll` is fourth, request options fifth, and the new namespace filter sixth. Do not copy one method's argument positions to the other.
+Sessions stored without owner or timestamp metadata can omit `ownerId`, `createdAt`, or `updatedAt`. Handle those missing values when rendering a conversation list. A row's timestamps describe session metadata; they do not promise that background extraction or summarization has completed.

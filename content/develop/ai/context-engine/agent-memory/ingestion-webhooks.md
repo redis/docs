@@ -11,7 +11,7 @@ title: Review content with ingestion webhooks
 weight: 15
 ---
 
-Ingestion webhooks let your application accept, reject, or transform content before Agent Memory saves it. A callback returns a decision; successful HTTP delivery alone does not approve a write.
+Ingestion webhooks let your application accept, reject, or transform content before Redis Agent Memory saves it. A callback returns a decision; successful HTTP delivery alone does not approve a write.
 
 The supported setup uses a self-managed deployment with the Redis background-job backend. Hooks are off by default. This guide does not assume Cloud account controls or a Cloud webhook rollout.
 
@@ -19,102 +19,35 @@ The supported setup uses a self-managed deployment with the Redis background-job
 
 Select each path your policy needs. Selecting creation does not also select updates or deletion.
 
-| Phase | Paths | Review |
-|:------|:------|:-------|
-| `before_input` | `session.append`, `memory.create`, `document.submit` | Session input, a manual memory batch, or a document before persistence and extraction dispatch. Accept, reject, or transform. |
-| `before_apply` | `session.builtin`, `session.custom`, `document.chunk` | Generated creates, updates, and deletes before the current batch is applied. Whole-batch or per-operation decisions. |
-| `before_input` | `memory.update`, `memory.delete`, `memory.move` | An authorized memory mutation. Accept or reject only. |
-| `before_input` | `session.summary`, `session.property`, `session.delete`, `session.events.delete` | Session content changes and explicit deletion, including applicable worker writes. Accept or reject only. |
-| `before_apply` | `summary_view.refresh` | A generated Summary View value before publication. Accept or reject only. |
+### Before input is saved (`before_input`)
+
+| Path | What triggers it | Decisions |
+|:-----|:-----------------|:----------|
+| `session.append` | An application adds a session event. | Accept, reject, or transform. |
+| `memory.create` | An application creates a memory batch. | Accept, reject, transform, or review each operation. |
+| `document.submit` | An application submits a document for extraction. | Accept, reject, or transform. |
+| `memory.update`, `memory.delete`, `memory.move` | An authorized caller changes, deletes, or moves a memory. | Accept or reject. |
+| `session.summary`, `session.property` | An application or worker writes a session summary or property. | Accept or reject. |
+| `session.delete`, `session.events.delete` | An application explicitly deletes a session or event. | Accept or reject. |
+
+### Before generated changes are applied (`before_apply`)
+
+| Path | What triggers it | Decisions |
+|:-----|:-----------------|:----------|
+| `session.builtin` | Built-in session extraction produces memory changes. | Whole-batch or per-operation decisions. |
+| `session.custom` | Custom session extraction produces memory changes. | Whole-batch or per-operation decisions. |
+| `document.chunk` | Document extraction produces memory changes from a chunk. | Whole-batch or per-operation decisions. |
+| `summary_view.refresh` | A Summary View generates a value for publication. | Accept or reject. |
 
 Configuration, reads, searches, automatic expiration, and store teardown are outside content hooks. Empty extraction batches and empty Summary View results have no generated content to review. Authorization runs before content is sent to a receiver; an acceptance cannot grant access or bypass validation.
 
 ## Prepare the deployment
 
-Start with the [self-managed deployment](/content/operate/iris/agent-memory/self-managed/deploy.md). These are process settings; a client cannot enable them through a request header.
-
-An operator must configure both Data Plane servers and workers:
-
-1. Enable `memory.webhooks.enabled` in chart-rendered configuration, or `webhooks.enabled` at the root of a bring-your-own file.
-1. Enable the Redis job backend and [authenticated worker callbacks](/content/operate/iris/agent-memory/self-managed/authentication.md#worker-callbacks).
-1. Configure the same signing-secret backend and prefix in the Control Plane, Data Plane, and worker. Supported backends are Vault and AWS Secrets Manager. The Control Plane writes keys; Data Plane processes read them.
-1. Serve the receiver over HTTPS with a certificate trusted by the Data Plane.
-1. For a private receiver address, allow its range in `memory.webhooks.private_cidrs` on both servers and workers.
-
-For example, allow one private receiver address in Helm values:
-
-```yaml
-memory:
-  webhooks:
-    enabled: true
-    private_cidrs:
-      - <receiver-private-ip>/32
-```
-
-Delivery checks all resolved addresses at connection time. Redirects and environment HTTP proxies are not used. An allowlist cannot permit loopback, link-local, metadata-service, multicast, or other protected addresses. A localhost URL is not a production callback endpoint.
-
-For Vault, use matching application configuration in the Data Plane and Control Plane:
-
-```yaml
-secrets:
-  provider: vault
-vault:
-  address: https://<vault-host>:8200
-  mount: secret
-  base_path: agent-memory
-```
-
-In chart-rendered values, put this under `memory` and `controlplane.configData`, respectively. Supply `vault.token` through a mounted configuration Secret. The Control Plane needs permission to write and delete signing-key versions; servers and workers need read permission. Keep real Vault tokens and callback keys out of source control.
-
-Before enabling output hooks on an existing deployment, upgrade workers first, then servers, and drain jobs queued by the older release. Keep hooks disabled until both sides support them. Setting the deployment flag to false stops delivery and fails selected work closed; it does not approve pending operations.
-
-For Active-Active backing databases, route every server and worker for a store through the same authoritative writer connection. Do not mix member addresses or use region-dependent aliases for that connection. Before changing writers, drain old writers, wait for replication, and restart the processes to clear old connections. A store with hook history fails closed if its persisted writer connection is missing or invalid; regional queue ownership does not make independent writers safe.
+Ask your operator to [enable ingestion webhooks](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-ingestion-webhooks) and configure the signing-secret backend.
 
 ## Configure a store policy
 
-Use the self-managed Control Plane REST API and an operator credential. The Data Plane SDKs expose status reads; `AgentMemoryService` does not currently expose hook-policy management. Set `AGENT_MEMORY_CONTROL_PLANE_URL`, `AGENT_MEMORY_SERVICE_TOKEN`, `STORE_ID`, and `HOOK_URL`. For the receiver example, use `https://<receiver-host>:8443/hook`, or the HTTPS ingress URL that forwards to it.
-
-A policy PUT replaces the whole policy. Include every phase you want to retain; omitting a phase removes it. Read the current revision before writing:
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $AGENT_MEMORY_SERVICE_TOKEN" \
-  "$AGENT_MEMORY_CONTROL_PLANE_URL/v1/stores/$STORE_ID/ingestion-hooks" > hook-config.json
-```
-
-A new store starts at revision 0. Generate separate 32-byte signing keys for the two phases, then configure them with delivery still disabled:
-
-```sh
-export HOOK_INPUT_KEY="$(openssl rand -base64 32)"
-export HOOK_OUTPUT_KEY="$(openssl rand -base64 32)"
-
-jq --arg url "$HOOK_URL" \
-  '{expectedRevision:.revision,enabled:false,beforeInput:{url:$url,paths:["session.append","memory.create","document.submit"],signingKey:env.HOOK_INPUT_KEY},beforeApply:{url:$url,paths:["session.builtin","session.custom","document.chunk"],signingKey:env.HOOK_OUTPUT_KEY}}' \
-  hook-config.json | curl --fail-with-body --silent --show-error --request PUT \
-    --header "Authorization: Bearer $AGENT_MEMORY_SERVICE_TOKEN" \
-    --header 'Content-Type: application/json' --data @- \
-    "$AGENT_MEMORY_CONTROL_PLANE_URL/v1/stores/$STORE_ID/ingestion-hooks" > hook-config-new.json
-```
-
-The response returns each phase's `keyId` and `signingKeyConfigured`, never its key. Load those IDs and original keys into the receiver. A receiver that accepts the JSON map used in the next section can get it from:
-
-```sh
-export HOOK_KEYS_JSON="$(jq -c '{(.beforeInput.keyId):env.HOOK_INPUT_KEY,(.beforeApply.keyId):env.HOOK_OUTPUT_KEY}' hook-config-new.json)"
-```
-
-After the receiver is ready, enable the same policy using the returned revision and omitting signing keys to retain them:
-
-```sh
-jq '{expectedRevision:.revision,enabled:true,beforeInput:{url:.beforeInput.url,paths:.beforeInput.paths},beforeApply:{url:.beforeApply.url,paths:.beforeApply.paths}}' \
-  hook-config-new.json | curl --fail-with-body --silent --show-error --request PUT \
-    --header "Authorization: Bearer $AGENT_MEMORY_SERVICE_TOKEN" \
-    --header 'Content-Type: application/json' --data @- \
-    "$AGENT_MEMORY_CONTROL_PLANE_URL/v1/stores/$STORE_ID/ingestion-hooks" | jq
-```
-
-A stale `expectedRevision` returns `409`. To rotate a key, supply a new `signingKey` and load its returned ID into the receiver. Retain the previous receiver key for 24 hours: pending work keeps its original endpoint and key version. Policy changes affect new work; they do not rewrite saved decisions or a pending run's policy.
-
-Keep the previous endpoint reachable while its pending work completes; delivery does not follow a redirect to the replacement URL.
+Your operator must [configure a store policy](/content/operate/iris/agent-memory/self-managed/api-examples.md#configure-a-webhook-policy), then provide the receiver with its signing keys and key IDs through a secret store. The receiver example reads them from `HOOK_KEYS_JSON`. Enable delivery after the receiver is ready.
 
 ## Verify callbacks and return decisions
 
@@ -128,7 +61,14 @@ v1=<hex HMAC-SHA256(decodedKey, timestamp + "." + eventId + "." + rawBody)>
 
 Read the timestamp, event ID, key ID, and signature from `X-Redis-Webhook-Timestamp`, `X-Redis-Webhook-Event-Id`, `X-Redis-Webhook-Key-Id`, and `X-Redis-Webhook-Signature`. Check freshness and use a constant-time signature comparison. Retries keep the event ID and raw body but receive a fresh signed timestamp.
 
-This runnable receiver uses FastAPI and the Python standard library. It rejects the demonstration marker `[reject]` and accepts other signed content. Replace that marker policy with your application's policy. Save as `receiver.py`:
+This runnable receiver uses FastAPI and the Python standard library. It:
+
+1. Checks the four signature headers and the timestamp.
+1. Verifies the HMAC signature over the raw body.
+1. Returns the saved decision if the event and body match a previous request.
+1. Rejects content containing `[reject]` and accepts other signed content.
+
+Replace the demonstration marker policy with your application's policy. Save as `receiver.py`:
 
 ```python
 import base64
@@ -194,8 +134,8 @@ async def hook(request: Request):
     if payload.get("phase") not in {"before_input", "before_apply"}:
         raise HTTPException(400, "Invalid phase")
 
-    # ponytail: one process and at most 1000 decisions; use a durable shared
-    # decision store before adding replicas or policies with external effects.
+    # Demo only: one process and at most 1,000 saved decisions.
+    # Use a durable shared store before adding replicas or external effects.
     now = time.time()
     for identity, saved in list(decisions.items()):
         if saved[2] <= now:
@@ -244,7 +184,13 @@ A document-input transform replaces its decoded text:
 {"version":"1","decision":"transform","replacement":{"content":"Approved document text."}}
 ```
 
-Session-input transforms can change `actorId`, `role`, `content`, `createdAt`, and `metadata`, while preserving session identity, owner, and placement. Manual-create transforms preserve record count, order, and IDs. They can change editable text, type, session, owner, namespace placement, topics, and attributes. Do not supply both `namespace` and `namespaceRef`.
+| Path | What a transform can change |
+|:-----|:----------------------------|
+| `document.submit` | The decoded document text in `replacement.content`. |
+| `session.append` | `actorId`, `role`, `content`, `createdAt`, and `metadata`. Session identity, owner, and placement stay fixed. |
+| `memory.create` | Editable text, type, session, owner, namespace placement, topics, and attributes. Record count, order, and IDs stay fixed. |
+
+Do not supply both `namespace` and `namespaceRef`. Transformed records must still pass authorization and validation.
 
 For `memory.create`, `session.builtin`, `session.custom`, and `document.chunk`, `decision: review` can decide each operation separately:
 
@@ -304,7 +250,7 @@ Session summary and property hooks also apply to worker writes. A rejected summa
 | `429` | Hook capacity is exhausted. Apply backoff and inspect pending work. |
 | Bulk success with item errors | Check every record's result; HTTP success does not mean all records were applied. |
 
-Decision `state` and `applyState` are separate. Inspect `applied`, `filtered`, `conflicts`, attempts, safe errors, and retry times. A later failure or an incomplete completion record does not prove earlier writes were rolled back. There is no manual redrive endpoint.
+Decision `state` and `applyState` are separate. Inspect `applied`, `filtered`, `conflicts`, attempts, safe errors, and retry times. A later failure or an incomplete completion record does not prove earlier writes were rolled back. You cannot manually retry a stopped operation through a retry endpoint.
 
 Use the Data Plane connection values from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). Set `HOOK_EVENT_ID` to inspect one known event, or omit it to list events. Add `USER_TOKEN` for delegated access:
 

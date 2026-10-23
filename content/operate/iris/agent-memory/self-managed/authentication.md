@@ -299,13 +299,25 @@ For a new deployment, configure the user-identity path before writing personal d
 Before upgrading an existing deployment:
 
 1. Keep `memory.ownership.enabled: false` explicitly set while preparing the transition.
-1. Complete the deployment's namespace-placement index migration. Existing stores need the scope and root-owner fields used by ownership queries.
-1. Compare stored personal owners with the verified user IDs your application will send. Resolve mismatches through a controlled data migration; the setting does not rewrite owners.
+1. Compare stored personal owners with the verified user IDs your application will send. Resolve owner mismatches before enabling enforcement; the setting does not rewrite owners.
 1. Configure delegation, then set `memory.ownership.enabled: true` in chart-rendered values. For a bring-your-own file, use `ownership.enabled: true` at the root.
 1. Apply the setting to both Data Plane servers and workers, then roll out those processes. `MEM_OWNERSHIP_ENABLED` overrides the file value; check both for conflicting settings.
 1. Replace existing Summary Views when changing this setting. A view retains the source-access policy from its creation.
 1. Test two users: each can access their own personal records, neither can retrieve or search for the other's records, and both can access shared records allowed by their store grants.
 1. Test an agent key without a user token: it must not retrieve personal records or create a session for a named owner.
+
+For the two-user read check, use an ordinary agent key with store read access, without operator privileges. Set `USER_TOKEN` to the first user's valid token. Set `OWN_SESSION_ID`, `OTHER_SESSION_ID`, and `SHARED_SESSION_ID` to existing sessions owned by that user, owned by the other user, and placed in a shared namespace, respectively:
+
+```sh
+for session_id in "$OWN_SESSION_ID" "$OTHER_SESSION_ID" "$SHARED_SESSION_ID"; do
+  curl --silent --show-error --output /dev/null --write-out '%{http_code}\n' \
+    --header "Authorization: Bearer $API_KEY" \
+    --header "X-Iris-User-Token: $USER_TOKEN" \
+    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$session_id"
+done
+```
+
+Expect `200`, `404`, and `200`, in that order. Repeat with the second user's token and swap `OWN_SESSION_ID` with `OTHER_SESSION_ID`. A `401` indicates a token configuration problem; it does not prove ownership enforcement works.
 
 Disabling enforcement restores store-wide access within the credential's grants. Keep backend authorization in place before disabling it. It does not remove stored owner fields, reassign records, or remove the need for store authentication.
 
