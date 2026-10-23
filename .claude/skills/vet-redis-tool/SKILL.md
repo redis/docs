@@ -134,7 +134,7 @@ Score these on how the tool handles Redis, not how many databases it supports. A
 | D2 | Production safety | Key discovery is verified not to use `KEYS`, **and** ≥ 4 of the 5 behaviors below are verified present | Neither Pass nor Fail | Key discovery uses `KEYS`, **or** ≥ 3 of the 5 verified absent | Key-browser, value-loading, and command-dispatch code, and the console UI |
 | D3 | Topology | Both Cluster and Sentinel are supported | Exactly one is supported, **or** support cannot be determined (blind) | Verified standalone-only: neither is supported | Connection code and forms, docs. A vendor statement that a topology is not supported counts as verified absence |
 | D4 | Connection and type coverage | ≥ 4 of the 5 items below verified supported | Neither Pass nor Fail | At most 1 item could be supported: verified-supported items plus unverified items total ≤ 1 | Connection code and forms, value views, docs |
-| D5 | Maturity of the Redis support | In a stable public release for ≥ 12 months, and not labeled beta, preview, or experimental | In a stable public release for ≥ 6 months, and either < 12 months or still labeled beta, preview, or experimental | Not in a stable public release, or in one for < 6 months | The first stable (not beta or pre-release) release whose changelog or source includes the Redis support; labels in the UI source, the connection form, and the docs. Record who wrote the Redis code in the evidence cell — a single author of a mature project's Redis driver is worth a reviewer note |
+| D5 | Maturity of the Redis support | In a stable public release for ≥ 12 months, and not labeled beta, preview, or experimental | In a stable public release for ≥ 6 months, and either < 12 months or still labeled beta, preview, or experimental — **or** the release history needed to date it is not observable (blind) | Verified not to be in a stable public release, or verified to have been in one for < 6 months | The first stable (not beta or pre-release) release whose changelog or source includes the Redis support; labels in the UI source, the connection form, and the docs. Record who wrote the Redis code in the evidence cell — a single author of a mature project's Redis driver is worth a reviewer note |
 
 **D2 behaviors:**
 
@@ -152,7 +152,7 @@ Score these against the entry text from section 1. Both must reach Pass before m
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| E1 | Claims match the evidence | No claim is contradicted, every capability and limitation claim is verified, **and** the entry states the Redis gaps found in D2–D5 | No claim is contradicted, but some claims could not be verified **or** known gaps are omitted | At least one claim is contradicted by the evidence | The entry, checked line by line against sections C and D |
+| E1 | Claims match the evidence | No claim is contradicted, every capability and limitation claim is verified, **and** the entry states the verified Redis gaps found in D2–D5 | No claim is contradicted, but some claims could not be verified **or** known gaps are omitted | At least one claim is contradicted by the evidence | The entry, checked line by line against sections C and D |
 | E2 | Fits the page | Has all four elements of the established pattern and needs no edits | At most one of the four elements is missing, **or** all are present but edits are needed: marketing words, commands not named in the capability list, length over 1.5× the longest neighboring entry | Two or more of the four elements are missing | The other entries in the Third-party tools section |
 
 **Reading claims for E1.** Read each claim as a typical reader would. Pricing and availability are claims: a feature listed under an unqualified "free" or "open-source" opening that needs a paid tier, or a download link labeled "free" for a tool whose Redis support is paid, is a contradiction, not an omission. A missing gap statement is scored here only, not again in E2.
@@ -164,7 +164,7 @@ Score these against the entry text from section 1. Both must reach Pass before m
 The Third-party tools section is a directory: it lists tools that work with Redis and says plainly what each one does not do. So the scores split into three jobs:
 
 - **Sections A–C decide the listing** — is the tool alive, adopted, and safe to point readers at? 12 criteria × 2 points = **24 max**.
-- **Section D decides what the entry must say.** Thin Redis support is not a reason to decline; an entry that hides it is. Every D2–D5 row below Pass is a gap the entry must state, which is what E1's Pass condition checks. D1 is the exception — see the gates.
+- **Section D decides what the entry must say.** Thin Redis support is not a reason to decline; an entry that hides it is. Every *verified* gap behind a D2–D5 score below Pass is one the entry must state, which is what E1's Pass condition checks. A blind Warn is not a gap: the entry must neither claim nor deny the unverified capability, and the reviewer notes list it as unverified. D1 is the exception — see the gates.
 - **Section E decides whether the entry is ready to merge.** E1 and E2 must both reach Pass before merge, whatever the verdict. The edits from section 5 are a merge condition, not a reason to decline.
 
 | Verdict | A–C total (of 24) |
@@ -192,7 +192,7 @@ Produce, in this order:
 2. A scorecard table with columns: criterion | score | evidence. Every evidence cell must contain at least one URL and the concrete fact observed. Name the instrument for rows scored on docs or a test run instead of source, and mark blind Warns **(blind)**.
 3. The A–C total (of 24), the full total (of 38), the count of blind Warns in A–C, and the verdict per section 4, noting explicitly whether any gate or hard stop applies and whether a hard stop is confirmed.
 4. A 2–3 sentence summary of the standout strengths and weaknesses.
-5. If E1 or E2 scored below Pass, the specific edits the entry needs before merge, as replacement text where you can — including a sentence for every D2–D5 gap.
+5. If E1 or E2 scored below Pass, the specific edits the entry needs before merge, as replacement text where you can — including a sentence for every verified D2–D5 gap. Never write an unverified limitation into the entry; drop the unverified claim instead.
 6. **Reviewer notes**, kept separate: the submitter's affiliation, star-history anomalies, patched historical CVEs, and anything else that is not a criterion. These carry no score. Keep them out of anything published — in a public reply they read as a judgement on the author rather than on the tool.
 
 ## 6. Record the verdict
