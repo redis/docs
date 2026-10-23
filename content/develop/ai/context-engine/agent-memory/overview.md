@@ -15,15 +15,15 @@ aliases:
 
 ## Background summarization and extraction
 
-Agent Memory has two writers. Your application writes session events as they happen. After you enable summarization and extraction, Agent Memory reads those events in the background and does two things without an application write:
+Your application writes session events as they happen. In the background, Redis Agent Memory reads those events and:
 
-- **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't blow the model's context window.
+- **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't overflow the model's context window.
 - **Extracts** long-term memories, facts and preferences worth keeping, and writes them as separate, searchable records with vector embeddings.
 
 ![An application writes session events synchronously to session memory. Background extraction moves durable information into long-term memory, which the application can search directly.](/images/ai/context-engine/agent-memory-writers.svg)
 {width="700"}
 
-Both run asynchronously, to keep session writes fast. Extraction also weighs a new memory against existing memories before writing it. Rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
+Both run asynchronously to keep session writes fast. Extraction also compares each new memory with existing ones and uses the model to decide whether it duplicates existing information or adds something new.
 
 ## Memory types
 
@@ -37,7 +37,7 @@ You can think of Redis Agent Memory's tiers as analogous to human memory:
 
 Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends, durable enough to recall in a conversation the agent hasn't seen before.
 
-This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session, as derived session state. It returns this summary separately from long-term memories. You can also define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
+Redis Agent Memory also maintains an automatically updated summary of each session, as derived session state. It returns this summary separately from long-term memories. You can also define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
 
 ## Adding to session memory
 
@@ -69,7 +69,7 @@ See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces"
 ## FAQ
 
 **Do I still need a separate store for conversation state?**
-No, not for that purpose. Session memory holds the ordered events of a conversation, with automatic expiration based on a time-to-live (TTL) you set, and no schema to design. It doesn't replace a general-purpose cache or your application's other session data unrelated to the conversation.
+No. Session memory stores the ordered events of a conversation, with automatic expiration based on a time-to-live (TTL) you set, and no schema to design. It doesn't replace a general-purpose cache or your application's other session data unrelated to the conversation.
 
 **What happens if I write directly to long-term memory instead of letting extraction do it?**
 Both paths are supported. Use direct writes for bulk imports or external knowledge sources: anything that didn't originate in a conversation. Automatic extraction is for facts that emerge from session events themselves.
