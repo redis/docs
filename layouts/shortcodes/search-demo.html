@@ -3,9 +3,11 @@
   -----------
   Scripted, dependency-free demo of Redis Search queries: the restaurants
   and their index, full-text search, tag and numeric conditions with
-  sorting, and FT.AGGREGATE over orders, each with its query, the data it
+  sorting, FT.AGGREGATE over orders, and GEO and GEOSHAPE queries over
+  where each restaurant is and delivers, each with its query, the data it
   finds, and the exact reply. Runs entirely in the browser on recorded
-  data; no Redis server is called.
+  data; no Redis server is called. The location step's maps are images in
+  static/images/ai/search-and-query/demo-maps/, passed in as data-maps.
 
   Usage (no arguments):
       {{< search-demo >}}
@@ -30,6 +32,6 @@
 <link rel="stylesheet" href="{{ "css/search-index-demo.css" | relURL }}?v={{ index $v "css/search-index-demo.css" }}">
 <script defer src="{{ "js/search-demo.js" | relURL }}?v={{ index $v "js/search-demo.js" }}"></script>
 
-<div class="rcr rsq rsi" data-search>
+<div class="rcr rsq rsi" data-search data-maps="{{ "images/ai/search-and-query/demo-maps/" | relURL }}">
   <noscript><p>This interactive demo needs JavaScript.</p></noscript>
 </div>
