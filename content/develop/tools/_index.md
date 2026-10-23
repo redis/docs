@@ -55,7 +55,7 @@ The tools above are maintained by Redis. The tools below are maintained by their
 
 ### VisuaLeaf
 
-[VisuaLeaf](https://visualeaf.com/database/redis/) is a desktop database GUI for macOS, Windows, and Linux, with a free tier and paid plans. It presents Redis in the same interface, and the same connection list, as the MongoDB and SQL databases a team already runs, so a cache and the application database behind it can be inspected in one place. The Redis support is built on [Lettuce](https://github.com/redis/lettuce) and provides:
+[VisuaLeaf](https://visualeaf.com/database/redis/) is a desktop database GUI for macOS, Windows, and Linux. Redis connections need a paid license or the 14-day trial: the free Community Edition doesn't include them. It presents Redis in the same interface, and the same connection list, as the MongoDB and SQL databases a team already runs, so a cache and the application database behind it can be inspected in one place. The Redis support is built on [Lettuce](https://github.com/redis/lettuce) and provides:
 
 * A command console and script editor that sends any command through a generic dispatch path — including module commands such as `JSON.GET` and `FT.SEARCH` — with command help, saved scripts, batch runs where each command's reply is shown separately, and command history.
 * A key browser that discovers keys with `SCAN` (never `KEYS`), groups them by prefix on a delimiter you choose, and filters by type or value. Large values are paged rather than fetched whole: lists and sorted sets by index window, hashes and sets by `HSCAN` / `SSCAN` cursor. TTLs are shown and editable, including per-field hash TTLs on servers that support `HTTL`.
@@ -63,9 +63,9 @@ The tools above are maintained by Redis. The tools below are maintained by their
 * Security management: ACL users and permissions over the data-plane `ACL` commands, `requirepass` changes, and user management on Redis Enterprise and Redis Cloud through their REST APIs.
 * Per-key JSON export and restore for string, hash, list, set, and sorted set keys, preserving TTL. RDB parsing is out of scope.
 
-It connects to standalone servers, Cluster deployments via seed nodes, and Sentinel via a master name and sentinel nodes, over plain TCP or TLS (`rediss://`, with optional client certificates), directly or through an SSH tunnel. Reads can be routed to replicas. Redis-compatible servers — Valkey, KeyDB, ElastiCache, Azure Cache — connect the same way. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
+It connects to standalone servers, Cluster deployments via seed nodes, and Sentinel via a master name and sentinel nodes, over plain TCP or TLS (`rediss://`, with optional client certificates). Reads can be routed to replicas. Redis-compatible servers — Valkey, KeyDB, ElastiCache, Azure Cache — connect the same way. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
 
-[Download for free on their website](https://visualeaf.com/database/redis/)
+[Download from their website](https://visualeaf.com/database/redis/)
 
 ### LibreDB Studio
 
@@ -79,16 +79,15 @@ It connects to a single standalone node over an unencrypted connection: Cluster,
 
 ### Beekeeper Studio
 
-[Beekeeper Studio](https://www.beekeeperstudio.io/db/redis-client/) is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
-Beekeeper Studio is a desktop app, and is available for Linux, macOS, and Windows with full feature parity across all operating systems. 
+[Beekeeper Studio](https://www.beekeeperstudio.io/db/redis-client/) is an open-source desktop database manager for Linux, macOS, and Windows that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more. Redis is included in the free Community Edition, and the app labels its Redis support as beta.
 
 Redis support includes
 
-* A command console with autocomplete, history, saved commands, and multi-tab editing, plus an AI assistant that can turn natural-language questions into Redis commands.
+* A command console with autocomplete, history, saved commands, and multi-tab editing, plus, in the paid editions, an AI assistant that can turn natural-language questions into Redis commands.
 * A spreadsheet-style key browser for browsing, filtering, and editing values, including JSON documents via the ReJSON module.
 * One-click export of query results to CSV, Excel, or JSON.
 
-It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
+It connects to a Redis server with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs. Only standalone servers are supported: Cluster, Sentinel, and SSH tunnels are not. The key browser runs `SCAN` across the whole keyspace on every page and loads each value whole, so large databases are slow to browse. Read-only mode blocks the write commands the tool recognizes and passes unrecognized commands through.
 
 [Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
 
