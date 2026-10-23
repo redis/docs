@@ -11,7 +11,7 @@ params:
   showPageContent: true
 ---
 
-Use the Lens read API to list agents and sessions, and to read turns, their captured content, and Context Gateway tool results. Every operation is a `GET` request scoped to your instance.
+Use the Lens read application programming interface (API) to list agents and sessions, and to read turns, their captured content, and Context Gateway tool results. Every operation is a `GET` request scoped to your instance.
 
 [Download the OpenAPI contract]({{< relref "/develop/ai/context-engine/lens/api-reference/" >}}openapi.json) to generate clients or inspect schemas.
 

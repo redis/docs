@@ -32,6 +32,9 @@ for session in sessions:
 # STEP_END
 
 # STEP_START get_session
+if not sessions:
+    raise SystemExit("No matching sessions in the last 24 hours")
+
 session = client.get_session(session_id=sessions[0].session_id)
 for summary in session.turns:
     outcome = summary.outcome.value if summary.outcome else "no outcome"
@@ -47,10 +50,11 @@ for entry in turn.manifest.entries:
 # STEP_END
 
 # STEP_START get_content
-reference = turn.manifest.entries[0].candidates[0].content
-if reference.hash:
-    content = client.get_content(turn_id=turn.trace_id, hash=reference.hash)
-    print(content.availability.value, content.body)
+for entry in turn.manifest.entries:
+    for candidate in entry.candidates:
+        if candidate.content and candidate.content.hash:
+            content = client.get_content(turn_id=turn.trace_id, hash=candidate.content.hash)
+            print(candidate.id, content.availability.value, content.body)
 # STEP_END
 
 # STEP_START gateway_result

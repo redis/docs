@@ -15,11 +15,11 @@ Record each agent turn and the steps inside it with `redis_iris.lens`, the Lens 
 
 ## Turn Lens on
 
-Lens starts when `IRIS_LENS_ENDPOINT` is set, from the first Lens or Iris product call. Call `lens.init()` at startup to also trace model calls, and to set the agent ID and service name in code:
+Call `lens.init()` once at startup. It turns Lens on, traces model calls, and sets the agent ID and service name:
 
 {{< clients-example set="iris_lens_instrument" step="init" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-`lens.init()` returns `True` when Lens is on. You can also pass Lens settings to `Iris(IrisSettings(lens=...))`. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md) for every setting.
+Without `lens.init()`, Lens starts at the first Lens or Iris product call when `IRIS_LENS_ENDPOINT` is set, and records everything except model calls. You can also pass Lens settings to `Iris(IrisSettings(lens=...))`. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md) for every setting.
 
 ## Open a turn
 
@@ -28,6 +28,8 @@ Wrap each agent exchange in `lens.turn()`. Pass the session ID, and optionally a
 {{< clients-example set="iris_lens_instrument" step="open_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
 Use `set_attribute()` to add your own fields to the turn, and `set_outcome()` to record how it ended. See [turn outcomes](/content/develop/ai/context-engine/lens/concepts.md#turn-outcomes) for the values.
+
+`lens.turn()` works the same in asynchronous code: open it with `with` around the `await` calls of one exchange.
 
 ## What Iris products record
 
@@ -39,7 +41,7 @@ Agent Memory, Agent Playbooks, and Context Gateway calls record their own steps 
 | Agent Playbooks | Discovery, skill loads, skill resource reads, and proposals. |
 | Context Gateway | Tool listings and each tool call, with its upstream tool name. |
 
-These steps come from the Redis Iris product objects, such as `AgentMemory` and `AgentPlaybooks`. Calls you make on a product's generated client (`.client`) aren't recorded; wrap them in `lens.memory_recall()`, `lens.retrieval()`, or `lens.span()`.
+These steps come from the Redis Iris product objects, such as `AgentMemory` and `AgentPlaybooks`. To record a call on a product's generated client (`.client`), wrap it in `lens.memory_recall()`, `lens.retrieval()`, or `lens.span()`.
 
 ## Trace model calls
 
@@ -71,23 +73,25 @@ Record which retrieved items entered the prompt. Pass everything you fetched to 
 
 {{< clients-example set="iris_lens_instrument" step="prompt_assembly" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-Lens matches items by their text, so pass the same items you recorded as results. The turn then shows which results entered the prompt and which were dropped. See [fetched and used context](/content/develop/ai/context-engine/lens/concepts.md#fetched-and-used-context).
+Lens matches items by their text, so pass the same items you recorded as results. The turn then shows which results entered the prompt and which weren't used. See [fetched and used context](/content/develop/ai/context-engine/lens/concepts.md#fetched-and-used-context).
 
 ## Add custom steps
 
-Wrap any operation in `lens.span()` to record it as a step. Pass attributes as keyword arguments, or set them on the step:
+Wrap any operation in `lens.span()` to record it in the turn. Pass attributes as keyword arguments, or set them on the step:
 
 {{< clients-example set="iris_lens_instrument" step="custom_span" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
+Custom steps are part of the turn's trace, and the read API returns them in the turn's `spans`.
+
 ## Include other instrumentation
 
-Lens exports its own steps and the steps of supported libraries. To also export steps that another OpenTelemetry (OTel) instrumentation creates, such as a vector store client, wrap the call in `lens.include()`. It works as a decorator or a context manager:
+Lens exports the spans other OpenTelemetry instrumentation creates inside a turn, apart from a default set of low-level scopes such as database drivers. To also export spans created outside a turn, or from an excluded scope, wrap the call in `lens.include()`. It works as a decorator or a context manager:
 
 {{< clients-example set="iris_lens_instrument" step="include" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
 ## Get the turn ID
 
-Read the turn ID to link a turn to your own logs or to open it in Lens. Inside a turn, call `lens.current_trace_id()`. After the turn, read `trace_id` from the turn handle:
+Read the turn ID to link a turn to your own logs, or to [fetch the turn](/content/develop/ai/context-engine/lens/read-api.md#get-a-turn) with the read application programming interface (API). Inside a turn, call `lens.current_trace_id()`. After the turn, read `trace_id` from the turn handle:
 
 {{< clients-example set="iris_lens_instrument" step="turn_id" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
@@ -99,10 +103,12 @@ When a turn continues in another process, such as a queue worker, pass its conte
 
 Steps recorded in the worker join the same turn. The dictionary carries the session, user, and agent IDs, so send it only to services you trust, and resume only from dictionaries your own services created.
 
+Within one process, `lens.init()` with the `llm-tracing` extra carries the turn into threads your code starts.
+
 ## Shut down
 
-Before a short-lived process exits, call `lens.shutdown()`. It waits for the export to finish and returns `True` when it does:
+Before a short-lived process exits, call `lens.shutdown()`:
 
 {{< clients-example set="iris_lens_instrument" step="shutdown" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-`shutdown()` also turns Lens off for the rest of the process. Call it once, when your program is done tracing. Long-running services export continuously and don't need it until they stop.
+`shutdown()` waits for the export queue to flush and returns `True` when the flush completes. A failed export logs a warning on the `iris.lens` logger. `shutdown()` also turns Lens off for the rest of the process, so call it once, when your program is done tracing. Long-running services export continuously and call it only when they stop.

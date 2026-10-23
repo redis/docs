@@ -32,7 +32,7 @@ print(f"Turn: {turn_id}")
 
 # STEP_START flush
 if not lens.shutdown(timeout_millis=10_000):
-    raise RuntimeError("Lens did not finish exporting the turn")
+    raise RuntimeError("Lens did not finish flushing the turn")
 # STEP_END
 
 # STEP_START find_turn
@@ -51,7 +51,7 @@ with Lens(
         except errors.NotFoundErrorResponseContent:
             time.sleep(2)
     else:
-        raise RuntimeError("The turn isn't readable yet. Try again in a minute.")
+        raise RuntimeError("The turn isn't readable. Check the iris.lens warnings for an export error.")
 
 print(f"Outcome: {detail.outcome.value}")
 for entry in detail.manifest.entries:

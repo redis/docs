@@ -11,11 +11,11 @@ title: Lens concepts
 weight: 5
 ---
 
-Lens records each agent turn as one trace. It shows what your agent retrieved, what entered the prompt, which model and tool calls it made, and how the turn ended.
+These concepts explain what Lens records for each turn and how it organizes turns into sessions.
 
 ## Sessions, threads, and turns
 
-A **turn** is one agent exchange: a user message in, an answer out. Lens records each turn as one OpenTelemetry (OTel) trace, and the trace ID is the turn ID.
+A **turn** is one agent exchange: a user message in, an answer out. Lens records each turn as one OpenTelemetry trace, the standard record of one request and every operation it ran. The trace ID is the turn ID.
 
 A **session** groups the turns of one conversation. A **thread** is a sequence of turns within a session. You choose the session and thread IDs and pass them when you open a turn. When you omit the thread ID, Lens uses the session ID.
 
@@ -47,13 +47,13 @@ Lens compares what a source returned with what reached the model:
 - **Fetched** items are everything a retrieval or memory recall returned.
 - **Used** items are the fetched items that entered the prompt.
 
-When you record prompt assembly, Lens marks each source's results as entered the prompt, fetched but not used, or returned empty. This shows when a relevant result was retrieved but dropped, for example at a token limit.
+When you record prompt assembly, Lens marks each result as entered the prompt or not used, and marks retrievals that returned nothing. This shows when a relevant result was retrieved but dropped, for example at a token limit. Lens keeps this comparison for each turn as its **context manifest**.
 
-Lens also records each result's score where the source provides one. Agent Playbooks discovery results include their similarity score, and Context Gateway results include their hybrid search score. Your own retrievals include the scores you record. Lens groups scores into high, medium, and low bands, and records the similarity threshold a request set.
+Lens also records each result's score where the source provides one. Agent Playbooks discovery results include their similarity score, and Context Gateway results include their hybrid search score. Your own retrievals include the scores you record.
 
 ## Turn outcomes
 
-Set an outcome on each turn to record how it ended. You can then filter sessions by outcome.
+Set an outcome on each turn to record how it ended. You can then [filter sessions by outcome](/content/develop/ai/context-engine/lens/read-api.md#list-sessions) with the read application programming interface (API).
 
 | Outcome | Use it when |
 | ------- | ----------- |
@@ -63,15 +63,17 @@ Set an outcome on each turn to record how it ended. You can then filter sessions
 | `refused` | The agent declined the request. |
 | `timeout` | The turn ran out of time. |
 
+A turn without an outcome still appears in Lens. Set the outcome on every path, including errors, so each turn is filterable.
+
 ## Agents
 
-Each agent has an **agent ID**, set once per process or per turn. One Lens instance holds the sessions of all your agents, and you choose an agent to view its sessions.
+Every turn carries an **agent ID**. Set it once per process with `IRIS_LENS_AGENT_ID` or `lens.init()`, or per turn with `lens.turn(agent_id=...)`. One Lens instance holds the sessions of all your agents, and you choose an agent to view its sessions.
 
 ## Content capture
 
-Lens captures content by default: prompts, completions, queries, retrieved text, memory text, FAQ answers, skill text, and tool inputs and results.
+Lens captures content by default: prompts, completions, queries, retrieved text, memory text, frequently asked question (FAQ) answers, skill text, and tool inputs and results.
 
-You can turn content capture off. Lens then keeps each step's IDs, content hashes, counts, sizes, timing, and outcome. Fetched and used comparisons still work, because Lens compares hashes. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md).
+You can turn content capture off. Lens then keeps each step's IDs, content hashes, counts, sizes, timing, and outcome. Fetched and used comparisons still work, because Lens compares hashes. See [Control content capture](/content/develop/ai/context-engine/lens/configure.md#control-content-capture).
 
 ## Retention
 

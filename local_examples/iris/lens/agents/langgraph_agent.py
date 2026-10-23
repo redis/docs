@@ -1,7 +1,7 @@
 # EXAMPLE: iris_lens_langgraph
 # STEP_START langgraph_turn
 from langchain_openai import ChatOpenAI
-from langgraph.graph import START, MessagesState, StateGraph
+from langgraph.graph import END, START, MessagesState, StateGraph
 
 from redis_iris import lens
 
@@ -16,6 +16,7 @@ def assistant(state: MessagesState):
 graph = StateGraph(MessagesState)
 graph.add_node("assistant", assistant)
 graph.add_edge(START, "assistant")
+graph.add_edge("assistant", END)
 app = graph.compile()
 
 thread_id = "thread-1"

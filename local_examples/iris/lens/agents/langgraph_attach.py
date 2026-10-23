@@ -1,6 +1,6 @@
 # EXAMPLE: iris_lens_langgraph_attach
 from langchain_openai import ChatOpenAI
-from langgraph.graph import START, MessagesState, StateGraph
+from langgraph.graph import END, START, MessagesState, StateGraph
 
 from redis_iris import lens
 
@@ -15,6 +15,7 @@ def assistant(state: MessagesState):
 graph = StateGraph(MessagesState)
 graph.add_node("assistant", assistant)
 graph.add_edge(START, "assistant")
+graph.add_edge("assistant", END)
 
 # STEP_START langgraph_attach
 from redis_iris import AgentMemory

@@ -49,7 +49,7 @@ List one agent's sessions over a time range, newest activity first. This example
 | --------- | ----------- |
 | `agentId` | Required. The agent whose sessions to list. |
 | `range` | Required. A lookback duration such as `24h`, `7d`, or `30d`. |
-| `sessionIdPrefix` | Sessions whose ID starts with this value, ignoring case. |
+| `sessionIdPrefix` | Sessions whose ID starts with this value, ignoring case. At least 2 characters. |
 | `userId` | Sessions with this user ID, ignoring case. |
 | `outcome` | Sessions with a turn that has any of these outcomes. Use `unset` for turns without an outcome. |
 | `limit` | Sessions per page, up to 200. Default 50. |
@@ -59,7 +59,7 @@ The Python client uses the same parameters in snake_case, such as `agent_id` and
 
 Lens fits the range to your instance's retention. The response returns the range it used as `effectiveRange`, and the ranges your instance supports as `availableRanges`.
 
-To read the next page, pass `nextCursor` with the same filters. When `nextCursor` is absent, you have the last page.
+To read the next page, pass `nextCursor` with the same filters. When `nextCursor` is absent, you have the last page. A cursor expires after 5 minutes without use; start again from the first page.
 
 ## Get a session
 
@@ -71,7 +71,7 @@ Each turn summary includes the turn ID, outcome, duration, number of steps, and 
 
 ## Get a turn
 
-Read one turn by its ID. The response includes the turn's steps, token counts, outcome, and its **context manifest**: one entry per source, with what it fetched and what the prompt used.
+Read one turn by its ID. The response includes the turn's steps, token counts, outcome, and its **context manifest**: one entry per retrieval step, with what it fetched and what the prompt used.
 
 {{< clients-example set="iris_lens_read_api" step="get_turn" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 

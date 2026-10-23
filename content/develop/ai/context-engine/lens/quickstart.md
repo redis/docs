@@ -4,14 +4,14 @@ categories:
 - docs
 - develop
 - ai
-description: Trace one agent turn with the Python SDK, then find it in Lens and read it back with the read API.
+description: Trace one agent turn with the Redis Iris SDK, then find it in Lens and read it back with the read API.
 hideListLinks: true
 linktitle: Quickstart
 title: Lens quickstart
 weight: 10
 ---
 
-Trace one agent turn with the Lens Python software development kit (SDK), then find it in Lens and read it back with the Lens read application programming interface (API).
+Trace one agent turn with the Redis Iris software development kit (SDK), then find it in Lens and read it back with the Lens read application programming interface (API).
 
 ## Before you begin
 
@@ -65,7 +65,7 @@ Lens exports turns in the background. Before a short-lived process exits, flush 
 
 {{< clients-example set="iris_lens_quickstart" step="flush" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-`shutdown()` waits for the export to finish and returns `True` when it does. It also turns Lens off for the rest of the process, so call it only when your program is done tracing.
+`shutdown()` returns `True` when the flush completes. If an export fails, the SDK logs a warning on the `iris.lens` logger. `shutdown()` also turns Lens off for the rest of the process, so call it only when your program is done tracing.
 
 ## Find the turn
 
@@ -74,17 +74,22 @@ A turn is readable a few seconds after its export.
 To view it in Lens:
 
 1. Open Lens. If Lens asks for a credential, paste your read key and select **Connect**.
+   <!-- TODO: describe where to open Lens on Redis Cloud and self-managed when the operator pages exist. -->
 1. Select the `lens-quickstart` agent.
 1. Select the session that matches the printed session ID.
 1. Expand the turn.
 
-The turn shows a **Recall** step with three memories and a **Prompt** step that used two of them.
+The turn shows an **Agent Memory** step with three memories: two marked **Entered prompt** and one marked **Not used**.
 
-To read the same turn with the read API:
+To read the same turn with the read API, set `TURN_ID` for the cURL example first:
+
+```bash
+export TURN_ID='<printed-turn-id>'
+```
 
 {{< clients-example set="iris_lens_quickstart" step="find_turn" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-For cURL, first set `TURN_ID` to the printed turn ID. The Python example retries until the turn is readable, then prints its outcome and one line per source. The memory recall's source is its store ID:
+The Python example retries until the turn is readable, then prints its outcome and one line per source. The memory recall's source is its store ID:
 
 ```
 Outcome: completed
@@ -95,4 +100,4 @@ quickstart-store: fetched 3, used 2
 
 - [Learn the concepts](/content/develop/ai/context-engine/lens/concepts.md) behind sessions, turns, and fetched and used context.
 - [Instrument an agent](/content/develop/ai/context-engine/lens/instrument.md) to record retrievals, model calls, and custom steps.
-- [Integrate with an agent framework](/content/develop/ai/context-engine/lens/agent-integration.md) such as LangGraph, the OpenAI Agents SDK, or Google ADK.
+- [Integrate with an agent framework](/content/develop/ai/context-engine/lens/agent-integration.md) such as LangGraph, the OpenAI Agents SDK, or the Google Agent Development Kit (ADK).

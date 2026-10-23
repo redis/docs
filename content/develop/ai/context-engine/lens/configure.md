@@ -11,14 +11,14 @@ title: Configure Lens
 weight: 30
 ---
 
-Configure Lens with environment variables, `lens.init()`, or `LensSettings`. Lens reads its environment variables once, at the first Lens or Iris product call. To apply a variable you set later, call `lens.init()`.
+Configure the Lens module of the Redis Iris software development kit (SDK) with environment variables, `lens.init()`, or `LensSettings`. Lens reads its environment variables once, at the first Lens or Iris product call. To apply a variable you set later, call `lens.init()`.
 
 ## Settings
 
 | Variable | `LensSettings` field | Description |
 | -------- | -------------------- | ----------- |
 | `IRIS_LENS_ENDPOINT` | `endpoint` | The Lens ingest endpoint. Setting it turns Lens on. |
-| `IRIS_LENS_API_KEY` | `api_key` | The ingest key, sent with every export. |
+| `IRIS_LENS_API_KEY` | `api_key` (read from the environment only) | The ingest key, sent with every export. |
 | `IRIS_LENS_AGENT_ID` | `agent_id` | The default agent ID for this process. `lens.turn(agent_id=...)` overrides it. |
 | `IRIS_LENS_SERVICE_NAME` | `service_name` | The service name recorded on every step. |
 | `IRIS_LENS_ENABLED` | `enabled` | `false` keeps Lens off, even when an endpoint is set. |
@@ -47,9 +47,9 @@ A blank variable counts as unset, so its default applies. `IRIS_LENS_CAPTURE_CON
 | `IRIS_LENS_INSTRUMENT_PLAYBOOK` | `false` turns off Agent Playbooks steps. |
 | `IRIS_LENS_INSTRUMENT_THREADS` | `false` keeps `lens.init()` from carrying turns across Python threads. |
 | `IRIS_LENS_OWN_PROVIDER` | `false` keeps Lens from installing a global OpenTelemetry tracer provider. |
-| `IRIS_LENS_DROP_SCOPES` | A comma-separated list of instrumentation scopes Lens never exports. |
+| `IRIS_LENS_DROP_SCOPES` | A comma-separated list of OpenTelemetry instrumentation scope names that Lens never exports. It replaces the default list, so include any defaults you want to keep. |
 | `IRIS_LENS_DROP_REDIS_COMMANDS` | A comma-separated list of Redis commands Lens never exports. |
-| `IRIS_LENS_STRICT` | `true` raises an error when a turn has no session ID. |
+| `IRIS_LENS_STRICT` | `true` makes `lens.turn()` raise an error when it has no session ID. |
 | `IRIS_LENS_AUTH_HEADER` | The header that carries the ingest key. Default `Authorization`, as `Bearer <key>`. |
 | `IRIS_LENS_ALLOW_INSECURE` | `true` permits an `http://` endpoint that isn't a loopback address. |
 
@@ -62,7 +62,7 @@ Lens keys have one of three scopes:
 | Scope | Use it for |
 | ----- | ---------- |
 | `ingest` | Agents that send turns to Lens. |
-| `read` | People and tools that read turns, in the Lens UI or with the read API. |
+| `read` | People and tools that read turns, in the Lens user interface (UI) or with the read application programming interface (API). |
 | `full` | Both. |
 
 Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from `LENS_API_KEY`. Give each agent an ingest key and each reader a read key, so an agent's key can't read other agents' turns. Your administrator creates keys.
@@ -70,13 +70,11 @@ Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from
 
 ## Control content capture
 
-Set `IRIS_LENS_CAPTURE_CONTENT=false` to send no text to Lens. Lens then keeps each step's IDs, content hashes, counts, sizes, timing, and outcome. It also removes prompt and completion text that other instrumentation added, before export.
-
-Fetched and used comparisons still work with capture off, because Lens compares content hashes.
+Set `IRIS_LENS_CAPTURE_CONTENT=false` to send no text to Lens. Lens also removes prompt and completion text that other instrumentation added, before export. See [content capture](/content/develop/ai/context-engine/lens/concepts.md#content-capture) for what Lens keeps.
 
 ## Use Lens with your existing OpenTelemetry setup
 
-Lens is built on OpenTelemetry (OTel) and works with the tracing your application already has:
+Lens is built on OpenTelemetry and works with the tracing your application already has:
 
 - If your application has a tracer provider, Lens adds its processor to it. Steps your application records inside a turn are exported to Lens as well.
 - If your application has no tracer provider, Lens installs one. To prevent that, set `IRIS_LENS_OWN_PROVIDER=false`.
