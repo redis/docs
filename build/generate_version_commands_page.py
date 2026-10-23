@@ -58,7 +58,12 @@ def parse_command_file(filepath):
         content = f.read()
     
     frontmatter = parse_frontmatter(content)
-    
+
+    # Skip files with no frontmatter, such as the AGENTS.md and CLAUDE.md
+    # convention files, which are not command pages
+    if not frontmatter:
+        return None
+
     # Skip hidden commands and container commands
     if frontmatter.get('hidden', False):
         return None
