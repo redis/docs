@@ -52,7 +52,7 @@ which presents the considerations in a straightforward question-and-answer forma
 
 An RDI data pipeline connects one or more source databases to one target Redis database. Sources can use the same or different supported database types. Each source has its own collector, connectivity, credentials, and selection of tables and columns. All sources share the pipeline's processor and target.
 
-A Data Integration workspace can run several pipelines. Each pipeline has its own name, sources, and processor, and you can deploy, stop, reset, or delete it independently of the others. All the pipelines of a workspace share its network range, connectivity, and RDI database. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
+A Data Integration workspace can run several pipelines. Each pipeline has its own name, sources, processor, and target, and you can deploy, stop, reset, or delete it independently of the others. All the pipelines of a workspace share its network range, connectivity, and RDI database. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
 Each source first imports its selected data during the *initial sync* phase, then captures changes during the *streaming* phase. The pipeline transforms the captured records and writes them to Redis. You can monitor and manage each source from the pipeline dashboard.
 

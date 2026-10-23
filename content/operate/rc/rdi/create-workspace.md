@@ -43,7 +43,7 @@ There, you'll see your workspace and its pipelines, one row per pipeline. The **
 
 ## Add pipelines to a workspace
 
-A workspace can run several pipelines. Each pipeline has its own sources, processor, and settings, so you can deploy, stop, reset, or delete one pipeline without affecting the others. Use separate pipelines when you want to manage some of the data independently. To capture several source databases as one unit, [add sources to one pipeline](/content/operate/rc/rdi/view-edit.md#add-source) instead.
+A workspace can run several pipelines. Each pipeline has its own sources, target database, processor, and settings, so you can deploy, stop, reset, or delete one pipeline without affecting the others. Use separate pipelines when the data goes to different target databases, or when you want to manage some of the data independently. To capture several source databases into the same target as one unit, [add sources to one pipeline](/content/operate/rc/rdi/view-edit.md#add-source) instead.
 
 To add a pipeline:
 
