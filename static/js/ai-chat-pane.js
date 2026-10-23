@@ -664,12 +664,13 @@
     if (note && focusLost) note.focus({ preventScroll: true });
   }
 
-  /* The fields the chat page sends. origin is the page the rating was given
-     on, as for the docs' own page ratings (feedback.html); the chat page sends
-     its own URL there. */
+  /* The same fields the chat page sends. origin is the chat page's URL too.
+     DocuSight keeps a rating only if its origin starts with
+     https://redis.io/chat/, and drops any other while still answering 200.
+     It still records the page, because it stores the Referer header too. */
   function sendRating(m, kind, comment, token) {
     var data = {
-      origin: location.origin + location.pathname,
+      origin: location.origin + '/chat/',
       question: m.q || '',
       answer: decode(m.text),
       comment: comment,
