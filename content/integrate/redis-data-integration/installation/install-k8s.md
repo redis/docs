@@ -281,6 +281,45 @@ also use mTLS, you must set the client certificate and private key contents in
 > [!NOTE]
 > Please see [these docs](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md#6-additional-kubernetes-configuration) if this RDI installation is for use with GCP Spanner.
 
+### Configure an Amazon DynamoDB lease
+
+For disaster recovery between two RDI sites that share an Active-Active RDI database, use DynamoDB for operator leader election. This lease does not replicate pipeline data.
+
+#### Prepare the table
+
+- Create a multi-Region strong consistency (MRSC) global table across exactly three supported AWS Regions: one replica in each RDI site's Region, plus a third replica or a witness in a third Region. A witness cannot serve reads or writes. See [AWS's DynamoDB global table guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-global-table-design.html).
+- Choose MRSC when you create the table. DynamoDB defaults global tables to multi-Region eventual consistency (MREC), and you cannot change the consistency mode later. An existing table must be empty before you convert it to MRSC.
+- Use a single string partition key named `id`, with no sort key. Do not enable DynamoDB TTL; MRSC tables do not support it.
+- Allow outbound HTTPS access from each RDI operator to the DynamoDB endpoint in its Region.
+
+#### Configure the lease
+
+Set the lease type and table details in your Helm values file. Use the same table and `keyName` at both sites, and set `region` to each site's replica Region. Use a different `keyName` for each independent DR pair that shares the table.
+
+```yaml
+operator:
+  leaderElection:
+    enabled: true
+    leaseType: dynamodb
+    dynamoDBLease:
+      region: <aws-region>
+      tableName: <dynamodb-table-name>
+      # keyName: rdi-lease
+```
+
+#### Credentials and permissions
+
+RDI uses the AWS default credential provider chain when you omit the credentials file. On EKS, prefer temporary credentials from an IAM role through EKS Pod Identity or IRSA. You can also pass an AWS shared credentials file when you install or upgrade RDI:
+
+```bash
+helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi \
+  --set-file operator.leaderElection.dynamoDBLease.credentials=<aws-credentials-file>
+```
+
+The RDI operator needs `dynamodb:DescribeTable`, `dynamodb:PutItem`, and `dynamodb:DeleteItem` on the replica table in each RDI Region. It does not need DynamoDB access to the witness. Table creation and MRSC setup require separate administrator permissions.
+
+At startup, RDI exits if it confirms that the table is missing or misconfigured. If it cannot run `DescribeTable` because of a permission or network error, it logs the error and continues without the check; lease operations may then fail.
+
 If you are deploying to [OpenShift](https://docs.openshift.com/), you must
 set `global.openshift` to `true`:
 
@@ -374,13 +413,12 @@ To verify the status of the K8s deployment, run the following command:
 helm list -n rdi
 ```
 
-The output looks like the following. Check that the `rdi` release is listed.
-With RDI 1.8.0 or later, check that the `default` release is also listed.
+The output looks like the following. Check that the `rdi` release is listed. A fresh
+RDI 2.2.0 installation does not create a `default` pipeline until you deploy one.
 
 ```
 NAME   	NAMESPACE	REVISION	UPDATED         STATUS  	CHART         	APP VERSION
-default	rdi      	1       	2025-05-08 ... 	deployed	pipeline-0.1.0	<tag>
-rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-1.0.0      	
+rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-2.2.0
 ```
 
 Also, check that all pods have `Running` status:
@@ -449,14 +487,37 @@ the following commands. (If you installed RDI into a custom namespace then
 replace `rdi` with the name of your namespace.)
 
 ```bash
-kubectl delete pipeline default -n rdi
+kubectl delete pipelines --all -n rdi
 helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
-> [!NOTE]
-> The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
+The first command deletes all your pipelines, so that the RDI operator removes their components
+before you uninstall it.
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`](/content/develop/tools/cli.md) and run a
 [`FLUSHALL`](/content/commands/flushall.md) command.
+
+### Uninstall an instance of a disaster recovery setup
+
+In a disaster recovery setup, two RDI instances with leader election share the RDI database or
+replicate it. Deleting the pipelines of the active instance also deletes their keys in the RDI
+database, while deleting the pipelines of a follower keeps the keys, because the active instance
+still uses them. The steps depend on what you want to remove:
+
+- To remove only one instance and keep the other one running the pipelines, first make sure
+  that the instance you remove is a follower:
+
+  1. If it is the active instance, put it in standby with
+     `redis-di set-setting standby_mode true`. See
+     [Trigger a failover manually](/content/integrate/redis-data-integration/installation/ha-test.md#trigger-a-failover-manually).
+  1. Wait until
+     [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+     on the other instance shows `Leader Election Mode: leader`.
+  1. Uninstall the instance with the commands in [Uninstall RDI](#uninstall-rdi). Do not flush
+     the RDI database, because the remaining instance still uses it.
+
+- To remove the whole setup, uninstall the follower first and the active instance last, with the
+  commands in [Uninstall RDI](#uninstall-rdi). When you uninstall the active instance, RDI
+  deletes the keys of its pipelines. You can then flush the RDI database.

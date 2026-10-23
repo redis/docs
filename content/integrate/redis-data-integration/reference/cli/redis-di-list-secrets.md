@@ -8,8 +8,9 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Lists the secrets of a pipeline. The API never returns secret values, so the output shows only the
-secret keys and whether each one is set, not the stored values.
+Lists the secrets of a pipeline. The output shows the key, database, type, and configuration
+reference of each secret, but not its value, because the API never returns secret values. The
+configuration reference is the placeholder to use in `config.yaml`, such as `${MYSQL_DB_USERNAME}`.
 
 ## Usage
 

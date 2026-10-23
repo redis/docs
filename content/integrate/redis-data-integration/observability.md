@@ -55,7 +55,12 @@ You can use the CLI to determine the metrics endpoints instead of assembling the
 The `Components` section of
 [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 has a `Metrics Endpoints` column listing each component's externally-reachable metrics URLs,
-so a pipeline with several sources shows the URL of every collector.
+so a pipeline with several sources shows the URL of every collector. Pass a pipeline name, as in
+`redis-di describe orders`, for a pipeline other than `default`.
+
+To get the endpoints of every pipeline at once, for example in a script, run
+`redis-di list -o json` or send a `GET /api/v2/pipelines` request. The `external_endpoints`
+field of each component in the response lists its URLs.
 
 RDI discovers these endpoints from each component's `Ingress` resources, so a component
 without an ingress has none, and the list is empty until the ingress controller assigns an
@@ -70,6 +75,44 @@ For VM installations, the metrics are available by default on the following endp
 - Operator metrics: `https://<RDI_HOST>:<RDI_HTTPS_PORT>/operator/metrics`
 
 Above, `<RDI_HTTPS_PORT>` is the HTTPS port you specified when installing RDI, or 443 if you kept the default.
+
+For a pipeline other than `default`, the paths start with the pipeline name. For a pipeline named
+`orders`, they are `/orders/collector-mysql/metrics` for a source named `mysql`,
+`/orders/processor/metrics` for the Flink processor, and `/orders/metrics-exporter/metrics` for
+the classic processor.
+
+RDI does not include a Prometheus server in a VM installation, so add a scrape job to your own
+Prometheus server for each endpoint. The metrics do not identify the pipeline by themselves, so
+add a `pipeline` label to the jobs of each pipeline to filter its metrics in your queries and
+dashboards. For example, for the `orders` pipeline:
+
+```yaml
+scrape_configs:
+  - job_name: rdi-orders-collector-mysql
+    scheme: https
+    metrics_path: /orders/collector-mysql/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+  - job_name: rdi-orders-processor
+    scheme: https
+    metrics_path: /orders/processor/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+```
+
+If the RDI HTTPS endpoint uses a self-signed certificate, set `insecure_skip_verify: true` in
+`tls_config` instead of `ca_file`. Add the jobs of a pipeline when you create it, and remove them
+when you delete it. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#monitor-each-pipeline)
+for more information.
 
 Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
 
@@ -136,6 +179,10 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
 
 > [!NOTE]
 > The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
+
+For Debezium collectors, Flink collectors, Flink processors, and the classic processor
+metrics exporter, RDI adds a `pipeline` label to the ServiceMonitor metrics. Use this label to select metrics for a specific
+pipeline, such as `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
 
 ## Collector metrics
 
@@ -404,7 +451,10 @@ RDI uses [fluentd](https://www.fluentd.org/) and
 for its Kubernetes (K8s) components.
 So whenever a containerized component is removed by the RDI operator process or by K8s,
 the logs are available for you to inspect.
-By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`.
+By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`, with the logs of each
+pipeline in a `pipelines/<pipeline>/` directory and the logs of the control plane in a
+`control-plane/` directory. See [RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs)
+for the names of the log files.
 The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.

@@ -71,9 +71,9 @@ installations. See
 [Installing with High Availability](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability).
 
 In a DR setup, each site runs its own RDI instance against its local instance of the
-Active-Active RDI database, so leader election needs an external lease. Google Cloud Storage
-(GCS) is currently the only supported lease mechanism, and you can configure it only for
-[Helm based installations](/content/integrate/redis-data-integration/installation/install-k8s.md).
+Active-Active RDI database, so leader election needs an external lease. RDI supports Google
+Cloud Storage (GCS) and Amazon DynamoDB leases. You can configure them for
+[Helm-based installations](/content/integrate/redis-data-integration/installation/install-k8s.md).
 
 **Important:** Use a DR setup only when both sites capture changes from the same source
 database server. Both RDI instances must point at that same server, not at a replica of it.
@@ -91,6 +91,14 @@ for installation details.
 Yes. Add one entry per source to the `sources` section of `config.yaml`. Each source has its
 own collector, which captures change records independently of the other sources. See
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
+
+## Can one RDI installation run several pipelines?
+
+Yes. Deploy each pipeline under its own name, for example with `redis-di deploy orders`. Each
+pipeline has its own configuration, secrets, collectors, and stream processor, and you can
+start, stop, reset, and delete it without affecting the others. All the pipelines share the
+RDI control plane and the RDI database. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md) for more information.
 
 ## Can RDI automatically track changes to the source database schema?
 
