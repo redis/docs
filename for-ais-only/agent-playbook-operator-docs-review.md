@@ -45,9 +45,9 @@ The generic `task lint` and `task test` commands are unavailable because this re
 
 The operator parent and MOD-20121 follow-up remain drafts. Merge in stack order only after the publication hold is satisfied, then retarget or rebase onto the intended documentation release branch and confirm the remaining diff.
 
-## MOD-20121 follow-up candidate
+## MOD-20121 follow-up qualification
 
-This follow-up is isolated on `docs/MOD-20121-playbook-extraction-lifecycle`, stacked on operator PR [#4256](https://github.com/redis/docs/pull/4256) at `430c680a53e1a1060e26b8f46abb3ed6c7c6b753`. It does not modify that parent branch or PR. The current backend candidate is Iris `af81d8655a5c2ff48003cc96fb7bce42daf1935f`, [#2065](https://github.com/redislabsdev/iris/pull/2065), following MOD-20115 and MOD-20116.
+This follow-up is isolated on `docs/MOD-20121-playbook-extraction-lifecycle`, stacked on operator PR [#4256](https://github.com/redis/docs/pull/4256) at `430c680a53e1a1060e26b8f46abb3ed6c7c6b753`. It does not modify that parent branch or PR. Backend [#2065](https://github.com/redislabsdev/iris/pull/2065) follows MOD-20115 and MOD-20116. Local qualification is complete for the production/API source at `af81d8655a5c2ff48003cc96fb7bce42daf1935f`; the final test/documentation-only child commit `2ed416db157ebd12c3f5081ca9eaaf26c8375f0d` still requires remote CI. Neither revision is a released-version claim.
 
 The extraction guide now uses static RAM data-plane read trust, a separate tenant-confined RAM control-plane viewer, live discovery and exact-source validation, ready/off create, explicit enable/recovery checks, and source-independent pause/delete. It retains the independent ordinary agent-key and RAM promotion-worker identities. The role table distinguishes operator stop/policy access from administrator consent to source discovery and activation.
 
@@ -61,7 +61,21 @@ Before changing the service provenance, the candidate data-plane contract was co
 
 ### Publication hold
 
-The backend candidate is unmerged and unreleased. Its remote CI and runtime qualification are tracked by the backend owner. These docs remain draft until the backend stack is qualified, merged and released, the final qualified revision is recorded in the source lock, and the matching chart/image versions and endpoint requirements are verified. Public RAM setup is coordinated through [docs #4330](https://github.com/redis/docs/pull/4330). No production or documentation merge is authorized by this local validation.
+The backend stack is unmerged and unreleased. These docs remain draft until the final backend checks pass, the stack is merged and released, and matching chart/image versions and endpoint requirements are verified. The source lock retains locally qualified `af81d8655`: the generated control-plane artifact remains byte-identical at the test/documentation-only child commit. Reverify this provenance against the eventual release before publication; a later test/docs commit alone does not require regenerating an unchanged contract. Coordinate parent [docs #4256](https://github.com/redis/docs/pull/4256), public RAM [#4330](https://github.com/redis/docs/pull/4330), and this [#4331](https://github.com/redis/docs/pull/4331). The contributor CLA condition remains pending; no agreement was signed or asserted. No production or documentation merge is authorized by this local validation.
+
+### Backend local qualification
+
+The backend owner's [qualification record](https://github.com/redislabsdev/iris/blob/2ed416db157ebd12c3f5081ca9eaaf26c8375f0d/docs/reviews/MOD-20121-cp-owned-extraction-bindings.md) records commands, fixture boundaries and image digests. At `af81d8655`, all 99 reported CI checks and Bugbot passed before local qualification. Final child CI is not claimed as complete here.
+
+- Packaged KinD `ci-auth`: all four cases passed in 873.105 seconds. Both projected probe tokens rotated and remained accepted, wrong audiences were rejected, strict worker-UID equality was retained, and RAM's own worker completed three promotion jobs. The content-free report has `complete: true`, exit 0 and no missing or unsuccessful scenarios. The 580.66-second rotation case does not inspect token files inside the distroless worker; per-request reload is covered separately by client tests.
+- Authentication/fencing: 675 repeated boundary/transport executions and 18 real-HTTP method executions passed with the race detector. Real RAM/Playbook CPs and DPs, IdS, Redis and the shared worker cover cloud A/B plus late account C, source consent, foreign IDs, denied activation, stale versions and source-independent stop. External issuer, SM/AWS resolution and model responses are fixtures; this is not a deployed Neptune qualification.
+- Shared-engine stress: four 4,096-producer admission bursts retain the exact 1,000/default and 64/custom per-queue bounds, drain and recover. Two runtimes complete 2,368 exact ledger/proposal-request pairs across 16 cloud accounts and 108 bindings, plus 520 pairs in four bindings under one on-prem tenant. The exact final stress source passed its runtime race rerun. Source/target HTTP peers and the model are substitutes; sampled runtime queue peaks and finite-workload progress establish neither fleet capacity nor sustained fairness.
+- On-prem browser checks: reviewed cloud-ui [#3346](https://github.com/redislabsdev/cloud-ui/pull/3346) at `b38b4e18f47eec10ac13ce9bf8c9765178b08a57` and the installed `@redislabsdev/cloud-ui-irisultra@0.0.19` each passed live-source create/enable/pause/removal, stale-version recovery and late-source discovery against Helm-installed services. These are three source/destination cases in one configured tenant, not three on-prem accounts.
+- App-qa console: the reviewed local MFE rendered and read-only/client-draft checks passed, but both serving backends report `044628e49096c2438ccc171b304933af98ff2cd9`. One authorized account and no eligible sources prevented current-candidate A/B/C or lifecycle mutations there. No extraction mutation or infrastructure provisioning was performed.
+
+### Coordinated UI release
+
+The installed `0.0.19` bundle preserves the tested happy path but does not contain #3346's blocked/off recovery and copy corrections. Release those changes through normal post-merge MFE publication, then explicitly update the actual Iris `package.json` and lockfile pin, rebuild/release the UI gateway, and run a packaged smoke without a local bundle override. There is no automatic cross-repository pin updater. Passing with the reviewed local bundle does not establish that a published UI image contains those fixes.
 
 ### Follow-up local validation
 
@@ -73,7 +87,7 @@ The backend candidate is unmerged and unreleased. Its remote CI and runtime qual
 - Independent backend-owner review checked the complete diff. Its gate wording correction is applied: `extraction.enabled: false` blocks binding creation and activation; policy-only updates retain their existing behavior.
 - `git diff --check` passed. The generated CP artifact is byte-identical to candidate output, and the DP reference and SDK pins remain unchanged.
 
-This validates the documentation artifacts and configuration wiring. It does not replace the backend's pending runtime and capacity qualification or establish support in a published chart/image version.
+These checks validate the documentation artifacts and configuration wiring. The completed backend local qualification is separate evidence; production model quality, fleet capacity, deployed Neptune reachability and published chart/image support remain unqualified by these local runs.
 
 ### Independent review corrections
 
