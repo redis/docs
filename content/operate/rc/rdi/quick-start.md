@@ -161,7 +161,7 @@ The following example shows the metrics for one selected source in a pipeline wi
 ![Metrics for one selected source in a pipeline, including snapshot progress and per-table record counts.](/images/rc/rdi/rdi-2-metrics.png)
 {width="80%"}
 
-See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring. To run another pipeline in the same workspace, for example to write to a different target database, see [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
+See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring. To run another pipeline in the same workspace, see [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
 ## Delete sample resources
 

@@ -86,7 +86,7 @@ No. Deleting a source removes its pipeline configuration and internal RDI state.
 
 ### Should I add a source or a pipeline? {#source-or-pipeline}
 
-Add a source to an existing pipeline when the source writes to the same target database and you manage it together with the other sources. Create a separate pipeline when the data goes to a different target database, when you need different processor properties, or when you want to stop, reset, or change some of the data without restarting the rest. For example, [resetting one source](#reset-one-source) restarts its whole pipeline, but it doesn't restart any other pipeline. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
+Add a source to an existing pipeline when you manage it together with the other sources. Create a separate pipeline when you need different processor properties, or when you want to stop, reset, or change some of the data without restarting the rest. For example, [resetting one source](#reset-one-source) restarts its whole pipeline, but it doesn't restart any other pipeline. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
 ### Does an action on one pipeline affect the other pipelines? {#pipeline-isolation}
 
@@ -152,7 +152,7 @@ These examples cover RDI usage. Target Redis database and applicable network cha
 
 ### How does stopping sources or the pipeline affect billing? {#stopping-and-billing}
 
-Stopping a source removes its collector usage, but the processor and workspace remain billable. Stopping every source individually still leaves the processor running. Stopping the whole pipeline also stops the processor, but the workspace charge continues while the pipeline remains deployed.
+Stopping a source removes its collector usage, but the processor and workspace remain billable. Stopping every source individually still leaves the processor running. Stopping the whole pipeline also stops the processor, but the workspace charge continues while any pipeline of the workspace remains deployed.
 
 The following examples assume one workspace, two sources, and one processor replica. Each state must apply for a full billing hour after the stop has completed:
 
