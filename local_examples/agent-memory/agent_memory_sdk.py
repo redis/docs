@@ -4,13 +4,14 @@
 import os
 from datetime import datetime, timezone
 
+import httpx
 from redis_agent_memory import AgentMemory, models
 
 
 ENDPOINT = "<ENDPOINT>"
 STORE_ID = "<STORE_ID>"
 SESSION_ID = "travel-planning-session"
-USER_ID = "quickstart-user"
+USER_ID = os.environ.get("OWNER_ID", "quickstart-user")
 
 
 def show(label, response):
@@ -19,10 +20,13 @@ def show(label, response):
 
 
 def main():
-    with AgentMemory(
+    with httpx.Client(headers={
+        "X-Iris-User-Token": os.environ["USER_TOKEN"],
+    } if os.environ.get("USER_TOKEN") else {}) as transport, AgentMemory(
         ENDPOINT,
         store_id=STORE_ID,
         api_key=os.environ["API_KEY"],
+        client=transport,
     ) as agent_memory:
         health = agent_memory.store_health()
         show("Store health", health)
@@ -36,13 +40,14 @@ if __name__ == "__main__":
 import os
 from datetime import datetime, timezone
 
+import httpx
 from redis_agent_memory import AgentMemory, models
 
 
 ENDPOINT = "<ENDPOINT>"
 STORE_ID = "<STORE_ID>"
 SESSION_ID = "travel-planning-session"
-USER_ID = "quickstart-user"
+USER_ID = os.environ.get("OWNER_ID", "quickstart-user")
 
 
 def show(label, response):
@@ -51,10 +56,13 @@ def show(label, response):
 
 
 def main():
-    with AgentMemory(
+    with httpx.Client(headers={
+        "X-Iris-User-Token": os.environ["USER_TOKEN"],
+    } if os.environ.get("USER_TOKEN") else {}) as transport, AgentMemory(
         ENDPOINT,
         store_id=STORE_ID,
         api_key=os.environ["API_KEY"],
+        client=transport,
     ) as agent_memory:
         health = agent_memory.store_health()
         show("Store health", health)
@@ -87,13 +95,14 @@ if __name__ == "__main__":
 import os
 from datetime import datetime, timezone
 
+import httpx
 from redis_agent_memory import AgentMemory, models
 
 
 ENDPOINT = "<ENDPOINT>"
 STORE_ID = "<STORE_ID>"
 SESSION_ID = "travel-planning-session"
-USER_ID = "quickstart-user"
+USER_ID = os.environ.get("OWNER_ID", "quickstart-user")
 
 
 def show(label, response):
@@ -102,10 +111,13 @@ def show(label, response):
 
 
 def main():
-    with AgentMemory(
+    with httpx.Client(headers={
+        "X-Iris-User-Token": os.environ["USER_TOKEN"],
+    } if os.environ.get("USER_TOKEN") else {}) as transport, AgentMemory(
         ENDPOINT,
         store_id=STORE_ID,
         api_key=os.environ["API_KEY"],
+        client=transport,
     ) as agent_memory:
         health = agent_memory.store_health()
         show("Store health", health)

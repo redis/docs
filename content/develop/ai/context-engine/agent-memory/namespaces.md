@@ -79,6 +79,7 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
 ```sh
 curl --fail-with-body --silent --show-error --get \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --data-urlencode 'scope=SHARED' --data-urlencode 'limit=20' \
   --data-urlencode 'sortBy=name' --data-urlencode 'sortOrder=asc' \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq
@@ -145,6 +146,7 @@ Create a personal namespace for the user's travel memories. Run this request onc
 NAMESPACE_ID=$(curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" \
     '{name: "travel", scope: "PERSONAL", ownerId: $owner}')" \
@@ -214,6 +216,7 @@ Run this request once and save the returned ID:
 SHARED_NAMESPACE_ID=$(curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data '{"name":"team-travel","scope":"SHARED"}' \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
@@ -261,6 +264,7 @@ After writing memories to the shared namespace, search with its namespace ID. Th
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
     '{text: "What travel requirements has the team discussed?", filter: {namespaceRef: {eq: $ns}}, limit: 5}')" \

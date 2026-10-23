@@ -3,7 +3,7 @@
     "info": {
         "title": "Redis Agent Memory Control Plane API",
         "version": "1.0.0",
-        "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: every endpoint requires a single static operator token, sent by default as\n`Authorization: Bearer <admin-token>`. The header and scheme are configurable with\n`auth.admin_token.header` and `auth.admin_token.scheme`; the security scheme shown is the\ndefault. This token is distinct from the agent keys used by the Data Plane. Operational\nendpoints (health, build-info) are served separately and are unauthenticated.\n\nThere is no per-store database, subscription, or endpoint binding: self-managed deployments use\na single shared store database. Embedding configuration is resolved server-side from deployment\nconfig rather than supplied here.\n"
+        "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: management endpoints require an operator credential. By default, use a static admin token, sent as\n`Authorization: Bearer <admin-token>`. The header and scheme are configurable with\n`auth.admin_token.header` and `auth.admin_token.scheme`; the security scheme shown is the\ndefault. Configured OIDC operator tokens are also accepted. The admin token is distinct from the agent keys used by the Data Plane. Operational\nendpoints (health, build-info) are served separately and are unauthenticated.\n\nThere is no per-store database, subscription, or endpoint binding: self-managed deployments use\na single shared store database. Embedding configuration is resolved server-side from deployment\nconfig rather than supplied here.\n"
     },
     "paths": {
         "/v1/detectors": {
@@ -228,6 +228,16 @@
                             }
                         }
                     },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "UnexpectedError 500 response",
                         "content": {
@@ -399,6 +409,663 @@
                     }
                 }
             }
+        },
+        "/v1/stores/{storeId}/extractors": {
+            "get": {
+                "operationId": "ListExtractors",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListExtractors 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListExtractorsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "CreateExtractor",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateExtractorRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CreateExtractor 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateExtractorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/stores/{storeId}/extractors/{extractorId}": {
+            "delete": {
+                "operationId": "RemoveExtractor",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "extractorId",
+                        "in": "path",
+                        "description": "Store-scoped Extractor identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store-scoped Extractor identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "expectedRevision",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "RemoveExtractor 204 response"
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GetExtractor",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "extractorId",
+                        "in": "path",
+                        "description": "Store-scoped Extractor identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store-scoped Extractor identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetExtractor 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetExtractorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "UpdateExtractor",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateExtractorRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "extractorId",
+                        "in": "path",
+                        "description": "Store-scoped Extractor identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store-scoped Extractor identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateExtractor 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateExtractorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/stores/{storeId}/ingestion-hooks": {
+            "get": {
+                "operationId": "GetIngestionHooks",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetIngestionHooks 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetIngestionHooksResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "PutIngestionHooks",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PutIngestionHooksRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PutIngestionHooks 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PutIngestionHooksResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -502,7 +1169,7 @@
                     },
                     "description": {
                         "type": "string",
-                        "description": "What the detector matches, and what it deliberately does not — the catalog is\nprecision-first, so an operator choosing between detectors needs the\nlimitation as much as the capability."
+                        "description": "What the detector matches, and what it deliberately does not \u2014 the catalog is\nprecision-first, so an operator choosing between detectors needs the\nlimitation as much as the capability."
                     }
                 },
                 "required": [
@@ -527,6 +1194,157 @@
                 },
                 "required": [
                     "enabled"
+                ]
+            },
+            "ConflictErrorResponseContent": {
+                "type": "object",
+                "description": "The request conflicts with the current state of the resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ConflictErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ConflictErrorType": {
+                "type": "string",
+                "description": "Problem type URI for conflict errors.",
+                "enum": [
+                    "/errors/conflict"
+                ]
+            },
+            "CreateExtractorRequestContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractorSource"
+                    },
+                    "strategy": {
+                        "$ref": "#/components/schemas/ExtractorStrategy"
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Name of a custom memory type or field (1-64 chars). Must start with a letter,\nfollowed by letters, digits, underscores, or dashes."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "memoryType",
+                    "name",
+                    "prompt",
+                    "source",
+                    "strategy"
+                ]
+            },
+            "CreateExtractorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store-scoped Extractor identifier."
+                    },
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractorSource"
+                    },
+                    "strategy": {
+                        "$ref": "#/components/schemas/ExtractorStrategy"
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Name of a custom memory type or field (1-64 chars). Must start with a letter,\nfollowed by letters, digits, underscores, or dashes."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "enabled",
+                    "id",
+                    "memoryType",
+                    "name",
+                    "prompt",
+                    "revision",
+                    "source",
+                    "strategy",
+                    "updatedAt"
                 ]
             },
             "CreateStoreRequestContent": {
@@ -766,6 +1584,86 @@
                     "instruct"
                 ]
             },
+            "ExtractorOutput": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store-scoped Extractor identifier."
+                    },
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractorSource"
+                    },
+                    "strategy": {
+                        "$ref": "#/components/schemas/ExtractorStrategy"
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Name of a custom memory type or field (1-64 chars). Must start with a letter,\nfollowed by letters, digits, underscores, or dashes."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "enabled",
+                    "id",
+                    "memoryType",
+                    "name",
+                    "prompt",
+                    "revision",
+                    "source",
+                    "strategy",
+                    "updatedAt"
+                ]
+            },
+            "ExtractorSource": {
+                "type": "string",
+                "enum": [
+                    "documents"
+                ]
+            },
+            "ExtractorStrategy": {
+                "type": "string",
+                "enum": [
+                    "custom"
+                ]
+            },
             "FailedDependencyErrorResponseContent": {
                 "type": "object",
                 "description": "A dependent resource required to process the request is unavailable or unhealthy.",
@@ -868,6 +1766,96 @@
                     "/errors/insufficient-permissions"
                 ]
             },
+            "GetExtractorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store-scoped Extractor identifier."
+                    },
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractorSource"
+                    },
+                    "strategy": {
+                        "$ref": "#/components/schemas/ExtractorStrategy"
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Name of a custom memory type or field (1-64 chars). Must start with a letter,\nfollowed by letters, digits, underscores, or dashes."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "enabled",
+                    "id",
+                    "memoryType",
+                    "name",
+                    "prompt",
+                    "revision",
+                    "source",
+                    "strategy",
+                    "updatedAt"
+                ]
+            },
+            "GetIngestionHooksResponseContent": {
+                "type": "object",
+                "properties": {
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "beforeInput": {
+                        "$ref": "#/components/schemas/InputHookEndpointOutput"
+                    },
+                    "beforeApply": {
+                        "$ref": "#/components/schemas/OutputHookEndpointOutput"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "revision"
+                ]
+            },
             "GetStoreResponseContent": {
                 "type": "object",
                 "properties": {
@@ -920,6 +1908,82 @@
                     "storeId"
                 ]
             },
+            "InputHookEndpointOutput": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    },
+                    "paths": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InputHookPath"
+                        },
+                        "maxItems": 10,
+                        "minItems": 1,
+                        "uniqueItems": true
+                    },
+                    "keyId": {
+                        "type": "string"
+                    },
+                    "signingKeyConfigured": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "keyId",
+                    "paths",
+                    "signingKeyConfigured",
+                    "url"
+                ]
+            },
+            "InputHookEndpointWrite": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    },
+                    "paths": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InputHookPath"
+                        },
+                        "maxItems": 10,
+                        "minItems": 1,
+                        "uniqueItems": true
+                    },
+                    "signingKey": {
+                        "type": "string",
+                        "maxLength": 44,
+                        "minLength": 44,
+                        "description": "Omit to keep this phase's current key. Required for a new phase.",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "paths",
+                    "url"
+                ]
+            },
+            "InputHookPath": {
+                "type": "string",
+                "enum": [
+                    "session.append",
+                    "memory.create",
+                    "memory.update",
+                    "memory.delete",
+                    "memory.move",
+                    "session.summary",
+                    "session.property",
+                    "session.delete",
+                    "session.events.delete",
+                    "document.submit"
+                ]
+            },
             "ListBuiltInDetectorsResponseContent": {
                 "type": "object",
                 "properties": {
@@ -938,6 +2002,20 @@
                 "required": [
                     "catalogVersion",
                     "detectors"
+                ]
+            },
+            "ListExtractorsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "extractors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ExtractorOutput"
+                        }
+                    }
+                },
+                "required": [
+                    "extractors"
                 ]
             },
             "ListStoresResponseContent": {
@@ -1068,9 +2146,125 @@
                     "/errors/resource-not-found"
                 ]
             },
+            "OutputHookEndpointOutput": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    },
+                    "paths": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OutputHookPath"
+                        },
+                        "maxItems": 4,
+                        "minItems": 1,
+                        "uniqueItems": true
+                    },
+                    "keyId": {
+                        "type": "string"
+                    },
+                    "signingKeyConfigured": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "keyId",
+                    "paths",
+                    "signingKeyConfigured",
+                    "url"
+                ]
+            },
+            "OutputHookEndpointWrite": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    },
+                    "paths": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OutputHookPath"
+                        },
+                        "maxItems": 4,
+                        "minItems": 1,
+                        "uniqueItems": true
+                    },
+                    "signingKey": {
+                        "type": "string",
+                        "maxLength": 44,
+                        "minLength": 44,
+                        "description": "Exactly 32 bytes in canonical padded base64. Never returned by a read.",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "paths",
+                    "url"
+                ]
+            },
+            "OutputHookPath": {
+                "type": "string",
+                "enum": [
+                    "document.chunk",
+                    "session.builtin",
+                    "session.custom",
+                    "summary_view.refresh"
+                ]
+            },
+            "PutIngestionHooksRequestContent": {
+                "type": "object",
+                "properties": {
+                    "expectedRevision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Zero configures a store for the first time. Each successful write advances revision.",
+                        "format": "int64"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "beforeInput": {
+                        "$ref": "#/components/schemas/InputHookEndpointWrite"
+                    },
+                    "beforeApply": {
+                        "$ref": "#/components/schemas/OutputHookEndpointWrite"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "expectedRevision"
+                ]
+            },
+            "PutIngestionHooksResponseContent": {
+                "type": "object",
+                "properties": {
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "beforeInput": {
+                        "$ref": "#/components/schemas/InputHookEndpointOutput"
+                    },
+                    "beforeApply": {
+                        "$ref": "#/components/schemas/OutputHookEndpointOutput"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "revision"
+                ]
+            },
             "RegexSpec": {
                 "type": "object",
-                "description": "A regular expression, evaluated by RE2 — linear-time, and therefore without\nlookaround. Rejected on write if it does not compile, or if it can match without\nconsuming text.",
+                "description": "A regular expression, evaluated by RE2 \u2014 linear-time, and therefore without\nlookaround. Rejected on write if it does not compile, or if it can match without\nconsuming text.",
                 "properties": {
                     "pattern": {
                         "type": "string",
@@ -1249,6 +2443,102 @@
                 "description": "Problem type URI for unexpected internal errors.",
                 "enum": [
                     "/errors/unexpected-error"
+                ]
+            },
+            "UpdateExtractorRequestContent": {
+                "type": "object",
+                "properties": {
+                    "expectedRevision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "description": "Empty string clears the destination namespace. Omitted leaves it unchanged.\nTyped as String so a clear is not rejected by StoreId @length(min: 1)."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "expectedRevision"
+                ]
+            },
+            "UpdateExtractorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store-scoped Extractor identifier."
+                    },
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "description": "Customer-facing Extractor display name."
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/ExtractorSource"
+                    },
+                    "strategy": {
+                        "$ref": "#/components/schemas/ExtractorStrategy"
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Name of a custom memory type or field (1-64 chars). Must start with a letter,\nfollowed by letters, digits, underscores, or dashes."
+                    },
+                    "prompt": {
+                        "type": "string"
+                    },
+                    "destinationNamespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "enabled",
+                    "id",
+                    "memoryType",
+                    "name",
+                    "prompt",
+                    "revision",
+                    "source",
+                    "strategy",
+                    "updatedAt"
                 ]
             },
             "UpdateStoreRequestContent": {

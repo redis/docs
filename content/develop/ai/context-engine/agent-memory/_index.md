@@ -106,6 +106,9 @@ After your service is ready, follow the [quickstart]({{< relref "/develop/ai/con
 * [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}): Put the pieces together in an application.
 * [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}): Store conversation events and configure retention and summarization.
 * [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}): Create and retrieve memories across conversations, including custom memory types.
+* [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md): Extract memories from documents and inspect their source evidence.
+* [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md): Materialize text or structured summaries of long-term memories.
+* [Ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md): Review input and generated changes before they are saved.
 * [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}): Organize memories and manage namespace hierarchies.
 
 * [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.

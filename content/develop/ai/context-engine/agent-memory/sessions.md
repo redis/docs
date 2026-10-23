@@ -48,6 +48,7 @@ When the next message arrives, retrieve the session by its ID before calling the
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
 ```
 
@@ -68,6 +69,7 @@ To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned 
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID" | jq
 ```
 
@@ -78,6 +80,7 @@ Add `filterOwnerId` to return sessions that match both the namespace and the own
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID&filterOwnerId=$OWNER_ID" | jq
 ```
 
@@ -86,6 +89,7 @@ You can also use `filterOwnerId` alone. To list all sessions, omit both filters 
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" | jq
 ```
 
@@ -222,6 +226,7 @@ After a short wait, retrieve the session again:
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
 ```
 

@@ -40,14 +40,16 @@ These examples list all pages for one owner, with the most recently updated sess
 import asyncio
 import os
 
+import httpx
 from redis_agent_memory import AgentMemory
 
 
 async def main():
-    async with AgentMemory(
+    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
+    async with httpx.AsyncClient(headers=headers) as transport, AgentMemory(
         os.environ["AGENT_MEMORY_URL"],
         store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
+        api_key=os.environ["API_KEY"], async_client=transport,
     ) as agent_memory:
         page_token = None
         while True:
@@ -70,14 +72,23 @@ asyncio.run(main())
 
 ```typescript
 import { AgentMemory } from "@redis-iris/agent-memory";
+import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 async function main() {
   const { AGENT_MEMORY_URL, STORE_ID, API_KEY, OWNER_ID } = process.env;
   if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !OWNER_ID) {
     throw new Error("Set AGENT_MEMORY_URL, STORE_ID, API_KEY, and OWNER_ID.");
   }
+  const httpClient = new HTTPClient();
+  const userToken = process.env.USER_TOKEN;
+  if (userToken) {
+    httpClient.addHook("beforeRequest", (request) => {
+      request.headers.set("X-Iris-User-Token", userToken);
+      return request;
+    });
+  }
   const agentMemory = new AgentMemory({
-    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
   });
   let pageToken: string | undefined;
   do {
@@ -89,7 +100,7 @@ async function main() {
   } while (pageToken);
 }
 
-main().catch((error) => { console.error(error); process.exitCode = 1; });
+main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
 ```
 
 -tab-sep-
@@ -99,6 +110,7 @@ page_token=''
 while :; do
   page=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
+    --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
     --data-urlencode "filterOwnerId=$OWNER_ID" \
     --data-urlencode 'sortBy=updatedAt' --data-urlencode 'sortOrder=desc' \
     --data-urlencode 'limit=20' --data-urlencode "pageToken=$page_token" \

@@ -26,9 +26,82 @@ Every client needs the service endpoint, Store ID, and application programming i
 1. Load the API key you saved during service creation from a secret store or environment variable. Keep it out of source control and browser code.
 1. Create the client as shown in [Create the client and check the service health]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#create-the-client-and-check-the-service-health" >}}). Use the Python software development kit (SDK) for Python applications, the TypeScript SDK for JavaScript or TypeScript, or the REST API for other languages.
 
+### Manage a service with the Control Plane SDK
+
+The same package supplies two independently configured clients:
+
+| Client | Purpose | Connection and credential |
+|:-------|:--------|:--------------------------|
+| `AgentMemoryService` | Manage stores and extractors. Supply the store ID on each call. | Control Plane URL and operator `token`. |
+| `AgentMemory` | Read and write memory within the store selected by the constructor. | Data Plane URL, Store ID, and application credential. |
+
+Use the self-managed Control Plane admin token or supported operator token with `AgentMemoryService`. Its SDK uses `/v2/memory` routes; the self-managed `/v1` admin API remains available. The SDK does not derive a Data Plane URL or credential from a Control Plane response.
+
+Set `AGENT_MEMORY_CONTROL_PLANE_URL` and `AGENT_MEMORY_SERVICE_TOKEN` separately from `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY`. These examples read the store and check Data Plane health:
+
+{{< multitabs id="memory-service-sdk" tab1="Python" tab2="TypeScript" >}}
+
+```python
+import asyncio
+import os
+
+from redis_agent_memory import AgentMemory, AgentMemoryService
+
+
+async def main():
+    async with AgentMemoryService(
+        server_url=os.environ["AGENT_MEMORY_CONTROL_PLANE_URL"],
+        token=os.environ["AGENT_MEMORY_SERVICE_TOKEN"],
+    ) as service:
+        store = await service.get_store_async(store_id=os.environ["STORE_ID"])
+        print("Store:", store.name)
+    async with AgentMemory(
+        os.environ["AGENT_MEMORY_URL"], store_id=os.environ["STORE_ID"],
+        api_key=os.environ["API_KEY"],
+    ) as memory:
+        print((await memory.store_health_async()).status)
+
+
+asyncio.run(main())
+```
+
+-tab-sep-
+
+```typescript
+import { AgentMemory, AgentMemoryService } from "@redis-iris/agent-memory";
+
+async function main() {
+  const { AGENT_MEMORY_CONTROL_PLANE_URL, AGENT_MEMORY_SERVICE_TOKEN,
+    AGENT_MEMORY_URL, STORE_ID, API_KEY } = process.env;
+  if (!AGENT_MEMORY_CONTROL_PLANE_URL || !AGENT_MEMORY_SERVICE_TOKEN ||
+      !AGENT_MEMORY_URL || !STORE_ID || !API_KEY) {
+    throw new Error("Set both planes' connection values.");
+  }
+  const service = new AgentMemoryService({
+    serverURL: AGENT_MEMORY_CONTROL_PLANE_URL, token: AGENT_MEMORY_SERVICE_TOKEN,
+  });
+  console.log("Store:", (await service.getStore(STORE_ID)).name);
+  const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
+  console.log((await memory.storeHealth()).status);
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : "Request failed");
+  process.exitCode = 1;
+});
+```
+
+{{< /multitabs >}}
+
+If omitted, the Control Plane token is read from `AGENT_MEMORY_SERVICE_TOKEN`; it does not fall back to the Data Plane key. Python service models, errors, and retry helpers use `redis_agent_memory.controlplane`; Data Plane imports remain separate. Use each client's corresponding error classes.
+
+Store and extractor management, detectors, and memory-type reference data have Cloud and self-managed API implementations. The generated client also includes Cloud-only account database, end user license agreement (EULA), network, store-model, metrics, flush, and empty-store operations; those return `404` on-prem. The current Cloud Control Plane does not accept a programmatic credential for this SDK. Use the Cloud console for Cloud service setup rather than sending a Data Plane key or assuming a console session is a service token.
+
+See [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md#create-an-extractor) for extractor administration and the [self-managed Control Plane reference](/content/operate/iris/agent-memory/self-managed/control-plane-api-reference.md) for the admin REST API. Webhook-policy configuration uses the admin REST API; it is not a method on the current service SDK.
+
 ## Identify users and conversations
 
-Use one stable account ID for the current user across conversations. Get it from your application's authenticated identity, such as a verified identity-provider claim. Do not generate a new user ID for each chat or trust an owner ID supplied by a browser. This ID determines whose personal memories the application can return.
+Use one stable account ID for the current user across conversations. Get it from your application's authenticated identity, such as its login session or a verified identity-provider claim. An external identity provider is not required when your backend handles user authentication and authorization. Do not generate a new user ID for each chat or trust an owner ID supplied by a browser.
 
 Some IDs come from your application; others come from Redis Agent Memory:
 
@@ -41,20 +114,30 @@ Some IDs come from your application; others come from Redis Agent Memory:
 | `eventId` | The server. | Save it from the event response if you need to refer to that event. |
 | Long-term memory `id` | Your application for direct creation; the server during extraction. | Supply a stable record ID when creating a memory directly. |
 | `namespaceId` | The server when it creates a namespace. | Save it and use it in `namespaceRef`. Supply the user's `ownerId` when creating a personal namespace. |
+| Event `createdAt` | Your application. | Send when the message occurred; it is a required event input. |
+| Event `systemTimestamp` | The server. | Records when the event was stored. |
+| Memory `createdAt` and `updatedAt` | The server. | Use the returned timestamps when displaying or sorting memories. |
 
 For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
-On-prem deployments can also enforce ownership on the server. When enabled, the first session event's `actorId` and any `ownerId` you supply must match the authenticated User ID, including case. Later events in an accessible session can use a different actor. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for configuration, identity requirements, and the limits of ordinary agent keys.
+On-prem deployments enforce ownership by default in release 0.10.2. With enforcement enabled, the first session event's `actorId` and any `ownerId` you supply must match the authenticated user ID, including case. Later events in an accessible session can use a different actor. An agent key supplies store permissions; a [delegated user token](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) supplies the user identity for personal access. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before upgrading an existing deployment.
 
 ### Authorize every memory request
 
-Unless server-side ownership enforcement is enabled, your application must decide which memories the user can access. Do this in trusted application code, such as your backend, before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories.
+Your application must decide which memories the user can access. Put these checks in trusted backend code before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories. Cloud store credentials also require these application checks; a Redis Cloud account user is not your application's end user.
+
+| Ownership enforcement | Responsibility |
+|:----------------------|:---------------|
+| Off | Your backend enforces personal ownership and permitted shared access on every request. Owner fields and filters are metadata, not verified user identity. |
+| On | The server also restricts personal records to the authenticated user and applies that restriction to searches, lists, and direct-ID requests. Your backend still enforces application rules, including team access to shared content. |
 
 * For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `filterOwnerId`. A request from `user-42` must not be able to select `user-99` as its owner.
 * For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
 * For requests that retrieve or change a record by ID, check that the record belongs to the user or to a shared namespace they can access. These endpoints do not all accept an owner filter; a session or memory ID is not proof of permission.
 
 Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces.md).
+
+Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `filterOp: "any"` can return either owner's records when enforcement is off. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
 
 ## Build context for each agent turn
 
@@ -122,11 +205,78 @@ A failed request is different from a successful search with no matches. Handle t
 | Search timeout | If the assistant can answer from the current conversation, continue without recalled memories. Otherwise, tell the user that memory is unavailable and ask them to retry. |
 | Event-write timeout | Retrieve the session and check whether the event was stored before sending it again. Compare its actor, timestamp, and content. Repeating a write can create a duplicate. |
 
+### Handle typed errors and partial results
+
+| Status or result | Action |
+|:-----------------|:-------|
+| `401` | Refresh or correct the credential. An expired delegated user token needs the application's login/token lifecycle. |
+| `403` or a hidden personal-record `404` | Check store grants and authenticated ownership. Changing an owner filter does not grant access. |
+| `409` | Correct an archived namespace destination or a stale extractor/hook-policy revision before retrying. |
+| `423` | The resource is suspended. Restore its availability before retrying. |
+| `424` | Inspect the typed failed-dependency error and its problem type. |
+| `429` or retryable `5xx` | Use bounded backoff and honor retry timing. Retrying a write also needs its operation's idempotency or recovery contract. |
+| Successful bulk response with `errors` | Inspect every item. Other records can already be created, deleted, or moved. |
+
+The operation's response contract determines its `424` exception class. For example, search uses `MemoryFailedDependencyErrorResponseContent`, while store health uses `FailedDependencyErrorResponseContent`. Both can report unavailable resources or database memory exhaustion; the memory response also covers model credentials and quota failures. Inspect the problem type as well as the class. Python exceptions are in `redis_agent_memory.errors`, with problem fields under `error.data`. TypeScript exceptions are in `@redis-iris/agent-memory/models/errors`.
+
+This complete program checks store health before recall and handles either operation's dependency error separately from an empty `items` array:
+
+```python
+import asyncio
+import os
+
+from redis_agent_memory import AgentMemory, errors
+
+
+async def main():
+    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
+    async with AgentMemory(
+        os.environ["AGENT_MEMORY_URL"], store_id=os.environ["STORE_ID"],
+        api_key=os.environ["API_KEY"],
+    ) as memory:
+        try:
+            await memory.store_health_async(http_headers=headers)
+            result = await memory.search_long_term_memory_async(
+                request={"filter_": {"owner_id": {"eq": os.environ["OWNER_ID"]}}, "limit": 5},
+                http_headers=headers,
+            )
+        except errors.MemoryFailedDependencyErrorResponseContent as error:
+            print("Memory dependency unavailable:", error.data.title)
+            return
+        except errors.FailedDependencyErrorResponseContent as error:
+            print("Service dependency unavailable:", error.data.title)
+            return
+        print([item.text for item in result.items])
+
+
+asyncio.run(main())
+```
+
+The ingestion-hook `503` retry error and `422` stopped error also have distinct types and recovery rules. See [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). Use store-scoped `store_health`/`storeHealth` for current servers; a retained SDK `health()` method does not establish that a server still serves `/health`.
+
+### Preserve TypeScript argument positions when upgrading
+
+TypeScript listing methods use positional arguments. Their new parameters do not all occupy the same position:
+
+| Method | Relevant positions |
+|:-------|:-------------------|
+| `listNamespaces` | Request options remain sixth; `sortBy` and `sortOrder` are seventh and eighth. |
+| `listSessions` | `includeAll` is fourth, request options fifth, and namespace filtering sixth. |
+| `listSessionSummaries` | Namespace filtering is fourth, then `includeAll`, `sortBy`, `sortOrder`, and request options. |
+
+Pass `undefined` for skipped positions. Python uses named arguments. See [namespace sorting](/content/develop/ai/context-engine/agent-memory/namespaces.md#sort-namespaces) and [session listing](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for complete examples.
+
 ### Create long-term memories
 
 Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID, and check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
 
 See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
+
+For unstructured documents, use [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) to configure an extractor, submit a revision, and track its outputs. Source links let you trace extracted memories back to document or session inputs.
+
+For a reusable summary of selected long-term memories, use [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md). Read their result status, freshness, and coverage before adding generated text or structured data to the model context.
+
+Use [ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md) when an application policy must review input or generated changes before they are saved. Configure the receiver, selected paths, signing keys, and retry handling before enabling the policy.
 
 ## Define custom memory types
 

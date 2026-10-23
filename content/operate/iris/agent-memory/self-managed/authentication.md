@@ -16,7 +16,7 @@ aliases:
 Self-managed Redis Agent Memory uses separate authentication models for the Control
 Plane and Data Plane.
 
-The Control Plane uses an admin token for management endpoints. The Data Plane checks each agent
+The Control Plane uses an admin token for management endpoints by default. It also accepts operator tokens when OpenID Connect (OIDC) authentication is configured. The Data Plane checks each agent
 key with the Identity Service, using the Data Plane service credential, and enforces store-level
 grants.
 
@@ -24,7 +24,7 @@ grants.
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store management: `/v1/stores`, `/v1/detectors` |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store and extractor management through the `/v1` admin API and supported `/v2/memory` routes |
 | Control Plane internal token | Identity Service → Control Plane | `memory-internal-token` / `token` in the walkthrough | You provision it for both releases | Checking that the store in a grant exists. Set `controlplane.internalToken.existingSecret` on Memory and `productValidation.products.memory.credential.existingSecret` on Identity Service. |
 | Identity Service control token | Operator → Identity Service (`:9200`) | `ids-control-token` / `token` in the walkthrough | Supplied through `control.existingSecret` on Identity Service; that chart can also generate one | Creating, listing, updating, rotating and revoking agent keys |
 | Data Plane service credential | Data Plane → Identity Service | `memory-dp-credential` / `token` in the walkthrough | You provision it for both releases | Checking agent keys for `memory`. Set `identityService.credential.existingSecret` on Memory and register it in `runtime.serviceCredentials[]` on Identity Service. |
@@ -37,7 +37,7 @@ Secret names and keys must agree between releases. See
 
 ## Control Plane admin token
 
-Control Plane management endpoints require:
+With the default configuration, Control Plane management endpoints require:
 
 ```http
 Authorization: Bearer <admin-token>
@@ -87,6 +87,8 @@ Use auth-disabled mode for development and testing only:
 
 ```yaml
 profile: dev
+ownership:
+  enabled: false
 auth:
   method: none
 ```
@@ -150,69 +152,162 @@ Operation mapping:
 
 ## Server-side ownership enforcement
 
-Store grants let a caller use a store. Ownership enforcement adds a check within that store: a caller can access their own personal records and shared records. This option is available for on-prem deployments and is disabled by default.
+Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
 
-With enforcement disabled, `ownerId` is client-supplied information, not an access check. Your application must authenticate the user and restrict every request to that user's personal memories or shared memories they can access. For searches and session lists, derive the owner filter from the authenticated user. For direct-ID requests, check access before making the request. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+Release 0.10.2 enables ownership enforcement by default in the on-prem server, worker, and chart. The Cloud runtime has a separate default and credential model. Your application remains responsible for end-user authorization when using Cloud store credentials; Cloud account users are not application end users. Customers cannot configure this on-prem setting or a customer identity provider through a Cloud account setting.
+
+| Setting | Personal access | Shared access |
+| --- | --- | --- |
+| `ownership.enabled: false` | Your trusted backend must authorize every read and write, including direct-ID requests. Owner fields and filters do not authenticate the user. | Your backend checks which shared namespaces the user may access. |
+| `ownership.enabled: true` | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Shared scope does not enforce team membership. |
+
+Keep application-specific checks in your backend in both modes. Use separate stores and grants if teams need separate server-enforced access. Worker credentials are for background services; do not give them to applications.
 
 ### Match stored owners to authenticated users
 
-Use one stable user ID across your application and its identity provider (IdP). It must meet the identifier format in the [API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md). Enforcement compares stored owners with the authenticated User ID, including case. It does not take the current user's identity from an `ownerId` field in the request.
+Use the same stable user ID in stored records and the verified user token. Matching is exact, including case. IDs must meet the format in the [API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md); an email address or an identity-provider subject containing punctuation may need a separate compatible claim. Changing a claim mapping does not rewrite stored owners.
 
-The source of that authenticated ID depends on the credential:
+The first session event's `actorId` becomes the session owner. Later events in an accessible session can use an assistant's actor ID without changing ownership. Directly created memories and personal namespace roots use the `ownerId` supplied by your application. Session extraction inherits the session owner. See [Identify users and conversations](/content/develop/ai/context-engine/agent-memory/developer-guide.md#identify-users-and-conversations) for client and server fields.
 
-| Credential | Source of the authenticated User ID |
-| --- | --- |
-| Agent key with a user binding | The user ID associated with the key. The client cannot change it by sending a different owner ID. |
-| Agent key without a user binding | No User ID. With enforcement enabled, it can access shared records but cannot access personal records or create a record for a named owner. |
-| OpenID Connect (OIDC) token | The verified token claim selected by `auth.oidc.user_id_claim`, which defaults to `sub`. Claim mapping alone does not grant store access. |
+With enforcement on:
 
-There are two limits to the current identity setup:
+- A new personal owner, or an owner update, must match the authenticated user ID. A mismatch returns `403 Forbidden`, including when the record would enter a shared namespace.
+- Another user's personal record is hidden from direct-ID reads and mutations with `404 Not Found`. Search and list filters cannot expand access.
+- A personal namespace child inherits its root's owner.
+- A caller without a user ID can access shared records within its grants, but cannot claim a named personal owner. Ownerless private records are hidden.
 
-* The Identity Service's `POST /v1/api-keys` endpoint does not accept a user binding or copy the creator's User ID into the key. The key created in the [deployment walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#7-mint-an-agent-key) is unbound. Configuring an IdP claim does not bind that key to a user.
-* Direct OIDC authentication in the Redis Agent Memory Data Plane is a preview. It validates tokens but does not yet resolve the subject's store grants. A valid token alone therefore receives `403 Forbidden` for store operations.
+Ordinary agent keys created by `POST /v1/api-keys` do not contain a user binding. The API does not accept one or copy the key creator's identity. Use delegation for personal access. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
 
-Before enabling enforcement for personal memories, confirm that your deployment can supply an authenticated User ID. The standard key-minting walkthrough alone does not meet this requirement.
+An unbound key can pass store health checks and access allowed shared data while personal creation returns `403`. A successful health check does not establish a user identity.
 
-For example, if the authenticated User ID is `user-42`:
+### Delegate a user with an agent key
 
-| Operation | Required owner value |
-| --- | --- |
-| Start a session | Set the first event's `actorId` to `user-42`. The server copies it to the session's `ownerId`; the event request has no separate owner field. |
-| Add to an accessible session | You can use another `actorId`, such as `travel-agent`, for an assistant message. This does not change the session owner. |
-| Create a long-term memory directly | Set `ownerId` to `user-42`. This applies even when placing the record in a shared namespace. |
-| Create a personal namespace root | Set `ownerId` to `user-42`. Child namespaces inherit the root owner. |
+Delegation lets an application use its agent key for store permissions and a user's access token for personal identity. This path is supported in on-prem release 0.10.2. It does not add the user's store grants to the key.
 
-Changing a long-term memory's owner also requires the new `ownerId` to match the authenticated User ID. An attempt to assign another user as owner returns `403 Forbidden`.
+1. Configure your identity provider to issue signed access tokens with an issuer, a compatible user ID claim, and the intended audience. Obtain the user's token through your application's login process.
+1. Configure the Data Plane to trust that issuer and its JSON Web Key Set (JWKS). Use the same tenant as the agent key and store.
+1. Enable delegation and choose an audience distinct from direct OIDC sign-in.
+1. Send both credentials on each request for that user.
 
-### Enable ownership enforcement
-
-For an existing store, first confirm that its namespace placement index migration is complete. Compare the owners of existing personal sessions, memories, and namespace roots with the authenticated user IDs your deployment supplies. The setting does not rewrite stored owners. A mismatch, or a missing owner, makes those personal records inaccessible to ordinary callers after enforcement is enabled.
-
-In chart-rendered Helm values, set:
+For chart-rendered configuration, merge this fragment into your existing Helm values. Replace the issuer, JWKS URL, and audience values with those configured by your identity provider:
 
 ```yaml
+tenantId: default
+auth:
+  oidc:
+    audience: api://memory-direct
 memory:
   ownership:
     enabled: true
+  auth:
+    oidc:
+      enabled: true
+      issuer: https://<identity-provider-host>/<issuer-path>
+      jwks_uri: https://<identity-provider-host>/<jwks-path>
+      user_id_claim: sub
+      allow_azp_fallback: false
+    delegation:
+      enabled: true
+      audience:
+        - api://memory-delegation
 ```
 
-In a bring-your-own Data Plane configuration file, use the same setting at the root:
+The chart supplies the static tenant from `tenantId`. For a bring-your-own configuration file, place `ownership` and `auth` at the root, set `auth.oidc.static_tenant_id` to that same tenant, and set `auth.oidc.audience` to the direct-sign-in audience as a list. Do not also configure `tenant_id_claim` for a single-tenant deployment.
 
-```yaml
-ownership:
-  enabled: true
+The server verifies the token's signature, issuer, audience, expiry, tenant, and user claim. JWKS verification does not decrypt a token or exchange it for another credential. An application-issued signed JSON Web Token (JWT) works only when the deployment trusts its issuer and verification keys.
+
+Delegation defaults to off and requires OIDC to be enabled. Its audience must not overlap the direct OIDC audience; keep `allow_azp_fallback` off with a separate delegation audience. Without a separate audience, the same user token can also be presented as a direct sign-in.
+
+Direct OIDC sign-in remains a preview in this release: it validates the token but does not resolve the subject's store grants. A valid token alone receives `403` for store operations. Use the agent key and delegated token together for personal access.
+
+Set `USER_TOKEN` to the access token for the current request's user, and `OWNER_ID` to that token's verified user ID. Use the connection values from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). These examples list that user's session metadata:
+
+{{< multitabs id="delegated-user" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+
+```python
+import asyncio
+import os
+
+import httpx
+from redis_agent_memory import AgentMemory
+
+
+async def main():
+    async with httpx.AsyncClient(
+        headers={"X-Iris-User-Token": os.environ["USER_TOKEN"]},
+    ) as transport:
+        async with AgentMemory(
+            server_url=os.environ["AGENT_MEMORY_URL"],
+            store_id=os.environ["STORE_ID"],
+            api_key=os.environ["API_KEY"],
+            async_client=transport,
+        ) as memory:
+            page = await memory.list_session_summaries_async(
+                filter_owner_id=os.environ["OWNER_ID"], limit=20,
+            )
+            print(page.model_dump_json(by_alias=True))
+
+
+asyncio.run(main())
 ```
 
-The environment variable `MEM_OWNERSHIP_ENABLED` overrides the file setting. Its default is `false`. Apply the configuration to the Data Plane servers, then verify access with two different users:
+-tab-sep-
 
-1. Confirm each user can retrieve their own personal records and search for them.
-1. Confirm neither user can retrieve the other's personal records by ID or find them by changing an owner filter.
-1. Confirm both users can access shared records when their store grants allow it.
-1. Confirm an unbound agent key cannot read personal records or create a session with a named user as its first actor.
+```typescript
+import { AgentMemory } from "@redis-iris/agent-memory";
+import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
-Search and list operations apply ownership restrictions in addition to client filters. An owner filter cannot expand access. Direct-ID requests for another user's personal record return `404 Not Found`.
+async function main() {
+  const { AGENT_MEMORY_URL, STORE_ID, API_KEY, USER_TOKEN, OWNER_ID } = process.env;
+  if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !USER_TOKEN || !OWNER_ID) {
+    throw new Error("Set the connection values, USER_TOKEN, and OWNER_ID.");
+  }
+  const httpClient = new HTTPClient();
+  httpClient.addHook("beforeRequest", (request) => {
+    request.headers.set("X-Iris-User-Token", USER_TOKEN);
+    return request;
+  });
+  const memory = new AgentMemory({
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
+  });
+  console.dir(await memory.listSessionSummaries(20, undefined, OWNER_ID), { depth: null });
+}
 
-Shared scope grants access to all callers with the required store permission. It does not restrict access to a particular team. Keep team membership checks in your application, or separate teams into stores with different grants. Configured worker identities retain access across owners for background work; do not give worker credentials to applications.
+main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
+```
+
+-tab-sep-
+
+```sh
+curl --fail-with-body --silent --show-error --get \
+  --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: $USER_TOKEN" \
+  --data-urlencode "filterOwnerId=$OWNER_ID" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/sessions" | jq
+```
+
+{{< /multitabs >}}
+
+Create a separate request-scoped client or transport for each user's token. Do not change a shared client's user header while it handles concurrent requests.
+
+A missing or invalid primary credential, an invalid or expired user token, or a missing user identity returns `401`. A token from another tenant, or a delegation header used with a credential other than an agent key, returns `403`. A valid delegated user still needs the key's store grant.
+
+### Enable or change ownership enforcement
+
+For a new deployment, configure the user-identity path before writing personal data. If your application does not use a trusted identity provider, explicitly disable enforcement and apply [backend authorization](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+
+Before upgrading an existing deployment:
+
+1. Keep `memory.ownership.enabled: false` explicitly set while preparing the transition.
+1. Complete the deployment's namespace-placement index migration. Existing stores need the scope and root-owner fields used by ownership queries.
+1. Compare stored personal owners with the verified user IDs your application will send. Resolve mismatches through a controlled data migration; the setting does not rewrite owners.
+1. Configure delegation, then set `memory.ownership.enabled: true` in chart-rendered values. For a bring-your-own file, use `ownership.enabled: true` at the root.
+1. Apply the setting to both Data Plane servers and workers, then roll out those processes. `MEM_OWNERSHIP_ENABLED` overrides the file value; check both for conflicting settings.
+1. Replace existing Summary Views when changing this setting. A view retains the source-access policy from its creation.
+1. Test two users: each can access their own personal records, neither can retrieve or search for the other's records, and both can access shared records allowed by their store grants.
+1. Test an agent key without a user token: it must not retrieve personal records or create a session for a named owner.
+
+Disabling enforcement restores store-wide access within the credential's grants. Keep backend authorization in place before disabling it. It does not remove stored owner fields, reassign records, or remove the need for store authentication.
 
 ## Worker callbacks
 

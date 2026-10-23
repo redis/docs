@@ -43,7 +43,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `databases` | Required. Store Redis, as `databases."1".urls`. |
 | `embedding.models.default_embedding_model`, `embedding.models.dimensions` | Required. The embedding model and its vector size. The Control Plane's `embedding.dimensions` must match. |
 | `auth` | Data Plane authentication. Defaults to `agent_key`. |
-| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `false`. Requires a matching authenticated User ID for personal access; ordinary unbound agent keys do not provide one. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
+| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `true` in on-prem release 0.10.2. Requires a matching authenticated user ID for personal access; use an agent key with a delegated user token, or explicitly disable enforcement and authorize requests in your backend. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
 | `inference_providers` | Required when any `llm` block is set. Each entry holds a provider's `endpoint`. |
 | `server` | Data Plane bind address and port. |
 | `license.license_path` | Path where the license Secret is mounted. |
@@ -292,3 +292,89 @@ subjectGrants:
 Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowedOperations`
 alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
 values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.
+
+## Enable document ingestion
+
+Document ingestion is off when `document_ingestion` is omitted. In release 0.10.2, configure the server and worker together through chart-rendered values. This example sets explicit processing limits:
+
+```yaml
+memory:
+  document_ingestion:
+    enabled: true
+    max_decoded_bytes: 1048576
+    max_input_tokens: 8000
+    max_chunks: 32
+    max_output_records: 100
+    max_queued_bytes_per_store: 10485760
+    max_retries: 3
+    max_execution_seconds: 900
+    source_retention_seconds: 86400
+    checkpoint_retention_seconds: 86400
+  background_jobs:
+    redis:
+      enabled: true
+      jobs:
+        document-ingestion:
+          concurrency: 1
+          timeout: 15m
+          max_retry: 3
+  promote_session_memory:
+    strategies:
+      custom:
+        llm:
+          provider: openai
+          models:
+            default_chat_model: <chat-model-name>
+          credentials:
+            type: static
+            api_key: <model-api-key>
+```
+
+Use a model supported by your configured `inference_providers.openai` connection. Supply the credential through the existing overlay Secret. The custom extraction model is required even if built-in session extraction already has a model.
+
+For a bring-your-own configuration, place these fields at the file root instead of under `memory`. Keep the worker's queue retries and timeout consistent with the ingestion limits. All numeric ingestion limits must be positive. Byte, estimated token, and chunk limits apply together.
+
+Roll out both the server and worker. Confirm store health, then [create an extractor and submit a document](/content/develop/ai/context-engine/agent-memory/memory-etl.md). Setting `enabled: false` rejects new ingestions; it does not undo memories already written.
+
+## Enable Summary Views
+
+Summary Views are off by default. Configure the server and worker with the same ownership setting, model provider, and explicit bounds. For chart-rendered configuration, merge these example values under `memory`:
+
+```yaml
+memory:
+  summary_views:
+    enabled: true
+    llm:
+      provider: openai
+      models:
+        default_chat_model: <chat-model-name>
+      credentials:
+        type: static
+        api_key: <model-api-key>
+    page_size: 10
+    max_definitions: 100
+    max_partitions: 100
+    max_concurrent_refreshes: 2
+    max_concurrent_refreshes_per_store: 1
+    max_input_tokens: 8000
+    max_source_records: 100
+    max_source_tokens: 100000
+    default_debounce: 1s
+    min_debounce: 1s
+    max_debounce: 1m
+    default_reconcile_interval: 1h
+    min_reconcile_interval: 1s
+    max_reconcile_interval: 24h
+    schedule_repair_interval: 1m
+    cleanup_batch_size: 100
+    cleanup_timeout: 5s
+    generation:
+      max_output_tokens: 2000
+      timeout: 30s
+```
+
+Use the deployment's configured model-provider connection and supply its credential through the overlay Secret. The selected provider must support the required text or structured generation; the OpenAI connection uses `chat_completions` for structured output. These numbers are example limits, not service-wide defaults.
+
+With a bring-your-own file, place `summary_views` at the file root. Keep the Redis job backend, authenticated worker callbacks, and scheduling worker enabled. Roll out server and worker together, then [create and refresh a view](/content/develop/ai/context-engine/agent-memory/summary-views.md). A private view needs an authenticated user; an ordinary agent key alone does not supply one.
+
+Each view retains its source-access policy. Replace existing definitions when changing ownership enforcement rather than expecting a flag change to rewrite them.

@@ -89,6 +89,7 @@ Omit `text` to retrieve records by filters without a semantic query. For example
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" \
     '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "desc", limit: 10}')" \
@@ -102,6 +103,10 @@ Use the client and identifiers from the [quickstart](/content/develop/ai/context
 `sortBy` accepts `createdAt` or `updatedAt` only when `text` is absent. `sortOrder` accepts `asc` or `desc`, defaults to `desc`, and requires `sortBy`. Semantic searches remain ranked by similarity and cannot use these sort fields. `limit` accepts 1–100 and defaults to 10. Pass `nextPageToken` as `pageToken` with the same query to continue.
 
 Top-level filters use `filterOp: "all"` (AND) by default; `"any"` uses OR. To restrict a query to a user, keep the owner condition mandatory. Do not use `"any"` with separate owner and namespace conditions when both must match. These retrieval filters do not replace application access checks.
+
+Set `filter.unnamespaced: true` to match records with neither a legacy namespace label nor a namespace resource. It cannot be combined with `namespace` or `namespaceRef`, and remains mandatory even with `filterOp: "any"`.
+
+[MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) outputs are included in search by default. Set top-level `excludeDocumentManaged: true` to omit them. Returned `documentManaged` records cannot be overwritten through generic memory creation or PATCH requests; use the document-ingestion workflow to manage their content.
 
 For custom fields, use `filter.attributes`, keyed by the field name, with the operators described in [`AttributeFilterClause`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchLongTermMemory). Combine it with `memoryType` to select the registered custom type.
 
@@ -185,6 +190,7 @@ Search for the structured memory:
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
@@ -322,6 +328,7 @@ If your application already has structured trip data, write it directly using th
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON | jq
@@ -402,6 +409,7 @@ export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
@@ -458,6 +466,7 @@ Run the event write once. In the SDK files, comment out event creation and its o
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq

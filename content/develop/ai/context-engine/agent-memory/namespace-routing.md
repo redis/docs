@@ -43,14 +43,16 @@ This example accepts text containing `travel` into that namespace. The regular e
 import asyncio
 import os
 
+import httpx
 from redis_agent_memory import AgentMemory
 
 
 async def main():
-    async with AgentMemory(
+    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
+    async with httpx.AsyncClient(headers=headers) as transport, AgentMemory(
         os.environ["AGENT_MEMORY_URL"],
         store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
+        api_key=os.environ["API_KEY"], async_client=transport,
     ) as agent_memory:
         current = await agent_memory.get_namespace_routing_async()
         print(current.model_dump_json(by_alias=True, indent=2))
@@ -77,14 +79,23 @@ asyncio.run(main())
 
 ```typescript
 import { AgentMemory } from "@redis-iris/agent-memory";
+import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
 
 async function main() {
   const { AGENT_MEMORY_URL, STORE_ID, API_KEY, SHARED_NAMESPACE_ID } = process.env;
   if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !SHARED_NAMESPACE_ID) {
     throw new Error("Set AGENT_MEMORY_URL, STORE_ID, API_KEY, and SHARED_NAMESPACE_ID.");
   }
+  const httpClient = new HTTPClient();
+  const userToken = process.env.USER_TOKEN;
+  if (userToken) {
+    httpClient.addHook("beforeRequest", (request) => {
+      request.headers.set("X-Iris-User-Token", userToken);
+      return request;
+    });
+  }
   const agentMemory = new AgentMemory({
-    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
   });
   console.dir(await agentMemory.getNamespaceRouting(), { depth: null });
   const result = await agentMemory.putNamespaceRouting({
@@ -103,7 +114,7 @@ async function main() {
   console.dir(result, { depth: null });
 }
 
-main().catch((error) => { console.error(error); process.exitCode = 1; });
+main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
 ```
 
 -tab-sep-
@@ -111,11 +122,13 @@ main().catch((error) => { console.error(error); process.exitCode = 1; });
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespace-routing" | jq
 
 curl --fail-with-body --silent --show-error \
   --request PUT \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
     '{policy: {enabled: true, rules: [{id: "travel", enabled: true,
@@ -157,6 +170,7 @@ To evaluate the policy for an existing shared memory, omit the destination from 
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg id "$MEMORY_ID" '{memoryIds: [$id]}')" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/move" | jq

@@ -22,7 +22,7 @@ These steps install Redis Agent Memory with chart-rendered configuration and age
 authentication, and end with one authenticated call to the Data Plane.
 
 Install Identity Service as release `ids`, then Memory as release `redis-agent-memory`.
-These steps use Memory chart `0.8.0` and Identity Service chart `0.10.0` in one namespace.
+These steps use Memory chart `0.10.2` and Identity Service chart `0.10.2` in one namespace.
 You create the shared credentials and Identity Service control token; Memory generates its
 Control Plane admin token. See [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
 
@@ -32,6 +32,8 @@ environment: one forwarding to `ids-iris-identity-service:9200`, and one forward
 placeholders with addresses reachable from the calling pods. Obtain their certificate authority
 (CA) certificates as a PEM bundle named `service-ca.crt`; use your organization's trust bundle
 if the endpoints use public certificates.
+
+Ownership enforcement is on by default. Before using an agent key with personal memories, [configure delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). Applications that authorize users entirely in their backend must explicitly disable ownership enforcement in their Helm values.
 
 Before you begin, review the [prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md).
 
@@ -158,7 +160,7 @@ tls:
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 0.10.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
@@ -377,7 +379,7 @@ its row. The rows are checklist items CL-1 to CL-6.
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.8.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f ram-values.yaml
 kubectl -n <namespace-name> get pods -w
@@ -389,7 +391,7 @@ If you want Helm to wait, set an explicit timeout that matches the environment:
 
 ```bash
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.8.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f ram-values.yaml \
   --wait \

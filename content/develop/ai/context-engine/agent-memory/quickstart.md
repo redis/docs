@@ -78,6 +78,8 @@ export OWNER_ID='quickstart-user'
 
 The endpoint must include `https://`. Keep the API key out of source control, application logs, and other unsecured locations.
 
+For a self-managed service with ownership enforcement enabled, [configure delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key), then also export `USER_TOKEN` and set `OWNER_ID` to that token's verified user ID. The examples use these optional values. Leave `USER_TOKEN` unset for Cloud store credentials. Without `OWNER_ID`, the SDK examples use `quickstart-user` for this exercise.
+
 ## Install the SDK
 
 {{< multitabs id="installation" tab1="Python" tab2="TypeScript" tab3="curl" >}}
@@ -115,6 +117,7 @@ Create `quickstart.py` or `quickstart.ts` with the complete example for your lan
 {{< clients-example set="agent_memory_sdk" step="connect_health_check" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
 {{< /clients-example >}}
 
@@ -134,6 +137,7 @@ export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
@@ -153,6 +157,7 @@ JSON
 
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
 {{< /clients-example >}}
 
@@ -174,6 +179,7 @@ Wait at least one minute. Replace your SDK file with the complete search example
 curl --fail-with-body --silent --show-error \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' \
   --data @- \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
