@@ -257,11 +257,12 @@ once you no longer need them. See
 [RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs) for the new
 file names.
 
-### Reset MariaDB sources after you add tables
+### Reset MariaDB and SQL Server sources after you add tables
 
-RDI 2.2.0 limits the schema history of a MariaDB source to the tables that it captures, as it
-already did for MySQL sources. If you add a table to the `tables` list of an existing MariaDB
-source, or a database to its `databases` list, [reset the source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source).
+RDI 2.2.0 limits the schema history of MariaDB and SQL Server sources to the tables that they
+capture, as it already did for MySQL and Oracle sources. If you add a table to the `tables` list
+of an existing MariaDB or SQL Server source, or add a database or schema to the ones it captures,
+[reset the source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source).
 Otherwise, the source stops with an unknown schema error when the new table first changes. To
 keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
 `false` in the `advanced.source` section of the source.

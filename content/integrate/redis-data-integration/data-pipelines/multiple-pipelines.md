@@ -66,8 +66,11 @@ the old one. The new pipeline starts with a new
 The pipeline named `default` is special in two ways:
 
 - The CLI targets it whenever you omit the pipeline name.
-- Its resources and keys have the same names as in earlier RDI versions, so a pipeline that
-  you created before upgrading keeps working unchanged.
+- Its resources and keys have the same names as in earlier RDI versions, whether you created it
+  before or after upgrading to RDI 2.2.0, so an upgraded `default` pipeline keeps working
+  unchanged. Only a source that predates RDI's support for multiple sources keeps names of its
+  own. See
+  [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
 
 A new RDI installation has no pipeline, not even `default`, until you create one. See
 [Create a pipeline](#create-a-pipeline).
@@ -80,7 +83,8 @@ The pipeline name appears in the resources that RDI creates for the pipeline. RD
 pipeline name and two dashes to the name of each Kubernetes resource of a pipeline other than
 `default`, so pipeline, source, and secret provider names cannot contain consecutive dashes. The
 following table lists the names for a pipeline named `orders` with a source named `mysql` and a
-secret provider named `my-vault`, next to the names for the `default` pipeline.
+secret provider named `my-vault`, next to the names for the `default` pipeline. The `default`
+names apply whether you created the `default` pipeline before or after the upgrade.
 
 | Resource | `default` pipeline | `orders` pipeline |
 | :-- | :-- | :-- |
@@ -103,7 +107,8 @@ each pipeline resolves them from its own secrets.
 
 `<hash_tag>` is the Redis [hash tag](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags)
 that RDI assigns to the pipeline when you create it. The keys of a pipeline in the RDI database
-all share its hash tag. The hash tag of the `default` pipeline is always `rdi`. For any other
+all share its hash tag. The hash tag of the `default` pipeline is always `rdi`, even when you
+create the `default` pipeline in RDI 2.2.0. For any other
 pipeline, it is the pipeline name followed by an underscore and a short generated suffix, such
 as `orders_f2t`. RDI chooses the suffix so that new pipelines are spread approximately evenly
 across the shards of a sharded RDI database. To find the hash tag of a pipeline, run:
@@ -123,11 +128,10 @@ redis-di deploy orders --dir <path to pipeline folder>
 ```
 
 An empty pipeline is stopped and has no collectors or stream processor. Creating it first lets
-RDI validate the configuration against the source and target databases when you deploy it,
-because RDI runs these checks through a component of the pipeline, which starts only once the
-pipeline exists. You can also create the pipeline and deploy its configuration in one step with
-`redis-di deploy orders --dir <path to pipeline folder>`, but RDI then checks only the
-configuration itself. If you omit the name, the commands act on the `default` pipeline. See
+RDI validate the configuration against the source and target databases when you deploy it.
+Running `redis-di deploy orders --dir <path to pipeline folder>` before the pipeline exists
+creates the pipeline, but doesn't run these database checks. If you omit the name, the commands
+act on the `default` pipeline. See
 [Deploy a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#deploy-a-pipeline)
 for the other `deploy` options.
 
@@ -135,9 +139,10 @@ With RDI API v2, create a pipeline with `POST /api/v2/pipelines`, passing the na
 request body, or with `PUT /api/v2/pipelines/{name}`. See the
 [API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for details.
 
-Create pipelines only with the CLI or the API. RDI assigns the hash tag of a pipeline when the API
-creates it, so a `Pipeline` resource that you create directly with `kubectl` gets the hash tag
-of the `default` pipeline, and its keys collide with the keys of that pipeline.
+Don't create pipelines with `kubectl`. Use the CLI or the API instead. RDI assigns the hash tag
+of a pipeline when the API creates it, so a `Pipeline` resource that you create directly with
+`kubectl` gets the hash tag of the `default` pipeline, and its keys collide with the keys of that
+pipeline.
 
 In a [high availability](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability)
 setup, create pipelines on the primary instance. The secondary instance rejects requests that

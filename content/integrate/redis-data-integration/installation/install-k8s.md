@@ -493,10 +493,31 @@ kubectl delete namespace rdi
 ```
 
 The first command deletes all your pipelines, so that the RDI operator removes their components
-before you uninstall it. On a follower instance with leader election enabled, deleting the
-pipelines keeps their keys in the RDI database, because the active instance still uses them.
+before you uninstall it.
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`](/content/develop/tools/cli.md) and run a
-[`FLUSHALL`](/content/commands/flushall.md) command. Do not do this while another RDI instance
-still uses the same RDI database.
+[`FLUSHALL`](/content/commands/flushall.md) command.
+
+### Uninstall an instance of a disaster recovery setup
+
+In a disaster recovery setup, two RDI instances with leader election share the RDI database or
+replicate it. Deleting the pipelines of the active instance also deletes their keys in the RDI
+database, while deleting the pipelines of a follower keeps the keys, because the active instance
+still uses them. The steps depend on what you want to remove:
+
+- To remove only one instance and keep the other one running the pipelines, first make sure
+  that the instance you remove is a follower:
+
+  1. If it is the active instance, put it in standby with
+     `redis-di set-setting standby_mode true`. See
+     [Trigger a failover manually](/content/integrate/redis-data-integration/installation/ha-test.md#trigger-a-failover-manually).
+  1. Wait until
+     [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+     on the other instance shows `Leader Election Mode: leader`.
+  1. Uninstall the instance with the commands in [Uninstall RDI](#uninstall-rdi). Do not flush
+     the RDI database, because the remaining instance still uses it.
+
+- To remove the whole setup, uninstall the follower first and the active instance last, with the
+  commands in [Uninstall RDI](#uninstall-rdi). When you uninstall the active instance, RDI
+  deletes the keys of its pipelines. You can then flush the RDI database.

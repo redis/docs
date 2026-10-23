@@ -312,10 +312,9 @@ redis-di deploy --empty
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-Creating the pipeline first lets RDI validate your configuration against the source and target
-databases. RDI runs these checks through a component of the pipeline, which starts only once the
-pipeline exists. If you deploy a configuration straight away with `redis-di deploy --dir`, the
-command still creates the pipeline, but RDI checks only the configuration itself.
+To validate your configuration against the source and target databases, create an empty pipeline
+first, then deploy your configuration. Running `redis-di deploy --dir` before the pipeline exists
+creates the pipeline, but doesn't run these database checks.
 
 The pipeline name is optional and defaults to `default`. To deploy another pipeline, pass its
 name to both commands:

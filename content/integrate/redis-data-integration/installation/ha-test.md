@@ -113,6 +113,16 @@ instance setting. Each instance has its own settings, so run these commands with
 [context](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts) that points
 to the instance you want to change.
 
+1. Check that the other instance can take over. On the other instance, run:
+
+   ```
+   redis-di get-setting standby_mode
+   ```
+
+   The value must not be `true`. If it is `<none>`, also check that
+   `operator.leaderElection.standbyMode` is not `true` in the Helm values of that instance. If
+   both instances are in standby, neither of them runs the pipelines.
+
 1. On the leader, set `standby_mode` to `true`:
 
    ```
