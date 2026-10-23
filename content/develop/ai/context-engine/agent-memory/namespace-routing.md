@@ -33,7 +33,7 @@ An automatic move keeps the current placement and returns a per-item error if ro
 1. Install the software development kit (SDK) for your language.
 1. Set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
 
-This example accepts text containing `travel` into that namespace. The regular expression is case-insensitive. **PUT replaces the entire policy.** This example installs only the `travel` rule. On a store with existing rules, include those you want to keep in the `rules` array before sending the PUT. Reading the current policy does not merge it into the example automatically.
+This example accepts text containing `travel` into that namespace, ignoring case. **PUT replaces the entire policy.** Include any existing rules you want to keep in `rules`; the example installs only the `travel` rule.
 
 {{< multitabs id="namespace-routing-policy" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 

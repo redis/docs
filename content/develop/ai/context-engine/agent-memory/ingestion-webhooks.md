@@ -13,7 +13,7 @@ weight: 15
 
 Ingestion webhooks let your application accept, reject, or transform content before Redis Agent Memory saves it. A callback returns a decision; successful HTTP delivery alone does not approve a write.
 
-The supported setup uses a self-managed deployment with the Redis background-job backend. Hooks are off by default. This guide does not assume Cloud account controls or a Cloud webhook rollout.
+Ingestion webhooks require a self-managed deployment with the Redis background-job backend. Hooks are off by default.
 
 ## Choose what to review
 
@@ -64,7 +64,7 @@ Read the timestamp, event ID, key ID, and signature from `X-Redis-Webhook-Timest
 This runnable receiver uses FastAPI and the Python standard library. It:
 
 1. Checks the four signature headers and the timestamp.
-1. Verifies the HMAC signature over the raw body.
+1. Verifies the hash-based message authentication code (HMAC) over the raw body.
 1. Returns the saved decision if the event and body match a previous request.
 1. Rejects content containing `[reject]` and accepts other signed content.
 
@@ -338,7 +338,7 @@ done
 
 {{< /multitabs >}}
 
-Lists return `statuses` and `nextCursor`, not `items` and `nextPageToken`. Continue when a page is empty but has a cursor; ownership filtering can produce that result. Keep the same store, credential, and list parameters when following a cursor. The maximum page size is 100.
+Lists return `statuses` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
 
 Private pending content expires within 24 hours or the earlier operation deadline. Compact status and write receipts remain for seven days after completion or expiry. Status omits private input, generated content, prompts, endpoint configuration, and keys.
 

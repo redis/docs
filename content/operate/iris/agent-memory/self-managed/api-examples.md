@@ -216,7 +216,7 @@ See [Create an extractor](#create-an-extractor) for extractor administration and
 
 ## Create an extractor
 
-Enable [document ingestion](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-document-ingestion). Set `AGENT_MEMORY_CONTROL_PLANE_URL`, `AGENT_MEMORY_SERVICE_TOKEN`, and `STORE_ID` as described in [Manage a service with the Control Plane SDK](#manage-a-service-with-the-control-plane-sdk).
+For model and processing settings, see [Configure document ingestion](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-document-ingestion). Set `AGENT_MEMORY_CONTROL_PLANE_URL`, `AGENT_MEMORY_SERVICE_TOKEN`, and `STORE_ID` as described in [Manage a service with the Control Plane SDK](#manage-a-service-with-the-control-plane-sdk).
 
 First register a custom memory type on the store. For a new `document_fact` type, run this once:
 
@@ -325,7 +325,7 @@ jq --arg url "$HOOK_URL" \
     "$AGENT_MEMORY_CONTROL_PLANE_URL/v1/stores/$STORE_ID/ingestion-hooks" > hook-config-new.json
 ```
 
-The response returns each phase's `keyId` and `signingKeyConfigured`, never its key. Load those IDs and original keys into the receiver. The [receiver example](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#verify-callbacks-and-return-decisions) can get it from:
+The response returns each phase's `keyId` and `signingKeyConfigured`, never its key. Supply those IDs and original keys to the [receiver example](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#verify-callbacks-and-return-decisions) through `HOOK_KEYS_JSON`:
 
 ```sh
 export HOOK_KEYS_JSON="$(jq -c '{(.beforeInput.keyId):env.HOOK_INPUT_KEY,(.beforeApply.keyId):env.HOOK_OUTPUT_KEY}' hook-config-new.json)"
@@ -472,28 +472,30 @@ Set variables:
 DP_URL="http://localhost:9000"
 STORE_ID="<store-id>"
 RAM_AGENT_KEY="<agent-key>"
+OWNER_ID="<authenticated-user-id>"
+USER_TOKEN="<user-access-token>"
 ```
 
-For auth-disabled deployments, omit the `Authorization` header and rely on the
-deployment's hosting controls.
+With ownership enforcement enabled, [configure delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key), set `USER_TOKEN` to the user's access token, and set `OWNER_ID` to its verified user ID. If enforcement is disabled, unset `USER_TOKEN` and enforce access in your backend. For auth-disabled deployments, also omit `Authorization` and rely on the deployment's hosting controls.
 
 ### Write a session event
 
 ```bash
 curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/session-memory/events" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
   -H "Content-Type: application/json" \
-  -d '{
+  -d "$(jq -n --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" '{
     "sessionId": "session-001",
-    "actorId": "user-001",
+    "actorId": $owner,
     "role": "USER",
     "content": [
       {
         "text": "What is the capital of France?"
       }
     ],
-    "createdAt": "2026-06-25T18:00:00Z"
-  }'
+    "createdAt": $now
+  }')"
 ```
 
 Request body fields:
@@ -510,7 +512,8 @@ Request body fields:
 
 ```bash
 curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory/session-001" \
-  -H "Authorization: Bearer $RAM_AGENT_KEY"
+  -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}"
 ```
 
 ### List sessions
@@ -518,15 +521,18 @@ curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory/session-001" \
 List sessions for a specific owner:
 
 ```bash
-curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory?filterOwnerId=user-001" \
-  -H "Authorization: Bearer $RAM_AGENT_KEY"
+curl -sS --get "$DP_URL/v1/stores/$STORE_ID/session-memory" \
+  -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
+  --data-urlencode "filterOwnerId=$OWNER_ID"
 ```
 
-List all sessions:
+List all sessions the caller can access:
 
 ```bash
 curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" \
-  -H "Authorization: Bearer $RAM_AGENT_KEY"
+  -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}"
 ```
 
 `filterOwnerId` and `includeAll` are mutually exclusive.
@@ -535,8 +541,13 @@ The `/session-memory` list returns session IDs. To get session rows ordered by
 recent activity, use `/sessions`:
 
 ```bash
-curl -sS "$DP_URL/v1/stores/$STORE_ID/sessions?filterOwnerId=user-001&sortBy=updatedAt&sortOrder=desc&limit=20" \
-  -H "Authorization: Bearer $RAM_AGENT_KEY"
+curl -sS --get "$DP_URL/v1/stores/$STORE_ID/sessions" \
+  -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
+  --data-urlencode "filterOwnerId=$OWNER_ID" \
+  --data-urlencode 'sortBy=updatedAt' \
+  --data-urlencode 'sortOrder=desc' \
+  --data-urlencode 'limit=20'
 ```
 
 Each row includes `sessionId` and, when known, `ownerId`, `createdAt`,
@@ -544,7 +555,7 @@ Each row includes `sessionId` and, when known, `ownerId`, `createdAt`,
 The default order is `updatedAt` descending. You can also sort by `sessionId`
 or `createdAt`, each in ascending or descending order. Send `nextPageToken` as
 `pageToken` with the same filters and sort options to fetch the next page.
-The new route uses the same filter and authorization rules as `/session-memory`.
+Both routes use the same filter and authorization rules.
 
 ### Create long-term memories directly
 
@@ -553,8 +564,9 @@ Create a personal namespace for the user's preferences and save its ID. Run this
 ```bash
 NAMESPACE_ID=$(curl --fail-with-body -sS -X POST "$DP_URL/v1/stores/$STORE_ID/namespaces" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
   -H "Content-Type: application/json" \
-  -d '{"name":"preferences","scope":"PERSONAL","ownerId":"user-001"}' \
+  -d "$(jq -n --arg owner "$OWNER_ID" '{name:"preferences",scope:"PERSONAL",ownerId:$owner}')" \
   | jq -er '.namespace.namespaceId')
 export NAMESPACE_ID
 ```
@@ -564,14 +576,15 @@ After the request succeeds, place the memory in that namespace:
 ```bash
 curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/long-term-memory" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
   -H "Content-Type: application/json" \
-  -d "$(jq -n --arg ns "$NAMESPACE_ID" '{
+  -d "$(jq -n --arg ns "$NAMESPACE_ID" --arg owner "$OWNER_ID" '{
     "memories": [
       {
         "id": "pref-email-updates",
         "text": "User prefers email updates.",
         "memoryType": "semantic",
-        "ownerId": "user-001",
+        "ownerId": $owner,
         "namespaceRef": {"namespaceId": $ns},
         "topics": ["communications"]
       }
@@ -588,13 +601,14 @@ Filter by the namespace ID to recall preferences from that namespace:
 ```bash
 curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/long-term-memory/search" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "X-Iris-User-Token: ${USER_TOKEN:-}" \
   -H "Content-Type: application/json" \
-  -d "$(jq -n --arg ns "$NAMESPACE_ID" '{
+  -d "$(jq -n --arg ns "$NAMESPACE_ID" --arg owner "$OWNER_ID" '{
     "text": "How should we contact this user?",
     "filter": {
       "namespaceRef": {"eq": $ns},
       "ownerId": {
-        "eq": "user-001"
+        "eq": $owner
       }
     },
     "limit": 5

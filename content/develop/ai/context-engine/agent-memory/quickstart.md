@@ -125,7 +125,7 @@ curl --fail-with-body --silent --show-error \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
 {{< /clients-example >}}
 
-The store health response checks the configured Store ID and reports the status of its memory features. Inspect the overall `status` and individual `features` before continuing. A healthy response looks like:
+The health response reports the status of the selected store's memory features. A healthy response looks like:
 
 ```json
 {
@@ -150,7 +150,7 @@ The store health response checks the configured Store ID and reports the status 
 }
 ```
 
-Run Python examples with `python quickstart.py` or TypeScript examples with `npx tsx quickstart.ts`. Each SDK example includes its client setup. Replace the file with the complete example for the next step, and use the same connection values and identifiers. Run curl commands in the shell where you exported the connection values.
+Each SDK example includes its client setup. Replace the file at each step, keeping the same connection values and identifiers. Run curl commands in the shell where you exported the connection values.
 
 <a id="1-build-conversation-context-with-session-memory"></a>
 
@@ -223,7 +223,7 @@ curl --fail-with-body --silent --show-error \
 JSON
 {{< /clients-example >}}
 
-Run the search. The `items` array should contain memories derived from the conversation, such as the vegetarian requirement or preference for spicy food. Extraction is asynchronous, so run the search again if the array is empty.
+Run the search and inspect `items`. Extraction is asynchronous, so run the search again if the array is empty.
 
 > [!NOTE]
 > **What to expect:** Results similar to `User is a vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.

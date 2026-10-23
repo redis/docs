@@ -307,12 +307,12 @@ memory:
   session_summarisation:
     enabled: false
 image:
-  tag: "0.8.0"
+  tag: "0.10.2"
 controlplane:
   internalToken:
     existingSecret: memory-internal-token
   image:
-    tag: "0.8.0"
+    tag: "0.10.2"
   config:
     render: true
   configData:
@@ -347,9 +347,8 @@ tls:
   `/etc/identity-service/runtime/memory-dp/token`. Do not hand-set the introspection endpoint or credential under `memory.auth` or `shared.auth`.
 - `tenantId: default` matches `runtime.apiKeyTenant.singleTenantID` in `values-ids.yaml`.
   The Control Plane creates admin-token stores in this tenant.
-- The published Memory chart defaults `image.tag` and `controlplane.image.tag` to `0.8.0`;
-  the example pins them explicitly. Identity Service uses its own chart's application version,
-  `0.10.0`, independently.
+- Both charts use application version `0.10.2`. The example pins Memory's Data Plane
+  and Control Plane images to that version.
 
 {{< note >}}
 No external model provider? To try the API with local models, see [Evaluate locally](#evaluate-locally).
@@ -474,21 +473,11 @@ The response's `token` is the agent key. It is shown only once.
 ## 8. Make one authenticated call
 
 ```bash
-curl -sS -X POST "http://localhost:9000/v1/stores/<store-id>/session-memory/events" \
-  -H "Authorization: Bearer <agent-key>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "sessionId": "session-001",
-    "actorId": "user-001",
-    "role": "USER",
-    "content": [{"text": "What is the capital of France?"}],
-    "createdAt": "2026-06-25T18:00:00Z"
-  }'
+curl --fail-with-body -sS "http://localhost:9000/v1/stores/<store-id>/health" \
+  -H "Authorization: Bearer <agent-key>"
 ```
 
-The first long-term memories appear up to 5 minutes after the session events, because promotion
-runs at the end of a clock-aligned 300-second window. To shorten the wait, set
-`extractionCadence.activeIntervalSeconds` (60–600) on the store. No API triggers promotion.
+Check that the store and its memory features are healthy. This verifies the agent key's store access without requiring a user identity. To write personal data, follow the [Data Plane examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#data-plane-api-examples), including delegated user setup.
 
 ## Evaluate locally
 

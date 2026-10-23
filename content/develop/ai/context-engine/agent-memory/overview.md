@@ -41,7 +41,7 @@ Redis Agent Memory also maintains an automatically updated summary of each sessi
 
 ## Adding to session memory
 
-Your application gives Agent Memory the conversation for extracting long-term memories by appending to session memory. Think of session memory as a shared transcript that both your application and the background extraction pipeline read.
+Your application appends events to session memory. Both your application and background extraction read this conversation transcript.
 
 ### Key terms
 
@@ -56,7 +56,7 @@ Your application gives Agent Memory the conversation for extracting long-term me
 2. **Extraction reads the session.** In the background, extraction reads the session's accumulated events, not just the latest one, so it can resolve context across turns.
 3. **Long-term memory is written.** Facts worth keeping are stored as separate, searchable records, scoped by owner and memory type.
 
-Extraction reads the whole session. You only need to send each new turn as it happens. You don't need to resend earlier turns for a later one to be understood in context.
+Send each new turn once. Extraction reads earlier events from the session, so you don't need to resend them.
 
 ## Namespaces
 

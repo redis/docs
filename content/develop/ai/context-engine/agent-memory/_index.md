@@ -9,8 +9,6 @@ description: Store agent memory for AI applications in Redis.
 linkTitle: Agent Memory
 hideListLinks: true
 weight: 10
-bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
-bannerChildren: true
 aliases:
 - /develop/ai/agent-memory/
 ---
@@ -100,7 +98,7 @@ Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in 
 
 ## Get started with Redis Agent Memory {#get-started}
 
-Get started with Redis Agent Memory on Redis Cloud or join the private preview for Redis Software.
+Get started with Redis Agent Memory on Redis Cloud or deploy it with Redis Software.
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div class="p-5 border border-redis-pen-300 rounded-lg">
@@ -109,7 +107,7 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
     <p><a href="{{< relref "/operate/iris/agent-memory/create-service" >}}">Open the Redis Cloud setup guide</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software private preview</h3>
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software</h3>
     <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
     <p><a href="{{< relref "/operate/iris/agent-memory/self-managed" >}}">Open the self-managed deployment guide</a></p>
   </div>

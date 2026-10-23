@@ -1,6 +1,6 @@
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).
 1. Select **Agent Memory** from the navigation menu.
-1. If Redis Cloud displays the public preview terms, review and accept them.
+1. If Redis Cloud displays service terms, review and accept them.
 1. Select **Create custom service**.
 1. Enter a service name, select an eligible database, and select its `default` user.
 1. Under **Memory configuration**, enter these values:

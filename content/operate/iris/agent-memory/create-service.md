@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Create service
 title: Create an Agent Memory service
 weight: 5
-bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 aliases:
 - /operate/rc/context-engine/agent-memory/create-service/
 - /operate/rc/agent-memory/create-service/
@@ -22,7 +21,7 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
 
-During public preview, Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
+Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
 
 
 ## Create an Agent Memory service
@@ -76,7 +75,7 @@ The **General settings** section defines basic properties of your service.
 |:----------------------|:----------|
 | **Service name** | Enter a name for your Agent Memory service. We recommend you use a name that describes your service's purpose. |
 | **Select database** | Select the Redis Cloud database to use for this service from the list. |
-| **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) during public preview. |
+| **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}). |
 
 ### Memory configuration
 
@@ -163,9 +162,6 @@ The **Sensitive-data exclusions** section lets you define information that shoul
 - [Semantic exclusions](#semantic-exclusions) describe what to exclude in plain language, catching concepts that a pattern cannot.
 
 Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
-
-> [!NOTE]
-> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
 ![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
 

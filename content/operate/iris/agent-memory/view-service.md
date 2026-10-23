@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: View service
 title: View and manage Agent Memory service
 weight: 15
-bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 aliases:
 - /operate/rc/context-engine/agent-memory/view-service/
 - /operate/rc/agent-memory/view-service/
@@ -100,9 +99,6 @@ To change a custom memory type's name or fields, you must create a new service. 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
 The **Sensitive-data exclusions** section shows the [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) configured for the service.
-
-> [!NOTE]
-> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
 ![The Sensitive-data exclusions section for the Agent Memory service.](/images/rc/agent-memory-view-sensitive-data-exclusions.png)
 

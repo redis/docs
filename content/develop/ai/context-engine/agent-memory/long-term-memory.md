@@ -47,9 +47,7 @@ A long-term memory record includes:
 
 ## Search long-term memory
 
-Search long-term memory semantically and narrow results with filters. Scope results with filters for owners, sessions, namespaces, topics, and memory types.
-
-Use `ownerId` to restrict recall to the relevant user or entity. Add narrower filters when the application needs memories from a particular session, namespace, topic, or memory type.
+Search by meaning and use `ownerId` to restrict recall to the relevant user or entity. Add filters for a session, namespace, topic, or memory type as needed.
 
 For request fields, filter operators, and response schemas, see [`SearchLongTermMemory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/SearchLongTermMemory).
 
@@ -421,7 +419,7 @@ JSON
 
 {{< /multitabs >}}
 
-Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating an eligible record with the same `id` again replaces that record. Ownership checks and protection for document-managed records still apply.
+Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating an eligible record with the same `id` again replaces that record. Access checks and protection for document-managed records still apply.
 
 See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
@@ -552,10 +550,8 @@ JSON
 
 {{< /multitabs >}}
 
-Inspect the returned memories. They can retain the hotel name, but should not contain `DEMO-7QX9` because the exclusion prompt covers booking confirmation codes.
-
 > [!NOTE]
-> **What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code. If the code appears, refine the exclusion prompt and test again. Exclusions remain advisory.
+> **What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code `DEMO-7QX9`. If the code appears, refine the exclusion prompt and test again.
 
 > [!WARNING]
 > Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Exclusions do not apply to directly created long-term memories.

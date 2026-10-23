@@ -70,7 +70,7 @@ Your application must check that the current user can access this session before
 
 To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /v1/stores/{storeId}/sessions`, `list_session_summaries` in Python, or `listSessionSummaries` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for SDK examples and pagination.
 
-For session IDs only, use `GET /v1/stores/{storeId}/session-memory` lists IDs by owner or namespace; it does not return the conversation events. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+For session IDs only, use `GET /v1/stores/{storeId}/session-memory` with an owner or namespace filter. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
 
 For a user's personal conversations, set `filterOwnerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
@@ -133,9 +133,7 @@ To group a session and its extracted memories, use an optional [namespace]({{< r
 
 {{< embed-md "agent-memory-continue-from-quickstart.md" >}}
 
-Automatic summarization condenses older events and retains the most recent events in full. The retrieved session then contains a `summary` object and the recent `events` array, so the application can provide useful history without filling the model's context window with every original message.
-
-Follow [Configure automatic summarization](#configure-automatic-summarization). Set **Summarize after** to `6` and **Keep most recent** to `2` for this example. When the session reaches six events, Redis Agent Memory summarizes the older events and retains the two most recent events in full.
+Follow [Configure automatic summarization](#configure-automatic-summarization). Set **Summarize after** to `6` and **Keep most recent** to `2` for this example. The retrieved session will contain a `summary` object and the two most recent events in `events`.
 
 
 ### Add conversation turns
@@ -250,5 +248,3 @@ Run the retrieval again after a short wait if `summary` is not present. Compare 
 
 > [!NOTE]
 > **What to expect:** A `summary` object that preserves details such as Tokyo, Kyoto, the travel dates, and food preferences. `summarizedUpToEventId` identifies the last event covered by the summary, while `events` contains the newer turns that remain in full. The exact summary text can vary.
-
-See [automatic summarization configuration]({{< relref "/operate/iris/agent-memory/create-service#automatic-summarization" >}}) for details.

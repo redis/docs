@@ -26,8 +26,8 @@ Install the SDK using the [quickstart](/content/develop/ai/context-engine/agent-
 | Variable | Value |
 |:---------|:------|
 | `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY` | The Data Plane endpoint, store, and application credential. |
-| `OWNER_ID` | The authenticated application's user ID for this document. |
-| `USER_TOKEN` | The user's token for an enforced self-managed service. See [delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). |
+| `OWNER_ID` | Your application's authenticated user ID for this document. |
+| `USER_TOKEN` | The user's token when self-managed ownership enforcement is enabled. See [delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). |
 
 ## Create an extractor
 
@@ -208,7 +208,7 @@ done
 
 {{< /multitabs >}}
 
-REST returns `202 Accepted`; this confirms submission, not successful extraction. In the SDKs, the submission content is under `accepted.result`, while the status read returns `ingestion.status`. Output listing uses `offset` and `memoryIds`, not a page token or an `items` array.
+REST returns `202 Accepted`; this confirms submission, not successful extraction. In the SDKs, the submission content is under `accepted.result`, while the status read returns `ingestion.status`. Output listing uses `offset` and returns `memoryIds`.
 
 ## Interpret results and recover
 
