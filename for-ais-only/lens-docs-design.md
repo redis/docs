@@ -207,8 +207,5 @@ example sets.
 - [ ] Write and validate the example sets.
 - [ ] Generate the API reference from the public read API OpenAPI document.
 - [ ] Link the section from the context engine index.
-- [ ] Technical and docs review.
 - [ ] When the MOD-18980 operator pages land, replace the administrator wording and resolve
       the TODO comments.
-- [ ] Product owner approves publication. Keep the PR as a draft until then, since merging
-      to `main` publishes the pages.
