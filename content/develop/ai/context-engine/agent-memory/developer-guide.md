@@ -51,16 +51,11 @@ Some IDs come from your application; others come from Redis Agent Memory:
 
 For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
-On-prem deployments enforce ownership by default in release 0.10.2. With enforcement enabled, the first session event's `actorId` and any `ownerId` you supply must match the authenticated user ID, including case. Later events in an accessible session can use a different actor. An agent key supplies store permissions; a [delegated user token](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) supplies the user identity for personal access. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before upgrading an existing deployment.
+For on-prem deployments, see [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for identity requirements and configuration.
 
 ### Authorize every memory request
 
 Your application must decide which memories the user can access. Put these checks in trusted backend code before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories. Cloud store credentials also require these application checks; a Redis Cloud account user is not your application's end user.
-
-| Ownership enforcement | Responsibility |
-|:----------------------|:---------------|
-| Off | Your backend enforces personal ownership and permitted shared access on every request. Owner fields and filters are metadata, not verified user identity. |
-| On | The server also restricts personal records to the authenticated user and applies that restriction to searches, lists, and direct-ID requests. Your backend still enforces application rules, including team access to shared content. |
 
 * For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `filterOwnerId`. A request from `user-42` must not be able to select `user-99` as its owner.
 * For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
@@ -68,7 +63,7 @@ Your application must decide which memories the user can access. Put these check
 
 Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces.md).
 
-Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `filterOp: "any"` can return either owner's records when enforcement is off. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
+Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `filterOp: "any"` matches either condition; it does not require the owner to match. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
 
 ## Build context for each agent turn
 
@@ -136,7 +131,7 @@ A failed request is different from a successful search with no matches. Handle t
 | Empty `items` | No memories match yet. | Continue with session context. |
 | Invalid request | A field or filter is invalid. | Correct it using the error details. |
 | `401` | The credential is invalid or expired. | Correct the key or refresh the user's token. |
-| `403` or a hidden personal-record `404` | Store access or ownership prevents the request. | Check grants and authenticated identity. An owner filter cannot grant access. |
+| `403` or a hidden personal-record `404` | Store grants, or on-prem ownership enforcement, prevent the request. | Check grants and authenticated identity. An owner filter cannot grant access. |
 | `409` | A resource conflicts, such as an archived destination or stale revision. | Correct the destination or read the current revision before retrying. |
 | `423` | The resource is suspended. | Restore its availability. |
 | `424` | A dependency failed. | Inspect the typed error and problem type. |
@@ -186,7 +181,7 @@ The ingestion-hook `503` retry error and `422` stopped error also have distinct 
 
 ## Create long-term memories
 
-Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; ownership checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
+Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; access checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
 
 See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
 

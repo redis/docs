@@ -154,7 +154,7 @@ Operation mapping:
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
 
-Release 0.10.2 enables ownership enforcement by default in the on-prem server, worker, and chart. The Cloud runtime has a separate default and credential model. Your application remains responsible for end-user authorization when using Cloud store credentials; Cloud account users are not application end users. Customers cannot configure this on-prem setting or a customer identity provider through a Cloud account setting.
+This section applies to on-prem deployments. Release 0.10.2 enables ownership enforcement by default in the on-prem server, worker, and chart.
 
 | Setting | Personal access | Shared access |
 | --- | --- | --- |

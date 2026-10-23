@@ -19,7 +19,7 @@ Use [session extraction](/content/develop/ai/context-engine/agent-memory/session
 
 ## Prepare the service
 
-These examples use a self-managed service with document ingestion enabled. An operator must configure the Data Plane and worker, their model provider, and [worker authentication](/content/operate/iris/agent-memory/self-managed/authentication.md#worker-callbacks). Installing an SDK does not enable processing. See [Enable document ingestion](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-document-ingestion).
+MemoryETL is available in Redis Cloud and enabled in self-managed deployments. These examples use a self-managed service. For its model, processing limits, and worker settings, see [Configure document ingestion](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-document-ingestion).
 
 Install the SDK using the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#install-the-sdk). Set:
 

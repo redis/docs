@@ -293,9 +293,9 @@ Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowed
 alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
 values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.
 
-## Enable document ingestion
+## Configure document ingestion {#enable-document-ingestion}
 
-Document ingestion is off when `document_ingestion` is omitted. In release 0.10.2, configure the server and worker together through chart-rendered values. This example sets explicit processing limits:
+Document ingestion is enabled in self-managed deployments. Configure the server and worker together through chart-rendered values. This example sets explicit processing limits:
 
 ```yaml
 memory:
@@ -336,9 +336,9 @@ For a bring-your-own configuration, place these fields at the file root instead 
 
 Roll out both the server and worker. Confirm store health, then [create an extractor and submit a document](/content/develop/ai/context-engine/agent-memory/memory-etl.md). Setting `enabled: false` rejects new ingestions; it does not undo memories already written.
 
-## Enable Summary Views
+## Configure Summary Views {#enable-summary-views}
 
-Summary Views are off by default. Configure the server and worker with the same ownership setting, model provider, and explicit bounds. For chart-rendered configuration, merge these example values under `memory`:
+Summary Views are enabled in self-managed deployments. Configure the server and worker with the same ownership setting, model provider, and explicit bounds. For chart-rendered configuration, merge these example values under `memory`:
 
 ```yaml
 memory:
@@ -431,9 +431,9 @@ For Active-Active backing databases, route every server and worker for a store t
 
 Then [configure a store policy](/content/operate/iris/agent-memory/self-managed/api-examples.md#configure-a-webhook-policy) and deploy a [callback receiver](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#verify-callbacks-and-return-decisions).
 
-## Enable namespace routing
+## Configure namespace routing {#enable-namespace-routing}
 
-Use the same switches on the server and worker. For chart-rendered configuration, add:
+Namespace routing is enabled in self-managed deployments. Keep these switches consistent on the server and worker. For chart-rendered configuration, use:
 
 ```yaml
 memory:

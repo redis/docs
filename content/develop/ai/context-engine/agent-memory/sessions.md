@@ -50,7 +50,7 @@ curl --fail-with-body --silent --show-error --request POST \
 
 Send each new message once, using the same session ID throughout the conversation.
 
-The session's `ownerId` comes from the first event's `actorId` and is returned when you retrieve the session. With [server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement), the first event's `actorId` must match the authenticated User ID.
+The session's `ownerId` comes from the first event's `actorId` and is returned when you retrieve the session. In on-prem deployments with [server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement), the first event's `actorId` must match the authenticated user ID.
 
 ## Retrieve conversation context
 
@@ -64,7 +64,7 @@ curl --fail-with-body --silent --show-error \
 
 The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
 
-Without server-side ownership enforcement, your application must check that the current user can access this session before retrieving it. The request selects a session by ID; it does not include an owner filter.
+Your application must check that the current user can access this session before retrieving it. The request selects a session by ID; it does not include an owner filter.
 
 ## List sessions
 

@@ -19,22 +19,22 @@ Summary Views differ from [session summarization](/content/develop/ai/context-en
 
 ## Prepare the service and identity
 
-An operator must enable Summary Views and configure their model, worker, queues, and limits. An SDK installation does not enable processing. See [Enable Summary Views](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-summary-views).
+Summary Views are available in Redis Cloud and enabled in self-managed deployments. For self-managed model and capacity settings, see [Configure Summary Views](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-summary-views).
 
 The examples use a self-managed service with ownership enforcement and [delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, `USER_TOKEN`, and `OWNER_ID` as described there. `OWNER_ID` must match the verified user claim. Install the SDK through the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#install-the-sdk).
 
-The server assigns the definition's immutable `ownerId`. Creation requires an authenticated user ID even with enforcement off. A store credential without user identity cannot create a view by supplying an owner field. These examples do not assume customer identity-provider setup is available in Redis Cloud.
+The server assigns the definition's immutable `ownerId`. In on-prem deployments, creation requires an authenticated user ID even with enforcement off. A store credential without user identity cannot create a view by supplying an owner field.
 
 ### Choose private or shared visibility
 
-With ownership enforcement enabled:
+In on-prem deployments with ownership enforcement enabled:
 
 | Visibility | Who can read | Sources |
 |:-----------|:-------------|:--------|
 | `PRIVATE` (default) | The definition owner. | The owner's personal and store-authorized shared memories, narrowed by the definition's filters. |
 | `SHARED` | Callers with store read access. The owner retains lifecycle control. | Shared memories only. Personal records cannot be published through a shared view. |
 
-Shared does not mean a particular team. Enforce team membership in your backend or use separate stores and grants. With enforcement off, store-level access is broader: `PRIVATE` does not replace backend authorization. A view records its source-access policy at creation. Changing enforcement requires replacing existing views and configuring server and worker alike.
+Shared does not mean a particular team. Enforce team membership in your backend or use separate stores and grants. In on-prem deployments with enforcement off, store-level access is broader: `PRIVATE` does not replace backend authorization. A view records its source-access policy at creation. Changing on-prem enforcement requires replacing existing views and configuring server and worker alike.
 
 ## Create, refresh, and read a view
 
@@ -200,7 +200,7 @@ Result reads validate contributing source records. Deleted, changed, or newly in
 
 ## Filter and group sources
 
-Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filterOp` defaults to `all`; `any` combines optional filters with OR. Ownership, exact partition scope, and time-window restrictions apply separately. Legacy `namespace` labels are unsupported for Summary Views; use `namespaceRef`.
+Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filterOp` defaults to `all`; `any` combines optional filters with OR. Exact partition scope and time-window restrictions apply separately, as do ownership checks in on-prem deployments. Legacy `namespace` labels are unsupported for Summary Views; use `namespaceRef`.
 
 `groupBy` accepts up to four distinct fields: `ownerId`, `sessionId`, `namespaceRef`, and `memoryType`. A result read or `target: partition` refresh must supply exactly those fields. Missing or extra scope fields are invalid. `groupBy: []` creates a singleton; omit all scope fields when reading it.
 

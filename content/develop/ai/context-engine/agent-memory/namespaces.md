@@ -232,7 +232,7 @@ For direct long-term memory creation, set `namespaceRef` on each record. To move
 
 Search with `filter.namespaceRef.eq` for one namespace or `filter.namespaceRef.in` for several IDs. These filters match exact namespace IDs; they do not expand a parent into its descendants. List the children and include their IDs when you need to search several levels of a hierarchy. Keep the `ownerId` filter when recalling one user's memories.
 
-Without server-side ownership enforcement, your application must check that the current user can access each namespace before querying it. With enforcement enabled, personal namespace access follows the root owner's authenticated User ID. Shared namespaces are accessible to callers with the required store permission; enforcement does not add team membership checks. If a shared namespace is only for one team, enforce that rule in your application or use separate stores and grants. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+Your application must check that the current user can access each namespace before querying it. In on-prem deployments with ownership enforcement enabled, personal namespace access follows the root owner's authenticated user ID. Shared namespaces are accessible to callers with the required store permission. If a shared namespace is only for one team, enforce that rule in your application or use separate stores and grants. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 ## Create a namespace hierarchy
 
