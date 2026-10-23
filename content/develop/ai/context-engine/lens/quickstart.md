@@ -21,7 +21,7 @@ Get these values from your administrator:
 - The Lens read endpoint, your instance ID, and a read key, for reading them back.
 <!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
 
-You also need Python 3.11 or later. This walkthrough needs no agent framework or model provider key.
+You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key.
 
 ## Install the SDK
 
@@ -57,13 +57,13 @@ Expand the example to copy the complete program. Save it as `quickstart.py`, the
 
 This turn records a memory recall that returns three memories, then a prompt assembly that uses two of them.
 
-{{< clients-example set="lens_quickstart" step="trace_turn" description="" lang_filter="Python" footer="hide" />}}
+{{< clients-example set="iris_lens_quickstart" step="trace_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
 The example prints the session ID and the turn ID. Keep both to find the turn.
 
 Lens exports turns in the background. Before a short-lived process exits, flush the export:
 
-{{< clients-example set="lens_quickstart" step="flush" description="" lang_filter="Python" footer="hide" />}}
+{{< clients-example set="iris_lens_quickstart" step="flush" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
 `shutdown()` waits for the export to finish and returns `True` when it does. It also turns Lens off for the rest of the process, so call it only when your program is done tracing.
 
@@ -82,12 +82,9 @@ The turn shows a **Recall** step with three memories and a **Prompt** step that 
 
 To read the same turn with the read API:
 
-{{< clients-example set="lens_quickstart" step="find_turn" description="" lang_filter="Python" footer="hide" dft_tab_name="cURL" >}}
-curl -s "$LENS_URL/v1/instances/$LENS_INSTANCE_ID/turns/<turn-id>" \
-    -H "Authorization: Bearer $LENS_API_KEY"
-{{< /clients-example >}}
+{{< clients-example set="iris_lens_quickstart" step="find_turn" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-Replace `<turn-id>` with the printed turn ID. The Python example retries until the turn is readable, then prints its outcome and one line per source. The memory recall's source is its store ID:
+For cURL, first set `TURN_ID` to the printed turn ID. The Python example retries until the turn is readable, then prints its outcome and one line per source. The memory recall's source is its store ID:
 
 ```
 Outcome: completed

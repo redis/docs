@@ -1,4 +1,4 @@
-# EXAMPLE: lens_quickstart
+# EXAMPLE: iris_lens_quickstart
 # STEP_START trace_turn
 import os
 import uuid

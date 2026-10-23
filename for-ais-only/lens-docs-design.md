@@ -180,10 +180,12 @@ api-reference.md  Lens API reference  (generated from the public read API OpenAP
 
 ## Examples
 
-Runnable examples use the repo's tabbed code example system: Python sources in
-`local_examples/lens/<set>/` with `STEP_START`/`STEP_END` markers, rendered with the
-`clients-example` shortcode. cURL goes inline in the shortcode body. Every example reads
-its endpoint and keys from environment variables and uses placeholders, never real values.
+Runnable examples use the repo's tabbed code example system with the Iris tabs. Sources live
+in `local_examples/iris/lens/<set>/` with `STEP_START`/`STEP_END` markers and example IDs
+prefixed `iris_lens_`: `.py` files render as **Python (Iris)** and `.sh` files as
+**cURL (Iris)**. Pages render them with `clients-example`, filtered with
+`lang_filter="Python (Iris),cURL (Iris)"`. Every example reads its endpoint and keys from
+environment variables and uses placeholders, never real values.
 
 | Set | Page | Steps | Needs a model key |
 |---|---|---|---|
