@@ -133,9 +133,9 @@ records, and processor load.
 
 ## Increase RDI database throughput
 
-Each pipeline has an RDI database. When the RDI database limits ingestion or
-processing, increase its memory limit or throughput in its **Performance**
-settings.
+Each workspace has one RDI database, which all its pipelines share. When the
+RDI database limits ingestion or processing, increase its memory limit or
+throughput in its **Performance** settings.
 
 ### Relevant metrics
 
@@ -166,8 +166,9 @@ for a single pipeline.
 When you increase **Throughput**, choose a value with as many shards as you
 have pipelines. Each pipeline writes to its own hash slot, and all sources in
 a pipeline share that slot. RDI spreads the pipelines' hash slots across the
-slot range, so when the number of shards matches the number of pipelines,
-each pipeline's slot is on a different shard.
+slot range, so the pipelines are spread approximately evenly across the
+shards. RDI doesn't guarantee that each pipeline's slot is on a different
+shard.
 
 | Throughput | Nodes | Shards |
 | --- | ---: | ---: |
@@ -177,7 +178,7 @@ each pipeline's slot is on a different shard.
 
 ### Edit the performance settings
 
-1. In the Cloud console, open the RDI database for the pipeline.
+1. In the Cloud console, open the RDI database of the workspace.
 1. Edit the database **Performance** settings.
 1. Increase **Memory limit** or **Throughput** to the next available value.
 1. Check the RDI database **Metrics** tab and the pipeline Dashboard before

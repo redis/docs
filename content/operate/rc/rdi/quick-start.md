@@ -46,6 +46,11 @@ This example creates one PostgreSQL source. You can [add more sources](/content/
     ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
     {width="80%"}
 
+1. In the **Create new pipeline** dialog, enter a **Pipeline name**, for example `inventory`, and select **Create pipeline**. See [Name the pipeline](/content/operate/rc/rdi/define.md#name-the-pipeline) for the naming rules.
+
+    ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
+    {width="376px"}
+
 1. In **Settings**, select your target database and choose **Hash** or **JSON** as the default data structure, then select **Continue**.
 1. In **Add sources**, select **PostgreSQL**.
 1. Enter a **Source name** of your choice, for example `inventory-postgres`.
@@ -156,7 +161,7 @@ The following example shows the metrics for one selected source in a pipeline wi
 ![Metrics for one selected source in a pipeline, including snapshot progress and per-table record counts.](/images/rc/rdi/rdi-2-metrics.png)
 {width="80%"}
 
-See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring.
+See [View and edit data pipeline](/content/operate/rc/rdi/view-edit.md) for source actions, dataset changes, and monitoring. To run another pipeline in the same workspace, for example to write to a different target database, see [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
 ## Delete sample resources
 
