@@ -187,16 +187,17 @@ prefixed `iris_lens_`: `.py` files render as **Python (Iris)** and `.sh` files a
 `lang_filter="Python (Iris),cURL (Iris)"`. Every example reads its endpoint and keys from
 environment variables and uses placeholders, never real values.
 
-| Set | Page | Steps | Needs a model key |
+| Set | Page | Steps | Needs |
 |---|---|---|---|
-| `quickstart` | quickstart | configure, trace a turn, get the turn ID, fetch the turn (Python and cURL) | No |
-| `instrument` | instrument | open a turn, retrieval, memory recall, prompt assembly, custom span, include, cross-process, shutdown | No |
-| `langgraph` | agent-integration | attach a graph, run one turn | Yes |
-| `openai_agents` | agent-integration | wrap a run in a turn | Yes |
-| `google_adk` | agent-integration | wrap a run in a turn | Yes |
-| `own_loop` | agent-integration | workflows.turn around one message | No |
-| `iris_products` | agent-integration | one turn across Agent Memory, Agent Playbooks, and Context Gateway | No |
-| `read_api` | read-api | list agents, list sessions, get a session, get a turn, get content (Python and cURL) | No |
+| `iris_lens_quickstart` | quickstart | trace a turn, flush, find the turn (Python and cURL) | Lens only |
+| `iris_lens_instrument` | instrument | init, open a turn, retrieval, memory recall, prompt assembly, custom span, include, turn ID, cross-process, shutdown | Lens only |
+| `iris_lens_langgraph` | agent-integration | wrap a graph run in a turn | Model key |
+| `iris_lens_langgraph_attach` | agent-integration | attach Agent Memory to a graph | Model key, Agent Memory |
+| `iris_lens_openai_agents` | agent-integration | wrap `Runner.run` in a turn | Model key |
+| `iris_lens_google_adk` | agent-integration | wrap `run_async` in a turn | Gemini key |
+| `iris_lens_own_loop` | agent-integration | wrap one message handler | Lens only |
+| `iris_lens_iris_products` | agent-integration | one turn across Agent Memory, Agent Playbooks, and Context Gateway | All three products |
+| `iris_lens_read_api` | read-api | connect, list agents, list sessions, get a session, get a turn, get content, get a gateway result (Python and cURL) | Read key |
 
 Settings and environment variables on the configure page are plain code blocks, not
 example sets.
@@ -218,11 +219,10 @@ example sets.
 
 ## Remaining work
 
-- [ ] Write concepts and quickstart first, with their examples; review them before the rest.
-- [ ] Write the remaining pages and the two diagrams.
-- [ ] Write the remaining example sets.
-- [ ] Add the offline CI check and the live-run script, and run both.
-- [ ] Generate the API reference from the public read API OpenAPI document.
-- [ ] Link the section from the context engine index.
+- [x] Write the ten pages and two diagrams.
+- [x] Write the example sets, and check each against a local ingest stand-in or a fake read API.
+- [x] Add the API reference from the published read API OpenAPI document.
+- [x] Link the section from the context engine index.
+- [ ] Add the offline CI check and the live-run script, and run the live run.
 - [ ] When the MOD-18980 operator pages land, replace the administrator wording and resolve
       the TODO comments.

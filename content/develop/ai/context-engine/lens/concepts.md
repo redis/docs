@@ -21,7 +21,8 @@ A **session** groups the turns of one conversation. A **thread** is a sequence o
 
 Use opaque values, such as internal IDs or hashes, for session, thread, user, and agent IDs.
 
-<!-- TODO: add lens-turn.svg: one turn as its steps (memory recall, Playbook discovery, prompt assembly, model call, Context Gateway tool call, outcome). -->
+![One turn shown as steps on a timeline. A memory recall and a Playbook discovery run at the same time. Prompt assembly uses 3 of the 4 recalled memories and drops 1. A model call, a Context Gateway tool call, and a second model call follow, and the turn ends with the outcome completed.](/images/ai/context-engine/lens-turn.svg)
+{width="700"}
 
 ## What a turn records
 
