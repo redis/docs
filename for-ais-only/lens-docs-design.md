@@ -15,14 +15,20 @@ Design for the customer-facing Lens developer docs, tracked in
   `redis-iris[llm-tracing]` extra.
 - **Languages:** Python and cURL. Instrumentation uses the Python SDK; the read API works
   from any language over HTTP.
+- **Deployments:** Lens runs on Redis Cloud and self-managed. The developer pages are
+  deployment-neutral: the same steps work on both. Name a deployment only where behavior
+  differs, such as signing in to the UI.
+- **Availability banner:** "Lens is currently available in preview. Features and behavior
+  are subject to change." Prose says "preview", matching the other Iris products; never
+  "Beta".
 - **Audience:** developers with a provisioned Lens instance and API keys. Install, upgrade,
   and runbooks are operator docs, tracked in
   [MOD-18980](https://redislabs.atlassian.net/browse/MOD-18980).
-- **Present what Lens does.** Lens is in Beta. Say where a capability is present, not where
+- **Present what Lens does.** Lens is in preview. Say where a capability is present, not where
   it's missing: "Playbook discovery results include their similarity score", not "Agent
   Memory recalls have no score". Name the cases that have a capability so readers don't
-  assume it applies everywhere. Leave out unshipped features entirely. One short Beta note on
-  the landing page; no lists of gaps.
+  assume it applies everywhere. Leave out unshipped features entirely. The availability
+  banner is the only preview notice; no lists of gaps.
 - **Customer-facing only.** Leave out storage tiers, internal service names, internal span
   and attribute names (`iris.lens.*`, `iris.component.*`), cursor internals, and design
   history.
@@ -57,7 +63,9 @@ Check against the latest `origin/main` of each repo, not a local checkout.
 ## Structure
 
 Section: `content/develop/ai/context-engine/lens/`, linked from the Redis Iris context
-engine index. Each topic has one home; other pages link to it.
+engine index. Each topic has one home; other pages link to it. Frontmatter and the
+availability banner (`bannerText`) copy the shape of the sibling Iris product pages; the
+landing page links its pages with `tile-card`.
 
 ```
 lens/
@@ -71,7 +79,6 @@ _index.md  Lens
   - How it works                Diagram (lens-how-it-works.svg): your agent > redis-iris
                                 SDK > Lens > UI and read API
   - Where to start              Quickstart, concepts, agent frameworks
-  (Short Beta note)
 
 concepts.md  Lens concepts
   - Sessions, threads, turns    You choose session and thread IDs; a turn is one trace,
@@ -92,8 +99,9 @@ concepts.md  Lens concepts
                                 retention window; captured text has a shorter window
 
 quickstart.md  Lens quickstart
-  - Before you begin            Lens endpoint, ingest key, and read key from your
-                                administrator; Python 3.11 or later (TODO: operator link)
+  - Before you begin            From your administrator: the Lens ingest endpoint and an
+                                ingest key, plus the read API URL, instance ID, and a read
+                                key. Python 3.11 or later (TODO: operator link)
   - Install the SDK             redis-iris, plus the llm-tracing extra for model calls
   - Configure the SDK           IRIS_LENS_ENDPOINT, IRIS_LENS_API_KEY, IRIS_LENS_AGENT_ID
   - Trace one turn              Turn + memory recall + prompt assembly; no model key needed
@@ -144,7 +152,8 @@ configure.md  Configure Lens
   - Connect over TLS            Use an https endpoint; loopback works for local testing
 
 read-api.md  Query sessions and turns
-  - Authenticate                Read key as a bearer token
+  - Authenticate                Read API URL, instance ID, and read key (a bearer token);
+                                the read client reads LENS_API_KEY, never IRIS_LENS_API_KEY
   - List agents
   - List sessions               Agent ID and time range, optional filters, cursor
                                 pagination; the response returns the effective range
@@ -192,10 +201,14 @@ example sets.
 
 ## Validation
 
-- **Examples:** run every example set end to end against a Lens instance with Agent Memory,
-  Agent Playbooks, and Context Gateway available (the iris-onprem-preview local stack works).
-  Each run passes when the read API returns the turn the example created, with the expected
-  steps. Framework examples run once with a model key.
+- **Offline checks on every PR:** a CI workflow scoped to the Lens pages and example sources.
+  It checks that each example source parses, its steps match the `clients-example` steps the
+  pages reference, and its imports resolve against the published packages. No live service.
+- **Live run before publication:** a script runs each displayed example against a disposable
+  local stack (iris-onprem-preview) with Agent Memory, Agent Playbooks, and Context Gateway.
+  Each case gets fresh keys and a fresh session. A case passes when the read API returns the
+  turn the example created, with the expected steps. Framework examples call a real model
+  only when `OPENAI_API_KEY` is set.
 - **Facts:** check every value in the limits page, the outcome list, and the settings
   against the source files in [Sources](#sources) at the release being documented.
 - **Build:** the Hugo build passes with no unresolved link warnings, and every page is
@@ -203,8 +216,10 @@ example sets.
 
 ## Remaining work
 
-- [ ] Write the ten pages and two diagrams.
-- [ ] Write and validate the example sets.
+- [ ] Write concepts and quickstart first, with their examples; review them before the rest.
+- [ ] Write the remaining pages and the two diagrams.
+- [ ] Write the remaining example sets.
+- [ ] Add the offline CI check and the live-run script, and run both.
 - [ ] Generate the API reference from the public read API OpenAPI document.
 - [ ] Link the section from the context engine index.
 - [ ] When the MOD-18980 operator pages land, replace the administrator wording and resolve
