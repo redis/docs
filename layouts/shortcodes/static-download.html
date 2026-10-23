@@ -1,0 +1,11 @@
+{{- /*
+  static-download
+  ---------------
+  A link that downloads a file from static/, with the site's base URL in
+  front, so it works on staging and production alike. (The download
+  shortcode takes the link as written.)
+
+  Usage:
+      {{< static-download "Download the setup file" "code/search-demo/setup.redis" >}}
+*/ -}}
+<a href="{{ index .Params 1 | relURL }}" download>{{ index .Params 0 }}</a>
