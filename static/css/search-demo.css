@@ -83,3 +83,6 @@
 /* The credit is its own line of plain text, not one of the legend's items. */
 .rsq-legend .rsq-credit { display: block; flex-basis: 100%; text-align: right; font-size: 11px; color: var(--rcr-faint); }
 .rsq .rsq-credit a { color: inherit; text-decoration: underline; }
+
+/* The query's heading, with its Copy button on the right. */
+.rsq-qhead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
