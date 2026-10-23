@@ -5,7 +5,7 @@ categories:
 - docs
 - develop
 - ai
-description: See what each AI agent turn retrieved, what entered the prompt, and how the turn ended.
+description: Debug agent answers by tracing the context behind each turn, from retrieval to prompt.
 linkTitle: Lens
 hideListLinks: true
 weight: 27
