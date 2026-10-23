@@ -60,7 +60,8 @@
 
 /* ---- step 5: the map of the spot's city ---- */
 .rsq-map { margin-bottom: 12px; }
-.rsq-mapbox { border: 1px solid var(--rcr-line); border-radius: 8px; background: var(--rcr-surface-2); overflow: hidden; }
+/* At most as wide as the script draws it (720 px), so a wide screen doesn't stretch it. */
+.rsq-mapbox { max-width: 720px; border: 1px solid var(--rcr-line); border-radius: 8px; background: var(--rcr-surface-2); overflow: hidden; }
 .rsq-mapbox svg { display: block; width: 100%; height: auto; }
 .rsq-zone { fill: rgba(92, 112, 122, .08); stroke: rgba(9, 26, 35, .5); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .rsq-zone.is-hit { fill: rgba(255, 68, 56, .1); stroke: var(--rcr-accent); stroke-dasharray: none; }
@@ -72,7 +73,7 @@
 .rsq-mlabel.is-hit { fill: var(--rcr-ink); font-weight: 700; }
 .rsq-mlabel.is-spot { fill: var(--rcr-accent-2); font-weight: 700; }
 .rsq-scale { fill: none; stroke: var(--rcr-muted); stroke-width: 1.4; }
-.rsq-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 12px; color: var(--rcr-muted); }
+.rsq-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; max-width: 720px; margin-top: 8px; font-size: 12px; color: var(--rcr-muted); }
 .rsq-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .rsq-key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.6px solid var(--rcr-muted); background: var(--rcr-surface); }
 .rsq-key.is-hit { border-color: var(--rcr-accent); background: var(--rcr-accent); }
