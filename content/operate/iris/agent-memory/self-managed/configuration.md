@@ -276,16 +276,58 @@ TLS proxies. See [Network policy](/content/operate/iris/agent-memory/self-manage
 
 ## Optional Playbook extraction
 
-On the Identity Service release, allow Memory subject grants for Playbook extraction:
+For a fresh Playbook extraction installation, configure two separate service account identities
+on Redis Agent Memory. The Playbook worker reads source sessions through the Data Plane. The
+Playbook Control Plane lists stores and verifies source ownership before creating or enabling
+an extraction binding.
+
+Add these entries to `ram-values.yaml`. Replace the issuer and JSON Web Key Set (JWKS) URI with
+your cluster's values, and use the actual Playbook ServiceAccount subjects. The audiences must
+match Playbook's projected tokens:
 
 ```yaml
-subjectGrants:
-  allowed:
-    - product: memory
-      resourceType: mem-store
-      actions: [read, read_all_owners]
+memory:
+  auth:
+    method: agent_key
+    jwt_subjects:
+      - issuer: <service-account-issuer>
+        jwks_uri: <service-account-jwks-uri>
+        audience: [api://memory-dp]
+        subjects:
+          - subject: "system:serviceaccount:<namespace-name>:<playbook-fullname>-worker"
+            authority: static
+            roles: [viewer]
+            resources:
+              "mem-store:*":
+                permissions: [read]
+controlplane:
+  configData:
+    auth:
+      workload_identity:
+        enabled: true
+        issuer: <service-account-issuer>
+        jwks_uri: <service-account-jwks-uri>
+        audience: [api://memory-cp]
+        subjects:
+          - subject: "system:serviceaccount:<namespace-name>:<playbook-fullname>-controlplane"
+            tenant: "<playbook-tenant-id>"
+            roles: [viewer]
 ```
 
-Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowedOperations`
-alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
-values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.
+Use the same tenant as Playbook's `tenantId` for the Control Plane viewer. Do not give this
+workload `suite_admin`: that role bypasses source ownership checks. The viewer proves ownership;
+the Playbook caller must separately be the installation admin or a same-tenant product or suite
+admin to authorize extraction.
+
+`mem-store:*` lets the dedicated worker read all stores served by this Data Plane. Pausing or
+deleting a binding stops subsequent extraction work; requests already accepted can complete.
+To revoke the worker's Memory access, remove its static trust and roll all Memory Data Plane
+replicas.
+
+Both Memory planes must reach the issuer's JWKS endpoint and trust its certificate authority.
+See [Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
+Merge these identities with existing lists. Preserve `auth.worker_identity` for Memory's own
+workers, and keep Identity Service agent-key introspection configured for applications.
+Playbook extraction does not require `subjectGrants`, `read_all_owners`, or
+`subject-grant-lookup` in Identity Service. Leave any independently configured service-subject
+integrations intact.
