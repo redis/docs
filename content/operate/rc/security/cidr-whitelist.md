@@ -50,7 +50,7 @@ To define the CIDR allow list for a database:
 
 &nbsp;
 > [!NOTE]
-> If the target database has a CIDR allow list, you must add the Redis Data Integration (RDI) pipeline's CIDR to the target database's CIDR allow list. Otherwise, the RDI pipeline can't access the database. The RDI pipeline's CIDR is displayed in the [**Workspace details**](/content/operate/rc/rdi/create-workspace.md) modal.
+> If the target database has a CIDR allow list, you must add the CIDR of the Redis Data Integration (RDI) workspace to the target database's CIDR allow list. Otherwise, the RDI pipelines can't access the database. All the pipelines of a workspace share its CIDR, which is displayed in the [**Workspace details**](/content/operate/rc/rdi/create-workspace.md) modal.
 
 ## Continue learning with Redis University
 

@@ -15,7 +15,7 @@ weight: 4
 
 After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target, and one workspace can run several pipelines. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
-In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. If the workspace already has pipelines, select **Workspace actions > Add pipeline**. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
+In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline** at the bottom of the workspace. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
 
 ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
 {width="80%"}
@@ -32,10 +32,12 @@ To create a pipeline:
 
 ## Name the pipeline
 
-1. In the **Create new pipeline** dialog, enter a **Pipeline name**. Use 3 to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name.
+1. In the **Create new pipeline** dialog, enter a **Pipeline name**. Use 3 to 20 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name.
 
     ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
     {width="376px"}
+
+    <!-- TODO: Replace this screenshot once the console hint shows the 20-character limit of RDSC-6270. -->
 
 1. Select **Create pipeline**.
 

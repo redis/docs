@@ -140,7 +140,9 @@ Select a source in the **Sources** list to see its connection status, snapshot p
 
 ### View metrics endpoints
 
-On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints of the pipeline. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+
+Each pipeline has its own endpoints. The paths of a pipeline other than `default` start with the pipeline name, for example `/orders/processor/metrics` for the processor and `/orders/collector-<source>/metrics` for a collector of the `orders` pipeline. All pipelines report the same metric names, and scraping these endpoints adds no label that identifies the pipeline. If you scrape several pipelines, add a `pipeline` label to the scrape job of each pipeline in your Prometheus configuration, for example with the `labels` of its `static_configs`.
 
 Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering](/content/operate/rc/security/vpc-peering.md) or [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md). See [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md) for more information.
 

@@ -125,6 +125,6 @@ See the [RDI Cloud FAQ](/content/operate/rc/rdi/faq.md) for billing examples, re
 
 ## Maintenance windows
 
-RDI Cloud maintenance follows the same subscription-wide maintenance window as your Redis Cloud Pro subscription. During a maintenance window, your data pipeline may experience brief interruptions as Redis applies updates.
+RDI Cloud maintenance follows the same subscription-wide maintenance window as your Redis Cloud Pro subscription. During a maintenance window, your data pipelines may experience brief interruptions as Redis applies updates.
 
-To control when maintenance occurs, [set a manual maintenance window](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md) for your Redis Cloud Pro subscription. Any maintenance window you configure applies to both your databases and your RDI data pipeline.
+To control when maintenance occurs, [set a manual maintenance window](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md) for your Redis Cloud Pro subscription. Any maintenance window you configure applies to both your databases and your RDI data pipelines.

@@ -38,8 +38,8 @@ You can view your workspace in one of the following ways:
 
 There, you'll see your workspace and its pipelines, one row per pipeline. The **Status** column shows **Draft** for a pipeline that you have not deployed yet, and the state of a deployed pipeline otherwise, such as **Running**, **Stopped**, or **Error**. The **Sources** column lists each pipeline's source names and database types. A source with unfinished configuration is marked **Pending setup**. Open its draft to continue setup. The **Billing** column shows **Not billed** for a draft, and the hourly rate of a deployed pipeline. To see your workspace details, including the deployment CIDR and region information, select **Workspace actions > Workspace details**.
 
-![Workspace actions menu with Add pipeline, Workspace details, and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
-{width="185px"}
+![Workspace actions menu with Workspace details and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
+{width="240px"}
 
 ## Add pipelines to a workspace
 
@@ -48,11 +48,16 @@ A workspace can run several pipelines. Each pipeline has its own sources, target
 To add a pipeline:
 
 1. Open your workspace from the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
-1. Select **Add pipeline**. If the workspace already has pipelines, select **Workspace actions > Add pipeline**. The menu is shown in [View workspace status and details](#view-workspace-status-and-details).
-1. Enter a **Pipeline name**. Use 3 to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name. You can't change the name later.
+1. Select **Add pipeline** at the bottom of the workspace.
+
+    <!-- TODO: Add a screenshot of the Add pipeline row at the bottom of a workspace card with a running pipeline. -->
+
+1. Enter a **Pipeline name**. Use 3 to 20 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name. You can't change the name later.
 
     ![The Create new pipeline dialog with the name of a second pipeline.](/images/rc/rdi/rdi-2-create-second-pipeline.png)
     {width="376px"}
+
+    <!-- TODO: Replace this screenshot once the console hint shows the 20-character limit of RDSC-6270. -->
 
 1. Select **Create pipeline**.
 
