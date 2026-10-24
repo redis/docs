@@ -102,3 +102,17 @@ It connects to a Redis server with TLS/SSL supported, and authenticates with eit
 It connects to a single node over TCP or TLS, authenticating with a password or a username and password against Redis 6+ ACLs, and lets you pick logical databases 0 to 15 from the connection form. Cluster and Sentinel discovery are not implemented. A second, read-only Redis plugin written in Go is also available from the same plugin registry.
 
 [Download Tabularis](https://github.com/TabularisDB/tabularis/releases) · [Redis plugin (Rust)](https://github.com/nicholas-papachriston/tabularis-redis-plugin) · [Redis plugin (Go)](https://github.com/gzamboni/tabularis-redis-plugin-go)
+
+### DBine
+
+[DBine](https://dbine.com) is a free, open-source (Apache 2.0) desktop database manager for macOS, Windows, and Linux, made by AddLayer. It shows Redis in the same window as the rest of the 130+ databases and cloud services it supports. The Redis support provides:
+
+* A key browser that lists keys with `SCAN` (never `KEYS`), with `MATCH` patterns and, on Redis 6 or later, filtering by type. Strings, hashes, lists, sets, sorted sets, streams, and JSON keys are shown with their TTL.
+* A command editor that runs single commands or scripts and shows each reply.
+* Value editing: changes are generated as Redis commands that DBine adds to the editor, so you review them and decide whether to run them.
+* A server monitor, a client list built from `CLIENT LIST`, and a profiler built on `MONITOR`.
+* An AI assistant that proposes commands and runs nothing until you approve it.
+
+It connects over TCP or TLS, directly or through an SSH tunnel, and passwords can come from a secret manager. Connections can be marked read-only, and DBine then refuses commands that write. Redis-compatible servers such as Valkey and Dragonfly connect the same way.
+
+[Download DBine from GitHub](https://github.com/addlayer-io/dbine/releases)
