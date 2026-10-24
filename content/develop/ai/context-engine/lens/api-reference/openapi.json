@@ -1,0 +1,2426 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "LensDataPlaneService",
+        "version": "1.0.0",
+        "description": "Read-only session and turn API for an Iris Lens instance."
+    },
+    "paths": {
+        "/v1/instances/{instanceId}/agents": {
+            "get": {
+                "description": "Lists every agent with at least one retained session, sorted by agent ID. The list spans all retained sessions regardless of range, so a selector can offer any agent the instance can show sessions for. An instance with no sessions returns an empty list.",
+                "operationId": "ListAgents",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListAgents 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListAgentsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/instances/{instanceId}/sessions": {
+            "get": {
+                "description": "Lists sessions for one agent in newest-activity-first order. Pagination fixes the first page's last-seen upper bound but does not materialize an immutable snapshot: concurrent activity can move sessions out of the remaining result set or change their relative order. Start a new traversal to obtain the current view. A cursor is valid only with the same effective filters used to create it; a mismatch returns BadRequestError.",
+                "operationId": "ListSessions",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "agentId",
+                        "in": "query",
+                        "description": "Agent scope. Lens never exposes an unscoped session list.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "description": "Agent scope. Lens never exposes an unscoped session list."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "range",
+                        "in": "query",
+                        "description": "Requested lookback range. The service clamps it to instance retention and returns effectiveRange.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*[mhdw]$",
+                            "description": "Requested lookback range. The service clamps it to instance retention and returns effectiveRange."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionIdPrefix",
+                        "in": "query",
+                        "description": "Case-insensitive session ID prefix; infix search is not supported.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 2,
+                            "description": "Case-insensitive session ID prefix; infix search is not supported."
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Case-insensitive exact user ID match.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "description": "Case-insensitive exact user ID match."
+                        }
+                    },
+                    {
+                        "name": "outcome",
+                        "in": "query",
+                        "description": "Session facets matched with OR semantics.",
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/SessionOutcomeFacet"
+                            },
+                            "maxItems": 6,
+                            "description": "Session facets matched with OR semantics."
+                        },
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum rows returned. The server always supplies this value to RediSearch LIMIT.",
+                        "schema": {
+                            "type": "integer",
+                            "default": 50,
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Maximum rows returned. The server always supplies this value to RediSearch LIMIT.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Opaque continuation returned by ListSessions. Its encoded payload contains snapshotUpperBound, lastSeen, sessionId, and a deterministic validation hash of the effective filters. Reusing it with different effective filters returns BadRequestError.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 2048,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "Opaque continuation returned by ListSessions. Its encoded payload contains snapshotUpperBound, lastSeen, sessionId, and a deterministic validation hash of the effective filters. Reusing it with different effective filters returns BadRequestError."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListSessions 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListSessionsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/instances/{instanceId}/sessions/{sessionId}": {
+            "get": {
+                "description": "Returns the retained turns and outcome facets for a session.",
+                "operationId": "GetSession",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetSession 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetSessionResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/instances/{instanceId}/turns/{turnId}": {
+            "get": {
+                "description": "Returns one turn. turnId is the turn's OTel trace ID; Lens defines no separate turn identifier.",
+                "operationId": "GetTurn",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "turnId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetTurn 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetTurnResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/instances/{instanceId}/turns/{turnId}/content/{hash}": {
+            "get": {
+                "description": "Returns captured content for one turn hash. Before reading the content tier, the service MUST load the addressed turn, verify that the turn references the requested hash, and enforce the turn's logical content expiry. A missing reference or expired logical reference returns a successful expired response with no body, so callers cannot distinguish expiration from a hash that was never stored.",
+                "operationId": "GetContent",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "turnId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetContent 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetContentResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/instances/{instanceId}/turns/{turnId}/tools/{spanId}/result": {
+            "get": {
+                "description": "Classifies only the captured result owned by the addressed Context Retriever span. Authorization, span ownership, and content expiry are enforced before loading the body.",
+                "operationId": "GetContextRetrieverResult",
+                "parameters": [
+                    {
+                        "name": "instanceId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "turnId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "spanId",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{16}$"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetContextRetrieverResult 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetContextRetrieverResultResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Agent": {
+                "type": "object",
+                "description": "One agent an instance has seen, identified by its raw iris.agent.id. A display label is not part of this contract yet; see the TDD's agents-seen record for the planned telemetry-sourced label.",
+                "properties": {
+                    "agentId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "agentId"
+                ]
+            },
+            "AgentMemoryCandidate": {
+                "type": "object",
+                "properties": {
+                    "sessionId": {
+                        "type": "string"
+                    },
+                    "capture": {
+                        "type": "string",
+                        "description": "Why the text was not captured: the row's capture reason, else the span's capture state."
+                    },
+                    "snapshot": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    }
+                }
+            },
+            "AgentMemoryOperation": {
+                "type": "object",
+                "description": "Id and hash lists are capped and keep empty-string entries for index alignment; counts are the true totals.",
+                "properties": {
+                    "storeId": {
+                        "type": "string"
+                    },
+                    "requestMemoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "requestCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "The session the server acknowledged, else the one requested."
+                    },
+                    "eventId": {
+                        "type": "string",
+                        "description": "The event the server acknowledged, else the one requested."
+                    },
+                    "resultIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "resultCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "errorIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errorCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "hasNextPage": {
+                        "type": "boolean"
+                    },
+                    "writtenHashes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "AgentMemoryRetrieval": {
+                "type": "object",
+                "properties": {
+                    "storeId": {
+                        "type": "string",
+                        "description": "The memory store the call read, from iris.component.resource.id."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "filterOp": {
+                        "type": "string"
+                    },
+                    "filterFields": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "hasNextPage": {
+                        "type": "boolean"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/AgentMemorySummary"
+                    }
+                }
+            },
+            "AgentMemorySummary": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "used": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "content"
+                ]
+            },
+            "AuthenticationErrorResponseContent": {
+                "type": "object",
+                "description": "Authentication credentials are missing, malformed, or invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AuthenticationErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "AuthenticationErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authentication errors.",
+                "enum": [
+                    "/errors/authentication-failed"
+                ]
+            },
+            "BadRequestErrorResponseContent": {
+                "type": "object",
+                "description": "Request validation or input decoding failed.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/BadRequestErrorType"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        },
+                        "description": "Optional field-level validation errors."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "BadRequestErrorType": {
+                "type": "string",
+                "description": "Problem type URI for bad request errors.",
+                "enum": [
+                    "/errors/invalid-data"
+                ]
+            },
+            "ComponentCallOutcome": {
+                "type": "string",
+                "enum": [
+                    "ok",
+                    "failed",
+                    "cancelled",
+                    "unknown"
+                ]
+            },
+            "ComponentOperation": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "component": {
+                        "type": "string"
+                    },
+                    "operation": {
+                        "type": "string",
+                        "description": "The source's own operation name, verbatim."
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ComponentCallOutcome"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "captureState": {
+                        "type": "string"
+                    },
+                    "errorType": {
+                        "type": "string"
+                    },
+                    "httpStatus": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "input": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    },
+                    "agentMemory": {
+                        "$ref": "#/components/schemas/AgentMemoryOperation"
+                    }
+                },
+                "required": [
+                    "component",
+                    "operation",
+                    "outcome",
+                    "spanId",
+                    "startedAt"
+                ]
+            },
+            "ContentAvailability": {
+                "type": "string",
+                "enum": [
+                    "available",
+                    "expired",
+                    "masked",
+                    "not-captured",
+                    "fetch-failed"
+                ]
+            },
+            "ContentKind": {
+                "type": "string",
+                "enum": [
+                    "prompt",
+                    "completion",
+                    "tool-arguments",
+                    "tool-result",
+                    "retrieval-document",
+                    "recalled-memory",
+                    "playbook-entry",
+                    "playbook-snapshot",
+                    "memory-snapshot",
+                    "component-input"
+                ]
+            },
+            "ContentReference": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "$ref": "#/components/schemas/ContentKind"
+                    },
+                    "availability": {
+                        "$ref": "#/components/schemas/ContentAvailability"
+                    },
+                    "hash": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$",
+                        "description": "Present only when content was captured and an address was produced."
+                    }
+                },
+                "required": [
+                    "availability",
+                    "kind"
+                ]
+            },
+            "ContextCandidate": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "score": {
+                        "type": "number",
+                        "description": "Absent when the source returned no score. scoreBand says why.",
+                        "format": "double"
+                    },
+                    "scoreBand": {
+                        "$ref": "#/components/schemas/ScoreBand"
+                    },
+                    "type": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "description": "What the source says the candidate is, such as a memory's type."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "When the source created the candidate, as the source reported it.",
+                        "format": "date-time"
+                    },
+                    "playbook": {
+                        "$ref": "#/components/schemas/PlaybookCandidate"
+                    },
+                    "agentMemory": {
+                        "$ref": "#/components/schemas/AgentMemoryCandidate"
+                    },
+                    "used": {
+                        "type": "boolean"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    }
+                },
+                "required": [
+                    "content",
+                    "id",
+                    "scoreBand"
+                ]
+            },
+            "ContextManifest": {
+                "type": "object",
+                "properties": {
+                    "entries": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextManifestEntry"
+                        }
+                    }
+                },
+                "required": [
+                    "entries"
+                ]
+            },
+            "ContextManifestEntry": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/ContextUsageState"
+                    },
+                    "fetchedCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "How many candidates the source returned. The true total: it exceeds the candidates listed when the list was capped.",
+                        "format": "int32"
+                    },
+                    "usedCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "The similarity floor the request set. Absent when the request set none.",
+                        "format": "double"
+                    },
+                    "componentSpanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$",
+                        "description": "The retrieval span this entry came from, so a reader can place it in the span tree."
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "The component that served the retrieval, from iris.component.name."
+                    },
+                    "operation": {
+                        "type": "string",
+                        "description": "The source's own operation name, verbatim: the SDK method or the MCP tool name."
+                    },
+                    "stage": {
+                        "type": "string"
+                    },
+                    "captureState": {
+                        "type": "string"
+                    },
+                    "errorType": {
+                        "type": "string"
+                    },
+                    "httpStatus": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "input": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    },
+                    "playbook": {
+                        "$ref": "#/components/schemas/PlaybookRetrieval"
+                    },
+                    "agentMemory": {
+                        "$ref": "#/components/schemas/AgentMemoryRetrieval"
+                    },
+                    "candidates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextCandidate"
+                        },
+                        "description": "In the order the source returned them, which is its rank."
+                    }
+                },
+                "required": [
+                    "candidates",
+                    "source",
+                    "state"
+                ]
+            },
+            "ContextRetrieverBlock": {
+                "type": "object",
+                "properties": {
+                    "position": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "classification": {
+                        "$ref": "#/components/schemas/ContextRetrieverClassification"
+                    },
+                    "queryType": {
+                        "type": "string"
+                    },
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextRetrieverRecord"
+                        }
+                    },
+                    "provenance": {
+                        "$ref": "#/components/schemas/ContextRetrieverProvenance"
+                    }
+                },
+                "required": [
+                    "classification",
+                    "position",
+                    "records"
+                ]
+            },
+            "ContextRetrieverCall": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "toolName": {
+                        "type": "string"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ComponentCallOutcome"
+                    },
+                    "captureState": {
+                        "type": "string"
+                    },
+                    "errorType": {
+                        "type": "string",
+                        "description": "Safe exception class captured only for a failed call; never an exception message."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContentReference"
+                        }
+                    }
+                },
+                "required": [
+                    "captureState",
+                    "content",
+                    "outcome",
+                    "spanId",
+                    "startedAt",
+                    "toolName"
+                ]
+            },
+            "ContextRetrieverClassification": {
+                "type": "string",
+                "enum": [
+                    "unavailable",
+                    "unclassified",
+                    "records",
+                    "aggregate",
+                    "tool-error"
+                ]
+            },
+            "ContextRetrieverProvenance": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string"
+                    },
+                    "sourceVersion": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "retrievedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "usage": {},
+                    "hybridScore": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "ContextRetrieverRecord": {
+                "type": "object",
+                "properties": {
+                    "blockPosition": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "resultPosition": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "snapshot": {},
+                    "provenance": {
+                        "$ref": "#/components/schemas/ContextRetrieverProvenance"
+                    }
+                },
+                "required": [
+                    "blockPosition",
+                    "resultPosition",
+                    "snapshot"
+                ]
+            },
+            "ContextRetrieverToolStep": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "toolName": {
+                        "type": "string"
+                    },
+                    "toolCallId": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "framework": {
+                        "type": "string"
+                    },
+                    "operations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextRetrieverCall"
+                        }
+                    }
+                },
+                "required": [
+                    "operations",
+                    "spanId"
+                ]
+            },
+            "ContextUsageState": {
+                "type": "string",
+                "enum": [
+                    "entered-prompt",
+                    "fetched-not-used",
+                    "invoked-empty",
+                    "not-instrumented"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "description": "Validation error details for a single request field.",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "Name of the invalid request field."
+                    },
+                    "rule": {
+                        "type": "string",
+                        "description": "Validation rule that was violated."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Human-readable validation error message."
+                    }
+                },
+                "required": [
+                    "field",
+                    "message",
+                    "rule"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "The caller is authenticated but not allowed to access the requested resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ForbiddenErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authorization errors.",
+                "enum": [
+                    "/errors/insufficient-permissions"
+                ]
+            },
+            "GatewayToolSpan": {
+                "type": "object",
+                "description": "Context Gateway metadata recorded by the Lens SDK. Upstream server labels and component are self-reported, not verified identity. Captured bodies and raw handle IDs are never projected.",
+                "properties": {
+                    "upstreamId": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 telemetry text, bounded by assembly max_text_bytes and omitted by the read API when it exceeds 512 bytes. Never contains a raw Gateway handle ID."
+                    },
+                    "originalToolName": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 telemetry text, bounded by assembly max_text_bytes and omitted by the read API when it exceeds 512 bytes. Never contains a raw Gateway handle ID."
+                    },
+                    "catalogRevision": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 telemetry text, bounded by assembly max_text_bytes and omitted by the read API when it exceeds 512 bytes. Never contains a raw Gateway handle ID."
+                    },
+                    "upstreamServerName": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 telemetry text, bounded by assembly max_text_bytes and omitted by the read API when it exceeds 512 bytes. Never contains a raw Gateway handle ID."
+                    },
+                    "upstreamServerVersion": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 telemetry text, bounded by assembly max_text_bytes and omitted by the read API when it exceeds 512 bytes. Never contains a raw Gateway handle ID."
+                    },
+                    "upstreamComponent": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Known Iris component reported by the Upstream: agent_memory, playbook, context_retriever, or context_gateway."
+                    },
+                    "upstreamDurationMs": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": 0,
+                        "description": "Nonnegative recorded integer in the exact JavaScript integer range.",
+                        "format": "int64"
+                    },
+                    "resultCacheStatus": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "hit when the Gateway reports a result cache hit. Absence does not imply a miss."
+                    },
+                    "resultCacheAgeMs": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": 0,
+                        "description": "Age of the cached result, present only with resultCacheStatus hit.",
+                        "format": "int64"
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "The Gateway failure reason, an open vocabulary. This does not replace the SDK-recorded tool outcome."
+                    },
+                    "failureStage": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Observed failure stage: connect, redirect, call, input_required, or result."
+                    },
+                    "failureCompletion": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Observed completion certainty: not_dispatched or unknown."
+                    },
+                    "failureUpstreamCode": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": -9007199254740991,
+                        "description": "Recorded signed integer in the exact JavaScript integer range.",
+                        "format": "int64"
+                    },
+                    "resultHandleRef": {
+                        "type": "string",
+                        "maxLength": 16,
+                        "minLength": 16,
+                        "pattern": "^[0-9a-f]{16}$",
+                        "description": "Non-capability correlation reference, never a raw handle ID."
+                    },
+                    "resultHandleShape": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Recorded result shape: collection, document, or text."
+                    },
+                    "resultHandleCompleteness": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Recorded result completeness: complete, partial, or unknown."
+                    },
+                    "resultHandleBytes": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": 0,
+                        "description": "Nonnegative recorded integer in the exact JavaScript integer range.",
+                        "format": "int64"
+                    },
+                    "resultHandleItems": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": 0,
+                        "description": "Nonnegative recorded integer in the exact JavaScript integer range.",
+                        "format": "int64"
+                    },
+                    "searchResultCount": {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "minimum": 0,
+                        "description": "Number of tools returned by search_tools, including an observed zero.",
+                        "format": "int64"
+                    }
+                }
+            },
+            "GetContentResponseContent": {
+                "type": "object",
+                "properties": {
+                    "hash": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "availability": {
+                        "$ref": "#/components/schemas/ContentAvailability"
+                    },
+                    "body": {
+                        "type": "string",
+                        "description": "Present only when availability is available.",
+                        "format": "byte"
+                    }
+                },
+                "required": [
+                    "availability",
+                    "hash"
+                ]
+            },
+            "GetContextRetrieverResultResponseContent": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ComponentCallOutcome"
+                    },
+                    "captureState": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "$ref": "#/components/schemas/ContentAvailability"
+                    },
+                    "classification": {
+                        "$ref": "#/components/schemas/ContextRetrieverClassification"
+                    },
+                    "blocks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextRetrieverBlock"
+                        }
+                    },
+                    "rawResult": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    }
+                },
+                "required": [
+                    "availability",
+                    "blocks",
+                    "captureState",
+                    "classification",
+                    "outcome",
+                    "spanId"
+                ]
+            },
+            "GetSessionResponseContent": {
+                "type": "object",
+                "properties": {
+                    "session": {
+                        "$ref": "#/components/schemas/SessionListItem"
+                    },
+                    "threads": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        }
+                    },
+                    "turns": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TurnSummary"
+                        }
+                    },
+                    "outcomeFacets": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OutcomeFacetCount"
+                        }
+                    }
+                },
+                "required": [
+                    "outcomeFacets",
+                    "session",
+                    "threads",
+                    "turns"
+                ]
+            },
+            "GetTurnResponseContent": {
+                "type": "object",
+                "properties": {
+                    "traceId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "threadId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "agentId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "userId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/TurnOutcome"
+                    },
+                    "feedback": {
+                        "type": "string"
+                    },
+                    "tokens": {
+                        "$ref": "#/components/schemas/TokenUsage"
+                    },
+                    "spans": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SpanNode"
+                        },
+                        "description": "Root nodes for the turn trace."
+                    },
+                    "contextRetrieverToolSteps": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContextRetrieverToolStep"
+                        },
+                        "description": "Read-time grouping of Context Retriever calls under the nearest foreign execute_tool span. The original spans remain in spans."
+                    },
+                    "resourceReads": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResourceRead"
+                        },
+                        "description": "Component resource reads in turn order; resource bytes are not captured."
+                    },
+                    "playbookOperations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PlaybookOperation"
+                        },
+                        "description": "Observed Playbook proposal and publication operations in turn order, including proposal reads; content bodies are not captured."
+                    },
+                    "componentOperations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ComponentOperation"
+                        },
+                        "description": "Observed component calls that are not retrievals, such as Agent Memory writes and text-less searches, in turn order. operation is verbatim; content bodies are not captured."
+                    },
+                    "linkedTraceIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{32}$"
+                        }
+                    },
+                    "manifest": {
+                        "$ref": "#/components/schemas/ContextManifest"
+                    }
+                },
+                "required": [
+                    "agentId",
+                    "contextRetrieverToolSteps",
+                    "linkedTraceIds",
+                    "manifest",
+                    "sessionId",
+                    "spans",
+                    "startedAt",
+                    "threadId",
+                    "tokens",
+                    "traceId"
+                ]
+            },
+            "ListAgentsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Agent"
+                        }
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "ListSessionsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SessionListItem"
+                        },
+                        "maxItems": 200
+                    },
+                    "hasUserIds": {
+                        "type": "boolean",
+                        "description": "Whether any retained session for this instance has observed a user ID. This instance-level retained-index capability is independent of agent, range, filters, page, and cursor."
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "description": "Opaque cursor for the next page; omitted when this is the final page."
+                    },
+                    "effectiveRange": {
+                        "type": "string",
+                        "pattern": "^[1-9][0-9]*[mhdw]$",
+                        "description": "The requested range after retention clamping."
+                    },
+                    "availableRanges": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*[mhdw]$",
+                            "description": "Positive lookback duration such as 24h, 7d, or 30d."
+                        },
+                        "description": "Ranges available for this instance, intersected across index and metrics retention."
+                    }
+                },
+                "required": [
+                    "availableRanges",
+                    "effectiveRange",
+                    "hasUserIds",
+                    "items"
+                ]
+            },
+            "NotFoundErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource does not exist.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 404,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotFoundErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "NotFoundErrorType": {
+                "type": "string",
+                "description": "Problem type URI for not-found errors.",
+                "enum": [
+                    "/errors/resource-not-found"
+                ]
+            },
+            "OutcomeFacetCount": {
+                "type": "object",
+                "properties": {
+                    "outcome": {
+                        "$ref": "#/components/schemas/SessionOutcomeFacet"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "count",
+                    "outcome"
+                ]
+            },
+            "PlaybookCandidate": {
+                "type": "object",
+                "properties": {
+                    "version": {
+                        "type": "string"
+                    },
+                    "selection": {
+                        "type": "string"
+                    },
+                    "contentDigest": {
+                        "type": "string"
+                    },
+                    "capture": {
+                        "type": "string"
+                    },
+                    "snapshot": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    },
+                    "entryKey": {
+                        "$ref": "#/components/schemas/ContentReference"
+                    }
+                }
+            },
+            "PlaybookOperation": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "action": {
+                        "type": "string"
+                    },
+                    "requestedProposalId": {
+                        "type": "string"
+                    },
+                    "requestedEvidenceId": {
+                        "type": "string"
+                    },
+                    "expectedRevision": {
+                        "type": "string"
+                    },
+                    "requestedEntryId": {
+                        "type": "string"
+                    },
+                    "requestedVersion": {
+                        "type": "string"
+                    },
+                    "proposalId": {
+                        "type": "string"
+                    },
+                    "proposalStatus": {
+                        "type": "string"
+                    },
+                    "proposalRevision": {
+                        "type": "string"
+                    },
+                    "evidenceId": {
+                        "type": "string"
+                    },
+                    "evidenceDisposition": {
+                        "type": "string"
+                    },
+                    "evidenceCount": {
+                        "type": "string"
+                    },
+                    "resultEntryId": {
+                        "type": "string"
+                    },
+                    "resultVersion": {
+                        "type": "string"
+                    },
+                    "publishedVersion": {
+                        "type": "string"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ComponentCallOutcome"
+                    },
+                    "errorType": {
+                        "type": "string"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "action",
+                    "outcome",
+                    "spanId",
+                    "startedAt"
+                ]
+            },
+            "PlaybookResourceRequest": {
+                "type": "object",
+                "properties": {
+                    "requestedEntryId": {
+                        "type": "string"
+                    },
+                    "requestedVersion": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PlaybookRetrieval": {
+                "type": "object",
+                "properties": {
+                    "playbookId": {
+                        "type": "string",
+                        "description": "The Playbook the call read, from iris.component.resource.id."
+                    },
+                    "truncated": {
+                        "type": "boolean"
+                    },
+                    "budgetTruncated": {
+                        "type": "boolean"
+                    },
+                    "requestedEntryId": {
+                        "type": "string"
+                    },
+                    "requestedVersion": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Preview": {
+                "type": "object",
+                "properties": {
+                    "availability": {
+                        "$ref": "#/components/schemas/ContentAvailability"
+                    },
+                    "text": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "description": "Bounded index-tier preview; omitted unless availability is available."
+                    }
+                },
+                "required": [
+                    "availability"
+                ]
+            },
+            "ResourceRead": {
+                "type": "object",
+                "description": "One resource read by any component. operation is the source's own name, verbatim: get_skill_resource (Playbook SDK), fetch_resource (MCP tool), or read_resource (MCP resources/read).",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "component": {
+                        "type": "string"
+                    },
+                    "operation": {
+                        "type": "string"
+                    },
+                    "resourceUri": {
+                        "type": "string",
+                        "description": "The URI the call read: mcp.resource.uri for read_resource, iris.playbook.resource.uri for fetch_resource."
+                    },
+                    "resourceId": {
+                        "type": "string",
+                        "description": "The resource ID an SDK call requested. MCP reads report resourceUri instead."
+                    },
+                    "contentType": {
+                        "type": "string"
+                    },
+                    "contentDigest": {
+                        "type": "string"
+                    },
+                    "contentLength": {
+                        "type": "string"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ComponentCallOutcome"
+                    },
+                    "errorType": {
+                        "type": "string"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "playbook": {
+                        "$ref": "#/components/schemas/PlaybookResourceRequest"
+                    }
+                },
+                "required": [
+                    "component",
+                    "operation",
+                    "outcome",
+                    "spanId",
+                    "startedAt"
+                ]
+            },
+            "ScoreBand": {
+                "type": "string",
+                "description": "NOT_AVAILABLE: the source was asked and returned no score, as every Agent Memory recall does today. UNSCORED: the caller never supplied one. Neither is a low score.",
+                "enum": [
+                    "high",
+                    "medium",
+                    "low",
+                    "unscored",
+                    "not-available"
+                ]
+            },
+            "ServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ServiceUnavailableErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/service-unavailable"
+                ]
+            },
+            "SessionListItem": {
+                "type": "object",
+                "properties": {
+                    "agentIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        }
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1
+                        }
+                    },
+                    "firstSeen": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "turnCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "outcomes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SessionOutcomeFacet"
+                        },
+                        "maxItems": 6
+                    },
+                    "firstPromptPreview": {
+                        "$ref": "#/components/schemas/Preview"
+                    },
+                    "lastResponsePreview": {
+                        "$ref": "#/components/schemas/Preview"
+                    }
+                },
+                "required": [
+                    "agentIds",
+                    "firstPromptPreview",
+                    "firstSeen",
+                    "lastResponsePreview",
+                    "lastSeen",
+                    "outcomes",
+                    "sessionId",
+                    "turnCount",
+                    "userIds"
+                ]
+            },
+            "SessionOutcomeFacet": {
+                "type": "string",
+                "description": "Session-level OR facet. UNSET represents turns that did not record iris.turn.outcome.",
+                "enum": [
+                    "completed",
+                    "failed",
+                    "abandoned",
+                    "refused",
+                    "timeout",
+                    "unset"
+                ]
+            },
+            "SpanKind": {
+                "type": "string",
+                "enum": [
+                    "internal",
+                    "server",
+                    "client",
+                    "producer",
+                    "consumer"
+                ]
+            },
+            "SpanNode": {
+                "type": "object",
+                "properties": {
+                    "spanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "parentSpanId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{16}$"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/SpanKind"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/SpanStatus"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "component": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "tool": {
+                        "$ref": "#/components/schemas/ToolSpan"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContentReference"
+                        },
+                        "description": "Hash references only; raw captured text is never embedded in turn detail."
+                    },
+                    "children": {
+                        "type": "array",
+                        "default": [],
+                        "items": {
+                            "$ref": "#/components/schemas/SpanNode"
+                        }
+                    }
+                },
+                "required": [
+                    "content",
+                    "kind",
+                    "name",
+                    "spanId",
+                    "startedAt",
+                    "status"
+                ]
+            },
+            "SpanStatus": {
+                "type": "string",
+                "enum": [
+                    "unset",
+                    "ok",
+                    "error"
+                ]
+            },
+            "TokenUsage": {
+                "type": "object",
+                "properties": {
+                    "input": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "output": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "input",
+                    "output",
+                    "total"
+                ]
+            },
+            "ToolComponent": {
+                "type": "string",
+                "enum": [
+                    "agent_memory",
+                    "playbook",
+                    "context_retriever",
+                    "context_gateway"
+                ]
+            },
+            "ToolOutcome": {
+                "type": "string",
+                "description": "ok means the call returned and does not assert tool success, including an MCP isError result without a Gateway failure entry. A Gateway failure entry can make it failed. Lens keeps the producer's outcome, including invalid_arguments recorded as ok.",
+                "enum": [
+                    "ok",
+                    "failed",
+                    "cancelled"
+                ]
+            },
+            "ToolSpan": {
+                "type": "object",
+                "description": "Validated SDK iris.lens.tool identity only; captured bodies remain content references.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty UTF-8 protocol tool name, preserved verbatim by Lens."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The MCP tool title from tools/list when the SDK recorded it; Lens does not synthesize a title."
+                    },
+                    "component": {
+                        "$ref": "#/components/schemas/ToolComponent"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/ToolOutcome"
+                    },
+                    "gateway": {
+                        "$ref": "#/components/schemas/GatewayToolSpan"
+                    }
+                },
+                "required": [
+                    "component",
+                    "name"
+                ]
+            },
+            "TurnOutcome": {
+                "type": "string",
+                "enum": [
+                    "completed",
+                    "failed",
+                    "abandoned",
+                    "refused",
+                    "timeout"
+                ]
+            },
+            "TurnSummary": {
+                "type": "object",
+                "properties": {
+                    "traceId": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$"
+                    },
+                    "agentId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "threadId": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationMs": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "outcome": {
+                        "$ref": "#/components/schemas/TurnOutcome"
+                    },
+                    "feedback": {
+                        "type": "string"
+                    },
+                    "spanCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "tokens": {
+                        "$ref": "#/components/schemas/TokenUsage"
+                    }
+                },
+                "required": [
+                    "agentId",
+                    "spanCount",
+                    "startedAt",
+                    "threadId",
+                    "tokens",
+                    "traceId"
+                ]
+            },
+            "UnexpectedErrorResponseContent": {
+                "type": "object",
+                "description": "The service failed with an unexpected internal error.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 500,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UnexpectedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "UnexpectedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for unexpected internal errors.",
+                "enum": [
+                    "/errors/unexpected-error"
+                ]
+            }
+        }
+    }
+}
