@@ -8350,9 +8350,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -8362,6 +8359,9 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "200": {
             "description": "Memory stores returned.",
@@ -8490,9 +8490,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -8502,6 +8499,9 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
@@ -8565,9 +8565,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "403": {
-            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -8577,6 +8574,9 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
           },
           "201": {
             "description": "API key created. The generated key value is returned once in the response body.",
@@ -10079,12 +10079,12 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "200": {
-            "description": "Memory store returned.",
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MemoryStoreResponse"
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
                 }
               }
             }
@@ -10092,12 +10092,12 @@
           "403": {
             "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
-          "424": {
-            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+          "200": {
+            "description": "Memory store returned.",
             "content": {
-              "application/problem+json": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MemoryProblemDetails"
+                  "$ref": "#/components/schemas/MemoryStoreResponse"
                 }
               }
             }
@@ -12804,9 +12804,6 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
             "content": {
@@ -12816,6 +12813,9 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "204": {
             "description": "API key deleted."
