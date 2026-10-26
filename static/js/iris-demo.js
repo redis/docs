@@ -8,7 +8,7 @@
    data enters through Data Integration (a change in PostgreSQL reaches
    Redis), Maya asks the food delivery app's assistant to reorder last
    week's curry within 30 minutes and asks about the delivery fee, then
-   LangCache, Agent Memory, and Context Retriever each add one part of the
+   LangCache, Agent Memory, and Context Gateway each add one part of the
    answer, and the model writes the reply. The last step takes one service
    away and shows only the part of the reply it changes. Each step links
    to that service's own demo, which covers it in depth; this page doesn't
@@ -68,11 +68,11 @@
   /* In the order data flows through Iris: in through Data Integration, then the services the agent calls. */
   var SERVICES = [
     { key: "rdi", name: "Data Integration", role: "Brings business data in from PostgreSQL and keeps it in sync" },
-    { key: "retriever", name: "Context Retriever", role: "Gives the agent governed tools to read that data" },
+    { key: "retriever", name: "Context Gateway", role: "Gives the agent governed tools to read that data" },
     { key: "memory", name: "Agent Memory", role: "Remembers Maya across conversations" },
     { key: "cache", name: "LangCache", role: "Answers questions it has seen before" }
   ];
-  var NAMES = { cache: "LangCache", memory: "Agent Memory", retriever: "Context Retriever", rdi: "Data Integration", model: "Model" };
+  var NAMES = { cache: "LangCache", memory: "Agent Memory", retriever: "Context Gateway", rdi: "Data Integration", model: "Model" };
   /* Modelled timings (ms) and token counts. */
   var MS = { cache: 41, memory: 190, tool: [74, 88, 81], answer: 1620, reply: 1480 };
   var TOKENS = { answer: 61 };
@@ -146,7 +146,7 @@
     return { method: "POST", path: "/session-memory/events", status: "201", request: request, response: { event: ev },
       curl: curlRest("$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events", "$AGENT_MEMORY_API_KEY", request) };
   }
-  /* Context Retriever results carry a _retrieval stamp, with fields sorted (as the Context Retriever demo returns them). */
+  /* Context Gateway results carry a _retrieval stamp, with fields sorted (as the Context Gateway demo returns them). */
   function stamp(rec) {
     var out = { _retrieval: { source: SURFACE, retrieved_at: ASK_AT.replace("Z", ".318Z"), source_version: 1 } };
     Object.keys(rec).sort().forEach(function (k) { out[k] = rec[k]; });
@@ -176,7 +176,7 @@
       on: true, at: SYNC_AT,
       sql: "UPDATE restaurants SET avg_delivery_min = 45 WHERE id = 'r209';",
       text: "Lotus Thai's kitchen gets busy, and the app updates its delivery time in PostgreSQL. A second later, Data Integration has written the change to " +
-        code("restaurant:r209") + ", through a job file that uses the key template Context Retriever reads.",
+        code("restaurant:r209") + ", through a job file that uses the key template Context Gateway reads.",
       record: { opcode: "u", db: "fooddelivery", schema: "public", table: "restaurants", key: { id: "r209" }, after: lotusRow }
     } : {
       on: false, at: SYNC_AT,
@@ -217,7 +217,7 @@
           calls: [toolCall(++n, "filter_order", { tag_conditions: [{ field: "customer_id", value: OWNER }, { field: "restaurant_id", value: BSK.id }] }, filterResult(PAD_THAI))] });
       }
     } else add({ phase: "retrieve", service: "retriever", off: true, title: "No tools to call",
-      text: "Context Retriever is off, so the agent has no way to read restaurants or orders." + (on.rdi ? " Data Integration still keeps Redis up to date, but nothing reads it." : "") });
+      text: "Context Gateway is off, so the agent has no way to read restaurants or orders." + (on.rdi ? " Data Integration still keeps Redis up to date, but nothing reads it." : "") });
 
     /* The reply, as segments credited to their source. */
     var R = [];
@@ -289,7 +289,7 @@
     retriever: { check: "time",
       with: "Lotus Thai is taking about 45 minutes tonight, so it wouldn't arrive in time. Bangkok Street Kitchen can deliver in about 30 minutes",
       without: "I can't check delivery times right now, so I can't promise it'll arrive within 30 minutes. Should I order it anyway?",
-      why: "Without Context Retriever, the agent has no tools to read restaurants or orders. The data in Redis is fresh, but nothing reads it." },
+      why: "Without Context Gateway, the agent has no tools to read restaurants or orders. The data in Redis is fresh, but nothing reads it." },
     memory: { check: "peanut",
       with: "you've ordered their pad thai with tofu twice. Should I order that, extra spicy, with no peanuts or fish sauce?",
       without: "you've ordered their pad thai with tofu twice. Should I order that?",
@@ -313,15 +313,15 @@
     { key: "memory", at: "18:24", title: "Agent Memory recalls last week", lit: ["memory", "redis", "agent"],
       text: "This is a new conversation, but Agent Memory kept what the assistant learned from Maya last week. A search scoped to her returns the order she means and the food she can't eat.",
       adds: [{ src: "memory", t: "Last week: extra spicy green curry from Lotus Thai" }, { src: "memory", t: "Allergic to peanuts, avoids fish sauce" }] },
-    { key: "retriever", at: "18:24", title: "Context Retriever checks live data", lit: ["retriever", "redis", "agent"],
-      text: "Context Retriever gives the agent governed tools for the restaurant and order data that Data Integration keeps in sync. Lotus Thai is too slow tonight, so the agent finds a Thai restaurant that can make it, and checks what Maya has ordered there.",
+    { key: "retriever", at: "18:24", title: "Context Gateway checks live data", lit: ["retriever", "redis", "agent"],
+      text: "Context Gateway gives the agent governed tools for the restaurant and order data that Data Integration keeps in sync. Lotus Thai is too slow tonight, so the agent finds a Thai restaurant that can make it, and checks what Maya has ordered there.",
       adds: [{ src: "retriever", t: "Bangkok Street Kitchen: 30 minutes" }, { src: "retriever", t: "She's had their pad thai with tofu twice" }] },
     { key: "reply", at: "18:24", title: "The model writes one reply", lit: ["agent"],
       text: "The model gets Maya's message and everything the agent gathered, and writes the reply. Each highlighted part came from a different service. Afterward, Agent Memory stores the conversation, so next time the assistant remembers tonight too." },
     { key: "whatif", title: "What if a service were missing?", lit: [],
       text: "Pick a service to take away. Only the part of the reply it supplied changes." }
   ];
-  var DEPTH = { rdi: "Data Integration", retriever: "Context Retriever", memory: "Agent Memory", cache: "LangCache" };
+  var DEPTH = { rdi: "Data Integration", retriever: "Context Gateway", memory: "Agent Memory", cache: "LangCache" };
 
   /* ---- the PostgreSQL sample data, shown when the reader selects POSTGRES ----
      The same rows as the RDI demo (rdi-demo.js), on the evening of this tour:
@@ -380,7 +380,7 @@
 
   /* ---- the same rows in Redis, shown when the reader selects the Redis logo ----
      Data Integration writes each row as a JSON document. Its job files give each table the key template
-     Context Retriever reads ({table}:{id}), and the customers job leaves out email, as in the RDI demo. */
+     Context Gateway reads ({table}:{id}), and the customers job leaves out email, as in the RDI demo. */
   function rdTable(t, prefix, drop) {
     var keep = t.columns.map(function (c, i) { return i > 0 && drop.indexOf(c) < 0 ? i : -1; }).filter(function (i) { return i > 0; });
     return { name: t.name, columns: ["key"].concat(keep.map(function (i) { return t.columns[i]; })),
@@ -391,7 +391,7 @@
   var RD_NOTES = {
     restaurants: "About a second after PostgreSQL changes, Data Integration writes Lotus Thai's new time to restaurant:r209.",
     customers: "The Data Integration job leaves out email, so addresses never reach Redis.",
-    orders: "Maya's past orders. Context Retriever's filter_order tool finds them by customer_id."
+    orders: "Maya's past orders. Context Gateway's filter_order tool finds them by customer_id."
   };
   /* The two data windows, and where to select each in the drawing: a button over the shape, and a ring on
      the shape's own outline that pulses on the step where the data changes. `changed` is Lotus Thai's row. */
@@ -451,7 +451,7 @@
   /* ---- Maya, the user, drawn in the diagram's own style ----
      The drawing has no user, so the stage adds one: the agent's disc and
      label box, moved to the empty lower right, with a person where the
-     agent has a robot. Her link to the agent is the Context Retriever's pair
+     agent has a robot. Her link to the agent is the Context Gateway's pair
      of arrows turned half a turn about the agent's disc; both discs look the
      same that way round, so the arrows meet them as the drawing's do. The
      link is lit on the steps she's part of. */
@@ -878,7 +878,7 @@
       }
       return f;
     }
-    var SOURCES = { rdi: "Data Integration", retriever: "Context Retriever", memory: "Agent Memory", cache: "LangCache" };
+    var SOURCES = { rdi: "Data Integration", retriever: "Context Gateway", memory: "Agent Memory", cache: "LangCache" };
     /* The key comes first, styled like the parts of the reply, so the colors mean something before you read.
        Pointing at a key or at a part of the reply shows only that service's parts; selecting a key keeps it so. */
     function replyBubble(segments) {

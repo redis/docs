@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
 weight: 30
-bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 ---
 
 Give your AI agents the context layer they need to reliably act on business data.
@@ -20,7 +20,7 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Context Gateway" description="One MCP endpoint for the tools of any MCP server and your Redis data" url="/develop/ai/context-engine/context-gateway" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Agent Playbooks" description="Publish reusable answers and procedures for agents" url="/develop/ai/context-engine/agent-playbook" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Agent Playbooks" description="Publish reusable answers and procedures for agents" url="/develop/ai/context-engine/agent-playbooks" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens" description="Debug agent answers by tracing the context behind each turn" url="/develop/ai/context-engine/lens" >}}
 </div>
 

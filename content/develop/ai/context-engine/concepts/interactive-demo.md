@@ -4,12 +4,12 @@ categories:
 - docs
 - develop
 - ai
-description: Step through one agent request across Data Integration, LangCache, Agent Memory, and Context Retriever, then take a service away to see what the agent loses.
+description: Step through one agent request across Data Integration, LangCache, Agent Memory, and Context Gateway, then take a service away to see what the agent loses.
 hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
 weight: 10
-bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 aliases:
 - /develop/ai/context-engine/interactive-demo/
 ---
@@ -25,7 +25,7 @@ The tour runs in your browser and doesn't connect to any service. Each step link
 | Service | What it does in this request | Without it |
 |:--|:--|:--|
 | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) | Syncs a change from PostgreSQL to Redis seconds after it happens | The agent reads last night's data and makes a promise it can't keep |
-| Context Retriever | Looks up delivery times, alternatives, and past orders through governed tools | The agent can't check whether the food will arrive in time |
+| Context Gateway | Looks up delivery times, alternatives, and past orders through governed tools | The agent can't check whether the food will arrive in time |
 | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) | Recalls last week's order and the customer's peanut allergy | The agent can find the order, but not the allergy |
 | [LangCache](/content/develop/ai/context-engine/langcache/_index.md) | Answers the general delivery fee question from the cache | The model answers it, which takes longer and costs output tokens |
 

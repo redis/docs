@@ -277,9 +277,9 @@ and internal token values in both namespaces, plus each namespace's trust bundle
 to reach Identity Service and Identity Service to reach the Control Plane, including any
 TLS proxies. See [Network policy](/content/operate/iris/agent-memory/self-managed/operations.md#network-policy).
 
-## Optional Playbook extraction
+## Optional Agent Playbooks extraction
 
-On the Identity Service release, allow Memory subject grants for Playbook extraction:
+On the Identity Service release, allow Memory subject grants for Agent Playbooks extraction:
 
 ```yaml
 subjectGrants:

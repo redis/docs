@@ -19,14 +19,14 @@ Create a playbook API key with `write` and `publish` permissions. Both include `
 
 This walkthrough needs no agent framework or model-provider key.
 
-Follow one tab throughout the page. The Python SDK and command-line interface (CLI) are alpha prereleases pinned to the version used here. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq.
+Follow one tab throughout the page. The Python SDK and command-line interface (CLI) are prereleases. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq.
 
 **Python and CLI**
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris==0.1.0a4
+python -m pip install redis-iris
 ```
 
 {{< note >}}
@@ -52,7 +52,7 @@ export PLAYBOOK_API_KEY='<playbook-api-key>'
 
 Keep keys out of skill files, source control, and model prompts.
 
-The Python examples use the unified `redis-iris` package. `AgentPlaybook` provides discovery and skill-loading helpers; its public `.client` property exposes the generated SDK for authoring, search, and review. The CLI tab exports the standard `IRIS_AGENT_PLAYBOOK_*` connection variables and runs `iris agent-playbook` commands directly. Commands use `--json` when saving a response or processing it with jq.
+The Python examples use the unified `redis-iris` package. `AgentPlaybooks` provides discovery and skill-loading helpers; its public `.client` property exposes the generated SDK for authoring, search, and review. The CLI tab exports the standard `IRIS_AGENT_PLAYBOOKS_*` connection variables and runs `iris agent-playbooks` commands directly. Commands use `--json` when saving a response or processing it with jq.
 
 ## Connect to the playbook
 
@@ -90,7 +90,7 @@ Search with a paraphrase of the stored question.
 
 {{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-search" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Check for your entry identifier, version `1`, and the answer about order history. Scores and rankings vary with the embedding model and other entries. If no match appears, repeat only the search after a short wait, then check the locale filter and [similarity threshold]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#control-relevance-and-result-count" >}}).
+Check for your entry identifier, version `1`, and the answer about order history. Scores and rankings vary with the embedding model and other entries. If no match appears, repeat only the search after a short wait, then check the locale filter and [similarity threshold]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#control-relevance-and-result-count" >}}).
 
 ## Discover FAQs for an agent
 
@@ -114,7 +114,7 @@ The result for your FAQ should now identify version `2` and include the added se
 
 ## Clean up
 
-Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}). Complete-program copies retain the FAQ. When you finish, set `PLAYBOOK_FAQ_ID` to the printed entry identifier and run the deletion example with the same connection values. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
+Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}). Complete-program copies retain the FAQ. When you finish, set `PLAYBOOK_FAQ_ID` to the printed entry identifier and run the deletion example with the same connection values. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
 
 {{< clients-example set="iris_playbook_quickstart_delete" step="playbook-quickstart-delete" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -124,11 +124,11 @@ Unified Python helpers use names such as `adiscover` and `askill`. Generated ope
 
 {{< clients-example set="iris_playbook_async" step="playbook-async-search" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-`AgentPlaybookSettings.timeout` sets the request timeout in seconds. Generated `.client` operations accept `timeout_ms` in milliseconds. For custom transport settings, construct a generated client and pass it to `AgentPlaybook(client=...)`. See the [generated client's custom HTTP client documentation](https://pypi.org/project/redis-agent-playbook/0.1.0a3/#custom-http-client) for ownership and configuration details.
+`AgentPlaybooksSettings.timeout` sets the request timeout in seconds. Generated `.client` operations accept `timeout_ms` in milliseconds. For custom transport settings, construct a generated client and pass it to `AgentPlaybooks(client=...)`. See the [generated client's custom HTTP client documentation](https://pypi.org/project/redis-agent-playbook/#custom-http-client) for ownership and configuration details.
 
 ## Next steps
 
-- [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) to roll back or withdraw an answer.
-- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) to publish a procedure and load supporting files.
-- [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) to accept suggested answers before publishing them.
-- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) to retrieve context before a turn and load skills through MCP.
+- [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs" >}}) to roll back or withdraw an answer.
+- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) to publish a procedure and load supporting files.
+- [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals" >}}) to accept suggested answers before publishing them.
+- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}) to retrieve context before a turn and load skills through MCP.

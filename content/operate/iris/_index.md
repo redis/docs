@@ -9,13 +9,10 @@ categories:
 - iris
 hideListLinks: true
 weight: 45
-bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
+bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 ---
 
 Redis Iris context engine provides managed and self-managed services for building AI applications with persistent memory, semantic caching, and governed access to business data.
-
-![The Redis Iris overview page in the Redis Cloud console, with cards for Data Pipelines, Context Retriever, Agent Memory, and LangCache.](/images/rc/iris-overview.png)
-{width="100%" class="border border-redis-pen-300 rounded-lg"}
 
 Use this section to deploy, configure, and operate Redis Iris services. Developer guides and API integration documentation remain under [Develop with Redis]({{< relref "/develop/ai/context-engine" >}}).
 

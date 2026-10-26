@@ -17,7 +17,7 @@ A skill tells an agent how to complete a task: what inputs or tools to use, whic
 
 Use an existing playbook and an API key with `write` permission to upload and maintain skills. Publishing and withdrawing require `publish`.
 
-Follow the quickstart to [install a client and configure it]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#before-you-begin" >}}). You also need Bash and the `zip` utility for the sample package.
+Follow the quickstart to [install a client and configure it]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#before-you-begin" >}}). You also need Bash and the `zip` utility for the sample package.
 
 Expand an example to copy the complete program. Run the package-preparation step before using a Python or CLI copy.
 
@@ -36,7 +36,7 @@ To prepare an upload:
 3. Create a ZIP archive containing exactly one skill directory.
 4. Encode the archive as base64 for the upload request.
 
-Redis Agent Playbooks also enforces [package and content limits]({{< relref "/develop/ai/context-engine/agent-playbook/limits#content-limits" >}}).
+Redis Agent Playbooks also enforces [package and content limits]({{< relref "/develop/ai/context-engine/agent-playbooks/limits#content-limits" >}}).
 
 Run these commands in a new directory. The sample uses customer-provided information without accessing an order system. Adapt its guidance to your policy.
 
@@ -66,11 +66,11 @@ The CLI uses the skill name as its stable entry key. `skills push` creates missi
 4. Publish the reviewed version with `publish_skill`.
 5. Test retrieval with a reader key, then test the agent's use of the skill.
 
-Uploading a valid package does not publish it automatically. The current [proposal workflow]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) creates FAQs, not skills.
+Uploading a valid package does not publish it automatically. The current [proposal workflow]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals" >}}) creates FAQs, not skills.
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-review" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Publish after review. The [agent-integration examples]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) ask an agent to draft a reply for the stage “Processing.” Check that it loads this skill and template, preserves the stage, and leaves no placeholders or invented payment date. Also test a missing refund and missing input.
+Publish after review. The [agent-integration examples]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}) ask an agent to draft a reply for the stage “Processing.” Check that it loads this skill and template, preserves the stage, and leaves no placeholders or invented payment date. Also test a missing refund and missing input.
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-publish" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -92,7 +92,7 @@ Leave the update unpublished here so the loading example uses the first version.
 
 Search and discovery return previews: a name, description, entry identifier, version, and file address. Select a relevant skill before loading its instructions. Fetch supporting files when the instructions or task call for them.
 
-Keep the returned identifier and version together, and use the returned resource addresses. If the skill is republished or withdrawn between discovery and loading, rediscover and reassess it. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) and [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}).
+Keep the returned identifier and version together, and use the returned resource addresses. If the skill is republished or withdrawn between discovery and loading, rediscover and reassess it. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval" >}}) and [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp" >}}).
 
 Resource descriptors identify the file's media type, size, and digest. Decode known text files as UTF-8 (Unicode Transformation Format, 8-bit); keep binary files as bytes. Python's unified helper reads the stream and exposes `data`, `mime_type`, and optional decoded `text`.
 
@@ -100,15 +100,15 @@ This example loads the first published version and reads its reply template.
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-load" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-This guide's CLI reads use the authoring key. The published CLI resolves the entry through management lookup, so these commands require `write` or `publish` even for a published version. For reader-only loading, use the [retrieval examples](/content/develop/ai/context-engine/agent-playbook/retrieval.md#load-skills-with-progressive-disclosure).
+This guide's CLI reads use the authoring key. The published CLI resolves the entry through management lookup, so these commands require `write` or `publish` even for a published version. For reader-only loading, use the [retrieval examples](/content/develop/ai/context-engine/agent-playbooks/retrieval.md#load-skills-with-progressive-disclosure).
 
-To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 256-bit) digest with the downloaded bytes. It uses `sha256:<hex>`; the HTTP `Content-Digest` header represents the same hash as `sha-256=:<base64>:`. This differs from the normalized entry digest in [entry lookup]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#look-up-entry-state" >}}).
+To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 256-bit) digest with the downloaded bytes. It uses `sha256:<hex>`; the HTTP `Content-Digest` header represents the same hash as `sha-256=:<base64>:`. This differs from the normalized entry digest in [entry lookup]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#look-up-entry-state" >}}).
 
 ## List skills and inspect history
 
-Use `list_skills` to inventory entries and `get_skill` to inspect one entry's summary. These operations require `read`; draft content and full version history require `write` or `publish`. To resolve a skill by its entry key or compare latest and published content digests, use the shared [entry lookup operation]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#look-up-entry-state" >}}).
+Use `list_skills` to inventory entries and `get_skill` to inspect one entry's summary. These operations require `read`; draft content and full version history require `write` or `publish`. To resolve a skill by its entry key or compare latest and published content digests, use the shared [entry lookup operation]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#look-up-entry-state" >}}).
 
-Follow cursors even after empty pages, and keep filters and ordering unchanged. An absent first-page `total` means the count is unknown. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbook/limits#retrieval-limits" >}}).
+Follow cursors even after empty pages, and keep filters and ordering unchanged. An absent first-page `total` means the count is unknown. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbooks/limits#retrieval-limits" >}}).
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-list" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

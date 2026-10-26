@@ -22,9 +22,9 @@ Publish an entry version, retrieve it for a task, and prepare revisions while ag
 A FAQ gives an agent a validated answer, such as where a customer can find their refund status. A skill ([Agent Skill](https://agentskills.io/home)) guides the agent through drafting a reply from that status using a template.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how playbooks, entries, versions, publication, and proposals work" url="/develop/ai/context-engine/agent-playbook/concepts" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Publish and retrieve your first FAQ" url="/develop/ai/context-engine/agent-playbook/quickstart" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Connect Redis Agent Playbooks to OpenAI Agents SDK or LangGraph" url="/develop/ai/context-engine/agent-playbook/agent-integration" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how playbooks, entries, versions, publication, and proposals work" url="/develop/ai/context-engine/agent-playbooks/concepts" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Publish and retrieve your first FAQ" url="/develop/ai/context-engine/agent-playbooks/quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Connect Redis Agent Playbooks to OpenAI Agents SDK or LangGraph" url="/develop/ai/context-engine/agent-playbooks/agent-integration" >}}
 </div>
 
 ## Why use Redis Agent Playbooks?
@@ -45,23 +45,23 @@ A FAQ gives an agent a validated answer, such as where a customer can find their
 
 A publisher selects the version of each **entry** agents receive. Your application controls how retrieved content enters the model's context and which actions the agent can take.
 
-See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbook/concepts" >}}) for versions, publication, and review.
+See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbooks/concepts" >}}) for versions, publication, and review.
 
 ## Get started
 
 1. Set up a playbook. Operator guides are coming soon.
-2. [Publish and retrieve your first FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}).
+2. [Publish and retrieve your first FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}).
 
 ## Manage playbook entries
 
-- [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}): write, publish, and update FAQs.
-- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}): package Agent Skills and load their instructions and files on demand.
-- [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}): check proposed entries and accumulated evidence before accepting them.
+- [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs" >}}): write, publish, and update FAQs.
+- [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}): package Agent Skills and load their instructions and files on demand.
+- [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals" >}}): check proposed entries and accumulated evidence before accepting them.
 
 ## Serve playbook entries at runtime
 
-- [Retrieve relevant FAQs or Agent Skills]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) on demand.
-- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}) using OpenAI Agents SDK or LangGraph.
-- [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}).
+- [Retrieve relevant FAQs or Agent Skills]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval" >}}) on demand.
+- [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}) using OpenAI Agents SDK or LangGraph.
+- [Connect with MCP]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp" >}}).
 
-Use the [API reference]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference" >}}) for operations and schemas, and [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for constraints and recovery guidance.
+Use the [API reference]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference" >}}) for operations and schemas, and [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbooks/limits" >}}) for constraints and recovery guidance.

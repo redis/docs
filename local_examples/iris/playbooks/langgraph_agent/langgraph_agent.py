@@ -11,7 +11,7 @@ from langchain.mcp import MCPAdapter
 from langchain.messages import ToolMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
-from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
 
 TASK = os.environ.get(
     "AGENT_TASK", "Draft a reply to a customer whose refund status shows Processing."
@@ -39,8 +39,8 @@ async def main():
     url = os.environ["PLAYBOOK_URL"].rstrip("/")
     playbook_id = os.environ["PLAYBOOK_ID"]
     api_key = os.environ["PLAYBOOK_API_KEY"]
-    async with AgentPlaybook(
-        AgentPlaybookSettings(
+    async with AgentPlaybooks(
+        AgentPlaybooksSettings(
             url=url, playbook_id=playbook_id, api_key=api_key
         )
     ) as playbook:
