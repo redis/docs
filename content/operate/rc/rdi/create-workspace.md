@@ -33,10 +33,10 @@ You can view your workspace in one of the following ways:
 - From the Redis Cloud console, go to the **Data integration** page, or
 - From your subscription, select the **Data Integration** tab
 
-![A workspace with a draft pipeline and a running pipeline, with their sources, target database, and billing.](/images/rc/rdi/rdi-2-workspace-pipelines.png)
+![A workspace with a draft, a running, and a stopped pipeline, with their sources, target databases, and billing. Add pipeline is unavailable while the draft exists.](/images/rc/rdi/rdi-2-workspace-pipelines.png)
 {width="100%"}
 
-There, you'll see your workspace and its pipelines, one row per pipeline. The **Status** column shows **Draft** for a pipeline that you have not deployed yet, and the state of a deployed pipeline otherwise, such as **Running**, **Stopped**, or **Error**. The **Sources** column lists each pipeline's source names and database types. A source with unfinished configuration is marked **Pending setup**. Open its draft to continue setup. The **Billing** column shows **Not billed** for a draft, and the hourly rate of a deployed pipeline. To see your workspace details, including the deployment CIDR and region information, select **Workspace actions > Workspace details**.
+There, you'll see your workspace and its pipelines, one row per pipeline. The **Status** column shows **Draft** for a pipeline that you have not deployed yet, and the state of a deployed pipeline otherwise, such as **Running**, **Stopped**, or **Error**. The **Sources** column lists each pipeline's source names and database types. A source with unfinished configuration is marked **Pending setup**. Open its draft to continue setup. The **Billing** column shows **Not billed** for a draft, and the hourly rate of a deployed pipeline. A stopped pipeline is still billed and shows **Billing continues**. See [How does stopping sources or the pipeline affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing) To see your workspace details, including the deployment CIDR and region information, select **Workspace actions > Workspace details**.
 
 ![Workspace actions menu with Workspace details and Delete workspace.](/images/rc/rdi/rdi-2-workspace-actions.png)
 {width="240px"}
@@ -49,9 +49,6 @@ To add a pipeline:
 
 1. Open your workspace from the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
 1. Select **Add pipeline** at the bottom of the workspace.
-
-    <!-- TODO: Add a screenshot of the Add pipeline row at the bottom of a workspace card with a running pipeline. -->
-
 1. Enter a **Pipeline name**. Use 3 to 20 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name. You can't change the name later.
 
     ![The Create new pipeline dialog with the name of a second pipeline.](/images/rc/rdi/rdi-2-create-second-pipeline.png)
@@ -61,7 +58,7 @@ To add a pipeline:
 
 1. Select **Create pipeline**.
 
-The new pipeline appears in the workspace with the **Draft** status, next to the pipelines that already run, like `second-pipeline` in the example in [View workspace status and details](#view-workspace-status-and-details). Redis Cloud doesn't bill a pipeline until you deploy it.
+The new pipeline appears in the workspace with the **Draft** status, next to the other pipelines of the workspace, like `inventory-propagation` in the example in [View workspace status and details](#view-workspace-status-and-details). Redis Cloud doesn't bill a pipeline until you deploy it.
 
 Continue with [Create data pipeline](/content/operate/rc/rdi/define.md) to configure the pipeline's settings and sources and deploy it. You can set up one pipeline at a time. Until you deploy the new pipeline or delete its draft, **Add pipeline** is unavailable, and the console shows **A new pipeline can be added only when the current pending pipeline setup is complete.**
 
