@@ -9,7 +9,7 @@ description: Debug AI agent answers by tracing the context behind each turn, fro
 linkTitle: Lens
 hideListLinks: true
 weight: 27
-bannerText: Lens is currently available in preview. Features and behavior are subject to change.
+bannerText: Lens is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---
 
