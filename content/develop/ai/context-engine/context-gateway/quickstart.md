@@ -28,7 +28,7 @@ This walkthrough needs no agent framework or model-provider key.
 
 Follow one tab throughout the page. The Python package and command-line interface (CLI) are alpha prereleases pinned to the version used here. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq.
 
-<!-- TODO: Update the pin to redis-iris 0.1.0a5 when it publishes. In a5 the SDK's data-plane client is renamed from ContextGatewayClient to ContextGateway. Recheck the client property sentence below. -->
+<!-- TODO: Move the pin when a redis-iris release depends on redis-context-gateway 0.1.0a5, where the SDK's data-plane client is renamed from ContextGatewayClient to ContextGateway. Recheck the client property sentence below. -->
 
 **Python and CLI**
 
@@ -39,7 +39,7 @@ python -m pip install redis-iris==0.1.0a4
 ```
 
 > [!NOTE]
-> For TypeScript, use the generated client [@redis-iris/context-gateway](https://www.npmjs.com/package/@redis-iris/context-gateway). It opens Model Context Protocol (MCP) sessions with `ContextGatewayClient` and calls the Control Plane with `ContextGatewayService`. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md).
+> For TypeScript, use the generated client [@redis-iris/context-gateway](https://www.npmjs.com/package/@redis-iris/context-gateway). Install it with `npm install @redis-iris/context-gateway@alpha`. It opens Model Context Protocol (MCP) sessions with `ContextGateway` and calls the Control Plane with `ContextGatewayService`. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md).
 
 **HTTP**
 

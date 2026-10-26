@@ -32,7 +32,7 @@ Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model C
 
 *Example set `iris_gateway_manage`, step `gateway-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
 
-To use the result cache or result handles, select a Gateway database with `databaseId`. Your administrator names the available databases.
+To use the result cache or result handles, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `resultCache` and `resultHandles` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
 
 ## List and inspect Gateways and Upstreams
 
@@ -42,9 +42,25 @@ List the deployment's Gateways and a Gateway's Upstreams, and read one by ID. Ev
 
 ## Change a Gateway
 
-Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, or its `databaseId`. Agents see a new mode on their next request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
+Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, its `databaseId`, or its `resultCache` and `resultHandles` settings. Agents see a new mode on their next request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
 
 *Example step `gateway-update-mode`.*
+
+### Turn the result cache and result handles on or off
+
+Set `resultCache` or `resultHandles` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+
+```json
+{"revision": "<revision>", "resultCache": "enabled", "resultHandles": "disabled"}
+```
+
+| Change | What to send |
+| --- | --- |
+| Remove the Gateway database | `"databaseId": null` with `"resultCache": "disabled"` and `"resultHandles": "disabled"` in the same request. Without them, the update returns `400`. |
+| Add a Gateway database to a Gateway that had none | `databaseId` with `"resultCache": "enabled"`, `"resultHandles": "enabled"`, or both. Adding a database alone keeps both settings as they were, which is `disabled` for a Gateway created without one. |
+| Stop caching or handles for a Gateway | `"disabled"` for that setting. The Gateway stops reading and writing cache entries, or stops creating handles and removes the handle tools from `tools/list`. Stored entries and handles stay until their TTL. |
+
+*Example step `gateway-update-features`.*
 
 ## Register an MCP server
 
@@ -77,7 +93,7 @@ Disable an Upstream to take its tools away from agents without deleting it. Its 
 
 ## Set tool policies
 
-Set a tool's policies with `toolPolicies` on an Upstream update. The result cache is opt-in for each tool. Result handles are on for every eligible result once the deployment turns them on, so a tool policy only opts a tool out or changes its handle lifetime.
+Set a tool's policies with `toolPolicies` on an Upstream update. The result cache is opt-in for each tool. Result handles are on for every eligible result while they are on for the Gateway, so a tool policy only opts a tool out or changes its handle lifetime.
 
 | Policy | Member | Effect |
 | --- | --- | --- |
@@ -89,6 +105,7 @@ Set a tool's policies with `toolPolicies` on an Upstream update. The result cach
 
 - Cache only tools whose data changes more slowly than the time to live (TTL). All callers with access to the Gateway share its cache entries.
 - A tool whose definition says `readOnlyHint: false` or `destructiveHint: true` is never cached.
+- A new or changed `resultCache` policy returns `400` while the Gateway's `resultCache` is `disabled`, including on a Gateway without a `databaseId`. A stored policy sent back unchanged is kept.
 - When you move an Upstream to a new endpoint, the response lists any policies it removed in `droppedToolPolicies`.
 
 ## Rotate an Upstream credential
