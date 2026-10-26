@@ -29,7 +29,7 @@ To trace model calls inside the turn, install `redis-iris[llm-tracing]` and call
 
 ## Trace one turn across Iris products
 
-When your agent uses Agent Memory, Agent Playbooks, and Context Gateway, one Lens turn shows how each shaped the answer. This example needs the connection values for each Iris product.
+When your agent uses Agent Memory, Agent Playbooks, and Context Gateway, a single Lens turn shows how each Iris product contributed to the agent's response. This example needs the connection values for each Iris product.
 
 `workflows.turn()` runs each product's context step before the model and its write-back after. Every product call joins the turn:
 
