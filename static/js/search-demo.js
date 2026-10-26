@@ -212,6 +212,15 @@
     panel.setAttribute("role", "tabpanel");
     root.appendChild(panel);
 
+    /* Step 4: pointing at a group shows its orders, and pointing at an order shows its group. */
+    function linkGroups(e) {
+      var t = e.type === "mouseleave" ? null : e.target.closest && e.target.closest("[data-group]"), g = t ? t.getAttribute("data-group") : null;
+      Array.prototype.forEach.call(panel.querySelectorAll("[data-group]"), function (n) { n.classList.toggle("is-linked", g !== null && n.getAttribute("data-group") === g); });
+    }
+    panel.addEventListener("mouseover", linkGroups);
+    panel.addEventListener("focusin", linkGroups);
+    panel.addEventListener("mouseleave", linkGroups);
+
     /* The step's query, its reply as redis-cli prints it, and what the demo reads from it. */
     function current() {
       if (st.tab === "text") {
@@ -236,8 +245,8 @@
       if (step.prompt) panel.appendChild(el("div", "rcr-lede", md(step.prompt)));   // what to do with the controls that follow
       if (cur) panel.appendChild(controls());
       if (cur) panel.appendChild(queryBlock(cur));   // the query, before the data it finds
-      panel.appendChild(dataCard(cur));
-      if (st.tab === "agg") panel.appendChild(groupsBlock(cur));   // the groups, as the reply lists them
+      panel.appendChild(st.tab === "agg" ? ordersCard(cur) : dataCard(cur));
+      if (st.tab === "agg") panel.appendChild(resultCard(cur));   // after grouping: one row per group, as the reply lists them
       if (cur) panel.appendChild(outputBlock(cur));   // the query's reply, exactly as redis-cli prints it
       var i = STEPS.indexOf(step), nxt = STEPS[i + 1], prv = STEPS[i - 1];
       if (nxt || prv) {
@@ -311,24 +320,84 @@
     /* The documents as stored, one row each. The headers show how the index treats each field;
        highlighted rows are the ones the query matched, numbered in the order Redis returned them. */
     function dataCard(c) {
-      var tab = st.tab, card = el("div", "rcr-card rsi-data"), orders = tab === "agg", keys = orders ? ORDER_KEYS : BASE, ranks = {}, hits = {};
+      var tab = st.tab, card = el("div", "rcr-card rsi-data"), ranks = {}, hits = {};
       if (c && c.keys) c.keys.forEach(function (k, i) { hits[k] = true; ranks[k] = i + 1; });
-      if (orders) keys.forEach(function (k) { if (st.agg.filter === "*" || fieldsOf(STORED[k].set).status === "delivered") hits[k] = true; });
-      var n = Object.keys(hits).length;
-      card.appendChild(el("div", "rcr-cardhead", "<span>" + (orders ? "Orders" : "Restaurants") + '</span><span class="rcr-count">' +
-        (c ? n + " of " + keys.length + " match" : keys.length + " hashes") + "</span>"));
+      card.appendChild(el("div", "rcr-cardhead", '<span>Restaurants</span><span class="rcr-count">' +
+        (c ? c.keys.length + " of " + BASE.length + " match" : BASE.length + " hashes") + "</span>"));
       card.appendChild(el("div", "rsq-axis", esc(
         (tab === "data" ? "Four of each restaurant's " + Object.keys(fieldsOf(STORED[BASE[0]].set)).length + " fields." :
-          orders ? "Four of each order's " + Object.keys(fieldsOf(STORED[ORDER_KEYS[0]].set)).length + " fields. Highlighted: the orders the query matched." :
-            "The restaurants as stored. Highlighted: the ones the query matched, numbered in the order Redis returned them.") +
+          "The restaurants as stored. Highlighted: the ones the query matched, numbered in the order Redis returned them.") +
         " Select a row to see how it was written.")));
-      card.appendChild(table(columns(), keys, hits, ranks, c));
+      card.appendChild(table(columns(), BASE, hits, ranks, c));
       card.appendChild(el("div", "rsq-note", md(note(c))));
       return card;
     }
-    /* The documents, one row each, under a header naming each field and its type.
-       In the stacked layout on narrow screens, `wide` columns get a line of their own. */
-    function table(cols, keys, hits, ranks, c) {
+
+    /* Step 4, before grouping: the orders as stored, one row each. The ones the query matched are put together by
+       the group-by field, in the order the reply lists the groups, under a line naming each group; the rest follow. */
+    function ordersCard(c) {
+      var a = st.agg, card = el("div", "rcr-card rsi-data rsq-before"), groups = {}, keys = [], out = [], hits = {}, heads = {};
+      var order = c.rows.map(function (r) { return r[0]; });
+      ORDER_KEYS.forEach(function (k) {
+        var v = fieldsOf(STORED[k].set), g = v[a.group];
+        if (a.filter !== "*" && v.status !== "delivered") { out.push(k); return; }
+        if (order.indexOf(g) < 0) order.push(g);
+        (groups[g] = groups[g] || []).push(k);
+        hits[k] = true;
+      });
+      order.forEach(function (id) {
+        var g = groups[id] || [];
+        if (!g.length) return;
+        heads[g[0]] = { group: id, html: esc(groupLabel(id)) + (a.group === "status" ? "" : ' <span class="rcr-mono">' + esc(id) + "</span>") +
+          '<span class="rsq-gcount">' + g.length + (g.length === 1 ? " order" : " orders") + "</span>" };
+        keys = keys.concat(g);
+      });
+      if (out.length) heads[out[0]] = { html: "Not matched by the query" };
+      keys = keys.concat(out);
+      card.appendChild(el("div", "rcr-cardhead", '<span>Before grouping: the orders</span><span class="rcr-count">' +
+        (keys.length - out.length) + " of " + keys.length + " match</span>"));
+      card.appendChild(el("div", "rsq-axis", md("Each row is one order, as stored. Highlighted: the orders the query matched, put together by `" +
+        a.group + "`. Select a row to see how it was written.")));
+      var t = table(columns(), keys, hits, {}, c, heads);
+      Array.prototype.forEach.call(t.querySelectorAll("tr.is-hit"), function (tr) { tr.setAttribute("data-group", fieldsOf(STORED[tr.dataset.key].set)[a.group]); });
+      card.appendChild(t);
+      card.appendChild(el("div", "rsq-note", md("`GROUPBY 1 @" + a.group + "` puts the matched orders that have the same `" + a.group + "` together, which makes " +
+        c.rows.length + (c.rows.length === 1 ? " group" : " groups") + ". `REDUCE` then works out one number for each group.")));
+      return card;
+    }
+
+    /* Step 4, after grouping: one row per group, with the number it was reduced to, as the reply lists them. */
+    function resultCard(c) {
+      var a = st.agg, as = c.query[c.query.indexOf("AS") + 1], rows = c.rows, card = el("div", "rcr-card rsi-data rsq-after");
+      var max = Math.max.apply(null, rows.map(function (x) { return parseFloat(x[1]); }));
+      var each = { restaurant_id: "restaurant", customer_id: "customer", status: "status" }[a.group];
+      card.appendChild(el("div", "rcr-cardhead", "<span>After grouping: one row per " + each + '</span><span class="rcr-count">' +
+        rows.length + (rows.length === 1 ? " group" : " groups") + "</span>"));
+      card.appendChild(el("div", "rsq-axis", md("What `FT.AGGREGATE` returns: each group's `" + a.group + "`, and the number the group was reduced to, as `" + as + "`. Highest first.")));
+      var t = el("table", "rsi-table rsq-result"), head = el("tr"), thead = el("thead"), body = el("tbody");
+      t.style.setProperty("--cols", "minmax(0, 1fr) minmax(0, 1fr)");
+      head.appendChild(el("th", "", '<span class="rcr-mono">' + esc(a.group).replace(/_/g, "_<wbr>") + "</span>"));
+      head.appendChild(el("th", "", '<span class="rcr-mono">' + esc(as) + "</span>"));
+      thead.appendChild(head);
+      t.appendChild(thead);
+      rows.forEach(function (x) {
+        var v = parseFloat(x[1]), shown = a.reducer === "COUNT" ? x[1] : "$" + v.toFixed(2), tr = el("tr");
+        tr.setAttribute("data-group", x[0]);
+        tr.appendChild(el("td", "", esc(groupLabel(x[0])) + (a.group === "status" ? "" : '<span class="rsq-meta rcr-mono">' + esc(x[0]) + "</span>")));
+        tr.appendChild(el("td", "", '<span class="rsq-cellval"><span class="rsq-bar" aria-hidden="true"><span style="width:' + (v / max * 100).toFixed(1) + '%"></span></span>' +
+          '<span class="rsq-val rcr-mono" title="' + esc(x[1]) + '">' + esc(shown) + "</span></span>"));
+        body.appendChild(tr);
+      });
+      t.appendChild(body);
+      card.appendChild(t);
+      card.appendChild(el("div", "rsq-note", md(note(c))));
+      return card;
+    }
+
+    /* The documents, one row each, under a header naming each field and its type. `heads` maps a key to a line that
+       goes above its row, such as a group's name. In the stacked layout on narrow screens, `wide` columns get a line
+       of their own. */
+    function table(cols, keys, hits, ranks, c, heads) {
       var t = el("table", "rsi-table" + (cols.length > 2 ? " has-3" : "")), head = el("tr"), thead = el("thead"), body = el("tbody");
       var narrow = cols.filter(function (col) { return !col.wide; });
       t.style.setProperty("--cols", narrow.map(function () { return "minmax(0, 1fr)"; }).join(" "));
@@ -340,6 +409,14 @@
       thead.appendChild(head);
       t.appendChild(thead);
       keys.forEach(function (key) {
+        var h = heads && heads[key];
+        if (h) {
+          var gr = el("tr", "rsq-grouprow"), gt = el("td", "", h.html);
+          gt.colSpan = cols.length + 1;
+          if (h.group != null) gr.setAttribute("data-group", h.group);
+          gr.appendChild(gt);
+          body.appendChild(gr);
+        }
         body.appendChild(docRow(key, cols, hits[key], ranks[key], c));
         if (st.dataKey === key) {
           var x = el("tr", "rsi-docrow"), td = el("td");
@@ -397,21 +474,6 @@
     }
     function groupLabel(v) {
       return st.agg.group === "restaurant_id" ? rest(v)[1] : st.agg.group === "customer_id" ? CUSTOMERS[v] : v.replace(/_/g, " ");
-    }
-
-    /* Step 4: each group and its number, as the reply lists them. */
-    function groupsBlock(c) {
-      var rows = c.rows, max = Math.max.apply(null, rows.map(function (x) { return parseFloat(x[1]); })), box = el("div", "rsi-create rsq-groups");
-      box.appendChild(el("div", "rsi-createhead", "The groups"));
-      var list = el("div", "rsq-list");
-      rows.forEach(function (x) {
-        var v = parseFloat(x[1]), shown = st.agg.reducer === "COUNT" ? x[1] : "$" + v.toFixed(2);
-        list.appendChild(el("div", "rsq-group", '<span class="rsq-gname">' + esc(groupLabel(x[0])) + '<span class="rsq-meta rcr-mono">' + esc(x[0]) + "</span></span>" +
-          '<span class="rsq-bar" aria-hidden="true"><span style="width:' + (v / max * 100).toFixed(1) + '%"></span></span>' +
-          '<span class="rsq-val rcr-mono" title="' + esc(x[1]) + '">' + esc(shown) + "</span>"));
-      });
-      box.appendChild(list);
-      return box;
     }
 
     /* A transcript line: the prompt, the command, and its reply. */
