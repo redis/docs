@@ -57,7 +57,7 @@ To add a pipeline:
     ![The Create new pipeline dialog with the name of a second pipeline.](/images/rc/rdi/rdi-2-create-second-pipeline.png)
     {width="376px"}
 
-    <!-- TODO: Replace this screenshot once the console hint shows the 20-character limit of RDSC-6270. -->
+    <!-- TODO: Replace this screenshot once the console hint shows the 3 to 20 character range of RDSC-6306. -->
 
 1. Select **Create pipeline**.
 
