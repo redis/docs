@@ -18,7 +18,7 @@ aliases:
 Redis Agent Memory is distributed as container images on Docker Hub plus a Helm
 chart in the Redis AI Helm repository. The chart deploys the Redis Agent Memory Data
 Plane, Redis Agent Memory workers, and the Redis Agent Memory Control Plane. Install Identity
-Service separately with the `iris-identity-service` chart `0.10.0` before connecting Memory chart `0.8.0`.
+Service separately with the `iris-identity-service` chart `0.10.2` before connecting Memory chart `0.10.2`.
 
 You provide the Redis databases, provider credentials, Kubernetes exposure, and
 license material used by the deployment.
@@ -32,7 +32,7 @@ license material used by the deployment.
 | Item | Where it comes from |
 | ---- | ------------------- |
 | Container images | Docker Hub: `redislabs/agent-memory`, `redislabs/agent-memory-control-plane`, and `redislabs/iris-identity-service` |
-| Helm charts | `redis-agent-memory` `0.8.0` and `iris-identity-service` `0.10.0` in the Redis AI Helm repository |
+| Helm charts | `redis-agent-memory` `0.10.2` and `iris-identity-service` `0.10.2` in the Redis AI Helm repository |
 | Redis databases | You provide Store Redis, Job Redis, and Metadata Redis |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 | Provider credentials | You provide embedding provider credentials and, when worker features are enabled, promotion or summarization LLM credentials |
@@ -124,14 +124,14 @@ To supply a complete configuration file in your own Secret instead, see
 
 ## Release artifacts and image tags
 
-The published Memory chart `0.8.0` defaults `image.tag` and `controlplane.image.tag` to `0.8.0`.
-Identity Service chart `0.10.0` defaults its image to its own application version, `0.10.0`.
+The published Memory chart `0.10.2` defaults `image.tag` and `controlplane.image.tag` to `0.10.2`.
+Identity Service chart `0.10.2` defaults its image to its own application version, `0.10.2`.
 Set tags explicitly when pinning images or using a mirror. The releases have independent versions.
 
 Both charts are published at `https://helm.redis.io/ai` as `redis-ai/redis-agent-memory`
 and `redis-ai/iris-identity-service`. Their standard images are
-`redislabs/agent-memory:0.8.0`, `redislabs/agent-memory-control-plane:0.8.0`, and
-`redislabs/iris-identity-service:0.10.0`.
+`redislabs/agent-memory:0.10.2`, `redislabs/agent-memory-control-plane:0.10.2`, and
+`redislabs/iris-identity-service:0.10.2`.
 
 ## Air-gapped and private registry installs
 
@@ -147,9 +147,9 @@ Mirror these images into your internal registry:
 | `python:3.13-alpine` | Optional, with `tests.smoke` |
 | `curlimages/curl:8.17.0` | Optional, for `helm test` on the Identity Service release (`tests.image` in `values-ids.yaml`) |
 
-For this release, `<ram-version>` is `0.8.0` and `<ids-version>` is `0.10.0`.
-Inspect each package with `helm show chart redis-ai/redis-agent-memory --version 0.8.0`
-and `helm show chart redis-ai/iris-identity-service --version 0.10.0`. Memory does not pin
+For this release, `<ram-version>` is `0.10.2` and `<ids-version>` is `0.10.2`.
+Inspect each package with `helm show chart redis-ai/redis-agent-memory --version 0.10.2`
+and `helm show chart redis-ai/iris-identity-service --version 0.10.2`. Memory does not pin
 or install the Identity Service chart.
 
 ```bash
@@ -198,7 +198,7 @@ Configure the separate Identity Service release in `values-ids.yaml`:
 ```yaml
 image:
   repository: registry.example.com/redislabs/iris-identity-service
-  tag: "0.10.0"
+  tag: "0.10.2"
 tests:
   image: registry.example.com/curlimages/curl:8.17.0
 global:

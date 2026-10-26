@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Create service
 title: Create an Agent Memory service
 weight: 5
-bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 aliases:
 - /operate/rc/context-engine/agent-memory/create-service/
 - /operate/rc/agent-memory/create-service/
@@ -22,7 +21,7 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
 
-During public preview, Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
+Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
 
 
 ## Create an Agent Memory service
@@ -51,7 +50,7 @@ From here:
     >
     > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
 
-    After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
+    After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
 - If you want to customize your Redis Agent Memory service, select **Create custom**.
 
@@ -76,7 +75,7 @@ The **General settings** section defines basic properties of your service.
 |:----------------------|:----------|
 | **Service name** | Enter a name for your Agent Memory service. We recommend you use a name that describes your service's purpose. |
 | **Select database** | Select the Redis Cloud database to use for this service from the list. |
-| **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) during public preview. |
+| **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}). |
 
 ### Memory configuration
 
@@ -131,7 +130,7 @@ To add a custom memory type, select **Add type** and configure the following set
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Name** | A unique name for the custom memory type. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). The name must be unique within the service and cannot match a built-in memory type (`semantic`, `episodic`, `message`, or `session_summary_view`). |
+| **Name** | A unique name for the custom memory type. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). The name must be unique within the service and cannot match a built-in memory type. |
 | **Description** | A short description of what the memory type represents (1–200 characters). |
 | **Fields** | The structured fields that make up the memory type. See [Fields](#fields) below. |
 
@@ -163,9 +162,6 @@ The **Sensitive-data exclusions** section lets you define information that shoul
 - [Semantic exclusions](#semantic-exclusions) describe what to exclude in plain language, catching concepts that a pattern cannot.
 
 Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
-
-> [!NOTE]
-> Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 
 ![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
 
@@ -245,7 +241,7 @@ If an error occurs, verify that your database is active. For help, [contact supp
 
 ## Next steps
 
-After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
+After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
 To generate a conversational agent that connects to your service, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
 

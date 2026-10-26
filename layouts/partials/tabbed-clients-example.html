@@ -8,7 +8,7 @@
 {{ $cliTabName := (or (.Scratch.Get "cli_tab_name") ">_ Redis CLI") }}
 {{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
-{{ $showFooter := .Scratch.Get "show_footer" | default true }}
+{{ $showFooter := .Scratch.Get "show_footer" }}
 {{/* runnable defaults to true; "false" renders a static, non-executable cli tab */}}
 {{ $runnable := ne (.Scratch.Get "runnable") "false" }}
 {{/* try_it defaults to true; "false" hides the external redis.io/cli button but keeps the on-page tab interactive */}}
