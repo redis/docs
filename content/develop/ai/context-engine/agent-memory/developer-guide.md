@@ -61,7 +61,7 @@ Your application must decide which memories the user can access. Put these check
 * For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
 * For requests that retrieve or change a record by ID, check that the record belongs to the user or to a shared namespace they can access. These endpoints do not all accept an owner filter; a session or memory ID is not proof of permission.
 
-Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces.md).
+Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md).
 
 Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `filterOp: "any"` matches either condition; it does not require the owner to match. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
 

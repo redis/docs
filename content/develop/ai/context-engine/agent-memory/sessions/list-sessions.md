@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: List sessions
 title: List and sort sessions
 weight: 10
+aliases:
+- /develop/ai/context-engine/agent-memory/list-sessions/
 ---
 
 Use session listing to let a user reopen an earlier conversation. The session rows contain IDs and available owner, timestamp, and namespace metadata. They do not contain conversation events or summary text. Retrieve the selected session with `get_session_memory` (Python), `getSessionMemory` (TypeScript), or `GET /v1/stores/{storeId}/session-memory/{sessionId}` to build the agent's conversation context.

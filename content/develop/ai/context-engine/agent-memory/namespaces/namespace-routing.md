@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Namespace routing
 title: Namespace routing
 weight: 14
+aliases:
+- /develop/ai/context-engine/agent-memory/namespace-routing/
 ---
 
 Namespace routing selects a shared namespace for an eligible memory. Admission rules check whether a memory can enter a destination. Use routing to organize shared memories by content, and admission rules to reject content that does not belong in a namespace.
@@ -29,7 +31,7 @@ An automatic move keeps the current placement and returns a per-item error if ro
 
 ## Configure a policy
 
-1. [Create a shared namespace](/content/develop/ai/context-engine/agent-memory/namespaces.md#create-a-shared-namespace) and save its ID as `SHARED_NAMESPACE_ID`.
+1. [Create a shared namespace](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md#create-a-shared-namespace) and save its ID as `SHARED_NAMESPACE_ID`.
 1. Install the software development kit (SDK) for your language.
 1. Set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
 
@@ -187,4 +189,4 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-Add the SDK snippet inside the client block or `main` function from [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespace-routing.md#configure-a-policy). Set `MEMORY_ID` before running it. The example memory must already belong to a shared namespace and contain matching text. The request accepts 1–100 IDs. To choose a destination explicitly, also pass `namespace_ref={"namespace_id": "<namespace-id>"}` in Python or `namespaceRef: { namespaceId: "<namespace-id>" }` in TypeScript or the request body. Explicit placement still runs admission checks.
+Add the SDK snippet inside the client block or `main` function from [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). Set `MEMORY_ID` before running it. The example memory must already belong to a shared namespace and contain matching text. The request accepts 1–100 IDs. To choose a destination explicitly, also pass `namespace_ref={"namespace_id": "<namespace-id>"}` in Python or `namespaceRef: { namespaceId: "<namespace-id>" }` in TypeScript or the request body. Explicit placement still runs admission checks.

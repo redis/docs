@@ -15,7 +15,7 @@ A Summary View turns selected long-term memories into a reusable text or structu
 
 A **definition** specifies the sources, filters, grouping, output, and refresh policy. A **partition** is one materialized result for an exact combination of grouping values. An ungrouped definition has one result. Results are derived data; they do not enter long-term-memory search or replace the source records.
 
-Summary Views differ from [session summarization](/content/develop/ai/context-engine/agent-memory/sessions.md#configure-automatic-summarization), which compacts conversation events. The supported source is `long_term`. Document-managed MemoryETL records are excluded from Summary View sources.
+Summary Views differ from [session summarization](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#configure-automatic-summarization), which compacts conversation events. The supported source is `long_term`. Document-managed MemoryETL records are excluded from Summary View sources.
 
 ## Prepare the service and identity
 

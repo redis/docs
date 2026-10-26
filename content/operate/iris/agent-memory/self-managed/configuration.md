@@ -448,4 +448,4 @@ memory:
 
 For a bring-your-own file, put `namespace_features` at the file root. This example enables the `matcher_spec` strategy used by the regex policy in the routing guide.
 
-After rollout, use the read-policy request in [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespace-routing.md#configure-a-policy). A successful response confirms that the policy API is available. Read the returned `policy.enabled` value; saving a policy with `enabled: true` enables it for that store. API availability alone does not prove that automatic routing or admission is enabled, so check the process settings as well.
+After rollout, use the read-policy request in [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). A successful response confirms that the policy API is available. Read the returned `policy.enabled` value; saving a policy with `enabled: true` enables it for that store. API availability alone does not prove that automatic routing or admission is enabled, so check the process settings as well.

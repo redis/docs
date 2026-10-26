@@ -68,7 +68,7 @@ Your application must check that the current user can access this session before
 
 ## List sessions
 
-To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /v1/stores/{storeId}/sessions`, `list_session_summaries` in Python, or `listSessionSummaries` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md) for SDK examples and pagination.
+To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /v1/stores/{storeId}/sessions`, `list_session_summaries` in Python, or `listSessionSummaries` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
 
 For session IDs only, use `GET /v1/stores/{storeId}/session-memory` with an owner or namespace filter. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
 

@@ -318,4 +318,4 @@ Add the Python snippet inside the `with` block and the TypeScript snippet inside
 
 ## Route and admit shared memories
 
-An explicit namespace destination must pass its admission rules. Direct creation without a namespace stays unassigned. To route an existing shared memory, omit `namespaceRef` from a move request. Personal and unassigned memories are not candidates for automatic routing. See [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespace-routing.md) for policy setup, examples, and per-item errors.
+An explicit namespace destination must pass its admission rules. Direct creation without a namespace stays unassigned. To route an existing shared memory, omit `namespaceRef` from a move request. Personal and unassigned memories are not candidates for automatic routing. See [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md) for policy setup, examples, and per-item errors.

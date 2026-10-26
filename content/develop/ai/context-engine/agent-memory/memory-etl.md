@@ -15,7 +15,7 @@ MemoryETL uses extract, transform, load (ETL) processing to turn text or Markdow
 
 An **extractor** tells MemoryETL what to extract: a custom memory type and instructions for the model. Creating an extractor is an administrative task. Applications can then submit documents to it.
 
-Use [session extraction](/content/develop/ai/context-engine/agent-memory/sessions.md) for conversation events. Use [direct memory creation](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) when your application already has the records it wants to save.
+Use [session extraction](/content/develop/ai/context-engine/agent-memory/sessions/_index.md) for conversation events. Use [direct memory creation](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) when your application already has the records it wants to save.
 
 ## Prepare the service
 

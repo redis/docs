@@ -22,12 +22,12 @@ When enabled, automatic summarization compacts session memory by summarizing old
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-model.svg" alt="Overview icon" title="Overview — What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
-  {{< image-card image="images/ai-cube.svg" alt="Quickstart icon" title="Quickstart — Make your first requests" url="/develop/ai/context-engine/agent-memory/quickstart" >}}
-  {{< image-card image="images/ai-lib.svg" alt="Developer guide icon" title="Developer guide — Add memory to your application" url="/develop/ai/context-engine/agent-memory/developer-guide" >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="Sessions icon" title="Sessions — Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
-  {{< image-card image="images/ai-brain-2.svg" alt="Long-term memory icon" title="Long-term memory — Recall information across conversations" url="/develop/ai/context-engine/agent-memory/long-term-memory" >}}
-  {{< image-card image="images/ai-semantic-routing.svg" alt="Namespaces icon" title="Namespaces — Organize your memories" url="/develop/ai/context-engine/agent-memory/namespaces" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Overview" description="What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quickstart" description="Make your first requests" url="/develop/ai/context-engine/agent-memory/quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Developer guide" description="Add memory to your application" url="/develop/ai/context-engine/agent-memory/developer-guide" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Sessions" description="Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Long-term memory" description="Recall information across conversations" url="/develop/ai/context-engine/agent-memory/long-term-memory" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Namespaces" description="Organize your memories" url="/develop/ai/context-engine/agent-memory/namespaces" >}}
 </div>
 
 ## Why use Redis Agent Memory?
@@ -131,4 +131,4 @@ After your service is ready, follow the [quickstart]({{< relref "/develop/ai/con
 
 * [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.
 
-For shared placement rules, see [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespace-routing.md). To build a conversation list, see [List and sort sessions](/content/develop/ai/context-engine/agent-memory/list-sessions.md).
+For shared placement rules, see [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md). To build a conversation list, see [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md).
