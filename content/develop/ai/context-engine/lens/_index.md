@@ -32,7 +32,7 @@ When an agent gives a wrong answer, Lens shows the cause. You can see that the r
 - **Model calls traced automatically:** Calls through OpenAI, Anthropic, Amazon Bedrock, and LangChain clients appear with their prompts, completions, and token counts.
 - **Built on OpenTelemetry:** Lens joins the tracer your application already uses, and Iris product steps reach your existing observability tools as well.
 - **You control content capture:** Capture prompts and retrieved text for debugging, or keep only IDs, hashes, and counts.
-- **Background export:** Your agent doesn't wait on Lens, and a failed export doesn't raise into your agent.
+- **Background export:** Lens exports in the background, so your agent never waits for it. If an export fails, the error stays out of your agent's code.
 
 ## How it works
 
