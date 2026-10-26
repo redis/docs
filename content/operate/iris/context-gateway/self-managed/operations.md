@@ -13,13 +13,13 @@ hideListLinks: true
 
 ## Check service health
 
-Both planes serve `/v1/health/live` and `/v1/health/ready` without a credential. Readiness answers `503` while a token source cannot be read or is empty, or the license is not valid. The response does not name the failed check, so read the plane's logs.
+Both planes serve `/health/liveness` and `/health/readiness` without a credential. Readiness answers `503` while a token source cannot be read or is empty, or the license is not valid. The response does not name the failed check, so read the plane's logs.
 
 With the ports forwarded as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health):
 
 ```bash
-curl -sS http://localhost:9100/v1/health/ready
-curl -sS http://localhost:8083/v1/health/ready
+curl -sS http://localhost:9100/health/readiness
+curl -sS http://localhost:8083/health/readiness
 ```
 
 `iris context-gateway health` probes both planes, and `iris context-gateway service diagnose <gateway-id>` reports a Gateway's setup, including Upstreams with empty catalogs.
@@ -51,6 +51,7 @@ A cache hit carries `resultCache` in the call's invocation metadata. Every other
 | Bypass `reason` | What to check |
 | --- | --- |
 | `not_opted_in` | The tool has no result cache policy. |
+| `disabled` | The Gateway's `resultCache` is `disabled`. |
 | `no_database` | The Gateway has no `databaseId`. |
 | `unknown_database` | The Gateway's database is not registered on the Data Plane. Declare it on both planes. |
 | `vetoed_by_annotation` | The tool's definition says it is not read-only, or that it is destructive. |
@@ -87,6 +88,8 @@ Back up Metadata Redis and credential storage together. A Gateway record without
 Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached.
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
+
+Gateways stored before the per-Gateway `resultCache` and `resultHandles` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `resultCache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
 
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \
