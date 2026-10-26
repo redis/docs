@@ -21,11 +21,12 @@
 
 {{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
 {{- $v := dict -}}
-{{- range slice "css/context-retriever-demo.css" "css/redisvl-demo.css" "js/redisvl-demo.js" -}}
+{{- range slice "css/context-retriever-demo.css" "css/redisvl-demo.css" "js/demo-highlight.js" "js/redisvl-demo.js" -}}
   {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
 {{- end }}
 <link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
 <link rel="stylesheet" href="{{ "css/redisvl-demo.css" | relURL }}?v={{ index $v "css/redisvl-demo.css" }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}?v={{ index $v "js/demo-highlight.js" }}"></script>
 <script defer src="{{ "js/redisvl-demo.js" | relURL }}?v={{ index $v "js/redisvl-demo.js" }}"></script>
 
 <div class="rcr rvd" data-redisvl>

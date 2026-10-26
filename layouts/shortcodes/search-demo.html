@@ -22,12 +22,13 @@
 
 {{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
 {{- $v := dict -}}
-{{- range slice "css/context-retriever-demo.css" "css/search-demo.css" "css/search-index-demo.css" "js/search-demo.js" -}}
+{{- range slice "css/context-retriever-demo.css" "css/search-demo.css" "css/search-index-demo.css" "js/demo-highlight.js" "js/search-demo.js" -}}
   {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
 {{- end }}
 <link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
 <link rel="stylesheet" href="{{ "css/search-demo.css" | relURL }}?v={{ index $v "css/search-demo.css" }}">
 <link rel="stylesheet" href="{{ "css/search-index-demo.css" | relURL }}?v={{ index $v "css/search-index-demo.css" }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}?v={{ index $v "js/demo-highlight.js" }}"></script>
 <script defer src="{{ "js/search-demo.js" | relURL }}?v={{ index $v "js/search-demo.js" }}"></script>
 
 <div class="rcr rsq rsi" data-search>

@@ -532,7 +532,7 @@
       body.appendChild(response == null ? el("p", "rcr-faint", "No content.") : pre(response));
       var cd = el("details", "rcr-curl");
       cd.appendChild(el("summary", "", "Run this call yourself with curl"));
-      cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curl(method, path, request))));
+      cd.appendChild(el("pre", "rcr-code rcr-code-sm", window.DemoHL.shell(curl(method, path, request))));
       body.appendChild(cd);
       d.appendChild(body);
       return d;
@@ -780,7 +780,7 @@
           body.appendChild(pre(r.response));
           var cd = el("details", "rcr-curl");
           cd.appendChild(el("summary", "", "Run this call yourself with curl"));
-          cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curl("POST", "/entries/search", r.request))));
+          cd.appendChild(el("pre", "rcr-code rcr-code-sm", window.DemoHL.shell(curl("POST", "/entries/search", r.request))));
           body.appendChild(cd);
           d.appendChild(body);
           rows.appendChild(d);
