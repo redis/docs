@@ -49,7 +49,7 @@ async def main():
             try:
                 context = await playbook.client.discover_entries_async(query=state["task"], limit=3)
             except Exception as error:
-                raise RuntimeError("Playbook discovery failed; no model call was made.") from error
+                raise RuntimeError("Agent Playbooks discovery failed; no model call was made.") from error
             if not context.pinned_entries and not context.discovered_entries:
                 return {
                     "context": "",
