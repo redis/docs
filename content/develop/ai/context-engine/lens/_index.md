@@ -5,7 +5,7 @@ categories:
 - docs
 - develop
 - ai
-description: Debug agent answers by tracing the context behind each turn, from retrieval to prompt.
+description: Debug AI agent answers by tracing the context behind each turn, from retrieval to prompt.
 linkTitle: Lens
 hideListLinks: true
 weight: 27
