@@ -19,7 +19,7 @@ Call `lens.init()` once at startup. It turns Lens on, traces model calls, and se
 
 {{< clients-example set="iris_lens_instrument" step="init" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-Without `lens.init()`, Lens starts at the first Lens or Iris product call when `IRIS_LENS_ENDPOINT` is set, and records everything except model calls. You can also pass Lens settings to `Iris(IrisSettings(lens=...))`. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md) for every setting.
+Without `lens.init()`, Lens starts at the first Lens or Iris service call when `IRIS_LENS_ENDPOINT` is set, and records everything except model calls. You can also pass Lens settings to `Iris(IrisSettings(lens=...))`. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md) for every setting.
 
 ## Open a turn
 
@@ -31,17 +31,17 @@ Use `set_attribute()` to add your own fields to the turn, and `set_outcome()` to
 
 `lens.turn()` works the same in asynchronous code: open it with `with` around the `await` calls of one exchange.
 
-## What Iris products record
+## What Iris services record
 
 Agent Memory, Agent Playbooks, and Context Gateway calls record their own steps inside the open turn, in both their synchronous and asynchronous forms:
 
-| Product | Steps recorded |
+| Service | Steps recorded |
 | ------- | -------------- |
 | Agent Memory | Memory recalls, session events, and memory writes and deletes. |
 | Agent Playbooks | Discovery, skill loads, skill resource reads, and proposals. |
 | Context Gateway | Tool listings and each tool call, with its upstream tool name. |
 
-These steps come from the Redis Iris product objects, such as `AgentMemory` and `AgentPlaybooks`. To record a call on a product's generated client (`.client`), wrap it in `lens.memory_recall()`, `lens.retrieval()`, or `lens.span()`.
+These steps come from the Redis Iris service objects, such as `AgentMemory` and `AgentPlaybooks`. To record a call on a service's generated client (`.client`), wrap it in `lens.memory_recall()`, `lens.retrieval()`, or `lens.span()`.
 
 ## Trace model calls
 

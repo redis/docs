@@ -11,7 +11,7 @@ title: Configure Lens
 weight: 30
 ---
 
-Configure the Lens module of the Redis Iris software development kit (SDK) with environment variables, `lens.init()`, or `LensSettings`. Lens reads its environment variables once, at the first Lens or Iris product call. To apply a variable you set later, call `lens.init()`.
+Configure the Lens module of the Redis Iris software development kit (SDK) with environment variables, `lens.init()`, or `LensSettings`. Lens reads its environment variables once, at the first Lens or Iris service call. To apply a variable you set later, call `lens.init()`.
 
 ## Settings
 
@@ -40,9 +40,9 @@ A blank variable counts as unset, so its default applies. `IRIS_LENS_CAPTURE_CON
 
 | Variable | Description |
 | -------- | ----------- |
-| `IRIS_LENS_HOST_SPANS` | `false` keeps Iris product steps out of your own tracer while Lens is off. Default `true`. |
-| `IRIS_LENS_HOST_CAPTURE_CONTENT` | Whether Iris product steps sent to your own tracer include text. Default `false`. |
-| `IRIS_LENS_AUTO_INSTRUMENT` | `false` turns off Iris product steps and keeps `lens.init()` from tracing model calls. |
+| `IRIS_LENS_HOST_SPANS` | `false` keeps Iris service steps out of your own tracer while Lens is off. Default `true`. |
+| `IRIS_LENS_HOST_CAPTURE_CONTENT` | Whether Iris service steps sent to your own tracer include text. Default `false`. |
+| `IRIS_LENS_AUTO_INSTRUMENT` | `false` turns off Iris service steps and keeps `lens.init()` from tracing model calls. |
 | `IRIS_LENS_INSTRUMENT_AGENT_MEMORY` | `false` turns off Agent Memory steps. |
 | `IRIS_LENS_INSTRUMENT_PLAYBOOK` | `false` turns off Agent Playbooks steps. |
 | `IRIS_LENS_INSTRUMENT_THREADS` | `false` keeps `lens.init()` from carrying turns across Python threads. |
@@ -79,7 +79,7 @@ Lens is built on OpenTelemetry and works with the tracing your application alrea
 - If your application has a tracer provider, Lens adds its processor to it. Steps your application records inside a turn are exported to Lens as well.
 - If your application has no tracer provider, Lens installs one. To prevent that, set `IRIS_LENS_OWN_PROVIDER=false`.
 - Lens steps also reach your provider's other processors, so they appear in your existing observability tools.
-- While Lens is off, Iris product steps still go to your own tracer, without text. Your existing tools see Iris latency and errors with no Lens endpoint configured.
+- While Lens is off, Iris service steps still go to your own tracer, without text. Your existing tools see Iris latency and errors with no Lens endpoint configured.
 
 ## Connect over TLS
 

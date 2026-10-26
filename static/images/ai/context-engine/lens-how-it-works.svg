@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="164" viewBox="0 0 480 164" role="img" aria-labelledby="title desc">
-  <title id="title">How Lens works: your agent and Iris products, the Redis Iris SDK, Lens, and the Lens UI and read API</title>
-  <desc id="desc">Left to right: your agent opens a turn, and the Iris products it calls, Agent Memory, Agent Playbooks, and Context Gateway, record their own steps. The Redis Iris SDK exports the turn to Lens, which assembles turns and groups them into sessions. You inspect sessions in the Lens UI or query turns with the read API.</desc>
+  <title id="title">How Lens works: your agent and Iris services, the Redis Iris SDK, Lens, and the Lens UI and read API</title>
+  <desc id="desc">Left to right: your agent opens a turn, and the Iris services it calls, Agent Memory, Agent Playbooks, and Context Gateway, record their own steps. The Redis Iris SDK exports the turn to Lens, which assembles turns and groups them into sessions. You inspect sessions in the Lens UI or query turns with the read API.</desc>
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#56616b" stroke-width="1.5"/></marker>
     <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#ee0000" stroke-width="1.5"/></marker>

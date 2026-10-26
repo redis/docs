@@ -1,6 +1,6 @@
 # Lens docs — conventions for AI-assisted editing
 
-These pages document **Lens**, the Redis Iris observability product for AI agents. Read the
+These pages document **Lens**, the Redis Iris observability tool for AI agents. Read the
 repository-root `AGENTS.md` first for style and site mechanics. This file adds terminology,
 disclosure, and framing rules for this directory, and wins where the two conflict.
 
@@ -10,7 +10,8 @@ disclosure, and framing rules for this directory, and wins where the two conflic
 | --- | --- | --- |
 | Lens | Iris Lens, Redis Lens, Agent Lens | Every mention, including titles. |
 | Context Gateway | Context Retriever | In prose. API literals such as `GetContextRetrieverResult` stay as they are. |
-| Agent Memory, Agent Playbooks | RAM, Playbook service | The Iris products Lens traces. |
+| Agent Memory, Agent Playbooks | RAM, Playbook service | The Iris services Lens traces. |
+| Iris services | Iris products | Agent Memory, Agent Playbooks, and Context Gateway as a group, matching the other Iris pages. |
 | preview | Beta | Lens availability. |
 
 `redis-iris` (`redis_iris.lens`) is the instrumentation package. `redis-agent-lens`

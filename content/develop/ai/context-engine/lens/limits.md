@@ -79,4 +79,4 @@ If a turn doesn't appear in Lens, check these in order:
 | ------- | ----- |
 | Model calls don't appear in the turn. | Install `redis-iris[llm-tracing]` and call `lens.init()` at startup. Lens traces the OpenAI, Anthropic, Amazon Bedrock, and LangChain clients. |
 | A source shows `not-instrumented`. | Record prompt assembly, and pass `fetched()` and `used()` the same items, with their text, that you recorded as results. |
-| Iris product calls don't appear. | Make the calls inside `lens.turn()`, through the product objects such as `AgentMemory`, not their generated `.client`. |
+| Iris service calls don't appear. | Make the calls inside `lens.turn()`, through the service objects such as `AgentMemory`, not their generated `.client`. |

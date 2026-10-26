@@ -15,13 +15,9 @@ bannerChildren: true
 
 ## What is Lens?
 
-## What is Lens?
-
 Lens is a Redis Iris observability tool that traces your AI agent's turns. A turn is one agent exchange, such as answering a single message. For each turn, Lens records what each source returned, such as a memory recall or a retrieval, and what entered the prompt. It also records which model and tool calls ran, how long each step took, and how the turn ended.
 
 When your agent gives a wrong answer, Lens shows where it went wrong. For example, you might see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
-
-When an agent gives a wrong answer, Lens shows the cause. You can see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how sessions, turns, steps, and fetched and used context work" url="/develop/ai/context-engine/lens/concepts" >}}
@@ -32,20 +28,20 @@ When an agent gives a wrong answer, Lens shows the cause. You can see that the r
 ## Why use Lens?
 
 - **See why an agent answered the way it did:** Compare what each source returned with what entered the prompt, turn by turn.
-- **Iris products trace themselves:** Agent Memory, Agent Playbooks, and Context Gateway calls appear in the turn with no extra code.
+- **Iris services trace themselves:** Agent Memory, Agent Playbooks, and Context Gateway calls appear in the turn with no extra code.
 - **Model calls traced automatically:** Calls through OpenAI, Anthropic, Amazon Bedrock, and LangChain clients appear with their prompts, completions, and token counts.
-- **Built on OpenTelemetry:** Lens joins the tracer your application already uses, and Iris product steps reach your existing observability tools as well.
+- **Built on OpenTelemetry:** Lens joins the tracer your application already uses, and Iris service steps reach your existing observability tools as well.
 - **You control content capture:** Capture prompts and retrieved text for debugging, or keep only IDs, hashes, and counts.
 - **Background export:** Lens exports in the background, so your agent never waits for it. If an export fails, the error stays out of your agent's code.
 
 ## How it works
 
 1. Your agent opens a turn for each message with the Redis Iris software development kit (SDK).
-1. The SDK records each step in the turn: retrievals, memory recalls, prompt assembly, model calls, tool calls, and Iris product calls.
+1. The SDK records each step in the turn: retrievals, memory recalls, prompt assembly, model calls, tool calls, and Iris service calls.
 1. Lens assembles the turn and groups it into sessions by agent.
 1. You inspect the turn in the Lens user interface (UI) or query it with the read application programming interface (API).
 
-![Your agent and the Iris products it calls record steps through the Redis Iris SDK. The SDK exports each turn to Lens, where you inspect it in the Lens UI or query it with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
+![Your agent and the Iris services it calls record steps through the Redis Iris SDK. The SDK exports each turn to Lens, where you inspect it in the Lens UI or query it with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
 {width="700"}
 
 ## Get started

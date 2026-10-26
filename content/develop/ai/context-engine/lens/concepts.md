@@ -35,7 +35,7 @@ Each operation in a turn is a **step**. A turn can include these steps:
 | Prompt assembly | Which retrieved items entered the prompt. |
 | Model call | The prompt, the completion, and token counts. |
 | Tool call | The tool, its input, its result, and how long it took. |
-| Iris product call | Agent Memory, Agent Playbooks, and Context Gateway calls. These products record their own steps. |
+| Iris service call | Agent Memory, Agent Playbooks, and Context Gateway calls. These services record their own steps. |
 | Custom step | Any operation you wrap yourself. |
 
 Every step records its timing and whether it succeeded. See [Instrument an agent](/content/develop/ai/context-engine/lens/instrument.md) to record each kind of step.

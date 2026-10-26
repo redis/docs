@@ -32,9 +32,9 @@ Select a session to see its turns, then expand a turn. Lens shows the turn's ste
 
 - Each step shows its name and how long it took. Steps that ran at the same time appear together.
 - Recall steps list each result with its score, where the source provides one, and mark it **Entered prompt** or **Not used**.
-- Iris product steps show the product and the operation, such as an Agent Playbooks discovery or a Context Gateway tool call.
+- Iris service steps show the service and the operation, such as an Agent Playbooks discovery or a Context Gateway tool call.
 
-Select a recall, tool, or Iris product step to open its details, including the request and result Lens captured for it.
+Select a recall, tool, or Iris service step to open its details, including the request and result Lens captured for it.
 
 ## View captured content
 
