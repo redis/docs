@@ -1,0 +1,13 @@
+# EXAMPLE: iris_intent_router_quickstart_delete
+# HIDE_START
+set -euo pipefail
+ROUTER_API="${INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$ROUTER_ID"
+# HIDE_END
+
+# STEP_START intents-delete
+for name in track_order refund; do
+  curl --fail-with-body --silent --show-error \
+    -X DELETE "$ROUTER_API/intents/$name" \
+    -H "Authorization: Bearer $INTENT_ROUTER_API_KEY"
+done
+# STEP_END

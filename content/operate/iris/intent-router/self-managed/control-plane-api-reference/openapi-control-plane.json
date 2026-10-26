@@ -1,0 +1,1646 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "IntentControlPlaneService",
+        "version": "1.0.0",
+        "description": "Administrative API for Intent Router provisioning and lifecycle."
+    },
+    "paths": {
+        "/iris/v2/intent/models": {
+            "get": {
+                "description": "Lists the models a Router can be configured with, from deployment configuration. The embedding items are the only valid values of vectorSpace: creating a Router with any other is refused with 400. Empty when none are configured, which offers every vector space (development only).",
+                "operationId": "ListModels",
+                "parameters": [
+                    {
+                        "name": "purpose",
+                        "in": "query",
+                        "description": "What a model is used for. A product serves only the purposes it supports.",
+                        "schema": {
+                            "$ref": "#/components/schemas/ModelPurpose"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1024,
+                            "minLength": 1,
+                            "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListModels 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListModelsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "models"
+                ]
+            }
+        },
+        "/iris/v2/intent/routers": {
+            "get": {
+                "description": "Lists the tenant's Routers, oldest first.",
+                "operationId": "ListRouters",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1024,
+                            "minLength": 1,
+                            "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListRouters 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListRoutersResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "routers"
+                ]
+            },
+            "post": {
+                "description": "Creates and provisions one Router and returns it with 201, a Location header and, while it is PROVISIONING, Retry-After. A deployment-configured per-tenant limit applies; the default is 128. An optional Idempotency-Key (<client-id>:<sha256 of the canonical body>) makes a retry return the first response with Idempotent-Replayed: true; keys are kept for 24 hours.",
+                "operationId": "CreateRouter",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRouterRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "Idempotency-Key",
+                        "in": "header",
+                        "description": "Optional. <client-id>:<hex SHA-256 of the request body with object keys sorted and no extra whitespace>.",
+                        "schema": {
+                            "type": "string",
+                            "description": "Optional. <client-id>:<hex SHA-256 of the request body with object keys sorted and no extra whitespace>."
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CreateRouter 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateRouterResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "routers"
+                ]
+            }
+        },
+        "/iris/v2/intent/routers/{routerId}": {
+            "delete": {
+                "description": "Starts deleting a Router and its data: 202 with the Router in the DELETING state, finished asynchronously by the data plane. Deleting a Router that is already gone succeeds with 204 (documented through the OpenAPI overlay).",
+                "operationId": "DeleteRouter",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "DeleteRouter 202 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteRouterResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "DeleteRouter 204 response: the Router is already gone"
+                    }
+                },
+                "tags": [
+                    "routers"
+                ]
+            },
+            "get": {
+                "description": "Reads one Router.",
+                "operationId": "GetRouter",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetRouter 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetRouterResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "routers"
+                ]
+            },
+            "patch": {
+                "description": "Updates mutable Router settings as a merge patch: an omitted member is unchanged. A null description clears it and a null minScore resets it to the default. The embedding is create-only.",
+                "operationId": "UpdateRouter",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRouterRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "If-Match",
+                        "in": "header",
+                        "description": "The Router's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree.",
+                        "schema": {
+                            "type": "string",
+                            "description": "The Router's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateRouter 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateRouterResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "routers"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthenticationErrorResponseContent": {
+                "type": "object",
+                "description": "Authentication credentials are missing, malformed, or invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AuthenticationErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "AuthenticationErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authentication errors.",
+                "enum": [
+                    "/errors/authentication-failed"
+                ]
+            },
+            "BadRequestErrorResponseContent": {
+                "type": "object",
+                "description": "Request validation or input decoding failed.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/BadRequestErrorType"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        },
+                        "description": "Optional field-level validation errors."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "BadRequestErrorType": {
+                "type": "string",
+                "description": "Problem type URI for bad request errors.",
+                "enum": [
+                    "/errors/invalid-data"
+                ]
+            },
+            "ConflictErrorResponseContent": {
+                "type": "object",
+                "description": "The request conflicts with the current state of the resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ConflictErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ConflictErrorType": {
+                "type": "string",
+                "description": "Problem type URI for conflict errors.",
+                "enum": [
+                    "/errors/conflict"
+                ]
+            },
+            "CreateRouterRequestContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for a match; higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database to keep this Router's intents, examples and search index in. Create-only. Omit it to use the deployment's default database. Must be one of the databases the deployment offers; some deployments require it."
+                    }
+                },
+                "required": [
+                    "name",
+                    "vectorSpace"
+                ]
+            },
+            "CreateRouterResponseContent": {
+                "type": "object",
+                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
+                "properties": {
+                    "routerId": {
+                        "type": "string",
+                        "pattern": "^rtr_[0-9a-f]{32}$",
+                        "description": "Opaque Router identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/RouterState"
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "What the Router is for."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score a query needs against an intent's examples to match. Higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Why the Router failed. Present only when the state is failed."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "minScore",
+                    "name",
+                    "revision",
+                    "routerId",
+                    "state",
+                    "template",
+                    "updatedAt",
+                    "vectorSpace"
+                ]
+            },
+            "DeleteRouterResponseContent": {
+                "type": "object",
+                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
+                "properties": {
+                    "routerId": {
+                        "type": "string",
+                        "pattern": "^rtr_[0-9a-f]{32}$",
+                        "description": "Opaque Router identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/RouterState"
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "What the Router is for."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score a query needs against an intent's examples to match. Higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Why the Router failed. Present only when the state is failed."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "minScore",
+                    "name",
+                    "revision",
+                    "routerId",
+                    "state",
+                    "template",
+                    "updatedAt",
+                    "vectorSpace"
+                ]
+            },
+            "EmbeddingModel": {
+                "type": "object",
+                "description": "The embedding model behind a vector space: which provider and model embed text,\nand the length of the vectors it produces. Immutable once something is stored\nwith it.",
+                "properties": {
+                    "provider": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Embedding provider."
+                    },
+                    "model": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "description": "Embedding model of the provider."
+                    },
+                    "dimensions": {
+                        "type": "integer",
+                        "maximum": 4096,
+                        "minimum": 1,
+                        "description": "Number of dimensions of the vectors the model produces.",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "dimensions",
+                    "model",
+                    "provider"
+                ]
+            },
+            "FailedDependencyErrorResponseContent": {
+                "type": "object",
+                "description": "A dependent resource required to process the request is unavailable or unhealthy.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 424,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/FailedDependencyErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "FailedDependencyErrorType": {
+                "type": "string",
+                "description": "Problem type URI for failed-dependency errors.",
+                "enum": [
+                    "/errors/resource-unavailable",
+                    "/errors/database-out-of-memory"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "description": "Validation error details for a single request field.",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "Name of the invalid request field."
+                    },
+                    "rule": {
+                        "type": "string",
+                        "description": "Validation rule that was violated."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Human-readable validation error message."
+                    }
+                },
+                "required": [
+                    "field",
+                    "message",
+                    "rule"
+                ]
+            },
+            "GetRouterResponseContent": {
+                "type": "object",
+                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
+                "properties": {
+                    "routerId": {
+                        "type": "string",
+                        "pattern": "^rtr_[0-9a-f]{32}$",
+                        "description": "Opaque Router identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/RouterState"
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "What the Router is for."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score a query needs against an intent's examples to match. Higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Why the Router failed. Present only when the state is failed."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "minScore",
+                    "name",
+                    "revision",
+                    "routerId",
+                    "state",
+                    "template",
+                    "updatedAt",
+                    "vectorSpace"
+                ]
+            },
+            "ListModelsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ModelItem"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Present when there are more models; pass it back as cursor."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "ListRoutersResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Router"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Present when there are more Routers; pass it back as cursor."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "ModelAuthorization": {
+                "type": "string",
+                "description": "What choosing a model requires of the caller.",
+                "enum": [
+                    "API_KEY",
+                    "NONE"
+                ]
+            },
+            "ModelItem": {
+                "type": "object",
+                "description": "One offerable model.",
+                "properties": {
+                    "provider": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Provider identifier, as accepted when a model is chosen."
+                    },
+                    "model": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "description": "Model identifier at the provider, as accepted when a model is chosen."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Human-readable name, for display."
+                    },
+                    "purpose": {
+                        "$ref": "#/components/schemas/ModelPurpose"
+                    },
+                    "dimensions": {
+                        "type": "integer",
+                        "maximum": 4096,
+                        "minimum": 1,
+                        "description": "Length of the vectors the model produces. Present only when `purpose` is EMBEDDING.",
+                        "format": "int32"
+                    },
+                    "authorization": {
+                        "$ref": "#/components/schemas/ModelAuthorization"
+                    }
+                },
+                "required": [
+                    "authorization",
+                    "model",
+                    "name",
+                    "provider",
+                    "purpose"
+                ]
+            },
+            "ModelPurpose": {
+                "type": "string",
+                "description": "What a model is used for. A product serves only the purposes it supports.",
+                "enum": [
+                    "EMBEDDING",
+                    "LLM",
+                    "CLASSIFICATION"
+                ]
+            },
+            "MutableRouterState": {
+                "type": "string",
+                "description": "States a caller may request. The remaining states belong to the lifecycle.",
+                "enum": [
+                    "READY",
+                    "SUSPENDED"
+                ]
+            },
+            "NotFoundErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource does not exist.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 404,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotFoundErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "NotFoundErrorType": {
+                "type": "string",
+                "description": "Problem type URI for not-found errors.",
+                "enum": [
+                    "/errors/resource-not-found"
+                ]
+            },
+            "PreconditionFailedErrorResponseContent": {
+                "type": "object",
+                "description": "The write named an expected revision (expectedRevision or If-Match) that is no longer current. Read the resource again and retry.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 412,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PreconditionFailedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "PreconditionFailedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for precondition-failed errors.",
+                "enum": [
+                    "/errors/revision-conflict"
+                ]
+            },
+            "Router": {
+                "type": "object",
+                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
+                "properties": {
+                    "routerId": {
+                        "type": "string",
+                        "pattern": "^rtr_[0-9a-f]{32}$",
+                        "description": "Opaque Router identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/RouterState"
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "What the Router is for."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score a query needs against an intent's examples to match. Higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Why the Router failed. Present only when the state is failed."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "minScore",
+                    "name",
+                    "revision",
+                    "routerId",
+                    "state",
+                    "template",
+                    "updatedAt",
+                    "vectorSpace"
+                ]
+            },
+            "RouterState": {
+                "type": "string",
+                "enum": [
+                    "PROVISIONING",
+                    "READY",
+                    "FAILED",
+                    "SUSPENDED",
+                    "DELETING"
+                ]
+            },
+            "RouterTemplate": {
+                "type": "string",
+                "description": "What a Router is for. A label for people and tooling; every template serves the same way.",
+                "enum": [
+                    "CUSTOM",
+                    "MODEL",
+                    "GUARDRAILS",
+                    "AGENT"
+                ]
+            },
+            "TimeoutErrorResponseContent": {
+                "type": "object",
+                "description": "The request timed out before the service could complete it.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 408,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TimeoutErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "TimeoutErrorType": {
+                "type": "string",
+                "description": "Problem type URI for timeout errors.",
+                "enum": [
+                    "/errors/timeout"
+                ]
+            },
+            "UnexpectedErrorResponseContent": {
+                "type": "object",
+                "description": "The service failed with an unexpected internal error.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 500,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UnexpectedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "UnexpectedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for unexpected internal errors.",
+                "enum": [
+                    "/errors/unexpected-error"
+                ]
+            },
+            "UpdateRouterRequestContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/MutableRouterState"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty.",
+                        "nullable": true
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "A relevance score in [0, 1]. Higher is closer, and every threshold in the API\n(`minScore`) points the same way: higher is stricter.",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Makes the update conditional: it is refused with 412 unless this is still the Router's revision. Omit it to update unconditionally."
+                    }
+                },
+                "minProperties": 1
+            },
+            "UpdateRouterResponseContent": {
+                "type": "object",
+                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
+                "properties": {
+                    "routerId": {
+                        "type": "string",
+                        "pattern": "^rtr_[0-9a-f]{32}$",
+                        "description": "Opaque Router identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "description": "Display name of any API resource."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/RouterState"
+                    },
+                    "vectorSpace": {
+                        "$ref": "#/components/schemas/EmbeddingModel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "What the Router is for."
+                    },
+                    "template": {
+                        "$ref": "#/components/schemas/RouterTemplate"
+                    },
+                    "databaseId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score a query needs against an intent's examples to match. Higher is stricter. Defaults to 0.7.",
+                        "format": "double"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{32}$",
+                        "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Why the Router failed. Present only when the state is failed."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "minScore",
+                    "name",
+                    "revision",
+                    "routerId",
+                    "state",
+                    "template",
+                    "updatedAt",
+                    "vectorSpace"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "smithy.api.httpBearerAuth": {
+                "type": "http",
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "smithy.api.httpBearerAuth": []
+        }
+    ]
+}
