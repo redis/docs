@@ -15,7 +15,11 @@ bannerChildren: true
 
 ## What is Lens?
 
-Lens shows why your AI agent answered the way it did. For each turn, it records what each source returned, what entered the prompt, which model and tool calls ran, how long each step took, and how the turn ended.
+## What is Lens?
+
+Lens is a Redis Iris observability tool that traces your AI agent's turns. A turn is one agent exchange, such as answering a single message. For each turn, Lens records what each source returned, such as a memory recall or a retrieval, and what entered the prompt. It also records which model and tool calls ran, how long each step took, and how the turn ended.
+
+When your agent gives a wrong answer, Lens shows where it went wrong. For example, you might see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
 
 When an agent gives a wrong answer, Lens shows the cause. You can see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
 
