@@ -15,7 +15,7 @@ Author the intents a Router matches against. The examples use the connection val
 
 ## Create or replace an intent
 
-Writing an intent with `PUT` creates it, or replaces the one with that name. It is idempotent: sending the same request twice produces the same state. It returns `201` for a new intent and `200` for a replacement, and a replaced intent keeps its place in the list.
+Writing an intent with `PUT` creates it, or replaces the one with that name. It is idempotent: sending the same request twice produces the same intent, although each write returns a new `revision`. It returns `201` for a new intent and `200` for a replacement, and a replaced intent keeps its place in the list.
 
 {{< clients-example set="iris_intent_router_intents" step="intent-upsert" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -50,11 +50,11 @@ Clearing `minScore` makes the intent use the Router's threshold again.
 
 ## Avoid overwriting concurrent changes
 
-Every intent has a `revision` that changes with each write to its configuration. Read the intent, then send its revision as `expectedRevision` so the write succeeds only if nobody changed the intent in between.
+Every intent has a `revision` that changes with each write to the intent. Read the intent, then send its revision as `expectedRevision` with your change, so the write succeeds only if nobody changed the intent in between. This example changes the description and leaves the rest of the intent alone. A conditional `PUT` works the same way but replaces the whole intent.
 
 {{< clients-example set="iris_intent_router_intents" step="intent-conditional" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-A stale revision fails with `412` and the type `/errors/revision-conflict`. Read the intent again, reapply your change, and retry. Adding or removing examples doesn't change the revision.
+A stale revision fails with `412` and the type `/errors/revision-conflict`. Read the intent again, reapply your change, and retry. Because every write returns a new revision, a retry of a conditional write that already succeeded also fails with `412`: read the intent to check. Adding or deleting examples through the example operations doesn't change the revision.
 
 ## Manage examples
 
@@ -66,7 +66,7 @@ The response lists each example with its `exampleId`. List an intent's examples 
 
 {{< clients-example set="iris_intent_router_intents" step="examples-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Read or delete one example by its identifier. An identifier from another intent returns `404`. Deleting a missing example succeeds.
+Read or delete one example by its identifier. Reading an identifier from another intent returns `404`. Deleting an example the intent doesn't hold succeeds and changes nothing, and deleting under an intent that doesn't exist returns `404`.
 
 {{< clients-example set="iris_intent_router_intents" step="example-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -78,7 +78,7 @@ Deleting an intent removes it and all its examples. Deleting a missing intent su
 
 ## Clear a Router
 
-Clearing removes every intent and example and keeps the Router. The `scope` is required, and `INTENTS` is the only value. There is no default, so a request can't empty a Router by accident.
+Clearing removes every intent and example and keeps the Router. The `scope` is required, and `INTENTS` is the only value. There is no default, so a request can't empty a Router by accident. Clearing also removes the quickstart's intents, which the [Match queries](/content/develop/ai/context-engine/intent-router/match.md) examples create again before they run.
 
 {{< clients-example set="iris_intent_router_intents" step="router-clear" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

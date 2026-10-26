@@ -15,7 +15,7 @@ Use Redis Intent Router to define a `track_order` intent and a `refund` intent, 
 
 ## Before you begin
 
-You need a Router in the `READY` state and an agent key with `write` access to it. `write` includes `read`. To create a Router yourself, see [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md).
+You need a Router in the `READY` state and an agent key with `write` access to it. `write` includes `read`. To create a Router yourself, see [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md). Platform teams mint agent keys as shown in [Create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
 
 This walkthrough needs no agent framework or model-provider key.
 
@@ -23,6 +23,7 @@ Follow one tab throughout the page. The Python package and the command-line inte
 
 **Python and CLI**
 
+<!-- TODO: pin redis-iris to the first release that includes redis_iris.intent_router, as the Playbooks quickstart does. -->
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -35,7 +36,7 @@ python -m pip install redis-iris
 npm install @redis-iris/intent-router
 ```
 
-**HTTP**
+**cURL**
 
 ```bash
 curl --version
@@ -44,17 +45,17 @@ jq --version
 
 ## Save connection values
 
-Export these values in the shell where you run the examples. Use the data plane's base address, including `https://`, without the `/iris/v2/...` path.
+Export these values in the shell where you run the examples. Use the data plane's base address, including the scheme, without the `/iris/v2/...` path.
 
 ```bash
-export INTENT_ROUTER_URL='<data-plane-endpoint>'
-export ROUTER_ID='<router-id>'
-export INTENT_ROUTER_API_KEY='<agent-key>'
+export IRIS_INTENT_ROUTER_URL='<data-plane-endpoint>'
+export IRIS_INTENT_ROUTER_ID='<router-id>'
+export IRIS_INTENT_ROUTER_API_KEY='<agent-key>'
 ```
 
 Keep keys out of source control and model prompts.
 
-The Python examples use `IntentRouter` from the unified `redis-iris` package. Its `client` property exposes the generated data-plane client, which the examples call. The TypeScript examples use the generated `@redis-iris/intent-router` client. The CLI tab runs `iris intent-router` commands and reads the standard `IRIS_INTENT_ROUTER_*` variables. Commands use `--json` when saving a response or processing it with jq.
+The Python examples use `IntentRouter` from the unified `redis-iris` package. `IntentRouter.from_env()` reads these variables, and its `client` property exposes the generated data-plane client, which the examples call. The TypeScript examples pass the same values to the generated `@redis-iris/intent-router` client. The CLI tab runs `iris intent-router` commands, which read the same variables. CLI commands use `--json` when saving a response or processing it with jq.
 
 ## Connect to the Router
 
@@ -70,7 +71,7 @@ Writing an intent with `PUT` creates it or replaces the one with the same name, 
 
 {{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-The first request returns `201` because the intent is new. It reports `exampleCount: 3` and a `revision`. Repeating the request returns `200` and the same state.
+Each intent reports its `exampleCount` and `revision`. The first request returns `201` because the intent is new. Repeating it returns `200` with the same intent and a new `revision`.
 
 ## Match a query
 

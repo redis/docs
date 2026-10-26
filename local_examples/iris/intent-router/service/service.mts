@@ -2,9 +2,16 @@
 // HIDE_START
 import { IntentRouterService } from "@redis-iris/intent-router";
 
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`Set ${name}`);
+  return value;
+}
+
 const service = new IntentRouterService({
-  serverURL: process.env.IRIS_INTENT_ROUTER_SERVICE_URL!,
-  token: process.env.IRIS_INTENT_ROUTER_SERVICE_TOKEN!,
+  serverURL: requiredEnv("IRIS_INTENT_ROUTER_SERVICE_URL"),
+  token: requiredEnv("IRIS_INTENT_ROUTER_SERVICE_TOKEN"),
+  retryConfig: { strategy: "none" },
 });
 // HIDE_END
 
@@ -28,7 +35,7 @@ const created = await service.createRouter({
   },
 });
 const routerId = created.routerId;
-console.log(routerId, created.state);
+console.log(routerId, created.state, created.revision);
 // STEP_END
 
 // STEP_START router-wait
@@ -37,7 +44,8 @@ while (router.state === "PROVISIONING") {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   router = await service.getRouter(routerId);
 }
-if (router.state !== "READY") throw new Error(router.failureReason);
+console.log(router.routerId, router.state, router.failureReason);
+if (router.state !== "READY") process.exit(1);
 // STEP_END
 
 // STEP_START router-list
@@ -46,14 +54,21 @@ for (const item of routers.items) console.log(item.routerId, item.name, item.sta
 // STEP_END
 
 // STEP_START router-update
-await service.updateRouter(routerId, { minScore: 0.75, expectedRevision: router.revision });
+const updated = await service.updateRouter(routerId, {
+  minScore: 0.75,
+  expectedRevision: router.revision,
+});
+console.log(updated.routerId, updated.minScore, updated.revision);
 // STEP_END
 
 // STEP_START router-suspend
-await service.updateRouter(routerId, { state: "SUSPENDED" });
-await service.updateRouter(routerId, { state: "READY" });
+for (const state of ["SUSPENDED", "READY"] as const) {
+  const changed = await service.updateRouter(routerId, { state });
+  console.log(changed.routerId, changed.state);
+}
 // STEP_END
 
 // STEP_START router-delete
-await service.deleteRouter(routerId);
+const deleted = await service.deleteRouter(routerId);
+console.log(deleted?.routerId, deleted?.state);
 // STEP_END

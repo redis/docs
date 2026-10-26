@@ -17,15 +17,15 @@ bannerChildren: true
 
 Redis Intent Router classifies text into **intents** that you define. Each intent is a name, a few example phrasings, and an optional **target** that says what your application should do when the intent matches. Send a query to a **Router** and it returns the closest intents, best first, with a score for each.
 
-It works like a semantic cache, but returns a structured intent instead of a cached response. Redis embeds the query, finds the nearest examples, groups them by intent, and applies a score threshold. No LLM call is involved at match time.
+It works like a semantic cache, but returns a structured intent instead of a cached response. Redis embeds the query, finds the nearest examples, groups them by intent, and applies a score threshold. No large language model (LLM) call is involved at match time.
 
 For example, a support application can route "where is my package?" to a `track_order` intent that points at an order-tracking tool, and "I want my money back" to a `refund` intent that points at a refund workflow.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how Routers, intents, examples, targets, and scores work" url="/develop/ai/context-engine/intent-router/concepts" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Define two intents and match your first queries" url="/develop/ai/context-engine/intent-router/quickstart" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quickstart" description="Define two intents and match your first queries" url="/develop/ai/context-engine/intent-router/quickstart" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Manage Routers" description="Create Routers, choose an embedding model, and control access" url="/develop/ai/context-engine/intent-router/manage-routers" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Match queries" description="Tune thresholds and result limits for accurate routing" url="/develop/ai/context-engine/intent-router/match" >}}
+  {{< tile-card icon="images/icon_logo/icon-text-search-64-midnight.png" title="Match queries" description="Tune thresholds and result limits for accurate routing" url="/develop/ai/context-engine/intent-router/match" >}}
 </div>
 
 ## Why use Redis Intent Router?
@@ -36,7 +36,7 @@ For example, a support application can route "where is my package?" to a `track_
 - **Tunable strictness:** Set a minimum score on the Router, on each intent, or on a single request.
 - **Safe updates:** Replacing an intent never leaves it empty while queries are in flight, and conditional writes prevent lost updates.
 - **Governed access:** Each Router is its own authorization boundary, with separate `read`, `write`, and `full` grants.
-- **Flexible integration:** Use Python, TypeScript, the `iris` command-line interface (CLI), or REST.
+- **Flexible integration:** Use Python, TypeScript, the `iris` command-line interface (CLI), or the Hypertext Transfer Protocol (HTTP) API.
 
 ## Choose how to use it
 
@@ -53,11 +53,12 @@ The Router doesn't run the target. It returns the target, and your application d
 
 Install the Redis Iris Python package, which includes the `iris` CLI:
 
+<!-- TODO: pin redis-iris to the first release that includes redis_iris.intent_router, as the Playbooks quickstart does. -->
 ```bash
 pip install redis-iris
 ```
 
-With a Router's endpoint, ID, and an agent key in your environment, define intents:
+Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
 
 {{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

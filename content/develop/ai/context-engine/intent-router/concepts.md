@@ -25,7 +25,7 @@ A Router is in one of these states:
 | `READY` | The Router serves requests. You can suspend or delete it. |
 | `FAILED` | Provisioning failed. `failureReason` explains why. A failed Router can only be deleted. |
 | `SUSPENDED` | An administrator paused the Router. Data requests return `423` until it is resumed to `READY`. |
-| `DELETING` | The data plane is removing the Router and its data. |
+| `DELETING` | The data plane is removing the Router and its data. Data requests return `404`. |
 
 Administrators manage Routers through the **control plane**. Applications use the **data plane** to author intents and match queries. The two planes don't call each other, and a Router serves only after the data plane has applied its current configuration. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md) to create one, and [service limits and errors](/content/develop/ai/context-engine/intent-router/limits.md) for the errors a Router returns when it isn't serving.
 
@@ -57,7 +57,7 @@ A **target** tells your application what to do when an intent matches:
 | ----- | ------- |
 | `type` | The dispatch mechanism, such as `tool`, `pipeline`, `handler`, `prompt`, or `agent`. The set is open: use any identifier without whitespace. |
 | `ref` | The callee within that type's namespace, such as `orders.track`. |
-| `args` | Optional dispatch arguments, as a JSON object. |
+| `args` | Optional dispatch arguments, as a JavaScript Object Notation (JSON) object. |
 
 The Router checks that `args` is valid JSON and passes it through untouched. It knows how an intent is dispatched, never what the target does.
 
@@ -65,22 +65,21 @@ Metadata is for descriptive labels. Put dispatch data in the target: metadata re
 
 ### Revisions
 
-Every intent has a `revision` that changes whenever you write its configuration. Adding or removing examples doesn't change it. Send the revision back as `expectedRevision` to make a write conditional: the write fails with `412 Precondition Failed` if someone else changed the intent first.
+Every intent has a `revision` that changes with every write to the intent, including a `PUT` that changes nothing. Adding or deleting examples through the example operations doesn't change it. Send the revision back as `expectedRevision` to make a write conditional: the write fails with `412 Precondition Failed` if someone else changed the intent first.
 
 ## Matching
 
-To **match** a query, Redis Intent Router embeds the text, finds the nearest examples in the Router's vector index, and groups them by intent. By default an intent scores as its closest example, so one good example is enough for a match. Then it drops intents below their minimum score and returns the rest, best first.
+To **match** a query, Redis Intent Router embeds the text, finds the nearest examples in the Router's vector index (50 by default), and groups them by intent. By default an intent scores as its closest example, so one good example is enough for a match. Then it drops intents below their minimum score and returns the rest, best first.
 
-A score is the cosine similarity between the query and the example, from 0 to 1, and higher is closer. Every threshold in the API points the same way: **higher is stricter**.
+A score is 1 minus the cosine distance between the query and the example, kept between 0 and 1, and higher is closer. Every threshold in the API points the same way: **higher is stricter**.
 
 The minimum score that applies to an intent, from highest to lowest precedence:
 
 1. The `minScore` in the match request.
-1. The intent's own `minScore`.
-1. The Router's `minScore`.
-1. The deployment default, `0.7`.
+1. The intent's own `minScore`, when it is above `0`.
+1. The Router's `minScore`, which is `0.7` unless you set another.
 
-A `minScore` of `0` on an intent or a Router means "use the next level", never "match everything". Only the match request can lower the threshold to `0`.
+An intent `minScore` of `0` means "use the Router's", never "match everything". Only the match request can lower the threshold to `0`.
 
 A query with no sufficiently close intent returns `200` with an empty list. That is a normal result, not an error.
 
@@ -88,7 +87,7 @@ See [Match queries](/content/develop/ai/context-engine/intent-router/match.md) t
 
 ## Authoring and consistency
 
-Writes keep matching available. When you replace an intent, Redis writes the new examples first and removes the old ones afterward, so a concurrent match never sees an empty intent. Writing the same intent twice produces the same state.
+Writes keep matching available. When you replace an intent, Redis writes the new examples first and removes the old ones afterward, so a concurrent match never sees an empty intent. Writing the same intent twice produces the same intent, with a new `revision`.
 
 A write that adds several intents validates all of them first, and writes nothing if any is invalid.
 
@@ -97,14 +96,14 @@ A write that adds several intents validates all of them first, and writes nothin
 Two credentials guard the service:
 
 - An **admin token** manages Routers on the control plane. Platform teams hold it.
-- An **agent key** authenticates every data-plane request as a bearer token. It carries a grant for each Router it can use. Redis Iris issues agent keys through its Identity Service, not through the Intent Router API.
+- An **agent key** authenticates an application's data-plane requests as a bearer token. It carries a grant for each Router it can use. Redis Iris issues agent keys through its Identity Service, not through the Intent Router API.
 
 A grant lists one or more actions on one Router. A key without the action an operation needs gets `403`.
 
 | Action | What it allows |
 | ------ | -------------- |
-| `read` | Match queries, and read intents and examples. |
+| `read` | Match queries, read intents and examples, and check the Router's health. |
 | `write` | Create, change, and delete intents and examples, and clear the Router. Includes `read`. |
-| `full` | Everything on the Router. Includes `write`. |
+| `full` | Includes `write`. No operation needs more than `write` today. |
 
 Grants apply to a whole Router. Don't rely on intent names or metadata to separate audiences. Use a separate Router instead.

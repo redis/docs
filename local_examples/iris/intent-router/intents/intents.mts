@@ -2,10 +2,17 @@
 // HIDE_START
 import { IntentRouter } from "@redis-iris/intent-router";
 
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`Set ${name}`);
+  return value;
+}
+
 const router = new IntentRouter({
-  serverURL: process.env.INTENT_ROUTER_URL!,
-  routerId: process.env.ROUTER_ID!,
-  apiKey: process.env.INTENT_ROUTER_API_KEY!,
+  serverURL: requiredEnv("IRIS_INTENT_ROUTER_URL"),
+  routerId: requiredEnv("IRIS_INTENT_ROUTER_ID"),
+  apiKey: requiredEnv("IRIS_INTENT_ROUTER_API_KEY"),
+  retryConfig: { strategy: "none" },
 });
 // HIDE_END
 
@@ -21,36 +28,36 @@ console.log(intent.name, intent.exampleCount, intent.revision);
 // STEP_END
 
 // STEP_START intents-bulk
-await router.addIntents({
+const result = await router.addIntents({
   intents: [
     { name: "track_order", examples: ["where is my order", "track my package"] },
     { name: "cancel_order", examples: ["cancel my order", "i changed my mind"] },
   ],
 });
+for (const item of result.items) console.log(item.name, item.exampleCount);
 // STEP_END
 
 // STEP_START intents-list
-let cursor: string | undefined;
-do {
-  const page = await router.listIntents(50, cursor);
-  for (const item of page.items) console.log(item.name, item.exampleCount);
-  cursor = page.nextCursor;
-} while (cursor);
+const page = await router.listIntents(50);
+for (const item of page.items) console.log(item.name, item.exampleCount);
+console.log("next cursor:", page.nextCursor);
 // STEP_END
 
 // STEP_START intent-patch
-await router.updateIntent("refund", {
+const patched = await router.updateIntent("refund", {
   minScore: null,
   target: { type: "agent", ref: "refunds-agent" },
 });
+console.log(patched.name, patched.target, patched.minScore, patched.revision);
 // STEP_END
 
 // STEP_START intent-conditional
 const current = await router.getIntent("refund");
-await router.upsertIntent("refund", {
-  examples: ["i want a refund", "refund my purchase", "send my money back"],
+const changed = await router.updateIntent("refund", {
+  description: "The customer wants a refund or a chargeback reversed.",
   expectedRevision: current.revision,
 });
+console.log(changed.name, changed.revision);
 // STEP_END
 
 // STEP_START examples-add

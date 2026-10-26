@@ -11,7 +11,7 @@ title: Redis Intent Router developer guide
 weight: 5
 ---
 
-Use the Python package, the TypeScript client, the Iris command-line interface (CLI), or HTTP to author intents, match queries, and administer Routers.
+Use the Python package, the TypeScript client, the Iris command-line interface (CLI), or Hypertext Transfer Protocol (HTTP) requests to author intents, match queries, and administer Routers.
 
 ## Integration workflow
 
@@ -31,7 +31,7 @@ Platform teams create the Router and the agent keys. See [Manage Routers](/conte
 | CLI | You work from a shell, a script, or continuous integration. | The `iris intent-router` commands ship in the same [`redis-iris`](https://pypi.org/project/redis-iris/) package. |
 | HTTP | You need language-independent access or don't want a package dependency. | No package required. Send requests as shown in the [API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). |
 
-The `redis-iris` package requires Python 3.11 or later. The TypeScript client requires Node.js 22 or later. The TypeScript client is a generated client, not a unified SDK equivalent to Python's `redis-iris` package.
+The `redis-iris` package requires Python 3.11 or later. The TypeScript client requires Node.js 22 or later. The TypeScript client is a generated client, not a unified software development kit (SDK) equivalent to Python's `redis-iris` package.
 
 ## Connect to a Router
 
@@ -41,11 +41,11 @@ Data-plane requests need:
 * The Router's ID, which starts with `rtr_`.
 * An agent key with a grant on the Router, sent as a bearer token on every request. Matching needs `read`, and authoring needs `write`.
 
-The Python package and the CLI read these from `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY`. In Python, `IntentRouter.from_env()` builds a client from them.
+Export them as `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY`. The CLI reads these variables, and in Python `IntentRouter.from_env()` builds a client from them. The TypeScript client doesn't read the environment, so the examples pass the same values to its constructor.
 
-Administration requests go to the control plane and need its URL and a token that your platform team holds. The Python package and the CLI read them from `IRIS_INTENT_ROUTER_SERVICE_URL` and `IRIS_INTENT_ROUTER_SERVICE_TOKEN`. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md#before-you-begin).
+Administration requests go to the control plane and need its URL and the admin token, which your platform team holds. The Python package and the CLI read them from `IRIS_INTENT_ROUTER_SERVICE_URL` and `IRIS_INTENT_ROUTER_SERVICE_TOKEN`. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md#before-you-begin).
 
-Keep the control-plane token out of application configuration. An agent key can't create, change, or delete Routers.
+Keep the admin token out of application configuration. An agent key can't create, change, or delete Routers.
 
 ## Work with intents
 
@@ -57,7 +57,7 @@ Send each query to `match` and read the best item's target. An empty list means 
 
 ## Handle errors
 
-Every client raises an error that carries the HTTP status and the problem `type`. Match on the `type`. A `409` from a Router that isn't serving, a `424`, or a `503` is worth retrying with backoff. A `412` means the intent changed since you read it. A `401` means the key is invalid, and a `403` means it lacks the action the operation needs. See [service limits and errors](/content/develop/ai/context-engine/intent-router/limits.md#errors).
+Every client raises an error that carries the HTTP status and the problem `type`. Match on the `type`. A `409` from a Router that isn't serving, a `424` from the embedding provider, or a `503` is worth retrying with backoff. A `412` means the intent changed since you read it. A `401` means the key is invalid, and a `403` means it lacks the action the operation needs. See [service limits and errors](/content/develop/ai/context-engine/intent-router/limits.md#handle-request-errors).
 
 ## References
 
@@ -65,4 +65,4 @@ Every client raises an error that carries the HTTP status and the problem `type`
 * [Python and CLI package reference](https://pypi.org/project/redis-iris/)
 * [TypeScript client reference](https://www.npmjs.com/package/@redis-iris/intent-router)
 * [Data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md)
-* [Control Plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md)
+* [Control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md)

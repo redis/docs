@@ -13,7 +13,7 @@ hideListLinks: true
 
 These steps install the Intent Router control plane, data plane, and Identity Service with the `redis-intent-router` Helm chart, and end with one authenticated match request.
 
-You use three credentials along the way: the control plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
+You use three credentials along the way: the control-plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
 
 Before you begin, review the [prerequisites](/content/operate/iris/intent-router/self-managed/prerequisites.md).
 
@@ -25,10 +25,19 @@ kubectl create namespace <namespace-name>
 
 ## 2. Create Secrets
 
-Save the three Redis connections in one file for each service, as shown in [Storage Secret](/content/operate/iris/intent-router/self-managed/configuration.md#storage-secret). Then create the Secrets:
+### Create the connection files
+
+Save the three Redis connections as `intent-controlplane-storage.yaml`, `intent-dataplane-storage.yaml`, and `identity-service-metadata.yaml`, as shown in [Storage Secret](/content/operate/iris/intent-router/self-managed/configuration.md#storage-secret). The file names become the Secret's keys.
+
+### Create the Secrets
+
+Generate four distinct tokens, then create the Secrets:
 
 ```bash
 umask 077
+for token in admin-token internal-token identity-control-token identity-runtime-token; do
+  openssl rand -base64 32 > "$token"
+done
 kubectl -n <namespace-name> create secret generic intent-storage \
   --from-file=intent-controlplane-storage.yaml \
   --from-file=intent-dataplane-storage.yaml \
@@ -40,11 +49,13 @@ kubectl -n <namespace-name> create secret generic intent-identity-control --from
 kubectl -n <namespace-name> create secret generic intent-identity-runtime --from-file=token=./identity-runtime-token
 ```
 
-The four tokens must be distinct. Omit a token Secret and the chart generates one, keeps it across upgrades, and never rotates it. For an embedding provider other than `noop`, also create the inference Secret. See [Embedding models](/content/operate/iris/intent-router/self-managed/configuration.md#embedding-models).
+To let the chart generate a token instead, skip its Secret and delete its `existingSecret` line from the values file. The chart keeps a generated token across upgrades and never rotates it.
+
+For an embedding provider other than `noop`, also create the inference Secret, as shown in [Embedding models](/content/operate/iris/intent-router/self-managed/configuration.md#embedding-models).
 
 ## 3. Create `intent-values.yaml`
 
-Write the values file from [Helm values](/content/operate/iris/intent-router/self-managed/configuration.md#helm-values), with your registry, image tags, and Secret names.
+Write the values file from [Helm values](/content/operate/iris/intent-router/self-managed/configuration.md#helm-values), with your tenant, image tags, and Secret names.
 
 ## Before you install: check your values
 
@@ -57,8 +68,9 @@ Check each value before you install. If one is wrong, you see the symptom in its
 | Each image has a `repository` and a `tag` | Rendering fails, or pods `ImagePullBackOff` | Set both for all three images. |
 | The four tokens come from four different Secrets or keys | Rendering fails | Create four distinct token files. |
 | `dataplane.identityServiceBaseURL` is `https://`, or `allowInsecureIdentityService` is `true` | Rendering fails | Choose one. |
-| The data-plane Redis has Search | A new Router is `FAILED` and `failureReason` mentions vector search | Use Redis 8, or load the Search and Query engine. |
-| `inference.models` matches the inference Secret | A new Router stays `PROVISIONING` or fails | Keep the provider, model, and dimensions identical in both. |
+| `inference.models` lists one model, and `noop` only with `inference.allowLocalModels=true` | Rendering fails | List the one model the deployment offers. |
+| The inference Secret has an `embedders_connection_details` entry named after the model's `provider` | A new Router stays `PROVISIONING` or fails | Add the entry under that provider name. |
+| The data-plane Redis has Search | A new Router is `FAILED` and `failureReason` mentions vector search | Use a Redis 8 build that includes Search, or load the Search and Query engine. |
 {{< /table-scrollable >}}
 
 ## 4. Install
@@ -73,13 +85,14 @@ helm install intent redis-ai/redis-intent-router \
   --wait --timeout 5m
 ```
 
-Set `tests.enabled=true` in your values to add `helm test` pods that probe each service and run the shared security-profile checks.
+To add `helm test` pods that probe each service and run the shared security-profile checks, set `tests.enabled` to `true` in your values.
 
 ## 5. Verify pods and health
 
 ```bash
 kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-controlplane
 kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-dataplane
+kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-identity-service
 ```
 
 Run each port-forward in its own terminal and leave it running:
@@ -96,11 +109,12 @@ kubectl -n <namespace-name> port-forward svc/intent-redis-intent-router-dataplan
 kubectl -n <namespace-name> port-forward svc/intent-redis-intent-router-identity-service 9200:9200
 ```
 
-Then check readiness on both planes:
+Then check readiness on every service:
 
 ```bash
 curl -sS http://localhost:9400/health/readiness
 curl -sS http://localhost:9401/health/readiness
+curl -sS http://localhost:9200/health/readiness
 ```
 
 ## 6. Create a Router
@@ -113,6 +127,8 @@ export IRIS_INTENT_ROUTER_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secre
   intent-controlplane-admin -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
+If the chart generated the admin token, read it from `intent-redis-intent-router-controlplane-admin-token` instead.
+
 The [API examples](/content/operate/iris/intent-router/self-managed/api-examples.md#create-a-router) create the Router and wait until its state is `READY`.
 
 ## 7. Mint an agent key
@@ -124,8 +140,8 @@ Mint a key with a grant on the Router through the Identity Service. See [Mint an
 Match a query with the key against the data plane:
 
 ```bash
-curl -sS -X POST "http://localhost:9401/iris/v2/intent/routers/$ROUTER_ID/match" \
-  -H "Authorization: Bearer $INTENT_ROUTER_API_KEY" \
+curl -sS -X POST "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/match" \
+  -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{"query": "hello"}'
 ```

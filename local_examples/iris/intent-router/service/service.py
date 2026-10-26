@@ -24,7 +24,7 @@ created = service.create_router(
     },
 )
 router_id = created.router_id
-print(router_id, created.state)
+print(router_id, created.state, created.revision)
 # STEP_END
 
 # STEP_START router-wait
@@ -34,8 +34,9 @@ router = service.get_router(router_id=router_id)
 while router.state == "PROVISIONING":
     time.sleep(1)
     router = service.get_router(router_id=router_id)
+print(router.router_id, router.state, router.failure_reason)
 if router.state != "READY":
-    raise RuntimeError(router.failure_reason)
+    raise SystemExit(1)
 # STEP_END
 
 # STEP_START router-list
@@ -44,14 +45,19 @@ for item in service.list_routers().items:
 # STEP_END
 
 # STEP_START router-update
-service.update_router(router_id=router_id, min_score=0.75, expected_revision=router.revision)
+updated = service.update_router(
+    router_id=router_id, min_score=0.75, expected_revision=router.revision
+)
+print(updated.router_id, updated.min_score, updated.revision)
 # STEP_END
 
 # STEP_START router-suspend
-service.update_router(router_id=router_id, state="SUSPENDED")
-service.update_router(router_id=router_id, state="READY")
+for state in ("SUSPENDED", "READY"):
+    changed = service.update_router(router_id=router_id, state=state)
+    print(changed.router_id, changed.state)
 # STEP_END
 
 # STEP_START router-delete
-service.delete_router(router_id=router_id)
+deleted = service.delete_router(router_id=router_id)
+print(deleted.router_id, deleted.state)
 # STEP_END

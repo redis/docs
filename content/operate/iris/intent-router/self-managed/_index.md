@@ -13,9 +13,10 @@ hideListLinks: true
 
 The `redis-intent-router` Helm chart deploys one tenant's Intent Router control plane and data plane. By default it also deploys an Identity Service that issues and checks agent keys. You provide the Redis databases, the embedding provider credentials, and the license.
 
-Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.
+Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.
 
-The chart version that matches these guides is not published yet. Set the chart version and image tags from the approved release manifest when it becomes available.
+<!-- TODO: name the chart version that matches these guides once the redis-intent-router chart is published to helm.redis.io/ai. -->
+Set the chart version and image tags from the release manifest for your deployment.
 
 ## What you deploy
 
@@ -28,7 +29,7 @@ The chart version that matches these guides is not published yet. Set the chart 
 | Data-plane Redis | Store intents, examples, and a vector index for each Router. Needs Redis Search. | Customer-provided |
 | Embedding provider | Embed examples and queries. | Customer-provided |
 
-Use a separate Redis for the control plane's metadata and for the data plane. Redis 8, or a database with the Search and Query engine loaded, is required for the data plane.
+Use a separate Redis for the control plane's metadata and for the data plane. The data-plane Redis needs the Search and Query engine: use a Redis 8 build that includes it, such as the official `redis:8` image, or load the module.
 
 ### How the components work together
 

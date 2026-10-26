@@ -2,10 +2,17 @@
 // HIDE_START
 import { IntentRouter } from "@redis-iris/intent-router";
 
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`Set ${name}`);
+  return value;
+}
+
 const router = new IntentRouter({
-  serverURL: process.env.INTENT_ROUTER_URL!,
-  routerId: process.env.ROUTER_ID!,
-  apiKey: process.env.INTENT_ROUTER_API_KEY!,
+  serverURL: requiredEnv("IRIS_INTENT_ROUTER_URL"),
+  routerId: requiredEnv("IRIS_INTENT_ROUTER_ID"),
+  apiKey: requiredEnv("IRIS_INTENT_ROUTER_API_KEY"),
+  retryConfig: { strategy: "none" },
 });
 // HIDE_END
 

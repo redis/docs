@@ -1,9 +1,6 @@
 # EXAMPLE: iris_intent_router_intents
 # HIDE_START
 set -euo pipefail
-export IRIS_INTENT_ROUTER_URL="$INTENT_ROUTER_URL"
-export IRIS_INTENT_ROUTER_ID="$ROUTER_ID"
-export IRIS_INTENT_ROUTER_API_KEY="$INTENT_ROUTER_API_KEY"
 # HIDE_END
 
 # STEP_START intent-upsert
@@ -26,7 +23,7 @@ cat > intents.json <<'JSON'
   {"name": "cancel_order", "examples": ["cancel my order", "i changed my mind"]}
 ]}
 JSON
-iris intent-router intents add intents.json
+iris intent-router intents add --file intents.json
 # STEP_END
 
 # STEP_START intents-list
@@ -40,10 +37,9 @@ iris intent-router intents update refund --clear-min-score \
 
 # STEP_START intent-conditional
 REVISION=$(iris --json intent-router intents get refund | jq -er .revision)
-cat > refund.json <<'JSON'
-{"examples": ["i want a refund", "refund my purchase", "send my money back"]}
-JSON
-iris intent-router intents upsert refund --file refund.json --expected-revision "$REVISION"
+iris intent-router intents update refund \
+  --description "The customer wants a refund or a chargeback reversed." \
+  --expected-revision "$REVISION"
 # STEP_END
 
 # STEP_START examples-add
@@ -52,7 +48,7 @@ iris intent-router examples add refund "send my money back" "i was charged twice
 
 # STEP_START examples-list
 iris --json intent-router examples list refund --limit 50 > examples.json
-jq '.items[] | {exampleId, text}' examples.json
+jq -c '.items[] | {exampleId, text}' examples.json
 # STEP_END
 
 # STEP_START example-delete

@@ -1,5 +1,5 @@
 ---
-Title: Prerequisites for self-managed Redis Intent Router
+Title: Self-managed Intent Router prerequisites
 alwaysopen: false
 categories:
 - docs
@@ -16,8 +16,8 @@ Check these requirements before you [deploy the chart](/content/operate/iris/int
 ## What you need
 
 - A Kubernetes cluster and a namespace for the release.
-- Two Redis databases: one for Router records and one for intents and examples.
-- An embedding provider, or the `noop` provider for development.
+- Two Redis databases, kept separate: one for Router records and one for intents and examples. The Identity Service's agent-key records can share the first.
+- An embedding provider. The `noop` provider is for development only.
 - A license, delivered by Redis.
 - Image repositories and tags for the control plane, data plane, and Identity Service images.
 
@@ -32,19 +32,19 @@ Check these requirements before you [deploy the chart](/content/operate/iris/int
 
 ## Redis databases
 
-The chart creates no Redis databases. Create them first and keep them separate.
+The chart creates no Redis databases. Create them first.
 
 | Database | Holds | Requirements |
 | --- | --- | --- |
 | Metadata Redis | Router records, and the mailbox the planes coordinate through. | Persistence. Needs no Search. |
-| Data-plane Redis | Intents, examples, and one vector index for each Router. | Redis 8, or a database with the Search and Query engine (RediSearch 2.4.3 or later) loaded. |
+| Data-plane Redis | Intents, examples, and one vector index for each Router. | The Search and Query engine (RediSearch 2.4.3 or later): a Redis 8 build that includes it, such as the official `redis:8` image, or a database with the module loaded. |
 | Identity Service metadata | Agent-key records. | Persistence. It can share the metadata Redis. |
 
 Without Search, the data plane's `vectorSearch` readiness check fails and a new Router is `FAILED` with a reason that says so. Where the platform allows it, set `search-on-timeout` to `FAIL` on the data-plane Redis. The default, `RETURN`, lets a search that hits the server timeout return partial results.
 
 ### Size memory
 
-The data plane builds one HNSW index for each Router. Each index takes about the number of examples times the embedding dimensions times 4 bytes for the vectors, plus the graph. For example, 100,000 examples at 1,536 dimensions take about 600 MB of vectors. Size the data-plane Redis for the examples you expect, and plan for growth.
+The data plane builds one Hierarchical Navigable Small World (HNSW) vector index for each Router. Each index takes about the number of examples times the embedding dimensions times 4 bytes for the vectors, plus the graph. For example, 100,000 examples at 1,536 dimensions take about 600 megabytes (MB) of vectors. Size the data-plane Redis for the examples you expect, and plan for growth.
 
 ### Customer databases
 
@@ -52,7 +52,9 @@ By default every Router keeps its data in the data-plane Redis. To let Routers l
 
 ## Embedding provider
 
-A deployment offers one embedding model, and every Router embeds its examples and queries with it. The data plane needs a connection to the model's provider, unless it is `noop`. A Router's model is fixed when it is created, so choose the model before you create Routers. See [Embedding models](/content/operate/iris/intent-router/self-managed/configuration.md#embedding-models).
+A deployment offers one embedding model, and every Router embeds its examples and queries with it. The data plane needs a connection to the model's provider. A Router's model is fixed when it is created, so choose the model before you create Routers. See [Embedding models](/content/operate/iris/intent-router/self-managed/configuration.md#embedding-models).
+
+The `noop` provider needs no connection, but it matches by shared words, not meaning. The chart refuses it unless you set `inference.allowLocalModels=true`.
 
 ## Network access
 
@@ -64,7 +66,8 @@ A deployment offers one embedding model, and every Router embeds its examples an
 | Identity Service | Control plane `9400` | Grant validation. |
 | Data plane | Identity Service `9200` | Agent-key introspection. |
 | Data plane | Embedding provider | Embedding examples and queries. |
-| Control plane, data plane | Redis databases | Storage. |
+| Control plane, data plane | Metadata Redis and data-plane Redis | Storage and the mailbox. |
+| Identity Service | Identity Service metadata Redis | Agent-key records. |
 
 The chart ships `networkpolicy.reference.yaml`, a default-deny starting point. Replace every `<placeholder>` before you apply it.
 
@@ -78,4 +81,12 @@ The chart requires an explicit `tag` for each image. Rendering fails with a name
 
 ## Helm values to review
 
-Rendering fails when `tenantId`, `storage.existingSecret`, `license.existingSecret`, `inference.models`, or an image tag is missing. See [Configuration](/content/operate/iris/intent-router/self-managed/configuration.md).
+Rendering fails with a named message when:
+
+- `tenantId`, `storage.existingSecret`, `license.existingSecret`, or an image tag is missing.
+- `inference.models` doesn't list exactly one model, or lists `noop` without `inference.allowLocalModels=true`.
+- `inference.existingSecret` is missing for a provider other than `noop`.
+- Two tokens reference the same Secret key.
+- `dataplane.identityServiceBaseURL` isn't `https://` and `dataplane.allowInsecureIdentityService` isn't `true`.
+
+See [Configuration](/content/operate/iris/intent-router/self-managed/configuration.md).

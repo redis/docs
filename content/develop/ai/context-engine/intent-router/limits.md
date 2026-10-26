@@ -25,7 +25,7 @@ The [API reference](/content/develop/ai/context-engine/intent-router/api-referen
 
 ## Content limits
 
-These are the defaults. A deployment can change the per-Router and per-request counts.
+A deployment can change the intents per Router and the bulk-request ceilings. The 256-example ceilings are fixed.
 
 | Content | Default ceiling |
 |:--------|:----------------|
@@ -48,10 +48,10 @@ These are the defaults. A deployment can change the per-Router and per-request c
 |:--------|:--------|:------|
 | Intents returned by a match | 5 | Set with `limit`. |
 | Maximum `limit` on a match | 50 | A larger value is rejected with `400`, not clamped. |
-| Minimum score | 0.7 | Applies when the request, intent, and Router set none. |
+| Minimum score | 0.7 | The Router's `minScore` unless you set another. |
 | Page size of a list | 50 | Set with `limit`, from 1 to 200. Pass `nextCursor` back as `cursor`. |
 
-## Errors
+## Handle request errors
 
 The API reports failures as [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) problem documents. Match on the `type` value rather than the message.
 
@@ -59,36 +59,38 @@ The API reports failures as [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) p
 
 | Status | Type | Meaning and recovery |
 |:-------|:-----|:---------------------|
-| `400` | `/errors/invalid-data` | A field is invalid, `limit` exceeds the cap, or `If-Match` and `expectedRevision` disagree. The `errors` list names each field and the rule it broke. Fix the request. |
-| `400` | `/errors/invalid-cursor` | The `cursor` isn't valid for this list. Start again without a cursor. |
+| `400` | `/errors/invalid-data` | A field is invalid, `limit` exceeds the cap, or `If-Match` and `expectedRevision` disagree. The `fields` list names each field and the rule it broke. Fix the request. |
+| `400` | `/errors/invalid-cursor` | The `cursor` can't be read. Start again without a cursor. |
 | `401` | `/errors/authentication-failed` | The agent key is missing, invalid, expired, or revoked. |
 | `403` | `/errors/insufficient-permissions` | The key has no grant on this Router, or lacks the action the operation needs, such as `write` for authoring. |
-| `404` | `/errors/resource-not-found` | The Router, intent, or example doesn't exist. Deleting a missing intent or example succeeds instead. |
+| `404` | `/errors/resource-not-found` | The Router, intent, or example doesn't exist, or the Router is being deleted. Deleting a missing intent succeeds instead, and so does deleting an example the intent doesn't hold. |
 | `408` | `/errors/timeout` | The request timed out. Retry with backoff. |
 | `409` | `/errors/router-not-serving` | The Router is provisioning, has failed, or the data plane hasn't applied its latest configuration yet. Retry after a short wait, and check the Router's state if it persists. |
 | `409` | `/errors/intent-limit-exceeded` | The Router already holds the maximum number of intents. Delete an intent or ask your administrator to raise the limit. |
 | `412` | `/errors/revision-conflict` | The intent changed since the revision you sent. Read the intent, reapply your change, and retry. |
 | `423` | `/errors/router-suspended` | An administrator suspended the Router. Retrying doesn't help until it resumes. |
-| `424` | `/errors/dependency-unavailable` | A service the Router depends on, such as the embedding provider, is unavailable. Retry with backoff. |
-| `503` | `/errors/service-unavailable` | The Router's search index is rebuilding, or its database isn't answering. Wait for the `Retry-After` interval, then retry. |
+| `424` | `/errors/dependency-unavailable` | The embedding provider is unavailable. Retry with backoff. |
+| `424` | `/errors/database-out-of-memory` | The Router's database is out of memory. Ask your administrator to add memory. |
 | `500` | `/errors/unexpected-error` | An unexpected internal error. Retry once, then contact support with the request details. |
+| `503` | `/errors/service-unavailable` | The Router's search index is rebuilding, or its database isn't answering. Wait for the `Retry-After` interval, then retry. |
 
 ### Control plane
 
 | Status | Type | Meaning and recovery |
 |:-------|:-----|:---------------------|
-| `400` | `/errors/invalid-data` | A field is invalid, the `vectorSpace` or `databaseId` isn't one the deployment offers, the deployment requires a `databaseId`, or an update is empty. |
+| `400` | `/errors/invalid-data` | A field is invalid, the `vectorSpace` or `databaseId` isn't one the deployment offers, the deployment requires a `databaseId`, the `Idempotency-Key` is malformed, the requested state isn't `READY` or `SUSPENDED`, or an update is empty. |
 | `401` | `/errors/authentication-failed` | The admin token is missing or wrong. Agent keys are refused here. |
 | `404` | `/errors/resource-not-found` | The Router doesn't exist. Deleting a Router that is already gone succeeds instead. |
-| `409` | `/errors/conflict` | The tenant has reached its Router limit, the state change isn't allowed, or a request with the same `Idempotency-Key` is still running. |
+| `409` | `/errors/conflict` | The tenant has reached its Router limit, the Router isn't `READY` or `SUSPENDED` for an update, or a request with the same `Idempotency-Key` is still running. |
 | `412` | `/errors/revision-conflict` | The Router changed since the revision you sent. Read it and retry. |
 | `422` | `/errors/idempotency-key-reused` | The `Idempotency-Key` was already used with a different request body. Use a new key. |
 | `503` | `/errors/service-unavailable` | The control plane's storage isn't answering. Retry with backoff. |
 
-## Retry safely
+## Retry uncertain operations
 
-Writes are safe to retry:
+Most writes are safe to retry:
 
-- Upserting an intent is idempotent, adding a phrasing that exists doesn't duplicate it, and deleting a missing intent or example succeeds.
-- Bulk add replaces intents of the same name, so repeating it produces the same state.
-- Creating a Router with an `Idempotency-Key` returns the first response on a retry for 24 hours. Without one, list the Routers before you retry, or you may create a second Router.
+- Upserting an intent produces the same intent, although each write returns a new `revision`. A retried conditional write that already succeeded fails with `412`, so read the intent before you retry it.
+- Adding a phrasing that exists doesn't duplicate it, and deleting a missing intent or example succeeds.
+- Bulk add replaces intents of the same name, so repeating it produces the same intents.
+- Creating a Router with an `Idempotency-Key` returns the first successful response on a retry for 24 hours. Without one, list the Routers before you retry, or you may create a second Router.

@@ -1,9 +1,18 @@
 # EXAMPLE: iris_intent_router_match
 # HIDE_START
 set -euo pipefail
-export IRIS_INTENT_ROUTER_URL="$INTENT_ROUTER_URL"
-export IRIS_INTENT_ROUTER_ID="$ROUTER_ID"
-export IRIS_INTENT_ROUTER_API_KEY="$INTENT_ROUTER_API_KEY"
+cat > track_order.json <<'JSON'
+{
+  "description": "The customer wants to know where an order is.",
+  "target": {"type": "tool", "ref": "orders.track", "args": {"region": "eu"}},
+  "examples": ["where is my order", "track my package", "has my parcel shipped"]
+}
+JSON
+cat > refund.json <<'JSON'
+{"examples": ["i want a refund", "refund my purchase", "i would like my money back"]}
+JSON
+iris intent-router intents upsert track_order --file track_order.json > /dev/null
+iris intent-router intents upsert refund --file refund.json > /dev/null
 # HIDE_END
 
 # STEP_START match-options
@@ -15,7 +24,7 @@ iris --json intent-router match "where is my order please" > match.json
 if [ "$(jq '.items | length' match.json)" -eq 0 ]; then
   echo "no intent is close enough: use a default path"
 else
-  jq -r '.items[0] | "\(.target.type // "none") \(.target.ref // .name)"' match.json
+  jq -r '.items[0] | if .target then "\(.target.type) \(.target.ref)" else "none \(.name)" end' match.json
 fi
 # STEP_END
 

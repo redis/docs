@@ -1,16 +1,8 @@
 # EXAMPLE: iris_intent_router_intents
 # HIDE_START
-import os
+from redis_iris.intent_router import IntentRouter
 
-from redis_iris.intent_router import IntentRouter, IntentRouterSettings
-
-router = IntentRouter(
-    IntentRouterSettings(
-        url=os.environ["INTENT_ROUTER_URL"],
-        router_id=os.environ["ROUTER_ID"],
-        api_key=os.environ["INTENT_ROUTER_API_KEY"],
-    )
-)
+router = IntentRouter.from_env()
 # HIDE_END
 
 # STEP_START intent-upsert
@@ -26,39 +18,40 @@ print(intent.name, intent.example_count, intent.revision)
 # STEP_END
 
 # STEP_START intents-bulk
-router.client.add_intents(
+result = router.client.add_intents(
     intents=[
         {"name": "track_order", "examples": ["where is my order", "track my package"]},
         {"name": "cancel_order", "examples": ["cancel my order", "i changed my mind"]},
     ]
 )
+for item in result.items:
+    print(item.name, item.example_count)
 # STEP_END
 
 # STEP_START intents-list
 page = router.client.list_intents(limit=50)
 for item in page.items:
     print(item.name, item.example_count)
-while page.next_cursor:
-    page = router.client.list_intents(limit=50, cursor=page.next_cursor)
-    for item in page.items:
-        print(item.name, item.example_count)
+print("next cursor:", page.next_cursor)
 # STEP_END
 
 # STEP_START intent-patch
-router.client.update_intent(
+patched = router.client.update_intent(
     intent_name="refund",
     min_score=None,
     target={"type": "agent", "ref": "refunds-agent"},
 )
+print(patched.name, patched.target, patched.min_score, patched.revision)
 # STEP_END
 
 # STEP_START intent-conditional
 current = router.client.get_intent(intent_name="refund")
-router.client.upsert_intent(
+changed = router.client.update_intent(
     intent_name="refund",
-    examples=["i want a refund", "refund my purchase", "send my money back"],
+    description="The customer wants a refund or a chargeback reversed.",
     expected_revision=current.revision,
 )
+print(changed.name, changed.revision)
 # STEP_END
 
 # STEP_START examples-add

@@ -807,7 +807,7 @@
                         "type": "number",
                         "maximum": 1,
                         "minimum": 0,
-                        "description": "Minimum score for a match; higher is stricter. Defaults to 0.7.",
+                        "description": "Minimum score for a match; higher is stricter. Defaults to 0.7. Zero is the same as omitting it: a Router has no zero threshold.",
                         "format": "double"
                     },
                     "databaseId": {
@@ -1539,7 +1539,7 @@
                         "type": "number",
                         "maximum": 1,
                         "minimum": 0,
-                        "description": "A relevance score in [0, 1]. Higher is closer, and every threshold in the API\n(`minScore`) points the same way: higher is stricter.",
+                        "description": "Must be greater than 0; a null resets it to the default.",
                         "format": "double",
                         "nullable": true
                     },

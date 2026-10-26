@@ -1,20 +1,18 @@
 # EXAMPLE: iris_intent_router_match
 # HIDE_START
-import os
+from redis_iris.intent_router import IntentRouter
 
-from redis_iris.intent_router import IntentRouter, IntentRouterSettings
-
-router = IntentRouter(
-    IntentRouterSettings(
-        url=os.environ["INTENT_ROUTER_URL"],
-        router_id=os.environ["ROUTER_ID"],
-        api_key=os.environ["INTENT_ROUTER_API_KEY"],
-    )
+router = IntentRouter.from_env()
+router.client.upsert_intent(
+    intent_name="track_order",
+    description="The customer wants to know where an order is.",
+    target={"type": "tool", "ref": "orders.track", "args": {"region": "eu"}},
+    examples=["where is my order", "track my package", "has my parcel shipped"],
 )
-
-
-def call_tool(ref, **args):
-    print("calling", ref, args)
+router.client.upsert_intent(
+    intent_name="refund",
+    examples=["i want a refund", "refund my purchase", "i would like my money back"],
+)
 # HIDE_END
 
 # STEP_START match-options
@@ -24,14 +22,17 @@ for item in result.items:
 # STEP_END
 
 # STEP_START match-dispatch
-def route(query: str):
+def route(query: str) -> str:
     items = router.client.match(query=query).items
     if not items:
-        return None  # no intent is close enough: use a default path
+        return "no intent is close enough: use a default path"
     top = items[0]
-    if top.target is not None and top.target.type == "tool":
-        return call_tool(top.target.ref, **(top.target.args or {}))
-    return top.name
+    if top.target is None:
+        return f"none {top.name}"
+    return f"{top.target.type} {top.target.ref}"
+
+
+print(route("where is my order please"))
 # STEP_END
 
 # STEP_START match-tune
