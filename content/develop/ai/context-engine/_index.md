@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
 weight: 30
-bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 ---
 
 Give your AI agents the context layer they need to reliably act on business data.

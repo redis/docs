@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Request flow
 title: How a request flows through Redis Iris
 weight: 6
-bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 ---
 
 [How Redis Iris works]({{< relref "/develop/ai/context-engine/concepts" >}}) covers the mental model. This page traces the same idea through an actual request, capability by capability.

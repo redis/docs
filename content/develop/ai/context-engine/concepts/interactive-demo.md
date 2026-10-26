@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
 weight: 10
-bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 aliases:
 - /develop/ai/context-engine/interactive-demo/
 ---

@@ -9,7 +9,6 @@ categories:
 - iris
 hideListLinks: true
 weight: 45
-bannerText: Agent Memory is currently available in preview. Features and behavior are subject to change.
 ---
 
 Redis Iris context engine provides managed and self-managed services for building AI applications with persistent memory, semantic caching, and governed access to business data.

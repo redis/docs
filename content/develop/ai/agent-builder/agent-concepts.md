@@ -93,7 +93,7 @@ You can build each part of an agent's context layer yourself from Redis data str
 | Query business data safely | Hand-written tools or generated queries per agent | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
 | Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
 
-LangCache and Agent Memory are currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
+LangCache is currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
 
 ## Types of agents you can build
 
