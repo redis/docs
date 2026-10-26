@@ -11,7 +11,10 @@ title: Integrate Lens with agent frameworks
 weight: 20
 ---
 
-Open one Lens turn around each agent run, and the steps inside it join the turn. These examples need the Lens connection values from the [quickstart](/content/develop/ai/context-engine/lens/quickstart.md#configure-the-sdk). The framework examples also need a model provider key, such as `OPENAI_API_KEY`.
+To trace an agent run in Lens, open a turn around it. Each step the agent takes inside the run, such as a memory recall or a model call, is recorded in that turn. For more about turns and steps, see [Lens concepts](/content/develop/ai/context-engine/lens/concepts.md).
+
+Before you start, get the Lens connection values from the [quickstart](/content/develop/ai/context-engine/lens/quickstart.md#configure-the-sdk). The framework examples also need a model provider key, such as `OPENAI_API_KEY`.
+
 
 ## Where the turn opens
 
