@@ -669,6 +669,7 @@ Here are some additional resources that apply vector search for different use ca
 
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
 - [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/00_semantic_caching_gemini.ipynb)
+- [Agent memory with Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), which uses vector search to recall long-term memories
 
 ## Continue learning with Redis University
 

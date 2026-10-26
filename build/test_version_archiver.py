@@ -131,6 +131,46 @@ def test_other_products_use_their_own_prefix():
     print("✓ redis-data-integration (integrate prefix) is versioned")
 
 
+def test_links_into_older_versions_untouched():
+    """A link from latest into an older snapshot must keep pointing there.
+
+    Archiving kubernetes 8.2.0 turned /content/operate/kubernetes/7.22/... into
+    /content/operate/kubernetes/8.2.0/7.22/..., which does not exist.
+    """
+    both = ('[m]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}})\n'
+            '[n](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md)')
+    out = archive("kubernetes", "8.2.0", DEEP, both)
+    assert out == both, out
+    print("✓ links into older version directories are left alone")
+
+
+def test_agent_and_os_files_not_copied():
+    """Agent instruction files, .DS_Store and hidden dirs (.claude/) stay out of a version."""
+    cwd = os.getcwd()
+    with tempfile.TemporaryDirectory() as tmp:
+        os.chdir(tmp)
+        try:
+            archiver = VersionArchiver("kubernetes", "9.9")
+            sub = os.path.join(archiver.latest, "flex")
+            os.makedirs(sub)
+            for name in ("AGENTS.md", "CLAUDE.md", "CLAUDE.local.md", ".DS_Store", "_index.md"):
+                open(os.path.join(archiver.latest, name), "w").close()
+            open(os.path.join(sub, "AGENTS.md"), "w").close()
+            open(os.path.join(sub, "plan.md"), "w").close()
+            hidden = os.path.join(sub, ".claude")
+            os.makedirs(hidden)
+            open(os.path.join(hidden, "state"), "w").close()
+            archiver.archive_version()
+            copied = sorted(
+                os.path.relpath(os.path.join(r, f), archiver.new_directory)
+                for r, _, fs in os.walk(archiver.new_directory) for f in fs
+            )
+        finally:
+            os.chdir(cwd)
+    assert copied == ["_index.md", os.path.join("flex", "plan.md")], copied
+    print("✓ agent instruction and OS files are not copied into the version")
+
+
 def main():
     tests = [
         test_relref_is_versioned,
@@ -141,6 +181,8 @@ def main():
         test_already_versioned_is_idempotent,
         test_other_product_and_external_urls_untouched,
         test_other_products_use_their_own_prefix,
+        test_links_into_older_versions_untouched,
+        test_agent_and_os_files_not_copied,
     ]
     try:
         for t in tests:

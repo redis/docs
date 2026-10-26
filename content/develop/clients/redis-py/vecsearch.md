@@ -126,6 +126,33 @@ or running a query (but use a list of `float` for
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Python" description="Foundational: Store hash documents with vector embeddings generated from text content" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`himport_prepare()`](/content/commands/himport-prepare.md), then create each
+document with [`himport_set()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/redis-py/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Python" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`himport_set()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `redis-py` v8.1.0 or later, and `redis-py` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.
@@ -144,7 +171,7 @@ for more information about using query parameters with embeddings).
 {{< /clients-example >}}
 
 The code is now ready to run, but note that it may take a while to complete when
-you run it for the first time (which happens because RedisVL must download the
+you run it for the first time (which happens because `sentence-transformers` must download the
 `all-MiniLM-L6-v2` model data before it can
 generate the embeddings). When you run the code, it outputs the following result
 object (slightly formatted here for clarity):
@@ -174,6 +201,8 @@ Result{
     ]
 }
 ```
+
+The exact distances may differ slightly on your system.
 
 Note that the results are ordered according to the value of the `vector_distance`
 field, with the lowest distance indicating the greatest similarity to the query.
@@ -244,3 +273,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

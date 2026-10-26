@@ -14,8 +14,9 @@ aliases:
 - /operate/iris/agent-memory/self-managed/data-plane-configuration/
 ---
 
-The chart renders the Data Plane, Control Plane, and Identity Service configuration from Helm values
-(`config.render: true`). Credentials stay out of the values, in the overlay Secret. For a complete
+The Memory chart renders Data Plane and Control Plane configuration from Helm values
+(`config.render: true` and `controlplane.config.render: true`). Identity Service uses its own
+release and `values-ids.yaml`. Credentials stay in existing Secrets. For a complete
 example, see the values in [step 3 of Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml).
 
 To supply complete configuration files in your own Secrets instead, see
@@ -28,7 +29,8 @@ To supply complete configuration files in your own Secrets instead, see
 | `shared` | Settings common to the Data Plane and the Control Plane, such as `databases`. The chart merges them under `memory` and `controlplane.configData`. |
 | `memory` | The Data Plane and worker configuration file. |
 | `controlplane.configData` | The Control Plane configuration file. |
-| `identityService.*` | The Identity Service. `identityService.metadata.existingSecret` names the Secret with its Metadata Redis URL. |
+| `dataplane.identityServiceBaseURL`, `identityService.credential.*`, `identityService.allowInsecureTransport` | Memory's connection to the standalone Identity Service. These values do not configure that service. |
+| Separate `values-ids.yaml` | Identity Service's `metadata`, `control`, `runtime`, `productValidation`, and optional `subjectGrants` values. |
 | Overlay Secret (`secrets.secretName`, key `overlay.yaml`) | `metadata.urls`, `metadata.namespace`, `databases."1".urls`, `background_jobs.redis.urls`, and provider `api_key` values. The Data Plane, the workers, and the Control Plane all read it. |
 
 ## Data Plane settings
@@ -46,6 +48,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `license.license_path` | Path where the license Secret is mounted. |
 | `request_region` | Region used for background work routing. |
 | `background_jobs.redis` | Job Redis connection used by background workers. |
+| `background_jobs.idempotency` | Enable execution idempotency and extraction serialization for production workers. Requires `enabled: true` and `urls`; it can share Job Redis. |
 | `embedders_connection_details` | Embedding provider endpoint and credentials. |
 | `dataplane_client` | Worker callback client configuration. |
 | `promote_session_memory` | Promotion strategy and LLM connection used by workers. |
@@ -53,8 +56,18 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 An `llm` block names its provider with `llm.provider`, which must match an `inference_providers`
 entry. The endpoint goes in `inference_providers.<name>.endpoint`, not in the `llm` block.
 
-In the chart-rendered configuration, the chart writes the agent-key introspection settings for you.
-Leave `auth.method` unset to keep the `agent_key` default.
+In the chart-rendered configuration, the chart writes the agent-key introspection settings for you:
+it owns `auth.agent_keys.introspection.base_url`, `credential`, and `allow_insecure_transport`, and
+refuses hand-set values in either `memory.auth` or `shared.auth`. Cache tuning under
+`auth.agent_keys.introspection.cache` is still allowed. Set `dataplane.identityServiceBaseURL`
+and `identityService.credential.existingSecret`; optional `secretKey` defaults to `token`, and
+`existingSecretChecksum` triggers a rollout after credential rotation. Set `memory.auth.method: agent_key`
+explicitly when combining agent keys with worker or other authentication methods.
+
+The runtime endpoint must use `https://`. An `http://` endpoint is accepted only when
+`identityService.allowInsecureTransport: true` is set and the FIPS profile is not enabled.
+Subjects using the `identity_service` authority also need this connection for grant lookup,
+even when another authentication method is selected.
 
 ## Bring-your-own (BYO) configuration
 
@@ -62,10 +75,16 @@ With BYO configuration, you supply each complete configuration file in your own 
 chart injects nothing into it. Add the keys the chart would otherwise write:
 
 - **Data Plane**: the `auth.agent_keys.introspection` block.
-- **Control Plane**: `auth.internal_token.token_file: /etc/controlplane-onprem/internal/token`.
+- **Control Plane**: `auth.internal_token.token_file: /etc/controlplane-onprem/internal/token`
+  and `auth.admin_tenant_id` matching the installation's tenant.
+
+With `config.existingSecret`, the chart does not inspect the supplied file. Rendering cannot
+catch missing introspection settings or an invalid development profile in that file; startup
+validation still applies. Connection Secrets must still be named in Helm values so they are mounted.
 
 The Data Plane defaults to `agent_key` whenever no auth method is set. A BYO Data Plane configuration
-without `auth` therefore needs the `auth.agent_keys.introspection` block, or `auth.method: none`.
+without `auth` therefore needs the `auth.agent_keys.introspection` block. For development only,
+`auth.method: none` requires exact `profile: dev`.
 The `MEM_AUTH_METHOD` environment variable overrides the method.
 
 ### Data Plane configuration file
@@ -85,6 +104,10 @@ request_region:
   default: eu1
 
 background_jobs:
+  idempotency:
+    enabled: true
+    urls:
+      - redis://<job-redis-host>:6379
   redis:
     enabled: true
     queue_prefix: ram
@@ -104,10 +127,10 @@ databases:
       - redis://<store-redis-host>:6379
 
 auth:
+  method: agent_key
   agent_keys:
     introspection:
-      base_url: http://redis-agent-memory-identity-service:9200
-      allow_insecure_transport: true
+      base_url: https://<identity-service-tls-endpoint>
       product: memory
       credential:
         token_file: /etc/identity-service/runtime/memory-dp/token
@@ -190,6 +213,7 @@ auth:
     token_file: /etc/controlplane-onprem/admin/token
   internal_token:
     token_file: /etc/controlplane-onprem/internal/token
+  admin_tenant_id: default
 
 license:
   license_path: /etc/redis-agent-memory/license
@@ -225,9 +249,43 @@ In `ram-values.yaml`, replace `config.render`, `shared`, `memory`, `controlplane
 `config.existingSecret` and `config.render` are set.
 
 ```yaml
+tenantId: default
 config:
   existingSecret: ram-config
+identityService:
+  credential:
+    existingSecret: memory-dp-credential
 controlplane:
+  internalToken:
+    existingSecret: memory-internal-token
   config:
     existingSecret: ram-controlplane-config
 ```
+
+## Connect releases across namespaces
+
+For another namespace, resolve the standalone Service using its full address, such as
+`ids-iris-identity-service.<identity-namespace>.svc:9200`, and the Memory Control Plane as
+`redis-agent-memory-controlplane.<memory-namespace>.svc:9100`. Configure their TLS frontends
+for the two connection URLs. With a naming override, use the rendered Service name.
+
+Pods can mount Secrets only from their own namespace. Provision the same runtime credential
+and internal token values in both namespaces, plus each namespace's trust bundle. Allow Memory
+to reach Identity Service and Identity Service to reach the Control Plane, including any
+TLS proxies. See [Network policy](/content/operate/iris/agent-memory/self-managed/operations.md#network-policy).
+
+## Optional Playbook extraction
+
+On the Identity Service release, allow Memory subject grants for Playbook extraction:
+
+```yaml
+subjectGrants:
+  allowed:
+    - product: memory
+      resourceType: mem-store
+      actions: [read, read_all_owners]
+```
+
+Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowedOperations`
+alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
+values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.

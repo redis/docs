@@ -90,7 +90,8 @@ and **RDI database load** before you change capacity:
   connectivity before adding processor replicas.
 - If the RDI database stays full or reports out-of-memory (OOM) errors, check
   ingestion and processing rates, database memory, and throughput. OOM alone
-  does not identify which capacity setting to change.
+  does not identify which capacity setting to change. See
+  [Increase RDI database throughput](#increase-rdi-database-throughput).
 
 Change one setting at a time and compare the same representative workload.
 Confirm that the change improves throughput or reduces pending records before
@@ -132,18 +133,59 @@ records, and processor load.
 
 ## Increase RDI database throughput
 
-Each pipeline has an RDI database. When database throughput limits ingestion
-or processing, choose a higher throughput value from its **Performance**
+Each pipeline has an RDI database. When the RDI database limits ingestion or
+processing, increase its memory limit or throughput in its **Performance**
 settings.
+
+### Relevant metrics
+
+To view the RDI database metrics, open the RDI database in the Cloud console
+and select the **Metrics** tab. Check these metrics:
+
+- **Used memory**: The RDI database holds records until the processor writes
+  them to the target database. Large rows and high data volumes can fill the
+  RDI database faster than the processor drains it. When the RDI database
+  reaches its memory limit, it rejects writes with OOM errors and the
+  collectors wait.
+- **Ops/sec**: If **Ops/sec** stays close to the RDI database's throughput
+  value, or **Latency** keeps rising, the RDI database cannot handle more
+  writes.
+
+### Single pipeline
+
+For a single pipeline, check **Used memory** and **Ops/sec**:
+
+- If **Used memory** reaches the memory limit, increase **Memory limit**.
+- If **Ops/sec** stays close to the throughput value, increase **Throughput**.
+
+### Multiple pipelines
+
+For multiple pipelines, check **Used memory** and **Ops/sec** the same way as
+for a single pipeline.
+
+When you increase **Throughput**, choose a value with as many shards as you
+have pipelines. Each pipeline writes to its own hash slot, and all sources in
+a pipeline share that slot. RDI spreads the pipelines' hash slots across the
+slot range, so when the number of shards matches the number of pipelines,
+each pipeline's slot is on a different shard.
+
+| Throughput | Nodes | Shards |
+| --- | ---: | ---: |
+| 25,000 ops/sec (default) | 1 | 1 |
+| 50,000 ops/sec | 2 | 2 |
+| 75,000 ops/sec | 3 | 3 |
+
+### Edit the performance settings
 
 1. In the Cloud console, open the RDI database for the pipeline.
 1. Edit the database **Performance** settings.
-1. Increase **Throughput** to the next available value.
-1. Check the pipeline Dashboard before making another increase.
+1. Increase **Memory limit** or **Throughput** to the next available value.
+1. Check the RDI database **Metrics** tab and the pipeline Dashboard before
+   you make another increase.
 
-Stop increasing throughput when the pipeline no longer improves. Check
-processor and target performance too. More database throughput does not
-resolve a bottleneck in another component.
+Stop increasing the values when the pipeline no longer improves. More RDI
+database throughput does not resolve a bottleneck in another component, so
+check processor and target database performance too.
 
 ## Increase processor capacity
 

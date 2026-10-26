@@ -112,7 +112,7 @@ Specify query options to return only the `city` field:
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="js_home_query" step="query3" lang_filter="Node.js" description="Aggregate query results: Use aggregation queries to group and count results by field values for analytics" difficulty="advanced" >}}
 {{< /clients-example >}}
@@ -153,6 +153,34 @@ also the same:
 
 {{< clients-example set="js_home_query" step="query1_hash" lang_filter="Node.js" description="Query data: Execute the same full-text query pattern on hash documents as on JSON documents" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the hash documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`hImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`hImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use `Promise.all()` to send
+all the imports as a [pipeline](/content/develop/clients/nodejs/transpipe.md),
+in one round trip:
+
+{{< clients-example set="js_home_query" step="add_hash_himport" lang_filter="Node.js" description="Bulk ingestion: Import hash documents as compact hashes using HIMPORT PREPARE and pipelined HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_hash_data" >}}
+{{< /clients-example >}}
+
+`hImportSet()` replaces any existing key, so running this code after the
+`hSet()` calls leaves you with the same three documents. The query returns
+the same result, although the fields can appear in a different order.
+
+> [!NOTE]
+> `HIMPORT` requires `node-redis` v6.2.0 or later, and `node-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## More information
 

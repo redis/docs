@@ -189,8 +189,8 @@
   padding: 8px 12px; margin-top: 12px; font-size: 13.5px;
 }
 .rdi-callout p + p { margin-top: 6px !important; }
-.rdi-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
-.rdi-next { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 10px; text-align: right; }
+.rdi-controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
+.rdi-next { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 10px; margin-left: auto; text-align: right; }   /* stays on the right when the row wraps */
 
 @media (prefers-reduced-motion: reduce) {
   .rdi-fresh { animation: none; }

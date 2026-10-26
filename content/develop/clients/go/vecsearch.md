@@ -57,12 +57,12 @@ separate section to explain the
 ## Initialize
 
 First, install [`go-redis`](/content/develop/clients/go/_index.md)
-if you haven't already done so. Then, install
-[`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot)
-using the following command:
+if you haven't already done so. Then, install v0.7.7 of
+[`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot),
+which requires Go 1.26.5 or later, using the following command:
 
 ```bash
-go get github.com/knights-analytics/hugot
+go get github.com/knights-analytics/hugot@v0.7.7
 ```
 
 Add the following imports to your module's main program file:
@@ -129,14 +129,41 @@ you use the `doc:` prefix specified in the index definition.
 
 Use the `RunPipeline()` method of `FeatureExtractionPipeline`
 as shown below to create the embeddings that represent the `content` fields.
-This method takes an array of strings and outputs a corresponding
-array of `FeatureExtractionOutput` objects.
-The `Embeddings` field of `FeatureExtractionOutput` contains the array of float
-values that you need for the index. Use the `floatsToBytes()` function defined
+This method takes a context and an array of strings and returns a single
+`FeatureExtractionOutput` object.
+Its `Embeddings` field contains one array of float values for each input
+string, in the same order. These are the vectors that you need for the index. Use the `floatsToBytes()` function defined
 above to convert this array to a `byte` string.
 
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and store hash documents with vector fields using HSet" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `HSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`HImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`HImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/go/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Go" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`HImportSet()` replaces any existing key, so running this code after the
+`HSet()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `go-redis` v9.22.0 or later, and `go-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## Run a query
 
@@ -224,3 +251,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

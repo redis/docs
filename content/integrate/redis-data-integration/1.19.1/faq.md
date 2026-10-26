@@ -17,11 +17,6 @@ weight: 50
 url: '/integrate/redis-data-integration/1.19.1/faq/'
 ---
 
-## Which license does RDI use?
-
-You must purchase a commercial license for RDI with Redis Enterprise. This includes two extra
-Redis Enterprise shards (primary and replica) for the staging database.
-
 ## How does RDI track data changes in the source database?
 
 RDI uses change data capture (CDC) mechanisms that are specific to each of the

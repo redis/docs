@@ -55,7 +55,7 @@ dependencies to your `pom.xml` file:
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
      <!-- Check for the latest version on Maven Central -->
-    <version>6.7.1.RELEASE</version>
+    <version>7.7.0.RELEASE</version>
 </dependency>
 
 <dependency>
@@ -81,7 +81,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-compileOnly 'io.lettuce:lettuce-core:6.7.1.RELEASE'
+compileOnly 'io.lettuce:lettuce-core:7.7.0.RELEASE'
 compileOnly 'ai.djl.huggingface:tokenizers:0.33.0'
 compileOnly 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 compileOnly 'ai.djl:api:0.33.0'
@@ -98,10 +98,10 @@ Import the following classes in your source file:
 
 When you store vectors in a hash object, or pass them as query parameters,
 you must encode the `float` components of the vector
-array as a `byte` string. The helper method `floatArrayToByteBuffer()`
+array as a `byte` string. The helper method `floatArrayToByteArray()`
 shown below does this for you:
 
-{{< clients-example set="home_query_vec" step="helper_method" lang_filter="Java-Async,Java-Reactive" description="Foundational: Convert float arrays to ByteBuffer format for storing vectors in hash objects" difficulty="beginner" >}}
+{{< clients-example set="home_query_vec" step="helper_method" lang_filter="Java-Async,Java-Reactive" description="Foundational: Convert float arrays to byte arrays for storing vectors in hash objects" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create an embedding model instance
@@ -126,20 +126,23 @@ creates an instance of `Predictor` that uses the `all-MiniLM-L6-v2` model:
 As noted in [Define a helper method](#define-a-helper-method) above, you must
 pass the embeddings to the hash and query commands as a binary string.
 
-Lettuce has an option to specify a `ByteBufferCodec` for the connection to Redis.
-This lets you construct binary strings for Redis keys and values conveniently using
-the standard
-[`ByteBuffer`](https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html)
-class (see [Codecs](https://redis.github.io/lettuce/integration-extension/#codecs)
-in the Lettuce documentation for more information). However, you will probably find
-it more convenient to use the default `StringCodec` for commands that don't require binary strings. It is therefore helpful to have two connections available, one using `ByteBufferCodec` and one using `StringCodec`.
+Lettuce lets you choose a codec for each connection to Redis (see
+[Codecs](https://redis.github.io/lettuce/integration-extension/#codecs)
+in the Lettuce documentation for more information).
+`RedisCodec.of(StringCodec.UTF8, ByteArrayCodec.INSTANCE)` combines two codecs
+so that keys, field names, and index names are `String` objects, while values are
+`byte[]` arrays. The embeddings are binary strings, and you pass text values as
+UTF-8 encoded `byte[]` arrays. However, you will probably find it more convenient
+to use the default `StringCodec` for commands that don't require binary strings.
+It is therefore helpful to have two connections available, one using the
+composed codec and one using `StringCodec`.
 
 The code below shows how to declare one connection with the
-`ByteBufferCodec` and another without in the try-with-resources
+composed codec and another without in the try-with-resources
 block. You also need two separate instances of `RedisAsyncCommands` to
 use the two connections:
 
-{{< clients-example set="home_query_vec" step="connect" lang_filter="Java-Async,Java-Reactive" description="Practical pattern: Create dual connections with ByteBufferCodec and StringCodec for vector operations" difficulty="intermediate" >}}
+{{< clients-example set="home_query_vec" step="connect" lang_filter="Java-Async,Java-Reactive" description="Practical pattern: Create dual connections with a composed String/byte[] codec and StringCodec for vector operations" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Next, create the index.
@@ -171,20 +174,52 @@ you use the `doc:` prefix specified in the index definition.
 
 Use the `predict()` method of the `Predictor` object
 as shown below to create the embedding that represents the `content` field
-and use the `floatArrayToByteBuffer()` helper method to convert it to a binary string.
+and use the `floatArrayToByteArray()` helper method to convert it to a binary string.
 Use the binary string representation when you are
 indexing hash objects, but use an array of `float` for
 JSON objects (see [Differences with JSON objects](#differences-with-json-documents)
 below).
 
-You must use instances of `Map<ByteBuffer, ByteBuffer>` to supply the data to `hset()`
-when using the `ByteBufferCodec` connection, which adds a little complexity. Note
+You must use instances of `Map<String, byte[]>` to supply the data to `hset()`
+when using the binary connection, so you encode the text values with `getBytes()`. Note
 that the `predict()` call is in a `try`/`catch` block because it will throw
 exceptions if it can't download the embedding model (you should add code to handle
 the exceptions in production code).
 
-{{< clients-example set="home_query_vec" step="add_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Generate embeddings and store hash documents with vector data using ByteBufferCodec" difficulty="intermediate" >}}
+{{< clients-example set="home_query_vec" step="add_data" lang_filter="Java-Async,Java-Reactive" description="Foundational: Generate embeddings and store hash documents with vector data using a String/byte[] codec" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Create a `HashImport` object with the field names, then create each document
+with [`himportSet()`](/content/commands/himport-set.md), passing only its values,
+in the same order as the field names. Lettuce declares the field names with
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time you use
+the `HashImport` object on a connection. Because the binary connection uses
+`String` keys, `HashImport.of()` takes the field names as strings. Issue all the imports before you wait
+for any reply, so that Lettuce
+[pipelines](/content/develop/clients/lettuce/transpipe.md) them instead of
+waiting for each reply in turn. With the reactive API, wait for the imports
+inside the `try` block, because a `Mono` that you subscribe to after the
+`HashImport` object closes fails:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Java-Async,Java-Reactive" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using a HashImport fieldset and pipelined HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`himportSet()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires Lettuce v7.7.0 or later, and Lettuce marks its support as
+> experimental, so the API might change. Redis Cloud and Redis Software don't
+> support `HIMPORT`.
 
 ## Run a query
 
@@ -212,7 +247,6 @@ you run it for the first time (which happens because the model must download the
 generate the embeddings). When you run the code, it outputs the following result text:
 
 ```
-Results:
 ID: doc:1, Content: That is a very happy person, Distance: 0.114169836044
 ID: doc:2, Content: That is a happy dog, Distance: 0.610845506191
 ID: doc:3, Content: Today is a sunny day, Distance: 1.48624765873
@@ -242,7 +276,7 @@ the one created previously for hashes:
 
 An important difference with JSON indexing is that the vectors are
 specified using arrays of `float` instead of binary strings. This means
-you don't need to use the `ByteBufferCodec` connection, and you can use
+you don't need to use the binary connection, and you can use
 [`Arrays.toString()`](https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#toString-float:A-) to convert the `float` array to a suitable JSON string.
 
 Use [`jsonSet()`](/content/commands/json.set.md) to add the data
@@ -263,15 +297,13 @@ was specified as an array.
 {{< clients-example set="home_query_vec" step="json_query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a KNN vector search on JSON documents with semantic similarity ranking" difficulty="advanced" >}}
 {{< /clients-example >}}
 
-The distance values are not identical to the hash query because the
-string representations of the vectors used here are stored with different
-precisions. However, the relative order of the results is the same:
+The embeddings are generated from the same text as the hash documents, so the
+query returns the same distances:
 
 ```
-Results:
-ID: jdoc:1, Content: That is a very happy person, Distance: 0.628328084946
-ID: jdoc:2, Content: That is a happy dog, Distance: 0.895147025585
-ID: jdoc:3, Content: Today is a sunny day, Distance: 1.49569523335
+ID: jdoc:1, Content: That is a very happy person, Distance: 0.114169836044
+ID: jdoc:2, Content: That is a happy dog, Distance: 0.610845506191
+ID: jdoc:3, Content: Today is a sunny day, Distance: 1.48624765873
 ```
 
 ## Learn more
@@ -280,3 +312,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

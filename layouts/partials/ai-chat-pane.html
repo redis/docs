@@ -1,0 +1,39 @@
+{{/* Redis Copilot in a pane docked to the right of the page. The "Ask AI to
+     explain this page" link in meta-links.html opens it; static/js/ai-chat-pane.js
+     builds the pane and talks to the chat endpoints. */}}
+<link rel="stylesheet" href="{{ "css/ai-chat-pane.css" | relURL }}">
+<script>
+  /* The pane follows the reader from page to page, so a page can start with it
+     open. Lay the page out for it before the first paint, or the content jumps
+     sideways when the script mounts the pane. The script calls this again on
+     every open, collapse and resize, so the geometry lives in one place.
+
+     Docked (1280px and wider, where the link is shown): the page gives up the
+     pane's width, keeping at least 760px. It drops its right-hand rail when
+     what is left is narrower than 1280px, and its section nav below 1100px.
+     Narrower windows overlay the page. */
+  window.aiChatPaneLayout = function (s) {
+    /* The html box, not clientWidth: html reserves a scrollbar gutter
+       (index.css), which clientWidth doesn't always subtract. */
+    var h = document.documentElement, page = h.getBoundingClientRect().width || h.clientWidth;
+    var docked = !!s.open && window.innerWidth >= 1280;
+    var w = Math.max(340, Math.min(s.width || 440, 720));
+    w = docked ? Math.max(340, Math.min(w, page - 760)) : Math.min(w, page);
+    h.style.setProperty('--ai-pane-w', w + 'px');
+    h.classList.toggle('ai-pane-open', !!s.open);
+    h.classList.toggle('ai-pane-docked', docked);
+    h.classList.toggle('ai-pane-tight', docked && page - w < 1280);
+    h.classList.toggle('ai-pane-narrow', docked && page - w < 1100);
+    return w;
+  };
+  (function () {
+    try {
+      var s = JSON.parse(sessionStorage.getItem('aiChatPane.v1') || '{}');
+      if (s && s.open) {
+        window.aiChatPaneLayout(s);
+        document.documentElement.classList.add('ai-pane-restoring');
+      }
+    } catch (e) {}
+  })();
+</script>
+<script src="{{ "js/ai-chat-pane.js" | relURL }}" defer></script>

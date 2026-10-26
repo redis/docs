@@ -30,6 +30,9 @@ extends PredisTestCase
             'database' => 0,
         ]);
         // STEP_END
+        // REMOVE_START
+        $r->del('huser:1', 'huser:2', 'huser:3');
+        // REMOVE_END
 
         // STEP_START create_data
         $user1 = json_encode([
@@ -81,7 +84,7 @@ extends PredisTestCase
         // STEP_START query1
         $res = $r->ftSearch("idx:users", "Paul @age:[30 40]");
         echo json_encode($res), PHP_EOL;
-        // >>> [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"London\"}"]]
+        // >>> [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"Tel Aviv\"}"]]
         // STEP_END
 
         // STEP_START query2
@@ -99,7 +102,8 @@ extends PredisTestCase
         // STEP_START query3
         $ftAggregateArguments = (new AggregateArguments())
             ->groupBy('@city')
-            ->reduce('COUNT', true, 'count');
+            ->reduce('COUNT', true, 'count')
+            ->sortBy(0, '@city', 'ASC');
 
         $res = $r->ftAggregate('idx:users', '*', $ftAggregateArguments);
         echo json_encode($res), PHP_EOL;
@@ -153,12 +157,38 @@ extends PredisTestCase
         // STEP_START query1_hash
         $res = $r->ftSearch("hash-idx:users", "Paul @age:[30 40]");
         echo json_encode($res), PHP_EOL;
-        // >>> [1,"huser:3",["age","35","city","Tel Aviv","email","paul.zamir@example.com","name","Paul Zamir"]]
+        // >>> [1,"huser:3",["name","Paul Zamir","email","paul.zamir@example.com","age","35","city","Tel Aviv"]]
         // STEP_END
         // REMOVE_START
         $this->assertEquals(
             '[1,"huser:3",["name","Paul Zamir","email","paul.zamir@example.com","age","35","city","Tel Aviv"]]',
             json_encode($res)
+        );
+        // REMOVE_END
+
+        // STEP_START add_hash_himport
+        $himportRes = $r->pipeline(function ($pipe) {
+            $pipe->himport('PREPARE', 'huser', ['name', 'email', 'age', 'city']);
+
+            $pipe->himport('SET', 'huser:1', 'huser', ['Paul John', 'paul.john@example.com', 42, 'London']);
+            $pipe->himport('SET', 'huser:2', 'huser', ['Eden Zamir', 'eden.zamir@example.com', 29, 'Tel Aviv']);
+            $pipe->himport('SET', 'huser:3', 'huser', ['Paul Zamir', 'paul.zamir@example.com', 35, 'Tel Aviv']);
+        });
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(['OK', 'OK', 'OK', 'OK'], array_map('strval', $himportRes));
+        $this->assertStringStartsWith('template', $r->object('ENCODING', 'huser:3'));
+        $himportQueryRes = $r->ftSearch("hash-idx:users", "Paul @age:[30 40]");
+        $this->assertEquals(1, $himportQueryRes[0]);
+        $this->assertEquals('huser:3', $himportQueryRes[1]);
+        $himportFields = [];
+        for ($i = 0; $i < count($himportQueryRes[2]); $i += 2) {
+            $himportFields[$himportQueryRes[2][$i]] = $himportQueryRes[2][$i + 1];
+        }
+        ksort($himportFields);
+        $this->assertSame(
+            ['age' => '35', 'city' => 'Tel Aviv', 'email' => 'paul.zamir@example.com', 'name' => 'Paul Zamir'],
+            $himportFields
         );
         // REMOVE_END
     }

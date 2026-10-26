@@ -284,12 +284,21 @@
       if (cur) panel.appendChild(queryBlock(cur));   // the query, before the data it finds
       panel.appendChild(st.tab === "data" ? introCard() : dataCard(cur));
       if (cur) panel.appendChild(outputBlock(cur));   // the query's reply, exactly as redis-cli prints it
-      var i = STEPS.indexOf(step), nxt = STEPS[i + 1];
-      if (nxt) {
-        var row = el("div", "rcr-next"), b = el("button", "rcr-btn rcr-btn-primary", "Next: " + esc(nxt.label) + " →");
-        b.type = "button";
-        b.addEventListener("click", function () { st.tab = nxt.key; st.dataKey = null; render(); root.scrollIntoView({ block: "start", behavior: "smooth" }); });
-        row.appendChild(b);
+      var i = STEPS.indexOf(step), nxt = STEPS[i + 1], prv = STEPS[i - 1];
+      if (nxt || prv) {
+        var row = el("div", "rcr-next"), go = function (to) { st.tab = to.key; st.dataKey = null; render(); root.scrollIntoView({ block: "start", behavior: "smooth" }); };
+        if (prv) {
+          var pb = el("button", "rcr-btn rcr-prev", "← Previous: " + esc(prv.label));
+          pb.type = "button";
+          pb.addEventListener("click", function () { go(prv); });
+          row.appendChild(pb);
+        }
+        if (nxt) {
+          var b = el("button", "rcr-btn rcr-btn-primary", "Next: " + esc(nxt.label) + " →");
+          b.type = "button";
+          b.addEventListener("click", function () { go(nxt); });
+          row.appendChild(b);
+        }
         panel.appendChild(row);
       }
     }

@@ -63,7 +63,7 @@ dependencies to your `pom.xml` file:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>7.2.0</version>
+    <version>8.0.2</version>
 </dependency>
 <dependency>
     <groupId>ai.djl.huggingface</groupId>
@@ -86,7 +86,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-implementation 'redis.clients:jedis:7.2.0'
+implementation 'redis.clients:jedis:8.0.2'
 implementation 'ai.djl.huggingface:tokenizers:0.33.0'
 implementation 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 implementation 'ai.djl:api:0.33.0'
@@ -170,6 +170,35 @@ the value, which is why you must include the `getBytes()` calls on the strings.
 {{< clients-example set="HomeQueryVec" step="add_data" lang_filter="Java-Sync" description="Foundational: Store hash documents with vector embeddings generated from text content" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Create a `HashImport` object with the field names, then create each document
+with [`himportSet()`](/content/commands/himport-set.md), passing only its values,
+in the same order as the field names. Jedis declares the field names with
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time you use
+the `HashImport` object on a connection. As with `hset()`, use the overload of
+`himportSet()` that takes `byte` arrays so that you can pass the binary embedding.
+Use a [pipeline](/content/develop/clients/jedis/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="HomeQueryVec" step="himport_data" lang_filter="Java-Sync" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using a HashImport fieldset and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`himportSet()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires Jedis v8.0.0 or later, and Jedis marks its support as
+> experimental, so the API might change. Redis Cloud and Redis Software don't
+> support `HIMPORT`.
+
 ## Run a query
 
 After you have created the index and added the data, you are ready to run a query.
@@ -201,6 +230,8 @@ ID: doc:1, Distance: 0.114169836044, Content: That is a very happy person
 ID: doc:2, Distance: 0.610845506191, Content: That is a happy dog
 ID: doc:3, Distance: 1.48624765873, Content: Today is a sunny day
 ```
+
+The exact distances may differ slightly on your system.
 
 Note that the results are ordered according to the value of the `distance`
 field, with the lowest distance indicating the greatest similarity to the query.
@@ -261,3 +292,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

@@ -108,7 +108,7 @@ Specify query options to return only the `city` field:
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="cs_home_json" step="query3" description="Aggregation queries: Use GROUP BY and COUNT operations to summarize and analyze indexed data" difficulty="advanced" >}}
 {{< /clients-example >}}
@@ -151,6 +151,37 @@ in a string under the key `json`):
 
 {{< clients-example set="cs_home_json" step="query1_hash" description="Query with filters: Search hash documents using text matching and numeric range filters (same as JSON queries)" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the hash documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `HashSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once by creating a `HashImport` object with
+`HashImport.Create()`. The client declares the field names on each connection
+with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time
+you use the object there, so you don't call it yourself. Then create each
+document with [`HashImportAsync()`](/content/commands/himport-set.md), passing
+only its values, in the same order as the field names. Use a
+[batch](/content/develop/clients/dotnet/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="cs_home_json" step="add_hash_himport" description="Bulk ingestion: Import hash documents as compact hashes using a HashImport fieldset and a batch of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_hash_data" >}}
+{{< /clients-example >}}
+
+`HashImportAsync()` replaces any existing key, so running this code after the
+`HashSet()` calls leaves you with the same three documents. The query returns
+the same result, although the fields can appear in a different order.
+
+> [!NOTE]
+> `HIMPORT` requires `StackExchange.Redis` v3.3.1 or later. If your
+> `NRedisStack` version depends on an earlier version, add the
+> `StackExchange.Redis` package to your project explicitly. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## More information
 
