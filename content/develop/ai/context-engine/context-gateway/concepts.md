@@ -85,11 +85,11 @@ In `search` mode the agent calls `search_tools` and receives complete tool defin
 
 A **tool policy** sets optional behavior for one tool of one Upstream. Both behaviors need a Gateway database, selected with the Gateway's `databaseId`.
 
-Each Gateway also turns the result cache and result handles on or off for all of its tools with its `resultCache` and `resultHandles` settings, `enabled` or `disabled`. A Gateway created with a `databaseId` starts with both enabled, and a Gateway without one has both disabled. A feature serves a Gateway only when the Gateway's setting is `enabled` and the deployment turns the feature on.
+Each Gateway also turns the result cache and result handles on or off for all of its tools with two settings, `enabled` or `disabled`: `cache` for the result cache and `compression` for result handles. A Gateway created with a `databaseId` starts with both enabled, and a Gateway without one has both disabled. A feature serves a Gateway only when the Gateway's setting is `enabled` and the deployment turns the feature on.
 
 ### Result cache
 
-The result cache serves a repeated call from the Gateway database instead of calling the Upstream again. Each tool opts in with a `resultCache` policy and a time to live (TTL).
+The result cache serves a repeated call from the Gateway database instead of calling the Upstream again. Each tool opts in with a `cache` policy and a time to live (TTL).
 
 A tool can be cached unless its definition says `readOnlyHint: false` or `destructiveHint: true`. An absent hint does not block caching, and no annotation turns caching on. An entry is served until its TTL expires or the Upstream's revision changes.
 
@@ -102,7 +102,7 @@ All callers with access to a Gateway share its cache entries.
 
 A result handle holds a large tool result in the Gateway database. When result handles are on for a Gateway, every eligible result over 32 kibibytes (KiB) becomes a handle. The agent receives a small stub with the handle and reads the result in pages, queries, counts, or aggregates.
 
-A tool opts out with a `resultHandle` policy of `capture: never`, or sets its own handle lifetime with `ttlSeconds`. An agent can also hold a result of any size with `run_tool_as_handle`.
+A tool opts out with a `compression` policy of `capture: never`, or sets its own handle lifetime with `ttlSeconds`. An agent can also hold a result of any size with `run_tool_as_handle`.
 
 A handle is bound to the caller that created it, and it survives a rotation of that caller's agent key. It ends when the agent releases it or its TTL expires. Handles are bounded by their TTL and the Gateway database's memory.
 
@@ -116,7 +116,7 @@ A handle is bound to the caller that created it, and it survives a rotation of t
 | Namespace | The prefix that makes an Upstream's tool names unique within a Gateway. |
 | Catalog | The stored list of an Upstream's tools. |
 | Tool policy | Per-tool settings for the result cache and result handles. |
-| `resultCache`, `resultHandles` | Per-Gateway settings that turn the result cache and result handles on or off. |
+| `cache`, `compression` | Per-Gateway settings that turn the result cache and result handles on or off. |
 | Gateway database | The Redis database that holds cached results and result handles. |
 
 ## Next steps

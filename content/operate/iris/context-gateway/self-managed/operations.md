@@ -51,7 +51,7 @@ A cache hit carries `resultCache` in the call's invocation metadata. Every other
 | Bypass `reason` | What to check |
 | --- | --- |
 | `not_opted_in` | The tool has no result cache policy. |
-| `disabled` | The Gateway's `resultCache` is `disabled`. |
+| `disabled` | The Gateway's `cache` setting is `disabled`. |
 | `no_database` | The Gateway has no `databaseId`. |
 | `unknown_database` | The Gateway's database is not registered on the Data Plane. Declare it on both planes. |
 | `vetoed_by_annotation` | The tool's definition says it is not read-only, or that it is destructive. |
@@ -89,7 +89,7 @@ Upgrade both planes together and roll forward, not back. An older Data Plane can
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
-Gateways stored before the per-Gateway `resultCache` and `resultHandles` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `resultCache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
+Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `resultCache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
 
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \
