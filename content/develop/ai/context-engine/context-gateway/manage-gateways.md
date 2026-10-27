@@ -34,6 +34,10 @@ Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model C
 
 To use the cache or compression, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
 
+On a self-managed deployment, your administrator may set a default Gateway database. A create without `databaseId` then uses it, the response returns the resolved `databaseId`, and an omitted `cache` or `compression` comes back `enabled`. Without a default, the Gateway has no database and both are `disabled`. Redis Cloud has no default. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
+
+On a self-managed deployment, sending `"compression": "enabled"` returns `400` with `validation_compression_unsupported` when the Gateway database does not use `maxmemory-policy noeviction` or has no JSON module, and `503` when it cannot be reached. A create that omits `compression` is stored with it `disabled` instead of failing.
+
 ## List and inspect Gateways and Upstreams
 
 List the deployment's Gateways and a Gateway's Upstreams, and read one by ID. Every read returns the current `revision`, which updates and deletes need.

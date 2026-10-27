@@ -46,7 +46,7 @@ The chart consumes existing Redis deployments. It does not provision them.
 Use separately managed Redis deployments for metadata, credentials, and customer data. Redis endpoint aliases do not prove that two databases are separate.
 
 - Give a Context Surface its own database when its records must stay separate from other Gateways. Gateways whose Surfaces share a database can read each other's records.
-- Never use one Redis database as both a Surface database and a Gateway database.
+- Never use one Redis database as both a Surface database and a Gateway database. Keep the two [default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases) on separate Redis endpoints when compression is on, because `noeviction` would otherwise apply to customer data.
 - Size the Gateway database for handles: the rate of calls that become handles, times the stored result size, times the handle lifetime.
 
 Use `rediss://` URLs with certificate verification. The Federal Information Processing Standards (FIPS)-oriented profile rejects plaintext Redis URLs.

@@ -71,6 +71,8 @@ A data model is at most 1 mebibyte (MiB) of JSON. The Control Plane refuses `acl
 
 Create an Upstream of kind `context-surface` with the database ID and the data model. A Context Surface takes no endpoint and no credential.
 
+On a self-managed deployment, you may leave out `connection.database.id` when your administrator set a default Surface database. An explicit ID always wins. An ID sent as an empty string or `null` returns `400`, and so does an omitted ID when no default is set. Redis Cloud always requires the ID. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
+
 *Example set `iris_gateway_surfaces`, step `gateway-surface-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
 
 The Control Plane generates and publishes the tools in the same request. When it cannot, the response is still `201`, and `initialCatalogFailure` explains why:

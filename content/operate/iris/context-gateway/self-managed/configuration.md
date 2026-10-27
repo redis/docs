@@ -75,6 +75,52 @@ databaseConnections:
 
 Both planes probe every entry at startup. An entry that does not answer does not stop a plane. The plane logs `Gateway database did not answer at startup` with the entry's `database_id` and starts.
 
+## Default databases
+
+An on-prem deployment uses two databases from the registry, and each has its own job:
+
+| Database | Holds | Written by |
+| --- | --- | --- |
+| Gateway database | Cached results and compression handles. | Only the Gateway. |
+| Surface database | The customer data that Context Surfaces read. | Never the Gateway. |
+
+Name a default for each so that administrators do not repeat the ID on every request. Both defaults are optional, and both planes read them:
+
+```yaml
+shared:
+  config:
+    databases:
+      gateway-db: {name: Gateway database}
+      surface-db: {name: Surface database}
+databaseConnections:
+  - existingSecret: gateway-database-connections
+    secretKey: config.yaml
+defaultDatabases:
+  gatewayDb: gateway-db
+  surfaceDb: surface-db
+```
+
+The chart renders these as `default_databases.gateway` and `default_databases.surface` in the shared configuration. Each must name a `databases` entry, or both planes refuse to start.
+
+| Value | Used when | Without it |
+| --- | --- | --- |
+| `defaultDatabases.gatewayDb` | A Gateway create sends no `databaseId`. The response returns the resolved `databaseId`, and `cache` and `compression` default to `enabled` as if you had sent it. An explicit `databaseId` always wins. | A Gateway created without `databaseId` has no database, so the cache and compression are off. |
+| `defaultDatabases.surfaceDb` | A Context Surface create sends no `connection.database.id`. An explicit ID always wins. | That create returns `400` on `connection.database.id`. |
+
+Redis Cloud has no defaults and always requires the database ID.
+
+### Gateway database requirements
+
+The Gateway database should use `maxmemory-policy noeviction`, and compression also needs the JSON module. The checks differ by where they run:
+
+- At startup, the Data Plane checks the default Gateway database. With `compression.enabled: true` it fails to start when the database does not use `noeviction` or has no JSON module. Otherwise it logs a warning.
+- When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` with `validation_compression_unsupported` and the reason when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `enabled`.
+- A Gateway create that omits `compression` never fails on this check. When the database cannot hold handles or cannot be reached, the Gateway is stored with `compression` set to `disabled`, and the Control Plane logs why.
+
+Do not point both defaults at the same Redis when compression is on. `noeviction` would then apply to your customer data. The Data Plane logs a warning at startup when the two defaults share an endpoint.
+
+For how to size the Gateway database and the Redis versions it needs, see [Redis databases](/content/operate/iris/context-gateway/self-managed/prerequisites.md#redis-databases).
+
 ## Context Surface databases
 
 A Context Surface stores only its database ID. Give each plane its own Redis user on the database, as listed in [Redis users for Surface databases](/content/operate/iris/context-gateway/self-managed/prerequisites.md#redis-users-for-surface-databases), and put each login in that plane's registry entry. To change a password, update the Secret and restart both planes.
@@ -118,7 +164,7 @@ dataplane:
 | `compression.max_capture_bytes` | `8388608` | Results above this size come back whole. |
 | `compression.preview_items`, `preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
 
-These settings turn each feature on for the deployment. Each Gateway then has its own `cache` and `compression` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway's `databaseId` to name a registered database.
+These settings turn each feature on for the deployment. Each Gateway then has its own `cache` and `compression` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway to have a database, from its `databaseId` or from [the default Gateway database](#default-databases).
 
 The cache still needs a policy for each tool. Compression applies to every eligible result on a Gateway that has it on, unless a tool's policy opts out. See [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
 
