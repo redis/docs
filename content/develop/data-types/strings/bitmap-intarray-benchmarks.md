@@ -26,19 +26,18 @@ isolated Redis processes over Unix sockets. It needs Python 3.9+ and a normal
 optimized Redis build; no Python packages or existing server are required.
 
 The current harness retains the historical `get-all` workload label for
-comparison files. It now invokes `BITRANGEINTARRAY key 0 -1` for a full native
-read, while the reference module still uses `R.GETINTARRAY` or
-`R64.GETINTARRAY`. The `range-all` workload continues to use explicit first and
-last ranks on both backends. Other range workloads keep their bounded ranks.
-Negative ranks count from the end. Current native calls do not cap the number
-of returned elements; client output-buffer limits still apply. These API changes
-do not affect the smaller historical datasets.
+comparison files. It invokes `BITRANGEINTARRAY key 1 0 -1` for a full native
+read, while the reference module uses `R.GETINTARRAY` or `R64.GETINTARRAY`.
+Range workloads select ranks on the module and the equivalent `BIT` offset
+interval on the native backend, from the first to the last selected offset.
+Both backends therefore return the same integers.
 
-The harness uses native bitmap keys. With `bitmap-default-roaring yes`,
-`BITRANGEINTARRAY` can also read strings by scanning the complete string and
-allocating a temporary Roaring bitmap on every call, including small ranges.
-The stored string is unchanged. String reads return `WRONGTYPE` when the
-setting is `no`. These measurements do not include temporary conversion costs.
+The harness measures `value = 1` reads on native bitmap keys without `LIMIT`.
+It does not measure clear-bit enumeration, `LIMIT` pagination, or string scans.
+The command also reads strings directly within the requested range under either
+`bitmap-default-roaring` setting. No temporary Roaring bitmap is allocated.
+Current calls have no fixed result-count cap; client output-buffer limits apply.
+The historical results do not measure the current implementation.
 
 ```sh
 make -j4
@@ -78,9 +77,10 @@ an explicit comparison against the module's 64-bit API, since `R.*` cannot
 represent those values.
 
 Every reply is checked against the expected ascending values before timing.
-Ranges are **inclusive element ranks**, not value intervals: first 16 elements,
-a middle page containing 1% of the elements, last 16 elements, the whole array,
-and an empty page beyond the cardinality. The same logical data is prepared
+Workloads select the first 16 elements, a middle page containing 1% of the
+elements, the last 16 elements, the whole array, and an empty page beyond the
+last stored offset. The module receives inclusive element ranks; the native
+command receives equivalent bit offset ranges. The same logical data is prepared
 and run-optimized on each backend outside timing. Native setup uses SETBIT and
 a DUMP/RESTORE round trip; module setup uses SETINTARRAY and OPTIMIZE MEM.
 
@@ -181,8 +181,8 @@ taskset -c 0,1 python3 tools/bitroar-intarray-bench.py \
   > /workspace/scratch/bitroar-intarray-comparison.log 2>&1
 ```
 
-The current harness issues only native `BITRANGEINTARRAY` calls, using `0 -1`
-for the retained `get-all` workload label. It does not reproduce the historical
+The current harness issues only native `BITRANGEINTARRAY` calls, using
+`BITRANGEINTARRAY key 1 0 -1` for the retained `get-all` workload label. It does not reproduce the historical
 native `R.*` commands. The raw JSON retains all samples,
 warmups, request counts, exact reply sizes,
 latency metrics, build settings, and binary hashes. The JSON and stdout log are

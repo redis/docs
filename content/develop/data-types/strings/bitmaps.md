@@ -347,9 +347,9 @@ zero bit beyond the current logical end extends either representation, and
 bits between the old and new ends read as zero. The read-only commands in this
 list accept strings and native bitmaps regardless of `bitmap-default-roaring`.
 
-[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) also reads native
-bitmaps with either setting, but accepts strings only when the setting is `yes`.
-It temporarily converts strings for the read without changing their stored type.
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) also reads both
+representations with either setting. It reads strings directly without conversion
+and leaves their bytes, type, and expiration unchanged.
 
 The representations are intentionally visible to clients:
 
@@ -370,58 +370,68 @@ was created or loaded while that limit was higher. [`BITOP`](/content/commands/b
 source. In particular, `BITOP NOT` can allocate a dense result of that length,
 so account for its memory cost before lowering the limit.
 
-### Retrieve set-bit offsets
+### Retrieve matching bit offsets
 
-[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
-offsets in ascending order, selected by inclusive, zero-based element ranks.
-Use `0 -1` to return all set-bit offsets:
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns ascending
+bit offsets whose value is `0` or `1` within a range:
+`BITRANGEINTARRAY key value start end [BYTE|BIT] [LIMIT count]`.
+All four arguments are required. Ranges follow `BITCOUNT`: byte offsets by
+default, bit offsets with `BIT`, and negative indexes count from the end.
+Returned offsets are always bit offsets.
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
 OK
-redis> SETBIT members 10 1
+redis> SETBIT members 1 1
 (integer) 0
-redis> SETBIT members 20 1
+redis> SETBIT members 7 1
+(integer) 0
+redis> SETBIT members 9 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
-redis> BITRANGEINTARRAY members 0 -1
-1) (integer) 10
-2) (integer) 20
-3) (integer) 30
-redis> BITRANGEINTARRAY members 1 2
-1) (integer) 20
+redis> BITRANGEINTARRAY members 1 0 -1
+1) (integer) 1
+2) (integer) 7
+3) (integer) 9
+4) (integer) 30
+redis> BITRANGEINTARRAY members 0 28 31 BIT
+1) (integer) 28
+2) (integer) 29
+3) (integer) 31
+redis> BITRANGEINTARRAY members 1 0 -1 BIT LIMIT 2
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 1 8 -1 BIT LIMIT 2
+1) (integer) 9
 2) (integer) 30
-redis> BITRANGEINTARRAY members -1 -1
-1) (integer) 30
+redis> BITRANGEINTARRAY members 1 0 -1 BYTE LIMIT 1
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 1 1 -1 BYTE LIMIT 1
+1) (integer) 9
 ```
 
-Range arguments are element ranks, not bit offsets. Nonnegative ranks must fit
-an unsigned 32-bit integer. Negative ranks can use the full signed 64-bit range
-and count from the end: `-1` is the last element and `-2` is the second-to-last.
-A negative start before the first element is clamped to `0`. A negative end
-before the first element, a reversed range, or a start beyond the last element
-returns an empty array.
+Use `value = 1` to enumerate set bits and `value = 0` to enumerate clear bits.
+Both stay within the value's logical length. Missing keys, empty values, and
+empty ranges return empty arrays. Strings and native bitmaps work with either
+`bitmap-default-roaring` setting; other types return `WRONGTYPE`.
 
-An end beyond the last element is truncated to the last element. The command
-does not cap the number of returned elements. The rank argument restrictions
-do not constrain stored offsets. Client output-buffer limits still apply;
-exceeding a limit disconnects the client and stops enumeration.
+For pagination, `BIT LIMIT count` returns at most `count` offsets. Resume at
+the last returned offset + 1. `BYTE LIMIT count` finishes the byte containing
+the `count`th match, so it can return up to seven extra offsets. Resume at
+floor(last offset / 8) + 1. `LIMIT 0` returns an empty array; negative counts
+are errors. Stop when a page contains fewer than `count` results. A full page
+can be followed by a final empty page.
 
-The command validates rank arguments before looking up the key. With valid rank
-arguments, missing keys return empty arrays. Native bitmaps work with either
-`bitmap-default-roaring` setting. Strings work only when it is `yes`; Redis
-uses a temporary Roaring bitmap, leaving the stored bytes, type, and expiration
-unchanged. With the setting `no`, strings return `WRONGTYPE`. Other types always
-return `WRONGTYPE` before range normalization.
+Separate calls do not share a snapshot, so writes can change remaining matches.
+Strings are scanned in place over the requested range, without conversion.
+`LIMIT` stops the scan when the page is complete. Response size grows with the
+number of offsets; client output-buffer limits still apply.
 
-Each call on a string scans its full contents and allocates a temporary bitmap,
-even for a small range. Repeated pages repeat this cost.
-
-Use bounded pages for large results. Separate range calls do not share a
-snapshot, so concurrent writes can shift ranks between pages. For benchmark
-methodology and historical comparisons against redis-roaring, see
-[Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md).
+See the [command reference](/content/commands/bitrangeintarray.md) for range
+and pagination details, and [Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md)
+for benchmark methodology and historical comparisons against redis-roaring.
 
 ### Persistence and replication
 
