@@ -118,7 +118,7 @@ dataplane:
 | `result_handles.max_capture_bytes` | `8388608` | Results above this size come back whole. |
 | `result_handles.preview_items`, `preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
 
-These settings turn each feature on for the deployment. Each Gateway then has its own `resultCache` and `resultHandles` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway's `databaseId` to name a registered database.
+These settings turn each feature on for the deployment. Each Gateway then has its own `cache` and `compression` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway's `databaseId` to name a registered database.
 
 The result cache still needs a policy for each tool. Result handles apply to every eligible result on a Gateway that has them on, unless a tool's policy opts out. See [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
 
