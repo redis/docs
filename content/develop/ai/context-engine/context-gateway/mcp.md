@@ -74,7 +74,7 @@ This client connects, lists tools, and calls one in either mode.
 
 ## Read result handles
 
-When the deployment turns on result handles, the Gateway lists these tools in both modes:
+When result handles are on for the Gateway, it lists these tools in both modes:
 
 | Tool | What it does |
 | --- | --- |

@@ -28,7 +28,7 @@ Platform teams create the Gateway and register its Upstreams through the Control
 |:-------|:------------|:------------------|
 | Python | Your application or agent uses Python. | Install [`redis-iris`](https://pypi.org/project/redis-iris/) and follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md). `ContextGateway` lists, searches, and calls tools, and its `service` property administers Gateways. |
 | CLI | You work from a shell, a script, or continuous integration. | The `iris context-gateway` commands ship in the same [`redis-iris`](https://pypi.org/project/redis-iris/) package. |
-| TypeScript | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/context-gateway`](https://www.npmjs.com/package/@redis-iris/context-gateway). `ContextGatewayClient` opens MCP sessions, and `ContextGatewayService` calls the Control Plane. |
+| TypeScript | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/context-gateway`](https://www.npmjs.com/package/@redis-iris/context-gateway) with the `alpha` tag. `ContextGateway` opens MCP sessions, and `ContextGatewayService` calls the Control Plane. |
 | HTTP | You need language-independent access or don't want a package dependency. | No package required. Send MCP requests to the Gateway endpoint as shown in [MCP](/content/develop/ai/context-engine/context-gateway/mcp.md). |
 
 The `redis-iris` package requires Python 3.11 or later. The TypeScript client requires Node.js 22 or later.
@@ -50,7 +50,7 @@ In `full` mode, `tools/list` returns every tool under its qualified name. In `se
 
 ## Work with large results
 
-When the deployment turns on result handles, a large result comes back as a stub with a handle. Read the parts you need with the handle tools, then release it. See [Read result handles](/content/develop/ai/context-engine/context-gateway/mcp.md#read-result-handles).
+When result handles are on for the Gateway, a large result comes back as a stub with a handle. Read the parts you need with the handle tools, then release it. See [Read result handles](/content/develop/ai/context-engine/context-gateway/mcp.md#read-result-handles).
 
 ## References
 

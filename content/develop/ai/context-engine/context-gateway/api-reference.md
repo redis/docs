@@ -67,7 +67,7 @@ The result is the tool's result.
 
 ### Result handle tools
 
-Listed in both modes when the deployment turns on result handles.
+Listed in both modes when result handles are on for the Gateway.
 
 | Tool | Arguments | Result |
 | --- | --- | --- |

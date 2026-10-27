@@ -51,7 +51,7 @@ export OPERATIONS_ID="$(jq -er '.id' operations.json)"
 jq '{id, mcpEndpoint, toolExposureMode}' front-desk.json operations.json
 ```
 
-Result handles also need `result_handles.enabled` on the Data Plane. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+The `search` mode Gateway has a `databaseId`, so it starts with `resultCache` and `resultHandles` enabled. Result handles also need `result_handles.enabled` on the Data Plane. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
 
 <!-- TODO: Run every step against a deployed chart before review. -->
 

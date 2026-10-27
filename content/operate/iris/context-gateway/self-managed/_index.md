@@ -55,7 +55,7 @@ Use separately managed Redis deployments for metadata, credentials, and customer
 | Gateway MCP | `/v1/gateways/{gatewayId}/mcp` | The Streamable HTTP MCP endpoint for one Gateway. |
 | Protected resource metadata | `/.well-known/oauth-protected-resource/v1/gateways/{gatewayId}/mcp` | Names the identity provider for MCP client sign-in. |
 | Control Plane | `/v1/gateways` | Administration of Gateways and Upstreams. |
-| Health | `/v1/health/live`, `/v1/health/ready` | Liveness and readiness on both planes. |
+| Health | `/health/liveness`, `/health/readiness` | Liveness and readiness on both planes. |
 | Identity Service | `/v1/api-keys` | Administration of agent keys. |
 
 ## Get started

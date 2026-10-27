@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="226" viewBox="0 0 480 226" role="img" aria-labelledby="title desc">
+  <title id="title">One Lens turn as a timeline of steps, from memory recall to the outcome</title>
+  <desc id="desc">One turn in a session, shown as steps on a timeline. A memory recall fetches 4 memories and Playbook discovery runs at the same time. Prompt assembly then uses 3 of the 4 memories and drops 1. A model call follows, then a Context Gateway tool call, then a second model call. The turn ends with the outcome completed.</desc>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#17242b">
+    <rect width="480" height="226" fill="#fff"/>
+
+    <text x="0" y="14" font-family="Courier New, Courier, monospace" font-size="10" fill="#56616b" letter-spacing="0.5">ONE TURN · ONE TRACE</text>
+
+    <line x1="180" y1="26" x2="180" y2="186" stroke="#e3e6e8" stroke-width="1"/>
+    <line x1="470" y1="26" x2="470" y2="186" stroke="#e3e6e8" stroke-width="1"/>
+
+    <text x="0" y="44" font-size="12" font-weight="700">Memory recall</text>
+    <text x="0" y="57" font-size="10" fill="#56616b">fetched 4</text>
+    <rect x="180" y="34" width="70" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+
+    <text x="0" y="72" font-size="12" font-weight="700">Playbook discovery</text>
+    <text x="0" y="85" font-size="10" fill="#56616b">runs in parallel</text>
+    <rect x="180" y="62" width="58" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+
+    <text x="0" y="100" font-size="12" font-weight="700">Prompt assembly</text>
+    <text x="0" y="113" font-size="10" fill="#ee0000">used 3 · dropped 1</text>
+    <rect x="252" y="90" width="12" height="14" rx="3" fill="#fff4f3" stroke="#ee0000" stroke-width="1.5"/>
+
+    <text x="0" y="128" font-size="12" font-weight="700">Model call</text>
+    <text x="0" y="141" font-size="10" fill="#56616b">prompt · completion · tokens</text>
+    <rect x="266" y="118" width="96" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+
+    <text x="0" y="156" font-size="12" font-weight="700">Context Gateway tool call</text>
+    <text x="0" y="169" font-size="10" fill="#56616b">input · result</text>
+    <rect x="364" y="146" width="46" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+
+    <text x="0" y="184" font-size="12" font-weight="700">Model call</text>
+    <rect x="412" y="174" width="58" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+
+    <rect x="0" y="198" width="132" height="20" rx="10" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
+    <text x="12" y="212" font-size="11">Outcome: completed</text>
+    <text x="470" y="212" font-family="Courier New, Courier, monospace" font-size="10" fill="#56616b" text-anchor="end">time →</text>
+  </g>
+</svg>

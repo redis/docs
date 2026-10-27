@@ -30,7 +30,7 @@ Each file reference accepts a Kubernetes Secret or a Secrets Store Container Sto
 {{< table-scrollable >}}
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
-| `/v1/health/ready` answers `503` | A token source cannot be read or is empty, or the license is not valid | Check the admin and internal token Secrets and the license. |
+| `/health/readiness` answers `503` | A token source cannot be read or is empty, or the license is not valid | Check the admin and internal token Secrets and the license. |
 | Agent receives `401` | Key is missing, revoked, or expired, or sent in the wrong header | Send it as `Authorization: Bearer` or `X-Api-Key`, and check its status. |
 | Agent receives `403` | The key has no `context-gateway` grant for this Gateway | Update the key's grants with the Identity Service control token. |
 | Agent receives `404` | The Gateway does not exist, is being deleted, or belongs to another tenant | Check the Gateway ID and `tenantId`. |
@@ -39,7 +39,9 @@ Each file reference accepts a Kubernetes Secret or a Secrets Store Container Sto
 | A tool call returns `upstream_rejected_credentials` | The Upstream refused the stored credential | Rotate the Upstream credential. |
 | Cached results keep coming back after a secret rotation | The secret was rotated in place under the same reference | Refresh the Upstream's catalog. |
 | Handles stop being created | The Gateway database is above 90 percent of `maxmemory`, refused a write, has another eviction policy than `noeviction`, or has no JSON support | Raise `maxmemory`, shorten the handle lifetime, set `noeviction`, or move handles to a dedicated database with JSON. |
-| Large results suddenly come back as stubs | `result_handles.enabled` was turned on, which applies to every Gateway with a `databaseId` | Opt tools out with a `resultHandle` policy of `capture: never`, or remove the Gateway's `databaseId`. |
+| Large results suddenly come back as stubs | `result_handles.enabled` was turned on, which applies to every Gateway whose `resultHandles` is `enabled` | Opt tools out with a `resultHandle` policy of `capture: never`, or set the Gateway's `resultHandles` to `disabled`. |
+| Removing a Gateway's `databaseId` returns `400` | The Gateway's `resultCache` or `resultHandles` is still `enabled` | Send both as `disabled` in the same update. |
+| A `resultCache` tool policy returns `400` | The Gateway's `resultCache` is `disabled`, or the Gateway has no `databaseId` | Select a database and enable `resultCache` on the Gateway first. |
 | Data Plane does not become ready | It cannot reach the Identity Service, or an `http://` Identity Service URL is used without `identityService.allowInsecureTransport: true` | Check `identityService.baseURL` and the network path. |
 | Context Surface search tools return partial results | Redis is still indexing existing keys after a create, a data model change, or a refresh | Wait until `FT.INFO` on the Surface database shows `percent_indexed` at `1`. |
 | Deleting a Context Surface keeps answering `503` | Its indexes cannot be dropped, often because the Control Plane's Redis user lacks `FT._LIST` or `FT.DROPINDEX` | Grant the commands, or repeat the delete with `ignoreIndexSweepFailure=true`. |

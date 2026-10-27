@@ -90,7 +90,7 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 | `publicBaseURL` is the Data Plane origin that MCP clients reach | `mcpEndpoint` in Gateway responses points to an address clients cannot reach, and identity provider sign-in fails | Set the public origin, including `https://`. |
 | `identityService.allowInsecureTransport` is `true` for an `http://` Identity Service URL | The Data Plane cannot check agent keys | Set it, or use an `https://` URL. |
 | The admin, internal, and runtime tokens come from three different Secrets or keys | Rendering fails, or the Identity Service cannot check keys | Create three distinct token files. |
-| `license` points to a valid license | `/v1/health/ready` answers `503` | Mount the license file as issued. |
+| `license` points to a valid license | `/health/readiness` answers `503` | Mount the license file as issued. |
 | Both component `image.repository` and `image.tag` are set | Pods `ImagePullBackOff` | Set both to the release images. |
 {{< /table-scrollable >}}
 
@@ -134,8 +134,8 @@ kubectl -n <namespace-name> port-forward svc/ids-iris-identity-service 9200:9200
 Then check readiness on both planes:
 
 ```bash
-curl -sS http://localhost:9100/v1/health/ready
-curl -sS http://localhost:8083/v1/health/ready
+curl -sS http://localhost:9100/health/readiness
+curl -sS http://localhost:8083/health/readiness
 ```
 
 ## 6. Create a Gateway
