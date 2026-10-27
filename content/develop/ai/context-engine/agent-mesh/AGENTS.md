@@ -19,9 +19,10 @@
   promise automatic execution restart or exactly-once external effects.
 - Keep the standalone Go mesh and its `agentmesh` HTTP client out of this SDK
   quickstart. Their deployment and Redis requirements are separate.
-- Link detailed implementation and API guidance to redis-iris documentation.
+- Keep user-facing integration guides here. Link exhaustive signatures and
+  implementation contracts to redis-iris documentation.
   Preserve the product preview banner and qualification limitations.
 
-- Keep two public pages: an overview and one quickstart with both integrations.
-  Each example reaches one first result. Keep feature walkthroughs and detailed
-  configuration outside the quickstart.
+- Keep an overview, one quickstart with both integrations, and one SDK guide
+  per integration. Each quickstart example reaches one first result. Keep
+  detailed configuration, authorization, replay and recovery in the SDK guides.

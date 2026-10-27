@@ -62,4 +62,4 @@ For FastAPI, publish application events with `StreamBackend` and expose a stream
 
 Follow the [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md) to [resume A2A task updates](/content/develop/ai/context-engine/agent-mesh/quickstart.md#resume-a2a-task-updates) or [resume FastAPI events](/content/develop/ai/context-engine/agent-mesh/quickstart.md#resume-fastapi-events).
 
-For detailed configuration and behavior, see the [A2A hosting guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/a2a-server.md) and [FastAPI integration guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/resumable-sse.md).
+To integrate with your application, follow the [A2A SDK guide](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md) or [FastAPI SSE SDK guide](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md). These guides cover configuration, authorization, replay, and recovery.

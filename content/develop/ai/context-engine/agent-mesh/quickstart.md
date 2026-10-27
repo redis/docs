@@ -227,4 +227,4 @@ Stopping the app leaves a Redis Cloud database running. If you created a disposa
 
 ## Further reading
 
-For configuration and behavior beyond these first examples, see the [A2A hosting guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/a2a-server.md), [FastAPI integration guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/resumable-sse.md), and [Agent Mesh limitations](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits).
+To add these integrations to your application, follow the [A2A SDK guide](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md) or [FastAPI SSE SDK guide](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md). See the [Agent Mesh limitations](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for preview qualification.
