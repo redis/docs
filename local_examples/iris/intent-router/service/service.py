@@ -1,13 +1,14 @@
 # EXAMPLE: iris_intent_router_service
 # HIDE_START
-from redis_iris.intent_router import IntentRouter
+from redis_iris import IntentRouter
+from redis_iris.intent_router import models
 
 service = IntentRouter.from_env().service
 # HIDE_END
 
 # STEP_START models-list
-models = service.list_models(purpose="EMBEDDING").items
-for model in models:
+offered = service.list_models(purpose=models.ModelPurpose.EMBEDDING).items
+for model in offered:
     print(model.provider, model.model, model.dimensions, model.authorization)
 # STEP_END
 
@@ -15,13 +16,13 @@ for model in models:
 created = service.create_router(
     name="support-router",
     description="Routes support requests to tools and agents.",
-    template="AGENT",
+    template=models.RouterTemplate.AGENT,
     min_score=0.7,
-    vector_space={
-        "provider": models[0].provider,
-        "model": models[0].model,
-        "dimensions": models[0].dimensions,
-    },
+    vector_space=models.EmbeddingModel(
+        provider=offered[0].provider,
+        model=offered[0].model,
+        dimensions=offered[0].dimensions,
+    ),
 )
 router_id = created.router_id
 print(router_id, created.state, created.revision)
@@ -52,12 +53,13 @@ print(updated.router_id, updated.min_score, updated.revision)
 # STEP_END
 
 # STEP_START router-suspend
-for state in ("SUSPENDED", "READY"):
+for state in (models.MutableRouterState.SUSPENDED, models.MutableRouterState.READY):
     changed = service.update_router(router_id=router_id, state=state)
     print(changed.router_id, changed.state)
 # STEP_END
 
 # STEP_START router-delete
 deleted = service.delete_router(router_id=router_id)
-print(deleted.router_id, deleted.state)
+if deleted is not None:  # None when the Router was already gone
+    print(deleted.router_id, deleted.state)
 # STEP_END

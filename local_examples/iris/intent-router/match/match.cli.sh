@@ -1,18 +1,14 @@
 # EXAMPLE: iris_intent_router_match
 # HIDE_START
 set -euo pipefail
-cat > track_order.json <<'JSON'
-{
-  "description": "The customer wants to know where an order is.",
-  "target": {"type": "tool", "ref": "orders.track", "args": {"region": "eu"}},
-  "examples": ["where is my order", "track my package", "has my parcel shipped"]
-}
-JSON
-cat > refund.json <<'JSON'
-{"examples": ["i want a refund", "refund my purchase", "i would like my money back"]}
-JSON
-iris intent-router intents upsert track_order --file track_order.json > /dev/null
-iris intent-router intents upsert refund --file refund.json > /dev/null
+iris intent-router intents put track_order \
+  --description "The customer wants to know where an order is." \
+  --target '{"type": "tool", "ref": "orders.track", "args": {"region": "eu"}}' \
+  --example "where is my order" --example "track my package" \
+  --example "has my parcel shipped" > /dev/null
+iris intent-router intents put refund \
+  --example "i want a refund" --example "refund my purchase" \
+  --example "i would like my money back" > /dev/null
 # HIDE_END
 
 # STEP_START match-options
