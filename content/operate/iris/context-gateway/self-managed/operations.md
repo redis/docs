@@ -89,7 +89,7 @@ Upgrade both planes together and roll forward, not back. An older Data Plane can
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
-Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `resultCache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
+Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `cache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
 
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \
