@@ -34,7 +34,7 @@ A Router's embedding model decides how well matching understands wording, and it
 
 Each model reports its `provider`, `model`, and `dimensions`. Pass the same three values as the Router's `vectorSpace`. A self-managed deployment offers one embedding model, configured by your administrator, and holds its provider credentials itself, so `authorization` is `NONE`. Creating a Router with a model that isn't listed fails with `400`.
 
-The model's `dimensions` also set the Router's memory use. See [Size memory](/content/operate/iris/intent-router/self-managed/prerequisites.md#size-memory).
+The model also sets the Router's memory use. The Router's vector index takes about the number of examples multiplied by `dimensions`, multiplied by 4 bytes, plus the index graph. See [Size memory](/content/operate/iris/intent-router/self-managed/prerequisites.md#size-memory).
 
 ## Create a Router
 
@@ -73,7 +73,7 @@ List the deployment's Routers, or read one by ID. Every read returns the current
 
 ## Update a Router
 
-Change a Router's name, description, template, or default `minScore` as a merge patch. An omitted field is unchanged, a `null` description clears it, and a `null` `minScore` resets it to the default. A new `minScore` must be above `0`. The embedding model and `databaseId` can't change. You can update a Router only while it is `READY` or `SUSPENDED`; any other state returns `409`. Changes apply once the data plane has applied the Router's new configuration, usually within seconds.
+Change a Router's name, description, template, or default `minScore` as a merge patch. An omitted field is unchanged, a `null` description clears it, and a `null` `minScore` resets it to the default. The embedding model and `databaseId` can't change. Changes apply after the data plane has applied the Router's new configuration, usually within seconds.
 
 Send `expectedRevision`, or the revision as a quoted `If-Match` header, to make the update conditional: it fails with `412` if the Router changed since you read it.
 
@@ -85,11 +85,11 @@ Suspend a Router to stop it serving without deleting its intents. Data requests 
 
 {{< clients-example set="iris_intent_router_service" step="router-suspend" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-`SUSPENDED` and `READY` are the only states you can request: asking for another fails with `400`. Only a `READY` or `SUSPENDED` Router can change between them, and any other Router returns `409`. The control plane sets the other states.
+`SUSPENDED` and `READY` are the only states you can request, and only a `READY` or `SUSPENDED` Router can change between these states. Any other change fails with `409`. The control plane sets the other states.
 
 ## Delete a Router
 
-Deleting a Router permanently removes it, its intents, its examples, and its search index. You can delete a Router in any state. Revoke the Router's agent keys before you delete it.
+Deleting a Router permanently removes it, its intents, its examples, and its search index. You can delete a Router in any state. Deleting a Router doesn't revoke its agent keys, because the keys live in the Identity Service, not the control plane. A key whose grant names a deleted Router stays in the Identity Service until you revoke it. Revoke the Router's keys before you delete it, as shown in [Rotate or revoke agent keys](/content/operate/iris/intent-router/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
 
 {{< clients-example set="iris_intent_router_service" step="router-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -105,7 +105,7 @@ The control plane doesn't issue agent keys. Your platform team issues them with 
 | `write` | Create, change, and delete intents and examples, and clear the Router. Includes `read`. |
 | `full` | Includes `write`. No operation needs more than `write` today. |
 
-No agent-key action can create, change, or delete the Router itself. That stays with the admin token. Give an application that only classifies queries a `read` key. Give a curation tool or an authoring pipeline a `write` key.
+No agent-key action can create, change, or delete the Router itself. Router creation, change, or deletion requires the admin token. Give an application that only classifies queries a `read` key. Give a curation tool or an authoring pipeline a `write` key.
 
 ## Next steps
 

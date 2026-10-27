@@ -11,7 +11,9 @@ title: Match queries to intents
 weight: 30
 ---
 
-Use `match` to classify text at runtime. The examples use the connection values from the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values) and match against its `track_order` and `refund` intents. Each complete program creates those intents first, so it needs an agent key with `write` access; matching on its own needs only `read`. Follow one tab throughout the page.
+Matching is the step where Intent Router does its job at runtime. After you create a Router and give it intents with example phrases, your application sends each incoming user message to `match`. The Router returns the closest intents, each with a score and a target. Your application uses the top result to decide what happens next, such as sending an order question to an order-tracking agent and a refund request to a refunds workflow.
+
+The examples use the connection values from the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values) and match against its `track_order` and `refund` intents. Each complete program creates those intents first, so it needs an agent key with `write` access. Matching on its own needs only `read` access. Choose one language tab and use it for the whole page.
 
 ## Send a query
 

@@ -5,11 +5,15 @@ categories:
 - docs
 - operate
 - iris
-description: Understand the Intent Router credentials and agent-key grants, and load the administration tokens.
+description: Understand the Intent Router credentials, agent-key grants, and how to load the administration tokens.
 linkTitle: Authentication and authorization
 weight: 60
 hideListLinks: true
 ---
+
+Self-managed Intent Router uses two kinds of credentials. Service tokens authenticate operators and the Intent Router components to each other, and the chart generates them for you by default. Agent keys authenticate applications to the data plane, and each key's grants control which Routers it can use and what it can do on them.
+
+This page lists each credential and what it unlocks. It also shows how to load the administration tokens and how grants authorize agent keys. It then covers connecting an Identity Service deployed outside this chart and rotating credentials.
 
 ## Credentials
 

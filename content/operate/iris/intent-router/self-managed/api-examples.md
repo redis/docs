@@ -11,7 +11,7 @@ weight: 70
 hideListLinks: true
 ---
 
-Create a Router that the [developer quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md) uses, issue one agent key, and hand the connection values to a developer.
+After you deploy Intent Router, developers still can't use it until a Router and an agent key exist. This page walks through that setup: you create a Router, issue an agent key for it, check that the key works, and give the connection values to a developer. The developer then continues with the [developer quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md). The page also covers rotating and revoking agent keys after handoff.
 
 Before you begin, [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md) and [load the administration tokens](/content/operate/iris/intent-router/self-managed/authentication.md#load-the-administration-tokens).
 

@@ -11,6 +11,10 @@ weight: 40
 hideListLinks: true
 ---
 
+Intent Router classifies each incoming user message by intent, so your application can send it to the right agent, workflow, or handler. Developers define intents with example phrases, and their applications send messages to a Router to find the closest match. Before developers can do that, a platform administrator deploys Intent Router and creates Routers and agent keys for them.
+
+This guide is for that administrator. It covers deploying Intent Router on your own Kubernetes cluster with a Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/intent-router/self-managed/prerequisites.md).
+
 The `redis-intent-router` Helm chart deploys one tenant's Intent Router control plane and data plane. By default it also deploys an Identity Service that issues and checks agent keys. You provide the Redis databases, the embedding provider credentials, and the license.
 
 Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.

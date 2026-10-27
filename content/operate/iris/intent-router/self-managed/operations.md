@@ -11,6 +11,8 @@ weight: 90
 hideListLinks: true
 ---
 
+This page describes how to operate self-managed Intent Router after you deploy it and give Routers to developers. It covers routine checks, such as service health and data-plane Redis memory, and how the deployment responds when Redis is unavailable. It also covers the maintenance tasks you run with `helm upgrade`: rotating credentials, updating Secrets, and upgrading the chart. It ends with backing up and uninstalling the deployment.
+
 ## Check service health
 
 Every service answers `/health/liveness` and `/health/readiness` without a credential:

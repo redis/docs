@@ -11,7 +11,9 @@ weight: 30
 hideListLinks: true
 ---
 
-Prepare the Helm values and the Secrets they reference before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md).
+This page describes how to configure self-managed Intent Router before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md). You prepare a Helm values file and the Secrets it references. The values file sets your tenant, image tags, and tokens. The Secrets hold what shouldn't be in a values file: Redis connection URLs, embedding provider credentials, and the license.
+
+Every install needs the Helm values, the storage Secret, and an embedding model, covered in the first three sections. The remaining sections are optional, and their defaults work for a first deployment. Use them to store Routers in customer databases, tune search and matching, adjust Router lifecycle timing, trust a private certificate authority, enable FIPS or tracing, or scale the planes.
 
 ## Helm values
 

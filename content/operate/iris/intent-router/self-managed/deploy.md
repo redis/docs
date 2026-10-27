@@ -11,7 +11,7 @@ weight: 50
 hideListLinks: true
 ---
 
-These steps install the Intent Router control plane, data plane, and Identity Service with the `redis-intent-router` Helm chart, and end with one authenticated match request.
+Follow these steps to install the Intent Router control plane, data plane, and Identity Service with the `redis-intent-router` Helm chart, and end with one authenticated match request.
 
 You use three credentials along the way: the control-plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
 
