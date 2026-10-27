@@ -96,31 +96,31 @@ Without an embedding service, every other tool still works, and semantic or hybr
 
 The Data Plane keeps at most two clients for each Surface database. One Surface database sees at most `2 × client.pool_size × Data Plane replicas` connections, so set `client.pool_size` explicitly.
 
-## Result cache and result handles
+## Cache and compression
 
 Both features are off by default. Turn them on in the Data Plane configuration:
 
 ```yaml
 dataplane:
   config:
-    result_cache:
+    cache:
       enabled: true
-    result_handles:
+    compression:
       enabled: true
       ttl: 15m
 ```
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `result_cache.max_entry_bytes` | `262144` | The largest result the cache stores. |
-| `result_handles.ttl` | `15m` | How long a handle lives. At most `24h`. A tool policy can override it. |
-| `result_handles.inline_max_bytes` | `32768` | Results above this size become handles. |
-| `result_handles.max_capture_bytes` | `8388608` | Results above this size come back whole. |
-| `result_handles.preview_items`, `preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
+| `cache.max_entry_bytes` | `262144` | The largest result the cache stores. |
+| `compression.ttl` | `15m` | How long a handle lives. At most `24h`. A tool policy can override it. |
+| `compression.inline_max_bytes` | `32768` | Results above this size become handles. |
+| `compression.max_capture_bytes` | `8388608` | Results above this size come back whole. |
+| `compression.preview_items`, `preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
 
 These settings turn each feature on for the deployment. Each Gateway then has its own `cache` and `compression` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway's `databaseId` to name a registered database.
 
-The result cache still needs a policy for each tool. Result handles apply to every eligible result on a Gateway that has them on, unless a tool's policy opts out. See [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
+The cache still needs a policy for each tool. Compression applies to every eligible result on a Gateway that has it on, unless a tool's policy opts out. See [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
 
 ## Trust a private CA
 

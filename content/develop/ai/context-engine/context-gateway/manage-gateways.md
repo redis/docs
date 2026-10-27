@@ -32,7 +32,7 @@ Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model C
 
 *Example set `iris_gateway_manage`, step `gateway-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
 
-To use the result cache or result handles, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
+To use the cache or compression, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
 
 ## List and inspect Gateways and Upstreams
 
@@ -46,9 +46,9 @@ Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, i
 
 *Example step `gateway-update-mode`.*
 
-### Turn the result cache and result handles on or off
+### Turn the cache and compression on or off
 
-Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Cache and compression](/content/operate/iris/context-gateway/self-managed/configuration.md#cache-and-compression).
 
 ```json
 {"revision": "<revision>", "cache": "enabled", "compression": "disabled"}
@@ -93,7 +93,7 @@ Disable an Upstream to take its tools away from agents without deleting it. Its 
 
 ## Set tool policies
 
-Set a tool's policies with `toolPolicies` on an Upstream update. The result cache is opt-in for each tool. Result handles are on for every eligible result while they are on for the Gateway, so a tool policy only opts a tool out or changes its handle lifetime.
+Set a tool's policies with `toolPolicies` on an Upstream update. The cache is opt-in for each tool. Compression applies to every eligible result while it is on for the Gateway, so a tool policy only opts a tool out or changes its handle lifetime.
 
 | Policy | Member | Effect |
 | --- | --- | --- |

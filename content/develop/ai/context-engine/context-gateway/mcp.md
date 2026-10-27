@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Connect a Streamable HTTP MCP client to a Gateway with an agent key or your identity provider, use full or search mode, and read result handles.
+description: Connect a Streamable HTTP MCP client to a Gateway with an agent key or your identity provider, use full or search mode, and read handles.
 hideListLinks: true
 linktitle: MCP
 title: Connect with MCP
@@ -72,9 +72,9 @@ This client connects, lists tools, and calls one in either mode.
 
 *Example set `iris_gateway_mcp_client`, step `gateway-mcp-client`, in Python (Iris) and cURL (Iris).*
 
-## Read result handles
+## Read handles
 
-When result handles are on for the Gateway, it lists these tools in both modes:
+When compression is on for the Gateway, it lists these tools in both modes:
 
 | Tool | What it does |
 | --- | --- |

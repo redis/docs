@@ -50,7 +50,7 @@ In `full` mode, `tools/list` returns every tool under its qualified name. In `se
 
 ## Work with large results
 
-When result handles are on for the Gateway, a large result comes back as a stub with a handle. Read the parts you need with the handle tools, then release it. See [Read result handles](/content/develop/ai/context-engine/context-gateway/mcp.md#read-result-handles).
+When compression is on for the Gateway, a large result comes back as a stub with a handle. Read the parts you need with the handle tools, then release it. See [Read handles](/content/develop/ai/context-engine/context-gateway/mcp.md#read-handles).
 
 ## References
 

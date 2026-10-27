@@ -22,7 +22,7 @@ Both framework examples use the same task, over the sample clinic directory from
 
 ## Before you begin
 
-Follow the [quickstart setup](/content/develop/ai/context-engine/context-gateway/quickstart.md#before-you-begin) and export `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY`. Use the search mode Gateway, so the agent can find the tools it needs and count providers through a result handle.
+Follow the [quickstart setup](/content/develop/ai/context-engine/context-gateway/quickstart.md#before-you-begin) and export `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY`. Use the search mode Gateway, so the agent can find the tools it needs and count providers through a handle.
 
 These programs use an OpenAI model. Export a provider key separately:
 

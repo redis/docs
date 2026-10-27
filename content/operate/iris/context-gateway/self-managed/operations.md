@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - iris
-description: Check health, rotate credentials and encryption keys, monitor the result cache and the Gateway database, back up, upgrade, and uninstall Context Gateway.
+description: Check health, rotate credentials and encryption keys, monitor the cache and the Gateway database, back up, upgrade, and uninstall Context Gateway.
 linkTitle: Operations
 weight: 90
 hideListLinks: true
@@ -44,13 +44,13 @@ The keyring is loaded at startup, so each step needs a rollout of both planes:
 1. Set `credentialStorage.redis.activeKeyId: k2` and upgrade. New credential writes use `k2`, and existing credentials still open with `k1`.
 1. Rewrite the remaining credentials through the Control Plane. Keep `k1` until you can prove nothing uses it, including rollbacks and retained backups.
 
-## Monitor the result cache
+## Monitor the cache
 
-A cache hit carries `resultCache` in the call's invocation metadata. Every other outcome shows only in metrics and traces. `context_gateway_result_cache_lookups_total` counts lookups by `outcome` (`hit`, `miss`, `bypass`, `error`) and `reason`:
+A cache hit carries `cache` in the call's invocation metadata. Every other outcome shows only in metrics and traces. `context_gateway_cache_lookups_total` counts lookups by `outcome` (`hit`, `miss`, `bypass`, `error`) and `reason`:
 
 | Bypass `reason` | What to check |
 | --- | --- |
-| `not_opted_in` | The tool has no result cache policy. |
+| `not_opted_in` | The tool has no cache policy. |
 | `disabled` | The Gateway's `cache` setting is `disabled`. |
 | `no_database` | The Gateway has no `databaseId`. |
 | `unknown_database` | The Gateway's database is not registered on the Data Plane. Declare it on both planes. |
@@ -61,7 +61,7 @@ A cache hit carries `resultCache` in the call's invocation metadata. Every other
 
 | Error `reason` | What to check |
 | --- | --- |
-| `lookup_timeout` | The Gateway database answered slower than `result_cache.lookup_timeout`. Check its latency and load. |
+| `lookup_timeout` | The Gateway database answered slower than `cache.lookup_timeout`. Check its latency and load. |
 | `lookup_failed` | The Gateway database is down, unreachable, or refuses the Data Plane's user. |
 | `unusable_entry` | The entry was written by a newer release. The call's own write replaces it. |
 
@@ -69,7 +69,7 @@ A call whose lookup fails is served from the Upstream.
 
 ## Watch the Gateway database
 
-When result handles are on, alert on `context_gateway_result_handles_creates_total{outcome="out_of_memory"}`. It means the Gateway database refused a handle write and the agent received the whole result. Raise `maxmemory`, shorten the handle lifetime, or move handles to a dedicated database.
+When compression is on, alert on `context_gateway_compression_creates_total{outcome="out_of_memory"}`. It means the Gateway database refused a handle write and the agent received the whole result. Raise `maxmemory`, shorten the handle lifetime, or move handles to a dedicated database.
 
 Above 90 percent of `maxmemory`, the Data Plane pauses handle creation and counts `skipped_low_memory`. Creation resumes when the database has room. The Data Plane also stops holding handles when the database's eviction policy is not `noeviction` or JSON is unavailable.
 
@@ -87,9 +87,11 @@ Back up Metadata Redis and credential storage together. A Gateway record without
 
 Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached.
 
+The `result_cache` and `result_handles` settings, the `RESULT_CACHE` and `RESULT_HANDLES` environment variables, and the `context_gateway_result_cache_*` and `context_gateway_result_handles_*` metrics are now `cache`, `compression`, `CACHE`, `COMPRESSION`, `context_gateway_cache_*`, and `context_gateway_compression_*`. Rename them in your values files, dashboards, and alerts.
+
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
-Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `cache` tool policies, may need the changes in [Turn the result cache and result handles on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-result-cache-and-result-handles-on-or-off).
+Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `cache` tool policies, may need the changes in [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
 
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \

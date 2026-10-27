@@ -65,9 +65,9 @@ Listed in `search` mode only.
 
 The result is the tool's result.
 
-### Result handle tools
+### Handle tools
 
-Listed in both modes when result handles are on for the Gateway.
+Listed in both modes when compression is on for the Gateway.
 
 | Tool | Arguments | Result |
 | --- | --- | --- |
@@ -88,7 +88,7 @@ The Gateway adds these entries to `_meta`. Read them by key, and ignore members 
 | Key | Where | Members |
 | --- | --- | --- |
 | `com.redis.context-gateway/tool` | Each tool definition | `upstreamId`, `originalName`, and the catalog revision |
-| `com.redis.context-gateway/invocation` | Each tool result | `resultCache` with `status` `hit` and `ageMs` when the cache answered. `upstream` and `upstreamDurationMs` when the call reached the Upstream. |
+| `com.redis.context-gateway/invocation` | Each tool result | `cache` with `status` `hit` and `ageMs` when the cache answered. `upstream` and `upstreamDurationMs` when the call reached the Upstream. |
 | `com.redis.context-gateway/handle` | A handle stub | The handle and its description, without the preview and the next call |
 | `com.redis.context-gateway/failure` | A tool result with its error flag set | `schemaVersion`, `reason`, `completion`, and when the failure happened at the Upstream, `stage` and `upstreamCode` |
 

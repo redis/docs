@@ -106,7 +106,7 @@ On the search mode Gateway, list every provider as a handle, read the first page
 
 *Expected output: a stub with the handle and a short preview, one page of providers, then a count for each specialty.*
 
-See [Result handles](/content/develop/ai/context-engine/context-gateway/concepts.md#result-handles).
+See [Compression](/content/develop/ai/context-engine/context-gateway/concepts.md#compression).
 
 ## Clean up
 

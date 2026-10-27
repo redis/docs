@@ -31,7 +31,7 @@ umask 077
 
 ## Create the Gateways
 
-Create a `full` mode Gateway, and a `search` mode Gateway with a Gateway database so that it can hold result handles:
+Create a `full` mode Gateway, and a `search` mode Gateway with a Gateway database so that it can hold handles:
 
 ```bash
 curl --fail-with-body --silent --show-error \
@@ -51,7 +51,7 @@ export OPERATIONS_ID="$(jq -er '.id' operations.json)"
 jq '{id, mcpEndpoint, toolExposureMode}' front-desk.json operations.json
 ```
 
-The `search` mode Gateway has a `databaseId`, so it starts with `cache` and `compression` enabled. Result handles also need `result_handles.enabled` on the Data Plane. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+The `search` mode Gateway has a `databaseId`, so it starts with `cache` and `compression` enabled. Compression also needs `compression.enabled` on the Data Plane. See [Cache and compression](/content/operate/iris/context-gateway/self-managed/configuration.md#cache-and-compression).
 
 <!-- TODO: Run every step against a deployed chart before review. -->
 

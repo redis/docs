@@ -23,10 +23,10 @@ The [API reference](/content/develop/ai/context-engine/context-gateway/api-refer
 | Upstream namespace | 1 to 63 lowercase letters and digits, with single hyphens between them |
 | Gateway `databaseId` | 1 to 32 letters, digits, and hyphens |
 | `search_tools` query | 1 to 200 characters. `limit` 1 to 100, default 5. |
-| Result cache time to live (TTL) (`cache.ttlSeconds`) | 1 to 86400 seconds |
-| Result handle threshold | Results over 32 kibibytes (KiB) become handles when the deployment turns handles on. |
+| Cache time to live (TTL) (`cache.ttlSeconds`) | 1 to 86400 seconds |
+| Compression threshold | Results over 32 kibibytes (KiB) become handles when the deployment turns handles on. |
 | Largest result a handle holds | 8 mebibytes (MiB). A larger result comes back whole. |
-| Result handle lifetime | 15 minutes by default, at most 24 hours. A tool policy can set 1 to 86400 seconds. |
+| Handle lifetime | 15 minutes by default, at most 24 hours. A tool policy can set 1 to 86400 seconds. |
 | Handle preview | The first 3 items or 2 KiB |
 | Context Surface data model | 1 MiB of JSON |
 | Context Surface tool results | Up to 100 records per call. A handle over a larger answer holds one page and is marked partial. |
@@ -72,7 +72,7 @@ The failure entry in `_meta["com.redis.context-gateway/failure"]` holds `reason`
 
 *Example set `iris_gateway_limits`, steps `gateway-error-reason` and `gateway-error-jsonrpc`, in Python (Iris) and cURL (Iris): read the reason from a failed tool result and from a JSON-RPC error.*
 
-A result the cache answered carries `resultCache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. A result without it came from the Upstream.
+A result the cache answered carries `cache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. A result without it came from the Upstream.
 
 ## Handle request errors
 

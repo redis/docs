@@ -41,13 +41,13 @@ The chart consumes existing Redis deployments. It does not provision them.
 | Metadata Redis | Shared by the Control Plane and Data Plane. | Gateway and Upstream records. |
 | Credential Redis | A separate access control list (ACL) user. Only with the encrypted Redis backend. | Encrypted Upstream credentials. |
 | Surface databases | The Search module, the JSON module for entities stored as JSON, and `FT.HYBRID` support for hybrid search tools. | Records that Context Surfaces serve as tools. |
-| Gateway database | JSON support and `maxmemory-policy noeviction` for result handles. Only for the result cache or result handles. | Cached results and result handles. |
+| Gateway database | JSON support and `maxmemory-policy noeviction` for compression. Only for the cache or compression. | Cached results and handles. |
 
 Use separately managed Redis deployments for metadata, credentials, and customer data. Redis endpoint aliases do not prove that two databases are separate.
 
 - Give a Context Surface its own database when its records must stay separate from other Gateways. Gateways whose Surfaces share a database can read each other's records.
 - Never use one Redis database as both a Surface database and a Gateway database.
-- Size the Gateway database for result handles: the rate of calls that become handles, times the stored result size, times the handle lifetime.
+- Size the Gateway database for handles: the rate of calls that become handles, times the stored result size, times the handle lifetime.
 
 Use `rediss://` URLs with certificate verification. The Federal Information Processing Standards (FIPS)-oriented profile rejects plaintext Redis URLs.
 
