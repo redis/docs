@@ -49,7 +49,7 @@ See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agen
 
 ## Get started
 
-1. Set up a playbook. Operator guides are coming soon.
+1. [Create a playbook]({{< relref "/operate/iris/agent-playbook/create-playbook" >}}) on Redis Cloud.
 2. [Publish and retrieve your first FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}).
 
 ## Manage playbook entries

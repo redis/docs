@@ -21,14 +21,16 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
 
-Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off.
+Redis Agent Memory doesn't support [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases, databases using [AWS PrivateLink]({{< relref "operate/rc/security/aws-privatelink">}}) connectivity, [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases, or databases with the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) turned off. The console lists only the databases you can use.
+
+If the database you select has a Classless Inter-Domain Routing (CIDR) allow list, the console lists the Internet Protocol (IP) addresses to add to it so Agent Memory can reach the database. Add them under **Security** in the database's settings. The console also warns you if the database has Transport Layer Security (TLS) turned off.
 
 
 ## Create an Agent Memory service
 
-From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory** from the left-hand menu. 
+From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory** under **Iris** in the menu. If Redis Cloud displays service terms, review and accept them.
 
-If you have not already created an Agent Memory service, you'll see a page with an introduction to Agent Memory. Otherwise, select **New service** to go to the Agent Memory introduction page.
+If you haven't created an Agent Memory service yet, you see an introduction to Agent Memory. Select **Create Agent Memory service**. Otherwise, select **New Service** from your list of services.
 
 ![The New service button.](/images/rc/langcache-new-service.png)
 {width="150px"}
@@ -40,21 +42,11 @@ From here:
     ![The Quick create button.](/images/rc/langcache-quick-create.png)
     {width="150px"}
 
-    After Redis Cloud creates your Agent Memory service, a window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
+    After Redis Cloud creates your Agent Memory service, it opens the service's page. [Create an API key]({{< relref "/operate/iris/agent-memory/view-service#create-an-api-key" >}}) for your agent, then [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
-    ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
-    {width="40%"}
+- If you want to customize your Redis Agent Memory service, select **Create custom service**.
 
-    > [!WARNING]
-    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
-    >
-    > If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
-
-    After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
-
-- If you want to customize your Redis Agent Memory service, select **Create custom**.
-
-    ![The Create custom button to create an Agent Memory service.](/images/rc/agent-memory-custom-service.png)
+    ![The Create custom service button to create an Agent Memory service.](/images/rc/agent-memory-custom-service.png)
     {width="150px"}
 
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
@@ -73,8 +65,8 @@ The **General settings** section defines basic properties of your service.
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Service name** | Enter a name for your Agent Memory service. We recommend you use a name that describes your service's purpose. |
-| **Select database** | Select the Redis Cloud database to use for this service from the list. |
+| **Service Name** | Enter a name for your Agent Memory service, up to 64 characters. We recommend you use a name that describes your service's purpose. |
+| **Select Database** | Select the Redis Cloud database to use for this service from the list. |
 | **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}). |
 
 ### Memory configuration
@@ -85,20 +77,20 @@ The **Memory configuration** section allows you to define the time-to-live (TTL)
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days. Default: 1 hour |
-| **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
+| **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days, up to 365 days. Default: 24 hours |
+| **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days, up to 365 days. Default: 365 days |
 | **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
 
 #### Automatic summarization
 
 Automatic summarization keeps your agent sharp during long conversations by compressing older messages in a session into a summary, while keeping the most recent messages in full. This helps control the size of session memory without losing important context.
 
-Use the **Automatic summarization** toggle to enable or disable this behavior. When it is enabled, you can configure the following settings:
+Use the **Automatic summarization** toggle to enable or disable this behavior. It's enabled by default. When it is enabled, you can configure the following settings:
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. When a session exceeds this threshold, the oldest messages beyond the **Keep most recent** count are compressed into a summary. |
-| **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. |
+| **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized, from 1 to 500. It must be greater than **Keep most recent**. When a session exceeds this threshold, the oldest messages beyond the **Keep most recent** count are compressed into a summary. Default: 20 |
+| **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Default: 10 |
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
 
@@ -227,15 +219,7 @@ When you are done setting the details of your Agent Memory service, select **Cre
 
 ![Use the Create button to create an Agent Memory service.](/images/rc/button-access-management-user-key-create.png)
 
-A window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
-
-![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
-{width="40%"}
-
-> [!WARNING]
-> This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
->
-> If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Redis Agent Memory API.
+Redis Cloud creates the service and opens its page. To connect an agent, [create an API key]({{< relref "/operate/iris/agent-memory/view-service#create-an-api-key" >}}) with access to the service.
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
 

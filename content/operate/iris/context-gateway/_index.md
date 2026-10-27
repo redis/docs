@@ -1,6 +1,6 @@
 ---
 title: Redis Context Gateway
-description: Deploy and operate Redis Context Gateway on your own infrastructure.
+description: Deploy and operate Redis Context Gateway on Redis Cloud or your own infrastructure.
 linkTitle: Context Gateway
 alwaysopen: false
 categories:
@@ -11,15 +11,22 @@ weight: 22
 hideListLinks: true
 aliases:
 - /operate/iris/context-retriever/
-- /operate/iris/context-retriever/create-service/
-- /operate/iris/context-retriever/view-service/
-- /operate/iris/context-retriever/view-admin-keys/
 - /operate/rc/context-engine/context-retriever/
 ---
 
-Deploy Redis Context Gateway on Kubernetes to give agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, plus tools over your Redis data.
+Redis Context Gateway gives agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, plus tools over your Redis data.
 
-## Self-managed
+## Deployment options
+
+### Redis Cloud
+
+Use Redis Context Gateway as a managed service on Redis Cloud.
+
+[Create a Context Gateway](/content/operate/iris/context-gateway/create-gateway.md) and connect an agent, or [view and manage an existing Gateway](/content/operate/iris/context-gateway/manage-gateway.md).
+
+### Self-managed
+
+Deploy Redis Context Gateway on Kubernetes to run it on your own infrastructure.
 
 [Start with the self-managed deployment guide](/content/operate/iris/context-gateway/self-managed/_index.md).
 

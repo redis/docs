@@ -15,8 +15,8 @@ Use the Lens user interface (UI) to find a session, open a turn, and see what ha
 
 ## Connect to Lens
 
-Open Lens. If Lens asks for a credential, paste your read key and select **Connect**.
-<!-- TODO: describe where to open Lens on Redis Cloud and self-managed when the operator pages exist. -->
+Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu. If Lens asks for a credential, paste your read key and select **Connect**.
+<!-- TODO: describe where to open Lens self-managed when the operator pages exist. -->
 
 ## Find a session
 

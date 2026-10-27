@@ -49,7 +49,7 @@ You also need a shell with `curl` and `jq` installed.
 ## Save the connection values
 
 1. Open the Redis Agent Memory service in the Redis Cloud console.
-1. On the **Configuration** tab, copy the **Endpoint** and **Store ID**.
+1. On the **Configuration** tab, copy the **Store ID** and the URL from the **URL List**. This URL is the endpoint.
 1. Export the values for your chosen client in your shell:
 
 {{< multitabs id="connection-values" tab1="Python" tab2="TypeScript" tab3="curl" >}}
