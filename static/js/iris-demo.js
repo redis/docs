@@ -8,19 +8,26 @@
    data enters through Data Integration (a change in PostgreSQL reaches
    Redis), Maya asks the food delivery app's assistant to reorder last
    week's curry within 30 minutes and asks about the delivery fee, then
-   LangCache, Agent Memory, and Context Retriever each add one part of the
-   answer, and the model writes the reply. The last step takes one service
-   away and shows only the part of the reply it changes. Each step links
-   to that service's own demo, which covers it in depth; this page doesn't
-   repeat their API detail.
+   Intent Router matches it to intents, Agent Playbooks, Agent Memory, and
+   Context Gateway each add one part of the answer, and the model writes
+   the reply. The last step takes one
+   service away and shows only the part of the reply it changes. Each step
+   links to that service's docs or own demo, which cover it in depth; this
+   page doesn't repeat their API detail.
 
    trace() models every combination of services: the request's steps and
-   API shapes (matching agent-memory-demo.js, langcache-demo.js,
-   context-retriever-demo.js, and rdi-demo.js), the reply credited by
-   source, and the scorecard. The tour shows the full trace, and the last
-   step compares it with one service missing. Modelled rather than
-   observed: the similarity score, the agent's reasoning and reply, and
-   the timings and token counts.
+   API shapes (matching the Intent Router match API, the Agent Playbooks discovery API, the Context
+   Gateway MCP endpoint, agent-memory-demo.js, and rdi-demo.js), the reply
+   credited by source, and the scorecard. The tour shows the full trace,
+   and the last step compares it with one service missing. Modelled rather
+   than observed: the similarity score, the agent's reasoning and reply,
+   and the timings and token counts.
+
+   Internal keys predate the current services and stay as they are, because
+   the drawing, routes, and styles use them: "cache" is Agent Playbooks and
+   "retriever" is Context Gateway. The drawing still shows the published
+   LangCache and Context Retriever labels, so the stage draws the current
+   names over them (RELABEL).
 
    Customers, restaurants, orders, and Maya's memories come from the same
    sample data as those demos. Keep them in sync.
@@ -60,22 +67,33 @@
     { key: "spicy", type: "semantic", text: "User loves spicy Thai food." },
     { key: "veg", type: "semantic", text: "User is vegetarian." }
   ];
-  /* The LangCache demo's cached answer to the delivery fee question. */
+  /* The support playbook's published FAQ on the delivery fee. Discovery returns FAQs scored at or above the
+     playbook's threshold, 0.7 by default. */
   var FEE_PROMPT = "How much is the delivery fee?";
   var FEE = "Delivery costs $1.99 to $4.99, depending on distance, and you see the exact fee at checkout. Plus members get free delivery on orders over $15.";
-  var FEE_SIM = 0.92;
+  var FEE_SIM = 0.92, FEE_VERSION = 3, FEE_KEY = "delivery-fee";
+  var FEE_INTENTS = ["What does delivery cost?", "Is delivery free for Plus members?"];
+  /* The assistant's Router matches Maya's message to two of its intents, best first. Each target tells the app what to
+     dispatch: the food assistant for the reorder, and the support playbook's discovery tool for the fee question. */
+  var INTENTS = [
+    { name: "reorder", description: "The customer wants to order something they had before.", score: 0.86,
+      target: { type: "agent", ref: "food-assistant.reorder" } },
+    { name: "delivery_fee", description: "A general question about what delivery costs.", score: 0.78,
+      target: { type: "tool", ref: "playbooks.discover_entries", args: { playbook: "support" } } }
+  ];
 
   /* In the order data flows through Iris: in through Data Integration, then the services the agent calls. */
   var SERVICES = [
     { key: "rdi", name: "Data Integration", role: "Brings business data in from PostgreSQL and keeps it in sync" },
-    { key: "retriever", name: "Context Retriever", role: "Gives the agent governed tools to read that data" },
+    { key: "router", name: "Intent Router", role: "Decides what each part of a message needs, without a model call" },
+    { key: "retriever", name: "Context Gateway", role: "Gives the agent governed tools to read that data" },
     { key: "memory", name: "Agent Memory", role: "Remembers Maya across conversations" },
-    { key: "cache", name: "LangCache", role: "Answers questions it has seen before" }
+    { key: "cache", name: "Agent Playbooks", role: "Answers recurring questions with answers your business approved" }
   ];
-  var NAMES = { cache: "LangCache", memory: "Agent Memory", retriever: "Context Retriever", rdi: "Data Integration", model: "Model" };
+  var NAMES = { router: "Intent Router", cache: "Agent Playbooks", memory: "Agent Memory", retriever: "Context Gateway", rdi: "Data Integration", model: "Model" };
   /* Modelled timings (ms) and token counts. */
-  var MS = { cache: 41, memory: 190, tool: [74, 88, 81], answer: 1620, reply: 1480 };
-  var TOKENS = { answer: 61 };
+  var MS = { route: 12, plan: 1100, cache: 41, memory: 190, tool: [74, 88, 81], answer: 1620, reply: 1480 };
+  var TOKENS = { plan: 38, answer: 61 };
 
   /* --------------------------------------------------------------- helpers */
 
@@ -119,16 +137,23 @@
     return ["curl -s -X POST \"" + url + "\" \\", "  -H \"Authorization: Bearer " + key + "\" \\", "  -H \"Content-Type: application/json\" \\",
       "  -d " + shellQuote(JSON.stringify(body))].join("\n");
   }
-  var MCP = "https://<region>.context-surfaces.redis.io/mcp";
+  /* The Gateway serves each Upstream's tools under its namespace: fooddelivery.filter_order. */
+  var GATEWAY_NS = "fooddelivery";
   function curlMcp(body) {
-    return ["curl -X POST " + MCP + " \\", "  -H \"X-API-Key: <your-agent-key>\" \\", "  -H \"Content-Type: application/json\" \\",
+    return ["curl -X POST \"$IRIS_CONTEXT_GATEWAY_URL\" \\", "  -H \"Authorization: Bearer $IRIS_CONTEXT_GATEWAY_API_KEY\" \\", "  -H \"Content-Type: application/json\" \\",
       "  -H \"Accept: application/json, text/event-stream\" \\", "  -d " + shellQuote(JSON.stringify(body))].join("\n");
   }
-  function cacheSearch() {
-    var request = { prompt: QUESTION };
-    return { method: "POST", path: "/entries/search", status: "200", request: request,
-      response: { data: [{ id: id32(FEE_PROMPT + "|{}"), prompt: FEE_PROMPT, response: FEE, attributes: {}, similarity: FEE_SIM, searchStrategy: "semantic" }] },
-      curl: curlRest("https://$LANGCACHE_HOST/v1/caches/$CACHE_ID/entries/search", "$LANGCACHE_API_KEY", request) };
+  function playbookDiscover() {
+    var request = { query: QUESTION, limit: 3 };
+    return { method: "POST", path: "/discover", status: "200", request: request,
+      response: { pinnedEntries: [], discoveredEntries: [{ entryId: "ent_" + id32("faq:" + FEE_KEY), entryKey: FEE_KEY, entryType: "faq", version: FEE_VERSION,
+        intents: FEE_INTENTS, faq: { question: FEE_PROMPT, answer: FEE }, score: FEE_SIM }], truncated: false },
+      curl: curlRest("$PLAYBOOK_URL/v1/playbooks/$PLAYBOOK_ID/discover", "$PLAYBOOK_API_KEY", request) };
+  }
+  function routerMatch() {
+    var request = { query: MESSAGE, limit: 3 };
+    return { method: "POST", path: "/match", status: "200", request: request, response: { items: INTENTS },
+      curl: curlRest("$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/match", "$IRIS_INTENT_ROUTER_API_KEY", request) };
   }
   function memoryRecord(m) {
     return { createdAt: EXTRACTION_AT, id: id32("memory:" + m.key), memoryType: m.type, ownerId: OWNER, sessionId: PAST_SESSION,
@@ -146,13 +171,14 @@
     return { method: "POST", path: "/session-memory/events", status: "201", request: request, response: { event: ev },
       curl: curlRest("$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events", "$AGENT_MEMORY_API_KEY", request) };
   }
-  /* Context Retriever results carry a _retrieval stamp, with fields sorted (as the Context Retriever demo returns them). */
+  /* Context Surface results carry a _retrieval stamp, with fields sorted (as the Context Retriever demo returns them). */
   function stamp(rec) {
     var out = { _retrieval: { source: SURFACE, retrieved_at: ASK_AT.replace("Z", ".318Z"), source_version: 1 } };
     Object.keys(rec).sort().forEach(function (k) { out[k] = rec[k]; });
     return out;
   }
   function toolCall(n, name, args, result) {
+    name = GATEWAY_NS + "." + name;
     var request = { jsonrpc: "2.0", id: n, method: "tools/call", params: { name: name, arguments: args } };
     return { method: "tools/call", path: name, status: "ok", args: args, request: request,
       response: { jsonrpc: "2.0", id: n, result: { content: [{ type: "text", text: JSON.stringify(result) }] } }, result: result, curl: curlMcp(request) };
@@ -176,7 +202,7 @@
       on: true, at: SYNC_AT,
       sql: "UPDATE restaurants SET avg_delivery_min = 45 WHERE id = 'r209';",
       text: "Lotus Thai's kitchen gets busy, and the app updates its delivery time in PostgreSQL. A second later, Data Integration has written the change to " +
-        code("restaurant:r209") + ", through a job file that uses the key template Context Retriever reads.",
+        code("restaurant:r209") + ", through a job file that uses the key template the Context Surface reads.",
       record: { opcode: "u", db: "fooddelivery", schema: "public", table: "restaurants", key: { id: "r209" }, after: lotusRow }
     } : {
       on: false, at: SYNC_AT,
@@ -185,12 +211,23 @@
         code("restaurant:r209") + " still says 25 minutes."
     };
 
+    /* Route */
+    if (on.router) add({ phase: "route", service: "router", ms: MS.route, title: "Matches the message to intents",
+      text: "Intent Router compares Maya's message with the example phrasings of the assistant's intents. Two match: " + code("reorder") +
+        ", which goes to the food assistant, and " + code("delivery_fee") + ", which points at the support playbook. No model call decides this.",
+      calls: [routerMatch()] });
+    else {
+      add({ phase: "route", service: "router", off: true, title: "No intents to match", text: "Intent Router is off, so nothing has sorted out what Maya's message needs." });
+      add({ phase: "model", service: "model", ms: MS.plan, tokens: TOKENS.plan, title: "Plans the request",
+        text: "A model call reads Maya's message first and works out what each part needs, which Intent Router would have matched without one." });
+    }
+
     /* Recall */
-    if (on.cache) add({ phase: "recall", service: "cache", ms: MS.cache, title: "Checks the cache for the general question",
-      text: "The agent sends the general part of Maya's message to LangCache, " + code(QUESTION) + ". A similar question, " + code(FEE_PROMPT) +
-        ", scores " + FEE_SIM.toFixed(2) + ", so the cached answer comes back without a model call. The personal part isn't cached, because its answer is Maya's alone.",
-      calls: [cacheSearch()] });
-    else add({ phase: "recall", service: "cache", off: true, title: "No cache to check", text: "LangCache is off, so the model has to answer the general question too." });
+    if (on.cache) add({ phase: "recall", service: "cache", ms: MS.cache, title: "Checks the support playbook for the general question",
+      text: "The agent sends the general part of Maya's message to Agent Playbooks, " + code(QUESTION) + ". The published FAQ " + code(FEE_PROMPT) +
+        " scores " + FEE_SIM.toFixed(2) + ", above the playbook's threshold, so its approved answer comes back without a model call. The personal part isn't sent, because no FAQ can answer it.",
+      calls: [playbookDiscover()] });
+    else add({ phase: "recall", service: "cache", off: true, title: "No playbook to check", text: "Agent Playbooks is off, so the model has to answer the general question too." });
     if (on.memory) add({ phase: "recall", service: "memory", ms: MS.memory, title: "Recalls last week's order and Maya's preferences",
       text: "A long-term memory search, scoped to Maya, returns what the assistant learned in last week's conversation: the order she means, her peanut allergy, and how she likes her food.",
       calls: [memorySearch()], memories: MEMORIES });
@@ -217,7 +254,7 @@
           calls: [toolCall(++n, "filter_order", { tag_conditions: [{ field: "customer_id", value: OWNER }, { field: "restaurant_id", value: BSK.id }] }, filterResult(PAD_THAI))] });
       }
     } else add({ phase: "retrieve", service: "retriever", off: true, title: "No tools to call",
-      text: "Context Retriever is off, so the agent has no way to read restaurants or orders." + (on.rdi ? " Data Integration still keeps Redis up to date, but nothing reads it." : "") });
+      text: "Context Gateway is off, so the agent has no way to read restaurants or orders." + (on.rdi ? " Data Integration still keeps Redis up to date, but nothing reads it." : "") });
 
     /* The reply, as segments credited to their source. */
     var R = [];
@@ -245,7 +282,7 @@
 
     /* Model call */
     if (!on.cache) add({ phase: "model", service: "model", ms: MS.answer, tokens: TOKENS.answer, title: "Answers the general question",
-      text: "A separate model call writes the delivery fee answer that LangCache would have returned." });
+      text: "A separate model call writes the delivery fee answer that the published FAQ would have supplied." });
     var replyTokens = Math.round(reply.split(/\s+/).length * 1.3);   // about 1.3 tokens a word
     add({ phase: "model", service: "model", ms: MS.reply, tokens: replyTokens, title: "Writes the reply",
       text: "The model gets Maya's message plus the context gathered so far" + (on.memory || on.retriever ? "" : ", which is nothing") + ", and writes the reply." });
@@ -255,11 +292,14 @@
       text: "Both go into session memory as events. Background extraction later decides what's worth keeping long term, such as the restaurant Maya picks tonight.",
       calls: [sessionEvent(0, "USER", MESSAGE, ASK_AT), sessionEvent(1, "ASSISTANT", reply, REPLY_AT)] });
     else add({ phase: "record", service: "memory", off: true, title: "Nothing is remembered", text: "Agent Memory is off, so next time the assistant starts from nothing again." });
-    if (on.cache) add({ phase: "record", service: "cache", note: true, title: "Nothing new to cache",
-      text: "The general question was a cache hit, and the reply is personal, so the app doesn't store it." });
+    if (on.cache) add({ phase: "record", service: "cache", note: true, title: "Nothing to publish",
+      text: "The fee answer came from a published FAQ, and the rest of the reply is personal. Agents don't publish to a playbook: new FAQs arrive as proposals, and a reviewer publishes them." });
 
     /* The scorecard. */
     var checks = [
+      { key: "route", label: "Decides what to do without a model call",
+        state: on.router ? "ok" : "slow",
+        text: on.router ? "Intent Router matched 2 intents in " + MS.route + " ms" : "A planning model call: " + seconds(MS.plan) + " and " + TOKENS.plan + " output tokens" },
       { key: "time", label: "Arrives within 30 minutes",
         state: on.retriever && on.rdi ? "ok" : on.retriever ? "bad" : "warn",
         text: on.retriever && on.rdi ? "Lotus Thai is too slow tonight, so it offers Bangkok Street Kitchen" : on.retriever ? "Promises 25 minutes, but Lotus Thai is taking 45" : "Can't check delivery times" },
@@ -271,7 +311,7 @@
         text: on.memory ? "Knows about her allergy" : alt ? "Suggests pad thai without knowing about her allergy" : "Doesn't know about her allergy" },
       { key: "fee", label: "Answers the delivery fee question",
         state: on.cache ? "ok" : "slow",
-        text: on.cache ? "From LangCache in " + MS.cache + " ms" : "From the model: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens" }
+        text: on.cache ? "From a published FAQ in " + MS.cache + " ms" : "From the model: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens" }
     ];
     return { on: on, background: background, steps: steps, reply: R, replyText: reply, checks: checks, ms: ms, tokens: tokens, alt: alt };
   }
@@ -282,6 +322,11 @@
      supplied, with and without it (both are excerpts of trace() replies,
      which the tests check), and the scorecard check it moves. */
   var WHAT_IF = {
+    router: { check: "route",
+      with: "Last week you had the extra spicy green curry from Lotus Thai, with no peanuts or fish sauce.",
+      without: "Last week you had the extra spicy green curry from Lotus Thai, with no peanuts or fish sauce.",
+      why: "Without Intent Router, the reply says the same thing, but a model call has to work out what Maya wants first: " + seconds(MS.plan) + " and " + TOKENS.plan +
+        " output tokens. Intent Router matched the same two intents in " + MS.route + " ms." },
     rdi: { check: "time",
       with: "Lotus Thai is taking about 45 minutes tonight, so it wouldn't arrive in time. Bangkok Street Kitchen can deliver in about 30 minutes",
       without: "Lotus Thai can deliver in about 25 minutes. Should I order it again?",
@@ -289,7 +334,7 @@
     retriever: { check: "time",
       with: "Lotus Thai is taking about 45 minutes tonight, so it wouldn't arrive in time. Bangkok Street Kitchen can deliver in about 30 minutes",
       without: "I can't check delivery times right now, so I can't promise it'll arrive within 30 minutes. Should I order it anyway?",
-      why: "Without Context Retriever, the agent has no tools to read restaurants or orders. The data in Redis is fresh, but nothing reads it." },
+      why: "Without Context Gateway, the agent has no tools to read restaurants or orders. The data in Redis is fresh, but nothing reads it." },
     memory: { check: "peanut",
       with: "you've ordered their pad thai with tofu twice. Should I order that, extra spicy, with no peanuts or fish sauce?",
       without: "you've ordered their pad thai with tofu twice. Should I order that?",
@@ -297,7 +342,7 @@
     cache: { check: "fee",
       with: "Delivery costs $1.99 to $4.99, depending on distance",
       without: "Delivery costs $1.99 to $4.99, depending on distance",
-      why: "Without LangCache, the reply says the same thing, but a second model call writes the fee answer: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens that the cache would have saved." }
+      why: "Without Agent Playbooks, a second model call writes the fee answer: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens that the published FAQ would have saved. The wording matches here, but nothing ties it to the answer the support team approved." }
   };
   /* The tour, one idea per step. `lit` lists the map nodes the step is about;
      `adds` is what the agent knows after it. */
@@ -307,21 +352,24 @@
       adds: [{ src: "rdi", t: "Lotus Thai: 45 minutes tonight" }] },
     { key: "ask", at: "18:24", title: "Maya asks the assistant", lit: ["agent"],
       text: "Four minutes later, Maya asks for last week's curry. To answer, the agent needs what she had and what she can't eat, a restaurant that can deliver in time, and the delivery fee, which is the same for everyone." },
-    { key: "cache", at: "18:24", title: "LangCache answers the general question", lit: ["cache", "redis", "agent"],
-      text: "The delivery fee doesn't depend on who's asking, so the agent checks LangCache first. Another customer asked something similar earlier, and the cached answer comes back in " + MS.cache + " ms, without a model call. The rest of Maya's message is personal, so it isn't cached.",
+    { key: "router", at: "18:24", title: "Intent Router matches the message", lit: ["router", "agent"],
+      text: "Before the agent acts, Intent Router matches Maya's message against the intents the app defined. Two match, best first: reorder, which sends the request to the food assistant, and delivery_fee, which points the fee question at the support playbook. Matching takes " + MS.route + " ms, without a model call.",
+      adds: [{ src: "router", t: "reorder → food assistant" }, { src: "router", t: "delivery_fee → support playbook" }] },
+    { key: "cache", at: "18:24", title: "Agent Playbooks answers the general question", lit: ["cache", "redis", "agent"],
+      text: "Intent Router pointed the fee question at the support playbook, so the agent checks it first. The support team published an approved answer to this question, and discovery returns it in " + MS.cache + " ms, without a model call. The rest of Maya's message is personal, so no FAQ covers it.",
       adds: [{ src: "cache", t: "Delivery fee: $1.99 to $4.99" }] },
     { key: "memory", at: "18:24", title: "Agent Memory recalls last week", lit: ["memory", "redis", "agent"],
       text: "This is a new conversation, but Agent Memory kept what the assistant learned from Maya last week. A search scoped to her returns the order she means and the food she can't eat.",
       adds: [{ src: "memory", t: "Last week: extra spicy green curry from Lotus Thai" }, { src: "memory", t: "Allergic to peanuts, avoids fish sauce" }] },
-    { key: "retriever", at: "18:24", title: "Context Retriever checks live data", lit: ["retriever", "redis", "agent"],
-      text: "Context Retriever gives the agent governed tools for the restaurant and order data that Data Integration keeps in sync. Lotus Thai is too slow tonight, so the agent finds a Thai restaurant that can make it, and checks what Maya has ordered there.",
+    { key: "retriever", at: "18:24", title: "Context Gateway checks live data", lit: ["retriever", "redis", "agent"],
+      text: "Context Gateway gives the agent governed tools, through one Model Context Protocol (MCP) endpoint, for the restaurant and order data that Data Integration keeps in sync. Lotus Thai is too slow tonight, so the agent finds a Thai restaurant that can make it, and checks what Maya has ordered there.",
       adds: [{ src: "retriever", t: "Bangkok Street Kitchen: 30 minutes" }, { src: "retriever", t: "She's had their pad thai with tofu twice" }] },
     { key: "reply", at: "18:24", title: "The model writes one reply", lit: ["agent"],
       text: "The model gets Maya's message and everything the agent gathered, and writes the reply. Each highlighted part came from a different service. Afterward, Agent Memory stores the conversation, so next time the assistant remembers tonight too." },
     { key: "whatif", title: "What if a service were missing?", lit: [],
       text: "Pick a service to take away. Only the part of the reply it supplied changes." }
   ];
-  var DEPTH = { rdi: "Data Integration", retriever: "Context Retriever", memory: "Agent Memory", cache: "LangCache" };
+  var DEPTH = { rdi: "Data Integration", router: "Intent Router", retriever: "Context Gateway", memory: "Agent Memory", cache: "Agent Playbooks" };
 
   /* ---- the PostgreSQL sample data, shown when the reader selects POSTGRES ----
      The same rows as the RDI demo (rdi-demo.js), on the evening of this tour:
@@ -380,7 +428,7 @@
 
   /* ---- the same rows in Redis, shown when the reader selects the Redis logo ----
      Data Integration writes each row as a JSON document. Its job files give each table the key template
-     Context Retriever reads ({table}:{id}), and the customers job leaves out email, as in the RDI demo. */
+     the Context Surface reads ({table}:{id}), and the customers job leaves out email, as in the RDI demo. */
   function rdTable(t, prefix, drop) {
     var keep = t.columns.map(function (c, i) { return i > 0 && drop.indexOf(c) < 0 ? i : -1; }).filter(function (i) { return i > 0; });
     return { name: t.name, columns: ["key"].concat(keep.map(function (i) { return t.columns[i]; })),
@@ -391,7 +439,7 @@
   var RD_NOTES = {
     restaurants: "About a second after PostgreSQL changes, Data Integration writes Lotus Thai's new time to restaurant:r209.",
     customers: "The Data Integration job leaves out email, so addresses never reach Redis.",
-    orders: "Maya's past orders. Context Retriever's filter_order tool finds them by customer_id."
+    orders: "Maya's past orders. Context Gateway's " + GATEWAY_NS + ".filter_order tool finds them by customer_id."
   };
   /* The two data windows, and where to select each in the drawing: a button over the shape, and a ring on
      the shape's own outline that pulses on the step where the data changes. `changed` is Lotus Thai's row. */
@@ -426,48 +474,101 @@
     amagent: "M 728.8 334.6 L 711.2 344.7 L 689.7 357.1",
     amagent2: "M 697.6 364.2 L 721.0 350.8 L 736.8 341.7",
     lcagent: "M 572.3 436.8 L 595.2 423.6 L 610.7 414.7",
-    lcagent2: "M 602.9 407.7 L 585.6 417.6 L 564.5 429.8",
-    maya: "M 719.7 437.5 L 703.7 428.2 L 684.1 417.0",
-    maya2: "M 691.5 410.9 L 712.9 423.2 L 727.1 431.4"
+    lcagent2: "M 602.9 407.7 L 585.6 417.6 L 564.5 429.8"
+    /* maya, maya2, router, and router2 are added with the figures (FIGURES), from their geometry. */
   };
   /* Where to select each part of the drawing, and where each value tag sits:
      x, y (the tag's bottom edge), and which side it hangs from. */
   var HITS = { rdi: [292, 180, 52], redis: [413, 230, 44], retriever: [540, 318, 36],
-    memory: [773, 307, 36], agent: [651, 385, 36], cache: [526, 469, 36], maya: [761, 455, 36] };
-  var TAG_SPOTS = { cache: [484, 470, "r"], memory: [872, 262, "r"] };
+    memory: [773, 307, 36], agent: [651, 385, 36], cache: [526, 469, 36] };   // maya and router: with the figures
+  var TAG_SPOTS = { cache: [484, 470, "r"], memory: [872, 262, "r"] };   // router: with the figures
   /* What each step shows: which versions of the drawing, how they blend,
      and what moves. Groups run in order; the routes in a group run together.
      A tag appears when the group it belongs to arrives. */
   var FLOWS = {
     rdi: { layers: ["rdi"], groups: [[["pg"]], [["rdi"]]] },   // no tag: the step card shows the change that lands
     ask: { layers: ["rdi", "retriever", "cache", "memory"], blend: "darken", groups: [[["maya"]]] },   // no tag: the step card shows her message
-    cache: { layers: ["cache"], groups: [[["lcagent2"]], [["dblc", 1]], [["dblc"]], [["lcagent"]]], tags: [[2, "cache", "cache hit · 0.92 · 41 ms"]] },
+    router: { layers: ["rdi", "retriever", "cache", "memory"], blend: "darken", groups: [[["maya"]], [["router"]]], tags: [[0, "router", "2 intents · 12 ms"]] },
+    cache: { layers: ["cache"], groups: [[["lcagent2"]], [["dblc", 1]], [["dblc"]], [["lcagent"]]], tags: [[2, "cache", "FAQ · 0.92 · 41 ms"]] },
     memory: { layers: ["memory"], groups: [[["amagent2"]], [["amdb"]], [["amdb", 1]], [["amagent"]]], tags: [[2, "memory", "5 memories"]] },
     retriever: { layers: ["retriever"],
       groups: [[["cragent2"]], [["dbcr"]], [["cragent"]], [["cragent2"]], [["dbcr"]], [["cragent"]], [["cragent2"]], [["dbcr"]], [["cragent"]]] },   // no tags: the step card lists the three calls
-    reply: { layers: ["retriever", "memory", "cache"], groups: [[["cragent"], ["amagent"], ["lcagent"]], [["maya2"]]] }   // no tag: the step card shows the reply
+    reply: { layers: ["retriever", "memory", "cache"], groups: [[["cragent"], ["amagent"], ["lcagent"]], [["router2"]], [["maya2"]]] }   // no tag: the step card shows the reply
   };
-  var STEP_OF = { rdi: 0, redis: 0, maya: 1, cache: 2, memory: 3, retriever: 4, agent: 5 };
-  /* ---- Maya, the user, drawn in the diagram's own style ----
-     The drawing has no user, so the stage adds one: the agent's disc and
-     label box, moved to the empty lower right, with a person where the
-     agent has a robot. Her link to the agent is the Context Retriever's pair
-     of arrows turned half a turn about the agent's disc; both discs look the
-     same that way round, so the arrows meet them as the drawing's do. The
-     link is lit on the steps she's part of. */
-  var MAYA = {
-    move: [110.06, 69.065],   // from the agent's disc to Maya's
+  var STEP_OF = { rdi: 0, redis: 0, maya: 1, router: 2, cache: 3, memory: 4, retriever: 5, agent: 6 };
+  /* ---- Intent Router and Maya, the user, drawn in the diagram's own style ----
+     The drawing has neither, so the stage adds both on the empty diagonal down and to the right of the
+     agent: Intent Router first, because it matches Maya's message before the agent acts on it, then Maya.
+     Each is the agent's own disc, scaled about the agent's face centre (C0) and moved along that diagonal
+     (STEP, in multiples of it): Intent Router in the drawing's service colours with its icon, Maya with a
+     person where the agent has a robot. Each has a label box below it, as the agent does; Intent Router's
+     shows only while it's lit, as the drawing shows only a lit service's label. Their links use the
+     drawing's arrow style, one line each way, with dots that show while the link is lit. */
+  var C0 = [655.895, 388.655], STEP = [110.06, 69.065], STEP_LEN = Math.hypot(STEP[0], STEP[1]);
+  var DISC = {
     rim: "M626.802 419.618C621.381 416.488 617.95 409.911 617.794 400.63C617.482 382.067 630.387 359.713 646.62 350.702C654.736 346.197 662.147 345.88 667.568 349.009L674.93 352.459C680.351 355.589 683.782 362.166 683.938 371.447C684.25 390.01 671.345 412.364 655.112 421.375C646.996 425.88 639.585 426.197 634.164 423.067L626.802 419.618Z",
     face: "M655.897 421.803C671.75 412.649 684.602 390.389 684.602 372.083C684.603 353.777 671.752 346.358 655.899 355.511C640.046 364.664 627.193 386.924 627.193 405.23C627.192 423.536 640.044 430.956 655.897 421.803Z",
-    icon: [28.7085, -16.5775, 0, 33.1498, 765.955, 457.72],   // the disc face's plane, in units of its radius
-    link: [-1, 0, 0, -1, 1301.74, 772.07],   // half a turn about the agent's disc
-    arrows: ["M619.301 356.381C619.585 356.381 619.815 356.247 619.814 356.083L619.804 353.41C619.804 353.246 619.573 353.114 619.289 353.114C619.005 353.114 618.775 353.248 618.776 353.412L618.784 355.788L614.669 355.793C614.385 355.793 614.155 355.926 614.155 356.09C614.156 356.254 614.387 356.387 614.671 356.387L619.301 356.381ZM582.472 334.495C582.271 334.379 581.945 334.38 581.745 334.496C581.544 334.612 581.545 334.8 581.746 334.916L582.109 334.706L582.472 334.495ZM582.109 334.706L581.746 334.916L618.937 356.294L619.3 356.084L619.663 355.874L582.472 334.495L582.109 334.706Z",
-      "M609.695 361.335C609.896 361.45 610.222 361.45 610.422 361.334C610.623 361.217 610.622 361.029 610.421 360.914L610.058 361.124L609.695 361.335ZM572.866 339.449C572.582 339.449 572.352 339.582 572.353 339.746L572.363 342.419C572.363 342.583 572.594 342.716 572.878 342.716C573.162 342.715 573.392 342.582 573.392 342.418L573.383 340.042L577.498 340.037C577.782 340.037 578.012 339.903 578.012 339.739C578.011 339.575 577.78 339.443 577.496 339.443L572.866 339.449ZM572.867 339.746L572.504 339.956L609.695 361.335L610.058 361.124L610.421 360.914L573.23 339.535L572.867 339.746Z"],
-    dots: [[589.669, 338.86], [600.591, 355.661]],
-    label: [800, 442.7, 38.3, 24.751]
+    icon: [28.7085, -16.5775, 0, 33.1498],   // the face's plane, in units of its radius, at full size
+    bottom: 37.6,   // from C0 down to the disc's lowest point, at full size
+    reach: 44   // from a disc's centre to where its links start, along STEP, at full size
   };
+  var FIG = {
+    router: { at: 0.8, s: 0.7, label: "INTENT ROUTER", labelW: 81.4, labelDx: -25 },   // left, clear of its link to Maya
+    maya: { at: 1.6, s: 0.8, label: "MAYA", labelW: 38.3 }
+  };
+  Object.keys(FIG).forEach(function (k) { var f = FIG[k]; f.c = [C0[0] + STEP[0] * f.at, C0[1] + STEP[1] * f.at]; });
+  /* A point `a` along the diagonal from C0, and `o` across it (down and to the left). */
+  function diag(a, o) {
+    var ux = STEP[0] / STEP_LEN, uy = STEP[1] / STEP_LEN;
+    return [C0[0] + ux * a - uy * o, C0[1] + uy * a + ux * o];
+  }
+  /* A link's two lines: `in` runs toward the agent, `out` away from it. */
+  function link(near, far) {
+    var a = near.at * STEP_LEN + near.s * DISC.reach, b = far.at * STEP_LEN - far.s * DISC.reach;
+    return { in: [diag(b, 9), diag(a, 9)], out: [diag(a, 0), diag(b, 0)] };
+  }
+  var LINKS = { router: link({ at: 0, s: 1 }, FIG.router), maya: link(FIG.router, FIG.maya) };
+  function routeD(seg) { return "M " + seg[0][0].toFixed(1) + " " + seg[0][1].toFixed(1) + " L " + seg[1][0].toFixed(1) + " " + seg[1][1].toFixed(1); }
+  ROUTES.maya = routeD(LINKS.maya.in); ROUTES.maya2 = routeD(LINKS.maya.out);
+  ROUTES.router = routeD(LINKS.router.in); ROUTES.router2 = routeD(LINKS.router.out);
+  HITS.router = [FIG.router.c[0], FIG.router.c[1], 26]; HITS.maya = [FIG.maya.c[0], FIG.maya.c[1], 30];
+  TAG_SPOTS.router = [790, 528, "r"];   // below its label, clear of Maya
+  /* The red badge every service disc carries, copied from the Agent Memory disc in agent-memory.svg, with
+     that disc's face centre so it can be placed on another disc. */
+  var BADGE = { at: [778.549, 309.69], red: "M793.415 291.105C793.414 295.046 790.647 299.839 787.234 301.81C783.821 303.781 781.054 302.183 781.054 298.242C781.054 294.301 783.821 289.508 787.234 287.537C790.648 285.566 793.415 287.164 793.415 291.105Z",
+    white: "M789.972 293.216C789.517 294.11 789.027 295.115 788.046 295.682C787.169 296.188 786.843 295.523 786.82 294.843C787.012 295.18 787.387 295.327 787.973 294.972C789.099 294.281 789.872 292.712 789.872 291.689C789.872 290.465 789.045 290.06 787.61 290.888C786.583 291.481 785.311 292.647 784.476 293.811C784.466 294.519 784.821 295.227 784.948 295.053C785.672 294.06 786.247 293.358 786.804 292.85C785.979 294.342 784 297.843 783.758 298.398C783.785 298.764 784.212 299.54 784.421 299.42C784.484 299.383 784.539 299.312 784.603 299.205C785.199 298.12 785.686 297.175 786.118 296.286C786.179 297.188 786.597 298.093 787.764 297.419C788.809 296.816 789.844 295.386 790.317 293.237C790.371 292.975 790.117 292.941 789.972 293.216ZM788.782 292.388C788.782 292.98 788.255 293.575 787.773 293.853C787.516 294.002 787.318 294.041 787.162 294.035C787.449 293.388 787.734 292.73 788.04 292.025C788.58 291.815 788.782 292.029 788.782 292.388Z" };
+  /* Intent Router's icon, in the face's plane: a store with requests passing through it, one routed out. */
+  var ROUTER_ICON = '<path d="M -0.34 -0.3 C -0.34 -0.42 0.22 -0.42 0.22 -0.3 C 0.22 -0.18 -0.34 -0.18 -0.34 -0.3 Z"/>' +
+    '<path d="M -0.34 -0.3 L -0.34 0.32 C -0.34 0.44 0.22 0.44 0.22 0.32 L 0.22 0.22"/><path d="M 0.22 -0.3 L 0.22 -0.2"/>' +
+    '<path d="M -0.24 -0.1 L 0.04 -0.1 M -0.03 -0.16 L 0.04 -0.1 L -0.03 -0.04"/>' +
+    '<path d="M -0.24 0.14 L 0.04 0.14 M -0.03 0.08 L 0.04 0.14 L -0.03 0.2"/>' +
+    '<path d="M -0.28 0.02 L 0.3 0.02 M 0.23 -0.04 L 0.3 0.02 L 0.23 0.08"/><circle cx="0.4" cy="0.02" r="0.07"/>';
 
-  var MISSING_ROUTES = { rdi: ["pg", "rdi"], retriever: ["dbcr", "cragent", "cragent2"], memory: ["amdb", "amagent", "amagent2"], cache: ["dblc", "lcagent", "lcagent2"] };
+  /* ---- the current service names, drawn over the drawing's published labels ----
+     Each version of the drawing shows its lit service's label box, and data-integration.svg also shows the
+     Context Retriever box. The stage draws the same box, with the current name, at the same place, and
+     shows it whenever a version in `in` is lit (see compose()). Boxes are x, y, width, height, copied from
+     langcache.svg and context-retriever.svg. */
+  var RELABEL = {
+    cache: { box: [471.578, 518.156, 99.2506, 24.4832], lines: ["AGENT PLAYBOOKS"], in: ["cache"] },
+    retriever: { box: [498.461, 235.889, 99.2506, 31.2039], lines: ["CONTEXT", "GATEWAY"], in: ["retriever", "rdi"] }
+  };
+  function buildRelabels(NS) {
+    var out = {};
+    Object.keys(RELABEL).forEach(function (k) {
+      var R = RELABEL[k], b = R.box, g = document.createElementNS(NS, "g");
+      var mid = b[1] + b[3] / 2, gap = 10, first = mid - (R.lines.length - 1) * gap / 2 + 2.95;   // 2.95: half the glyphs' cap height
+      g.setAttribute("class", "iris-relabel");
+      g.innerHTML = '<rect fill="#163341" stroke="#8A99A0" stroke-width="0.719233" rx="3.23655" x="' + b[0] + '" y="' + b[1] + '" width="' + b[2] + '" height="' + b[3] + '"/>' +
+        R.lines.map(function (t, i) {
+          return '<text class="iris-relabel-name" x="' + (b[0] + b[2] / 2) + '" y="' + (first + i * gap).toFixed(2) + '" text-anchor="middle">' + esc(t) + "</text>";
+        }).join("");
+      out[k] = g;
+    });
+    return out;
+  }
+
+  var MISSING_ROUTES = { router: [], rdi: ["pg", "rdi"], retriever: ["dbcr", "cragent", "cragent2"], memory: ["amdb", "amagent", "amagent2"], cache: ["dblc", "lcagent", "lcagent2"] };
 
   /* ---- the Data Integration gear turns, as it does on redis.io/iris ----
      The published drawing is still, so the stage draws its own gear over it:
@@ -527,19 +628,50 @@
   var GEAR_AHEAD = { lit: [13, 14, 25, 46, 47, 48, 50], dim: [11, 12, 39, 40, 41] };
   var GEAR_SPEED = 45;   // degrees a second, clockwise: one tooth a second, as on redis.io/iris
 
-  function buildMaya(NS) {
-    var g = document.createElementNS(NS, "g"), L = MAYA.label;
+  /* The figures' markup: each link, then each disc with its icon and label. Kept as strings so the tests can draw it. */
+  function figuresMarkup() {
+    function n(v) { return (+v).toFixed(2); }
+    function arrow(seg) {
+      var a = seg[0], b = seg[1], l = Math.hypot(b[0] - a[0], b[1] - a[1]), ux = (b[0] - a[0]) / l, uy = (b[1] - a[1]) / l;
+      return '<path d="M' + n(a[0]) + " " + n(a[1]) + " L" + n(b[0]) + " " + n(b[1]) +
+        " M" + n(b[0] - ux * 3.2 - uy * 2.2) + " " + n(b[1] - uy * 3.2 + ux * 2.2) + " L" + n(b[0]) + " " + n(b[1]) +
+        " L" + n(b[0] - ux * 3.2 + uy * 2.2) + " " + n(b[1] - uy * 3.2 - ux * 2.2) + '"/>';
+    }
+    function mid(seg) { return '<circle r="2.52025" cx="' + n((seg[0][0] + seg[1][0]) / 2) + '" cy="' + n((seg[0][1] + seg[1][1]) / 2) + '"/>'; }
+    function linkG(k) {
+      var L = LINKS[k];
+      return '<g class="iris-maya-link iris-link-' + k + '"><g fill="none" stroke="#5C707A" stroke-width="0.72" stroke-linecap="round" stroke-linejoin="round">' +
+        arrow(L.in) + arrow(L.out) + '</g><g fill="#B9C2C6">' + mid(L.in) + mid(L.out) + "</g></g>";
+    }
+    function disc(f, colors, icon, iconStroke) {
+      var c = f.c, s = f.s, I = DISC.icon;
+      return '<g transform="matrix(' + [s, 0, 0, s, n(c[0] - s * C0[0]), n(c[1] - s * C0[1])].join(" ") + ')" stroke-width="' + n(0.840082 / s) + '">' +
+          '<path stroke="' + colors[1] + '" fill="' + colors[0] + '" fill-rule="evenodd" clip-rule="evenodd" d="' + DISC.rim + '"/>' +
+          '<path stroke="' + colors[1] + '" fill="' + colors[2] + '" d="' + DISC.face + '"/></g>' +
+        '<g transform="matrix(' + [I[0] * s, I[1] * s, I[2] * s, I[3] * s, n(c[0]), n(c[1])].map(function (v) { return typeof v === "number" ? n(v) : v; }).join(" ") +
+          ')" fill="none" stroke="#fff" stroke-width="' + iconStroke + '" stroke-linecap="round" stroke-linejoin="round">' + icon + "</g>";
+    }
+    function badge(f) {
+      var s = f.s, c = f.c;
+      return '<g transform="matrix(' + [s, 0, 0, s, n(c[0] - s * BADGE.at[0]), n(c[1] - s * BADGE.at[1])].join(" ") + ')">' +
+        '<path fill="#FF4438" d="' + BADGE.red + '"/><path fill="white" d="' + BADGE.white + '"/></g>';
+    }
+    function label(f, cls) {
+      var x = f.c[0] + (f.labelDx || 0) - f.labelW / 2, y = f.c[1] + f.s * DISC.bottom + 5;
+      return '<g class="' + cls + '"><rect fill="#163341" stroke="#8A99A0" stroke-width="0.840082" rx="3.78037" x="' + n(x) + '" y="' + n(y) + '" width="' + f.labelW + '" height="24.751"/>' +
+        '<text class="iris-maya-name" x="' + n(f.c[0] + (f.labelDx || 0) + 0.15) + '" y="' + n(y + 16.07) + '" text-anchor="middle">' + f.label + "</text></g>";
+    }
+    return {
+      links: linkG("router") + linkG("maya"),
+      router: '<g class="iris-router-disc">' + disc(FIG.router, ["#3A2227", "#FF4438", "#89302E"], '<g transform="scale(1.3)">' + ROUTER_ICON + "</g>", 0.04) + badge(FIG.router) + "</g>" + label(FIG.router, "iris-router-label"),
+      maya: disc(FIG.maya, ["#091A23", "#5C707A", "#163341"],
+        '<circle cx="0" cy="-0.3" r="0.17"/><path d="M -0.38 0.44 C -0.38 0.16 -0.2 0.02 0 0.02 C 0.2 0.02 0.38 0.16 0.38 0.44 Z"/>', 0.042) + label(FIG.maya, "")
+    };
+  }
+  function buildFigures(NS) {
+    var m = figuresMarkup(), g = document.createElementNS(NS, "g");
     g.setAttribute("class", "iris-maya");
-    g.innerHTML = '<g class="iris-maya-link" transform="matrix(' + MAYA.link.join(" ") + ')">' +
-        MAYA.arrows.map(function (d) { return '<path fill="#5C707A" d="' + d + '"/>'; }).join("") +
-        MAYA.dots.map(function (c) { return '<circle fill="#B9C2C6" r="2.52025" cx="' + c[0] + '" cy="' + c[1] + '"/>'; }).join("") + "</g>" +
-      '<g transform="translate(' + MAYA.move.join(" ") + ')">' +
-        '<path stroke-width="0.840082" stroke="#5C707A" fill="#091A23" fill-rule="evenodd" clip-rule="evenodd" d="' + MAYA.rim + '"/>' +
-        '<path stroke-width="0.840082" stroke="#5C707A" fill="#163341" d="' + MAYA.face + '"/></g>' +
-      '<g class="iris-maya-icon" transform="matrix(' + MAYA.icon.join(" ") + ')" fill="none" stroke="#fff" stroke-width="0.042" stroke-linecap="round" stroke-linejoin="round">' +
-        '<circle cx="0" cy="-0.3" r="0.17"/><path d="M -0.38 0.44 C -0.38 0.16 -0.2 0.02 0 0.02 C 0.2 0.02 0.38 0.16 0.38 0.44 Z"/></g>' +
-      '<rect fill="#163341" stroke="#8A99A0" stroke-width="0.840082" rx="3.78037" x="' + L[0] + '" y="' + L[1] + '" width="' + L[2] + '" height="' + L[3] + '"/>' +
-      '<text class="iris-maya-name" x="' + (L[0] + L[2] / 2 + 0.15) + '" y="' + (L[1] + 16.07) + '" text-anchor="middle">MAYA</text>';
+    g.innerHTML = m.links + '<g class="iris-router">' + m.router + "</g>" + m.maya;
     return g;
   }
 
@@ -690,9 +822,11 @@
         return ["iris-ring", "iris-ring iris-pulse"].map(function (cls) { return DATA[k].ring.replace(/^<(\w+)/, '<$1 class="' + cls + '" data-src="' + k + '"'); }).join("");
       }).join("") + '<g class="iris-packets"></g>';
     box.appendChild(over);
-    var maya = buildMaya(NS);
-    over.insertBefore(maya, over.querySelector(".iris-route"));
-    var mayaLink = maya.querySelector(".iris-maya-link");
+    var figs = buildFigures(NS);
+    over.insertBefore(figs, over.querySelector(".iris-route"));
+    var mayaLink = figs.querySelector(".iris-link-maya"), routerLink = figs.querySelector(".iris-link-router"), router = figs.querySelector(".iris-router");
+    var relabels = buildRelabels(NS);
+    Object.keys(relabels).forEach(function (k) { over.insertBefore(relabels[k], over.querySelector(".iris-route")); });
     var packets = over.querySelector(".iris-packets");
     var gear = reduced ? null : buildGear(over, artBase, uid);
     /* Real buttons over POSTGRES and the Redis logo, so the data is reachable by keyboard too. They sit outside
@@ -746,6 +880,11 @@
       next.el.classList.add("is-current");
       cur = next;
       if (gear) gear.setLit(keys.indexOf("rdi") >= 0 && (keys.length === 1 || blend !== "darken"));
+      /* A label shows where a version that has it is lit; "darken" keeps only what every version lights, which no label is. */
+      Object.keys(relabels).forEach(function (k) {
+        var shown = RELABEL[k].in.some(function (v) { return keys.indexOf(v) >= 0; });
+        relabels[k].classList.toggle("is-on", shown && (keys.length === 1 || blend !== "darken"));
+      });
     }
     function setTag(node, text) {
       if (!node) { tag.classList.remove("is-on"); return; }
@@ -804,7 +943,9 @@
       show: function (stepKey, missing) {
         var tok = ++token;
         box.classList.toggle("is-step-rdi", stepKey === "rdi");   // POSTGRES and the Redis logo pulse on the step where the data changes
-        mayaLink.classList.toggle("is-lit", stepKey === "ask" || stepKey === "reply" || stepKey === "whatif");
+        mayaLink.classList.toggle("is-lit", stepKey === "ask" || stepKey === "router" || stepKey === "reply" || stepKey === "whatif");
+        routerLink.classList.toggle("is-lit", stepKey === "router" || stepKey === "reply" || stepKey === "whatif");
+        router.classList.toggle("is-lit", stepKey === "router" || stepKey === "reply" || (stepKey === "whatif" && missing !== "router"));
         setTag(null);
         Array.prototype.forEach.call(packets.childNodes, function (n) { n.remove(); });
         var flow = stepKey === "whatif" ? null : FLOWS[stepKey];
@@ -831,10 +972,10 @@
   /* ------------------------------------------------------------------ view */
 
   function init(root) {
-    var links = { rdi: root.getAttribute("data-link-rdi"), retriever: root.getAttribute("data-link-retriever"),
+    var links = { rdi: root.getAttribute("data-link-rdi"), router: root.getAttribute("data-link-router"), retriever: root.getAttribute("data-link-retriever"),
       memory: root.getAttribute("data-link-memory"), cache: root.getAttribute("data-link-cache") };
     var st = { step: 0, missing: null };
-    var full = trace({ rdi: true, retriever: true, memory: true, cache: true });
+    var full = trace({ rdi: true, router: true, retriever: true, memory: true, cache: true });
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function go(i) {
@@ -855,9 +996,14 @@
           '<div class="iris-factrow"><span class="iris-factlbl">Redis</span><span><code>restaurant:r209</code> <span class="iris-kv">avg_delivery_min: <b>45</b></span></span></div>';
       } else if (step.key === "ask") {
         f.appendChild(el("div", "rcr-msg rcr-user iris-askmsg", esc(MESSAGE)));
+      } else if (step.key === "router") {
+        f.innerHTML = INTENTS.map(function (it) {
+          return '<div class="iris-factrow iris-tool"><code class="iris-toolname">' + esc(it.name) + '</code><span class="iris-kv">score ' + it.score.toFixed(2) +
+            '</span><span class="iris-toolres">→ ' + esc(it.target.type + " " + it.target.ref) + "</span></div>";
+        }).join("");
       } else if (step.key === "cache") {
         f.innerHTML = '<div class="iris-factrow"><span class="iris-factlbl">Asked</span><span>' + esc("“" + QUESTION + "”") + "</span></div>" +
-          '<div class="iris-factrow"><span class="iris-factlbl">Matched</span><span>' + esc("“" + FEE_PROMPT + "”") + ' <span class="iris-kv">similarity ' + FEE_SIM.toFixed(2) + " · " + MS.cache + " ms</span></span></div>" +
+          '<div class="iris-factrow"><span class="iris-factlbl">FAQ</span><span>' + esc("“" + FEE_PROMPT + "”") + ' <span class="iris-kv">score ' + FEE_SIM.toFixed(2) + " · version " + FEE_VERSION + " · " + MS.cache + " ms</span></span></div>" +
           '<div class="iris-factrow"><span class="iris-factlbl">Answer</span><span>' + esc(FEE) + "</span></div>";
       } else if (step.key === "memory") {
         f.innerHTML = MEMORIES.slice(0, 3).map(function (m) {
@@ -869,7 +1015,7 @@
           ["filter_restaurant", "austin · thai · up to " + WITHIN + " minutes", "Bangkok Street Kitchen · 30 minutes"],
           ["filter_order", "u101 · r201", "pad thai with tofu · 2 orders"]
         ].map(function (r) {
-          return '<div class="iris-factrow iris-tool"><code class="iris-toolname">' + r[0] + '</code><span class="iris-kv">' + esc(r[1]) + '</span><span class="iris-toolres">→ ' + esc(r[2]) + "</span></div>";
+          return '<div class="iris-factrow iris-tool"><code class="iris-toolname">' + GATEWAY_NS + "." + r[0] + '</code><span class="iris-kv">' + esc(r[1]) + '</span><span class="iris-toolres">→ ' + esc(r[2]) + "</span></div>";
         }).join("");
       } else if (step.key === "reply") {
         f.appendChild(replyBubble(full.reply));
@@ -878,7 +1024,7 @@
       }
       return f;
     }
-    var SOURCES = { rdi: "Data Integration", retriever: "Context Retriever", memory: "Agent Memory", cache: "LangCache" };
+    var SOURCES = { rdi: "Data Integration", router: "Intent Router", retriever: "Context Gateway", memory: "Agent Memory", cache: "Agent Playbooks" };
     /* The key comes first, styled like the parts of the reply, so the colors mean something before you read.
        Pointing at a key or at a part of the reply shows only that service's parts; selecting a key keeps it so. */
     function replyBubble(segments) {
@@ -934,7 +1080,7 @@
     function whatIf() {
       var box = el("div", "iris-whatif");
       var picks = el("div", "iris-picks");
-      ["rdi", "retriever", "memory", "cache"].forEach(function (k) {
+      ["rdi", "router", "retriever", "memory", "cache"].forEach(function (k) {
         var b = el("button", "rcr-chip iris-pick iris-svc-" + k + (st.missing === k ? " is-on" : ""), "Without " + esc(SOURCES[k]));
         b.type = "button";
         b.setAttribute("aria-pressed", st.missing === k ? "true" : "false");
@@ -943,7 +1089,7 @@
       });
       box.appendChild(picks);
       if (!st.missing) { box.appendChild(el("p", "iris-pickhint rcr-faint", "Pick a service.")); return box; }
-      var w = WHAT_IF[st.missing], on = { rdi: true, retriever: true, memory: true, cache: true };
+      var w = WHAT_IF[st.missing], on = { rdi: true, router: true, retriever: true, memory: true, cache: true };
       on[st.missing] = false;
       var c = trace(on).checks.filter(function (x) { return x.key === w.check; })[0];
       /* Excerpts start mid-reply, and get a trailing ellipsis only when they stop mid-sentence. */
@@ -1113,5 +1259,5 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 
   /* Exposed for tests. */
-  window.IrisDemo = { trace: trace, STEPS: STEPS, WHAT_IF: WHAT_IF, SERVICES: SERVICES, MEMORIES: MEMORIES, MESSAGE: MESSAGE, FEE: FEE };
+  window.IrisDemo = { figuresMarkup: figuresMarkup, ROUTES: ROUTES, HITS: HITS, trace: trace, STEPS: STEPS, WHAT_IF: WHAT_IF, SERVICES: SERVICES, MEMORIES: MEMORIES, MESSAGE: MESSAGE, FEE: FEE, RELABEL: RELABEL };
 })();

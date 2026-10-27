@@ -3,8 +3,8 @@
   ---------
   Scripted, dependency-free tour of Redis Iris as one system, one step at
   a time: data enters through Data Integration, then a single agent
-  request draws on LangCache, Agent Memory, and Context Retriever. Each
-  step links to that service's own demo for depth, and the last step
+  request is matched by Intent Router and draws on Agent Playbooks, Agent Memory, and Context Gateway. Each
+  step links to that service's docs or own demo for depth, and the last step
   takes one service away to show what the agent loses. Runs entirely in
   the browser; no service is called.
 
@@ -30,13 +30,14 @@
 <script defer src="{{ "js/iris-demo.js" | relURL }}?v={{ index $v "js/iris-demo.js" }}"></script>
 
 {{- /* Links to each service's own demo, resolved here so they carry the site's base path.
-     The Data Integration demo isn't published yet, so its link goes to the overview. */}}
+     Data Integration, Context Gateway, and Agent Playbooks have no tour-sized demo, so their links go to the overview. */}}
+{{- /* TODO: add a data-link-router attribute, resolved with relref like the others, to /develop/ai/context-engine/intent-router when intent-router-docs-align merges into iris-ga-docs. Until then the Intent Router step has no "in depth" link. */}}
 {{- /* The stage draws the Iris architecture diagram from redis.io/iris, as published there. */}}
 <div class="rcr iris" data-iris
   data-art="{{ "images/ai/context-engine/iris-diagram/" | relURL }}"
   data-link-rdi="{{ relref .Page "/develop/ai/context-engine/data-integration" }}"
   data-link-retriever="{{ relref .Page "/develop/ai/context-engine/context-gateway" }}"
   data-link-memory="{{ relref .Page "/develop/ai/context-engine/agent-memory/interactive-demo" }}"
-  data-link-cache="{{ relref .Page "/develop/ai/context-engine/langcache/interactive-demo" }}">
+  data-link-cache="{{ relref .Page "/develop/ai/context-engine/agent-playbook" }}">
   <noscript><p>This interactive demo needs JavaScript.</p></noscript>
 </div>
