@@ -98,7 +98,7 @@ Two credentials guard the service:
 - An **admin token** manages Routers on the control plane. Platform teams hold it.
 - An **agent key** authenticates an application's data-plane requests as a bearer token. It carries a grant for each Router it can use. Redis Iris issues agent keys through its Identity Service, not through the Intent Router API.
 
-A grant lists one or more actions on one Router. A key without the action an operation needs gets `403`.
+A grant lists one or more actions on one Router. The data plane refuses a request from a key without the action the operation needs.
 
 | Action | What it allows |
 | ------ | -------------- |

@@ -24,13 +24,21 @@ export IRIS_INTENT_ROUTER_SERVICE_URL='<control-plane-url>'
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN='<admin-token>'
 ```
 
-The examples use Python (`IntentRouter.from_env().service`), TypeScript (`IntentRouterService`), cURL, and the `iris intent-router service` commands, which all read these variables. Follow one tab throughout the page. To choose a client, see the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md#choose-a-client).
+The CLI's `service create` also mints the new Router's agent key, so it needs the data-plane URL and the Identity Service values too:
+
+```bash
+export IRIS_INTENT_ROUTER_URL='<data-plane-url>'
+export IRIS_IDENTITY_URL='<identity-service-url>'
+export IRIS_IDENTITY_TOKEN='<identity-service-control-token>'
+```
+
+The examples use Python (`IntentRouter.from_env().service`), cURL, and the `iris intent-router service` commands, which all read these variables. Follow one tab throughout the page. To choose a client, see the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md#choose-a-client).
 
 ## Choose an embedding model
 
 A Router's embedding model decides how well matching understands wording, and it can't change after you create the Router. List the models your deployment offers. Embedding models have the `purpose` `EMBEDDING`, and you can filter the list with `purpose=EMBEDDING`.
 
-{{< clients-example set="iris_intent_router_service" step="models-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="models-list" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Each model reports its `provider`, `model`, and `dimensions`. Pass the same three values as the Router's `vectorSpace`. A self-managed deployment offers one embedding model, configured by your administrator, and holds its provider credentials itself, so `authorization` is `NONE`. Creating a Router with a model that isn't listed fails with `400`.
 
@@ -40,11 +48,13 @@ The model also sets the Router's memory use. The Router's vector index takes abo
 
 Create a Router with a name and a `vectorSpace`. Optional fields set a description, a `template`, and a default `minScore`.
 
-{{< clients-example set="iris_intent_router_service" step="router-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-create" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Save the `routerId`. The new Router starts in `PROVISIONING` while the data plane builds its search index. The response carries a `Retry-After` header that suggests when to check again.
 
-A tenant can hold up to 128 Routers by default. Router names don't have to be unique: the `routerId` identifies a Router.
+The CLI's `service create` also mints an agent key with a `full` grant on the Router (`--role` picks another) and writes `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` to the `--write-env` file with mode `0600`. The key is never printed. `--wait` waits for the Router to leave `PROVISIONING`.
+
+A tenant can hold up to 128 Routers by default. The API doesn't require unique Router names: the `routerId` identifies a Router. The CLI's `service create` refuses a name another Router already has, unless you pass `--reuse` to use that Router, so a rerun never creates a second Router.
 
 | Field | Meaning |
 | ----- | ------- |
@@ -55,13 +65,13 @@ A tenant can hold up to 128 Routers by default. Router names don't have to be un
 | `minScore` | The Router's minimum score, above 0 and up to 1. Omit it, or send `0`, to use the default, 0.7. |
 | `databaseId` | The customer database that holds the Router's intents, examples, and index. Omit it to use the deployment's default database. Your administrator names the available databases, and a deployment can require one. It can't change after creation. |
 
-To retry a create safely, send an `Idempotency-Key` header of the form `<client-id>:<hex SHA-256 of the request body>`, with the body's object keys sorted and no extra whitespace. A retry with the same key and body returns the first response with `Idempotent-Replayed: true`, for 24 hours. Reusing the key with a different body fails with `422`. Only a successful response is kept, so a retry after a failure runs the create again. A retry that arrives while the first request is still running gets `409`.
+To retry a create safely, send an `Idempotency-Key` header of the form `<client-id>:<hex SHA-256 of the request body>`, with the body's object keys sorted and no extra whitespace. A retry with the same key and body returns the first response with `Idempotent-Replayed: true`, for 24 hours. Don't reuse a key with a different body. Only a successful response is kept, so a retry after a failure runs the create again. A retry that arrives while the first request is still running gets `409`.
 
 ## Wait for the Router to be ready
 
-Poll the Router until it leaves `PROVISIONING`. Data requests to a Router that is still `PROVISIONING`, or has `FAILED`, return `409`.
+Poll the Router until it leaves `PROVISIONING`. Data requests to a Router that is still `PROVISIONING`, or has `FAILED`, return `409`. In the CLI, `service create --wait` already waited, and exits with code `1` if the Router ended `FAILED`, so the CLI tab only reads the state.
 
-{{< clients-example set="iris_intent_router_service" step="router-wait" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-wait" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 A `FAILED` Router reports why in `failureReason`, for example a database without vector search. A Router that isn't ready within the deployment's provisioning deadline, 10 minutes by default, also fails. A failed Router can't be resumed: delete it and create it again after you fix the cause.
 
@@ -69,21 +79,21 @@ A `FAILED` Router reports why in `failureReason`, for example a database without
 
 List the deployment's Routers, or read one by ID. Every read returns the current `revision`, which conditional updates need. Lists return `nextCursor` when more Routers follow.
 
-{{< clients-example set="iris_intent_router_service" step="router-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-list" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Update a Router
 
-Change a Router's name, description, template, or default `minScore` as a merge patch. An omitted field is unchanged, a `null` description clears it, and a `null` `minScore` resets it to the default. The embedding model and `databaseId` can't change. Changes apply after the data plane has applied the Router's new configuration, usually within seconds.
+Change a Router's name, description, template, or default `minScore` as a merge patch. An omitted field is unchanged, a `null` description clears it, and a `null` `minScore` resets it to the default. The embedding model and `databaseId` can't change. Changes apply after the data plane has applied the Router's new configuration, usually within seconds. The CLI's `service update` doesn't change `template`.
 
 Send `expectedRevision`, or the revision as a quoted `If-Match` header, to make the update conditional: it fails with `412` if the Router changed since you read it.
 
-{{< clients-example set="iris_intent_router_service" step="router-update" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-update" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 ## Suspend and resume a Router
 
 Suspend a Router to stop it serving without deleting its intents. Data requests return `423` while it is suspended. Setting the state back to `READY` resumes it.
 
-{{< clients-example set="iris_intent_router_service" step="router-suspend" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-suspend" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 `SUSPENDED` and `READY` are the only states you can request, and only a `READY` or `SUSPENDED` Router can change between these states. Any other change fails with `409`. The control plane sets the other states.
 
@@ -91,13 +101,17 @@ Suspend a Router to stop it serving without deleting its intents. Data requests 
 
 Deleting a Router permanently removes it, its intents, its examples, and its search index. You can delete a Router in any state. Deleting a Router doesn't revoke its agent keys, because the keys live in the Identity Service, not the control plane. A key whose grant names a deleted Router stays in the Identity Service until you revoke it. Revoke the Router's keys before you delete it, as shown in [Rotate or revoke agent keys](/content/operate/iris/intent-router/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
 
-{{< clients-example set="iris_intent_router_service" step="router-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_service" step="router-delete" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 The delete returns `202` with the Router in `DELETING`, and the data plane finishes the removal. Repeating the delete returns `202` while the removal runs and `204` once the Router is gone, so you can repeat a delete that timed out.
 
 ## Issue agent keys
 
-The control plane doesn't issue agent keys. Your platform team issues them with the Redis Iris Identity Service, with a grant on the Router. See [Create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
+The control plane doesn't issue agent keys. Your platform team issues them with the Redis Iris Identity Service, with a grant on the Router. See [Create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md). With the CLI, `service key` mints another key for a Router and writes it to a file:
+
+```bash
+iris intent-router service key "$ROUTER_ID" --role read --name classifier --write classifier.env
+```
 
 | Action | What it allows |
 | ------ | -------------- |

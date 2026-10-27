@@ -31,7 +31,7 @@ umask 077
 
 ## Create a Router
 
-List the offered models, then create a Router with one of them and wait for it to be ready. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md) for each step with Python, TypeScript, and the command-line interface (CLI).
+List the offered models, then create a Router with one of them and wait for it to be ready. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md) for each step with Python and the command-line interface (CLI).
 
 {{< clients-example set="iris_intent_router_service" step="models-list" description="" lang_filter="cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -107,3 +107,27 @@ curl --fail-with-body --silent --show-error \
 ```
 
 A revoked key stops working within 300 seconds, the Identity Service's default cache lifetime. Revoke the keys for a Router before you delete it.
+
+## Use the CLI instead
+
+The `iris intent-router` CLI in the [redis-iris package](https://pypi.org/project/redis-iris/) runs the same steps. With the connection values and both tokens exported, list the offered models, then create a Router, wait for it to be ready, mint its agent key, and write the developer's environment file in one command:
+
+```bash
+iris intent-router service models --purpose embedding
+iris intent-router service create support-router --provider <provider> --model <model> \
+  --dimensions <dimensions> --role write --wait --write-env .env
+```
+
+`--write-env` writes `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` to the file with mode `0600`, and the key is never printed. Check every hop, from the control plane to one data-plane read with the new key:
+
+```bash
+iris intent-router service check <router-id> --env-file .env
+```
+
+`service key` mints another key for the Router. `iris identity keys` lists, rotates, and revokes keys:
+
+```bash
+iris identity keys list --product intent --resource-id <router-id>
+iris identity keys rotate <key-id> --grace 10m --write .env --env IRIS_INTENT_ROUTER_API_KEY
+iris identity keys revoke <key-id> --yes
+```

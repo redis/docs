@@ -146,7 +146,7 @@ curl -sS -X POST "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_RO
   -d '{"query": "hello"}'
 ```
 
-A Router with no intents returns `200` and `{"items": []}`. A `401` means the key is wrong, and a `403` means it lacks a grant on the Router. A `409` means the Router isn't `READY` yet.
+A Router with no intents returns `200` and `{"items": []}`. A `401` means the key is wrong. A `409` means the Router isn't `READY` yet.
 
 ## Next steps
 

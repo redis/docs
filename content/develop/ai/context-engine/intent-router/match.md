@@ -19,7 +19,7 @@ The examples use the connection values from the [quickstart](/content/develop/ai
 
 A match request takes a query and returns the closest intents, best first.
 
-{{< clients-example set="iris_intent_router_match" step="match-options" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_match" step="match-options" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 | Field | Required | Meaning |
 | ----- | -------- | ------- |
@@ -43,7 +43,7 @@ A query with no close intent returns `200` with an empty list.
 
 The Router returns the target and leaves the action to your application. A typical handler takes the top item, checks that one exists, and dispatches on `target.type`.
 
-{{< clients-example set="iris_intent_router_match" step="match-dispatch" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_match" step="match-dispatch" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 Decide in advance what your application does when the list is empty, such as asking a clarifying question or using a general-purpose agent. When two items score close together, the query may be ambiguous: consider asking the user instead of picking the first.
 
@@ -66,7 +66,7 @@ Higher scores are stricter. Raise a threshold to reduce wrong matches and lower 
 | Every intent is too strict or too loose | Change the Router's `minScore`. |
 | Compare scores while tuning | Match with `minScore` set to `0` to see the closest intents regardless of threshold, then pick thresholds. |
 
-{{< clients-example set="iris_intent_router_match" step="match-tune" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_match" step="match-tune" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 `limit` can't exceed the deployment cap, which defaults to 50. A request above the cap is rejected with `400` rather than clamped, so you never silently receive fewer ranked results than you asked for.
 
@@ -78,7 +78,6 @@ Match is a data-plane request, so it fails when its Router can't serve:
 
 - `400`: the query is empty or too long, or `limit` exceeds the cap.
 - `401`: the key is invalid, expired, or revoked.
-- `403`: the key has no `read` grant on the Router.
 - `409`: the Router is provisioning or not serving. Retry after a short wait.
 - `423`: an administrator suspended the Router.
 - `424`: the embedding provider is unavailable. Retry with backoff.

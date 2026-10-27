@@ -30,6 +30,8 @@ curl -sS "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" | jq .
 ```
 
+`iris intent-router health` runs the same check, and `iris intent-router service check <router-id>` checks every hop from the control plane to one data-plane read.
+
 With `tests.enabled=true`, `helm test intent -n <namespace-name>` probes every service and runs the shared security-profile checks.
 
 ## Rotate credentials

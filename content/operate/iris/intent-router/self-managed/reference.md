@@ -47,7 +47,7 @@ See [Configuration](/content/operate/iris/intent-router/self-managed/configurati
 | Data requests return `423` | The Router is suspended. | Set the Router's state to `READY`. |
 | Data requests return `503` with `Retry-After` | The Router's index is rebuilding, or its database is unreachable. | Wait for the interval, then check the database. |
 | Data requests return `401` | The key is wrong, expired, or revoked. | Mint or rotate the key. |
-| Data requests return `403` | The key has no grant on the Router, or lacks the action, such as `write`. | Mint a key with the right grant. |
+| A key works on one Router but is refused on another, or can match but not author | The key has no grant on that Router, or lacks the action, such as `write`. | Mint a key with the right grant. |
 | Creating a Router returns `409` | The tenant has reached `storage.maxRoutersPerTenant`. | Delete unused Routers or raise the limit. |
 | Updating a Router returns `409` | The Router isn't `READY` or `SUSPENDED`. | Wait for provisioning to finish, or delete a failed Router. |
 | Minting a key fails | `tenantId` differs from the Identity Service's tenant, or the Router doesn't exist. | Set both to the same tenant, and check the Router ID. |

@@ -66,11 +66,12 @@ AI agents are autonomous systems that combine LLMs with memory, tools, and plann
 
 ### Context Engine services
 
-The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes four services, available fully managed on Redis Cloud or self-managed on your own infrastructure:
+The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes these services, available fully managed on Redis Cloud or self-managed on your own infrastructure:
 
 - [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
 - [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Two-tier persistent memory (session and long-term) for agents, available through Python and TypeScript SDKs and a REST API.
 - [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Gives agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, and serves your Redis data as tools with Context Surfaces.
+- [Intent Router]({{< relref "/develop/ai/context-engine/intent-router" >}}): Classifies a user's message into an intent you define and returns the target to dispatch to, with no LLM call. Self-managed on Kubernetes.
 - [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
 
 ## How to's
@@ -140,6 +141,7 @@ The Context Engine provides managed services for agent memory and data access.
 * [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Add semantic caching to reduce LLM costs in minutes.
 * [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Add persistent two-tier memory to any agent using the REST API.
 * [Get started with Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Give agents one MCP endpoint for the tools of your MCP servers and your Redis data.
+* [Get started with Intent Router]({{< relref "/develop/ai/context-engine/intent-router" >}}): Route each request to the right tool or agent by matching it to intents you define.
 * [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keep Redis in sync with your primary database so agents always have fresh data.
 
 ## Tutorials

@@ -36,7 +36,7 @@ For example, a support application can route "where is my package?" to a `track_
 - **Tunable strictness:** Set a minimum score on the Router, on each intent, or on a single request.
 - **Safe updates:** Replacing an intent never leaves it empty while queries are in flight, and conditional writes prevent lost updates.
 - **Governed access:** Each Router is its own authorization boundary, with separate `read`, `write`, and `full` grants.
-- **Flexible integration:** Use Python, TypeScript, the `iris` command-line interface (CLI), or the Hypertext Transfer Protocol (HTTP) API.
+- **Flexible integration:** Use Python, the `iris` command-line interface (CLI), or the Hypertext Transfer Protocol (HTTP) API.
 
 ## Choose how to use it
 
@@ -60,9 +60,9 @@ pip install redis-iris
 
 Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
 
-{{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client.
+The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client.
 
 ## Get started
 

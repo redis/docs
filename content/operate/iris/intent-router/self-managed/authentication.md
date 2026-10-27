@@ -27,7 +27,7 @@ This page lists each credential and what it unlocks. It also shows how to load t
 
 Every token defaults to `autoGenerate: true`: without `existingSecret`, the chart creates a random Secret named `<release>-redis-intent-router-<component>-token`, with the key `token`, keeps it across upgrades, and never rotates it. For a release named `intent`, the admin token is in `intent-redis-intent-router-controlplane-admin-token`. Set `existingSecret` to supply your own, and set the matching `existingSecretChecksum` so the pods roll when the Secret changes. Two credentials can't reference the same Secret key, and rendering fails if they do.
 
-An agent key gets `401` from the control plane. A key without a grant on a Router, or without the action an operation needs, gets `403` from the data plane. The data plane holds no credential for the control plane: the planes never call each other.
+An agent key gets `401` from the control plane. The data plane refuses a key without a grant on the Router, or without the action an operation needs. The data plane holds no credential for the control plane: the planes never call each other.
 
 ## Load the administration tokens
 
