@@ -222,8 +222,6 @@ following:
   for what renaming a source implies.
 - A secret provider name that contains consecutive dashes. Rename the provider, and update the
   references to it in `config.yaml`.
-- Job files with fields, types, or expression languages that their transformation blocks or
-  output arguments do not support.
 - The internal key overrides described in
   [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
 
