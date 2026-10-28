@@ -104,6 +104,25 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specapibasicauth">apiBasicAuth</a></td>
+        <td>object</td>
+        <td>
+          Configures basic (username/password) authentication for the Redis Enterprise REST API.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specapicertificatebasedauth">apiCertificateBasedAuth</a></td>
+        <td>object</td>
+        <td>
+          Configures Certificate-Based Authentication (CBA), i.e. mutual TLS client
+certificate authentication, for the Redis Enterprise control-plane REST API.
+This setting is additive on the server side: enabling it makes client certificates
+an accepted authentication method for connecting to the control plane, in addition
+to basic/digest authentication, unless basic authentication is explicitly turned
+off via apiBasicAuth.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specauditing">auditing</a></td>
         <td>object</td>
         <td>
@@ -136,6 +155,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>object</td>
         <td>
           RS Cluster Certificates. Used to modify the certificates used by the cluster. See the "RSClusterCertificates" struct described above to see the supported certificates.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specclientmaintenancenotifications">clientMaintenanceNotifications</a></td>
+        <td>object</td>
+        <td>
+          Controls proactive client maintenance notification settings.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -190,6 +216,15 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td>disconnectClientsOnPasswordRemoval</td>
+        <td>enum</td>
+        <td>
+          Controls whether the proxy disconnects clients whose password was removed. Tri-state; the operator only writes this value when status.managedAPIs.disconnectClientsOnPasswordRemoval is true (it flips true the first time this field is set). On new clusters the operator manages this field from creation and enforces the Auto default until the spec is set.<br/>
+          <br/>
+            <i>Enum</i>: Enabled, Disabled, Auto<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>dmcExternalCBAAuthentication</td>
         <td>boolean</td>
         <td>
@@ -222,6 +257,14 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>map[string]string</td>
         <td>
           Labels that the user defines for their convenience<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgateway">gateway</a></td>
+        <td>object</td>
+        <td>
+          Configures exposure of cluster service endpoints and Active-Active databases via
+the Kubernetes Gateway API.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -263,7 +306,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specmetricsconfig">metricsConfig</a></td>
         <td>object</td>
         <td>
-          Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Software metrics.<br/>
+          Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -287,6 +330,15 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>object</td>
         <td>
           An API object that represents the cluster's OCSP configuration. To enable OCSP, the cluster's proxy certificate should contain the OCSP responder URL.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specoperatorclientauth">operatorClientAuth</a></td>
+        <td>object</td>
+        <td>
+          Selects which credential the operator presents to the control-plane REST API.
+This is a client-side concern: it does not, by itself, configure the cluster to
+accept certificates (see apiCertificateBasedAuth).<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -671,6 +723,170 @@ Specification for ActiveActive setup. At most one of ingressOrRouteSpec or activ
 </table>
 
 
+### spec.apiBasicAuth
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Configures basic (username/password) authentication for the Redis Enterprise REST API.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether the Redis Enterprise cluster accepts basic (username/password) authentication
+on its REST API. Maps to the cluster's 'control_plane_basic_authentication' setting
+and requires Redis Enterprise 8.2.0 or newer. When set to false, the cluster rejects
+passwords on all REST API requests; only certificate-based (mTLS) and JWT
+authentication are accepted, and the operator itself must be configured to use
+certificate authentication (operatorClientAuth.method: Certificate). The operator
+applies this setting only after verifying that certificate authentication is fully in
+effect, to avoid losing access to the cluster. When unset, the operator does not
+manage this cluster setting.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.apiCertificateBasedAuth
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Configures Certificate-Based Authentication (CBA), i.e. mutual TLS client
+certificate authentication, for the Redis Enterprise control-plane REST API.
+This setting is additive on the server side: enabling it makes client certificates
+an accepted authentication method for connecting to the control plane, in addition
+to basic/digest authentication, unless basic authentication is explicitly turned
+off via apiBasicAuth.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specapicertificatebasedauthauthorizedsubjects">authorizedSubjects</a></td>
+        <td>[]object</td>
+        <td>
+          The list of certificate subjects authorized to authenticate to the control-plane
+REST API using client certificates. Maps to the cluster's 'mtls_authorized_subjects'
+setting. The subject declared in operatorClientAuth.certificateSubjectLine is
+added automatically and need not be listed here.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>clientCertSubjectValidationType</td>
+        <td>enum</td>
+        <td>
+          Determines how the Redis Enterprise cluster validates the subject of client
+certificates presented for authentication. Maps to the cluster's
+'mtls_client_cert_subject_validation_type' setting.
+'Disabled' performs no subject validation; 'SanCn' validates the Subject Alternative
+Name / Common Name; 'FullSubject' validates the full certificate subject.<br/>
+          <br/>
+            <i>Enum</i>: Disabled, SanCn, FullSubject<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether the control-plane REST API accepts client certificate authentication.
+Maps to the Redis Enterprise cluster's 'mtls_certificate_authentication' setting.
+Evaluated as false when omitted while the operator manages CBA (see
+status.managedAPIs); if CBA was never configured through this block, the
+cluster setting is left unchanged.
+Possible values: true/false<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>trustedCASecretName</td>
+        <td>string</td>
+        <td>
+          Name or path of the secret containing the trusted CA used to validate client
+certificates presented to the control-plane REST API. The CA certificate is pushed
+to the Redis Enterprise cluster as 'mtls_trusted_ca'.
+The secret must contain the CA certificate in PEM format under a key named
+'certificate', 'cert', or 'tls.crt'.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.apiCertificateBasedAuth.authorizedSubjects[]
+<sup><sup>[↩ Parent](#specapicertificatebasedauth)</sup></sup>
+
+CertificateSubject identifies an X.509 certificate subject (distinguished name) that is
+authorized to authenticate to the control plane using a client certificate. Field names
+follow standard X.509 distinguished name (DN) component abbreviations.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>CN</td>
+        <td>string</td>
+        <td>
+          Common Name (CN) component of the certificate subject. Required.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>C</td>
+        <td>string</td>
+        <td>
+          Country (C) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>L</td>
+        <td>string</td>
+        <td>
+          Locality (L) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>O</td>
+        <td>string</td>
+        <td>
+          Organization (O) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>OU</td>
+        <td>[]string</td>
+        <td>
+          Organizational Unit (OU) components of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ST</td>
+        <td>string</td>
+        <td>
+          State or province (ST) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.auditing
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -957,14 +1173,14 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>cpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Control Plane Internode Encryption (CPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Control Plane Internode Encryption (CPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank and dpInternodeEncryptionCertificateSecretName is set, the DPINE certificate is used for CPINE as well. If both are left blank, cluster-provided certificates are used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>dpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Data Plane Internode Encryption (DPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Data Plane Internode Encryption (DPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank and cpInternodeEncryptionCertificateSecretName is set, the CPINE certificate is used for DPINE as well. If both are left blank, cluster-provided certificates are used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1007,6 +1223,88 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>string</td>
         <td>
           Secret name to use for cluster's Syncer certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used. Note - For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.clientMaintenanceNotifications
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Controls proactive client maintenance notification settings.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specclientmaintenancenotificationsossmode">ossMode</a></td>
+        <td>object</td>
+        <td>
+          Client maintenance notifications settings for clients connected to databases with OSS cluster API enabled.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specclientmaintenancenotificationsproxymode">proxyMode</a></td>
+        <td>object</td>
+        <td>
+          Client maintenance notifications settings for clients connected to databases running in enterprise (proxy) mode.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.clientMaintenanceNotifications.ossMode
+<sup><sup>[↩ Parent](#specclientmaintenancenotifications)</sup></sup>
+
+Client maintenance notifications settings for clients connected to databases with OSS cluster API enabled.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether client maintenance notifications are enabled for OSS clusters. Defaults to False.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.clientMaintenanceNotifications.proxyMode
+<sup><sup>[↩ Parent](#specclientmaintenancenotifications)</sup></sup>
+
+Client maintenance notifications settings for clients connected to databases running in enterprise (proxy) mode.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether client maintenance notifications are enabled for DBs with no OSS cluster API enabled (a.k.a. Proxy/Enterprise mode). Defaults to False.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1078,6 +1376,657 @@ Container timezone configuration. While the default timezone on all containers i
         <td>object</td>
         <td>
           <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Configures exposure of cluster service endpoints and Active-Active databases via
+the Kubernetes Gateway API.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specgatewayactiveactivedatabases">activeActiveDatabases</a></td>
+        <td>object</td>
+        <td>
+          Exposes Active-Active databases via Gateway. REC-scoped only; per-database
+overrides are not supported for Active-Active databases.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayapi">api</a></td>
+        <td>object</td>
+        <td>
+          Exposes the RS API endpoint via Gateway.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewaydefault">default</a></td>
+        <td>object</td>
+        <td>
+          Shared fallbacks (gatewayRef, fqdnSuffix) used by endpoints that do not set
+their own.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewaymetrics">metrics</a></td>
+        <td>object</td>
+        <td>
+          Exposes the metrics exporter endpoint via Gateway.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayui">ui</a></td>
+        <td>object</td>
+        <td>
+          Exposes the CM UI endpoint via Gateway.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.activeActiveDatabases
+<sup><sup>[↩ Parent](#specgateway)</sup></sup>
+
+Exposes Active-Active databases via Gateway. REC-scoped only; per-database
+overrides are not supported for Active-Active databases.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>autoEnable</td>
+        <td>enum</td>
+        <td>
+          Controls which Active-Active databases are Gateway-enabled by default:
+None (default), All, or Selector (only those matching selector).<br/>
+          <br/>
+            <i>Enum</i>: None, All, Selector<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdnSuffix</td>
+        <td>string</td>
+        <td>
+          FQDN suffix for Active-Active endpoints; the per-database FQDN defaults to
+<db-name>.<fqdnSuffix>.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayactiveactivedatabasesgatewayref">gatewayRef</a></td>
+        <td>object</td>
+        <td>
+          Overrides default.gatewayRef for this endpoint.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerName</td>
+        <td>string</td>
+        <td>
+          Gateway listener name; maps to the Route's parentRef.sectionName. If omitted,
+the Gateway implementation selects a compatible listener.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerPort</td>
+        <td>integer</td>
+        <td>
+          Gateway listener port; maps to the Route's parentRef.port.<br/>
+          <br/>
+            <i>Minimum</i>: 1<br/>
+            <i>Maximum</i>: 65535<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Annotations for this endpoint's TLSRoute (e.g. for external-dns), merged over
+gateway.default.routeAnnotations (these win on key conflicts).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeLabels</td>
+        <td>map[string]string</td>
+        <td>
+          Labels for this endpoint's TLSRoute, merged over gateway.default.routeLabels
+(these win on key conflicts). Operator-managed labels always take precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayactiveactivedatabasesselector">selector</a></td>
+        <td>object</td>
+        <td>
+          Label selector over Active-Active databases. Used only when autoEnable=Selector.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.activeActiveDatabases.gatewayRef
+<sup><sup>[↩ Parent](#specgatewayactiveactivedatabases)</sup></sup>
+
+Overrides default.gatewayRef for this endpoint.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the Gateway.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace of the Gateway. Defaults to the resource's namespace if omitted.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.activeActiveDatabases.selector
+<sup><sup>[↩ Parent](#specgatewayactiveactivedatabases)</sup></sup>
+
+Label selector over Active-Active databases. Used only when autoEnable=Selector.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specgatewayactiveactivedatabasesselectormatchexpressions">matchExpressions</a></td>
+        <td>[]object</td>
+        <td>
+          matchExpressions is a list of label selector requirements. The requirements are ANDed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>matchLabels</td>
+        <td>map[string]string</td>
+        <td>
+          matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is "key", the
+operator is "In", and the values array contains only "value". The requirements are ANDed.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.activeActiveDatabases.selector.matchExpressions[]
+<sup><sup>[↩ Parent](#specgatewayactiveactivedatabasesselector)</sup></sup>
+
+A label selector requirement is a selector that contains values, a key, and an operator that
+relates the key and values.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>key</td>
+        <td>string</td>
+        <td>
+          key is the label key that the selector applies to.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>operator</td>
+        <td>string</td>
+        <td>
+          operator represents a key's relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>values</td>
+        <td>[]string</td>
+        <td>
+          values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.api
+<sup><sup>[↩ Parent](#specgateway)</sup></sup>
+
+Exposes the RS API endpoint via Gateway.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether this endpoint is exposed via Gateway. Defaults to false.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          Explicit FQDN for this endpoint. Defaults to <prefix>.<default.fqdnSuffix>.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayapigatewayref">gatewayRef</a></td>
+        <td>object</td>
+        <td>
+          Overrides default.gatewayRef for this endpoint.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerName</td>
+        <td>string</td>
+        <td>
+          Gateway listener name; maps to the Route's parentRef.sectionName. If omitted,
+the Gateway implementation selects a compatible listener.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerPort</td>
+        <td>integer</td>
+        <td>
+          Gateway listener port; maps to the Route's parentRef.port.<br/>
+          <br/>
+            <i>Minimum</i>: 1<br/>
+            <i>Maximum</i>: 65535<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Annotations for this endpoint's TLSRoute (e.g. for external-dns), merged over
+gateway.default.routeAnnotations (these win on key conflicts).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeLabels</td>
+        <td>map[string]string</td>
+        <td>
+          Labels for this endpoint's TLSRoute, merged over gateway.default.routeLabels
+(these win on key conflicts). Operator-managed labels always take precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.api.gatewayRef
+<sup><sup>[↩ Parent](#specgatewayapi)</sup></sup>
+
+Overrides default.gatewayRef for this endpoint.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the Gateway.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace of the Gateway. Defaults to the resource's namespace if omitted.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.default
+<sup><sup>[↩ Parent](#specgateway)</sup></sup>
+
+Shared fallbacks (gatewayRef, fqdnSuffix) used by endpoints that do not set
+their own.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>fqdnSuffix</td>
+        <td>string</td>
+        <td>
+          Base FQDN suffix used to derive endpoint hostnames when an explicit FQDN is not
+set. Defaults: api.<fqdnSuffix>, ui.<fqdnSuffix>, metrics.<fqdnSuffix>,
+<db-name>.db.<fqdnSuffix> (database), <db-name>.crdb.<fqdnSuffix> (Active-Active).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewaydefaultgatewayref">gatewayRef</a></td>
+        <td>object</td>
+        <td>
+          Default Gateway referenced by endpoints that do not specify their own gatewayRef.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Default annotations applied to the TLSRoutes the operator creates (e.g. for
+external-dns). A per-endpoint routeAnnotations entry overrides the matching
+default key.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeLabels</td>
+        <td>map[string]string</td>
+        <td>
+          Default labels applied to the TLSRoutes the operator creates. A per-endpoint
+routeLabels entry overrides the matching default key; operator-managed labels
+always take precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.default.gatewayRef
+<sup><sup>[↩ Parent](#specgatewaydefault)</sup></sup>
+
+Default Gateway referenced by endpoints that do not specify their own gatewayRef.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the Gateway.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace of the Gateway. Defaults to the resource's namespace if omitted.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.metrics
+<sup><sup>[↩ Parent](#specgateway)</sup></sup>
+
+Exposes the metrics exporter endpoint via Gateway.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether this endpoint is exposed via Gateway. Defaults to false.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          Explicit FQDN for this endpoint. Defaults to <prefix>.<default.fqdnSuffix>.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewaymetricsgatewayref">gatewayRef</a></td>
+        <td>object</td>
+        <td>
+          Overrides default.gatewayRef for this endpoint.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerName</td>
+        <td>string</td>
+        <td>
+          Gateway listener name; maps to the Route's parentRef.sectionName. If omitted,
+the Gateway implementation selects a compatible listener.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerPort</td>
+        <td>integer</td>
+        <td>
+          Gateway listener port; maps to the Route's parentRef.port.<br/>
+          <br/>
+            <i>Minimum</i>: 1<br/>
+            <i>Maximum</i>: 65535<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Annotations for this endpoint's TLSRoute (e.g. for external-dns), merged over
+gateway.default.routeAnnotations (these win on key conflicts).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeLabels</td>
+        <td>map[string]string</td>
+        <td>
+          Labels for this endpoint's TLSRoute, merged over gateway.default.routeLabels
+(these win on key conflicts). Operator-managed labels always take precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.metrics.gatewayRef
+<sup><sup>[↩ Parent](#specgatewaymetrics)</sup></sup>
+
+Overrides default.gatewayRef for this endpoint.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the Gateway.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace of the Gateway. Defaults to the resource's namespace if omitted.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.ui
+<sup><sup>[↩ Parent](#specgateway)</sup></sup>
+
+Exposes the CM UI endpoint via Gateway.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether this endpoint is exposed via Gateway. Defaults to false.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          Explicit FQDN for this endpoint. Defaults to <prefix>.<default.fqdnSuffix>.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specgatewayuigatewayref">gatewayRef</a></td>
+        <td>object</td>
+        <td>
+          Overrides default.gatewayRef for this endpoint.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerName</td>
+        <td>string</td>
+        <td>
+          Gateway listener name; maps to the Route's parentRef.sectionName. If omitted,
+the Gateway implementation selects a compatible listener.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>listenerPort</td>
+        <td>integer</td>
+        <td>
+          Gateway listener port; maps to the Route's parentRef.port.<br/>
+          <br/>
+            <i>Minimum</i>: 1<br/>
+            <i>Maximum</i>: 65535<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Annotations for this endpoint's TLSRoute (e.g. for external-dns), merged over
+gateway.default.routeAnnotations (these win on key conflicts).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeLabels</td>
+        <td>map[string]string</td>
+        <td>
+          Labels for this endpoint's TLSRoute, merged over gateway.default.routeLabels
+(these win on key conflicts). Operator-managed labels always take precedence.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.gateway.ui.gatewayRef
+<sup><sup>[↩ Parent](#specgatewayui)</sup></sup>
+
+Overrides default.gatewayRef for this endpoint.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>name</td>
+        <td>string</td>
+        <td>
+          Name of the Gateway.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>namespace</td>
+        <td>string</td>
+        <td>
+          Namespace of the Gateway. Defaults to the resource's namespace if omitted.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1460,7 +2409,7 @@ Address of an LDAP server.
 ### spec.metricsConfig
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Software metrics.
+Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.
 
 <table>
     <thead>
@@ -1578,6 +2527,62 @@ An API object that represents the cluster's OCSP configuration. To enable OCSP, 
         <td>integer</td>
         <td>
           Determines the time interval (in seconds) for which the request waits for a response from the OCSP responder. Minimum value is 1. Maximum value is 60.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.operatorClientAuth
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Selects which credential the operator presents to the control-plane REST API.
+This is a client-side concern: it does not, by itself, configure the cluster to
+accept certificates (see apiCertificateBasedAuth).
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>certificateSubjectLine</td>
+        <td>string</td>
+        <td>
+          CertificateSubjectLine is the subject line of the client certificate the operator
+presents; never derived from the certificate itself. Required when Method is
+'Certificate'; CN/O/OU/L/ST/C attributes only, CN mandatory. Must exactly match the
+certificate's RFC2253 subject string, no spaces after commas (e.g. 'CN=operator,O=redis'):
+the cluster matches certificate-auth users by the literal string.
+The operator adds this subject to the cluster's 'mtls_authorized_subjects'.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>clientCertificateSecretName</td>
+        <td>string</td>
+        <td>
+          Name or path of the secret containing the client certificate/key the operator
+presents to the control-plane REST API. Required when Method is 'certificate'.
+The secret must be in the same format as other operator-managed certificate
+secrets (cert-manager TLS secret, or legacy opaque secret with 'tls.crt'/'cert'
+and 'tls.key'/'key'). When ClusterCredentialSecretType is 'vault', this is a
+Vault KV path (same naming rules as ClusterCredentialSecretName); the services
+rigger, bootstrapper, node hook scripts and call-home client receive the cert via
+Vault Agent inject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>method</td>
+        <td>enum</td>
+        <td>
+          Method selects how the operator authenticates to the control-plane REST API.
+If omitted, this field is evaluated as 'Basic'.<br/>
+          <br/>
+            <i>Enum</i>: Basic, Certificate<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -4534,6 +5539,15 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
+        <td>apiCertificateBasedAuthActive</td>
+        <td>boolean</td>
+        <td>
+          Whether control-plane certificate authentication (mtls_certificate_authentication)
+was last observed enabled on the cluster. The operator and services rigger present
+client certificates only while this is true.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#statusbundleddatabaseversions">bundledDatabaseVersions</a></td>
         <td>[]object</td>
         <td>
@@ -4555,10 +5569,24 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#statusgateway">gateway</a></td>
+        <td>object</td>
+        <td>
+          Status of cluster service endpoints exposed through the Kubernetes Gateway API.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>ingressOrRouteMethodStatus</td>
         <td>string</td>
         <td>
           The ingressOrRouteSpec/ActiveActive spec method that exist<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusinitcontainerfailures">initContainerFailures</a></td>
+        <td>[]object</td>
+        <td>
+          Failures of operator-managed init containers (such as the read-only root filesystem setup), one entry per failing pod and container; empty when all such init containers are healthy.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -4587,6 +5615,13 @@ Volume represents a named volume in a pod that may be accessed by any container 
         <td>object</td>
         <td>
           An API object that represents the cluster's OCSP status<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusoperatorclientcertstatus">operatorClientCertStatus</a></td>
+        <td>object</td>
+        <td>
+          Status of the operator's control-plane client certificate when spec.operatorClientAuth.method is Certificate. Cleared when certificate authentication is not in use.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -4733,6 +5768,418 @@ Stores information about cluster certificates and their update process. In Activ
 </table>
 
 
+### status.gateway
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+Status of cluster service endpoints exposed through the Kubernetes Gateway API.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#statusgatewayapi">api</a></td>
+        <td>object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusgatewaymetrics">metrics</a></td>
+        <td>object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusgatewayui">ui</a></td>
+        <td>object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.api
+<sup><sup>[↩ Parent](#statusgateway)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#statusgatewayapiconditions">conditions</a></td>
+        <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeName</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.api.conditions[]
+<sup><sup>[↩ Parent](#statusgatewayapi)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>lastTransitionTime</td>
+        <td>string</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: date-time<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>message</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>reason</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>status</td>
+        <td>enum</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Enum</i>: True, False, Unknown<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>type</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>observedGeneration</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+            <i>Minimum</i>: 0<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.metrics
+<sup><sup>[↩ Parent](#statusgateway)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#statusgatewaymetricsconditions">conditions</a></td>
+        <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeName</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.metrics.conditions[]
+<sup><sup>[↩ Parent](#statusgatewaymetrics)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>lastTransitionTime</td>
+        <td>string</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: date-time<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>message</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>reason</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>status</td>
+        <td>enum</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Enum</i>: True, False, Unknown<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>type</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>observedGeneration</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+            <i>Minimum</i>: 0<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.ui
+<sup><sup>[↩ Parent](#statusgateway)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#statusgatewayuiconditions">conditions</a></td>
+        <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>fqdn</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>routeName</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.gateway.ui.conditions[]
+<sup><sup>[↩ Parent](#statusgatewayui)</sup></sup>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>lastTransitionTime</td>
+        <td>string</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: date-time<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>message</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>reason</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>status</td>
+        <td>enum</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Enum</i>: True, False, Unknown<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>type</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>observedGeneration</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+            <i>Minimum</i>: 0<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.initContainerFailures[]
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+InitContainerFailure describes a failed operator-managed init container detected in one of the cluster's pods.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>containerName</td>
+        <td>string</td>
+        <td>
+          Name of the init container that failed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>exitCode</td>
+        <td>integer</td>
+        <td>
+          Exit code of the failed init container, when known.<br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>message</td>
+        <td>string</td>
+        <td>
+          Human-readable description of the failure, including the command to inspect the init container logs for the underlying cause.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>podName</td>
+        <td>string</td>
+        <td>
+          Name of the pod whose init container failed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>reason</td>
+        <td>string</td>
+        <td>
+          Reason reported by Kubernetes for the failure (for example, "Error" or "CrashLoopBackOff").<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### status.licenseStatus
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
@@ -4851,6 +6298,34 @@ Indicates cluster APIs that are being managed by the operator. This only applies
         </tr>
     </thead>
     <tbody><tr>
+        <td>apiCertificateBasedAuth</td>
+        <td>boolean</td>
+        <td>
+          Indicate whether control-plane certificate-based authentication (CBA) is managed by the operator. Enabled once spec.apiCertificateBasedAuth is set for the first time. Once enabled, the operator keeps reconciling the cluster's mtls_certificate_authentication setting even if the spec block is removed; in that case the operator disables it.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>clientMaintenanceNotificationsOssMode</td>
+        <td>boolean</td>
+        <td>
+          Indicate whether OSS cluster client maintenance notifications are managed by the operator. Enabled once spec.clientMaintenanceNotifications.ossMode.enabled is set for the first time, and stays enabled if the field is later removed; in that case the operator disables the setting.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>clientMaintenanceNotificationsProxyMode</td>
+        <td>boolean</td>
+        <td>
+          Indicate whether proxy-mode client maintenance notifications are managed by the operator. Enabled once spec.clientMaintenanceNotifications.proxyMode.enabled is set for the first time, and stays enabled if the field is later removed; in that case the operator disables the setting.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>disconnectClientsOnPasswordRemoval</td>
+        <td>boolean</td>
+        <td>
+          Indicate whether disconnect-clients-on-password-removal is managed by the operator. Enabled automatically for new clusters. Once enabled, the operator keeps reconciling the cluster value even if the user removes spec.disconnectClientsOnPasswordRemoval; in that case the operator writes the auto default.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>ldap</td>
         <td>boolean</td>
         <td>
@@ -4954,6 +6429,45 @@ An API object that represents the cluster's OCSP status
         <td>string</td>
         <td>
           The most recent time at which the status being indicated is known by the responder to have been correct.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.operatorClientCertStatus
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+Status of the operator's control-plane client certificate when spec.operatorClientAuth.method is Certificate. Cleared when certificate authentication is not in use.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>expirationDate</td>
+        <td>string</td>
+        <td>
+          When the leaf client certificate expires (RFC3339).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>secretName</td>
+        <td>string</td>
+        <td>
+          Name of the secret referenced by spec.operatorClientAuth.clientCertificateSecretName.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>state</td>
+        <td>string</td>
+        <td>
+          State of the client certificate: Valid, ExpiringSoon, or Expired.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
