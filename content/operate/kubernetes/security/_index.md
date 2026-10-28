@@ -36,3 +36,7 @@ Configure security settings for Redis for Kubernetes. Security covers access con
 ## Compliance
 
 - [FIPS compliance](/content/operate/kubernetes/security/fips.md) — run your cluster in FIPS 140-3 compliance mode.
+
+## Container images
+
+- [Minimal base image](/content/operate/kubernetes/security/minimal-base-image.md) — run cluster nodes on an image built from Red Hat UBI 9 Minimal.
