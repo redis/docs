@@ -80,7 +80,8 @@ operation is performed and `0` is returned.
 Otherwise, the element is removed from the source set and added to the
 destination set.
 When the specified element already exists in the destination set, it is only
-removed from the source set.
+removed from the source set, apart from the expiration change described in
+[Details](/content/commands/smove.md#details).
 
 ## Required arguments
 
@@ -119,6 +120,10 @@ redis> SMEMBERS myotherset
 1) "three"
 2) "two"
 {{% /redis-cli %}}
+
+## Details
+
+The member keeps its expiration in `destination`. If the member already exists in `destination`, its expiration there is replaced by the source member's expiration, or removed if the source member has none. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
 
 ## Redis Software and Redis Cloud compatibility
 

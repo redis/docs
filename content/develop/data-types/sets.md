@@ -205,6 +205,7 @@ Use the following command to remove the expiration of specific members:
 Other set commands treat a member whose TTL has expired as missing, even before Redis reclaims it.
 [`SCARD`](/content/commands/scard.md) is the exception: it can count expired members that haven't been removed yet.
 [`SINTERSTORE`](/content/commands/sinterstore.md), [`SUNIONSTORE`](/content/commands/sunionstore.md), and [`SDIFFSTORE`](/content/commands/sdiffstore.md) copy member expirations to the destination set.
+[`SMOVE`](/content/commands/smove.md) moves a member together with its expiration.
 Sorted set commands that accept sets as input, such as [`ZUNION`](/content/commands/zunion.md), return an error if an input set has member expirations.
 
 ### Common member expiration use cases
