@@ -87,8 +87,6 @@ Back up Metadata Redis and credential storage together. A Gateway record without
 
 Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached.
 
-The `result_cache` and `result_handles` settings, the `RESULT_CACHE` and `RESULT_HANDLES` environment variables, and the `context_gateway_result_cache_*` and `context_gateway_result_handles_*` metrics are now `cache`, `compression`, `CACHE`, `COMPRESSION`, `context_gateway_cache_*`, and `context_gateway_compression_*`. Rename them in your values files, dashboards, and alerts.
-
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
 Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `cache` tool policies, may need the changes in [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
