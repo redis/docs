@@ -51,8 +51,6 @@ This example creates one PostgreSQL source. You can [add more sources](/content/
     ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
     {width="376px"}
 
-    <!-- TODO: Replace this screenshot once the console hint shows the 3 to 20 character range of RDSC-6306. -->
-
 1. In **Settings**, select your target database and choose **Hash** or **JSON** as the default data structure, then select **Continue**.
 1. In **Add sources**, select **PostgreSQL**.
 1. Enter a **Source name** of your choice, for example `inventory-postgres`.

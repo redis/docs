@@ -37,8 +37,6 @@ To create a pipeline:
     ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
     {width="376px"}
 
-    <!-- TODO: Replace this screenshot once the console hint shows the 3 to 20 character range of RDSC-6306. -->
-
 1. Select **Create pipeline**.
 
 The pipeline appears in the workspace as a draft, and its setup opens. You can't change the name of a pipeline later. Pipelines created before Redis Cloud supported several pipelines per workspace are named `default`.

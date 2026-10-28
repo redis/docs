@@ -17,10 +17,15 @@ This page explains how a Data Integration pipeline reaches your source database 
 
 With PrivateLink, the pipeline and your database are in separate address spaces that never mix. Each component only connects to one address, and that address does not change during a failover.
 
+The VPC endpoint belongs to the workspace. Sources in different pipelines reuse it when they connect to the same endpoint service.
+
 ```mermaid {width="100%"}
-graph LR
+graph TB
     subgraph rc["Redis Cloud"]
-        pipeline["<b>RDI pipeline</b>"] --> endpoint["<b>VPC endpoint</b>"]
+        subgraph workspace["Data Integration workspace"]
+            sourceA["Pipeline A source"] --> endpoint["Shared VPC endpoint"]
+            sourceB["Pipeline B source"] --> endpoint
+        end
     end
     subgraph vpc["Your AWS VPC"]
         nlb["<b>Network Load Balancer</b><br/>(private IPs)"] --> db["<b>Source database</b>"]
@@ -32,7 +37,7 @@ The following table shows which address each component sees:
 
 | Component | Connects to | What it sees |
 |:--|:--|:--|
-| RDI pipeline | The VPC endpoint for your endpoint service | Only the endpoint's addresses, which come from the workspace CIDR. It never sees your database's real IP address. |
+| Source in an RDI pipeline | The workspace's VPC endpoint for your endpoint service | Only the endpoint's addresses, which come from the workspace CIDR. It never sees your database's real IP address. |
 | Network Load Balancer | The registered target (instance or IP address) | Your database's real address. The target group is the only place where that address appears, and the only thing that changes during a failover. |
 | Source database | Nothing. It only receives connections. | Incoming connections from the **NLB's private IP addresses**, and never from Redis Cloud addresses. Allow the NLB subnets in your database's firewall or allow list. |
 
@@ -47,9 +52,12 @@ Your source database does not have to run inside the VPC. It can be anywhere you
 The core rule is the same in every case: the NLB uses an IP address target that is reachable from the VPC, and the database receives the connection from the NLB's private IP address. The database never sees a Redis Cloud address.
 
 ```mermaid {width="100%"}
-graph LR
+graph TB
     subgraph rc["Redis Cloud"]
-        pipeline["<b>RDI pipeline</b>"] --> endpoint["<b>VPC endpoint</b>"]
+        subgraph workspace["Data Integration workspace"]
+            sourceA["Pipeline A source"] --> endpoint["Shared VPC endpoint"]
+            sourceB["Pipeline B source"] --> endpoint
+        end
     end
     subgraph vpc["Your AWS VPC"]
         nlb["<b>NLB</b><br/>(IP target)"]

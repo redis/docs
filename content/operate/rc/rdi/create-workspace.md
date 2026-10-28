@@ -51,10 +51,8 @@ To add a pipeline:
 1. Select **Add pipeline** at the bottom of the workspace.
 1. Enter a **Pipeline name**. Use 3 to 20 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name. You can't change the name later.
 
-    ![The Create new pipeline dialog with the name of a second pipeline.](/images/rc/rdi/rdi-2-create-second-pipeline.png)
+    ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
     {width="376px"}
-
-    <!-- TODO: Replace this screenshot once the console hint shows the 3 to 20 character range of RDSC-6306. -->
 
 1. Select **Create pipeline**.
 
