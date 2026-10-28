@@ -140,6 +140,8 @@ Note:
 4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
 5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets). The environment variable that `config.yaml` references is unchanged for a source that existed before RDI supported multiple sources; see [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
 6. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
-7. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications. Use RDI 2.2.0 or later to test named pipelines.
+7. Test creating, updating, validating, starting, stopping, and resetting a pipeline on a
+   non-production RDI 1.19.0 or later installation before updating production applications.
+   Use RDI 2.2.0 or later to test pipeline deletion and named pipelines.
 
 Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation status handling.
