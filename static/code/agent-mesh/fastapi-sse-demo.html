@@ -139,11 +139,29 @@
       ui.disconnect.disabled = true;
       ui.reconnect.disabled = true;
     });
-    current.addEventListener("redis.stream.control", event => {
+    current.addEventListener("stream.gap", () => {
       if (source !== current) return;
-      // Control frames have no cursor. Never advance past a missing-history error.
-      showError(new Error("The stream needs recovery. Start a new demo agent run."));
+      showError(new Error("Some updates were trimmed. Start a new demo run."));
+      ui.status.textContent = "History incomplete";
+      ui.reconnect.disabled = true;
     });
+    current.addEventListener("stream.end", event => {
+      if (source !== current) return;
+      try {
+        showError(new Error(`Run ended: ${JSON.parse(event.data).reason}`));
+        ui.status.textContent = "Agent stopped";
+        ui.reconnect.disabled = true;
+      } catch (error) { showError(error); }
+    });
+    current.addEventListener("stream.error", event => {
+      if (source !== current) return;
+      try {
+        showError(new Error(JSON.parse(event.data).code));
+        ui.status.textContent = "Connection requires attention";
+        ui.reconnect.disabled = true;
+      } catch (error) { showError(error); }
+    });
+
     current.onerror = () => {
       if (source === current) showError(new Error("The event connection closed. Use Reconnect to resume."));
     };

@@ -3,17 +3,13 @@
 import asyncio
 import os
 import logging
-from contextlib import asynccontextmanager
 from pathlib import Path
 from uuid import UUID, uuid4
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
-from redis.asyncio import Redis
-from redis_iris.agent_mesh.fastapi_sse import (
-    StreamBackend, StreamBackendDep, StreamSettings, add_redis_streams, sse_response,
-)
+from redis_iris.agent_mesh.fastapi_sse import FastAPIRedis, StreamBackendDep
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import PlainTextResponse
@@ -32,15 +28,10 @@ class LocalRequestsOnly(BaseHTTPMiddleware):
 redis_url = os.environ.get("REDIS_URL")
 if not redis_url:
     raise ValueError("Set REDIS_URL before running this demo")
-commands = Redis.from_url(redis_url, max_connections=8, socket_timeout=5)
-relays = Redis.from_url(redis_url, max_connections=2, socket_timeout=5)
-backend = StreamBackend(
-    commands, blocking_client=relays,
-    settings=StreamSettings(prefix="quickstart:sse-browser", stream_bucket_count=2),
-)
-# Application-owned demo state and job execution. No durable job scheduler is supplied.
+# The upstream SDK owns its pools and in-process producer tasks.
+os.environ.setdefault("REDIS_PREFIX", "quickstart:sse-browser")
+os.environ.setdefault("REDIS_STREAM_DONE_TTL", "3600")
 jobs = {}
-producers = set()
 
 
 # Scripted agent activity keeps this example runnable without a model account.
@@ -74,19 +65,13 @@ AGENT_ANSWER = (
 )
 
 
-async def produce(job_id, stream):
+async def produce(job_id, writer):
     try:
         for number, message in enumerate(AGENT_STEPS, start=1):
             await asyncio.sleep(1)  # Simulated work, independent of subscriptions.
-            await backend.append(
-                stream, event="progress", data={"number": number, "message": message},
-                producer="demo", idempotency_key=f"progress-{number}",
-            )
+            await writer.append("progress", {"number": number, "message": message})
             jobs[job_id]["produced"] = number
-        await backend.finish(
-            stream, event="completed", data={"count": len(AGENT_STEPS), "answer": AGENT_ANSWER},
-            producer="demo", idempotency_key="completed",
-        )
+        await writer.finish("completed", {"count": len(AGENT_STEPS), "answer": AGENT_ANSWER})
         jobs[job_id]["state"] = "completed"
     except asyncio.CancelledError:
         jobs[job_id]["state"] = "canceled"
@@ -94,25 +79,13 @@ async def produce(job_id, stream):
     except Exception:
         jobs[job_id]["state"] = "failed"
         logging.exception("Demo event producer failed")
+        raise
 
 
-@asynccontextmanager
-async def lifespan(app):
-    async with commands, relays, backend:
-        try:
-            yield
-        finally:
-            # Stop application-owned producers before closing the backend and clients.
-            pending = list(producers)
-            for task in pending:
-                task.cancel()
-            await asyncio.gather(*pending, return_exceptions=True)
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
+FastAPIRedis(app).lifespan().streams()
 app.add_middleware(LocalRequestsOnly)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost"])
-add_redis_streams(app, backend=backend, manage_lifespan=False)
 
 
 def get_job(job_id):
@@ -128,15 +101,12 @@ async def home():
 
 
 @app.post("/jobs")
-async def start_job():
+async def start_job(streams: StreamBackendDep):
     job_id = str(uuid4())
     # One fixed owner for this local demonstration; no request-supplied identity.
-    stream = f"local-demo-user:{job_id}"
-    await backend.create(stream, ttl=3600)
-    jobs[job_id] = {"stream": stream, "produced": 0, "state": "working"}
-    task = asyncio.create_task(produce(job_id, stream))
-    producers.add(task)
-    task.add_done_callback(producers.discard)
+    scope = f"job:{job_id}"
+    jobs[job_id] = {"scope": scope, "produced": 0, "state": "working"}
+    await streams.start(lambda writer: produce(job_id, writer), scope=scope, stream_id=job_id)
     return {"job_id": job_id}
 
 
@@ -154,7 +124,7 @@ async def job_state(job_id: UUID):
 async def events(job_id: UUID, request: Request, streams: StreamBackendDep):
     # This local demo has one owner. Authorize resource access in a deployed app.
     job = get_job(job_id)
-    return await sse_response(request, backend=streams, stream=job["stream"])
+    return await streams.sse(str(job_id), request=request, scope=job["scope"])
 
 
 if __name__ == "__main__":

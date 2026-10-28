@@ -7,13 +7,14 @@
 - Distinguish the independent `[a2a]` and `[fastapi-sse]` extras. The A2A
   integration does not require the FastAPI SSE integration. Both extras can be
   installed together; their shared redis-py range is `>=8.0.1,<9`. Keep Redis
-  server 8.6+ requirements distinct from Python client versions.
+  server requirements (A2A 8.6+, FastAPI 8.6.2+) distinct from Python client versions.
 - Use Agent2Agent (A2A), server-sent events (SSE), Task snapshots, event replay,
   and application-owned execution. Explain acronyms on first use on each page.
 - Write for the intended released package. Use package-index installation
   commands with the documented extras, not PR refs, source installs or commit pins.
   Do not invent a release version.
-- Applications own authentication, Redis clients, agent execution and lifecycle.
+- Applications supply authentication and agent execution. A2A accepts application-owned
+  Redis clients; FastAPI uses SDK-managed pools and producer lifecycle.
   Task IDs and cursors are not credentials. Derive ownership from verified identity
   in deployed applications. The explicitly authorized loopback-only browser demos
   use a fixed demo owner without authentication; keep that exception local.

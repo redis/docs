@@ -15,7 +15,7 @@ Choose one browser demo: reconnect to Agent2Agent (A2A) task updates, or resume 
 
 ## Before you begin
 
-You need Python 3.11 or later, `pip`, a browser, and a Redis database running version 8.6 or later with native producer idempotency (`XADD IDMP`). The demo application runs locally on port 8000, whichever database option you choose.
+You need Python 3.11 or later, `pip`, a browser, and a Redis database running version 8.6.2 or later with native producer idempotency (`XADD IDMP`). The demo application runs locally on port 8000, whichever database option you choose.
 
 ## Choose your Redis database
 
@@ -23,7 +23,7 @@ Choose Redis Cloud or a local instance, then set `REDIS_URL` in the terminal whe
 
 {{< multitabs id="agent-mesh-redis" tab1="Redis Cloud" tab2="Local Redis" >}}
 
-1. Use a dedicated Redis Cloud database running Redis 8.6 or later. See [Create a database](/content/operate/rc/databases/create-database/_index.md) and [supported database versions](/content/operate/rc/databases/version-management/_index.md#supported-database-versions).
+1. Use a dedicated Redis Cloud database running Redis 8.6.2 or later. See [Create a database](/content/operate/rc/databases/create-database/_index.md) and [supported database versions](/content/operate/rc/databases/version-management/_index.md#supported-database-versions).
 1. [Enable Transport Layer Security (TLS)](/content/operate/rc/security/database-security/tls-ssl.md#enable-tls) and download the server certificate bundle. Get your database endpoint, username, and password from the [connection guide](/content/operate/rc/databases/connect/_index.md).
 1. Set the connection URL in your application terminal:
 
@@ -181,43 +181,44 @@ The page saves its event cursor and reconnects to the same agent run’s event s
 
 ### Publish and serve resumable events
 
-The downloaded application owns its Redis clients, startup, and simulated agent execution. Its streaming backend uses separate command and relay clients:
+The downloaded application uses the FastAPI SDK's standard setup. It creates its
+Redis pools from `REDIS_URL` and manages in-process producer tasks:
 
 ```python
-from redis_iris.agent_mesh.fastapi_sse import StreamBackend, StreamSettings
+from redis_iris.agent_mesh.fastapi_sse import FastAPIRedis
 
-backend = StreamBackend(
-    commands, blocking_client=relays,
-    settings=StreamSettings(prefix="quickstart:sse-browser", stream_bucket_count=2),
-)
+FastAPIRedis(app).lifespan().streams()
 ```
 
-Create a log when starting the agent, append its progress messages, and finish with its answer:
+Give each demo job its own scope and run ID. Start the producer once, then publish
+through the writer it receives:
 
 ```python
-await backend.create(stream, ttl=3600)
-await backend.append(
-    stream, event="progress", data={"number": number, "message": message},
-    producer="demo", idempotency_key=f"progress-{number}",
-)
-await backend.finish(
-    stream, event="completed", data={"count": len(AGENT_STEPS), "answer": AGENT_ANSWER},
-    producer="demo", idempotency_key="completed",
-)
+async def produce(writer):
+    await writer.append("progress", {"number": number, "message": message})
+    await writer.finish("completed", {"count": 20, "answer": AGENT_ANSWER})
+
+await streams.start(produce, scope=f"job:{job_id}", stream_id=job_id)
 ```
 
-The event endpoint uses `sse_response()` to serve both retained and live events:
+The excerpt shows the API shape; the downloadable producer loops over all twenty
+scripted steps. Reconnecting does not call `start()` again.
+
+The event endpoint serves the authorized job's scope and run:
 
 ```python
-from redis_iris.agent_mesh.fastapi_sse import StreamBackendDep, sse_response
+from redis_iris.agent_mesh.fastapi_sse import StreamBackendDep
 
 @app.get("/jobs/{job_id}/events", response_class=StreamingResponse)
 async def events(job_id: UUID, request: Request, streams: StreamBackendDep):
     job = get_job(job_id)
-    return await sse_response(request, backend=streams, stream=job["stream"])
+    return await streams.sse(str(job_id), request=request, scope=job["scope"])
 ```
 
-The browser's built-in `EventSource` reconnects with the last applied cursor. This demo retains each log for one hour. Replay requires retained history, and event delivery does not restart interrupted job execution.
+The browser reconnects with the last applied cursor. The demo sets
+`REDIS_STREAM_DONE_TTL=3600` unless you override it, retaining a completed run for
+one hour. Active retention and finished retention are separate. Replay requires
+retained history; it does not restart interrupted execution.
 
 ## When you're done
 
