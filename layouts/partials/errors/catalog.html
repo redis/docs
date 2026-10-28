@@ -1,0 +1,98 @@
+{{- /*
+  The error catalog (data/errors.json), ready for the pages that show it:
+  the error-catalog shortcode, its Markdown expansion, and the error lookup.
+
+  Returns a dict:
+    - "entries": the errors that apps can get, each with
+        id        anchor of its row in the list of all errors ("e-" + 8 hex)
+        message   the message, with <placeholders> for the parts that change
+        explain   what causes it and what to do, with `literals` in backticks
+        prefix, module
+        group     the code it's listed under: its prefix, or "ERR TSDB:"
+                  for the time series messages that start with both
+        commands  slice of dict "name" "url" (url is "" when the command has no page)
+        list      URL of its module's list page, with the anchor
+        fix       URL of the error page that explains it, or ""
+        verified  true when it was checked on a running server
+    - "modules": module key -> dict "title" "url"
+  Errors that only internal or debugging commands return ("internal": true
+  in the data) are left out, and so are the default messages of codes that
+  no code path sends ("unused": true).
+
+  Call it with partialCached "errors/catalog.html" site "errors": every page
+  that needs it gets the same data.
+*/ -}}
+
+{{- $modules := dict -}}
+{{- range slice
+      (slice "core" "Redis" "redis")
+      (slice "vectorset" "Vector sets" "vector-sets")
+      (slice "search" "Redis Search" "search")
+      (slice "json" "JSON" "json")
+      (slice "bloom" "Probabilistic data types" "probabilistic")
+      (slice "timeseries" "Time series" "time-series") -}}
+  {{- $url := "" -}}
+  {{- with site.GetPage (printf "/develop/reference/errors/all/%s" (index . 2)) -}}{{- $url = .RelPermalink -}}{{- end -}}
+  {{- $modules = merge $modules (dict (index . 0) (dict "title" (index . 1) "url" $url)) -}}
+{{- end -}}
+
+{{- /* Error pages: a prefix other than ERR explains every message with that
+       prefix, and a page also explains the messages that contain one of its
+       phrases. An ERR page's phrase must follow the ERR prefix: "syntax error"
+       in the middle of a Redis Search message is a different error. Keys are
+       lowercase, as merge doesn't keep their case. */ -}}
+{{- $byPrefix := dict -}}
+{{- $byPhrase := slice -}}
+{{- with site.GetPage "/develop/reference/errors/common" -}}
+  {{- range $p := .RegularPages -}}
+    {{- with $p.Params.error -}}
+      {{- $err := eq .prefix "ERR" -}}
+      {{- if not $err -}}
+        {{- $byPrefix = merge $byPrefix (dict (lower .prefix) $p.RelPermalink) -}}
+      {{- end -}}
+      {{- range .match -}}
+        {{- $byPhrase = $byPhrase | append (dict "phrase" (lower .) "err" $err "url" $p.RelPermalink) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $entries := slice -}}
+{{- range site.Data.errors.errors -}}
+  {{- if not (or .internal .unused) -}}
+    {{- $commands := slice -}}
+    {{- range .commands -}}
+      {{- $url := "" -}}
+      {{- with site.GetPage (printf "/commands/%s" (lower (replace . " " "-"))) -}}{{- $url = .RelPermalink -}}{{- end -}}
+      {{- $commands = $commands | append (dict "name" . "url" $url) -}}
+    {{- end -}}
+    {{- $fix := index $byPrefix (lower .prefix) | default "" -}}
+    {{- if not $fix -}}
+      {{- $text := lower .message -}}
+      {{- range $byPhrase -}}
+        {{- if not $fix -}}
+          {{- if .err -}}
+            {{- if hasPrefix $text (print "err " .phrase) -}}{{- $fix = .url -}}{{- end -}}
+          {{- else if in $text .phrase -}}
+            {{- $fix = .url -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $id := printf "e-%s" (substr (md5 (print .module " " .message)) 0 8) -}}
+    {{- $group := cond (and (eq .module "timeseries") (hasPrefix .message "ERR TSDB:")) "ERR TSDB:" .prefix -}}
+    {{- $entries = $entries | append (dict
+          "id" $id
+          "message" .message
+          "explain" (.explain | default "")
+          "prefix" .prefix
+          "group" $group
+          "module" .module
+          "commands" $commands
+          "list" (printf "%s#%s" (index $modules .module).url $id)
+          "fix" $fix
+          "verified" (.verified | default false)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict "entries" $entries "modules" $modules) -}}

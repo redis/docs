@@ -1,0 +1,337 @@
+{
+  "_meta": {
+    "redis": "Redis server v=8.10.3 sha=00000000:1 malloc=jemalloc-5.3.0 bits=64 build=b71873ae5292ca4e",
+    "redis_py": "7.4.0",
+    "date": "2026-10-27"
+  },
+  "err-unknown-command": {
+    "raw": [
+      "-ERR unknown command 'FOO', with args beginning with: 'bar' ",
+      "-ERR unknown subcommand 'FOO'. Try CONFIG HELP."
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: unknown command 'FOO', with args beginning with: 'bar' "
+    ]
+  },
+  "err-wrong-number-of-arguments": {
+    "raw": [
+      "-ERR wrong number of arguments for 'get' command",
+      "-ERR wrong number of arguments for 'config|get' command"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: wrong number of arguments for 'get' command"
+    ]
+  },
+  "err-syntax-error": {
+    "raw": [
+      "-ERR syntax error"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: syntax error"
+    ]
+  },
+  "err-not-an-integer": {
+    "raw": [
+      "-ERR value is not an integer or out of range",
+      "-ERR value is not an integer or out of range",
+      "-ERR value is not an integer or out of range",
+      "-ERR increment or decrement would overflow",
+      "-ERR value is not a valid float"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: value is not an integer or out of range"
+    ],
+    "notes": [
+      "INCR on 1.5",
+      "INCR on int64 max",
+      "INCRBYFLOAT on abc"
+    ]
+  },
+  "wrongtype": {
+    "raw": [
+      "-WRONGTYPE Operation against a key holding the wrong kind of value",
+      "-WRONGTYPE Operation against a key holding the wrong kind of value",
+      "+list"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: WRONGTYPE Operation against a key holding the wrong kind of value"
+    ],
+    "notes": [
+      "TYPE"
+    ]
+  },
+  "execabort": {
+    "raw": [
+      "-ERR unknown command 'FOO'",
+      "-EXECABORT Transaction discarded because of previous errors.",
+      [
+        "-ERR value is not an integer or out of range"
+      ],
+      "-ERR wrong number of arguments for 'get' command",
+      "-EXECABORT Transaction discarded because of previous errors."
+    ],
+    "notes": [
+      "queued unknown command",
+      "runtime error in EXEC: no abort, reply array",
+      "wrong arity while queuing"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: Command # 1 (FOO) of pipeline caused error: unknown command 'FOO'"
+    ]
+  },
+  "noscript": {
+    "raw": [
+      "-NOSCRIPT No matching script. Please use EVAL.",
+      "-NOSCRIPT No matching script. Please use EVAL."
+    ],
+    "redis_py": [
+      "redis.exceptions.NoScriptError: No matching script. Please use EVAL."
+    ]
+  },
+  "busykey": {
+    "raw": [
+      "-BUSYKEY Target key name already exists."
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: BUSYKEY Target key name already exists."
+    ],
+    "notes": [
+      "RESTORE REPLACE -> +OK"
+    ]
+  },
+  "busygroup": {
+    "notes": [
+      "first create -> +OK"
+    ],
+    "raw": [
+      "-BUSYGROUP Consumer Group name already exists"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: BUSYGROUP Consumer Group name already exists"
+    ]
+  },
+  "nogroup": {
+    "raw": [
+      "-NOGROUP No such key 's' or consumer group 'nog' in XREADGROUP with GROUP option",
+      "-NOGROUP No such key 'missing' or consumer group 'g' in XREADGROUP with GROUP option",
+      "-NOGROUP No such consumer group 'nog' for key name 's'",
+      "-NOGROUP No such key 's' or consumer group 'nog'",
+      "-NOGROUP No such key 's' or consumer group 'nog'",
+      "-ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.",
+      "-NOGROUP No such consumer group 'nog' for key name 's'"
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: NOGROUP No such key 's' or consumer group 'nog' in XREADGROUP with GROUP option"
+    ],
+    "notes": [
+      "missing key",
+      "create on missing key without MKSTREAM"
+    ]
+  },
+  "wrongpass": {
+    "raw": [
+      "-ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?",
+      "-WRONGPASS invalid username-password pair or user is disabled.",
+      "-WRONGPASS invalid username-password pair or user is disabled.",
+      "-WRONGPASS invalid username-password pair or user is disabled."
+    ],
+    "redis_py": [
+      "redis.exceptions.AuthenticationError: AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?",
+      "redis.exceptions.AuthenticationError: invalid username-password pair or user is disabled."
+    ],
+    "notes": [
+      "AUTH when no password configured",
+      "unknown user",
+      "disabled user"
+    ]
+  },
+  "oom": {
+    "raw": [
+      "-OOM command not allowed when used memory > 'maxmemory'."
+    ],
+    "redis_py": [
+      "redis.exceptions.OutOfMemoryError: command not allowed when used memory > 'maxmemory'."
+    ],
+    "notes": [
+      "GET while over maxmemory -> b'v'",
+      "DEL while over maxmemory -> :1",
+      "policy -> [b'maxmemory-policy', b'noeviction']",
+      "allkeys-lru SET -> -OOM command not allowed when used memory > 'maxmemory'.",
+      "volatile-lru SET with no TTL keys -> -OOM command not allowed when used memory > 'maxmemory'."
+    ]
+  },
+  "busy": {
+    "raw": [
+      "-BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+      "-BUSY Redis is busy running a script. You can only call FUNCTION KILL or SHUTDOWN NOSAVE."
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+    ],
+    "notes": [
+      "PING during busy -> -BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+      "SCRIPT KILL -> +OK",
+      "script caller got -> -ERR Script killed by user with SCRIPT KILL... script: 694a5fe1ddb97a4c6a1bf299d9537c7d3d0f84e7, on @user_script:1.",
+      "function",
+      "SCRIPT KILL on function -> -BUSY Redis is busy running a script. You can only call FUNCTION KILL or SHUTDOWN NOSAVE.",
+      "FUNCTION KILL -> +OK",
+      "function caller got -> -ERR Script killed by user with SCRIPT KILL... script: spin, on @user_function:2.",
+      "SCRIPT KILL after a write -> -UNKILLABLE Sorry the script already executed write commands against the dataset. You can either wait the script termination or kill the server in a hard way using the SHUTDOWN NOSAVE command.",
+      "SHUTDOWN NOSAVE -> None"
+    ]
+  },
+  "err-max-clients": {
+    "raw": [
+      "-ERR max number of clients reached"
+    ],
+    "redis_py": [
+      "redis.exceptions.ConnectionError: max number of clients reached"
+    ]
+  },
+  "noreplicas": {
+    "raw": [
+      "-NOREPLICAS Not enough good replicas to write."
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: NOREPLICAS Not enough good replicas to write."
+    ],
+    "notes": [
+      "GET -> $-1"
+    ]
+  },
+  "misconf": {
+    "raw": [
+      "-MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+    ],
+    "redis_py": [
+      "redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+    ],
+    "notes": [
+      "GET -> $-1",
+      [
+        "rdb_bgsave_in_progress:0",
+        "rdb_last_bgsave_status:err",
+        "rdb_last_bgsave_time_sec:0",
+        "rdb_current_bgsave_time_sec:-1"
+      ]
+    ]
+  },
+  "noauth": {
+    "raw": [
+      "-NOAUTH Authentication required."
+    ],
+    "redis_py": [
+      "redis.exceptions.AuthenticationError: Authentication required."
+    ],
+    "notes": [
+      "PING before AUTH -> -NOAUTH Authentication required."
+    ]
+  },
+  "noperm": {
+    "raw": [
+      "-NOPERM User app has no permissions to run the 'set' command",
+      "-NOPERM No permissions to access a key",
+      "-NOPERM User app has no permissions to run the 'publish' command",
+      "-NOPERM User app has no permissions to run the 'config|get' command"
+    ],
+    "redis_py": [
+      "redis.exceptions.NoPermissionError: User app has no permissions to run the 'set' command",
+      "redis.exceptions.NoPermissionError: No permissions to access a key"
+    ],
+    "notes": [
+      "ACL LOG -> [[b'count', ':1', b'reason', b'command', b'context', b'toplevel', b'object', b'config|get', b'username', b'app', b'age-seconds', b'0.002', b'client-info', b'id=15 addr=172.17.0.1:60048 laddr=172.17.0.3:6560 fd=13 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=40 qbuf-free=20434 argv-mem=18 multi-mem=0 rbs=16384 rbp=66 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=38186 events=r cmd=config|get user=app redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=169 tot-net-out=173 tot-cmds=1 read-events=5 avg-pipeline-len-sum=5 avg-pipeline-len-cnt=5', b'entry-id', ':7', b'timestamp-created', ':1793111293886', b'timestamp-last-updated', ':1793111293886']]"
+    ]
+  },
+  "readonly": {
+    "raw": [
+      "-READONLY You can't write against a read only replica."
+    ],
+    "redis_py": [
+      "redis.exceptions.ReadOnlyError: You can't write against a read only replica."
+    ],
+    "notes": [
+      "GET on replica -> $-1",
+      "replica-read-only -> [b'replica-read-only', b'yes']"
+    ]
+  },
+  "masterdown": {
+    "raw": [
+      "-MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+    ],
+    "redis_py": [
+      "redis.exceptions.MasterDownError: Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+    ],
+    "notes": [
+      "INFO -> b'# Replication\\r\\nrole:slave\\r\\nmaster_host:127.0.0.1\\r\\nmaster_port:6499\\r\\nmaster_link_status:down\\r\\nmaster_last_io_seconds_ago:-1\\r\\nmaster_sync_in_progress:0\\r\\nslave_read_repl_offset:1\\r\\nslave_repl_offset:1\\r\\nreplica_full_sync_buffer_size:0\\r\\nreplica_full_sync_buffer_peak:0\\r\\nmaster_current_sync_attempts:1\\r\\nmaster_total_sync_attempts:1\\r\\nmaster_link_down_since_seconds:-1\\r\\ntotal_disconnect_time_sec:0\\r\\nslave_priority:100\\r\\nslave_read_only:1\\r\\nreplica_announced:1\\r\\nconnected_slaves:0\\r\\nmaster_failover_state:no-failover\\r\\nmaster_replid:be705ddc3c291612c1163153d8042a1f53519db2\\r\\nmaster_replid2:0000000000000000000000000000000000000000\\r\\nmaster_repl_offset:0\\r\\nsecond_repl_offset:-1\\r\\nrepl_backlog_active:0\\r\\nrepl_backlog_size:1048576\\r\\nrepl_backlog_first_byte_offset:0\\r\\nrepl_backlog_histlen:0\\r\\n'"
+    ]
+  },
+  "loading": {
+    "raw": [
+      "-LOADING Redis is loading the dataset in memory"
+    ],
+    "redis_py": [
+      "no error"
+    ],
+    "notes": [
+      "PING while loading -> +PONG",
+      [
+        "loading:0"
+      ]
+    ]
+  },
+  "moved": {
+    "raw": [
+      "-MOVED 12182 127.0.0.1:6573"
+    ],
+    "redis_py": [
+      "redis.exceptions.MovedError: 12182 127.0.0.1:6573"
+    ]
+  },
+  "crossslot": {
+    "raw": [
+      "-CROSSSLOT Keys in request don't hash to the same slot",
+      "-CROSSSLOT Keys in request don't hash to the same slot"
+    ],
+    "redis_py": [
+      "redis.exceptions.ClusterCrossSlotError: Keys in request don't hash to the same slot"
+    ],
+    "notes": [
+      "KEYSLOT user:1 :10778 user:2 :6777 {user}:1 :5474 {user}:2 :5474",
+      "MSET {user}:1 {user}:2 on owner -> +OK"
+    ]
+  },
+  "ask": {
+    "raw": [
+      "-ASK 12182 127.0.0.1:6571"
+    ],
+    "redis_py": [
+      "redis.exceptions.AskError: 12182 127.0.0.1:6571"
+    ],
+    "notes": [
+      "GET existing key on source -> b'1'",
+      "GET on target without ASKING -> -MOVED 12182 127.0.0.1:6573",
+      "ASKING then GET on target -> +OK $-1"
+    ]
+  },
+  "tryagain": {
+    "raw": [
+      "-TRYAGAIN Multiple keys request during rehashing of slot"
+    ],
+    "redis_py": [
+      "redis.exceptions.TryAgainError: Multiple keys request during rehashing of slot"
+    ]
+  },
+  "clusterdown": {
+    "raw": [
+      "-CLUSTERDOWN Hash slot not served",
+      "-CLUSTERDOWN The cluster is down"
+    ],
+    "redis_py": [
+      "redis.exceptions.ClusterDownError: Hash slot not served",
+      "redis.exceptions.ClusterDownError: The cluster is down"
+    ],
+    "notes": [
+      "CLUSTER INFO state -> ['cluster_state:fail']"
+    ]
+  }
+}

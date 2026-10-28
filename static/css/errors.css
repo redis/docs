@@ -1,0 +1,104 @@
+/* =========================================================================
+   Error lookup and lists of all error messages
+   (layouts/shortcodes/error-lookup.html, error-catalog.html)
+   Scoped under `.rerr`. Palette matches the scripted demos'
+   (context-retriever-demo.css).
+   ========================================================================= */
+
+.rerr {
+  --rerr-ink: #091a23;
+  --rerr-muted: #5c707a;
+  --rerr-line: #e8ebec;
+  --rerr-line-strong: #d9d9d9;
+  --rerr-surface: #ffffff;
+  --rerr-surface-2: #f9f9f9;
+  --rerr-code-bg: #f6f7f9;
+  --rerr-accent: #ff4438;
+  --rerr-accent-2: #5961ff;
+  --rerr-focus: rgba(89, 97, 255, .28);
+  --rerr-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  color: var(--rerr-ink);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--rerr-line);
+  border-radius: 12px;
+  background: var(--rerr-surface);
+  padding: 16px;
+}
+.rerr *, .rerr *::before, .rerr *::after { box-sizing: border-box; }
+.rerr p { margin: 0; }
+.rerr code { font-family: var(--rerr-mono); font-size: 12.5px; background: var(--rerr-code-bg); border-radius: 4px; padding: 1px 5px; }
+.rerr code::before, .rerr code::after { content: none; }
+
+.rerr-label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.rerr-input {
+  display: block; width: 100%; resize: vertical; min-height: 76px;
+  font: 13.5px/1.5 var(--rerr-mono); color: var(--rerr-ink);
+  background: var(--rerr-surface-2); border: 1px solid var(--rerr-line-strong);
+  border-radius: 8px; padding: 10px 12px;
+}
+.rerr-input::placeholder { color: #8a99a0; }
+.rerr-input:focus { outline: none; border-color: var(--rerr-accent-2); box-shadow: 0 0 0 3px var(--rerr-focus); }
+
+.rerr-result { margin-top: 14px; }
+.rerr-result:empty { display: none; }
+
+.rerr-try { color: var(--rerr-muted); font-size: 13.5px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.rerr-chip {
+  font: 12.5px var(--rerr-mono); color: var(--rerr-ink); cursor: pointer;
+  background: var(--rerr-surface-2); border: 1px solid var(--rerr-line);
+  border-radius: 999px; padding: 4px 12px;
+}
+.rerr-chip:hover { border-color: var(--rerr-line-strong); background: #f1f3f4; }
+.rerr-chip:focus-visible, .rerr a:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--rerr-focus); border-radius: 6px; }
+
+.rerr-kicker { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--rerr-muted); margin-bottom: 6px !important; }
+.rerr-card { border: 1px solid var(--rerr-line); border-left: 3px solid var(--rerr-accent); border-radius: 8px; padding: 12px 14px; background: var(--rerr-surface); }
+.rerr-card.rerr-none { border-left-color: var(--rerr-line-strong); }
+.rerr-card.rerr-none p + p { margin-top: 8px; }
+.rerr-title { font-size: 17px; font-weight: 600; color: var(--rerr-ink); text-decoration: none; }
+.rerr-title:hover { text-decoration: underline; }
+.rerr-desc { color: var(--rerr-muted); margin-top: 2px !important; }
+.rerr-lead { margin-top: 10px !important; }
+.rerr-from { color: var(--rerr-muted); font-size: 13.5px; margin-top: 6px !important; }
+.rerr .rerr-msg {
+  margin: 10px 0 0; padding: 8px 10px; white-space: pre-wrap; word-break: break-word;
+  font: 12.5px/1.5 var(--rerr-mono); color: var(--rerr-ink);
+  background: var(--rerr-code-bg); border: 0; border-radius: 6px;
+}
+.rerr-actions { margin-top: 10px !important; }
+.rerr-go { font-weight: 600; color: var(--rerr-accent-2); text-decoration: none; }
+.rerr-go::after { content: " \2192"; }
+.rerr-go:hover { text-decoration: underline; }
+.rerr-also, .rerr-still { color: var(--rerr-muted); font-size: 13.5px; margin-top: 10px !important; }
+.rerr-also a, .rerr-none a, .rerr-ask { color: var(--rerr-accent-2); }
+.rerr .rerr-msg-lead { margin-top: 0; font-size: 13px; }
+.rerr-go-quiet { font-weight: 400; margin-left: 12px; }
+.rerr-go:first-child.rerr-go-quiet { margin-left: 0; }
+
+/* ---- list of all error messages ---- */
+.rerr-count { color: #5c707a; font-size: 14px; }
+.rerr-catalog { overflow-x: auto; }
+.rerr-catalog table { width: 100%; table-layout: fixed; }
+.rerr-catalog th.rerr-col-msg { width: 36%; }
+.rerr-catalog th.rerr-col-explain { width: 44%; }
+.rerr-catalog td { vertical-align: top; }
+.rerr-catalog td code { white-space: normal; overflow-wrap: anywhere; }
+.rerr-catalog td.rerr-col-msg code { font-size: 13px; line-height: 1.5; }
+.rerr-catalog td.rerr-col-explain { font-size: 14px; line-height: 1.5; }
+.rerr-catalog tr:target { background: #fff6d6; }
+.rerr-catalog tr { scroll-margin-top: 96px; }
+.rerr-fix { display: inline-block; font-size: 13px; white-space: nowrap; }
+/* On a phone, each row becomes a block: the message, its explanation, then the commands. */
+@media (max-width: 720px) {
+  .rerr-catalog table, .rerr-catalog tbody, .rerr-catalog tr, .rerr-catalog td { display: block; width: auto; }
+  .rerr-catalog thead { display: none; }
+  .rerr-catalog tr { border-top: 1px solid #dfe5e8; padding: 10px 0; }
+  .rerr-catalog td { border: 0 !important; padding: 3px 0 !important; }
+  .rerr-catalog td.rerr-col-cmds::before { content: "Returned by: "; color: #5c707a; font-size: 13px; }
+}
+.rerr-any { color: #5c707a; font-size: 13px; }
+.rerr-via { color: var(--rerr-muted); font-size: 13.5px; margin-top: 8px !important; }
+.rerr-via code { white-space: normal; overflow-wrap: anywhere; }

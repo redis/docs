@@ -1,0 +1,76 @@
+{{- /*
+  error-lookup
+  ------------
+  Finds the page for a pasted Redis error message. The reader pastes an
+  error as redis-cli, a log or a client library's exception shows it, and
+  js/error-lookup.js matches the text against the `error` front matter of
+  the pages in errors/common. Runs in the browser: the text is sent nowhere unless
+  the reader chooses to ask AI about it.
+
+  Usage, on the errors section index (no arguments):
+      {{< error-lookup >}}
+
+  Each error page carries:
+      error:
+        prefix: WRONGTYPE
+        message: WRONGTYPE Operation against a key holding the wrong kind of value
+        match:
+        - Operation against a key holding the wrong kind of value
+
+  `prefix` matches as an uppercase word anywhere in the text. Pages with the
+  general ERR prefix match on their `match` phrases only, which match
+  anywhere in the text, ignoring case. `message` is the error as Redis sends
+  it, shown in the result.
+
+  Errors without a page come from the list of all error messages
+  (data/errors.json, via layouts/partials/errors/catalog.html). The script
+  fetches that list as a separate JSON file the first time the reader types.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/errors.css" "js/error-lookup.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end -}}
+
+{{- /* The catalog, cut down to what a result shows: m message, x explanation,
+       p prefix, d module, c commands as {n name, u url}, u its row in the list,
+       f its error page. */ -}}
+{{- $catalog := partialCached "errors/catalog.html" site "errors" -}}
+{{- $compact := slice -}}
+{{- range $catalog.entries -}}
+  {{- $c := slice -}}
+  {{- range .commands -}}{{- $c = $c | append (dict "n" .name "u" .url) -}}{{- end -}}
+  {{- $compact = $compact | append (dict "m" .message "x" .explain "p" .prefix "d" .module "c" $c "u" .list "f" .fix) -}}
+{{- end -}}
+{{- $modules := dict -}}
+{{- range $k, $m := $catalog.modules -}}{{- $modules = merge $modules (dict $k (slice $m.title $m.url)) -}}{{- end -}}
+{{- $catalogFile := dict "modules" $modules "errors" $compact | jsonify | resources.FromString "js/error-catalog.json" | fingerprint "md5" -}}
+
+{{- $errors := slice -}}
+{{- range $p := (site.GetPage "/develop/reference/errors/common").RegularPages -}}
+  {{- with $p.Params.error -}}
+    {{- $errors = $errors | append (dict
+          "url" $p.RelPermalink
+          "title" $p.Title
+          "description" $p.Description
+          "prefix" .prefix
+          "message" .message
+          "match" (.match | default slice)) -}}
+  {{- end -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/errors.css" | relURL }}?v={{ index $v "css/errors.css" }}">
+<script defer src="{{ "js/error-lookup.js" | relURL }}?v={{ index $v "js/error-lookup.js" }}"></script>
+
+<div class="rerr" data-error-lookup data-errors="{{ $errors | jsonify }}" data-catalog="{{ $catalogFile.RelPermalink }}">
+  <label class="rerr-label" for="rerr-input">Error message</label>
+  <textarea id="rerr-input" class="rerr-input" rows="3" spellcheck="false" autocomplete="off"
+    placeholder="(error) WRONGTYPE Operation against a key holding the wrong kind of value"></textarea>
+  <div class="rerr-result" aria-live="polite"></div>
+  <noscript><p>The search needs JavaScript. You can find every error in the <a href="{{ (site.GetPage "/develop/reference/errors/all").RelPermalink }}">list of all error messages</a>.</p></noscript>
+</div>
