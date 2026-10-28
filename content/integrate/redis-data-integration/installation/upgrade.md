@@ -318,7 +318,7 @@ is needed. Continue with the upgrade instructions for your installation.
 
 ### Clearing a pipeline is different from deleting it
 
-`DELETE /api/v2/pipelines/{name}` does not empty a pipeline. In RDI 2.2.0, use
+`DELETE /api/v2/pipelines/{name}` deletes a pipeline rather than emptying its configuration. In RDI 2.2.0, use...
 `redis-di delete` to delete the pipeline, or clear the configuration with
 `redis-di deploy --empty`, or with
 `PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
