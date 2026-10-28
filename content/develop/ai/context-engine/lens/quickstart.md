@@ -21,7 +21,7 @@ Get these values from your administrator:
 - The Lens read endpoint, your instance ID, and a read key, for reading them back.
 <!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
 
-You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key.
+You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key. For the configuration `redis-iris` reads across services, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 ## Install the SDK
 

@@ -13,6 +13,8 @@ weight: 7
 
 The `redis-iris` package is a Python software development kit (SDK) with one object per Redis Iris service, plus the `iris` command-line interface (CLI), which creates services, mints keys, and checks connections. Your agent reads only `IRIS_*` environment variables, so the same code runs on Redis Cloud and on a self-managed deployment.
 
+Start with a service's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
+
 ## Install the SDK and CLI
 
 Both require Python 3.11 or later, and both are prereleases.

@@ -26,7 +26,7 @@ For self-managed setup, [create the Gateways and the agent key](/content/operate
 
 This walkthrough needs no agent framework or model-provider key.
 
-Follow one tab throughout the page. The Python package and command-line interface (CLI) are prereleases. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq.
+Follow one tab throughout the page. The Python package and command-line interface (CLI) are prereleases. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq. To connect the CLI to your deployment with a profile, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 <!-- TODO: Recheck the client property sentence below. Do this when a redis-iris release depends on redis-context-gateway 0.1.0a5, where the SDK's data-plane client is renamed from ContextGatewayClient to ContextGateway. -->
 
