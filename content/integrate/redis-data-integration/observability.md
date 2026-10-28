@@ -455,7 +455,7 @@ By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`, with 
 pipeline in a `pipelines/<pipeline>/` directory and the logs of the control plane in a
 `control-plane/` directory. See [RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs)
 for the names of the log files.
-The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
+The logs are recorded at the minimum `INFO` level and get rotated when they reach 20 mebibytes (MiB).
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.
 You can change the default log settings using the
