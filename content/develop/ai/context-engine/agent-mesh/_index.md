@@ -13,6 +13,7 @@ bannerText: Redis Agent Mesh is currently available in preview. Features and beh
 bannerChildren: true
 ---
 
+## What is Redis Agent Mesh?
 Redis Agent Mesh provides resumable event streams on top of Redis. Your application keeps producing events when a client disconnects. When the client reconnects, it can receive retained updates after its last event cursor.
 
 The Agent Mesh software development kit (SDK) offers two Python integration paths: Agent2Agent (A2A) task updates through the official A2A Python SDK, and server-sent events (SSE) through FastAPI. Both are available in the `redis-iris` Python distribution. Your application owns execution, authentication, Redis connections, and resource lifecycle.
