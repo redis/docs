@@ -32,9 +32,9 @@ Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model C
 
 *Example set `iris_gateway_manage`, step `gateway-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
 
-To use the cache or compression, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
+To use the cache or compression, select a Gateway database with the optional `databaseId`. Your administrator names the available databases. A Gateway that ends up with a database has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` returns `400` when the Gateway would have no database, that is, when you send no `databaseId` and no default applies.
 
-On a self-managed deployment, your administrator may set a default Gateway database. A create without `databaseId` then uses it, the response returns the resolved `databaseId`, and an omitted `cache` or `compression` comes back `enabled`. Without a default, the Gateway has no database and both are `disabled`. Redis Cloud has no default. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
+On a self-managed deployment, your administrator may set a default Gateway database. A create without `databaseId` then uses it, so `cache` and `compression` come back `enabled` unless you send `disabled`. Without a default, the Gateway has no database and both are `disabled`. On create, an explicit `"databaseId": ""` or `null` always returns `400`. Redis Cloud has no default and requires the ID. A Gateway response returns `databaseBinding` with the resolved `databaseId` and the database's `name`. The `name` is absent when the lookup fails. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
 
 On a self-managed deployment, sending `"compression": "enabled"` returns `400` with `validation_compression_unsupported` when the Gateway database does not use `maxmemory-policy noeviction` or has no JSON module, and `503` when it cannot be reached. A create that omits `compression` is stored with it `disabled` instead of failing.
 

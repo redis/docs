@@ -105,7 +105,7 @@ The chart renders these as `default_databases.gateway` and `default_databases.su
 | Value | Used when | Without it |
 | --- | --- | --- |
 | `defaultDatabases.gatewayDb` | A Gateway create sends no `databaseId`. The response returns the resolved `databaseId`, and `cache` and `compression` default to `enabled` as if you had sent it. An explicit `databaseId` always wins. | A Gateway created without `databaseId` has no database, so the cache and compression are off. |
-| `defaultDatabases.surfaceDb` | A Context Surface create sends no `connection.database.id`. An explicit ID always wins. | That create returns `400` on `connection.database.id`. |
+| `defaultDatabases.surfaceDb` | A Context Surface create sends no `contextSurface.databaseId`. An explicit ID always wins. | That create returns `400` on `contextSurface.databaseId`. |
 
 Redis Cloud has no defaults and always requires the database ID.
 

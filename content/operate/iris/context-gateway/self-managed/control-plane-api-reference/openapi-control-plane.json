@@ -71,7 +71,7 @@
                 "type": "object"
             },
             "AuthenticationMethodInput": {
-                "description": "One member per method kind, each with exactly its own fields. A later kind, such\nas basic or oauth2ClientCredentials, is a new member, which is additive.",
+                "description": "One member per method kind, each with exactly its own fields. A later kind, such\nas basic or oauth2ClientCredentials, is a new member, which is additive. A method\nsent back as read may keep its kind, which must name the method's one member and\nis then ignored; any other kind is a 400 on mcp.authentication.methods[i].kind.",
                 "oneOf": [
                     {
                         "properties": {
@@ -100,32 +100,53 @@
                 ]
             },
             "AuthenticationMethodOutput": {
+                "description": "One method, discriminated by kind, with its fields under the member named by\nkind. This union may gain members, such as basic, and a client must keep a\nmethod whose kind it does not know rather than fail.",
+                "discriminator": {
+                    "mapping": {
+                        "bearer": "#/components/schemas/AuthenticationMethodOutputBearer",
+                        "header": "#/components/schemas/AuthenticationMethodOutputHeader"
+                    },
+                    "propertyName": "kind"
+                },
                 "oneOf": [
                     {
-                        "properties": {
-                            "bearer": {
-                                "$ref": "#/components/schemas/BearerMethodOutput"
-                            }
-                        },
-                        "required": [
-                            "bearer"
-                        ],
-                        "title": "bearer",
-                        "type": "object"
+                        "$ref": "#/components/schemas/AuthenticationMethodOutputBearer"
                     },
                     {
-                        "properties": {
-                            "header": {
-                                "$ref": "#/components/schemas/HeaderMethodOutput"
-                            }
-                        },
-                        "required": [
-                            "header"
-                        ],
-                        "title": "header",
-                        "type": "object"
+                        "$ref": "#/components/schemas/AuthenticationMethodOutputHeader"
                     }
                 ]
+            },
+            "AuthenticationMethodOutputBearer": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BearerAuthenticationMethodOutput"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthenticationMethodOutputMixin"
+                    }
+                ]
+            },
+            "AuthenticationMethodOutputHeader": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/HeaderAuthenticationMethodOutput"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthenticationMethodOutputMixin"
+                    }
+                ]
+            },
+            "AuthenticationMethodOutputMixin": {
+                "properties": {
+                    "kind": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "kind"
+                ],
+                "type": "object"
             },
             "AuthenticationOutput": {
                 "description": "Shows which headers the Upstream receives, never a value or a credential ID. A rotation shows as a new revision and updatedAt.",
@@ -191,6 +212,17 @@
                     "/errors/invalid-data"
                 ],
                 "type": "string"
+            },
+            "BearerAuthenticationMethodOutput": {
+                "properties": {
+                    "bearer": {
+                        "$ref": "#/components/schemas/BearerMethodOutput"
+                    }
+                },
+                "required": [
+                    "bearer"
+                ],
+                "type": "object"
             },
             "BearerMethodInput": {
                 "description": "A secret is required on create and for a new method. Omitted on update keeps the current secret, unless the endpoint changes.",
@@ -264,41 +296,13 @@
                         "$ref": "#/components/schemas/CompressionCapture"
                     },
                     "ttlSeconds": {
-                        "description": "How long a result handle of this tool lives, in seconds, in place of the deployment's result_handles.ttl. Refused together with capture never.",
+                        "description": "How long a handle of this tool lives, in seconds, in place of the deployment's compression.ttl. Refused together with capture never.",
                         "format": "int32",
                         "maximum": 86400,
                         "minimum": 1,
                         "type": "integer"
                     }
                 },
-                "type": "object"
-            },
-            "Connection": {
-                "description": "Exactly one connection variant. The variant determines the kind on create; an explicit kind must agree. An update cannot change the stored kind.",
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/MCPConnection"
-                    },
-                    {
-                        "$ref": "#/components/schemas/ContextSurfaceConnection"
-                    }
-                ]
-            },
-            "ConnectionDatabase": {
-                "additionalProperties": false,
-                "description": "The Surface database of a context-surface Upstream.",
-                "properties": {
-                    "id": {
-                        "description": "An unknown ID and an ID the tenant does not own are refused with the same 400.",
-                        "maxLength": 32,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9-]+$",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "id"
-                ],
                 "type": "object"
             },
             "ContextGatewayConflictErrorResponseContent": {
@@ -346,6 +350,8 @@
                 "description": "Distinguish resource state conflicts by type, never by human-readable title.",
                 "enum": [
                     "/errors/revision-conflict",
+                    "/errors/gateway-mutation-in-progress",
+                    "/errors/surface-mutation-in-progress",
                     "/errors/namespace-conflict",
                     "/errors/gateway-not-empty",
                     "/errors/catalog-publication-conflict"
@@ -437,25 +443,51 @@
                 ],
                 "type": "string"
             },
-            "ContextSurface": {
-                "description": "The settings of kind context-surface.",
+            "ContextSurfaceInput": {
+                "description": "The settings of a context-surface Upstream on create.",
                 "properties": {
                     "dataModel": {
-                        "description": "The data model, a JSON object. The API schema does not describe it: the\ncontrol plane validates it and names each error by its path under\ncontextSurface.dataModel."
+                        "description": "The data model, a JSON object. The API schema does not describe it: the\ncontrol plane validates it and names each error by its path under\ncontextSurface.dataModel. Omitted, the Surface's catalog has no tools."
+                    },
+                    "databaseId": {
+                        "description": "Required in Redis Cloud. Optional on-prem, where an omitted ID defaults to the configured Surface database; if none is configured, the request is refused with 400 on contextSurface.databaseId. Only an omitted ID is defaulted: an ID sent as an empty string or null is refused with 400 on contextSurface.databaseId. An unknown ID and an ID the tenant does not own are refused with the same 400. It cannot change after create.",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "type": "string"
                     }
                 },
                 "type": "object"
             },
-            "ContextSurfaceConnection": {
-                "additionalProperties": false,
+            "ContextSurfaceOutput": {
+                "description": "The settings of a context-surface Upstream.",
                 "properties": {
-                    "database": {
-                        "$ref": "#/components/schemas/ConnectionDatabase"
+                    "dataModel": {
+                        "description": "The data model as the operator sent it. Absent when the Upstream has none."
+                    },
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
                     }
                 },
                 "required": [
-                    "database"
+                    "databaseBinding"
                 ],
+                "type": "object"
+            },
+            "ContextSurfaceUpdate": {
+                "description": "Changes the settings of a context-surface Upstream. Sending neither member is\nrefused with 400.",
+                "properties": {
+                    "dataModel": {
+                        "description": "Swaps the data model: generates a catalog from the new data model and\ncommits the data model, the catalog, and any other member sent with it\ntogether, or commits nothing. null and {} are refused with 400. The API\nschema does not describe it: the control plane validates it and names each\nerror by its path under contextSurface.dataModel."
+                    },
+                    "databaseId": {
+                        "description": "The stored database, which cannot change: another databaseId is refused with 400.",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "type": "string"
+                    }
+                },
                 "type": "object"
             },
             "CreateGatewayRequestContent": {
@@ -467,7 +499,7 @@
                         "$ref": "#/components/schemas/GatewayFeatureState"
                     },
                     "databaseId": {
-                        "description": "Selects the Gateway database for the Gateway's result state. Omitted means the Gateway has no Gateway database. An ID that is not in the registry is refused with 400.",
+                        "description": "Selects the Gateway database for the Gateway's result state. Omitted means the deployment's default Gateway database when one is configured (on-prem). Otherwise the Gateway has no Gateway database. An ID that is not in the registry is refused with 400. The response returns the resolved ID.",
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
@@ -503,16 +535,8 @@
                         "format": "date-time",
                         "type": "string"
                     },
-                    "databaseId": {
-                        "description": "Present only when the Gateway has a Gateway database.",
-                        "maxLength": 32,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9-]+$",
-                        "type": "string"
-                    },
-                    "databaseName": {
-                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it.",
-                        "type": "string"
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
                     },
                     "description": {
                         "type": "string"
@@ -561,14 +585,8 @@
             },
             "CreateUpstreamRequestContent": {
                 "properties": {
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationInput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceInput"
                     },
                     "displayName": {
                         "description": "Operator-facing label.",
@@ -583,6 +601,9 @@
                     "kind": {
                         "$ref": "#/components/schemas/UpstreamKind"
                     },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPInput"
+                    },
                     "namespace": {
                         "description": "Derived from displayName when omitted. A collision is a namespace-conflict; no suffix is generated.",
                         "maxLength": 63,
@@ -595,8 +616,8 @@
                     }
                 },
                 "required": [
-                    "connection",
-                    "displayName"
+                    "displayName",
+                    "kind"
                 ],
                 "type": "object"
             },
@@ -606,14 +627,8 @@
                     "activeCatalog": {
                         "$ref": "#/components/schemas/ActiveCatalog"
                     },
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationOutput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceOutput"
                     },
                     "createdAt": {
                         "format": "date-time",
@@ -644,6 +659,9 @@
                     "kind": {
                         "$ref": "#/components/schemas/UpstreamKind"
                     },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPOutput"
+                    },
                     "namespace": {
                         "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name.",
                         "maxLength": 63,
@@ -665,8 +683,6 @@
                     }
                 },
                 "required": [
-                    "authentication",
-                    "connection",
                     "createdAt",
                     "displayName",
                     "enabled",
@@ -677,6 +693,26 @@
                     "revision",
                     "toolPolicies",
                     "updatedAt"
+                ],
+                "type": "object"
+            },
+            "DatabaseBinding": {
+                "description": "Nonsecret database identity, returned by reads. Connection endpoints and credentials remain internal.",
+                "properties": {
+                    "databaseId": {
+                        "description": "The ID of an entry in the deployment's databases registry: a Gateway database or a Surface database. Matched regardless of letter case; the control plane stores and returns the registry's lower-case ID.",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9-]+$",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The registry entry's name. Absent when the registry no longer holds the database or its record cannot be read.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "databaseId"
                 ],
                 "type": "object"
             },
@@ -822,7 +858,7 @@
                 "type": "string"
             },
             "GatewayFeatureState": {
-                "description": "Whether a Gateway serves one of its result features: the result cache or\nresult handles. Each needs a Gateway database (databaseId), and the data plane\nserves it only while the deployment's own switch for it (result_cache.enabled\nor result_handles.enabled) is on as well. Turning a feature off deletes\nnothing: stored entries expire on their TTL, so turning it back on with the\nsame Gateway database finds the ones still live.",
+                "description": "Whether a Gateway serves one of its features: the cache or\nhandles. Each needs a Gateway database (databaseId), and the data plane\nserves it only while the deployment's own switch for it (cache.enabled\nor compression.enabled) is on as well. Turning a feature off deletes\nnothing: stored entries expire on their TTL, so turning it back on with the\nsame Gateway database finds the ones still live.",
                 "enum": [
                     "enabled",
                     "disabled"
@@ -841,16 +877,8 @@
                         "format": "date-time",
                         "type": "string"
                     },
-                    "databaseId": {
-                        "description": "Present only when the Gateway has a Gateway database.",
-                        "maxLength": 32,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9-]+$",
-                        "type": "string"
-                    },
-                    "databaseName": {
-                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it.",
-                        "type": "string"
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
                     },
                     "description": {
                         "type": "string"
@@ -909,16 +937,8 @@
                         "format": "date-time",
                         "type": "string"
                     },
-                    "databaseId": {
-                        "description": "Present only when the Gateway has a Gateway database.",
-                        "maxLength": 32,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9-]+$",
-                        "type": "string"
-                    },
-                    "databaseName": {
-                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it.",
-                        "type": "string"
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
                     },
                     "description": {
                         "type": "string"
@@ -971,14 +991,8 @@
                     "activeCatalog": {
                         "$ref": "#/components/schemas/ActiveCatalog"
                     },
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationOutput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceOutput"
                     },
                     "createdAt": {
                         "format": "date-time",
@@ -1006,6 +1020,9 @@
                     "kind": {
                         "$ref": "#/components/schemas/UpstreamKind"
                     },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPOutput"
+                    },
                     "namespace": {
                         "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name.",
                         "maxLength": 63,
@@ -1027,8 +1044,6 @@
                     }
                 },
                 "required": [
-                    "authentication",
-                    "connection",
                     "createdAt",
                     "displayName",
                     "enabled",
@@ -1039,6 +1054,17 @@
                     "revision",
                     "toolPolicies",
                     "updatedAt"
+                ],
+                "type": "object"
+            },
+            "HeaderAuthenticationMethodOutput": {
+                "properties": {
+                    "header": {
+                        "$ref": "#/components/schemas/HeaderMethodOutput"
+                    }
+                },
+                "required": [
+                    "header"
                 ],
                 "type": "object"
             },
@@ -1144,9 +1170,12 @@
                 ],
                 "type": "object"
             },
-            "MCPConnection": {
-                "additionalProperties": false,
+            "MCPInput": {
+                "description": "The settings of an mcp Upstream on create.",
                 "properties": {
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationInput"
+                    },
                     "endpoint": {
                         "description": "An absolute http or https URL without user information. Any other scheme, such as redis or rediss, is refused. The outbound destination policy, required before GA, is open item O8 in the contract.",
                         "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
@@ -1159,6 +1188,45 @@
                 "required": [
                     "endpoint"
                 ],
+                "type": "object"
+            },
+            "MCPOutput": {
+                "description": "The settings of an mcp Upstream.",
+                "properties": {
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationOutput"
+                    },
+                    "endpoint": {
+                        "description": "An absolute http or https URL without user information. Any other scheme, such as redis or rediss, is refused. The outbound destination policy, required before GA, is open item O8 in the contract.",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "type": "string"
+                    },
+                    "transport": {
+                        "$ref": "#/components/schemas/Transport"
+                    }
+                },
+                "required": [
+                    "authentication",
+                    "endpoint",
+                    "transport"
+                ],
+                "type": "object"
+            },
+            "MCPUpdate": {
+                "description": "Changes the settings of an mcp Upstream. Each member is optional, and an\nomitted one keeps its stored value. Sending none is refused with 400.",
+                "properties": {
+                    "authentication": {
+                        "$ref": "#/components/schemas/AuthenticationInput"
+                    },
+                    "endpoint": {
+                        "description": "Replaces the endpoint and the transport together. A changed endpoint requires authentication with every secret sent again; otherwise 400.",
+                        "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://.+$",
+                        "type": "string"
+                    },
+                    "transport": {
+                        "$ref": "#/components/schemas/Transport"
+                    }
+                },
                 "type": "object"
             },
             "NotCacheableReason": {
@@ -1186,14 +1254,8 @@
                     "activeCatalog": {
                         "$ref": "#/components/schemas/ActiveCatalog"
                     },
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationOutput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceOutput"
                     },
                     "createdAt": {
                         "format": "date-time",
@@ -1221,6 +1283,9 @@
                     "kind": {
                         "$ref": "#/components/schemas/UpstreamKind"
                     },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPOutput"
+                    },
                     "namespace": {
                         "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name.",
                         "maxLength": 63,
@@ -1242,8 +1307,6 @@
                     }
                 },
                 "required": [
-                    "authentication",
-                    "connection",
                     "createdAt",
                     "displayName",
                     "enabled",
@@ -1412,6 +1475,7 @@
                 "type": "object"
             },
             "Transport": {
+                "description": "This enum may gain values, and a client must keep a transport it does not know rather than fail.",
                 "enum": [
                     "streamable-http"
                 ],
@@ -1537,16 +1601,8 @@
                         "format": "date-time",
                         "type": "string"
                     },
-                    "databaseId": {
-                        "description": "Present only when the Gateway has a Gateway database.",
-                        "maxLength": 32,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9-]+$",
-                        "type": "string"
-                    },
-                    "databaseName": {
-                        "description": "The registry entry's name. Present only when databaseId is present and the registry still holds it; a stored ID that the registry no longer holds is returned without it.",
-                        "type": "string"
+                    "databaseBinding": {
+                        "$ref": "#/components/schemas/DatabaseBinding"
                     },
                     "description": {
                         "type": "string"
@@ -1595,14 +1651,8 @@
             },
             "UpdateUpstreamRequestContent": {
                 "properties": {
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationInput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceUpdate"
                     },
                     "displayName": {
                         "description": "Operator-facing label.",
@@ -1617,6 +1667,12 @@
                         "description": "Configuration revision. Opaque: each effective change writes a new random value, and a resource never gets a value it had before. Compare for equality only.",
                         "pattern": "^[0-9a-f]{32}$",
                         "type": "string"
+                    },
+                    "kind": {
+                        "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPUpdate"
                     },
                     "toolPolicies": {
                         "$ref": "#/components/schemas/ToolPolicies"
@@ -1633,14 +1689,8 @@
                     "activeCatalog": {
                         "$ref": "#/components/schemas/ActiveCatalog"
                     },
-                    "authentication": {
-                        "$ref": "#/components/schemas/AuthenticationOutput"
-                    },
-                    "connection": {
-                        "$ref": "#/components/schemas/Connection"
-                    },
                     "contextSurface": {
-                        "$ref": "#/components/schemas/ContextSurface"
+                        "$ref": "#/components/schemas/ContextSurfaceOutput"
                     },
                     "createdAt": {
                         "format": "date-time",
@@ -1653,7 +1703,7 @@
                         "type": "string"
                     },
                     "droppedToolPolicies": {
-                        "description": "The stored policies, or policy members, this update deleted, in tool name\norder. Only a connection.endpoint change or a data model swap (contextSurface) that does not send toolPolicies\ndeletes any: it keeps each stored policy the new endpoint's catalog allows\nand deletes the rest in the same commit as the new configuration. For a\ntool the cacheable rule vetoes, only cache is deleted and\ncompression stays stored. A policy is deleted whole only when the tool is\nnot in the catalog or nothing is left. Omitted when nothing was deleted.",
+                        "description": "The stored policies, or policy members, this update deleted, in tool name\norder. Only an mcp.endpoint change or a data model swap (contextSurface.dataModel) that does not send toolPolicies\ndeletes any: it keeps each stored policy the new endpoint's catalog allows\nand deletes the rest in the same commit as the new configuration. For a\ntool the cacheable rule vetoes, only cache is deleted and\ncompression stays stored. A policy is deleted whole only when the tool is\nnot in the catalog or nothing is left. Omitted when nothing was deleted.",
                         "items": {
                             "$ref": "#/components/schemas/DroppedToolPolicy"
                         },
@@ -1674,6 +1724,9 @@
                     },
                     "kind": {
                         "$ref": "#/components/schemas/UpstreamKind"
+                    },
+                    "mcp": {
+                        "$ref": "#/components/schemas/MCPOutput"
                     },
                     "namespace": {
                         "description": "Gateway-unique lowercase kebab-case name without dots. It prefixes every exposed tool name.",
@@ -1696,8 +1749,6 @@
                     }
                 },
                 "required": [
-                    "authentication",
-                    "connection",
                     "createdAt",
                     "displayName",
                     "enabled",
@@ -1712,6 +1763,7 @@
                 "type": "object"
             },
             "UpstreamKind": {
+                "description": "Names the one settings object an Upstream carries. This enum may gain values: a\nnew kind adds its own optional object member, named after it, to the Upstream\nrequests and responses. A client must keep a kind it does not know rather than\nfail, and ignore that kind's object.",
                 "enum": [
                     "mcp",
                     "context-surface"
@@ -1814,7 +1866,7 @@
         }
     },
     "info": {
-        "description": "Administration API for Context Gateway resources and their Upstreams.\n\nEvery write completes synchronously and returns the final state. Creating an\nUpstream, changing its connection or authentication, and refreshing its catalog\nrun live discovery against the Upstream, bounded by the discovery timeout.\nThe tenant comes from the control-plane configuration, never from the request,\nand no response shows it.\n",
+        "description": "Administration API for Context Gateway resources and their Upstreams.\n\nEvery write completes synchronously and returns the final state. Creating an\nUpstream, changing its mcp endpoint or authentication, and refreshing its catalog\nrun live discovery against the Upstream, bounded by the discovery timeout.\n\nAn Upstream carries the members every kind shares at the top level and its\nkind's own settings in one object named after the kind: mcp or contextSurface.\nA new kind adds an optional object member and an UpstreamKind value, so a\nclient that does not know the kind still reads every shared member and ignores\nthe object.\nThe tenant comes from the control-plane configuration, never from the request,\nand no response shows it.\n",
         "title": "ContextGatewayControlPlaneService",
         "version": "0.0.1"
     },
@@ -2762,7 +2814,7 @@
                 }
             },
             "patch": {
-                "description": "displayName and enabled are metadata-only and run no discovery. A change to\nconnection or authentication discovers with the candidate configuration, and a\ncontextSurface swaps the data model of a context-surface Upstream and generates\nits catalog; either commits configuration and catalog together, or commits\nnothing.\n",
+                "description": "displayName and enabled are metadata-only and run no discovery. A change to\nmcp.endpoint or mcp.authentication discovers with the candidate configuration,\nand a contextSurface.dataModel swaps the data model of a context-surface\nUpstream and generates its catalog; either commits configuration and catalog\ntogether, or commits nothing. Only the stored kind's settings object may be\nsent.\n",
                 "operationId": "UpdateUpstream",
                 "parameters": [
                     {
