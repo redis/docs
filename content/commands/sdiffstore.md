@@ -108,6 +108,10 @@ redis> SMEMBERS key
 2) "b"
 {{% /redis-cli %}}
 
+## Details
+
+Members keep the expiration they have in the first set. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

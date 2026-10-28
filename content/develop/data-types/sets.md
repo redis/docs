@@ -175,6 +175,101 @@ set without removing it using the [`SRANDMEMBER`](/content/commands/srandmember.
 "bike:2"
 {{< /clients-example >}}
 
+## Member expiration
+
+Redis 8.12 introduced the ability to specify an expiration time or a time to live (TTL) for individual set members.
+Redis removes each member from the set automatically when its TTL expires.
+This capability is comparable to [key expiration](/content/develop/using-commands/keyspace.md#key-expiration) and to [hash field expiration](/content/develop/data-types/hashes.md#field-expiration), and it uses a similar set of commands.
+
+Use the following commands to specify either an exact expiration time or a TTL for specific members:
+
+* [`SEXPIRE`](/content/commands/sexpire.md): set the remaining TTL in seconds.
+* [`SPEXPIRE`](/content/commands/spexpire.md): set the remaining TTL in milliseconds.
+* [`SEXPIREAT`](/content/commands/sexpireat.md): set the expiration time to a timestamp[^1] specified in seconds.
+* [`SPEXPIREAT`](/content/commands/spexpireat.md): set the expiration time to a timestamp specified in milliseconds.
+* [`SADDEX`](/content/commands/saddex.md): add members to a set and optionally specify their expiration time or TTL in the same command.
+
+[^1]: All timestamps are specified in seconds or milliseconds since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time).
+
+Use the following commands to retrieve either the exact time when specific members will expire or their remaining TTL:
+
+* [`SEXPIRETIME`](/content/commands/sexpiretime.md): get the expiration time as a timestamp in seconds.
+* [`SPEXPIRETIME`](/content/commands/spexpiretime.md): get the expiration time as a timestamp in milliseconds.
+* [`STTL`](/content/commands/sttl.md): get the remaining TTL in seconds.
+* [`SPTTL`](/content/commands/spttl.md): get the remaining TTL in milliseconds.
+
+Use the following command to remove the expiration of specific members:
+
+* [`SPERSIST`](/content/commands/spersist.md): remove the expiration.
+
+Other set commands treat a member whose TTL has expired as missing, even before Redis reclaims it.
+[`SCARD`](/content/commands/scard.md) is the exception: it can count expired members that haven't been removed yet.
+[`SINTERSTORE`](/content/commands/sinterstore.md), [`SUNIONSTORE`](/content/commands/sunionstore.md), and [`SDIFFSTORE`](/content/commands/sdiffstore.md) copy member expirations to the destination set.
+[`SMOVE`](/content/commands/smove.md) moves a member together with its expiration.
+Sorted set commands that accept sets as input, such as [`ZUNION`](/content/commands/zunion.md), return an error if an input set has member expirations.
+
+### Common member expiration use cases
+
+1. **Active session tracking**: Store active session IDs in a set. Set each member's TTL so that it expires after a period of inactivity, and refresh the TTL on each request. The set then contains only the live sessions.
+
+1. **Deduplication windows**: Add each event ID with `SADDEX` and the `MNX` option, using a TTL equal to the window length. A reply of `0` means the ID was already seen within the window.
+
+1. **Short-lived tags**: Tag an item, such as "new" or "on sale", by adding it to a set with a TTL. The tag disappears on its own when the TTL expires.
+
+### Member expiration examples
+
+The following examples use a set of reserved bikes, where each reservation expires after a period of time.
+Because the members expire, each example recreates the `bikes:reserved` set first so that it runs on its own.
+
+Add two members with a TTL of 15 minutes, add a third member with no expiration, and then retrieve the remaining TTL of each member:
+
+```redis
+> DEL bikes:reserved
+(integer) 0
+> SADDEX bikes:reserved EX 900 MEMBERS 2 bike:1 bike:2
+(integer) 1
+> SADD bikes:reserved bike:3
+(integer) 1
+> STTL bikes:reserved MEMBERS 3 bike:1 bike:2 bike:3
+1) (integer) 900
+2) (integer) 900
+3) (integer) -1
+```
+
+Set a member's TTL in milliseconds, retrieve the remaining TTL in milliseconds, and then remove the expiration:
+
+```redis
+> DEL bikes:reserved
+(integer) 1
+> SADD bikes:reserved bike:1 bike:2
+(integer) 2
+> SPEXPIRE bikes:reserved 60000 MEMBERS 1 bike:1
+1) (integer) 1
+> SPTTL bikes:reserved MEMBERS 2 bike:1 bike:2
+1) (integer) 59994
+2) (integer) -1
+> SPERSIST bikes:reserved MEMBERS 1 bike:1
+1) (integer) 1
+> SPTTL bikes:reserved MEMBERS 1 bike:1
+1) (integer) -1
+```
+
+Set a member's expiration to a specific timestamp and then retrieve that expiration time (both as a Unix time in seconds):
+
+```redis
+> DEL bikes:reserved
+(integer) 1
+> SADD bikes:reserved bike:1 bike:2
+(integer) 2
+# Set the expiration to a Unix time in the future
+# (4102444800 is an example; use a timestamp appropriate for your use case).
+> SEXPIREAT bikes:reserved 4102444800 MEMBERS 1 bike:1
+1) (integer) 1
+> SEXPIRETIME bikes:reserved MEMBERS 2 bike:1 bike:2
+1) (integer) 4102444800
+2) (integer) -1
+```
+
 ## Limits
 
 The max size of a Redis set is 2^32 - 1 (4,294,967,295) members.
