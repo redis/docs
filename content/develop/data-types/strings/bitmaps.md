@@ -321,8 +321,9 @@ Changing the configuration does not immediately convert existing keys:
   native bitmaps. A write to an existing string converts the complete string
   to a native bitmap before applying the write. The conversion preserves its
   bits, logical length, expiration, and key metadata.
-* Read-only bitmap commands don't convert a string. [`SET`](/content/commands/set.md) also continues to create a string, regardless of this
-  setting.
+* Read-only bitmap commands don't change a string's stored representation.
+  [`SET`](/content/commands/set.md) also continues to create a string, regardless
+  of this setting.
 * [`BITOP`](/content/commands/bitop.md) stores a non-empty result as a
   native destination when the setting is `yes`. When the setting is `no`, its
   destination is native if at least one source is native; an operation with
@@ -343,7 +344,12 @@ value, as it can replace any other Redis type.
 [`BITFIELD_RO`](/content/commands/bitfield_ro.md) work with both
 representations and keep their existing reply and range semantics. Setting a
 zero bit beyond the current logical end extends either representation, and
-bits between the old and new ends read as zero.
+bits between the old and new ends read as zero. The read-only commands in this
+list accept strings and native bitmaps regardless of `bitmap-default-roaring`.
+
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) also reads both
+representations with either setting. It reads strings directly without conversion
+and leaves their bytes, type, and expiration unchanged.
 
 The representations are intentionally visible to clients:
 
@@ -364,52 +370,69 @@ was created or loaded while that limit was higher. [`BITOP`](/content/commands/b
 source. In particular, `BITOP NOT` can allocate a dense result of that length,
 so account for its memory cost before lowering the limit.
 
-### Retrieve set-bit offsets
+### Retrieve matching bit offsets
 
-[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit
-offsets of a native bitmap in ascending order, selected by inclusive,
-zero-based element ranks. Use `0 -1` to return all set-bit offsets:
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit offsets
+in ascending order, or clear-bit offsets with `ZEROS`:
+`BITRANGEINTARRAY key start end [BYTE|BIT] [LIMIT count] [ZEROS]`.
+The key, start, and end are required. Ranges follow `BITCOUNT`: byte offsets by
+default, bit offsets with `BIT`, and negative indexes count from the end.
+Returned offsets are always bit offsets.
 
 ```redis
 redis> CONFIG SET bitmap-default-roaring yes
 OK
-redis> SETBIT members 10 1
+redis> SETBIT members 1 1
 (integer) 0
-redis> SETBIT members 20 1
+redis> SETBIT members 7 1
+(integer) 0
+redis> SETBIT members 9 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
 redis> BITRANGEINTARRAY members 0 -1
-1) (integer) 10
-2) (integer) 20
-3) (integer) 30
-redis> BITRANGEINTARRAY members 1 2
-1) (integer) 20
+1) (integer) 1
+2) (integer) 7
+3) (integer) 9
+4) (integer) 30
+redis> BITRANGEINTARRAY members 28 31 BIT ZEROS
+1) (integer) 28
+2) (integer) 29
+3) (integer) 31
+redis> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
+1) (integer) 9
 2) (integer) 30
+redis> BITRANGEINTARRAY members 0 -1 BYTE LIMIT 1
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 1 -1 BYTE LIMIT 1
+1) (integer) 9
 ```
 
-The command validates ranks and handles reversed or oversized bounded ranges
-before checking the key type. For other valid ranges, it accepts only native
-bitmaps; string-backed bitmaps and other types return `WRONGTYPE`. Missing keys
-and bitmaps with no set bits return empty arrays. It is read-only, preserves
-expiration, and works on existing native bitmaps regardless of
-`bitmap-default-roaring`.
+Both set-bit and clear-bit enumeration stay within the value's logical length.
+Missing keys, empty values, and empty ranges return empty arrays.
+Strings and native bitmaps work with either
+`bitmap-default-roaring` setting; other types return `WRONGTYPE`.
 
-Range arguments are element ranks, not bit offsets. `start` must be an unsigned
-32-bit integer; `end` must be an unsigned 32-bit integer or `-1`. With a
-nonnegative `end`, the requested inclusive span must not exceed 100,000,000
-elements, even for missing keys. A reversed bounded range or a start beyond the
-last rank returns an empty array; an end beyond the last rank is truncated.
-The rank and span limits do not constrain stored offsets.
+Keep the same end, unit, and `ZEROS` setting across pages.
+For pagination, `BIT LIMIT count` returns at most `count` offsets. Resume at
+the last returned offset + 1. `BYTE LIMIT count` finishes the byte containing
+the `count`th match, so it can return up to seven extra offsets. Resume at
+floor(last offset / 8) + 1. `LIMIT 0` returns an empty array; negative counts
+are errors. Stop when a page contains fewer than `count` results. A full page
+can be followed by a final empty page.
 
-With `end` set to `-1`, the command returns every remaining element without the
-span limit, including elements at ranks above `4294967295`. Platform
-reply-length and client output-buffer limits still apply.
+Separate calls do not share a snapshot, so writes can change remaining matches.
+Strings are scanned in place over the requested range, without conversion.
+`LIMIT` stops the scan when the page is complete. Response size grows with the
+number of offsets; client output-buffer limits still apply.
 
-Use bounded pages for large results. Separate range calls do not share a
-snapshot, so concurrent writes can shift ranks between pages. For benchmark
-methodology and historical comparisons against redis-roaring, see
-[Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md).
+See the [command reference](/content/commands/bitrangeintarray.md) for range
+and pagination details, and [Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md)
+for benchmark methodology and historical comparisons against redis-roaring.
 
 ### Persistence and replication
 
