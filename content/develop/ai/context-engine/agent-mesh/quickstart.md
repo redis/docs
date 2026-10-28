@@ -143,7 +143,7 @@ A simulated travel agent plans a day in Rome. It publishes twenty progress event
 
 ### Install
 
-In your application terminal, create a separate environment for the FastAPI example:
+In your application terminal, create an environment for the FastAPI example:
 
 ```bash
 mkdir agent-mesh-sse

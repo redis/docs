@@ -41,7 +41,7 @@ Resumption recovers event delivery. Your application remains responsible for res
 | A2A server | Resume retained task updates after reconnecting, including through another server replica | `redis_iris.agent_mesh.a2a` | `pip install 'redis-iris[a2a]'` |
 | FastAPI event streaming | Publish an event log and replay retained server-sent events (SSE) after reconnecting | `redis_iris.agent_mesh.fastapi_sse` | `pip install 'redis-iris[fastapi-sse]'` |
 
-These integrations are independent. Install the integration you use.
+These integrations are independent. Install the integration you use, or install both in one Python environment with `pip install 'redis-iris[a2a,fastapi-sse]'`. Using both selects redis-py `>=8.0.1,<9`. This is the Python client version; both integrations still require Redis server 8.6 or later.
 
 ## How it works
 

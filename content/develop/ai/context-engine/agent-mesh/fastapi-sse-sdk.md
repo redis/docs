@@ -23,6 +23,8 @@ You need Python 3.11 or later and Redis 8.6 or later with native producer idempo
 pip install 'redis-iris[fastapi-sse]'
 ```
 
+To use both integrations in one application, install `redis-iris[a2a,fastapi-sse]`. Their shared redis-py range is `>=8.0.1,<9`; separate Python environments are not required.
+
 Use the [quickstart's database setup](/content/develop/ai/context-engine/agent-mesh/quickstart.md#choose-your-redis-database) for a local or Redis Cloud connection. The A2A extra is independent and is not required.
 
 The `redis_iris.agent_mesh.fastapi_sse` module exposes the FastAPI Redis SDK streaming objects unchanged. Your application supplies configuration, Redis clients, authentication, and execution.
@@ -71,6 +73,8 @@ Register before startup so FastAPI installs the dependencies and error handlers.
 Alternatively, `add_redis_streams(app, backend=backend)` manages the backend around the existing application lifespan. In that mode, supplied clients must remain usable until backend shutdown. Registration never closes your clients. Give the backend exactly one lifecycle owner.
 
 Use independent pools connected to the same primary database with matching credentials and topology. The blocking pool needs at least one connection per configured bucket; Cluster pool limits apply per node. Set its socket timeout above `stream_block_ms`, which defaults to 1,000 milliseconds. Command and replay connections are additional.
+
+Redis-py 8.0.1 and 8.1.0 are tested with the protocol unset, explicit Redis Serialization Protocol (RESP) 2, and explicit RESP3 with legacy or modern responses. Both binary and decoded responses are covered.
 
 Configure credentials, Transport Layer Security (TLS), pools, and timeouts on your Redis clients. Explicit `StreamSettings` does not read `REDIS_*` variables or `.env` files, or configure other Iris clients.
 

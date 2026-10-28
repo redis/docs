@@ -5,7 +5,9 @@
 - Lead with resumable event streams on Redis. Present A2A task state storage as
   a supporting capability, and A2A and FastAPI SSE as two Python integration paths.
 - Distinguish the independent `[a2a]` and `[fastapi-sse]` extras. The A2A
-  integration does not require the FastAPI SSE integration.
+  integration does not require the FastAPI SSE integration. Both extras can be
+  installed together; their shared redis-py range is `>=8.0.1,<9`. Keep Redis
+  server 8.6+ requirements distinct from Python client versions.
 - Use Agent2Agent (A2A), server-sent events (SSE), Task snapshots, event replay,
   and application-owned execution. Explain acronyms on first use on each page.
 - Write for the intended released package. Use package-index installation

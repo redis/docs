@@ -23,6 +23,8 @@ You need Python 3.11 or later, Redis 8.6 or later with native producer idempoten
 pip install 'redis-iris[a2a]' 'a2a-sdk[http-server]>=1.2.3,<1.3'
 ```
 
+To use both integrations in one application, install `redis-iris[a2a,fastapi-sse]`. Their shared redis-py range is `>=8.0.1,<9`; separate Python environments are not required.
+
 Use the [quickstart's database setup](/content/develop/ai/context-engine/agent-mesh/quickstart.md#choose-your-redis-database) for a local or Redis Cloud connection. Keep database credentials in application configuration.
 
 ## Connect your request handler
