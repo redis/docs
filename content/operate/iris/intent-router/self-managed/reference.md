@@ -11,6 +11,8 @@ weight: 100
 hideListLinks: true
 ---
 
+This page is a lookup reference for self-managed Intent Router. It lists the main Helm values with their defaults, and a troubleshooting table that matches common symptoms to their causes and fixes. For how to choose and set these values, see [Configuration](/content/operate/iris/intent-router/self-managed/configuration.md).
+
 ## Configuration reference
 
 | Value | Default | Meaning |

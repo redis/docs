@@ -11,7 +11,7 @@ weight: 20
 hideListLinks: true
 ---
 
-Check these requirements before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md).
+Self-managed Intent Router runs on your Kubernetes cluster and depends on Redis databases, an embedding provider, and Secrets that you set up first. The chart doesn't create the databases or the provider connection for you. This page lists what you need before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md): the software, the Redis databases and how to size them, the embedding provider, network access, credentials, and image tags. It ends with the Helm values that stop an install when they're wrong.
 
 ## What you need
 

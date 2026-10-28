@@ -13,7 +13,7 @@ hideListLinks: true
 
 This page describes how to configure self-managed Intent Router before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md). You prepare a Helm values file and the Secrets it references. The values file sets your tenant, image tags, and tokens. The Secrets hold what shouldn't be in a values file: Redis connection URLs, embedding provider credentials, and the license.
 
-Every install needs the Helm values, the storage Secret, and an embedding model, covered in the first three sections. The remaining sections are optional, and their defaults work for a first deployment. Use them to store Routers in customer databases, tune search and matching, adjust Router lifecycle timing, trust a private certificate authority, enable FIPS or tracing, or scale the planes.
+Every install needs the Helm values, the storage Secret, and an embedding model, covered in the first three sections. The remaining sections are optional, and their defaults work for a first deployment. Use them to store Routers in customer databases, tune search and matching, adjust Router lifecycle timing, trust a private certificate authority, enable Federal Information Processing Standards (FIPS) mode or tracing, or scale the planes.
 
 ## Helm values
 
@@ -187,7 +187,7 @@ Set `tls.caCertSecret` to a Secret that holds additional certificate authority (
 
 ## FIPS and tracing
 
-Set `security.profile: fips` to select the Federal Information Processing Standards (FIPS) runtime. Rendering rejects a FIPS release without explicit HTTP Secure (HTTPS) peers: `dataplane.identityServiceBaseURL` and, with the bundled Identity Service, `identityService.controlPlaneBaseURL`. Use `rediss://` URLs in the storage Secret, including `runtime.redis.urls` and any customer databases: each service checks them when it starts and refuses to run without them. FIPS never allows cleartext Identity Service transport.
+Set `security.profile: fips` to select the FIPS runtime. Rendering rejects a FIPS release without explicit HTTP Secure (HTTPS) peers: `dataplane.identityServiceBaseURL` and, with the bundled Identity Service, `identityService.controlPlaneBaseURL`. Use `rediss://` URLs in the storage Secret, including `runtime.redis.urls` and any customer databases: each service checks them when it starts and refuses to run without them. FIPS never allows cleartext Identity Service transport.
 
 Set `tracing.enabled` and `tracing.otlpGRPCEndpoint` to send spans to your OpenTelemetry collector over the OpenTelemetry Protocol (OTLP). The exporter uses plaintext gRPC, so use a trusted local hop.
 

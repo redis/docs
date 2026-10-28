@@ -11,6 +11,10 @@ title: Redis Intent Router concepts
 weight: 3
 ---
 
+Intent Router classifies each incoming user message by matching it against example phrases you group into intents. This page explains the parts you work with and how they fit together, so the task pages make sense when you reach them.
+
+It covers Routers, which hold a set of intents and control who can use them, and intents, with their examples, targets, and revisions. It then explains how matching scores a query, when a change takes effect, and which agent-key actions each operation needs.
+
 ## Routers
 
 A **Router** is the unit you create, configure, and secure. It holds a set of intents and their examples, an embedding model, and a default minimum score. Each Router has its own access grants, so use separate Routers for workloads that must not share intents.

@@ -11,7 +11,9 @@ title: Service limits and errors
 weight: 90
 ---
 
-Check these limits when preparing intents or handling request failures. Confirm deployment overrides with your administrator.
+Intent Router limits how many Routers, intents, and examples you can create, how long text can be, and how many results a match or list returns. This page lists those limits and the errors each API returns, with what each error means and how to recover. Use it when you plan how many intents and examples to write, or when a request fails.
+
+The values shown are defaults. An administrator can change some of them for a self-managed deployment, so confirm any overrides with them.
 
 The [API reference](/content/develop/ai/context-engine/intent-router/api-reference.md) defines field formats and operation-specific schemas.
 

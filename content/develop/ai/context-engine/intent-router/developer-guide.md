@@ -11,7 +11,7 @@ title: Redis Intent Router developer guide
 weight: 5
 ---
 
-Use the Python package, the TypeScript client, the Iris command-line interface (CLI), or Hypertext Transfer Protocol (HTTP) requests to author intents, match queries, and administer Routers.
+This page is the starting point for adding Intent Router to an application. It shows the steps an integration follows, helps you choose between the Python package, the TypeScript client, the Iris command-line interface (CLI), and Hypertext Transfer Protocol (HTTP) requests, and shows how to connect to a Router. It then points to the pages that cover each task in detail.
 
 ## Integration workflow
 

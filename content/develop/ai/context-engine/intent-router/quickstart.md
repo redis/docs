@@ -11,7 +11,7 @@ title: Redis Intent Router quickstart
 weight: 10
 ---
 
-Use Redis Intent Router to define a `track_order` intent and a `refund` intent, then match three queries against them.
+Intent Router classifies each incoming user message by intent, so your application can send it to the right agent, workflow, or handler. This quickstart shows the whole loop in a few minutes. You define a `track_order` intent and a `refund` intent with example phrases, match three queries against them, then add an example and change a threshold to see how the results change.
 
 ## Before you begin
 

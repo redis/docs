@@ -11,7 +11,9 @@ title: Manage intents and examples
 weight: 20
 ---
 
-Author the intents a Router matches against. The examples use the connection values from the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values) and an agent key with `write` access. Follow one tab throughout the page.
+An intent is a named group of example phrases that represent one thing a user might ask for, such as tracking an order or requesting a refund. The intents you write and their examples decide how well a Router classifies messages. This page shows how to create, read, update, and delete intents and their examples, how to avoid overwriting someone else's changes, and how to write examples that match well.
+
+The examples use the connection values from the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values) and an agent key with `write` access. Follow one tab throughout the page.
 
 ## Create or replace an intent
 
