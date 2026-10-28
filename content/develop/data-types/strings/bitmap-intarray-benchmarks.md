@@ -26,13 +26,14 @@ isolated Redis processes over Unix sockets. It needs Python 3.9+ and a normal
 optimized Redis build; no Python packages or existing server are required.
 
 The current harness retains the historical `get-all` workload label for
-comparison files. It invokes `BITRANGEINTARRAY key 1 0 -1` for a full native
+comparison files. It invokes `BITRANGEINTARRAY key 0 -1` for a full native
 read, while the reference module uses `R.GETINTARRAY` or `R64.GETINTARRAY`.
 Range workloads select ranks on the module and the equivalent `BIT` offset
 interval on the native backend, from the first to the last selected offset.
 Both backends therefore return the same integers.
 
-The harness measures `value = 1` reads on native bitmap keys without `LIMIT`.
+The harness measures set-bit reads on native bitmap keys without `LIMIT` or
+`ZEROS`.
 It does not measure clear-bit enumeration, `LIMIT` pagination, or string scans.
 The command also reads strings directly within the requested range under either
 `bitmap-default-roaring` setting. No temporary Roaring bitmap is allocated.
@@ -182,8 +183,8 @@ taskset -c 0,1 python3 tools/bitroar-intarray-bench.py \
 ```
 
 The current harness issues only native `BITRANGEINTARRAY` calls, using
-`BITRANGEINTARRAY key 1 0 -1` for the retained `get-all` workload label. It does not reproduce the historical
-native `R.*` commands. The raw JSON retains all samples,
+`BITRANGEINTARRAY key 0 -1` for the retained `get-all` workload label. It does not
+reproduce the historical native `R.*` commands. The raw JSON retains all samples,
 warmups, request counts, exact reply sizes,
 latency metrics, build settings, and binary hashes. The JSON and stdout log are
 local review artifacts at the paths above, not files in the repository.

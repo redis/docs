@@ -372,10 +372,10 @@ so account for its memory cost before lowering the limit.
 
 ### Retrieve matching bit offsets
 
-[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns ascending
-bit offsets whose value is `0` or `1` within a range:
-`BITRANGEINTARRAY key value start end [BYTE|BIT] [LIMIT count]`.
-All four arguments are required. Ranges follow `BITCOUNT`: byte offsets by
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit offsets
+in ascending order, or clear-bit offsets with `ZEROS`:
+`BITRANGEINTARRAY key start end [BYTE|BIT] [LIMIT count] [ZEROS]`.
+The key, start, and end are required. Ranges follow `BITCOUNT`: byte offsets by
 default, bit offsets with `BIT`, and negative indexes count from the end.
 Returned offsets are always bit offsets.
 
@@ -390,33 +390,34 @@ redis> SETBIT members 9 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
-redis> BITRANGEINTARRAY members 1 0 -1
+redis> BITRANGEINTARRAY members 0 -1
 1) (integer) 1
 2) (integer) 7
 3) (integer) 9
 4) (integer) 30
-redis> BITRANGEINTARRAY members 0 28 31 BIT
+redis> BITRANGEINTARRAY members 28 31 BIT ZEROS
 1) (integer) 28
 2) (integer) 29
 3) (integer) 31
-redis> BITRANGEINTARRAY members 1 0 -1 BIT LIMIT 2
+redis> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 1 8 -1 BIT LIMIT 2
+redis> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
 1) (integer) 9
 2) (integer) 30
-redis> BITRANGEINTARRAY members 1 0 -1 BYTE LIMIT 1
+redis> BITRANGEINTARRAY members 0 -1 BYTE LIMIT 1
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 1 1 -1 BYTE LIMIT 1
+redis> BITRANGEINTARRAY members 1 -1 BYTE LIMIT 1
 1) (integer) 9
 ```
 
-Use `value = 1` to enumerate set bits and `value = 0` to enumerate clear bits.
-Both stay within the value's logical length. Missing keys, empty values, and
-empty ranges return empty arrays. Strings and native bitmaps work with either
+Both set-bit and clear-bit enumeration stay within the value's logical length.
+Missing keys, empty values, and empty ranges return empty arrays.
+Strings and native bitmaps work with either
 `bitmap-default-roaring` setting; other types return `WRONGTYPE`.
 
+Keep the same end, unit, and `ZEROS` setting across pages.
 For pagination, `BIT LIMIT count` returns at most `count` offsets. Resume at
 the last returned offset + 1. `BYTE LIMIT count` finishes the byte containing
 the `count`th match, so it can return up to seven extra offsets. Resume at

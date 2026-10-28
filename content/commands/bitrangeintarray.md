@@ -8,9 +8,6 @@ arguments:
   key_spec_index: 0
   name: key
   type: key
-- display_text: value
-  name: value
-  type: integer
 - display_text: start
   name: start
   type: integer
@@ -35,7 +32,12 @@ arguments:
   optional: true
   token: LIMIT
   type: integer
-arity: -5
+- display_text: zeros
+  name: zeros
+  optional: true
+  token: ZEROS
+  type: pure-token
+arity: -4
 categories:
 - docs
 - develop
@@ -49,9 +51,9 @@ categories:
 command_flags:
 - readonly
 complexity: O(N + M) where N is the number of bytes in the range for a string, or
-  the number of bitmap containers in the range (and of runs of set bits in it, when
-  looking for clear bits), and M is the number of returned integers. With LIMIT, the
-  scan stops after count matches, or after completing their last byte in BYTE units.
+  the number of bitmap containers in the range (and of runs of set bits in it, with
+  ZEROS), and M is the number of returned integers. With LIMIT, the scan stops after
+  count matches, or after completing their last byte in BYTE units.
 description: Returns the offsets of the set or clear bits in a range of a bitmap.
 group: bitmap
 hidden: false
@@ -71,7 +73,7 @@ key_specs:
 linkTitle: BITRANGEINTARRAY
 railroad_diagram: /images/railroad/bitrangeintarray.svg
 reply_schema:
-  description: 'Offsets of the bits set to the given value (0 or 1) in the range,
+  description: 'Offsets of the set bits in the range, or of the clear bits with ZEROS,
     in ascending order. The range is interpreted as in BITCOUNT: negative indexes
     count from the end, and the unit defaults to BYTE. Unlike BITPOS, the range never
     extends past the end of the bitmap, so no clear bits are returned beyond it. With
@@ -86,13 +88,13 @@ reply_schema:
   uniqueItems: true
 since: 8.12.0
 summary: Returns the offsets of the set or clear bits in a range of a bitmap.
-syntax_fmt: "BITRANGEINTARRAY key value start end [BYTE | BIT] [LIMIT\_count]"
+syntax_fmt: "BITRANGEINTARRAY key start end [BYTE | BIT] [LIMIT\_count] [ZEROS]"
 title: BITRANGEINTARRAY
 ---
 
-Returns the offsets of bits equal to `value` (`0` or `1`) within a bitmap range,
-in ascending order. The command reads both strings and native bitmaps regardless
-of `bitmap-default-roaring`, without changing the stored value.
+Returns set-bit offsets within a bitmap range in ascending order. Use `ZEROS`
+to return clear-bit offsets instead. The command reads strings and native bitmaps
+regardless of `bitmap-default-roaring`, without changing the stored value.
 
 Offsets use the same numbering as [`GETBIT`](/content/commands/getbit.md):
 bit `0` is the most significant bit of the first byte. Returned offsets are
@@ -103,13 +105,6 @@ always bit offsets, including when the range uses `BYTE` units.
 <details open><summary><code>key</code></summary>
 
 The key that holds a string or native bitmap.
-
-</details>
-
-<details open><summary><code>value</code></summary>
-
-The bit value to find: `1` returns set-bit offsets; `0` returns clear-bit offsets.
-This argument is required and has no default.
 
 </details>
 
@@ -148,10 +143,16 @@ therefore contain up to `count + 7` offsets.
 `LIMIT 0` returns an empty array. A negative count is an error. Without `LIMIT`,
 the command returns every matching offset in the range.
 
-The unit and `LIMIT` options can appear in either order after the required
-arguments. If an option is repeated, its last value applies.
+</details>
+
+<details open><summary><code>ZEROS</code></summary>
+
+Return clear-bit offsets instead of set-bit offsets within the range.
 
 </details>
+
+The unit, `LIMIT`, and `ZEROS` options can appear in any order after the required
+arguments. If an option is repeated, its last value applies.
 
 ## Examples
 
@@ -166,47 +167,47 @@ redis> SETBIT members 9 1
 (integer) 0
 redis> SETBIT members 30 1
 (integer) 0
-redis> BITRANGEINTARRAY members 1 0 -1
+redis> BITRANGEINTARRAY members 0 -1
 1) (integer) 1
 2) (integer) 7
 3) (integer) 9
 4) (integer) 30
-redis> BITRANGEINTARRAY members 1 1 -1
+redis> BITRANGEINTARRAY members 1 -1
 1) (integer) 9
 2) (integer) 30
-redis> BITRANGEINTARRAY members 1 5 10 BIT
+redis> BITRANGEINTARRAY members 5 10 BIT
 1) (integer) 7
 2) (integer) 9
-redis> BITRANGEINTARRAY members 1 -1 -1
+redis> BITRANGEINTARRAY members -1 -1
 1) (integer) 30
-redis> BITRANGEINTARRAY members 0 -1 -1 BIT
+redis> BITRANGEINTARRAY members -1 -1 BIT ZEROS
 1) (integer) 31
-redis> BITRANGEINTARRAY members 0 28 100 BIT
+redis> BITRANGEINTARRAY members 28 100 BIT ZEROS
 1) (integer) 28
 2) (integer) 29
 3) (integer) 31
-redis> BITRANGEINTARRAY members 1 0 -1 BIT LIMIT 2
+redis> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 1 8 -1 BIT LIMIT 2
+redis> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
 1) (integer) 9
 2) (integer) 30
-redis> BITRANGEINTARRAY members 1 0 -1 LIMIT 1
+redis> BITRANGEINTARRAY members 0 -1 LIMIT 1
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 1 1 -1 LIMIT 1
+redis> BITRANGEINTARRAY members 1 -1 LIMIT 1
 1) (integer) 9
-redis> BITRANGEINTARRAY members 1 0 -1 LIMIT 0
+redis> BITRANGEINTARRAY members 0 -1 LIMIT 0
 (empty array)
 redis> CONFIG SET bitmap-default-roaring no
 OK
 redis> SET rawbits a
 OK
-redis> BITRANGEINTARRAY rawbits 1 0 -1
+redis> BITRANGEINTARRAY rawbits 0 -1
 1) (integer) 1
 2) (integer) 2
 3) (integer) 7
-redis> BITRANGEINTARRAY rawbits 0 0 -1
+redis> BITRANGEINTARRAY rawbits 0 -1 ZEROS
 1) (integer) 0
 2) (integer) 3
 3) (integer) 4
@@ -228,13 +229,13 @@ selected unit. Bounds are clamped to the value. A reversed range or a start past
 the end returns an empty array.
 
 The range never extends beyond the value's logical length, including when
-searching for `0`. An all-ones value therefore returns an empty array for
-`value = 0`. This differs from `BITPOS key 0`, which can report the first bit
+using `ZEROS`. An all-ones value therefore returns an empty array with
+`ZEROS`. This differs from `BITPOS key 0`, which can report the first bit
 past the end. Missing keys and empty values have no matching bits.
 
-Without `LIMIT`, the number of results for `value = 1` equals `BITCOUNT` over
-the same range. For `value = 0`, it equals the number of bits in the normalized
-range minus that count.
+Without `LIMIT`, the number of set-bit offsets equals `BITCOUNT` over the same
+range. With `ZEROS`, it equals the number of bits in the normalized range minus
+that count.
 
 ### Key behavior
 
@@ -247,8 +248,9 @@ type, and expiration unchanged.
 
 ### Pagination and performance
 
-Use `LIMIT` to page through matching offsets. Keep the same `value` and `end`
-for each page, and choose the next `start` from the last returned bit offset:
+Use `LIMIT` to page through matching offsets. Keep the same `end`, unit, and
+`ZEROS` setting for each page. Choose the next `start` from the last returned
+bit offset:
 
 | Unit | Maximum page size | Next `start` |
 |:-----|:------------------|:-------------|
@@ -286,11 +288,11 @@ Returned offsets retain the bitmap's supported range, including values above
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Offsets of the bits set to the given value (0 or 1) in the range, in ascending order. The range is interpreted as in BITCOUNT: negative indexes count from the end, and the unit defaults to BYTE. Unlike BITPOS, the range never extends past the end of the bitmap, so no clear bits are returned beyond it. With LIMIT, the lowest count offsets in the range are returned. In BYTE units the reply also completes the byte holding the last of them, so it can hold up to 7 more offsets and the next page can start at the following byte. Missing keys and empty ranges return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays): Offsets of the set bits in the range, or of the clear bits with ZEROS, in ascending order. The range is interpreted as in BITCOUNT: negative indexes count from the end, and the unit defaults to BYTE. Unlike BITPOS, the range never extends past the end of the bitmap, so no clear bits are returned beyond it. With LIMIT, the lowest count offsets in the range are returned. In BYTE units the reply also completes the byte holding the last of them, so it can hold up to 7 more offsets and the next page can start at the following byte. Missing keys and empty ranges return an empty array.
 
 -tab-sep-
 
-[Array reply](../../develop/reference/protocol-spec#arrays): Offsets of the bits set to the given value (0 or 1) in the range, in ascending order. The range is interpreted as in BITCOUNT: negative indexes count from the end, and the unit defaults to BYTE. Unlike BITPOS, the range never extends past the end of the bitmap, so no clear bits are returned beyond it. With LIMIT, the lowest count offsets in the range are returned. In BYTE units the reply also completes the byte holding the last of them, so it can hold up to 7 more offsets and the next page can start at the following byte. Missing keys and empty ranges return an empty array.
+[Array reply](../../develop/reference/protocol-spec#arrays): Offsets of the set bits in the range, or of the clear bits with ZEROS, in ascending order. The range is interpreted as in BITCOUNT: negative indexes count from the end, and the unit defaults to BYTE. Unlike BITPOS, the range never extends past the end of the bitmap, so no clear bits are returned beyond it. With LIMIT, the lowest count offsets in the range are returned. In BYTE units the reply also completes the byte holding the last of them, so it can hold up to 7 more offsets and the next page can start at the following byte. Missing keys and empty ranges return an empty array.
 
 {{< /multitabs >}}
 
