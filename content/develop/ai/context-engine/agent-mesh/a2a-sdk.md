@@ -135,7 +135,9 @@ Message-only replies and error frames have no Task-version ID. They must not adv
 | Malformed, repeated, or future cursor | Return HTTP 400. |
 | Missing or expired snapshot | A new request receives TaskNotFound (HTTP 404). After streaming headers, send a TaskNotFound error frame. |
 
-The HTTP subscription ends when the Task becomes terminal or requires input or authentication. Handle the latter states through your application's A2A interaction before subscribing again. Disconnecting a subscriber does not cancel execution.
+An update that moves a Task to a terminal, input-required, or auth-required state ends the HTTP subscription. If the Task already requires input or authentication when you subscribe, the stream can remain open. Without a cursor, it sends the waiting Task snapshot and then waits. With a cursor matching the current version, it waits without sending a Task frame.
+
+Act on the Task's state and provide the required input or credentials through your application's A2A interaction. Do not wait for the stream to close. Disconnecting a subscriber does not cancel execution.
 
 For cancellation, use the official handler's cancellation path. A cancellation can supersede a stale version while the stored Task is nonterminal. A later write cannot revive a terminal Task. These guards protect Redis updates; they do not undo external effects.
 
