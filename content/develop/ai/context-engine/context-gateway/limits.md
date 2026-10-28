@@ -23,7 +23,7 @@ The [API reference](/content/develop/ai/context-engine/context-gateway/api-refer
 | Upstream namespace | 1 to 63 lowercase letters and digits, with single hyphens between them |
 | Gateway `databaseId` | 1 to 32 letters, digits, and hyphens |
 | `search_tools` query | 1 to 200 characters. `limit` 1 to 100, default 5. |
-| Result cache time to live (TTL) (`resultCache.ttlSeconds`) | 1 to 86400 seconds |
+| Result cache time to live (TTL) (`cache.ttlSeconds`) | 1 to 86400 seconds |
 | Result handle threshold | Results over 32 kibibytes (KiB) become handles when the deployment turns handles on. |
 | Largest result a handle holds | 8 mebibytes (MiB). A larger result comes back whole. |
 | Result handle lifetime | 15 minutes by default, at most 24 hours. A tool policy can set 1 to 86400 seconds. |
