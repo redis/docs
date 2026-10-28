@@ -25,7 +25,7 @@ redis-di deploy [pipeline] [flags]
 ```
 
 The pipeline name is an optional argument that defaults to `default`. If the pipeline does not
-exist, the command creates it. A pipeline name must be 3 to 22 characters long, start with a
+exist, the command creates it. A pipeline name must be 3 to 20 characters long, start with a
 lowercase letter, end with a letter or a digit, contain only lowercase letters, digits, and
 dashes, and not contain consecutive dashes. The name `rdi` is reserved. See
 [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md).

@@ -20,6 +20,9 @@ weight: 30
 > Before you upgrade, review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220). If you upgrade
 > from RDI 1.19.x or earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
 
+> [!WARNING]
+> Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
+
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
@@ -183,14 +186,21 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 Check the following changes before you upgrade from RDI 2.0.0. If you upgrade from RDI 1.19.x or
 earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
 
+### Upgrade from a version before 1.8.0 in two steps
+
+You cannot upgrade an installation of a version before 1.8.0 directly to RDI 2.2.0. Upgrade
+to RDI 2.0.0 first, following the
+[RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
+Check that the `default` pipeline runs, and then upgrade to RDI 2.2.0.
+
 ### Upgrade the leader first
 
 If you run two RDI instances with leader election, upgrade the leader first. Upgrade the other
 instance only after
 [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
-on the upgraded instance shows `Leader Election Mode: leader`. This applies both to a VM
-installation with [high availability](#upgrading-a-vm-installation-with-high-availability) and
-to a disaster recovery setup with a Google Cloud Storage (GCS) lease.
+on the upgraded instance shows `Leader Election Mode: leader`. See
+[Upgrading a VM installation with High Availability](#upgrading-a-vm-installation-with-high-availability).
+Finish upgrading all instances before creating a pipeline other than `default`.
 
 The first upgraded instance that becomes the leader saves its pipelines as the backup that RDI
 restores at every later failover. This matters most when you upgrade from a version before
@@ -220,13 +230,26 @@ following:
 ### Remove overrides of internal Redis keys
 
 RDI 2.2.0 always uses the Redis keys and consumer groups that it generates, and rejects the
-following properties:
+following properties. This example shows where to remove them from your configuration:
 
-- `topic.delimiter`, `offset.storage.redis.key`, and `schema.history.internal.redis.key` in
-  `sources.<name>.advanced.source`.
-- `stream.name.pattern` and `consumer.group` in `processors.advanced.source`, and `counters.key`
-  in `processors.advanced.processor`.
-- `streamPrefix` in `sources.<name>.advanced.riotx`.
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        topic.delimiter: <value> # Rejected since RDI 2.2.0
+        offset.storage.redis.key: <value> # Rejected since RDI 2.2.0
+        schema.history.internal.redis.key: <value> # Rejected since RDI 2.2.0
+      riotx:
+        streamPrefix: <value> # Rejected since RDI 2.2.0
+processors:
+  advanced:
+    source:
+      stream.name.pattern: <value> # Rejected since RDI 2.2.0
+      consumer.group: <value> # Rejected since RDI 2.2.0
+    processor:
+      counters.key: <value> # Rejected since RDI 2.2.0
+```
 
 The operator uses the generated keys for your existing pipelines as soon as you upgrade, even
 before you redeploy them, and RDI does not migrate the state stored under custom keys or consumer
@@ -267,46 +290,10 @@ Otherwise, the source stops with an unknown schema error when the new table firs
 keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
 `false` in the `advanced.source` section of the source.
 
-### Upgrade from a version before 1.8.0 in two steps
-
-Do not upgrade an installation of a version before 1.8.0 directly to RDI 2.2.0. These versions
-keep the pipeline configuration in the RDI database and run the collector and stream processor
-without a pipeline resource. RDI versions 1.8.0 to 2.0.0 convert them into the `default` pipeline
-when you upgrade, but RDI 2.2.0 no longer does. After a direct upgrade, RDI has no pipeline, and
-the old collector and stream processor keep running without RDI managing them.
-
-Upgrade to RDI 2.0.0 first, as described in the
-[RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
-Check that the `default` pipeline runs, and then upgrade to RDI 2.2.0.
-
-### Create pipelines explicitly
-
-The operator no longer creates an empty `default` pipeline when you install RDI. An installation
-that you upgrade keeps its pipeline, so this affects only new installations. If your scripts or
-tools expect a `default` pipeline right after you install RDI, make them create it first, for
-example with `redis-di deploy --empty`.
-
-### Create named pipelines after you upgrade every instance
-
-RDI 2.2.0 supports pipeline names other than `default`. Finish upgrading all the RDI instances
-before you create a named pipeline. Your existing `default` pipeline keeps its resource names,
-Redis keys, and metrics paths. See
-[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
-for the naming rules and for how to manage several pipelines.
-
 ### Downgrade from RDI 2.2.0
 
-If you need to return to an earlier version after you upgrade to RDI 2.2.0, check the following
-first:
-
-- Do not downgrade after you create a pipeline other than `default`.
-- If you use a GCS lease, delete the lease object before you downgrade, for example with
-  `gcloud storage rm gs://<bucket>/<object>`. Earlier versions cannot read the lease that RDI
-  2.2.0 writes, so the downgraded leader can acquire the lease only after it creates the object
-  again.
-- If you downgrade to a version before 2.0.0, delete the `rdi:migration-number` key and the
-  `rdi:resources:pipelines.rdi.redis.com:*` keys from the RDI database before you upgrade again.
-  Otherwise, the upgraded instance restores your pipelines from the outdated backup in these keys.
+Downgrading to a version earlier than 2.0.0 is not supported. Do not downgrade after you create
+a pipeline other than `default`.
 
 ## Upgrading to RDI 2.0.0
 

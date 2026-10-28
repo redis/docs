@@ -43,8 +43,9 @@ while the other keys are only relevant for TLS/mTLS connections.
 
 RDI also accepts a generic secret key for another connection parameter. The key can contain up to
 63 uppercase letters, digits, and underscores, must start with a letter, and must use the `--db`
-option. For example, set a source-specific port with `redis-di set-secret PORT --db mysql 3306`
-and reference it as `${MYSQL_DB_PORT}`.
+option. The 63-character limit applies to the key you pass to `redis-di set-secret`, excluding
+the generated database prefix. For example, set a source-specific port with
+`redis-di set-secret PORT --db mysql 3306` and reference it as `${MYSQL_DB_PORT}`.
 
 A generic key is a simple value by default. To store it as a file instead, such as an additional
 CA certificate, pass `--type file`. RDI then mounts the file, and the reference resolves to the
@@ -53,6 +54,9 @@ path of the mounted file. For example:
 ```bash
 redis-di set-secret EXTRA_CA --db mysql --type file --file /path/to/extra-ca.crt
 ```
+
+Reference this secret as `${MYSQL_DB_EXTRA_CA}` in `config.yaml`. It resolves to the mounted
+file's path.
 
 The `--file` option only tells the command to read the value from a local file. It works with
 any key, and it does not change the type of the secret.

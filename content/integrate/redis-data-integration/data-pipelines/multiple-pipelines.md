@@ -12,7 +12,7 @@ linkTitle: Multiple pipelines
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 6
+weight: 5
 ---
 
 One RDI installation can run several pipelines side by side. Each pipeline has its own
@@ -41,16 +41,15 @@ it as a unit. Use separate pipelines when:
 - You want to stop, reset, or reconfigure some of the data without interrupting the rest.
   Resetting or removing a single source stops the whole pipeline while the operation runs,
   and RDI reports the whole pipeline in an error state when a single source fails.
-- You need different processor settings, such as a different
-  [`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors),
-  since the `processors` section applies to every source of a pipeline.
+- You want separate processors for different sets of tables, so each processor handles its
+  own set of streams.
 
 ## Name your pipelines
 
 Every pipeline has a name, which identifies it in CLI commands, in API paths, and in the
 resources that RDI creates for it. A pipeline name must:
 
-- Be 3 to 22 characters long.
+- Be 3 to 20 characters long.
 - Start with a lowercase letter.
 - Contain only lowercase letters, digits, and dashes.
 - End with a letter or a digit.
@@ -61,7 +60,7 @@ To move a pipeline to a new name, export its configuration with
 [`redis-di export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md),
 set its secrets for the new pipeline, deploy the configuration as the new pipeline, and delete
 the old one. The new pipeline starts with a new
-[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md).
+[initial snapshot](/content/integrate/redis-data-integration/data-pipelines/_index.md#pipeline-lifecycle).
 
 The pipeline named `default` is special in two ways:
 
@@ -76,8 +75,8 @@ A new RDI installation has no pipeline, not even `default`, until you create one
 [Create a pipeline](#create-a-pipeline).
 
 The optional [`metadata.name`](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#metadata)
-property in `config.yaml` is a display name of up to 100 characters. It is not related to the
-pipeline name.
+property in `config.yaml` is a display name of up to 100 characters. It is not the pipeline
+name used in CLI commands or API paths.
 
 The pipeline name appears in the resources that RDI creates for the pipeline. RDI adds the
 pipeline name and two dashes to the name of each Kubernetes resource of a pipeline other than
@@ -242,7 +241,7 @@ redis-di reset orders
 ```
 
 Resetting a pipeline deletes only that pipeline's data from the RDI database and takes a new
-[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md) of its
+[initial snapshot](/content/integrate/redis-data-integration/data-pipelines/_index.md#pipeline-lifecycle) of its
 sources. Add `--source` to act on a single source of the pipeline, for example
 `redis-di reset orders --source mysql`. See
 [Start, stop, and reset a single source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source)

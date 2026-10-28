@@ -22,7 +22,7 @@ RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain availabl
 API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
 
 > [!NOTE]
-> RDI 2.2.0 supports multiple pipelines. A pipeline name must be 3 to 22 characters long, start
+> RDI 2.2.0 supports multiple pipelines. A pipeline name must be 3 to 20 characters long, start
 > with a lowercase letter, end with a letter or a digit, contain only lowercase letters, digits,
 > and dashes, and not contain consecutive dashes. The name `rdi` is reserved. Requests for a
 > non-default pipeline include its name in the path, and its ingress and metrics paths also start

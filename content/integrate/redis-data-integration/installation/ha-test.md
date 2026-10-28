@@ -123,6 +123,9 @@ to the instance you want to change.
    `operator.leaderElection.standbyMode` is not `true` in the Helm values of that instance. If
    both instances are in standby, neither of them runs the pipelines.
 
+1. On the leader, run `redis-di get-setting standby_mode` and record the value so you can
+   restore it after maintenance.
+
 1. On the leader, set `standby_mode` to `true`:
 
    ```
@@ -133,16 +136,20 @@ to the instance you want to change.
 
 1. Check that the other instance has taken over. Its
    [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
-   output shows `Leader Election Mode: leader`, and its pipelines are active again.
+   output must show `Leader Election Mode: leader`.
 
-1. When the maintenance is over, delete the setting on the old leader, so that it takes part in
-   the leader election again:
+1. Run `redis-di describe <pipeline>` for each expected active pipeline on the new leader.
+   Check that its components run without errors and that data reaches the target before
+   starting maintenance. Leadership changes and component startup happen asynchronously.
 
-   ```
-   redis-di delete-setting standby_mode
-   ```
+1. When maintenance is over, restore the previous `standby_mode` value on the old leader:
 
-   The old leader becomes a follower, and the other instance remains the leader.
+   - If it was `false`, run `redis-di set-setting standby_mode false`.
+   - If it was `true`, run `redis-di set-setting standby_mode true`.
+   - If it was `<none>`, run `redis-di delete-setting standby_mode`.
+
+   Deleting the setting restores `operator.leaderElection.standbyMode` from the Helm values.
+   It lets the instance rejoin leader election only when that value is `false`.
 
 You can also set and delete `standby_mode` with `PATCH /api/v2/settings`. See
 [RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)

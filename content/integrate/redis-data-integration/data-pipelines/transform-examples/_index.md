@@ -16,7 +16,7 @@ linkTitle: Job files
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 5
+weight: 6
 ---
 
 You can optionally supply one or more job files that specify how you want to
