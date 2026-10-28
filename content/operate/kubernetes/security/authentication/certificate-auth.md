@@ -200,7 +200,7 @@ kubectl create secret generic <rerc-secret-name> \
   --from-file=cert=</path/to/user-client.pem> \
   --from-file=key=</path/to/user-client-key.pem> \
   --from-file=trusted_ca=</path/to/ca.pem> \
-  --dry-run=client -o yaml | kubectl apply -f -
+  --dry-run=client -o yaml | kubectl replace --save-config -f -
 ```
 
 A secret with both a username and password and certificate material is invalid. After you update the secret, return to step 3 in [Disable basic authentication](#disable-basic-authentication).
