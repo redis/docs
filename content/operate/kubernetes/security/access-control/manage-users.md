@@ -111,6 +111,8 @@ In Rotatable mode the operator makes referenced Kubernetes Secrets immutable, so
 
 `status.passwordSecrets` lists each active Secret with its resolved version.
 
+The cluster's `disconnectClientsOnPasswordRemoval` setting controls whether connections that authenticated with the removed password are actively disconnected. When the cluster setting is `Auto`, the database's own setting controls it. See [Disconnect clients on password removal](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal).
+
 ## Update the email address
 
 You can change `spec.email` only while `passwordSecrets` contains exactly one entry. If a Rotatable rotation is in progress, reduce to a single secret first, change the email, then add the second secret back.
