@@ -1,4 +1,4 @@
-"""Loopback-only FastAPI event demo. Run: python fastapi-sse-demo.py."""
+"""Loopback-only simulated agent demo with FastAPI events. Run: python fastapi-sse-demo.py."""
 
 import asyncio
 import os
@@ -43,17 +43,48 @@ jobs = {}
 producers = set()
 
 
+# Scripted agent activity keeps this example runnable without a model account.
+AGENT_STEPS = (
+    "Reading your request",
+    "Identifying the trip length and interests",
+    "Listing candidate sights",
+    "Looking up the historic center in the sample travel notes",
+    "Comparing morning walking routes",
+    "Selecting a starting point",
+    "Checking the sample museum information",
+    "Allowing time for a museum visit",
+    "Looking up lunch options in the sample notes",
+    "Choosing a lunch stop near the route",
+    "Planning the afternoon walk",
+    "Adding a rest break",
+    "Comparing evening viewpoints",
+    "Selecting a sunset stop",
+    "Estimating time between stops",
+    "Checking the itinerary for backtracking",
+    "Balancing sightseeing and breaks",
+    "Drafting the itinerary",
+    "Adding a reminder to check opening times",
+    "Preparing your answer",
+)
+AGENT_ANSWER = (
+    "Spend the morning walking from the Pantheon to Piazza Navona. "
+    "Have lunch nearby, then visit the Capitoline Museums in the afternoon. "
+    "Take a coffee break before walking to the Orange Garden for an evening view. "
+    "Check opening times and ticket availability before your visit."
+)
+
+
 async def produce(job_id, stream):
     try:
-        for number in range(1, 21):
+        for number, message in enumerate(AGENT_STEPS, start=1):
             await asyncio.sleep(1)  # Simulated work, independent of subscriptions.
             await backend.append(
-                stream, event="progress", data={"number": number},
+                stream, event="progress", data={"number": number, "message": message},
                 producer="demo", idempotency_key=f"progress-{number}",
             )
             jobs[job_id]["produced"] = number
         await backend.finish(
-            stream, event="completed", data={"count": 20},
+            stream, event="completed", data={"count": len(AGENT_STEPS), "answer": AGENT_ANSWER},
             producer="demo", idempotency_key="completed",
         )
         jobs[job_id]["state"] = "completed"

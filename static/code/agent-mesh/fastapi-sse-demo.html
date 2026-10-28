@@ -28,13 +28,15 @@
 <body>
 <main>
   <div class="eyebrow">AGENT MESH · LOCAL FASTAPI SSE DEMO</div>
-  <h1>Reconnect without missing updates</h1>
-  <p>An application job publishes 20 progress events, one per second. Disconnect your subscription, wait a few seconds, and reconnect. The job keeps working while you are away.</p>
+  <h1>Resume your agent’s progress</h1>
+  <p>A simulated travel agent works on your request and streams its progress. Disconnect, wait a few seconds, and reconnect to catch up and receive the answer. The agent keeps working while you are away.</p>
+  <p><strong>Your request:</strong> “Plan a day in Rome with sightseeing, a museum, and time for breaks.”</p>
+  <p class="note">The agent uses scripted steps and a sample answer. No model account or live travel lookup is required.</p>
   <div class="card">
     <div id="status" role="status" aria-live="polite">Ready to start</div>
-    <p id="hint">Start a job, then disconnect after a few updates arrive.</p>
+    <p id="hint">Start the agent, then disconnect after a few updates arrive.</p>
     <div class="actions">
-      <button id="start">Start job</button>
+      <button id="start">Start agent</button>
       <button id="disconnect" disabled>Disconnect</button>
       <button id="reconnect" disabled>Reconnect</button>
     </div>
@@ -42,17 +44,21 @@
     <progress id="progress" value="0" max="20"></progress>
     <p id="error" role="alert"></p>
     <ol id="updates" aria-label="Received progress events"></ol>
+    <section id="result" hidden aria-live="polite">
+      <h2>Your agent’s answer</h2>
+      <p id="answer"></p>
+    </section>
     <details>
       <summary>What is being resumed?</summary>
-      <p>Job: <code id="job">—</code><br>Last applied cursor: <code id="cursor">—</code></p>
+      <p>Agent run: <code id="job">—</code><br>Last applied cursor: <code id="cursor">—</code></p>
       <p>The page saves each event cursor after applying its update. Reconnect uses <code>?after=</code> to request the retained events after that cursor. The browser's native <code>EventSource</code> receives the stream.</p>
     </details>
   </div>
-  <p class="note">Local demonstration only. There is no sign-in: all requests use one fixed demo owner. Closing a subscription does not cancel the application job. Replay depends on retained Redis history.</p>
+  <p class="note">Local demonstration only. There is no sign-in: all requests use one fixed demo owner. Your application runs the simulated agent; Agent Mesh retains and delivers its events. Closing a subscription does not cancel the agent. Replay depends on retained Redis history.</p>
 </main>
 <script>
   const ui = Object.fromEntries(
-    ["start", "disconnect", "reconnect", "status", "hint", "count", "progress", "updates", "error", "job", "cursor"]
+    ["start", "disconnect", "reconnect", "status", "hint", "count", "progress", "updates", "error", "job", "cursor", "result", "answer"]
       .map(id => [id, document.getElementById(id)])
   );
   let source = null;
@@ -70,7 +76,7 @@
     closeStream();
     ui.error.textContent = error.message;
     ui.status.textContent = "Connection stopped";
-    ui.hint.textContent = "Reconnect to retry with your saved cursor, or start a new job.";
+    ui.hint.textContent = "Reconnect to retry with your saved cursor, or start a new agent run.";
     ui.start.disabled = false;
     ui.disconnect.disabled = true;
     ui.reconnect.disabled = !cursor;
@@ -101,11 +107,11 @@
     current.addEventListener("progress", event => {
       if (source !== current) return;
       try {
-        const {number} = JSON.parse(event.data);
-        if (!Number.isInteger(number) || number < 1 || number > 20) throw new Error("Invalid progress event");
+        const {number, message} = JSON.parse(event.data);
+        if (!Number.isInteger(number) || number < 1 || number > 20 || typeof message !== "string" || !message.trim()) throw new Error("Invalid progress event");
         if (!received.has(number)) {
           const item = document.createElement("li");
-          item.textContent = `Progress ${number} of 20`;
+          item.textContent = message;
           ui.updates.appendChild(item);
           received.add(number);
           ui.progress.value = received.size;
@@ -117,10 +123,18 @@
     });
     current.addEventListener("completed", event => {
       if (source !== current) return;
+      let answer;
+      try {
+        const result = JSON.parse(event.data);
+        if (result.count !== 20 || typeof result.answer !== "string" || !result.answer.trim()) throw new Error("Invalid agent completion event");
+        answer = result.answer;
+      } catch (error) { showError(error); return; }
+      ui.answer.textContent = answer;
+      ui.result.hidden = false;
       saveCursor(event);
       closeStream();
-      ui.status.textContent = received.size === 20 ? "Complete — all 20 events received" : "Job completed";
-      ui.hint.textContent = "The same job continued while disconnected. Its retained events filled the gap.";
+      ui.status.textContent = received.size === 20 ? "Complete — all 20 events received" : "Agent completed";
+      ui.hint.textContent = "The same agent run continued while disconnected. Its retained progress and answer filled the gap.";
       ui.start.disabled = false;
       ui.disconnect.disabled = true;
       ui.reconnect.disabled = true;
@@ -128,7 +142,7 @@
     current.addEventListener("redis.stream.control", event => {
       if (source !== current) return;
       // Control frames have no cursor. Never advance past a missing-history error.
-      showError(new Error("The stream needs recovery. Start a new demo job."));
+      showError(new Error("The stream needs recovery. Start a new demo agent run."));
     });
     current.onerror = () => {
       if (source === current) showError(new Error("The event connection closed. Use Reconnect to resume."));
@@ -143,6 +157,8 @@
     cursor = null;
     received = new Set();
     ui.updates.replaceChildren();
+    ui.result.hidden = true;
+    ui.answer.textContent = "";
     ui.progress.value = 0;
     ui.count.textContent = "0 of 20 events received";
     ui.job.textContent = "—";
@@ -151,10 +167,10 @@
     ui.start.disabled = true;
     ui.disconnect.disabled = true;
     ui.reconnect.disabled = true;
-    ui.status.textContent = "Starting job…";
+    ui.status.textContent = "Starting agent…";
     try {
       const response = await fetch("/jobs", {method: "POST"});
-      if (!response.ok) throw new Error(`Could not start job (${response.status})`);
+      if (!response.ok) throw new Error(`Could not start agent (${response.status})`);
       const result = await response.json();
       if (!result.job_id) throw new Error("The application did not return a job ID");
       jobId = result.job_id;
@@ -165,7 +181,7 @@
   };
   ui.disconnect.onclick = () => {
     closeStream();
-    ui.status.textContent = "Disconnected — the job keeps working";
+    ui.status.textContent = "Disconnected — the agent keeps working";
     ui.hint.textContent = "Wait a few seconds, then select Reconnect to receive the missed events.";
     ui.disconnect.disabled = true;
     ui.reconnect.disabled = !cursor;

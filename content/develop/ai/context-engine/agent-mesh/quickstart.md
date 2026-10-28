@@ -139,7 +139,7 @@ Stop the application with Control-C before trying the FastAPI example on the sam
 
 ## Resume FastAPI events
 
-An application job publishes twenty progress events, one per second. Disconnect its subscription while the job continues, then reconnect to receive the events you missed. These are application-defined events, independent of A2A tasks.
+A simulated travel agent plans a day in Rome. It publishes twenty progress events, one per second, then returns a sample itinerary. Disconnect while it works, then reconnect to catch up and receive the answer. The agent uses scripted steps, so you need no model account or live travel service. These are application-defined events, independent of A2A tasks.
 
 ### Install
 
@@ -172,16 +172,16 @@ This loopback-only example uses one fixed demo owner and needs no token or sign-
 
 ### Disconnect and catch up
 
-1. Select **Start job**. Numbered progress events appear in the page.
+1. Select **Start agent**. Progress messages show the agent preparing its itinerary.
 1. After a few events arrive, select **Disconnect**. The displayed event count stops.
-1. Wait a few seconds, then select **Reconnect**. The missed events arrive, followed by new events as the job continues.
-1. Wait for **Complete — all 20 events received**.
+1. Wait a few seconds, then select **Reconnect**. The missed events arrive, followed by new events as the agent continues.
+1. Wait for **Complete — all 20 events received** and the agent’s sample itinerary.
 
-The page saves its event cursor and reconnects to the same job's event stream. Expand **What is being resumed?** to see the job ID and saved cursor. The job continues independently of the subscription; reconnecting does not start it again.
+The page saves its event cursor and reconnects to the same agent run’s event stream. Expand **What is being resumed?** to see the run’s job ID and saved cursor. Your application runs the agent independently of the subscription; reconnecting does not start it again.
 
 ### Publish and serve resumable events
 
-The downloaded application owns its Redis clients, startup, and job execution. Its streaming backend uses separate command and relay clients:
+The downloaded application owns its Redis clients, startup, and simulated agent execution. Its streaming backend uses separate command and relay clients:
 
 ```python
 from redis_iris.agent_mesh.fastapi_sse import StreamBackend, StreamSettings
@@ -192,16 +192,16 @@ backend = StreamBackend(
 )
 ```
 
-Create a log when starting a job, append its progress events, and finish it when work completes:
+Create a log when starting the agent, append its progress messages, and finish with its answer:
 
 ```python
 await backend.create(stream, ttl=3600)
 await backend.append(
-    stream, event="progress", data={"number": number},
+    stream, event="progress", data={"number": number, "message": message},
     producer="demo", idempotency_key=f"progress-{number}",
 )
 await backend.finish(
-    stream, event="completed", data={"count": 20},
+    stream, event="completed", data={"count": len(AGENT_STEPS), "answer": AGENT_ANSWER},
     producer="demo", idempotency_key="completed",
 )
 ```
