@@ -36,7 +36,7 @@ To use the cache or compression, select a Gateway database with the optional `da
 
 On a self-managed deployment, your administrator may set a default Gateway database. A create without `databaseId` then uses it, so `cache` and `compression` come back `enabled` unless you send `disabled`. Without a default, the Gateway has no database and both are `disabled`. On create, an explicit `"databaseId": ""` or `null` always returns `400`. Redis Cloud has no default and requires the ID. A Gateway response returns `databaseBinding` with the resolved `databaseId` and the database's `name`. The `name` is absent when the lookup fails. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
 
-On a self-managed deployment, sending `"compression": "enabled"` returns `400` with `validation_compression_unsupported` when the Gateway database does not use `maxmemory-policy noeviction` or has no JSON module, and `503` when it cannot be reached. A create that omits `compression` is stored with it `disabled` instead of failing.
+On a self-managed deployment, sending `"compression": "enabled"` returns `400` on the `compression` field, with rule `compression_unsupported`, when the Gateway database does not use `maxmemory-policy noeviction` or has no JSON module, and `503` when it cannot be reached. A create that omits `compression` is stored with it `disabled` instead of failing.
 
 ## List and inspect Gateways and Upstreams
 

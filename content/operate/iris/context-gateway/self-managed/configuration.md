@@ -114,7 +114,7 @@ Redis Cloud has no defaults and always requires the database ID.
 The Gateway database should use `maxmemory-policy noeviction`, and compression also needs the JSON module. The checks differ by where they run:
 
 - At startup, the Data Plane checks the default Gateway database. With `compression.enabled: true` it fails to start when the database does not use `noeviction` or has no JSON module. Otherwise it logs a warning.
-- When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` with `validation_compression_unsupported` and the reason when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `enabled`.
+- When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` on the `compression` field, with rule `compression_unsupported` and the reason when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `enabled`.
 - A Gateway create that omits `compression` never fails on this check. When the database cannot hold handles or cannot be reached, the Gateway is stored with `compression` set to `disabled`, and the Control Plane logs why.
 
 Do not point both defaults at the same Redis when compression is on. `noeviction` would then apply to your customer data. The Data Plane logs a warning at startup when the two defaults share an endpoint.
