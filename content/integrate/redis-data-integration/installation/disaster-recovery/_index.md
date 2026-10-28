@@ -27,7 +27,12 @@ that shares one RDI database for leader election.
 
 ## Understand the topology
 
-![Two sites connect to the same source server and external lease. The leader runs pipelines, while the follower waits to take over. Each site uses its local RDI database endpoint, with Active-Active replication between the endpoints.](/images/rdi/disaster-recovery.svg)
+![Site A has the source primary and RDI leader. Source changes replicate to site B, where RDI pipelines are in standby. Both RDI sites follow the current source primary and share an external lease. RDI database endpoints and example target endpoints use Active-Active replication.](/images/rdi/disaster-recovery.svg)
+
+The source databases in this example use primary-to-replica replication. Both RDI sites
+connect through a source endpoint that follows the current primary. Manage source
+replication, promotion, and endpoint routing separately from RDI failover. The capture path
+from site B's source applies after that source is promoted.
 
 The target in this example also uses Active-Active replication. Configure target availability
 separately; an Active-Active target is not a requirement for RDI leader election. The RDI and
@@ -43,8 +48,12 @@ by themselves trigger a change of leader.
 - [Create the RDI database](/content/integrate/redis-data-integration/installation/install-k8s.md#create-the-rdi-database)
   with Active-Active replication between the sites. Each RDI instance connects to its local
   database instance.
-- Both RDI instances must capture from the same source database server, not from separate
-  replicas. See [Active-Active RDI databases](/content/integrate/redis-data-integration/faq.md#can-i-use-active-active-for-the-rdi-database).
+- Configure both RDI instances to follow the current source primary. After a source failover,
+  update source endpoint routing so that both RDI sites can reach the new primary.
+- Validate that the promoted source can resume capture from RDI's saved position. It must
+  provide compatible change history and capture state, and retain the history needed to
+  resume. A replicated copy alone does not guarantee this. Source-specific replication and
+  failover configuration is outside this guide.
 - Give both instances access to the source, their target database, and the same external lease.
   The lease must remain available when either RDI site fails.
 - [Prepare the source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
