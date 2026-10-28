@@ -24,4 +24,4 @@ Before you use RDI, you must also configure each of your source databases to ena
 section to learn how to do this.
 
 To run RDI across two sites with an external leader election lease, see
-[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery.md).
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md).

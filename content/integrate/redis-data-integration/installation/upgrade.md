@@ -24,7 +24,7 @@ weight: 30
 > Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
 
 For a disaster recovery deployment, also review
-[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery.md#upgrade-or-downgrade-a-dr-setup).
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
 
 ## Upgrading a VM installation
 

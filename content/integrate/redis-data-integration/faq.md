@@ -68,7 +68,7 @@ installations. See
 In a DR setup, each site runs its own RDI instance against its local instance of the
 Active-Active RDI database, so leader election needs an external lease. RDI supports Google
 Cloud Storage (GCS) and Amazon DynamoDB leases for Helm installations. See
-[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery.md)
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
 for the supported setup, source database requirements, and configuration steps.
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?

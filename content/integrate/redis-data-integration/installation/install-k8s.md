@@ -21,7 +21,7 @@ to install on [Kubernetes](https://kubernetes.io/) (K8s). You can also
 [Install RDI on VMs](/content/integrate/redis-data-integration/installation/install-vm.md).
 
 For a deployment across two sites with an external leader election lease, see
-[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery.md).
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md).
 
 The installation creates the following K8s objects:
 
@@ -447,7 +447,7 @@ for full details on how to connect to RDI and deploy pipelines.
 ## Uninstall RDI
 
 For a disaster recovery setup, follow
-[Uninstall a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery.md#uninstall-a-dr-setup)
+[Uninstall a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#uninstall-a-dr-setup)
 to choose the correct order for removing instances.
 
 If you want to remove your RDI K8s installation, first run
