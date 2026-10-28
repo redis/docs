@@ -43,4 +43,4 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 
 ## Agent Mesh SDK preview
 
-Agent Mesh provides Python SDK integrations for shared A2A task storage and resumable event delivery. Run it in your application with your own Redis connections. See the [Agent Mesh overview](/content/develop/ai/context-engine/agent-mesh/_index.md) and [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md).
+Agent Mesh provides Python SDK integrations for shared agent-to-agent task storage and resumable event delivery. Run it in your application with your own Redis connections. See the [Agent Mesh overview](/content/develop/ai/context-engine/agent-mesh/_index.md) and [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md).
