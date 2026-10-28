@@ -124,6 +124,9 @@ let aggResult = await client.ft.aggregate('idx:users', '*', {
             type: FT_AGGREGATE_GROUP_BY_REDUCERS.COUNT,
             AS: 'count'
         }]
+    }, {
+        type: FT_AGGREGATE_STEPS.SORTBY,
+        BY: { BY: '@city', DIRECTION: 'ASC' }
     }]
 });
 
@@ -137,7 +140,6 @@ aggResult.results.forEach(result => {
 // STEP_END
 // REMOVE_START
 assert.equal(aggResult.total, 2);
-aggResult.results.sort((a, b) => a.city.localeCompare(b.city));
 assert.deepEqual(aggResult.results.map(result => result.city), [
     'London',
     'Tel Aviv'
@@ -197,6 +199,34 @@ findPaulHashResult.documents.forEach(doc => {
 // REMOVE_START
 assert.equal(findPaulHashResult.total, 1);
 assert.equal(findPaulHashResult.documents[0].id, 'huser:3');
+// REMOVE_END
+
+// STEP_START add_hash_himport
+const fields = ['name', 'email', 'age', 'city'];
+await client.hImportPrepare('huser', fields);
+
+const himportReplies = await Promise.all(
+    [['huser:1', user1], ['huser:2', user2], ['huser:3', user3]].map(
+        ([key, user]) => client.hImportSet(
+            key, 'huser', fields.map(field => String(user[field]))
+        )
+    )
+);
+// STEP_END
+// REMOVE_START
+assert.deepEqual(himportReplies, ['OK', 'OK', 'OK']);
+assert.ok((await client.objectEncoding('huser:3')).startsWith('template'));
+const himportQueryResult = await client.ft.search(
+    'hash-idx:users', 'Paul @age:[30 40]'
+);
+assert.equal(himportQueryResult.total, 1);
+assert.equal(himportQueryResult.documents[0].id, 'huser:3');
+assert.deepEqual(himportQueryResult.documents[0].value, {
+    name: 'Paul Zamir',
+    email: 'paul.zamir@example.com',
+    age: '35',
+    city: 'Tel Aviv'
+});
 // REMOVE_END
 
 // STEP_START close

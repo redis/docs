@@ -31,15 +31,18 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The chart always deploys the Data Plane, the workers, the Control Plane, and the Identity Service.
-You provide the Redis databases.
+The `redis-agent-memory` chart `0.8.0` deploys the Data Plane, workers, and Control Plane.
+Install the `iris-identity-service` chart `0.10.0` as a separate release first, then connect
+Memory to it. Memory does not deploy Identity Service resources or include it as a subchart.
+You provide the Redis databases. Follow [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md)
+to configure both releases.
 
 | Component | Purpose | Default service |
 | --- | --- | --- |
 | Redis Agent Memory Data Plane | Store-scoped runtime memory API. | `redis-agent-memory:9000` |
 | Redis Agent Memory worker | Background promotion, summarization, and forgetting work. | No public service |
 | Redis Agent Memory Control Plane | Admin API for creating and managing stores. | `redis-agent-memory-controlplane:9100` |
-| Identity Service | Mints, rotates, revokes, and checks agent keys. | `redis-agent-memory-identity-service:9200` |
+| Identity Service (separate release) | Mints, rotates, revokes, and checks agent keys. | `ids-iris-identity-service:9200` for release `ids` |
 | Store Redis | Holds session memory, long-term memory, indexes, and TTL data. | Customer-provided |
 | Job Redis | Holds background work for Redis Agent Memory workers. | Customer-provided |
 | Metadata Redis | Holds Control Plane store records. The Identity Service keeps agent-key records in the Metadata Redis named in its own metadata Secret. | Customer-provided |
@@ -66,8 +69,8 @@ and the Identity Service handles agent keys.
 
 ### API surfaces
 
-All Data Plane APIs except `/health` are scoped to a store. A store is the logical isolation
-boundary for memory data.
+Memory data APIs are scoped to a store, the logical isolation boundary for memory data.
+Service liveness and readiness endpoints are not store-scoped.
 
 When agent-key authentication is enabled, the grants on each agent key determine which stores and
 actions the key can access.
@@ -79,7 +82,7 @@ actions the key can access.
 | Namespaces | `/v1/stores/{storeId}/namespaces` | Namespace resources within a store. |
 | Model Context Protocol (MCP) | `/v1/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
 | Store health | `/v1/stores/{storeId}/health` | Read-only health for store-scoped features. |
-| Service health | `/health` | Operational status of the Data Plane. |
+| Service health | `/health/liveness`, `/health/readiness` | Process liveness and readiness to serve requests; neither requires an agent key. |
 | Control Plane | `/v1/stores`, `/v1/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
 | Identity Service | `/v1/api-keys` | Self-managed administration for agent keys. |
 

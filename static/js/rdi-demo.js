@@ -34,6 +34,9 @@
   var SOURCE = "postgresql", DB = "fooddelivery", SCHEMA = "public", PIPELINE = "default";
   var T0 = Date.UTC(2026, 8, 30, 9, 0, 0);   // the pipeline is deployed at 09:00 UTC
 
+  /* Restart's icon: a counterclockwise arrow. */
+  var RESTART_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>';
+
   function ts(y, m, d, h) { return Math.floor(Date.UTC(y, m - 1, d, h == null ? 12 : h) / 1000); }
   function rowsOf(columns, list) {
     return list.map(function (r) { var o = {}; columns.forEach(function (c, i) { o[c[0]] = r[i]; }); return o; });
@@ -446,6 +449,15 @@
       if (i) panels[t[0]].hidden = true;
     });
     root.appendChild(tabs);
+    /* Restart, as an icon in the window's top-right corner, on every step. It's off until there's something to restart. */
+    var restartBtn = el("button", "rcr-restart", RESTART_ICON);
+    restartBtn.type = "button";
+    restartBtn.setAttribute("aria-label", "Restart the demo");
+    restartBtn.title = "Restart the demo";
+    restartBtn.addEventListener("click", function () { restart(); });
+    root.classList.add("has-restart");
+    root.appendChild(restartBtn);
+    function syncRestart() { restartBtn.disabled = !st.deployed && st.tab === "sync"; }
     Object.keys(panels).forEach(function (k) { root.appendChild(panels[k]); });
 
     /* Animations replay records one at a time; the last step renders the
@@ -502,6 +514,7 @@
     }
     function syncTabs() {
       root.setAttribute("data-busy", st.busy ? "true" : "false");
+      syncRestart();
       Array.prototype.forEach.call(tabs.children, function (b) {
         var why = lockReason(b.dataset.tab);
         b.classList.toggle("is-locked", !!why);
@@ -576,22 +589,28 @@
     }
     function controlsRow(primary) {
       var row = el("div", "rdi-controls");
-      var r = el("button", "rcr-btn", "Restart");
-      r.type = "button";
-      r.disabled = !st.deployed && st.tab === "sync";
-      r.addEventListener("click", restart);
-      row.appendChild(r);
+      syncRestart();
+      var left = el("div", "rcr-navleft"), at = TABS.map(function (t) { return t[0]; }).indexOf(st.tab);
+      if (at > 0) {   // back to the step before, like its tab; disabled while a step animates, like Next
+        var pv = el("button", "rcr-btn rcr-prev", "← Previous: " + esc(TABS[at - 1][2].charAt(0).toLowerCase() + TABS[at - 1][2].slice(1)));
+        pv.type = "button";
+        pv.disabled = st.busy;
+        pv.addEventListener("click", function () { advance(TABS[at - 1][0]); });
+        left.appendChild(pv);
+      }
+      row.appendChild(left);   // kept even when empty, so the right-hand buttons stay on the right
+      /* On the right: the step's action or Next. */
+      var end = el("div", "rdi-next");
       if (primary) {
         /* `wait` keeps the button in view but disabled, with a hint saying why. */
-        var end = el("div", "rdi-next");
         if (primary.wait) end.appendChild(el("span", "rcr-faint", esc(primary.wait)));
         var b = el("button", "rcr-btn rcr-btn-primary", esc(primary.label));
         b.type = "button";
         b.disabled = st.busy || !!primary.wait;
         b.addEventListener("click", primary.fn);
         end.appendChild(b);
-        row.appendChild(end);
       }
+      if (end.children.length) row.appendChild(end);
       return row;
     }
     function remember(d, key, dflt) {

@@ -66,7 +66,7 @@ Because the index on the new shard is created synchronously though, it's expecte
 
 ## Limitations
 
-- You cannot use Redis Search capabilities with the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). This limitation was fixed in Redis Software version 8.0.
+- Redis Search capabilities are not supported with the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) before Redis Software 8.0. To use Redis Search with the OSS Cluster API on Redis Software 8.0 or later, the database must also be version 8.0 or later.
 
 ## More info
 

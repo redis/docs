@@ -126,15 +126,30 @@ Enter the selected source's database settings. The fields depend on the database
 
 Use **Collector properties** for additional source and sink settings. These settings apply to the selected source. See the [collector source properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings) and [collector sink properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsink-rdi-collector-stream-writer-configuration).
 
+For Debezium sources, set `snapshot.mode` in **Collector source properties** to
+control data snapshots. The default mode is `initial`. Set it for each source separately;
+available modes depend on the source database. See [Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+With `when_needed` mode, an unavailable saved position can trigger a new snapshot, but
+[missed deletes can leave stale target records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
+This property does not configure the Snowflake collector.
+
 ![The Edit advanced properties control under Collector properties.](/images/rc/rdi/rdi-source-configuration-collector-properties.png)
 {width="500px"}
 
 ![The advanced properties dialog with separate collector source and sink properties.](/images/rc/rdi/rdi-advanced-properties.png)
 {width="80%"}
 
+For PostgreSQL, [configure the publication properties](/content/operate/rc/rdi/setup.md#postgresql-publications)
+before deployment. Use `disabled` for an administrator-managed table-list publication, or
+`filtered` with the required permissions for RDI to manage it.
+
 ## Select data {#dataset}
 
 Select each source in the **Sources** list and choose the data to ingest from that source.
+
+For PostgreSQL, this selection does not narrow an existing `FOR ALL TABLES` publication.
+If your administrator manages the publication, update its table list to match the selection.
+See [PostgreSQL publications](/content/operate/rc/rdi/setup.md#postgresql-publications).
 
 > [!WARNING]
 > Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery](/content/operate/rc/rdi/faq.md#data-recovery).
@@ -157,6 +172,10 @@ Select each source in the **Sources** list and choose the data to ingest from th
 
     ![The key control beside the column used to identify a record.](/images/rc/rdi/rdi-unique-key-selected.png)
     {width="500px"}
+
+    For PostgreSQL, choosing a key here does not create a primary key or replica identity
+    in the source database. [Configure replica identity](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+    separately for tables that publish updates or deletes.
 
 1. Repeat for the other sources, then select **Continue**.
 
@@ -181,7 +200,7 @@ For the Flink processor, source matchers can use lists or entries prefixed with 
 
 Review every source's connection, selected data, and transformation jobs, together with the shared target and settings. Use the source actions to return to a section that needs changes.
 
-Select **Deploy pipeline** to start the pipeline. Each source performs its initial snapshot and then captures ongoing changes. Snapshot duration depends on the amount of selected data and source performance.
+Select **Deploy pipeline** to start the pipeline. With the default `initial` mode, each Debezium source without a saved position takes a snapshot and then captures ongoing changes. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. Snapshot duration depends on the amount of selected data and source performance.
 
 ![The Deploy pipeline button.](/images/rc/rdi/rdi-confirm-deploy.png)
 {width="175px"}

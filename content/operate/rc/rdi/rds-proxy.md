@@ -29,6 +29,11 @@ RDS Proxy is a fully managed, highly available database proxy for Amazon RDS. Wh
 - **Added complexity**: RDS Proxy adds an additional layer between RDI and your database.
 - **Lambda provides better failover**: The Lambda function approach handles failover scenarios more efficiently.
 
+The diagram shows the RDS Proxy alternative. It does not apply to PostgreSQL sources.
+
+![RDI connects through PrivateLink and a network load balancer to RDS Proxy, which forwards connections to the RDS or Aurora database.](/images/rc/rdi/rdi-setup-diagram-aurora.png)
+{width="100%"}
+
 If you still need to use RDS Proxy, follow the instructions below.
 
 ## Prerequisites

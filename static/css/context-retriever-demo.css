@@ -69,7 +69,19 @@
 .rcr-card { border: 1px solid var(--rcr-line); border-radius: 10px; background: var(--rcr-surface); padding: 12px; min-width: 0; }
 .rcr-cardhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; }
 .rcr-count { background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 999px; padding: 0 8px; font-size: 11.5px; color: var(--rcr-muted); font-weight: 600; }
-.rcr-next { display: flex; justify-content: flex-end; margin-top: 14px; }
+.rcr-next { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.rcr-next .rcr-prev { margin-right: auto; }   /* Previous on the left, Next on the right */
+.rcr-navleft { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }   /* Previous, on the left */
+.rcr-navright { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; margin-left: auto; }   /* the step's action or Next */
+/* Restart, as an icon in the demo window's top-right corner. Whatever comes first in the window, the tabs or
+   Agent Memory's service settings, leaves room for it. */
+.rcr.has-restart { position: relative; }
+.rcr.has-restart > :first-child { margin-right: 44px; }
+.rcr .rcr-restart { position: absolute; top: 18px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+  border: 1px solid var(--rcr-line-strong); border-radius: 8px; background: var(--rcr-surface); color: var(--rcr-muted); cursor: pointer; }
+.rcr .rcr-restart:hover:not(:disabled) { border-color: var(--rcr-muted); color: var(--rcr-ink); }
+.rcr .rcr-restart:disabled { opacity: .4; cursor: default; }
+.rcr .rcr-restart:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--rcr-focus); }
 
 .rcr-btn { cursor: pointer; border-radius: 8px; padding: 7px 14px; border: 1px solid var(--rcr-line-strong); background: #fff; font-size: 13.5px; }
 .rcr-btn-primary { background: var(--rcr-accent); border-color: var(--rcr-accent); color: #fff; font-weight: 600; }

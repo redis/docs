@@ -148,7 +148,7 @@ returning the documents themselves.
 
 Use an
 [aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
-to count all users in each city.
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="go_home_json" step="query3" description="Aggregation: Perform aggregation queries to group and count documents by field values using FTAggregateWithArgs" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -184,6 +184,34 @@ in a string under the key "$"):
 
 {{< clients-example set="go_home_json" step="query1_hash" description="Query data: Execute search queries on hash documents with slightly different result structure compared to JSON" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the hash documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `HSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`HImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`HImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/go/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="go_home_json" step="add_hash_himport" description="Bulk ingestion: Import hash documents as compact hashes using HIMPORT PREPARE and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_hash_data" >}}
+{{< /clients-example >}}
+
+`HImportSet()` replaces any existing key, so running this code after the
+`HSet()` calls leaves you with the same three documents. The query returns
+the same result.
+
+> [!NOTE]
+> `HIMPORT` requires `go-redis` v9.22.0 or later, and `go-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## More information
 

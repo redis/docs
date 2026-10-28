@@ -22,6 +22,10 @@ generally, these mechanisms are not switched on by default.
 RDI's Debezium collector uses these mechanisms for change data capture (CDC),
 so you must prepare each source database before you can use it with RDI.
 
+Plan how much change history your source needs to retain during interruptions.
+See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md)
+for a conceptual guide and examples for each source family.
+
 A pipeline can capture from more than one source database, and you must prepare each of them
 separately. Follow the page for each source's database type. See
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)

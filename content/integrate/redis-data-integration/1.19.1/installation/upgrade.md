@@ -17,18 +17,24 @@ weight: 30
 url: '/integrate/redis-data-integration/1.19.1/installation/upgrade/'
 ---
 
+> [!NOTE]
+> These docs are for RDI v1.19.1. The latest version is RDI v{{< rdi-version >}}, and we
+> recommend you upgrade to it if you can. Before you do, check the
+> [release notes](/content/integrate/redis-data-integration/release-notes/_index.md)
+> to make sure the latest version still supports your setup.
+
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/1.19.1/installation/install-vm.md)
 of RDI:
 
-1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
+1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.19.1.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
     preferred installation folder.
 
     ```bash
-    export RDI_VERSION={{< rdi-version >}}
+    export RDI_VERSION=1.19.1
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-$RDI_VERSION.tar.gz
     tar -xvf rdi-installation-$RDI_VERSION.tar.gz
     ```
@@ -116,11 +122,11 @@ installation of RDI:
     [Using a private image registry](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md#using-a-private-image-registry)
     and add them to your local registry.
 
-1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz)
+1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.19.1.tgz)
     (in the *Modules, Tools & Integration* category).
 
     ```bash
-    export RDI_VERSION={{< rdi-version >}}
+    export RDI_VERSION=1.19.1
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
     ```
 

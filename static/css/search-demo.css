@@ -48,3 +48,12 @@
 .rsq .rsq-keys .rsq-opt { font-size: 12px; }
 /* The command is one line for redis-cli; it wraps here so all of it is in view. */
 .rsq pre.rsq-pre.rsq-cmdline { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---- step 4: the groups an aggregation returns ---- */
+.rsq-groups { margin-top: 12px; }
+.rsq .rsq-groups .rsq-group { background: var(--rcr-surface); }
+
+/* In the query demo's tables, each field's type sits on its own line under the field name, so long names don't break. */
+.rsq[data-search] .rsi-table th .rsi-type { display: table; margin-top: 2px; }
+/* In the stacked layout, the table-mode column widths don't apply, so every header gets its column's full width. */
+@container (max-width: 440px) { .rsq[data-search] .rsi-table th:nth-child(n), .rsq[data-search] .rsi-table.has-3 th:nth-child(n) { width: auto; } }

@@ -21,6 +21,12 @@ This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/
 to install on [Kubernetes](https://kubernetes.io/) (K8s). You can also
 [Install RDI on VMs](/content/integrate/redis-data-integration/1.19.1/installation/install-vm.md).
 
+> [!NOTE]
+> These docs are for RDI v1.19.1. The latest version is RDI v{{< rdi-version >}}, and we
+> recommend you upgrade to it if you can. Before you do, check the
+> [release notes](/content/integrate/redis-data-integration/release-notes/_index.md)
+> to make sure the latest version still supports your setup.
+
 The installation creates the following K8s objects:
 
 -   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
@@ -55,10 +61,10 @@ Complete the following steps before installing the RDI Helm chart:
     more information).
 
 -   Download the RDI Helm chart tar file from the
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz) (in the *Modules, Tools & Integration* category) .
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.19.1.tgz) (in the *Modules, Tools & Integration* category) .
 
     ```bash
-    export RDI_VERSION={{< rdi-version >}}
+    export RDI_VERSION=1.19.1
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-$RDI_VERSION.tgz
     ```
 
@@ -163,16 +169,16 @@ which to choose, run `uname -sm`: `Linux x86_64` is Linux amd64, `Linux aarch64`
 
 | Platform | Download |
 | :-- | :-- |
-| Linux, x86-64 (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/linux-amd64/redis-di) |
-| Linux, ARM64 (aarch64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/linux-arm64/redis-di) |
-| macOS, Intel (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/darwin-amd64/redis-di) |
-| macOS, Apple silicon (arm64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/darwin-arm64/redis-di) |
-| Windows, x86-64 (amd64) | [`redis-di.exe`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/windows-amd64/redis-di.exe) |
+| Linux, x86-64 (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/1.19.1/bin/linux-amd64/redis-di) |
+| Linux, ARM64 (aarch64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/1.19.1/bin/linux-arm64/redis-di) |
+| macOS, Intel (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/1.19.1/bin/darwin-amd64/redis-di) |
+| macOS, Apple silicon (arm64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/1.19.1/bin/darwin-arm64/redis-di) |
+| Windows, x86-64 (amd64) | [`redis-di.exe`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/1.19.1/bin/windows-amd64/redis-di.exe) |
 
 For example, to download the CLI for Linux amd64, make it executable, and put it on your `PATH`:
 
 ```bash
-export RDI_VERSION={{< rdi-version >}}
+export RDI_VERSION=1.19.1
 wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/$RDI_VERSION/bin/linux-amd64/redis-di
 chmod +x redis-di
 sudo mv redis-di /usr/local/bin/
