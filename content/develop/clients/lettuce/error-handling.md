@@ -136,7 +136,7 @@ for a full description):
 
 ```java
 try {
-    commands.setex(key, 3600, value);
+    commands.set(key, value, SetArgs.Builder.ex(3600));
 } catch (RedisConnectionException | RedisCommandTimeoutException e) {
     logger.warn("Failed to cache {}, continuing without cache", key, e);
 }
