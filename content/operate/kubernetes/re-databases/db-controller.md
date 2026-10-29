@@ -101,9 +101,7 @@ To add tags to a database and expose them as metric labels, see [Enrich database
 
 ## Disconnect clients on password removal
 
-Redis Software can actively disconnect client connections that authenticated with a removed, revoked, or rotated password. The per-database setting applies only when the [cluster-wide policy](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal) is `Auto`; if the cluster policy is `Enabled` or `Disabled`, that value applies to every database in the cluster. This setting requires Redis Software 8.0.2 or later; configuring it through the custom resource requires operator version X.Y.Z or later.
-
-<!-- TODO: replace X.Y.Z with the first operator release that includes this feature -->
+Redis Software can actively disconnect client connections that authenticated with a removed, revoked, or rotated password. The per-database setting applies only when the [cluster-wide policy](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal) is `Auto`; if the cluster policy is `Enabled` or `Disabled`, that value applies to every database in the cluster. This setting requires Redis Software 8.0.2 or later; configuring it through the custom resource requires operator version 8.2.6-21 or later.
 
 Set the per-database value in your REDB specification:
 
