@@ -1,7 +1,9 @@
 // EXAMPLE: home_vecsets
-// STEP_START import
-package main
+// HIDE_START
+package example_commands_test
 
+// HIDE_END
+// STEP_START import
 import (
 	"context"
 	"fmt"
@@ -75,7 +77,7 @@ var peopleData = map[string]PersonData{
 
 // STEP_END
 
-func main() {
+func ExampleClient_home_vecsets() {
 	// STEP_START model
 	ctx := context.Background()
 
@@ -286,4 +288,11 @@ func main() {
 	// >>> 'science2000': Marie Curie, Linus Pauling, Paul Erdos, Freddie Mercury,
 	// Masako Natsume
 	// STEP_END
+
+	// Output:
+	// 'actors': Masako Natsume, Chaim Topol, Linus Pauling, Marie Fredriksson, Maryam Mirzakhani, Marie Curie, Freddie Mercury, Paul Erdos
+	// 'actors (2)': Masako Natsume, Chaim Topol
+	// 'entertainer': Chaim Topol, Freddie Mercury, Marie Fredriksson, Linus Pauling, Masako Natsume, Paul Erdos, Maryam Mirzakhani, Marie Curie
+	// 'science': Marie Curie, Linus Pauling, Maryam Mirzakhani, Paul Erdos, Marie Fredriksson, Freddie Mercury, Masako Natsume, Chaim Topol
+	// 'science2000': Marie Curie, Linus Pauling, Paul Erdos, Freddie Mercury, Masako Natsume
 }

@@ -31,6 +31,13 @@ extends PredisTestCase
         ]);
         // STEP_END
         // REMOVE_START
+        foreach (['idx:users', 'hash-idx:users'] as $idx) {
+            try {
+                $r->ftDropIndex($idx);
+            } catch (Exception $e) {
+                // The index didn't exist.
+            }
+        }
         $r->del('huser:1', 'huser:2', 'huser:3');
         // REMOVE_END
 

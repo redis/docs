@@ -105,6 +105,18 @@ These are all real failures that produced green results before:
   runner. Only the primary row may claim a legacy path entry, or a single `.cs` file gets
   reported as four passing clients — and an NRedisStack-flavoured file gets credited to the
   SE.Redis tab.
+- **`go test` replays cached passes.** An unchanged Go example rerun prints
+  `ok ... (cached)` without connecting to Redis, so "run twice" proved nothing. Both Go
+  runners pass `-count=1`.
+- **A Go Example without `// Output:` never runs**, and still reports `ok`. The Output
+  comment must be its own comment group: directly after `// STEP_END` it merges into
+  that group and the Example is skipped (`no tests to run`). Leave a blank line before it.
+- **Staged manifests are copied once.** Portable mode copies `pom-*.xml` into
+  `work/<client>/pom.xml` only if it's absent; fidelity copies `fidelity/*` into
+  `tmp/clients/examples/<client>/` only when `bootstrap.sh` runs. After changing a manifest,
+  delete the `work/` copy or run `bootstrap.sh --no-clone`, and diff the staged file
+  against the tracked one before trusting a result. go-redis is re-copied every run
+  because the wrapper's `go mod tidy` rewrites it in place.
 
 One trap it does **not** guard against: `cargo test` (Rust) and xunit (C#) capture stdout,
 so their logs can't be compared with the `>>>` comments. For those clients, make the REMOVE
@@ -158,6 +170,33 @@ If the second run differs, add a hidden `REMOVE` delete of the keys after the co
 When an example rewrites identical values over existing keys, also run a copy with the
 original write removed. Otherwise a stale index or cached value can produce the expected
 output on its own.
+
+**Prove an ordering fix on the wire, not in the output.** A SORTBY added to make
+aggregation order deterministic can pass by luck: the server may already return groups
+in the expected order. Check that the client actually sent it. Run `redis-cli MONITOR`
+in a second terminal during the example (or `CONFIG SET slowlog-log-slower-than 0`, run,
+then `SLOWLOG GET`), and confirm the FT.AGGREGATE line contains `SORTBY 2 @city ASC`.
+Reset slowlog-log-slower-than afterwards.
+
+## Coverage: client-specific query and vector sets
+
+`legacy_src_path()` maps the queryjson sets (`py_home_json`, `js_home_query`,
+`go_home_json`, `java_home_json`, `lettuce_home_json`, `cs_home_json`, `php_home_json`,
+`ruby_home_json`) and the vector sets (`home_query_vec`, `ruby_home_query_vec`,
+`home_vecsets`). The Jedis vector files are main programs, not JUnit tests, so Jedis runs
+only `java_home_json`.
+
+The vector sets download an embedding model, so they run only with `--with-models`:
+
+    build/example-test-harness/run.sh --with-models home_query_vec
+
+Without the flag they SKIP with that reason. Portable runners install sentence-transformers,
+@xenova/transformers or informers on demand; Go uses the hugot v0.7.7 pin and Lettuce the
+DJL deps in its poms. In fidelity, only go-redis and Lettuce run them.
+
+.NET and PHP vecsearch keep their code inline on the page, and the C# and PHP
+`home_vecsets` files are top-level scripts with no test class. All of them stay
+scratch-only: test them in a scratch project, not through `run.sh`.
 
 ## Codex evaluation (Phase 4)
 
