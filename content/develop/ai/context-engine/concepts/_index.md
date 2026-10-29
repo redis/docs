@@ -9,7 +9,6 @@ hideListLinks: true
 linktitle: Concepts
 title: How Redis Iris works
 weight: 5
-bannerText: Agent Memory and Context Retriever are currently available in preview. Features and behavior are subject to change.
 ---
 
 Redis Iris sits between your agent and your data. It's one system. Your agent asks for context. Iris returns it through the fastest available path: a cached answer, a remembered fact, or a live lookup against your business data. That data can live in Redis or in another database you connect. You don't wire together separate lookups yourself. Iris decides which path answers the request.

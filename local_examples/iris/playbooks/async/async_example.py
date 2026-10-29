@@ -3,12 +3,12 @@
 import asyncio
 import os
 
-from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
 
 
 async def main():
-    async with AgentPlaybook(
-        AgentPlaybookSettings(
+    async with AgentPlaybooks(
+        AgentPlaybooksSettings(
             url=os.environ["PLAYBOOK_URL"],
             playbook_id=os.environ["PLAYBOOK_ID"],
             api_key=os.environ["PLAYBOOK_API_KEY"],

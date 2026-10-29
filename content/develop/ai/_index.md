@@ -149,7 +149,6 @@ Need a deeper-dive through different use cases and topics?
 * [Agentic RAG](https://github.com/redis-developer/agentic-rag) - A tutorial focused on agentic RAG with LlamaIndex and Amazon Bedrock
 * [Redis Notebooks for LangGraph](https://github.com/redis-developer/langgraph-redis/tree/main/examples) - Working with LangGraph agents and Redis memory
 * [Build a LangGraph travel agent with Redis Agent Memory](https://redis.io/tutorials/redis-agent-memory-with-langgraph/) - Build a LangGraph agent with short-term session memory and long-term persistent memory using Redis Agent Memory
-* [Build a real-time AI agent with Redis Iris](https://redis.io/tutorials/redis-iris-call-agent/) - Combine Redis Agent Memory and Context Retriever to build a wealth advisor agent with persistent memory and structured data access
 * [Build a car dealership agent with Google ADK and Redis Agent Memory](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/) - Build a persistent AI agent using Google ADK and Redis Agent Memory Server with working and long-term memory
 * [Build Google ADK agents with persistent, real-time memory on Redis](https://redis.io/en/blog/build-google-adk-agents-with-persistent-real-time-memory-on-redis/) - Use the `adk-redis` package to integrate Google ADK with Redis for persistent memory, sessions, and semantic caching in production agents
 

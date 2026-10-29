@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="226" viewBox="0 0 480 226" role="img" aria-labelledby="title desc">
   <title id="title">One Lens turn as a timeline of steps, from memory recall to the outcome</title>
-  <desc id="desc">One turn in a session, shown as steps on a timeline. A memory recall fetches 4 memories and Playbook discovery runs at the same time. Prompt assembly then uses 3 of the 4 memories and drops 1. A model call follows, then a Context Gateway tool call, then a second model call. The turn ends with the outcome completed.</desc>
+  <desc id="desc">One turn in a session, shown as steps on a timeline. A memory recall fetches 4 memories and Agent Playbooks discovery runs at the same time. Prompt assembly then uses 3 of the 4 memories and drops 1. A model call follows, then a Context Gateway tool call, then a second model call. The turn ends with the outcome completed.</desc>
   <g font-family="Arial, Helvetica, sans-serif" fill="#17242b">
     <rect width="480" height="226" fill="#fff"/>
 
@@ -13,8 +13,8 @@
     <text x="0" y="57" font-size="10" fill="#56616b">fetched 4</text>
     <rect x="180" y="34" width="70" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
 
-    <text x="0" y="72" font-size="12" font-weight="700">Playbook discovery</text>
-    <text x="0" y="85" font-size="10" fill="#56616b">runs in parallel</text>
+    <text x="0" y="72" font-size="12" font-weight="700">Agent Playbooks</text>
+    <text x="0" y="85" font-size="10" fill="#56616b">discovery, runs in parallel</text>
     <rect x="180" y="62" width="58" height="14" rx="3" fill="#fff" stroke="#56616b" stroke-width="1.5"/>
 
     <text x="0" y="100" font-size="12" font-weight="700">Prompt assembly</text>

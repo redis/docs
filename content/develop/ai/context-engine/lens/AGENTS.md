@@ -12,7 +12,7 @@ disclosure, and framing rules for this directory, and wins where the two conflic
 | Context Gateway | Context Retriever | In prose. API literals such as `GetContextRetrieverResult` stay as they are. |
 | Agent Memory, Agent Playbooks | RAM, Playbook service | The Iris services Lens traces. |
 | Iris services | Iris products | Agent Memory, Agent Playbooks, and Context Gateway as a group, matching the other Iris pages. |
-| preview | Beta | Lens availability. |
+| beta | preview | Lens availability. Only Lens and agent_mesh carry a status label; the other Iris services have none. |
 
 `redis-iris` (`redis_iris.lens`) is the instrumentation package. `redis-agent-lens`
 (`redis_agent_lens`) is the read client. They read different key variables:
@@ -29,12 +29,12 @@ history. Document the public SDK calls, settings, and API fields.
 
 ## Present what Lens does
 
-Say where a capability is present, not where it's missing. Write "Playbook discovery
+Say where a capability is present, not where it's missing. Write "Agent Playbooks discovery
 results include their similarity score", not "Agent Memory recalls have no score". Name
 the cases that have a capability, so readers don't assume it applies everywhere.
 
 Leave unshipped and deferred features out entirely. The availability banner is the only
-preview notice; don't add lists of gaps or "coming soon" notes.
+beta notice; don't add lists of gaps or "coming soon" notes.
 
 ## Deployments
 

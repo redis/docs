@@ -15,9 +15,9 @@ Publish a FAQ to give agents an approved answer to a recurring question. Write i
 
 ## Before you begin
 
-Use an existing playbook and an API key with `write` permission to create and maintain entries. Publishing and withdrawing require `publish`. See [access permissions]({{< relref "/develop/ai/context-engine/agent-playbook/concepts#playbooks" >}}).
+Use an existing playbook and an API key with `write` permission to create and maintain entries. Publishing and withdrawing require `publish`. See [access permissions]({{< relref "/develop/ai/context-engine/agent-playbooks/concepts#playbooks" >}}).
 
-Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}), then append this page's snippets in order. Run each write once.
+Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}), then append this page's snippets in order. Run each write once.
 
 The CLI uses flat FAQ JSON files and `faqs push` to reconcile content by entry key. A changed file appends a version; an unchanged file does not. Publication remains a separate command.
 
@@ -25,7 +25,7 @@ The CLI uses flat FAQ JSON files and `faqs push` to reconcile content by entry k
 
 Write a question in the language a user would use. Include conditions that distinguish it from similar questions, such as the product or region. Make the answer self-contained: the agent receives it without the source conversation or document.
 
-The sample FAQ explains where to find refund status. Use a [skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) when the agent must interpret the customer's reported stage, choose a template, and draft a reply.
+The sample FAQ explains where to find refund status. Use a [skill]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) when the agent must interpret the customer's reported stage, choose a template, and draft a reply.
 
 Use these fields to describe the answer and its audience:
 
@@ -51,7 +51,7 @@ The new FAQ is unpublished. Review it before publishing; search and discovery do
 
 ## Promote a reviewed proposal
 
-If an answer comes from the proposal inbox, [review the candidate and its evidence]({{< relref "/develop/ai/context-engine/agent-playbook/proposals#review-and-edit-a-candidate" >}}) first. Accept the proposal with the revision you reviewed.
+If an answer comes from the proposal inbox, [review the candidate and its evidence]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals#review-and-edit-a-candidate" >}}) first. Accept the proposal with the revision you reviewed.
 
 Acceptance returns an entry and version for one unpublished FAQ. Save those values and continue with publication. Promotion does not make the answer available to agents, and it does not update an existing FAQ.
 
@@ -62,7 +62,7 @@ Acceptance returns an entry and version for one unpublished FAQ. Save those valu
 3. Publish that version with `publish_faq`.
 4. Test retrieval with a reader key and a representative question.
 
-Test a paraphrase such as “Where can I see my refund?” and a nearby question the answer does not cover, such as “How do I request a refund?” Check the returned entry and audience, then use the [retrieval guide]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) to tune matching.
+Test a paraphrase such as “Where can I see my refund?” and a nearby question the answer does not cover, such as “How do I request a refund?” Check the returned entry and audience, then use the [retrieval guide]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval" >}}) to tune matching.
 
 {{< clients-example set="iris_playbook_faqs" step="playbook-faq-publish" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

@@ -2,10 +2,10 @@
 # HIDE_START
 import os
 from redis_agent_playbook import models
-from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
 
-playbook = AgentPlaybook(
-    AgentPlaybookSettings(
+playbook = AgentPlaybooks(
+    AgentPlaybooksSettings(
         url=os.environ["PLAYBOOK_URL"],
         playbook_id=os.environ["PLAYBOOK_ID"],
         api_key=os.environ["PLAYBOOK_API_KEY"],

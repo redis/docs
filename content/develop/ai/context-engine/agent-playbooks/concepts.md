@@ -47,7 +47,7 @@ Both types can include optional intents, attributes, and metadata:
 - **Attributes** support exact-match retrieval filters, such as locale or audience.
 - **Metadata** holds additional agent or application context; retrieval filters do not search it.
 
-For fields and types, see the [entry model]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference#schema/StableEntry" >}}).
+For fields and types, see the [entry model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/StableEntry" >}}).
 
 ### Versions
 
@@ -55,10 +55,10 @@ A version is a complete, immutable snapshot of an entry's authored content. Upda
 
 The latest version and the published version can differ. Version 2 of a refund procedure can remain under review while agents retrieve version 1. Publishing version 2 switches retrieval to the update and retains version 1 for rollback.
 
-![Creating an entry starts an unpublished version 1. Publishing version 1 makes it retrievable. Appending version 2 keeps version 1 published until you publish version 2. You can publish version 1 again to roll back, or withdraw the entry so agents retrieve nothing.](/images/ai/context-engine/agent-playbook-versions.svg)
+![Creating an entry starts an unpublished version 1. Publishing version 1 makes it retrievable. Appending version 2 keeps version 1 published until you publish version 2. You can publish version 1 again to roll back, or withdraw the entry so agents retrieve nothing.](/images/ai/context-engine/agent-playbooks-versions.svg)
 {width="700"}
 
-Management operations let you inspect drafts and historical versions with the required permissions. See the [version model]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference#schema/Version" >}}) for fields and types.
+Management operations let you inspect drafts and historical versions with the required permissions. See the [version model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/Version" >}}) for fields and types.
 
 ### Publication
 
@@ -76,7 +76,7 @@ For skills, the agent selects a preview, loads its instructions, and fetches sup
 
 ## Proposals
 
-A proposal is a suggested playbook entry awaiting expert review. See the [proposal model]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference#schema/GetProposalResponseContent" >}}) for fields and types.
+A proposal is a suggested playbook entry awaiting expert review. See the [proposal model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/GetProposalResponseContent" >}}) for fields and types.
 
 A human or agent can suggest a question and answer, edit the candidate, or attach evidence.
 
@@ -84,11 +84,11 @@ Accepting a reviewed proposal *promotes* its candidate into an *unpublished* ent
 
 ### Evidence
 
-Evidence gives reviewers source context for a proposal. It can come from background extraction or an authorized client acting for a human or agent. See the [evidence model]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference#schema/ProposalEvidence" >}}) for fields and types.
+Evidence gives reviewers source context for a proposal. It can come from background extraction or an authorized client acting for a human or agent. See the [evidence model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/ProposalEvidence" >}}) for fields and types.
 
 More evidence means more submitted observations, not greater factual accuracy. Check the candidate against its sources before accepting and publishing it.
 
-See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbook/proposals" >}}) for the procedure.
+See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals" >}}) for the procedure.
 
 ## Extraction
 
@@ -98,4 +98,4 @@ An administrator connects a Redis Agent Memory store to a playbook through an **
 
 You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same inbox and review process: acceptance creates an unpublished FAQ, and publication makes the reviewed version available to agents.
 
-Extraction and proposal generation currently support FAQs. Skill extraction is planned for a future release. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbook/proposals.md#automate-proposal-generation) for both approaches and their review requirements.
+Extraction and proposal generation currently support FAQs. Skill extraction is planned for a future release. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) for both approaches and their review requirements.
