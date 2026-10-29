@@ -85,15 +85,18 @@
     return e;
   }
 
+  /* Without the catalog, the lookup matches the error pages only, and a miss
+     shows the no-match card instead of waiting for it. */
   function loadCatalog(root, then) {
     if (catalog || loading) return;
     var url = root.getAttribute('data-catalog');
-    if (!url || !window.fetch) return;
+    if (!url || !window.fetch) { catalog = { modules: {}, errors: [] }; return; }
     loading = true;
     fetch(url).then(function (r) { return r.json(); }).then(function (d) {
-      catalog = { modules: d.modules || {}, errors: (d.errors || []).map(prepareEntry).filter(Boolean) };
-      then();
-    }).catch(function () { catalog = { modules: {}, errors: [] }; });
+      return { modules: d.modules || {}, errors: (d.errors || []).map(prepareEntry).filter(Boolean) };
+    }).catch(function () {
+      return { modules: {}, errors: [] };
+    }).then(function (c) { catalog = c; then(); });
   }
 
   /* ------------------------------------------------------------- rank -- */
@@ -212,7 +215,8 @@
     }
     out.innerHTML = '<div class="rerr-card rerr-none">' +
       '<p><strong>No error message matches this text.</strong> Check that you pasted the error message itself, ' +
-      'or browse the <a href="#errors-by-type">list of errors</a>.</p><p>' + askLink(text) + '</p></div>';
+      'or browse the <a href="' + esc(root.getAttribute('data-all') || '') + '">list of all error messages</a>.</p><p>' +
+      askLink(text) + '</p></div>';
   }
 
   function init(root) {

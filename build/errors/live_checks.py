@@ -32,7 +32,7 @@ class _NoClient:
 
 
 def client(**kw):
-    return client(**kw) if redis else _NoClient()
+    return redis.Redis(**kw) if redis else _NoClient()
 
 
 def free(port):
@@ -419,14 +419,21 @@ def _same(v):
     return re.sub(r'\d+', '#', json.dumps(v, sort_keys=True))
 
 
+def unrecorded(baseline, results):
+    """The pages that have a check but no baseline yet, such as a new page's."""
+    return sorted(set(results) - set(baseline) - {'_meta', '_failures'})
+
+
 def compare(baseline, results):
     """The pages whose replies differ: [(page, what changed)].
 
     Only Redis's own replies count. redis-py names depend on the redis-py
-    version, so they're compared only when both runs recorded them."""
+    version, so they're compared only when both runs recorded them. Pages
+    with no baseline yet have nothing to compare with, so they're skipped."""
     changes = []
+    new = unrecorded(baseline, results)
     for page in sorted(set(baseline) | set(results)):
-        if page == '_meta': continue
+        if page == '_meta' or page in new: continue
         old, new = baseline.get(page, {}), results.get(page, {})
         kinds = ['raw', 'notes'] + (['redis_py'] if baseline['_meta'].get('redis_py') and results['_meta'].get('redis_py') else [])
         for kind in kinds:

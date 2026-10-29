@@ -685,11 +685,16 @@ def cmd_verify(args):
     out.parent.mkdir(parents=True, exist_ok=True)
     results = live_checks.run(f'redis:{args.version}', out)
     baseline_path = Path(__file__).parent / 'live_baseline.json'
-    changes = live_checks.compare(json.loads(baseline_path.read_text()), results)
+    baseline = json.loads(baseline_path.read_text())
+    changes = live_checks.compare(baseline, results)
     if args.accept:
         baseline_path.write_text(json.dumps(results, indent=2, ensure_ascii=False) + '\n')
         print(f'Saved these replies as the new baseline: {baseline_path.relative_to(ROOT)}')
         return 0
+    new = live_checks.unrecorded(baseline, results)
+    if new:
+        print('These pages have no baseline yet, so their replies weren\'t compared. Check them by hand, '
+              f'then save them with --accept: {", ".join(f"common/{p}.md" for p in new)}\n')
     if not changes:
         print(f'Every reply that the error pages show is the same on Redis {args.version}.')
         return 0

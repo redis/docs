@@ -125,5 +125,30 @@ class TestTheRealData(unittest.TestCase):
         self.assertFalse(u.needs_section('bloom', 'Bad'))
 
 
+class TestLiveChecks(unittest.TestCase):
+    def setUp(self):
+        import live_checks
+        self.lc = live_checks
+
+    def test_client(self):
+        if self.lc.redis:
+            self.assertIsInstance(self.lc.client(port=6550), self.lc.redis.Redis)
+        with patch.object(self.lc, 'redis', None):
+            self.assertIsNone(self.lc.py_err(lambda: self.lc.client(port=6550).ping()))
+
+    def test_a_page_without_a_baseline_is_not_a_change(self):
+        meta = {'_meta': {'redis_py': None}}
+        baseline = {**meta, 'oom': {'raw': ['-OOM 1']}}
+        results = {**meta, 'oom': {'raw': ['-OOM 2']}, 'denied': {'raw': ['-DENIED']}}
+        self.assertEqual(self.lc.compare(baseline, results), [])
+        self.assertEqual(self.lc.unrecorded(baseline, results), ['denied'])
+
+    def test_failures_and_lost_replies_are_changes(self):
+        meta = {'_meta': {'redis_py': None}}
+        baseline = {**meta, 'oom': {'raw': ['-OOM']}}
+        results = {**meta, '_failures': {'notes': ['standalone: boom']}}
+        self.assertEqual([p for p, _ in self.lc.compare(baseline, results)], ['_failures', 'oom'])
+
+
 if __name__ == '__main__':
     unittest.main()
