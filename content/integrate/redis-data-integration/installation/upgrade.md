@@ -210,6 +210,11 @@ restores at every later failover. This matters most when you upgrade from a vers
 2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
 would delete your pipelines at the next failover.
 
+In a disaster recovery setup with a GCS lease, the upgraded leader migrates the lease to a
+format that earlier versions can't read. The follower can't take over until you upgrade it
+too, so upgrade it as soon as you've checked the leader. See
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+
 ### Validate your configurations before you redeploy them
 
 RDI 2.2.0 rejects some configurations that earlier versions accepted. After the upgrade, check

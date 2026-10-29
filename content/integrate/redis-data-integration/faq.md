@@ -69,7 +69,11 @@ In a DR setup, each site runs its own RDI instance against its local instance of
 Active-Active RDI database, so leader election needs an external lease. RDI supports Google
 Cloud Storage (GCS) and Amazon DynamoDB leases for Helm installations. See
 [Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
-for the supported setup, source database requirements, and configuration steps.
+for the supported setup and configuration steps.
+
+Both sites capture from the current source primary. After a source failover, the promoted
+source must be able to resume capture from RDI's saved position. See
+[Source databases and data after a failover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#source-databases-and-data-after-a-failover).
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?
 

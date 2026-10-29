@@ -16,7 +16,7 @@ weight: 10
 ---
 
 Use an object in a Google Cloud Storage (GCS) bucket to coordinate leader election between
-two Redis Data Integration (RDI) sites. Both sites must use the same bucket and object name.
+Redis Data Integration (RDI) sites. All sites must use the same bucket and object name.
 Use a different object name for each independent disaster recovery (DR) setup.
 
 Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
@@ -25,8 +25,10 @@ that can create buckets and grant access. The RDI operator needs separate runtim
 
 ## Create the bucket
 
-Create a dual-region or multi-region bucket. A single-region bucket does not protect the
-lease against the loss of that region. Choose a location using
+Create a dual-region or multi-region bucket. RDI stores the lease in the object's metadata,
+which Cloud Storage writes synchronously across the regions of such a bucket. A
+single-region bucket does not protect the lease against the loss of that region. RDI doesn't
+reject a single-region bucket; it only logs a message at startup. Choose a location using
 [Cloud Storage bucket locations](https://cloud.google.com/storage/docs/locations).
 
 ```bash
@@ -45,10 +47,11 @@ RDI creates the lease object; do not create it yourself.
 
 ## Grant the operator access
 
-The operator's Google Cloud identity needs `storage.buckets.get` and permission to create,
-read, update, and overwrite the lease object. The bucket-scoped
-`roles/storage.objectUser` and `roles/storage.legacyBucketReader` roles provide these
-permissions. See [Cloud Storage roles](https://cloud.google.com/storage/docs/access-control/iam-roles).
+The operator's Google Cloud identity needs to create, read, update, and overwrite the lease
+object. The bucket-scoped `roles/storage.objectUser` role provides these permissions. The
+`roles/storage.legacyBucketReader` role lets RDI check the bucket's location at startup;
+without it, RDI skips the check. See
+[Cloud Storage roles](https://cloud.google.com/storage/docs/access-control/iam-roles).
 
 Grant both roles to the service account used by the operator:
 
@@ -68,9 +71,26 @@ bucket rather than the whole project. Allow outbound Hypertext Transfer Protocol
 
 RDI uses application default credentials when you omit a credentials file. Configure the
 identity in the operator's environment, not only in your local shell. On Google Kubernetes
-Engine (GKE), you can use
+Engine (GKE), use
 [Workload Identity Federation](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity).
-You can also pass a service account credentials file when installing RDI.
+The operator runs as the Kubernetes service account `rdi-operator` in the RDI namespace. Set
+its annotations with `operator.serviceAccount.annotations` in each values file. For example,
+to link it to a Google service account:
+
+```yaml
+operator:
+  serviceAccount:
+    annotations:
+      iam.gke.io/gcp-service-account: <operator-service-account-email>
+```
+
+You can also pass a service account key file when installing RDI. RDI doesn't accept
+Workload Identity Federation credential configuration files. RDI reads the key file only at
+startup, so restart the operator after you replace it:
+
+```bash
+kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
+```
 
 ## Configure both instances
 
@@ -125,11 +145,11 @@ values identify the two RDI instances.
    Kubernetes cluster:
 
    ```bash
-   helm upgrade --install rdi "rdi-<version>.tgz" \
+   helm upgrade --install rdi "rdi-<tag>.tgz" \
      --kube-context "<site-a-kube-context>" --namespace rdi --create-namespace \
      --values rdi-values-site-a.yaml
 
-   helm upgrade --install rdi "rdi-<version>.tgz" \
+   helm upgrade --install rdi "rdi-<tag>.tgz" \
      --kube-context "<site-b-kube-context>" --namespace rdi --create-namespace \
      --values rdi-values-site-b.yaml
    ```
@@ -150,7 +170,8 @@ values identify the two RDI instances.
    kubectl --context "<site-b-kube-context>" --namespace rdi logs deployment/rdi-operator
    ```
 
-   Check for authentication, permission, bucket, or connectivity errors.
+   Check for authentication, permission, bucket, or connectivity errors. See
+   [Operator log messages](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#operator-log-messages).
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
 to configure RDI CLI contexts and confirm that one instance is the leader and the other is a
@@ -161,3 +182,33 @@ In RDI 2.2.0, the lease is stored in the object's custom metadata. RDI migrates 
 lease object to this format during an upgrade. Review
 [Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup)
 before changing versions.
+
+## Move the lease to a dual-region bucket
+
+You can't change a bucket's location. If an existing setup uses a single-region bucket, move
+the lease to a new dual-region or multi-region bucket. Keep the follower in standby until both
+sites use the new bucket, so that the sites never take part in leader election with different
+lease objects.
+
+1. Create the new bucket and grant the operators access, as described in
+   [Create the bucket](#create-the-bucket) and [Grant the operator access](#grant-the-operator-access).
+1. Record the follower's `standby_mode` setting, then put the follower in standby. For a
+   follower at site B:
+
+   ```bash
+   redis-di --context site-b get-setting standby_mode
+   redis-di --context site-b set-setting standby_mode true
+   ```
+
+1. Set `operator.leaderElection.gcsLease.bucketName` to the new bucket in both values files.
+1. Upgrade the leader with its values file, then the follower, using the `helm upgrade`
+   commands in [Check the bucket and install RDI](#check-the-bucket-and-install-rdi). The
+   leader creates the lease object in the new bucket.
+1. Restore the follower's recorded `standby_mode` setting. Use `delete-setting` for a recorded
+   value of `<none>`.
+1. Check that one instance reports `Leader Election Mode: leader`, then delete the old lease
+   object:
+
+   ```bash
+   gcloud storage rm "gs://<old-lease-bucket>/<lease-object>"
+   ```

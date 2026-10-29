@@ -16,9 +16,11 @@ weight: 20
 ---
 
 Use an Amazon DynamoDB global table with multi-Region strong consistency (MRSC) to coordinate
-leader election between two Redis Data Integration (RDI) disaster recovery (DR) sites. A global table using the
-default multi-Region eventual consistency mode cannot prevent both sites from acquiring
-the lease.
+leader election between Redis Data Integration (RDI) disaster recovery (DR) sites. A global
+table using the default multi-Region eventual consistency mode cannot prevent two sites from
+acquiring the lease. RDI refuses to start with such a table, or with a table whose key isn't a
+single string named `id`. With a single-Region table, RDI only logs a message at startup, and
+the lease doesn't survive the loss of that Region.
 
 Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Amazon Web Services (AWS) command-line interface (CLI), authenticated
@@ -125,15 +127,31 @@ policy grants runtime access to the two replica table Amazon Resource Names (ARN
 ```
 
 Attach this policy to the operator's role or user using your IAM administration process.
-If the sites use different identities, restrict each identity to the replica it uses.
+If the sites use different identities, restrict each identity to the replica it uses. Don't
+restrict `dynamodb:ReturnValues` to `NONE` for these actions. The operator reads the current
+lease owner from a failed conditional write.
 
 Allow outbound Hypertext Transfer Protocol Secure (HTTPS) access from each operator to
 `dynamodb.<aws-replica-region>.amazonaws.com`.
 
 RDI uses the AWS default credential provider chain when you omit a credentials file.
-Configure the identity in the operator's environment, not only in your local shell. For
-example, an operator running outside AWS can use an AWS shared credentials file passed
-when installing RDI.
+Configure the identity in the operator's environment, not only in your local shell. On Amazon
+Elastic Kubernetes Service (EKS), use
+[IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
+or [EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html).
+The operator runs as the Kubernetes service account `rdi-operator` in the RDI namespace. For
+IAM roles for service accounts, set the role annotation with
+`operator.serviceAccount.annotations` in each values file:
+
+```yaml
+operator:
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::<aws-account-id>:role/<operator-role>
+```
+
+An operator running outside AWS can use an AWS shared credentials file passed when
+installing RDI.
 
 ## Configure both instances
 
@@ -172,7 +190,8 @@ operator:
 ```
 
 Use identical `tableName` and `keyName` values at both sites, distinct `instanceID` values,
-and each site's selected replica Region. The `keyName` default is `rdi-lease`. Use a different
+and each site's selected replica Region. RDI doesn't check that the Region is a replica rather
+than the witness. The `keyName` default is `rdi-lease`. Use a different
 item key for every independent DR setup that shares the table. RDI creates the lease item.
 
 ## Install RDI and check access
@@ -180,11 +199,11 @@ item key for every independent DR setup that shares the table. RDI creates the l
 1. With the AWS identity configured for both operators, install RDI in each Kubernetes cluster:
 
    ```bash
-   helm upgrade --install rdi "rdi-<version>.tgz" \
+   helm upgrade --install rdi "rdi-<tag>.tgz" \
      --kube-context "<site-a-kube-context>" --namespace rdi --create-namespace \
      --values rdi-values-site-a.yaml
 
-   helm upgrade --install rdi "rdi-<version>.tgz" \
+   helm upgrade --install rdi "rdi-<tag>.tgz" \
      --kube-context "<site-b-kube-context>" --namespace rdi --create-namespace \
      --values rdi-values-site-b.yaml
    ```
@@ -205,7 +224,12 @@ item key for every independent DR setup that shares the table. RDI creates the l
    ```
 
    If the credentials are temporary, also include their `aws_session_token`. Renew temporary
-   credentials before they expire.
+   credentials before they expire. RDI reads the file only at startup, so restart the operator
+   after you replace it:
+
+   ```bash
+   kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
+   ```
 
 1. Check the operator at each site:
 
@@ -216,7 +240,8 @@ item key for every independent DR setup that shares the table. RDI creates the l
    kubectl --context "<site-b-kube-context>" --namespace rdi logs deployment/rdi-operator
    ```
 
-   Check for authentication, permission, table-schema, consistency, or connectivity errors.
+   Check for authentication, permission, table-schema, consistency, or connectivity errors. See
+   [Operator log messages](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#operator-log-messages).
    A successful `describe-table` from your shell does not confirm the operator's runtime
    permissions.
 
