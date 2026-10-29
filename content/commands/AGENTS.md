@@ -12,24 +12,49 @@ Many pages still carry conventions from the original redis.io docs. New pages an
 rewritten sections follow the recently written pages named here, not the majority. Leave
 legacy pages as they are unless updating them is the task.
 
+## Get command definitions from a running server
+
+The only reliable source for a command's definition is a running `redis-server`. The
+JSON files in `src/commands/` in `redis/redis` are incomplete, and the module
+repositories' `commands.json` files are usually out of date. Run
+`utils/generate-commands-json.py` from a `redis/redis` clone against a release build, a
+nightly build, or a server built from a branch of `unstable` that has the command:
+
+```bash
+python3 <redis-clone>/utils/generate-commands-json.py --cli <path-to-redis-cli> > commands.json
+```
+
+The script reads `COMMAND` and `COMMAND DOCS` from the server at `localhost:6379`;
+`--host` and `--port` point it elsewhere. It prints every command the server has,
+including those of its loaded modules, in the shape `data/commands.json` uses. Use this
+output for new command pages and for each release's `data/commands.json` update.
+
+**The released script sets `group` to `module` for every module command.** A page with
+`group: module` does not appear in its command group on the commands index, which
+`layouts/commands/list.html` builds from `group`. Until
+[redis/redis#15606](https://github.com/redis/redis/pull/15606) merges, run the script from
+that pull request, or set `group` by hand from the command's prefix: `bf`, `cf`, `cms`,
+`search`, `suggestion` (`FT.SUG*`), `json`, `tdigest`, `topk`, `timeseries`, or
+`vector_set`. Internal and deprecated module commands, which have no `summary`, keep
+`module`. _Delete this paragraph once the pull request ships in a release._
+
 ## Frontmatter comes from upstream — never compose it
 
-Most frontmatter comes from the command's upstream JSON definition:
-`src/commands/<command>.json` in `redis/redis` for core commands, and the module
-repository's `commands.json` for module commands. Never invent or "correct" these keys:
-`arguments` (including any per-argument `since`), `arity`, `complexity`, `since`, `group`,
-`acl_categories`, `command_flags`, `key_specs`, `hints`, `history`, `deprecated_since`,
-`replaced_by`, and `doc_flags`. Some pages also carry upstream keys such as `function`,
-`reply_schema`, and `container`. Leave them. **The values are converted, not pasted.**
-Upstream's `"SORTEDSET"` and `"sorted_set"` are `@sortedset` and `sorted-set` on the page,
-`"READONLY"` is `readonly`, and upstream `command_tips` is `hints`. Take the values from
-upstream, and write them in the form a sibling page in the same group uses.
+Most frontmatter comes from the command's entry in the
+[generated definitions](#get-command-definitions-from-a-running-server). Never invent or
+"correct" these keys: `arguments` (including any per-argument `since`), `arity`,
+`complexity`, `since`, `group`, `acl_categories`, `command_flags`, `key_specs`, `hints`,
+`history`, `deprecated_since`, `replaced_by`, and `doc_flags`. Some pages also carry
+upstream keys such as `function`, `reply_schema`, and `container`. Leave them. Take the
+values from the generated entry, and write them in the form a sibling page in the same
+group uses.
 
 - **`syntax_fmt` and the railroad diagram are generated from `arguments`** by
   `build/cmd_tools.py`. When `arguments` changes, regenerate both. Never hand-edit
   `syntax_fmt`; its `\_` sequences are generated non-breaking spaces.
 - **`cmd_tools.py add <json-file> --output-dir <dir>`** writes a page skeleton and its SVG
-  for a new command, from a file shaped like `data/commands.json`. Output lands in
+  for each command in a file shaped like `data/commands.json`. Pass it the new command's
+  entries from the generated definitions, not the whole output. Output lands in
   `<dir>/commands/` and `<dir>/images/railroad/`; move it to `content/commands/` and
   `static/images/railroad/`, and replace every `TODO:` placeholder.
 - **Never run `cmd_tools.py update-all`.** It merges `data/commands.json` into every page's
@@ -48,8 +73,10 @@ upstream, and write them in the form a sibling page in the same group uses.
 
 - **`data/commands.json` needs an entry for every command.** The command-group lists on
   `content/develop/` pages and the client API foldouts read it, not the page. Its sync
-  workflows were removed in September 2026, so the file is edited by hand. Add the entry
-  from upstream, in the form the file's other entries use.
+  workflows were removed in September 2026, so the file is edited by hand. For a new
+  command, and for each Redis Open Source release, add or update entries from the
+  [generated definitions](#get-command-definitions-from-a-running-server) for that build,
+  in the form the file's other entries use.
 - **`data/command-api-mapping/<COMMAND>.json` fills the API methods tab.** It is optional.
   `.claude/skills/command-api-mapping/` documents the schema and the merge step.
 - **Version pages are generated once per release** by
