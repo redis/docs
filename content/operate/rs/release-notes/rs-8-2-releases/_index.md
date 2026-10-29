@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.6, 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.8, 8.6, 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Database-scoped management roles. Data path command auditing.
 hideListLinks: true
 linkTitle: 8.2.x releases

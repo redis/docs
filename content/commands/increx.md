@@ -294,11 +294,25 @@ if actual_incr == 0:
     reject_request()  # rate limit exceeded
 ```
 
+### Active-Active databases
+
+In Active-Active databases, each replica enforces `LBOUND` and `UBOUND` against its own local value. Increments that different replicas accept concurrently can push the merged value above `UBOUND` or below `LBOUND` after the replicas synchronize. While the merged value is out of bounds, every replica rejects further increments until the value returns within bounds or the key expires.
+
+For example, with two replicas and a key that starts at `0`:
+
+```
+Replica 1: INCREX k BYINT 6 UBOUND 10   ->  1) 6  2) 6
+Replica 2: INCREX k BYINT 6 UBOUND 10   ->  1) 6  2) 6
+After synchronization, both replicas:       k = 12
+```
+
+Each replica accepts its increment because its local result, `6`, is within the bound. The merged value, `12`, exceeds `UBOUND`.
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*In Active-Active databases, replicas enforce bounds against their local values, so the merged value can exceed them. See [Active-Active databases](#active-active-databases). |
 
 ## Return information
 

@@ -238,3 +238,5 @@ Arrays complement rather than replace the other Redis collection types:
 ## Limits
 
 [`ARGETRANGE`](/content/commands/argetrange.md) enforces a hard limit of 1,000,000 elements per call to guard against accidentally large range reads.
+
+Arrays aren't supported in [Active-Active databases](/content/operate/rs/databases/active-active/_index.md).
