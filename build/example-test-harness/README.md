@@ -37,8 +37,9 @@ client), so without `--with-models` they report `SKIP (downloads an embedding mo
 With the flag, portable runners install the model library into `work/` on demand:
 `sentence-transformers` (redis-py), `@xenova/transformers` (node-redis) and `informers`
 (Ruby). Go gets hugot v0.7.7 from the pin in `fidelity/go-redis.mod`, and Lettuce gets DJL
-from its poms. hugot v0.7.7 needs Go 1.26.5, but the Go SKIP check reads only the `go 1.24`
-directive, so on an older toolchain the Go vector sets FAIL instead of skipping. In `--fidelity` only go-redis and Lettuce run these sets; redis-py,
+from its poms. hugot v0.7.7 needs Go 1.26.5, so on an older toolchain the Go vector sets SKIP with that
+reason (`HUGOT_GO_MIN` in `run.sh`); every other Go set keeps the `go 1.24` floor, because
+`run.sh` stages `go.mod` without the hugot require for them. In `--fidelity` only go-redis and Lettuce run these sets; redis-py,
 node-redis and Ruby report SKIP, because adding the model library to their fidelity
 manifests would make every fidelity run of those clients install it. The C# and PHP
 `home_vecsets` files are top-level scripts with no test class, and .NET and PHP vecsearch

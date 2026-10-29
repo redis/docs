@@ -28,6 +28,12 @@ HARNESS="$(cd "$(dirname "$0")" && pwd)"
 WORK="$HARNESS/work"; mkdir -p "$WORK"
 TSV="$HARNESS/clients.tsv"
 FIDELITY_ROOT="$REPO/tmp/clients/examples"
+# Go floor for the hugot pin in fidelity/go-redis.mod (hugot v0.7.7's own go.mod says
+# go 1.26.5). Keep the two in step when the pin moves.
+HUGOT_GO_MIN=1.26.5
+# node-redis floor for the portable work/node install: hImportPrepare/hImportSet (the
+# HIMPORT examples) arrived in 6.2.0. Matches fidelity/package-node-redis.json.
+NODE_REDIS_MIN=6.2.0
 
 MODE=portable
 LIST=0
@@ -143,6 +149,11 @@ toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relat
       # the failure the unpinned `go get` used to produce; pinning moved it, so guard it.)
       local need have
       need="$(awk '/^go [0-9]/ {print $2; exit}' "$HARNESS/fidelity/go-redis.mod" 2>/dev/null)"
+      # The vector sets also import hugot, whose own go.mod needs a newer Go than the
+      # directive above; without this they FAIL on Go 1.24–1.26.4 instead of SKIPping.
+      if model_set "$1" && [ -n "$need" ]; then
+        need="$(printf '%s\n%s\n' "$need" "$HUGOT_GO_MIN" | sort -V | tail -1)"
+      fi
       have="$(go env GOVERSION 2>/dev/null | sed 's/^go//')"
       if [ -n "$need" ] && [ -n "$have" ]; then
         # Numeric compare on major.minor only; sort -V orders versions correctly.
@@ -427,7 +438,12 @@ run_hiredis() {
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
-  [ -d "$d/node_modules/redis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis >/dev/null 2>&1); }
+  # A cached install is reused, so an older one must be upgraded, not just a missing one.
+  local v; v="$(cd "$d" && node -p "require('redis/package.json').version" 2>/dev/null)"
+  if [ -z "$v" ] || [ "$(printf '%s\n%s\n' "$NODE_REDIS_MIN" "$v" | sort -V | head -1)" != "$NODE_REDIS_MIN" ]; then
+    [ -f "$d/package.json" ] || printf '{"type":"module"}\n' >"$d/package.json"
+    (cd "$d" && npm i -s "redis@^$NODE_REDIS_MIN" >/dev/null 2>&1)
+  fi
   if [ "$WITH_MODELS" = 1 ] && model_set "$SET" && [ ! -d "$d/node_modules/@xenova/transformers" ]; then
     (cd "$d" && npm i -s @xenova/transformers >/dev/null 2>&1)
   fi
@@ -438,6 +454,14 @@ run_ioredis() {
   [ -d "$d/node_modules/ioredis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s ioredis >/dev/null 2>&1); }
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
 }
+# Stage the tracked go.mod at $1. Non-vector sets get it without the hugot require: `go mod
+# tidy` resolves the whole requirement graph before it can prune an unused module, so on a
+# Go older than hugot's own floor (HUGOT_GO_MIN) it aborts every Go set, not just the
+# vector ones that import hugot.
+stage_go_mod() {
+  if model_set "$SET"; then cp "$HARNESS/fidelity/go-redis.mod" "$1"
+  else grep -v 'knights-analytics/hugot' "$HARNESS/fidelity/go-redis.mod" >"$1"; fi
+}
 run_go() {
   local d="$WORK/go"; mkdir -p "$d"
   # Use the TRACKED go.mod rather than `go mod init` + an unpinned `go get`. An unpinned
@@ -446,7 +470,7 @@ run_go() {
   # perfectly good example. Copying the pinned manifest also keeps portable and fidelity
   # mode on the same dependency version. Re-copied every run so a stale cached go.mod
   # (e.g. one already floated to a newer `go` directive) is corrected rather than inherited.
-  cp "$HARNESS/fidelity/go-redis.mod" "$d/go.mod"
+  stage_go_mod "$d/go.mod"
   # The examples declare `package example_commands`, so the module needs a second file in
   # that package or the build fails before any test runs.
   printf 'package example_commands\n' >"$d/lib.go"
@@ -623,7 +647,7 @@ run_fidelity() { # $1 = absolute source path, $2 = canonical client key
   # prunes requires the current file doesn't import (the hugot pin, after any non-vector
   # set). Re-copy the tracked manifest every run, as portable mode does, so one set's tidy
   # can't float the next set's dependencies.
-  if [ "$client" = go-redis ]; then cp "$HARNESS/fidelity/go-redis.mod" "$root/go.mod"; fi
+  if [ "$client" = go-redis ]; then stage_go_mod "$root/go.mod"; fi
   cp "$src" "$dest/$base"
   # Pass the staged subdirectory through as the project/working dir. The C# runner needs it
   # to tell tests/Doc from tests/Doc/Async; runners that don't take a second argument ignore it.
