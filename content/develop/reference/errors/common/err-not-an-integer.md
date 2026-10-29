@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: A command needs a whole number, but the stored value or an argument isn't one.
+description: A command requires a whole number, but the stored value or an argument is not a whole number.
 linkTitle: ERR value is not an integer
 title: ERR value is not an integer or out of range
 weight: 13

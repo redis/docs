@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: A command with several keys ran while their hash slot was moving between cluster nodes.
+description: A command accessed multiple keys while their hash slot was being migrated between cluster nodes.
 linkTitle: TRYAGAIN
 title: TRYAGAIN error
 weight: 23

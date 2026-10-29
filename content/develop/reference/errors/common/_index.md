@@ -23,7 +23,7 @@ These pages explain the Redis errors you're most likely to see. Each one shows w
 - [`ERR unknown command`](/content/develop/reference/errors/common/err-unknown-command.md): The server doesn't recognize the command name.
 - [`ERR wrong number of arguments`](/content/develop/reference/errors/common/err-wrong-number-of-arguments.md): A command has too many or too few arguments.
 - [`ERR syntax error`](/content/develop/reference/errors/common/err-syntax-error.md): A command's options are misspelled, in the wrong place, or can't be used together.
-- [`ERR value is not an integer or out of range`](/content/develop/reference/errors/common/err-not-an-integer.md): A command needs a whole number, but the stored value or an argument isn't one.
+- [`ERR value is not an integer or out of range`](/content/develop/reference/errors/common/err-not-an-integer.md): A command requires a whole number, but the stored value or an argument is not a whole number.
 - [`WRONGTYPE`](/content/develop/reference/errors/common/wrongtype.md): A command was used on a key that holds a different data type.
 - [`EXECABORT`](/content/develop/reference/errors/common/execabort.md): A transaction was discarded because one of its commands had an error.
 - [`NOSCRIPT`](/content/develop/reference/errors/common/noscript.md): EVALSHA asked for a script that isn't in the server's script cache.
@@ -34,7 +34,7 @@ These pages explain the Redis errors you're most likely to see. Each one shows w
 - [`MOVED`](/content/develop/reference/errors/common/moved.md): The key belongs to a hash slot that another cluster node serves.
 - [`ASK`](/content/develop/reference/errors/common/ask.md): The key's hash slot is moving to another cluster node, and the key may already be there.
 - [`CROSSSLOT`](/content/develop/reference/errors/common/crossslot.md): A command used keys that belong to different hash slots.
-- [`TRYAGAIN`](/content/develop/reference/errors/common/tryagain.md): A command with several keys ran while their hash slot was moving between cluster nodes.
+- [`TRYAGAIN`](/content/develop/reference/errors/common/tryagain.md): A command accessed multiple keys while their hash slot was being migrated between cluster nodes.
 - [`CLUSTERDOWN`](/content/develop/reference/errors/common/clusterdown.md): The cluster can't serve the command because a hash slot has no working node.
 
 ## Memory and persistence errors

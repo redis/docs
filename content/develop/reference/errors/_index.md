@@ -37,7 +37,7 @@ Errors from Redis Search, JSON, and the other features that come with Redis don'
 How you see the error depends on your tool:
 
 - `redis-cli` shows `(error)` in front of the message.
-- Client libraries raise an exception, or return an error value, that contains the message. Some libraries turn common prefixes into their own exception classes and drop the prefix from the message. For example, redis-py reports `READONLY You can't write against a read only replica.` as `ReadOnlyError: You can't write against a read only replica.`
+- Client libraries raise an exception, or return an error value, that contains the message. Some libraries turn common prefixes into their own exception classes and drop the prefix from the message. For example, redis-py reports "`READONLY You can't write against a read only replica.`" as "`ReadOnlyError: You can't write against a read only replica.`".
 
 To learn how to handle errors in your app, see [Error handling](/content/develop/clients/error-handling.md). To learn how errors are sent over the network, see [Simple errors](/content/develop/reference/protocol-spec.md#simple-errors) in the Redis serialization protocol (RESP) specification.
 
