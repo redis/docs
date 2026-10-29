@@ -145,25 +145,23 @@ public class HomeJsonExample
             .SortBy(SortedField.Asc("@city"));
 
         AggregationResult aggResult = db.FT().Aggregate("idx:users", aggRequest);
-        IReadOnlyList<Dictionary<string, RedisValue>> resultsList =
-                                                        aggResult.GetResults();
 
-        for (var i = 0; i < resultsList.Count; i++)
+        for (var i = 0; i < aggResult.TotalResults; i++)
         {
-            Dictionary<string, RedisValue> item = resultsList.ElementAt(i);
+            Row item = aggResult.GetRow(i);
             Console.WriteLine($"{item["city"]} - {item["count"]}");
         }
         // >>> London - 1
         // >>> Tel Aviv - 2
         // STEP_END
         // REMOVE_START
-        Assert.Equal(2, resultsList.Count);
+        Assert.Equal(2, aggResult.TotalResults);
 
-        Dictionary<string, RedisValue> testItem = resultsList.ElementAt(0);
+        Row testItem = aggResult.GetRow(0);
         Assert.Equal("London", testItem["city"]);
         Assert.Equal(1, testItem["count"]);
 
-        testItem = resultsList.ElementAt(1);
+        testItem = aggResult.GetRow(1);
         Assert.Equal("Tel Aviv", testItem["city"]);
         Assert.Equal(2, testItem["count"]);
         // REMOVE_END
