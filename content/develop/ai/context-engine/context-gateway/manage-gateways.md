@@ -32,7 +32,7 @@ Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model C
 
 *Example set `iris_gateway_manage`, step `gateway-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
 
-To use the result cache or result handles, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `resultCache` and `resultHandles` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
+To use the result cache or result handles, select a Gateway database with `databaseId`. Your administrator names the available databases. A Gateway created with a `databaseId` has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` without a `databaseId` returns `400`.
 
 ## List and inspect Gateways and Upstreams
 
@@ -42,22 +42,22 @@ List the deployment's Gateways and a Gateway's Upstreams, and read one by ID. Ev
 
 ## Change a Gateway
 
-Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, its `databaseId`, or its `resultCache` and `resultHandles` settings. Agents see a new mode on their next request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
+Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, its `databaseId`, or its `cache` and `compression` settings. Agents see a new mode on their next request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
 
 *Example step `gateway-update-mode`.*
 
 ### Turn the result cache and result handles on or off
 
-Set `resultCache` or `resultHandles` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
 
 ```json
-{"revision": "<revision>", "resultCache": "enabled", "resultHandles": "disabled"}
+{"revision": "<revision>", "cache": "enabled", "compression": "disabled"}
 ```
 
 | Change | What to send |
 | --- | --- |
-| Remove the Gateway database | `"databaseId": null` with `"resultCache": "disabled"` and `"resultHandles": "disabled"` in the same request. Without them, the update returns `400`. |
-| Add a Gateway database to a Gateway that had none | `databaseId` with `"resultCache": "enabled"`, `"resultHandles": "enabled"`, or both. Adding a database alone keeps both settings as they were, which is `disabled` for a Gateway created without one. |
+| Remove the Gateway database | `"databaseId": null` with `"cache": "disabled"` and `"compression": "disabled"` in the same request. Without them, the update returns `400`. |
+| Add a Gateway database to a Gateway that had none | `databaseId` with `"cache": "enabled"`, `"compression": "enabled"`, or both. Adding a database alone keeps both settings as they were, which is `disabled` for a Gateway created without one. |
 | Stop caching or handles for a Gateway | `"disabled"` for that setting. The Gateway stops reading and writing cache entries, or stops creating handles and removes the handle tools from `tools/list`. Stored entries and handles stay until their TTL. |
 
 *Example step `gateway-update-features`.*
@@ -97,15 +97,15 @@ Set a tool's policies with `toolPolicies` on an Upstream update. The result cach
 
 | Policy | Member | Effect |
 | --- | --- | --- |
-| `resultCache` | `ttlSeconds`, 1 to 86400 | Caches the tool's results for that long. |
-| `resultHandle` | `capture: never` | Always returns the tool's results whole, also from `run_tool_as_handle`. |
-| `resultHandle` | `ttlSeconds`, 1 to 86400 | Keeps the tool's handles for that long instead of the deployment's default. |
+| `cache` | `ttlSeconds`, 1 to 86400 | Caches the tool's results for that long. |
+| `compression` | `capture: never` | Always returns the tool's results whole, also from `run_tool_as_handle`. |
+| `compression` | `ttlSeconds`, 1 to 86400 | Keeps the tool's handles for that long instead of the deployment's default. |
 
 *Example step `gateway-tool-policy`.*
 
 - Cache only tools whose data changes more slowly than the time to live (TTL). All callers with access to the Gateway share its cache entries.
 - A tool whose definition says `readOnlyHint: false` or `destructiveHint: true` is never cached.
-- A new or changed `resultCache` policy returns `400` while the Gateway's `resultCache` is `disabled`, including on a Gateway without a `databaseId`. A stored policy sent back unchanged is kept.
+- A new or changed `cache` policy returns `400` while the Gateway's `cache` setting is `disabled`, including on a Gateway without a `databaseId`. A stored policy sent back unchanged is kept.
 - When you move an Upstream to a new endpoint, the response lists any policies it removed in `droppedToolPolicies`.
 
 ## Rotate an Upstream credential

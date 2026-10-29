@@ -36,3 +36,7 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 
 - [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 - [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
+
+## Agent Mesh SDK preview
+
+Agent Mesh provides Python SDK integrations for shared agent-to-agent task storage and resumable event delivery. Run it in your application with your own Redis connections. See the [Agent Mesh overview](/content/develop/ai/context-engine/agent-mesh/_index.md) and [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md).

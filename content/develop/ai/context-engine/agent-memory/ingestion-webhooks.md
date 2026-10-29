@@ -274,6 +274,7 @@ async def main():
                 event_id=os.environ["HOOK_EVENT_ID"], http_headers=headers,
             )
             print(event.model_dump_json(by_alias=True))
+            return
         cursor = None
         while True:
             page = await memory.list_ingestion_hook_statuses_async(
@@ -302,7 +303,10 @@ async function main() {
   const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
   const headers: Record<string, string> = USER_TOKEN ? { "X-Iris-User-Token": USER_TOKEN } : {};
   const options = { headers };
-  if (HOOK_EVENT_ID) console.dir(await memory.getIngestionHookStatus(HOOK_EVENT_ID, options), { depth: null });
+  if (HOOK_EVENT_ID) {
+    console.dir(await memory.getIngestionHookStatus(HOOK_EVENT_ID, options), { depth: null });
+    return;
+  }
   let cursor: string | undefined;
   do {
     const page = await memory.listIngestionHookStatuses(20, cursor, options);
@@ -322,18 +326,19 @@ if [ -n "${HOOK_EVENT_ID:-}" ]; then
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
     "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/ingestion-hooks/events/$HOOK_EVENT_ID" | jq
+else
+  cursor=''
+  while :; do
+    page=$(curl --fail-with-body --silent --show-error --get \
+      --header "Authorization: Bearer $API_KEY" \
+      --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
+      --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
+      "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/ingestion-hooks/events") || exit 1
+    printf '%s\n' "$page" | jq .statuses
+    cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
+    [ -n "$cursor" ] || break
+  done
 fi
-cursor=''
-while :; do
-  page=$(curl --fail-with-body --silent --show-error --get \
-    --header "Authorization: Bearer $API_KEY" \
-    --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/ingestion-hooks/events") || exit 1
-  printf '%s\n' "$page" | jq .statuses
-  cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
-  [ -n "$cursor" ] || break
-done
 ```
 
 {{< /multitabs >}}
