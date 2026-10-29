@@ -339,9 +339,9 @@ legacy_src_path() {
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
     time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
     time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
-    # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 7.5.3,
-    # which has both the RedisClient API these examples use and the older UnifiedJedis
-    # API; the node wildcard assert now checks result.total, not doc order).
+    # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 8.0.2, whose
+    # RedisClient API these examples use; the node wildcard assert now checks result.total,
+    # not doc order).
     search_quickstart:python)    echo local_examples/search_quickstart/redis-py/search_quickstart.py ;;
     search_quickstart:node)      echo local_examples/search_quickstart/node-redis/search-quickstart.js ;;
     search_quickstart:go)        echo local_examples/search_quickstart/go-redis/search_quickstart_test.go ;;
@@ -351,9 +351,8 @@ legacy_src_path() {
     geoindex:go)                 echo local_examples/geoindex/go-redis/geo_index_test.go ;;
     geoindex:jedis)              echo local_examples/geoindex/jedis/GeoIndexExample.java ;;
     geoindex:dotnet)             echo local_examples/geoindex/nredisstack/GeoIndexExample.cs ;;
-    # Query JSON/hash pages (<client>/queryjson.md). Jedis java_home_json is deliberately
-    # unmapped: its HIMPORT step needs Jedis 8.0 (HashImport), newer than both Jedis pins.
-    # Blocked on DOC-7213.
+    # Query JSON/hash pages (<client>/queryjson.md).
+    java_home_json:jedis)        echo local_examples/client-specific/jedis/HomeJsonExample.java ;;
     py_home_json:python)         echo local_examples/client-specific/redis-py/home_json.py ;;
     js_home_query:node)          echo local_examples/client-specific/nodejs/home-query.js ;;
     go_home_json:go)             echo local_examples/client-specific/go/home_json_example_test.go ;;
@@ -363,8 +362,9 @@ legacy_src_path() {
     php_home_json:php)           echo local_examples/client-specific/php/HomeJsonTest.php ;;
     ruby_home_json:ruby)         echo local_examples/client-specific/ruby/home_json.rb ;;
     # Vector search and vector set pages. These download embedding models, so they only
-    # run with --with-models (model_set). Jedis (HomeQueryVec, home_vecsets) is left out
-    # with java_home_json. The C# and PHP home_vecsets files are top-level scripts with
+    # run with --with-models (model_set). The Jedis HomeQueryVec and HomeVecSets files are
+    # main programs (package com.redis.app), not JUnit tests, so the Jedis runner can't run
+    # them until they're converted the way the Go examples were. The C# and PHP home_vecsets files are top-level scripts with
     # no test class, so neither runner can execute them; .NET and PHP vecsearch keep
     # their code inline on the page.
     home_query_vec:python)       echo local_examples/client-specific/redis-py/home_query_vec.py ;;

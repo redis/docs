@@ -181,9 +181,10 @@ Reset slowlog-log-slower-than afterwards.
 ## Coverage: client-specific query and vector sets
 
 `legacy_src_path()` maps the queryjson sets (`py_home_json`, `js_home_query`,
-`go_home_json`, `lettuce_home_json`, `cs_home_json`, `php_home_json`, `ruby_home_json`)
-and the vector sets (`home_query_vec`, `ruby_home_query_vec`, `home_vecsets`). Jedis is
-unmapped for all of them until DOC-7213 (HIMPORT needs Jedis 8.0).
+`go_home_json`, `java_home_json`, `lettuce_home_json`, `cs_home_json`, `php_home_json`,
+`ruby_home_json`) and the vector sets (`home_query_vec`, `ruby_home_query_vec`,
+`home_vecsets`). The Jedis vector files are main programs, not JUnit tests, so Jedis runs
+only `java_home_json`.
 
 The vector sets download an embedding model, so they run only with `--with-models`:
 

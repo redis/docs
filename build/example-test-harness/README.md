@@ -42,9 +42,9 @@ directive, so on an older toolchain the Go vector sets FAIL instead of skipping.
 node-redis and Ruby report SKIP, because adding the model library to their fidelity
 manifests would make every fidelity run of those clients install it. The C# and PHP
 `home_vecsets` files are top-level scripts with no test class, and .NET and PHP vecsearch
-keep their code inline on the page, so none of those are mapped. Jedis is unmapped for all
-the client-specific query sets until DOC-7213 (its `java_home_json` HIMPORT step needs
-Jedis 8.0).
+keep their code inline on the page, so none of those are mapped. The Jedis vector files
+(`HomeQueryVec`, `HomeVecSets`) are main programs, not JUnit tests, so they're unmapped
+too; Jedis `java_home_json` is mapped.
 
 ⚠️ Several examples call `FLUSHALL`/`FLUSHDB`, and the harness flushes before each run.
 Point it only at a scratch Redis. Runs are serial for this reason.
