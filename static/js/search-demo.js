@@ -8,11 +8,14 @@
    Step 3: tag and numeric conditions, and the order SORTBY puts the
    matches in.
    Step 4: FT.AGGREGATE over orders, grouped and reduced.
+   Step 5: GEO radius and GEOSHAPE queries over each restaurant's location
+   and delivery zone, with a map of the spot's city.
    Each step shows its query and a plain-English reading of it, then the
    documents as stored with the matches highlighted, then the exact reply.
    Selecting a row shows the command that wrote it and what Redis holds.
-   Observed, not modelled: the full-text and aggregation replies are what
-   Redis 8.10 returned. Step 3's replies are built here and checked against
+   Observed, not modelled: the full-text, aggregation, and location replies
+   are what Redis 8.10 returned. The map is drawn here from the stored
+   location and delivery_zone values. Step 3's replies are built here and checked against
    all 288 recorded combinations. Every result list uses SORTBY, so the
    order doesn't depend on the default scorer. The documents are hashes,
    because Redis 8 rejects HIGHLIGHT on JSON indexes.
@@ -87,7 +90,14 @@
     "status|AVG|*": {"argv": ["FT.AGGREGATE", "idx:orders", "*", "GROUPBY", "1", "@status", "REDUCE", "AVG", "1", "@total", "AS", "average", "SORTBY", "2", "@average", "DESC"], "reply": "1) (integer) 3\n2) 1) \"status\"\n   2) \"delivered\"\n   3) \"average\"\n   4) \"43.775\"\n3) 1) \"status\"\n   2) \"on_the_way\"\n   3) \"average\"\n   4) \"22.75\"\n4) 1) \"status\"\n   2) \"cancelled\"\n   3) \"average\"\n   4) \"19.9\"\n", "rows": [["delivered", "43.775"], ["on_the_way", "22.75"], ["cancelled", "19.9"]]},
     "status|AVG|@status:{delivered}": {"argv": ["FT.AGGREGATE", "idx:orders", "@status:{delivered}", "GROUPBY", "1", "@status", "REDUCE", "AVG", "1", "@total", "AS", "average", "SORTBY", "2", "@average", "DESC"], "reply": "1) (integer) 1\n2) 1) \"status\"\n   2) \"delivered\"\n   3) \"average\"\n   4) \"43.775\"\n", "rows": [["delivered", "43.775"]]}
   };
+  /* Step 5: the spots to search from, each restaurant's location and delivery zone as HSET added them, the index on
+     them, and every radius ("spot|km") and delivery-zone query. */
+  var PLACES = {"spots":[{"id":"atx-downtown","label":"Downtown Austin","city":"austin","lon":-97.7431,"lat":30.2672},{"id":"atx-soco","label":"South Congress, Austin","city":"austin","lon":-97.749,"lat":30.246},{"id":"atx-hydepark","label":"Hyde Park, Austin","city":"austin","lon":-97.731,"lat":30.306},{"id":"sea-downtown","label":"Downtown Seattle","city":"seattle","lon":-122.3321,"lat":47.6062},{"id":"sea-ballard","label":"Ballard, Seattle","city":"seattle","lon":-122.385,"lat":47.669},{"id":"den-downtown","label":"Downtown Denver","city":"denver","lon":-104.9903,"lat":39.7392}],"radii":[1,3,5],"create":{"argv":["FT.CREATE","idx:places","ON","HASH","PREFIX","1","restaurant:","SCHEMA","name","TEXT","SORTABLE","location","GEO","delivery_zone","GEOSHAPE"],"reply":"OK\n"},"stored":{"restaurant:r201":{"set":["HSET","restaurant:r201","location","-97.7230,30.2640","delivery_zone","POLYGON((-97.6960 30.2640, -97.7067 30.2781, -97.7230 30.2899, -97.7402 30.2790, -97.7514 30.2640, -97.7383 30.2507, -97.7230 30.2370, -97.7048 30.2482, -97.6960 30.2640))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"austin\"\n 3) \"location\"\n 4) \"-97.7230,30.2640\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-97.6960 30.2640, -97.7067 30.2781, -97.7230 30.2899, -97.7402 30.2790, -97.7514 30.2640, -97.7383 30.2507, -97.7230 30.2370, -97.7048 30.2482, -97.6960 30.2640))\"\n 7) \"description\"\n 8) \"Thai street food: pad thai, green and red curries, and tofu dishes, made spicy on request.\"\n 9) \"cuisine\"\n10) \"thai\"\n11) \"name\"\n12) \"Bangkok Street Kitchen\"\n13) \"price_level\"\n14) \"2\"\n15) \"rating\"\n16) \"4.7\"\n17) \"avg_delivery_min\"\n18) \"30\"\n"},"restaurant:r202":{"set":["HSET","restaurant:r202","location","-97.7500,30.2470","delivery_zone","POLYGON((-97.7136 30.2470, -97.7281 30.2660, -97.7500 30.2818, -97.7732 30.2671, -97.7882 30.2470, -97.7706 30.2291, -97.7500 30.2106, -97.7256 30.2257, -97.7136 30.2470))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"austin\"\n 3) \"location\"\n 4) \"-97.7500,30.2470\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-97.7136 30.2470, -97.7281 30.2660, -97.7500 30.2818, -97.7732 30.2671, -97.7882 30.2470, -97.7706 30.2291, -97.7500 30.2106, -97.7256 30.2257, -97.7136 30.2470))\"\n 7) \"description\"\n 8) \"Texas barbecue: slow-smoked brisket, ribs, and mac and cheese.\"\n 9) \"cuisine\"\n10) \"bbq\"\n11) \"name\"\n12) \"Smokehouse 512\"\n13) \"price_level\"\n14) \"3\"\n15) \"rating\"\n16) \"4.4\"\n17) \"avg_delivery_min\"\n18) \"40\"\n"},"restaurant:r203":{"set":["HSET","restaurant:r203","location","-122.3200,47.6200","delivery_zone","POLYGON((-122.2800 47.6200, -122.2960 47.6363, -122.3200 47.6498, -122.3454 47.6373, -122.3620 47.6200, -122.3426 47.6047, -122.3200 47.5888, -122.2931 47.6018, -122.2800 47.6200))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"seattle\"\n 3) \"location\"\n 4) \"-122.3200,47.6200\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-122.2800 47.6200, -122.2960 47.6363, -122.3200 47.6498, -122.3454 47.6373, -122.3620 47.6200, -122.3426 47.6047, -122.3200 47.5888, -122.2931 47.6018, -122.2800 47.6200))\"\n 7) \"description\"\n 8) \"Plant-based bowls, salads, and smoothies. Everything on the menu is vegan.\"\n 9) \"cuisine\"\n10) \"vegan\"\n11) \"name\"\n12) \"Green Bowl\"\n13) \"price_level\"\n14) \"2\"\n15) \"rating\"\n16) \"4.8\"\n17) \"avg_delivery_min\"\n18) \"25\"\n"},"restaurant:r204":{"set":["HSET","restaurant:r204","location","-104.9990,39.7530","delivery_zone","POLYGON((-104.9639 39.7530, -104.9779 39.7693, -104.9990 39.7828, -105.0213 39.7703, -105.0358 39.7530, -105.0188 39.7377, -104.9990 39.7218, -104.9755 39.7348, -104.9639 39.7530))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"denver\"\n 3) \"location\"\n 4) \"-104.9990,39.7530\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-104.9639 39.7530, -104.9779 39.7693, -104.9990 39.7828, -105.0213 39.7703, -105.0358 39.7530, -105.0188 39.7377, -104.9990 39.7218, -104.9755 39.7348, -104.9639 39.7530))\"\n 7) \"description\"\n 8) \"Fresh sushi and sashimi, nigiri sets, and miso soup.\"\n 9) \"cuisine\"\n10) \"sushi\"\n11) \"name\"\n12) \"Sakura Sushi Bar\"\n13) \"price_level\"\n14) \"3\"\n15) \"rating\"\n16) \"4.6\"\n17) \"avg_delivery_min\"\n18) \"35\"\n"},"restaurant:r205":{"set":["HSET","restaurant:r205","location","-122.3840,47.6680","delivery_zone","POLYGON((-122.3306 47.6680, -122.3519 47.6897, -122.3840 47.7078, -122.4180 47.6910, -122.4400 47.6680, -122.4142 47.6475, -122.3840 47.6264, -122.3482 47.6437, -122.3306 47.6680))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"seattle\"\n 3) \"location\"\n 4) \"-122.3840,47.6680\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-122.3306 47.6680, -122.3519 47.6897, -122.3840 47.7078, -122.4180 47.6910, -122.4400 47.6680, -122.4142 47.6475, -122.3840 47.6264, -122.3482 47.6437, -122.3306 47.6680))\"\n 7) \"description\"\n 8) \"Homemade pasta, risotto, and tiramisu from family recipes.\"\n 9) \"cuisine\"\n10) \"italian\"\n11) \"name\"\n12) \"Nonna's Trattoria\"\n13) \"price_level\"\n14) \"3\"\n15) \"rating\"\n16) \"4.5\"\n17) \"avg_delivery_min\"\n18) \"45\"\n"},"restaurant:r206":{"set":["HSET","restaurant:r206","location","-104.9780,39.7330","delivery_zone","POLYGON((-104.9675 39.7330, -104.9717 39.7379, -104.9780 39.7420, -104.9847 39.7382, -104.9890 39.7330, -104.9839 39.7284, -104.9780 39.7236, -104.9709 39.7275, -104.9675 39.7330))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"denver\"\n 3) \"location\"\n 4) \"-104.9780,39.7330\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-104.9675 39.7330, -104.9717 39.7379, -104.9780 39.7420, -104.9847 39.7382, -104.9890 39.7330, -104.9839 39.7284, -104.9780 39.7236, -104.9709 39.7275, -104.9675 39.7330))\"\n 7) \"description\"\n 8) \"New York-style pizza by the slice or the whole pie, made for sharing.\"\n 9) \"cuisine\"\n10) \"pizza\"\n11) \"name\"\n12) \"Slice Society\"\n13) \"price_level\"\n14) \"1\"\n15) \"rating\"\n16) \"4.2\"\n17) \"avg_delivery_min\"\n18) \"30\"\n"},"restaurant:r207":{"set":["HSET","restaurant:r207","location","-97.7300,30.3050","delivery_zone","POLYGON((-97.7040 30.3050, -97.7144 30.3186, -97.7300 30.3299, -97.7466 30.3194, -97.7573 30.3050, -97.7447 30.2922, -97.7300 30.2790, -97.7125 30.2898, -97.7040 30.3050))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"austin\"\n 3) \"location\"\n 4) \"-97.7300,30.3050\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-97.7040 30.3050, -97.7144 30.3186, -97.7300 30.3299, -97.7466 30.3194, -97.7573 30.3050, -97.7447 30.2922, -97.7300 30.2790, -97.7125 30.2898, -97.7040 30.3050))\"\n 7) \"description\"\n 8) \"Falafel, shawarma, hummus, and fresh salads from the eastern Mediterranean.\"\n 9) \"cuisine\"\n10) \"mediterranean\"\n11) \"name\"\n12) \"Olive & Za'atar\"\n13) \"price_level\"\n14) \"2\"\n15) \"rating\"\n16) \"4.6\"\n17) \"avg_delivery_min\"\n18) \"30\"\n"},"restaurant:r208":{"set":["HSET","restaurant:r208","location","-122.3380,47.6100","delivery_zone","POLYGON((-122.3047 47.6100, -122.3180 47.6236, -122.3380 47.6349, -122.3592 47.6244, -122.3730 47.6100, -122.3568 47.5972, -122.3380 47.5840, -122.3156 47.5948, -122.3047 47.6100))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"seattle\"\n 3) \"location\"\n 4) \"-122.3380,47.6100\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-122.3047 47.6100, -122.3180 47.6236, -122.3380 47.6349, -122.3592 47.6244, -122.3730 47.6100, -122.3568 47.5972, -122.3380 47.5840, -122.3156 47.5948, -122.3047 47.6100))\"\n 7) \"description\"\n 8) \"Indian curries, chana masala, and tandoori, with plenty of fiery vegetarian dishes.\"\n 9) \"cuisine\"\n10) \"indian\"\n11) \"name\"\n12) \"Spice Route\"\n13) \"price_level\"\n14) \"2\"\n15) \"rating\"\n16) \"4.3\"\n17) \"avg_delivery_min\"\n18) \"40\"\n"},"restaurant:r209":{"set":["HSET","restaurant:r209","location","-97.7420,30.2690","delivery_zone","POLYGON((-97.7212 30.2690, -97.7295 30.2799, -97.7420 30.2889, -97.7552 30.2805, -97.7638 30.2690, -97.7538 30.2588, -97.7420 30.2482, -97.7280 30.2568, -97.7212 30.2690))"],"setReply":"(integer) 2\n","get":" 1) \"city\"\n 2) \"austin\"\n 3) \"location\"\n 4) \"-97.7420,30.2690\"\n 5) \"delivery_zone\"\n 6) \"POLYGON((-97.7212 30.2690, -97.7295 30.2799, -97.7420 30.2889, -97.7552 30.2805, -97.7638 30.2690, -97.7538 30.2588, -97.7420 30.2482, -97.7280 30.2568, -97.7212 30.2690))\"\n 7) \"description\"\n 8) \"Thai curries and noodle dishes, known for its spicy green curry. Most dishes can be made vegetarian.\"\n 9) \"cuisine\"\n10) \"thai\"\n11) \"name\"\n12) \"Lotus Thai\"\n13) \"price_level\"\n14) \"1\"\n15) \"rating\"\n16) \"4.1\"\n17) \"avg_delivery_min\"\n18) \"25\"\n"}},"near":{"atx-downtown|1":{"argv":["FT.SEARCH","idx:places","@location:[-97.7431 30.2672 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r209\"\n3) 1) \"name\"\n   2) \"Lotus Thai\"\n","keys":["restaurant:r209"]},"atx-downtown|3":{"argv":["FT.SEARCH","idx:places","@location:[-97.7431 30.2672 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 3\n2) \"restaurant:r201\"\n3) 1) \"name\"\n   2) \"Bangkok Street Kitchen\"\n4) \"restaurant:r209\"\n5) 1) \"name\"\n   2) \"Lotus Thai\"\n6) \"restaurant:r202\"\n7) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r201","restaurant:r209","restaurant:r202"]},"atx-downtown|5":{"argv":["FT.SEARCH","idx:places","@location:[-97.7431 30.2672 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 4\n2) \"restaurant:r201\"\n3) 1) \"name\"\n   2) \"Bangkok Street Kitchen\"\n4) \"restaurant:r209\"\n5) 1) \"name\"\n   2) \"Lotus Thai\"\n6) \"restaurant:r207\"\n7) 1) \"name\"\n   2) \"Olive & Za'atar\"\n8) \"restaurant:r202\"\n9) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r201","restaurant:r209","restaurant:r207","restaurant:r202"]},"atx-soco|1":{"argv":["FT.SEARCH","idx:places","@location:[-97.749 30.246 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r202\"\n3) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r202"]},"atx-soco|3":{"argv":["FT.SEARCH","idx:places","@location:[-97.749 30.246 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 2\n2) \"restaurant:r209\"\n3) 1) \"name\"\n   2) \"Lotus Thai\"\n4) \"restaurant:r202\"\n5) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r209","restaurant:r202"]},"atx-soco|5":{"argv":["FT.SEARCH","idx:places","@location:[-97.749 30.246 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 3\n2) \"restaurant:r201\"\n3) 1) \"name\"\n   2) \"Bangkok Street Kitchen\"\n4) \"restaurant:r209\"\n5) 1) \"name\"\n   2) \"Lotus Thai\"\n6) \"restaurant:r202\"\n7) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r201","restaurant:r209","restaurant:r202"]},"atx-hydepark|1":{"argv":["FT.SEARCH","idx:places","@location:[-97.731 30.306 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r207\"\n3) 1) \"name\"\n   2) \"Olive & Za'atar\"\n","keys":["restaurant:r207"]},"atx-hydepark|3":{"argv":["FT.SEARCH","idx:places","@location:[-97.731 30.306 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r207\"\n3) 1) \"name\"\n   2) \"Olive & Za'atar\"\n","keys":["restaurant:r207"]},"atx-hydepark|5":{"argv":["FT.SEARCH","idx:places","@location:[-97.731 30.306 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 3\n2) \"restaurant:r201\"\n3) 1) \"name\"\n   2) \"Bangkok Street Kitchen\"\n4) \"restaurant:r209\"\n5) 1) \"name\"\n   2) \"Lotus Thai\"\n6) \"restaurant:r207\"\n7) 1) \"name\"\n   2) \"Olive & Za'atar\"\n","keys":["restaurant:r201","restaurant:r209","restaurant:r207"]},"sea-downtown|1":{"argv":["FT.SEARCH","idx:places","@location:[-122.3321 47.6062 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r208\"\n3) 1) \"name\"\n   2) \"Spice Route\"\n","keys":["restaurant:r208"]},"sea-downtown|3":{"argv":["FT.SEARCH","idx:places","@location:[-122.3321 47.6062 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 2\n2) \"restaurant:r203\"\n3) 1) \"name\"\n   2) \"Green Bowl\"\n4) \"restaurant:r208\"\n5) 1) \"name\"\n   2) \"Spice Route\"\n","keys":["restaurant:r203","restaurant:r208"]},"sea-downtown|5":{"argv":["FT.SEARCH","idx:places","@location:[-122.3321 47.6062 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 2\n2) \"restaurant:r203\"\n3) 1) \"name\"\n   2) \"Green Bowl\"\n4) \"restaurant:r208\"\n5) 1) \"name\"\n   2) \"Spice Route\"\n","keys":["restaurant:r203","restaurant:r208"]},"sea-ballard|1":{"argv":["FT.SEARCH","idx:places","@location:[-122.385 47.669 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r205\"\n3) 1) \"name\"\n   2) \"Nonna's Trattoria\"\n","keys":["restaurant:r205"]},"sea-ballard|3":{"argv":["FT.SEARCH","idx:places","@location:[-122.385 47.669 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r205\"\n3) 1) \"name\"\n   2) \"Nonna's Trattoria\"\n","keys":["restaurant:r205"]},"sea-ballard|5":{"argv":["FT.SEARCH","idx:places","@location:[-122.385 47.669 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 1\n2) \"restaurant:r205\"\n3) 1) \"name\"\n   2) \"Nonna's Trattoria\"\n","keys":["restaurant:r205"]},"den-downtown|1":{"argv":["FT.SEARCH","idx:places","@location:[-104.9903 39.7392 1 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 0\n","keys":[]},"den-downtown|3":{"argv":["FT.SEARCH","idx:places","@location:[-104.9903 39.7392 3 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 2\n2) \"restaurant:r204\"\n3) 1) \"name\"\n   2) \"Sakura Sushi Bar\"\n4) \"restaurant:r206\"\n5) 1) \"name\"\n   2) \"Slice Society\"\n","keys":["restaurant:r204","restaurant:r206"]},"den-downtown|5":{"argv":["FT.SEARCH","idx:places","@location:[-104.9903 39.7392 5 km]","RETURN","1","name","SORTBY","name"],"reply":"1) (integer) 2\n2) \"restaurant:r204\"\n3) 1) \"name\"\n   2) \"Sakura Sushi Bar\"\n4) \"restaurant:r206\"\n5) 1) \"name\"\n   2) \"Slice Society\"\n","keys":["restaurant:r204","restaurant:r206"]}},"zone":{"atx-downtown":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-97.7431 30.2672)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 3\n2) \"restaurant:r201\"\n3) 1) \"name\"\n   2) \"Bangkok Street Kitchen\"\n4) \"restaurant:r209\"\n5) 1) \"name\"\n   2) \"Lotus Thai\"\n6) \"restaurant:r202\"\n7) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r201","restaurant:r209","restaurant:r202"]},"atx-soco":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-97.749 30.246)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 1\n2) \"restaurant:r202\"\n3) 1) \"name\"\n   2) \"Smokehouse 512\"\n","keys":["restaurant:r202"]},"atx-hydepark":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-97.731 30.306)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 1\n2) \"restaurant:r207\"\n3) 1) \"name\"\n   2) \"Olive & Za'atar\"\n","keys":["restaurant:r207"]},"sea-downtown":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-122.3321 47.6062)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 2\n2) \"restaurant:r203\"\n3) 1) \"name\"\n   2) \"Green Bowl\"\n4) \"restaurant:r208\"\n5) 1) \"name\"\n   2) \"Spice Route\"\n","keys":["restaurant:r203","restaurant:r208"]},"sea-ballard":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-122.385 47.669)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 1\n2) \"restaurant:r205\"\n3) 1) \"name\"\n   2) \"Nonna's Trattoria\"\n","keys":["restaurant:r205"]},"den-downtown":{"argv":["FT.SEARCH","idx:places","@delivery_zone:[CONTAINS $spot]","PARAMS","2","spot","POINT(-104.9903 39.7392)","RETURN","1","name","SORTBY","name","DIALECT","2"],"reply":"1) (integer) 1\n2) \"restaurant:r204\"\n3) 1) \"name\"\n   2) \"Sakura Sushi Bar\"\n","keys":["restaurant:r204"]}}};
   /* ---- end of the recordings ---- */
+
+  /* Step 5's basemaps, one image per city, with the box each covers. They were made once
+     from OpenStreetMap tiles, faded so the demo's marks stand out. Map data © OpenStreetMap contributors. */
+  var BASEMAPS = {"austin":{"file":"map-austin.webp","west":-97.87273,"east":-97.53696,"north":30.3828,"south":30.17095},"seattle":{"file":"map-seattle.webp","west":-122.52914,"east":-122.09312,"north":47.74429,"south":47.52845},"denver":{"file":"map-denver.webp","west":-105.09024,"east":-104.84545,"north":39.80827,"south":39.67007}};
 
   var CUSTOMERS = { u101: "Maya Chen", u102: "Liam Ortiz", u103: "Priya Nair", u104: "Noah Williams", u105: "Sofia Rossi", u106: "Ethan Brooks", u107: "Aisha Khan", u108: "Lucas Meyer" };
   var CITIES = ["austin", "seattle", "denver"];
@@ -190,13 +200,15 @@
     { key: "data", n: "1", label: "The data", lede: "Before you query, look at the data. Each restaurant is a hash. A hash is a key, such as `restaurant:r201`, that holds named fields, such as `name` and `rating`. An index tells Redis Search which of those fields to search, and how. Select a row to see a whole hash, as `HSET` wrote it and `HGETALL` reads it back." },
     { key: "text", n: "2", label: "Full-text search", lede: "A full-text query looks for words in TEXT fields. Here, those are each restaurant's `name` and `description`. The query syntax has a few ways to say which words to look for.", prompt: "Pick a query and see which restaurants it finds." },
     { key: "filter", n: "3", label: "Filter and sort", lede: "TAG and NUMERIC fields take exact conditions. A TAG condition, such as `@city:{austin}`, matches a field's whole value. A NUMERIC condition, such as `@rating:[4.5 +inf]`, matches a range of numbers. When conditions sit side by side, a restaurant must meet all of them.", prompt: "Pick some conditions and a sort order, and see which restaurants match." },
-    { key: "agg", n: "4", label: "Aggregate", lede: "Here we've added 10 orders to the database, under keys that start with `order:`. They have their own index, `idx:orders`. `FT.AGGREGATE` groups the orders that a query matches. It then reduces each group to one number, such as how many orders it has or what they total.", prompt: "Pick how to group the orders and what to work out for each group." }
+    { key: "agg", n: "4", label: "Aggregate", lede: "Here we've added 10 orders to the database, under keys that start with `order:`. They have their own index, `idx:orders`. `FT.AGGREGATE` groups the orders that a query matches. It then reduces each group to one number, such as how many orders it has or what they total.", prompt: "Pick how to group the orders and what to work out for each group." },
+    { key: "geo", n: "5", label: "Location", lede: "Here we've added two fields to each restaurant. `location` is where the restaurant is, as a longitude and a latitude. `delivery_zone` is the area it delivers to, as a polygon. A new index, `idx:places`, reads `location` as a GEO field and `delivery_zone` as a GEOSHAPE field.", prompt: "Pick a spot. Then find the restaurants near it, or the ones that deliver to it." }
   ];
 
   function init(root) {
     var st = { tab: "data", dataKey: null, text: TEXT[0].query,
       f: { cities: [], price: null, rating: null, fast: null, sort: ["rating", "DESC"] },
-      agg: { group: "restaurant_id", reducer: "COUNT", filter: "*" } };
+      agg: { group: "restaurant_id", reducer: "COUNT", filter: "*" },
+      geo: { ask: "near", spot: PLACES.spots[0].id, radius: 3 } };
     root.innerHTML = "";
     var tabs = el("div", "rcr-tabs");
     tabs.setAttribute("role", "tablist");
@@ -211,6 +223,7 @@
     var panel = el("div", "rcr-panel");
     panel.setAttribute("role", "tabpanel");
     root.appendChild(panel);
+    var maps = root.getAttribute("data-maps") || "/images/ai/search-and-query/demo-maps/";   // where step 5's basemaps are, from the shortcode
 
     /* The step's query, its reply as redis-cli prints it, and what the demo reads from it. */
     function current() {
@@ -223,6 +236,10 @@
         var a = AGGS[st.agg.group + "|" + st.agg.reducer + "|" + st.agg.filter];
         return { query: a.argv, reply: a.reply, rows: a.rows };
       }
+      if (st.tab === "geo") {
+        var g = st.geo, q = g.ask === "near" ? PLACES.near[g.spot + "|" + g.radius] : PLACES.zone[g.spot];
+        return { query: q.argv, reply: q.reply, keys: q.keys };
+      }
       return null;
     }
 
@@ -233,9 +250,11 @@
       panel.appendChild(el("div", "rcr-lede", md(step.lede)));   // a div, so the site's paragraph styles stay out
       if (st.tab === "data") panel.appendChild(createBlock(CREATE[0]));   // the index the lede mentions
       if (st.tab === "agg") panel.appendChild(createBlock(CREATE[1]));    // the orders' own index
+      if (st.tab === "geo") panel.appendChild(createBlock(PLACES.create.argv));   // the index on the new fields
       if (step.prompt) panel.appendChild(el("div", "rcr-lede", md(step.prompt)));   // what to do with the controls that follow
       if (cur) panel.appendChild(controls());
       if (cur) panel.appendChild(queryBlock(cur));   // the query, before the data it finds
+      if (st.tab === "geo") panel.appendChild(mapCard(cur));   // where the spot and the restaurants are
       panel.appendChild(dataCard(cur));
       if (st.tab === "agg") panel.appendChild(groupsBlock(cur));   // the groups, as the reply lists them
       if (cur) panel.appendChild(outputBlock(cur));   // the query's reply, exactly as redis-cli prints it
@@ -288,6 +307,11 @@
         box.appendChild(grid);
         box.appendChild(choice("Sort by", [["rating|DESC", "Rating, highest first"], ["avg_delivery_min|ASC", "Delivery time, fastest first"], ["price_level|ASC", "Price level, lowest first"]],
           function (v) { return v === f.sort.join("|"); }, function (v) { f.sort = v.split("|"); }));
+      } else if (st.tab === "geo") {
+        var g = st.geo;
+        box.appendChild(choice("Find restaurants", [["near", "Near a spot"], ["zone", "That deliver to a spot"]], function (v) { return v === g.ask; }, function (v) { g.ask = v; }));
+        box.appendChild(choice("Spot", PLACES.spots.map(function (s) { return [s.id, esc(s.label)]; }), function (v) { return v === g.spot; }, function (v) { g.spot = v; }));
+        if (g.ask === "near") box.appendChild(choice("Within", PLACES.radii.map(function (r) { return [r, r + " km"]; }), function (v) { return v === g.radius; }, function (v) { g.radius = v; }));
       } else {
         var a = st.agg;
         box.appendChild(choice("Group orders by", [["restaurant_id", "Restaurant"], ["customer_id", "Customer"], ["status", "Status"]], function (v) { return v === a.group; }, function (v) { a.group = v; }));
@@ -300,11 +324,14 @@
     /* The fields each step's table shows, each with how its index treats it. */
     var TYPES = { name: "TEXT", description: "TEXT", cuisine: "TAG", city: "TAG", rating: "NUMERIC SORTABLE", price_level: "NUMERIC SORTABLE", avg_delivery_min: "NUMERIC SORTABLE",
       customer_id: "TAG", restaurant_id: "TAG", status: "TAG", total: "NUMERIC SORTABLE" };
+    var PLACE_TYPES = { name: "TEXT SORTABLE", location: "GEO", delivery_zone: "GEOSHAPE" };   // as idx:places has them
     function columns() {
-      var col = function (f, wide) { return { field: f, label: f, type: TYPES[f], wide: !!wide, marked: st.tab === "agg" && st.agg.group === f }; };
+      var geo = st.tab === "geo", used = geo && (st.geo.ask === "near" ? "location" : "delivery_zone");
+      var col = function (f, wide) { return { field: f, label: f, type: (geo ? PLACE_TYPES : TYPES)[f], wide: !!wide, marked: st.tab === "agg" && st.agg.group === f || f === used }; };
       if (st.tab === "data") return [col("name", true), col("cuisine"), col("city"), col("rating")];
       if (st.tab === "text") return [col("name", true), col("description", true), col("rating")];
       if (st.tab === "filter") return [col("name", true), col("city"), col("rating"), col("price_level"), col("avg_delivery_min")];
+      if (geo) return [col("name", true), col("location"), col("delivery_zone", true)];
       return [col("customer_id"), col("restaurant_id"), col("status"), col("total")];
     }
 
@@ -354,7 +381,7 @@
     }
     /* One document. Selecting its key shows how it was written and what Redis holds. */
     function docRow(key, cols, hit, rank, c) {
-      var v = fieldsOf(STORED[key].set), open = st.dataKey === key;
+      var v = fieldsFor(key), open = st.dataKey === key;
       var tr = el("tr", [hit ? "is-hit" : "", open ? "is-open" : ""].join(" ").trim());
       tr.dataset.key = key;
       var k = el("td", "rsi-key"), b = el("button", "rsi-open rcr-mono", esc(key).replace(":", ":<wbr>"));
@@ -370,14 +397,23 @@
       tr.addEventListener("click", toggle);
       return tr;
     }
-    /* A field's value as stored; in step 2, a matched name or description as HIGHLIGHT returned it. */
+    /* A field's value as stored; in step 2, a matched name or description as HIGHLIGHT returned it. A delivery
+       zone is long, so the table shows its first point, and the whole value on hover and in the row's commands. */
     function cell(key, field, v, c) {
       if (st.tab === "text" && (field === "name" || field === "description")) {
         var h = c.hits.filter(function (x) { return x[0] === key; })[0];
         if (h) return marked(h[field === "name" ? 1 : 2]);
       }
+      if (field === "delivery_zone") return '<span class="rcr-mono" title="' + esc(v[field]) + '">' + esc(v[field].replace(/^(POLYGON\(\([^,]+),.*$/, "$1, …))")) + "</span>";
       return esc(v[field]);
     }
+    /* A document's fields; in step 5, with the two that step adds. */
+    function fieldsFor(key) {
+      var v = fieldsOf(STORED[key].set), more = st.tab === "geo" && PLACES.stored[key] ? fieldsOf(PLACES.stored[key].set) : {};
+      for (var f in more) v[f] = more[f];
+      return v;
+    }
+    function spotOf(id) { return PLACES.spots.filter(function (s) { return s.id === id; })[0]; }
 
     /* What the current step shows, in a sentence or three. */
     function note(c) {
@@ -388,6 +424,17 @@
         if (filterQuery(st.f) === "*") return "With no conditions, the query is `*`, which matches every restaurant. Pick a city or a range to narrow it down.";
         if (st.f.cities.length > 1) return "Inside braces, `|` means any of these cities. Between conditions, a space means all of them.";
         return c.keys.length + (c.keys.length === 1 ? " restaurant meets" : " restaurants meet") + " every condition. The numbers show the order `SORTBY` puts them in.";
+      }
+      if (st.tab === "geo") {
+        var g = st.geo, s = spotOf(g.spot), named = function (ks) { return ks.map(function (k) { return rest(k.slice(11))[1]; }); }, names = named(c.keys);
+        if (g.ask === "near") {
+          return (names.length ? list(names) + (names.length === 1 ? " is" : " are") : "No restaurant is") + " within " + g.radius + " km of " + s.label + ". " +
+            "A GEO query takes a longitude, a latitude, a radius, and a unit: `m`, `km`, `mi`, or `ft`." + (names.length ? "" : " Try a bigger radius.");
+        }
+        var close = named(PLACES.near[g.spot + "|3"].keys.filter(function (k) { return c.keys.indexOf(k) < 0; }));
+        return (names.length ? list(names) + (names.length === 1 ? " delivers" : " deliver") : "No restaurant delivers") + " to " + s.label + ". " +
+          "`CONTAINS` finds the zones that contain the spot, which `PARAMS` passes as a point in well-known text (WKT)." +
+          (close.length ? " " + list(close) + (close.length === 1 ? " is within 3 km, but its zone doesn't" : " are within 3 km, but their zones don't") + " reach this spot." : "");
       }
       var a = st.agg, rows = c.rows, top = rows[0][1], tied = rows.filter(function (r) { return r[1] === top; }).length;
       var what = { COUNT: "the most orders", SUM: "the highest total", AVG: "the highest average order" }[a.reducer];
@@ -414,13 +461,83 @@
       return box;
     }
 
+    /* Step 5: the spot's city, drawn here from the stored location and delivery_zone values: the spot, each restaurant,
+       and either the radius or the delivery zones. Which restaurants match comes from the reply; the map only shows it. */
+    function mapCard(c) {
+      /* Drawn at the width it shows, measured with an empty card, so its text and basemap aren't stretched or squeezed.
+         The CSS keeps it at most 720 px wide. room: space for labels on the right. */
+      var probe = panel.appendChild(el("div", "rcr-card rsq-map", '<div class="rsq-mapbox"></div>')), shown = probe.firstChild.clientWidth;
+      panel.removeChild(probe);
+      var W = Math.round(Math.max(300, Math.min(720, shown || 440))), H = Math.round(W * 0.68), pad = 24, room = Math.round(W * 0.2);
+      var g = st.geo, s = spotOf(g.spot), near = g.ask === "near", hits = {};
+      c.keys.forEach(function (k) { hits[k] = true; });
+      var kx = 111.32 * Math.cos(s.lat * Math.PI / 180), ky = 110.57;
+      var km = function (lon, lat) { return [(lon - s.lon) * kx, (s.lat - lat) * ky]; };   // km east and south of the spot
+      var places = BASE.filter(function (k) { return fieldsOf(STORED[k].set).city === s.city; }).map(function (k) {
+        var v = fieldsOf(PLACES.stored[k].set), ll = v.location.split(",").map(Number);
+        return { key: k, name: rest(k.slice(11))[1], at: km(ll[0], ll[1]), zone: shape(v.delivery_zone).map(function (p) { return km(p[0], p[1]); }), hit: !!hits[k] };
+      });
+      /* One view per spot, fitting the widest radius and every zone, so changing the radius or the question
+         changes only the circle or the zones, and the map stays put. */
+      var pts = [[0, 0]], far = Math.max.apply(null, PLACES.radii);
+      places.forEach(function (p) { pts.push(p.at); pts = pts.concat(p.zone); });
+      pts.push([-far, -far], [far, far]);
+      var xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+      var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+      var w = W - 2 * pad - room, h = H - 2 * pad, scale = Math.min(w / Math.max(x1 - x0, 0.5), h / Math.max(y1 - y0, 0.5));
+      var ox = pad + (w - (x1 - x0) * scale) / 2 - x0 * scale, oy = pad + (h - (y1 - y0) * scale) / 2 - y0 * scale;
+      var X = function (p) { return +(ox + p[0] * scale).toFixed(1); }, Y = function (p) { return +(oy + p[1] * scale).toFixed(1); };
+      var city = s.city.charAt(0).toUpperCase() + s.city.slice(1), matched = places.filter(function (p) { return p.hit; }).map(function (p) { return p.name; });
+      var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc("Map of " + city + ". The spot: " + s.label + ". " +
+        (matched.length ? "Matches: " + list(matched) + "." : "No matches.")) + '">';
+      /* The city's basemap. */
+      var b = BASEMAPS[s.city], nw = km(b.west, b.north), se = km(b.east, b.south);
+      svg += '<image href="' + esc(maps + b.file) + '" x="' + X(nw) + '" y="' + Y(nw) + '" width="' + (X(se) - X(nw)).toFixed(1) + '" height="' + (Y(se) - Y(nw)).toFixed(1) + '" preserveAspectRatio="none"/>';
+      if (near) svg += '<circle class="rsq-radius" cx="' + X([0, 0]) + '" cy="' + Y([0, 0]) + '" r="' + (g.radius * scale).toFixed(1) + '"/>';
+      else places.forEach(function (p) { svg += '<polygon class="rsq-zone' + (p.hit ? " is-hit" : "") + '" points="' + p.zone.map(function (q) { return X(q) + "," + Y(q); }).join(" ") + '"/>'; });
+      /* Labels go right of their point, or left when there's no room, moved up or down when they would cover a point
+         or a label already placed. */
+      var boxes = [[0, 0]].concat(places.map(function (p) { return p.at; })).map(function (q) { return { x: X(q) - 7, y: Y(q) - 7, w: 14, h: 14 }; }), labels = "";
+      var label = function (x, y, text, cls) {
+        var wd = text.length * 6.4, left = x + wd > W - 4, bx = left ? x - 18 - wd : x, tries = [0, 14, -14, 28, -28, 42], i, b;
+        for (i = 0; i < tries.length; i++) {
+          b = { x: bx, y: y + tries[i] - 10, w: wd, h: 13 };
+          if (!boxes.some(function (o) { return b.x < o.x + o.w && o.x < b.x + b.w && b.y < o.y + o.h && o.y < b.y + b.h; })) break;
+        }
+        boxes.push(b);
+        labels += '<text class="' + cls + '" x="' + bx.toFixed(1) + '" y="' + (b.y + 10) + '">' + esc(text) + "</text>";
+      };
+      label(X([0, 0]) + 10, Y([0, 0]) + 4, s.label, "rsq-mlabel is-spot");
+      places.forEach(function (p) {
+        svg += '<circle class="rsq-pin' + (p.hit ? " is-hit" : "") + '" cx="' + X(p.at) + '" cy="' + Y(p.at) + '" r="5.5"/>';
+        label(X(p.at) + 9, Y(p.at) + 4, p.name, "rsq-mlabel" + (p.hit ? " is-hit" : ""));
+      });
+      svg += '<circle class="rsq-spot" cx="' + X([0, 0]) + '" cy="' + Y([0, 0]) + '" r="6"/>' + labels;
+      var bar = [0.5, 1, 2, 5, 10].filter(function (l) { return l * scale >= 40; })[0] || 10, bx = pad, by = H - 10;
+      svg += '<path class="rsq-scale" d="M' + bx + " " + (by - 4) + "v4h" + (bar * scale).toFixed(1) + "v-4" + '"/><text class="rsq-mlabel" x="' + (bx + bar * scale + 6).toFixed(1) + '" y="' + by + '">' + bar + " km</text></svg>";
+      var card = el("div", "rcr-card rsq-map");
+      card.appendChild(el("div", "rcr-cardhead", "<span>Map: " + esc(city) + '</span><span class="rcr-count">' + matched.length + " of " + places.length + " here match</span>"));
+      card.appendChild(el("div", "rsq-axis", md("Drawn here from the stored `location` and `delivery_zone` values. Redis returns only the matches. Restaurants in other cities are hundreds of kilometers away, so they aren't drawn. The restaurants and their delivery zones are made up, but the map and the spots are real.")));
+      card.appendChild(el("div", "rsq-mapbox", svg));
+      card.appendChild(el("div", "rsq-legend", '<span><i class="rsq-key is-spot"></i>The spot</span><span><i class="rsq-key is-hit"></i>A match</span><span><i class="rsq-key"></i>Not a match</span>' +
+        (near ? '<span><i class="rsq-key is-radius"></i>' + g.radius + " km around the spot</span>" : '<span><i class="rsq-key is-zone"></i>A delivery zone</span>') +
+        /* OpenStreetMap asks for both: credit, and that the data's license is made clear. */
+        '<span class="rsq-credit">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, ' +
+        'available under the <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Database License</a></span>'));
+      return card;
+    }
+    /* A WKT polygon's points, as [longitude, latitude] pairs. */
+    function shape(wkt) {
+      return wkt.replace(/^POLYGON\(\(|\)\)$/g, "").split(",").map(function (p) { return p.trim().split(/\s+/).map(Number); });
+    }
+
     /* A transcript line: the prompt, the command, and its reply. */
     function line(argv, reply) {
       return '<span class="rsq-prompt">&gt; </span>' + cmdHtml(argv) + "\n" + esc(reply);
     }
     /* A key as written and as read back, exactly as redis-cli prints it. */
     function docBox(key) {
-      var d = STORED[key], box = el("div", "rsq-doc");
+      var d = st.tab === "geo" && PLACES.stored[key] ? PLACES.stored[key] : STORED[key], box = el("div", "rsq-doc");   // step 5: the HSET that added the location fields
       box.appendChild(el("pre", "rcr-code rsq-pre rsq-cmdline", (line(d.set, d.setReply) + line(["HGETALL", key], d.get)).replace(/\n$/, "")));
       return box;
     }
@@ -428,7 +545,7 @@
     /* An index's FT.CREATE, one part per line, each with what it means in plain words. */
     function createBlock(argv) {
       var lines = [], i, OPTS = ["SORTABLE"];
-      var AS = { TEXT: "as words", TAG: "as one whole value", NUMERIC: "as a number" };
+      var AS = { TEXT: "as words", TAG: "as one whole value", NUMERIC: "as a number", GEO: "as a point: a longitude and a latitude", GEOSHAPE: "as a shape, here a polygon" };
       var push = function (from, to, note, depth) { lines.push({ from: from, to: to, note: note, depth: depth }); };
       push(0, 1, "Create an index called " + code(argv[1]), 0);
       var prefix = argv.indexOf("PREFIX"), schema = argv.indexOf("SCHEMA"), n = +argv[prefix + 1];
@@ -468,6 +585,10 @@
         var g = a[at("GROUPBY") + 2].slice(1), r = a[at("REDUCE") + 1], as = a[at("AS") + 1];
         s = "Group the " + (a[2] === "*" ? "" : "delivered ") + "orders in `" + a[1] + "` by `" + g + "`. " +
           { COUNT: "Count the orders in each group", SUM: "Add up each group's `total`", AVG: "Average each group's `total`" }[r] + ", as `" + as + "`. Sort the groups by `" + as + "`, highest first.";
+      } else if (st.tab === "geo") {
+        var sp = spotOf(st.geo.spot);
+        s = "Search `" + a[1] + "` for restaurants " + (st.geo.ask === "near" ? "whose `location` is within " + st.geo.radius + " km of " :
+          "whose `delivery_zone` contains the point `spot`, ") + sp.label + " (longitude " + sp.lon + ", latitude " + sp.lat + "). Return `name`, sorted by `name`.";
       } else {
         var f = a.slice(at("RETURN") + 2, at("RETURN") + 2 + +a[at("RETURN") + 1]);
         s = "Search `" + a[1] + "` for " + (st.tab === "text" ? LOOK[a[2]] : filterWords(st.f)) + ". Return " + list(f.map(function (x) { return "`" + x + "`"; })) +
@@ -501,6 +622,7 @@
     function marks(argv) {
       var m = {}, at = function (w) { return argv.indexOf(w); };
       if (argv[0] === "FT.SEARCH") m[2] = true;
+      if (argv[0] === "FT.SEARCH" && at("PARAMS") > 0) m[at("PARAMS") + 3] = true;   // step 5's spot
       if (argv[0] === "FT.AGGREGATE") { m[2] = true; m[at("GROUPBY") + 2] = true; m[at("REDUCE") + 1] = true; }
       return m;
     }
@@ -513,6 +635,6 @@
   }
 
   function boot() { Array.prototype.forEach.call(document.querySelectorAll(".rsq[data-search]"), init); }
-  window.SearchDemo = { fmt: fmt, cmdline: cmdline, search: search, data: { RESTAURANTS: RESTAURANTS, ORDERS: ORDERS, STORED: STORED, TEXT: TEXT, AGGS: AGGS, CREATE: CREATE } };
+  window.SearchDemo = { fmt: fmt, cmdline: cmdline, search: search, data: { RESTAURANTS: RESTAURANTS, ORDERS: ORDERS, STORED: STORED, TEXT: TEXT, AGGS: AGGS, CREATE: CREATE, PLACES: PLACES } };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();
