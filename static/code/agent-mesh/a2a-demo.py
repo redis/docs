@@ -7,7 +7,6 @@ from pathlib import Path
 
 import uvicorn
 from a2a.server.agent_execution import AgentExecutor
-from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.types import (
     AgentCapabilities, AgentCard, AgentInterface, AgentSkill, Artifact, Part, Task,
     TaskArtifactUpdateEvent, TaskState, TaskStatus, TaskStatusUpdateEvent,
@@ -90,10 +89,7 @@ card = AgentCard(
         protocol_version="1.0", url="http://127.0.0.1:8000/",
     )],
 )
-handler = DefaultRequestHandler(
-    agent_executor=store.heartbeat(CountingAgent()), agent_card=card,
-    task_store=store, event_stream=events,
-)
+handler = store.request_handler(CountingAgent(), agent_card=card, event_stream=events)
 
 
 @asynccontextmanager
@@ -113,7 +109,7 @@ async def home(request):
 
 app = Starlette(
     routes=[Route("/", home), *create_resumable_rest_routes(
-        handler, store=store, event_stream=events,
+        handler, agent_card=card, store=store, event_stream=events,
     )],
     lifespan=lifespan,
     middleware=[

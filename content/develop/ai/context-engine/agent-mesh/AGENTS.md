@@ -7,7 +7,8 @@
 - Distinguish the independent `[a2a]` and `[fastapi-sse]` extras. The A2A
   integration does not require the FastAPI SSE integration. Both extras can be
   installed together; their shared redis-py range is `>=8.0.1,<9`. Keep Redis
-  server requirements (A2A 8.6+, FastAPI 8.6.2+) distinct from Python client versions.
+  server requirements (8.6.2+ for both, with JSON also required for A2A) distinct
+  from Python client versions.
 - Use Agent2Agent (A2A), server-sent events (SSE), Task snapshots, event replay,
   and application-owned execution. Explain acronyms on first use on each page.
 - Write for the intended released package. Use package-index installation

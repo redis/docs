@@ -15,7 +15,7 @@ Choose one browser demo: reconnect to Agent2Agent (A2A) task updates, or resume 
 
 ## Before you begin
 
-You need Python 3.11 or later, `pip`, a browser, and a Redis database running version 8.6.2 or later with native producer idempotency (`XADD IDMP`). The demo application runs locally on port 8000, whichever database option you choose.
+You need Python 3.11 or later, `pip`, a browser, and a Redis database running version 8.6.2 or later with native producer idempotency (`XADD IDMP`). The A2A example also requires JavaScript Object Notation (JSON) support. Official Redis distributions with JSON enabled provide it; a source build needs the JSON module built and loaded. The demo application runs locally on port 8000, whichever database option you choose.
 
 ## Choose your Redis database
 
@@ -106,7 +106,6 @@ The page uses the browser's built-in `EventSource` client. It does not restart t
 The downloaded application defines `CountingAgent`, its streaming agent card, and the Redis client. These are the integration points:
 
 ```python
-from a2a.server.request_handlers import DefaultRequestHandler
 from redis_iris.agent_mesh.a2a import RedisTaskStore
 from redis_iris.agent_mesh.a2a.routes import create_resumable_rest_routes
 
@@ -116,13 +115,10 @@ store = RedisTaskStore(
     owner_resolver=lambda context: "local-demo-user",  # Loopback demo only.
 )
 events = store.event_stream()
-handler = DefaultRequestHandler(
-    agent_executor=store.heartbeat(CountingAgent()),
-    agent_card=card,
-    task_store=store,
-    event_stream=events,
+handler = store.request_handler(CountingAgent(), agent_card=card, event_stream=events)
+routes = create_resumable_rest_routes(
+    handler, agent_card=card, store=store, event_stream=events
 )
-routes = create_resumable_rest_routes(handler, store=store, event_stream=events)
 ```
 
 `RedisTaskStore` saves the task and its updates together. Its paired event stream reads those updates from Redis. `create_resumable_rest_routes()` exposes subscriptions with event cursors. The agent card enables streaming and advertises `resumable_streams_extension()`.
@@ -217,8 +213,9 @@ async def events(job_id: UUID, request: Request, streams: StreamBackendDep):
 
 The browser reconnects with the last applied cursor. The demo sets
 `REDIS_STREAM_DONE_TTL=3600` unless you override it, retaining a completed run for
-one hour. Active retention and finished retention are separate. Replay requires
-retained history; it does not restart interrupted execution.
+up to one hour, bounded by the run's original lifetime (one hour by default).
+Completion never extends that lifetime. Replay requires retained history; it
+does not restart interrupted execution.
 
 ## When you're done
 
