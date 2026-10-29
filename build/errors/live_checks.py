@@ -431,9 +431,9 @@ def compare(baseline, results):
     version, so they're compared only when both runs recorded them. Pages
     with no baseline yet have nothing to compare with, so they're skipped."""
     changes = []
-    new = unrecorded(baseline, results)
+    skip = unrecorded(baseline, results)
     for page in sorted(set(baseline) | set(results)):
-        if page == '_meta' or page in new: continue
+        if page == '_meta' or page in skip: continue
         old, new = baseline.get(page, {}), results.get(page, {})
         kinds = ['raw', 'notes'] + (['redis_py'] if baseline['_meta'].get('redis_py') and results['_meta'].get('redis_py') else [])
         for kind in kinds:

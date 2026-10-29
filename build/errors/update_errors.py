@@ -553,15 +553,18 @@ def cmd_apply(args):
     sources = {(m, msg): w for m, msg, w in work['sources']}
     for e in errors:
         e['sources'] = sources.get((e['module'], e['message']), e.get('sources', []))
-    added = 0
+    added_by = {}
     for item in work['new']:
         for e in item['entries'] if item['decision'] == 'add' else []:
             key = (e['module'], e['message'])
             if key in by_key and key not in removed:
                 sys.exit(f'{item["id"]}: {e["module"]} already has the message {e["message"]!r}')
+            if key in added_by:
+                sys.exit(f'{item["id"]}: {added_by[key]} adds the message {e["message"]!r} too. Keep one of them.')
+            added_by[key] = item['id']
             e.setdefault('sources', item.get('where', []))
             errors.append(e)
-            added += 1
+    added = len(added_by)
     data['errors'] = sorted(errors, key=sort_key)
     data['versions'] = work['target']
     save_data(data)
@@ -609,6 +612,13 @@ def needs_section(module, group):
 def check(data):
     """Problems that need fixing, and notes worth a look."""
     problems, notes = [], []
+    # A row's link comes from its module and message, so a repeated message breaks it.
+    seen = set()
+    for e in data['errors']:
+        key = (e['module'], e['message'])
+        if key in seen:
+            problems.append(f'Listed twice: {e["module"]}: {e["message"]}')
+        seen.add(key)
     public = [e for e in data['errors'] if not (e.get('internal') or e.get('unused'))]
     for e in public:
         if not str(e.get('explain', '')).strip():

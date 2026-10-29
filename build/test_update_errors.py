@@ -4,6 +4,9 @@ Unit tests for errors/update_errors.py, the tool that keeps the error reference
 up to date with new Redis releases. They run offline.
 """
 
+import contextlib
+import io
+import json
 import os
 import sys
 import unittest
@@ -109,6 +112,30 @@ class TestApplyValidation(unittest.TestCase):
         self.assertTrue(u.validate_entry(self.entry(module='redis'), 'x'))
         self.assertTrue(u.validate_entry(self.entry(colour='red'), 'x'))
 
+    def apply(self, *items):
+        work = {'new': list(items), 'gone': [], 'review': [], 'unused_codes_now_used': [], 'sources': [],
+                'target': {'redis': '9.0.0'}}
+        data = {'versions': {}, 'errors': []}
+        with patch.object(u, 'latest_work') as latest, patch.object(u, 'load_data', return_value=data), \
+                patch.object(u, 'save_data') as save, patch.object(u, 'cmd_check', return_value=0):
+            latest.return_value.read_text.return_value = json.dumps(work)
+            with contextlib.redirect_stdout(io.StringIO()):
+                u.cmd_apply(type('Args', (), {'work': None})())
+        return save.call_args[0][0]['errors']
+
+    def test_apply_adds_a_message(self):
+        self.assertEqual(len(self.apply({'id': 'new-1', 'decision': 'add', 'entries': [self.entry()]})), 1)
+
+    def test_apply_refuses_a_message_added_twice(self):
+        with self.assertRaises(SystemExit) as stop:
+            self.apply({'id': 'new-1', 'decision': 'add', 'entries': [self.entry()]},
+                       {'id': 'new-extra-1', 'decision': 'add', 'entries': [self.entry()]})
+        self.assertIn('new-1 adds the message', str(stop.exception))
+
+    def test_check_finds_a_repeated_message(self):
+        problems, _ = u.check({'versions': u.load_data()['versions'], 'errors': [self.entry(), self.entry()]})
+        self.assertIn('Listed twice: core: ' + self.entry()['message'], problems)
+
 
 class TestTheRealData(unittest.TestCase):
     def test_sort_order_matches_the_data(self):
@@ -137,11 +164,12 @@ class TestLiveChecks(unittest.TestCase):
             self.assertIsNone(self.lc.py_err(lambda: self.lc.client(port=6550).ping()))
 
     def test_a_page_without_a_baseline_is_not_a_change(self):
-        meta = {'_meta': {'redis_py': None}}
-        baseline = {**meta, 'oom': {'raw': ['-OOM 1']}}
-        results = {**meta, 'oom': {'raw': ['-OOM 2']}, 'denied': {'raw': ['-DENIED']}}
+        # The real baseline, so that the new page sorts after pages that it has.
+        with open(os.path.join(os.path.dirname(__file__), 'errors', 'live_baseline.json')) as f:
+            baseline = json.load(f)
+        results = {**baseline, 'denied': {'raw': ['-DENIED']}, 'zzz-new': {'raw': ['-ZZZ']}}
         self.assertEqual(self.lc.compare(baseline, results), [])
-        self.assertEqual(self.lc.unrecorded(baseline, results), ['denied'])
+        self.assertEqual(self.lc.unrecorded(baseline, results), ['denied', 'zzz-new'])
 
     def test_failures_and_lost_replies_are_changes(self):
         meta = {'_meta': {'redis_py': None}}
