@@ -180,4 +180,4 @@ Storage and internal reader calls can raise `A2AStorageError`, `A2ACapacityExcee
 
 Task listing scans an owner's Task index and suits modest inventories per owner. It is not a search index or a consistent snapshot during concurrent writes.
 
-See the [SDK API reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-a2a.md) for signatures and the [preview limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for deployment qualification. Redis durability remains application-owned; replay does not guarantee exactly-once external effects.
+See the [SDK API reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-a2a.md) for signatures and the [beta limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for deployment qualification. Redis durability remains application-owned; replay does not guarantee exactly-once external effects.

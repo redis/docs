@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: Agent Mesh
 title: Redis Agent Mesh
 weight: 40
-bannerText: Redis Agent Mesh is currently available in preview. Features and behavior are subject to change.
+bannerText: Redis Agent Mesh is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---
 
@@ -57,7 +57,7 @@ For FastAPI, configure `FastAPIRedis(app).lifespan().streams()`, publish scoped 
 - Derive ownership from verified identity. Task IDs and cursors grant no access; authorize requests and reconnections in your application.
 - Retention bounds replay. A2A can fall back to the current snapshot when event history is unavailable. If events are no longer retained, a FastAPI application must provide another way for clients to retrieve the current state.
 - Your application owns execution and Redis durability. Stored tasks do not restart interrupted computation or guarantee exactly-once external effects.
-- Standalone Redis and normal A2A operation on a three-primary Redis Open Source Cluster have local validation evidence. Cloud, Enterprise, failover recovery, and sustained capacity remain unqualified for this preview.
+- Standalone Redis and normal A2A operation on a three-primary Redis Open Source Cluster have local validation evidence. Cloud, Enterprise, failover recovery, and sustained capacity remain unqualified for this beta.
 
 ## Get started
 

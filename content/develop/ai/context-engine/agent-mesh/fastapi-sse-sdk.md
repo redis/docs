@@ -210,5 +210,5 @@ original lifetime. Application state in your own database has separate retention
 
 See the [SDK reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-sse.md)
 for facade exports and upstream signatures, and the
-[preview limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits)
+[beta limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits)
 for deployment qualification.

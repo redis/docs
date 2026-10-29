@@ -1,6 +1,6 @@
 # Agent Mesh documentation
 
-- Agent Mesh is a preview Python SDK integration distributed through `redis-iris`.
+- Agent Mesh is a beta Python SDK integration distributed through `redis-iris`.
   Imports use `redis_iris.agent_mesh`.
 - Lead with resumable event streams on Redis. Present A2A task state storage as
   a supporting capability, and A2A and FastAPI SSE as two Python integration paths.
@@ -25,7 +25,7 @@
   quickstart. Their deployment and Redis requirements are separate.
 - Keep user-facing integration guides here. Link exhaustive signatures and
   implementation contracts to redis-iris documentation.
-  Preserve the product preview banner and qualification limitations.
+  Preserve the product beta banner and qualification limitations.
 
 - Keep an overview, one quickstart with both integrations, and one SDK guide
   per integration. Each quickstart example reaches one first result. Keep

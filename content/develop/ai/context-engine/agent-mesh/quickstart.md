@@ -33,7 +33,7 @@ Choose Redis Cloud or a local instance, then set `REDIS_URL` in the terminal whe
 
 Replace the placeholders with your database values and the certificate bundle's absolute path. Percent-encode special characters in the username, password, and certificate path; see [connection URLs](/content/develop/clients/connection-urls.md). Keep this URL out of source control and logs.
 
-These are Redis database credentials. The local browser demo still needs no token or sign-in. Redis Cloud deployment and failure qualification remain separate from the [preview's tested coverage](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits).
+These are Redis database credentials. The local browser demo still needs no token or sign-in. Redis Cloud deployment and failure qualification remain separate from the [beta's tested coverage](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits).
 
 -tab-sep-
 
@@ -225,4 +225,4 @@ Stopping the app leaves a Redis Cloud database running. If you created a disposa
 
 ## Further reading
 
-To add these integrations to your application, follow the [A2A SDK guide](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md) or [FastAPI SSE SDK guide](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md). See the [Agent Mesh limitations](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for preview qualification.
+To add these integrations to your application, follow the [A2A SDK guide](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md) or [FastAPI SSE SDK guide](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md). See the [Agent Mesh limitations](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for beta qualification.

@@ -23,7 +23,7 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Agent Playbooks" description="Publish reusable answers and procedures for agents" url="/develop/ai/context-engine/agent-playbooks" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens" description="Debug agent answers by tracing the context behind each turn" url="/develop/ai/context-engine/lens" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="SDK and CLI setup" description="Install redis-iris and connect it to Redis Cloud or a self-managed deployment" url="/develop/ai/context-engine/sdk-and-cli" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent Mesh (preview)" description="Share agent-to-agent task state across Python replicas and resume event delivery" url="/develop/ai/context-engine/agent-mesh" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent Mesh (beta)" description="Share agent-to-agent task state across Python replicas and resume event delivery" url="/develop/ai/context-engine/agent-mesh" >}}
 </div>
 
 ## What is Redis Iris?
