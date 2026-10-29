@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Install the redis-iris SDK and iris CLI, connect them to Redis Cloud or a self-managed deployment, and attach Redis Iris to an agent you already have.
+description: Install the redis-iris SDK and iris CLI, connect them to Redis Cloud or a self-managed deployment.
 hideListLinks: true
 linktitle: SDK and CLI setup
 title: Set up Redis Iris with the SDK and CLI
@@ -17,7 +17,7 @@ Start with a service's quickstart: [Agent Memory](/content/develop/ai/context-en
 
 ## Install the SDK and CLI
 
-Both require Python 3.11 or later, and both are prereleases.
+Both require Python 3.11 or later.
 
 ```bash
 python -m pip install redis-iris   # the SDK, in your project's virtual environment
@@ -29,11 +29,23 @@ iris --version
 
 Every command has the same shape. Shared options go before the service name:
 
-```text
+```bash
 iris [shared options] <service> <noun> <verb> [arguments] [options]
 ```
 
-For example, `iris --json --profile suite agent-playbooks faqs sync ./faqs --publish changed`.
+For example, this command syncs a folder of FAQs to a playbook:
+
+```bash
+iris --json --profile suite agent-playbooks faqs sync ./faqs --publish changed
+```
+
+| Part | Role | What it does |
+|---|---|---|
+| `--json --profile suite` | Shared options | Print the result as one JSON value, and use the `suite` profile from `iris.toml`. |
+| `agent-playbooks` | Service | Target Agent Playbooks. |
+| `faqs sync` | Noun and verb | Make the playbook's FAQs match the files. |
+| `./faqs` | Argument | The folder of FAQ files to sync. |
+| `--publish changed` | Option | Publish the new version of each FAQ that changed. Other FAQs keep their published version. |
 
 | Service group | What it manages |
 |---|---|
@@ -45,23 +57,24 @@ For example, `iris --json --profile suite agent-playbooks faqs sync ./faqs --pub
 
 `--json` prints one JSON value, `--no-input` never prompts, and `--profile` selects a configuration profile. Run `iris <service> <noun> <verb> --help` for each command's options.
 
+For every command, see the [redis-iris CLI reference](https://github.com/redis/redis-iris#the-cli), or give your coding agent that link.
+<!-- TODO: point to a full command reference in redis-iris when it exists. The README's CLI section shows examples and links the per-service CLI guides. -->
+
 ## Set up on Redis Cloud
 
-On Redis Cloud, the Redis Cloud console creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks.
+On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris services follow the same steps with their own console pages and `IRIS_<SERVICE>_*` variables.
 
 1. In the Redis Cloud console, go to **Iris AI** > **Agent Playbooks** > **New playbook**. Choose a name, database, and embedding model, then select **Create Playbook**.
 1. On the playbook's **Connect** tab, copy the **Agent endpoint** and the **Playbook ID**. Select **Create agent API key** > **Create key**, and copy the key. It's shown only once.
 1. Save the values in a `.env` file:
 
-    ```text
-    IRIS_PROFILE=cloud
-    IRIS_CONFIG=./iris.toml
+    ```bash
     IRIS_AGENT_PLAYBOOKS_URL=<agent-endpoint>
     IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID=<playbook-id>
     IRIS_AGENT_PLAYBOOKS_API_KEY=<agent-api-key>
     ```
 
-1. Create `iris.toml` with a cloud profile:
+1. Optional, but recommended: create `iris.toml` with a cloud profile, and add `IRIS_PROFILE=cloud` and `IRIS_CONFIG=./iris.toml` to `.env`. One `iris.toml` holds the URLs for every Redis Iris service you use, so the CLI and SDK manage them together, and switching deployments means switching one profile. See the [Redis Cloud project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/cloud).
 
     ```toml
     [profiles.cloud]
@@ -80,11 +93,11 @@ On Redis Cloud, the Redis Cloud console creates services and keys, and the CLI c
 
     A working playbook reports `status: ready`.
 
-On a cloud profile, `service create`, `service key`, and `service check` don't call the service. They stop with a `cloud_unsupported` error that lists the console steps for the same task.
-
 ## Set up on a self-managed deployment
 
 On a self-managed deployment, the CLI creates services and keys with your operator tokens. Each token is the deployment's static admin token or an access token from your identity provider.
+
+The services deploy on Kubernetes from the shared Redis Helm repository, `https://helm.redis.io/ai`. See [deploy self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md) and [deploy self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md). For a complete project, see the [self-managed project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/onprem).
 
 1. Create `iris.toml` with a profile for your deployment. It holds URLs only:
 
@@ -100,7 +113,7 @@ On a self-managed deployment, the CLI creates services and keys with your operat
 
 1. Put the operator tokens in a `.env.admin` file. Keep them out of your agent's `.env`:
 
-    ```text
+    ```bash
     IRIS_CONFIG=./iris.toml
     IRIS_PROFILE=suite
     IRIS_AGENT_PLAYBOOKS_SERVICE_TOKEN=<service-token>
@@ -127,7 +140,7 @@ On a self-managed deployment, the CLI creates services and keys with your operat
     iris agent-playbooks service check "$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID" --env-file .env
     ```
 
-Agent Memory, Context Gateway, and Intent Router follow the same steps with their own `service create` options. Context Gateway's `service create` has no dry run.
+Agent Memory, Context Gateway, and Intent Router follow the same steps with their own `service create` options.
 
 ## Configure profiles and credentials
 
@@ -143,33 +156,10 @@ The CLI takes each setting from the first of these that sets it: a command optio
 
 `iris.toml` never holds secrets. A token or API key in it stops the CLI with exit code 2. Tokens and keys come only from environment variables or the files the CLI writes.
 
-## Attach Redis Iris to an agent you already have
-
-`attach` adds a service to an agent you already built, at the framework's own hook points, and returns the same object. Before the model runs, it adds the service's context to the prompt. After the reply, it records the turn.
-
-For LangGraph, install `redis-iris[langgraph]` and attach to the graph before you compile it:
-
-```python
-from redis_iris import AgentMemory
-from redis_iris.integrations.langgraph import attach
-
-memory = AgentMemory.from_env(assistant_id="support-bot")
-app = attach(memory, graph).compile()
-```
-
-For Google Agent Development Kit (ADK), in `redis-iris` 0.1.0a9 and later, attach to the `LlmAgent`:
-
-```python
-from redis_iris.integrations.adk import attach
-
-agent = attach(memory, LlmAgent(name="support", model="<model>", instruction="<instruction>"))
-```
-
-`attach` works with Agent Memory and Agent Playbooks, and with several services combined by `redis_iris.hooks.stack`. Context Gateway adds tools rather than context, so you pass its tools to your model yourself. Intent Router and Lens don't attach: call `router.match()` where your agent routes. On LangGraph, each run of an attached graph is already one Lens turn. Elsewhere, wrap each turn in `lens.turn()`.
-
 ## More information
 
 - [The `iris` CLI in the redis-iris README](https://github.com/redis/redis-iris#the-cli)
 - [Configuration guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/configuration.md)
 - [Provision without the UI](https://github.com/redis/redis-iris/blob/main/docs/user_guides/provision-without-the-ui.md)
 - [Starter configuration for Redis Cloud and self-managed projects](https://github.com/redis/redis-iris/tree/main/examples/project_setup)
+- [redis-iris examples](https://github.com/redis/redis-iris/tree/main/examples), including adding Redis Iris to an agent you already have
