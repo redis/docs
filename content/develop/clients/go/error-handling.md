@@ -103,7 +103,7 @@ Log non-critical errors and continue (see
 for a full description):
 
 ```go
-err := rdb.SetEx(ctx, key, value, 3600*time.Second).Err()
+err := rdb.Set(ctx, key, value, 3600*time.Second).Err()
 if err != nil {
     if _, ok := err.(net.Error); ok {
         logger.Warnf("Failed to cache %s, continuing without cache", key)
