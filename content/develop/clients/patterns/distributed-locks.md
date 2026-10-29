@@ -59,7 +59,7 @@ already available that can be used for reference.
 * [RedLock.net](https://github.com/samcook/RedLock.net) (C#/.NET implementation). Includes async and lock extension support.
 * [Redlock4Net](https://github.com/LiZhenNet/Redlock4Net) (C# .NET implementation).
 * [node-redlock](https://github.com/mike-marcacci/node-redlock) (NodeJS implementation). Includes support for lock extension.
-* [redlock-universal](https://github.com/alexpota/redlock-universal) (NodeJS implementation). Supports both node-redis and ioredis clients.
+* [redlock-universal](https://github.com/alexpota/redlock-universal) (NodeJS implementation). Supports node-redis and ioredis, with automatic lock extension and Redis Cluster support.
 * [Deno DLM](https://github.com/oslabs-beta/Deno-Redlock) (Deno implementation)
 * [Rslock](https://github.com/hexcowboy/rslock) (Rust implementation). Includes async and lock extension support.
 
