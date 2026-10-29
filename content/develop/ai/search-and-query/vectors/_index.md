@@ -118,6 +118,9 @@ the accuracy of the queries, while trading off performance.
 | `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. | 200 |
 | `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. | 10 |
 | `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. | 0.01 |
+| `RERANK`           | [Flex databases](/content/operate/rs/flex/_index.md) only. Sets whether queries on this field use reranking by default (`TRUE` or `FALSE`). Indexes on other databases reject this attribute. | None |
+
+On Flex databases, `M`, `EF_CONSTRUCTION`, `EF_RUNTIME`, and `RERANK` are required for `HNSW` fields.
 
 **Example**
 
@@ -450,6 +453,7 @@ Optional runtime parameters for HNSW indexes are:
 |:----------------|:----------------------------------------------------------------------------------------------------------|:--------------------|
 | `EF_RUNTIME`    | The maximum number of top candidates to hold during the KNN search. Higher values lead to more accurate results at the expense of a longer query runtime. | The value passed during index creation. The default is 10. |
 | `EPSILON`       | The relative factor that sets the boundaries for a vector range query. Vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing a more extensive search and more accurate results at the expense of runtime. | The value passed during index creation. The default is 0.01. |
+| `RERANK`        | [Flex databases](/content/operate/rs/flex/_index.md) only. Overrides the field's `RERANK` setting for this query (`TRUE` or `FALSE`). | The value passed during index creation. |
 
 **SVS-VAMANA**
 
