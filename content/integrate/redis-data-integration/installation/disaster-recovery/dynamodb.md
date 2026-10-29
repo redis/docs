@@ -27,6 +27,12 @@ supports `--global-table-witness-updates` and `--multi-region-consistency`. If e
 is unknown, [update the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
 The RDI operator needs separate runtime permissions.
 
+To prepare the lease store with Terraform, use the
+[DynamoDB lease Terraform example](https://github.com/redis/rdi-cloud-automation/tree/main/modules/aws-rdi-dynamodb-lease).
+It creates the MRSC global table and operator access policy, and outputs lease settings for
+each replica Region. After applying it, continue with
+[Configure both instances](/content/integrate/redis-data-integration/installation/disaster-recovery/dynamodb.md#configure-both-instances).
+
 ## Create the table
 
 The table must have a single string partition key named `id`, with no sort key. Do not enable
