@@ -306,6 +306,10 @@ legacy_src_path() {
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
     time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
+    landing:node)                echo local_examples/client-specific/nodejs/landing.js ;;
+    js_home_query:node)          echo local_examples/client-specific/nodejs/home-query.js ;;
+    home_query_vec:node)         echo local_examples/client-specific/nodejs/home_query_vec.js ;;
+    home_vecsets:node)           echo local_examples/client-specific/home_vecsets.js ;;
     time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
     # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 7.5.3,
     # which has both the RedisClient API these examples use and the older UnifiedJedis
@@ -361,7 +365,14 @@ run_hiredis() {
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
-  [ -d "$d/node_modules/redis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis >/dev/null 2>&1); }
+  # Pinned: HIMPORT (hash_import) needs node-redis >= 6.2.0. Reinstall when the cached copy differs.
+  local want=6.2.0 have
+  have="$(node -p "require('$d/node_modules/redis/package.json').version" 2>/dev/null)"
+  [ "$have" = "$want" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis@$want --cache "$d/.npm-cache" >/dev/null 2>&1); }
+  # The home_query_vec / home_vecsets examples also embed text with transformers.js.
+  if grep -q '@xenova/transformers' "$1" && [ ! -d "$d/node_modules/@xenova/transformers" ]; then
+    (cd "$d" && npm i -s @xenova/transformers --cache "$d/.npm-cache" >/dev/null 2>&1)
+  fi
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
 }
 run_ioredis() {

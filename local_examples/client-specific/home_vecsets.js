@@ -165,4 +165,4 @@ console.log(`'science2000': ${JSON.stringify(science2000Results)}`);
 // "Masako Natsume","Freddie Mercury"]
 // STEP_END
 
-await client.quit();
+await client.close();

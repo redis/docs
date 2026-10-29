@@ -67,7 +67,7 @@ async function main() {
 
   await store.incrementField(sessionId, "page_views");
   await store.deleteSession(sessionId);
-  await client.disconnect();
+  await client.destroy();
 }
 
 main().catch(console.error);

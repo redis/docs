@@ -176,10 +176,10 @@ class Subscription {
         // The connection may already be torn down; nothing to do.
       }
       try {
-        await this._client.quit();
+        await this._client.close();
       } catch (_err) {
         try {
-          await this._client.disconnect();
+          await this._client.destroy();
         } catch (_err2) {
           // Ignore — we're tearing down.
         }

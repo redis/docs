@@ -275,13 +275,13 @@ console.log(res27); // >>> [4, 4, 4]
 // Retrieve the last data point from each US time series.
 const res28 = await client.ts.mGet(['location=us']);
 console.log(res28);
-// >>> { "rg:2": { sample: { timestamp: 4, value: 1.78 } }, "rg:3": { sample: { timestamp: 4, value: 0.74 } } }
+// >>> { "rg:2": { sample: { timestamp: 4, value: 1.7800000000000002 } }, "rg:3": { sample: { timestamp: 4, value: 0.7400000000000001 } } }
 
 // Retrieve the same data points, but include the `unit`
 // label in the results.
 const res29 = await client.ts.mGetSelectedLabels(['location=us'], ['unit']);
 console.log(res29);
-// >>> { "rg:2": { labels: { unit: 'cm' }, sample: { timestamp: 4, value: 1.78 } }, "rg:3": { labels: { unit: 'in' }, sample: { timestamp: 4, value: 0.74 } } }
+// >>> { "rg:2": { labels: { unit: 'cm' }, sample: { timestamp: 4, value: 1.7800000000000002 } }, "rg:3": { labels: { unit: 'in' }, sample: { timestamp: 4, value: 0.7400000000000001 } } }
 
 // Retrieve data points up to time 2 (inclusive) from all
 // time series that use millimeters as the unit. Include all
@@ -325,12 +325,12 @@ assert.deepEqual(res26, [3, 3, 3]);
 assert.deepEqual(res27, [4, 4, 4]);
 
 assert.deepEqual(res28, {
-  "rg:2": { sample: { timestamp: 4, value: 1.78 } },
-  "rg:3": { sample: { timestamp: 4, value: 0.74 } }
+  "rg:2": { sample: { timestamp: 4, value: 1.7800000000000002 } },
+  "rg:3": { sample: { timestamp: 4, value: 0.7400000000000001 } }
 });
 assert.deepEqual(res29, {
-  "rg:2": { labels: { unit: 'cm' }, sample: { timestamp: 4, value: 1.78 } },
-  "rg:3": { labels: { unit: 'in' }, sample: { timestamp: 4, value: 0.74 } }
+  "rg:2": { labels: { unit: 'cm' }, sample: { timestamp: 4, value: 1.7800000000000002 } },
+  "rg:3": { labels: { unit: 'in' }, sample: { timestamp: 4, value: 0.7400000000000001 } }
 });
 
 assert.deepEqual(res30, {
@@ -382,13 +382,13 @@ const res32 = await client.ts.range('rg:2', '-', '+', {
   }
 });
 console.log(res32);
-// >>> [{ timestamp: 0, value: 1.9500000000000002 },{ timestamp: 2, value: 2.0999999999999996 }, { timestamp: 4, value: 1.78 }]
+// >>> [{ timestamp: 0, value: 1.9500000000000002 },{ timestamp: 2, value: 2.099999999999999 }, { timestamp: 4, value: 1.7800000000000002 }]
 // STEP_END
 // REMOVE_START
 assert.deepEqual(res32, [
   { timestamp: 0, value: 1.9500000000000002 },
-  { timestamp: 2, value: 2.0999999999999996 },
-  { timestamp: 4, value: 1.78 }
+  { timestamp: 2, value: 2.099999999999999 },
+  { timestamp: 4, value: 1.7800000000000002 }
 ]);
 // REMOVE_END
 
@@ -686,5 +686,5 @@ assert.equal(res61.totalSamples, 0);
 // REMOVE_END
 
 // HIDE_START
-await client.quit();
+await client.close();
 // HIDE_END
