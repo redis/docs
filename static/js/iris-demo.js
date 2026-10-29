@@ -175,7 +175,7 @@
     return { method: "POST", path: "/session-memory/events", status: "201", request: request, response: { event: ev },
       curl: curlRest("$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events", "$AGENT_MEMORY_API_KEY", request) };
   }
-  /* Context Surface results carry a _retrieval stamp, with fields sorted (as the Context Retriever demo returns them). */
+  /* Context Surface results carry a _retrieval stamp, with fields sorted (as the Context Gateway demo returns them). */
   function stamp(rec) {
     var out = { _retrieval: { source: SURFACE, retrieved_at: ASK_AT.replace("Z", ".318Z"), source_version: 1 } };
     Object.keys(rec).sort().forEach(function (k) { out[k] = rec[k]; });

@@ -13,7 +13,7 @@ weight: 90
 
 Check these limits when preparing content or handling request failures. Confirm deployment overrides with your administrator.
 
-The [API reference]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference" >}}) defines field formats and operation-specific schemas.
+The [API reference]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference" >}}) defines field formats and operation-specific schemas.
 
 ## Content limits
 
@@ -60,11 +60,11 @@ These field and structure limits also apply:
 | Management list page | 1–200 results; default `50` |
 | Entry lookup or bulk deletion | 1–100 entry references or identifiers |
 
-Pins consume discovery slots and preview budget. The preview ceiling applies to discovery rather than type-specific search, loaded instructions, or fetched files. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) for the behavior of each setting.
+Pins consume discovery slots and preview budget. The preview ceiling applies to discovery rather than type-specific search, loaded instructions, or fetched files. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval" >}}) for the behavior of each setting.
 
 Follow a list response's next cursor until it is absent, even if a page is empty. Keep the collection, filters, and ordering consistent between pages. Lists reflect concurrent changes and do not represent a fixed snapshot.
 
-Entry and proposal lists can include a separately measured first-page `total`. Absence means unknown, not zero. Cursored pages and version history omit totals. Use the cursor, not the count or page length, to decide when to stop. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
+Entry and proposal lists can include a separately measured first-page `total`. Absence means unknown, not zero. Cursored pages and version history omit totals. Use the cursor, not the count or page length, to decide when to stop. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
 
 ## Proposal and evidence limits
 
@@ -83,7 +83,7 @@ Proposal retention does not affect an accepted FAQ's history. Store required rev
 
 ## Handle request errors
 
-HTTP errors include a status and machine-readable `type`. Use the type to choose a recovery action. For MCP, inspect `isError` before reading tool content. See [MCP troubleshooting]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#troubleshoot-the-connection" >}}).
+HTTP errors include a status and machine-readable `type`. Use the type to choose a recovery action. For MCP, inspect `isError` before reading tool content. See [MCP troubleshooting]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp#troubleshoot-the-connection" >}}).
 
 | Status | Meaning | Action |
 |:-------|:--------|:-------|
@@ -99,7 +99,7 @@ HTTP errors include a status and machine-readable `type`. Use the type to choose
 | `500` | An internal or content-integrity failure occurred. | Preserve safe diagnostic details and report persistent failures. Stored integrity failures require administrator investigation. |
 | `503` | The service or playbook is unavailable. | Check readiness and use bounded retries for safe operations. |
 
-For example, inspect a failed entry read without retrying it automatically. Use the [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}) and export the FAQ identifier you want to inspect:
+For example, inspect a failed entry read without retrying it automatically. Use the [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}) and export the FAQ identifier you want to inspect:
 
 ```bash
 export PLAYBOOK_FAQ_ID='<faq-entry-id>'
@@ -144,4 +144,4 @@ Use a key with `write` permission for bulk deletion. Choose the entry type befor
 
 Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
 
-For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills#withdraw-or-delete-a-skill" >}}).
+For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills#withdraw-or-delete-a-skill" >}}).
