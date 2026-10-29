@@ -365,8 +365,9 @@ run_hiredis() {
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
-  # Pinned: HIMPORT (hash_import) needs node-redis >= 6.2.0. Reinstall when the cached copy differs.
-  local want=6.2.0 have
+  # Pinned: HIMPORT (hash_import) needs node-redis >= 6.2.0, and 6.2.0 itself mis-decodes RESP3
+  # doubles (1.78 -> 1.7800000000000002; fixed in 6.2.1). Reinstall when the cached copy differs.
+  local want=6.3.1 have
   have="$(node -p "require('$d/node_modules/redis/package.json').version" 2>/dev/null)"
   [ "$have" = "$want" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis@$want --cache "$d/.npm-cache" >/dev/null 2>&1); }
   # The home_query_vec / home_vecsets examples also embed text with transformers.js.
