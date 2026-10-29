@@ -42,28 +42,28 @@ In practice, the application loads the full working set into Redis once at start
 
 Redis provides the following features that make it a good fit for prefetch caching:
 
--   [Hashes]({{< relref "/develop/data-types/hashes" >}})
-    ([`HSET`]({{< relref "/commands/hset" >}}),
-    [`HGETALL`]({{< relref "/commands/hgetall" >}})) and native
-    [JSON]({{< relref "/develop/data-types/json" >}}) documents
-    ([`JSON.SET`]({{< relref "/commands/json.set" >}}),
-    [`JSON.GET`]({{< relref "/commands/json.get" >}})) map directly to common
+-   [Hashes](/content/develop/data-types/hashes.md)
+    ([`HSET`](/content/commands/hset.md),
+    [`HGETALL`](/content/commands/hgetall.md)) and native
+    [JSON](/content/develop/data-types/json/_index.md) documents
+    ([`JSON.SET`](/content/commands/json.set.md),
+    [`JSON.GET`](/content/commands/json.get.md)) map directly to common
     reference-data lookup patterns — id-keyed records with a fixed set of fields,
     or richer nested documents accessed by JSONPath.
--   [Pipelined]({{< relref "/develop/clients/pools-and-muxing" >}})
-    [`HSET`]({{< relref "/commands/hset" >}}) or
-    [`MSET`]({{< relref "/commands/mset" >}}) batches make the initial bulk load
+-   [Pipelined](/content/develop/clients/pools-and-muxing.md)
+    [`HSET`](/content/commands/hset.md) or
+    [`MSET`](/content/commands/mset.md) batches make the initial bulk load
     fast: a few thousand records load in a single round trip, so the application
     starts serving from a fully-warm cache within seconds of boot.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) sets a long safety-net TTL on
+-   [`EXPIRE`](/content/commands/expire.md) sets a long safety-net TTL on
     each entry so memory stays bounded even if the sync pipeline silently stops —
     not as the freshness mechanism, but as a guardrail.
--   [`SCAN`]({{< relref "/commands/scan" >}}) iterates the prefetched keyspace
+-   [`SCAN`](/content/commands/scan.md) iterates the prefetched keyspace
     without blocking the server, so the application can audit cache coverage,
     list available IDs, or run a periodic reconciliation pass against the source.
--   [Streams]({{< relref "/develop/data-types/streams" >}})
-    ([`XADD`]({{< relref "/commands/xadd" >}}),
-    [`XREAD`]({{< relref "/commands/xread" >}})) provide a durable, replayable
+-   [Streams](/content/develop/data-types/streams/_index.md)
+    ([`XADD`](/content/commands/xadd.md),
+    [`XREAD`](/content/commands/xread.md)) provide a durable, replayable
     change feed when the sync worker needs to resume from a known offset after
     a restart — the canonical pattern for CDC consumers feeding Redis.
 -   Sub-millisecond reads from memory, so reference-data lookups never appear on
@@ -82,7 +82,7 @@ The following libraries and frameworks support Redis-backed prefetch caching:
     prefetched JSON documents.
 -   **Change-data-capture (CDC)** pipelines that stream source-database changes
     into Redis without custom application code:
-    [Redis Data Integration (RDI)]({{< relref "/integrate/redis-data-integration" >}})
+    [Redis Data Integration (RDI)](/content/integrate/redis-data-integration/_index.md)
     for relational and NoSQL sources on Redis Enterprise / Redis Cloud;
     [Debezium](https://debezium.io/) plus a lightweight Redis consumer for
     open-source Redis.
@@ -94,12 +94,12 @@ The following libraries and frameworks support Redis-backed prefetch caching:
 
 The following guides show how to build a simple Redis-backed prefetch cache in front of a primary store of reference data. Each guide includes a runnable interactive demo that pre-loads records on startup, runs a background sync worker that applies primary-store changes to Redis within milliseconds, and lets you watch the cache stay current as records are added, updated, and deleted on the source.
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/prefetch-cache/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/prefetch-cache/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/prefetch-cache/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/prefetch-cache/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/prefetch-cache/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/prefetch-cache/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/prefetch-cache/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/prefetch-cache/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/prefetch-cache/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/prefetch-cache/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/prefetch-cache/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/prefetch-cache/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/prefetch-cache/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/prefetch-cache/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/prefetch-cache/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/prefetch-cache/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/prefetch-cache/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/prefetch-cache/rust/_index.md)

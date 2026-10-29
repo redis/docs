@@ -27,10 +27,10 @@ weight: 1
 The sections below explain how to install `redis-py` and connect your application
 to a Redis database.
 
-`redis-py` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`redis-py` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
-[RedisOM for Python]({{< relref "/integrate/redisom-for-python" >}})
+[RedisOM for Python](/content/integrate/redisom-for-python/_index.md)
 for more information.
 
 ## Install
@@ -43,9 +43,8 @@ pip install redis
 
 For faster performance, install Redis with [`hiredis`](https://github.com/redis/hiredis) support. This provides a compiled response parser, and for most cases requires zero code changes. By default, if `hiredis` >= 1.0 is available, `redis-py` attempts to use it for response parsing.
 
-{{% alert title="Note" %}}
-The Python `distutils` packaging scheme is no longer part of Python 3.12 and greater. If you're having difficulties getting `redis-py` installed in a Python 3.12 environment, consider updating to a recent release of `redis-py`.
-{{% /alert %}}
+> [!NOTE]
+> The Python `distutils` packaging scheme is no longer part of Python 3.12 and greater. If you're having difficulties getting `redis-py` installed in a Python 3.12 environment, consider updating to a recent release of `redis-py`.
 
 ```bash
 pip install redis[hiredis]

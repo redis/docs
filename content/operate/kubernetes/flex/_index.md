@@ -26,7 +26,7 @@ Flex moves data between RAM and flash based on access patterns:
 - Less active data moves to cost-efficient flash storage.
 - Data accessed from flash promotes back to RAM automatically.
 
-Redis uses an [LRU (least recently used)]({{< relref "/develop/reference/eviction#apx-lru" >}}) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
+Redis uses an [LRU (least recently used)](/content/develop/reference/eviction/index.md#apx-lru) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
 
 This process requires no application changes. Your existing Redis commands work across both storage tiers.
 
@@ -56,13 +56,40 @@ This design delivers predictable latency and throughput as datasets grow beyond 
 
 ## Compatibility
 
-Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K).
+Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K). [Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is in preview. See [Redis Search on Flex](#redis-search-on-flex).
 
 The following features are not yet supported with Flex:
 
-- Redis Query Engine (RQE)
 - Time series
 - Active-Active
+
+## Redis Search on Flex
+
+Redis Search on Flex stores search indexes on flash, so large indexes don't need to fit in RAM. You use the same Redis Search commands and client libraries as you do with an in-memory database.
+
+> [!NOTE]
+> Redis Search on Flex is in preview and supports a subset of Redis Search features. For supported features and limitations, see [Index and search data in Flex databases](/content/operate/rs/flex/search.md). For command support, see [Redis Search commands](/content/operate/oss_and_stack/stack-with-enterprise/search/commands.md).
+
+To use Redis Search on Flex, you need Redis Software for Kubernetes version 8.2.6 or later and Redis database version 8.8 or later.
+
+To turn on Redis Search on Flex, set `searchOnBigstore` and `isRof` to `true` when you create a Flex database:
+
+```yaml
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: <database-name>
+spec:
+  memorySize: <memory-size>
+  isRof: true
+  rofRamSize: <ram-size>
+  redisVersion: "8.8"
+  searchOnBigstore: true
+```
+
+You can't change `searchOnBigstore` after you create the database.
+
+Set `rofRamSize` to at least 20% of `memorySize` for databases that use Redis Search on Flex.
 
 ## When to use Flex
 
@@ -73,11 +100,12 @@ Use Flex when you need to:
 - Operate large distributed caches with elastic scaling and consistent performance under heavy load
 - Reduce infrastructure costs by combining high-speed RAM with cost-efficient flash storage
 
-{{<warning>}}Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).{{</warning>}}
+> [!WARNING]
+> Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)](/content/operate/oss_and_stack/management/persistence.md#append-only-file), [RDB snapshots](/content/operate/oss_and_stack/management/persistence.md#snapshotting), or both. For more information, see [Database persistence](/content/operate/rs/databases/configure/database-persistence.md).
 
 ## Flex and Auto Tiering
 
-Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your database version:
+Flex replaces [Auto Tiering](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your database version:
 
 | Redis database version | Operator version | Redis Flex | Auto Tiering |
 |------------------------|------------------|------------|--------------|
@@ -85,7 +113,7 @@ Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/au
 | 7.4 | 7.8.2-6 and later | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | 7.2 and earlier | 7.22.2-22 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
+For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tiering](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md).
 
 ### Differences between Flex and Auto Tiering
 
@@ -110,6 +138,6 @@ For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tier
 
 ## Next steps
 
-- [Plan your deployment]({{< relref "/operate/kubernetes/flex/plan" >}}): Review hardware requirements, sizing guidelines, and limitations.
-- [Get started]({{< relref "/operate/kubernetes/flex/get-started" >}}): Configure Flex on your cluster.
-- [Scale your deployment]({{< relref "/operate/kubernetes/flex/scale" >}}): Learn scaling strategies and best practices.
+- [Plan your deployment](/content/operate/kubernetes/flex/plan.md): Review hardware requirements, sizing guidelines, and limitations.
+- [Get started](/content/operate/kubernetes/flex/get-started.md): Configure Flex on your cluster.
+- [Scale your deployment](/content/operate/kubernetes/flex/scale.md): Learn scaling strategies and best practices.

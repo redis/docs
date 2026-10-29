@@ -203,7 +203,7 @@ proxy:1
 
 ## `info metrics`
 
-Shows the cluster-wide [metrics configuration]({{<relref "/operate/rs/monitoring/metrics_stream_engine/metrics-configuration">}}) for the v2 metrics stream engine.
+Shows the cluster-wide [metrics configuration](/content/operate/rs/monitoring/metrics_stream_engine/metrics-configuration.md) for the v2 metrics stream engine.
 
 ```sh
 rladmin info metrics
@@ -215,7 +215,7 @@ None
 
 ### Returns
 
-Returns the current metrics configuration. To update it, use [`rladmin metrics config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/metrics#metrics-config">}}).
+Returns the current metrics configuration. To update it, use [`rladmin metrics config`](/content/operate/rs/references/cli-utilities/rladmin/metrics.md#metrics-config).
 
 ### Example
 

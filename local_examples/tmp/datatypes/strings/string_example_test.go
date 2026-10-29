@@ -98,6 +98,77 @@ func ExampleClient_setnx_xx() {
 	// true
 }
 
+func ExampleClient_cas_cad() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	// REMOVE_END
+
+	// STEP_START cas_cad
+	rdb.Set(ctx, "bike:1", "Deimos", 0)
+
+	res11, err := rdb.SetIFEQ(ctx, "bike:1", "Ares", "Deimos", 0).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res11) // >>> OK
+
+	// The value no longer matches, so SetIFEQ returns redis.Nil.
+	_, err = rdb.SetIFEQ(ctx, "bike:1", "Zeus", "Deimos", 0).Result()
+
+	if err != nil && err != redis.Nil {
+		panic(err)
+	}
+
+	fmt.Println(err == redis.Nil) // >>> true
+
+	res12, err := rdb.Get(ctx, "bike:1").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res12) // >>> Ares
+
+	res13, err := rdb.DelExArgs(ctx, "bike:1", redis.DelExArgs{
+		Mode: "IFEQ", MatchValue: "Deimos",
+	}).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res13) // >>> 0
+
+	res14, err := rdb.DelExArgs(ctx, "bike:1", redis.DelExArgs{
+		Mode: "IFEQ", MatchValue: "Ares",
+	}).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res14) // >>> 1
+	// STEP_END
+
+	// Output:
+	// OK
+	// true
+	// Ares
+	// 0
+	// 1
+}
+
 func ExampleClient_mset() {
 	ctx := context.Background()
 

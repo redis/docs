@@ -15,7 +15,7 @@ weight: 6
 ---
 
 This guide shows you how to build a small Redis-backed online feature store in
-Rust with the async [redis-rs]({{< relref "/develop/clients/rust" >}}) crate
+Rust with the async [redis-rs](/content/develop/clients/rust/_index.md) crate
 and `tokio`. The demo runs on top of the [axum](https://docs.rs/axum/)
 web framework so you can bulk-load a batch of users with a key-level TTL, run
 a streaming worker that overwrites real-time features with per-field TTL,
@@ -25,22 +25,22 @@ across a hundred users for batch scoring.
 ## Overview
 
 Each entity (here, a user) is one Redis
-[Hash]({{< relref "/develop/data-types/hashes" >}}) at a deterministic key —
+[Hash](/content/develop/data-types/hashes.md) at a deterministic key —
 `fs:user:{id}`. The hash holds every feature for that entity as one field per
 feature: batch-materialized aggregates (refreshed once a day) alongside
 streaming-updated signals (refreshed every few seconds). One
-[`HMGET`]({{< relref "/commands/hmget" >}}) returns whichever subset the model
+[`HMGET`](/content/commands/hmget.md) returns whichever subset the model
 needs in one network round trip.
 
 Two TTL layers solve the *mixed staleness* problem without an application-side
 cleaner:
 
-* A **key-level** [`EXPIRE`]({{< relref "/commands/expire" >}}) aligned with the
+* A **key-level** [`EXPIRE`](/content/commands/expire.md) aligned with the
   batch materialization cycle (24 hours in the demo). If the batch refresher
   fails, the whole entity disappears at the next cycle and inference sees a
   missing entity — which the model handler can detect and fall back on —
   rather than silently outdated values.
-* A **per-field** [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) (Redis 7.4+) on
+* A **per-field** [`HEXPIRE`](/content/commands/hexpire.md) (Redis 7.4+) on
   each streaming feature gives that field its own shorter expiry, independent
   of the rest of the hash. If the streaming pipeline stops updating a feature,
   the field self-cleans while the batch fields stay populated.
@@ -48,7 +48,7 @@ cleaner:
 That gives you:
 
 * A single round trip for retrieval — any subset of features for one entity
-  in one [`HMGET`]({{< relref "/commands/hmget" >}}).
+  in one [`HMGET`](/content/commands/hmget.md).
 * Sub-millisecond hot path. The Redis-side work is microseconds; in practice
   the bottleneck is the network round trip plus the model's own feature-prep.
 * Pipelined batch scoring — one round trip for `N` users at once.
@@ -99,8 +99,8 @@ request side.
    warehouse). The result is a `Vec<(String, FeatureMap)>` for every user
    in this cycle.
 2. `store.bulk_load(&rows, ttl_seconds).await` queues one
-   [`HSET`]({{< relref "/commands/hset" >}}) plus one
-   [`EXPIRE`]({{< relref "/commands/expire" >}}) per user through a
+   [`HSET`](/content/commands/hset.md) plus one
+   [`EXPIRE`](/content/commands/expire.md) per user through a
    non-transactional `redis::pipe()`, so the whole batch ships in a single
    round trip.
 
@@ -111,11 +111,11 @@ layer computes whatever real-time signals fall out of that event and
 calls `store.update_streaming(user_id, &fields, ttl_seconds).await`. That
 queues:
 
-1. An [`HSET`]({{< relref "/commands/hset" >}}) writing the new field
+1. An [`HSET`](/content/commands/hset.md) writing the new field
    values. Redis is single-threaded per shard, so this is atomic against
    any concurrent batch write on the same hash — no version columns, no
    locks.
-2. An [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) over exactly the
+2. An [`HEXPIRE`](/content/commands/hexpire.md) over exactly the
    fields that were written, with the streaming TTL. Each streaming field
    carries its own per-field expiry independent of the rest of the hash.
    Stop the worker and these fields drop out one by one as their TTLs
@@ -127,12 +127,12 @@ queues:
 1. The model server picks the feature subset it needs (the schema is
    owned by the model, not the store).
 2. It calls `store.get_features(user_id, &names).await`, which is one
-   [`HMGET`]({{< relref "/commands/hmget" >}}). Redis returns the values
+   [`HMGET`](/content/commands/hmget.md). Redis returns the values
    in the same order as the requested fields, with `None` for any field
    that doesn't exist (or has expired).
 3. For batch inference, the model server calls
    `store.batch_get_features(&user_ids, &names).await`, which pipelines
-   one [`HMGET`]({{< relref "/commands/hmget" >}}) per user across all
+   one [`HMGET`](/content/commands/hmget.md) per user across all
    `N` users in a single network round trip via `redis::pipe()`.
 
 ## The feature-store helper
@@ -260,15 +260,15 @@ of every other user's, and an all-or-nothing transaction would block the
 server for the duration of the batch. For the rare case where the pair has
 to be inseparable, swap to `redis::pipe().atomic()` (which wraps in
 `MULTI/EXEC`) or a Lua script via
-[`EVAL`]({{< relref "/commands/eval" >}}) /
-[Eval scripting]({{< relref "/develop/programmability/eval-intro" >}}).
+[`EVAL`](/content/commands/eval.md) /
+[Eval scripting](/content/develop/programmability/eval-intro.md).
 
 In production, the equivalent of this script runs as an offline pipeline
 (a Spark or Feast `materialize` job) that reads from the warehouse and
 writes into Redis. The
 [Feast `RedisOnlineStore`](https://docs.feast.dev/reference/online-stores/redis)
 provider does exactly this under the hood; the in-house
-[Redis Feature Form]({{< relref "/develop/ai/featureform" >}}) integration
+[Redis Feature Form](/content/develop/ai/featureform/_index.md) integration
 covers the materialize + serve path end-to-end.
 
 ### Streaming writes with per-field TTL
@@ -315,7 +315,7 @@ pub async fn update_streaming(
 }
 ```
 
-[`HEXPIRE`]({{< relref "/commands/hexpire" >}}) sets the TTL on *individual*
+[`HEXPIRE`](/content/commands/hexpire.md) sets the TTL on *individual*
 hash fields, not on the whole key. The two commands are queued under one
 flush so Redis runs them in pipeline order: the `HSET` first creates or
 overwrites the fields, then `HEXPIRE` attaches a TTL to each of those same
@@ -517,8 +517,8 @@ multiplexed socket. Endpoints:
 
 ## Prerequisites
 
-* **Redis 7.4 or later.** [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
-  [`HTTL`]({{< relref "/commands/httl" >}}) were added in Redis 7.4; the
+* **Redis 7.4 or later.** [`HEXPIRE`](/content/commands/hexpire.md) and
+  [`HTTL`](/content/commands/httl.md) were added in Redis 7.4; the
   demo relies on per-field TTL for the mixed-staleness story.
 * **Rust 1.74 or later.** The demo uses `async fn` in traits, `let-else`,
   and other recent ergonomics. Earlier stable Rust may compile after small
@@ -581,8 +581,8 @@ Open [http://127.0.0.1:8090](http://127.0.0.1:8090). Useful things to try:
 The guidance below focuses on the production concerns specific to running
 a feature store on Redis. For the generic redis-rs production checklist
 — TLS, AUTH, retry/backoff, error handling — see the
-[redis-rs client guide]({{< relref "/develop/clients/rust" >}}) and the
-[error-handling notes]({{< relref "/develop/clients/rust/error-handling" >}}).
+[redis-rs client guide](/content/develop/clients/rust/_index.md) and the
+[error-handling notes](/content/develop/clients/rust/error-handling.md).
 The feature-store demo runs against `localhost` with the defaults; a real
 deployment should harden the client first.
 
@@ -637,7 +637,7 @@ writes a field without renewing its TTL, the field carries whatever
 expiry was there before — possibly none, possibly stale — and the
 mixed-staleness invariant breaks. Keep the `HSET` and `HEXPIRE` in the
 same pipeline (or, even safer, in the same
-[Lua script]({{< relref "/develop/programmability/eval-intro" >}}) if
+[Lua script](/content/develop/programmability/eval-intro.md) if
 you don't trust the call site).
 
 ### Avoid HGETALL on the request path
@@ -681,25 +681,25 @@ has no TTL set (and is therefore covered only by the key-level
 
 This example uses the following Redis commands:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to write a feature or a whole
+* [`HSET`](/content/commands/hset.md) to write a feature or a whole
   feature row in one call.
-* [`HMGET`]({{< relref "/commands/hmget" >}}) to retrieve any subset of
+* [`HMGET`](/content/commands/hmget.md) to retrieve any subset of
   features for one entity in one round trip.
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) for debugging and
+* [`HGETALL`](/content/commands/hgetall.md) for debugging and
   feature-set discovery.
-* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
-  [`HTTL`]({{< relref "/commands/httl" >}}) for per-field TTL on
+* [`HEXPIRE`](/content/commands/hexpire.md) and
+  [`HTTL`](/content/commands/httl.md) for per-field TTL on
   streaming features (Redis 7.4+).
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) and
-  [`TTL`]({{< relref "/commands/ttl" >}}) for the whole-entity TTL
+* [`EXPIRE`](/content/commands/expire.md) and
+  [`TTL`](/content/commands/ttl.md) for the whole-entity TTL
   aligned with the batch materialization cycle.
 * Pipelined `HMGET` across many entities for batch scoring with one
   network round trip — see
-  [transactions and pipelining]({{< relref "/develop/clients/rust/transpipe" >}}).
+  [transactions and pipelining](/content/develop/clients/rust/transpipe.md).
 
-See the [redis-rs documentation]({{< relref "/develop/clients/rust" >}})
+See the [redis-rs documentation](/content/develop/clients/rust/_index.md)
 for the full client reference, and the
-[Hashes overview]({{< relref "/develop/data-types/hashes" >}}) for the
+[Hashes overview](/content/develop/data-types/hashes.md) for the
 deeper conceptual model — including the listpack encoding that makes
 small hashes particularly compact in memory, which matters at
 feature-store scale.

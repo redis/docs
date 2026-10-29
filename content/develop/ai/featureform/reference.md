@@ -7,11 +7,11 @@ aliases:
 - /develop/ai/featureform/datasets-and-transformations/
 ---
 
-This page collects reference data for Redis Feature Form. For help understaind the concepts behind Redis Feature Form, see [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}). 
+This page collects reference data for Redis Feature Form. For help understaind the concepts behind Redis Feature Form, see [Concepts](/content/develop/ai/featureform/concepts.md). 
 
 ## Permissions
 
-The role table on [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth#built-in-roles" >}}) summarizes which permissions each role grants; the table below lists every permission the authorization service checks. To grant a role on a workspace, see [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+The role table on [Configure authentication and RBAC](/content/operate/featureform/configure-auth.md#built-in-roles) summarizes which permissions each role grants; the table below lists every permission the authorization service checks. To grant a role on a workspace, see [Manage workspaces](/content/develop/ai/featureform/manage-workspace.md).
 
 | Permission ID | Category | Resource scope | What it grants |
 | --- | --- | --- | --- |
@@ -87,7 +87,7 @@ This section lists the public gRPC services Feature Form exposes. Most users int
 
 ## CLI
 
-This section lists `ff` CLI commands and global flags. For usage in context, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}), [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}), and [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}).
+This section lists `ff` CLI commands and global flags. For usage in context, see [Define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md), [Manage workspaces](/content/develop/ai/featureform/manage-workspace.md), and [Register providers](/content/develop/ai/featureform/register-providers/_index.md).
 
 ### Global flags
 
@@ -134,7 +134,7 @@ CLI behavior:
 
 ## Python client
 
-This section lists the public symbols the `featureform` Python package exports. For usage, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) to author a definitions file, and [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) to read features at inference time.
+This section lists the public symbols the `featureform` Python package exports. For usage, see [Define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md) to author a definitions file, and [Serve features](/content/develop/ai/featureform/serve-features.md) to read features at inference time.
 
 ### Client APIs
 

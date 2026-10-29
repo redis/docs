@@ -51,9 +51,8 @@ spec:
     ----- LICENSE END -----
 ```
 
-{{<note>}}
-You must include the pipe symbol (`|`) after `license:` and maintain proper indentation.
-{{</note>}}
+> [!NOTE]
+> You must include the pipe symbol (`|`) after `license:` and maintain proper indentation.
 
 ## Cluster credential configuration
 
@@ -67,11 +66,10 @@ By default, the operator automatically creates a secret with a random username a
 
 You can customize the credential secret name during cluster creation using the `clusterCredentialSecretName` field in your REC specification. The secret must contain `username` and `password` fields.
 
-{{<note>}}
-The `clusterCredentialSecretName` field cannot be changed after cluster creation.
-{{</note>}}
+> [!NOTE]
+> The `clusterCredentialSecretName` field cannot be changed after cluster creation.
 
-For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/8.0/security/manage-rec-credentials#customize-the-credential-secret-name" >}}).
+For detailed instructions, see [Customize the credential secret name](/content/operate/kubernetes/8.0/security/manage-rec-credentials.md#customize-the-credential-secret-name).
 
 ## TLS certificate configuration
 
@@ -85,7 +83,7 @@ You can store TLS certificates in Kubernetes Secrets to secure communication bet
     kubectl -n <namespace> create secret generic client-cert-secret --from-file=cert=<path-to-cert>
     ```
 
-2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates]({{< relref "/operate/kubernetes/8.0/security/add-client-certificates" >}}) for details.
+2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates](/content/operate/kubernetes/8.0/security/add-client-certificates.md) for details.
 
 ### Service certificates
 
@@ -116,7 +114,7 @@ kubectl create secret generic dp-internode-cert \
   --from-literal=name=dp_internode_encryption
 ```
 
-Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/8.0/security/internode-encryption" >}}) for complete configuration details.
+Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption](/content/operate/kubernetes/8.0/security/internode-encryption.md) for complete configuration details.
 
 ## Best practices
 
@@ -128,7 +126,7 @@ Reference these secrets in your REC specification under `spec.certificates`. See
 
 ## See also
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/8.0/security/manage-rec-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/8.0/security/manage-rec-certificates" >}})
-- [Add client certificates]({{< relref "/operate/kubernetes/8.0/security/add-client-certificates" >}})
-- [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}})
+- [Manage REC credentials](/content/operate/kubernetes/8.0/security/manage-rec-credentials.md)
+- [Manage REC certificates](/content/operate/kubernetes/8.0/security/manage-rec-certificates.md)
+- [Add client certificates](/content/operate/kubernetes/8.0/security/add-client-certificates.md)
+- [Redis Enterprise Cluster API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md)

@@ -13,30 +13,37 @@
   {{- end -}}
 {{- end -}}
 {{- $id := printf "redis-cli-%s" (substr (.Inner | md5) 0 8) -}}
+{{- /* prereq="true" makes this block the page's setup: every other "Try it" on
+       the page runs it first (once per sandbox session — the workbench dedupes).
+       `set` only names it, for the older per-set registry. */ -}}
+{{- $isSetup := eq (.Get "prereq") "true" -}}
+{{- $setName := or (.Get "set") .Page.RelPermalink -}}
 
 <div class="bg-slate-900 border-b border-slate-700 rounded-t-xl px-4 py-3 w-full flex items-center">
   {{ partial "icons/cli-circle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
   {{ partial "icons/cli-triangle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
   {{ partial "icons/cli-star" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
   {{- if $commands -}}
-  <button tabindex="1" type="button" class="tryit-button ml-auto flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out" title="Run these commands in the Redis CLI" data-codetabs-id="{{ $id }}" data-tryit-source="{{ .Page.RelPermalink }}" onclick="openTryItCli(this)" aria-label="Try these Redis commands in an interactive CLI"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Try it</span></button>
+  <button tabindex="1" type="button" class="tryit-button ml-auto flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out" title="Run these commands in the Redis CLI" data-codetabs-id="{{ $id }}" data-tryit-source="{{ .Page.RelPermalink }}"{{ if $isSetup }} data-tryit-setup="{{ $id }}"{{ end }} onclick="openTryItCli(this)" aria-label="Try these Redis commands in an interactive CLI"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Try it</span></button>
   {{- end -}}
 </div>
+{{- /* A code block, not a terminal.
+
+       This used to render `form.redis-cli`, which cli.js turned into a live
+       terminal that ran the commands as the page loaded. That meant a page of
+       prose could not be read without executing against a shared sandbox — every
+       visit, whether or not the reader wanted to run anything, and with the
+       output on screen differing from the example as written. Running now happens
+       in the workbench, behind "Try it", where a reader asks for it and can see
+       the keyspace it touches.
+
+       What shows here is exactly what the author wrote: prompts, commands and
+       expected output. The `commands` above still feed "Try it"; the block itself
+       is inert, and codetabs.js copies from `div.redis-cli-static > pre`. */ -}}
+{{- printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" (htmlEscape (trim .Inner " \n\t\r")) | safeHTML -}}
 {{- if $commands -}}
-  {{- /* Interactive terminal: cli.js reads these bare commands from textContent,
-         runs them, and renders the live output. */ -}}
-  {{- $cliJoined := delimit $commands "\n" -}}
-  {{- $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" -}}
-  {{- printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr (htmlEscape $cliJoined) | safeHTML -}}
-{{- else -}}
-  {{- /* No "> "/"redis> " command lines — render the inner content as a static,
-         non-executable block (cli.js/codetabs.js only target form.redis-cli). */ -}}
-  {{- printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" (htmlEscape (trim .Inner " \n\t\r")) | safeHTML -}}
-{{- end -}}
-{{- if $commands -}}
-{{- /* One line, no "//" comments. This shortcode is called with percent
-       delimiters, so Goldmark re-parses its output; html/template strips JS
-       comments to whitespace-only lines, which end the HTML block and turn the
-       rest of the script into a <pre><code> block. See DOC-6918. */ -}}
-<script>window._tryItCommands = window._tryItCommands || {}; window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }}; window.openTryItCli = window.openTryItCli || function(button) { const codetabsId = button.getAttribute('data-codetabs-id'); const commands = window._tryItCommands[codetabsId]; if (!commands || !commands.length) return; const json = JSON.stringify(commands); const b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); const source = button.getAttribute('data-tryit-source') || ''; let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true' + '&snippet=' + encodeURIComponent(codetabsId); if (source) url += '&source=' + encodeURIComponent(source); window.open(url, '_blank', 'noopener,noreferrer'); };</script>
+{{ partial "tryit-script.html" . }}
+{{- /* Registered after the implementation, in one line for the same reason it
+       carries no comments: percent delimiters mean Goldmark re-parses this. */ -}}
+<script>window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }};{{ if $isSetup }} window.registerTryItSetup({{ $setName | jsonify | safeJS }}, '{{ $id }}', window._tryItCommands['{{ $id }}']); window._tryItPrereqs[{{ $setName | jsonify | safeJS }}] = window._tryItCommands['{{ $id }}'];{{ end }}</script>
 {{- end -}}

@@ -49,9 +49,8 @@ syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n
   \ [COMPRESSION compression] [OVERRIDE]"
 title: TDIGEST.MERGE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Merges multiple t-digest sketches into a single sketch.
@@ -127,14 +126,14 @@ redis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.
 
 {{< /multitabs >}}

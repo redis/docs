@@ -82,7 +82,7 @@ syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS
   numfields field [field ...]"
 title: HPEXPIREAT
 ---
-`HPEXPIREAT` has the same effect and semantics as [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}), but the Unix time at
+`HPEXPIREAT` has the same effect and semantics as [`HEXPIREAT`](/content/commands/hexpireat.md), but the Unix time at
 which the field will expire is specified in milliseconds since Unix epoch instead of seconds.
 
 ## Required arguments

@@ -42,23 +42,23 @@ In practice, each cached entity is stored under a key like `cache:{entity}:{id}`
 
 Redis provides the following features that make it a good fit for cache-aside:
 
--   [`GET`]({{< relref "/commands/get" >}}) and
-    [`SET`]({{< relref "/commands/set" >}}) with per-key
-    [`EX`/`PX`]({{< relref "/commands/set" >}}) TTL so every entry has a bounded
-    staleness window, and [`DEL`]({{< relref "/commands/del" >}}) on write for explicit
+-   [`GET`](/content/commands/get.md) and
+    [`SET`](/content/commands/set.md) with per-key
+    [`EX`/`PX`](/content/commands/set.md) TTL so every entry has a bounded
+    staleness window, and [`DEL`](/content/commands/del.md) on write for explicit
     invalidation — keeping stale data confined to a known, configurable bound.
--   [Hashes]({{< relref "/develop/data-types/hashes" >}})
-    ([`HSET`]({{< relref "/commands/hset" >}}),
-    [`HGET`]({{< relref "/commands/hget" >}})) and native
-    [JSON]({{< relref "/develop/data-types/json" >}}) path access
-    ([`JSON.SET`]({{< relref "/commands/json.set" >}}),
-    [`JSON.GET`]({{< relref "/commands/json.get" >}})) for structured and
+-   [Hashes](/content/develop/data-types/hashes.md)
+    ([`HSET`](/content/commands/hset.md),
+    [`HGET`](/content/commands/hget.md)) and native
+    [JSON](/content/develop/data-types/json/_index.md) path access
+    ([`JSON.SET`](/content/commands/json.set.md),
+    [`JSON.GET`](/content/commands/json.get.md)) for structured and
     partial-field caching, avoiding full-object re-serialization on every read or update — a real
     gap in string-only stores like Memcached.
--   [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) with
-    [`EVAL`]({{< relref "/commands/eval" >}}) for atomic stampede mitigation: mutex locks
+-   [Lua scripting](/content/develop/programmability/eval-intro.md) with
+    [`EVAL`](/content/commands/eval.md) for atomic stampede mitigation: mutex locks
     or probabilistic early refresh execute in a single atomic step with no external locking.
--   [`TTL`]({{< relref "/commands/ttl" >}}) for monitoring remaining staleness on any cached
+-   [`TTL`](/content/commands/ttl.md) for monitoring remaining staleness on any cached
     key without recomputing.
 -   Sub-millisecond reads from memory, so the cache check adds negligible overhead on the
     request path. If Redis is already in the stack for sessions, rate limiting, or queues,
@@ -89,12 +89,12 @@ The following guides show how to build a simple Redis-backed cache-aside layer i
 of a slow primary store. Each guide includes a runnable interactive demo for each of the
 following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/cache-aside/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/cache-aside/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/cache-aside/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/cache-aside/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/cache-aside/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/cache-aside/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/cache-aside/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/cache-aside/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/cache-aside/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/cache-aside/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/cache-aside/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/cache-aside/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/cache-aside/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/cache-aside/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/cache-aside/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/cache-aside/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/cache-aside/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/cache-aside/rust/_index.md)

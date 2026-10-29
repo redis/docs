@@ -13,11 +13,10 @@ weight: 80
 aliases: /operate/rs/databases/durability-ha/db-availability/
 ---
 
-You can use the [database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}) to verify whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
+You can use the [database availability API](/content/operate/rs/references/rest-api/requests/bdbs/availability.md) to verify whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
-{{<note>}}
-Database availability does not guarantee data availability.
-{{</note>}}
+> [!NOTE]
+> Database availability does not guarantee data availability.
 
 ## Check database availability for monitoring
 
@@ -29,11 +28,11 @@ GET /v1/bdbs/<database_id>/availability
 
 If the OSS Cluster API is enabled, this request verifies all endpoints for this database are available. Otherwise, it verifies the database has at least one available endpoint.
 
-An endpoint is available only if the database's primary (master) shards are reachable and the endpoint's listener port is bound. If either check fails, the database is reported as unavailable, and the [`error_code` and `description`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-db-error-codes">}}) identify the specific reason.
+An endpoint is available only if the database's primary (master) shards are reachable and the endpoint's listener port is bound. If either check fails, the database is reported as unavailable, and the [`error_code` and `description`](/content/operate/rs/references/rest-api/requests/bdbs/availability.md#get-db-error-codes) identify the specific reason.
 
 Returns the status code 200 OK if the database is available.
 
-If the database is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-db-error-codes">}}).
+If the database is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields](/content/operate/rs/references/rest-api/requests/bdbs/availability.md#get-db-error-codes).
 
 ## Check local database endpoint availability for load balancers
 
@@ -45,7 +44,7 @@ GET /v1/local/bdbs/<database_id>/endpoint/availability
 
 Returns HTTP status code 200 OK if all primary (master) shards are reachable from the local database endpoint.
 
-If the local database endpoint is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-endpoint-error-codes">}}).
+If the local database endpoint is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields](/content/operate/rs/references/rest-api/requests/bdbs/availability.md#get-endpoint-error-codes).
 
 ## Use lag-aware availability checks for disaster recovery {#lag-aware}
 
@@ -55,7 +54,7 @@ The database availability API supports lag-aware availability checks that consid
 
 The lag tolerance threshold is 100 milliseconds by default. Depending on factors such as workload, network conditions, and throughput, you might want to adjust the lag tolerance threshold.
 
-To change the default threshold for the entire cluster, set `availability_lag_tolerance_ms` with an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request:
+To change the default threshold for the entire cluster, set `availability_lag_tolerance_ms` with an [update cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) request:
 
 ```sh
 PUT /v1/cluster
@@ -93,7 +92,7 @@ GET /v1/local/bdbs/<database_id>/endpoint/availability?extend_check=lag&availabi
 
 ## Availability by database status
 
-The following table shows the relationship between a database's status and availability. For more details about the database status values, see [BDB status field]({{<relref "/operate/rs/references/rest-api/objects/bdb/status">}}).
+The following table shows the relationship between a database's status and availability. For more details about the database status values, see [BDB status field](/content/operate/rs/references/rest-api/objects/bdb/status.md).
 
 | Database status | Availability |
 |-----------------|--------------|

@@ -131,14 +131,14 @@ CLUSTER MIGRATION CANCEL ALL
 
 During atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:
 
-- [`KEYS`]({{< relref "/commands/keys" >}})
-- [`SCAN`]({{< relref "/commands/scan" >}})
-- [`RANDOMKEY`]({{< relref "/commands/randomkey" >}})
-- [`CLUSTER GETKEYSINSLOT`]({{< relref "/commands/cluster-getkeysinslot" >}})
-- [`DBSIZE`]({{< relref "/commands/dbsize" >}})
-- [`CLUSTER COUNTKEYSINSLOT`]({{< relref "/commands/cluster-countkeysinslot" >}})
+- [`KEYS`](/content/commands/keys.md)
+- [`SCAN`](/content/commands/scan.md)
+- [`RANDOMKEY`](/content/commands/randomkey.md)
+- [`CLUSTER GETKEYSINSLOT`](/content/commands/cluster-getkeysinslot.md)
+- [`DBSIZE`](/content/commands/dbsize.md)
+- [`CLUSTER COUNTKEYSINSLOT`](/content/commands/cluster-countkeysinslot.md)
 
-The [`INFO KEYSPACE`]({{< relref "/commands/info" >}}) command will continue to reflect the actual number of keys, including those being imported.
+The [`INFO KEYSPACE`](/content/commands/info.md) command will continue to reflect the actual number of keys, including those being imported.
 
 ### Related configuration
 

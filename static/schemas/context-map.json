@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://redis.io/schemas/context-map.json",
+  "title": "Redis Context Map Metadata",
+  "description": "Schema for context map (interactive flow diagram) metadata in Redis documentation",
+  "type": "object",
+  "required": ["type", "id", "scope"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["context-map"],
+      "description": "The metadata type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the context map"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Category or domain this diagram applies to (e.g., 'context-engine')"
+    },
+    "nodes": {
+      "type": "object",
+      "description": "Object containing all diagram nodes, keyed by ID",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "type", "col", "row", "description"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text shown inside the node"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["process", "decision", "terminal"],
+            "description": "Shape used to render this node"
+          },
+          "col": {
+            "type": "integer",
+            "description": "Zero-based column position on the layout grid"
+          },
+          "row": {
+            "type": "integer",
+            "description": "Zero-based row position on the layout grid"
+          },
+          "description": {
+            "type": "string",
+            "description": "Text shown in the detail panel when this node is selected"
+          },
+          "docsUrl": {
+            "type": "string",
+            "description": "Optional site-relative link shown in the detail panel, labeled \"Read more\". Rendered after any links in the links object."
+          },
+          "links": {
+            "type": "object",
+            "description": "Optional set of labeled site-relative links shown in the detail panel, keyed by ID, rendered in order before docsUrl",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["label", "url"],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Link text shown in the detail panel"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Site-relative URL"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "object",
+      "description": "Object containing all diagram edges, keyed by ID",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["from", "to"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "ID of the source node"
+          },
+          "to": {
+            "type": "string",
+            "description": "ID of the target node"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["normal", "branch", "loopback"],
+            "description": "How the edge is drawn: a direct line, a labeled branch, or a dashed loopback routed around the diagram"
+          },
+          "route": {
+            "type": "string",
+            "enum": ["top", "bottom"],
+            "description": "For a loopback edge, which side of the diagram the dashed curve routes around. Defaults to bottom."
+          },
+          "label": {
+            "type": "string",
+            "description": "Optional text shown alongside the edge"
+          },
+          "path": {
+            "type": "string",
+            "description": "Optional comma-separated list of top-level path IDs this edge belongs to, for the scenario buttons (e.g. \"memory,context\"). Edges without a path are treated as shared by every path."
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "description": "Object containing named scenarios that highlight a subset of edges/nodes when selected, keyed by ID",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "description"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text shown on the scenario button"
+          },
+          "description": {
+            "type": "string",
+            "description": "Text shown in the detail panel when this scenario is selected"
+          }
+        }
+      }
+    }
+  }
+}

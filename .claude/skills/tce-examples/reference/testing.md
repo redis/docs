@@ -105,20 +105,98 @@ These are all real failures that produced green results before:
   runner. Only the primary row may claim a legacy path entry, or a single `.cs` file gets
   reported as four passing clients — and an NRedisStack-flavoured file gets credited to the
   SE.Redis tab.
+- **`go test` replays cached passes.** An unchanged Go example rerun prints
+  `ok ... (cached)` without connecting to Redis, so "run twice" proved nothing. Both Go
+  runners pass `-count=1`.
+- **A Go Example without `// Output:` never runs**, and still reports `ok`. The Output
+  comment must be its own comment group: directly after `// STEP_END` it merges into
+  that group and the Example is skipped (`no tests to run`). Leave a blank line before it.
+- **Staged manifests are copied once.** Portable mode copies `pom-*.xml` into
+  `work/<client>/pom.xml` only if it's absent; fidelity copies `fidelity/*` into
+  `tmp/clients/examples/<client>/` only when `bootstrap.sh` runs. After changing a manifest,
+  delete the `work/` copy or run `bootstrap.sh --no-clone`, and diff the staged file
+  against the tracked one before trusting a result. go-redis is re-copied every run
+  because the wrapper's `go mod tidy` rewrites it in place.
+
+One trap it does **not** guard against: `cargo test` (Rust) and xunit (C#) capture stdout,
+so their logs can't be compared with the `>>>` comments. For those clients, make the REMOVE
+asserts cover every printed value — they are the only check the comments get.
 
 ## Known divergence: Java versions
 
-| | jedis | lettuce-core |
-|---|---|---|
-| portable (`pom-*.xml`) | 7.5.3 | 6.5.5.RELEASE |
-| fidelity (`fidelity/pom-*.xml`) | 7.4.0 | 7.4.0.RELEASE |
+| | jedis | lettuce-sync | lettuce-async / reactive |
+|---|---|---|---|
+| portable (`pom-*.xml`) | 8.0.2 | 6.5.5.RELEASE | 7.7.0.RELEASE |
+| fidelity (`fidelity/pom-*.xml`) | 8.0.2 | 7.4.0.RELEASE | 7.7.0.RELEASE |
 
-Not yet reconciled. The fidelity pins are what the current `local_examples/` Java files were
-actually tested against, so they're the known-good pair; the portable jedis 7.5.3 bump was
-deliberate (the search examples need the `RedisClient` API it introduced). Settling on one
+Jedis is reconciled at 8.0.2 in both modes (DOC-7213): every harness Jedis set passed in
+both modes before and after the bump, once the examples moved off `JedisPooled` and
+`new UnifiedJedis(String)`, which Jedis 8.0 removed. lettuce-sync is not yet reconciled. Settling on one
 version per client requires running both Java toolchains against the search sets and the
 Java-heavy command sets. Until that's done, **a Java example that passes in one mode may
 fail in the other**, and that's information rather than a bug.
+
+## Known gap: client pins older than new commands
+
+The portable pins lag the newest commands. As of DOC-7172 (HIMPORT, Redis 8.10), these
+portable pins predated the first release with the command: lettuce-core 6.5.5 in `pom-lettuce-sync.xml` (needs 7.7.0; the async and reactive poms are
+already on 7.7.0), StackExchange.Redis 3.0.0 in `dotnet/harness.csproj` (needs 3.0.25),
+the cached `npm i redis` 6.1.0 (needs 6.2.0), and ioredis 5.11.1 (needs 6.0.0) in `work/`.
+
+The go-redis pin in `fidelity/go-redis.mod` was raised to v9.22.0 (`go 1.24`) in DOC-7197,
+so it now supports HIMPORT. On a machine whose Go toolchain is older than 1.24, `run.sh`
+reports every Go set as SKIP rather than running it.
+
+A run against those pins fails with "method not found" or "unknown command", which looks
+like an example bug but is a pin gap. Until the pins are raised (a separate change, because
+raising them can break other sets), test such a set outside `run.sh`. Give each client a
+scratch project pinned to its first supporting release, with its own throwaway
+`redis:<version>` container on a spare port, and change the port only in the scratch copy.
+
+## Run twice: state that survives a rerun
+
+Some server-side state outlives the example that created it, so one green run proves less
+than it seems. Compact hashes (`HIMPORT`, Redis 8.10) are the known case (DOC-7196):
+
+- A compact hash returns its fields in a different order from the declared one (age, city,
+  name, email for the search examples), so any print or assert of a whole hash or search
+  document changes. Queries that `RETURN` named fields are unaffected.
+- `HSET` on a key that's already a compact hash keeps it compact. An example that
+  re-creates its keys without deleting them first passes on a clean server and fails on the
+  second run.
+
+Run any example that touches compact hashes **twice in a row against the same server**.
+If the second run differs, add a hidden `REMOVE` delete of the keys after the connect step.
+When an example rewrites identical values over existing keys, also run a copy with the
+original write removed. Otherwise a stale index or cached value can produce the expected
+output on its own.
+
+**Prove an ordering fix on the wire, not in the output.** A SORTBY added to make
+aggregation order deterministic can pass by luck: the server may already return groups
+in the expected order. Check that the client actually sent it. Run `redis-cli MONITOR`
+in a second terminal during the example (or `CONFIG SET slowlog-log-slower-than 0`, run,
+then `SLOWLOG GET`), and confirm the FT.AGGREGATE line contains `SORTBY 2 @city ASC`.
+Reset slowlog-log-slower-than afterwards.
+
+## Coverage: client-specific query and vector sets
+
+`legacy_src_path()` maps the queryjson sets (`py_home_json`, `js_home_query`,
+`go_home_json`, `java_home_json`, `lettuce_home_json`, `cs_home_json`, `php_home_json`,
+`ruby_home_json`) and the vector sets (`home_query_vec`, `ruby_home_query_vec`,
+`home_vecsets`). The Jedis vector files are main programs, not JUnit tests, so Jedis runs
+only `java_home_json`.
+
+The vector sets download an embedding model, so they run only with `--with-models`:
+
+    build/example-test-harness/run.sh --with-models home_query_vec
+
+Without the flag they SKIP with that reason. Portable runners install sentence-transformers,
+@xenova/transformers or informers on demand; Go uses the hugot v0.7.7 pin and Lettuce the
+DJL deps in its poms. In fidelity, only go-redis and Lettuce run them.
+
+.NET and PHP vecsearch keep their code inline on the page, and the C# and PHP
+`home_vecsets` files are top-level scripts with no test class. All of them stay
+scratch-only: test them in a scratch project, not through `run.sh`.
 
 ## Codex evaluation (Phase 4)
 
@@ -161,8 +239,23 @@ SKILL=.claude/skills/tce-examples
       rendered page?
    5. For C#: does the presence or absence of 'using NRedisStack' match the intended tab?
 
-   Report only actionable defects in this file. Do not restate what is correct."
+   Report only actionable defects in this file. Do not restate what is correct." \
+  < /dev/null
 ```
+
+Three things go wrong with this invocation:
+
+- **Without `< /dev/null` it hangs.** `codex exec` waits on stdin ("Reading additional
+  input from stdin...") and never starts the review, even though the prompt is passed as an
+  argument.
+- **"Selected model is at capacity" exits 1 with no verdict file.** It's transient; retry
+  that client. A missing verdict file means the gate wasn't run, not that the file is clean.
+- **The schema holds one client's verdict.** A single prompt covering several files returns
+  findings for only one of them, so keep to one invocation per client.
+
+Codex writes outside the command sandbox, so run it unsandboxed. If you do, `$TMPDIR` is the
+real system temp directory, not the sandbox's, so read the verdicts from where that
+invocation wrote them.
 
 `--output-schema` forces schema-valid JSON, so the orchestrator can gate on it without
 parsing prose. Read `.codex/skills/claude-review/references/tce-review-patterns.md` for the

@@ -18,6 +18,6 @@ tags:
 
 ### Redis 8.4 on Redis Cloud Essentials
 
-Redis 8.4 is now available for [Redis Cloud Essentials databases]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in select regions.
+Redis 8.4 is now available for [Redis Cloud Essentials databases](/content/operate/rc/databases/create-database/create-essentials-database.md) in select regions.
 
-Redis 8.4 builds on the foundation of Redis 8.2 with significant enhancements to cluster operations, string manipulation, and stream processing capabilities. For more information on the changes in Redis 8.4, see [What's new in Redis 8.4]({{<relref "/develop/whats-new/8-4" >}}) and review the Redis Open Source [8.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.4-release-notes" >}}).
+Redis 8.4 builds on the foundation of Redis 8.2 with significant enhancements to cluster operations, string manipulation, and stream processing capabilities. For more information on the changes in Redis 8.4, see [What's new in Redis 8.4](/content/develop/whats-new/8-4.md) and review the Redis Open Source [8.4 release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.4-release-notes.md).

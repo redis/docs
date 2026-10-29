@@ -17,13 +17,12 @@ title: Vector search
 weight: 5
 ---
 
-This article gives you a good overview of how to perform vector search queries with Redis Search, which is part of Redis Open Source. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+This article gives you a good overview of how to perform vector search queries with Redis Search, which is part of Redis Open Source. See the [Redis as a vector database quick start guide](/content/develop/get-started/search-tutorial/vector-search.md) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation](/content/develop/ai/search-and-query/vectors/_index.md).
 
 A vector search query on a vector field allows you to find all vectors in a vector space that are close to a given vector. You can query for the k-nearest neighbors or vectors within a given radius.
 
-{{< tip >}}
-To generate a complete RAG agent that uses the vector search queries described here, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
-{{< /tip >}}
+> [!TIP]
+> To generate a complete RAG agent that uses the vector search queries described here, open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and choose the **Knowledge Assistant** template.
 
 The examples in this article use a schema with the following fields:
 
@@ -34,7 +33,7 @@ The examples in this article use a schema with the following fields:
 
 ## K-neareast neighbours (KNN)
 
-The Redis command [FT.SEARCH]({{< relref "commands/ft.search" >}}) takes the index name, the query string, and additional query parameters as arguments. You need to pass the number of nearest neighbors, the vector field name, and the vector's binary representation in the following way:
+The Redis command [FT.SEARCH](/content/commands/ft.search.md) takes the index name, the query string, and additional query parameters as arguments. You need to pass the number of nearest neighbors, the vector field name, and the vector's binary representation in the following way:
 
 ```
 FT.SEARCH index "(*)=>[KNN num_neighbours @field $vector]" PARAMS 2 vector "binary_data" DIALECT 2
@@ -48,7 +47,7 @@ Here is a more detailed explanation of this query:
 4. **Vector binary data**: You need to use the `PARAMS` argument to substitute `$vector` with the binary representation of the vector. The value `2` indicates that `PARAMS` is followed by two arguments, the parameter name `vector` and the parameter value.
 5. **Dialect**: The vector search feature has been available since version two of the query dialect.
 
-You can read more about the `PARAMS` argument in the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command reference.
+You can read more about the `PARAMS` argument in the [FT.SEARCH](/content/commands/ft.search.md) command reference.
 
 The following example shows you how to query for three bikes based on their description embeddings, and by using the field alias `vector`. The result is returned in ascending order based on the distance. You can see that the query only returns the fields `__vector_score` and `description`. The field `__vector_score` is present by default. Because you can have multiple vector fields in your schema, the vector score field name depends on the name of the vector field. If you change the field name `@vector` to `@foo`, the score field name changes to `__foo_score`.
 
@@ -65,9 +64,8 @@ query = (
 )
 </!-->
 
-{{% alert title="Note" color="warning" %}}
-The binary value of the query vector is significantly shortened in the CLI example above.
-{{% /alert  %}}
+> [!NOTE]
+> The binary value of the query vector is significantly shortened in the CLI example above.
 
 
 ## Radius
@@ -86,16 +84,15 @@ FT.SEARCH index "@field:[VECTOR_RANGE radius $vector]=>{$YIELD_DISTANCE_AS: dist
 
 Here is a more detailed explanation of this query:
 
-1. **Range query**: the syntax of a radius query is very similar to the regular range query, except for the keyword `VECTOR_RANGE`. You can also combine a vector radius query with other queries in the same way as regular range queries.  See [combined queries article]({{< relref "/develop/ai/search-and-query/query/combined" >}}) for more details.
+1. **Range query**: the syntax of a radius query is very similar to the regular range query, except for the keyword `VECTOR_RANGE`. You can also combine a vector radius query with other queries in the same way as regular range queries.  See [combined queries article](/content/develop/ai/search-and-query/query/combined.md) for more details.
 2. **Additional step**: the `=>` arrow means that the range query is followed by evaluating additional parameters.
-3. **Range query parameters**: parameters such as `$YIELD_DISTANCE_AS` can be found in the [vectors reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+3. **Range query parameters**: parameters such as `$YIELD_DISTANCE_AS` can be found in the [vectors reference documentation](/content/develop/ai/search-and-query/vectors/_index.md).
 4. **Vector binary data**: you need to use `PARAMS` to pass the binary representation of the vector.
 5. **Dialect**: vector search has been available since version two of the query dialect.
 
 
-{{% alert title="Note" color="warning" %}}
-By default, [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns only the first ten results. The [range query article]({{< relref "/develop/ai/search-and-query/query/range" >}}) explains to you how to scroll through the result set.
-{{% /alert  %}}
+> [!NOTE]
+> By default, [`FT.SEARCH`](/content/commands/ft.search.md) returns only the first ten results. The [range query article](/content/develop/ai/search-and-query/query/range.md) explains to you how to scroll through the result set.
 
 The example below shows a radius query that returns the description and the distance within a radius of `0.5`. The result is sorted by the distance.
 
@@ -132,6 +129,5 @@ You can combine `$SHARD_K_RATIO` with pre-filtering to optimize searches on spec
 FT.SEARCH idx:bikes_vss "(@brand:trek)=>[KNN 50 @vector $query_vector]=>{$SHARD_K_RATIO: 0.4; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY similarity ASC RETURN 2 "similarity" "description" DIALECT 2
 {{< /clients-example >}}
 
-{{% alert title="Note" color="warning" %}}
-The `$SHARD_K_RATIO` parameter is only applicable in Redis cluster environments and has no effect in standalone Redis instances.
-{{% /alert  %}}
+> [!NOTE]
+> The `$SHARD_K_RATIO` parameter is only applicable in Redis cluster environments and has no effect in standalone Redis instances.

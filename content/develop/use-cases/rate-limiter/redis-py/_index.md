@@ -99,12 +99,12 @@ return {allowed, tokens}
 
 ### Script breakdown
 
-1. **State retrieval**: Uses [`HMGET`]({{< relref "/commands/hmget" >}}) to fetch the current token count and last refill time from a hash
+1. **State retrieval**: Uses [`HMGET`](/content/commands/hmget.md) to fetch the current token count and last refill time from a hash
 2. **Initialization**: On first use, sets tokens to full capacity
 3. **Token refill calculation**: Computes how many tokens should be added based on elapsed time
 4. **Capacity enforcement**: Uses `math.min()` to ensure tokens never exceed capacity
 5. **Token consumption**: Decrements the token count if available
-6. **State update**: Uses [`HMSET`]({{< relref "/commands/hmset" >}}) to save the new state
+6. **State update**: Uses [`HMSET`](/content/commands/hmset.md) to save the new state
 7. **Return value**: Returns both the decision (allowed/denied) and remaining tokens
 
 ### Why atomicity matters
@@ -115,7 +115,15 @@ Without atomic execution, race conditions could occur:
 * **Lost updates**: Concurrent updates could overwrite each other's changes
 * **Inconsistent state**: Token count and refill time could become desynchronized
 
-Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
+Using [`EVAL`](/content/commands/eval.md) or [`EVALSHA`](/content/commands/evalsha.md) ensures the entire operation executes atomically, making it safe for distributed systems.
+
+## Installation
+
+Install the `redis` package:
+
+```bash
+pip install redis
+```
 
 ## Using the Python module
 
@@ -129,7 +137,7 @@ from token_bucket import TokenBucket
 # Create a Redis connection
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-# Create a rate limiter: 10 requests per second
+# Create a rate limiter: 1 request per second
 limiter = TokenBucket(
     redis_client=r,
     capacity=10,        # Maximum burst size
@@ -155,7 +163,7 @@ else:
 * **refill_interval**: Time in seconds between refills
 
 For example:
-* `capacity=10, refill_rate=1, refill_interval=1.0` allows 10 requests per second with bursts up to 10
+* `capacity=10, refill_rate=1, refill_interval=1.0` allows 1 request per second with bursts up to 10
 * `capacity=100, refill_rate=10, refill_interval=1.0` allows 10 requests per second with bursts up to 100
 * `capacity=60, refill_rate=1, refill_interval=60.0` allows 1 request per minute with bursts up to 60
 
@@ -167,6 +175,28 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 * **Per IP address**: `ip:{ip_address}` - Limit by client IP
 * **Per API endpoint**: `api:{endpoint}:{user_id}` - Different limits per endpoint
 * **Global**: `global:api` - Single limit shared across all requests
+
+### Script caching with EVALSHA
+
+The Python module uses [`EVALSHA`](/content/commands/evalsha.md) for optimal
+performance. `TokenBucket` computes the script's SHA1 digest when you create it,
+loads the script into Redis with `SCRIPT LOAD` on first use, and sends every
+later request as `EVALSHA`. If the script has been evicted from the server's
+cache, it catches the resulting error, falls back to
+[`EVAL`](/content/commands/eval.md), and reloads the script.
+
+```python
+limiter = TokenBucket(capacity=10, refill_rate=1, refill_interval=1.0)
+
+limiter.allow('user:123')  # SCRIPT LOAD, then EVALSHA
+limiter.allow('user:123')  # EVALSHA against the cached script
+```
+
+The [alternative algorithm examples](#alternative-rate-limiting-algorithms) use
+`register_script()` instead, which wraps the same behavior in a `Script` object.
+That object derives the digest from the script text rather than from per-call
+state, so re-registering on each request adds no round trip: the digest is
+unchanged and `EVALSHA` still hits the cached script.
 
 ## Running the demo
 
@@ -237,9 +267,11 @@ their features:
 | [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
 
 The sections below give example implementations of these other algorithms.
-All of them use `redis.call('TIME')` inside the Lua script to derive the
-current timestamp from the Redis server clock. This eliminates clock
-drift when the limiter runs across multiple application servers.
+The three time-based algorithms call `redis.call('TIME')` inside the Lua
+script to derive the current timestamp from the Redis server clock. This
+eliminates clock drift when the limiter runs across multiple application
+servers. The fixed window counter reads no clock: the key's TTL defines
+the window.
 
 ### Fixed window counter
 
@@ -444,10 +476,10 @@ handle `429 Too Many Requests` and retry with backoff.
 
 ## Learn more
 
-* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
-* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
-* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
-* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
-* [Transactions]({{< relref "/develop/using-commands/transactions" >}}) - Alternative to Lua scripts for atomicity
+* [EVAL command](/content/commands/eval.md) - Execute Lua scripts
+* [EVALSHA command](/content/commands/evalsha.md) - Execute cached Lua scripts
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Introduction to Redis Lua scripting
+* [HMGET command](/content/commands/hmget.md) - Get multiple hash fields
+* [HMSET command](/content/commands/hmset.md) - Set multiple hash fields
+* [Transactions](/content/develop/using-commands/transactions.md) - Alternative to Lua scripts for atomicity
 * [redis-rate-limiting-python](https://github.com/YashwinReddy29/redis-rate-limiting-python) - community-maintained GitHub repo (contributed by Yashwin Reddy) with examples of the alternative rate limiting algorithms.

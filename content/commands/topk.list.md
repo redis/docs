@@ -86,16 +86,16 @@ k (or less) items in the given Top-k sketch. The list is sorted by decreased cou
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) and 
-[integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs, representing the names of the items in the sketch together with their counts.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) and 
+[integer reply](/content/develop/reference/protocol-spec.md#integers) pairs, representing the names of the items in the sketch together with their counts.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, non-existant key, or key of the incorrect type.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) and 
-[integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs, representing the names of the items in the sketch together with their counts.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) and 
+[integer reply](/content/develop/reference/protocol-spec.md#integers) pairs, representing the names of the items in the sketch together with their counts.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, non-existant key, or key of the incorrect type.
 
 {{< /multitabs >}}

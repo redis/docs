@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 //REMOVE_END
 
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.params.SetParams;
+import redis.clients.jedis.util.CompareCondition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class StringExample {
 
   @Test
   public void run() {
-    try (UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379")) {
+    try (RedisClient jedis = RedisClient.create("redis://localhost:6379")) {
 
       // STEP_START set_get
       String res1 = jedis.set("bike:1", "Deimos");
@@ -49,6 +50,30 @@ public class StringExample {
       // REMOVE_START
       assertEquals(0L, res3.longValue());
       assertEquals("OK", res4);
+      // REMOVE_END
+
+      // STEP_START cas_cad
+      jedis.set("bike:1", "Deimos");
+
+      String res9 = jedis.set("bike:1", "Ares",
+          SetParams.setParams().condition(CompareCondition.valueEq("Deimos")));
+      System.out.println(res9); // OK
+      String res10 = jedis.set("bike:1", "Zeus",
+          SetParams.setParams().condition(CompareCondition.valueEq("Deimos")));
+      System.out.println(res10); // null
+      System.out.println(jedis.get("bike:1")); // Ares
+
+      long res11 = jedis.delex("bike:1", CompareCondition.valueEq("Deimos"));
+      System.out.println(res11); // 0
+      long res12 = jedis.delex("bike:1", CompareCondition.valueEq("Ares"));
+      System.out.println(res12); // 1
+      // STEP_END
+
+      // REMOVE_START
+      assertEquals("OK", res9);
+      assertNull(res10);
+      assertEquals(0L, res11);
+      assertEquals(1L, res12);
       // REMOVE_END
 
       // STEP_START mset

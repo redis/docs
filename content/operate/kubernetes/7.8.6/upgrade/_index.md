@@ -18,15 +18,16 @@ The upgrade process includes updating three components:
   2. Upgrade the Redis Enterprise cluster (REC)
   3. Upgrade Redis Enterprise databases (REDB)
 
-If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI]({{<relref "/operate/kubernetes/7.8.6/upgrade/openshift-cli">}}) or [Upgrade Redis Enterprise with OpenShift OperatorHub]({{<relref "/operate/kubernetes/7.8.6/upgrade/upgrade-olm">}}).
+If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI](/content/operate/kubernetes/7.8.6/upgrade/openshift-cli.md) or [Upgrade Redis Enterprise with OpenShift OperatorHub](/content/operate/kubernetes/7.8.6/upgrade/upgrade-olm.md).
 
-For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/7.8.6/upgrade/upgrade-redis-cluster" >}}).
+For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes](/content/operate/kubernetes/7.8.6/upgrade/upgrade-redis-cluster.md).
 
 ## Upgrade compatibility
 
 When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-{{<warning>}}If your current Kubernetes distribution is not [supported]({{<relref "/operate/kubernetes/7.8.6/reference/supported_k8s_distributions.md">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
+> [!WARNING]
+> If your current Kubernetes distribution is not [supported](/content/operate/kubernetes/7.8.6/reference/supported_k8s_distributions.md), upgrade to a supported distribution before upgrading. 
 
 ## RHEL9-based image
 
@@ -38,6 +39,6 @@ As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise L
 
 For detailed steps, see the relevant upgrade page:
 
-- [OpenShift CLI]({{<relref "/operate/kubernetes/7.8.6/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/7.8.6/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/7.8.6/upgrade/upgrade-redis-cluster" >}})
+- [OpenShift CLI](/content/operate/kubernetes/7.8.6/upgrade/openshift-cli.md)
+- [OpenShift OperatorHub](/content/operate/kubernetes/7.8.6/upgrade/upgrade-olm.md)
+- [Kubernetes](/content/operate/kubernetes/7.8.6/upgrade/upgrade-redis-cluster.md)

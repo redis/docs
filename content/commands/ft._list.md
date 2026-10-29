@@ -30,12 +30,11 @@ title: FT._LIST
 ---
 Returns a list of all existing indexes.
 
-{{% alert title="Temporary command" color="info" %}}
-The prefix `_` in the command indicates, this is a temporary command.
-
-In the future, a [`SCAN`]({{< relref "/commands/scan" >}}) type of command will be added, for use when a database
-contains a large number of indices.
-{{% /alert %}}
+> [!NOTE] Temporary command
+> The prefix `_` in the command indicates, this is a temporary command.
+>
+> In the future, a [`SCAN`](/content/commands/scan.md) type of command will be added, for use when a database
+> contains a large number of indices.
 
 ## Examples
 
@@ -48,9 +47,9 @@ FT._LIST
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 
@@ -58,10 +57,10 @@ FT._LIST
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of index names as [simple strings]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}).
+[Array](/content/develop/reference/protocol-spec.md#arrays) of index names as [simple strings](/content/develop/reference/protocol-spec.md#simple-strings).
 
 -tab-sep-
 
-[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of index names as [simple strings]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}).
+[Set](/content/develop/reference/protocol-spec.md#sets) of index names as [simple strings](/content/develop/reference/protocol-spec.md#simple-strings).
 
 {{< /multitabs >}}

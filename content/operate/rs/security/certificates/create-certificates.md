@@ -16,7 +16,7 @@ You can renew these certificates by replacing them with new self-signed certific
 
 ## Renew self-signed certificates
 
-As of [v6.2.18-70]({{< relref "/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70" >}}), Redis Software includes a script to generate self-signed certificates.  
+As of [v6.2.18-70](/content/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70.md), Redis Software includes a script to generate self-signed certificates.  
 
 By default, the `generate_self_signed_certs.sh` script is located in `/opt/redislabs/utils/`.  
 
@@ -104,7 +104,7 @@ The following values are supported for the _\<CertName>_ parameter:
 | `proxy` | The database endpoint |
 | `syncer` | The synchronization process |
 
-You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+You can also use the REST API.  To learn more, see [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md#how-to-update-certificates).
 
 ## Create CA-signed certificates
 
@@ -120,9 +120,9 @@ For best results, use the following guidelines to create the certificates.
 
     - TLS Web Client Authentication (OID: 1.3.6.1.5.5.7.3.2)
 
-    {{<warning>}}
-Using certificate templates that only include Server Authentication will cause SSL and TLS errors.
-    {{</warning>}}
+    > [!WARNING]
+    > Using certificate templates that only include Server Authentication will cause SSL and TLS errors.
+    >     
 
 - Include the full certificate chain when creating certificate .PEM files. List certificates in order from leaf to root. Some deployments may not require the root CA in the certificate file.
 
@@ -166,9 +166,9 @@ Using certificate templates that only include Server Authentication will cause S
 
 - Use SHA-256 or SHA-512 for the signature algorithm.
 
-    {{<note>}}
-SHA-1 is deprecated and may be blocked by some operating systems.
-    {{</note>}}
+    > [!NOTE]
+    > SHA-1 is deprecated and may be blocked by some operating systems.
+    >     
 
 - The minimum RSA key size is 2048 bits. 4096 bits is recommended for enhanced security.
 
@@ -268,9 +268,9 @@ SHA-1 is deprecated and may be blocked by some operating systems.
           -extfile redis-cert.cnf
         ```
 
-        {{<warning>}}
-Do not use self-signed certificates in production.
-        {{</warning>}}
+        > [!WARNING]
+        > Do not use self-signed certificates in production.
+        >         
 
 #### Create a certificate chain file
 
@@ -527,9 +527,9 @@ Before you upload certificates to Redis Software, validate that they meet all re
 
     Expected output: `sha256WithRSAEncryption` or `sha512WithRSAEncryption`.
     
-    {{<note>}}
-Avoid `sha1WithRSAEncryption` because it is deprecated and might be blocked.
-    {{</note>}}
+    > [!NOTE]
+    > Avoid `sha1WithRSAEncryption` because it is deprecated and might be blocked.
+    >     
 
 1. Validate the public key size:
 
@@ -579,7 +579,7 @@ After creating and validating your certificates, install them on the Redis Softw
     $ chown redislabs:redislabs redis-cert-chain.pem
     ```
 
-1. Replace the existing certificates with the new certificates using [`rladmin cluster certificate`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate">}}):
+1. Replace the existing certificates with the new certificates using [`rladmin cluster certificate`](/content/operate/rs/references/cli-utilities/rladmin/cluster/certificate.md):
 
     ```bash
     rladmin cluster certificate set <cert-name> \

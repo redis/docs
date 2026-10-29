@@ -33,7 +33,7 @@ title: BF.SCANDUMP
 ---
 Begins an incremental save of the Bloom filter.
 
-This command is useful for large Bloom filters that cannot fit into the [`DUMP`]({{< relref "/commands/dump" >}}) and [`RESTORE`]({{< relref "/commands/restore" >}}) model.
+This command is useful for large Bloom filters that cannot fit into the [`DUMP`](/content/commands/dump.md) and [`RESTORE`](/content/commands/restore.md) model.
 
 The first time this command is called, the value of `iter` should be 0. 
 
@@ -107,21 +107,21 @@ for chunk in chunks:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (_Iterator_) and a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) (_Data_).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
+The iterator-data pair should also be passed to [`BF.LOADCHUNK`](/content/commands/bf.loadchunk.md) when restoring the filter.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (_Data_).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): a two-element array of an [Integer reply](/content/develop/reference/protocol-spec.md#integers) (_Iterator_) and a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) (_Data_).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.
 
 The Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-The iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref "commands/bf.loadchunk/" >}}) when restoring the filter.
+The iterator-data pair should also be passed to [`BF.LOADCHUNK`](/content/commands/bf.loadchunk.md) when restoring the filter.
 
 {{< /multitabs >}}

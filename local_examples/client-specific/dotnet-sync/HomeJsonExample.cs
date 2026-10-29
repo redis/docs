@@ -141,7 +141,8 @@ public class HomeJsonExample
 
         // STEP_START query3
         AggregationRequest aggRequest = new AggregationRequest("*")
-            .GroupBy("@city", Reducers.Count().As("count"));
+            .GroupBy("@city", Reducers.Count().As("count"))
+            .SortBy(SortedField.Asc("@city"));
 
         AggregationResult aggResult = db.FT().Aggregate("idx:users", aggRequest);
         IReadOnlyList<Dictionary<string, RedisValue>> resultsList =
@@ -158,12 +159,11 @@ public class HomeJsonExample
         // REMOVE_START
         Assert.Equal(2, resultsList.Count);
 
-        var sortedResults = resultsList.OrderBy(x => x["city"]);
-        Dictionary<string, RedisValue> testItem = sortedResults.ElementAt(0);
+        Dictionary<string, RedisValue> testItem = resultsList.ElementAt(0);
         Assert.Equal("London", testItem["city"]);
         Assert.Equal(1, testItem["count"]);
 
-        testItem = sortedResults.ElementAt(1);
+        testItem = resultsList.ElementAt(1);
         Assert.Equal("Tel Aviv", testItem["city"]);
         Assert.Equal(2, testItem["count"]);
         // REMOVE_END
@@ -235,6 +235,48 @@ public class HomeJsonExample
             "Name: Paul Zamir, email: paul.zamir@example.com, age: 35, city:Tel Aviv",
             $"Name: {d["name"]}, email: {d["email"]}, " +
                 $"age: {d["age"]}, city:{d["city"]}"
+        );
+        // REMOVE_END
+
+        // STEP_START add_hash_himport
+        using var userFields = HashImport.Create("name", "email", "age", "city");
+
+        var batch = db.CreateBatch();
+        var imports = new List<Task>();
+
+        foreach (var (key, user) in new[] {
+            ("huser:1", user1), ("huser:2", user2), ("huser:3", user3)
+        })
+        {
+            imports.Add(batch.HashImportAsync(
+                key,
+                userFields,
+                new RedisValue[] { user.name, user.email, user.age, user.city }
+            ));
+        }
+
+        batch.Execute();
+        Task.WaitAll(imports.ToArray());
+        // STEP_END
+        // REMOVE_START
+        Assert.All(imports, t => Assert.Equal(TaskStatus.RanToCompletion, t.Status));
+        Assert.StartsWith("template", db.KeyEncoding("huser:3"));
+        SearchResult himportQueryRes = db.FT().Search(
+            "hash-idx:users",
+            new("Paul @age:[30 40]")
+        );
+        Assert.Equal(1, himportQueryRes.TotalResults);
+        Assert.Equal("huser:3", himportQueryRes.Documents[0].Id);
+        Assert.Equal(
+            new Dictionary<string, string>
+            {
+                ["name"] = "Paul Zamir",
+                ["email"] = "paul.zamir@example.com",
+                ["age"] = "35",
+                ["city"] = "Tel Aviv"
+            },
+            himportQueryRes.Documents[0].GetProperties()
+                .ToDictionary(p => p.Key, p => p.Value.ToString())
         );
         // REMOVE_END
     }

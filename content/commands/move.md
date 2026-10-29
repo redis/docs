@@ -50,7 +50,7 @@ summary: Moves a key to another database.
 syntax_fmt: MOVE key db
 title: MOVE
 ---
-Move `key` from the currently selected database (see [`SELECT`]({{< relref "/commands/select" >}})) to the specified
+Move `key` from the currently selected database (see [`SELECT`](/content/commands/select.md)) to the specified
 destination database.
 When `key` already exists in the destination database, or it does not exist in
 the source database, it does nothing.

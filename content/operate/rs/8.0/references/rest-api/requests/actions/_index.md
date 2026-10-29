@@ -34,7 +34,7 @@ This API does not return any information about other actions, such as import, ex
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action](/content/operate/rs/8.0/references/rest-api/permissions.md#view_status_of_cluster_action) |
 
 ### Request {#get-all-request}
 
@@ -46,7 +46,7 @@ GET /v1/actions
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [action objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/action" >}}), which represent tasks, and an array of [state-machine objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/state-machine" >}}).
+Returns a JSON array of [action objects](/content/operate/rs/8.0/references/rest-api/objects/action.md), which represent tasks, and an array of [state-machine objects](/content/operate/rs/8.0/references/rest-api/objects/state-machine.md).
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|
@@ -115,7 +115,7 @@ Get the status of all currently running, pending, or completed actions from task
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action](/content/operate/rs/8.0/references/rest-api/permissions.md#view_status_of_cluster_action) |
 
 ### Request {#get-all-request-v2}
 
@@ -127,7 +127,7 @@ GET /v2/actions
 
 ### Response {#get-all-response-v2}
 
-Returns a JSON array of v2 [action objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/action" >}}).
+Returns a JSON array of v2 [action objects](/content/operate/rs/8.0/references/rest-api/objects/action.md).
 
 The v2 action object includes the following fields:
 
@@ -193,7 +193,7 @@ This API does not return any information about other actions, such as import, ex
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action](/content/operate/rs/8.0/references/rest-api/permissions.md#view_status_of_cluster_action) |
 
 ### Request {#get-request}
 
@@ -211,7 +211,7 @@ GET /v1/actions/{uid}
 
 ### Response {#get-response}
 
-Returns an [action object]({{< relref "/operate/rs/8.0/references/rest-api/objects/action" >}}).
+Returns an [action object](/content/operate/rs/8.0/references/rest-api/objects/action.md).
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|
@@ -258,7 +258,7 @@ Get the status of a specific action. This API can also return information about 
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action](/content/operate/rs/8.0/references/rest-api/permissions.md#view_status_of_cluster_action) |
 
 ### Request {#get-request-v2}
 
@@ -276,7 +276,7 @@ GET /v2/actions/{uid}
 
 ### Response {#get-response-v2}
 
-Returns a v2 [action object]({{<relref "/operate/rs/8.0/references/rest-api/objects/action">}}).
+Returns a v2 [action object](/content/operate/rs/8.0/references/rest-api/objects/action.md).
 
 The v2 action object includes the following fields:
 

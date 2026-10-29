@@ -19,11 +19,10 @@ weight: 4
 
 This page provides a comprehensive reference of all Redis commands available in Redis 7.4, organized by functional group. Each command includes its description and syntax in a collapsible section for easy navigation.
 
-{{< note >}}
-Redis 7.4 includes all commands from previous versions plus new commands introduced in 7.4. Commands marked with **⭐ New in 7.4** were added in this release.
-
-Command page links take you to the *current implementation* of each command.
-{{< /note >}}
+> [!NOTE]
+> Redis 7.4 includes all commands from previous versions plus new commands introduced in 7.4. Commands marked with **⭐ New in 7.4** were added in this release.
+>
+> Command page links take you to the *current implementation* of each command.
 
 ## Quick Navigation
 

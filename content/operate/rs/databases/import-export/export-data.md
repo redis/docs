@@ -36,7 +36,7 @@ To export data from a database using the Cluster Manager UI:
 
 1. On the **Databases** screen, select the database from the list, then select **Configuration**.
 
-1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
+1. Click ![Toggle actions button](/images/rs/buttons/button-toggle-actions-vertical.png#no-click) to open a list of additional actions.
 
 1. Select **Export**.
 
@@ -50,7 +50,7 @@ To export data from a database using the Cluster Manager UI:
 
 Data can be exported to a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Software, `redislabs:redislabs` by default.  
+When saved to a local mount point or a cloud provider, export locations need to be available to [the group and user](/content/operate/rs/installing-upgrading/install/customize-user-and-group.md) running Redis Software, `redislabs:redislabs` by default.  
 
 Redis Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
@@ -164,7 +164,7 @@ You can also connect to a storage service that uses the S3 protocol but is not h
 
 To connect to an S3-compatible storage location:
 
-1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+1. Configure the S3 URL with [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md): 
 
     ```sh
     rladmin cluster config s3_url <URL>
@@ -179,6 +179,28 @@ To connect to an S3-compatible storage location:
     ```
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
+
+#### Encrypt an export with a customer-provided key (SSE-C)
+
+To encrypt data exported to S3 or an S3-compatible location with a customer-provided key ([SSE-C](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html)), add an `encryption` object to `export_location` in an [export database request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/export">}}):
+
+```json
+{
+    "export_location": {
+        "type": "s3",
+        "bucket_name": "backups",
+        "access_key_id": "XXXXXXXXXXXXX",
+        "secret_access_key": "XXXXXXXXXXXXXXXX",
+        "encryption": {
+            "type": "sse-c",
+            "sse_customer_key": "<base64-encoded 32-byte key>"
+        }
+    }
+}
+```
+
+- `sse_customer_key` must be a base64-encoded string that decodes to exactly 32 bytes (AES-256).
+- SSE-C encryption is only available for S3 and S3-compatible storage locations, and only for this one export request. You can't add `encryption` to a database's persisted [backup_location]({{<relref "/operate/rs/references/rest-api/objects/bdb/backup_location">}}) configuration, so SSE-C isn't available for [scheduled backups]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).
 
 ### Google Cloud Storage
 

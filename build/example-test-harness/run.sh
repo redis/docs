@@ -3,12 +3,15 @@
 # Runs a docs example set's client source files against a live (throwaway) Redis
 # on localhost:6379, using each library's real in-file assertions.
 #
-# Usage:  ./run.sh [--portable|--fidelity] <example_set> [client ...]
+# Usage:  ./run.sh [--portable|--fidelity] [--with-models] <example_set> [client ...]
 #   --portable  (default) self-bootstrap each toolchain into work/. No client repo
 #               clones needed; C#/PHP run against local stubs. Cached across runs.
 #   --fidelity  run in tmp/clients/examples/, using the tracked manifests in
 #               fidelity/ and real client repo clones, so examples execute the way
 #               they do upstream. Requires ./bootstrap.sh first.
+#   --with-models  also run the sets that download an embedding model (see
+#               model_set()). Without it they report SKIP, so a default sweep downloads
+#               no models. Portable runners install the model library on demand.
 #   example_set : e.g. cmds_hash, ss_tutorial, search_quickstart
 #   client      : one or more client keys (see clients.tsv); default = all
 #
@@ -25,20 +28,28 @@ HARNESS="$(cd "$(dirname "$0")" && pwd)"
 WORK="$HARNESS/work"; mkdir -p "$WORK"
 TSV="$HARNESS/clients.tsv"
 FIDELITY_ROOT="$REPO/tmp/clients/examples"
+# Go floor for the hugot pin in fidelity/go-redis.mod (hugot v0.7.7's own go.mod says
+# go 1.26.5). Keep the two in step when the pin moves.
+HUGOT_GO_MIN=1.26.5
+# node-redis floor for the portable work/node install: hImportPrepare/hImportSet (the
+# HIMPORT examples) arrived in 6.2.0. Matches fidelity/package-node-redis.json.
+NODE_REDIS_MIN=6.2.0
 
 MODE=portable
 LIST=0
+WITH_MODELS=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --portable) MODE=portable; shift ;;
     --fidelity) MODE=fidelity; shift ;;
     --list) LIST=1; shift ;;
-    -h|--help) sed -n '2,18p' "$0"; exit 0 ;;
+    --with-models) WITH_MODELS=1; shift ;;
+    -h|--help) sed -n '2,21p' "$0"; exit 0 ;;
     --*) echo "unknown flag: $1" >&2; exit 2 ;;
     *) break ;;
   esac
 done
-SET="${1:?usage: run.sh [--portable|--fidelity] <example_set> [client...]}"; shift || true
+SET="${1:?usage: run.sh [--portable|--fidelity] [--with-models] <example_set> [client...]}"; shift || true
 
 [ -f "$TSV" ] || { echo "ERROR: missing $TSV" >&2; exit 1; }
 
@@ -138,6 +149,11 @@ toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relat
       # the failure the unpinned `go get` used to produce; pinning moved it, so guard it.)
       local need have
       need="$(awk '/^go [0-9]/ {print $2; exit}' "$HARNESS/fidelity/go-redis.mod" 2>/dev/null)"
+      # The vector sets also import hugot, whose own go.mod needs a newer Go than the
+      # directive above; without this they FAIL on Go 1.24–1.26.4 instead of SKIPping.
+      if model_set "$1" && [ -n "$need" ]; then
+        need="$(printf '%s\n%s\n' "$need" "$HUGOT_GO_MIN" | sort -V | tail -1)"
+      fi
       have="$(go env GOVERSION 2>/dev/null | sed 's/^go//')"
       if [ -n "$need" ] && [ -n "$have" ]; then
         # Numeric compare on major.minor only; sort -V orders versions correctly.
@@ -185,6 +201,33 @@ illustrative_reason() { # $1 = set, $2 = canonical client key
     cmds_cnxmgmt:*) printf 'AUTH needs a test-user ACL identity; illustrative by design' ;;
     *) printf '' ;;
   esac
+}
+
+# Sets that download an embedding model (sentence-transformers, @xenova/transformers,
+# hugot, DJL, informers) on first run. Hundreds of MB and minutes per client, so they only
+# run with --with-models.
+model_set() { # $1 = set
+  case "$1" in
+    home_query_vec|ruby_home_query_vec|HomeQueryVec|home_vecsets) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+model_skip_reason() { # $1 = set, $2 = canonical client key
+  model_set "$1" || { printf ''; return; }
+  if [ "$WITH_MODELS" != 1 ]; then
+    printf 'downloads an embedding model; rerun with --with-models'; return
+  fi
+  # Only the go-redis and Lettuce fidelity manifests carry the model library (hugot,
+  # DJL). Adding sentence-transformers, @xenova/transformers or informers to the
+  # redis-py/node-redis/ruby manifests would make every fidelity run of those clients
+  # install it, so they stay portable-only for these sets.
+  if [ "$MODE" = fidelity ]; then
+    case "$2" in
+      redis-py|node-redis|ruby)
+        printf 'fidelity manifest has no embedding-model library; use --portable --with-models'; return ;;
+    esac
+  fi
+  printf ''
 }
 
 # Glob local_examples/<set>/<alias>/ for this client's example file. Aliases exist
@@ -307,9 +350,9 @@ legacy_src_path() {
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
     time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
     time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
-    # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 7.5.3,
-    # which has both the RedisClient API these examples use and the older UnifiedJedis
-    # API; the node wildcard assert now checks result.total, not doc order).
+    # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 8.0.2, whose
+    # RedisClient API these examples use; the node wildcard assert now checks result.total,
+    # not doc order).
     search_quickstart:python)    echo local_examples/search_quickstart/redis-py/search_quickstart.py ;;
     search_quickstart:node)      echo local_examples/search_quickstart/node-redis/search-quickstart.js ;;
     search_quickstart:go)        echo local_examples/search_quickstart/go-redis/search_quickstart_test.go ;;
@@ -319,6 +362,33 @@ legacy_src_path() {
     geoindex:go)                 echo local_examples/geoindex/go-redis/geo_index_test.go ;;
     geoindex:jedis)              echo local_examples/geoindex/jedis/GeoIndexExample.java ;;
     geoindex:dotnet)             echo local_examples/geoindex/nredisstack/GeoIndexExample.cs ;;
+    # Query JSON/hash pages (<client>/queryjson.md).
+    java_home_json:jedis)        echo local_examples/client-specific/jedis/HomeJsonExample.java ;;
+    py_home_json:python)         echo local_examples/client-specific/redis-py/home_json.py ;;
+    js_home_query:node)          echo local_examples/client-specific/nodejs/home-query.js ;;
+    go_home_json:go)             echo local_examples/client-specific/go/home_json_example_test.go ;;
+    lettuce_home_json:lettuce-async)    echo local_examples/client-specific/lettuce-async/HomeJsonExample.java ;;
+    lettuce_home_json:lettuce-reactive) echo local_examples/client-specific/lettuce-reactive/HomeJsonExample.java ;;
+    cs_home_json:dotnet)         echo local_examples/client-specific/dotnet-sync/HomeJsonExample.cs ;;
+    php_home_json:php)           echo local_examples/client-specific/php/HomeJsonTest.php ;;
+    ruby_home_json:ruby)         echo local_examples/client-specific/ruby/home_json.rb ;;
+    # Vector search and vector set pages. These download embedding models, so they only
+    # run with --with-models (model_set). The Jedis HomeQueryVec and HomeVecSets files are
+    # main programs (package com.redis.app), not JUnit tests, so the Jedis runner can't run
+    # them until they're converted the way the Go examples were. The C# and PHP home_vecsets files are top-level scripts with
+    # no test class, so neither runner can execute them; .NET and PHP vecsearch keep
+    # their code inline on the page.
+    home_query_vec:python)       echo local_examples/client-specific/redis-py/home_query_vec.py ;;
+    home_query_vec:node)         echo local_examples/client-specific/nodejs/home_query_vec.js ;;
+    home_query_vec:go)           echo local_examples/client-specific/go/home_query_vec_test.go ;;
+    home_query_vec:lettuce-async)    echo local_examples/client-specific/lettuce-async/HomeQueryVecExample.java ;;
+    home_query_vec:lettuce-reactive) echo local_examples/client-specific/lettuce-reactive/HomeQueryVecExample.java ;;
+    ruby_home_query_vec:ruby)    echo local_examples/client-specific/ruby/home_query_vec.rb ;;
+    home_vecsets:python)         echo local_examples/client-specific/redis-py/home_vecsets.py ;;
+    home_vecsets:node)           echo local_examples/client-specific/home_vecsets.js ;;
+    home_vecsets:go)             echo local_examples/client-specific/go/home_vecsets_test.go ;;
+    home_vecsets:lettuce-async)    echo local_examples/client-specific/lettuce-async/HomeVecSetsExample.java ;;
+    home_vecsets:lettuce-reactive) echo local_examples/client-specific/lettuce-reactive/HomeVecSetsExample.java ;;
     *) echo "" ;;
   esac
 }
@@ -329,10 +399,17 @@ SUMMARY=()   # entries: "client<TAB>status" (bash 3.2 compatible)
 # --- per-language runners: set $rc (0=pass) and leave detail in $LOG ----------
 run_python() {
   [ -d "$WORK/py/venv" ] || { python3 -m venv "$WORK/py/venv"; "$WORK/py/venv/bin/pip" -q install redis; }
+  if [ "$WITH_MODELS" = 1 ] && model_set "$SET" \
+     && ! "$WORK/py/venv/bin/python" -c 'import sentence_transformers' 2>/dev/null; then
+    "$WORK/py/venv/bin/pip" -q install sentence-transformers
+  fi
   "$WORK/py/venv/bin/python" "$1" >"$LOG" 2>&1; rc=$?
 }
 run_ruby() {
   gem list -i redis >/dev/null 2>&1 || gem install --silent redis >/dev/null 2>&1
+  if [ "$WITH_MODELS" = 1 ] && model_set "$SET"; then
+    gem list -i informers >/dev/null 2>&1 || gem install --silent informers >/dev/null 2>&1
+  fi
   ruby "$1" >"$LOG" 2>&1; rc=$?
 }
 # Prefixes searched for a hiredis install, in order. Homebrew uses /usr/local on Intel
@@ -361,13 +438,29 @@ run_hiredis() {
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
-  [ -d "$d/node_modules/redis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis >/dev/null 2>&1); }
+  # A cached install is reused, so an older one must be upgraded, not just a missing one.
+  local v; v="$(cd "$d" && node -p "require('redis/package.json').version" 2>/dev/null)"
+  if [ -z "$v" ] || [ "$(printf '%s\n%s\n' "$NODE_REDIS_MIN" "$v" | sort -V | head -1)" != "$NODE_REDIS_MIN" ]; then
+    [ -f "$d/package.json" ] || printf '{"type":"module"}\n' >"$d/package.json"
+    (cd "$d" && npm i -s "redis@^$NODE_REDIS_MIN" >/dev/null 2>&1)
+  fi
+  if [ "$WITH_MODELS" = 1 ] && model_set "$SET" && [ ! -d "$d/node_modules/@xenova/transformers" ]; then
+    (cd "$d" && npm i -s @xenova/transformers >/dev/null 2>&1)
+  fi
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
 }
 run_ioredis() {
   local d="$WORK/ioredis"; mkdir -p "$d"
   [ -d "$d/node_modules/ioredis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s ioredis >/dev/null 2>&1); }
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
+}
+# Stage the tracked go.mod at $1. Non-vector sets get it without the hugot require: `go mod
+# tidy` resolves the whole requirement graph before it can prune an unused module, so on a
+# Go older than hugot's own floor (HUGOT_GO_MIN) it aborts every Go set, not just the
+# vector ones that import hugot.
+stage_go_mod() {
+  if model_set "$SET"; then cp "$HARNESS/fidelity/go-redis.mod" "$1"
+  else grep -v 'knights-analytics/hugot' "$HARNESS/fidelity/go-redis.mod" >"$1"; fi
 }
 run_go() {
   local d="$WORK/go"; mkdir -p "$d"
@@ -377,16 +470,21 @@ run_go() {
   # perfectly good example. Copying the pinned manifest also keeps portable and fidelity
   # mode on the same dependency version. Re-copied every run so a stale cached go.mod
   # (e.g. one already floated to a newer `go` directive) is corrected rather than inherited.
-  cp "$HARNESS/fidelity/go-redis.mod" "$d/go.mod"
+  stage_go_mod "$d/go.mod"
   # The examples declare `package example_commands`, so the module needs a second file in
   # that package or the build fails before any test runs.
   printf 'package example_commands\n' >"$d/lib.go"
   cp "$1" "$d/ex_test.go"
-  (cd "$d" && go mod tidy >/dev/null 2>&1 && go test ./... ) >"$LOG" 2>&1; rc=$?
+  # -count=1: go caches a passing test result and replays it when the files and env are
+  # unchanged, so a second run never touches Redis ("ok ... (cached)") and proves nothing.
+  (cd "$d" && go mod tidy >/dev/null 2>&1 && go test -count=1 ./... ) >"$LOG" 2>&1; rc=$?
 }
-run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = "1.3"' ; }
-run_rust_async(){ rust_run "$WORK/rust-async" "$1" 'redis = { version = "1.3", features = ["tokio-comp"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }' ; }
+run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = { version = "1.3", features = ["json"] }
+serde_json = { version = "1", features = ["preserve_order"] }' ; }
+run_rust_async(){ rust_run "$WORK/rust-async" "$1" 'redis = { version = "1.3", features = ["tokio-comp", "json"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+futures-util = "0.3"
+serde_json = { version = "1", features = ["preserve_order"] }' ; }
 rust_run() {
   local d="$1" src="$2" deps="$3"; mkdir -p "$d/src"
   if [ ! -f "$d/Cargo.toml" ]; then
@@ -466,6 +564,7 @@ class HarnessTestCase {
   function assertIsArray($v,$m=''){ if(!is_array($v)) throw new Exception("assertIsArray failed"); }
   function assertGreaterThan($e,$a,$m=''){ if(!($a>$e)) throw new Exception("assertGreaterThan: $a not > $e"); }
   function assertContains($n,$h,$m=''){ if(!in_array($n,$h)) throw new Exception("assertContains failed"); }
+  function assertStringStartsWith($p,$s,$m=''){ if(strpos((string)$s,$p)!==0) throw new Exception("assertStringStartsWith: ".var_export($s,true)." does not start with ".var_export($p,true)); }
 }
 class_alias('HarnessTestCase', 'PredisTestCase');
 if (!class_exists('PHPUnit\\Framework\\TestCase')) {
@@ -544,6 +643,11 @@ run_fidelity() { # $1 = absolute source path, $2 = canonical client key
   STAGED_PATH="$dest/$base"; STAGED_BACKUP="$saved"
   trap 'unstage_fidelity; exit 130' INT TERM
 
+  # The go-redis wrapper runs `go mod tidy`, which rewrites the staged go.mod in place and
+  # prunes requires the current file doesn't import (the hugot pin, after any non-vector
+  # set). Re-copy the tracked manifest every run, as portable mode does, so one set's tidy
+  # can't float the next set's dependencies.
+  if [ "$client" = go-redis ]; then stage_go_mod "$root/go.mod"; fi
   cp "$src" "$dest/$base"
   # Pass the staged subdirectory through as the project/working dir. The C# runner needs it
   # to tell tests/Doc from tests/Doc/Async; runners that don't take a second argument ignore it.
@@ -603,6 +707,10 @@ for c in "${CLIENTS[@]}"; do
   fi
   rel="$(src_path "$SET" "$c")"
   if [ -z "$rel" ] || [ ! -f "$REPO/$rel" ]; then SUMMARY+=("$c	SKIP (no source)"); log ">> $c: SKIP"; continue; fi
+  why="$(model_skip_reason "$SET" "$c")"
+  if [ -n "$why" ]; then
+    SUMMARY+=("$c	SKIP ($why)"); log ">> $c: SKIP — $why"; continue
+  fi
   why="$(toolchain_skip_reason "$SET" "$c" "$rel")"
   if [ -n "$why" ]; then
     SUMMARY+=("$c	SKIP ($why)"); log ">> $c: SKIP — $why"; continue

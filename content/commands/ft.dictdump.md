@@ -57,9 +57,9 @@ is dictionary name.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
 ## Return information
 
@@ -67,19 +67,19 @@ is dictionary name.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of dictionary terms.
+[Array](/content/develop/reference/protocol-spec.md#arrays) of dictionary terms.
 
 -tab-sep-
 
-[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of dictionary terms.
+[Set](/content/develop/reference/protocol-spec.md#sets) of dictionary terms.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})
+[`FT.DICTADD`](/content/commands/ft.dictadd.md) | [`FT.DICTDEL`](/content/commands/ft.dictdel.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)
 

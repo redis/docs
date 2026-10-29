@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-newrelic.png" >}}
+![](/images/rc/redis-cloud-newrelic.png)
 ## Install Redis' New Relic Integration for Redis Cloud
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
@@ -62,7 +62,7 @@ Get metrics from Redis Cloud:
       - targets: ["REDIS_CLOUD_HOST:8070"]
 ```
 
-Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
+Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database](/content/operate/rc/databases/monitor-performance.md#connect-to-prometheus), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
 
 {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 

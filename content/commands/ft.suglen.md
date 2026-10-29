@@ -53,9 +53,9 @@ is suggestion dictionary key.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
+| Redis<br />Software | Redis Software<br />Flex | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 
@@ -63,18 +63,18 @@ is suggestion dictionary key.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): number of suggestions in the dictionary.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): number of suggestions in the dictionary.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) 
+[`FT.SUGADD`](/content/commands/ft.sugadd.md) | [`FT.SUGDEL`](/content/commands/ft.sugdel.md) | [`FT.SUGGET`](/content/commands/ft.sugget.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

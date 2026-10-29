@@ -23,7 +23,7 @@ Redis excels in storing and indexing vector embeddings that semantically represe
 - **Session Management**: in-memory data structures simplify managing session states in conversational AI scenarios.
 - **Flexibility**: Redis supports diverse data structures (for example, strings, hashes, lists, sets), allowing tailored solutions for GenAI apps.
 
-[RedisVL]({{< relref "/develop/ai/redisvl" >}}) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
+[RedisVL](/content/develop/ai/redisvl/_index.md) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
 
 ---
 
@@ -33,7 +33,7 @@ Explore how Redis optimizes various GenAI applications through specific use case
 
 ### Optimizing AI Agent Performance
 
-Redis improves session persistence and caching for conversational agents managing high interaction volumes. See the [Flowise Conversational Agent with Redis](https://redis.io/learn/howtos/solutions/flowise/conversational-agent) tutorial and demo for implementation details.
+Redis improves session persistence and caching for conversational agents managing high interaction volumes. See the [Flowise Conversational Agent with Redis](https://redis.io/learn/howtos/solutions/flowise/conversational-agent) tutorial and demo for implementation details. For managed session and long-term memory, see [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md).
 
 ### Chatbot Development and Management
 
@@ -67,7 +67,7 @@ Redis is a powerful tool to elevate your GenAI applications, enabling them to de
 
 ## Resources
 
-Check out the [Redis for AI]({{< relref "/develop/ai" >}}) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
+Check out the [Redis for AI](/content/develop/ai/_index.md) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
 
 ## Continue learning with Redis University
 

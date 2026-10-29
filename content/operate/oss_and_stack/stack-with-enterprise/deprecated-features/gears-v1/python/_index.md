@@ -17,15 +17,15 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 bannerChildren: true
 ---
 
-With the RedisGears Python plugin, you can write RedisGears functions in [Python](https://www.python.org/) and run them on a [Redis Software]({{< relref "/operate/rs/" >}}) cluster.
+With the RedisGears Python plugin, you can write RedisGears functions in [Python](https://www.python.org/) and run them on a [Redis Software](/content/operate/rs/_index.md) cluster.
 
 The Python plugin allows both batch processing and event-driven processing.
 
-Before you can run RedisGears with Python, you will need to [install the RedisGears module and the Python plugin]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears#install-redisgears" >}}) on your Redis Software cluster and [enable them for your database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install" >}}).
+Before you can run RedisGears with Python, you will need to [install the RedisGears module and the Python plugin](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears.md#install-redisgears) on your Redis Software cluster and [enable them for your database](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install.md).
 
 Once you have written your code, upload it to a node on your Redis Software cluster. Use the `RG.PYEXECUTE` command with the `redis-cli` command-line tool to run your code.
 
 ## More info
 
-- [RedisGears Python quick start]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/quickstart" >}})
-- [RedisGears recipes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes" >}})
+- [RedisGears Python quick start](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/quickstart.md)
+- [RedisGears recipes](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes/_index.md)

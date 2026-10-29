@@ -16,9 +16,9 @@ By default, Redis Cloud subscriptions are hosted in cloud vendor accounts owned 
 
 To integrate Redis Cloud into an existing cloud vendor account, you can:
 
-- Subscribe to Redis Cloud through [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}).
+- Subscribe to Redis Cloud through [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md).
 
-- Subscribe to Redis Cloud through [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}).
+- Subscribe to Redis Cloud through [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md).
 
 When you subscribe to Redis Cloud through a cloud vendor marketplace, billing is handled through the marketplace.
 
@@ -32,6 +32,6 @@ When billing details change, you should verify that each service is operating no
 
 For best results, we recommend:
 
-- [Backing up all data]({{< relref "/operate/rc/databases/back-up-data" >}}) _before_ updating billing details.
+- [Backing up all data](/content/operate/rc/databases/back-up-data.md) _before_ updating billing details.
 
 - Contacting [support](https://redis.io/support/) or your account team for assistance.

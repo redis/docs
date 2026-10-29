@@ -74,7 +74,7 @@ syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds
 title: GETEX
 ---
 Get the value of `key` and optionally set its expiration.
-`GETEX` is similar to [`GET`]({{< relref "/commands/get" >}}), but is a write command with additional options.
+`GETEX` is similar to [`GET`](/content/commands/get.md), but is a write command with additional options.
 
 ## Required arguments
 
@@ -114,7 +114,7 @@ Set the specified Unix time at which the key will expire, in milliseconds.
 
 <details open><summary><code>PERSIST</code></summary>
 
-Remove the time to live associated with the key. See [`PERSIST`]({{< relref "/commands/persist" >}}).
+Remove the time to live associated with the key. See [`PERSIST`](/content/commands/persist.md).
 
 </details>
 

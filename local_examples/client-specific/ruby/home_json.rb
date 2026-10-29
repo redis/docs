@@ -109,19 +109,19 @@ assert_equal(['London', 'Tel Aviv'], sorted_cities.map { |doc| doc['city'] })
 # STEP_START query3
 request = Search::AggregateRequest.new('*')
                                   .group_by('@city', Search::Reducers.count.as('count'))
+                                  .sort_by(Search::Asc.new('@city'))
 
 agg_result = index.aggregate(request)
 
-agg_result.rows.sort_by { |row| row['city'] }.each do |row|
+agg_result.rows.each do |row|
   puts "#{row['city']} - #{row['count']}"
 end
 # >>> London - 1
 # >>> Tel Aviv - 2
 # STEP_END
 # REMOVE_START
-sorted_rows = agg_result.rows.sort_by { |row| row['city'] }
-assert_equal(['London', 'Tel Aviv'], sorted_rows.map { |row| row['city'] })
-assert_equal(%w[1 2], sorted_rows.map { |row| row['count'] })
+assert_equal(['London', 'Tel Aviv'], agg_result.rows.map { |row| row['city'] })
+assert_equal(%w[1 2], agg_result.rows.map { |row| row['count'] })
 # REMOVE_END
 
 # STEP_START cleanup_hash
@@ -174,6 +174,28 @@ end
 # REMOVE_START
 assert_equal(1, find_paul_hash_result.total)
 assert_equal('3', find_paul_hash_result.documents.first.id)
+# REMOVE_END
+
+# STEP_START add_hash_himport
+fields = %w[name email age city]
+
+himport_res = r.pipelined do |pipe|
+  pipe.himport_prepare('huser', fields)
+  [['huser:1', user1], ['huser:2', user2], ['huser:3', user3]].each do |key, user|
+    pipe.himport_set(key, 'huser', fields.map { |f| user[f] })
+  end
+end
+# STEP_END
+# REMOVE_START
+assert_equal(%w[OK OK OK OK], himport_res)
+assert_equal(true, r.object('encoding', 'huser:3').start_with?('template'))
+himport_query_res = hash_index.search('Paul @age:[30 40]')
+assert_equal(1, himport_query_res.total)
+assert_equal('3', himport_query_res.documents.first.id)
+assert_equal({
+  'name' => 'Paul Zamir', 'email' => 'paul.zamir@example.com',
+  'age' => '35', 'city' => 'Tel Aviv'
+}, himport_query_res.documents.first.attributes)
 # REMOVE_END
 
 r.close

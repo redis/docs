@@ -1,0 +1,46 @@
+{{/*
+  Versions offered for one product in the documentation downloader.
+
+  Takes a docset entry from data/doc_bundles.json and returns its archived
+  versions, newest first, as dicts of {v, key}. "latest" is not included -- the
+  picker offers it separately, the way the sidebar version selector does.
+
+  Reads the same <product>-versions files the build writes for the sidebar
+  selector (see .github/workflows/main.yml), because a versioned matrix build
+  deletes every other version's content directory: after that, only those files
+  still know the full list. Falls back to the content directory so the page also
+  works in a local build, where the files do not exist.
+*/}}
+{{- $docset := . -}}
+{{- $names := slice -}}
+
+{{- $versionsFile := printf "%s-versions" $docset.versions -}}
+{{- if fileExists $versionsFile -}}
+  {{- range split (readFile $versionsFile) "\n" -}}
+    {{- $v := strings.TrimSpace . -}}
+    {{- if findRE `^\d+(\.\d+)*$` $v -}}
+      {{- $names = $names | append $v -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $contentDir := printf "content/%s" $docset.path -}}
+  {{- if fileExists $contentDir -}}
+    {{- range readDir $contentDir -}}
+      {{- if and .IsDir (findRE `^\d+(\.\d+)*$` .Name) -}}
+        {{- $names = $names | append .Name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Zero-pad each component so 7.22 sorts above 7.4, and 7.4.6 above 7.4. */}}
+{{- $versions := slice -}}
+{{- range $names -}}
+  {{- $sortKey := "" -}}
+  {{- range split . "." -}}
+    {{- $sortKey = printf "%s%05d." $sortKey (int .) -}}
+  {{- end -}}
+  {{- $versions = $versions | append (dict "v" . "key" $sortKey) -}}
+{{- end -}}
+
+{{- return (sort $versions "key" "desc") -}}

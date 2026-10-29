@@ -12,9 +12,8 @@ weight: $weight
 
 All Redis Software deployments span multiple physical/virtual nodes. You'll need to keep several ports open between these nodes. This document describes the various port ranges and their uses.
 
-{{< note >}}
-Whenever you create a new database, you must verify that the ports assigned to the new database's endpoints are open. The cluster will not perform this verification for you.
-{{< /note >}}
+> [!NOTE]
+> Whenever you create a new database, you must verify that the ports assigned to the new database's endpoints are open. The cluster will not perform this verification for you.
 
 ## Ports and port ranges used by Redis Software
 
@@ -26,7 +25,7 @@ Redis Software's port usage falls into three general categories:
 
 | Protocol | Port | Configurable | Connection source | Description |
 |----------|------|--------------|-------------------|-------------|
-| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Software [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) |
+| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Software [Discovery Service](/content/operate/rs/databases/durability-ha/discovery-service.md) |
 | TCP | 8070 | <span title="Not configurable">&#x274c; No</span> | External | Metrics exported and managed by the web proxy |
 | TCP | 3347-3349, 8000, 8071, 9091, 9125 | <span title="Not configurable">&#x274c; No</span> | Internal | Internal metrics ports |
 | TCP | 8443 | <span title="Configurable">&#x2705; Yes</span> | Internal, External | Secure (HTTPS) access to the management web UI |
@@ -44,9 +43,8 @@ Redis Software's port usage falls into three general categories:
 | TCP | 8002, 8004, 8006 | <span title="Configurable">&#x2705; Yes</span> | Internal | Default system health monitoring (envoy admin, envoy management server, gossip envoy admin)|
 | TCP | 8444, 9080 | <span title="Not configurable">&#x274c; No</span> | Internal | Traffic between web proxy and cnm_http/cm |
 
-{{< note >}}
-The cluster uses ports 20000-29999 for internal shard traffic. You can't change the range, but `reserved_ports` excludes specific ports or port ranges from shard assignment.
-{{< /note >}}
+> [!NOTE]
+> The cluster uses ports 20000-29999 for internal shard traffic. You can't change the range, but `reserved_ports` excludes specific ports or port ranges from shard assignment.
 
 ## Change port configuration
 
@@ -54,7 +52,7 @@ The cluster uses ports 20000-29999 for internal shard traffic. You can't change 
 
 Redis Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints or internal shard traffic, configure `reserved_ports` using one of the following methods:
 
-- [rladmin cluster config]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}})
+- [rladmin cluster config](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md)
 
     ```sh
     rladmin cluster config reserved_ports <list of ports/port ranges>
@@ -66,7 +64,7 @@ Redis Software reserves some ports by default (`system_reserved_ports`). To rese
     rladmin cluster config reserved_ports 11000 13000-13010 20048
     ```
 
-- [Update cluster settings]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) REST API request
+- [Update cluster settings](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request
 
     ```sh
     PUT /v1/cluster
@@ -102,7 +100,7 @@ For system health monitoring, Redis uses the following ports by default:
 
 - Port 8006 for gossip envoy admin
 
-You can change each envoy port to a custom port using the [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) command as long as the new port is not in use by another process. When you change `envoy_admin_port`, expect a restart of envoy.
+You can change each envoy port to a custom port using the [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md) command as long as the new port is not in use by another process. When you change `envoy_admin_port`, expect a restart of envoy.
 
 To change the envoy admin port, run:
 
@@ -173,4 +171,4 @@ To poll metrics from the `metrics_exporter` or to access the Cluster Manager UI,
 ## Nodes on different VLANs
 
 Nodes in the same cluster must reside on the same VLAN. If you can't
-host the nodes on the same VLAN, then you must open [all ports]({{< relref "/operate/rs/networking/port-configurations.md" >}}) between them.
+host the nodes on the same VLAN, then you must open [all ports](/content/operate/rs/networking/port-configurations.md) between them.

@@ -107,7 +107,8 @@ r.del('myhash')
 # STEP_START hvals
 r.hset('myhash', { 'field1' => 'Hello', 'field2' => 'World' })
 
-res15 = r.hvals('myhash')
+# HVALS follows the hash's field order, which Redis does not promise, so sort.
+res15 = r.hvals('myhash').sort
 puts res15.inspect # >>> ["Hello", "World"]
 # STEP_END
 

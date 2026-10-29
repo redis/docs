@@ -14,7 +14,7 @@ url: '/operate/rs/8.0/references/rest-api/requests/endpoints-stats/'
 ---
 
 {{<banner-article>}}
-The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/8.0/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2](/content/operate/rs/8.0/monitoring/metrics_stream_engine/_index.md) instead for real-time monitoring and metrics collection.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -27,16 +27,15 @@ The v1 statistics REST API endpoints are deprecated as of Redis Software version
 
 Get statistics for all endpoint-proxy links.
 
-{{<note>}}
-This method will return both endpoints and listeners stats for backwards
-compatability.
-{{</note>}}
+> [!NOTE]
+> This method will return both endpoints and listeners stats for backwards
+> compatability.
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [view_endpoint_stats]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_endpoint_stats" >}}) |
+| [view_endpoint_stats](/content/operate/rs/8.0/references/rest-api/permissions.md#view_endpoint_stats) |
 
 ### Request {#get-request} 
 

@@ -133,7 +133,9 @@ class CmdsHashTest extends TestCase
         $hValsResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
         echo "HMSET myhash field1 Hello field2 World: " . ($hValsResult1 ? 'OK' : 'FAIL') . "\n"; // >>> OK
 
+        // HVALS follows the hash's field order, which Redis does not promise, so sort.
         $hValsResult2 = $this->redis->hvals('myhash');
+        sort($hValsResult2);
         echo "HVALS myhash: " . json_encode($hValsResult2) . "\n"; // >>> ["Hello","World"]
         // STEP_END
 

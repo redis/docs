@@ -20,9 +20,8 @@ public static java.lang.String hashtag()
 
 Returns a string that maps to the current shard according to the cluster slot mapping.
 
-{{<note>}}
-You can use the `hashtag` function when you need to create a key that resides on the current shard. 
-{{</note>}}
+> [!NOTE]
+> You can use the `hashtag` function when you need to create a key that resides on the current shard. 
 
 ## Parameters
 

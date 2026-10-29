@@ -17,8 +17,8 @@ Redis Enterprise modules extend Redis functionality with additional data types, 
 
 Before you begin, verify that you have:
 
-- [Redis Enterprise operator deployed]({{< relref "/operate/kubernetes/7.22/deployment/quick-start" >}}) in your Kubernetes cluster
-- [Redis Enterprise Cluster (REC)]({{< relref "/operate/kubernetes/7.22/re-clusters" >}}) running and in a healthy state
+- [Redis Enterprise operator deployed](/content/operate/kubernetes/7.22/deployment/quick-start.md) in your Kubernetes cluster
+- [Redis Enterprise Cluster (REC)](/content/operate/kubernetes/7.22/re-clusters/_index.md) running and in a healthy state
 - Modules uploaded to the Redis Enterprise cluster (see [Check available modules](#check-available-modules))
 
 ## Available modules
@@ -27,10 +27,10 @@ Redis Enterprise includes several built-in modules:
 
 | Module | Name | Description |
 |--------|------|-------------|
-| **[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})** | `search` | Full-text search and secondary indexing |
-| **[RedisJSON]({{< relref "/develop/data-types/json" >}})** | `ReJSON` | JSON data type support |
-| **[RedisTimeSeries]({{< relref "/develop/data-types/timeseries" >}})** | `timeseries` | Time series data structures |
-| **[RedisBloom]({{< relref "/develop/data-types/probabilistic" >}})** | `bf` | Probabilistic data structures (Bloom filters, etc.) |
+| **[RediSearch](/content/develop/ai/search-and-query/_index.md)** | `search` | Full-text search and secondary indexing |
+| **[RedisJSON](/content/develop/data-types/json/_index.md)** | `ReJSON` | JSON data type support |
+| **[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)** | `timeseries` | Time series data structures |
+| **[RedisBloom](/content/develop/data-types/probabilistic/_index.md)** | `bf` | Probabilistic data structures (Bloom filters, etc.) |
 
 ### Check available modules
 
@@ -42,23 +42,22 @@ kubectl get rec <cluster-name> -o jsonpath='{.status.modules}' | jq
 
 This command shows the modules installed in the cluster along with their available versions.
 
-{{< note >}}
-Use the `NAME` field instead of the `DISPLAY_NAME` field when configuring databases with modules.
-{{< /note >}}
+> [!NOTE]
+> Use the `NAME` field instead of the `DISPLAY_NAME` field when configuring databases with modules.
 
 ## Install additional modules
 
-If you need to install additional modules or specific versions, upload them using the Redis Enterprise API. See [Upload module v2]({{< relref "/operate/rs/references/rest-api/requests/modules/#post-module-v2" >}}) for more information.
+If you need to install additional modules or specific versions, upload them using the Redis Enterprise API. See [Upload module v2](/content/operate/rs/references/rest-api/requests/modules/_index.md#post-module-v2) for more information.
 
 ## Module configuration
 
-Each module in the [`modulesList`]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api#specmoduleslist" >}}) supports the following fields:
+Each module in the [`modulesList`](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md#specmoduleslist) supports the following fields:
 
 - **name** (required): The module name (for example, "search", "ReJSON")
 - **version** (optional): Specific module version. For Active-Active databases, if specified for one participating cluster, it must be specified for all participating clusters. If omitted, modules will auto-update.
 - **config** (optional): Module-specific configuration parameters
 
-For detailed module configuration options and parameters, see [Redis modules]({{< relref "/develop/reference/modules" >}}).
+For detailed module configuration options and parameters, see [Redis modules](/content/develop/reference/modules/_index.md).
 
 ## Upgrade considerations
 
@@ -91,13 +90,13 @@ When upgrading Redis Enterprise clusters or the operator with modules, follow th
 - **Monitor performance**: Watch for any performance changes after the upgrade
 - **Update documentation**: Record the new module versions and any configuration changes
 
-For detailed upgrade procedures, see [Upgrade Redis Enterprise clusters]({{< relref "/operate/kubernetes/7.22/upgrade/upgrade-redis-cluster" >}}).
+For detailed upgrade procedures, see [Upgrade Redis Enterprise clusters](/content/operate/kubernetes/7.22/upgrade/upgrade-redis-cluster.md).
 
 ## Related information
 
-- [Database controller]({{< relref "/operate/kubernetes/7.22/re-databases/db-controller" >}}) - Learn how to create and manage Redis Enterprise databases
-- [Active-Active databases]({{< relref "/operate/kubernetes/7.22/active-active" >}}) - Set up globally distributed Active-Active databases
-- [Database connectivity]({{< relref "/operate/kubernetes/7.22/networking/database-connectivity" >}}) - Connect applications to your Redis Enterprise databases
-- [REDB API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api" >}}) - Complete API specification for REDB resources
-- [REAADB API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api" >}}) - API reference for Active-Active databases
+- [Database controller](/content/operate/kubernetes/7.22/re-databases/db-controller.md) - Learn how to create and manage Redis Enterprise databases
+- [Active-Active databases](/content/operate/kubernetes/7.22/active-active/_index.md) - Set up globally distributed Active-Active databases
+- [Database connectivity](/content/operate/kubernetes/7.22/networking/database-connectivity.md) - Connect applications to your Redis Enterprise databases
+- [REDB API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md) - Complete API specification for REDB resources
+- [REAADB API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api.md) - API reference for Active-Active databases
 - [Redis modules documentation](https://redis.io/docs/latest/develop/reference/modules/) - Official Redis modules documentation

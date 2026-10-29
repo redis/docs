@@ -94,7 +94,7 @@ The zero-based stop index (inclusive). Negative indexes count from the tail.
 
 ## Examples
 
-A common use of `LTRIM` is to use it with [`LPUSH`]({{< relref "/commands/lpush" >}}) or [`RPUSH`]({{< relref "/commands/rpush" >}}).
+A common use of `LTRIM` is to use it with [`LPUSH`](/content/commands/lpush.md) or [`RPUSH`](/content/commands/rpush.md).
 For example:
 
 ```

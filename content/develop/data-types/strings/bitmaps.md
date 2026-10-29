@@ -64,22 +64,22 @@ where different users are represented by incremental user IDs, it is possible
 to remember a single bit information (for example, knowing whether
 a user wants to receive a newsletter) of 4 billion users using just 512 MB of memory.
 
-The [`SETBIT`]({{< relref "/commands/setbit" >}}) command takes as its first argument the bit number, and as its second
+The [`SETBIT`](/content/commands/setbit.md) command takes as its first argument the bit number, and as its second
 argument the value to set the bit to, which is 1 or 0. The command
 automatically enlarges the string if the addressed bit is outside the
 current string length.
 
-[`GETBIT`]({{< relref "/commands/getbit" >}}) just returns the value of the bit at the specified index.
+[`GETBIT`](/content/commands/getbit.md) just returns the value of the bit at the specified index.
 Out of range bits (addressing a bit that is outside the length of the string
 stored into the target key) are always considered to be zero.
 
 There are three commands operating on group of bits:
 
-1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
-2. [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) performs population counting, reporting the number of bits set to 1.
-3. [`BITPOS`]({{< relref "/commands/bitpos" >}}) finds the first bit having the specified value of 0 or 1.
+1. [`BITOP`](/content/commands/bitop.md) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
+2. [`BITCOUNT`](/content/commands/bitcount.md) performs population counting, reporting the number of bits set to 1.
+3. [`BITPOS`](/content/commands/bitpos.md) finds the first bit having the specified value of 0 or 1.
 
-Both [`BITPOS`]({{< relref "/commands/bitpos" >}}) and [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) are able to operate with byte ranges of the
+Both [`BITPOS`](/content/commands/bitpos.md) and [`BITCOUNT`](/content/commands/bitcount.md) are able to operate with byte ranges of the
 string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
 {{< clients-example set="bitmap_tutorial" step="bitcount" description="Bit counting: Use BITCOUNT to count the number of set bits in a bitmap when you need to get population counts" buildsUpon="ping" runnable="false" try_it="false" >}}
@@ -89,26 +89,26 @@ string, instead of running for the whole length of the string. We can trivially 
 
 For example imagine you want to know the longest streak of daily visits of
 your web site users. You start counting days starting from zero, that is the
-day you made your web site public, and set a bit with [`SETBIT`]({{< relref "/commands/setbit" >}}) every time
+day you made your web site public, and set a bit with [`SETBIT`](/content/commands/setbit.md) every time
 the user visits the web site. As a bit index you simply take the current unix
 time, subtract the initial offset, and divide by the number of seconds in a day
 (normally, 3600\*24).
 
 This way for each user you have a small string containing the visit
-information for each day. With [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) it is possible to easily get
+information for each day. With [`BITCOUNT`](/content/commands/bitcount.md) it is possible to easily get
 the number of days a given user visited the web site, while with
-a few [`BITPOS`]({{< relref "/commands/bitpos" >}}) calls, or simply fetching and analyzing the bitmap client-side,
+a few [`BITPOS`](/content/commands/bitpos.md) calls, or simply fetching and analyzing the bitmap client-side,
 it is possible to easily compute the longest streak.
 
 ### Bitwise operations
 
-The [`BITOP`]({{< relref "/commands/bitop" >}}) command performs bitwise
+The [`BITOP`](/content/commands/bitop.md) command performs bitwise
 operations over two or more source keys, storing the result in a destination key.
 
 The examples below show the available operations using three keys: `A` (with bit pattern
 `11011000`), `B` (`00011001`), and `C` (`01101100`).
 
-{{< image filename="/images/dev/bitmap/BitopSetup.svg" alt="Bitop setup" >}}
+![Bitop setup](/images/dev/bitmap/BitopSetup.svg)
 
 Numbering the bits from left to right, starting at zero, the following `SETBIT` commands 
 will create these bitmaps:
@@ -153,7 +153,7 @@ will create these bitmaps:
 
 Set a bit in the destination key to 1 only if it is set in all the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopAnd.svg" alt="Bitop AND" >}}
+![Bitop AND](/images/dev/bitmap/BitopAnd.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_and" description="AND operation: Use BITOP AND to find bits set in all source bitmaps when you need to find common bits across multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP AND R A B C
@@ -166,7 +166,7 @@ Set a bit in the destination key to 1 only if it is set in all the source keys.
 #### `OR`
 Set a bit in the destination key to 1 if it is set in at least one of the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopOr.svg" alt="Bitop OR" >}}
+![Bitop OR](/images/dev/bitmap/BitopOr.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_or" description="OR operation: Use BITOP OR to find bits set in at least one source bitmap when you need to combine multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP OR R A B C
@@ -182,7 +182,7 @@ For two source keys, set a bit in the destination key to 1 if the value of the b
 different in the two keys. For three or more source keys, the result of XORing the first two 
 keys is then XORed with the next key, and so forth.
 
-{{< image filename="/images/dev/bitmap/BitopXor.svg" alt="Bitop XOR" >}}
+![Bitop XOR](/images/dev/bitmap/BitopXor.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_xor" description="XOR operation: Use BITOP XOR to find bits that differ between bitmaps when you need to identify differences" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP XOR R A B
@@ -197,7 +197,7 @@ keys is then XORed with the next key, and so forth.
 Set a bit in the destination key to 1 if it is not set in the source key (this
 is the only unary operator).
 
-{{< image filename="/images/dev/bitmap/BitopNot.svg" alt="Bitop NOT" >}}
+![Bitop NOT](/images/dev/bitmap/BitopNot.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_not" description="NOT operation: Use BITOP NOT to invert all bits in a bitmap when you need to negate a set" difficulty="intermediate" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP NOT R A
@@ -212,7 +212,7 @@ is the only unary operator).
 Set a bit in the destination key to 1 if it is set in the first source key, but not in any 
 of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopDiff.svg" alt="Bitop DIFF" >}}
+![Bitop DIFF](/images/dev/bitmap/BitopDiff.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_diff" description="DIFF operation: Use BITOP DIFF to find bits set in the first bitmap but not in others when you need set difference" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP DIFF R A B C
@@ -227,7 +227,7 @@ of the other source keys.
 Set a bit in the destination key to 1 if it is not set in the first source key, 
 but set in at least one of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopDiff1.svg" alt="Bitop DIFF1" >}}
+![Bitop DIFF1](/images/dev/bitmap/BitopDiff1.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_diff1" description="DIFF1 operation: Use BITOP DIFF1 to find bits not in the first bitmap but in at least one other when you need inverse difference" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP DIFF1 R A B C
@@ -241,7 +241,7 @@ but set in at least one of the other source keys.
 
 Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
 
-{{< image filename="/images/dev/bitmap/BitopAndOr.svg" alt="Bitop ANDOR" >}}
+![Bitop ANDOR](/images/dev/bitmap/BitopAndOr.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_andor" description="ANDOR operation: Use BITOP ANDOR to find bits in the first bitmap and at least one other when you need intersection with union" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP ANDOR R A B C
@@ -255,7 +255,7 @@ Set a bit in the destination key to 1 if it is set in the first source key and a
 
 Set a bit in the destination key to 1 if it is set in exactly one of the source keys.
 
-{{< image filename="/images/dev/bitmap/BitopOne.svg" alt="Bitop ONE" >}}
+![Bitop ONE](/images/dev/bitmap/BitopOne.svg)
 
 {{< clients-example set="bitmap_tutorial" step="bitop_one" description="ONE operation: Use BITOP ONE to find bits set in exactly one bitmap when you need exclusive membership" difficulty="advanced" buildsUpon="bitop_setup" runnable="false" try_it="false" >}}
 > BITOP ONE R A B C
@@ -276,8 +276,8 @@ the Nth bit to address inside the key with `bit-number MOD M`.
 
 ## Performance
 
-[`SETBIT`]({{< relref "/commands/setbit" >}}) and [`GETBIT`]({{< relref "/commands/getbit" >}}) are O(1).
-[`BITOP`]({{< relref "/commands/bitop" >}}) is O(n), where _n_ is the length of the longest string in the comparison.
+[`SETBIT`](/content/commands/setbit.md) and [`GETBIT`](/content/commands/getbit.md) are O(1).
+[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the length of the longest string in the comparison.
 
 ## Learn more
 

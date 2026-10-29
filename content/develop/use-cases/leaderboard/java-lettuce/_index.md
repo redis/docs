@@ -14,7 +14,7 @@ title: Redis leaderboard with Java (Lettuce)
 weight: 5
 ---
 
-This guide shows you how to implement Redis-backed leaderboards in Java with the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library. It focuses on asynchronous and reactive APIs, which are the recommended Lettuce usage patterns in these docs.
+This guide shows you how to implement Redis-backed leaderboards in Java with the [`Lettuce`](/content/develop/clients/lettuce/_index.md) client library. It focuses on asynchronous and reactive APIs, which are the recommended Lettuce usage patterns in these docs.
 
 ## Overview
 
@@ -64,7 +64,7 @@ Add the Lettuce dependency to your project:
 
 ### Lettuce vs Jedis
 
-In these docs, [`Jedis`]({{< relref "/develop/clients/jedis" >}}) is the recommended client when you want straightforward synchronous Java examples. The Lettuce examples here focus on async and reactive APIs, where Lettuce is especially strong.
+In these docs, [`Jedis`](/content/develop/clients/jedis/_index.md) is the recommended client when you want straightforward synchronous Java examples. The Lettuce examples here focus on async and reactive APIs, where Lettuce is especially strong.
 
 ## The Java leaderboard
 
@@ -162,12 +162,12 @@ The score data lives in the sorted set, while the user details live in hashes ke
 
 The implementation uses:
 
-* [`ZADD`]({{< relref "/commands/zadd" >}}) to add or update leaderboard scores
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` option to fetch the highest-ranked members
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to find a user's rank from the top
-* [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) to trim the lowest-ranked overflow entries
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) to store and load user metadata
-* [`DEL`]({{< relref "/commands/del" >}}) to remove metadata for trimmed or deleted users
+* [`ZADD`](/content/commands/zadd.md) to add or update leaderboard scores
+* [`ZRANGE`](/content/commands/zrange.md) with the `REV` option to fetch the highest-ranked members
+* [`ZREVRANK`](/content/commands/zrevrank.md) to find a user's rank from the top
+* [`ZREMRANGEBYRANK`](/content/commands/zremrangebyrank.md) to trim the lowest-ranked overflow entries
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) to store and load user metadata
+* [`DEL`](/content/commands/del.md) to remove metadata for trimmed or deleted users
 
 ## Leaderboard implementation
 

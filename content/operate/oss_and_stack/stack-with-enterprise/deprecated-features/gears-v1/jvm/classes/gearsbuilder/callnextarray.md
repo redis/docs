@@ -20,7 +20,7 @@ public static native java.lang.Object callNextArray(
     java.lang.String[] command)
 ```
 
-When you override a Redis command with the [`CommandOverrider`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/commandoverrider" >}}), use `callNextArray` to run the next execution that overrides the command or the original command itself.
+When you override a Redis command with the [`CommandOverrider`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/commandoverrider.md), use `callNextArray` to run the next execution that overrides the command or the original command itself.
 
 It accepts an array of strings, which represents the command arguments.
 

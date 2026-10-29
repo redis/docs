@@ -24,7 +24,7 @@ rules for those clients.
 
 The policy is based on the non-EOL Redis Server **major.minor** versions
 currently available in Redis Cloud, as listed in
-[Supported database versions]({{< relref "/operate/rc/databases/version-management#supported-database-versions" >}}).
+[Supported database versions](/content/operate/rc/databases/version-management/_index.md#supported-database-versions).
 
 ## Versioning
 
@@ -50,7 +50,7 @@ for future patch and maintenance releases (for example, `5.2.x`).
 
 Each new client `major`, `minor`, and `patch` release is tested against a
 compatibility matrix of the
-[non-EOL Redis API versions]({{< relref "/operate/rc/databases/version-management#supported-database-versions" >}})
+[non-EOL Redis API versions](/content/operate/rc/databases/version-management/_index.md#supported-database-versions)
 currently available. For example, if the supported API versions are 6.2, 7.2,
 and 7.4, then each client release is tested against all three. The release notes
 for each client report the compatibility matrix used for testing.

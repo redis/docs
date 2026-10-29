@@ -10,7 +10,8 @@ description: Steps to add or remove a participating cluster to an existing Activ
 linkTitle: Edit participating clusters
 weight: 40
 ---
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes. and later.{{</note>}}
+> [!NOTE]
+> This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes. and later.
 
 ## Add a participating cluster
 
@@ -18,7 +19,7 @@ Use the following steps to add a participating cluster to an existing Redis Ente
 
 ### Prerequisites
 
-To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}):
+To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters](/content/operate/kubernetes/active-active/prepare-clusters.md):
 
 - Make sure the cluster meets the hardware and naming requirements.
 - Enable the Active-Active controllers.
@@ -89,6 +90,8 @@ To communicate with other clusters, all participating clusters need access to th
       dbFqdnSuffix: .example-cluster-rec-boston-ns-massachusetts.example.com
       secretName: redis-enterprise-rerc-logan
     ```
+
+    If your participating clusters use [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases), also set `replicationPort` in the RERC.
 
 1. Create the RERC custom resource.
 

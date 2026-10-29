@@ -26,7 +26,7 @@ letting `redis-entra-id` fetch and renew the authentication tokens for you autom
 
 ## Install
 
-Install [`redis-py`]({{< relref "/develop/clients/redis-py#install" >}}) first,
+Install [`redis-py`](/content/develop/clients/redis-py/_index.md#install) first,
 if you have not already done so. Then, install `redis-entra-id` with the
 following command:
 
@@ -134,11 +134,11 @@ When you have created your `CredentialProvider` instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
 `RedisCluster()` connection method.
-{{< note >}} Azure requires you to use
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
-when you connect (see
-[Connect with TLS]({{< relref "/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls" >}}) for more information).
-{{< /note >}}
+> [!NOTE]
+> Azure requires you to use
+> [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+> when you connect (see
+> [Connect with TLS](/content/develop/clients/redis-py/connect.md#connect-to-your-production-redis-with-tls) for more information).
 
 ```python
 from redis import RedisCluster

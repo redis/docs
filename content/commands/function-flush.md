@@ -48,7 +48,7 @@ Deletes all the libraries.
 
 Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Optional arguments
 

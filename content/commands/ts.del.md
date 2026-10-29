@@ -110,21 +110,21 @@ Delete the range of data points for temperature in Tel Aviv.
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of samples that were deleted.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of samples that were deleted.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of samples that were deleted.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of samples that were deleted.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.ADD`]({{< relref "commands/ts.add/" >}}) 
+[`TS.ADD`](/content/commands/ts.add.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

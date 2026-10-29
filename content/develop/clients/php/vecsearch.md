@@ -24,14 +24,14 @@ topics:
 weight: 30
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -44,14 +44,14 @@ The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
-`Predis` uses query dialect 2 by default.
-Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
+> `Predis` uses query dialect 2 by default.
+> Redis Search methods such as [`ftSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
@@ -91,17 +91,31 @@ The code below shows how to use the
 tokenizer to generate the embeddings. The vectors that represent the
 embeddings have 384 dimensions, regardless of the length of the input
 text. Here, the `pipeline()` call creates the `$extractor` function that
-generates embeddings from text:
+generates embeddings from text.
+
+The `all-MiniLM-L6-v2` model expects mean pooling followed by normalization
+to unit length (see the
+[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+page for more information). In TransformersPHP v0.6.2, the `normalize: true`
+option has no effect. The `$embed()` function below calls `$extractor()` with
+mean pooling and then normalizes the vector itself:
 
 ```php
 $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
+
+$embed = function (string $text) use ($extractor): array {
+    $emb = $extractor($text, pooling: 'mean')[0];
+    $norm = sqrt(array_sum(array_map(fn($x) => $x * $x, $emb)));
+
+    return array_map(fn($x) => $x / $norm, $emb);
+};
 ```
 
 ## Create the index
 
 Connect to Redis and delete any index previously created with the
 name `vector_idx`. (The
-[`ftdropindex()`]({{< relref "/commands/ft.dropindex" >}})
+[`ftdropindex()`](/content/commands/ft.dropindex.md)
 call throws an exception if the index doesn't already exist, which is
 why you need the `try...catch` block.)
 
@@ -118,16 +132,16 @@ try {
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index) 
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
-The `CreateArguments` parameter to [`ftcreate()`]({{< relref "/commands/ft.create" >}})
+The `CreateArguments` parameter to [`ftcreate()`](/content/commands/ft.create.md)
 specifies hash objects for storage and a prefix `doc:` that identifies the hash objects
 to index.
 
@@ -156,24 +170,18 @@ $client->ftcreate("vector_idx", $schema,
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hmset()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`hmset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
-Use the `$extractor()` function as shown below to create the embedding that
-represents the `content` field. Note that `$extractor()` can generate multiple
-embeddings from multiple strings parameters at once, so it returns an array of
-embedding vectors. Here, there is only one embedding in the returned array.
-The `normalize:` and `pooling:` named parameters relate to details
-of the embedding model (see the
-[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-page for more information).
+Use the `$embed()` function as shown below to create the embedding that
+represents the `content` field.
 
 To add an embedding as a field of a hash object, you must encode the
 vector array as a binary string. The built-in
 [`pack()`](https://www.php.net/manual/en/function.pack.php) function is a convenient
 way to do this in PHP, using the `g*` format specifier to denote a packed
 array of `float` values. Note that if you are using
-[JSON]({{< relref "/develop/data-types/json" >}})
+[JSON](/content/develop/data-types/json/_index.md)
 objects to store your documents instead of hashes, then you should store
 the `float` array directly without first converting it to a binary
 string (see [Differences with JSON documents](#differences-with-json-documents)
@@ -181,32 +189,78 @@ below).
 
 ```php
 $content = "That is a very happy person";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:0",[
     "content" => $content,
     "genre" => "persons",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 
 $content = "That is a happy dog";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:1",[
     "content" => $content,
     "genre" => "pets",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 
 $content = "Today is a sunny day";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->hmset("doc:2",[
     "content" => $content,
     "genre" => "weather",
-    "embedding" => pack('g*', ...$emb[0])
+    "embedding" => pack('g*', ...$emb)
 ]);
 ```
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hmset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once by calling `himport()` with
+[`PREPARE`](/content/commands/himport-prepare.md), then create each
+document by calling it with [`SET`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use a
+[pipeline](/content/develop/clients/php/transpipe.md) to send all the
+imports in one round trip:
+
+```php
+$docs = [
+    ["doc:0", "That is a very happy person", "persons"],
+    ["doc:1", "That is a happy dog", "pets"],
+    ["doc:2", "Today is a sunny day", "weather"],
+];
+
+$client->pipeline(function ($pipe) use ($docs, $embed) {
+    $pipe->himport('PREPARE', "doc", ["content", "genre", "embedding"]);
+
+    foreach ($docs as [$key, $content, $genre]) {
+        $emb = $embed($content);
+
+        $pipe->himport('SET', $key, "doc", [
+            $content,
+            $genre,
+            pack('g*', ...$emb)
+        ]);
+    }
+});
+```
+
+`HIMPORT SET` replaces any existing key, so running this code after the
+`hmset()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `Predis` v3.6.0 or later, and `Predis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## Run a query
 
@@ -216,12 +270,12 @@ text. Redis calculates the vector distance between the query vector and each
 embedding vector in the index as it runs the query. You can request the results to be
 sorted to rank them in order of ascending distance.
 
-The code below creates the query embedding using the `$extractor()` function, as with
+The code below creates the query embedding using the `$embed()` function, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)
 search that sorts the results in order of vector distance from the query vector.
 
 The results are returned as an array with the number of results in the
@@ -231,16 +285,16 @@ the fields you requested (again as alternating key-value pairs).
 
 ```php
 $queryText = "That is a happy person";
-$queryEmb = $extractor($queryText, normalize: true, pooling: 'mean');
+$queryEmb = $embed($queryText);
 
 $result = $client->ftsearch(
     "vector_idx",
     '*=>[KNN 3 @embedding $vec AS vector_distance]',
-    new SearchArguments()
+    (new SearchArguments())
         ->addReturn(1, "vector_distance")
         ->dialect("2")
         ->params([
-            "vec", pack('g*', ...$queryEmb[0])
+            "vec", pack('g*', ...$queryEmb)
         ])
         ->sortBy("vector_distance")
 );
@@ -256,11 +310,11 @@ for ($i = 1; $i < ($numResults * 2 + 1); $i += 2) {
     echo "Field: {$fields[0]}, Value: {$fields[1]}" . PHP_EOL; 
 }        
 // >>> Key: doc:0
-// >>> Field: vector_distance, Value: 3.76152896881
+// >>> Field: vector_distance, Value: 0.133717402816
 // >>> Key: doc:1
-// >>> Field: vector_distance, Value: 18.6544265747
+// >>> Field: vector_distance, Value: 0.621603608131
 // >>> Key: doc:2
-// >>> Field: vector_distance, Value: 44.6189727783
+// >>> Field: vector_distance, Value: 1.46157670021
 ```
 
 Assuming you have added the code from the steps above to your source file,
@@ -272,14 +326,16 @@ generate the embeddings). When you run the code, it outputs the following result
 ```
 Number of results: 3
 Key: doc:0
-Field: vector_distance, Value: 3.76152896881
+Field: vector_distance, Value: 0.133717402816
 Key: doc:1
-Field: vector_distance, Value: 18.6544265747
+Field: vector_distance, Value: 0.621603608131
 Key: doc:2
-Field: vector_distance, Value: 44.6189727783
+Field: vector_distance, Value: 1.46157670021
 ```
 
-Note that the results are ordered according to the value of the `distance`
+The exact distances may differ slightly on your system.
+
+Note that the results are ordered according to the value of the `vector_distance`
 field, with the lowest distance indicating the greatest similarity to the query.
 As you would expect, the text *"That is a very happy person"* (from the `doc:0`
 document)
@@ -290,7 +346,7 @@ is the result judged to be most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modeling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths to avoid typing it in full for
 every query. Also, you must specify `JSON` with the `on()` option when you create the index.
@@ -299,6 +355,10 @@ The code below shows these differences, but the index is otherwise very similar 
 the one created previously for hashes:
 
 ```php
+try {
+    $client->ftdropindex("vector_json_idx");
+} catch (Exception $e){}
+
 $jsonSchema = [
     new TextField("$.content", "content"),
     new TagField("$.genre", "genre"),
@@ -321,56 +381,56 @@ $client->ftcreate("vector_json_idx", $jsonSchema,
 );
 ```
 
-Use [`jsonset()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`hmset()`]({{< relref "/commands/hset" >}}). The arrays
+Use [`jsonset()`](/content/commands/json.set.md) to add the data
+instead of [`hmset()`](/content/commands/hset.md). The arrays
 that specify the fields have roughly the same structure as the ones used for
 `hmset()` but you should use the standard library function
 [`json_encode()`](https://www.php.net/manual/en/function.json-encode.php)
 to generate a JSON string representation of the array.
 
 An important difference with JSON indexing is that the vectors are
-specified using arrays instead of binary strings. Simply add the
+specified using arrays instead of binary strings. Add the
 embedding as an array field without using the `pack()` function as you
 would with a hash.
 
 ```php
 $content = "That is a very happy person";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:0", "$",
     json_encode(
         [
             "content" => $content,
             "genre" => "persons",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
 );
 
 $content = "That is a happy dog";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:1","$", 
     json_encode(
         [
             "content" => $content,
             "genre" => "pets",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
 );
 
 $content = "Today is a sunny day";
-$emb = $extractor($content, normalize: true, pooling: 'mean');
+$emb = $embed($content);
 
 $client->jsonset("jdoc:2", "$",
     json_encode(
         [
             "content" => $content,
             "genre" => "weather",
-            "embedding" => $emb[0]
+            "embedding" => $emb
         ],
         JSON_THROW_ON_ERROR
     )
@@ -386,16 +446,16 @@ the `embedding` field of the JSON was specified as an array.
 
 ```php
 $queryText = "That is a happy person";
-$queryEmb = $extractor($queryText, normalize: true, pooling: 'mean');
+$queryEmb = $embed($queryText);
 
 $result = $client->ftsearch(
     "vector_json_idx",
     '*=>[KNN 3 @embedding $vec AS vector_distance]',
-    new SearchArguments()
+    (new SearchArguments())
         ->addReturn(1, "vector_distance")
         ->dialect("2")
         ->params([
-            "vec", pack('g*', ...$queryEmb[0])
+            "vec", pack('g*', ...$queryEmb)
         ])
         ->sortBy("vector_distance")
 );
@@ -407,16 +467,18 @@ query is the same as for hash:
 ```
 Number of results: 3
 Key: jdoc:0
-Field: vector_distance, Value: 3.76152896881
+Field: vector_distance, Value: 0.133717402816
 Key: jdoc:1
-Field: vector_distance, Value: 18.6544265747
+Field: vector_distance, Value: 0.621603608131
 Key: jdoc:2
-Field: vector_distance, Value: 44.6189727783
+Field: vector_distance, Value: 1.46157670021
 ```
 
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

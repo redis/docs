@@ -12,11 +12,11 @@ weight: 30
 
 Clusters require an odd number of nodes to maintain [quorum](https://en.wikipedia.org/wiki/Quorum_(distributed_computing)) and avoid [split-brain](https://en.wikipedia.org/wiki/Split-brain_(computing)) scenarios when making decisions. If you need to add another node to a cluster for quorum but want to provision fewer resources and reduce infrastructure costs, you can set up a quorum node instead of a regular node.
 
-Quorum nodes participate in cluster quorum decisions and can act as a tiebreaker. However, they do not host database shards or endpoints, which reduces their resource requirements. A quorum node should have at least 2 cores and 8 GB of RAM. See the [hardware requirements]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements">}}) for more details and considerations.
+Quorum nodes participate in cluster quorum decisions and can act as a tiebreaker. However, they do not host database shards or endpoints, which reduces their resource requirements. A quorum node should have at least 2 cores and 8 GB of RAM. See the [hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) for more details and considerations.
 
 ## Enable quorum_only setting
 
-1. Run [`rladmin status nodes`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes">}}) and find a node with no shards.
+1. Run [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) and find a node with no shards.
 
    In the following example, nodes without shards have `0/100` for the `SHARDS` column.
 
@@ -29,7 +29,7 @@ Quorum nodes participate in cluster quorum decisions and can act as a tiebreaker
    *node:3    slave     203.0.113.0                                 fc7a3d332458            0/100     2             6.45GB/7.79GB       4.93GB/6.39GB          7.8.6-36          OK
    ```
 
-2. Enable `quorum_only` for the node using [`rladmin tune node`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-node">}}):
+2. Enable `quorum_only` for the node using [`rladmin tune node`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-node):
    ```bash
    $ rladmin tune node <node-id> quorum_only enabled
    ```

@@ -18,11 +18,11 @@ You can manage REC certificates in two ways:
 - **[Method 1: Manage certificates with the REC custom resource](#method-1-manage-certificates-with-the-rec-custom-resource)** (recommended). Store each certificate in a Kubernetes secret and reference the secret from the REC custom resource. The operator applies the certificate and keeps the cluster in sync with the secret. Use this method whenever the certificate type is exposed in `spec.certificates`.
 - **[Method 2: Manage certificates with the Redis Software REST API](#method-2-manage-certificates-with-the-redis-software-rest-api)**. Call the cluster's REST API directly, bypassing the operator. Use this method only when you need to follow the Redis Software procedure for a cluster that does not define the certificate in `spec.certificates`. The operator overwrites changes made this way if the same certificate is also defined in the REC custom resource.
 
-For the list of certificates and what each one encrypts, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).
+For the list of certificates and what each one encrypts, see the [certificates table](/content/operate/rs/security/certificates/_index.md).
 
 ## Method 1: Manage certificates with the REC custom resource
 
-This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually, or have [cert-manager]({{< relref "/operate/kubernetes/8.0.18/security/cert-manager" >}}) issue and renew it automatically.
+This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually, or have [cert-manager](/content/operate/kubernetes/8.0.18/security/cert-manager.md) issue and renew it automatically.
 
 ### Supported certificates
 
@@ -64,9 +64,10 @@ The operator accepts several key names for the certificate and private key, so y
 | Certificate | `cert`, `certificate`, or `tls.crt`   |
 | Private key | `key` or `tls.key`                    |
 
-{{<note>}}On Redis Software for Kubernetes versions older than 8.0.18, also include `--from-literal=name=<certificate-name>` in the `kubectl create secret` command, where `<certificate-name>` is the value from the **Certificate name in Redis Software** column in the [supported certificates](#supported-certificates) table.{{</note>}}
+> [!NOTE]
+> On Redis Software for Kubernetes versions older than 8.0.18, also include `--from-literal=name=<certificate-name>` in the `kubectl create secret` command, where `<certificate-name>` is the value from the **Certificate name in Redis Software** column in the [supported certificates](#supported-certificates) table.
 
-For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/8.0.18/security/internode-encryption" >}}) for the full setup, which covers enabling internode encryption alongside the certificate configuration.
+For internode encryption certificates, see [Internode encryption](/content/operate/kubernetes/8.0.18/security/internode-encryption.md) for the full setup, which covers enabling internode encryption alongside the certificate configuration.
 
 ### Step 2: Reference the secret in the REC custom resource
 
@@ -107,21 +108,22 @@ GET /v1/cluster/certificates
 
 Use the Redis Software REST API or `rladmin` directly against the cluster, bypassing the operator.
 
-{{<warning>}}If `spec.certificates` in the REC custom resource defines the same certificate, the operator overwrites your API change. Before you update a certificate through the REST API, remove the corresponding field from `spec.certificates`, or apply the same change in both places.{{</warning>}}
+> [!WARNING]
+> If `spec.certificates` in the REC custom resource defines the same certificate, the operator overwrites your API change. Before you update a certificate through the REST API, remove the corresponding field from `spec.certificates`, or apply the same change in both places.
 
-For the procedure, including the `rladmin` and REST API examples, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
+For the procedure, including the `rladmin` and REST API examples, see [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md).
 
 After the update, verify the rotation as described in [Step 3](#step-3-verify-the-rotation-optional).
 
 ## Active-Active database certificate updates
 
-The operator automates certificate updates for [Active-Active]({{< relref "/operate/kubernetes/8.0.18/active-active" >}}) databases. When you update the proxy or syncer certificate secret referenced by the REC, the operator detects the change and propagates the new certificate to all participating clusters.
+The operator automates certificate updates for [Active-Active](/content/operate/kubernetes/8.0.18/active-active/_index.md) databases. When you update the proxy or syncer certificate secret referenced by the REC, the operator detects the change and propagates the new certificate to all participating clusters.
 
-This automation applies whether you manage the secret directly or with [cert-manager]({{< relref "/operate/kubernetes/8.0.18/security/cert-manager#active-active-databases-with-automatic-certificate-sync" >}}).
+This automation applies whether you manage the secret directly or with [cert-manager](/content/operate/kubernetes/8.0.18/security/cert-manager.md#active-active-databases-with-automatic-certificate-sync).
 
 ## More info
 
-- [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}})
-- [Install your own certificates]({{< relref "/operate/rs/security/certificates/create-certificates" >}})
-- [Certificates table]({{< relref "/operate/rs/security/certificates" >}})
-- [Glossary/Transport Layer Security (TLS)]({{< relref "/glossary#letter-t" >}})
+- [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md)
+- [Install your own certificates](/content/operate/rs/security/certificates/create-certificates.md)
+- [Certificates table](/content/operate/rs/security/certificates/_index.md)
+- [Glossary/Transport Layer Security (TLS)](/content/glossary/_index.md#letter-t)

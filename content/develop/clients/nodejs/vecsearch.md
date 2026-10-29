@@ -25,15 +25,15 @@ topics:
 weight: 3
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 
 Vector fields can store *text embeddings*, which are AI-generated vector
 representations of text content. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings measures their semantic similarity. When you compare the
 similarity of a query embedding with stored embeddings, Redis can retrieve documents
 that closely match the query's meaning.
@@ -45,20 +45,20 @@ Redis Search. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
-onwards, `node-redis` uses query dialect 2 by default.
-Redis Search methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
+> onwards, `node-redis` uses query dialect 2 by default.
+> Redis Search methods such as [`ft.search()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
 Install the required dependencies:
 
-1. Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) if you haven't already.
+1. Install [`node-redis`](/content/develop/clients/nodejs/_index.md) if you haven't already.
 2. Install `@xenova/transformers`:
 
 ```bash
@@ -94,13 +94,13 @@ First, connect to Redis and remove any existing index named `vector_idx`:
 
 Next, create the index with the following schema:
 -   `content`: Text field for the content to index
--   `genre`: [Tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+-   `genre`: [Tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
     field representing the text's genre
--   `embedding`: [Vector]({{< relref "/develop/ai/search-and-query/vectors" >}})
+-   `embedding`: [Vector](/content/develop/ai/search-and-query/vectors/_index.md)
     field with:
-    -   [HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
+    -   [HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index)
         indexing
-    -   [L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+    -   [L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
         distance metric
     -   Float32 values
     -   768 dimensions (matching the embedding model)
@@ -121,6 +121,33 @@ Use `Promise.all()` to batch the commands and reduce network round trips:
 
 {{< clients-example set="home_query_vec" step="add_data" lang_filter="Node.js" description="Practical pattern: Generate embeddings and store documents with vector fields using pipelined hSet() commands" difficulty="intermediate" >}}
 {{< /clients-example >}}
+
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hSet()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Declare the field names once with
+[`hImportPrepare()`](/content/commands/himport-prepare.md), then create each
+document with [`hImportSet()`](/content/commands/himport-set.md), passing only
+its values, in the same order as the field names. Use `Promise.all()` to send
+all the imports as a [pipeline](/content/develop/clients/nodejs/transpipe.md),
+in one round trip:
+
+{{< clients-example set="home_query_vec" step="himport_data" lang_filter="Node.js" description="Bulk ingestion: Import hash documents with vector embeddings as compact hashes using HIMPORT PREPARE and pipelined HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_data" >}}
+{{< /clients-example >}}
+
+`hImportSet()` replaces any existing key, so running this code after the
+`hSet()` calls leaves you with the same three documents.
+
+> [!NOTE]
+> `HIMPORT` requires `node-redis` v6.2.0 or later, and `node-redis` marks its
+> support as experimental, so the API might change. Redis Cloud and
+> Redis Software don't support `HIMPORT`.
 
 ## Run a query
 
@@ -143,6 +170,8 @@ doc:1: 'That is a very happy person', Score: 0.127055495977
 doc:2: 'That is a happy dog', Score: 0.836842417717
 doc:3: 'Today is a sunny day', Score: 1.50889515877
 ```
+
+The exact distances may differ slightly on your system.
 
 ## Differences with JSON documents
 
@@ -180,5 +209,7 @@ jdoc:3: 'Today is a sunny day', Score: 1.50889515877
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about indexing options, distance metrics, and query format.
+
+{{< embed-md "iris-for-developers.md" >}}

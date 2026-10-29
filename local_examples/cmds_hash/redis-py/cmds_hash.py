@@ -110,11 +110,12 @@ r.delete("myhash")
 # STEP_START hvals
 res10 = r.hset("myhash", mapping={"field1": "Hello", "field2": "World"})
 
+# HVALS follows the hash's field order, which Redis does not promise, so sort.
 res11 = r.hvals("myhash")
-print(res11) # >>> [ "Hello", "World" ]
+print(sorted(res11)) # >>> [ "Hello", "World" ]
 
 # REMOVE_START
-assert res11 == [ "Hello", "World" ]
+assert sorted(res11) == [ "Hello", "World" ]
 r.delete("myhash")
 # REMOVE_END
 # STEP_END

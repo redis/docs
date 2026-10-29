@@ -121,14 +121,13 @@ syntax_fmt: "BLMOVEM source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout\n 
   count | EXACTLY\_exactly> <OBO | BULK>]"
 title: BLMOVEM
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-`BLMOVEM` is the blocking variant of [`LMOVEM`]({{< relref "/commands/lmovem" >}}).
+`BLMOVEM` is the blocking variant of [`LMOVEM`](/content/commands/lmovem.md).
 When `source` holds enough elements to satisfy the request, this command behaves
-exactly like [`LMOVEM`]({{< relref "/commands/lmovem" >}}). Otherwise, Redis blocks the connection until
+exactly like [`LMOVEM`](/content/commands/lmovem.md). Otherwise, Redis blocks the connection until
 another client pushes the required elements to `source` or until `timeout` is
 reached.
 
@@ -176,7 +175,7 @@ The number of elements to move:
 
 - `COUNT count` moves up to `count` elements. If `source` holds fewer than
   `count` elements, all of them are moved. This matches the `count` semantics of
-  [`LPOP`]({{< relref "/commands/lpop" >}}) and [`LMPOP`]({{< relref "/commands/lmpop" >}}).
+  [`LPOP`](/content/commands/lpop.md) and [`LMPOP`](/content/commands/lmpop.md).
 - `EXACTLY exactly` moves exactly `exactly` elements. If `source` holds fewer
   than `exactly` elements, the command blocks (see [Blocking behavior](#blocking-behavior)).
 
@@ -190,7 +189,7 @@ The order in which elements are pushed onto `destination`:
   `source` and pushed to `destination` before the next one is moved.
 - `BULK` moves all of the elements at once, preserving their relative order.
 
-See the [Element ordering]({{< relref "/commands/lmovem#element-ordering" >}}) section of the [`LMOVEM`]({{< relref "/commands/lmovem" >}}) documentation for details.
+See the [Element ordering](/content/commands/lmovem.md#element-ordering) section of the [`LMOVEM`](/content/commands/lmovem.md) documentation for details.
 
 </details>
 
@@ -208,8 +207,8 @@ Whether `BLMOVEM` blocks depends on the selector:
   that length, then moves exactly that many elements atomically.
 
 A `timeout` of `0` blocks indefinitely. When used inside a
-[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, `BLMOVEM` does not block; it
-behaves like [`LMOVEM`]({{< relref "/commands/lmovem" >}}) and, when the request cannot be satisfied,
+[`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) block or a Lua script, `BLMOVEM` does not block; it
+behaves like [`LMOVEM`](/content/commands/lmovem.md) and, when the request cannot be satisfied,
 returns nil immediately.
 
 ## Redis Software and Redis Cloud compatibility
@@ -238,9 +237,9 @@ One of the following:
 
 ## See also
 
-[`BLMOVE`]({{< relref "commands/blmove/" >}}) | [`LMOVEM`]({{< relref "commands/lmovem/" >}}) | [`BLMPOP`]({{< relref "commands/blmpop/" >}}) | [`BRPOPLPUSH`]({{< relref "commands/brpoplpush/" >}})
+[`BLMOVE`](/content/commands/blmove.md) | [`LMOVEM`](/content/commands/lmovem.md) | [`BLMPOP`](/content/commands/blmpop.md) | [`BRPOPLPUSH`](/content/commands/brpoplpush.md)
 
 ## Related topics
 
-- [Redis lists]({{< relref "/develop/data-types/lists" >}})
+- [Redis lists](/content/develop/data-types/lists.md)
 

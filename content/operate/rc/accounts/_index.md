@@ -13,8 +13,8 @@ weight: 44
 
 Here, you learn how to manage Redis Cloud accounts and their settings:
 
-- [Manage account settings]({{< relref "/operate/rc/accounts/account-settings" >}})
+- [Manage account settings](/content/operate/rc/accounts/account-settings.md)
 
-- [Manage user account and profile]({{< relref "/operate/rc/accounts/user-profile" >}})
+- [Manage user account and profile](/content/operate/rc/accounts/user-profile.md)
 
-- [Switch between Redis Cloud accounts]({{< relref "/operate/rc/accounts/user-profile#switch-redis-cloud-accounts" >}})
+- [Switch between Redis Cloud accounts](/content/operate/rc/accounts/user-profile.md#switch-redis-cloud-accounts)

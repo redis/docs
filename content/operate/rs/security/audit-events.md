@@ -27,7 +27,7 @@ Example external listeners include:
 
 - [`ncat`](https://nmap.org/ncat/): useful for debugging but not suitable for production environments.
 
-- Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
+- Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs-cybersec.thalesgroup.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Enterprise-Software-Onboarding-Steps_48368215.html) for more information.
 
 - IBM Guardium
 
@@ -57,7 +57,7 @@ Before enabling auditing on any database, configure the audit destination using 
     tab1="REST API"
     tab2="rladmin" >}}
 
-To configure the audit destination using the REST API, use an [update database auditing]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}}) cluster request:
+To configure the audit destination using the REST API, use an [update database auditing](/content/operate/rs/references/rest-api/requests/cluster/auditing-db-conns.md#put-cluster-audit-db-conns) cluster request:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/auditing/db_conns
@@ -81,7 +81,8 @@ rladmin cluster config auditing db_conns \
     audit_address <address> \
     audit_port <port> \
     audit_reconnect_interval <interval in seconds> \
-    audit_reconnect_max_attempts <number of attempts>
+    audit_reconnect_max_attempts <number of attempts> \
+    audit_queue_max_bytes <bytes>
 ```
 
 {{< /multitabs >}}
@@ -149,11 +150,14 @@ After you configure the audit destination for your cluster, you can enable comma
 
 You can filter by usernames, source IP addresses, or both to manage data volume and avoid capturing irrelevant traffic. If both filters are configured, only requests matching both criteria are audited.
 
-{{<note>}}
-Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
-{{</note>}}
+> [!NOTE]
+> Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
 
-To enable command and connection auditing and configure filters, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+{{< multitabs id="enable-command-connection-auditing"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
+To enable command and connection auditing and configure filters, use an [update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
 ```
 PUT https://<host>:<port>/v1/bdbs/<database-id>
@@ -176,6 +180,25 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
     }
 }
 ```
+
+-tab-sep-
+
+To enable command and connection auditing and configure filters using `rladmin`:
+
+```
+rladmin tune db db:<id|name> audit_settings username_filter usernames application-user
+rladmin tune db db:<id|name> audit_settings username_filter filter_type inclusive
+rladmin tune db db:<id|name> audit_settings username_filter allow_while_username_unknown disabled
+rladmin tune db db:<id|name> audit_settings username_filter enabled enabled
+rladmin tune db db:<id|name> audit_settings source_ip_filter ip_addresses ""
+rladmin tune db db:<id|name> audit_settings source_ip_filter cidr_ranges 10.20.0.0/16
+rladmin tune db db:<id|name> audit_settings source_ip_filter filter_type inclusive
+rladmin tune db db:<id|name> audit_settings source_ip_filter enabled enabled
+rladmin tune db db:<id|name> audit_settings max_total_key_bytes 131072
+rladmin tune db db:<id|name> audit_settings audit_mode connection_and_crud
+```
+
+{{< /multitabs >}}
 
 ### Inclusive versus exclusive filters
 
@@ -225,6 +248,10 @@ You can set the `max_total_key_bytes` to control how much key data is captured p
 
 ### Partial updates
 
+{{< multitabs id="partial-update-username-filter"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
 Updates to `audit_settings` merge with the database's existing audit configuration, so you can change one setting without resending the others. For example, the following request disables the username filter while preserving its username list and filter type:
 
 ```sh
@@ -238,6 +265,17 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
 }
 ```
 
+-tab-sep-
+
+Each `rladmin tune db audit_settings` command updates only the setting you specify, merging with the database's existing audit configuration. For example, the following commands set the filtered usernames and then enable the filter:
+
+```
+rladmin tune db db:<id|name> audit_settings username_filter usernames alice,bob
+rladmin tune db db:<id|name> audit_settings username_filter enabled enabled
+```
+
+{{< /multitabs >}}
+
 ## Enable connection auditing only
 
 After you configure the audit destination for your cluster, you can enable connection auditing only for individual databases using one of the following methods:
@@ -246,7 +284,7 @@ After you configure the audit destination for your cluster, you can enable conne
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable connection auditing only using the REST API, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request:
+To enable connection auditing only using the REST API, use an [update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) request:
 
 ```
 PUT https://<host>:<port>/v1/bdbs/<database-id>
@@ -262,14 +300,13 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
 To enable connection auditing only using `rladmin`:
 
 ```
-rladmin tune db db:<id|name> db_conns_auditing enabled
+rladmin tune db db:<id|name> audit_settings audit_mode connection
 ```
 
 {{< /multitabs >}}
 
-{{<note>}}
-The legacy `db_conns_auditing` field enables connection auditing only; it does not enable command (CRUD) auditing. To audit commands, set `audit_settings.audit_mode` to `connection_and_crud`. If both are set, `audit_settings.audit_mode` takes precedence.
-{{</note>}}
+> [!NOTE]
+> The legacy `db_conns_auditing` field enables connection auditing only; it does not enable command (CRUD) auditing. To audit commands, set `audit_settings.audit_mode` to `connection_and_crud`. If both are set, `audit_settings.audit_mode` takes precedence.
 
 ## Set policy defaults for new databases
 
@@ -279,7 +316,7 @@ To audit connections for new databases by default, use one of the following meth
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable auditing connections for new databases by default using the REST API, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
+To enable auditing connections for new databases by default using the REST API, use an [update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) request:
 
 ```
 PUT /v1/cluster/policy
@@ -316,6 +353,10 @@ To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
 ## Turn off auditing
 
+{{< multitabs id="turn-off-auditing"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
 To turn off auditing for a specific database:
 
 ```sh
@@ -326,6 +367,16 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
     }
 }
 ```
+
+-tab-sep-
+
+To turn off auditing for a specific database using `rladmin`:
+
+```
+rladmin tune db db:<id|name> audit_settings audit_mode disabled
+```
+
+{{< /multitabs >}}
 
 ## Notification examples
 
@@ -459,9 +510,8 @@ Here's what's reported when a database connection is closed:
 
 All audit records follow a unified JSON structure that is backward compatible with the existing authentication request format used for connection auditing.
 
-{{<note>}}
-Command audit records never include the payload value associated with a key. Only the key name is recorded.
-{{</note>}}
+> [!NOTE]
+> Command audit records never include the payload value associated with a key. Only the key name is recorded.
 
 ### Record types
 
@@ -579,7 +629,7 @@ Audit delivery is best effort—database operations are never delayed or rejecte
 
 ### Available metrics
 
-You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
+You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation](/content/operate/rs/monitoring/metrics_stream_engine/_index.md).
 
 | Metric | Description |
 |--------|---|

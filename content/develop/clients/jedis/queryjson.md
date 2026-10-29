@@ -24,31 +24,31 @@ weight: 2
 ---
 
 This example shows how to create a
-[search index]({{< relref "/develop/ai/search-and-query/indexing" >}})
-for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
+[search index](/content/develop/ai/search-and-query/indexing/_index.md)
+for [JSON](/content/develop/data-types/json/_index.md) documents and
 run queries against the index. It then goes on to show the slight differences
-in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
+in the equivalent code for [hash](/content/develop/data-types/hashes.md)
 documents.
 
-{{< note >}}From [v6.0.0](https://github.com/redis/jedis/releases/tag/v6.0.0) onwards,
-`Jedis` uses query dialect 2 by default.
-Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v6.0.0](https://github.com/redis/jedis/releases/tag/v6.0.0) onwards,
+> `Jedis` uses query dialect 2 by default.
+> Redis Search methods such as [`ftSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
-Make sure that you have [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}})
+Make sure that you have [Redis Open Source](/content/operate/oss_and_stack/_index.md)
 or another Redis server available. Also install the
-[Jedis]({{< relref "/develop/clients/jedis" >}}) client library if you
+[Jedis](/content/develop/clients/jedis/_index.md) client library if you
 haven't already done so.
 
 Add the following dependencies. All of them are applicable to both JSON and hash,
 except for the `Path` and `JSONObject` classes, which are specific to JSON (see
-[Path]({{< relref "/develop/data-types/json/path" >}}) for a description of the
+[Path](/content/develop/data-types/json/path.md) for a description of the
 JSON path syntax).
 
 {{< clients-example set="java_home_json" step="import" description="Foundational: Import required Jedis classes for JSON indexing and query operations" difficulty="beginner" >}}
@@ -65,7 +65,7 @@ Create some test data to add to the database:
 
 Connect to your Redis database. The code below shows the most
 basic connection but see
-[Connect to the server]({{< relref "/develop/clients/jedis/connect" >}})
+[Connect to the server](/content/develop/clients/jedis/connect.md)
 to learn more about the available connection options.
 
 {{< clients-example set="java_home_json" step="connect" description="Foundational: Establish a connection to a Redis server for query operations" difficulty="beginner" >}}
@@ -76,7 +76,7 @@ Delete any existing index called `idx:users` and any keys that start with `user:
 {{< clients-example set="java_home_json" step="cleanup_json" description="Foundational: Clean up existing indexes and data before creating new indexes" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
+Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax](/content/develop/ai/search-and-query/query/_index.md).
 
 {{< clients-example set="java_home_json" step="make_index" description="Foundational: Create a search index for JSON documents with field definitions and key prefix filtering" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -84,7 +84,7 @@ Create an index. In this example, only JSON documents with the key prefix `user:
 ## Add the data
 
 Add the three sets of user data to the database as
-[JSON]({{< relref "/develop/data-types/json" >}}) objects.
+[JSON](/content/develop/data-types/json/_index.md) objects.
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
@@ -94,7 +94,7 @@ objects automatically as you add them:
 ## Query the data
 
 You can now use the index to search the JSON objects. The
-[query]({{< relref "/develop/ai/search-and-query/query" >}})
+[query](/content/develop/ai/search-and-query/query/_index.md)
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
@@ -107,8 +107,8 @@ Specify query options to return only the `city` field:
 {{< /clients-example >}}
 
 Use an
-[aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
-to count all users in each city.
+[aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
+to count all users in each city, with the results sorted by city.
 
 {{< clients-example set="java_home_json" step="query3" description="Aggregation query: Group and count results by field values to analyze data patterns" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -135,8 +135,8 @@ Now create the new index:
 {{< clients-example set="java_home_json" step="make_hash_index" description="Foundational: Create a search index for hash documents with field definitions and key prefix filtering" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-Use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
-documents instead of [`jsonSet()`]({{< relref "/commands/json.set" >}}).
+Use [`hset()`](/content/commands/hset.md) to add the hash
+documents instead of [`jsonSet()`](/content/commands/json.set.md).
 
 {{< clients-example set="java_home_json" step="add_hash_data" description="Foundational: Store hash documents in Redis with automatic indexing based on key prefix" difficulty="beginner" >}}
 {{< /clients-example >}}
@@ -148,7 +148,36 @@ a `List` of `Document` objects, as with JSON:
 {{< clients-example set="java_home_json" step="query1_hash" description="Query with filters: Search hash documents using text matching and numeric range filters (same as JSON queries)" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
+### Bulk import with HIMPORT
+
+From Redis Open Source 8.10, you can also add the hash documents with the
+[`HIMPORT`](/content/commands/himport.md) command family. This creates the same
+hashes as `hset()`, but lets Redis store them as
+[compact hashes](/content/develop/data-types/hashes.md#compact-hashes), which use
+less memory when many keys share the same field names. Redis Search indexes
+these hashes in the same way.
+
+Create a `HashImport` object with the field names, then create each document
+with [`himportSet()`](/content/commands/himport-set.md), passing only its values,
+in the same order as the field names. Jedis declares the field names with
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) the first time you use
+the `HashImport` object on a connection. Use a
+[pipeline](/content/develop/clients/jedis/transpipe.md) to send all the
+imports in one round trip:
+
+{{< clients-example set="java_home_json" step="add_hash_himport" description="Bulk ingestion: Import hash documents as compact hashes using a HashImport fieldset and a pipeline of HIMPORT SET calls" difficulty="intermediate" buildsUpon="add_hash_data" >}}
+{{< /clients-example >}}
+
+`himportSet()` replaces any existing key, so running this code after the
+`hset()` calls leaves you with the same three documents. The query returns
+the same result, although the fields can appear in a different order.
+
+> [!NOTE]
+> `HIMPORT` requires Jedis v8.0.0 or later, and Jedis marks its support as
+> experimental, so the API might change. Redis Cloud and Redis Software don't
+> support `HIMPORT`.
+
 ## More information
 
-See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search](/content/develop/ai/search-and-query/_index.md) docs
 for a full description of all query features with examples.

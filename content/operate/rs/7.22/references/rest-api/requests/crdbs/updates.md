@@ -22,9 +22,8 @@ url: '/operate/rs/7.22/references/rest-api/requests/crdbs/updates/'
 
 Modify Active-Active configuration.
 
-{{<warning>}}
-This is a very powerful API request and can cause damage if used incorrectly.
-{{</warning>}}
+> [!WARNING]
+> This is a very powerful API request and can cause damage if used incorrectly.
 
 In order to add or remove instances, you must use this API. For simple configuration updates, it is recommended to use PATCH on /crdbs/{crdb_guid} instead.
 
@@ -59,11 +58,11 @@ When you update db_config, it changes the configuration of the database that you
 
 #### Request body
 
-Include a [CRDB modify_request object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb/modify_request" >}}) with updated fields in the request body.
+Include a [CRDB modify_request object](/content/operate/rs/7.22/references/rest-api/objects/crdb/modify_request.md) with updated fields in the request body.
 
 ### Response {#post-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 ### Status codes {#post-status-codes} 
 

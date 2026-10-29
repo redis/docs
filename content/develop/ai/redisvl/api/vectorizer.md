@@ -6,20 +6,19 @@ aliases:
 ---
 
 
-{{< note >}}
-**Backwards Compatibility:** Several vectorizers have deprecated aliases
-available in the `redisvl.utils.vectorize.text` module for backwards
-compatibility:
-
-- `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
-- `VertexAITextVectorizer` → Use `GoogleGenAIVectorizer` instead
-  (`VertexAIVectorizer` is itself deprecated; see below)
-- `BedrockTextVectorizer` → Use `BedrockVectorizer` instead
-- `CustomTextVectorizer` → Use `CustomVectorizer` instead
-
-These aliases are deprecated as of version 0.13.0 and will be removed
-in a future major release.
-{{< /note >}}
+> [!NOTE]
+> **Backwards Compatibility:** Several vectorizers have deprecated aliases
+> available in the `redisvl.utils.vectorize.text` module for backwards
+> compatibility:
+>
+> - `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
+> - `VertexAITextVectorizer` → Use `GoogleGenAIVectorizer` instead
+>   (`VertexAIVectorizer` is itself deprecated; see below)
+> - `BedrockTextVectorizer` → Use `BedrockVectorizer` instead
+> - `CustomTextVectorizer` → Use `CustomVectorizer` instead
+>
+> These aliases are deprecated as of version 0.13.0 and will be removed
+> in a future major release.
 
 ## HFTextVectorizer
 
@@ -44,12 +43,11 @@ Hugging Face’s vast collection of Sentence Transformers. These models are
 trained on a variety of datasets and tasks, ensuring versatility and
 robust performance across different embedding needs.
 
-{{< note >}}
-Some multimodal models can make use of sentence-transformers by passing
-PIL Image objects in place of strings (e.g. CLIP). To enable those use
-cases, this class follows the SentenceTransformer convention of hinting
-that it expects string inputs, but never enforcing it.
-{{< /note >}}
+> [!NOTE]
+> Some multimodal models can make use of sentence-transformers by passing
+> PIL Image objects in place of strings (e.g. CLIP). To enable those use
+> cases, this class follows the SentenceTransformer convention of hinting
+> that it expects string inputs, but never enforcing it.
 
 Requirements:
 : - The sentence-transformers library must be installed with pip.
@@ -305,15 +303,14 @@ Return the type of vectorizer.
 
 <a id="vertexaivectorizer-api"></a>
 
-{{< note >}}
-`VertexAIVectorizer` is **deprecated**. It uses Google’s Vertex AI
-model-garden SDK, which Google has deprecated with a scheduled removal. Use
-[GoogleGenAIVectorizer](#googlegenaivectorizer) for text
-embeddings on the supported `google-genai` SDK. The alias
-`VertexAITextVectorizer` (in `redisvl.utils.vectorize.text`) is likewise
-deprecated. Multimodal (image/video) migration is tracked in
-[issue #620](https://github.com/redis/redis-vl-python/issues/620).
-{{< /note >}}
+> [!NOTE]
+> `VertexAIVectorizer` is **deprecated**. It uses Google’s Vertex AI
+> model-garden SDK, which Google has deprecated with a scheduled removal. Use
+> [GoogleGenAIVectorizer](#googlegenaivectorizer) for text
+> embeddings on the supported `google-genai` SDK. The alias
+> `VertexAITextVectorizer` (in `redisvl.utils.vectorize.text`) is likewise
+> deprecated. Multimodal (image/video) migration is tracked in
+> [issue #620](https://github.com/redis/redis-vl-python/issues/620).
 
 ### `class VertexAIVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -465,15 +462,14 @@ Credentials are resolved in this order (explicit beats ambient):
 
 Install the client with `pip install redisvl[google-genai]`.
 
-{{< note >}}
-The default model `gemini-embedding-001` returns **3072-dimensional**
-vectors (≈4× the width of the legacy `textembedding-gecko`, so ≈4× the
-index memory). A reduced `output_dimensionality` returns shorter vectors that
-Google does **not** re-normalize; this is invisible under the COSINE metric
-(scale-invariant) but matters for inner-product / L2 — normalize yourself if your
-index needs it. Embeddings from different models (or dimensions) are not
-interchangeable — reindex when you change them.
-{{< /note >}}
+> [!NOTE]
+> The default model `gemini-embedding-001` returns **3072-dimensional**
+> vectors (≈4× the width of the legacy `textembedding-gecko`, so ≈4× the
+> index memory). A reduced `output_dimensionality` returns shorter vectors that
+> Google does **not** re-normalize; this is invisible under the COSINE metric
+> (scale-invariant) but matters for inner-product / L2 — normalize yourself if your
+> index needs it. Embeddings from different models (or dimensions) are not
+> interchangeable — reindex when you change them.
 
 ```python
 # Vertex AI backend
@@ -646,11 +642,10 @@ Return the type of vectorizer.
 
 <a id="bedrockvectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `BedrockTextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `BedrockTextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class BedrockVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -759,11 +754,10 @@ Return the type of vectorizer.
 
 <a id="customvectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `CustomTextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `CustomTextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class CustomVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32', cache=None)`
 
@@ -837,11 +831,10 @@ Return the type of vectorizer.
 
 <a id="voyageaivectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `VoyageAITextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `VoyageAITextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class VoyageAIVectorizer(model='voyage-3-large', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -850,8 +843,15 @@ Bases: `BaseVectorizer`
 The VoyageAIVectorizer class utilizes VoyageAI’s API to generate
 embeddings for text and multimodal (text / image / video) data.
 
-This vectorizer is designed to interact with VoyageAI’s /embed and /multimodal_embed APIs,
-requiring an API key for authentication. The key can be provided
+This vectorizer is designed to interact with VoyageAI’s /embed, /multimodal_embed,
+and /contextualized_embed APIs. Any model identifier accepted by VoyageAI can be
+passed via `model` - for example the general-purpose `voyage-4-large` /
+`voyage-4` / `voyage-4-lite` / `voyage-4-nano` family, domain models such
+as `voyage-code-4`, contextualized `voyage-context-4` / `voyage-context-3`
+models, and multimodal `voyage-multimodal-*` models.
+See [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings) for the current catalog.
+
+It requires an API key for authentication. The key can be provided
 directly in the api_config dictionary or through the VOYAGE_API_KEY
 environment variable. User must obtain an API key from VoyageAI’s website
 ([https://dash.voyageai.com/](https://dash.voyageai.com/)). Additionally, the voyageai python
@@ -879,6 +879,25 @@ query_embedding = vectorizer.embed(
 doc_embeddings = vectorizer.embed_many(
     contents=["your document text", "more document text"],
     input_type="document"
+)
+
+# Contextualized embeddings (voyage-context-* models) - requires voyageai>=0.5.0
+# Each input string is treated as its own document (auto-chunked) and
+# embedded independently: inputs do not influence one another, which keeps
+# the one-embedding-per-input contract and cache determinism intact.
+context_vectorizer = VoyageAIVectorizer(
+    model="voyage-context-4",
+    api_config={"api_key": "your-voyageai-api-key"}
+)
+context_embeddings = context_vectorizer.embed_many(
+    contents=["chunk one", "chunk two", "chunk three"],
+    input_type="document"
+)
+# Retrieval queries use input_type="query"; auto-chunking is a
+# document-only feature, so query inputs are embedded as-is.
+context_query = context_vectorizer.embed(
+    content="your query text here",
+    input_type="query"
 )
 
 # Multimodal usage - requires Pillow and voyageai>=0.3.6
@@ -941,6 +960,17 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 
 - Multimodal models require voyageai>=0.3.6 to be installed for video embeddings, as well as
   : ffmpeg installed on the system. Image embeddings require pillow to be installed.
+- Contextualized (`voyage-context-*`) models require voyageai>=0.5.0. Each input
+  : string is sent as its own document with auto-chunking, so inputs are embedded
+    independently (no cross-input contextualization) and the one-embedding-per-input
+    contract and cache determinism are preserved. A document longer than `chunk_size`
+    (32000 tokens) auto-chunks into multiple chunks but only the first chunk’s embedding
+    is kept; the rest are dropped. `truncation` is not forwarded to the contextualized
+    API (it does not accept it), so it is silently ignored for these models.
+- The plain text embedding path (`embed`/`embed_many` for non-context,
+  : non-multimodal models) uses token-aware batching: inputs are grouped into requests
+    bounded by both the per-model item cap and the model’s per-request token limit, so
+    large inputs are packed efficiently without exceeding VoyageAI’s token budget.
 
 #### `embed_image(image_path, **kwargs)`
 
@@ -961,6 +991,16 @@ Requires voyageai>=0.3.6 to be installed, as well as ffmpeg to be installed on t
   **video_path** (*str*)
 * **Return type:**
   list[float] | bytes
+
+#### `property is_context: bool`
+
+Whether a contextualized-embedding model (voyage-context-
+
+```
+*
+```
+
+) has been configured.
 
 #### `property is_multimodal: bool`
 

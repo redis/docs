@@ -1,5 +1,15 @@
 import os, shutil, re, argparse
 
+# Files that live in the latest tree but are not documentation. Agent
+# instruction files are loaded by directory, so a frozen copy inside a version
+# would shadow the live rules for anyone editing that version.
+EXCLUDED_FILES = {"AGENTS.md", "CLAUDE.md", "CLAUDE.local.md", ".DS_Store"}
+
+
+def is_version_dir(name):
+    """Same rule archive_version uses to skip other releases: any digit."""
+    return any(char.isdigit() for char in name)
+
 
 class VersionArchiver:
     def __init__(self, product, version):
@@ -24,7 +34,9 @@ class VersionArchiver:
             dirs[:] = [
                 d
                 for d in dirs
-                if not any(char.isdigit() for char in d) and d != "release-notes"
+                if not is_version_dir(d)
+                and d != "release-notes"
+                and not d.startswith(".")  # local tool state such as .claude/
             ]
 
             # Create the corresponding destination directory if it does not exist
@@ -34,6 +46,8 @@ class VersionArchiver:
                 os.makedirs(dest_dir)
 
             for file in files:
+                if file in EXCLUDED_FILES:
+                    continue
                 src_file = os.path.join(root, file)
                 dest_file = os.path.join(dest_dir, file)
                 shutil.copy2(src_file, dest_file)
@@ -49,6 +63,19 @@ class VersionArchiver:
             + re.escape(product)
             + r'/([^"]+)" ?>\}\})'
         )
+        # Repo-root-relative Markdown links replace relref in sections migrated
+        # for DOC-6909, and need the same versioning. Without this they keep
+        # resolving to the latest page instead of the copy being frozen, which is
+        # silently wrong content in an archived version (no error, no warning).
+        # Source-relative links need no rewriting: the whole subtree is copied, so
+        # a link between two pages inside it already resolves within the version.
+        plain_pattern = (
+            r'(\]\(/content/'
+            + self.prefix
+            + "/"
+            + re.escape(product)
+            + r'/([^)]+)\))'
+        )
         with open(file_path, "r") as file:
             lines = file.readlines()
 
@@ -61,11 +88,12 @@ class VersionArchiver:
                 full_match = match.group(0)  # The entire match
                 link = match.group(1)  # The actual relref link
 
-                # Check if the link contains 'release-notes' and whether the replacement has already happened
-                if (
-                    "release-notes" not in link
-                    and f"/{self.prefix}/{product}/{version}" not in link
-                ):
+                # Leave release notes alone, and any link that already points
+                # into a version directory: this one (idempotency) or an older
+                # snapshot such as 7.22/, which must not become <version>/7.22/.
+                after_product = link.split(f"/{self.prefix}/{product}/", 1)[-1]
+                first_segment = after_product.split("/", 1)[0]
+                if "release-notes" not in link and not is_version_dir(first_segment):
                     # Otherwise, replace it
                     new_link = link.replace(
                         f"/{self.prefix}/{product}/",
@@ -74,8 +102,12 @@ class VersionArchiver:
                     return f"{new_link}"
                 return full_match
 
-            # Replace all relref links in the line
+            # Replace all relref links in the line, then the plain Markdown ones.
+            # Both share replace_link: each match contains "/<prefix>/<product>/",
+            # so the same substitution and the same release-notes and
+            # already-versioned guards apply to either notation.
             modified_line = re.sub(pattern, replace_link, lines[i])
+            modified_line = re.sub(plain_pattern, replace_link, modified_line)
 
             # If the line was modified, update the lines list
             if modified_line != lines[i]:

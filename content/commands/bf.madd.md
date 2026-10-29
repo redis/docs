@@ -37,9 +37,9 @@ title: BF.MADD
 ---
 Adds one or more items to a Bloom filter.
 
-This command is similar to [`BF.ADD`]({{< relref "commands/bf.add/" >}}), except that you can add more than one item.
+This command is similar to [`BF.ADD`](/content/commands/bf.add.md), except that you can add more than one item.
 
-This command is similar to [`BF.INSERT`]({{< relref "commands/bf.insert/" >}}), except that the error rate, capacity, and expansion cannot be specified.
+This command is similar to [`BF.INSERT`](/content/commands/bf.insert.md), except that the error rate, capacity, and expansion cannot be specified.
 
 ## Required arguments
 
@@ -47,7 +47,7 @@ This command is similar to [`BF.INSERT`]({{< relref "commands/bf.insert/" >}}), 
 
 is key name for a Bloom filter to add the items to.
 
-If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}})).
+If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`](/content/commands/bf.reserve.md)).
 </details>
 
 <details open><summary><code>item...</code></summary>
@@ -77,17 +77,17 @@ redis> BF.MADD bf item1 item2 item2
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
-  * an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that the item has been added successfully, and `0` means there's a probability that the item was already added to the filter.
-  * a [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) where each element is either
+  * an [integer reply](/content/develop/reference/protocol-spec.md#integers), where `1` means that the item has been added successfully, and `0` means there's a probability that the item was already added to the filter.
+  * a [simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
-  * a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where `true` means that the item has been added successfully, and `false` means there's a probability that the item was already added to the filter.
-  * a [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) where each element is either
+  * a [boolean reply](/content/develop/reference/protocol-spec.md#booleans), where `true` means that the item has been added successfully, and `false` means there's a probability that the item was already added to the filter.
+  * a [simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, key not found, wrong key type, or when the filter is full.
 
 {{< /multitabs >}}

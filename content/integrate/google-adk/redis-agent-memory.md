@@ -25,24 +25,23 @@ Redis Agent Memory gives ADK agents two tiers of persistent memory:
 
 Set `backend="redis-agent-memory"`, the default, on every service and tool
 config. Redis Cloud and self-managed Agent Memory share one
-[Data Plane API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}),
+[Data Plane API](/content/develop/ai/context-engine/agent-memory/api-reference.md),
 so you select a deployment by pointing `api_base_url` at the right Data Plane,
 not by changing `backend`:
 
 | Deployment | `api_base_url` | Setup |
 |------------|----------------|-------|
-| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}) |
-| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}}) |
+| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service](/content/operate/iris/agent-memory/create-service.md) |
+| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md) |
 
-{{< note >}}
-Running Agent Memory yourself does not mean using the deprecated
-`opensource-agent-memory` backend. Self-managed Agent Memory is supported and
-maintained, and uses `backend="redis-agent-memory"` like Redis Cloud. The
-deprecated backend targets a different system, the open source Agent Memory
-Server, which does not speak the Data Plane API. See
-[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}})
-if you have an existing deployment to migrate.
-{{< /note >}}
+> [!NOTE]
+> Running Agent Memory yourself does not mean using the deprecated
+> `opensource-agent-memory` backend. Self-managed Agent Memory is supported and
+> maintained, and uses `backend="redis-agent-memory"` like Redis Cloud. The
+> deprecated backend targets a different system, the open source Agent Memory
+> Server, which does not speak the Data Plane API. See
+> [Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md)
+> if you have an existing deployment to migrate.
 
 Wire memory into an ADK agent one of two ways:
 
@@ -51,7 +50,7 @@ Wire memory into an ADK agent one of two ways:
 | **Framework services** | ADK Runner (automatic) | Invisible infrastructure |
 | **REST tools** | LLM (explicit) | Agent autonomy over memory |
 
-See [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) for detailed tradeoff comparison.
+See [Integration patterns](/content/integrate/google-adk/integration-patterns.md) for detailed tradeoff comparison.
 
 ## Session memory
 
@@ -74,14 +73,13 @@ session_service = RedisSessionMemoryService(
 )
 ```
 
-{{< note >}}
-`RedisWorkingMemorySessionService` and `RedisWorkingMemorySessionServiceConfig`
-were renamed to `RedisSessionMemoryService` and
-`RedisSessionMemoryServiceConfig` in adk-redis 0.0.8. The old names remain as
-deprecated aliases that emit a `DeprecationWarning` and will be removed in
-0.1.0. The module `adk_redis.sessions.working_memory` also moved to
-`adk_redis.sessions.session_memory`.
-{{< /note >}}
+> [!NOTE]
+> `RedisWorkingMemorySessionService` and `RedisWorkingMemorySessionServiceConfig`
+> were renamed to `RedisSessionMemoryService` and
+> `RedisSessionMemoryServiceConfig` in adk-redis 0.0.8. The old names remain as
+> deprecated aliases that emit a `DeprecationWarning` and will be removed in
+> 0.1.0. The module `adk_redis.sessions.working_memory` also moved to
+> `adk_redis.sessions.session_memory`.
 
 ### Configuration
 
@@ -241,15 +239,15 @@ The memory tools resolve the acting user from the ADK `tool_context` before fall
 ## MCP tools
 
 MCP memory tools are only available on the deprecated
-[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
+[Agent Memory Server](/content/integrate/google-adk/agent-memory-server.md)
 backend. The `redis-agent-memory` backend does not expose an MCP endpoint, on
 Redis Cloud or self-managed; use the REST tools above.
 
 ## More info
 
-- [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}): Detailed tradeoff comparison of the approaches
+- [Integration patterns](/content/integrate/google-adk/integration-patterns.md): Detailed tradeoff comparison of the approaches
 - [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services, no Docker
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [Self-managed Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}}): run Agent Memory on your own Kubernetes cluster
-- [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}): existing deployments and migration
+- [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md): run Agent Memory on your own Kubernetes cluster
+- [Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md): existing deployments and migration
 

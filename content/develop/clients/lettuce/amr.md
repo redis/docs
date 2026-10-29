@@ -30,7 +30,7 @@ in the Microsoft docs to learn how to configure Azure to use Entra ID authentica
 
 ## Install
 
-Install [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) first,
+Install [`Lettuce`](/content/develop/clients/lettuce/_index.md) first,
 if you have not already done so.
 
 If you are using Maven, add
@@ -85,13 +85,15 @@ You can also add configuration to authenticate with a [service principal](#serv-
 or a [managed identity](#mgd-identity) as described in the sections below.
 
 When you have created your `TokenBasedRedisCredentialsProvider` instance, you may want to
-test it by obtaining a token, as shown in the following example:
+test it by obtaining a token, as shown in the following example. The
+`resolveCredentialsAsync()` method requires Lettuce 7.9 or later.
 
 ```java
 // Test that the Entra ID credentials provider can resolve credentials.
-credentials.resolveCredentials()
-        .doOnNext(c-> System.out.println(c.getUsername()))
-        .block();
+credentials.resolveCredentialsAsync()
+        .thenAccept(c -> System.out.println(c.getUsername()))
+        .toCompletableFuture()
+        .join();
 ```
 
 ### Configuration for a service principal {#serv-principal}
@@ -160,20 +162,20 @@ When you have created your `TokenBasedRedisCredentialsProvider` instance, you ar
 connect to AMR.
 The example below shows how to include the authentication details in a
 `TokenBasedRedisCredentialsProvider` instance and pass it to the `RedisURI.Builder`
-using the `withAuthentication()` option. It also uses a `ClientOptions` object to
+using the `withAuthentication()` option. It also uses a `ClusterClientOptions` object to
 enable automatic re-authentication.
 
 The connection uses
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
 which is recommended and enabled by default for managed identities. See
-[TLS connection]({{< relref "/develop/clients/lettuce/connect#tls-connection" >}}) for more information.
+[TLS connection](/content/develop/clients/lettuce/connect.md#tls-connection) for more information.
 
-{{< note >}} The `Lettuce` client library doesn't manage the lifecycle of
-the `TokenBasedRedisCredentialsProvider` instance for you. You can reuse the
-same instance for as many clients and connections as you want. When you have
-finished using the credentials provider, call its `close()` method, as shown
-at the end of the example.
-{{< /note >}}
+> [!NOTE]
+> The `Lettuce` client library doesn't manage the lifecycle of
+> the `TokenBasedRedisCredentialsProvider` instance for you. You can reuse the
+> same instance for as many clients and connections as you want. When you have
+> finished using the credentials provider, call its `close()` method, as shown
+> at the end of the example.
 
 ```java
 // Entra ID credentials provider for Service Principal Identity with Client Secret.
@@ -188,10 +190,10 @@ try (EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.build
 }
 
 // Optionally test the credentials provider.
-// credentialsSP.resolveCredentials().doOnNext(c -> System.out.println("SPI ID :" + c.getUsername())).block();
+// credentialsSP.resolveCredentialsAsync().thenAccept(c -> System.out.println("SPI ID :" + c.getUsername())).toCompletableFuture().join();
 
 // Enable automatic re-authentication.
-ClientOptions clientOptions = ClientOptions.builder()
+ClusterClientOptions clientOptions = ClusterClientOptions.builder()
         .reauthenticateBehavior(
                 ClientOptions.ReauthenticateBehavior.ON_NEW_CREDENTIALS
         ).build();
@@ -210,7 +212,7 @@ RedisClusterClient redisClient = RedisClusterClient.create(redisURI);
 redisClient.setOptions(clientOptions);
 
 // Connect with the credentials provider.
-try (StatefulRedisConnection<String, String> user1 = redisClient.connect(StringCodec.UTF8)) {
+try (StatefulRedisClusterConnection<String, String> user1 = redisClient.connect(StringCodec.UTF8)) {
         System.out.println("Connected to redis as :" + user1.sync().aclWhoami());
         System.out.println("Db size :" + user1.sync().dbsize());
 } finally {

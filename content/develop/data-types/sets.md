@@ -67,7 +67,7 @@ if you add a member that already exists, it will be ignored.
 
 ## Tutorial
 
-The [`SADD`]({{< relref "/commands/sadd" >}}) command adds new elements to a set. It's also possible
+The [`SADD`](/content/commands/sadd.md) command adds new elements to a set. It's also possible
 to do a number of other operations against sets like testing if a given element
 already exists, performing the intersection, union or difference between
 multiple sets, and so forth.
@@ -119,7 +119,7 @@ to know which bikes are racing in France but not in the USA:
 There are other non trivial operations that are still easy to implement
 using the right Redis commands. For instance we may want a list of all the
 bikes racing in France, the USA, and some other races. We can do this using
-the [`SINTER`]({{< relref "/commands/sinter" >}}) command, which performs the intersection between different
+the [`SINTER`](/content/commands/sinter.md) command, which performs the intersection between different
 sets. In addition to intersection you can also perform
 unions, difference, and more. For example 
 if we add a third race we can see some of these commands in action:
@@ -149,14 +149,14 @@ if we add a third race we can see some of these commands in action:
 1) "bike:4"
 {{< /clients-example >}}
 
-You'll note that the [`SDIFF`]({{< relref "/commands/sdiff" >}}) command returns an empty array when the
+You'll note that the [`SDIFF`](/content/commands/sdiff.md) command returns an empty array when the
 difference between all sets is empty. You'll also note that the order of sets
-passed to [`SDIFF`]({{< relref "/commands/sdiff" >}}) matters, since the difference is not commutative.
+passed to [`SDIFF`](/content/commands/sdiff.md) matters, since the difference is not commutative.
 
-When you want to remove items from a set, you can use the [`SREM`]({{< relref "/commands/srem" >}}) command to
-remove one or more items from a set, or you can use the [`SPOP`]({{< relref "/commands/spop" >}}) command to
+When you want to remove items from a set, you can use the [`SREM`](/content/commands/srem.md) command to
+remove one or more items from a set, or you can use the [`SPOP`](/content/commands/spop.md) command to
 remove a random item from a set. You can also _return_ a random item from a
-set without removing it using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command:
+set without removing it using the [`SRANDMEMBER`](/content/commands/srandmember.md) command:
 
 {{< clients-example set="sets_tutorial" step="srem" description="Removal strategies: Use SREM for targeted removal, SPOP for random removal, or SRANDMEMBER to inspect without modifying when you need flexible deletion patterns" difficulty="intermediate" buildsUpon="sadd" >}}
 > DEL bikes:racing:france
@@ -183,17 +183,17 @@ The max size of a Redis set is 2^32 - 1 (4,294,967,295) members.
 
 Most set operations, including adding, removing, and checking whether an item is a set member, are O(1).
 This means that they're highly efficient.
-However, for large sets with hundreds of thousands of members or more, you should exercise caution when running the [`SMEMBERS`]({{< relref "/commands/smembers" >}}) command.
+However, for large sets with hundreds of thousands of members or more, you should exercise caution when running the [`SMEMBERS`](/content/commands/smembers.md) command.
 This command is O(n) and returns the entire set in a single response. 
-As an alternative, consider the [`SSCAN`]({{< relref "/commands/sscan" >}}), which lets you retrieve all members of a set iteratively.
+As an alternative, consider the [`SSCAN`](/content/commands/sscan.md), which lets you retrieve all members of a set iteratively.
 
 ## Alternatives
 
 Sets membership checks on large datasets (or on streaming data) can use a lot of memory.
-If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) as an alternative to a set.
+If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter](/content/develop/data-types/probabilistic/bloom-filter.md) as an alternative to a set.
 
 Redis sets are frequently used as a kind of index.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON](/content/develop/data-types/json/_index.md) data type and the [Redis Search](/content/develop/ai/search-and-query/_index.md) features.
 
 ## Learn more
 
