@@ -20,7 +20,7 @@ For a runnable browser example, start with the [A2A quickstart](/content/develop
 You need Python 3.11 or later, Redis 8.6.2 or later with native producer idempotency (`XADD IDMP`) and JavaScript Object Notation (JSON) support, and the official A2A Python SDK 1.2.x.
 
 ```bash
-pip install 'redis-iris[a2a]' 'a2a-sdk[http-server]>=1.2.3,<1.3'
+pip install 'redis-iris[a2a]'
 ```
 
 To use both integrations in one application, install `redis-iris[a2a,fastapi-sse]`. Their shared redis-py range is `>=8.0.1,<9`; separate Python environments are not required.

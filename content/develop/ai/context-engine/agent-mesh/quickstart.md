@@ -70,7 +70,7 @@ mkdir agent-mesh-a2a
 cd agent-mesh-a2a
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install 'redis-iris[a2a]' 'a2a-sdk[http-server]>=1.2.3,<1.3' uvicorn
+python -m pip install 'redis-iris[a2a]' uvicorn
 ```
 
 ### Start the demo
