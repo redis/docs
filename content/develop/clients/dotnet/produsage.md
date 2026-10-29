@@ -25,6 +25,7 @@ for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
 ```checklist {id="dotnetprodlist"}
+- [ ] [Client-side caching](#client-side-caching)
 - [ ] [Event handling](#event-handling)
 - [ ] [Timeouts](#timeouts)
 - [ ] [Exception handling](#exception-handling)
@@ -35,6 +36,16 @@ progress in implementing the recommendations.
 
 The sections below offer recommendations for your production environment. Some
 of them may not apply to your particular use case.
+
+### Client-side caching
+
+[Client-side caching](/content/develop/clients/client-side-caching.md)
+involves storing the results from read-only commands in a local cache. If the
+same command is executed again later, the results can be obtained from the cache,
+without contacting the server. This improves command execution time on the client,
+while also reducing network traffic and server load. See
+[Connect using client-side caching](/content/develop/clients/dotnet/connect.md#connect-using-client-side-caching)
+for more information and example code.
 
 ### Event handling
 
