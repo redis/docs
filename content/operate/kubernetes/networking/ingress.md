@@ -14,6 +14,8 @@ weight: 5
 > [!WARNING]
 > The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below.
 
+To expose Active-Active databases and cluster endpoints through the Kubernetes Gateway API, see [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md).
+
 ## Prerequisites
 
 Before creating an Ingress, you'll need:

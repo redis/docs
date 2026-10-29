@@ -29,9 +29,10 @@ Choose the appropriate method for your environment to enable external access:
 
 ## Automatic ingress configuration
 
-For Active-Active databases, configure automatic ingress creation:
+For Active-Active databases and the cluster API, the operator can create routes for you:
 
 - [REC external routing](/content/operate/kubernetes/networking/ingressorroutespec.md) - Use `ingressOrRouteSpec` field in RedisEnterpriseCluster (REC) for automatic ingress creation
+- [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md) - Use the `spec.gateway` field in the REC to attach `TLSRoute` resources to a Kubernetes Gateway that you own. Also exposes the Cluster Manager UI and metrics endpoints.
 
 ## `ingressOrRouteSpec` for Active-Active databases
 

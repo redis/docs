@@ -91,6 +91,8 @@ To communicate with other clusters, all participating clusters need access to th
       secretName: redis-enterprise-rerc-logan
     ```
 
+    If your participating clusters use [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases), also set `replicationPort` in the RERC.
+
 1. Create the RERC custom resource.
 
     ```sh

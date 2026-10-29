@@ -177,6 +177,18 @@ rules:
       - delete
       - watch
   - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - tlsroutes
+    verbs:
+      - create
+      - patch
+      - delete
+      - list
+      - update
+      - get
+      - watch
+  - apiGroups:
       - route.openshift.io
     resources:
       - routes

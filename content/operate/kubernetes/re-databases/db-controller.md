@@ -99,6 +99,23 @@ To modify the database:
 
 To add tags to a database and expose them as metric labels, see [Enrich database metrics with tags](/content/operate/kubernetes/re-databases/enrich-metrics-with-tags.md).
 
+## Disconnect clients on password removal
+
+Redis Software can actively disconnect client connections that authenticated with a removed, revoked, or rotated password. The per-database setting applies only when the [cluster-wide policy](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal) is `Auto`; if the cluster policy is `Enabled` or `Disabled`, that value applies to every database in the cluster. This setting requires Redis Software 8.0.2 or later; configuring it through the custom resource requires operator version X.Y.Z or later.
+
+<!-- TODO: replace X.Y.Z with the first operator release that includes this feature -->
+
+Set the per-database value in your REDB specification:
+
+```yaml
+spec:
+  disconnectClientsOnPasswordRemoval: true
+```
+
+The Redis Software default for a database is `false`. See the [Redis Software REST API database (`bdb`) object](/content/operate/rs/references/rest-api/objects/bdb/_index.md) for details about the underlying setting.
+
+For when the operator takes ownership of this setting, and how to configure it for Active-Active databases, see [Disconnect clients on password removal](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal). Once the operator owns the setting, configure it only through the REDB specification; removing the field reverts the database to `false`.
+
 ## Delete a database
 
 The database exists as long as the custom resource exists.

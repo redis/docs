@@ -14,7 +14,7 @@ weight: 10
 The username and password for the Redis Enterprise Software [admin console](/content/operate/rs/_index.md) are stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/). After retrieving your credentials, you can use port forwarding to connect to the admin console.
 
 > [!NOTE]
-> There are several methods for accessing the admin console. Port forwarding is the simplest, but not the most efficient method for long-term use. You could also use a load balancer service or Ingress. 
+> There are several methods for accessing the admin console. Port forwarding is the simplest, but not the most efficient method for long-term use. You could also use a load balancer service, Ingress, or [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md#expose-the-cluster-api-ui-and-metrics).
 
 1. Switch to the namespace with your Redis Enterprise cluster (REC).
 
