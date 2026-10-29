@@ -32,8 +32,10 @@ FIDELITY_ROOT="$REPO/tmp/clients/examples"
 # go 1.26.5). Keep the two in step when the pin moves.
 HUGOT_GO_MIN=1.26.5
 # node-redis floor for the portable work/node install: hImportPrepare/hImportSet (the
-# HIMPORT examples) arrived in 6.2.0. Matches fidelity/package-node-redis.json.
-NODE_REDIS_MIN=6.2.0
+# HIMPORT examples) arrived in 6.2.0, but 6.2.0 itself mis-decodes RESP3 doubles (1.78 comes
+# back as 1.7800000000000002; fixed in 6.2.1), so the floor is 6.2.1. Keep it in step with
+# fidelity/package-node-redis.json.
+NODE_REDIS_MIN=6.2.1
 
 MODE=portable
 LIST=0
@@ -349,6 +351,7 @@ legacy_src_path() {
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
     time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
+    landing:node)                echo local_examples/client-specific/nodejs/landing.js ;;
     time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
     # search_quickstart / geoindex: all mapped clients PASS (pom-jedis.xml is 8.0.2, whose
     # RedisClient API these examples use; the node wildcard assert now checks result.total,

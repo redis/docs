@@ -154,7 +154,7 @@ A few details matter here:
 
 * **Each `Subscription` owns its own connection.** In node-redis 5.x, a client used for `subscribe` / `pSubscribe` is in subscribe-only mode for the lifetime of those bindings — regular commands (`GET`, `SET`, …) on the same client will throw. The hub keeps one regular client for `PUBLISH` and the `PUBSUB *` introspection commands; every subscription duplicates it to get a fresh socket.
 * **The listener receives `(message, channel)` already decoded as strings.** Pass `bufferMode = true` as the third argument if you need raw `Buffer`s instead — the demo doesn't.
-* **Closing one subscription doesn't affect another.** Each `Subscription.close()` unsubscribes its own connection and then `quit()`s it; the hub's regular client and every other subscription keep going.
+* **Closing one subscription doesn't affect another.** Each `Subscription.close()` unsubscribes its own connection and then closes it; the hub's regular client and every other subscription keep going.
 
 ## Pattern subscriptions with PSUBSCRIBE
 

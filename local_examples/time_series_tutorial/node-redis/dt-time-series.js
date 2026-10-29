@@ -686,5 +686,5 @@ assert.equal(res61.totalSamples, 0);
 // REMOVE_END
 
 // HIDE_START
-await client.quit();
+await client.close();
 // HIDE_END
