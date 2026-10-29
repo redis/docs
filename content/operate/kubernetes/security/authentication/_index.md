@@ -44,3 +44,4 @@ The underlying Redis Software behavior is unchanged. For concepts and reference 
 - [Configuration secrets](/content/operate/kubernetes/security/authentication/configuration-secrets.md) — store config items in Kubernetes Secrets and reconcile updates automatically.
 - [LDAP authentication](/content/operate/kubernetes/security/authentication/ldap.md) — configure LDAP for Cluster Manager and database access.
 - [SSO authentication](/content/operate/kubernetes/security/authentication/sso.md) — configure SAML single sign-on for the Cluster Manager UI.
+- [REST API certificate authentication](/content/operate/kubernetes/security/authentication/certificate-auth.md) — authenticate the operator and users to the REST API with client certificates, and optionally turn off password authentication.
