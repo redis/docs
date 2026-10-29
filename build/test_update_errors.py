@@ -9,6 +9,7 @@ import io
 import json
 import os
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -170,6 +171,29 @@ class TestLiveChecks(unittest.TestCase):
         results = {**baseline, 'denied': {'raw': ['-DENIED']}, 'zzz-new': {'raw': ['-ZZZ']}}
         self.assertEqual(self.lc.compare(baseline, results), [])
         self.assertEqual(self.lc.unrecorded(baseline, results), ['denied', 'zzz-new'])
+
+    def accept(self, results):
+        with tempfile.TemporaryDirectory() as work, patch.object(u, 'WORK', u.Path(work)), \
+                patch.object(self.lc, 'run', return_value=results), \
+                patch.object(u.Path, 'write_text') as write, self.assertRaises(SystemExit) as stop:
+            u.cmd_verify(type('Args', (), {'version': '8.10.3', 'accept': True})())
+        write.assert_not_called()
+        return str(stop.exception)
+
+    def test_accept_refuses_an_incomplete_run(self):
+        with open(os.path.join(os.path.dirname(__file__), 'errors', 'live_baseline.json')) as f:
+            baseline = json.load(f)
+        failed = {**baseline, '_failures': {'notes': ['cluster: RuntimeError: 6560 did not start']}}
+        self.assertIn('cluster: RuntimeError', self.accept(failed))
+        lost = {k: v for k, v in baseline.items() if k != 'moved'}
+        self.assertIn('common/moved.md: no replies', self.accept(lost))
+
+    def test_random_ids_are_not_changes(self):
+        meta = {'_meta': {'redis_py': None}}
+        info = 'INFO -> master_replid:%s\r\nmaster_repl_offset:%d'
+        baseline = {**meta, 'masterdown': {'notes': [info % ('be4ddc0c3c1d7a2f9db6' * 2, 1)]}}
+        results = {**meta, 'masterdown': {'notes': [info % ('3e8e5ca1e0feaf4f7ca2' * 2, 2)]}}
+        self.assertEqual(self.lc.compare(baseline, results), [])
 
     def test_failures_and_lost_replies_are_changes(self):
         meta = {'_meta': {'redis_py': None}}

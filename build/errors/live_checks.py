@@ -415,8 +415,11 @@ def run(image, out, only=()):
 
 
 def _same(v):
-    """A reply with its numbers, such as ports, IDs and timings, blanked out."""
-    return re.sub(r'\d+', '#', json.dumps(v, sort_keys=True))
+    """A reply with its numbers, such as ports, IDs and timings, blanked out.
+
+    Random hex IDs, such as the replication ID in INFO, go first, because
+    they mix digits and letters."""
+    return re.sub(r'\d+', '#', re.sub(r'\b[0-9a-f]{40}\b', '<id>', json.dumps(v, sort_keys=True)))
 
 
 def unrecorded(baseline, results):

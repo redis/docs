@@ -98,6 +98,9 @@ checking what Claude did.
    python3 build/errors/update_errors.py verify 8.12.0 --accept
    ```
 
+   It doesn't save a run in which a check failed, or in which a page got no
+   replies, because the baseline would lose those pages.
+
 7. **Build the site and open a pull request.** Look at the list pages that
    changed, and at the error lookup on the errors page.
 

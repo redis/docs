@@ -698,6 +698,14 @@ def cmd_verify(args):
     baseline = json.loads(baseline_path.read_text())
     changes = live_checks.compare(baseline, results)
     if args.accept:
+        # A partial run would drop pages from the baseline, and later runs would skip them.
+        failed = [f'- {note}' for note in results.get('_failures', {}).get('notes', [])]
+        lost = [f'- common/{page}.md: no replies this time' for page in baseline
+                if page != '_meta' and not results.get(page) and (PAGES / 'common' / f'{page}.md').exists()]
+        if failed or lost:
+            sys.exit('The baseline wasn\'t saved, because this run is incomplete:\n' + '\n'.join(failed + lost) +
+                     '\nFix the checks in build/errors/live_checks.py and run this step again. If a page no '
+                     'longer needs a check, remove it from live_baseline.json.')
         baseline_path.write_text(json.dumps(results, indent=2, ensure_ascii=False) + '\n')
         print(f'Saved these replies as the new baseline: {baseline_path.relative_to(ROOT)}')
         return 0
