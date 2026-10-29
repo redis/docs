@@ -16,6 +16,13 @@
     </properties>
 
     <dependencies>
+        <!-- Lettuce's JSON API needs a Jackson parser at runtime; it is optional in
+             lettuce-core's pom. Same version as the portable poms. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.1</version>
+        </dependency>
         <dependency>
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>

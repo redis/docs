@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 // HIDE_START
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.params.XAddParams;
 import redis.clients.jedis.params.XCfgSetParams;
@@ -24,7 +24,7 @@ public class CmdsStreamExample {
 
     @Test
     public void run() {
-        JedisPooled jedis = new JedisPooled("localhost", 6379);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
 
         // REMOVE_START
         jedis.del("mystream");

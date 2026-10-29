@@ -75,6 +75,8 @@ The RAM-to-flash ratio directly affects throughput and latency:
 
 Actual performance can vary based on your data model, commands, and network latency.
 
+Databases that use Redis Search need more RAM. See [Plan memory and performance](/content/operate/rs/flex/search.md#plan-memory-and-performance) for Redis Search on Flex.
+
 ## Feature and data type compatibility
 
 | Data type/feature | Flex support |
@@ -82,7 +84,7 @@ Actual performance can vary based on your data model, commands, and network late
 | [Active-Active databases](/content/operate/rs/databases/active-active/_index.md) | <span title="Not supported">&#x274c;</span>Not supported |
 | [JSON](/content/develop/data-types/json/_index.md) | <span title="Supported">&#x2705;</span> Supported |
 | [Probabilistic data structures](/content/develop/data-types/_index.md#probabilistic-data-types) | <span title="Supported">&#x2705;</span> Supported |
-| [Redis Search](/content/develop/ai/search-and-query/_index.md) | <span title="Beta">&#x2713;</span> Beta |
+| [Redis Search](/content/operate/rs/flex/search.md) | <span title="Preview">&#x2713;</span> Preview |
 | Standard [Redis data types](/content/develop/data-types/_index.md) | <span title="Supported">&#x2705;</span> Supported |
 | [Time series](/content/develop/data-types/timeseries/_index.md) | <span title="Not supported">&#x274c;</span>Not supported |
 

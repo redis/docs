@@ -27,4 +27,6 @@ A **Pro** plan is an hourly price based on capacity. It supports more databases,
 - [Create a Pro database in an existing subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md)
 - [Create an Active-Active database](/content/operate/rc/databases/active-active/create-active-active-database.md)
 
+Redis Agent Memory stores its data in a Redis Cloud database. After you create one, see [Create an Agent Memory service](/content/operate/iris/agent-memory/create-service.md).
+
 

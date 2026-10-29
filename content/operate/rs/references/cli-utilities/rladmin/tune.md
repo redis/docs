@@ -146,6 +146,8 @@ rladmin tune db { db:<id> | <name> }
         [ gradual_src_mode { enabled | disabled } ]
         [ gradual_sync_mode { enabled | disabled | auto } ]
         [ gradual_sync_max_shards_per_source <value> ]
+        [ gradual_sync_policy { default | non-gradual | migration | replica | active-active | custom } ]
+        [ gradual_sync_policy_parameters { src_endpoint_limit | dst_endpoint_limit | dst_shard_limit | src_node_limit | dst_node_limit } <value> ]
         [ module_name <value> ] [ module_config_params <value> ]
         [ crdt_xadd_id_uniqueness_mode { liberal | semi-strict | strict } ]
         [ metrics_export_all { enabled | disabled } ]
@@ -174,9 +176,11 @@ rladmin tune db { db:<id> | <name> }
 | crdt_xadd_id_uniqueness_mode         | `liberal`<br /> `semi-strict`<br /> `strict` | XADD's behavior in an Active-Active database, defined as liberal, semi-strict, or strict (see descriptions below)         |
 | data_internode_encryption            | `enabled`<br /> `disabled`       | Activates or deactivates [internode encryption](/content/operate/rs/security/encryption/internode-encryption.md) for the database               |
 | db_conns_auditing                    | `enabled`<br /> `disabled`       | Activates or deactivates database [connection auditing](/content/operate/rs/security/audit-events.md) for a database                                                                 |
-| gradual_src_mode                     | `enabled`<br /> `disabled`       | Activates or deactivates gradual sync of sources                                                                                      |
-| gradual_sync_max_shards_per_source   | integer                          | Number of shards per sync source that can be replicated in parallel (positive integer)                                                |
-| gradual_sync_mode                    | `enabled`<br /> `disabled`<br /> `auto` | Activates, deactivates, or automatically determines gradual sync of source shards                                              |
+| gradual_src_mode                     | `enabled`<br /> `disabled`       | Activates or deactivates gradual sync of sources (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead)          |
+| gradual_sync_max_shards_per_source   | integer                          | Number of shards per sync source that can be replicated in parallel (positive integer) (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead) |
+| gradual_sync_mode                    | `enabled`<br /> `disabled`<br /> `auto` | Activates, deactivates, or automatically determines gradual sync of source shards (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead) |
+| gradual_sync_policy | `default`<br />`non-gradual`<br />`migration`<br />`replica`<br />`active-active`<br />`custom` | Policy for gradual (parallel) full sync in Replica Of and Active-Active databases (default: `default`). Gradual sync limits how many shards sync in parallel, so full syncs complete reliably with minimal impact on client applications. It affects only multi-node or multi-shard databases; smaller databases sync one shard at a time.<br />Every policy except `custom` applies preset limits. See [Gradual sync policies](#gradual-sync-policies). |
+| <span class="break-all">gradual_sync_policy_parameters</span> | `src_endpoint_limit`<br />`dst_endpoint_limit`<br />`dst_shard_limit`<br />`src_node_limit`<br />`dst_node_limit` | Sets one limit for the `custom` gradual sync policy. You can set these limits only when `gradual_sync_policy` is `custom`; other policies reject them. Each limit is `-1` (no limit) or a positive integer; `0` is not valid.<br />• `src_endpoint_limit`: maximum parallel full syncs per source endpoint<br />• `dst_endpoint_limit`: maximum parallel full syncs per destination endpoint<br />• `dst_shard_limit`: maximum parallel full syncs per destination shard<br />• `src_node_limit`: maximum parallel full syncs per source node<br />• `dst_node_limit`: maximum parallel full syncs per destination node |
 | master_persistence                   | `enabled`<br /> `disabled`       | If enabled, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | max_aof_file_size                    | size in MB                       | Maximum size (in MB, if not specified) of [AoF](/content/glossary/_index.md#letter-a) file (minimum value is 10 GB)              |
 | max_aof_load_time | time in seconds | Time limit in seconds to load a shard from an append-only file (AOF). If exceeded, an AOF rewrite is initiated to decrease future load time.<br />Minimum: 2700 seconds (45 minutes) <br />Default: 3600 seconds (1 hour) |
@@ -211,6 +215,19 @@ rladmin tune db { db:<id> | <name> }
 | liberal | XADD succeeds with any valid ID (not recommended, allows duplicate IDs) |
 | semi-strict | Allows a full ID. Partial IDs are completed with the unique database instance ID (not recommended, allows duplicate IDs). |
 | strict | XADD fails if a full ID is given. Partial IDs are completed using the unique database instance ID. |
+
+#### Gradual sync policies
+
+Each policy except `custom` sets these limits on parallel full syncs:
+
+| Policy | Use case | src_endpoint_limit | dst_endpoint_limit | dst_shard_limit | src_node_limit | dst_node_limit |
+|--------|----------|--------------------|--------------------|-----------------|----------------|----------------|
+| `default` | Applies when you don't select another policy | 1 | No limit | No limit | 1 | 1 |
+| `non-gradual` | Syncs all shards at once. Fastest, but the load on the cluster can disrupt client applications. | No limit | No limit | No limit | No limit | No limit |
+| `migration` | Protects the source database. Use when the destination serves no traffic, such as during a migration. | 1 | No limit | 1 | 1 | No limit |
+| `replica` | Protects both the source and destination databases. Use for Replica Of when the destination serves live read traffic. | No limit | 1 | No limit | 1 | No limit |
+| `active-active` | Tuned for full syncs between participating clusters in an Active-Active database, which are rare but can have a large impact | No limit | No limit | 1 | 1 | No limit |
+| `custom` | Uses the limits you set with `gradual_sync_policy_parameters` | – | – | – | – | – |
 
 ### Returns
 

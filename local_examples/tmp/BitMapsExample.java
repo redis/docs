@@ -1,7 +1,7 @@
 // EXAMPLE: bitmap_tutorial
 package io.redis.examples;
 
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.args.BitOP;
 // REMOVE_START
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class BitMapsExample {
 
     @Test
     public void run() {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         // REMOVE_START
         jedis.del("pings:2024-01-01-00:00");

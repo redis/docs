@@ -647,3 +647,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

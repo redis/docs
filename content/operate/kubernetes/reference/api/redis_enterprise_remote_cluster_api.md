@@ -118,10 +118,20 @@ Represents a remote participating cluster.
         </td>
         <td>false</td>
       </tr><tr>
+        <td>replicationPort</td>
+        <td>integer</td>
+        <td>
+          External port used for Active-Active database replication when databases are exposed via the Gateway API. A single port serves all Active-Active databases in this remote cluster, distinguished by SNI.<br/>
+          <br/>
+            <i>Minimum</i>: 1<br/>
+            <i>Maximum</i>: 65535<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>secretName</td>
         <td>string</td>
         <td>
-          Name of the secret containing cluster credentials. Must use the following format: "redis-enterprise-<RERC name>".<br/>
+          Name of the secret containing cluster credentials. Must use the following format: "redis-enterprise-<RERC name>". The secret holds either basic-auth credentials ('username' and 'password' keys), or a client certificate/key pair of a cluster user with the proper permissions ('certificate'/'cert'/'tls.crt' and 'tls.key'/'key' keys, or a TLS-type secret), optionally with a 'trusted_ca' PEM bundle for verifying the cluster's server certificate.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
