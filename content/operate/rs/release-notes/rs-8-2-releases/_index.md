@@ -168,6 +168,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
+- RS219531: Upgrading a cluster from Redis Software version 7.2.x or 7.4.x to version 8.2.0 can fail. After the first node is upgraded, a node that still runs the earlier version can lose its replication link to the cluster configuration store. `rladmin` then reports `CCS ERROR: REPLICATION LINK DOWN`, and the upgrade of the next node fails with `Failed to sync with master ccs`.
+
+    To upgrade a Redis Software 7.2.x or 7.4.x cluster, first upgrade it to Redis Software version 8.0.x, and then upgrade to version 8.2.0.
+
 ## Known limitations
 
 #### Redis Search query failures during rolling upgrades across the 8.4 version boundary
