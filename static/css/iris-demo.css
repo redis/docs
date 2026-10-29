@@ -10,6 +10,7 @@
 .iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
 .iris .iris-svc-retriever { --svc: #6a4cff; --svc-bg: rgba(106, 76, 255, .09); }
 .iris .iris-svc-router { --svc: #b0306a; --svc-bg: rgba(176, 48, 106, .09); }
+.iris .iris-svc-lens { --svc: #ff4438; }   /* Lens adds no part to the reply, so its colour only marks its step */
 
 /* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
 .iris-stagewrap { position: relative; margin-bottom: 12px; }
@@ -40,10 +41,10 @@
 .iris-maya-link { opacity: .4; transition: opacity .45s; }
 .iris-maya-link circle { opacity: 0; transition: opacity .45s; }
 .iris-maya-link.is-lit, .iris-maya-link.is-lit circle { opacity: 1; }
-/* Intent Router's disc, dimmed like the drawing dims a service, with its label only while it's lit. */
-.iris-router-disc, .iris-router-label { transition: opacity .45s; }
-.iris-router:not(.is-lit) .iris-router-disc { opacity: .4; }
-.iris-router:not(.is-lit) .iris-router-label { opacity: 0; }
+/* Intent Router's and Lens's discs, dimmed like the drawing dims a service, with their labels only while they're lit. */
+.iris-router-disc, .iris-router-label, .iris-lensfig-disc, .iris-lensfig-label { transition: opacity .45s; }
+.iris-router:not(.is-lit) .iris-router-disc, .iris-lensfig:not(.is-lit) .iris-lensfig-disc { opacity: .4; }
+.iris-router:not(.is-lit) .iris-router-label, .iris-lensfig:not(.is-lit) .iris-lensfig-label { opacity: 0; }
 /* The patch over the drawing's Data Integration corner, in the drawing's background colour. */
 .iris-cover { fill: #0D212C; pointer-events: none; }
 .iris-tag {
@@ -144,6 +145,7 @@
 .iris-stephead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: 11.5px; color: var(--rcr-faint); }
 .iris-count { font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--svc, var(--rcr-muted)); }
 .iris .iris-clock { font-size: 11.5px; }
+.iris-badge { font-size: 11px; font-weight: 600; border: 1px solid currentColor; border-radius: 4px; padding: 0 6px; color: var(--svc, var(--rcr-muted)); }
 .iris-title { font-size: 17px; font-weight: 700; line-height: 1.3; margin: 4px 0 6px; color: var(--rcr-ink); }
 .iris-text { font-size: 14px; line-height: 1.55; color: var(--rcr-muted); max-width: 68ch; }
 .iris-fact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 10px; padding: 9px 11px; border-radius: 8px; background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); font-size: 13px; }
@@ -199,6 +201,54 @@
 .iris-totals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-size: 13px; color: var(--rcr-muted); }
 .iris-totals b { color: var(--rcr-ink); }
 
+/* ---- the Lens step: the turn as a timeline of steps, and what Lens recorded for the selected one ---- */
+.iris-lens { gap: 8px; }
+.iris-lensmodes { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris-lensnote:empty { position: absolute; }   /* out of the grid's gaps, but still there for screen readers as a live region */
+.iris .iris-lensmode.is-on { color: #fff; background: var(--svc); border-color: var(--svc); }
+.iris .iris-lensbug { margin: 0; font-size: 13px; line-height: 1.5; color: var(--rcr-ink); border-left: 3px solid var(--rcr-bad); padding: 1px 0 1px 9px; }
+.iris-lenshead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 12px; color: var(--rcr-muted); }
+.iris-lenshead b { color: var(--rcr-ink); font-weight: 600; }
+.iris-nw { white-space: nowrap; }
+.iris-timeline { display: grid; gap: 1px; }
+.iris .iris-trow {
+  display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr) 4.2em; align-items: center; gap: 8px; width: 100%; margin: 0;
+  padding: 4px 6px; border: 1px solid transparent; border-radius: 6px; background: transparent; font: inherit; font-size: 12.5px; line-height: 1.35;
+  text-align: left; color: var(--rcr-ink); cursor: pointer;
+}
+.iris .iris-trow:hover { background: var(--rcr-surface); }
+.iris .iris-trow.is-on { background: var(--rcr-surface); border-color: var(--rcr-line-strong); }
+.iris-tname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.iris-top { font-weight: 400; color: var(--rcr-muted); }
+.iris .iris-top.iris-bad { font-weight: 700; color: var(--rcr-bad); }
+.iris-ttrack { position: relative; height: 8px; border-radius: 4px; background: var(--rcr-line); }
+.iris-tbar { position: absolute; top: 0; bottom: 0; min-width: 3px; border-radius: 4px; background: var(--src, var(--rcr-faint)); }
+.iris-tms { text-align: right; color: var(--rcr-muted); }
+/* On a narrow screen, each step's bar goes under its name, which can wrap. */
+@container (max-width: 520px) {
+  .rcr .iris-trow { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; }
+  .rcr .iris-tname { white-space: normal; }
+  .rcr .iris-ttrack { grid-column: 1 / -1; grid-row: 2; height: 6px; }
+}
+.iris-tdetail { display: grid; gap: 5px; padding-top: 8px; border-top: 1px solid var(--rcr-line); font-size: 13px; }
+.iris-tdhead { font-weight: 700; font-size: 12.5px; }
+.iris .iris-tdetail p { margin: 0; font-size: inherit; line-height: 1.5; }   /* not the page's paragraph size */
+.iris-tresult { display: grid; grid-template-columns: 8.2em minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.iris-mark { justify-self: start; white-space: nowrap; font-size: 10.5px; font-weight: 700; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; color: var(--rcr-ok); }
+.iris-tresult.is-unused .iris-mark, .iris-tresult.is-unused > span:last-child { color: var(--rcr-bad); }
+.iris-tio { display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 3px 10px; align-items: baseline; }
+.iris .iris-tio code { justify-self: start; }
+.iris-tintents { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 10px; align-items: baseline; }   /* an intent's name never wraps */
+.iris .iris-tintents code { justify-self: start; }
+.iris-tintents .iris-kv { overflow-wrap: anywhere; }
+/* On a phone, each mark goes in front of its result instead of in a column of its own, and each intent's score and target go under its name. */
+@container (max-width: 400px) {
+  .rcr .iris-tresult { display: block; }
+  .rcr .iris-tresult .iris-mark { display: inline-block; margin-right: 6px; }
+  .rcr .iris-tintents { grid-template-columns: minmax(0, 1fr); gap: 1px; }
+  .rcr .iris-tintents .iris-kv { margin-bottom: 4px; }
+}
+
 /* ---- what if a service were missing ---- */
 .iris-whatif { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
 .iris-picks { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -229,7 +279,7 @@
 .iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
 
 @media (prefers-reduced-motion: reduce) {
-  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle, .iris-relabel, .iris-router-disc, .iris-router-label, .iris-pbdisc-art { transition: none; }
+  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle, .iris-relabel, .iris-router-disc, .iris-router-label, .iris-lensfig-disc, .iris-lensfig-label, .iris-pbdisc-art { transition: none; }
   .iris-window, .iris-backdrop, .iris-flip.is-flipped .iris-new { animation: none; }
   .iris-chip.is-new { animation: none; }
 }

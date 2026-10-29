@@ -9,7 +9,7 @@
    week's curry within 30 minutes and asks about the delivery fee, then
    Intent Router matches it to intents, Agent Playbooks, Agent Memory, and
    Context Gateway each add one part of the answer, and the model writes
-   the reply. The last step takes one
+   the reply. Lens then shows the request as it ran. The last step takes one
    service away and shows only the part of the reply it changes. Each step
    links to that service's docs or own demo, which cover it in depth; this
    page doesn't repeat their API detail.
@@ -18,7 +18,8 @@
    API shapes (matching the Intent Router match API, the Agent Playbooks discovery API, the Context
    Gateway MCP endpoint, and agent-memory-demo.js), the reply
    credited by source, and the scorecard. The tour shows the full trace,
-   and the last step compares it with one service missing. Modelled rather
+   the Lens step shows its steps as Lens records them, and the last step
+   compares it with one service missing. Modelled rather
    than observed: the similarity score, the agent's reasoning and reply,
    and the timings and token counts.
 
@@ -71,10 +72,13 @@
      playbook's threshold, 0.7 by default. */
   var FEE_PROMPT = "How much is the delivery fee?";
   var FEE = "Delivery costs $1.99 to $4.99, depending on distance, and you see the exact fee at checkout. Plus members get free delivery on orders over $15.";
+  /* Without the FAQ, the model answers the fee question on its own, in the same call that writes the reply. It doesn't
+     know the app's fees, so its answer is vague. */
+  var VAGUE = "Delivery fees depend on the restaurant and the distance, and you see the exact fee at checkout.";
   var FEE_SIM = 0.92, FEE_VERSION = 3, FEE_KEY = "delivery-fee";
   var FEE_INTENTS = ["What does delivery cost?", "Is delivery free for Plus members?"];
-  /* The assistant's Router matches Maya's message to two of its intents, best first. Each target tells the app what to
-     dispatch: the food assistant for the reorder, and the support playbook's discovery tool for the fee question. */
+  /* The agent's Router matches Maya's message to two of its intents, best first. Each target tells the agent what to
+     do: handle the reorder itself (food-assistant is the agent's ID), and call the support playbook's discovery tool for the fee question. */
   var INTENTS = [
     { name: "reorder", description: "The customer wants to order something they had before.", score: 0.86,
       target: { type: "agent", ref: "food-assistant.reorder" } },
@@ -91,8 +95,8 @@
   ];
   var NAMES = { router: "Intent Router", cache: "Agent Playbooks", memory: "Agent Memory", retriever: "Context Gateway", model: "Model" };
   /* Modelled timings (ms) and token counts. */
-  var MS = { route: 12, plan: 1100, cache: 41, memory: 190, tool: [74, 88, 81], answer: 1620, reply: 1480 };
-  var TOKENS = { plan: 38, answer: 61 };
+  var MS = { route: 12, plan: 1100, cache: 41, memory: 190, tool: [74, 88, 81], assemble: 1, reply: 1480, record: 25 };
+  var TOKENS = { plan: 38 };
 
   /* --------------------------------------------------------------- helpers */
 
@@ -116,6 +120,7 @@
   function code(s) { return "<code>" + esc(s) + "</code>"; }
   function hhmm(iso) { return iso.slice(11, 16); }
   function seconds(ms) { return (ms / 1000).toFixed(2) + " s"; }
+  function took(ms) { return ms >= 1000 ? seconds(ms) : ms + " ms"; }
   function shellQuote(s) { return "'" + s.replace(/'/g, "'\\''") + "'"; }
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
@@ -186,19 +191,28 @@
 
   /* ------------------------------------------------------------ the model */
 
-  /* Everything that happens for one combination of services: the steps of the request, the reply
-     (as segments, each credited to the service it came from), and the
-     scorecard. */
-  function trace(on) {
-    var steps = [], ms = 0, tokens = 0, n = 0;
+  /* Everything that happens for one combination of services: the steps of the request, each with its start
+     (at) in ms from the message, the reply (as segments, each credited to the service it came from), and the
+     scorecard. opts.drop names a memory that the app's code leaves out of the prompt, the bug the Lens step shows. */
+  function trace(on, opts) {
+    opts = opts || {};
+    var steps = [], ms = 0, end = 0, tokens = 0, n = 0;
     var lotusRow = clone(LOTUS);
     lotusRow.avg_delivery_min = BUSY;
-    function add(s) { steps.push(s); if (s.ms && s.phase !== "record") ms += s.ms; if (s.tokens) tokens += s.tokens; return s; }
+    var used = {};   // the memories that enter the prompt
+    if (on.memory) MEMORIES.forEach(function (m) { if (m.key !== opts.drop) used[m.key] = true; });
+    function add(s) {
+      steps.push(s);
+      if (s.ms) { s.at = end; end += s.ms; }
+      if (s.ms && s.phase !== "record") ms += s.ms;
+      if (s.tokens) tokens += s.tokens;
+      return s;
+    }
 
     /* Route */
     if (on.router) add({ phase: "route", service: "router", ms: MS.route, title: "Matches the message to intents",
-      text: "Intent Router compares Maya's message with the example phrasings of the assistant's intents. Two match: " + code("reorder") +
-        ", which goes to the food assistant, and " + code("delivery_fee") + ", which points at the support playbook. No model call decides this.",
+      text: "Intent Router compares Maya's message with the example phrasings of the agent's intents, and finds two matches. " + code("reorder") +
+        " points back to the agent, and " + code("delivery_fee") + " points at the support playbook. No model call decides this.",
       calls: [routerMatch()] });
     else {
       add({ phase: "route", service: "router", off: true, title: "No intents to match", text: "Intent Router is off, so nothing has sorted out what Maya's message needs." });
@@ -211,7 +225,7 @@
       text: "The agent sends the general part of Maya's message to Agent Playbooks, " + code(QUESTION) + ". The published FAQ " + code(FEE_PROMPT) +
         " scores " + FEE_SIM.toFixed(2) + ", above the playbook's threshold, so its approved answer comes back without a model call. The personal part isn't sent, because no FAQ can answer it.",
       calls: [playbookDiscover()] });
-    else add({ phase: "recall", service: "cache", off: true, title: "No playbook to check", text: "Agent Playbooks is off, so the model has to answer the general question too." });
+    else add({ phase: "recall", service: "cache", off: true, title: "No playbook to check", text: "Agent Playbooks is off, so the model answers the fee question on its own, without the app's fees." });
     if (on.memory) add({ phase: "recall", service: "memory", ms: MS.memory, title: "Recalls last week's order and Maya's preferences",
       text: "A long-term memory search, scoped to Maya, returns what the assistant learned in last week's conversation: the order she means, her peanut allergy, and how she likes her food.",
       calls: [memorySearch()], memories: MEMORIES });
@@ -242,6 +256,11 @@
     /* The reply, as segments credited to their source. */
     var R = [];
     function say(t, src) { R.push({ t: t, src: src || null }); }
+    /* How Maya likes it, from the memories that reached the prompt. */
+    function prefs() {
+      var no = ["peanut", "fish"].filter(function (k) { return used[k]; }).map(function (k) { return k === "peanut" ? "peanuts" : "fish sauce"; });
+      return [used.spicy ? "extra spicy" : "", no.length ? "with no " + no.join(" or ") : ""].filter(Boolean).join(", ");
+    }
     var memLine = "Last week you had the extra spicy green curry from Lotus Thai, with no peanuts or fish sauce. ";
     if (on.memory) say(memLine, "memory");
     else if (on.retriever) say("Your last curry order was the green curry without fish sauce from Lotus Thai. ", "retriever");
@@ -250,25 +269,27 @@
       say(", so it wouldn't arrive in time. ");
       say("Bangkok Street Kitchen can deliver in about 30 minutes, and you've ordered their pad thai with tofu twice. ", "retriever");
       say("Should I order that");
-      if (on.memory) { say(", "); say("extra spicy, with no peanuts or fish sauce", "memory"); }
+      if (on.memory) { say(", "); say(prefs(), "memory"); }
       say("? ");
     } else if (on.memory) {
       say("I can't check delivery times right now, so I can't promise it'll arrive within 30 minutes. Should I order it anyway? ");
     } else {
       say("I don't have a record of what you had last week, and I can't look up your orders right now. What would you like to order? ");
     }
-    say(FEE, on.cache ? "cache" : null);
+    if (on.cache) say(FEE, "cache");
+    else say(VAGUE);
     var reply = R.map(function (x) { return x.t; }).join("").trim();
 
     /* Model call */
-    if (!on.cache) add({ phase: "model", service: "model", ms: MS.answer, tokens: TOKENS.answer, title: "Answers the general question",
-      text: "A separate model call writes the delivery fee answer that the published FAQ would have supplied." });
+    add({ phase: "model", service: "app", ms: MS.assemble, title: "Assembles the prompt",
+      text: "The app puts Maya's message and everything the agent gathered into the prompt.",
+      used: Object.keys(used).length, of: on.memory ? MEMORIES.length : 0, dropped: MEMORIES.filter(function (m) { return on.memory && !used[m.key]; }) });
     var replyTokens = Math.round(reply.split(/\s+/).length * 1.3);   // about 1.3 tokens a word
     add({ phase: "model", service: "model", ms: MS.reply, tokens: replyTokens, title: "Writes the reply",
       text: "The model gets Maya's message plus the context gathered so far" + (on.memory || on.retriever ? "" : ", which is nothing") + ", and writes the reply." });
 
     /* Record */
-    if (on.memory) add({ phase: "record", service: "memory", ms: 25, title: "Stores the message and the reply",
+    if (on.memory) add({ phase: "record", service: "memory", ms: MS.record, title: "Stores the message and the reply",
       text: "Both go into session memory as events. Background extraction later decides what's worth keeping long term, such as the restaurant Maya picks tonight.",
       calls: [sessionEvent(0, "USER", MESSAGE, ASK_AT), sessionEvent(1, "ASSISTANT", reply, REPLY_AT)] });
     else add({ phase: "record", service: "memory", off: true, title: "Nothing is remembered", text: "Agent Memory is off, so next time the assistant starts from nothing again." });
@@ -287,13 +308,13 @@
         state: on.memory ? "ok" : on.retriever ? "warn" : "bad",
         text: on.memory ? "Recalled from Agent Memory, with how she likes it" : on.retriever ? "Found in her order history, without how spicy she likes it" : "Doesn't know" },
       { key: "peanut", label: "Keeps her away from peanuts",
-        state: on.memory ? "ok" : alt ? "bad" : "warn",
-        text: on.memory ? "Knows about her allergy" : alt ? "Suggests pad thai without knowing about her allergy" : "Doesn't know about her allergy" },
+        state: used.peanut ? "ok" : alt ? "bad" : "warn",
+        text: used.peanut ? "Knows about her allergy" : alt ? "Suggests pad thai without knowing about her allergy" : "Doesn't know about her allergy" },
       { key: "fee", label: "Answers the delivery fee question",
-        state: on.cache ? "ok" : "slow",
-        text: on.cache ? "From a published FAQ in " + MS.cache + " ms" : "From the model: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens" }
+        state: on.cache ? "ok" : "warn",
+        text: on.cache ? "With the answer the support team approved" : "Gives a vague answer, because the model doesn't know the app's fees" }
     ];
-    return { on: on, steps: steps, reply: R, replyText: reply, checks: checks, ms: ms, tokens: tokens, alt: alt };
+    return { on: on, steps: steps, reply: R, replyText: reply, checks: checks, ms: ms, end: end, tokens: tokens, alt: alt, used: used };
   }
 
   /* ------------------------------------------------------------- the tour */
@@ -316,9 +337,9 @@
       without: "you've ordered their pad thai with tofu twice. Should I order that?",
       why: "Without Agent Memory, the agent finds the curry in Maya's order history, but nothing there says she's allergic to peanuts, so it suggests pad thai without a warning." },
     cache: { check: "fee",
-      with: "Delivery costs $1.99 to $4.99, depending on distance",
-      without: "Delivery costs $1.99 to $4.99, depending on distance",
-      why: "Without Agent Playbooks, a second model call writes the fee answer: " + seconds(MS.answer) + " and " + TOKENS.answer + " output tokens that the published FAQ would have saved. The wording matches here, but nothing ties it to the answer the support team approved." }
+      with: "Delivery costs $1.99 to $4.99, depending on distance, and you see the exact fee at checkout.",
+      without: "Delivery fees depend on the restaurant and the distance, and you see the exact fee at checkout.",
+      why: "Without Agent Playbooks, the model answers the fee question on its own. It doesn't know the app's fees, so it gives a vague answer, or it could make one up. Agent Playbooks gives it the answer the support team approved." }
   };
   /* The tour, one idea per step. `lit` lists the map nodes the step is about;
      `adds` is what the agent knows after it. */
@@ -326,8 +347,8 @@
     { key: "ask", at: "18:24", title: "Maya asks the assistant", lit: ["agent"],
       text: "Maya asks for last week's curry. To answer, the agent needs what she had and what she can't eat, a restaurant that can deliver in time, and the delivery fee, which is the same for everyone." },
     { key: "router", at: "18:24", title: "Intent Router matches the message", lit: ["router", "agent"],
-      text: "Before the agent acts, Intent Router matches Maya's message against the intents the app defined. Two match, best first: reorder, which sends the request to the food assistant, and delivery_fee, which points the fee question at the support playbook. Matching takes " + MS.route + " ms, without a model call.",
-      adds: [{ src: "router", t: "reorder → food assistant" }, { src: "router", t: "delivery_fee → support playbook" }] },
+      text: "First, the agent sends Maya's message to Intent Router. Intent Router compares it with the app's intents, which are the kinds of requests the app expects. It finds two matches. The best match is reorder, which tells the agent to handle the reorder itself. The other is delivery_fee, which tells the agent to look up the delivery fee in the support playbook. Matching takes " + MS.route + " ms and doesn't need a model call. Intent Router only returns the matches. The agent decides what to do with them.",
+      adds: [{ src: "router", t: "reorder → agent" }, { src: "router", t: "delivery_fee → support playbook" }] },
     { key: "cache", at: "18:24", title: "Agent Playbooks answers the general question", lit: ["cache", "redis", "agent"],
       text: "Intent Router pointed the fee question at the support playbook, so the agent checks it first. The support team published an approved answer to this question, and discovery returns it in " + MS.cache + " ms, without a model call. The rest of Maya's message is personal, so no FAQ covers it.",
       adds: [{ src: "cache", t: "Delivery fee: $1.99 to $4.99" }] },
@@ -339,10 +360,12 @@
       adds: [{ src: "retriever", t: "Bangkok Street Kitchen: 30 minutes" }, { src: "retriever", t: "She's had their pad thai with tofu twice" }] },
     { key: "reply", at: "18:24", title: "The model writes one reply", lit: ["agent"],
       text: "The model gets Maya's message and everything the agent gathered, and writes the reply. Each highlighted part came from a different service. Afterward, Agent Memory stores the conversation, so next time the assistant remembers tonight too." },
+    { key: "lens", title: "Lens shows how the request ran", lit: ["lens", "agent"], preview: true,
+      text: "Lens records how the agent handled Maya's message. For each step, it records what the step found and how long it took. For example, it shows which memories Agent Memory returned, and which of them made it into the prompt. If the agent gives a wrong answer, you can see which step caused it. Select a step to see what Lens recorded about it. To see Lens find a bug, select “A request with a bug”." },
     { key: "whatif", title: "What if a service were missing?", lit: [],
       text: "Pick a service to take away. Only the part of the reply it supplied changes." }
   ];
-  var DEPTH = { router: "Intent Router", retriever: "Context Gateway", memory: "Agent Memory", cache: "Agent Playbooks" };
+  var DEPTH = { router: "Intent Router", retriever: "Context Gateway", memory: "Agent Memory", cache: "Agent Playbooks", lens: "Lens" };
 
   /* ---- the sample data, as table rows ----
      The same rows as the RDI demo (rdi-demo.js), on the evening of this tour:
@@ -438,63 +461,90 @@
     amagent2: "M 697.6 364.2 L 721.0 350.8 L 736.8 341.7",
     lcagent: "M 572.3 436.8 L 595.2 423.6 L 610.7 414.7",
     lcagent2: "M 602.9 407.7 L 585.6 417.6 L 564.5 429.8"
-    /* maya, maya2, router, and router2 are added with the figures (FIGURES), from their geometry. */
+    /* maya, maya2, router, router2, and lens are added with the figures (FIG), from their geometry. */
   };
   /* Where to select each part of the drawing, and where each value tag sits:
      x, y (the tag's bottom edge), and which side it hangs from. */
   var HITS = { redis: [413, 230, 44], retriever: [540, 318, 36],
-    memory: [773, 307, 36], agent: [651, 385, 36], cache: [526, 469, 36] };   // maya and router: with the figures
+    memory: [773, 307, 36], agent: [651, 385, 36], cache: [526, 469, 36] };   // maya, router, and lens: with the figures
   var TAG_SPOTS = { cache: [484, 470, "r"], memory: [872, 262, "r"] };   // router: with the figures
   /* What each step shows: which versions of the drawing, how they blend,
      and what moves. Groups run in order; the routes in a group run together.
      A tag appears when the group it belongs to arrives. */
   var FLOWS = {
     ask: { layers: ["retriever", "cache", "memory"], blend: "darken", groups: [[["maya"]]] },   // no tag: the step card shows her message
-    router: { layers: ["retriever", "cache", "memory"], blend: "darken", groups: [[["maya"]], [["router"]]], tags: [[0, "router", "2 intents · 12 ms"]] },
+    /* The agent sends the message to Intent Router, which sends back the intents that match. */
+    router: { layers: ["retriever", "cache", "memory"], blend: "darken", groups: [[["router2"]], [["router"]]], tags: [[0, "router", "2 intents · 12 ms"]] },
     cache: { layers: ["cache"], groups: [[["lcagent2"]], [["dblc", 1]], [["dblc"]], [["lcagent"]]], tags: [[2, "cache", "FAQ · 0.92 · 41 ms"]] },
     memory: { layers: ["memory"], groups: [[["amagent2"]], [["amdb"]], [["amdb", 1]], [["amagent"]]], tags: [[2, "memory", "5 memories"]] },
     retriever: { layers: ["retriever"],
       groups: [[["cragent2"]], [["dbcr"]], [["cragent"]], [["cragent2"]], [["dbcr"]], [["cragent"]], [["cragent2"]], [["dbcr"]], [["cragent"]]] },   // no tags: the step card lists the three calls
-    reply: { layers: ["retriever", "memory", "cache"], groups: [[["cragent"], ["amagent"], ["lcagent"]], [["router2"]], [["maya2"]]] }   // no tag: the step card shows the reply
+    reply: { layers: ["retriever", "memory", "cache"], groups: [[["cragent"], ["amagent"], ["lcagent"]], [["maya2"]]] },   // no tag: the step card shows the reply
+    /* The request again, as Lens records it: each step's record goes to Lens as the step ends. The preview plays this;
+       the tour plays the step selected in Lens's timeline instead (LENS_FLOWS). */
+    lens: { layers: ["retriever", "memory", "cache"],
+      groups: [[["router"], ["lens"]], [["lcagent"], ["lens"]], [["amagent"], ["lens"]], [["cragent"], ["lens"]], [["maya2"], ["lens"]]] }   // no tag: the step card shows the timeline
   };
-  var STEP_OF = { maya: 0, router: 1, cache: 2, memory: 3, retriever: 4, redis: 4, agent: 5 };
-  /* ---- Intent Router and Maya, the user, drawn in the diagram's own style ----
-     The drawing has neither, so the stage adds both on the empty diagonal down and to the right of the
-     agent: Intent Router first, because it matches Maya's message before the agent acts on it, then Maya.
-     Each is the agent's own disc, scaled about the agent's face centre (C0) and moved along that diagonal
-     (STEP, in multiples of it): Intent Router in the drawing's service colours with its icon, Maya with a
-     person where the agent has a robot. Each has a label box below it, as the agent does; Intent Router's
-     shows only while it's lit, as the drawing shows only a lit service's label. Their links use the
-     drawing's arrow style, one line each way, with dots that show while the link is lit. */
+  /* On the Lens step, the drawing plays only the step selected in the timeline: its trip to its service, and then its
+     record going to Lens. Prompt assembly and the model call happen inside the agent, so only their records move. */
+  var DIM = ["retriever", "cache", "memory"];   // blended with "darken", every service is dimmed
+  var LENS_FLOWS = {
+    router: { layers: DIM, blend: "darken", groups: [[["router2"]], [["router"]], [["lens"]]] },
+    cache: { layers: ["cache"], groups: [[["lcagent2"]], [["dblc", 1]], [["dblc"]], [["lcagent"]], [["lens"]]] },
+    memory: { layers: ["memory"], groups: [[["amagent2"]], [["amdb"]], [["amdb", 1]], [["amagent"]], [["lens"]]] },
+    retriever: { layers: ["retriever"], groups: [[["cragent2"]], [["dbcr"]], [["cragent"]], [["lens"]]] },
+    app: { layers: DIM, blend: "darken", groups: [[["lens"]]] },
+    model: { layers: DIM, blend: "darken", groups: [[["lens"]]] },
+    record: { layers: ["memory"], groups: [[["amagent2"]], [["amdb"]], [["lens"]]] }   // Agent Memory stores the conversation
+  };
+  var STEP_OF = { maya: 0, router: 1, cache: 2, memory: 3, retriever: 4, redis: 4, agent: 5, lens: 6 };
+  /* ---- Intent Router, Lens, and Maya, the user, drawn in the diagram's own style ----
+     The drawing has none of them, so the stage adds each in an empty place next to the agent, on a line from
+     the agent's face centre (C0):
+     - Intent Router above the agent, between Context Gateway and Agent Memory: the agent calls it, as it
+       calls those services, and gets the matching intents back.
+     - Maya down and to the right, on the diagonal the drawing leaves free, so she talks to the agent directly.
+     - Lens below the agent's label: the agent sends it a record of each step.
+     Each is the agent's own disc, scaled about C0 and moved along its line (dir, by `at` units): Intent Router
+     and Lens in the drawing's service colours with their icons, Maya with a person where the agent has a robot.
+     Each has a label box, as the agent does; Intent Router's and Lens's show only while they're lit, as the
+     drawing shows only a lit service's label. Their links use the drawing's arrow style, one line each way,
+     with dots that show while the link is lit. Lens's link has one line, toward Lens. */
   var C0 = [655.895, 388.655], STEP = [110.06, 69.065], STEP_LEN = Math.hypot(STEP[0], STEP[1]);
   var DISC = {
     rim: "M626.802 419.618C621.381 416.488 617.95 409.911 617.794 400.63C617.482 382.067 630.387 359.713 646.62 350.702C654.736 346.197 662.147 345.88 667.568 349.009L674.93 352.459C680.351 355.589 683.782 362.166 683.938 371.447C684.25 390.01 671.345 412.364 655.112 421.375C646.996 425.88 639.585 426.197 634.164 423.067L626.802 419.618Z",
     face: "M655.897 421.803C671.75 412.649 684.602 390.389 684.602 372.083C684.603 353.777 671.752 346.358 655.899 355.511C640.046 364.664 627.193 386.924 627.193 405.23C627.192 423.536 640.044 430.956 655.897 421.803Z",
-    icon: [28.7085, -16.5775, 0, 33.1498],   // the face's plane, in units of its radius, at full size
-    bottom: 37.6,   // from C0 down to the disc's lowest point, at full size
-    reach: 44   // from a disc's centre to where its links start, along STEP, at full size
+    icon: [28.7085, -16.5775, 0, 33.1498]   // the face's plane, in units of its radius, at full size
   };
+  /* For each figure: its line from C0 (dir) and how far along it (at), its scale (s), where its link starts
+     (from C0) and stops (reach, short of the figure's centre, at full size), how far across the line its two
+     link lines sit, and its label box, placed from the figure's centre (dx, dy) and w wide. */
   var FIG = {
-    router: { at: 0.8, s: 0.7, label: "INTENT ROUTER", labelW: 81.4, labelDx: -25 },   // left, clear of its link to Maya
-    maya: { at: 1.6, s: 0.8, label: "MAYA", labelW: 38.3 }
+    router: { dir: [0, -1], at: 120, s: 0.7, from: 47, reach: 41.6, across: [4.5, -4.5],
+      label: { lines: ["INTENT", "ROUTER"], dx: 27.1, dy: -0.7, w: 46 } },   // to the right, under the dashes from Redis to Agent Memory
+    maya: { dir: [STEP[0] / STEP_LEN, STEP[1] / STEP_LEN], at: STEP_LEN, s: 0.85, from: 44, reach: 44, across: [9, 0],
+      label: { lines: ["MAYA"], dx: -19.15, dy: 37, w: 38.3 } },
+    lens: { dir: [0, 1], at: 146, s: 0.65, from: 77, reach: 46.8, across: [0, 0],   // its link starts below the agent's label
+      label: { lines: ["LENS"], dx: 25.5, dy: -12.4, w: 43.1543 } }
   };
-  Object.keys(FIG).forEach(function (k) { var f = FIG[k]; f.c = [C0[0] + STEP[0] * f.at, C0[1] + STEP[1] * f.at]; });
-  /* A point `a` along the diagonal from C0, and `o` across it (down and to the left). */
-  function diag(a, o) {
-    var ux = STEP[0] / STEP_LEN, uy = STEP[1] / STEP_LEN;
-    return [C0[0] + ux * a - uy * o, C0[1] + uy * a + ux * o];
+  Object.keys(FIG).forEach(function (k) { var f = FIG[k]; f.c = [C0[0] + f.dir[0] * f.at, C0[1] + f.dir[1] * f.at]; });
+  /* A point `a` along a figure's line from C0, and `o` across it (to the right of the line, looking along it). */
+  function along(f, a, o) {
+    var u = f.dir;
+    return [C0[0] + u[0] * a - u[1] * o, C0[1] + u[1] * a + u[0] * o];
   }
   /* A link's two lines: `in` runs toward the agent, `out` away from it. */
-  function link(near, far) {
-    var a = near.at * STEP_LEN + near.s * DISC.reach, b = far.at * STEP_LEN - far.s * DISC.reach;
-    return { in: [diag(b, 9), diag(a, 9)], out: [diag(a, 0), diag(b, 0)] };
+  function link(f) {
+    var a = f.from, b = f.at - f.s * f.reach;
+    return { in: [along(f, b, f.across[0]), along(f, a, f.across[0])], out: [along(f, a, f.across[1]), along(f, b, f.across[1])] };
   }
-  var LINKS = { router: link({ at: 0, s: 1 }, FIG.router), maya: link(FIG.router, FIG.maya) };
+  var LINKS = { router: link(FIG.router), maya: link(FIG.maya), lens: link(FIG.lens) };
   function routeD(seg) { return "M " + seg[0][0].toFixed(1) + " " + seg[0][1].toFixed(1) + " L " + seg[1][0].toFixed(1) + " " + seg[1][1].toFixed(1); }
   ROUTES.maya = routeD(LINKS.maya.in); ROUTES.maya2 = routeD(LINKS.maya.out);
   ROUTES.router = routeD(LINKS.router.in); ROUTES.router2 = routeD(LINKS.router.out);
-  HITS.router = [FIG.router.c[0], FIG.router.c[1], 26]; HITS.maya = [FIG.maya.c[0], FIG.maya.c[1], 30];
-  TAG_SPOTS.router = [790, 528, "r"];   // below its label, clear of Maya
+  ROUTES.lens = routeD(LINKS.lens.out);
+  HITS.router = [FIG.router.c[0], FIG.router.c[1], 24]; HITS.maya = [FIG.maya.c[0], FIG.maya.c[1], 30]; HITS.lens = [FIG.lens.c[0], FIG.lens.c[1], 24];
+  TAG_SPOTS.router = [FIG.router.c[0], 236, "c"];   // above it, over the dashes, which are dimmed on its step
   /* The red badge every service disc carries, copied from the Agent Memory disc in agent-memory.svg, with
      that disc's face centre so it can be placed on another disc. */
   var BADGE = { at: [778.549, 309.69], red: "M793.415 291.105C793.414 295.046 790.647 299.839 787.234 301.81C783.821 303.781 781.054 302.183 781.054 298.242C781.054 294.301 783.821 289.508 787.234 287.537C790.648 285.566 793.415 287.164 793.415 291.105Z",
@@ -505,6 +555,10 @@
     '<path d="M -0.24 -0.1 L 0.04 -0.1 M -0.03 -0.16 L 0.04 -0.1 L -0.03 -0.04"/>' +
     '<path d="M -0.24 0.14 L 0.04 0.14 M -0.03 0.08 L 0.04 0.14 L -0.03 0.2"/>' +
     '<path d="M -0.28 0.02 L 0.3 0.02 M 0.23 -0.04 L 0.3 0.02 L 0.23 0.08"/><circle cx="0.4" cy="0.02" r="0.07"/>';
+  /* Lens's icon, in the face's plane: a magnifier over the agent's robot, as on the Lens landing page. */
+  var LENS_ICON = '<circle cx="-0.06" cy="-0.05" r="0.34"/><path d="M 0.18 0.2 L 0.4 0.43"/>' +   // the lens and its handle
+    '<rect x="-0.25" y="-0.16" width="0.38" height="0.25" rx="0.08"/><path d="M -0.06 -0.16 L -0.06 -0.24"/>' +   // the robot's head and antenna
+    '<circle cx="-0.14" cy="-0.04" r="0.025"/><circle cx="0.02" cy="-0.04" r="0.025"/>';   // its eyes
 
   /* ---- the current service names, drawn over the drawing's published labels ----
      Each version of the drawing shows its lit service's label box, and data-integration.svg also shows the
@@ -571,10 +625,10 @@
         " L" + n(b[0] - ux * 3.2 + uy * 2.2) + " " + n(b[1] - uy * 3.2 - ux * 2.2) + '"/>';
     }
     function mid(seg) { return '<circle r="2.52025" cx="' + n((seg[0][0] + seg[1][0]) / 2) + '" cy="' + n((seg[0][1] + seg[1][1]) / 2) + '"/>'; }
-    function linkG(k) {
+    function linkG(k, oneWay) {
       var L = LINKS[k];
       return '<g class="iris-maya-link iris-link-' + k + '"><g fill="none" stroke="#5C707A" stroke-width="0.72" stroke-linecap="round" stroke-linejoin="round">' +
-        arrow(L.in) + arrow(L.out) + '</g><g fill="#B9C2C6">' + mid(L.in) + mid(L.out) + "</g></g>";
+        (oneWay ? "" : arrow(L.in)) + arrow(L.out) + '</g><g fill="#B9C2C6">' + (oneWay ? "" : mid(L.in)) + mid(L.out) + "</g></g>";
     }
     function disc(f, colors, icon, iconStroke) {
       var c = f.c, s = f.s, I = DISC.icon;
@@ -589,14 +643,20 @@
       return '<g transform="matrix(' + [s, 0, 0, s, n(c[0] - s * BADGE.at[0]), n(c[1] - s * BADGE.at[1])].join(" ") + ')">' +
         '<path fill="#FF4438" d="' + BADGE.red + '"/><path fill="white" d="' + BADGE.white + '"/></g>';
     }
+    /* A one-line box is the agent label's size and style, and a two-line box Agent Memory's. */
     function label(f, cls) {
-      var x = f.c[0] + (f.labelDx || 0) - f.labelW / 2, y = f.c[1] + f.s * DISC.bottom + 5;
-      return '<g class="' + cls + '"><rect fill="#163341" stroke="#8A99A0" stroke-width="0.840082" rx="3.78037" x="' + n(x) + '" y="' + n(y) + '" width="' + f.labelW + '" height="24.751"/>' +
-        '<text class="iris-maya-name" x="' + n(f.c[0] + (f.labelDx || 0) + 0.15) + '" y="' + n(y + 16.07) + '" text-anchor="middle">' + f.label + "</text></g>";
+      var L = f.label, two = L.lines.length > 1, x = f.c[0] + L.dx, y = f.c[1] + L.dy, h = two ? 31.2039 : 24.751;
+      return '<g class="' + cls + '"><rect fill="#163341" stroke="#8A99A0" stroke-width="' + (two ? 0.719233 : 0.840082) + '" rx="' + (two ? 3.23655 : 3.78037) +
+          '" x="' + n(x) + '" y="' + n(y) + '" width="' + L.w + '" height="' + h + '"/>' +
+        L.lines.map(function (t, i) {
+          return '<text class="iris-maya-name" x="' + n(x + L.w / 2 + 0.15) + '" y="' + n(y + h / 2 + 3.69 + (i - (L.lines.length - 1) / 2) * 10) + '" text-anchor="middle">' + t + "</text>";
+        }).join("") + "</g>";
     }
+    var SERVICE = ["#3A2227", "#FF4438", "#89302E"];   // the drawing's colours for a service disc: rim, outline, face
     return {
-      links: linkG("router") + linkG("maya"),
-      router: '<g class="iris-router-disc">' + disc(FIG.router, ["#3A2227", "#FF4438", "#89302E"], '<g transform="scale(1.3)">' + ROUTER_ICON + "</g>", 0.04) + badge(FIG.router) + "</g>" + label(FIG.router, "iris-router-label"),
+      links: linkG("router") + linkG("maya") + linkG("lens", true),
+      router: '<g class="iris-router-disc">' + disc(FIG.router, SERVICE, '<g transform="scale(1.3)">' + ROUTER_ICON + "</g>", 0.04) + badge(FIG.router) + "</g>" + label(FIG.router, "iris-router-label"),
+      lens: '<g class="iris-lensfig-disc">' + disc(FIG.lens, SERVICE, '<g transform="scale(1.2)">' + LENS_ICON + "</g>", 0.04) + badge(FIG.lens) + "</g>" + label(FIG.lens, "iris-lensfig-label"),
       maya: disc(FIG.maya, ["#091A23", "#5C707A", "#163341"],
         '<circle cx="0" cy="-0.3" r="0.17"/><path d="M -0.38 0.44 C -0.38 0.16 -0.2 0.02 0 0.02 C 0.2 0.02 0.38 0.16 0.38 0.44 Z"/>', 0.042) + label(FIG.maya, "")
     };
@@ -604,7 +664,7 @@
   function buildFigures(NS) {
     var m = figuresMarkup(), g = document.createElementNS(NS, "g");
     g.setAttribute("class", "iris-maya");
-    g.innerHTML = m.links + '<g class="iris-router">' + m.router + "</g>" + m.maya;
+    g.innerHTML = m.links + '<g class="iris-router">' + m.router + '</g><g class="iris-lensfig">' + m.lens + "</g>" + m.maya;
     return g;
   }
 
@@ -651,6 +711,7 @@
     var figs = buildFigures(NS);
     over.insertBefore(figs, over.querySelector(".iris-route"));
     var mayaLink = figs.querySelector(".iris-link-maya"), routerLink = figs.querySelector(".iris-link-router"), router = figs.querySelector(".iris-router");
+    var lensLink = figs.querySelector(".iris-link-lens"), lens = figs.querySelector(".iris-lensfig");
     var relabels = buildRelabels(NS);
     Object.keys(relabels).forEach(function (k) { over.insertBefore(relabels[k], over.querySelector(".iris-route")); });
     var pbDisc = document.createElementNS(NS, "g");
@@ -770,14 +831,22 @@
       el: wrap,
       art: box,
       dataBtns: dataBtns,
-      show: function (stepKey, missing) {
-        var tok = ++token;
-        mayaLink.classList.toggle("is-lit", stepKey === "ask" || stepKey === "router" || stepKey === "reply" || stepKey === "whatif");
-        routerLink.classList.toggle("is-lit", stepKey === "router" || stepKey === "reply" || stepKey === "whatif");
-        router.classList.toggle("is-lit", stepKey === "router" || stepKey === "reply" || (stepKey === "whatif" && missing !== "router"));
+      /* focus: on the Lens step, the part of the drawing that the step selected in its timeline is about (a LENS_FLOWS key).
+         Without one, as in the preview, the Lens step plays the whole request. */
+      show: function (stepKey, missing, focus) {
+        var tok = ++token, lensStep = stepKey === "lens";
+        /* Intent Router and its link are lit on its own step, on Lens's while its match is selected (or without a selection),
+           and on the what-if, where it's one of the services to take away. It writes no part of the reply, so the reply step
+           leaves it dimmed. */
+        var routerLit = stepKey === "router" || (lensStep && (!focus || focus === "router")) || (stepKey === "whatif" && missing !== "router");
+        mayaLink.classList.toggle("is-lit", stepKey === "ask" || stepKey === "reply" || (lensStep && !focus) || stepKey === "whatif");
+        routerLink.classList.toggle("is-lit", routerLit);
+        router.classList.toggle("is-lit", routerLit);
+        lensLink.classList.toggle("is-lit", lensStep);
+        lens.classList.toggle("is-lit", lensStep);
         setTag(null);
         Array.prototype.forEach.call(packets.childNodes, function (n) { n.remove(); });
-        var flow = stepKey === "whatif" ? null : FLOWS[stepKey];
+        var flow = stepKey === "whatif" ? null : lensStep && focus ? LENS_FLOWS[focus] : FLOWS[stepKey];
         var skip = {};
         if (stepKey === "whatif") {
           /* Every service, or every service but the missing one, with the reply flowing in. */
@@ -802,9 +871,16 @@
 
   function init(root) {
     var links = { router: root.getAttribute("data-link-router"), retriever: root.getAttribute("data-link-retriever"),
-      memory: root.getAttribute("data-link-memory"), cache: root.getAttribute("data-link-cache") };
-    var st = { step: 0, missing: null };
+      memory: root.getAttribute("data-link-memory"), cache: root.getAttribute("data-link-cache"), lens: root.getAttribute("data-link-lens") };
+    var st = { step: 0, missing: null, lensBug: false, lensRow: 0 };
     var full = trace({ router: true, retriever: true, memory: true, cache: true });
+    var bug = trace({ router: true, retriever: true, memory: true, cache: true }, { drop: "peanut" });   // the Lens step's turn with a bug
+    var lensTurns = { ran: lensRows(full), bug: lensRows(bug) };
+    /* The part of the drawing that the step selected in Lens's timeline is about (a LENS_FLOWS key). */
+    function lensFocus() {
+      var rows = st.lensBug ? lensTurns.bug : lensTurns.ran, x = rows[Math.min(st.lensRow, rows.length - 1)];
+      return x.focus;
+    }
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function go(i) {
@@ -819,6 +895,7 @@
 
     /* The one thing each step shows. */
     function fact(step) {
+      if (step.key === "lens") return lensView();
       var f = el("div", "iris-fact");
       if (step.key === "ask") {
         f.appendChild(el("div", "rcr-msg rcr-user iris-askmsg", esc(MESSAGE)));
@@ -927,6 +1004,131 @@
         '</span><span><span class="iris-checklabel">' + esc(c.label) + '</span><span class="iris-checktext">' + esc(c.text) + "</span></span>"));
       box.appendChild(el("p", "iris-why", esc(w.why)));
       return box;
+    }
+
+    /* ---- the Lens step: the turn as Lens records it ----
+       A timeline of the turn's steps, as Lens shows one, and what Lens recorded for the selected step. The
+       other view is the same turn with a bug in the app's code, which leaves the allergy memory out of the
+       prompt. Selecting a step redraws only the record, which is a live region, so a screen reader reads
+       the new record out. */
+
+    /* A trace's steps as Lens records them. Agent Memory, Agent Playbooks, and Context Gateway record their
+       own steps; the app records the Intent Router match (as a custom step) and the prompt assembly. Each row is
+       named by its service, with a word only where two rows would read the same (op), and `focus` is the part of
+       the drawing it's about (a LENS_FLOWS key). */
+    function lensRows(tr) {
+      return tr.steps.filter(function (s) { return s.ms && !s.off; }).map(function (s) {
+        var row = { svc: s.service, focus: s.service, at: s.at, ms: s.ms, op: "" }, c = s.calls && s.calls[0];
+        if (s.service === "router") {
+          row.name = "Intent Router"; row.items = c.response.items;
+        } else if (s.service === "cache") {
+          row.name = "Agent Playbooks"; row.query = c.request.query;
+          row.results = c.response.discoveredEntries.map(function (e) { return { label: "FAQ · similarity score " + e.score.toFixed(2), text: e.faq.question, used: true }; });
+        } else if (s.service === "memory" && s.phase === "recall") {
+          row.name = "Agent Memory"; row.op = "recall"; row.query = c.request.text;
+          row.results = MEMORIES.map(function (m) { return { label: m.type, text: m.text, used: !!tr.used[m.key] }; });
+        } else if (s.service === "retriever") {
+          row.name = "Context Gateway"; row.tool = c.path; row.input = spaced(c.args); row.result = brief(c.result);
+        } else if (s.service === "app") {
+          row.name = "Prompt assembly"; row.used = s.used; row.of = s.of; row.dropped = s.dropped;
+        } else if (s.service === "model") {
+          row.name = "Model call"; row.tokens = s.tokens; row.note = s.text;
+        } else {
+          row.name = "Agent Memory"; row.op = "save"; row.focus = "record";
+          row.note = "Stored Maya's message and the reply as events in session " + SESSION + ".";
+        }
+        return row;
+      });
+    }
+    /* JSON on one line, with a space after each comma and colon, so it wraps between values. */
+    function spaced(v) {
+      return JSON.stringify(v).replace(/("(?:[^"\\]|\\.)*")|([,:])/g, function (m, str, sep) { return str || sep + " "; });
+    }
+    /* A tool result in a few words: a restaurant record, or a filter's matches. */
+    function brief(r) {
+      if (!r.results) return r.name + ", " + r.avg_delivery_min + " minutes";
+      return r.count + (r.count === 1 ? " match: " : " matches: ") + r.results.map(function (x) {
+        return x.name ? x.name + ", " + x.avg_delivery_min + " minutes" : x.id + ", " + x.items;
+      }).join("; ");
+    }
+    function lensView() {
+      var box = el("div", "iris-fact iris-lens"), modes = el("div", "iris-lensmodes"), note = el("div", "iris-lensnote"), head = el("div", "iris-lenshead");
+      var list = el("div", "iris-timeline"), info = el("div", "iris-tdetail");
+      note.setAttribute("aria-live", "polite");
+      list.setAttribute("role", "group");
+      list.setAttribute("aria-label", "Steps in this request");
+      info.setAttribute("aria-live", "polite");
+      [modes, note, head, list, info].forEach(function (x) { box.appendChild(x); });
+      var turns = lensTurns;
+      function focusStage() { stage.show("lens", null, lensFocus()); }   // the drawing plays the selected step
+      [[false, "The request as it ran"], [true, "A request with a bug"]].forEach(function (m) {
+        var b = el("button", "rcr-chip iris-lensmode", esc(m[1]));
+        b.type = "button";
+        b.dataset.mode = m[0] ? "bug" : "ran";
+        b.addEventListener("click", function () {
+          if (st.lensBug === m[0]) return;
+          st.lensBug = m[0];
+          st.lensRow = 0;   // either request starts from its first step
+          draw();
+          focusStage();
+        });
+        modes.appendChild(b);
+      });
+      function select(i) {
+        st.lensRow = i;
+        Array.prototype.forEach.call(list.children, function (b, k) { b.classList.toggle("is-on", k === i); b.setAttribute("aria-pressed", k === i ? "true" : "false"); });
+        detail(info, (st.lensBug ? turns.bug : turns.ran)[i]);
+      }
+      function draw() {
+        var rows = st.lensBug ? turns.bug : turns.ran, total = (st.lensBug ? bug : full).end;
+        Array.prototype.forEach.call(modes.children, function (b) {
+          var on = (b.dataset.mode === "bug") === st.lensBug;
+          b.classList.toggle("is-on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        note.innerHTML = st.lensBug ? '<p class="iris-lensbug">' + esc("Suppose a change to the app's code leaves the allergy memory out of the prompt. The reply still suggests the pad thai, " +
+          "but doesn't ask to leave out peanuts. Lens shows where it went wrong: Agent Memory returned the allergy, but the app never put it in the prompt. " +
+          "So the fix is in the app's code, not in Agent Memory or the model.") + "</p>" : "";
+        head.innerHTML = '<span><span class="iris-nw">Session <b class="rcr-mono">' + esc(SESSION) + '</b></span> · <span class="iris-nw">agent <b class="rcr-mono">' + esc(ASSISTANT) + "</b></span></span>" +
+          '<span class="iris-nw">Outcome <b class="rcr-mono">completed</b> · ' + seconds(total) + "</span>";
+        list.innerHTML = "";
+        rows.forEach(function (x, i) {
+          var b = el("button", "iris-trow iris-src-" + x.svc);
+          b.type = "button";
+          b.innerHTML = '<span class="iris-tname">' + esc(x.name) + (x.op ? ' <span class="iris-top">' + esc(x.op) + "</span>" : "") +
+            (x.dropped && x.dropped.length ? ' <span class="iris-top iris-bad">' + x.dropped.length + " dropped</span>" : "") + "</span>" +
+            '<span class="iris-ttrack" aria-hidden="true"><span class="iris-tbar" style="left:' + (x.at / total * 100).toFixed(2) + "%;width:" + Math.max(x.ms / total * 100, 0.6).toFixed(2) + '%"></span></span>' +
+            '<span class="iris-tms rcr-mono">' + took(x.ms) + "</span>";
+          b.addEventListener("click", function () { if (i !== st.lensRow) { select(i); focusStage(); } });
+          list.appendChild(b);
+        });
+        select(Math.min(st.lensRow, rows.length - 1));
+      }
+      draw();
+      return box;
+    }
+    /* What Lens recorded for one step. Results are marked as Lens marks them: Entered prompt, or Not used. */
+    function detail(d, x) {
+      var body;
+      if (x.items) {
+        body = "<p>" + esc("The app records this step itself, with the intents that matched, best first.") + '</p><div class="iris-tintents">' + x.items.map(function (it) {
+          return "<code>" + esc(it.name) + '</code><span class="iris-kv">score ' + it.score.toFixed(2) + " → " + esc(it.target.type + " " + it.target.ref) + "</span>";
+        }).join("") + "</div>";
+      } else if (x.results) {
+        body = '<div class="iris-kv">Query: ' + esc(x.query) + "</div>" + x.results.map(function (r) {
+          return '<div class="iris-tresult' + (r.used ? "" : " is-unused") + '"><span class="iris-mark">' + (r.used ? "Entered prompt" : "Not used") + "</span><span>" +
+            '<span class="iris-kv">' + esc(r.label) + "</span> " + esc(r.text) + "</span></div>";
+        }).join("");
+      } else if (x.tool) {
+        body = '<div class="iris-tio"><span class="iris-factlbl">Tool</span><code>' + esc(x.tool) + '</code><span class="iris-factlbl">Input</span><code>' + esc(x.input) +
+          '</code><span class="iris-factlbl">Result</span><span>' + esc(x.result) + "</span></div>";
+      } else if (x.svc === "app") {
+        body = "<p>" + esc("Maya's message, the FAQ's answer, " + (x.used === x.of ? "all " + x.of : x.used + " of the " + x.of) + " memories, and the tool results entered the prompt." +
+          x.dropped.map(function (m) { return " The app dropped the memory “" + m.text + "”"; }).join("")) + "</p>";
+      } else if (x.svc === "model") {
+        body = "<p>" + esc(x.note + " Lens records the prompt, what the model wrote (the completion), and its " + x.tokens + " output tokens.") + "</p>";
+      } else body = "<p>" + esc(x.note) + "</p>";
+      d.innerHTML = '<div class="iris-tdhead">' + esc(x.name + (x.op ? " · " + x.op : "")) + ' <span class="iris-kv">' + took(x.ms) + "</span></div>" + body;
     }
 
     /* ---- the data window: Redis ---- */
@@ -1038,12 +1240,13 @@
     function render() {
       var step = STEPS[st.step];
       closeData(true);   // the drawing is what each step is about
-      stage.show(step.key, step.key === "whatif" ? st.missing : null);
+      stage.show(step.key, step.key === "whatif" ? st.missing : null, step.key === "lens" ? lensFocus() : null);
       stage.art.setAttribute("aria-label", "Step " + (st.step + 1) + ": " + step.title);
       below.innerHTML = "";
       var card = el("div", "rcr-card iris-stepcard" + (DEPTH[step.key] ? " iris-svc-" + step.key : ""));
       card.appendChild(el("div", "iris-stephead", '<span class="iris-count">Step ' + (st.step + 1) + " of " + STEPS.length + "</span>" +
-        (step.at ? '<span class="iris-clock rcr-mono">Fri, Oct 2 · ' + step.at + " UTC</span>" : "")));
+        (step.at ? '<span class="iris-clock rcr-mono">Fri, Oct 2 · ' + step.at + " UTC</span>" : "") +
+        (step.preview ? '<span class="iris-badge">' + esc(DEPTH[step.key]) + " is in preview</span>" : "")));
       card.appendChild(el("div", "iris-title", esc(step.title)));   // a div, not a heading, so the site's heading styles and anchors stay out
       card.appendChild(el("div", "iris-text", esc(step.text)));
       if (step.key === "whatif") card.appendChild(whatIf());
@@ -1054,7 +1257,7 @@
         card.appendChild(depth);
       }
       below.appendChild(card);
-      if (step.key !== "whatif" && step.key !== "reply") below.appendChild(tray(st.step));
+      if (["reply", "lens", "whatif"].indexOf(step.key) < 0) below.appendChild(tray(st.step));
       var nav = el("div", "iris-nav");
       var back = el("button", "rcr-btn", "Back");
       back.type = "button";
@@ -1072,7 +1275,7 @@
       var last = st.step === STEPS.length - 1;
       var next = el("button", "rcr-btn rcr-btn-primary", last ? "Start over" : "Next");
       next.type = "button";
-      next.addEventListener("click", function () { if (last) st.missing = null; go(last ? 0 : st.step + 1); });
+      next.addEventListener("click", function () { if (last) { st.missing = null; st.lensBug = false; st.lensRow = 0; } go(last ? 0 : st.step + 1); });
       nav.appendChild(back);
       nav.appendChild(dots);
       nav.appendChild(next);
@@ -1085,7 +1288,7 @@
      For a page that links to the tour: no step cards, controls, or data windows, so the whole stage can sit
      inside a link. Each step plays for long enough for its packets to arrive, and only while the stage is on
      screen. With reduced motion, the stage shows the reply step, with every service lit, and stays still. */
-  var PREVIEW_MS = { retriever: 7600, reply: 5200 }, PREVIEW_DEFAULT_MS = 4200;
+  var PREVIEW_MS = { retriever: 7600, reply: 5200, lens: 4600 }, PREVIEW_DEFAULT_MS = 4200;
   function initPreview(root) {
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     root.innerHTML = "";
