@@ -64,3 +64,5 @@ For FastAPI, configure `FastAPIRedis(app).lifespan().streams()`, publish scoped 
 Follow the [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md) to [resume A2A task updates](/content/develop/ai/context-engine/agent-mesh/quickstart.md#resume-a2a-task-updates) or [resume FastAPI events](/content/develop/ai/context-engine/agent-mesh/quickstart.md#resume-fastapi-events).
 
 To integrate with your application, follow the [A2A SDK guide](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md) or [FastAPI SSE SDK guide](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md). These guides cover configuration, authorization, replay, and recovery.
+
+Use the [agent SDK recipes](/content/develop/ai/context-engine/agent-mesh/fastapi-sse-sdk.md#agent-sdk-recipes) to stream an existing OpenAI Agents SDK, PydanticAI, Google ADK, or LangGraph agent through FastAPI.
