@@ -117,6 +117,8 @@ The Gateway database should use `maxmemory-policy noeviction`, and compression a
 - When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` on the `compression` field, with rule `compression_unsupported` and the reason when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `enabled`.
 - A Gateway create that omits `compression` never fails on this check. When the database cannot hold handles or cannot be reached, the Gateway is stored with `compression` set to `disabled`, and the Control Plane logs why.
 
+Size the Gateway database for its TTLs. Handles and cache entries stay until their TTL ends (15 minutes for handles by default), so memory is roughly handle creates per second times the handle TTL times the average handle size, plus cache writes per second times the cache TTL times the average entry size. A stored handle takes about 0.7 of the result size. For example, 3.6 handles per second for 900 seconds at 70 KB each is about 230 MB. Keep the total under 90% of `maxmemory`. Above 90% the Gateway skips new handles and returns large results whole, and at 100% Redis refuses writes with `out_of_memory` while clients still get answers. Lower the TTLs or raise `maxmemory` when it does not fit.
+
 Do not point both defaults at the same Redis when compression is on. `noeviction` would then apply to your customer data. The Data Plane logs a warning at startup when the two defaults share an endpoint.
 
 For how to size the Gateway database and the Redis versions it needs, see [Redis databases](/content/operate/iris/context-gateway/self-managed/prerequisites.md#redis-databases).
