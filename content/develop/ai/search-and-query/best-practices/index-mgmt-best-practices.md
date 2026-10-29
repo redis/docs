@@ -134,7 +134,7 @@ Monitoring and troubleshooting aliases:
     ```python
     import re    
     def check_index_readiness(index_name, expected_docs):
-        r = redis.StrictRedis(host='localhost', port=6379, decode_responses=True)
+        r = redis.Redis(host='localhost', port=6379, decode_responses=True)
         info = r.execute_command('FT.INFO', index_name)
         num_docs = int(info[info.index('num_docs') + 1])
         return num_docs >= expected_d    
