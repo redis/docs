@@ -88,7 +88,7 @@ use std::collections::HashMap;
 #[tokio::main]
 async fn main() -> redis::RedisResult<()> {
     let client = Client::open("redis://localhost:6379/")?;
-    let mut con = client.get_async_connection().await?;
+    let mut con = client.get_multiplexed_async_connection().await?;
 
     let store = RedisSessionStore::new("session:", 1800)?;
 

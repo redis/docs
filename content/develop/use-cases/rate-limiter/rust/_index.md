@@ -328,11 +328,11 @@ fn handle_request(
 For async web frameworks like `actix-web` or `axum`, use the async version of the Redis client:
 
 ```rust
-use redis::aio::Connection;
+use redis::aio::MultiplexedConnection;
 
 async fn rate_limit_check(
     limiter: &TokenBucket,
-    con: &mut Connection,
+    con: &mut MultiplexedConnection,
     key: &str,
 ) -> redis::RedisResult<RateLimitResult> {
     limiter.allow_async(con, key).await
