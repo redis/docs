@@ -4,19 +4,17 @@ categories:
 - docs
 - develop
 - ai
-description: What happens when an agent asks Redis Iris for context, and why that's faster than assembling it yourself.
+description: What happens when an agent asks Redis Iris for context, and how it improves customer experiences.
 hideListLinks: true
 linktitle: Concepts
 title: How Redis Iris works
 weight: 5
 ---
 
-Redis Iris sits between your agent and your data. It's one system. Your agent asks for context. Iris returns it through the fastest path that answers the request: an answer your business already approved, a remembered fact, or a live lookup against your business data. That data can live in Redis or in another database you connect. You don't wire together separate lookups yourself.
+![The Redis Iris stack beside what an agent needs. Every message goes to Intent Router first. Approved answers come from Agent Playbooks, earlier conversations from Agent Memory, and business data and other tools through Context Gateway. Lens and Agent Mesh work alongside every request.](/images/ai/context-engine/iris-mental-model.svg)
+{width="800"}
 
-Use Redis Iris when you want to route each message to the agent, tool, or workflow that handles it, answer recurring questions with approved answers instead of new model calls, recall what they've learned across turns and sessions, and act on live business data. Iris builds and maintains that infrastructure for you.
-
-![An agent connects to Redis Iris, which stores memories, caches answers, and retrieves context, all backed by Redis or a connected database.](/images/ai/context-engine/iris-mental-model.svg)
-{width="650"}
+Your agent asks Redis Iris for context. Iris returns it through the fastest path that answers the request: an answer your business already approved, a remembered fact, or a live lookup against your business data. That data can live in Redis or in another database you connect. You don't wire together separate lookups yourself. Iris builds and maintains that infrastructure for you.
 
 ## The mental model
 

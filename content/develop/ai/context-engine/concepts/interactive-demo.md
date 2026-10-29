@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Step through one agent request across Data Integration, Intent Router, Agent Playbooks, Agent Memory, and Context Gateway, then take a service away to see what the agent loses.
+description: Step through one agent request across Intent Router, Agent Playbooks, Agent Memory, and Context Gateway, then take a service away to see what the agent loses.
 hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
@@ -13,17 +13,16 @@ aliases:
 - /develop/ai/context-engine/interactive-demo/
 ---
 
-Redis Iris gives an AI agent routing, governed access to live business data, memory, and approved answers. This tour follows one customer request through all five services, one step at a time. It starts where business data enters Iris, with Data Integration, and then follows the request through the other four services, in the order described in [How Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md). The last step takes one service away to show what the agent loses without it.
+{{< iris-demo >}}
+
+Redis Iris gives an AI agent routing, governed access to live business data, memory, and approved answers. This tour follows one customer request through four services, one step at a time, in the order described in [How Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md). The last step takes one service away to show what the agent loses without it.
 
 The tour runs in your browser and doesn't connect to any service. Each step links to that service's docs or its own interactive demo, which covers it in depth. The agent's reasoning, the reply, and the timings are illustrative.
-
-{{< iris-demo >}}
 
 ## What each service adds
 
 | Service | What it does in this request | Without it |
 |:--|:--|:--|
-| [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) | Syncs a change from PostgreSQL to Redis seconds after it happens | The agent reads last night's data and makes a promise it can't keep |
 | Intent Router | Matches the message to two intents: the reorder and the delivery fee question | A model call has to work out what the message needs first, which takes longer and costs output tokens |
 | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) | Looks up delivery times, alternatives, and past orders through governed tools | The agent can't check whether the food will arrive in time |
 | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) | Recalls last week's order and the customer's peanut allergy | The agent can find the order, but not the allergy |

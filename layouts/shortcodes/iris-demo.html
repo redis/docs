@@ -2,14 +2,17 @@
   iris-demo
   ---------
   Scripted, dependency-free tour of Redis Iris as one system, one step at
-  a time: data enters through Data Integration, then a single agent
-  request is matched by Intent Router and draws on Agent Playbooks, Agent Memory, and Context Gateway. Each
+  a time: a single agent request is matched by Intent Router and draws on Agent Playbooks, Agent Memory, and Context Gateway. Each
   step links to that service's docs or own demo for depth, and the last step
   takes one service away to show what the agent loses. Runs entirely in
   the browser; no service is called.
 
-  Usage (no arguments):
+  Usage:
       {{< iris-demo >}}
+      {{< iris-demo preview="true" >}}
+
+  With preview="true", the stage plays the tour's steps by itself, with no
+  step cards or controls, as a link to the interactive demo page.
 
   Base styles come from context-retriever-demo.css so the Iris demos share
   one look; iris-demo.css adds this demo's pieces.
@@ -30,14 +33,20 @@
 <script defer src="{{ "js/iris-demo.js" | relURL }}?v={{ index $v "js/iris-demo.js" }}"></script>
 
 {{- /* Links to each service's own demo, resolved here so they carry the site's base path.
-     Data Integration, Context Gateway, and Agent Playbooks have no tour-sized demo, so their links go to the overview. */}}
+     Context Gateway and Agent Playbooks have no tour-sized demo, so their links go to the overview. */}}
 {{- /* TODO: add a data-link-router attribute, resolved with relref like the others, to /develop/ai/context-engine/intent-router when intent-router-docs-align merges into iris-ga-docs. Until then the Intent Router step has no "in depth" link. */}}
 {{- /* The stage draws the Iris architecture diagram from redis.io/iris, as published there. */}}
-<div class="rcr iris" data-iris
+{{- $preview := eq (.Get "preview") "true" }}
+{{- if $preview }}
+<a class="iris-preview-link" href="{{ relref .Page "/develop/ai/context-engine/concepts/interactive-demo" }}" aria-label="Open the Redis Iris interactive demo">
+{{- end }}
+<div class="rcr iris" data-iris{{ if $preview }} data-preview{{ end }}
   data-art="{{ "images/ai/context-engine/iris-diagram/" | relURL }}"
-  data-link-rdi="{{ relref .Page "/develop/ai/context-engine/data-integration" }}"
   data-link-retriever="{{ relref .Page "/develop/ai/context-engine/context-gateway" }}"
   data-link-memory="{{ relref .Page "/develop/ai/context-engine/agent-memory/interactive-demo" }}"
   data-link-cache="{{ relref .Page "/develop/ai/context-engine/agent-playbook" }}">
   <noscript><p>This interactive demo needs JavaScript.</p></noscript>
 </div>
+{{- if $preview }}
+</a>
+{{- end }}

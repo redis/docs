@@ -4,16 +4,16 @@ categories:
 - docs
 - develop
 - ai
-description: Redis Iris is a suite of managed and self-managed services that give AI agents memory, approved answers, governed access to business data, and turn-by-turn tracing.
+description: Redis Iris is a suite of managed and self-managed services that give your customers accurate, consistent experiences with your AI agents by providing memories, approved answers, governed access to business data, and turn-by-turn tracing.
 hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
 weight: 30
 ---
 
-Give your AI agents the context layer they need to reliably act on business data.
+{{< iris-demo preview="true" >}}
 
-Redis Iris eliminates the infrastructure burden of building context-aware AI agents: persistent memory, published answers and procedures, governed data access, live data sync, and tracing, fully managed on Redis Cloud or self-managed on your own infrastructure.
+Redis Iris eliminates the infrastructure burden of building context-aware AI agents.
 
 <!-- TODO: add Intent Router and Agent Mesh tiles and bullets when intent-router-docs-align and codex/agent-mesh-preview-docs merge into iris-ga-docs. -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">

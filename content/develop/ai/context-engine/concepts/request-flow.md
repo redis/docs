@@ -4,190 +4,28 @@ categories:
 - docs
 - develop
 - ai
-description: Trace how a single agent request draws on Redis Iris's caching, memory, and retrieval capabilities before a model call.
+description: See which parts of the Redis Iris stack answer which kind of question, from routing to approved answers, memory, and governed tools.
 hideListLinks: true
 linktitle: Request flow
 title: How a request flows through Redis Iris
 weight: 6
 ---
 
+{{< iris-request-flow >}}
+
+Select one of Maya's questions to see which parts of the stack answer it. Each question passes through Intent Router, then goes to the component, or components, it needs. The questions come from the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
+
 [How Redis Iris works]({{< relref "/develop/ai/context-engine/concepts" >}}) covers the mental model. This page traces the same idea through an actual request, capability by capability.
 
 Every capability in Iris manages the same limited resource: the model's context window. Agent Playbooks returns an approved answer, or a skill preview the agent expands only when it needs the full procedure. Agent Memory decides what's worth keeping from a conversation. Context Gateway returns the result of one tool call instead of a raw query result, and holds large results as handles. Treat "what goes into the next model call" as a budget. Manage it actively. It doesn't take care of itself once a request reaches Iris.
 
-These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: Intent Router to choose the agent, tool, or workflow that handles the message, [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) for published answers and procedures, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) for tool calls to your Model Context Protocol (MCP) servers and your business data. [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) runs in the background, keeping that business data fresh for Context Gateway to query.
+These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: Intent Router to choose the agent, tool, or workflow that handles the message, [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) for published answers and procedures, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) for tool calls to your business data and other systems.
 
-[Lens]({{< relref "/develop/ai/context-engine/lens" >}}) traces each of these steps, and Agent Mesh keeps the response stream resumable if the client disconnects. Neither supplies context to the model call, so the diagram leaves them out.
+Context Gateway gives the agent one Model Context Protocol (MCP) endpoint for every tool it's allowed to call. Behind that endpoint are the Gateway's Upstreams: MCP servers you register, and Context Surfaces that generate search tools from a data model over your Redis data. The agent never connects to those systems directly. It calls a tool through the Gateway, and the Gateway sends the call to the Upstream that serves it. In search mode, the agent finds tools with `search_tools` and runs them with `run_tool`, instead of loading every tool into its context.
+
+[Lens]({{< relref "/develop/ai/context-engine/lens" >}}) traces each of these steps, and Agent Mesh keeps the response stream resumable if the client disconnects. Neither supplies context to the model call, so they work alongside every request rather than answering it.
 <!-- TODO: link Intent Router to /develop/ai/context-engine/intent-router when intent-router-docs-align merges into iris-ga-docs. -->
 <!-- TODO: link Agent Mesh to /develop/ai/context-engine/agent-mesh when codex/agent-mesh-preview-docs merges into iris-ga-docs. -->
-
-Select a node in the diagram for a description of what that capability does, with a link to its docs. Select a scenario button to trace the path a request takes.
-
-```context-map {id="iris-request-flow" scope="context-engine"}
-id: iris-request-flow
-scope: context-engine
-nodes:
-    agent:
-        label: "Agent"
-        type: process
-        col: 0
-        row: 1
-        description: |
-            The calling application or AI agent that sends a prompt.
-        docsUrl: "/develop/ai/agent-builder"
-    intentRouter:
-        label: "Intent Router"
-        type: process
-        col: 1
-        row: 1
-        description: |
-            Intent Router: matches the message to an intent you defined and returns its target, such as the agent, tool, or workflow that handles it. No model call decides the route, and your application dispatches.
-    playbooks:
-        label: "Playbook match?"
-        type: decision
-        col: 2
-        row: 0
-        description: |
-            Agent Playbooks: matches the task against published FAQs and skills. A skill match returns a preview, and the agent loads the full procedure before the model call.
-        links:
-            concepts:
-                label: "Concepts"
-                url: "/develop/ai/context-engine/agent-playbook/concepts"
-        docsUrl: "/develop/ai/context-engine/agent-playbook"
-    agentMemory:
-        label: "Agent Memory"
-        type: process
-        col: 2
-        row: 1
-        description: |
-            Agent Memory: session and long-term recall. Recalls session history and long-term facts about the user or task.
-        links:
-            demo:
-                label: "Interactive demo"
-                url: "/develop/ai/context-engine/agent-memory/interactive-demo"
-        docsUrl: "/develop/ai/context-engine/agent-memory"
-    contextGateway:
-        label: "Context Gateway"
-        type: process
-        col: 2
-        row: 2
-        description: |
-            Context Gateway: tool calls through one endpoint. Calls the tools of MCP servers and Context Surfaces to fetch the business data the agent needs. For tools you opt in, the result cache returns the stored result of an identical call.
-        links:
-            resultCache:
-                label: "Result cache"
-                url: "/develop/ai/context-engine/context-gateway/concepts#result-cache"
-        docsUrl: "/develop/ai/context-engine/context-gateway"
-    dataIntegration:
-        label: "Data Integration"
-        type: process
-        col: 1
-        row: 3
-        description: |
-            Data Integration: keeps business data fresh. Streams changes from source databases into the data layer Context Gateway queries.
-        docsUrl: "/develop/ai/context-engine/data-integration"
-    publishedAnswer:
-        label: "Published answer"
-        type: terminal
-        col: 3
-        row: 0
-        description: |
-            Return the published answer: on a FAQ match, the agent returns the answer your business approved, skipping the model call.
-    modelCall:
-        label: "Model call"
-        type: process
-        col: 3
-        row: 1
-        description: |
-            The model generates a response using the retrieved context.
-        links:
-            googleAdk:
-                label: "Google ADK"
-                url: "/integrate/google-adk"
-            bedrock:
-                label: "Amazon Bedrock"
-                url: "/integrate/amazon-bedrock"
-            langchain:
-                label: "LangChain"
-                url: "/integrate/langchain-redis"
-            ecosystem:
-                label: "More integrations"
-                url: "/develop/ai/ecosystem-integrations"
-    response:
-        label: "Response"
-        type: terminal
-        col: 4
-        row: 1
-        description: |
-            The final response returned to the caller.
-edges:
-    e0:
-        from: agent
-        to: intentRouter
-        kind: normal
-        path: "faqMatch,memory,context"
-    e1:
-        from: intentRouter
-        to: playbooks
-        kind: normal
-        path: faqMatch
-    e2:
-        from: playbooks
-        to: publishedAnswer
-        kind: branch
-        path: faqMatch
-    e3:
-        from: intentRouter
-        to: agentMemory
-        kind: normal
-        path: memory
-    e4:
-        from: agentMemory
-        to: modelCall
-        kind: normal
-        path: memory
-    e5:
-        from: intentRouter
-        to: contextGateway
-        kind: normal
-        label: "MCP"
-        path: context
-    e6:
-        from: dataIntegration
-        to: contextGateway
-        kind: normal
-        path: context
-    e7:
-        from: contextGateway
-        to: modelCall
-        kind: normal
-        path: context
-    e8:
-        from: modelCall
-        to: response
-        kind: normal
-        path: "memory,context"
-    e9:
-        from: response
-        to: agentMemory
-        kind: loopback
-        route: top
-        label: "App writes session event"
-        path: "memory,context"
-paths:
-    faqMatch:
-        label: "FAQ match: fastest"
-        description: |
-            Agent Playbooks finds a published FAQ that matches the task, and the agent returns its answer directly. No model call generates the answer, so this path is the fastest and adds no generation cost.
-    memory:
-        label: "Needs memory: recalls session or long-term info"
-        description: |
-            For a question that depends on earlier turns or what's known about the user, Agent Memory supplies that recall before the model call.
-    context:
-        label: "Needs business data: retrieves via Context Gateway"
-        description: |
-            For a question that depends on live business data, Context Gateway calls tools to fetch it before the model call. Data Integration keeps that data fresh.
-```
 
 ## Two things Iris changes
 

@@ -9,12 +9,14 @@
 .iris .iris-svc-cache { --svc: #b35900; --svc-bg: rgba(179, 89, 0, .09); }
 .iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
 .iris .iris-svc-retriever { --svc: #6a4cff; --svc-bg: rgba(106, 76, 255, .09); }
-.iris .iris-svc-rdi { --svc: #0b7a99; --svc-bg: rgba(11, 122, 153, .09); }
 .iris .iris-svc-router { --svc: #b0306a; --svc-bg: rgba(176, 48, 106, .09); }
 
 /* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
 .iris-stagewrap { position: relative; margin-bottom: 12px; }
-.iris-stage { position: relative; aspect-ratio: 893 / 570; border-radius: 11px; overflow: hidden; background: #0D212C; }
+/* On the tour page, the drawing is a little narrower than the step cards below it, and centred; full width on phones. */
+.iris:not(.iris-preview) .iris-stagewrap { max-width: 75%; margin-left: auto; margin-right: auto; }
+@media (max-width: 640px) { .iris:not(.iris-preview) .iris-stagewrap { max-width: 100%; } }
+.iris-stage { position: relative; aspect-ratio: 613.5 / 423.5;   /* VIEW in iris-demo.js */ border-radius: 11px; overflow: hidden; background: #0D212C; }
 /* The four published versions of the drawing, stacked twice. In a stack, a step shows the versions it needs and the
    script sets how they blend; isolation keeps that blend inside the stack. The new stack fades in over the old one. */
 .iris-artset { position: absolute; inset: 0; isolation: isolate; opacity: 0; transition: opacity .45s; }
@@ -31,6 +33,10 @@
 /* The current service names over the drawing's published labels, shown with their lit version. */
 .iris-relabel { opacity: 0; transition: opacity .45s; pointer-events: none; }
 .iris-relabel.is-on { opacity: 1; }
+/* Agent Playbooks' disc, redrawn with its icon: dimmed as the drawing dims a service, at 40%, unless it's lit. */
+.iris-pbdisc { pointer-events: none; }
+.iris-pbdisc-art { opacity: .4; transition: opacity .45s; }
+.iris-pbdisc.is-lit .iris-pbdisc-art { opacity: 1; }
 .iris-maya-link { opacity: .4; transition: opacity .45s; }
 .iris-maya-link circle { opacity: 0; transition: opacity .45s; }
 .iris-maya-link.is-lit, .iris-maya-link.is-lit circle { opacity: 1; }
@@ -38,16 +44,8 @@
 .iris-router-disc, .iris-router-label { transition: opacity .45s; }
 .iris-router:not(.is-lit) .iris-router-disc { opacity: .4; }
 .iris-router:not(.is-lit) .iris-router-label { opacity: 0; }
-/* The Data Integration gear, turning as on redis.io/iris, in the drawing's own colors. Dimmed like the drawing dims it. */
-.iris-gear { pointer-events: none; }
-.iris-gear-patch { fill: #0D212C; }
-.iris-gear-back, .iris-gear-walls path { fill: #351D22; }
-.iris-gear-face { fill: #89302E; }
-.iris-gear-walls path, .iris-gear-face { stroke: #FF4438; stroke-width: .84px; stroke-linejoin: round; stroke-linecap: round; }
-.iris-gear-body, .iris-gear-ahead { transition: opacity .45s; }
-.iris-gear:not(.is-lit) .iris-gear-body { opacity: .4; }
-.iris-gear-ahead.is-dim, .iris-gear:not(.is-lit) .iris-gear-ahead.is-lit { opacity: 0; }
-.iris-gear:not(.is-lit) .iris-gear-ahead.is-dim { opacity: 1; }
+/* The patch over the drawing's Data Integration corner, in the drawing's background colour. */
+.iris-cover { fill: #0D212C; pointer-events: none; }
 .iris-tag {
   position: absolute; pointer-events: none; white-space: nowrap; font-family: var(--rcr-mono); font-size: 10px; font-weight: 600;
   color: #091a23; background: #fff; border-radius: 6px; padding: 3px 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
@@ -63,10 +61,7 @@
   fill: none; stroke: #FF4438; stroke-width: 2px; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none;
   transform-box: fill-box; transform-origin: center;
 }
-.iris-stage.is-step-rdi .iris-pulse { animation: iris-pulse 1.8s ease-out infinite; }
-.iris-stagewrap:has(.iris-pgbtn:hover) .iris-ring[data-src="pg"]:not(.iris-pulse),
 .iris-stagewrap:has(.iris-redisbtn:hover) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; }
-.iris-stagewrap:has(.iris-pgbtn:focus-visible) .iris-ring[data-src="pg"]:not(.iris-pulse),
 .iris-stagewrap:has(.iris-redisbtn:focus-visible) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; stroke: #fff; stroke-width: 2.5px; }
 @keyframes iris-pulse { 0% { opacity: .95; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
 
@@ -182,7 +177,6 @@
 .iris .iris-replymsg { max-width: 100%; line-height: 1.65; background: #fff; }
 /* A highlighter in four clearly different hues, so each part reads as its service at a glance. */
 .iris-src { border-radius: 3px; padding: 1px 3px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-.iris-src-rdi { --src: #0b7a99; --src-bg: #cdebf4; }
 .iris-src-retriever { --src: #6a4cff; --src-bg: #e3ddff; }
 .iris-src-memory { --src: #1a7f4b; --src-bg: #cfeedd; }
 .iris-src-cache { --src: #b35900; --src-bg: #fde0c2; }
@@ -235,8 +229,19 @@
 .iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
 
 @media (prefers-reduced-motion: reduce) {
-  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle, .iris-relabel, .iris-router-disc, .iris-router-label { transition: none; }
+  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle, .iris-relabel, .iris-router-disc, .iris-router-label, .iris-pbdisc-art { transition: none; }
   .iris-window, .iris-backdrop, .iris-flip.is-flipped .iris-new { animation: none; }
-  .iris-stage.is-step-rdi .iris-pulse { animation: none; opacity: 1; }
   .iris-chip.is-new { animation: none; }
 }
+
+/* ---- preview: the stage alone, as a link to the tour ---- */
+.iris-preview-link { display: block; max-width: 70%; margin: 8px 0 24px; text-decoration: none; border-radius: 11px; }
+@media (max-width: 640px) { .iris-preview-link { max-width: 100%; } }   /* a part of a phone screen is too small to read */
+.iris-preview-link:focus-visible { outline: 3px solid #FF4438; outline-offset: 3px; }
+.iris-preview .iris-stagewrap { margin-bottom: 0; }
+.iris-preview .iris-hit { pointer-events: none; }
+.iris-preview-cue {
+  display: inline-block; margin-top: 8px; font-family: var(--rcr-mono); font-size: 13px; font-weight: 600; color: #fff;
+  background: #091A23; border: 1px solid #5C707A; border-radius: 6px; padding: 5px 10px; transition: background .2s, border-color .2s;
+}
+.iris-preview-link:hover .iris-preview-cue, .iris-preview-link:focus-visible .iris-preview-cue { background: #FF4438; border-color: #FF4438; }
