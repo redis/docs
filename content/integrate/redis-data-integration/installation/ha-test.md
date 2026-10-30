@@ -103,3 +103,54 @@ To clean up after the test, remove the `iptables` rule that you added to block t
 ```sudo iptables -D FORWARD -d <databse_ip> -j DROP```
 
 Use `sudo iptables -S | grep <database_ip>` to verify that the rule has been removed.
+
+## Trigger a failover manually
+
+To move the pipelines to the other instance without simulating a failure, for example before
+maintenance, put the leader in standby with the
+[`standby_mode`](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode)
+instance setting. Each instance has its own settings, so run these commands with a CLI
+[context](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts) that points
+to the instance you want to change.
+
+1. Check that the other instance can take over. On the other instance, run:
+
+   ```
+   redis-di get-setting standby_mode
+   ```
+
+   The value must not be `true`. If it is `<none>`, also check that
+   `operator.leaderElection.standbyMode` is not `true` in the Helm values of that instance. If
+   both instances are in standby, neither of them runs the pipelines.
+
+1. On the leader, run `redis-di get-setting standby_mode` and record the value so you can
+   restore it after maintenance.
+
+1. On the leader, set `standby_mode` to `true`:
+
+   ```
+   redis-di set-setting standby_mode true
+   ```
+
+   The leader gives up the leadership and its pipelines change to `standby`.
+
+1. Check that the other instance has taken over. Its
+   [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+   output must show `Leader Election Mode: leader`.
+
+1. Run `redis-di describe <pipeline>` for each expected active pipeline on the new leader.
+   Check that its components run without errors and that data reaches the target before
+   starting maintenance. Leadership changes and component startup happen asynchronously.
+
+1. When maintenance is over, restore the previous `standby_mode` value on the old leader:
+
+   - If it was `false`, run `redis-di set-setting standby_mode false`.
+   - If it was `true`, run `redis-di set-setting standby_mode true`.
+   - If it was `<none>`, run `redis-di delete-setting standby_mode`.
+
+   Deleting the setting restores `operator.leaderElection.standbyMode` from the Helm values.
+   It lets the instance rejoin leader election only when that value is `false`.
+
+You can also set and delete `standby_mode` with `PATCH /api/v2/settings`. See
+[RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+for details.

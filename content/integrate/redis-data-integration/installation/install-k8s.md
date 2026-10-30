@@ -374,13 +374,12 @@ To verify the status of the K8s deployment, run the following command:
 helm list -n rdi
 ```
 
-The output looks like the following. Check that the `rdi` release is listed.
-With RDI 1.8.0 or later, check that the `default` release is also listed.
+The output looks like the following. Check that the `rdi` release is listed. A fresh
+RDI 2.2.0 installation does not create a `default` pipeline until you deploy one.
 
 ```
 NAME   	NAMESPACE	REVISION	UPDATED         STATUS  	CHART         	APP VERSION
-default	rdi      	1       	2025-05-08 ... 	deployed	pipeline-0.1.0	<tag>
-rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-1.0.0      	
+rdi    	rdi      	3       	2025-05-08 ...	deployed	rdi-2.2.0
 ```
 
 Also, check that all pods have `Running` status:
@@ -449,14 +448,15 @@ the following commands. (If you installed RDI into a custom namespace then
 replace `rdi` with the name of your namespace.)
 
 ```bash
-kubectl delete pipeline default -n rdi
+kubectl delete pipelines --all -n rdi
 helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
-> [!NOTE]
-> The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
+The first command deletes all your pipelines, so that the RDI operator removes their components
+before you uninstall it.
 
-If you also want to delete the keys from your RDI database, connect to it with
-[`redis-cli`](/content/develop/tools/cli.md) and run a
-[`FLUSHALL`](/content/commands/flushall.md) command.
+To remove any data left in the RDI database after uninstalling all RDI instances, connect to it
+with [`redis-cli`](/content/develop/tools/cli.md) and run
+[`FLUSHALL`](/content/commands/flushall.md). This deletes all data in the database. Do not run
+it if another RDI instance still uses the database.

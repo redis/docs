@@ -87,6 +87,14 @@ Yes. Add one entry per source to the `sources` section of `config.yaml`. Each so
 own collector, which captures change records independently of the other sources. See
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
 
+## Can one RDI installation run several pipelines?
+
+Yes. Deploy each pipeline under its own name, for example with `redis-di deploy orders`. Each
+pipeline has its own configuration, secrets, collectors, and stream processor, and you can
+start, stop, reset, and delete it without affecting the others. All the pipelines share the
+RDI control plane and the RDI database. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md) for more information.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
