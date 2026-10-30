@@ -124,6 +124,8 @@ A missing version header is interpreted as A2A 0.3 and rejected by the resumable
 
 Message-only replies and error frames have no Task-version ID. They must not advance the saved cursor. Task versions are not raw Redis stream entry IDs.
 
+The route factory's `credential_expiry` callback and `max_connection_duration` limit also bound the wait for the first frame. If credentials expire before the server sends response headers, the request returns HTTP 401; refresh credentials before reconnecting. If the maximum connection duration expires first, the request returns HTTP 503 with `Retry-After: 1`; wait one second, then reconnect with your saved cursor.
+
 ## Handle replay and completion
 
 | Condition | Behavior |
