@@ -53,6 +53,17 @@ categories:
 command_flags:
 - write
 - denyoom
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: unsupported
+      note: Only supported for module keys.
+  cloud:
+    standard: supported
+    active_active:
+      status: unsupported
+      note: Only supported for module keys.
 complexity: O(1) to create the new key and additional O(N*M) to reconstruct the serialized
   value, where N is the number of Redis objects composing the value and M their average
   size. For small string values the time complexity is thus O(1)+O(1*M) where M is
@@ -172,9 +183,7 @@ redis> LRANGE mykey 0 -1
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | \*Only supported for module keys. |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -17,6 +17,15 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    general: unsupported
+    flex: unsupported
+  cloud:
+    pro:
+      status: workaround
+      note: '[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.'
+    essentials: unsupported
 complexity: O(1)
 deprecated_since: 8.0.0
 description: Retrieves runtime configuration options
@@ -137,11 +146,7 @@ is name of the configuration option, or '*' for all.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
-
-1. </a>[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -31,6 +31,15 @@ command_flags:
 - write
 - denyoom
 - blocking
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Deprecated as of Redis v6.2.0.
 complexity: O(1)
 deprecated_since: 6.2.0
 description: Pops an element from a list, pushes it to another list and returns it.
@@ -124,9 +133,7 @@ Please see the pattern description in the [`RPOPLPUSH`](/content/commands/rpoplp
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

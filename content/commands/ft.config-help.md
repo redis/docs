@@ -17,6 +17,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    general: unsupported
+    flex: unsupported
+  cloud:
+    pro: unsupported
+    essentials: unsupported
 complexity: O(1)
 description: Help description of runtime configuration options
 group: search
@@ -60,9 +67,7 @@ is name of the configuration option, or '*' for all.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

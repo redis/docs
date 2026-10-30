@@ -32,6 +32,15 @@ categories:
 - clients
 command_flags:
 - write
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: unsupported
+      note: Can use the [Active-Active flush API request](/content/operate/rs/references/rest-api/requests/crdbs/flush.md).
+  cloud:
+    standard: supported
+    active_active: unsupported
 complexity: O(N) where N is the number of keys in the selected database
 description: Remove all keys from the current database.
 group: server
@@ -77,9 +86,7 @@ Flush asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request](/content/operate/rs/references/rest-api/requests/crdbs/flush.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -74,6 +74,15 @@ command_flags:
 - write
 - denyoom
 - fast
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: supported
+      note: In Active-Active databases, replicas enforce bounds against their local values, so the merged value can exceed them. See [Active-Active databases](#active-active-databases).
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(1)
 description: Increments the numeric value of a key by a number and sets its expiration
   time. Uses 0 as initial value if the key doesn't exist.
@@ -310,9 +319,7 @@ Each replica accepts its increment because its local result, `6`, is within the 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*In Active-Active databases, replicas enforce bounds against their local values, so the merged value can exceed them. See [Active-Active databases](#active-active-databases). |
+{{< command-compatibility >}}
 
 ## Return information
 

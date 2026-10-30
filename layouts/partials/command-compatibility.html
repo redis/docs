@@ -1,0 +1,89 @@
+{{- /*
+  Build the Redis Software and Redis Cloud compatibility table for a command page
+  from its `compatibility` frontmatter. Labels and icons come from
+  data/compatibility.yaml.
+
+  Input: dict with
+    - "page":   the command page
+    - "format": "html" for the rendered page (span titles, HTML entities), or
+                "md" for the AI-facing Markdown output (plain emoji)
+
+  Output: a Markdown table, plus a numbered list for per-cell notes, or "" when
+  the page has no compatibility data.
+
+  Each product is one column, with one line per variant present. An absent
+  variant means "not documented" and renders nothing.
+*/ -}}
+{{- $c := .page.Params.compatibility -}}
+{{- $html := eq .format "html" -}}
+{{- $d := site.Data.compatibility -}}
+{{- $out := "" -}}
+{{- if $c -}}
+  {{- $statuses := dict -}}
+  {{- range $d.statuses -}}
+    {{- $statuses = merge $statuses (dict .key .) -}}
+  {{- end -}}
+  {{- $headers := slice -}}
+  {{- $cells := slice -}}
+  {{- $footnotes := slice -}}
+  {{- range $p := $d.products -}}
+    {{- with index $c $p.key -}}
+      {{- $pv := . -}}
+      {{- $lines := slice -}}
+      {{- range $v := $d.variants -}}
+        {{- with index $pv $v.key -}}
+          {{- $status := . -}}
+          {{- $note := "" -}}
+          {{- if reflect.IsMap . -}}
+            {{- $status = .status -}}
+            {{- $note = .note | default "" -}}
+          {{- end -}}
+          {{- $s := index $statuses $status -}}
+          {{- if not $s -}}
+            {{- errorf "%s: unknown compatibility status %q for %s.%s" $.page.File.Path $status $p.key $v.key -}}
+          {{- end -}}
+          {{- $text := $s.label -}}
+          {{- if $v.label -}}
+            {{- $text = $v.label -}}
+            {{- if in (slice "limited" "workaround") $status -}}
+              {{- $text = printf "%s: %s" $v.label $s.label -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $n := 0 -}}
+          {{- if $note -}}
+            {{- range $i, $f := $footnotes -}}
+              {{- if eq $f $note -}}{{- $n = add $i 1 -}}{{- end -}}
+            {{- end -}}
+            {{- if eq $n 0 -}}
+              {{- $footnotes = $footnotes | append $note -}}
+              {{- $n = len $footnotes -}}
+            {{- end -}}
+          {{- end -}}
+          {{- if $html -}}
+            {{- $line := printf `<span title="%s"><nobr>%s %s</nobr></span>` $s.label $s.entity $text -}}
+            {{- if $n -}}{{- $line = printf "%s<sup>%d</sup>" $line $n -}}{{- end -}}
+            {{- $lines = $lines | append $line -}}
+          {{- else -}}
+            {{- $line := printf "%s %s" $s.emoji $text -}}
+            {{- if $n -}}{{- $line = printf "%s (note %d)" $line $n -}}{{- end -}}
+            {{- $lines = $lines | append $line -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $headers = $headers | append (cond $html $p.header $p.label) -}}
+      {{- $cells = $cells | append (delimit $lines "<br />") -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $headers = $headers | append (cond $html `<span style="min-width: 9em; display: table-cell">Notes</span>` "Notes") -}}
+  {{- $cells = $cells | append (replace (delimit ($c.notes | default slice) "<br />") "|" `\|`) -}}
+  {{- $align := slice -}}
+  {{- range $headers -}}{{- $align = $align | append ":---" -}}{{- end -}}
+  {{- $out = printf "| %s |\n|%s|\n| %s |\n" (delimit $headers " | ") (delimit $align "|") (replace (delimit $cells " | ") "\n" " ") -}}
+  {{- if $footnotes -}}
+    {{- $out = printf "%s\n" $out -}}
+    {{- range $i, $f := $footnotes -}}
+      {{- $out = printf "%s%d. %s\n" $out (add $i 1) $f -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

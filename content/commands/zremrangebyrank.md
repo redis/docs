@@ -27,6 +27,13 @@ categories:
 - clients
 command_flags:
 - write
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(log(N)+M) with N being the number of elements in the sorted set and
   M the number of elements removed by the operation.
 description: Removes members in a sorted set within a range of indexes. Deletes the
@@ -101,9 +108,7 @@ redis> ZRANGE myzset 0 -1 WITHSCORES
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

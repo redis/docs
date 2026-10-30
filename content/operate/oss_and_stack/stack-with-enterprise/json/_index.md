@@ -80,5 +80,5 @@ For details about how Redis Software resolves JSON operation conflicts that can 
 ## More info
 
 - [JSON quick start](/content/develop/data-types/json/_index.md#use-redisjson)
-- [JSON commands](/content/operate/oss_and_stack/stack-with-enterprise/json/commands.md)
+- [JSON commands](/content/commands/_index.md?group=json)
 - [RedisJSON source](https://github.com/RedisJSON/RedisJSON)
