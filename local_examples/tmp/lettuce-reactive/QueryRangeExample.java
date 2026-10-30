@@ -35,14 +35,14 @@ public class QueryRangeExample {
                     "bicycle:7", "bicycle:8", "bicycle:9", "key:1").block();
             // REMOVE_END
 
-            List<FieldArgs<String>> bicycleSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.brand").as("brand").build(),
-                    TextFieldArgs.<String> builder().name("$.model").as("model").build(),
-                    TextFieldArgs.<String> builder().name("$.description").as("description").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build(),
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build());
+            List<FieldArgs> bicycleSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.brand").as("brand").build(),
+                    TextFieldArgs.builder().name("$.model").as("model").build(),
+                    TextFieldArgs.builder().name("$.description").as("description").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build(),
+                    TagFieldArgs.builder().name("$.condition").as("condition").build());
 
-            CreateArgs<String, String> bicycleCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs bicycleCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("bicycle:").build();
 
             reactiveCommands.ftCreate("idx:bicycle", bicycleCreateArgs, bicycleSchema).block();
@@ -159,7 +159,7 @@ public class QueryRangeExample {
             Mono.when(bikeFutures).block();
 
             // STEP_START range1
-            Mono<SearchReply<String, String>> priceResults = reactiveCommands.ftSearch("idx:bicycle", "@price:[500 1000]")
+            Mono<SearchReply<String>> priceResults = reactiveCommands.ftSearch("idx:bicycle", "@price:[500 1000]")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -169,7 +169,7 @@ public class QueryRangeExample {
                         // >>> ID: bicycle:9
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(3);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:2", "bicycle:5", "bicycle:9");
                         // REMOVE_END
                     });
@@ -182,12 +182,12 @@ public class QueryRangeExample {
             // STEP_END
 
             // STEP_START range3
-            SearchArgs<String, String> priceSearchArgs2 = SearchArgs.<String, String> builder().returnField("price").build();
+            SearchArgs<String> priceSearchArgs2 = SearchArgs.<String> builder().returnField("price").build();
 
-            Mono<SearchReply<String, String>> priceResults2 = reactiveCommands
+            Mono<SearchReply<String>> priceResults2 = reactiveCommands
                     .ftSearch("idx:bicycle", "@price:[(1000 +inf]", priceSearchArgs2).doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
-                            System.out.printf("ID: %s, price: %s\n", doc.getId(), doc.getFields().get("price"));
+                            System.out.printf("ID: %s, price: %s\n", doc.getId(), doc.getFields().get("price").asString());
                         });
                         // >>> ID: bicycle:1, price: 1200
                         // >>> ID: bicycle:3, price: 3400
@@ -196,20 +196,20 @@ public class QueryRangeExample {
                         // >>> ID: bicycle:8, price: 1200
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(5);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:1", "bicycle:3", "bicycle:4", "bicycle:6", "bicycle:8");
                         // REMOVE_END
                     });
             // STEP_END
 
             // STEP_START range4
-            SearchArgs<String, String> priceSearchArgs3 = SearchArgs.<String, String> builder().returnField("price")
+            SearchArgs<String> priceSearchArgs3 = SearchArgs.<String> builder().returnField("price")
                     .sortBy(SortByArgs.<String> builder().attribute("price").build()).limit(0, 5).build();
 
-            Mono<SearchReply<String, String>> priceResults3 = reactiveCommands
+            Mono<SearchReply<String>> priceResults3 = reactiveCommands
                     .ftSearch("idx:bicycle", "@price:[-inf 2000]", priceSearchArgs3).doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
-                            System.out.printf("ID: %s, price: %s\n", doc.getId(), doc.getFields().get("price"));
+                            System.out.printf("ID: %s, price: %s\n", doc.getId(), doc.getFields().get("price").asString());
                         });
                         // >>> ID: bicycle:0, price: 270
                         // >>> ID: bicycle:2, price: 815
@@ -218,7 +218,7 @@ public class QueryRangeExample {
                         // >>> ID: bicycle:9, price: 815
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(5);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:0", "bicycle:2", "bicycle:5", "bicycle:7", "bicycle:9");
                         // REMOVE_END
                     });

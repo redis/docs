@@ -36,14 +36,14 @@ public class QueryEmExample {
                     "bicycle:7", "bicycle:8", "bicycle:9", "key:1").block();
             // REMOVE_END
 
-            List<FieldArgs<String>> bicycleSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.brand").as("brand").build(),
-                    TextFieldArgs.<String> builder().name("$.model").as("model").build(),
-                    TextFieldArgs.<String> builder().name("$.description").as("description").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build(),
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build());
+            List<FieldArgs> bicycleSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.brand").as("brand").build(),
+                    TextFieldArgs.builder().name("$.model").as("model").build(),
+                    TextFieldArgs.builder().name("$.description").as("description").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build(),
+                    TagFieldArgs.builder().name("$.condition").as("condition").build());
 
-            CreateArgs<String, String> bicycleCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs bicycleCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("bicycle:").build();
 
             reactiveCommands.ftCreate("idx:bicycle", bicycleCreateArgs, bicycleSchema).block();
@@ -160,7 +160,7 @@ public class QueryEmExample {
             Mono.when(bikeFutures).block();
 
             // STEP_START em1
-            Mono<SearchReply<String, String>> priceResults = reactiveCommands.ftSearch("idx:bicycle", "@price:[270]")
+            Mono<SearchReply<String>> priceResults = reactiveCommands.ftSearch("idx:bicycle", "@price:[270]")
                     .doOnNext(res -> {
                         res.getResults().forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -174,7 +174,7 @@ public class QueryEmExample {
             // STEP_END
 
             // STEP_START em2
-            Mono<SearchReply<String, String>> conditionResults = reactiveCommands.ftSearch("idx:bicycle", "@condition:{new}")
+            Mono<SearchReply<String>> conditionResults = reactiveCommands.ftSearch("idx:bicycle", "@condition:{new}")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -186,17 +186,17 @@ public class QueryEmExample {
                         // >>> ID: bicycle:8
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(5);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:0", "bicycle:5", "bicycle:6", "bicycle:7", "bicycle:8");
                         // REMOVE_END
                     });
             // STEP_END
 
             // STEP_START em3
-            List<FieldArgs<String>> emailSchema = Arrays
-                    .asList(TagFieldArgs.<String> builder().name("$.email").as("email").build());
+            List<FieldArgs> emailSchema = Arrays
+                    .asList(TagFieldArgs.builder().name("$.email").as("email").build());
 
-            CreateArgs<String, String> emailCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs emailCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("key:").build();
 
             Mono<Void> emailResults = reactiveCommands.ftCreate("idx:email", emailCreateArgs, emailSchema).doOnNext(res -> {
@@ -222,7 +222,7 @@ public class QueryEmExample {
             // STEP_END
 
             // STEP_START em4
-            Mono<SearchReply<String, String>> textMatchResults = reactiveCommands
+            Mono<SearchReply<String>> textMatchResults = reactiveCommands
                     .ftSearch("idx:bicycle", "@description:\"rough terrain\"").doOnNext(res -> {
                         res.getResults().forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());

@@ -55,7 +55,7 @@ dependencies to your `pom.xml` file:
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
      <!-- Check for the latest version on Maven Central -->
-    <version>7.7.0.RELEASE</version>
+    <version>7.9.0.RELEASE</version>
 </dependency>
 
 <dependency>
@@ -81,7 +81,7 @@ If you are using [Gradle](https://gradle.org/), add the following
 dependencies to your `build.gradle` file:
 
 ```bash
-compileOnly 'io.lettuce:lettuce-core:7.7.0.RELEASE'
+compileOnly 'io.lettuce:lettuce-core:7.9.0.RELEASE'
 compileOnly 'ai.djl.huggingface:tokenizers:0.33.0'
 compileOnly 'ai.djl.pytorch:pytorch-model-zoo:0.33.0'
 compileOnly 'ai.djl:api:0.33.0'

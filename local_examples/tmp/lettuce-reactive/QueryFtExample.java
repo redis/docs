@@ -36,14 +36,14 @@ public class QueryFtExample {
                     "bicycle:7", "bicycle:8", "bicycle:9", "key:1").block();
             // REMOVE_END
 
-            List<FieldArgs<String>> bicycleSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.brand").as("brand").build(),
-                    TextFieldArgs.<String> builder().name("$.model").as("model").build(),
-                    TextFieldArgs.<String> builder().name("$.description").as("description").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build(),
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build());
+            List<FieldArgs> bicycleSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.brand").as("brand").build(),
+                    TextFieldArgs.builder().name("$.model").as("model").build(),
+                    TextFieldArgs.builder().name("$.description").as("description").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build(),
+                    TagFieldArgs.builder().name("$.condition").as("condition").build());
 
-            CreateArgs<String, String> bicycleCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs bicycleCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("bicycle:").build();
 
             reactiveCommands.ftCreate("idx:bicycle", bicycleCreateArgs, bicycleSchema).block();
@@ -160,7 +160,7 @@ public class QueryFtExample {
             Mono.when(bikeFutures).block();
 
             // STEP_START ft1
-            Mono<SearchReply<String, String>> descriptionResults = reactiveCommands
+            Mono<SearchReply<String>> descriptionResults = reactiveCommands
                     .ftSearch("idx:bicycle", "@description: kids").doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -168,7 +168,7 @@ public class QueryFtExample {
                             // >>> ID: bicycle:2
                             // REMOVE_START
                             assertThat(res.getResults().size()).isEqualTo(2);
-                            assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                            assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                     .toArray()).containsExactly("bicycle:1", "bicycle:2");
                             // REMOVE_END
                         });
@@ -176,7 +176,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft2
-            Mono<SearchReply<String, String>> startsWithResults = reactiveCommands.ftSearch("idx:bicycle", "@model: ka*")
+            Mono<SearchReply<String>> startsWithResults = reactiveCommands.ftSearch("idx:bicycle", "@model: ka*")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -190,7 +190,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft3
-            Mono<SearchReply<String, String>> endsWithResults = reactiveCommands.ftSearch("idx:bicycle", "@brand: *bikes")
+            Mono<SearchReply<String>> endsWithResults = reactiveCommands.ftSearch("idx:bicycle", "@brand: *bikes")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -198,7 +198,7 @@ public class QueryFtExample {
                             // >>> ID: bicycle:6
                             // REMOVE_START
                             assertThat(res.getResults().size()).isEqualTo(2);
-                            assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                            assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                     .toArray()).containsExactly("bicycle:4", "bicycle:6");
                             // REMOVE_END
                         });
@@ -206,7 +206,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft4
-            Mono<SearchReply<String, String>> fuzzyResults = reactiveCommands.ftSearch("idx:bicycle", "%optamized%")
+            Mono<SearchReply<String>> fuzzyResults = reactiveCommands.ftSearch("idx:bicycle", "%optamized%")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -220,7 +220,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft5
-            Mono<SearchReply<String, String>> fuzzierResults = reactiveCommands.ftSearch("idx:bicycle", "%%optamised%%")
+            Mono<SearchReply<String>> fuzzierResults = reactiveCommands.ftSearch("idx:bicycle", "%%optamised%%")
                     .doOnNext(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());

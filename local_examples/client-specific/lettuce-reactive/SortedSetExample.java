@@ -56,7 +56,7 @@ public class SortedSetExample {
                 // REMOVE_START
                 assertThat(result.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce, Castilla, Prickett]");
                 // REMOVE_END
-            }).flatMap(v -> reactiveCommands.zrevrange("racer_scores", 0, -1).collectList()).doOnNext(result -> {
+            }).flatMap(v -> reactiveCommands.zrange("racer_scores", ZRange.byIndex(0, -1).rev()).collectList()).doOnNext(result -> {
                 System.out.println(result);
                 // >>> [Prickett, Castilla, Royce, Norem, Sam-Bodden, Ford]
                 // REMOVE_START
@@ -83,7 +83,7 @@ public class SortedSetExample {
 
             // STEP_START zrangebyscore
             Mono<Void> zrangebyscore = reactiveCommands
-                    .zrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 10)).collectList().doOnNext(result -> {
+                    .zrange("racer_scores", ZRange.byScore(Range.create(Double.NEGATIVE_INFINITY, 10))).collectList().doOnNext(result -> {
                         System.out.println(result); // >>> [Ford, Sam-Bodden, Norem, Royce]
                         // REMOVE_START
                         assertThat(result.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce]");
@@ -148,7 +148,7 @@ public class SortedSetExample {
                         // REMOVE_START
                         assertThat(result.toString()).isEqualTo("[Castilla, Ford, Norem, Prickett, Royce, Sam-Bodden]");
                         // REMOVE_END
-                    }).flatMap(v -> reactiveCommands.zrangebylex("racer_scores", Range.create("A", "L")).collectList())
+                    }).flatMap(v -> reactiveCommands.zrange("racer_scores", ZRange.byLex(Range.create("A", "L"))).collectList())
                     .doOnNext(result -> {
                         System.out.println(result); // >>> [Castilla, Ford]
                         // REMOVE_START

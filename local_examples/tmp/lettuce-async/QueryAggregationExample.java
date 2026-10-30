@@ -44,11 +44,11 @@ public class QueryAggregationExample {
             // REMOVE_END
 
             // create index
-            List<FieldArgs<String>> schema = Arrays.asList(
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build());
+            List<FieldArgs> schema = Arrays.asList(
+                    TagFieldArgs.builder().name("$.condition").as("condition").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build());
 
-            CreateArgs<String, String> createArgs = CreateArgs.<String, String> builder().withPrefix("bicycle:")
+            CreateArgs createArgs = CreateArgs.builder().withPrefix("bicycle:")
                     .on(CreateArgs.TargetType.JSON).build();
 
             // load data using JsonParser
@@ -195,16 +195,16 @@ public class QueryAggregationExample {
             setup.join();
 
             // STEP_START agg1
-            AggregateArgs<String, String> agg1Args = AggregateArgs.<String, String> builder().load("__key").load("price")
+            AggregateArgs agg1Args = AggregateArgs.builder().load("__key").load("price")
                     .apply("@price - (@price * 0.1)", "discounted").build();
 
-            CompletableFuture<AggregationReply<String, String>> agg1 = asyncCommands
+            CompletableFuture<AggregationReply<String>> agg1 = asyncCommands
                     .ftAggregate("idx:bicycle", "@condition:{new}", agg1Args).thenApply(result -> {
                         result.getReplies().get(0).getResults().stream()
-                                .sorted((doc1, doc2) -> doc1.getFields().get("__key").compareTo(doc2.getFields().get("__key")))
+                                .sorted((doc1, doc2) -> doc1.getFields().get("__key").asString().compareTo(doc2.getFields().get("__key").asString()))
                                 .forEach(doc -> {
-                                    System.out.printf("Key: %s, Price: %s, Discounted: %s\n", doc.getFields().get("__key"),
-                                            doc.getFields().get("price"), doc.getFields().get("discounted"));
+                                    System.out.printf("Key: %s, Price: %s, Discounted: %s\n", doc.getFields().get("__key").asString(),
+                                            doc.getFields().get("price").asString(), doc.getFields().get("discounted").asString());
                                 });
                         // >>> Key: bicycle:0, Price: 270, Discounted: 243
                         // >>> Key: bicycle:5, Price: 810, Discounted: 729
@@ -214,7 +214,7 @@ public class QueryAggregationExample {
                         // REMOVE_START
                         assertThat(result.getReplies().get(0).getResults().size()).isEqualTo(5);
                         // Verify specific results for discounted prices
-                        assertThat(result.getReplies().get(0).getResults().get(0).getFields().get("discounted"))
+                        assertThat(result.getReplies().get(0).getResults().get(0).getFields().get("discounted").asString())
                                 .isEqualTo("243");
                         // REMOVE_END
                         return result;
@@ -222,18 +222,18 @@ public class QueryAggregationExample {
             // STEP_END
 
             // STEP_START agg2
-            AggregateArgs<String, String> agg2Args = AggregateArgs.<String, String> builder().load("price")
+            AggregateArgs agg2Args = AggregateArgs.builder().load("price")
                     .apply("@price<1000", "price_category").groupBy(GroupBy.<String, String> of("condition")
                             .reduce(Reducer.<String, String> sum("@price_category").as("num_affordable")))
                     .build();
 
-            CompletableFuture<AggregationReply<String, String>> agg2 = asyncCommands.ftAggregate("idx:bicycle", "*", agg2Args)
+            CompletableFuture<AggregationReply<String>> agg2 = asyncCommands.ftAggregate("idx:bicycle", "*", agg2Args)
                     .thenApply(result -> {
                         result.getReplies().get(0).getResults().stream().sorted(
-                                (doc1, doc2) -> doc1.getFields().get("condition").compareTo(doc2.getFields().get("condition")))
+                                (doc1, doc2) -> doc1.getFields().get("condition").asString().compareTo(doc2.getFields().get("condition").asString()))
                                 .forEach(doc -> {
-                                    System.out.printf("Condition: %s, Num Affordable: %s\n", doc.getFields().get("condition"),
-                                            doc.getFields().get("num_affordable"));
+                                    System.out.printf("Condition: %s, Num Affordable: %s\n", doc.getFields().get("condition").asString(),
+                                            doc.getFields().get("num_affordable").asString());
                                 });
                         // >>> Condition: new, Num Affordable: 3
                         // >>> Condition: refurbished, Num Affordable: 1
@@ -246,22 +246,22 @@ public class QueryAggregationExample {
             // STEP_END
 
             // STEP_START agg3
-            AggregateArgs<String, String> agg3Args = AggregateArgs.<String, String> builder().apply("'bicycle'", "type")
+            AggregateArgs agg3Args = AggregateArgs.builder().apply("'bicycle'", "type")
                     .groupBy(GroupBy.<String, String> of("type").reduce(Reducer.<String, String> count().as("num_total")))
                     .build();
 
-            CompletableFuture<AggregationReply<String, String>> agg3 = asyncCommands.ftAggregate("idx:bicycle", "*", agg3Args)
+            CompletableFuture<AggregationReply<String>> agg3 = asyncCommands.ftAggregate("idx:bicycle", "*", agg3Args)
                     .thenApply(result -> {
                         result.getReplies().get(0).getResults().stream()
-                                .sorted((doc1, doc2) -> doc1.getFields().get("type").compareTo(doc2.getFields().get("type")))
+                                .sorted((doc1, doc2) -> doc1.getFields().get("type").asString().compareTo(doc2.getFields().get("type").asString()))
                                 .forEach(doc -> {
-                                    System.out.printf("Type: %s, Total Count: %s\n", doc.getFields().get("type"),
-                                            doc.getFields().get("num_total"));
+                                    System.out.printf("Type: %s, Total Count: %s\n", doc.getFields().get("type").asString(),
+                                            doc.getFields().get("num_total").asString());
                                 });
                         // >>> Type: bicycle, Total Count: 10
                         // REMOVE_START
                         assertThat(result.getReplies().get(0).getResults().size()).isEqualTo(1);
-                        assertThat(result.getReplies().get(0).getResults().get(0).getFields().get("num_total")).isEqualTo("10");
+                        assertThat(result.getReplies().get(0).getResults().get(0).getFields().get("num_total").asString()).isEqualTo("10");
                         // REMOVE_END
                         return result;
                     }).toCompletableFuture();
