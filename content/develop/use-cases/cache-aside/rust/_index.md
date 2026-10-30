@@ -191,7 +191,7 @@ where
             .release_script
             .key(&lock_key)
             .arg(token.as_str())
-            .invoke_async::<_, i64>(&mut conn)
+            .invoke_async::<i64>(&mut conn)
             .await;
         return result;
     }
@@ -234,10 +234,10 @@ pub async fn update_field(&self, id: &str, field: &str, value: &str) -> RedisRes
     let cache_key = self.cache_key(id);
     let mut conn = self.conn.clone();
     loop {
-        redis::cmd("WATCH").arg(&cache_key).query_async::<_, ()>(&mut conn).await?;
+        redis::cmd("WATCH").arg(&cache_key).query_async::<()>(&mut conn).await?;
         let exists: i64 = conn.exists(&cache_key).await?;
         if exists == 0 {
-            redis::cmd("UNWATCH").query_async::<_, ()>(&mut conn).await?;
+            redis::cmd("UNWATCH").query_async::<()>(&mut conn).await?;
             return Ok(false);
         }
         let result: Option<((),)> = redis::pipe()
@@ -293,7 +293,7 @@ Before running the demo, make sure that:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp", "aio", "connection-manager"] }
+redis = { version = "1.8", features = ["tokio-comp", "aio", "connection-manager"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }

@@ -52,12 +52,15 @@ The `EventStream` struct wraps the stream operations
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/streaming/rust/event_stream.rs)):
 
 ```rust
-use redis::aio::ConnectionManager;
+use redis::aio::{ConnectionManager, ConnectionManagerConfig};
 use redis::Client;
 use std::collections::HashMap;
 
 let client = Client::open("redis://127.0.0.1:6379/")?;
-let conn = ConnectionManager::new(client).await?;
+// Consumers block in XREADGROUP ... BLOCK for longer than the 500 ms default
+// response timeout in redis-rs 1.x, so turn the response timeout off.
+let config = ConnectionManagerConfig::new().set_response_timeout(None);
+let conn = ConnectionManager::new_with_config(client, config).await?;
 let stream = EventStream::new(
     conn,
     "demo:events:orders",   // stream key
@@ -252,7 +255,7 @@ pub async fn reap_idle_pel(&self) -> ReapResult {
 }
 ```
 
-The underlying `stream.autoclaim` helper pages through the group's PEL with `XAUTOCLAIM`'s continuation cursor. redis-rs 0.24 has no typed wrapper for `XAUTOCLAIM`, so the helper builds it from raw `redis::cmd("XAUTOCLAIM")` and decodes the three-element Redis 7+ reply by hand:
+The underlying `stream.autoclaim` helper pages through the group's PEL with `XAUTOCLAIM`'s continuation cursor. the helper builds it from the generic `redis::cmd("XAUTOCLAIM")` builder (redis-rs 1.x also has a typed `xautoclaim_options`) and decodes the three-element Redis 7+ reply by hand:
 
 ```rust
 pub async fn autoclaim(
@@ -372,14 +375,14 @@ The pause and crash levers exist only for the demo. A real consumer is just the 
 
 * Redis 7.0 or later. `XAUTOCLAIM` was added in Redis 6.2, but its reply gained a third
   element (the list of deleted IDs) in 7.0; the example relies on that shape.
-* Rust 1.70 or later (stable).
-* The `redis` crate at version 0.24+, with features `["tokio-comp", "aio", "connection-manager", "streams"]`. The `connection-manager` feature gives `ConnectionManager` for cheap, cloneable, auto-reconnecting connections; `streams` adds the typed reply structs for `XINFO`/`XPENDING`.
+* Rust 1.88 or later (the `redis` 1.8 crate requires it).
+* The `redis` crate at version 1.8 or later, with features `["tokio-comp", "aio", "connection-manager", "streams"]`. The `connection-manager` feature gives `ConnectionManager` for cheap, cloneable, auto-reconnecting connections; `streams` adds the typed reply structs for `XINFO`/`XPENDING`.
 
 The `Cargo.toml` for this demo pins all the runtime crates:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp", "aio", "connection-manager", "streams"] }
+redis = { version = "1.8", features = ["tokio-comp", "aio", "connection-manager", "streams"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }

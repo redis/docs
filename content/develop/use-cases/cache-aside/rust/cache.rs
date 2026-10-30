@@ -149,7 +149,7 @@ impl RedisCache {
                 .release_script
                 .key(&lock_key)
                 .arg(token.as_str())
-                .invoke_async::<_, i64>(&mut conn)
+                .invoke_async::<i64>(&mut conn)
                 .await;
             return result;
         }
@@ -190,7 +190,7 @@ impl RedisCache {
                 .ignore()
                 .expire(cache_key, self.cfg.ttl as i64)
                 .ignore()
-                .query_async::<_, ()>(&mut conn)
+                .query_async::<()>(&mut conn)
                 .await?;
         }
         Ok(record)
@@ -212,11 +212,11 @@ impl RedisCache {
         loop {
             redis::cmd("WATCH")
                 .arg(&cache_key)
-                .query_async::<_, ()>(&mut conn)
+                .query_async::<()>(&mut conn)
                 .await?;
             let exists: i64 = conn.exists(&cache_key).await?;
             if exists == 0 {
-                redis::cmd("UNWATCH").query_async::<_, ()>(&mut conn).await?;
+                redis::cmd("UNWATCH").query_async::<()>(&mut conn).await?;
                 return Ok(false);
             }
             let result: Option<((),)> = redis::pipe()

@@ -13,7 +13,7 @@ use axum::{
     routing::get,
     Json, Router,
 };
-use redis::{aio::Connection, Client};
+use redis::{aio::MultiplexedConnection, Client};
 use sensor_simulator::{sensors, SensorSimulator};
 use std::{env, sync::Arc, time::Duration};
 use tokio::sync::Mutex;
@@ -28,7 +28,7 @@ const GRAPH_PAD_Y: i32 = 18;
 
 #[derive(Clone)]
 struct AppState {
-    redis_connection: Arc<Mutex<Connection>>,
+    redis_connection: Arc<Mutex<MultiplexedConnection>>,
     store: RedisTimeSeriesStore,
 }
 
@@ -46,7 +46,7 @@ async fn main() {
         std::process::exit(1);
     });
 
-    let connection = client.get_async_connection().await.unwrap_or_else(|error| {
+    let connection = client.get_multiplexed_async_connection().await.unwrap_or_else(|error| {
         eprintln!("Failed to connect to Redis at {}: {}", redis_url, error);
         std::process::exit(1);
     });
