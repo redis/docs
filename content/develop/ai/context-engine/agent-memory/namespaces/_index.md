@@ -35,7 +35,6 @@ Add this code inside the `with` block. It creates a personal namespace for the u
             })
             namespace_id = created_namespace.namespace.namespace_id
             print(f'export NAMESPACE_ID="{namespace_id}"')
-        namespace_ref = {"namespace_id": namespace_id}
 ```
 
 Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `list_namespaces` with `scope="PERSONAL"` and `owner_id=USER_ID` to find it.
@@ -47,7 +46,7 @@ Start a new session with this namespace. Extracted memories inherit it:
             session_id="travel-planning-with-namespace", actor_id=USER_ID,
             role=models.MessageRole.USER,
             content=[models.Text(text="I am visiting Tokyo and Kyoto next month.")],
-            created_at=datetime.now(timezone.utc), namespace_ref=namespace_ref,
+            created_at=datetime.now(timezone.utc), namespace_id=namespace_id,
         )
 ```
 
@@ -66,7 +65,6 @@ Add this code inside `run`. It creates a personal namespace for the user's trave
     namespaceId = createdNamespace.namespace.namespaceId;
     console.log(`export NAMESPACE_ID="${namespaceId}"`);
   }
-  const namespaceRef = { namespaceId };
 ```
 
 Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `listNamespaces` with `scope: "PERSONAL"` and `ownerId: userId` to find it.
@@ -74,10 +72,10 @@ Run the file once, then run the printed `export` command in your shell before ru
 Start a new session with this namespace. Extracted memories inherit it:
 
 ```typescript
-  await agentMemory.addSessionEvent({
-    sessionId: "travel-planning-with-namespace", actorId: userId, role: "USER",
+  await agentMemory.addSessionEvent("travel-planning-with-namespace", {
+    actorId: userId, role: "USER",
     content: [{ text: "I am visiting Tokyo and Kyoto next month." }],
-    createdAt: new Date(), namespaceRef,
+    createdAt: new Date(), namespaceId,
   });
 ```
 
@@ -135,7 +133,6 @@ Add this code inside the `with` block:
             })
             shared_namespace_id = shared_namespace.namespace.namespace_id
             print(f'export SHARED_NAMESPACE_ID="{shared_namespace_id}"')
-        shared_namespace_ref = {"namespace_id": shared_namespace_id}
 ```
 
 Run the file once, then run the printed `export` command in your shell. Later runs reuse the namespace ID.
@@ -154,7 +151,6 @@ Add this code inside `run`:
     sharedNamespaceId = sharedNamespace.namespace.namespaceId;
     console.log(`export SHARED_NAMESPACE_ID="${sharedNamespaceId}"`);
   }
-  const sharedNamespaceRef = { namespaceId: sharedNamespaceId };
 ```
 
 Run the file once, then run the printed `export` command in your shell. Later runs reuse the namespace ID.
@@ -180,7 +176,7 @@ Continue after the request succeeds and prints a namespace ID. Reuse that ID for
 
 Creating the same root again returns `409 Conflict`. If you lose the ID, list root namespaces with `scope=SHARED` and find `team-travel`.
 
-To add a conversation to this namespace, use a new session ID and set its first event's namespace reference to the shared ID. Use `namespace_ref=shared_namespace_ref` in Python, `namespaceRef: sharedNamespaceRef` in TypeScript, or `"namespaceId": "$SHARED_NAMESPACE_ID"` in curl. For direct long-term memory creation, set the reference on each record. Creating the namespace does not move existing memories into it.
+To add a conversation to this namespace, use a new session ID and set its first event's namespace ID to the shared ID. Use `namespace_id=shared_namespace_id` in Python, `namespaceId: sharedNamespaceId` in TypeScript, or `"namespaceId": "$SHARED_NAMESPACE_ID"` in curl. For direct long-term memory creation, set the namespace ID on each record. Creating the namespace does not move existing memories into it.
 
 ### Recall shared memories
 
@@ -190,8 +186,8 @@ After writing memories to the shared namespace, search with its namespace ID. Th
 
 ```python
         shared_results = agent_memory.search_long_term_memory(request={
-            "text": "What travel requirements has the team discussed?",
-            "filter_": {"namespace_ref": {"eq": shared_namespace_id}},
+            "query": "What travel requirements has the team discussed?",
+            "filter_": {"namespace_id": {"eq": shared_namespace_id}},
             "limit": 5,
         })
         show("Shared travel memories", shared_results)
@@ -201,8 +197,8 @@ After writing memories to the shared namespace, search with its namespace ID. Th
 
 ```typescript
   const sharedResults = await agentMemory.searchLongTermMemory({
-    text: "What travel requirements has the team discussed?",
-    filter: { namespaceRef: { eq: sharedNamespaceId } },
+    query: "What travel requirements has the team discussed?",
+    filter: { namespaceId: { eq: sharedNamespaceId } },
     limit: 5,
   });
   console.dir(sharedResults, { depth: null });
@@ -265,7 +261,7 @@ For runnable examples, see [Create a personal namespace]({{< relref "/develop/ai
 
 | Operation | Behavior |
 |:----------|:---------|
-| List | List roots, or pass `parentId` to list direct children. Sort by `id`, `name`, `createdAt`, or `updatedAt` with `sortBy`; `sortOrder` accepts `ASC` or `DESC`. Defaults are `id` and `asc`. Follow `nextCursor` with the same filters and sort options. |
+| List | List roots, or pass `parentId` to list direct children. Sort by `id`, `name`, `createdAt`, or `updatedAt` with `sortBy`; `sortOrder` accepts `ASC` or `DESC`. Defaults are `id` and `ASC`. Follow `nextCursor` with the same filters and sort options. |
 | Get | Retrieve the current name, path, scope, and state by ID. |
 | Rename | Update `name`; continue using the same ID for placement and retrieval. |
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. You cannot unarchive a namespace. |
@@ -281,7 +277,7 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
 
 ```python
         namespaces = agent_memory.list_namespaces(
-            scope="SHARED", limit=20, sort_by="name", sort_order="asc",
+            scope="SHARED", limit=20, sort_by="name", sort_order="ASC",
         )
         show("Shared namespaces", namespaces)
 ```
@@ -294,10 +290,10 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
     "SHARED",  // scope
     undefined, // ownerId
     20,        // limit
-    undefined, // pageToken
+    undefined, // cursor
     undefined, // request options
     "name",    // sortBy
-    "asc",     // sortOrder
+    "ASC",     // sortOrder
   );
   console.dir(namespaces, { depth: null });
 ```

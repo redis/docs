@@ -175,8 +175,7 @@ Add these events to the session from the quickstart to continue the conversation
   ] as const;
 
   for (const turn of turns) {
-    await agentMemory.addSessionEvent({
-      sessionId,
+    await agentMemory.addSessionEvent(sessionId, {
       actorId: turn.actorId,
       role: turn.role,
       content: [{ text: turn.text }],

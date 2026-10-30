@@ -84,7 +84,7 @@ The following Python example prepares that context. It uses the client, `SESSION
         session = agent_memory.get_session_memory(session_id=SESSION_ID)
         memories = agent_memory.search_long_term_memory(
             request={
-                "text": question,
+                "query": question,
                 "filter_": {"owner_id": {"eq": USER_ID}},
                 "limit": 5,
             },
@@ -183,7 +183,7 @@ The ingestion-hook `503` retry error and `422` stopped error also have distinct 
 
 Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; access checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
 
-See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/memories" >}}) for creation methods, search fields, retention, and extraction controls.
+See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
 
 For unstructured documents, use [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) to configure an extractor, submit a revision, and track its outputs. Source links let you trace extracted memories back to document or session inputs.
 

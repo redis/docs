@@ -280,7 +280,7 @@ async def main():
             page = await memory.list_ingestion_hook_statuses_async(
                 limit=20, cursor=cursor, http_headers=headers,
             )
-            for status in page.statuses:
+            for status in page.items:
                 print(status.model_dump_json(by_alias=True))
             cursor = page.next_cursor
             if not cursor:
@@ -310,7 +310,7 @@ async function main() {
   let cursor: string | undefined;
   do {
     const page = await memory.listIngestionHookStatuses(20, cursor, options);
-    console.dir(page.statuses, { depth: null });
+    console.dir(page.items, { depth: null });
     cursor = page.nextCursor;
   } while (cursor);
 }
@@ -343,7 +343,7 @@ fi
 
 {{< /multitabs >}}
 
-Lists return `statuses` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
+Lists return `items` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
 
 Private pending content expires within 24 hours or the earlier operation deadline. Compact status and write receipts remain for seven days after completion or expiry. Status omits private input, generated content, prompts, endpoint configuration, and keys.
 
