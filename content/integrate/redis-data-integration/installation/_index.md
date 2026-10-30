@@ -22,3 +22,7 @@ learn how to set up RDI for a cloud database.
 Before you use RDI, you must also configure each of your source databases to enable CDC. See the
 [Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
 section to learn how to do this.
+
+To run RDI across two sites for disaster recovery (DR), see
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md).
+A DR setup requires an external lease for leader election.

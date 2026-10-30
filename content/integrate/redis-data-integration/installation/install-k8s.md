@@ -20,6 +20,10 @@ This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/
 to install on [Kubernetes](https://kubernetes.io/) (K8s). You can also
 [Install RDI on VMs](/content/integrate/redis-data-integration/installation/install-vm.md).
 
+For a deployment across two sites, see
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md).
+Such a deployment requires an external lease for leader election.
+
 The installation creates the following K8s objects:
 
 -   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
@@ -442,6 +446,10 @@ using [Redis Insight](/content/develop/tools/insight/_index.md). See
 for full details on how to connect to RDI and deploy pipelines.
 
 ## Uninstall RDI
+
+For a disaster recovery setup, follow
+[Uninstall a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#uninstall-a-dr-setup)
+to choose the correct order for removing instances.
 
 If you want to remove your RDI K8s installation, first run
 the following commands. (If you installed RDI into a custom namespace then
