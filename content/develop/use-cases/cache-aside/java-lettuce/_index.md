@@ -275,6 +275,31 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
+### Get Lettuce and its dependencies
+
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
+
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
+
+### Start the demo server
+
 A local demo server is included to show the cache-aside layer in action
 ([source](DemoServer.java)):
 

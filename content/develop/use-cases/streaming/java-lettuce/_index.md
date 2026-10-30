@@ -338,20 +338,25 @@ curl -O $BASE/ConsumerWorker.java
 curl -O $BASE/DemoServer.java
 ```
 
-You also need Lettuce and its runtime dependencies on your classpath. The simplest way is to download them into a local `lib/` directory:
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
 
 ```bash
-mkdir lib && cd lib
-LETTUCE=https://repo1.maven.org/maven2/io/lettuce/lettuce-core/6.5.0.RELEASE
-curl -O $LETTUCE/lettuce-core-6.5.0.RELEASE.jar
-NETTY=https://repo1.maven.org/maven2/io/netty
-for ARTIFACT in netty-buffer netty-codec netty-common netty-handler \
-                netty-resolver netty-transport netty-transport-native-unix-common; do
-  curl -O "$NETTY/$ARTIFACT/4.1.113.Final/$ARTIFACT-4.1.113.Final.jar"
-done
-curl -O https://repo1.maven.org/maven2/io/projectreactor/reactor-core/3.6.6/reactor-core-3.6.6.jar
-curl -O https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar
-cd ..
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
 ```
 
 ### Start the demo server
