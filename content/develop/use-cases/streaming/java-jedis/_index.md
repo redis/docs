@@ -53,12 +53,11 @@ The `EventStream` class wraps the stream operations
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/streaming/java-jedis/EventStream.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
-JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+RedisClient jedis = RedisClient.create("localhost", 6379);
 EventStream stream = new EventStream(
-        pool,
+        jedis,
         "demo:events:orders",
         2000,   // approximate MAXLEN retention guardrail
         5000);  // XAUTOCLAIM idle threshold (ms)
@@ -130,9 +129,8 @@ The ID is `{milliseconds}-{sequence}`, monotonically increasing within the strea
 ```java
 public List<String> produceBatch(List<Map.Entry<String, Map<String, String>>> events) {
     List<String> ids = new ArrayList<>(events.size());
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
-        List<Response<StreamEntryID>> responses = new ArrayList<>(events.size());
+    List<Response<StreamEntryID>> responses = new ArrayList<>(events.size());
+    try (Pipeline pipe = jedis.pipelined()) {
         for (Map.Entry<String, Map<String, String>> event : events) {
             Map<String, String> fields = encodeFields(event.getKey(), event.getValue());
             XAddParams params = new XAddParams()
@@ -141,10 +139,10 @@ public List<String> produceBatch(List<Map.Entry<String, Map<String, String>>> ev
             responses.add(pipe.xadd(streamKey, params, fields));
         }
         pipe.sync();
-        for (Response<StreamEntryID> resp : responses) {
-            StreamEntryID id = resp.get();
-            ids.add(id == null ? null : id.toString());
-        }
+    }
+    for (Response<StreamEntryID> resp : responses) {
+        StreamEntryID id = resp.get();
+        ids.add(id == null ? null : id.toString());
     }
     return ids;
 }
@@ -160,20 +158,18 @@ Each consumer in a group runs the same `XREADGROUP` loop. The special ID `>` mea
 
 ```java
 public List<Entry> consume(String group, String consumer, int count, long blockMs) {
-    try (Jedis jedis = pool.getResource()) {
-        XReadGroupParams params = new XReadGroupParams()
-                .count(count)
-                .block((int) blockMs);
-        Map<String, StreamEntryID> streams = new LinkedHashMap<>();
-        streams.put(streamKey, StreamEntryID.UNRECEIVED_ENTRY);
-        List<Map.Entry<String, List<StreamEntry>>> result =
-                jedis.xreadGroup(group, consumer, params, streams);
-        return flattenEntries(result);
-    }
+    XReadGroupParams params = new XReadGroupParams()
+            .count(count)
+            .block((int) blockMs);
+    Map<String, StreamEntryID> streams = new LinkedHashMap<>();
+    streams.put(streamKey, StreamEntryID.XREADGROUP_UNDELIVERED_ENTRY);
+    List<Map.Entry<String, List<StreamEntry>>> result =
+            jedis.xreadGroup(group, consumer, params, streams);
+    return flattenEntries(result);
 }
 ```
 
-`blockMs` makes the call efficient even when the stream is idle: the client parks on the server until either an entry arrives or the timeout expires, so consumers don't busy-loop. The Jedis instance is acquired from a `JedisPool` with try-with-resources, so the blocking call holds *its* connection for the duration of the block but other handlers and workers can grab their own connections in parallel.
+`blockMs` makes the call efficient even when the stream is idle: the client parks on the server until either an entry arrives or the timeout expires, so consumers don't busy-loop. The blocking call borrows a connection from the `RedisClient` pool and holds *it* for the duration of the block, but other handlers and workers can grab their own connections in parallel.
 
 Reading with an explicit ID like `0-0` instead of `>` does something different &mdash; it replays entries already delivered to *this* consumer name (its private PEL). That is the canonical recovery path when the same consumer restarts: catch up on its own pending entries first, then resume reading new ones (`consumeOwnPel` exposes that read).
 
@@ -190,9 +186,7 @@ public long ack(String group, List<String> ids) {
     for (int i = 0; i < ids.size(); i++) {
         entryIds[i] = new StreamEntryID(ids.get(i));
     }
-    try (Jedis jedis = pool.getResource()) {
-        return jedis.xack(streamKey, group, entryIds);
-    }
+    return jedis.xack(streamKey, group, entryIds);
 }
 ```
 
@@ -244,25 +238,23 @@ public AutoClaimResult autoclaim(
     List<Entry> claimedAll = new ArrayList<>();
     List<String> deletedAll = new ArrayList<>();
     String cursor = (startId == null || startId.isEmpty()) ? "0-0" : startId;
-    try (Jedis jedis = pool.getResource()) {
-        for (int page = 0; page < maxPages; page++) {
-            // Use sendCommand for the raw 3-element XAUTOCLAIM reply
-            // (next-id, claimed-entries, deleted-ids). Jedis 6's typed
-            // xautoclaim wrapper returns only the first two slots.
-            Object raw = jedis.sendCommand(
-                    XAutoClaimRaw.XAUTOCLAIM,
-                    streamKey, group, consumer,
-                    Integer.toString(claimMinIdleMs),
-                    cursor,
-                    "COUNT", Integer.toString(pageCount));
-            ParsedAutoClaim parsed = parseAutoClaim(raw);
-            claimedAll.addAll(parsed.claimed);
-            deletedAll.addAll(parsed.deletedIds);
-            if ("0-0".equals(parsed.nextCursor)) {
-                break;
-            }
-            cursor = parsed.nextCursor;
+    for (int page = 0; page < maxPages; page++) {
+        // Use executeCommand for the raw 3-element XAUTOCLAIM reply
+        // (next-id, claimed-entries, deleted-ids). Jedis 8's typed
+        // xautoclaim wrapper returns only the first two slots.
+        Object raw = jedis.executeCommand(
+                new CommandArguments(XAutoClaimRaw.XAUTOCLAIM).addObjects(
+                        streamKey, group, consumer,
+                        Integer.toString(claimMinIdleMs),
+                        cursor,
+                        "COUNT", Integer.toString(pageCount)));
+        ParsedAutoClaim parsed = parseAutoClaim(raw);
+        claimedAll.addAll(parsed.claimed);
+        deletedAll.addAll(parsed.deletedIds);
+        if ("0-0".equals(parsed.nextCursor)) {
+            break;
         }
+        cursor = parsed.nextCursor;
     }
     return new AutoClaimResult(claimedAll, deletedAll);
 }
@@ -272,7 +264,7 @@ A single `XAUTOCLAIM` call scans up to `pageCount` PEL entries starting at `star
 
 The `deletedIds` list contains PEL entry IDs whose stream payload was already trimmed by the time the claim ran (typically because `MAXLEN ~` retention outran a slow consumer). `XAUTOCLAIM` removes those dangling slots from the PEL itself, so the caller does *not* need to `XACK` them &mdash; but the entries cannot be retried either, so log and route them to a dead-letter store for offline inspection. Redis 7.0 introduced this third return element; the example requires Redis 7.0+ for that reason.
 
-Jedis 6.x's typed `jedis.xautoclaim(...)` overload returns only the cursor and the claimed entries (as `Map.Entry<StreamEntryID, List<StreamEntry>>`) &mdash; the deleted-IDs slot is dropped. To surface it, the helper sends `XAUTOCLAIM` through `Jedis.sendCommand` and parses all three reply elements by hand.
+Jedis 8.x's typed `jedis.xautoclaim(...)` overload returns only the cursor and the claimed entries (as `Map.Entry<StreamEntryID, List<StreamEntry>>`) &mdash; the deleted-IDs slot is dropped. To surface it, the helper sends `XAUTOCLAIM` through `RedisClient.executeCommand` and parses all three reply elements by hand.
 
 `reapIdlePel` is the right primitive for the recovery path because it claims and processes in one step: every entry the call returned is now in *this* consumer's PEL, so the same consumer is responsible for processing and acking it. In production each consumer thread runs `reapIdlePel` periodically (every few seconds, on a timer) so a crashed peer's entries never sit invisibly. The demo exposes it as a manual button so you can trigger the reap after waiting for the idle threshold.
 
@@ -284,10 +276,8 @@ Jedis 6.x's typed `jedis.xautoclaim(...)` overload returns only the cursor and t
 
 ```java
 public List<Entry> replay(String startId, String endId, int count) {
-    try (Jedis jedis = pool.getResource()) {
-        List<StreamEntry> rows = jedis.xrange(streamKey, startId, endId, count);
-        return toEntries(rows);
-    }
+    List<StreamEntry> rows = jedis.xrange(streamKey, startId, endId, count);
+    return toEntries(rows);
 }
 ```
 
@@ -340,7 +330,7 @@ Before running the demo, make sure that:
 
 * Redis 7.0 or later is running and accessible. By default, the demo connects to `localhost:6379`. `XAUTOCLAIM` was added in Redis 6.2, but its reply gained a third element (the list of deleted IDs) in 7.0; the example relies on that shape.
 * JDK 17 or later is installed (the demo's inline HTML uses text blocks, introduced as a preview in JDK 13 and finalised in JDK 15; 17+ keeps the demo on a current LTS).
-* The Jedis JAR (5.0+; the example was tested against 6.2.0) and its dependencies are on your classpath. Get them from [Maven Central](https://repo1.maven.org/maven2/redis/clients/jedis/), or via Maven/Gradle in a project setup. You also need [`slf4j-api`](https://repo1.maven.org/maven2/org/slf4j/slf4j-api/) and [`commons-pool2`](https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/), which Jedis declares as transitive dependencies.
+* The Jedis JAR (the example was tested against 8.0.2) and its dependencies are on your classpath. Get them from [Maven Central](https://repo1.maven.org/maven2/redis/clients/jedis/), or via Maven/Gradle in a project setup. You also need [`slf4j-api`](https://repo1.maven.org/maven2/org/slf4j/slf4j-api/), [`commons-pool2`](https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/), [`gson`](https://repo1.maven.org/maven2/com/google/code/gson/gson/), [`json`](https://repo1.maven.org/maven2/org/json/json/), and [`redis-authx-core`](https://repo1.maven.org/maven2/redis/clients/authentication/redis-authx-core/), which Jedis declares as transitive dependencies.
 
 If your Redis server is running elsewhere, start the demo with `--redis-host` and `--redis-port`.
 
@@ -358,15 +348,21 @@ curl -O $BASE/ConsumerWorker.java
 curl -O $BASE/DemoServer.java
 ```
 
-Download the JARs into the same directory (the example assumes Jedis 6.2.0, `slf4j-api` 2.0.12, and `commons-pool2` 2.12.1 &mdash; adjust the filenames if you use different versions):
+Download the JARs into the same directory (the example assumes Jedis 8.0.2, `slf4j-api` 1.7.36, `commons-pool2` 2.13.1, `gson` 2.14.0, `json` 20260719, and `redis-authx-core` 0.1.1-beta2 &mdash; adjust the filenames if you use different versions):
 
 ```bash
-JEDIS_VER=6.2.0
-SLF4J_VER=2.0.12
-POOL_VER=2.12.1
+JEDIS_VER=8.0.2
+SLF4J_VER=1.7.36
+POOL_VER=2.13.1
+GSON_VER=2.14.0
+JSON_VER=20260719
+AUTHX_VER=0.1.1-beta2
 curl -O https://repo1.maven.org/maven2/redis/clients/jedis/$JEDIS_VER/jedis-$JEDIS_VER.jar
 curl -O https://repo1.maven.org/maven2/org/slf4j/slf4j-api/$SLF4J_VER/slf4j-api-$SLF4J_VER.jar
 curl -O https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/$POOL_VER/commons-pool2-$POOL_VER.jar
+curl -O https://repo1.maven.org/maven2/com/google/code/gson/gson/$GSON_VER/gson-$GSON_VER.jar
+curl -O https://repo1.maven.org/maven2/org/json/json/$JSON_VER/json-$JSON_VER.jar
+curl -O https://repo1.maven.org/maven2/redis/clients/authentication/redis-authx-core/$AUTHX_VER/redis-authx-core-$AUTHX_VER.jar
 ```
 
 ### Start the demo server
@@ -374,10 +370,10 @@ curl -O https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/$POOL_VE
 From that directory:
 
 ```bash
-javac -cp jedis-6.2.0.jar:slf4j-api-2.0.12.jar:commons-pool2-2.12.1.jar \
+javac -cp jedis-8.0.2.jar:slf4j-api-1.7.36.jar:commons-pool2-2.13.1.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     EventStream.java ConsumerWorker.java DemoServer.java
 
-java -cp .:jedis-6.2.0.jar:slf4j-api-2.0.12.jar:commons-pool2-2.12.1.jar \
+java -cp .:jedis-8.0.2.jar:slf4j-api-1.7.36.jar:commons-pool2-2.13.1.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     DemoServer --port 8083 --redis-host localhost --redis-port 6379
 ```
 
@@ -442,11 +438,11 @@ A single Redis Stream is a single key, and on a Redis Cluster a single key lives
 
 Per-entity partitioning (`events:order:{order_id}`) is the canonical pattern when you treat each entity's stream as the event-sourcing log for that entity: every state change for one order goes on its own stream, which is also bounded in size by the entity's lifetime.
 
-### Tune the JedisPool
+### Tune the connection pool
 
-The demo bumps `JedisPoolConfig.setMaxTotal(64)` and `setMaxIdle(32)` because every blocking `XREADGROUP` call holds *its* Jedis instance for the full block duration (here 500 ms by default). If the pool were sized at the default 8, three consumers blocking at once would leave only five connections for the 16 HTTP handlers, which can starve `/state` polling under load. In production size the pool to at least *(blocking consumers) + (concurrent request threads) + headroom* and keep that ceiling below the server-side `maxclients`.
+The demo builds the client with a `ConnectionPoolConfig` and calls `setMaxTotal(64)` and `setMaxIdle(32)` because every blocking `XREADGROUP` call holds *its* pooled connection for the full block duration (here 500 ms by default). If the pool were sized at the default 8, three consumers blocking at once would leave only five connections for the 16 HTTP handlers, which can starve `/state` polling under load. In production size the pool to at least *(blocking consumers) + (concurrent request threads) + headroom* and keep that ceiling below the server-side `maxclients`.
 
-Every helper acquires its Jedis from the pool with try-with-resources, so connections always go back to the pool on success or exception. No in-process lock is needed across helpers because each call uses its own connection.
+Every helper call borrows a connection from the pool and returns it when the call finishes, and pipelines return theirs when try-with-resources closes them, so connections always go back to the pool on success or exception. No in-process lock is needed across helpers because each call uses its own connection.
 
 ### Don't read with XREAD (no group) and then try to ack
 
