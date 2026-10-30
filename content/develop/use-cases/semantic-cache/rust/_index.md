@@ -237,7 +237,7 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLlm
     cd docs/content/develop/use-cases/semantic-cache/rust
     ```
 
-2.  Make sure a recent Rust toolchain is installed (Rust 1.75 or newer).
+2.  Make sure a recent Rust toolchain is installed (Rust 1.88 or newer).
     [`rustup`](https://rustup.rs/) is the usual route. The build pulls in
     Candle and the Hugging Face tokenizer crates, so the first `cargo
     build` takes a few minutes.

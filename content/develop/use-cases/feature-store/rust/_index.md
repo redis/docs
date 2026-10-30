@@ -69,10 +69,10 @@ Two crate facts shape the helper:
   and they all share the same underlying connection. There's no pool to
   manage.
 * **The `redis::cmd("HEXPIRE")` builder is how you reach commands not yet
-  typed on the `AsyncCommands` trait.** Per-field TTL bindings (`hexpire`,
-  `httl`, `hpersist`) aren't part of the typed surface on redis-rs 0.27, so
-  the helper issues them with the generic command builder. The wire bytes
-  are identical to the typed form.
+  typed on the `AsyncCommands` trait.** The helper issues the per-field TTL
+  commands (`HEXPIRE`, `HTTL`, `HPERSIST`) with the generic command builder.
+  redis-rs 1.x also ships typed `hexpire`, `httl`, and `hpersist` methods;
+  the wire bytes are identical.
 
 In this example, the batch features describe a user's longer-term shape
 (`country_iso`, `risk_segment`, `account_age_days`, `tx_count_7d`,
@@ -305,7 +305,7 @@ pub async fn update_streaming(
     for code in &codes {
         if *code != 1 {
             return Err(redis::RedisError::from((
-                redis::ErrorKind::ResponseError,
+                redis::ErrorKind::Server(redis::ServerErrorKind::ResponseError),
                 "HEXPIRE invariant violated",
                 format!("HEXPIRE did not set every field TTL for {key}: {codes:?}"),
             )));
@@ -340,9 +340,9 @@ debugging and as a freshness signal in the model itself.
 > **HEXPIRE requires Redis 7.4 or later.** `HEXPIRE` and the field-level
 > TTL commands (`HTTL`, `HPERSIST`, `HEXPIREAT`, `HPEXPIRE`, `HPEXPIREAT`,
 > `HPTTL`, `HEXPIRETIME`, `HPEXPIRETIME`) were added in Redis 7.4. The
-> demo's `Cargo.toml` pins `redis = "0.27"` and uses
-> `redis::cmd("HEXPIRE")` because the typed binding doesn't ship on that
-> client line yet — the wire bytes are identical.
+> demo's `Cargo.toml` pins `redis = "1.8"` and issues them through
+> `redis::cmd("HEXPIRE")`. redis-rs 1.x also has typed bindings for some
+> of them (`hexpire`, `httl`, `hpersist`) that send the same wire bytes.
 
 ### Inference reads with HMGET
 
@@ -357,7 +357,7 @@ pub async fn get_features(
     if field_names.is_empty() { return Ok(BTreeMap::new()); }
     let key = self.key_for(entity_id);
     let mut conn = self.conn.clone();
-    let values: Vec<Option<String>> = conn.hget(&key, field_names).await?;
+    let values: Vec<Option<String>> = conn.hmget(&key, field_names).await?;
     let mut out = BTreeMap::new();
     for (n, v) in field_names.iter().zip(values.into_iter()) {
         if let Some(s) = v { out.insert((*n).to_string(), s); }
@@ -386,7 +386,7 @@ pub async fn batch_get_features(
     }
     let mut pipe = redis::pipe();
     for id in entity_ids {
-        pipe.hget(self.key_for(id), field_names);
+        pipe.hmget(self.key_for(id), field_names);
     }
     let mut conn = self.conn.clone();
     let rows: Vec<Vec<Option<String>>> = pipe.query_async(&mut conn).await?;
@@ -400,7 +400,7 @@ under 1 ms against a local Redis.
 A Redis Cluster is different: a single `redis::pipe()` is bound to one
 connection, and a `ConnectionManager` holds one connection to one node.
 For batch reads on a cluster, use redis-rs's
-[`cluster_async`](https://docs.rs/redis/0.27/redis/cluster_async/index.html)
+[`cluster_async`](https://docs.rs/redis/latest/redis/cluster_async/index.html)
 client and either fan out parallel `hget` calls (the cluster client routes
 each one to the right shard) or, for tighter control, group entity IDs by
 hash slot and run one pipeline per shard in parallel. A hash tag like
@@ -520,10 +520,9 @@ multiplexed socket. Endpoints:
 * **Redis 7.4 or later.** [`HEXPIRE`](/content/commands/hexpire.md) and
   [`HTTL`](/content/commands/httl.md) were added in Redis 7.4; the
   demo relies on per-field TTL for the mixed-staleness story.
-* **Rust 1.74 or later.** The demo uses `async fn` in traits, `let-else`,
-  and other recent ergonomics. Earlier stable Rust may compile after small
-  tweaks.
-* **redis-rs 0.27 or later.** The demo's `Cargo.toml` pins 0.27 with the
+* **Rust 1.88 or later.** The `redis` 1.8 crate requires it, and the demo
+  uses `async fn` in traits, `let-else`, and other recent ergonomics.
+* **redis-rs 1.8 or later.** The demo's `Cargo.toml` pins 1.8 with the
   `tokio-comp`, `aio`, and `connection-manager` features. Per-field TTL
   commands are issued via `redis::cmd("HEXPIRE")`.
 
@@ -620,7 +619,7 @@ prevents training-serving skew.
 On a single Redis instance, a pipelined `HMGET` across `N` users is one
 round trip. A Redis Cluster is different: a single `redis::pipe()` ships
 through one connection to one node, so on a cluster you need redis-rs's
-[`cluster_async`](https://docs.rs/redis/0.27/redis/cluster_async/index.html)
+[`cluster_async`](https://docs.rs/redis/latest/redis/cluster_async/index.html)
 client. Either fan out parallel `hget` calls (the cluster client routes
 each one to the right shard) or group entity IDs by hash slot and issue
 one pipeline against each shard in parallel.

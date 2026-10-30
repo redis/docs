@@ -176,7 +176,7 @@ pub async fn get_session_async<C>(
     refresh_ttl: bool,
 ) -> RedisResult<Option<HashMap<String, String>>>
 where
-    C: redis::aio::ConnectionLike + Send,
+    C: redis::aio::ConnectionLike + Send + Sync,
 {
     let key = self.session_key(session_id);
     let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -205,7 +205,7 @@ Add the crates you need to `Cargo.toml`:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp"] }
+redis = { version = "1.8", features = ["tokio-comp"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }

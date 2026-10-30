@@ -461,17 +461,17 @@ impl EventStream {
             Ok(v) => v,
             Err(_) => return StreamInfo::default(),
         };
-        let map: HashMap<String, Value> = match redis::FromRedisValue::from_redis_value(&raw) {
+        let map: HashMap<String, Value> = match redis::FromRedisValue::from_redis_value_ref(&raw) {
             Ok(m) => m,
             Err(_) => return StreamInfo::default(),
         };
         let length: u64 = map
             .get("length")
-            .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+            .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
             .unwrap_or(0);
         let last_generated_id: Option<String> = map
             .get("last-generated-id")
-            .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok());
+            .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok());
         let first_entry_id = entry_id_from_value(map.get("first-entry"));
         let last_entry_id = entry_id_from_value(map.get("last-entry"));
         StreamInfo {
@@ -498,7 +498,7 @@ impl EventStream {
         // a vec of HashMap<String, Value> so we can pull only the keys
         // we care about (and tolerate version differences).
         let rows: Vec<HashMap<String, Value>> =
-            match redis::FromRedisValue::from_redis_value(&raw) {
+            match redis::FromRedisValue::from_redis_value_ref(&raw) {
                 Ok(v) => v,
                 Err(_) => return Vec::new(),
             };
@@ -506,23 +506,23 @@ impl EventStream {
             .map(|map| GroupInfo {
                 name: map
                     .get("name")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or_default(),
                 consumers: map
                     .get("consumers")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or(0),
                 pending: map
                     .get("pending")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or(0),
                 last_delivered_id: map
                     .get("last-delivered-id")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or_default(),
                 lag: map
                     .get("lag")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok()),
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok()),
             })
             .collect()
     }
@@ -541,7 +541,7 @@ impl EventStream {
             Err(_) => return Vec::new(),
         };
         let rows: Vec<HashMap<String, Value>> =
-            match redis::FromRedisValue::from_redis_value(&raw) {
+            match redis::FromRedisValue::from_redis_value_ref(&raw) {
                 Ok(v) => v,
                 Err(_) => return Vec::new(),
             };
@@ -549,15 +549,15 @@ impl EventStream {
             .map(|map| ConsumerInfo {
                 name: map
                     .get("name")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or_default(),
                 pending: map
                     .get("pending")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or(0),
                 idle_ms: map
                     .get("idle")
-                    .and_then(|v| redis::FromRedisValue::from_redis_value(v).ok())
+                    .and_then(|v| redis::FromRedisValue::from_redis_value_ref(v).ok())
                     .unwrap_or(0),
             })
             .collect()
@@ -675,7 +675,7 @@ fn stream_ids_to_entries(ids: Vec<redis::streams::StreamId>) -> Vec<Entry> {
 fn fields_from_stream_map(map: &HashMap<String, Value>) -> HashMap<String, String> {
     let mut out: HashMap<String, String> = HashMap::with_capacity(map.len());
     for (k, v) in map {
-        let s: String = redis::FromRedisValue::from_redis_value(v).unwrap_or_default();
+        let s: String = redis::FromRedisValue::from_redis_value_ref(v).unwrap_or_default();
         out.insert(k.clone(), s);
     }
     out
@@ -688,9 +688,9 @@ fn entry_id_from_value(v: Option<&Value>) -> Option<String> {
     if matches!(v, Value::Nil) {
         return None;
     }
-    if let Value::Bulk(items) = v {
+    if let Value::Array(items) = v {
         if let Some(first) = items.first() {
-            if let Ok(id) = redis::FromRedisValue::from_redis_value(first) {
+            if let Ok(id) = redis::FromRedisValue::from_redis_value_ref(first) {
                 return Some(id);
             }
         }
@@ -702,10 +702,10 @@ fn entry_id_from_value(v: Option<&Value>) -> Option<String> {
 /// `[ next-cursor, [ [id, [field, value, ...]], ... ], [deleted-id, ...] ]`.
 fn parse_autoclaim_reply(raw: Value) -> RedisResult<(String, Vec<Entry>, Vec<String>)> {
     let parts = match raw {
-        Value::Bulk(parts) => parts,
+        Value::Array(parts) => parts,
         _ => {
             return Err(RedisError::from((
-                redis::ErrorKind::TypeError,
+                redis::ErrorKind::UnexpectedReturnType,
                 "XAUTOCLAIM: expected array reply",
             )))
         }
@@ -713,22 +713,22 @@ fn parse_autoclaim_reply(raw: Value) -> RedisResult<(String, Vec<Entry>, Vec<Str
     let mut iter = parts.into_iter();
     let cursor_v = iter
         .next()
-        .ok_or_else(|| RedisError::from((redis::ErrorKind::TypeError, "XAUTOCLAIM: missing cursor")))?;
+        .ok_or_else(|| RedisError::from((redis::ErrorKind::UnexpectedReturnType, "XAUTOCLAIM: missing cursor")))?;
     let entries_v = iter
         .next()
-        .ok_or_else(|| RedisError::from((redis::ErrorKind::TypeError, "XAUTOCLAIM: missing entries")))?;
+        .ok_or_else(|| RedisError::from((redis::ErrorKind::UnexpectedReturnType, "XAUTOCLAIM: missing entries")))?;
     let deleted_v = iter.next(); // Redis 7.0+; absent on 6.2 (not supported)
 
-    let next_cursor: String = redis::FromRedisValue::from_redis_value(&cursor_v)?;
+    let next_cursor: String = redis::FromRedisValue::from_redis_value_ref(&cursor_v)?;
 
     // Re-use the StreamRangeReply decoder for the entries vec: the
     // wire shape is identical to `XRANGE` (an array of [id, [field,
     // value, ...]] pairs).
-    let range: StreamRangeReply = redis::FromRedisValue::from_redis_value(&entries_v)?;
+    let range: StreamRangeReply = redis::FromRedisValue::from_redis_value_ref(&entries_v)?;
     let entries = stream_ids_to_entries(range.ids);
 
     let deleted: Vec<String> = match deleted_v {
-        Some(v) => redis::FromRedisValue::from_redis_value(&v).unwrap_or_default(),
+        Some(v) => redis::FromRedisValue::from_redis_value_ref(&v).unwrap_or_default(),
         None => Vec::new(),
     };
 

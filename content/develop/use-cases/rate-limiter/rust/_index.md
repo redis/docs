@@ -121,14 +121,14 @@ Add the `redis` crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-redis = "0.24"
+redis = "1.8"
 ```
 
 For async support, enable the `tokio-comp` or `async-std-comp` feature:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp"] }
+redis = { version = "1.8", features = ["tokio-comp"] }
 tokio = { version = "1", features = ["full"] }
 ```
 

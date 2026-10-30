@@ -345,7 +345,10 @@ async fn main() {
 
     let url = format!("redis://{}:{}/", redis_host, redis_port);
     let client = Client::open(url).expect("failed to create Redis client");
-    let conn = ConnectionManager::new(client)
+    // Consumers block in XREADGROUP ... BLOCK for longer than the 500 ms default
+    // response timeout in redis-rs 1.x, so turn the response timeout off.
+    let config = redis::aio::ConnectionManagerConfig::new().set_response_timeout(None);
+    let conn = ConnectionManager::new_with_config(client, config)
         .await
         .expect("failed to connect to Redis");
 

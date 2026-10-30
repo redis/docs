@@ -257,7 +257,7 @@ pub async fn stats(&self) -> Stats {
 
 * Redis 6.2 or later running locally on the default port (6379). Earlier versions still work for plain `PUBLISH`/`SUBSCRIBE`; `PUBSUB NUMPAT` is older than that.
 * A Rust toolchain (rustup + cargo) capable of building the 2021 edition.
-* The `redis` crate at version 0.27+ with the `tokio-comp`, `aio`, and `connection-manager` features, plus `tokio`, `axum`, `serde`, `serde_json`, and `futures-util` (declared in `Cargo.toml`).
+* The `redis` crate at version 1.8 or later with the `tokio-comp`, `aio`, and `connection-manager` features, plus `tokio`, `axum`, `serde`, `serde_json`, and `futures-util` (declared in `Cargo.toml`).
 
 ## Running the demo
 
