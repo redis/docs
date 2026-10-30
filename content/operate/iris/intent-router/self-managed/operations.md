@@ -26,7 +26,7 @@ curl -sS http://localhost:9200/health/readiness
 Check one Router with its health route. It returns `ok` and a `checks` list that covers the Router's state, the embedding provider, the intent store, and the search index. A failing check carries a `message` that says why:
 
 ```bash
-curl -sS "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/health" \
+curl -sS "$IRIS_INTENT_ROUTER_URL/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID/health" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" | jq .
 ```
 

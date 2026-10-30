@@ -55,8 +55,8 @@ A Router serves requests only after the data plane has applied its current confi
 
 | API surface | Endpoint | Purpose |
 | --- | --- | --- |
-| Data plane | `/iris/v2/intent/routers/{routerId}` | Authoring and matching for one Router. |
-| Control plane | `/iris/v2/intent/routers`, `/iris/v2/intent/models` | Administration of Routers and the model they use. |
+| Data plane | `/iris/data/v1/intent/routers/{routerId}` | Authoring and matching for one Router. |
+| Control plane | `/iris/v1/intent/routers`, `/iris/v1/intent/models` | Administration of Routers and the model they use. |
 | Health | `/health/liveness`, `/health/readiness` | Liveness and readiness on both planes. |
 | Identity Service | `/v1/api-keys` | Administration of agent keys. |
 

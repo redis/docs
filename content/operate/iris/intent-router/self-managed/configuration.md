@@ -120,7 +120,7 @@ In the mailbox Redis, the data plane reads and writes only the mailbox keys unde
 
 ## Embedding models
 
-`inference.models` lists the deployment's one embedding model as a public, immutable identity: `provider`, `model`, and `dimensions`. The control plane serves it from `GET /iris/v2/intent/models` as an `EMBEDDING` model that needs no caller credential, and refuses to create a Router with any other vector space.
+`inference.models` lists the deployment's one embedding model as a public, immutable identity: `provider`, `model`, and `dimensions`. The control plane serves it from `GET /iris/v1/intent/models` as an `EMBEDDING` model that needs no caller credential, and refuses to create a Router with any other vector space.
 
 For any provider other than `noop`, create the inference Secret named by `inference.existingSecret`. It holds one key, `inference.yaml`, with an `embedders_connection_details` entry for each provider. The entry's name must match `inference.models[].provider`. It carries the provider's `base_url`, `credentials`, and an optional `protocol`, but no model or dimensions:
 

@@ -39,7 +39,7 @@ List the offered models, then create a Router with one of them and wait for it t
 
 {{< clients-example set="iris_intent_router_service" step="router-wait" description="" lang_filter="cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-The create step saves the new Router's ID in `ROUTER_ID`.
+The create step saves the new Router's ID in `ROUTER_ID`. With the CLI, `iris intent-router service create --wait --write-env .env` creates the Router, waits until it is `READY`, and also mints its agent key into `.env`, so you can skip the next section.
 
 ## Mint an agent key
 
@@ -71,13 +71,15 @@ jq '{keyId, createdAt}' agent-key.json
 
 Use `read` instead of `write` for an application that only classifies queries.
 
+With the CLI, `iris intent-router service key "$ROUTER_ID" --role write --name support-app --write .env` mints the same key and writes the `IRIS_INTENT_ROUTER_*` values to `.env`. It reads `IRIS_IDENTITY_URL`, `IRIS_IDENTITY_TOKEN`, and `IRIS_IDENTITY_TENANT`.
+
 ## Verify agent access
 
 Check that the key reaches the Router:
 
 ```bash
 curl --fail-with-body --silent --show-error \
-  "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/health" \
+  "$IRIS_INTENT_ROUTER_URL/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID/health" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" | jq .
 ```
 
@@ -98,6 +100,8 @@ KEY_ID="$(jq -er '.keyId' agent-key.json)"
 jq '{keyId, createdAt, oldExpiresAt}' agent-key.json
 ```
 
+With the CLI, run `iris identity keys rotate "$KEY_ID" --grace 10m --write .env --env IRIS_INTENT_ROUTER_API_KEY`.
+
 Revoke a key to stop it working:
 
 ```bash
@@ -105,5 +109,7 @@ curl --fail-with-body --silent --show-error \
   -X DELETE "$IRIS_IDENTITY_URL/v1/api-keys/$KEY_ID" \
   -H "Authorization: Bearer $IRIS_IDENTITY_TOKEN"
 ```
+
+With the CLI, run `iris identity keys revoke "$KEY_ID"`. `iris identity keys list --resource-id "$ROUTER_ID"` lists a Router's keys.
 
 A revoked key stops working within 300 seconds, the Identity Service's default cache lifetime. Revoke the keys for a Router before you delete it.

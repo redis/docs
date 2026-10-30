@@ -140,7 +140,7 @@ Mint a key with a grant on the Router through the Identity Service. See [Mint an
 Match a query with the key against the data plane:
 
 ```bash
-curl -sS -X POST "$IRIS_INTENT_ROUTER_URL/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID/match" \
+curl -sS -X POST "$IRIS_INTENT_ROUTER_URL/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID/match" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{"query": "hello"}'

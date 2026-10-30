@@ -59,6 +59,8 @@ The API reports failures as [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) p
 
 ### Data plane
 
+<!-- TODO: the 1.0.0 data-plane spec also lists `/errors/resource-unavailable` for 503, `/errors/content-integrity-failed` for 500, and `/errors/gateway-not-found` and `/errors/upstream-not-found` for 404 (shared error enums). Confirm with the Intent Router team which of these the data plane returns before documenting them. -->
+
 | Status | Type | Meaning and recovery |
 |:-------|:-----|:---------------------|
 | `400` | `/errors/invalid-data` | A field is invalid, `limit` exceeds the cap, or `If-Match` and `expectedRevision` disagree. The `fields` list names each field and the rule it broke. Fix the request. |
@@ -77,6 +79,8 @@ The API reports failures as [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) p
 | `503` | `/errors/service-unavailable` | The Router's search index is rebuilding, or its database isn't answering. Wait for the `Retry-After` interval, then retry. |
 
 ### Control plane
+
+<!-- TODO: the 1.0.0 control-plane spec also declares `408` and `424` (`/errors/resource-unavailable`, `/errors/database-out-of-memory`, `/errors/invalid-model-credentials`, `/errors/model-quota-exceeded`) on every operation, and a shared `409` enum. Confirm which apply to Intent Router before adding rows. -->
 
 | Status | Type | Meaning and recovery |
 |:-------|:-----|:---------------------|

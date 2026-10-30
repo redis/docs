@@ -17,7 +17,7 @@ The examples use the connection values from the [quickstart](/content/develop/ai
 
 ## Create or replace an intent
 
-Writing an intent with `PUT` creates it, or replaces the one with that name. It is idempotent: sending the same request twice produces the same intent, although each write returns a new `revision`. It returns `201` for a new intent and `200` for a replacement, and a replaced intent keeps its place in the list.
+Writing an intent with `PUT` creates it, or replaces the one with that name. It is idempotent: sending the same request twice produces the same intent, although each write returns a new `revision`. It returns `201` for a new intent and `200` for a replacement, and a replaced intent keeps its place in the list. In Python this is `define`, and in the CLI it is `intents add NAME`. Fields you leave out are cleared.
 
 {{< clients-example set="iris_intent_router_intents" step="intent-upsert" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -25,7 +25,7 @@ An intent takes up to 256 examples, each up to 2,048 characters. Phrasings alrea
 
 ## Add several intents
 
-Add up to 100 intents in one request. They are added in the order you send them, after the intents the Router already has. An intent whose name already exists is replaced in place, and every other intent is left alone. Nothing is written if any intent is invalid.
+Add up to 100 intents in one request. They are added in the order you send them, after the intents the Router already has. An intent whose name already exists is replaced in place, and every other intent is left alone. Nothing is written if any intent is invalid. In Python this is `define_many`. The CLI's `intents add --file` reads a JSON or YAML file that holds a list of intents, or a mapping with an `intents` list.
 
 {{< clients-example set="iris_intent_router_intents" step="intents-bulk" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -33,7 +33,7 @@ Add up to 100 intents in one request. They are added in the order you send them,
 
 Reading an intent returns its configuration, `exampleCount`, timestamps, and `revision`. It doesn't include the examples, which you list separately.
 
-Listing returns intents with their configuration and example counts, in creation order. Pass `limit` (default 50, maximum 200). When more intents follow, the response includes `nextCursor`: pass it back as `cursor` for the next page.
+Listing returns intents with their configuration and example counts, in creation order. Pass `limit` (default 50, maximum 200). When more intents follow, the response includes `nextCursor`: pass it back as `cursor` for the next page. The Python `intents()` and `examples()` methods follow the cursor for you and return every item, and the CLI's `--all` does the same.
 
 {{< clients-example set="iris_intent_router_intents" step="intents-list" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -48,7 +48,7 @@ Update the description, target, `minScore`, or metadata as a merge patch, withou
 
 {{< clients-example set="iris_intent_router_intents" step="intent-patch" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Clearing `minScore` makes the intent use the Router's threshold again.
+Clearing `minScore` makes the intent use the Router's threshold again. The CLI's `intents update` can't send `null`, so the CLI example changes only the target. To clear a field, use another client.
 
 ## Avoid overwriting concurrent changes
 

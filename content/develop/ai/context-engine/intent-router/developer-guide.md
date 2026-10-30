@@ -26,8 +26,8 @@ Platform teams create the Router and the agent keys. See [Manage Routers](/conte
 
 | Client | Use it when | Package and guide |
 |:-------|:------------|:------------------|
-| Python | Your application or agent uses Python. | Install [`redis-iris`](https://pypi.org/project/redis-iris/) and follow the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md). `IntentRouter` exposes the data-plane operations through its `client` property, and its `service` property administers Routers. |
-| TypeScript | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/intent-router`](https://www.npmjs.com/package/@redis-iris/intent-router). `IntentRouter` calls the data plane, and `IntentRouterService` calls the control plane. |
+| Python | Your application or agent uses Python. | Install [`redis-iris`](https://pypi.org/project/redis-iris/) and follow the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md). `IntentRouter` matches and authors intents with methods such as `match`, `define`, and `add_examples`. Its `client` property exposes the generated data-plane client for anything those methods don't wrap, and its `service` property administers Routers. The generated clients' methods return the response as `.headers` and `.result`. |
+| TypeScript | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/intent-router`](https://www.npmjs.com/package/@redis-iris/intent-router) with `npm install @redis-iris/intent-router@beta`. `IntentRouter` calls the data plane, and `IntentRouterService` calls the control plane. Methods take positional arguments with request options last, and return `{ headers, result }`. |
 | CLI | You work from a shell, a script, or continuous integration. | The `iris intent-router` commands ship in the same [`redis-iris`](https://pypi.org/project/redis-iris/) package. |
 | HTTP | You need language-independent access or don't want a package dependency. | No package required. Send requests as shown in the [API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). |
 
@@ -49,7 +49,7 @@ Keep the admin token out of application configuration. An agent key can't create
 
 ## Work with intents
 
-Create intents with `upsert`, add several at once with the bulk operation, and manage examples separately from an intent's configuration. See [Manage intents and examples](/content/develop/ai/context-engine/intent-router/manage-intents.md).
+Create or replace intents one at a time (`define` in Python, `intents add` in the CLI), add several at once with the bulk operation (`define_many`, or `intents add --file`), and manage examples separately from an intent's configuration. See [Manage intents and examples](/content/develop/ai/context-engine/intent-router/manage-intents.md).
 
 ## Match queries
 

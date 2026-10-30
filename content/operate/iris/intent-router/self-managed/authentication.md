@@ -19,7 +19,7 @@ This page lists each credential and what it unlocks. It also shows how to load t
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control-plane admin token | Operator → control plane (`:9400`) | The Secret in `controlplane.adminToken` | Yes, by default | Router administration: `/iris/v2/intent/routers` and `/iris/v2/intent/models` |
+| Control-plane admin token | Operator → control plane (`:9400`) | The Secret in `controlplane.adminToken` | Yes, by default | Router administration: `/iris/v1/intent/routers` and `/iris/v1/intent/models` |
 | Control-plane internal token | Identity Service → control plane | The Secret in `controlplane.internalToken` | Yes, by default | Checking that the Router in a grant exists |
 | Identity Service control token | Operator → Identity Service (`:9200`) | The Secret in `identityService.controlToken` | Yes, by default | Creating, listing, rotating, and revoking agent keys |
 | Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.runtimeToken` | Yes, by default | Checking agent keys for `intent` |

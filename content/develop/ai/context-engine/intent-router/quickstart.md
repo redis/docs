@@ -23,17 +23,16 @@ Follow one tab throughout the page. The Python package and the command-line inte
 
 **Python and CLI**
 
-<!-- TODO: pin redis-iris to the first release that includes redis_iris.intent_router, as the Playbooks quickstart does. -->
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris
+python -m pip install 'redis-iris>=1.0.0b1'
 ```
 
 **TypeScript**
 
 ```bash
-npm install @redis-iris/intent-router
+npm install @redis-iris/intent-router@beta
 ```
 
 **cURL**
@@ -45,7 +44,7 @@ jq --version
 
 ## Save connection values
 
-Export these values in the shell where you run the examples. Use the data plane's base address, including the scheme, without the `/iris/v2/...` path.
+Export these values in the shell where you run the examples. Use the data plane's base address, including the scheme, without the `/iris/data/v1/...` path.
 
 ```bash
 export IRIS_INTENT_ROUTER_URL='<data-plane-endpoint>'
@@ -55,7 +54,7 @@ export IRIS_INTENT_ROUTER_API_KEY='<agent-key>'
 
 Keep keys out of source control and model prompts.
 
-The Python examples use `IntentRouter` from the unified `redis-iris` package. `IntentRouter.from_env()` reads these variables, and its `client` property exposes the generated data-plane client, which the examples call. The TypeScript examples pass the same values to the generated `@redis-iris/intent-router` client. The CLI tab runs `iris intent-router` commands, which read the same variables. CLI commands use `--json` when saving a response or processing it with jq.
+The Python examples use `IntentRouter` from the unified `redis-iris` package. `IntentRouter.from_env()` reads these variables, and its methods, such as `define`, `match`, `add_examples`, and `update`, return plain values such as `Intent` and `Matches`. The TypeScript examples pass the same values to the generated `@redis-iris/intent-router` client, whose methods take positional arguments with the request body after the path and header values, and return `{ headers, result }`. The CLI tab runs `iris intent-router` commands, which read the same variables. CLI commands use `--json` when saving a response or processing it with jq.
 
 ## Connect to the Router
 
@@ -67,7 +66,7 @@ The health check reports `ok: true` when the Router can serve. Each entry in `ch
 
 ## Create intents
 
-Writing an intent with `PUT` creates it or replaces the one with the same name, so you can rerun this step. This example defines `track_order` with a description, a target, and three examples, and `refund` with examples only.
+Writing an intent with `PUT` creates it or replaces the one with the same name, so you can rerun this step. In Python this is `define`, and in the CLI it is `intents add`. This example defines `track_order` with a description, a target, and three examples, and `refund` with examples only.
 
 {{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -93,7 +92,7 @@ The next match uses the new example. Adding a phrasing that already exists is ha
 
 ## Change an intent's threshold
 
-Updating an intent with `PATCH` changes its configuration without touching or re-embedding its examples. An omitted field is unchanged, and `null` clears a field.
+Updating an intent with `PATCH` changes its configuration without touching or re-embedding its examples. An omitted field is unchanged, and `null` clears a field. In Python, `update` sends only the fields you pass, and `None` clears one.
 
 {{< clients-example set="iris_intent_router_quickstart" step="intent-update" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
