@@ -15,9 +15,9 @@ A playbook is a registry of the frequently asked questions (FAQs) and skills you
 
 ## Before you begin
 
-You need a Redis Cloud database for the playbook's data. If you don't have one, see [Create a database](/content/operate/rc/databases/create-database/_index.md).
+The playbook stores its data in a Redis Cloud database. Use one of your databases, or let the console create a free database when you create the playbook. To create one yourself, see [Create a database](/content/operate/rc/databases/create-database/_index.md).
 
-If the database has a Classless Inter-Domain Routing (CIDR) allow list, the console lists the Internet Protocol (IP) addresses to add to it so Agent Playbooks can reach the database. Add them under **Security** in the database's settings.
+If the database has a Classless Inter-Domain Routing (CIDR) allow list that blocks Agent Playbooks, you can't create the playbook with it. The console lists the Internet Protocol (IP) addresses to add. Add them under **Security** in the database's settings.
 
 ## Create a playbook
 
@@ -34,22 +34,24 @@ If the database has a Classless Inter-Domain Routing (CIDR) allow list, the cons
     | Setting | Description |
     |:--------|:------------|
     | **Name** | A name for the playbook, up to 128 characters. |
-    | **Database** | The Redis Cloud database that stores the playbook's data. The list shows the databases you can use. |
+    | **Database** | The Redis Cloud database that stores the playbook's data. The list shows the databases you can use. If you don't have a free database, select **Free Redis database** to create one with the playbook. An existing free database appears first, with a **Free** badge. |
     | **Embedding model** | The model that creates embeddings for semantic matching. Each option shows its provider and number of dimensions. Models listed as **Redis** use Redis-managed credentials. Models listed as **Bring Your Own** use your provider's application programming interface (API) key. |
 
     You can't change the database or the embedding model after you create the playbook.
 
     <!-- TODO: screenshot of the New playbook dialog. -->
 
-1. Select **Create Playbook**.
+1. Select **Create playbook**. Creation can take up to two minutes.
 
-The console creates the playbook and opens its **Registry** tab. The playbook's status shows **Provisioning** until it's **Ready**.
+1. In the **Connect to Playbook** step, [create an API key for your agent](#give-an-agent-access), or select **Skip for now**.
+
+The console opens the playbook's **Configuration** tab. The playbook's status shows **Provisioning** until it's **Ready**. A playbook can also show **Failed**, **Suspended**, **Deleting**, or **Unavailable**.
 
 ## Add your provider API key
 
-If you chose a **Bring Your Own** embedding model, the playbook needs your provider API key before it can process content. Until you add it, the **Registry** tab asks you to add it in **Settings**.
+If you chose a **Bring Your Own** embedding model, the playbook needs your provider API key before it can process content. Until you add it, the **Registry** tab asks you to add it in **Configuration**.
 
-1. On the playbook's **Settings** tab, find the **Embedding provider credential** section.
+1. On the playbook's **Configuration** tab, find the **Embedding provider credential** section.
 1. Enter your **Provider API key**.
 1. Select **Save provider credential**.
 
@@ -57,16 +59,32 @@ This key is separate from the API key your agents use to read the playbook. You 
 
 ## Give an agent access
 
-Agents read a playbook with an API key that has access to it, at the playbook's agent endpoint.
+Agents read a playbook at its endpoint, with an API key that has access to it.
 
-1. On the playbook's **Settings** tab, find the **Agent endpoint** in the **General settings** section. Copy the URL for your region.
+1. On the playbook's page, select **Connect**. The **Connect to Playbook** dialog shows the playbook's **Endpoint** and **Playbook ID**. Copy them for your agent.
 
-1. In the **Manage API keys** section, select **Manage API keys**. The console opens **Access & Identity**.
+    This dialog also opens as the second step when you create a playbook.
 
-1. Create an API key with access to this playbook. Grant `read` to retrieve published content. Also grant `propose` if your agent submits proposals.
+    <!-- TODO: confirm the Connect dialog code samples ship by GA -->
+
+1. Select **Create an API key**.
+
+1. Enter a **Key name**, or keep the default.
+
+1. Under **What can this key do?**, select `read` to retrieve published content. Also select `propose` if your agent submits proposals.
+
+    <!-- TODO: confirm which actions beyond read and propose the console lists for a playbook, and whether to document them. -->
+
+1. Choose an **Expiration**. The default is 90 days.
+
+1. Select **Create API key**.
+
+1. Copy the key, and then select **Done**.
 
     > [!WARNING]
-    > The console shows the key's token only once, when you create it. Save it to a secure location before you close the page.
+    > The console shows the key only once, when you create it. Save it to a secure location before you select **Done**.
+
+To set more options, select **Customize in the full page** in the **Create API key** step. The console opens **Access & Identity** with this playbook selected.
 
 For what each action allows, see [Playbooks](/content/develop/ai/context-engine/agent-playbook/concepts.md#playbooks).
 

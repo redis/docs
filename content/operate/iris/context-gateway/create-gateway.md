@@ -17,12 +17,9 @@ A Context Gateway gives your agents one Model Context Protocol (MCP) endpoint fo
 
 ## Before you begin
 
-- To add an MCP server, you need its endpoint URL, and its credentials if it requires them. The server must use the Streamable HTTP transport and be reachable from Redis Cloud.
-- To create a Context Surface, you need the ID of the Redis database that holds your records.
-  <!-- TODO: confirm what the Surface database ID is on Redis Cloud. The console tells users to get it from their "deployment admin", who adds databases to "the registry", which reads as self-managed wording. -->
+To add an MCP server, you need its endpoint URL, and its credentials if it requires them. The server must use the Streamable HTTP transport and be reachable from Redis Cloud.
 
-If your role doesn't allow a change, the console says so and names the role it needs.
-<!-- TODO: confirm the Redis Cloud roles for Context Gateway. The console's refusal text names operator, product_admin, and viewer roles, which aren't standard Redis Cloud roles. -->
+If you don't have permission to make a change, the console says so and tells you to ask your account administrator for access.
 
 ## Create a Gateway
 
@@ -34,7 +31,7 @@ If your role doesn't allow a change, the console says so and names the role it n
 
 1. Select **New gateway**.
 
-1. In the **Create gateway** dialog, enter a **Name** for the Gateway, up to 200 characters. Add a **Description** if you want one.
+1. In the **Create gateway** dialog, enter a **Name** for the Gateway, up to 128 characters. Add a **Description** if you want one.
 
 1. Choose a **Tool exposure** mode:
 
@@ -43,13 +40,13 @@ If your role doesn't allow a change, the console says so and names the role it n
     | **Search** | Two tools, `search_tools` and `run_tool`. Agents find a tool with `search_tools`, then run it with `run_tool`. This is the default. | The Gateway serves many tools. Agents load two tools instead of all of them. |
     | **Full** | Every tool, named `namespace.tool`. | The Gateway serves only a few tools. |
 
-    You can change the mode later in the Gateway's [settings](/content/operate/iris/context-gateway/manage-gateway.md#settings-tab).
+    You can change the mode later on the Gateway's [**Configuration** tab](/content/operate/iris/context-gateway/manage-gateway.md#configuration-tab).
 
     <!-- TODO: screenshot of the Create gateway dialog. -->
 
 1. Select **Create gateway**.
 
-When the Gateway is ready, the dialog offers to add its first Upstream. Select [**Add MCP server**](#add-an-mcp-server) or [**Create Context Surface**](#create-a-context-surface). To add one later, select **Skip for now**, which opens the Gateway's **Overview** tab.
+When the Gateway is ready, the dialog offers to add its first Upstream. Select [**Add MCP server**](#add-an-mcp-server) or [**Create Context Surface**](#create-a-context-surface). To add one later, select **Skip for now**, which opens the Gateway's **Configuration** tab.
 
 ## Add an MCP server
 
@@ -61,21 +58,18 @@ Add an MCP server to serve its tools through the Gateway. The Gateway connects t
 
     | Setting | Description |
     |:--------|:------------|
-    | **Display name** | A name for the Upstream, up to 200 characters. Required. |
-    | **Namespace** | The prefix for this Upstream's tool names. Agents see its tools as `namespace.tool_name`. Use up to 63 lowercase letters and digits, joined by single hyphens. Leave it empty to make one from the display name. You can't change it after you add the Upstream. |
+    | **Name** | A name for the Upstream, up to 128 characters. Required. |
+    | **Namespace** | The prefix for this Upstream's tool names. Agents see its tools as `namespace.tool_name`. Use up to 32 lowercase letters and digits, joined by single hyphens. Leave it empty to make one from the name. You can't change it after you add the Upstream. |
     | **Endpoint URL** | The absolute HTTP or HTTPS URL of the MCP server, such as `https://mcp.example.com/mcp`. The URL can't contain a user name or password. Required. |
 
     The **Transport** is always **Streamable HTTP**.
 
-1. In the **Authentication** section, choose how the Gateway authenticates to the server:
+1. In the **Authentication** section, add the credentials the server needs. If you add none, the Gateway sends no credentials.
 
-    | Method | What the Gateway sends |
-    |:-------|:-----------------------|
-    | **None** | No credentials. This is the default. |
-    | **Bearer token** | The **Token** you enter, in the `Authorization` header. You can also add headers, such as a tenant ID. |
-    | **Headers** | One or more headers you name, such as `X-Api-Key`, with their values. |
+    - To send a token in the `Authorization` header, select **Add bearer token** and enter the **Bearer token**.
+    - To send a header, select **Add header**, then enter the header's name, such as `X-Api-Key`, and its value. Add one row for each header.
 
-    The console stores secrets encrypted and never shows them again. You can't add a header the Gateway sets itself, such as `Host` or `Content-Type`, or an `Authorization` header alongside a bearer token.
+    You can use a bearer token and headers together. The console stores secrets encrypted and never shows them again. You can't add a header the Gateway sets itself, such as `Host` or `Content-Type`, or an `Authorization` header alongside a bearer token.
 
 1. Under **Availability**, leave the Upstream enabled so agents see its tools as soon as discovery finishes. Turn it off to add the Upstream without serving its tools yet.
 
@@ -105,9 +99,9 @@ A Context Surface generates search tools from a data model over the records in a
 
     | Setting | Description |
     |:--------|:------------|
-    | **Display name** | A name for the Upstream, up to 200 characters. Required. |
+    | **Name** | A name for the Upstream, up to 128 characters. Required. |
     | **Namespace** | The prefix for this Upstream's tool names, with the same rules as for an MCP server. Optional. |
-    | **Surface database ID** | The ID of the database that holds your records, using 1 to 32 letters, digits, or hyphens. You can't change it after you create the Surface. Required. |
+    | **Database** | The database in your account that holds your records. The Gateway must be able to reach it, so its CIDR allow list can't block the Gateway. You can't change it after you create the Surface. Required. |
     | **Description** | What the data holds. Agents read it with the tools. Optional. |
 
 1. On the **Entities** step, add each kind of record in your data model. Select **Add entity**, then enter its settings:
@@ -131,7 +125,7 @@ A Context Surface generates search tools from a data model over the records in a
     | **PK** | Whether the field is the entity's primary key (PK). A PK field can't have indexes. |
     | **Related entity** | Another entity this field points to, which creates a relationship. Optional. |
     | **Type** | One of `str`, `int`, `float`, `bool`, `list[str]`, `list[float]`, `object`, `geo`, or `timestamp`. |
-    | **Indexes** | The indexes that let agents search or filter on the field. The choices depend on the type, and `geo` and `timestamp` fields always have one. |
+    | **Indexes** | The index that lets agents search or filter on the field. A field can have at most one index. The choices depend on the type, and `geo` and `timestamp` fields always have one. |
 
     To adjust an index, open its **Index settings**:
 
@@ -156,20 +150,24 @@ To create the Surface first and add its data model later, select **Create withou
 
 Agents connect to the Gateway's MCP endpoint with an agent key that has a `use` grant on the Gateway.
 
-1. On the Gateway's page, select **Create agent key**.
+1. On the Gateway's **Configuration** tab, find the **Connect an agent to start using these tools** banner and select **Create API key**.
 
-    The console opens **Access & Identity** with a `use` grant on this Gateway already selected. Create the key.
+    The banner shows **Create API key** only while the Gateway has no active agent key. To create another key, select **Connect**, then **Create an API key**.
+
+1. In the **Create API key** dialog, keep or change the **Key name**. Under **What can this key do?**, choose what the key can do on this Gateway, then set its **Expiration**. To set more options, select **Customize in the full page**, which opens **Access & Identity**.
+
+1. Select **Create API key**.
 
     > [!WARNING]
-    > The console shows the key's token only once, when you create it. Save it to a secure location before you close the page.
+    > The console shows the key only once, when you create it. Copy it and save it to a secure location before you select **Done**.
 
-1. Back on the Gateway's page, select **Connect**.
+1. Select **Done**, then select **Connect** in the banner.
 
-1. In the **Connect an agent** dialog, copy the **MCP endpoint**. Under **Client setup**, select your client, **Claude Code**, **Cursor**, or **ADK**, and copy its setup. Replace `<AGENT_KEY>` with your agent key's token.
+1. In the **Connect to Context Gateway** dialog, copy the **Endpoint** under **Connection details**. Under **Quick connect**, select **Claude Code**, **Cursor**, or **ADK**, and copy its sample. Replace `<AGENT_KEY>` with your agent key.
 
-The dialog's **What the agent sees** section describes the tools agents get in the Gateway's tool exposure mode.
+    <!-- TODO: confirm the Quick connect install sample ships by GA. The console currently shows a literal <placeholder> for it. -->
 
-<!-- TODO: screenshot of the Connect an agent dialog. -->
+<!-- TODO: screenshot of the Connect to Context Gateway dialog. -->
 
 ## Next steps
 

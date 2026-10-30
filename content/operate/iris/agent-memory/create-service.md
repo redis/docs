@@ -28,34 +28,32 @@ If the database you select has a Classless Inter-Domain Routing (CIDR) allow lis
 
 ## Create an Agent Memory service
 
-From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory** under **Iris** in the menu. If Redis Cloud displays service terms, review and accept them.
+To create a service:
 
-If you haven't created an Agent Memory service yet, you see an introduction to Agent Memory. Select **Create Agent Memory service**. Otherwise, select **New Service** from your list of services.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory** under **Iris** in the menu.
 
-![The New service button.](/images/rc/langcache-new-service.png)
-{width="150px"}
+1. Select **Create Agent Memory service** on the Agent Memory introduction page, or **New service** in your list of services.
 
-From here: 
+    <!-- TODO: screenshot of the Create Agent Memory service dialog in the current console -->
 
-- Select **Quick create** to create a Redis Agent Memory service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the Redis Agent Memory service for you.
+1. In the **Create Agent Memory service** dialog, enter a **Service name**, up to 128 characters.
 
-    ![The Quick create button.](/images/rc/langcache-quick-create.png)
-    {width="150px"}
+1. Select a **Database**. The console selects your free database by default. If you don't have one yet, **Free Redis database** creates it for you. You can select another eligible database instead.
+    <!-- TODO: confirm the free database size. The previous docs said 30 MB. -->
 
-    After Redis Cloud creates your Agent Memory service, it opens the service's page. [Create an API key]({{< relref "/operate/iris/agent-memory/view-service#create-an-api-key" >}}) for your agent, then [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
+1. Review the **Default settings**: 1 day of short-term memory, 365 days of long-term memory, and session summary on.
 
-- If you want to customize your Redis Agent Memory service, select **Create custom service**.
+1. Select **Create** to create the service with these defaults. To change the defaults first, select **Customize settings** instead and continue with [General settings](#general-settings).
 
-    ![The Create custom service button to create an Agent Memory service.](/images/rc/agent-memory-custom-service.png)
-    {width="150px"}
+After Redis Cloud creates the service, the **Connect to Agent Memory** dialog opens so you can [connect your agent and create an API key](#connect-and-create-an-api-key).
 
-    This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
+**Customize settings** opens the **Create Agent Memory service** page, which has these sections:
 
-    1. The [General settings](#general-settings) section defines basic properties of your service.
-    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
-    1. The [AI model and credentials](#ai-model-and-credentials) section allows you to use your own model provider key and select the models used by the service.
-    1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
-    1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
+1. The [General settings](#general-settings) section defines basic properties of your service.
+1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+1. The [AI model and credentials](#ai-model-and-credentials) section allows you to use your own model provider key and select the models used by the service.
+1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
+1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
 
 ### General settings
 
@@ -65,7 +63,7 @@ The **General settings** section defines basic properties of your service.
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Service Name** | Enter a name for your Agent Memory service, up to 64 characters. We recommend you use a name that describes your service's purpose. |
+| **Service Name** | Enter a name for your Agent Memory service, up to 128 characters. We recommend you use a name that describes your service's purpose. |
 | **Select Database** | Select the Redis Cloud database to use for this service from the list. |
 | **User for this service** | The [database access user]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to use for this service. Agent Memory only supports the [`default` user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}). |
 
@@ -219,9 +217,32 @@ When you are done setting the details of your Agent Memory service, select **Cre
 
 ![Use the Create button to create an Agent Memory service.](/images/rc/button-access-management-user-key-create.png)
 
-Redis Cloud creates the service and opens its page. To connect an agent, [create an API key]({{< relref "/operate/iris/agent-memory/view-service#create-an-api-key" >}}) with access to the service.
+Redis Cloud creates the service and opens its page. To connect an agent, use the [connect banner](/content/operate/iris/agent-memory/view-service.md#configuration-tab) on the **Configuration** tab.
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
+
+## Connect and create an API key {#connect-and-create-an-api-key}
+
+The **Connect to Agent Memory** dialog shows the service's endpoint and store ID, and **Quick connect** samples for each software development kit (SDK). Your agent needs an API key with access to the service.
+
+1. Select **Create an API key**.
+
+1. Enter a name for the key.
+
+1. Under **What can this key do?**, select the actions the key allows on this service.
+
+1. Set when the key expires.
+
+1. Select **Create API key**.
+
+1. Copy the key and save it to a secure location.
+
+    > [!WARNING]
+    > The console shows the key only once. If you lose it, create a new key.
+
+1. Select **Done** to open the service's page.
+
+To connect later, select **Skip for now**. You can create a key from the service's page or in [**Access & Identity**](/content/operate/iris/agent-memory/view-service.md#create-an-api-key).
 
 ## Next steps
 

@@ -33,6 +33,7 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install redis-iris redis-agent-lens
 ```
+<!-- TODO: confirm the install command; the console uses pip install --pre "redis-iris[llm-tracing]" -->
 
 ## Configure the SDK
 
@@ -74,7 +75,7 @@ A turn is readable a few seconds after its export.
 
 To view it in Lens:
 
-1. Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu. If Lens asks for a credential, paste your read key and select **Connect**.
+1. Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu; Lens uses your console sign-in. Self-managed, Lens asks for a credential: paste your read key and select **Connect**.
    <!-- TODO: describe where to open Lens self-managed when the operator pages exist. -->
 1. Select the `lens-quickstart` agent.
 1. Select the session that matches the printed session ID.
