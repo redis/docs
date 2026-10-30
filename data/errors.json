@@ -17,7 +17,8 @@
     "src/cluster.c:1517"
    ],
    "explain": "The key's hash slot, shown in the message, is moving to the node at the address in the message, and the key may already be there. Send `ASKING` and then the command to that node, once. Cluster-aware clients do this for you.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "keys"
   },
   {
    "message": "BUSY <message>",
@@ -29,7 +30,8 @@
     "src/server.c:4802"
    ],
    "explain": "A module command has been running for a long time and blocks the server, and the text after `BUSY` comes from that module. Wait for the command to finish and retry. `SHUTDOWN NOSAVE` still works if you need to stop the server.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "BUSY Redis is busy running a module command.",
@@ -41,7 +43,8 @@
     "src/server.c:4804"
    ],
    "explain": "A module command has been running for a long time and blocks the server, so it accepts only a few commands. Wait for it to finish and retry. No command can stop it, apart from stopping the server with `SHUTDOWN NOSAVE`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "BUSY Redis is busy running a script. You can only call FUNCTION KILL or SHUTDOWN NOSAVE.",
@@ -54,7 +57,8 @@
     "src/server.c:4808"
    ],
    "explain": "A function, run with `FCALL`, has run longer than `busy-reply-threshold` and blocks the server. Stop it with `FUNCTION KILL` if it hasn't written any data yet, or wait for it. `SHUTDOWN NOSAVE` stops the server without saving.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
@@ -68,7 +72,8 @@
     "src/server.c:4806"
    ],
    "explain": "A Lua script, run with `EVAL` or `EVALSHA`, has run longer than `busy-reply-threshold` and blocks the server. Stop it with `SCRIPT KILL` if it hasn't written any data yet, or wait for it. `SHUTDOWN NOSAVE` stops the server without saving.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "BUSYGROUP Consumer Group name already exists",
@@ -107,7 +112,8 @@
     "src/cluster.c:1511"
    ],
    "explain": "The command uses a key whose hash slot isn't assigned to any node, so no node can serve it. Check the slot coverage with `CLUSTER SLOTS`, and assign the missing slots with `CLUSTER ADDSLOTS` or `CLUSTER ADDSLOTSRANGE`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "keys"
   },
   {
    "message": "CLUSTERDOWN The cluster is down",
@@ -118,7 +124,8 @@
     "src/cluster.c:1507"
    ],
    "explain": "The cluster is in the failed state, for example because some hash slots have no working node, so this node refuses commands that use keys. Fix the failed nodes or the slot coverage. To keep serving reads meanwhile, set `cluster-allow-reads-when-down` to `yes`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "keys"
   },
   {
    "message": "CLUSTERDOWN The cluster is down and only accepts read commands",
@@ -129,7 +136,8 @@
     "src/cluster.c:1509"
    ],
    "explain": "The cluster is in the failed state, and because `cluster-allow-reads-when-down` is `yes`, this node still serves reads but refuses writes. Fix the failed nodes or the slot coverage, then retry the write.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "CROSSSLOT Keys in request don't hash to the same slot",
@@ -140,7 +148,8 @@
     "src/cluster.c:1500"
    ],
    "explain": "The command uses several keys that belong to different hash slots, which a cluster can't serve in one command. Put the keys in the same slot with a hash tag, such as `{user1}:name` and `{user1}:email`, or send one command per key.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "multikey"
   },
   {
    "message": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.",
@@ -151,7 +160,8 @@
     "src/networking.c:1613"
    ],
    "explain": "Redis refused your connection because protected mode is on, the default user has no password, and you connected from another computer. Set a password for the default user, or turn off `protected-mode` only if the server can't be reached from the internet.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "connect"
   },
   {
    "message": "EXECABORT Transaction discarded because of previous errors.",
@@ -267,7 +277,8 @@
     "src/server.c:4789"
    ],
    "explain": "Redis is loading its data into memory, after a restart or from its primary, and can't run this command yet. Wait and retry. `INFO persistence` shows the loading progress.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
@@ -280,7 +291,8 @@
     "src/server.c:4776"
    ],
    "explain": "This replica lost its link to the primary, and `replica-serve-stale-data` is `no`, so it refuses commands that read or write data. Wait for the link to recover and check the primary and the network, or set `replica-serve-stale-data` to `yes` to serve possibly outdated data.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "keys"
   },
   {
    "message": "MASTERDOWN Link with MASTER is down, replica-serve-stale-data is set to 'no' and 'allow-stale' flag is not set on the script.",
@@ -307,7 +319,8 @@
     "src/server.c:5288"
    ],
    "explain": "Redis couldn't write or sync its append-only file (AOF), so it refuses write commands and `PING` until a write succeeds. The end of the message gives the operating system's reason, such as a full disk; once you fix it, Redis accepts writes again.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "MISCONF Errors writing to the AOF file: <reason> script: <script>, on <source>:<line>.",
@@ -355,7 +368,8 @@
     "src/server.c:5285"
    ],
    "explain": "The last background snapshot (RDB file) failed, and `stop-writes-on-bgsave-error` is `yes`, so Redis refuses write commands and `PING`. Check the Redis log for the reason and fix it, then run `BGSAVE`; writes work again once a snapshot succeeds.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error. script: <script>, on <source>:<line>.",
@@ -402,7 +416,8 @@
     "src/cluster.c:1517"
    ],
    "explain": "The key's hash slot, shown in the message, is served by another node, at the address in the message. Send the command to that node. Cluster-aware clients follow this redirect and update their slot map for you.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "keys"
   },
   {
    "message": "NOAUTH Authentication required.",
@@ -414,7 +429,8 @@
     "src/server.c:4577"
    ],
    "explain": "The server requires a password, and this connection hasn't authenticated yet. Send `AUTH` with your password, or with your user name and password, before other commands, or set them in your client's connection settings.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time",
@@ -581,7 +597,8 @@
     "src/server.c:4594"
    ],
    "explain": "Your user's access control list (ACL) rules don't allow the channel you used, for example in `PUBLISH` or `SUBSCRIBE`. Run `ACL LOG` to see which channel was refused, then allow it with a `&` pattern in `ACL SETUSER`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "pubsub"
   },
   {
    "message": "NOPERM No permissions to access a key",
@@ -594,7 +611,8 @@
     "src/server.c:4594"
    ],
    "explain": "Your user's access control list (ACL) rules don't allow a key in the command, or the read or write access the command needs. Run `ACL LOG` to see which key was refused, then allow it with a `~` or `%` pattern in `ACL SETUSER`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "keys"
   },
   {
    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
@@ -608,7 +626,8 @@
     "src/server.c:4594"
    ],
    "explain": "The user in the message is authenticated but isn't allowed to run that command. Connect as a user that has the permission, or allow the command with `ACL SETUSER`, for example `+set` or a category such as `+@write`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "any"
   },
   {
    "message": "NOPROTO unsupported protocol version",
@@ -677,7 +696,8 @@
     "src/server.c:4716"
    ],
    "explain": "The primary has fewer connected replicas than `min-replicas-to-write` requires, counting only those whose lag is within `min-replicas-max-lag` seconds, so it refuses writes. Check your replicas with `INFO replication`, or lower `min-replicas-to-write`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "write"
   },
   {
    "message": "NOREPLICAS Not enough good replicas to write. script: <script>, on <source>:<line>.",
@@ -769,7 +789,8 @@
     "src/server.c:4669"
    ],
    "explain": "Redis has reached its `maxmemory` limit and couldn't free enough memory by evicting keys, so it refuses commands that can add data. Delete keys you don't need, raise `maxmemory`, or set a `maxmemory-policy` that can evict your keys.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "OOM command not allowed when used memory > 'maxmemory'. script: <script>, on <source>:<line>.",
@@ -818,7 +839,8 @@
     "src/server.c:4726"
    ],
    "explain": "You sent a write command to a replica, which accepts only reads while `replica-read-only` is `yes`. Send writes to the primary. After a failover, your client may still be connected to a node that has become a replica.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "READONLY You can't write against a read only replica. script: <script>, on <source>:<line>.",
@@ -848,7 +870,8 @@
     "src/cluster.c:1505"
    ],
    "explain": "The command uses several keys in a hash slot that's moving between nodes, and not all of the keys are on this node. Wait a moment and send the command again. The move usually finishes soon.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "multikey"
   },
   {
    "message": "TRYAGAIN Slot is being trimmed",
@@ -859,7 +882,8 @@
     "src/cluster.c:1522"
    ],
    "explain": "You sent a write to a node that's deleting all the keys of that hash slot, for example because the slot moved to another node. Wait for the deletion to finish, then retry. The slot may now be served by another node.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "write"
   },
   {
    "message": "UNBLOCKED client unblocked via CLIENT UNBLOCK",
@@ -871,7 +895,8 @@
     "src/networking.c:4661"
    ],
    "explain": "Another connection ended your blocking command, such as `BLPOP` or `XREAD`, early with `CLIENT UNBLOCK` and the `ERROR` option. Send the command again if you still need its result.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "blocking"
   },
   {
    "message": "UNBLOCKED force unblock from blocking operation, instance state changed (master -> replica?)",
@@ -882,7 +907,8 @@
     "src/blocked.c:317"
    ],
    "explain": "Your blocking command, such as `BLPOP` or `XREAD` with `BLOCK`, was stopped because the server became a replica while you waited, for example during a failover. Redis also closes the connection. Reconnect to the new primary and send the command again.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "blocking"
   },
   {
    "message": "UNKILLABLE Sorry the script already executed write commands against the dataset. You can either wait the script termination or kill the server in a hard way using the SHUTDOWN NOSAVE command.",
@@ -982,7 +1008,8 @@
     "src/t_zset.c:2930"
    ],
    "explain": "You ran a command on a key that holds a different data type, for example `LPUSH` on a string or `VADD` on a hash. Check the key's type with `TYPE`, then use a command for that type or a different key name.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "keys"
   },
   {
    "message": "ERR '<filename>:<line>: username '<username>' contains invalid characters.",
@@ -1588,7 +1615,8 @@
     "src/module.c:8434"
    ],
    "explain": "A module tried to block a client from inside the reply callback of an earlier block, which Redis doesn't allow. This is a bug in the module; report it to its developers.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "module"
   },
   {
    "message": "ERR Blocking module command called from Lua script",
@@ -1599,7 +1627,8 @@
     "src/module.c:8429"
    ],
    "explain": "A script called a module command that tried to block, which can't happen inside a script. Call that module command directly from your client instead of from `EVAL` or `FCALL`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "module"
   },
   {
    "message": "ERR Blocking module command called from transaction",
@@ -1610,7 +1639,8 @@
     "src/module.c:8429"
    ],
    "explain": "You queued a module command that blocks inside a `MULTI` transaction, where commands can't block. Run that command outside the transaction.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "module"
   },
   {
    "message": "ERR BY option of SORT denied due to insufficient ACL permissions.",
@@ -1767,7 +1797,8 @@
     "src/server.c:4762"
    ],
    "explain": "This connection is subscribed to Pub/Sub channels and uses the Redis serialization protocol 2 (RESP2), so it can only run the subscribe and unsubscribe commands, `PING`, `QUIT` and `RESET`. Use a separate connection for other commands, or switch to RESP3 with `HELLO 3`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "any"
   },
   {
    "message": "ERR Can't execute an AOF background rewriting. Please check the server logs for more information.",
@@ -2028,7 +2059,8 @@
     "src/module.c:8437"
    ],
    "explain": "A module tried to block a client that's in the middle of module-based authentication, for something other than the authentication itself. This is a bug in the module; report it to its developers.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "module"
   },
   {
    "message": "ERR CLUSTER RESET can't be called with master nodes containing keys",
@@ -2119,7 +2151,8 @@
     "src/server.c:4583"
    ],
    "explain": "You sent a command inside a `MULTI` transaction that can't run there, such as `SAVE`, `SHUTDOWN`, `SYNC` or `PSYNC`. Run it outside the transaction. The transaction is discarded when you call `EXEC`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "transaction"
   },
   {
    "message": "ERR CONFIG SET failed (possibly related to argument '<parameter>')",
@@ -3006,7 +3039,9 @@
    "message": "ERR DEBUG command not allowed. If the enable-debug-command option is set to \"local\", you can run it from a local connection, otherwise you need to set this option in the configuration file, and then restart the server.",
    "prefix": "ERR",
    "module": "core",
-   "commands": [],
+   "commands": [
+    "DEBUG"
+   ],
    "sources": [
     "src/server.c:4544"
    ],
@@ -6001,7 +6036,8 @@
     "src/networking.c:1692"
    ],
    "explain": "The server has reached its `maxclients` limit, which counts both client connections and connections to other cluster nodes. Redis sends this error to the new connection and closes it; close idle connections, or raise `maxclients`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "connect"
   },
   {
    "message": "ERR max number of clients reached",
@@ -6012,7 +6048,8 @@
     "src/networking.c:1695"
    ],
    "explain": "The server already has `maxclients` connections, 10000 by default, so it refused the new one and closed it. Close idle connections or fix connection leaks in your app, use a connection pool, or raise `maxclients`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "connect"
   },
   {
    "message": "ERR maxage is not an integer or out of range",
@@ -6368,7 +6405,8 @@
     "src/server.c:4349"
    ],
    "explain": "You sent a command that only works with a subcommand, such as `CONFIG` or `CLIENT`, without one. Add the subcommand, and run the command followed by `HELP` to list them. For built-in commands, Redis usually reports a wrong number of arguments instead.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "subcommand"
   },
   {
    "message": "ERR mode must be SILENT, FAIL, or FATAL",
@@ -6392,13 +6430,18 @@
     "src/module.c:8708"
    ],
    "explain": "A module tried to block a client for authentication while that client wasn't being authenticated by a module. This is a bug in the module; report it to its developers.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "module"
   },
   {
    "message": "ERR MODULE command not allowed. If the enable-module-command option is set to \"local\", you can run it from a local connection, otherwise you need to set this option in the configuration file, and then restart the server.",
    "prefix": "ERR",
    "module": "core",
-   "commands": [],
+   "commands": [
+    "MODULE LOAD",
+    "MODULE LOADEX",
+    "MODULE UNLOAD"
+   ],
    "verified": true,
    "sources": [
     "src/server.c:4544"
@@ -7332,7 +7375,8 @@
     "src/networking.c:3631"
    ],
    "explain": "Inside a command sent with the Redis serialization protocol (RESP), an argument didn't start with `$`, and the character in the message came instead. Redis closes the connection; this usually means a bug in the client library, or something other than a Redis client writing to the port.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: invalid bulk length",
@@ -7343,7 +7387,8 @@
     "src/networking.c:3637"
    ],
    "explain": "An argument's length in the Redis serialization protocol (RESP) isn't a valid number, is negative, or is larger than `proto-max-bulk-len`, which is 512 megabytes by default. Redis closes the connection; send smaller values, or raise `proto-max-bulk-len`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: invalid multibulk length",
@@ -7354,7 +7399,8 @@
     "src/networking.c:3645"
    ],
    "explain": "The argument count at the start of a command sent with the Redis serialization protocol (RESP) isn't a valid number, or is larger than 2147483647. Redis closes the connection; this usually points to a bug in the client library or a corrupted stream.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: too big bulk count string",
@@ -7365,7 +7411,8 @@
     "src/networking.c:3627"
    ],
    "explain": "Redis read more than 64 kilobytes while looking for the end of an argument's length line, so the request isn't valid Redis serialization protocol (RESP). Redis closes the connection; check that the client sends well-formed commands.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: too big inline request",
@@ -7376,7 +7423,8 @@
     "src/networking.c:3611"
    ],
    "explain": "Redis received more than 64 kilobytes of plain text without a newline, so it rejected it as an oversized inline command and closed the connection. Send large values with a Redis client, which uses the Redis serialization protocol (RESP), not as plain text.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: too big mbulk count string",
@@ -7387,7 +7435,8 @@
     "src/networking.c:3623"
    ],
    "explain": "Redis read more than 64 kilobytes while looking for the end of the line that gives a command's argument count, so the request isn't valid Redis serialization protocol (RESP). Redis closes the connection; check that the client sends well-formed commands.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: unauthenticated bulk length",
@@ -7398,7 +7447,8 @@
     "src/networking.c:3641"
    ],
    "explain": "This connection hasn't authenticated yet, and it sent an argument longer than 16384 bytes, which Redis refuses before authentication. Redis closes the connection; authenticate with `AUTH` or `HELLO` first, then send large values.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: unauthenticated multibulk length",
@@ -7409,7 +7459,8 @@
     "src/networking.c:3649"
    ],
    "explain": "This connection hasn't authenticated yet, and it sent a command with more than 10 arguments, which Redis refuses before authentication. Redis closes the connection; authenticate with `AUTH` or `HELLO` first.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol error: unbalanced quotes in request",
@@ -7420,7 +7471,8 @@
     "src/networking.c:3615"
    ],
    "explain": "An inline command, sent as plain text such as from `telnet`, has a quote that isn't closed. Redis closes the connection; close the quote, or send the command with a Redis client instead.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR Protocol version is not an integer or out of range",
@@ -7719,7 +7771,8 @@
     "src/server.c:4817"
    ],
    "explain": "A connection that registered as a replica with `SYNC` or `PSYNC` then sent a command that reads or writes keys. Replication connections can't access data; open a normal connection for those commands.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "keys"
   },
   {
    "message": "ERR REPLICAOF not allowed in cluster mode.",
@@ -9251,7 +9304,8 @@
     "src/cluster_slot_stats.c:297"
    ],
    "explain": "You ran a cluster command, such as `CLUSTER INFO`, `READONLY`, or `ASKING`, on a server that isn't running in cluster mode. Connect to a cluster node instead, or start this server with `cluster-enabled yes` if you're building a cluster.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "cluster"
   },
   {
    "message": "ERR this node is already the owner of the slot range",
@@ -9659,7 +9713,8 @@
     "src/server.c:4358"
    ],
    "explain": "This server doesn't know the command named in the message. Check the spelling, that your Redis version has the command, that the module that adds it is loaded, and that it isn't renamed or disabled with `rename-command`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "any"
   },
   {
    "message": "ERR unknown command '<command>', with args beginning with: <args>",
@@ -9673,7 +9728,8 @@
     "src/server.c:4364"
    ],
    "explain": "This server doesn't know the command named in the message; the message also shows the first arguments to help you find the call. Check the spelling, that your Redis version has the command, and that the module that adds it is loaded.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "any"
   },
   {
    "message": "ERR Unknown direction <direction>",
@@ -9889,7 +9945,8 @@
     "src/server.c:4351"
    ],
    "explain": "The command named in the message doesn't have the subcommand you passed. Run the command followed by `HELP`, for example `CLIENT HELP`, to list its subcommands, and check that your Redis version has the one you want.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "subcommand"
   },
   {
    "message": "ERR unknown subcommand or wrong number of arguments",
@@ -9944,7 +10001,8 @@
     "src/t_stream.c:5591"
    ],
    "explain": "You called a command that has subcommands, such as `CONFIG` or `XINFO`, with a subcommand it doesn't have, or with the wrong number of arguments for that subcommand. Run the `HELP` subcommand named in the message to list the valid forms.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "subcommand"
   },
   {
    "message": "ERR unknown type object",
@@ -10273,7 +10331,8 @@
     "src/object.c:1247"
    ],
    "explain": "An argument that must be a whole number isn't one, or it's outside the signed 64-bit range; for commands such as `INCR`, the value already in the key can be the problem. Write the number with digits only, without decimals or units, such as `10` or `-3`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "number"
   },
   {
    "message": "ERR value is out of range",
@@ -10286,7 +10345,8 @@
     "src/t_zset.c:4735"
    ],
    "explain": "You called `HRANDFIELD` with `WITHVALUES`, or `ZRANDMEMBER` with `WITHSCORES`, and a count whose absolute value is larger than 4611686018427387903. Pass a smaller count.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "number"
   },
   {
    "message": "ERR value is out of range, must be positive",
@@ -10327,7 +10387,8 @@
     "src/object.c:1277"
    ],
    "explain": "An integer argument is outside the range it accepts, and the message gives the smallest and largest allowed values. For example, the numlocal argument of `WAITAOF` must be `0` or `1`, and a database number for `SELECT`, `MOVE`, or `COPY` must fit in 32 bits.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "number"
   },
   {
    "message": "ERR WAIT cannot be used with replica instances. Please also note that since Redis 4.0 if a replica is configured to be writable (which is not the default) writes to replicas are just local and are not propagated.",
@@ -10562,7 +10623,8 @@
     "src/t_zset.c:4145"
    ],
    "explain": "The command named in the message got more or fewer arguments than it accepts. Compare your call with the command's syntax, and check for an empty list of keys or fields, or a value with spaces that wasn't quoted.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "any"
   },
   {
    "message": "ERR wrong number of arguments for 'hotkeys|get' command",
@@ -12206,7 +12268,8 @@
     "src/suggest.c:284"
    ],
    "explain": "You called the command named in the message with too few or too many arguments. Compare your call with the syntax on the command's page. A common cause is a missing required argument, such as the query of `FT.SEARCH` or the cursor ID of `FT.CURSOR READ`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "ERRBADVAL Failed to deserialize schema",
@@ -13017,7 +13080,8 @@
     "src/module.c:1552"
    ],
    "explain": "Redis Search replaced the command with a placeholder that always fails, because it runs on Redis Software with a cluster configuration it doesn't expect. Despite its wording, this is a deployment problem, so contact your administrator or Redis support.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "search"
   },
   {
    "message": "Multiple ADDR specified for shard `<shard_id>` at offset <position>",
@@ -13156,7 +13220,8 @@
     "src/module.c:4737"
    ],
    "explain": "Your user's access control list (ACL) rules don't allow access to all the keys that the index covers. Give the user access to every `PREFIX` of the index, with a key pattern such as `~doc:*`, or to all keys if it has no `PREFIX`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "query"
   },
   {
    "message": "Operation failed: coordinator thread pool doesn't exists or is already running",
@@ -13529,7 +13594,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:354"
    ],
    "explain": "Your filtered vector query sets `BATCH_SIZE` together with `HYBRID_POLICY ADHOC_BF`, which doesn't use batches. Remove `BATCH_SIZE`, or use `HYBRID_POLICY BATCHES`. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_ADHOC_BATCH_SIZE_IRRELEVANT 'batch size' is irrelevant for the selected policy (Error parsing vector similarity parameters)",
@@ -13559,7 +13625,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:359"
    ],
    "explain": "Your filtered vector query sets `EF_RUNTIME` together with `HYBRID_POLICY ADHOC_BF`, which compares vectors one by one and doesn't search the graph. Remove `EF_RUNTIME`, or use `HYBRID_POLICY BATCHES`. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_ADHOC_EF_RUNTIME_IRRELEVANT 'EF_RUNTIME' is irrelevant for the selected policy (Error parsing vector similarity parameters)",
@@ -13731,7 +13798,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:189"
    ],
    "explain": "This is the default text of `SEARCH_ATTR_BAD`, which means that an argument names a field or gives a value that the operation doesn't accept. Redis 8.10 sends a specific message instead, such as `No such field` or `Not a tag field` from `FT.TAGVALS`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_ATTR_BAD Count accepts 0 values only",
@@ -13834,7 +13902,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:429"
    ],
    "explain": "This is the default text of `SEARCH_DISK_CREATION`, which means that Redis Flex couldn't create or open the disk storage of an index. Redis 8.10 doesn't send this text; `FT.CREATE` sends `Could not open disk index` instead.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_DISK_CREATION Could not open disk index",
@@ -13876,7 +13945,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:494"
    ],
    "explain": "This is the default text of `SEARCH_DISK_ITERATOR_CREATION`, which means that Redis Flex couldn't start reading an index on disk for a query. Redis 8.10 sends the specific reason instead of this text. Retry the query.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_DIST_FAILED Could not distribute the operation",
@@ -13928,7 +13998,8 @@
     "src/rlookup_load_document.c:124"
    ],
    "explain": "Redis Search couldn't open a document's key while reading its fields, usually because the key was deleted or expired during the operation. Queries skip such documents instead of failing, so you rarely see this. Retry the command.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "query"
   },
   {
    "message": "SEARCH_DOCUMENT_EXISTS Document already exists",
@@ -14153,7 +14224,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:174"
    ],
    "explain": "Redis Search couldn't parse or evaluate an expression in `APPLY`, `FILTER`, or the `FILTER` option of `FT.CREATE`, and has no more specific reason. Check the expression's syntax, its function names, and its field names, which need the `@` prefix.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "search"
   },
   {
    "message": "SEARCH_EXPR Syntax error at offset <position> near '<token>'",
@@ -14306,7 +14378,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:304"
    ],
    "explain": "This is the default text of `SEARCH_FIELD_DUP`, which means that the same field or alias appears twice where it must be unique. Redis 8.10 sends a specific message instead, for example one saying that a property is specified more than once. Remove or rename the duplicate.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_FIELD_DUP Property `<property>` specified more than once",
@@ -14362,7 +14435,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:414"
    ],
    "explain": "This is the default text of the code that Redis Flex sends when you already have the most indexes it allows, which is 10. Redis 8.10 sends `Max number of indexes reached for Flex indexes` with the count instead. Drop an index that you no longer need.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_FLEX_LIMIT_NUMBER_OF_INDEXES Max number of indexes reached for Flex indexes: <number>",
@@ -14472,7 +14546,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:479"
    ],
    "explain": "This is the default text of the code that Redis Flex sends when a command uses an option that it doesn't support. Redis 8.10 names the option instead, as in `HIGHLIGHT is not supported in Redis Flex`. Remove that option.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_FLEX_UNSUPPORTED_FIELD <field_type> fields are not supported in Flex indexes",
@@ -14497,7 +14572,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:419"
    ],
    "explain": "This is the default text of the code that Redis Flex sends for a field type that it can't index. Redis 8.10 names the type instead, as in `GEO fields are not supported in Flex indexes`. Remove `GEO` and `GEOSHAPE` fields from the schema.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_FLEX_UNSUPPORTED_FT_CREATE_ARGUMENT Unsupported argument for Flex index: `<argument>`",
@@ -14521,7 +14597,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:424"
    ],
    "explain": "This is the default text of the code that Redis Flex sends for an `FT.CREATE` option that it doesn't support. Redis 8.10 names the option instead, such as `NOOFFSETS` or `TEMPORARY`. Remove that option from `FT.CREATE`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_FLEX_UNSUPPORTED_QUERY <query_type> queries are not supported on Flex indexes",
@@ -14550,7 +14627,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:489"
    ],
    "explain": "This is the default text of the code that Redis Flex sends for a kind of query that it can't run. Redis 8.10 names the kind instead, such as tag prefix, suffix, or wildcard queries. Rewrite the query without that syntax.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_GENERIC <processor> RP type not found in stream or tried to insert after last RP",
@@ -14578,7 +14656,8 @@
     "src/document_basic.c:235"
    ],
    "explain": "The index was created `ON JSON`, but the JSON module isn't loaded, so Redis Search can't read the documents. This usually means Redis runs without its bundled JSON module. Load the module, for example with `loadmodule` in the configuration file, and restart Redis.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_GENERIC Contains query on fields without WITHSUFFIXTRIE support",
@@ -14802,7 +14881,8 @@
     "src/json.c:570"
    ],
    "explain": "Redis Search couldn't compute the memory needed for all the vectors of a multi-value `VECTOR` field in a JSON document, because the size overflowed. This can't happen with realistic data, so you shouldn't see this message.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Failed to allocate memory for text field",
@@ -14813,7 +14893,8 @@
     "src/json.c:680"
    ],
    "explain": "Redis Search couldn't compute the memory needed for all the values of a `TEXT` or `TAG` field in a JSON document, because the size overflowed. This can't happen with realistic data, so you shouldn't see this message.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Failed to allocate memory for vector",
@@ -14824,7 +14905,8 @@
     "src/json.c:518"
    ],
    "explain": "Redis Search couldn't allocate memory for a vector from a JSON document. This only happens if a memory allocation fails, which normally stops Redis instead, so you shouldn't see this message.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Failed to build hybrid pipeline",
@@ -14926,7 +15008,8 @@
     "src/json.c:1113"
    ],
    "explain": "Redis Search couldn't build the sort value of a `SORTABLE` field whose JSONPath returns several values, so it didn't index the document. This usually points to an internal problem rather than to your data.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Failed to merge hybrid subquery results",
@@ -15008,7 +15091,8 @@
     "src/json.c:849"
    ],
    "explain": "A JSON array can't be indexed as a `GEOSHAPE` field. Redis 8.10 returns `Invalid JSON type: Array type cannot represent GEOMETRY field` for this instead, so you shouldn't see this message. Store one shape as a well-known text (WKT) string.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Invalid UTF8",
@@ -15033,7 +15117,8 @@
     "src/json.c:448"
    ],
    "explain": "An element of the JSON array of a `VECTOR` field isn't a valid number for the field's `TYPE`. The message gives its position, counting from 0. Elements must be numbers, and for `INT8` and `UINT8` they must be whole numbers.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Invalid vector elements type - expected <vector_type>, got <json_type>",
@@ -15044,7 +15129,8 @@
     "src/json.c:433"
    ],
    "explain": "The JSON array of an `INT8` or `UINT8` `VECTOR` field holds decimal numbers, such as `[0.5, 1.5]`, but these types need whole numbers. The number after `got` is an internal type code. Store whole numbers, or use a float `TYPE` such as `FLOAT32`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Invalid vector similarity algorithm",
@@ -15055,7 +15141,8 @@
     "src/json.c:505"
    ],
    "explain": "A `VECTOR` field uses an algorithm that Redis Search doesn't know when it reads a vector from a JSON document. Every algorithm that `FT.CREATE` accepts is handled, so this points to a bug rather than to your data.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC No subqueries in hybrid request",
@@ -15108,7 +15195,8 @@
     "src/json.c:859"
    ],
    "explain": "A `GEOSHAPE` field in a JSON document holds a JSON object, such as GeoJSON. Redis Search 8.10 can't index objects in any field, so store the shape as a well-known text (WKT) string, such as `POINT (2 1)`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Requested to index field twice",
@@ -15162,7 +15250,8 @@
     "src/json.c:1094"
    ],
    "explain": "The JSONPath of a `GEOSHAPE` field returns more than one value, for example because it has a wildcard such as `$.shapes[*]`. Redis Search can't index several shapes in one field, so use a JSONPath that returns a single well-known text (WKT) string.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GENERIC Unsupported sortable type",
@@ -15213,7 +15302,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:454"
    ],
    "explain": "A document's `GEO` field has a longitude or latitude outside the range that Redis can store, so Redis Search doesn't index the document. Longitude must be from -180 to 180, and latitude from about -85.05 to 85.05. Redis 8.10 adds the values to this text, and `FT.INFO` reports it.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_GEO_COORDINATES_INVALID Invalid geo coordinates: <longitude>, <latitude>",
@@ -15250,7 +15340,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:344"
    ],
    "explain": "Your vector query sets `HYBRID_POLICY` or `BATCH_SIZE`, but it has no filter, so those options don't apply. Add a filter before `=>[KNN ...]`, or remove the options. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_HYBRID_ATTR_NON_HYBRID hybrid query attributes were sent for a non-hybrid query (Error parsing vector similarity parameters)",
@@ -15280,7 +15371,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:349"
    ],
    "explain": "Your filtered vector query sets `HYBRID_POLICY` to a value that doesn't exist. Use `ADHOC_BF` or `BATCHES`. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_HYBRID_POLICY_BAD invalid hybrid policy was given (Error parsing vector similarity parameters)",
@@ -15310,7 +15402,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:389"
    ],
    "explain": "The background scan that indexes existing keys stopped because Redis was running out of memory. Redis 8.10 sends this text with `New documents will not be indexed.` added. Free memory or raise `maxmemory`, and then drop and re-create the index.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_INDEX_BG_OOM_FAIL Index background scan did not complete due to OOM. New documents will not be indexed.",
@@ -15513,7 +15606,8 @@
     "src/module.c:4737"
    ],
    "explain": "No index or alias has the name in the message. Check the name for typos, and run `FT._LIST` to see the indexes that exist. If the index doesn't exist yet, create it with `FT.CREATE`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_INDEX_NOT_FOUND Unknown index name (or name is an alias itself)",
@@ -15539,7 +15633,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:459"
    ],
    "explain": "This is the default text of `SEARCH_JSON_TYPE_INVALID`: a value in a document of an `ON JSON` index has a type that its field can't index, such as text in a `NUMERIC` field. Redis 8.10 adds which types fit, and `FT.INFO` reports it.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: Array type cannot represent GEOMETRY field",
@@ -15550,7 +15645,8 @@
     "src/json.c:105"
    ],
    "explain": "A `GEOSHAPE` field in a JSON document holds an array, but Redis Search indexes one shape per field, as a well-known text (WKT) string. In this message, `GEOMETRY` means `GEOSHAPE`. Store the shape as a string, such as `POINT (2 1)`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: Boolean type can be represent only TAG field",
@@ -15561,7 +15657,8 @@
     "src/json.c:94"
    ],
    "explain": "A JSON `true` or `false` value is in a field that the index doesn't define as `TAG`. Only `TAG` fields can index booleans, so define the field as `TAG`, or store the value as the type that the field expects.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: Null type is not supported",
@@ -15572,7 +15669,8 @@
     "src/json.c:120"
    ],
    "explain": "Redis Search got a JSON value of an unknown type from the JSON module. Despite the wording, a JSON `null` doesn't cause this error, because Redis Search skips null values, so this points to a mismatch between the two modules.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: Numeric type can represent only NUMERIC field",
@@ -15583,7 +15681,8 @@
     "src/json.c:85"
    ],
    "explain": "A JSON number is in a field that the index doesn't define as `NUMERIC`, such as a `TEXT` or `TAG` field. Store the value as a string, such as `\"42\"`, or define the field as `NUMERIC`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: Object type can represent only GEOMETRY fields",
@@ -15594,7 +15693,8 @@
     "src/json.c:114"
    ],
    "explain": "A JSON object is in a field that the index doesn't define as `GEOSHAPE`. Redis Search can't index objects, so point the field's JSONPath at a value inside the object, such as `$.address.city`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_JSON_TYPE_INVALID Invalid JSON type: String type can represent only TEXT, TAG, GEO or GEOMETRY field",
@@ -15605,7 +15705,8 @@
     "src/json.c:74"
    ],
    "explain": "A JSON string is in a `NUMERIC` or `VECTOR` field. Store numbers as JSON numbers, such as `42` rather than `\"42\"`, and vectors as arrays of numbers. In this message, `GEOMETRY` means `GEOSHAPE`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_KEYWORD Could not handle query keyword",
@@ -15805,7 +15906,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:284"
    ],
    "explain": "This is the default text of `SEARCH_LIMIT_OVER`, which means that a value is larger than Redis Search allows, such as a `LIMIT` above `search-max-search-results`. Redis 8.10 sends a specific message that names the limit instead of this text.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_LIMIT_OVER LIMIT exceeds maximum of <limit>",
@@ -16233,7 +16335,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:274"
    ],
    "explain": "This is the default text of `SEARCH_OPTION_BAD`. Redis 8.10 sends a specific message instead, such as `Not modifiable at runtime` when `FT.CONFIG SET` targets a parameter that you can set only when Redis starts.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_OPTION_INVALID Invalid attribute <attribute>",
@@ -16299,7 +16402,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:279"
    ],
    "explain": "You used `SLOP` or `INORDER` with a `TEXT` field of an `ON JSON` index whose path can match several values, such as `$..title`, so the order of words isn't defined. Remove `SLOP` and `INORDER`, or index a path that matches one value. Redis 8.10 also names the field.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_ORDER_OPTION_BAD slop/inorder are not supported for field with undefined ordering `<field>`",
@@ -16413,7 +16517,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:334"
    ],
    "explain": "You gave the same parameter twice, such as `EF_RUNTIME` twice inside `=>[KNN ...]`, or `K` twice in `FT.HYBRID`. Remove the duplicate. Redis 8.10 always adds more detail to this text.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_PARAM_DUP Parameter was specified twice (Error parsing vector similarity parameters)",
@@ -16443,7 +16548,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:329"
    ],
    "explain": "Your query uses a parameter, such as `$vec`, that `PARAMS` doesn't define. Add it to `PARAMS`, or fix its name in the query. Redis 8.10 adds the parameter's name to this text.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_PARAM_NOT_FOUND Parameter not found `<parameter>`",
@@ -18267,7 +18373,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:164"
    ],
    "explain": "This is the default text of `SEARCH_PARSE_ARGS`, which means that Redis Search couldn't parse the arguments of the command. Redis 8.10 sends a specific message that names the argument instead. Compare the arguments with the command's syntax.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_PARSE_ARGS Expected <number> parameters but got <number>",
@@ -20704,7 +20811,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:264"
    ],
    "explain": "This is the default text of `SEARCH_PATH_BAD`: the path of a field in an `ON JSON` index isn't valid. Redis 8.10 sends `Invalid JSONPath` with the path, the field, and the index instead. Fix the path, which starts with `$`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_PROP_NOT_FOUND No such property `<property>`",
@@ -20840,7 +20948,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:194"
    ],
    "explain": "This is the default text of `SEARCH_QUERY_BAD`, which covers queries and schemas that parse but aren't valid, such as a duplicate field name or a query vector of the wrong size. Redis 8.10 sends a specific message instead of this text.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "search"
   },
   {
    "message": "SEARCH_QUERY_BAD Disk HNSW index requires EF_CONSTRUCTION parameter",
@@ -21019,7 +21128,8 @@
     "src/json.c:1054"
    ],
    "explain": "You only get this from a JSON index that uses Redis Flex. A field's JSONPath returned more than one value, which disk indexes don't support. Use a JSONPath that returns a single value.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_QUERY_BAD Disk JSON index supports JSON array values only for VECTOR fields",
@@ -21030,7 +21140,8 @@
     "src/json.c:1064"
    ],
    "explain": "You only get this from a JSON index that uses Redis Flex. A field other than a `VECTOR` field holds a JSON array, which disk indexes don't support. Store a single value in that field.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_QUERY_BAD Disk JSON index supports only single-value JSONPath fields",
@@ -21343,7 +21454,8 @@
     "src/document_basic.c:263"
    ],
    "explain": "Redis Search went to index the JSON document named in the message, but the key no longer held a JSON value. This usually means the key was replaced by another type, or expired, in the meantime. `FT.INFO` reports it as the last indexing error.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_QUERY_BAD Key does not exist: <key>",
@@ -21354,7 +21466,8 @@
     "src/document_basic.c:251"
    ],
    "explain": "Redis Search went to index the JSON document named in the message, but the key no longer existed. This usually means it expired or was deleted in the meantime. `FT.INFO` reports this as the last indexing error.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_QUERY_BAD LOAD cannot be applied after projectors or reducers",
@@ -21568,7 +21681,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:364"
    ],
    "explain": "Your `KNN` query sets `EPSILON`, which applies only to vector range queries with `VECTOR_RANGE`. Remove `EPSILON`, or use a range query. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_RANGE_ATTR_NON_RANGE range query attributes were sent for a non-range query (Error parsing vector similarity parameters)",
@@ -21655,13 +21769,16 @@
     "src/redisearch_rs/query_error/src/lib.rs:209"
    ],
    "explain": "This is the default text of `SEARCH_REDUCER_NOT_FOUND`: a `REDUCE` clause of `GROUPBY` names a function that doesn't exist. Redis 8.10 sends `No such reducer` with the name instead. Use a reducer such as `COUNT`, `SUM`, `AVG`, or `TOLIST`.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_SAFE_DEPLETER_FAILURE Failed to acquire index lock for background depletion",
    "prefix": "SEARCH_SAFE_DEPLETER_FAILURE",
    "module": "search",
-   "commands": [],
+   "commands": [
+    "FT.HYBRID"
+   ],
    "sources": [
     "src/redisearch_rs/query_error/src/lib.rs:484"
    ],
@@ -22308,7 +22425,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:159"
    ],
    "explain": "This is the default text of `SEARCH_SYNTAX`, which means that Redis Search couldn't parse the query string or the arguments of `FT.HYBRID`. Redis 8.10 sends a specific message instead, usually with the offset of the problem and the text near it.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_SYNTAX SEARCH keyword is required",
@@ -22574,7 +22692,8 @@
     "src/rlookup_load_document.c:104"
    ],
    "explain": "Redis Search tried to read a document of a type that it can't handle, such as a document of an `ON JSON` index while the module that provides `JSON.SET` isn't loaded. Queries skip such documents instead of failing, so you rarely see this text.",
-   "explain_basis": "inferred"
+   "explain_basis": "inferred",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_TYPE_UNSUP Unsupported reply type: <reply_type>",
@@ -22613,7 +22732,8 @@
     "src/json.c:623"
    ],
    "explain": "A `VECTOR` field in a JSON document holds an empty array, so Redis Search has no vector to index. Store an array with exactly `DIM` numbers, or leave the field out of the document.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VALUE_BAD Error indexing geoshape: <error>",
@@ -22749,7 +22869,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:339"
    ],
    "explain": "An option of your vector query has a value that isn't valid, such as `EF_RUNTIME 0` or a word where a number belongs. Fix the value inside `=>[KNN ...]` or `VECTOR_RANGE`. Redis 8.10 sends this text with `(Error parsing vector similarity parameters)` added.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_VALUE_BAD Invalid value was given (Error parsing vector similarity parameters)",
@@ -22811,7 +22932,8 @@
     "src/json.c:746"
    ],
    "explain": "A `NUMERIC` field in a JSON document holds an array, or a JSONPath with several matches, that includes a value other than a number or `null`, such as a string. Store only numbers in it.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VALUE_BAD TEXT/TAG fields can only contain strings or nulls",
@@ -22822,7 +22944,8 @@
     "src/json.c:697"
    ],
    "explain": "A `TEXT`, `TAG`, or `GEO` field in a JSON document holds an array, or a JSONPath with several matches, that includes a value other than a string or `null`, such as a number. Store those values as strings.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VALUE_NOT_FOUND Could not find the value for a parameter name, consider using EXISTS if applicable for <property>",
@@ -22856,7 +22979,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:244"
    ],
    "explain": "This is the default text of `SEARCH_VALUE_NOT_FOUND`: an expression in `APPLY` or `FILTER` uses a field that the document doesn't have. Redis 8.10 sends a specific message with the field name instead. Use `exists()` in the expression to handle missing fields.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "query"
   },
   {
    "message": "SEARCH_VECTOR_BLOB_SIZE_MISMATCH Could not add vector with blob size <size> (expected size <size>)",
@@ -22881,7 +23005,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:434"
    ],
    "explain": "This is the default text of `SEARCH_VECTOR_BLOB_SIZE_MISMATCH`: a document's vector has a byte length other than `DIM` times the size of the field's `TYPE`. Redis 8.10 sends `Could not add vector with blob size` with both sizes instead, and `FT.INFO` reports it.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VECTOR_LEN_BAD Invalid vector length",
@@ -22892,7 +23017,8 @@
     "src/redisearch_rs/query_error/src/lib.rs:439"
    ],
    "explain": "This is the default text of `SEARCH_VECTOR_LEN_BAD`: a vector stored as an array in an `ON JSON` index has a different number of elements than the field's `DIM`. Redis 8.10 sends `Invalid vector length` with both numbers instead, and `FT.INFO` reports it.",
-   "explain_basis": "source"
+   "explain_basis": "source",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VECTOR_LEN_BAD Invalid vector length. Expected <dimension>, got <length>",
@@ -22903,7 +23029,8 @@
     "src/json.c:512"
    ],
    "explain": "The JSON array of a `VECTOR` field has a different number of elements than the field's `DIM`. The message shows both numbers. Store vectors with exactly `DIM` elements, or create the index with the right `DIM`.",
-   "explain_basis": "tested"
+   "explain_basis": "tested",
+   "scope": "indexing"
   },
   {
    "message": "SEARCH_VECTOR_NOT_ALLOWED Vector expressions are not allowed in FT.HYBRID SEARCH",

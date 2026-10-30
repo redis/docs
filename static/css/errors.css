@@ -82,10 +82,11 @@
 .rerr-count { color: #5c707a; font-size: 14px; }
 .rerr-catalog { overflow-x: auto; }
 .rerr-catalog table { width: 100%; table-layout: fixed; }
-.rerr-catalog th.rerr-col-msg { width: 36%; }
-.rerr-catalog th.rerr-col-explain { width: 44%; }
+.rerr-catalog th.rerr-col-msg { width: 34%; }
+.rerr-catalog th.rerr-col-explain { width: 42%; }
 .rerr-catalog td { vertical-align: top; }
 .rerr-catalog td code { white-space: normal; overflow-wrap: anywhere; }
+.rerr-catalog td.rerr-col-cmds code { overflow-wrap: break-word; }
 .rerr-catalog td.rerr-col-msg code { font-size: 13px; line-height: 1.5; }
 .rerr-catalog td.rerr-col-explain { font-size: 14px; line-height: 1.5; }
 .rerr-catalog tr:target { background: #fff6d6; }
@@ -100,5 +101,12 @@
   .rerr-catalog td.rerr-col-cmds::before { content: "Returned by: "; color: #5c707a; font-size: 13px; }
 }
 .rerr-any { color: #5c707a; font-size: 13px; }
+.rerr-cmd { display: block; }
+.rerr-more { margin-top: 3px; }
+.rerr-more summary { width: max-content; cursor: pointer; list-style: none; color: #5961ff; font-size: 13px; }
+.rerr-more summary::-webkit-details-marker { display: none; }
+.rerr-more summary::after { content: " \25BE"; }
+.rerr-more[open] summary { margin-bottom: 2px; }
+.rerr-more[open] summary::after { content: " \25B4"; }
 .rerr-via { color: var(--rerr-muted); font-size: 13.5px; margin-top: 8px !important; }
 .rerr-via code { white-space: normal; overflow-wrap: anywhere; }

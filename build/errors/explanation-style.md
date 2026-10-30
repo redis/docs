@@ -68,7 +68,13 @@ again under a new name with `INDEXMISSING`, and query that name.
 - `module`: `core`, `vectorset`, `search`, `json`, `bloom` or `timeseries`.
 - `commands`: the public commands that can return it, in uppercase, such as
   `["FT.SEARCH", "FT.AGGREGATE"]`. Leave out internal and debugging commands.
-  An empty list shows "Several commands".
+- `scope`, only when `commands` is empty, because many commands share the
+  message: `any`, `write` (commands that write data), `keys`, `multikey`
+  (commands with several keys), `blocking`, `transaction`, `subcommand`,
+  `number` (commands with number arguments), `pubsub`, `module`, `cluster`,
+  `connect` (sent when a client connects), `search`, `query` (Redis Search
+  queries) or `indexing` (no command; `FT.INFO` shows it). The pages show
+  it in place of a list of commands.
 - Optional: `verified: true` and `example` (the reply exactly as you saw it)
   when you reproduced it, and `internal: true` when only internal or debugging
   commands return it, which keeps it off the pages.

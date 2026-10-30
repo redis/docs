@@ -501,7 +501,11 @@ Fill in every "decision", then run: python3 build/errors/update_errors.py apply'
 # --- apply --------------------------------------------------------------------
 
 ENTRY_FIELDS = {'message', 'prefix', 'module', 'commands', 'explain', 'explain_basis',
-                'internal', 'unused', 'verified', 'example', 'sources'}
+                'internal', 'unused', 'verified', 'example', 'sources', 'scope'}
+# What returns a message that many commands share, when it has no list of commands.
+# layouts/partials/errors/catalog.html has the label that the pages show for each.
+SCOPES = ('any', 'write', 'keys', 'multikey', 'blocking', 'transaction', 'subcommand', 'number', 'pubsub',
+          'module', 'cluster', 'connect', 'search', 'query', 'indexing')
 
 
 def validate_entry(e, where):
@@ -514,6 +518,8 @@ def validate_entry(e, where):
     if not str(e.get('explain', '')).strip(): problems.append(f'{where}: empty explain')
     if not isinstance(e.get('commands', []), list) or not all(isinstance(c, str) for c in e.get('commands', [])):
         problems.append(f'{where}: commands must be a list of command names, such as ["SET"]')
+    elif not e.get('commands') and e.get('scope') not in SCOPES:
+        problems.append(f'{where}: a message without commands needs a scope, one of {", ".join(SCOPES)}')
     if not isinstance(e.get('message', ''), str) or not isinstance(e.get('prefix', ''), str):
         problems.append(f'{where}: message and prefix must be strings')
     elif e.get('prefix') and not e.get('message', '').startswith(e['prefix']):
@@ -675,6 +681,8 @@ def check(data):
             problems.append(f'No explanation: {e["module"]}: {e["message"]}')
         elif e.get('explain_basis') not in BASES:
             problems.append(f'No explain_basis: {e["module"]}: {e["message"]}')
+        if not e.get('commands') and e.get('scope') not in SCOPES:
+            problems.append(f'No commands or scope: {e["module"]}: {e["message"]}')
 
     # Each code has its own section on its list page, or sits with the messages without a code.
     for module, page in LIST_PAGES.items():

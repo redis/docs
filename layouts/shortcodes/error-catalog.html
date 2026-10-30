@@ -37,12 +37,20 @@
       <td class="rerr-col-msg"><code>{{ .message }}</code></td>
       <td class="rerr-col-explain">{{ .explain | markdownify }}{{ with .fix }} <a class="rerr-fix" href="{{ . }}#how-to-fix-it">How to fix it</a>{{ end }}</td>
       <td class="rerr-col-cmds">
-        {{- range $i, $c := .commands -}}
-          {{- if $i }}, {{ end -}}
-          {{- if $c.url }}<a href="{{ $c.url }}"><code>{{ $c.name }}</code></a>{{ else }}<code>{{ $c.name }}</code>{{ end -}}
-        {{- else -}}
-          <span class="rerr-any">Several commands</span>
+        {{- /* One command a line. A long list shows its first few, and the rest open
+               below. A name too long for the column breaks after a dot or an
+               underscore, such as FT. SPELLCHECK. */ -}}
+        {{- $links := slice -}}
+        {{- range .commands -}}
+          {{- $code := printf "<code>%s</code>" (replace (replace (htmlEscape .name) "." ".<wbr>") "_" "_<wbr>") -}}
+          {{- $links = $links | append (printf `<span class="rerr-cmd">%s</span>` (cond (ne .url "") (printf `<a href="%s">%s</a>` .url $code) $code)) -}}
         {{- end -}}
+        {{- $shown := cond (gt (len $links) 5) 3 (len $links) -}}
+        {{- delimit (first $shown $links) "" | safeHTML -}}
+        {{- if gt (len $links) $shown -}}
+          <details class="rerr-more"><summary>and {{ sub (len $links) $shown }} more</summary>{{ delimit (after $shown $links) "" | safeHTML }}</details>
+        {{- end -}}
+        {{- if not $links -}}<span class="rerr-any">{{ .scope | default "Several commands" }}</span>{{- end -}}
       </td>
     </tr>
   {{- end }}

@@ -177,7 +177,7 @@
     var exact = via && via.m !== e.message
       ? '<p class="rerr-via">Exact message: <code>' + esc(via.m) + '</code>' +
         (via.x ? '<br>' + prose(via.x) : '') +
-        (via.c.length ? '<br>Returned by ' + commandList(via.c) + '.' : '') + '</p>'
+        (via.c.length ? '<br>Returned by ' + commandList(via.c, via.u) + '.' : via.s ? '<br>' + esc(via.s) : '') + '</p>'
       : '';
     return '<div class="rerr-card">' +
       '<a class="rerr-title" href="' + esc(e.url) + '">' + esc(e.title) + '</a>' +
@@ -187,12 +187,15 @@
       '</div>';
   }
 
-  function commandList(c) {
+  /* The rest of a long list are in the message's row in the list of all errors. */
+  function commandList(c, row) {
     var shown = c.slice(0, MAX_COMMANDS).map(function (x) {
       var code = '<code>' + esc(x.n) + '</code>';
       return x.u ? '<a href="' + esc(x.u) + '">' + code + '</a>' : code;
     }).join(', ');
-    return c.length > MAX_COMMANDS ? shown + ', and ' + (c.length - MAX_COMMANDS) + ' more' : shown;
+    return c.length > MAX_COMMANDS
+      ? shown + ', and <a href="' + esc(row) + '">' + (c.length - MAX_COMMANDS) + ' more</a>'
+      : shown;
   }
 
   function entryCard(e) {
@@ -202,7 +205,7 @@
       '<pre class="rerr-msg rerr-msg-lead">' + esc(e.m) + '</pre>' +
       (e.x ? '<p class="rerr-lead">' + prose(e.x) + '</p>' : '') +
       '<p class="rerr-from">From ' + from + '.' +
-      (e.c.length ? ' Returned by ' + commandList(e.c) + '.' : '') + '</p>' +
+      (e.c.length ? ' Returned by ' + commandList(e.c, e.u) + '.' : e.s ? ' ' + esc(e.s) : '') + '</p>' +
       '<p class="rerr-actions">' +
       (e.f ? '<a class="rerr-go" href="' + esc(e.f) + '#how-to-fix-it">How to fix it</a> ' : '') +
       '<a class="rerr-go rerr-go-quiet" href="' + esc(e.u) + '">See it in the list of ' + esc(mod[0]) + ' errors</a></p>' +

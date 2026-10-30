@@ -11,6 +11,8 @@
         group     the code it's listed under: its prefix, or "ERR TSDB:"
                   for the time series messages that start with both
         commands  slice of dict "name" "url" (url is "" when the command has no page)
+        scope     what returns it when no list of commands fits, such as
+                  "Any command", or ""; scope_sentence says the same for the lookup
         list      URL of its module's list page, with the anchor
         fix       URL of the error page that explains it, or ""
         verified  true when it was checked on a running server
@@ -35,6 +37,27 @@
   {{- with site.GetPage (printf "/develop/reference/errors/all/%s" (index . 2)) -}}{{- $url = .RelPermalink -}}{{- end -}}
   {{- $modules = merge $modules (dict (index . 0) (dict "title" (index . 1) "url" $url)) -}}
 {{- end -}}
+
+{{- /* The "scope" values of the data, for the messages that many commands share:
+       a label for the tables, and a sentence for the lookup card. The keys are
+       also in SCOPES in build/errors/update_errors.py. */ -}}
+{{- $scopes := dict
+      "any" (slice "Any command" "Any command can return it.")
+      "write" (slice "Commands that write data" "Commands that write data return it.")
+      "keys" (slice "Commands that use keys" "Commands that use keys return it.")
+      "multikey" (slice "Commands that use several keys" "Commands that use several keys return it.")
+      "blocking" (slice "Blocking commands" "Blocking commands return it.")
+      "transaction" (slice "Commands in a transaction" "Commands in a transaction return it.")
+      "subcommand" (slice "Commands with subcommands" "Commands with subcommands return it.")
+      "number" (slice "Commands with number arguments" "Commands with number arguments return it.")
+      "pubsub" (slice "Commands that use channels" "Commands that use channels return it.")
+      "module" (slice "Module commands" "Module commands return it.")
+      "cluster" (slice "Cluster commands" "Cluster commands return it.")
+      "connect" (slice "New connections" "Redis sends it when a client connects.")
+      "search" (slice "Redis Search commands" "Redis Search commands return it.")
+      "query" (slice "Search queries" "Search queries return it.")
+      "indexing" (slice "Indexing, shown in FT.INFO" "No command returns it. FT.INFO shows it after a document fails to index.")
+-}}
 
 {{- /* Error pages: a prefix other than ERR explains every message with that
        prefix, and a page also explains the messages that contain one of its
@@ -83,6 +106,8 @@
     {{- end -}}
     {{- $id := printf "e-%s" (substr (md5 (print .module " " .message)) 0 8) -}}
     {{- $group := cond (and (eq .module "timeseries") (hasPrefix .message "ERR TSDB:")) "ERR TSDB:" .prefix -}}
+    {{- $scope := slice "" "" -}}
+    {{- with .scope -}}{{- $scope = index $scopes . | default (slice "" "") -}}{{- end -}}
     {{- $entries = $entries | append (dict
           "id" $id
           "message" .message
@@ -91,6 +116,8 @@
           "group" $group
           "module" .module
           "commands" $commands
+          "scope" (index $scope 0)
+          "scope_sentence" (index $scope 1)
           "list" (printf "%s#%s" (index $modules .module).url $id)
           "fix" $fix
           "verified" (.verified | default false)) -}}

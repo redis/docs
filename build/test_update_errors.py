@@ -112,6 +112,9 @@ class TestApplyValidation(unittest.TestCase):
         self.assertTrue(u.validate_entry(self.entry(prefix='WRONGTYPE'), 'x'))
         self.assertTrue(u.validate_entry(self.entry(module='redis'), 'x'))
         self.assertTrue(u.validate_entry(self.entry(colour='red'), 'x'))
+        self.assertTrue(u.validate_entry(self.entry(commands=[]), 'x'))
+        self.assertTrue(u.validate_entry(self.entry(commands=[], scope='most'), 'x'))
+        self.assertEqual(u.validate_entry(self.entry(commands=[], scope='any'), 'x'), [])
 
     def apply(self, *items, errors=(), versions='8.10.3', **lists):
         work = {'new': list(items), 'gone': [], 'review': [], 'unused_codes_now_used': [], 'sources': [],
@@ -159,7 +162,7 @@ class TestApplyValidation(unittest.TestCase):
             self.apply(errors=[unused], unused_codes_now_used=[item])
         self.assertIn('empty explain', str(stop.exception))
         saved = self.apply(errors=[unused], unused_codes_now_used=[
-            {**item, 'set': {'explain': 'Your query has a reserved word.', 'explain_basis': 'source'}}])
+            {**item, 'set': {'explain': 'Your query has a reserved word.', 'explain_basis': 'source', 'scope': 'query'}}])
         self.assertNotIn('unused', saved[0])
         self.assertEqual(saved[0]['explain_basis'], 'source')
 

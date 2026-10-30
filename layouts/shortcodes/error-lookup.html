@@ -39,14 +39,14 @@
 {{- end -}}
 
 {{- /* The catalog, cut down to what a result shows: m message, x explanation,
-       p prefix, d module, c commands as {n name, u url}, u its row in the list,
-       f its error page. */ -}}
+       p prefix, d module, c commands as {n name, u url}, s what returns it when
+       there are no commands, u its row in the list, f its error page. */ -}}
 {{- $catalog := partialCached "errors/catalog.html" site "errors" -}}
 {{- $compact := slice -}}
 {{- range $catalog.entries -}}
   {{- $c := slice -}}
   {{- range .commands -}}{{- $c = $c | append (dict "n" .name "u" .url) -}}{{- end -}}
-  {{- $compact = $compact | append (dict "m" .message "x" .explain "p" .prefix "d" .module "c" $c "u" .list "f" .fix) -}}
+  {{- $compact = $compact | append (dict "m" .message "x" .explain "p" .prefix "d" .module "c" $c "s" .scope_sentence "u" .list "f" .fix) -}}
 {{- end -}}
 {{- $modules := dict -}}
 {{- range $k, $m := $catalog.modules -}}{{- $modules = merge $modules (dict $k (slice $m.title $m.url)) -}}{{- end -}}
