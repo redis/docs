@@ -113,15 +113,15 @@ class TestApplyValidation(unittest.TestCase):
         self.assertTrue(u.validate_entry(self.entry(module='redis'), 'x'))
         self.assertTrue(u.validate_entry(self.entry(colour='red'), 'x'))
 
-    def apply(self, *items):
+    def apply(self, *items, errors=(), versions='8.10.3', **lists):
         work = {'new': list(items), 'gone': [], 'review': [], 'unused_codes_now_used': [], 'sources': [],
-                'target': {'redis': '9.0.0'}}
-        data = {'versions': {}, 'errors': []}
+                'base': {'redis': '8.10.3'}, 'target': {'redis': '9.0.0'}, **lists}
+        data = {'versions': {'redis': versions}, 'errors': [dict(e) for e in errors]}
         with patch.object(u, 'latest_work') as latest, patch.object(u, 'load_data', return_value=data), \
-                patch.object(u, 'save_data') as save, patch.object(u, 'cmd_check', return_value=0):
+                patch.object(u, 'save_data') as save, patch.object(u, 'check', return_value=(['a page to update'], [])):
             latest.return_value.read_text.return_value = json.dumps(work)
             with contextlib.redirect_stdout(io.StringIO()):
-                u.cmd_apply(type('Args', (), {'work': None})())
+                self.assertEqual(u.cmd_apply(type('Args', (), {'work': None})()), 0)
         return save.call_args[0][0]['errors']
 
     def test_apply_adds_a_message(self):
@@ -132,6 +132,36 @@ class TestApplyValidation(unittest.TestCase):
             self.apply({'id': 'new-1', 'decision': 'add', 'entries': [self.entry()]},
                        {'id': 'new-extra-1', 'decision': 'add', 'entries': [self.entry()]})
         self.assertIn('new-1 adds the message', str(stop.exception))
+
+    def test_apply_needs_the_data_at_the_work_files_base(self):
+        with self.assertRaises(SystemExit) as stop:
+            self.apply(versions='9.0.0')
+        self.assertIn('already applied', str(stop.exception))
+        with self.assertRaises(SystemExit) as stop:
+            self.apply(versions='8.8.0')
+        self.assertIn('Run the diff step again', str(stop.exception))
+
+    def test_apply_checks_the_values_it_merges(self):
+        e = self.entry()
+        review = {'id': 'review-1', 'module': 'core', 'message': e['message'], 'decision': 'update'}
+        for bad in ({'prefix': 'WRONGTYPE'}, {'module': 'redis'}, {'commands': 'SET'}):
+            with self.assertRaises(SystemExit, msg=bad):
+                self.apply(errors=[e], review=[{**review, 'set': bad}])
+        with self.assertRaises(SystemExit) as stop:
+            self.apply(review=[{**review, 'set': {'explain': 'x'}}])
+        self.assertIn('the data has no core message', str(stop.exception))
+
+    def test_a_code_now_used_gets_its_explanation_from_set(self):
+        unused = {'message': 'SEARCH_KEYWORD Keyword error', 'prefix': 'SEARCH_KEYWORD', 'module': 'search',
+                  'commands': [], 'unused': True}
+        item = {'code': 'SEARCH_KEYWORD', 'uses': 2, 'decision': 'used'}
+        with self.assertRaises(SystemExit) as stop:
+            self.apply(errors=[unused], unused_codes_now_used=[item])
+        self.assertIn('empty explain', str(stop.exception))
+        saved = self.apply(errors=[unused], unused_codes_now_used=[
+            {**item, 'set': {'explain': 'Your query has a reserved word.', 'explain_basis': 'source'}}])
+        self.assertNotIn('unused', saved[0])
+        self.assertEqual(saved[0]['explain_basis'], 'source')
 
     def test_check_finds_a_repeated_message(self):
         problems, _ = u.check({'versions': u.load_data()['versions'], 'errors': [self.entry(), self.entry()]})
@@ -146,6 +176,20 @@ class TestTheRealData(unittest.TestCase):
     def test_check_passes(self):
         problems, _ = u.check(u.load_data())
         self.assertEqual(problems, [])
+
+    def without(self, keep):
+        data = u.load_data()
+        data['errors'] = [e for e in data['errors'] if keep(e)]
+        return u.check(data)[0]
+
+    def test_check_finds_a_page_whose_message_is_gone(self):
+        # "ERR <reason>" is still in the data, and mustn't count as the page's message.
+        problems = self.without(lambda e: e['message'] != 'ERR syntax error')
+        self.assertTrue(any(p.startswith('common/err-syntax-error.md: no message') for p in problems), problems)
+
+    def test_check_finds_a_section_without_messages(self):
+        problems = self.without(lambda e: e['prefix'] != 'SEARCH_SYNTAX')
+        self.assertTrue(any('section for SEARCH_SYNTAX has no messages' in p for p in problems), problems)
 
     def test_needs_section(self):
         self.assertTrue(u.needs_section('core', 'NOGROUP'))
@@ -165,12 +209,14 @@ class TestLiveChecks(unittest.TestCase):
             self.assertIsNone(self.lc.py_err(lambda: self.lc.client(port=6550).ping()))
 
     def test_a_page_without_a_baseline_is_not_a_change(self):
-        # The real baseline, so that the new page sorts after pages that it has.
+        # The real baseline, so that a new page sorts after pages that it has.
         with open(os.path.join(os.path.dirname(__file__), 'errors', 'live_baseline.json')) as f:
             baseline = json.load(f)
-        results = {**baseline, 'denied': {'raw': ['-DENIED']}, 'zzz-new': {'raw': ['-ZZZ']}}
+        new = ['mmm-new', 'zzz-new']
+        self.assertFalse(set(new) & set(baseline))
+        results = {**baseline, **{page: {'raw': ['-NEW']} for page in new}}
         self.assertEqual(self.lc.compare(baseline, results), [])
-        self.assertEqual(self.lc.unrecorded(baseline, results), ['denied', 'zzz-new'])
+        self.assertEqual(self.lc.unrecorded(baseline, results), new)
 
     def accept(self, results):
         with tempfile.TemporaryDirectory() as work, patch.object(u, 'WORK', u.Path(work)), \
@@ -186,13 +232,24 @@ class TestLiveChecks(unittest.TestCase):
         failed = {**baseline, '_failures': {'notes': ['cluster: RuntimeError: 6560 did not start']}}
         self.assertIn('cluster: RuntimeError', self.accept(failed))
         lost = {k: v for k, v in baseline.items() if k != 'moved'}
-        self.assertIn('common/moved.md: no replies', self.accept(lost))
+        self.assertIn('common/moved.md: no server replies', self.accept(lost))
+        # A page that kept its notes but lost its server reply is incomplete too.
+        no_raw = {**baseline, 'loading': {k: v for k, v in baseline['loading'].items() if k != 'raw'}}
+        self.assertIn('common/loading.md: no server replies', self.accept(no_raw))
+        no_py = {**baseline, '_meta': {**baseline['_meta'], 'redis_py': None}}
+        self.assertIn('Install redis-py', self.accept(no_py))
 
     def test_random_ids_are_not_changes(self):
         meta = {'_meta': {'redis_py': None}}
         info = 'INFO -> master_replid:%s\r\nmaster_repl_offset:%d'
         baseline = {**meta, 'masterdown': {'notes': [info % ('be4ddc0c3c1d7a2f9db6' * 2, 1)]}}
         results = {**meta, 'masterdown': {'notes': [info % ('3e8e5ca1e0feaf4f7ca2' * 2, 2)]}}
+        self.assertEqual(self.lc.compare(baseline, results), [])
+
+    def test_timings_are_not_changes(self):
+        meta = {'_meta': {'redis_py': None}}
+        baseline = {**meta, 'noperm': {'notes': ["ACL LOG -> [b'age-seconds', b'0']"]}}
+        results = {**meta, 'noperm': {'notes': ["ACL LOG -> [b'age-seconds', b'0.001']"]}}
         self.assertEqual(self.lc.compare(baseline, results), [])
 
     def test_failures_and_lost_replies_are_changes(self):

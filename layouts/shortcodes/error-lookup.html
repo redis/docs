@@ -68,8 +68,8 @@
 <script defer src="{{ "js/error-lookup.js" | relURL }}?v={{ index $v "js/error-lookup.js" }}"></script>
 
 <div class="rerr" data-error-lookup data-errors="{{ $errors | jsonify }}" data-catalog="{{ $catalogFile.RelPermalink }}" data-all="{{ (site.GetPage "/develop/reference/errors/all").RelPermalink }}">
-  <label class="rerr-label" for="rerr-input">Error message</label>
-  <textarea id="rerr-input" class="rerr-input" rows="3" spellcheck="false" autocomplete="off"
+  <label class="rerr-label" for="rerr-input-{{ .Ordinal }}">Error message</label>
+  <textarea id="rerr-input-{{ .Ordinal }}" class="rerr-input" rows="3" spellcheck="false" autocomplete="off"
     placeholder="(error) WRONGTYPE Operation against a key holding the wrong kind of value"></textarea>
   <div class="rerr-result" aria-live="polite"></div>
   <noscript><p>The search needs JavaScript. You can find every error in the <a href="{{ (site.GetPage "/develop/reference/errors/all").RelPermalink }}">list of all error messages</a>.</p></noscript>

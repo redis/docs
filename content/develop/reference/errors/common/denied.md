@@ -39,7 +39,7 @@ Protected mode keeps a server that has no password away from the network. The sa
     OK
     ```
 
-    To keep the password after a restart, also set `requirepass <password>` in the configuration file. For separate users with their own passwords, see [ACL](/content/operate/oss_and_stack/management/security/acl.md).
+    To keep the password after a restart, also set `requirepass <password>` in the configuration file. For separate users with their own passwords, see [access control lists (ACLs)](/content/operate/oss_and_stack/management/security/acl.md).
 1. Give the password to your app or client. See [`NOAUTH`](/content/develop/reference/errors/common/noauth.md#how-to-fix-it).
 
 If the server can only be reached from a network you trust, for example, while you test, you can turn protected mode off instead. Set `protected-mode no` in the configuration file, or start the server with `--protected-mode no`. Make sure that the server isn't reachable from the internet.

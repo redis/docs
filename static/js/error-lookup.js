@@ -5,10 +5,12 @@
    - The error pages, from the shortcode's data-errors attribute
      (layouts/shortcodes/error-lookup.html). A `match` phrase found anywhere,
      ignoring case, scores its length. A bare prefix scores only its own
-     length, so a longer, more specific phrase beats it.
+     length, so a longer, more specific phrase beats it. An ERR page's
+     phrase doesn't count after another code.
    - The list of all error messages, fetched from data-catalog the first time
      the reader types. Each message is a template: its <placeholders> match
-     any text, and it scores the length of its fixed parts.
+     any text, and it scores the length of its fixed parts, or of the whole
+     message when the text has it exactly, code included.
    A message that a page explains counts for that page, and a page wins a
    tie, so such a message leads to its page. A redis-py message that has lost
    its prefix still matches, and a pasted transcript with several errors
@@ -43,7 +45,9 @@
   /* ------------------------------------------------------------ pages -- */
 
   function preparePage(e) {
-    e.phrases = (e.match || []).map(function (m) { return String(m).toLowerCase(); });
+    e.phrases = (e.match || []).filter(Boolean).map(function (m) {
+      return { length: String(m).length, re: new RegExp(escRe(String(m)), 'gi') };
+    });
     /* ERR is on almost every error, so ERR pages match on their phrases only. */
     e.prefixRe = e.prefix && e.prefix !== 'ERR'
       ? new RegExp('(^|[^A-Za-z0-9_])' + e.prefix + '(?![A-Za-z0-9_])')
@@ -51,10 +55,29 @@
     return e;
   }
 
-  function scorePage(e, text, lower) {
+  /* The code just before position i of the text, such as SEARCH_SYNTAX, or ''. */
+  function codeBefore(text, i) {
+    var m = /([A-Z][A-Z_]{2,}) $/.exec(text.slice(Math.max(0, i - 64), i));
+    return m ? m[1] : '';
+  }
+
+  /* After another code, an ERR page's phrase is part of a different error:
+     "SEARCH_SYNTAX Syntax error at offset 5" isn't "ERR syntax error". The
+     same rule picks the page for a message in layouts/partials/errors/catalog.html. */
+  function hasPhrase(e, p, text) {
+    var m;
+    p.re.lastIndex = 0;
+    while ((m = p.re.exec(text))) {
+      var code = codeBefore(text, m.index);
+      if (e.prefix !== 'ERR' || !code || code === 'ERR') return true;
+    }
+    return false;
+  }
+
+  function scorePage(e, text) {
     var phrase = 0;
     e.phrases.forEach(function (p) {
-      if (p && lower.indexOf(p) !== -1) phrase = Math.max(phrase, p.length);
+      if (p.length > phrase && hasPhrase(e, p, text)) phrase = p.length;
     });
     var prefix = e.prefixRe && e.prefixRe.test(text) ? e.prefix.length : 0;
     if (phrase) return phrase + (prefix ? 1 : 0.5);
@@ -64,12 +87,14 @@
   /* ---------------------------------------------------------- catalog -- */
 
   var catalog = null;   // { modules, errors } once fetched
-  var loading = false;
+  var waiting = null;   // what to run when the fetch ends, one per lookup on the page
 
   /* A message's fixed parts, in order, without a code prefix that clients may drop. */
   function prepareEntry(e) {
     var text = e.m;
     if (/^[A-Z][A-Z_]+$/.test(e.p) && text.indexOf(e.p + ' ') === 0) text = text.slice(e.p.length + 1);
+    /* Without its code, the message starts with fixed text, which can't follow another code. */
+    e.bare = text !== e.m && !/^<[^<>\n]{1,40}>/.test(text);
     var parts = text.split(/<[^<>\n]{1,40}>/).map(function (s) { return s.trim(); }).filter(Boolean);
     var fixed = parts.reduce(function (n, s) { return n + s.length; }, 0);
     var longest = parts.reduce(function (a, s) { return s.length > a.length ? s : a; }, '');
@@ -78,25 +103,32 @@
     e.score = fixed;
     e.key = longest.toLowerCase();
     e.re = new RegExp(parts.map(escRe).join('[\\s\\S]{0,300}?'), 'i');
-    /* The whole message, prefix and case included: breaks a tie between
-       messages that differ only there, such as "Bad capacity" and "ERR bad capacity". */
+    /* The whole message, prefix and case included, scores its full length. So
+       "WRONGTYPE Operation against..." leads to its own message rather than to
+       "ERR WRONGTYPE Operation against...", and "Bad capacity" and "ERR bad capacity"
+       each lead to their own. */
     var whole = e.m.split(/<[^<>\n]{1,40}>/).map(function (s) { return s.trim(); }).filter(Boolean);
     e.exact = new RegExp(whole.map(escRe).join('[\\s\\S]{0,300}?'));
+    e.whole = whole.reduce(function (n, s) { return n + s.length; }, 0);
     return e;
   }
 
   /* Without the catalog, the lookup matches the error pages only, and a miss
      shows the no-match card instead of waiting for it. */
   function loadCatalog(root, then) {
-    if (catalog || loading) return;
+    if (catalog) return;
+    if (waiting) { if (waiting.indexOf(then) === -1) waiting.push(then); return; }
     var url = root.getAttribute('data-catalog');
     if (!url || !window.fetch) { catalog = { modules: {}, errors: [] }; return; }
-    loading = true;
+    waiting = [then];
     fetch(url).then(function (r) { return r.json(); }).then(function (d) {
       return { modules: d.modules || {}, errors: (d.errors || []).map(prepareEntry).filter(Boolean) };
     }).catch(function () {
       return { modules: {}, errors: [] };
-    }).then(function (c) { catalog = c; then(); });
+    }).then(function (c) {
+      catalog = c;
+      waiting.forEach(function (f) { f(); });
+    });
   }
 
   /* ------------------------------------------------------------- rank -- */
@@ -106,12 +138,15 @@
     var lower = text.toLowerCase();
     var byUrl = {};
     var found = pages.map(function (e, i) {
-      return (byUrl[e.url] = { kind: 'page', e: e, s: scorePage(e, text, lower), i: i });
+      return (byUrl[e.url] = { kind: 'page', e: e, s: scorePage(e, text), i: i });
     });
     if (catalog) {
       catalog.errors.forEach(function (e, i) {
-        if (lower.indexOf(e.key) === -1 || !e.re.test(text)) return;
-        var s = e.score + (e.exact.test(text) ? 0.25 : 0);
+        if (lower.indexOf(e.key) === -1) return;
+        var m = e.re.exec(text);
+        var code = m && e.bare ? codeBefore(text, m.index) : '';
+        if (!m || (code && code !== e.p)) return;
+        var s = e.exact.test(text) ? e.whole + 0.25 : e.score;
         /* A message that a page explains counts for that page, which then
            shows the exact message too. */
         var page = e.f && byUrl[e.f];
@@ -131,7 +166,8 @@
   function askLink(text) {
     var first = text.trim().split('\n')[0].trim();
     if (first.length > 80) first = first.slice(0, 77) + '...';
-    var q = 'I got this Redis error:\n\n' + text.trim().slice(0, 1000) +
+    /* Without a half of an emoji at the end, which encodeURIComponent rejects. */
+    var q = 'I got this Redis error:\n\n' + text.trim().slice(0, 1000).replace(/[\uD800-\uDBFF]$/, '') +
       '\n\nWhat does it mean, and how do I fix it?';
     return '<a class="rerr-ask" href="/chat?q=' + encodeURIComponent(q) + '" data-ai-chat-open' +
       ' data-ai-chat-label="' + esc('Explain this error: ' + first) + '">Ask AI about this error</a>';

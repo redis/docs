@@ -448,7 +448,9 @@
    "prefix": "NOGROUP",
    "module": "core",
    "commands": [
+    "XGROUP CREATECONSUMER",
     "XGROUP DELCONSUMER",
+    "XGROUP SETID",
     "XINFO CONSUMERS"
    ],
    "sources": [
@@ -482,7 +484,6 @@
    "prefix": "NOGROUP",
    "module": "core",
    "commands": [
-    "XREAD",
     "XREADGROUP"
    ],
    "verified": true,
@@ -702,8 +703,8 @@
    "prefix": "NOSCRIPT",
    "module": "core",
    "commands": [
-    "EVAL",
-    "EVALSHA"
+    "EVALSHA",
+    "EVALSHA_RO"
    ],
    "verified": true,
    "sources": [
@@ -864,9 +865,7 @@
    "message": "UNBLOCKED client unblocked via CLIENT UNBLOCK",
    "prefix": "UNBLOCKED",
    "module": "core",
-   "commands": [
-    "CLIENT UNBLOCK"
-   ],
+   "commands": [],
    "verified": true,
    "sources": [
     "src/networking.c:4661"
@@ -1545,7 +1544,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "BITFIELD",
     "BITFIELD_RO"
    ],
    "sources": [
@@ -4235,11 +4233,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "GEORADIUS",
-    "GEORADIUSBYMEMBER",
-    "GEORADIUSBYMEMBER_RO",
-    "GEORADIUS_RO",
-    "GEOSEARCH",
     "GEOSEARCHSTORE"
    ],
    "sources": [
@@ -6320,7 +6313,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "XREAD",
     "XREADGROUP"
    ],
    "sources": [
@@ -6906,7 +6898,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "HSCAN",
     "SCAN",
     "SSCAN",
     "ZSCAN"
@@ -8273,11 +8264,7 @@
    "module": "core",
    "commands": [
     "GEORADIUS",
-    "GEORADIUSBYMEMBER",
-    "GEORADIUSBYMEMBER_RO",
-    "GEORADIUS_RO",
-    "GEOSEARCH",
-    "GEOSEARCHSTORE"
+    "GEORADIUSBYMEMBER"
    ],
    "sources": [
     "src/geo.c:673"
@@ -8736,7 +8723,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "XADD",
     "XTRIM"
    ],
    "sources": [
@@ -8818,7 +8804,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "XREAD",
     "XREADGROUP"
    ],
    "sources": [
@@ -8845,7 +8830,6 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "XREAD",
     "XREADGROUP"
    ],
    "sources": [
@@ -8859,8 +8843,7 @@
    "prefix": "ERR",
    "module": "core",
    "commands": [
-    "XREAD",
-    "XREADGROUP"
+    "XREAD"
    ],
    "sources": [
     "src/t_stream.c:2963"
@@ -11204,7 +11187,8 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR DEL",
+    "FT.CURSOR READ"
    ],
    "verified": true,
    "sources": [
@@ -11283,7 +11267,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "verified": true,
    "example": "Bad value for COUNT: `x`",
@@ -11458,7 +11442,8 @@
     "FT.ALIASADD",
     "FT.ALTER",
     "FT.CREATE",
-    "FT.CURSOR",
+    "FT.CURSOR DEL",
+    "FT.CURSOR READ",
     "FT.DROPINDEX",
     "FT.HYBRID",
     "FT.INFO",
@@ -11651,7 +11636,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR DEL"
    ],
    "verified": true,
    "sources": [
@@ -11665,7 +11650,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "verified": true,
    "example": "Cursor not found, id: 123",
@@ -11682,7 +11667,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2500"
@@ -11695,7 +11680,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR PROFILE"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2552"
@@ -11984,7 +11969,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.PROFILE",
     "FT.SEARCH"
    ],
@@ -12002,7 +11987,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.PROFILE",
     "FT.SEARCH"
    ],
@@ -12262,7 +12247,8 @@
     "FT.ALIASADD",
     "FT.ALTER",
     "FT.CREATE",
-    "FT.CURSOR",
+    "FT.CURSOR DEL",
+    "FT.CURSOR READ",
     "FT.DROPINDEX",
     "FT.HYBRID",
     "FT.INFO",
@@ -12294,7 +12280,7 @@
    "commands": [
     "FT.ADD",
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.HYBRID",
     "FT.PROFILE",
     "FT.SAFEADD"
@@ -12492,7 +12478,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.PROFILE"
    ],
    "sources": [
@@ -12537,7 +12523,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.HYBRID",
     "FT.PROFILE"
    ],
@@ -12555,7 +12541,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.HYBRID",
     "FT.PROFILE"
    ],
@@ -13644,7 +13630,7 @@
    "module": "search",
    "commands": [
     "FT.CREATE",
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "verified": true,
    "example": "SEARCH_ARG_UNRECOGNIZED Unknown argument `FOO`",
@@ -14744,7 +14730,7 @@
    "prefix": "SEARCH_GENERIC",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2344",
@@ -15370,7 +15356,7 @@
    "prefix": "SEARCH_INDEX_DROPPED_BG",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2253"
@@ -15674,7 +15660,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1381"
@@ -15687,7 +15673,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:799"
@@ -15879,7 +15865,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:772"
@@ -15906,7 +15892,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "example": "SEARCH_LIMIT_OVER Number of worker threads cannot exceed 16",
@@ -16052,7 +16038,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:604"
@@ -16065,7 +16051,7 @@
    "prefix": "SEARCH_LIMIT_OVER",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:552"
@@ -16229,7 +16215,7 @@
    "prefix": "SEARCH_OPTION_BAD",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -16275,7 +16261,7 @@
    "prefix": "SEARCH_OPTION_INVALID",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -16897,7 +16883,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "example": "SEARCH_PARSE_ARGS _MAX_TRIM_DELAY_MS (1) must be greater than _MIN_TRIM_DELAY_MS (2000)",
@@ -16912,7 +16898,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1403"
@@ -17057,7 +17043,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CONFIG",
+    "FT.CONFIG SET",
     "FT.CREATE",
     "FT.EXPLAIN",
     "FT.EXPLAINCLI",
@@ -18033,7 +18019,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR READ"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2426"
@@ -18063,7 +18049,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -18303,7 +18289,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -18701,7 +18687,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1260"
@@ -18852,7 +18838,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1231"
@@ -19352,7 +19338,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:883"
@@ -19365,7 +19351,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1228"
@@ -19511,7 +19497,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1164"
@@ -20601,7 +20587,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:1268"
@@ -20614,7 +20600,7 @@
    "prefix": "SEARCH_PARSE_ARGS",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -22186,7 +22172,7 @@
    "prefix": "SEARCH_SYNTAX",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -22528,7 +22514,7 @@
    "module": "search",
    "commands": [
     "FT.AGGREGATE",
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.EXPLAIN",
     "FT.EXPLAINCLI",
     "FT.HYBRID",
@@ -22609,7 +22595,7 @@
    "prefix": "SEARCH_VALUE_BAD",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -22718,7 +22704,7 @@
    "prefix": "SEARCH_VALUE_BAD",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "sources": [
     "src/config.c:987"
@@ -22731,7 +22717,7 @@
    "prefix": "SEARCH_VALUE_BAD",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -22745,7 +22731,7 @@
    "prefix": "SEARCH_VALUE_BAD",
    "module": "search",
    "commands": [
-    "FT.CONFIG"
+    "FT.CONFIG SET"
    ],
    "verified": true,
    "sources": [
@@ -23101,7 +23087,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR"
+    "FT.CURSOR PROFILE"
    ],
    "sources": [
     "src/aggregate/aggregate_exec.c:2563"
@@ -23193,7 +23179,7 @@
    "prefix": "",
    "module": "search",
    "commands": [
-    "FT.CURSOR",
+    "FT.CURSOR READ",
     "FT.SUGADD"
    ],
    "verified": true,

@@ -24,7 +24,7 @@ error:
 
 Redis returns this error when it can't save your data to disk. So that you notice, Redis refuses commands that change data until saving works again. Commands that read data still work. The message depends on how Redis saves your data:
 
-- **Snapshots.** The last attempt to save a snapshot failed. A snapshot, also called an RDB file, is a copy of all your data at one point in time:
+- **Snapshots.** The last attempt to save a snapshot failed. A snapshot, also called an RDB (Redis Database) file, is a copy of all your data at one point in time:
 
     ```
     MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.

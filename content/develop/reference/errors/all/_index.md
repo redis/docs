@@ -26,6 +26,6 @@ How to read the lists:
 - **Returned by** lists the commands that can return the message. **Several commands** means that many commands share the message, for example, because they check an argument the same way.
 - When an error has its own page, a **How to fix it** link follows the explanation.
 
-Errors that only internal or debugging commands return, such as `DEBUG` and `REPLCONF`, aren't listed. Some error codes exist in the source code, but Redis 8.10 never sends them. Their pages explain them, without a list of messages.
+Errors that only internal or debugging commands return, such as `DEBUG` and `REPLCONF`, aren't listed. `CLUSTER SYNCSLOTS` is an exception. Cluster nodes send it to each other while they move hash slots, but its errors are listed. Some Redis Search error codes exist in the source code, but Redis 8.10 never sends them. The [list of Redis Search errors](/content/develop/reference/errors/all/search.md) explains them, without a list of messages.
 
 To find a message quickly, paste it in the [error lookup](/content/develop/reference/errors/_index.md).

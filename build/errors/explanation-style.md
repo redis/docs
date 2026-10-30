@@ -61,8 +61,10 @@ again under a new name with `INDEXMISSING`, and query that name.
 - `message`: the message as a client receives it, with angle-bracket
   placeholders for the parts that change, such as `<key>`.
 - `prefix`: its first word when that's an error code, such as `ERR`, `WRONGTYPE`
-  or `SEARCH_SYNTAX`. Module messages without a code use their first word, such
-  as `Bad`. The message must start with it.
+  or `SEARCH_SYNTAX`. For a message without a code, follow the other messages
+  of its module: Redis Search and JSON messages use an empty prefix, `""`, and
+  probabilistic and time series messages use their first word, such as `Bad`.
+  The message must start with its prefix.
 - `module`: `core`, `vectorset`, `search`, `json`, `bloom` or `timeseries`.
 - `commands`: the public commands that can return it, in uppercase, such as
   `["FT.SEARCH", "FT.AGGREGATE"]`. Leave out internal and debugging commands.

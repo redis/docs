@@ -36,7 +36,9 @@
       {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
       {{- $cmds := slice -}}
       {{- range .commands -}}{{- $cmds = $cmds | append (printf "`%s`" .name) -}}{{- end -}}
-      {{- $md = printf "%s| %s | %s | %s |\n" $md $msg (replace .explain "|" "\\|") (cond (gt (len $cmds) 0) (delimit $cmds ", ") "Several commands") -}}
+      {{- $explain := replace .explain "|" "\\|" -}}
+      {{- with .fix -}}{{- $explain = printf "%s [How to fix it](%s)" $explain (absURL (print . "#how-to-fix-it")) -}}{{- end -}}
+      {{- $md = printf "%s| %s | %s | %s |\n" $md $msg $explain (cond (gt (len $cmds) 0) (delimit $cmds ", ") "Several commands") -}}
     {{- end -}}
   {{- end -}}
   {{- $content = replace $content $match $md 1 -}}

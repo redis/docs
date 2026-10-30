@@ -53,12 +53,14 @@ Every item has a `decision`. Work through the lists in this order.
   affects when the error is sent, which commands send it, or what the reader
   should do, set `"update"` and put the new `explain` or `commands` in `set`.
 - **`unused_codes_now_used`**: check where the Redis Search code is now set, and
-  set `"used"` or `"still unused"`. A code that's now used needs its list-page
-  section updated, from "never sent" to a table.
+  set `"used"` or `"still unused"`. A code that's now used needs an explanation
+  in `set`, such as `{"explain": "...", "explain_basis": "source"}`, and its
+  list-page section updated, from "never sent" to a table.
 
 With more than about 40 items, split the work across subagents, by repository
 or by list. Give each one explanation-style.md, the work file path, and its item
-IDs, and have it return its decisions as a JSON object keyed by item ID, such as
+IDs, and have it return its decisions as a JSON object keyed by item ID, or by
+code for an unused code, such as
 `{"new-3": {"decision": "add", "entries": [...]}, "review-7": {"decision": "ok"}}`.
 Merge their answers into the work file yourself:
 
@@ -66,11 +68,21 @@ Merge their answers into the work file yourself:
 import json
 work = json.load(open(path))
 items = {i['id']: i for k in ('new', 'gone', 'review') for i in work[k]}
+items.update({i['code']: i for i in work['unused_codes_now_used']})
 for answer in answers:            # the subagents' JSON objects
-    for item_id, fields in answer.items():
-        items[item_id].update(fields)
+    for key, fields in answer.items():
+        if key not in items:      # an item that a subagent added, such as new-extra-1
+            items[key] = {'id': key}
+            work['new'].append(items[key])
+        fields = dict(fields)
+        entries = fields.pop('entries', [])
+        items[key].update(fields)
+        if entries:               # a reworded message joins the entries already there
+            items[key].setdefault('entries', []).extend(entries)
 json.dump(work, open(path, 'w'), indent=1, ensure_ascii=False)
 ```
+
+If two answers give one item different decisions, decide it yourself.
 
 ## 3. Apply, and update the pages
 

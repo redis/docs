@@ -44,4 +44,4 @@ You get a different error when you send a password to a server that doesn't have
 ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?
 ```
 
-In that case, either remove the password from your app's configuration, or set a password on the server. See [ACL](/content/operate/oss_and_stack/management/security/acl.md).
+In that case, either remove the password from your app's configuration, or set a password on the server. See [access control lists (ACLs)](/content/operate/oss_and_stack/management/security/acl.md).

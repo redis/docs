@@ -26,8 +26,8 @@ These pages explain the Redis errors you're most likely to see. Each one shows w
 - [`ERR value is not an integer or out of range`](/content/develop/reference/errors/common/err-not-an-integer.md): A command requires a whole number, but the stored value or an argument is not a whole number.
 - [`WRONGTYPE`](/content/develop/reference/errors/common/wrongtype.md): A command was used on a key that holds a different data type.
 - [`EXECABORT`](/content/develop/reference/errors/common/execabort.md): A transaction was discarded because one of its commands had an error.
-- [`NOSCRIPT`](/content/develop/reference/errors/common/noscript.md): EVALSHA asked for a script that isn't in the server's script cache.
-- [`BUSYKEY`](/content/develop/reference/errors/common/busykey.md): RESTORE tried to create a key that already exists.
+- [`NOSCRIPT`](/content/develop/reference/errors/common/noscript.md): `EVALSHA` asked for a script that isn't in the server's script cache.
+- [`BUSYKEY`](/content/develop/reference/errors/common/busykey.md): `RESTORE` tried to create a key that already exists.
 
 ## Cluster errors
 
@@ -61,4 +61,4 @@ These pages explain the Redis errors you're most likely to see. Each one shows w
 ## Stream errors
 
 - [`NOGROUP`](/content/develop/reference/errors/common/nogroup.md): A stream command named a consumer group or stream that doesn't exist.
-- [`BUSYGROUP`](/content/develop/reference/errors/common/busygroup.md): XGROUP CREATE tried to create a consumer group that already exists.
+- [`BUSYGROUP`](/content/develop/reference/errors/common/busygroup.md): `XGROUP CREATE` tried to create a consumer group that already exists.

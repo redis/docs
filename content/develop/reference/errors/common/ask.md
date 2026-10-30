@@ -15,7 +15,7 @@ title: ASK error
 weight: 21
 error:
   prefix: ASK
-  message: ASK <slot> <host>:<port>
+  message: ASK <slot> <endpoint>:<port>
   match:
   - AskError
 ---

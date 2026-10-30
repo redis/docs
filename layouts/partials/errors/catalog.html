@@ -39,8 +39,10 @@
 {{- /* Error pages: a prefix other than ERR explains every message with that
        prefix, and a page also explains the messages that contain one of its
        phrases. An ERR page's phrase must follow the ERR prefix: "syntax error"
-       in the middle of a Redis Search message is a different error. Keys are
-       lowercase, as merge doesn't keep their case. */ -}}
+       in the middle of a Redis Search message is a different error. JSON's
+       WRONGTYPE messages are about a value in the document, not the key's type,
+       so JSON messages find their page by phrase only. Keys are lowercase, as
+       merge doesn't keep their case. */ -}}
 {{- $byPrefix := dict -}}
 {{- $byPhrase := slice -}}
 {{- with site.GetPage "/develop/reference/errors/common" -}}
@@ -66,7 +68,7 @@
       {{- with site.GetPage (printf "/commands/%s" (lower (replace . " " "-"))) -}}{{- $url = .RelPermalink -}}{{- end -}}
       {{- $commands = $commands | append (dict "name" . "url" $url) -}}
     {{- end -}}
-    {{- $fix := index $byPrefix (lower .prefix) | default "" -}}
+    {{- $fix := cond (eq .module "json") "" (index $byPrefix (lower .prefix) | default "") -}}
     {{- if not $fix -}}
       {{- $text := lower .message -}}
       {{- range $byPhrase -}}

@@ -15,7 +15,7 @@ title: MOVED error
 weight: 20
 error:
   prefix: MOVED
-  message: MOVED <slot> <host>:<port>
+  message: MOVED <slot> <endpoint>:<port>
   match:
   - MovedError
 ---

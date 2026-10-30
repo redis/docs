@@ -21,7 +21,7 @@ error:
   - NoScriptError
 ---
 
-Redis returns this error when you run a Lua script with [`EVALSHA`](/content/commands/evalsha.md), but the server doesn't have the script in its script cache. `EVALSHA` runs a script by its SHA1 digest, a short code calculated from the script's source. The server only knows the digest of a script that it has already loaded.
+Redis returns this error when you run a Lua script with [`EVALSHA`](/content/commands/evalsha.md), but the server doesn't have the script in its script cache. `EVALSHA` runs a script by its SHA1 (Secure Hash Algorithm 1) digest, a short code calculated from the script's source. The server only knows the digest of a script that it has already loaded.
 
 ```
 NOSCRIPT No matching script. Please use EVAL.

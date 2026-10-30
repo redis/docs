@@ -15,7 +15,7 @@ title: ERR unknown command
 weight: 10
 error:
   prefix: ERR
-  message: "ERR unknown command '<command>', with args beginning with: <arguments>"
+  message: "ERR unknown command '<command>', with args beginning with: <args>"
   match:
   - unknown command
   - unknown subcommand

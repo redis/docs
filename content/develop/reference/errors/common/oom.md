@@ -30,7 +30,7 @@ OOM command not allowed when used memory > 'maxmemory'.
 
 In redis-py, this error is `OutOfMemoryError: command not allowed when used memory > 'maxmemory'.`
 
-A Lua function, or a script that starts with a `#!lua` line, gets the same error before it starts, unless it has the `allow-oom` flag. A script without that line gets the error when it calls a command that adds data, with the script's details added to the end.
+A Lua function, or a script that starts with a `#!lua` line, gets the same error before it starts, unless it has the `allow-oom` or `no-writes` flag. A script without that line gets the error when it calls a command that adds data, with the script's details added to the end.
 
 ## Example
 

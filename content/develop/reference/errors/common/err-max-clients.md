@@ -17,7 +17,7 @@ error:
   prefix: ERR
   message: ERR max number of clients reached
   match:
-  - max number of clients reached
+  - max number of clients
 ---
 
 Redis returns this error when a new client connects, but the server already has as many connections as its limit allows. The limit is the `maxclients` setting, which is 10,000 by default. Redis sends the error and then closes the new connection.
@@ -25,6 +25,8 @@ Redis returns this error when a new client connects, but the server already has 
 ```
 ERR max number of clients reached
 ```
+
+In a cluster, the connections from other cluster nodes count toward the limit too, and the message is `ERR max number of clients + cluster connections reached`.
 
 In redis-py, this error is `ConnectionError: max number of clients reached`.
 

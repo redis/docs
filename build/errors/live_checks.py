@@ -127,6 +127,7 @@ def standalone():
     start(p, '--enable-debug-command', 'yes')
     c = Conn(p); r = client(port=p)
     rec('err-unknown-command', c.cmd('FOO', 'bar'), py_err(lambda: r.execute_command('FOO', 'bar')))
+    rec('err-unknown-command', c.cmd('FOO'))
     rec('err-unknown-command', c.cmd('CONFIG', 'FOO'))
     rec('err-wrong-number-of-arguments', c.cmd('GET'), py_err(lambda: r.execute_command('GET')))
     rec('err-wrong-number-of-arguments', c.cmd('CONFIG', 'GET'))
@@ -178,16 +179,18 @@ def standalone():
     rec('nogroup', c.cmd('XGROUP', 'SETID', 's', 'nog', '$'))
     # AUTH with no password set
     rec('wrongpass', c.cmd('AUTH', 'secret'), py_err(lambda: r.execute_command('AUTH', 'secret')), note='AUTH when no password configured')
-    # OOM
-    c.cmd('CONFIG', 'SET', 'maxmemory', '1')
+    # OOM: a limit a little below the memory in use, so that removing keys can make room.
+    c.cmd('DEBUG', 'POPULATE', '10000')
+    used = int(re.search(rb'used_memory:(\d+)', c.cmd('INFO', 'memory')).group(1))
+    c.cmd('CONFIG', 'SET', 'maxmemory', str(used - 100_000))
     rec('oom', c.cmd('SET', 'o', 'v'), py_err(lambda: r.set('o', 'v')))
     rec('oom', note=f"GET while over maxmemory -> {c.cmd('GET', 'bk')}")
     rec('oom', note=f"DEL while over maxmemory -> {c.cmd('DEL', 'bk')}")
     rec('oom', note=f"policy -> {c.cmd('CONFIG', 'GET', 'maxmemory-policy')}")
-    c.cmd('CONFIG', 'SET', 'maxmemory-policy', 'allkeys-lru')
-    rec('oom', note=f"allkeys-lru SET -> {c.cmd('SET', 'o', 'v')}")
     c.cmd('CONFIG', 'SET', 'maxmemory-policy', 'volatile-lru')
     rec('oom', note=f"volatile-lru SET with no TTL keys -> {c.cmd('SET', 'o2', 'v')}")
+    c.cmd('CONFIG', 'SET', 'maxmemory-policy', 'allkeys-lru')
+    rec('oom', note=f"allkeys-lru SET -> {c.cmd('SET', 'o', 'v')}")
     c.cmd('CONFIG', 'SET', 'maxmemory', '0'); c.cmd('CONFIG', 'SET', 'maxmemory-policy', 'noeviction')
     # BUSY: Lua script
     c.cmd('CONFIG', 'SET', 'busy-reply-threshold', '200')
@@ -216,7 +219,16 @@ def standalone():
 def maxclients():
     p = 6557
     start(p, '--maxclients', '1')
-    keep = Conn(p); keep.cmd('PING')
+    # The last connection of start() may still hold the only slot, so try until this one has it.
+    for _ in range(50):
+        try:
+            keep = Conn(p)
+            if keep.cmd('PING') == '+PONG': break
+        except OSError:
+            pass
+        time.sleep(0.05)
+    else:
+        raise RuntimeError(f'{p} never accepted a first client')
     c = Conn(p)
     rec('err-max-clients', c.read())
     rec('err-max-clients', py=py_err(lambda: client(port=p).ping()))
@@ -242,6 +254,9 @@ def misconf():
     rec('misconf', note=f"GET -> {c.cmd('GET', 'a')}")
     info = c.cmd('INFO', 'persistence').decode()
     rec('misconf', note=[l for l in info.split('\r\n') if 'bgsave' in l])
+    log = dx('cat', f'{CRUN}/{p}.log').stdout
+    line = next((l[l.index('Failed opening'):] for l in log.splitlines() if 'Failed opening the temp RDB file' in l), None)
+    rec('misconf', note=f'log -> {line}')
     dx('chmod', '755', f'{CRUN}/ro')
     c.cmd('SHUTDOWN', 'NOSAVE')
 
@@ -255,16 +270,17 @@ def security():
     rec('wrongpass', c.cmd('AUTH', 'wrong'), py_err(lambda: client(port=p, password='wrong').get('a')))
     rec('wrongpass', c.cmd('AUTH', 'nosuchuser', 'wrong'), note='unknown user')
     c.cmd('AUTH', 'secret')
-    c.cmd('ACL', 'SETUSER', 'app', 'on', '>apppw', '+ping', '+get', '~allowed:*', '&news')
+    c.cmd('ACL', 'SETUSER', 'app', 'on', '>apppw', '+ping', '+get', '~allowed:*')
     c.cmd('ACL', 'SETUSER', 'off-user', 'off', '>offpw', '+@all', '~*')
     rec('wrongpass', Conn(p).cmd('AUTH', 'off-user', 'offpw'), note='disabled user')
     a = Conn(p); a.cmd('AUTH', 'app', 'apppw')
     ra = client(port=p, username='app', password='apppw')
     rec('noperm', a.cmd('SET', 'allowed:1', 'x'), py_err(lambda: ra.set('allowed:1', 'x')))
     rec('noperm', a.cmd('GET', 'other'), py_err(lambda: ra.get('other')))
-    rec('noperm', a.cmd('PUBLISH', 'other', 'hi'))
-    rec('noperm', a.cmd('CONFIG', 'GET', 'maxmemory'))
-    rec('noperm', note=f"ACL LOG -> {c.cmd('ACL', 'LOG', '1')}")
+    # Only the fields of each ACL LOG entry that the page names, as the others change between releases.
+    named = (b'username', b'reason', b'object')
+    rec('noperm', note=[{k.decode(): v.decode() for k, v in zip(e[::2], e[1::2]) if k in named}
+                        for e in c.cmd('ACL', 'LOG', '2')])
     c.cmd('SHUTDOWN', 'NOSAVE')
 
 
@@ -294,7 +310,8 @@ def replication():
     time.sleep(0.5)
     c = Conn(md); r = client(port=md)
     rec('masterdown', c.cmd('GET', 'a'), py_err(lambda: r.get('a')))
-    rec('masterdown', note=f"INFO -> {c.cmd('INFO', 'replication')}")
+    info = c.cmd('INFO', 'replication').decode()
+    rec('masterdown', note=[l for l in info.split('\r\n') if l.startswith(('master_host:', 'master_port:', 'master_link_status:'))])
     for p in (rp, m, md): stop(p)
 
 
@@ -305,25 +322,34 @@ def loading():
     c.cmd('DEBUG', 'POPULATE', '30000')
     c.cmd('SAVE'); c.cmd('SHUTDOWN', 'NOSAVE')
     time.sleep(0.5)
+    # At 200 microseconds a key, loading takes at least 6 seconds, and about 30 on
+    # Docker Desktop, where short sleeps last longer. By default the server answers
+    # commands only every 512 KB of the file, which is once for this file, so it
+    # also answers every 1 KB. SHUTDOWN works while loading.
     dx('redis-server', '--port', str(p), '--daemonize', 'yes', '--save', '', '--dir', d,
-       '--logfile', f'{CRUN}/{p}.log', '--pidfile', f'{CRUN}/{p}.pid', '--key-load-delay', '100')
-    got = None
+       '--logfile', f'{CRUN}/{p}.log', '--pidfile', f'{CRUN}/{p}.pid', '--key-load-delay', '200',
+       '--loading-process-events-interval-bytes', '1024')
+    reply = None
     for _ in range(200):
         try:
             c = Conn(p); reply = c.cmd('GET', 'key:1')
-            if isinstance(reply, str) and reply.startswith('-LOADING'):
-                got = reply
-                rec('loading', reply, py_err(lambda: client(port=p).get('key:1')))
-                rec('loading', note=f"PING while loading -> {c.cmd('PING')}")
-                info = c.cmd('INFO', 'persistence')
-                if isinstance(info, bytes):
-                    rec('loading', note=[l for l in info.decode().split('\r\n') if l.startswith('loading')][:6])
-                break
+            if isinstance(reply, str) and reply.startswith('-LOADING'): break
         except OSError:
             pass
         time.sleep(0.02)
-    if not got: rec('loading', note='never saw LOADING')
-    time.sleep(5); stop(p)
+    else:
+        raise RuntimeError(f'never saw LOADING, last reply {reply!r}')
+    py = py_err(lambda: client(port=p).get('key:1'))
+    ping = c.cmd('PING')
+    info = c.cmd('INFO', 'persistence')
+    lines = [l for l in info.decode().split('\r\n') if l.startswith('loading')] if isinstance(info, bytes) else info
+    # Every reply must come from the same load, or they contradict each other.
+    if 'loading:1' not in lines:
+        raise RuntimeError(f'loading finished during the check: {lines!r}')
+    rec('loading', reply, py)
+    rec('loading', note=f'PING while loading -> {ping}')
+    rec('loading', note=lines)
+    stop(p)
 
 
 def cluster():
@@ -335,10 +361,15 @@ def cluster():
     for _ in range(100):
         if all(b'cluster_state:ok' in Conn(p).cmd('CLUSTER', 'INFO') for p in ports): break
         time.sleep(0.1)
+    else:
+        raise RuntimeError('the cluster never reached cluster_state:ok')
     conns = {p: Conn(p) for p in ports}
     ids = {p: conns[p].cmd('CLUSTER', 'MYID').decode() for p in ports}
     slot = int(conns[6571].cmd('CLUSTER', 'KEYSLOT', 'foo')[1:])
-    owner = next(p for p in ports if conns[p].cmd('GET', 'foo') in ('$-1',) or not str(conns[p].cmd('GET', 'foo')).startswith('-MOVED'))
+    # The key doesn't exist, so only the node that serves its slot replies with nil.
+    owner = next((p for p in ports if conns[p].cmd('GET', 'foo') == '$-1'), None)
+    if owner is None:
+        raise RuntimeError('no node serves the slot of foo')
     other = next(p for p in ports if p != owner)
     r_other = client(port=other)
     rec('moved', conns[other].cmd('GET', 'foo'), py_err(lambda: r_other.get('foo')))
@@ -418,8 +449,9 @@ def _same(v):
     """A reply with its numbers, such as ports, IDs and timings, blanked out.
 
     Random hex IDs, such as the replication ID in INFO, go first, because
-    they mix digits and letters."""
-    return re.sub(r'\d+', '#', re.sub(r'\b[0-9a-f]{40}\b', '<id>', json.dumps(v, sort_keys=True)))
+    they mix digits and letters. A timing can be 0 in one run and 0.001 in
+    the next, so a number with a decimal point is one number."""
+    return re.sub(r'\d+(\.\d+)*', '#', re.sub(r'\b[0-9a-f]{40}\b', '<id>', json.dumps(v, sort_keys=True)))
 
 
 def unrecorded(baseline, results):
@@ -430,8 +462,8 @@ def unrecorded(baseline, results):
 def compare(baseline, results):
     """The pages whose replies differ: [(page, what changed)].
 
-    Only Redis's own replies count. redis-py names depend on the redis-py
-    version, so they're compared only when both runs recorded them. Pages
+    Server replies and notes always count. redis-py names count only when both
+    runs recorded them, as a run without redis-py installed has none. Pages
     with no baseline yet have nothing to compare with, so they're skipped."""
     changes = []
     skip = unrecorded(baseline, results)

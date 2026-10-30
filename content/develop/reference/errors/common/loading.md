@@ -31,18 +31,21 @@ In redis-py, this error is `BusyLoadingError: Redis is loading the dataset in me
 
 ## Example
 
-A few commands, such as `PING`, still work while Redis is loading:
+Most commands, including `PING`, return this error while Redis is loading. A few commands, such as `INFO`, still work:
 
 ```
 > GET mykey
 (error) LOADING Redis is loading the dataset in memory
 > PING
-PONG
+(error) LOADING Redis is loading the dataset in memory
+> INFO persistence
+# Persistence
+loading:1
+...
 ```
 
 ## How to fix it
 
 Wait for loading to finish, and then send the command again. The bigger your dataset is, the longer loading takes. To follow the progress, run [`INFO persistence`](/content/commands/info.md). `loading:1` means that Redis is still loading, and `loading_eta_seconds` estimates the time left.
 
-- **Make your app retry.** Treat this error as temporary, and retry the command after a delay. See [Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff).
-- **Don't use `PING` alone to check that the server is ready.** `PING` works during loading, so a health check that only sends `PING` can report the server as ready too early. Check that `INFO persistence` shows `loading:0`.
+In your app, treat this error as temporary, and retry the command after a delay. See [Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff).

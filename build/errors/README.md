@@ -17,8 +17,9 @@ checking what Claude did.
 - Network access to GitHub. The first run downloads the source of each release
   into `~/.cache/redis-docs-errors`. Set `ERRORS_CACHE` to use another folder.
 - Docker Desktop, running, for the `verify` step.
-- Optional: redis-py (`pip install redis`), so that `verify` also records the
-  exception names that the error pages mention.
+- redis-py (`pip install redis`), so that `verify` also records the exception
+  names that the error pages mention. `verify` runs without it, but
+  `verify --accept` doesn't.
 
 ## Steps
 
@@ -31,7 +32,8 @@ checking what Claude did.
    With no version, it compares with the latest Redis release. It finds the
    module versions that the release bundles, compares their source code with
    the versions the data comes from, and writes a work file:
-   `.errors-update/<version>/work.json`. That folder isn't committed.
+   `.errors-update/<version>/work.json`. That folder isn't committed. It doesn't
+   replace a work file that already has decisions in it, unless you add `--force`.
 
 2. **Fill in the work file.** Each item has a `decision` to fill in:
 
@@ -52,7 +54,9 @@ checking what Claude did.
      the error is sent or what the reader should do, set `"update"` and put the
      new values in `set`, such as `{"explain": "...", "commands": [...]}`.
    - `unused_codes_now_used`: a Redis Search code that was never sent and now is.
-     Set `"used"` or `"still unused"`.
+     Set `"used"` or `"still unused"`. A used code's message goes on its list
+     page, so put its explanation in `set`, such as
+     `{"explain": "...", "explain_basis": "source", "commands": [...]}`.
 
 3. **Merge it into the data.**
 
@@ -60,9 +64,11 @@ checking what Claude did.
    python3 build/errors/update_errors.py apply
    ```
 
-   It refuses a work file that isn't complete, and lists what's missing. Then it
-   updates `data/errors.json`, including the versions and the source locations,
-   and runs the check in step 5.
+   It refuses a work file that isn't complete, and lists what's missing. It also
+   refuses one made for data at another release, such as a work file that's
+   already applied. Then it updates `data/errors.json`, including the versions
+   and the source locations, and lists what the check in step 5 still finds,
+   such as codes that need a section.
 
 4. **Update the pages.**
 
@@ -98,8 +104,9 @@ checking what Claude did.
    python3 build/errors/update_errors.py verify 8.12.0 --accept
    ```
 
-   It doesn't save a run in which a check failed, or in which a page got no
-   replies, because the baseline would lose those pages.
+   It doesn't save a run in which a check failed, or in which a page has no
+   server replies, notes or redis-py names where the baseline has some, because
+   later runs would stop checking them.
 
 7. **Build the site and open a pull request.** Look at the list pages that
    changed, and at the error lookup on the errors page.

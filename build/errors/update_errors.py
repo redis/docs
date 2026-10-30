@@ -69,8 +69,10 @@ def git(repo, *args, binary=False):
 
 def release_tags():
     """The Redis release tags, oldest first, such as 8.10.3. No release candidates."""
-    out = subprocess.run(['git', 'ls-remote', '--tags', '--refs', REPOS['redis'][0]],
-                         capture_output=True, text=True, check=True).stdout
+    run = subprocess.run(['git', 'ls-remote', '--tags', '--refs', REPOS['redis'][0]], capture_output=True, text=True)
+    if run.returncode:
+        sys.exit(f'Couldn\'t list the Redis releases from {REPOS["redis"][0]}:\n{run.stderr.strip()}')
+    out = run.stdout
     tags = re.findall(r'refs/tags/(\d+\.\d+\.\d+)$', out, re.M)
     return sorted(set(tags), key=lambda t: tuple(map(int, t.split('.'))))
 
@@ -215,9 +217,10 @@ def literals(text, rust):
 def scan(name, tag):
     """Every string literal of a repository at a tag, cached on disk."""
     cache = CACHE / f'scan-{name}-{tag}-{SCAN_VERSION}.json'
+    # The clone needs the tag even with a cached scan, because the diff reads its files.
+    repo = fetch(name, tag)
     if cache.exists():
         return json.loads(cache.read_text())
-    repo = fetch(name, tag)
     folders = [f for f in REPOS[name][2] if git(repo, 'ls-tree', '--name-only', tag, '--', f.rstrip('/'))]
     log(f'Reading the {name} {tag} source...')
     tar = tarfile.open(fileobj=io.BytesIO(git(repo, 'archive', '--format=tar', tag, '--', *folders, binary=True)))
@@ -406,6 +409,17 @@ def cmd_diff(args):
     if target == base and not args.base:
         print(f'The error reference is already up to date with Redis {version}. Nothing to do.')
         return 0
+    out = WORK / target['redis']
+    if (out / 'work.json').exists() and not args.force:
+        try:
+            old = json.loads((out / 'work.json').read_text())
+            started = any(i.get('decision') for k in ('new', 'gone', 'review', 'unused_codes_now_used')
+                          for i in old.get(k, []))
+        except (ValueError, AttributeError):
+            started = True
+        if started:
+            sys.exit(f'{(out / "work.json").relative_to(ROOT)} already has decisions in it, so it wasn\'t '
+                     'replaced. Run apply to use it, or run diff again with --force to start over.')
     log('Base:   ' + ', '.join(f'{k} {v}' for k, v in base.items()))
     log('Target: ' + ', '.join(f'{k} {v}' for k, v in target.items()))
 
@@ -465,12 +479,11 @@ def cmd_diff(args):
         if e.get('unused') and e['prefix'] not in [c['code'] for c in codes]:
             uses = unused_code_uses(e['prefix'], 'search', tag_of('search', target['search']))
             if uses:
-                codes.append({'code': e['prefix'], 'uses': uses, 'decision': None})
+                codes.append({'code': e['prefix'], 'uses': uses, 'decision': None, 'set': {}})
 
     work = {'created': time.strftime('%Y-%m-%d'), 'base': base, 'target': target,
             'new': new, 'gone': gone, 'review': review, 'unused_codes_now_used': codes,
             'sources': [[m, msg, w] for (m, msg), w in tracked.items()]}
-    out = WORK / target['redis']
     out.mkdir(parents=True, exist_ok=True)
     (out / 'work.json').write_text(json.dumps(work, indent=1, ensure_ascii=False) + '\n')
     print(f'''Compared Redis {base["redis"]} with Redis {target["redis"]}.
@@ -499,7 +512,11 @@ def validate_entry(e, where):
     if e.get('module') not in REPO_OF: problems.append(f'{where}: unknown module {e.get("module")!r}')
     if e.get('explain_basis') not in BASES: problems.append(f'{where}: explain_basis must be one of {", ".join(BASES)}')
     if not str(e.get('explain', '')).strip(): problems.append(f'{where}: empty explain')
-    if e.get('prefix') and not e.get('message', '').startswith(e['prefix']):
+    if not isinstance(e.get('commands', []), list) or not all(isinstance(c, str) for c in e.get('commands', [])):
+        problems.append(f'{where}: commands must be a list of command names, such as ["SET"]')
+    if not isinstance(e.get('message', ''), str) or not isinstance(e.get('prefix', ''), str):
+        problems.append(f'{where}: message and prefix must be strings')
+    elif e.get('prefix') and not e.get('message', '').startswith(e['prefix']):
         problems.append(f'{where}: the message must start with its prefix {e["prefix"]!r}')
     return problems
 
@@ -513,41 +530,70 @@ def latest_work():
 
 def cmd_apply(args):
     path = Path(args.work) if args.work else latest_work()
-    work = json.loads(path.read_text())
+    try:
+        work = json.loads(path.read_text())
+    except ValueError as e:
+        sys.exit(f'{path} isn\'t valid JSON: {e}')
     data = load_data()
+    # The work file moves the source locations from its base release to its target,
+    # so it only fits data that is still at its base.
+    if work.get('base') != data['versions']:
+        if work.get('target') == data['versions']:
+            sys.exit(f'This work file is already applied, so the data is for Redis {data["versions"]["redis"]}. '
+                     'To change a decision, restore data/errors.json with git checkout, then apply again.')
+        sys.exit(f'This work file starts from Redis {(work.get("base") or {}).get("redis")}, but the data is for '
+                 f'Redis {data["versions"]["redis"]}. Run the diff step again.')
+    for k in ('new', 'gone', 'review', 'unused_codes_now_used', 'sources'):
+        work.setdefault(k, [])
+    by_key = {(e['module'], e['message']): e for e in data['errors']}
     problems = []
     for item in work['new']:
         item.setdefault('entries', [])
         if item.get('decision') not in ('add', 'skip'):
-            problems.append(f'{item["id"]}: decision must be "add" or "skip"')
-        if item['decision'] == 'add':
-            if not item['entries']: problems.append(f'{item["id"]}: "add" needs at least one entry')
+            problems.append(f'{item.get("id")}: decision must be "add" or "skip"')
+        if item.get('decision') == 'add':
+            if not item['entries']: problems.append(f'{item.get("id")}: "add" needs at least one entry')
             for i, e in enumerate(item['entries']):
-                problems += validate_entry(e, f'{item["id"]} entry {i + 1}')
+                problems += validate_entry(e, f'{item.get("id")} entry {i + 1}')
     for item in work['gone']:
-        if item['decision'] not in ('remove', 'keep'):
-            problems.append(f'{item["id"]}: decision must be "remove" or "keep"')
+        if item.get('decision') not in ('remove', 'keep'):
+            problems.append(f'{item.get("id")}: decision must be "remove" or "keep"')
     for item in work['review']:
-        if item['decision'] not in ('ok', 'update'):
-            problems.append(f'{item["id"]}: decision must be "ok" or "update"')
-        if item['decision'] == 'update' and not item['set']:
-            problems.append(f'{item["id"]}: "update" needs the fields to change in "set"')
-        if set(item['set']) - ENTRY_FIELDS:
-            problems.append(f'{item["id"]}: unknown fields in "set"')
+        item.setdefault('set', {})
+        if item.get('decision') not in ('ok', 'update'):
+            problems.append(f'{item.get("id")}: decision must be "ok" or "update"')
+        if item.get('decision') == 'update':
+            e = by_key.get((item.get('module'), item.get('message')))
+            if not isinstance(item['set'], dict) or not item['set']:
+                problems.append(f'{item.get("id")}: "update" needs the fields to change in "set"')
+            elif not e:
+                problems.append(f'{item.get("id")}: the data has no {item.get("module")} message {item.get("message")!r}')
+            else:
+                problems += validate_entry({**e, **item['set']}, item.get('id'))
     for item in work['unused_codes_now_used']:
-        if item['decision'] not in ('used', 'still unused'):
-            problems.append(f'{item["code"]}: decision must be "used" or "still unused"')
+        item.setdefault('set', {})
+        if item.get('decision') not in ('used', 'still unused'):
+            problems.append(f'{item.get("code")}: decision must be "used" or "still unused"')
+        if item.get('decision') == 'used':
+            # Its message goes on the list page now, so it needs an explanation, from "set".
+            if not isinstance(item['set'], dict):
+                problems.append(f'{item.get("code")}: "set" must hold the fields to add, such as "explain"')
+                continue
+            for e in data['errors']:
+                if e['prefix'] == item.get('code'):
+                    problems += validate_entry({**e, **item['set']}, item.get('code'))
     if problems:
         sys.exit('The work file isn\'t complete:\n' + '\n'.join('- ' + p for p in problems))
 
-    by_key = {(e['module'], e['message']): e for e in data['errors']}
     for item in work['review']:
         if item['decision'] == 'update':
             by_key[(item['module'], item['message'])].update(item['set'])
     for item in work['unused_codes_now_used']:
         if item['decision'] == 'used':
             for e in data['errors']:
-                if e['prefix'] == item['code']: e.pop('unused', None)
+                if e['prefix'] == item['code']:
+                    e.pop('unused', None)
+                    e.update(item['set'])
     removed = {(i['module'], i['message']) for i in work['gone'] if i['decision'] == 'remove'}
     errors = [e for e in data['errors'] if (e['module'], e['message']) not in removed]
     sources = {(m, msg): w for m, msg, w in work['sources']}
@@ -570,7 +616,11 @@ def cmd_apply(args):
     save_data(data)
     print(f'Added {added} messages, removed {len(removed)}, updated '
           f'{sum(1 for i in work["review"] if i["decision"] == "update")}. The data is now for Redis {work["target"]["redis"]}.')
-    return cmd_check(args)
+    # The pages come next, so the check's problems are what's left to do, not a failure of this step.
+    problems, _ = check(data)
+    if problems:
+        print('\nFix these, then run the check step:\n' + '\n'.join('- ' + p for p in problems))
+    return 0
 
 
 def sort_key(e):
@@ -634,13 +684,19 @@ def check(data):
         has_others = any('others="true"' in call for call in calls)
         for code in sorted({c for c in named if named.count(c) > 1}):
             problems.append(f'all/{page}.md: the code {code} is listed twice')
-        for code in sorted({group_of(e) for e in public if e['module'] == module} - set(named)):
+        groups = {group_of(e) for e in public if e['module'] == module}
+        for code in sorted(set(named) - groups):
+            problems.append(f'all/{page}.md: the section for {code} has no messages left to list. Remove it, or '
+                            'describe the code without the table.')
+        for code in sorted(groups - set(named)):
             if needs_section(module, code) or not has_others:
                 problems.append(f'all/{page}.md: the code {code or "(none)"} has no section. Add one with '
                                 f'{{{{< error-catalog module="{module}" code="{code}" >}}}} and an explanation.')
 
-    # The error pages explain messages that the data still has.
-    messages = [e for e in data['errors'] if e['module'] == 'core']
+    # The error pages explain messages that the data still has. A message that is only
+    # a code and placeholders, such as "ERR <reason>", would match any page's message.
+    messages = [e for e in data['errors'] if e['module'] == 'core'
+                and PLACEHOLDER.sub('', e['message']).strip() != e['prefix']]
     for page in sorted((PAGES / 'common').glob('*.md')):
         if page.name == '_index.md': continue
         fm = front_matter(page.read_text())
@@ -657,7 +713,7 @@ def check(data):
                     return msg.startswith(text[:-3])
                 return re.fullmatch('.+'.join(map(re.escape, PLACEHOLDER.split(msg))), text)
             if not any(same(e['message']) for e in messages):
-                notes.append(f'common/{page.name}: its message isn\'t in the data word for word: {text}')
+                problems.append(f'common/{page.name}: no message in the data matches the page\'s message: {text}')
 
     # The versions that the pages name.
     index = (PAGES / 'all' / '_index.md').read_text()
@@ -696,14 +752,20 @@ def cmd_verify(args):
     results = live_checks.run(f'redis:{args.version}', out)
     baseline_path = Path(__file__).parent / 'live_baseline.json'
     baseline = json.loads(baseline_path.read_text())
-    changes = live_checks.compare(baseline, results)
+    changes = [c for c in live_checks.compare(baseline, results) if c[0] != '_failures']
+    failed = results.get('_failures', {}).get('notes', [])
     if args.accept:
         # A partial run would drop pages from the baseline, and later runs would skip them.
-        failed = [f'- {note}' for note in results.get('_failures', {}).get('notes', [])]
-        lost = [f'- common/{page}.md: no replies this time' for page in baseline
-                if page != '_meta' and not results.get(page) and (PAGES / 'common' / f'{page}.md').exists()]
+        if baseline['_meta'].get('redis_py') and not results['_meta'].get('redis_py'):
+            sys.exit('The baseline wasn\'t saved, because it has the redis-py exception names, and this run '
+                     'doesn\'t. Install redis-py (pip install redis), then run this step again.')
+        kinds = {'raw': 'server replies', 'notes': 'notes', 'redis_py': 'redis-py exceptions'}
+        lost = [f'- common/{page}.md: no {name} this time' for page in baseline
+                if page != '_meta' and (PAGES / 'common' / f'{page}.md').exists()
+                for kind, name in kinds.items() if baseline[page].get(kind) and not results.get(page, {}).get(kind)]
         if failed or lost:
-            sys.exit('The baseline wasn\'t saved, because this run is incomplete:\n' + '\n'.join(failed + lost) +
+            sys.exit('The baseline wasn\'t saved, because this run is incomplete:\n' +
+                     '\n'.join([f'- {note}' for note in failed] + lost) +
                      '\nFix the checks in build/errors/live_checks.py and run this step again. If a page no '
                      'longer needs a check, remove it from live_baseline.json.')
         baseline_path.write_text(json.dumps(results, indent=2, ensure_ascii=False) + '\n')
@@ -713,14 +775,21 @@ def cmd_verify(args):
     if new:
         print('These pages have no baseline yet, so their replies weren\'t compared. Check them by hand, '
               f'then save them with --accept: {", ".join(f"common/{p}.md" for p in new)}\n')
-    if not changes:
+    if failed:
+        print('These checks failed, so the pages they cover weren\'t compared:\n' +
+              '\n'.join(f'- {note}' for note in failed) + '\n')
+    if not changes and not failed:
         print(f'Every reply that the error pages show is the same on Redis {args.version}.')
         return 0
-    print(f'{len(changes)} replies differ from the baseline. Check these pages:\n')
-    for page, what in changes:
-        print(f'- common/{page}.md: {what}')
-    print('\nWhen the pages are right again, run: python3 build/errors/update_errors.py verify '
-          f'{args.version} --accept')
+    if changes:
+        print(f'{len(changes)} replies differ from the baseline. Check these pages:\n')
+        for page, what in changes:
+            print(f'- common/{page}.md: {what}')
+    if failed:
+        print('\nFix the checks in build/errors/live_checks.py, then run this step again.')
+    else:
+        print('\nWhen the pages are right again, run: python3 build/errors/update_errors.py verify '
+              f'{args.version} --accept')
     return 1
 
 
@@ -730,6 +799,7 @@ def main(argv=None):
     d = sub.add_parser('diff', help='compare the data\'s release with a newer one')
     d.add_argument('version', nargs='?', help='Redis version, such as 8.12.0 (default: the latest release)')
     d.add_argument('--base', help='compare from this Redis version instead of the data\'s (for testing)')
+    d.add_argument('--force', action='store_true', help='replace a work file that already has decisions')
     a = sub.add_parser('apply', help='merge the filled-in work file into data/errors.json')
     a.add_argument('--work', help='the work file (default: the newest one)')
     sub.add_parser('check', help='check the data and the pages, offline')
