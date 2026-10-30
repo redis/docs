@@ -13,8 +13,7 @@
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +27,7 @@ import java.util.Map;
 public class DemoServer {
 
     private static TokenBucket limiter;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
     private static int capacity = 10;
     private static int refillRate = 1;
     private static double refillInterval = 1.0;
@@ -55,8 +54,8 @@ public class DemoServer {
 
         // Initialize Redis connection
         try {
-            jedisPool = new JedisPool(new JedisPoolConfig(), redisHost, redisPort);
-            jedisPool.getResource().close(); // Test connection
+            jedis = RedisClient.create(redisHost, redisPort);
+            jedis.ping(); // Test connection
             System.out.printf("✓ Connected to Redis at %s:%d%n", redisHost, redisPort);
         } catch (Exception e) {
             System.err.printf("✗ Failed to connect to Redis: %s%n", e.getMessage());
@@ -65,7 +64,7 @@ public class DemoServer {
         }
 
         // Initialize the rate limiter
-        limiter = new TokenBucket(capacity, refillRate, refillInterval, jedisPool);
+        limiter = new TokenBucket(capacity, refillRate, refillInterval, jedis);
 
         // Start the server
         try {
@@ -82,7 +81,7 @@ public class DemoServer {
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("\n✓ Server stopped");
-                jedisPool.close();
+                jedis.close();
                 server.stop(0);
             }));
         } catch (IOException e) {
@@ -136,7 +135,7 @@ public class DemoServer {
                     refillInterval = Double.parseDouble(params.get("refill_interval"));
                 }
 
-                limiter = new TokenBucket(capacity, refillRate, refillInterval, jedisPool);
+                limiter = new TokenBucket(capacity, refillRate, refillInterval, jedis);
 
                 json = String.format(
                     "{\"success\":true,\"config\":{\"capacity\":%d,\"refill_rate\":%d,\"refill_interval\":%.1f}}",

@@ -26,7 +26,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Jedis`](/content/develop/clients/jedis/_index.md) client library, taking advantage of Java's `try-with-resources` for connection management, `JedisPool` for connection pooling, and checked exceptions for error handling.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Jedis`](/content/develop/clients/jedis/_index.md) client library, taking advantage of the `RedisClient` class for connection pooling and checked exceptions for error handling.
 
 ## How it works
 
@@ -126,14 +126,14 @@ Add the Jedis dependency to your project:
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>5.2.0</version>
+      <version>8.0.2</version>
   </dependency>
   ```
 
 * If you use **Gradle**:
 
   ```groovy
-  implementation 'redis.clients:jedis:5.2.0'
+  implementation 'redis.clients:jedis:8.0.2'
   ```
 
 ## Using the Java class
@@ -142,15 +142,15 @@ The `TokenBucket` class provides a thread-safe interface for rate limiting
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-jedis/TokenBucket.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        // Create a Redis connection pool
-        JedisPool jedisPool = new JedisPool("localhost", 6379);
+        // Create a pooled Redis client
+        RedisClient jedis = RedisClient.create("localhost", 6379);
 
         // Create a rate limiter: 10 requests per second
-        TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedisPool);
+        TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedis);
 
         // Check if a request should be allowed
         TokenBucket.RateLimitResult result = limiter.allow("user:123");
@@ -166,7 +166,7 @@ public class Main {
 }
 ```
 
-Jedis operations are synchronous and thread-safe when using `JedisPool`, which manages a pool of connections internally. The `allow()` method returns a `RateLimitResult` record containing both the decision and the remaining token count.
+Jedis operations are synchronous and thread-safe when using `RedisClient`, which manages a pool of connections internally. The `allow()` method returns a `RateLimitResult` record containing both the decision and the remaining token count.
 
 ### Configuration parameters
 
@@ -205,7 +205,7 @@ The `TokenBucket` class is thread-safe. You can share a single instance across y
 
 ```java
 // Create a shared limiter instance
-TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedisPool);
+TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedis);
 
 // Safe to call from multiple threads
 ExecutorService executor = Executors.newFixedThreadPool(10);
@@ -240,10 +240,12 @@ A demonstration HTTP server is included to show the rate limiter in action
 
 ```bash
 # Compile
-javac -cp jedis-5.2.0.jar TokenBucket.java DemoServer.java
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    TokenBucket.java DemoServer.java
 
 # Run the demo server
-java -cp .:jedis-5.2.0.jar DemoServer
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    DemoServer
 ```
 
 The demo provides an interactive web interface where you can:
@@ -262,7 +264,7 @@ It's common to include rate limit information in HTTP response headers:
 ```java
 int capacity = 10;
 double refillInterval = 1.0;
-TokenBucket limiter = new TokenBucket(capacity, 1, refillInterval, jedisPool);
+TokenBucket limiter = new TokenBucket(capacity, 1, refillInterval, jedis);
 
 TokenBucket.RateLimitResult result = limiter.allow("user:" + userId);
 
@@ -290,8 +292,8 @@ public class RateLimitFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) {
-        JedisPool jedisPool = new JedisPool("localhost", 6379);
-        limiter = new TokenBucket(10, 1, 1.0, jedisPool);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
+        limiter = new TokenBucket(10, 1, 1.0, jedis);
     }
 
     @Override
@@ -361,8 +363,7 @@ Simplest algorithm — one key per window, one `EVAL` round trip.
 ```java
 import java.util.List;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class FixedWindowLimiter {
 
@@ -387,16 +388,14 @@ public class FixedWindowLimiter {
     public record Decision(boolean allowed, long retryAfterMs) {}
 
     @SuppressWarnings("unchecked")
-    public static Decision allow(JedisPool pool, String key, int limit, int windowSeconds) {
-        try (Jedis jedis = pool.getResource()) {
-            List<Long> result = (List<Long>) jedis.eval(
-                    SCRIPT,
-                    List.of(key),
-                    List.of(String.valueOf(limit), String.valueOf(windowSeconds)));
+    public static Decision allow(RedisClient jedis, String key, int limit, int windowSeconds) {
+        List<Long> result = (List<Long>) jedis.eval(
+                SCRIPT,
+                List.of(key),
+                List.of(String.valueOf(limit), String.valueOf(windowSeconds)));
 
-            boolean allowed = result.get(0) == 1L;
-            return new Decision(allowed, allowed ? 0L : result.get(1));
-        }
+        boolean allowed = result.get(0) == 1L;
+        return new Decision(allowed, allowed ? 0L : result.get(1));
     }
 }
 ```
@@ -413,8 +412,7 @@ Provides a true rolling window with no boundary bursts.
 import java.util.List;
 import java.util.UUID;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class SlidingWindowLogLimiter {
 
@@ -450,17 +448,15 @@ public class SlidingWindowLogLimiter {
     public record Decision(boolean allowed, long retryAfterMs) {}
 
     @SuppressWarnings("unchecked")
-    public static Decision allow(JedisPool pool, String key, int limit, int windowSeconds) {
-        try (Jedis jedis = pool.getResource()) {
-            List<Long> result = (List<Long>) jedis.eval(
-                    SCRIPT,
-                    List.of(key),
-                    List.of(String.valueOf(limit),
-                            String.valueOf(windowSeconds),
-                            UUID.randomUUID().toString()));
+    public static Decision allow(RedisClient jedis, String key, int limit, int windowSeconds) {
+        List<Long> result = (List<Long>) jedis.eval(
+                SCRIPT,
+                List.of(key),
+                List.of(String.valueOf(limit),
+                        String.valueOf(windowSeconds),
+                        UUID.randomUUID().toString()));
 
-            return new Decision(result.get(0) == 1L, result.get(1));
-        }
+        return new Decision(result.get(0) == 1L, result.get(1));
     }
 }
 ```
@@ -478,8 +474,7 @@ to the same slot in Redis Cluster.
 ```java
 import java.util.List;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class SlidingWindowCounterLimiter {
 
@@ -515,15 +510,13 @@ public class SlidingWindowCounterLimiter {
             """;
 
     @SuppressWarnings("unchecked")
-    public static boolean allow(JedisPool pool, String key, int limit, int windowSeconds) {
-        try (Jedis jedis = pool.getResource()) {
-            List<Long> result = (List<Long>) jedis.eval(
-                    SCRIPT,
-                    List.of("{" + key + "}"),
-                    List.of(String.valueOf(limit), String.valueOf(windowSeconds)));
+    public static boolean allow(RedisClient jedis, String key, int limit, int windowSeconds) {
+        List<Long> result = (List<Long>) jedis.eval(
+                SCRIPT,
+                List.of("{" + key + "}"),
+                List.of(String.valueOf(limit), String.valueOf(windowSeconds)));
 
-            return result.get(0) == 1L;
-        }
+        return result.get(0) == 1L;
     }
 }
 ```
@@ -540,8 +533,7 @@ policing variant — requests are allowed or denied instantly with no delay.
 ```java
 import java.util.List;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class LeakyBucketLimiter {
 
@@ -586,15 +578,13 @@ public class LeakyBucketLimiter {
     public record Decision(boolean allowed, long retryAfterMs) {}
 
     @SuppressWarnings("unchecked")
-    public static Decision allow(JedisPool pool, String key, int capacity, double leakRate) {
-        try (Jedis jedis = pool.getResource()) {
-            List<Long> result = (List<Long>) jedis.eval(
-                    SCRIPT,
-                    List.of(key),
-                    List.of(String.valueOf(capacity), String.valueOf(leakRate)));
+    public static Decision allow(RedisClient jedis, String key, int capacity, double leakRate) {
+        List<Long> result = (List<Long>) jedis.eval(
+                SCRIPT,
+                List.of(key),
+                List.of(String.valueOf(capacity), String.valueOf(leakRate)));
 
-            return new Decision(result.get(0) == 1L, result.get(1));
-        }
+        return new Decision(result.get(0) == 1L, result.get(1));
     }
 }
 ```
