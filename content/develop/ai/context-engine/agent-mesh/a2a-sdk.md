@@ -145,9 +145,75 @@ For cancellation, use the official handler's cancellation path. A cancellation c
 
 The optional `store.heartbeat(executor, interval=5.0, alive_ttl=15.0)` wrapper refreshes liveness and retention while the agent executes. It checks stored terminal state and stops local execution when another replica cancels or finishes the Task. Set `alive_ttl` greater than `interval`.
 
-With an active store-backed subscriber, a lapsed heartbeat on a submitted or working Task marks it failed with a `producer_lost` status message. Polling task state alone does not trigger this recovery. Tasks waiting for input or authentication, and tasks without tracked heartbeats, are excluded.
+When a store-backed subscriber or a task read finds a lapsed heartbeat on a submitted or working Task, it marks the Task failed with a `producer_lost` status message. Tasks waiting for input or authentication, and tasks without tracked heartbeats, are excluded. To resume such a Task in another process instead, see [Hand off a task to another process](#hand-off-a-task-to-another-process).
 
 The wrapper does not restart computation. Without it, an agent on another replica learns of cancellation at its next write. With A2A SDK 1.2.3, continued emission after that cancellation can also leave handler shutdown waiting indefinitely; the wrapper stops the agent first.
+
+## Hand off a task to another process
+
+One process can start a Task and another process can finish it. Both write to the same Task and its ordered event log, so subscribers on any replica see one sequence of updates, whichever process produced them.
+
+Before the heartbeat wrapper runs your executor, it claims the Task for its process. Each save carries that claim. After another process claims the Task, the store rejects saves from the previous process with `ConcurrentTaskModificationError`, so a process that stalls and later wakes up cannot overwrite newer work. That process also stops its executor at its next successful heartbeat.
+
+The wrapper grants a claim when the Task is new, when no process runs it, when it waits for input or authentication, or when the process that ran it stopped sending heartbeats. It refuses a claim for a terminal or deleted Task, a Task the caller doesn't own, and a Task that a process sending heartbeats is running or has just claimed. After a refused claim, the executor doesn't run, the Task keeps its current state, and the message is not added to the Task's history. If your executor's first update on a resumed Task is a status or artifact update, and you don't limit `history_length`, check the returned Task's history to tell whether your message was accepted.
+
+### Continue a waiting task in another process
+
+A Task that waits for input or authentication is not running anywhere. The next message can reach any replica. That replica's wrapper claims the Task and runs your executor with the stored Task as `context.current_task`. No extra configuration is required. While one replica is processing a reply, other replicas refuse a second reply to the same Task.
+
+### Take over a long-running task
+
+By default, a reader that notices a lost heartbeat marks a submitted or working Task failed with `producer_lost`. This includes the task read that a resume request makes. To let another process resume the Task instead, create the store with `takeover=True` on every replica:
+
+```python
+store = RedisTaskStore(commands, namespace="myapp:a2a", takeover=True)
+```
+
+To resume a Task, send it a message through the official request handler in the process that takes it over. The handler reloads the Task, the wrapper claims it, and your executor runs with the stored Task. A worker can make that call in-process, using a `ServerCallContext` that carries the Task owner's verified identity:
+
+```python
+import uuid
+
+from a2a.types import Message, Part, Role, SendMessageRequest
+
+
+async def resume(handler, task_id, context_id, owner_context):
+    request = SendMessageRequest(
+        message=Message(
+            message_id=f"resume-{uuid.uuid4()}",
+            role=Role.ROLE_USER,
+            task_id=task_id,
+            context_id=context_id,
+            parts=[Part(text="resume")],
+        )
+    )
+    request.configuration.return_immediately = True
+    return await handler.on_message_send(request, owner_context)
+```
+
+Build `owner_context` in trusted worker code from the identity that owns the Task. Never build it from request input. The message becomes part of the Task's history.
+
+Have your executor record its progress in the Task, for example as one artifact per completed step, and skip completed steps when `context.current_task` already contains them:
+
+```python
+from a2a.server.agent_execution import AgentExecutor
+
+
+class TripPlanner(AgentExecutor):
+    async def execute(self, context, event_queue):
+        task = context.current_task
+        done = {artifact.artifact_id for artifact in task.artifacts} if task else set()
+        if "flights" not in done:
+            ...  # book flights, then emit the "flights" artifact
+        if "hotels" not in done:
+            ...  # book hotels, then emit the "hotels" artifact
+        ...  # emit the completed status
+
+    async def cancel(self, context, event_queue):
+        ...  # emit the canceled status
+```
+
+The integration does not detect stopped processes or schedule resumption. Track the Tasks your workers run, for example in your job queue, and resume or cancel those whose process stopped. With `takeover=True`, a running Task that nobody resumes stays working until `active_ttl` expires, and its subscribers stay connected until then. A step that the first process performed but did not record runs again in the next process, so make external effects safe to repeat.
 
 ## Configure retention and limits
 
@@ -163,6 +229,7 @@ Pass these options to `RedisTaskStore`:
 | `max_event_bytes` | 1,048,576 | Serialized event size limit. |
 | `max_events` | 10,000 | Approximate retained log length. |
 | `max_attempts` | 5 | Maximum attempts under transaction contention. |
+| `takeover` | `False` | Keep a submitted or working Task claimable after its process stops sending heartbeats, instead of marking it failed. See [Hand off a task to another process](#hand-off-a-task-to-another-process). |
 
 The byte limits apply before hex encoding; stored payloads use about twice those serialized sizes. Size the event limit and log length for your memory budget. An oversized payload raises `A2ACapacityExceeded` without changing the snapshot or log.
 
@@ -173,7 +240,7 @@ Owner metadata prevents another owner from reusing a Task ID until it expires. D
 | `RedisTaskStore` | Store owner-scoped snapshots and versioned updates through the official SDK. |
 | `store.event_stream()` | Build the matching event reader, with producer-loss recovery. |
 | `RedisTaskEventStream` | Configure a reader explicitly with `store=store` and a separate client. |
-| `store.heartbeat()` | Track execution liveness and notice remote cancellation. |
+| `store.heartbeat()` | Track execution liveness, claim Tasks for hand-off, and notice remote cancellation. |
 | `create_resumable_rest_routes()` | Expose cursor-enabled REST streaming. |
 | `resumable_streams_extension()` | Advertise cursor support in the agent card. |
 
