@@ -17,10 +17,10 @@ For a runnable browser example, start with the [A2A quickstart](/content/develop
 
 ## Install the integration
 
-You need Python 3.11 or later, Redis 8.6 or later with native producer idempotency (`XADD IDMP`), and the official A2A Python SDK 1.2.x.
+You need Python 3.11 or later, Redis 8.6.2 or later with native producer idempotency (`XADD IDMP`) and JavaScript Object Notation (JSON) support, and the official A2A Python SDK 1.2.x.
 
 ```bash
-pip install 'redis-iris[a2a]' 'a2a-sdk[http-server]>=1.2.3,<1.3'
+pip install 'redis-iris[a2a]'
 ```
 
 To use both integrations in one application, install `redis-iris[a2a,fastapi-sse]`. Their shared redis-py range is `>=8.0.1,<9`; separate Python environments are not required.
@@ -35,7 +35,6 @@ The application factory in this example accepts your existing `AgentExecutor`, `
 import os
 from contextlib import asynccontextmanager
 
-from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.routes import create_agent_card_routes, create_jsonrpc_routes
 from redis.asyncio import Redis
 from redis_iris.agent_mesh.a2a import RedisTaskEventStream, RedisTaskStore
@@ -57,11 +56,8 @@ def create_app(agent_executor, agent_card, auth_backend):
     )
     store = RedisTaskStore(commands, namespace="myapp:a2a")
     event_stream = RedisTaskEventStream(readers, store=store)
-    handler = DefaultRequestHandler(
-        agent_executor=store.heartbeat(agent_executor),
-        agent_card=agent_card,
-        task_store=store,
-        event_stream=event_stream,
+    handler = store.request_handler(
+        agent_executor, agent_card=agent_card, event_stream=event_stream
     )
     agent_card.capabilities.extensions.append(resumable_streams_extension())
 
@@ -78,7 +74,7 @@ def create_app(agent_executor, agent_card, auth_backend):
             *create_agent_card_routes(agent_card),
             *create_jsonrpc_routes(handler, rpc_url="/"),
             *create_resumable_rest_routes(
-                handler, store=store, event_stream=event_stream
+                handler, agent_card=agent_card, store=store, event_stream=event_stream
             ),
         ],
         middleware=[Middleware(AuthenticationMiddleware, backend=auth_backend)],
@@ -88,7 +84,7 @@ def create_app(agent_executor, agent_card, auth_backend):
 
 Use the same Redis database, namespace, and ownership policy on every replica. Use primary reads for both snapshots and events. Your application owns credentials, Transport Layer Security (TLS), connection pools, timeouts, and shutdown.
 
-Each waiting subscription occupies a Redis connection. A separate reader pool keeps blocked subscriptions from exhausting connections needed for writes and heartbeats. Set its socket timeout above the event stream's `block_ms` interval, which defaults to 1,000 milliseconds.
+Each waiting subscription occupies a Redis connection. A separate reader pool keeps blocked subscriptions from exhausting connections needed for writes and heartbeats. Set its socket timeout above the event stream's `block_ms` interval, which defaults to at most 4,000 milliseconds and adapts to a shorter client socket timeout.
 
 `RedisTaskStore` commits the Task snapshot, version, and event together. The paired event stream reads that log; its `publish()` method does not append another copy. Keep writing through the official request handler and its task store.
 
@@ -102,7 +98,7 @@ The official handler and resumable routes check ownership before subscribing. Th
 
 ## Start and resume a subscription
 
-`create_resumable_rest_routes()` adds event cursors to the HTTP+JSON binding's `POST /message:stream` and `GET` or `POST /tasks/{id}:subscribe` routes. Other REST routes retain the official SDK's behavior.
+Pass the handler's same `agent_card` to `create_resumable_rest_routes()`; its streaming capability must be enabled. The factory adds event cursors to the HTTP+JSON binding's `POST /message:stream` and `GET` or `POST /tasks/{id}:subscribe` routes. Other REST routes retain the official SDK's behavior.
 
 To follow an existing active task, send an authenticated request to `/tasks/<task-id>:subscribe` with `A2A-Version: 1.0`. Without a cursor, the response starts with the current Task snapshot and follows new updates.
 
@@ -143,9 +139,9 @@ For cancellation, use the official handler's cancellation path. A cancellation c
 
 ## Monitor executing agents
 
-The optional `store.heartbeat(executor, interval=5.0, alive_ttl=15.0)` wrapper refreshes liveness and retention while the agent executes. It checks stored terminal state and stops local execution when another replica cancels or finishes the Task. Set `alive_ttl` greater than `interval`.
+`store.request_handler()` applies `store.heartbeat(executor, interval=5.0, alive_ttl=15.0)` to track the running agent under a process lease. It checks stored terminal state and stops local execution when another replica cancels or finishes the Task. Set `alive_ttl` greater than `interval`.
 
-With an active store-backed subscriber, a lapsed heartbeat on a submitted or working Task marks it failed with a `producer_lost` status message. Polling task state alone does not trigger this recovery. Tasks waiting for input or authentication, and tasks without tracked heartbeats, are excluded.
+A store-backed subscriber or `get()` marks a submitted or working Task failed with a `producer_lost` status message when its producer lease expires. Tasks waiting for input or authentication, and tasks without tracked heartbeats, are excluded.
 
 The wrapper does not restart computation. Without it, an agent on another replica learns of cancellation at its next write. With A2A SDK 1.2.3, continued emission after that cancellation can also leave handler shutdown waiting indefinitely; the wrapper stops the agent first.
 
@@ -156,7 +152,7 @@ Pass these options to `RedisTaskStore`:
 | Option | Default | Purpose |
 | --- | --- | --- |
 | `namespace` | `iris:a2a` | Isolate applications and deployments. |
-| `active_ttl` | 604,800 seconds (7 days) | Active snapshot and event retention, refreshed by saves or heartbeats. |
+| `active_ttl` | 604,800 seconds (7 days) | Active snapshot and event retention, refreshed by saves. |
 | `terminal_ttl` | 86,400 seconds (1 day) | Terminal snapshot and event retention. |
 | `metadata_ttl` | 86,400 seconds | Additional ownership and version retention after snapshot expiry. |
 | `max_task_bytes` | 1,048,576 | Serialized snapshot size limit. |
@@ -164,13 +160,16 @@ Pass these options to `RedisTaskStore`:
 | `max_events` | 10,000 | Approximate retained log length. |
 | `max_attempts` | 5 | Maximum attempts under transaction contention. |
 
-The byte limits apply before hex encoding; stored payloads use about twice those serialized sizes. Size the event limit and log length for your memory budget. An oversized payload raises `A2ACapacityExceeded` without changing the snapshot or log.
+Heartbeats do not extend Task retention. Set `active_ttl` longer than the longest interval without a saved update.
+
+The byte limits count serialized protocol buffer bytes; stored JSON payloads use more space. Size the event limit and log length for your memory budget. An oversized payload raises `A2ACapacityExceeded` without changing the snapshot or log.
 
 Owner metadata prevents another owner from reusing a Task ID until it expires. Deleting an owned Task removes its snapshot and events while retaining ownership metadata for `metadata_ttl`. After metadata expiry, reuse cannot be detected.
 
 | Public API | Use it to |
 | --- | --- |
 | `RedisTaskStore` | Store owner-scoped snapshots and versioned updates through the official SDK. |
+| `store.request_handler()` | Build the official handler with paired events and heartbeat tracking. |
 | `store.event_stream()` | Build the matching event reader, with producer-loss recovery. |
 | `RedisTaskEventStream` | Configure a reader explicitly with `store=store` and a separate client. |
 | `store.heartbeat()` | Track execution liveness and notice remote cancellation. |
@@ -179,6 +178,6 @@ Owner metadata prevents another owner from reusing a Task ID until it expires. D
 
 Storage and internal reader calls can raise `A2AStorageError`, `A2ACapacityExceeded`, or `A2AStreamExpired`. Stale or conflicting writes raise the official SDK's `ConcurrentTaskModificationError`. Let the handler and routes translate these into protocol responses rather than exposing storage exceptions to clients.
 
-Task listing scans the namespace and suits modest inventories. It is not a search index or a consistent snapshot during concurrent writes.
+Task listing scans an owner's Task index and suits modest inventories per owner. It is not a search index or a consistent snapshot during concurrent writes.
 
-See the [SDK API reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-a2a.md) for signatures and the [preview limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for deployment qualification. Redis durability remains application-owned; replay does not guarantee exactly-once external effects.
+See the [SDK API reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-a2a.md) for signatures and the [beta limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits) for deployment qualification. Redis durability remains application-owned; replay does not guarantee exactly-once external effects.

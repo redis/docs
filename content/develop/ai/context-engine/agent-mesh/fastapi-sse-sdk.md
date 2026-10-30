@@ -61,10 +61,9 @@ commands. There are no relay buckets or subscriber queues.
 
 ## Authorize scoped runs
 
-A run is identified by a `scope` and `stream_id`. The scope also defines the
-exclusive active-run boundary: by default, only one run is active per scope.
-Choose a resource-sized scope, such as a tenant's chat or job, rather than using
-one scope for every job in a tenant.
+A run is identified by a `scope` and `stream_id`. Choose a scope for the resource
+you authorize, such as a tenant's chat or job. Multiple runs can share a scope;
+your application tracks the current run and enforces any one-run-at-a-time policy.
 
 Authenticate and authorize before passing the scope and run ID to the backend.
 Neither `StreamBackendDep` nor `backend.sse()` performs application access checks.
@@ -129,16 +128,17 @@ without spawning a second producer. `writer.append(type, data)` and
 names; the `stream.` prefix is reserved for SDK events.
 
 For additional work between opening and spawning, use `await streams.open(...)`
-and `streams.spawn(writer, producer)`. To read without HTTP, use
+and call `streams.spawn(writer, producer)` only when `writer.created` is true.
+To read without HTTP, use
 `async with await streams.follow(run_id, scope=scope, after=cursor)`.
 Events expose `id`, `type`, `data` and `final` fields.
 
 The SDK owns the producer task and generates its write-retry identities.
 Applications cannot supply producer/event idempotency keys. Disconnecting a
-reader leaves the task running. `cancel()` requests a stop; `active()` identifies
-the scope's active run; `attach()` takes over an unfinished run. These operations
-do not undo external side effects or restart computation after a process exit.
-Publisher-only external workers are not supported in this version.
+reader leaves the task running. `cancel()` ends the run for readers and cancels
+a producer in the same process. A producer in another process keeps running;
+its later events are unread. Runs cannot be handed to another process or restart
+after a process exit. Publisher-only external workers are not supported.
 
 ## Resume and recover
 
@@ -150,7 +150,8 @@ A reconnect at the final cursor returns HTTP 204.
 
 Retention bounds replay. Provide an authorized application endpoint returning
 current state together with a matching cursor when clients need recovery.
-Reload state when reconnecting returns HTTP 410 for expired or trimmed history.
+Reload state when reconnecting returns HTTP 404 for an unknown or expired run,
+or HTTP 410 for externally removed history.
 A `stream.gap` event during delivery reports missing entries and the reader
 continues; a client requiring complete history should recover application state.
 
@@ -161,10 +162,8 @@ Read the top-level `code` field:
 | --- | --- | --- |
 | 401 | `credential_expired` | Refresh verified credentials. |
 | 404 | `stream_not_found` | Retrieve application state. |
-| 410 | `stream_expired` | Reload state; history expired or was trimmed. |
-| 409 | `stream_busy` | Reuse the active run or resolve the scope conflict. |
+| 410 | `stream_expired` | Reload state; entries were removed externally. |
 | 409 | `cursor_ahead` | Reconcile application state and cursor. |
-| 409 | `stream_fenced`, `stream_finished` | Stop using the old writer. |
 | 422 | `invalid_cursor`, `invalid_stream_name` | Correct the request. |
 | 503 | `stream_unavailable`, `stream_unsupported`, or reader capacity | Retry transient failures with backoff; check server requirements for unsupported features. |
 | 204 | Final event consumed | Stop reconnecting. |
@@ -173,42 +172,43 @@ Authentication dependencies retain their own status and challenge headers.
 After headers, transient failures close the connection and clients reconnect.
 Handle SDK events `stream.end` (including `error`, `cancelled` and
 `producer_lost` outcomes) and `stream.error` (credential expiry or read-only
-producer-loss reporting). These replace control-action frames. Native
+producer-loss reporting). Native
 `EventSource` cannot inspect refused-connection bodies; use the application
 state endpoint or a fetch-based client to explain failures.
 
 ## Configure retention
 
-Retention slides on writes. Active appends reset `stream_active_ttl`; completion
-sets `stream_done_ttl`; metadata outlives payload by `stream_gone_ttl`.
-Reads do not extend retention. `writer.extend(ttl)` extends a waiting run's
-retention. `spawn()` runs `writer.keepalive()` around the producer, or an
-application-managed producer can enter that context itself.
+A run has a fixed lifetime from `open()`, bounded by `stream_max_run`. Nothing
+extends it. Completion shortens remaining retention to at most `stream_done_ttl`.
+Set `stream_max_run` for the longest expected run, up to 86,400 seconds.
 
-Keep idle waits below active retention or arrange explicit extensions. Liveness
-and retained history are separate: a heartbeat alone does not guarantee payload
-retention in the current version. Allow for the heartbeat's own active-slot TTL
-when extending a waiting run. A producer lost on a process exit is not restarted.
+A reader that sees no new entries for `stream_silence_timeout` ends the run with
+a `producer_lost` final event. `spawn()` runs `writer.keepalive()` around the
+producer, writing hidden pings during quiet work. An application-managed producer
+can enter that context itself. Pings prevent silence detection but do not extend
+the run's lifetime. A producer lost on a process exit is not restarted.
+
+The SDK retains all events until the run expires. A writer that exceeds
+`stream_maxlen` raises `ValueError` rather than trimming earlier events.
 
 | Setting (prefix with `REDIS_`) | Default | Purpose |
 | --- | --- | --- |
-| `STREAM_ACTIVE_TTL` | 600 seconds | Retention refreshed by active writes. |
-| `STREAM_DONE_TTL` | 120 seconds | Replay window after completion. |
-| `STREAM_GONE_TTL` | 3,600 seconds | Expired-history recognition window. |
-| `STREAM_MAXLEN` | 10,000 | Approximate retained entries. |
+| `STREAM_MAX_RUN` | 3,600 seconds | Fixed run lifetime from creation. |
+| `STREAM_DONE_TTL` | 120 seconds | Maximum remaining retention after completion. |
+| `STREAM_MAXLEN` | 10,000 | Maximum events one writer can append. |
 | `STREAM_MAX_EVENT_BYTES` | 65,536 | Largest encoded event. |
-| `STREAM_HEARTBEAT_INTERVAL` | 15 seconds | Producer heartbeat, SSE ping and blocking-read bound. |
-| `STREAM_ALIVE_TTL` | 45 seconds | Producer-liveness field lifetime. |
+| `STREAM_HEARTBEAT_INTERVAL` | 15 seconds | SSE ping, blocking-read bound and keepalive check interval. |
+| `STREAM_SILENCE_TIMEOUT` | 60 seconds | Silence before a reader ends a lost producer's run; must exceed twice the heartbeat interval. |
 | `STREAM_MAX_READERS` | 256 | Live-reader admission per process. |
 | `STREAM_REPLAY_PAGE` | 100 | Events per Redis read. |
 | `STREAM_MAX_CONNECTION_DURATION` | 300 seconds | Connection cap before reconnect. |
 | `STREAM_READ_RETRY_WINDOW` | 30 seconds | Retry window for transient read failures. |
 | `STREAM_SEND_TIMEOUT` | 10 seconds | Bound for stalled sends. |
 
-Set `REDIS_STREAM_DONE_TTL=3600` to retain a completed demo run for one hour.
-These settings differ from the application state retained in its own database.
+The demo sets `REDIS_STREAM_DONE_TTL=3600`; replay still ends at the run's
+original lifetime. Application state in your own database has separate retention.
 
 See the [SDK reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-sse.md)
 for facade exports and upstream signatures, and the
-[preview limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits)
+[beta limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits)
 for deployment qualification.

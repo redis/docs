@@ -9,7 +9,7 @@ hideListLinks: true
 linktitle: Agent Mesh
 title: Redis Agent Mesh
 weight: 40
-bannerText: Redis Agent Mesh is currently available in preview. Features and behavior are subject to change.
+bannerText: Redis Agent Mesh is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---
 
@@ -41,7 +41,7 @@ Resumption recovers event delivery. Your application remains responsible for res
 | A2A server | Resume retained task updates after reconnecting, including through another server replica | `redis_iris.agent_mesh.a2a` | `pip install 'redis-iris[a2a]'` |
 | FastAPI event streaming | Publish an event log and replay retained server-sent events (SSE) after reconnecting | `redis_iris.agent_mesh.fastapi_sse` | `pip install 'redis-iris[fastapi-sse]'` |
 
-These integrations are independent. Install the integration you use, or install both in one Python environment with `pip install 'redis-iris[a2a,fastapi-sse]'`. Using both selects redis-py `>=8.0.1,<9`. This is the Python client version; A2A requires Redis server 8.6+; FastAPI requires 8.6.2+.
+These integrations are independent. Install the integration you use, or install both in one Python environment with `pip install 'redis-iris[a2a,fastapi-sse]'`. Using both selects redis-py `>=8.0.1,<9`. This is the Python client version. Both require Redis server 8.6.2+; A2A also requires JavaScript Object Notation (JSON) support.
 
 ## How it works
 
@@ -53,11 +53,11 @@ For FastAPI, configure `FastAPIRedis(app).lifespan().streams()`, publish scoped 
 
 ## Requirements and limits
 
-- Both integrations require Python 3.11 or later and native producer idempotency (`XADD IDMP`). A2A requires Redis 8.6+ and FastAPI requires 8.6.2+. The A2A integration targets the official A2A Python SDK 1.2.x.
+- Both integrations require Python 3.11 or later and native producer idempotency (`XADD IDMP`). Both require Redis 8.6.2+; A2A also requires JSON support. The A2A integration targets the official A2A Python SDK 1.2.x.
 - Derive ownership from verified identity. Task IDs and cursors grant no access; authorize requests and reconnections in your application.
 - Retention bounds replay. A2A can fall back to the current snapshot when event history is unavailable. If events are no longer retained, a FastAPI application must provide another way for clients to retrieve the current state.
 - Your application owns execution and Redis durability. Stored tasks do not restart interrupted computation or guarantee exactly-once external effects.
-- Standalone Redis has local validation evidence. Cluster, Enterprise, failover, and sustained capacity remain unqualified for this preview.
+- Standalone Redis and normal A2A operation on a three-primary Redis Open Source Cluster have local validation evidence. Cloud, Enterprise, failover recovery, and sustained capacity remain unqualified for this beta.
 
 ## Get started
 
