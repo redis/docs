@@ -58,8 +58,8 @@ console.log(JSON.stringify(skillResults, null, 2));
 // STEP_END
 
 // STEP_START playbook-retrieval-threshold
-const tuned = await playbook.searchFaqs({ query: "Where is my refund?", minimumScore: 0.75, limit: 3 });
-console.log(tuned.matches);
+const tuned = await playbook.searchFaqs({ query: "Where is my refund?", minScore: 0.75, limit: 3 });
+console.log(tuned.items);
 // STEP_END
 
 // STEP_START playbook-retrieval-filter

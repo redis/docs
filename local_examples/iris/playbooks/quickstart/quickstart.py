@@ -49,7 +49,7 @@ results = playbook.client.search_faqs(
     filter_={"eq": {"name": "locale", "value": "en-US"}},
     limit=5,
 )
-for match in results.matches:
+for match in results.items:
     if match.faq is not None:
         print(match.entry_id, match.version, match.score, match.faq.answer)
 # STEP_END
@@ -80,7 +80,7 @@ updated_results = playbook.client.search_faqs(
     filter_={"eq": {"name": "locale", "value": "en-US"}},
     limit=5,
 )
-for match in updated_results.matches:
+for match in updated_results.items:
     if match.entry_id == faq_id and match.faq is not None:
         print("Published answer:", match.version, match.faq.answer)
 # STEP_END

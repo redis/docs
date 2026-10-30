@@ -50,7 +50,7 @@ results = playbook.client.search_faqs(
     filter_={"eq": {"name": "locale", "value": "en-US"}},
     limit=5,
 )
-for match in results.matches:
+for match in results.items:
     if match.faq is not None:
         print(match.entry_id, match.version, match.score, match.faq.answer)
 # STEP_END
@@ -77,10 +77,8 @@ playbook.client.publish_faq(faq_id=faq_id, version=version)
 # STEP_START playbook-faq-list
 cursor = None
 while True:
-    page = playbook.client.list_faqs(sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total FAQs:", page.total if page.total is not None else "unknown")
-    for entry in page.faqs:
+    page = playbook.client.list_faqs(sort_by="updatedAt", sort_order="DESC", limit=50, cursor=cursor)
+    for entry in page.items:
         print(entry.entry_id, entry.latest_version, entry.publication)
     cursor = page.next_cursor
     if cursor is None:
@@ -91,7 +89,7 @@ while True:
 cursor = None
 while True:
     page = playbook.client.list_faq_versions(faq_id=faq_id, limit=50, cursor=cursor)
-    for item in page.versions:
+    for item in page.items:
         print(item.version, item.content_digest, item.content)
     cursor = page.next_cursor
     if cursor is None:
@@ -108,7 +106,7 @@ lookup = playbook.client.lookup_entries(
     ]
 )
 print("Version limit:", lookup.max_versions)
-for result in lookup.results:
+for result in lookup.items:
     if isinstance(result, Found):
         state = result.found.entry
         print(state.entry_id, state.version_count, state.latest, state.publication)

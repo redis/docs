@@ -47,7 +47,7 @@ const results = await playbook.searchFaqs({
   filter: { eq: { name: "locale", value: "en-US" } },
   limit: 5,
 });
-for (const match of results.matches) {
+for (const match of results.items) {
   if (match.faq) {
     console.log(match.entryId, match.version, match.score, match.faq.answer);
   }
@@ -73,10 +73,9 @@ await playbook.publishFaq(faqId, { version });
 let faqCursor: string | undefined;
 while (true) {
   const page = await playbook.listFaqs(
-    "updatedAt", "desc", undefined, undefined, undefined, 50, faqCursor,
+    "updatedAt", "DESC", undefined, undefined, undefined, 50, faqCursor,
   );
-  if (faqCursor === undefined) console.log("Total FAQs:", page.total ?? "unknown");
-  for (const entry of page.faqs) console.log(entry.entryId, entry.latestVersion, entry.publication);
+  for (const entry of page.items) console.log(entry.entryId, entry.latestVersion, entry.publication);
   faqCursor = page.nextCursor;
   if (faqCursor === undefined) break;
 }
@@ -86,7 +85,7 @@ while (true) {
 let faqVersionCursor: string | undefined;
 while (true) {
   const page = await playbook.listFaqVersions(faqId, undefined, undefined, 50, faqVersionCursor);
-  for (const item of page.versions) console.log(item.version, item.contentDigest, item.content);
+  for (const item of page.items) console.log(item.version, item.contentDigest, item.content);
   faqVersionCursor = page.nextCursor;
   if (faqVersionCursor === undefined) break;
 }
@@ -97,7 +96,7 @@ const lookup = await playbook.lookupEntries({
   references: [{ entryId: faqId }, { entryKey: "refund-status" }],
 });
 console.log("Version limit:", lookup.maxVersions);
-for (const result of lookup.results) {
+for (const result of lookup.items) {
   if ("found" in result) {
     const state = result.found.entry;
     console.log(state.entryId, state.versionCount, state.latest, state.publication);
