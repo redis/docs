@@ -18,7 +18,7 @@ def read_result(result):
 
 
 async def main():
-    url = f"{os.environ['PLAYBOOK_URL'].rstrip('/')}/v1/playbooks/{os.environ['PLAYBOOK_ID']}/mcp"
+    url = f"{os.environ['PLAYBOOK_URL'].rstrip('/')}/iris/data/v1/agent-playbooks/playbooks/{os.environ['PLAYBOOK_ID']}/mcp"
     async with httpx2.AsyncClient(
         headers={"Authorization": f"Bearer {os.environ['PLAYBOOK_API_KEY']}"}
     ) as http:

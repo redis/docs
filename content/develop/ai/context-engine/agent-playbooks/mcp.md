@@ -41,7 +41,7 @@ Use a client that supports Streamable HTTP and custom request headers:
 | Setting | Value |
 |:--------|:------|
 | Transport | Streamable HTTP |
-| Endpoint | `<data-plane-base-url>/v1/playbooks/<playbook-id>/mcp` |
+| Endpoint | `<data-plane-base-url>/iris/data/v1/agent-playbooks/playbooks/<playbook-id>/mcp` |
 | Request header | `Authorization: Bearer <reader-api-key>` |
 
 The endpoint must be reachable from the client runtime. A hosted client needs an HTTPS endpoint reachable from its provider; a local address works for clients on the same host. Keep the playbook key in connection settings and out of agent instructions.
