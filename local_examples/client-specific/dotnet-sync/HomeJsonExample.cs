@@ -141,29 +141,27 @@ public class HomeJsonExample
 
         // STEP_START query3
         AggregationRequest aggRequest = new AggregationRequest("*")
-            .GroupBy("@city", Reducers.Count().As("count"));
+            .GroupBy("@city", Reducers.Count().As("count"))
+            .SortBy(SortedField.Asc("@city"));
 
         AggregationResult aggResult = db.FT().Aggregate("idx:users", aggRequest);
-        IReadOnlyList<Dictionary<string, RedisValue>> resultsList =
-                                                        aggResult.GetResults();
 
-        for (var i = 0; i < resultsList.Count; i++)
+        for (var i = 0; i < aggResult.TotalResults; i++)
         {
-            Dictionary<string, RedisValue> item = resultsList.ElementAt(i);
+            Row item = aggResult.GetRow(i);
             Console.WriteLine($"{item["city"]} - {item["count"]}");
         }
         // >>> London - 1
         // >>> Tel Aviv - 2
         // STEP_END
         // REMOVE_START
-        Assert.Equal(2, resultsList.Count);
+        Assert.Equal(2, aggResult.TotalResults);
 
-        var sortedResults = resultsList.OrderBy(x => x["city"]);
-        Dictionary<string, RedisValue> testItem = sortedResults.ElementAt(0);
+        Row testItem = aggResult.GetRow(0);
         Assert.Equal("London", testItem["city"]);
         Assert.Equal(1, testItem["count"]);
 
-        testItem = sortedResults.ElementAt(1);
+        testItem = aggResult.GetRow(1);
         Assert.Equal("Tel Aviv", testItem["city"]);
         Assert.Equal(2, testItem["count"]);
         // REMOVE_END

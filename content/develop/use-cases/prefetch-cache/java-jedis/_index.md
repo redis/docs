@@ -47,12 +47,11 @@ The `PrefetchCache` class wraps the cache operations
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/prefetch-cache/java-jedis/PrefetchCache.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
-JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+RedisClient jedis = RedisClient.create("localhost", 6379);
 MockPrimaryStore primary = new MockPrimaryStore(80);
-PrefetchCache cache = new PrefetchCache(pool);
+PrefetchCache cache = new PrefetchCache(jedis);
 
 // Pre-load every primary record into Redis in one pipelined round trip.
 cache.bulkLoad(primary.listRecords());
@@ -95,8 +94,7 @@ The `bulkLoad` method pipelines a `DEL` + `HSET` + `EXPIRE` triple for every rec
 ```java
 public int bulkLoad(Iterable<Map<String, String>> records) {
     int loaded = 0;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         for (Map<String, String> record : records) {
             if (record == null) continue;
             String entityId = record.get("id");
@@ -113,7 +111,7 @@ public int bulkLoad(Iterable<Map<String, String>> records) {
 }
 ```
 
-The pipeline is intentionally non-transactional on the **startup** path: nothing is reading the cache yet, the records do not need to be applied atomically as a set, and skipping `MULTI`/`EXEC` keeps the bulk load fast. The same method is used for the live `/reprefetch` reload, which is safe because the demo pauses the sync worker around the clear-and-reload sequence — see [Re-prefetch under load](#re-prefetch-under-load) below. If you call `bulkLoad` directly from your own code on a cache that is already serving reads, either pause your writers first or wrap the writes in a `Transaction` so callers cannot observe a half-loaded record.
+The pipeline is intentionally non-transactional on the **startup** path: nothing is reading the cache yet, the records do not need to be applied atomically as a set, and skipping `MULTI`/`EXEC` keeps the bulk load fast. The same method is used for the live `/reprefetch` reload, which is safe because the demo pauses the sync worker around the clear-and-reload sequence — see [Re-prefetch under load](#re-prefetch-under-load) below. If you call `bulkLoad` directly from your own code on a cache that is already serving reads, either pause your writers first or wrap the writes in a transaction so callers cannot observe a half-loaded record.
 
 ## Reads from Redis only
 
@@ -124,9 +122,7 @@ public Result get(String entityId) {
     String cacheKey = cacheKey(entityId);
     long startedNs = System.nanoTime();
     Map<String, String> cached;
-    try (Jedis jedis = pool.getResource()) {
-        cached = jedis.hgetAll(cacheKey);
-    }
+    cached = jedis.hgetAll(cacheKey);
     double redisLatencyMs = (System.nanoTime() - startedNs) / 1_000_000.0;
 
     if (cached != null && !cached.isEmpty()) {
@@ -158,17 +154,14 @@ public void applyChange(Map<String, Object> change) {
             // Malformed upsert: skip rather than crash the sync worker.
             return;
         }
-        try (Jedis jedis = pool.getResource()) {
-            Transaction tx = jedis.multi();
+        try (AbstractTransaction tx = jedis.multi()) {
             tx.del(cacheKey);
             tx.hset(cacheKey, fields);
             tx.expire(cacheKey, ttlSeconds);
             tx.exec();
         }
     } else if ("delete".equals(op)) {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.del(cacheKey);
-        }
+        jedis.del(cacheKey);
     }
 }
 ```
@@ -278,13 +271,13 @@ curl -O $BASE/DemoServer.java
 
 ### Start the demo server
 
-From that directory, with the Jedis and `slf4j-api` jars in the working directory (the example assumes Jedis 5.1.2 and slf4j-api 2.0.13 — adjust the filenames to match your versions):
+From that directory, with the Jedis jar and its dependencies in the working directory (the example assumes Jedis 8.0.2, commons-pool2 2.13.1, slf4j-api 1.7.36, gson 2.14.0, json 20260719, and redis-authx-core 0.1.1-beta2 — adjust the filenames to match your versions):
 
 ```bash
-javac -cp jedis-5.1.2.jar:slf4j-api-2.0.13.jar \
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     PrefetchCache.java MockPrimaryStore.java SyncWorker.java DemoServer.java
 
-java -cp .:jedis-5.1.2.jar:slf4j-api-2.0.13.jar \
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     DemoServer --port 8785 --redis-host localhost --redis-port 6379
 ```
 
@@ -372,9 +365,9 @@ Prefetch only works if the entire dataset fits in Redis memory with headroom. Es
 
 CDC pipelines are eventually consistent: an event can be lost (broker outage, consumer crash, configuration drift) and the cache can silently diverge from the source. Run a periodic reconciliation job that re-reads all primary records, compares them against the cache, and either re-prefetches or fixes individual entries. Even running it once a day catches drift that ad-hoc inspection would miss.
 
-### Tune the JedisPool
+### Tune the connection pool
 
-The demo uses a default `JedisPoolConfig`. In production, set `setMaxTotal()` and `setMaxIdle()` to match your concurrency profile and server-side `maxclients`. Every cache call acquires a connection with try-with-resources so connections are returned to the pool even on exceptions; this is what lets the sync worker, the HTTP handlers, and any background job share Redis safely without an in-process lock.
+The demo uses the default pool settings of `RedisClient.create()`. In production, build the client with `RedisClient.builder()` and a `ConnectionPoolConfig`, and set `setMaxTotal()` and `setMaxIdle()` to match your concurrency profile and server-side `maxclients`. Each cache command borrows a connection for the duration of the call and returns it, and the pipeline and transaction calls return theirs when try-with-resources closes them; this is what lets the sync worker, the HTTP handlers, and any background job share Redis safely without an in-process lock. An open pipeline or transaction holds a pooled connection, so send any reads it needs through the pipeline or transaction itself, not through the client.
 
 ### Namespace cache keys in shared Redis deployments
 

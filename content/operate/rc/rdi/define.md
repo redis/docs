@@ -13,21 +13,35 @@ hideListLinks: true
 weight: 4
 ---
 
-After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target.
+After you have [prepared each source database](/content/operate/rc/rdi/setup.md) and [created a workspace](/content/operate/rc/rdi/create-workspace.md), you can create a pipeline. One pipeline can ingest data from several source databases into one Redis target, and one workspace can run several pipelines. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
 
-In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
+In the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline** at the bottom of the workspace. You can also open the workspace from the **Data Integration** page or your subscription's **Data Integration** tab. To continue an existing draft, open its actions menu and select **Resume pipeline setup**.
 
 ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
 {width="80%"}
 
 To create a pipeline:
 
+1. [**Name the pipeline**](#name-the-pipeline): Enter a name that is unique in the workspace.
 1. [**Settings**](#settings): Select the shared target, default data structure, and processor properties.
 1. [**Add sources**](#pipeline-setup): Select source types and give each source a unique name.
 1. [**Configure source**](#source-configuration): Configure and test connectivity and credentials for each source.
 1. [**Select data**](#dataset): Select schemas, tables, and columns for each source.
 1. [**Add transformations**](#transformations): Add jobs and assign them to sources.
 1. [**Review & deploy**](#review-and-deploy): Review all sources and deploy the pipeline.
+
+## Name the pipeline
+
+1. In the **Create new pipeline** dialog, enter a **Pipeline name**. Use 3 to 20 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter, end with a letter or number, and don't use two hyphens in a row. The name `rdi` is reserved, and each pipeline in the workspace must have a different name.
+
+    ![The Create new pipeline dialog with a pipeline name.](/images/rc/rdi/rdi-2-create-pipeline.png)
+    {width="376px"}
+
+1. Select **Create pipeline**.
+
+The pipeline appears in the workspace as a draft, and its setup opens. You can't change the name of a pipeline later. Pipelines created before Redis Cloud supported several pipelines per workspace are named `default`.
+
+You can set up one pipeline at a time. Until you deploy the pipeline or delete its draft, you can't add another pipeline to the workspace.
 
 ## Settings
 
@@ -126,15 +140,30 @@ Enter the selected source's database settings. The fields depend on the database
 
 Use **Collector properties** for additional source and sink settings. These settings apply to the selected source. See the [collector source properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsource-advanced-source-settings) and [collector sink properties](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesadvancedsink-rdi-collector-stream-writer-configuration).
 
+For Debezium sources, set `snapshot.mode` in **Collector source properties** to
+control data snapshots. The default mode is `initial`. Set it for each source separately;
+available modes depend on the source database. See [Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+With `when_needed` mode, an unavailable saved position can trigger a new snapshot, but
+[missed deletes can leave stale target records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
+This property does not configure the Snowflake collector.
+
 ![The Edit advanced properties control under Collector properties.](/images/rc/rdi/rdi-source-configuration-collector-properties.png)
 {width="500px"}
 
 ![The advanced properties dialog with separate collector source and sink properties.](/images/rc/rdi/rdi-advanced-properties.png)
 {width="80%"}
 
+For PostgreSQL, [configure the publication properties](/content/operate/rc/rdi/setup.md#postgresql-publications)
+before deployment. Use `disabled` for an administrator-managed table-list publication, or
+`filtered` with the required permissions for RDI to manage it.
+
 ## Select data {#dataset}
 
 Select each source in the **Sources** list and choose the data to ingest from that source.
+
+For PostgreSQL, this selection does not narrow an existing `FOR ALL TABLES` publication.
+If your administrator manages the publication, update its table list to match the selection.
+See [PostgreSQL publications](/content/operate/rc/rdi/setup.md#postgresql-publications).
 
 > [!WARNING]
 > Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery](/content/operate/rc/rdi/faq.md#data-recovery).
@@ -157,6 +186,10 @@ Select each source in the **Sources** list and choose the data to ingest from th
 
     ![The key control beside the column used to identify a record.](/images/rc/rdi/rdi-unique-key-selected.png)
     {width="500px"}
+
+    For PostgreSQL, choosing a key here does not create a primary key or replica identity
+    in the source database. [Configure replica identity](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+    separately for tables that publish updates or deletes.
 
 1. Repeat for the other sources, then select **Continue**.
 
@@ -181,7 +214,7 @@ For the Flink processor, source matchers can use lists or entries prefixed with 
 
 Review every source's connection, selected data, and transformation jobs, together with the shared target and settings. Use the source actions to return to a section that needs changes.
 
-Select **Deploy pipeline** to start the pipeline. Each source performs its initial snapshot and then captures ongoing changes. Snapshot duration depends on the amount of selected data and source performance.
+Select **Deploy pipeline** to start the pipeline. With the default `initial` mode, each Debezium source without a saved position takes a snapshot and then captures ongoing changes. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. Snapshot duration depends on the amount of selected data and source performance.
 
 ![The Deploy pipeline button.](/images/rc/rdi/rdi-confirm-deploy.png)
 {width="175px"}

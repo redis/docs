@@ -73,9 +73,9 @@ OK
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>2</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>2</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
 
 1. Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md) for more information and examples.
 

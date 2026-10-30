@@ -75,9 +75,9 @@ createClient({
 
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
-When you have finished using a connection, close it with `client.quit()`.
+When you have finished using a connection, close it with `client.close()`.
 
-{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Node.js" description="Foundational: Close a Redis client connection using the quit() method" difficulty="beginner" no_output="true" />}}
+{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Node.js" description="Foundational: Close a Redis client connection using the close() method" difficulty="beginner" no_output="true" />}}
 
 ## More information
 

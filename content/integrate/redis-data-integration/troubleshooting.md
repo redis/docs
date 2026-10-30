@@ -35,16 +35,27 @@ help you to pinpoint the source of the error.
 
 ## RDI logs
 
-By default, RDI records the following logs in the host VM file system at
-`/opt/rdi/logs` (or whichever path you specified during installation);
+By default, RDI records its logs in the host VM file system at `/opt/rdi/logs` (or whichever
+path you specified during installation). The logs of each pipeline are in the
+`pipelines/<pipeline>/` directory, and the logs of the control plane are in the `control-plane/`
+directory. Each file is named after the component and the container that wrote it, as in
+`<component>-<container>.log`.
+
+The following table lists the main log files of the `default` pipeline with a source named
+`mysql`. For any other pipeline, replace `default` with the pipeline name.
 
 | Filename | Phase |
 | :-- | :-- |
-| `rdi_collector-collector-initializer.log` | Initializing the collector. |
-| `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md) operations. |
-| `rdi_rdi-rdi-operator.log` | Main [RDI control plane](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed) component. |
-| `rdi_processor-processor.log` | RDI stream processing. |
+| `pipelines/default/collector-mysql-collector-initializer.log` | Initializing the collector. |
+| `pipelines/default/collector-mysql-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
+| `pipelines/default/collector-mysql-collector-source.log` | Collector [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md) operations. |
+| `pipelines/default/flink-processor-jobmanager-jobmanager.log` and `pipelines/default/flink-processor-taskmanager-taskmanager.log` | Stream processing with the Flink processor. |
+| `pipelines/default/processor-processor.log` | Stream processing with the classic processor. |
+| `control-plane/rdi-operator-manager.log` | Main [RDI control plane](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed) component. |
+| `control-plane/rdi-api-rdi-api.log` | RDI API. |
+
+RDI versions before 2.2.0 store all the log files directly in `/opt/rdi/logs`, with names such
+as `rdi_collector-collector-source.log`.
 
 Logs are recorded at the minimum `INFO` level in a simple format that
 log analysis tools can use.
@@ -56,6 +67,40 @@ log analysis tools can use.
 > is applying *backpressure* to the collector. See
 > [Backpressure mechanism](/content/integrate/redis-data-integration/architecture/_index.md#backpressure-mechanism)
 > in the Architecture guide for more information.
+
+## Recover from unavailable source log history {#unavailable-source-history}
+
+If the collector cannot resume from its saved position, check the collector source log
+for unavailable or expired source log history. This differs from a missing offset,
+which is expected on first deployment or after a reset.
+
+With `initial` mode, the collector can fail rather than start a new snapshot when the saved
+position is unavailable. With `when_needed` mode, it will automatically snapshot the current
+selected data and resume streaming. A new snapshot after a restart can therefore
+indicate that the source history was no longer available. See
+[Choose a snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+for the connector-specific behavior.
+
+Possible causes include:
+
+- The collector was stopped long enough for the source change log to expire.
+- A configuration change made the collector connect to another server with the same
+  data but different offsets.
+- A cleanup process removed the change log while RDI was running.
+- A crash and restore left the source without the saved offset.
+
+Before you use a new snapshot to recover, check for
+[missed deletes and stale target records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
+A snapshot does not replay lost history or delete target records that are absent from
+the source. Resetting the pipeline also leaves target records in place.
+
+If the saved position is unavailable, work with Redis support to plan a target cleanup
+or rebuild before relying on the target as a complete copy. Check whether the target
+contains data from other sources or applications before deleting any records. To reload
+existing source rows, configure a mode that takes a data snapshot, then
+[reset the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#reset-a-pipeline).
+Review the source's log retention so the required history remains available during
+future interruptions.
 
 ## Dump support package
 

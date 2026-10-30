@@ -95,9 +95,9 @@ An API object that represents a managed database in the cluster.
 | export_status | Status of manually triggered export process (read-only)<br />Values:<br />'exporting'<br />'succeeded'<br />'failed' |
 | generate_text_monitor | boolean;  Enable/disable generation of syncer monitoring information |
 | gradual_src_max_sources | integer (default:&nbsp;1); Sync a maximum N sources in parallel (gradual_src_mode should be enabled for this to take effect) |
-| gradual_src_mode | Indicates if gradual sync (of sync sources) should be activated<br />Values:<br />'enabled'<br />'disabled' |
-| gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) |
-| gradual_sync_mode | Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision)<br />Values:<br />'enabled'<br />'disabled'<br />'auto' |
+| gradual_src_mode | Indicates if gradual sync (of sync sources) should be activated (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead)<br />Values:<br />'enabled'<br />'disabled' |
+| gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead) |
+| gradual_sync_mode | Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision) (deprecated as of Redis Software v8.2.0; use `gradual_sync_policy` instead)<br />Values:<br />'enabled'<br />'disabled'<br />'auto' |
 | gradual_sync_policy | string (default: default); Managed gradual (parallel) full sync policy for replica synchronization. Non-custom policies own and normalize the limit fields in `gradual_sync_policy_parameters`.<br />Values:<br />'default'<br />'non-gradual'<br />'migration'<br />'replica'<br />'active-active'<br />'custom' |
 | <span class="break-all">gradual_sync_policy_parameters</span> | object; Gradual full sync limits, applied when `gradual_sync_policy` is `custom`. Each limit accepts `-1` (no limit) or a positive integer; `0` is not valid. Includes `src_endpoint_limit` (default: 1), `dst_endpoint_limit`, `dst_shard_limit`, and `src_node_limit` (default: -1). |
 | hash_slots_policy | The policy used for hash slots handling<br />Values:<br/> **'legacy'**: slots range is '1-4096'<br /> **'16k'**: slots range is '0-16383' |
@@ -151,7 +151,7 @@ An API object that represents a managed database in the cluster.
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
 | sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
 | search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for Redis Search. |
-| search_on_bigstore | boolean (default: false); Include search module in Redis on flash v2 (Flex databases) |
+| search_on_bigstore | boolean (default: false); Enables [Redis Search on Flex](/content/operate/rs/flex/search.md), which stores search indexes on flash. Requires `bigstore` and Redis database version 8.8 or later. Can only be set when you create the database. |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | Custom keyname-based sharding rules.<br />`[{"regex": string}, ...]`<br />To use the default rules you should set the value to: <br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |

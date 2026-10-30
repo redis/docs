@@ -64,7 +64,7 @@ impl RedisSessionStore {
         ttl: Option<usize>,
     ) -> RedisResult<String>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let session_id = self.create_session_id();
         let key = self.session_key(&session_id);
@@ -101,7 +101,7 @@ impl RedisSessionStore {
         session_id: &str,
     ) -> RedisResult<Option<usize>>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let stored_ttl: Option<usize> = con.hget(self.session_key(session_id), "session_ttl").await?;
         match stored_ttl {
@@ -146,7 +146,7 @@ impl RedisSessionStore {
         refresh_ttl: bool,
     ) -> RedisResult<Option<HashMap<String, String>>>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let key = self.session_key(session_id);
         let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -210,7 +210,7 @@ impl RedisSessionStore {
         data: &HashMap<String, String>,
     ) -> RedisResult<bool>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let key = self.session_key(session_id);
         let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -269,7 +269,7 @@ impl RedisSessionStore {
         amount: i64,
     ) -> RedisResult<Option<i64>>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let key = self.session_key(session_id);
         let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -319,7 +319,7 @@ impl RedisSessionStore {
         ttl: usize,
     ) -> RedisResult<bool>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let key = self.session_key(session_id);
         let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -355,7 +355,7 @@ impl RedisSessionStore {
         session_id: &str,
     ) -> RedisResult<bool>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         let deleted: i64 = con.del(self.session_key(session_id)).await?;
         Ok(deleted == 1)
@@ -378,7 +378,7 @@ impl RedisSessionStore {
         session_id: &str,
     ) -> RedisResult<i64>
     where
-        C: redis::aio::ConnectionLike + Send,
+        C: redis::aio::ConnectionLike + Send + Sync,
     {
         con.ttl(self.session_key(session_id)).await
     }
@@ -389,7 +389,7 @@ impl RedisSessionStore {
 
     fn normalize_ttl_value(ttl: usize) -> RedisResult<usize> {
         if ttl < 1 {
-            Err(RedisError::from((ErrorKind::TypeError, "TTL must be at least 1 second")))
+            Err(RedisError::from((ErrorKind::UnexpectedReturnType, "TTL must be at least 1 second")))
         } else {
             Ok(ttl)
         }
@@ -402,11 +402,11 @@ impl RedisSessionStore {
     fn timestamp(&self) -> RedisResult<String> {
         let mut ts = OffsetDateTime::now_utc()
             .replace_nanosecond(0)
-            .map_err(|_| RedisError::from((ErrorKind::TypeError, "invalid timestamp")))?;
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "invalid timestamp")))?;
         ts = ts.to_offset(time::UtcOffset::UTC);
         let formatted = ts
             .format(&Rfc3339)
-            .map_err(|_| RedisError::from((ErrorKind::TypeError, "invalid timestamp format")))?;
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "invalid timestamp format")))?;
         Ok(formatted.replace('Z', "+00:00"))
     }
 
@@ -451,8 +451,8 @@ impl RedisSessionStore {
     fn parse_ttl(session: &HashMap<String, String>) -> RedisResult<usize> {
         session
             .get("session_ttl")
-            .ok_or_else(|| RedisError::from((ErrorKind::TypeError, "missing session_ttl")))?
+            .ok_or_else(|| RedisError::from((ErrorKind::UnexpectedReturnType, "missing session_ttl")))?
             .parse::<usize>()
-            .map_err(|_| RedisError::from((ErrorKind::TypeError, "invalid session_ttl")))
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "invalid session_ttl")))
     }
 }

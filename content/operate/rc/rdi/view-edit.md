@@ -13,7 +13,7 @@ hideListLinks: true
 weight: 4
 ---
 
-To manage a pipeline, select it from your workspace on the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
+To manage a pipeline, select it from your workspace on the **Data Integration** page or from the **Data Integration** tab of your subscription or database. If the workspace runs several pipelines, the actions on this page apply only to the pipeline you selected. The exception is [flushing the target database](#flush-the-target-database), which also deletes the records of any other pipeline that writes to the same database.
 
 The pipeline page has the following tabs:
 
@@ -62,11 +62,29 @@ When extending an older single-source pipeline, preserve the original source nam
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Stop source**, then confirm with **Stop source**.
 
-Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
+Stopping one source pauses data capture from that source without stopping the other sources. When you start a source again, its behavior depends on the source type:
+
+- Debezium sources follow their [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) and the availability of their saved position.
+- Snowflake sources use RIOT-X and Snowflake Streams. They resume from the saved stream offset when the stream retains the required changes. If the retention window expires while the source is stopped, changes can be lost.
+
+To recover a Snowflake source with an unusable saved position, set `clearOffset` to
+`true` in that source's **Collector source properties**, then apply the changes. In the
+pipeline configuration, the property is
+`sources.<source-name>.advanced.riotx.clearOffset`. The Snowflake `snapshot` property
+controls whether the collector reloads existing rows:
+
+- `INITIAL` (default): Load current source rows, then capture new changes.
+- `NEVER`: Skip existing rows and capture only new changes.
+
+Clearing the offset does not replay missed events or remove stale target records.
+After recovery, set `clearOffset` back to `false` so later collector starts preserve
+the saved position. See [Edit collector properties](#edit-collector-properties).
+
+To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?](/content/operate/rc/rdi/faq.md#stopping-and-billing).
 
 ### Reset a source {#reset-source}
 
-Resetting one source starts a new snapshot and reprocesses its selected data.
+Resetting one source clears its saved position. With the default `initial` mode, a Debezium source takes a new snapshot and reprocesses its selected data. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture.
 
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Reset source**.
@@ -75,7 +93,7 @@ Resetting one source starts a new snapshot and reprocesses its selected data.
 ![Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops.](/images/rc/rdi/rdi-2-reset-source.png)
 {width="600px"}
 
-The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
+The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions. Debezium sources restart according to their snapshot modes; for example, `always` mode takes another snapshot even when its saved position is preserved. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?](/content/operate/rc/rdi/faq.md#reset-one-source).
 
 ### Remove a source {#remove-source}
 
@@ -100,7 +118,7 @@ You can change the target to another database in the same subscription.
 1. Select the new target database.
 1. Confirm with **Change target**.
 
-All sources share the new target. Changing the target restarts the pipeline but does not automatically re-ingest existing records. [Reset the pipeline](#reset-data-pipeline) if you need to copy the existing source data to the new target.
+All sources share the new target. Changing the target restarts the pipeline. Whether a Debezium source reloads existing rows depends on its [snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode). To copy existing source data to the new target, select modes that take data snapshots, then [reset the pipeline](#reset-data-pipeline).
 
 ## Metrics
 
@@ -122,7 +140,9 @@ Select a source in the **Sources** list to see its connection status, snapshot p
 
 ### View metrics endpoints
 
-On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints of the pipeline. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+
+Each pipeline has its own endpoints. The paths of a pipeline other than `default` start with the pipeline name, for example `/orders/processor/metrics` for the processor and `/orders/collector-<source>/metrics` for a collector of the `orders` pipeline. All pipelines report the same metric names, and scraping these endpoints adds no label that identifies the pipeline. If you scrape several pipelines, add a `pipeline` label to the scrape job of each pipeline in your Prometheus configuration, for example with the `labels` of its `static_configs`.
 
 Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering](/content/operate/rc/security/vpc-peering.md) or [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md). See [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md) for more information.
 
@@ -210,7 +230,7 @@ Select a source in the **Sources** list to view the schemas, tables, columns, an
 1. Select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
 
-Dataset changes belong to the selected source. Applying changes restarts the pipeline and can temporarily interrupt processing. Use [Reset a source](#reset-source) when you need a new snapshot of that source.
+Dataset changes belong to the selected source. Applying changes restarts the pipeline and can temporarily interrupt processing. To reload existing rows, select a snapshot mode that takes a data snapshot, then use [Reset a source](#reset-source).
 
 ## Transformations
 
@@ -231,12 +251,12 @@ The Flink processor accepts lists and `regex:` entries in source selection patte
 
 ## Reset data pipeline
 
-Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts and takes a new snapshot for every source. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?](/content/operate/rc/rdi/faq.md#reset-pipeline).
+Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts each source according to its configured initial data load settings. With the default `initial` mode, Debezium sources take new snapshots. Other [snapshot modes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode) can skip existing rows or omit ongoing change capture. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). When a source takes a data snapshot, RDI reprocesses the selected data using the current transformations. Reset alone does not delete target records, and a new snapshot can [leave stale records after missed deletes](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes). See [What happens when I reset the pipeline?](/content/operate/rc/rdi/faq.md#reset-pipeline).
 
 1. Open **Pipeline actions** and select **Reset pipeline**.
 1. Review the confirmation and select **Reset data pipeline**.
 
-To re-run the snapshot for just one source while preserving other sources' internal data, see [Reset a source](#reset-source).
+To clear the saved position of one source while preserving other sources' internal data, see [Reset a source](#reset-source).
 
 ## Stop and restart data pipeline
 
@@ -247,7 +267,7 @@ Stopping the pipeline pauses processing for all sources. To resume, open **Pipel
 
 ## Flush the target database
 
-Flushing permanently deletes **all data** from the target database, including records from every source and data written outside RDI. It does not reset source positions or automatically reload the data.
+Flushing permanently deletes **all data** from the target database, including records from every source, records from any other pipeline that writes to the same database, and data written outside RDI. It does not reset source positions or automatically reload the data.
 
 1. [Stop the pipeline](#stop-and-restart-data-pipeline) and wait until it is stopped.
 1. Open **Pipeline actions** and select **Flush target database**. This action is disabled while the pipeline is running.
@@ -266,4 +286,4 @@ To refill the target, follow [How do I reload data after a flush?](/content/oper
 1. Open the pipeline's actions menu and select **Delete pipeline**.
 1. Review and confirm the deletion.
 
-Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. You can then [delete the workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when it is no longer needed.
+Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. Deleting a pipeline doesn't affect the other pipelines of the workspace. When you delete the last pipeline of the workspace, you can also select **Delete the entire workspace as well** to [delete the workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) in the same step. Otherwise, you can delete the workspace later when it is no longer needed.

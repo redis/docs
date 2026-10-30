@@ -205,7 +205,7 @@ fn redis_value_to_string(v: &Value) -> Option<String> {
         Value::Int(n) => Some(n.to_string()),
         Value::Double(d) => Some(d.to_string()),
         Value::Nil => None,
-        _ => String::from_redis_value(v).ok(),
+        _ => String::from_redis_value_ref(v).ok(),
     }
 }
 

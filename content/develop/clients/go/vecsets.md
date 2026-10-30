@@ -40,10 +40,10 @@ Start by [installing](/content/develop/clients/go/_index.md#install) `go-redis` 
 [v9.10.0](https://github.com/redis/go-redis/releases/tag/v9.10.0)
 or later to use vector sets.
 
-Also, install `hugot`:
+Also, install v0.7.7 of `hugot`, which requires Go 1.26.5 or later:
 
 ```bash
-go get github.com/knights-analytics/hugot
+go get github.com/knights-analytics/hugot@v0.7.7
 ```
 
 In a new Go file, add the required imports:
@@ -81,16 +81,19 @@ elements to a vector set called `famousPeople`.
 
 Use the
 `RunPipeline()` method of `embeddingPipeline` to generate the
-embedding as an array of `float32` values, then use a loop like the one
+embedding. This method takes a context and an array of strings and returns a
+single `FeatureExtractionOutput` object. Its `Embeddings` field contains one array of `float32`
+values for each input string. Use a loop like the one
 shown below to convert the `float32` array to a `float64` array.
 You can then pass this array to the
 [`VAdd()`](/content/commands/vadd.md) command to set the embedding.
 
-The call to `VAdd()` also adds the `born` and `died` values from the
-original map as attribute data. You can access this during a query
-or by using the [`VGetAttr()`](/content/commands/vgetattr.md) method.
+A separate call to [`VSetAttr()`](/content/commands/vsetattr.md) then adds the
+`born` and `died` values from the original map as attribute data. You can
+access this during a query or by using the
+[`VGetAttr()`](/content/commands/vgetattr.md) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and add data to a vector set with VAdd including attribute metadata" difficulty="intermediate" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Go" description="Foundational: Generate embeddings and add data to a vector set with VAdd, then set attribute metadata with VSetAttr" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -136,10 +139,8 @@ highest in the results list:
 
 Similarly, if you use "science" as a query, you get the following results:
 
-```
-'science': Marie Curie, Linus Pauling, Maryam Mirzakhani, Paul Erdos,
-Marie Fredriksson, Freddie Mercury, Masako Natsume, Chaim Topol
-```
+{{< clients-example set="home_vecsets" step="science_query" lang_filter="Go" description="Semantic search: Rank elements by similarity to a science query so related fields rank together" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 The scientists are ranked highest but they are then followed by the
 mathematicians. This seems reasonable given the connection between mathematics

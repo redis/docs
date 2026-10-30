@@ -124,6 +124,9 @@ let aggResult = await client.ft.aggregate('idx:users', '*', {
             type: FT_AGGREGATE_GROUP_BY_REDUCERS.COUNT,
             AS: 'count'
         }]
+    }, {
+        type: FT_AGGREGATE_STEPS.SORTBY,
+        BY: { BY: '@city', DIRECTION: 'ASC' }
     }]
 });
 
@@ -137,7 +140,6 @@ aggResult.results.forEach(result => {
 // STEP_END
 // REMOVE_START
 assert.equal(aggResult.total, 2);
-aggResult.results.sort((a, b) => a.city.localeCompare(b.city));
 assert.deepEqual(aggResult.results.map(result => result.city), [
     'London',
     'Tel Aviv'
@@ -228,5 +230,5 @@ assert.deepEqual(himportQueryResult.documents[0].value, {
 // REMOVE_END
 
 // STEP_START close
-await client.quit();
+await client.close();
 // STEP_END

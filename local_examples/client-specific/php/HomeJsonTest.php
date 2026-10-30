@@ -31,6 +31,13 @@ extends PredisTestCase
         ]);
         // STEP_END
         // REMOVE_START
+        foreach (['idx:users', 'hash-idx:users'] as $idx) {
+            try {
+                $r->ftDropIndex($idx);
+            } catch (Exception $e) {
+                // The index didn't exist.
+            }
+        }
         $r->del('huser:1', 'huser:2', 'huser:3');
         // REMOVE_END
 
@@ -102,7 +109,8 @@ extends PredisTestCase
         // STEP_START query3
         $ftAggregateArguments = (new AggregateArguments())
             ->groupBy('@city')
-            ->reduce('COUNT', true, 'count');
+            ->reduce('COUNT', true, 'count')
+            ->sortBy(0, '@city', 'ASC');
 
         $res = $r->ftAggregate('idx:users', '*', $ftAggregateArguments);
         echo json_encode($res), PHP_EOL;

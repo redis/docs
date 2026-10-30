@@ -1,8 +1,7 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +27,9 @@ import java.util.concurrent.Executors;
  * without ever falling back to the primary on the read path.</p>
  *
  * <pre>{@code
- * javac -cp jedis-5.1.2.jar:slf4j-api-2.0.13.jar \
+ * javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
  *     PrefetchCache.java MockPrimaryStore.java SyncWorker.java DemoServer.java
- * java -cp .:jedis-5.1.2.jar:slf4j-api-2.0.13.jar \
+ * java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
  *     DemoServer --port 8785 --redis-host localhost --redis-port 6379
  * }</pre>
  */
@@ -39,7 +38,7 @@ public class DemoServer {
     private static PrefetchCache cache;
     private static MockPrimaryStore primary;
     private static SyncWorker sync;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
 
     public static void main(String[] args) {
         String host = "127.0.0.1";
@@ -79,14 +78,14 @@ public class DemoServer {
         }
 
         try {
-            jedisPool = new JedisPool(new JedisPoolConfig(), redisHost, redisPort);
-            jedisPool.getResource().close();
+            jedis = RedisClient.create(redisHost, redisPort);
+            jedis.ping();
         } catch (Exception e) {
             System.err.printf("Failed to connect to Redis at %s:%d: %s%n", redisHost, redisPort, e.getMessage());
             System.exit(1);
         }
 
-        cache = new PrefetchCache(jedisPool, cachePrefix, ttlSeconds);
+        cache = new PrefetchCache(jedis, cachePrefix, ttlSeconds);
         primary = new MockPrimaryStore(primaryLatencyMs);
         sync = new SyncWorker(primary, cache);
 
@@ -121,12 +120,12 @@ public class DemoServer {
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 sync.stop();
                 server.stop(0);
-                jedisPool.close();
+                jedis.close();
             }));
         } catch (IOException e) {
             System.err.println("Failed to start server: " + e.getMessage());
             sync.stop();
-            jedisPool.close();
+            jedis.close();
             System.exit(1);
         }
     }

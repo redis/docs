@@ -60,7 +60,7 @@ The new user has no permissions until you create a role binding. The operator as
 | --- | --- | --- |
 | `spec.email` | Yes | Must be unique in the cluster. |
 | `spec.username` | No | Defaults to a generated value. ASCII only, excluding `&`, `<`, `>`, `"`. The effective value appears in `status.username`. |
-| `spec.passwordSecrets` | Yes | At least one Secret. Each Secret must have a `password` key. |
+| `spec.passwordSecrets` | Yes, unless `authMethod` is `Certificate` | At least one Secret. Each Secret must have a `password` key. Leave empty for [certificate-based users](/content/operate/kubernetes/security/authentication/certificate-auth.md#add-certificate-based-users). |
 | `spec.passwordMode` | No | `Single` (default) or `Rotatable`. See [Choose a password mode](#choose-a-password-mode). |
 | `spec.alerts` | No | Email alert settings. Effective only when [cluster alerts](/content/operate/rs/clusters/configure/cluster-settings.md#alert-settings) are configured. |
 
@@ -110,6 +110,8 @@ In Rotatable mode the operator makes referenced Kubernetes Secrets immutable, so
 5. Delete the old Secret when nothing else references it.
 
 `status.passwordSecrets` lists each active Secret with its resolved version.
+
+The cluster's `disconnectClientsOnPasswordRemoval` setting controls whether connections that authenticated with the removed password are actively disconnected. When the cluster setting is `Auto`, the database's own setting controls it. See [Disconnect clients on password removal](/content/operate/kubernetes/re-clusters/_index.md#disconnect-clients-on-password-removal).
 
 ## Update the email address
 

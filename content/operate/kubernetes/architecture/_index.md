@@ -125,8 +125,9 @@ By default, Kubernetes doesn't allow you to access your Redis database from outs
 - Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
 - [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
 - OpenShift uses [routes](/content/operate/kubernetes/networking/routes.md) to route external traffic.
+- The [Kubernetes Gateway API](/content/operate/kubernetes/networking/gateway-api.md) uses `TLSRoute` resources that the operator attaches to a Gateway you own.
 
-The [Active-Active databases](#active-active-databases) require one of above routing methods to be configured in the REC with the [ingressOrRouteSpec field](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md#specingressorroutespec).
+The [Active-Active databases](#active-active-databases) require routing configured in the REC, either with the [ingressOrRouteSpec field](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md#specingressorroutespec) or with [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md).
 
 ## Services Rigger
 

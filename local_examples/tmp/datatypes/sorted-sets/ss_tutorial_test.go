@@ -107,7 +107,12 @@ func ExampleClient_zrange() {
 	fmt.Println(res4)
 	// >>> [Ford Sam-Bodden Norem Royce Castilla Prickett]
 
-	res5, err := rdb.ZRevRange(ctx, "racer_scores", 0, -1).Result()
+	res5, err := rdb.ZRangeArgs(ctx, redis.ZRangeArgs{
+		Key:   "racer_scores",
+		Start: 0,
+		Stop:  -1,
+		Rev:   true,
+	}).Result()
 
 	if err != nil {
 		panic(err)
@@ -194,9 +199,12 @@ func ExampleClient_zrangebyscore() {
 	}
 
 	// STEP_START zrangebyscore
-	res7, err := rdb.ZRangeByScore(ctx, "racer_scores",
-		&redis.ZRangeBy{Min: "-inf", Max: "10"},
-	).Result()
+	res7, err := rdb.ZRangeArgs(ctx, redis.ZRangeArgs{
+		Key:     "racer_scores",
+		Start:   "-inf",
+		Stop:    10,
+		ByScore: true,
+	}).Result()
 
 	if err != nil {
 		panic(err)
@@ -362,8 +370,11 @@ func ExampleClient_zaddlex() {
 	fmt.Println(res14)
 	// >>> [Castilla Ford Norem Prickett Royce Sam-Bodden]
 
-	res15, err := rdb.ZRangeByLex(ctx, "racer_scores", &redis.ZRangeBy{
-		Min: "[A", Max: "[L",
+	res15, err := rdb.ZRangeArgs(ctx, redis.ZRangeArgs{
+		Key:   "racer_scores",
+		Start: "[A",
+		Stop:  "[L",
+		ByLex: true,
 	}).Result()
 
 	if err != nil {

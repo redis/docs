@@ -1,7 +1,9 @@
 // EXAMPLE: landing
 // BINDER_ID go-landing
-package main
+// HIDE_START
+package example_commands_test
 
+// HIDE_END
 // STEP_START import
 import (
 	"context"
@@ -12,7 +14,7 @@ import (
 
 // STEP_END
 
-func main() {
+func ExampleClient_landing() {
 	// STEP_START connect
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
@@ -23,6 +25,9 @@ func main() {
 
 	ctx := context.Background()
 	// STEP_END
+	// REMOVE_START
+	rdb.Del(ctx, "foo", "bike:1")
+	// REMOVE_END
 
 	// STEP_START set_get_string
 	err := rdb.Set(ctx, "foo", "bar", 0).Err()
@@ -102,4 +107,12 @@ func main() {
 	// STEP_START close
 	rdb.Close()
 	// STEP_END
+
+	// Output:
+	// foo bar
+	// 4
+	// Deimos
+	// 4972
+	// map[brand:Ergonom model:Deimos price:4972 type:Enduro bikes]
+	// Model: Deimos, Brand: Ergonom, Type: Enduro bikes, Price: $4972
 }

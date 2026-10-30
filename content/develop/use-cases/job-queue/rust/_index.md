@@ -52,7 +52,7 @@ The `RedisJobQueue` struct wraps the queue operations
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/rust/src/job_queue.rs)):
 
 ```rust
-use redis::aio::ConnectionManager;
+use redis::aio::{ConnectionManager, ConnectionManagerConfig};
 use redis::Client;
 use serde_json::json;
 
@@ -61,7 +61,10 @@ use jobqueue_demo::job_queue::{JobQueueOptions, RedisJobQueue};
 #[tokio::main]
 async fn main() -> redis::RedisResult<()> {
     let client = Client::open("redis://127.0.0.1:6379/")?;
-    let conn = ConnectionManager::new(client).await?;
+    // Workers block in BLMOVE for longer than the 500 ms default response timeout
+    // in redis-rs 1.x, so turn the response timeout off for this connection.
+    let config = ConnectionManagerConfig::new().set_response_timeout(None);
+    let conn = ConnectionManager::new_with_config(client, config).await?;
     let queue = RedisJobQueue::new(
         conn,
         JobQueueOptions {
@@ -161,7 +164,7 @@ pub async fn enqueue(&self, payload: Value) -> RedisResult<String> {
         .ignore()
         .lpush(&self.pending_key, &job_id)
         .ignore()
-        .query_async::<_, ()>(&mut conn)
+        .query_async::<()>(&mut conn)
         .await?;
 
     self.enqueued_total.fetch_add(1, Ordering::Relaxed);
@@ -353,14 +356,14 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 ## Prerequisites
 
 * Redis 6.2 or later running locally on the default port (6379). `BLMOVE` requires Redis 6.2+; on older servers, replace the call with `BRPOPLPUSH`.
-* Rust 1.75 or later.
-* The [`redis`](https://crates.io/crates/redis) crate at 0.27+ (or 0.24+ if you only need `BRPOPLPUSH`-style claims).
+* Rust 1.88 or later (the `redis` 1.8 crate requires it).
+* The [`redis`](https://crates.io/crates/redis) crate at 1.8 or later.
 
 Add the crate dependencies to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-redis = { version = "0.27", features = ["tokio-comp", "aio", "connection-manager"] }
+redis = { version = "1.8", features = ["tokio-comp", "aio", "connection-manager"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }

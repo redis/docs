@@ -144,7 +144,7 @@ async function main() {
       `with a ${opts.ttlSeconds}s key-level TTL.`,
   );
 
-  await client.quit();
+  await client.close();
 }
 
 if (require.main === module) {

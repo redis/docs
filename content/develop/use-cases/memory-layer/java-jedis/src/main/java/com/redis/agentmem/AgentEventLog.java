@@ -1,6 +1,6 @@
 package com.redis.agentmem;
 
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.params.XAddParams;
 import redis.clients.jedis.resps.StreamEntry;
@@ -35,11 +35,11 @@ public final class AgentEventLog {
     /** Approximate cap on stream length. */
     public static final long DEFAULT_MAX_LEN = 1000L;
 
-    private final JedisPooled jedis;
+    private final RedisClient jedis;
     private final String keyPrefix;
     private final long maxLen;
 
-    public AgentEventLog(JedisPooled jedis, String keyPrefix, long maxLen) {
+    public AgentEventLog(RedisClient jedis, String keyPrefix, long maxLen) {
         this.jedis = jedis;
         this.keyPrefix = keyPrefix;
         this.maxLen = maxLen > 0 ? maxLen : DEFAULT_MAX_LEN;

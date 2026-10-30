@@ -181,13 +181,22 @@ func ExampleClient_search_json() {
 
 	// STEP_START query3
 	aggOptions := redis.FTAggregateOptions{
-		GroupBy: []redis.FTAggregateGroupBy{
+		Steps: []redis.FTAggregateStep{
 			{
-				Fields: []interface{}{"@city"},
-				Reduce: []redis.FTAggregateReducer{
-					{
-						Reducer: redis.SearchCount,
-						As:      "count",
+				GroupBy: &redis.FTAggregateGroupBy{
+					Fields: []interface{}{"@city"},
+					Reduce: []redis.FTAggregateReducer{
+						{
+							Reducer: redis.SearchCount,
+							As:      "count",
+						},
+					},
+				},
+			},
+			{
+				SortBy: &redis.FTAggregateSortByStep{
+					Fields: []redis.FTAggregateSortBy{
+						{FieldName: "@city", Asc: true},
 					},
 				},
 			},
@@ -205,18 +214,13 @@ func ExampleClient_search_json() {
 		panic(err)
 	}
 
-	sort.Slice(aggResult.Rows, func(i, j int) bool {
-		return aggResult.Rows[i].Fields["city"].(string) <
-			aggResult.Rows[j].Fields["city"].(string)
-	})
-
 	for _, row := range aggResult.Rows {
 		fmt.Printf("%v - %v\n",
 			row.Fields["city"], row.Fields["count"],
 		)
 	}
-	// >>> City: London - 1
-	// >>> City: Tel Aviv - 2
+	// >>> London - 1
+	// >>> Tel Aviv - 2
 	// STEP_END
 
 	// Output:

@@ -66,7 +66,7 @@ async function main() {
   const snapshot = await store.dashboardSnapshot();
   console.log(snapshot.sensors[0].raw_points.length);
 
-  await client.disconnect();
+  await client.destroy();
 }
 
 main().catch(console.error);

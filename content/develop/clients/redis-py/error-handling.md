@@ -118,7 +118,7 @@ for a full description):
 
 ```python
 try:
-    r.setex(key, 3600, value)
+    r.set(key, value, ex=3600)
 except redis.ConnectionError:
     logger.warning(f"Failed to cache {key}, continuing without cache")
     # Application continues normally
@@ -140,7 +140,7 @@ async def get_with_fallback(key):
         logger.warning("Cache unavailable")
         return await database.get(key)
     finally:
-        await r.close()
+        await r.aclose()
 ```
 
 ## See also

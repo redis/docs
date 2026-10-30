@@ -474,7 +474,7 @@ related to connection:
 
 -   `connect`: (No parameters) The client is about to start connecting to the server.
 -   `ready`: (No parameters) The client has connected and is ready to use.
--   `end`: (No parameters) The client has been intentionally closed using `client.quit()`.
+-   `end`: (No parameters) The client has been intentionally closed using `client.close()`.
 -   `error`: An error has occurred, which is described by the
     [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
     parameter. This is usually a network issue such as "Socket closed unexpectedly".

@@ -25,13 +25,15 @@ grants.
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
 | Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store management: `/v1/stores`, `/v1/detectors` |
-| Control Plane internal token | Identity Service → Control Plane | `redis-agent-memory-controlplane-internal-token` / `token` | Yes (`controlplane.internalToken.autoGenerate`) | Checking that the store in a grant exists. Chart-managed; you handle it only with bring-your-own (BYO) configuration |
-| Identity Service control token | Operator → Identity Service (`:9200`) | `redis-agent-memory-identity-service-control-token` / `token` | Yes (`identityService.controlToken.autoGenerate`) | Creating, listing, updating, rotating and revoking agent keys |
-| Data Plane service credential | Data Plane → Identity Service | `redis-agent-memory-identity-service-runtime-memory-dp` / `token` | Yes (`identityService.runtime.serviceCredentials`) | Checking agent keys for `memory`. Chart-managed; you handle it only with bring-your-own (BYO) configuration |
+| Control Plane internal token | Identity Service → Control Plane | `memory-internal-token` / `token` in the walkthrough | You provision it for both releases | Checking that the store in a grant exists. Set `controlplane.internalToken.existingSecret` on Memory and `productValidation.products.memory.credential.existingSecret` on Identity Service. |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `ids-control-token` / `token` in the walkthrough | Supplied through `control.existingSecret` on Identity Service; that chart can also generate one | Creating, listing, updating, rotating and revoking agent keys |
+| Data Plane service credential | Data Plane → Identity Service | `memory-dp-credential` / `token` in the walkthrough | You provision it for both releases | Checking agent keys for `memory`. Set `identityService.credential.existingSecret` on Memory and register it in `runtime.serviceCredentials[]` on Identity Service. |
 | Agent key | Application → Data Plane (`:9000`) | None; returned once when minted or rotated | No | The Data Plane operations its grants allow |
 
-Each generated Secret keeps its value across upgrades (`helm.sh/resource-policy: keep`). To bring
-your own, set `existingSecret` on the matching value.
+Generated token Secrets are retained across upgrades and uninstalls (`helm.sh/resource-policy: keep`).
+Use existing Secrets for shared credentials and for reproducible deployment automation.
+Secret names and keys must agree between releases. See
+[Secret rotation](/content/operate/iris/agent-memory/self-managed/operations.md#secret-rotation).
 
 ## Control Plane admin token
 
@@ -63,7 +65,8 @@ The Data Plane defaults to agent-key authentication whenever no auth method is s
 
 The [`deploy` walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md) uses agent-key
 authentication from the start. In the chart-rendered configuration, the chart writes the agent-key
-introspection settings for you, so you add nothing more.
+introspection settings from `dataplane.identityServiceBaseURL` and `identityService.credential`.
+These must point to the standalone release and its registered `memory-dp` credential.
 
 A bring-your-own (BYO) Data Plane configuration needs the `auth.agent_keys.introspection` block,
 including a BYO configuration without `auth`. See
@@ -83,9 +86,15 @@ Treat agent keys as opaque credentials. Do not parse their contents.
 Use auth-disabled mode for development and testing only:
 
 ```yaml
+profile: dev
 auth:
   method: none
 ```
+
+These are application configuration fields; put them under `memory` in Helm values.
+The Data Plane refuses `auth.method: none` unless `profile` is exactly `dev`.
+Chart-rendered configuration fails to render otherwise. With a supplied configuration Secret,
+the same rule is enforced at process startup.
 
 > [!WARNING]
 > Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
@@ -116,7 +125,11 @@ A grant names the tenant, product, store, and actions:
 }
 ```
 
-Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage stores with the Control Plane admin token.
+Use the installation's tenant on every grant, for example `default`. Set Memory's `tenantId`
+and Identity Service's `runtime.apiKeyTenant.singleTenantID` to that same value. With a rendered
+Control Plane configuration, `tenantId` sets `auth.admin_tenant_id`, so admin-token stores belong
+to that tenant too. With a supplied Control Plane configuration Secret, set `auth.admin_tenant_id`
+yourself. Neither release checks the other release's tenant setting.
 
 Grant actions:
 

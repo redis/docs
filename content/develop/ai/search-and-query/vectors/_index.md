@@ -120,6 +120,9 @@ the accuracy of the queries, while trading off performance.
 | `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. | 0.01 |
 | `COMPRESSION`      | Compression algorithm; the only supported value is `SQ8`. Only supported for `TYPE FLOAT32` or `FLOAT16`, and not supported for disk-based vector indexes. See [HNSW vector compression](#hnsw-vector-compression) below for more information. | none |
 | `TRAINING_THRESHOLD` | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. A value of `0` skips training. If a value is provided, it must be no more than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
+| `RERANK`           | [Flex databases](/content/operate/rs/flex/_index.md) only. Sets whether queries on this field use reranking by default (`TRUE` or `FALSE`). Indexes on other databases reject this attribute. | None |
+
+On Flex databases, `M`, `EF_CONSTRUCTION`, `EF_RUNTIME`, and `RERANK` are required for `HNSW` fields.
 
 **Example**
 
@@ -478,6 +481,7 @@ Optional runtime parameters for HNSW indexes are:
 |:----------------|:----------------------------------------------------------------------------------------------------------|:--------------------|
 | `EF_RUNTIME`    | The maximum number of top candidates to hold during the KNN search. Higher values lead to more accurate results at the expense of a longer query runtime. | The value passed during index creation. The default is 10. |
 | `EPSILON`       | The relative factor that sets the boundaries for a vector range query. Vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing a more extensive search and more accurate results at the expense of runtime. | The value passed during index creation. The default is 0.01. |
+| `RERANK`        | [Flex databases](/content/operate/rs/flex/_index.md) only. Overrides the field's `RERANK` setting for this query (`TRUE` or `FALSE`). | The value passed during index creation. |
 
 **SVS-VAMANA**
 
@@ -699,6 +703,7 @@ Here are some additional resources that apply vector search for different use ca
 
 - [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
 - [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/00_semantic_caching_gemini.ipynb)
+- [Agent memory with Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), which uses vector search to recall long-term memories
 
 ## Continue learning with Redis University
 

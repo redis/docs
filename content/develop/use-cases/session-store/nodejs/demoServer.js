@@ -651,7 +651,7 @@ async function main() {
 
   const shutdown = async () => {
     server.close(async () => {
-      await redisClient.disconnect();
+      await redisClient.destroy();
       process.exit(0);
     });
   };

@@ -1,8 +1,7 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +18,8 @@ import java.util.Map;
  * Redis leaderboard demo server.
  *
  * Usage:
- *     javac -cp jedis-5.2.0.jar RedisLeaderboard.java DemoServer.java
- *     java -cp .:jedis-5.2.0.jar DemoServer [--port PORT] [--redis-host HOST] [--redis-port PORT]
+ *     javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar RedisLeaderboard.java DemoServer.java
+ *     java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar DemoServer [--port PORT] [--redis-host HOST] [--redis-port PORT]
  */
 public class DemoServer {
 
@@ -54,7 +53,7 @@ public class DemoServer {
     );
 
     private static RedisLeaderboard leaderboard;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
 
     public static void main(String[] args) {
         int port = 8080;
@@ -80,15 +79,15 @@ public class DemoServer {
         }
 
         try {
-            jedisPool = new JedisPool(new JedisPoolConfig(), redisHost, redisPort);
-            jedisPool.getResource().close();
+            jedis = RedisClient.create(redisHost, redisPort);
+            jedis.ping();
         } catch (Exception e) {
             System.err.printf("Failed to connect to Redis: %s%n", e.getMessage());
             System.err.printf("Make sure Redis is running at %s:%d%n", redisHost, redisPort);
             System.exit(1);
         }
 
-        leaderboard = new RedisLeaderboard(jedisPool, "leaderboard:demo", maxEntries);
+        leaderboard = new RedisLeaderboard(jedis, "leaderboard:demo", maxEntries);
         resetDemoData();
 
         try {
@@ -109,7 +108,7 @@ public class DemoServer {
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("\nStopping server.");
-                jedisPool.close();
+                jedis.close();
                 server.stop(0);
             }));
         } catch (IOException e) {

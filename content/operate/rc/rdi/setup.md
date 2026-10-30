@@ -15,6 +15,8 @@ weight: 3
 
 ## Prepare source database
 
+Create the target Redis Cloud Pro database before starting the pipeline. See the [quickstart prerequisites](/content/operate/rc/rdi/quick-start.md#prerequisites).
+
 Prepare every source database before adding it to a pipeline. Each source needs its own change data capture (CDC) configuration, connectivity, and credentials. See [Prerequisites](/content/operate/rc/rdi/_index.md#prerequisites) for a list of supported source databases and database versions.
 
 See [Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md) to find steps for your database type:
@@ -32,6 +34,36 @@ See [Prepare source databases](/content/integrate/redis-data-integration/data-pi
     - [AWS RDS SQL Server](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-rds-sqlserver.md)
 
 See the [RDI architecture overview](/content/integrate/redis-data-integration/architecture/_index.md#overview) for more information about CDC.
+
+### PostgreSQL publications {#postgresql-publications}
+
+For PostgreSQL sources, including databases hosted on EC2, Aurora/RDS, and Supabase,
+[check replica identity](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+before deploying. Selecting tables in the console does not narrow an existing
+`FOR ALL TABLES` publication. That publication includes current and future tables, and
+updates or deletes on any published table without replica identity can fail in your
+application.
+
+For a publication managed by your database administrator, create an explicit table list
+as shown in the [PostgreSQL preparation guide](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#choose-a-publication-mode).
+In **Configure source**, under **Collector properties**, open **Edit advanced properties**
+and enter these source properties:
+
+| Property | Value |
+|:--|:--|
+| `publication.name` | The name of the publication created by your administrator |
+| `publication.autocreate.mode` | `disabled` |
+
+Keep the publication's table list aligned with the source's selected tables. With
+`disabled`, RDI does not update the publication when you change the selection.
+
+To let RDI create and manage a publication for selected tables, use `filtered` instead.
+This requires [publication creation and table ownership permissions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput).
+Use a separate publication for each source with different table selections.
+
+If a source already uses `FOR ALL TABLES`, follow
+[Replace an existing all-tables publication](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#replace-an-existing-all-tables-publication).
+Changing the collector property alone does not convert that publication.
 
 ### Supabase {#supabase}
 
@@ -145,7 +177,8 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
     ![The Add pipeline control is available while the workspace is being created.](/images/rc/rdi/rdi-workspace-add-pipeline.png)
     {width="80%"}
 
-1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
+1. For a new pipeline, enter its name in the **Create new pipeline** dialog and select **Create pipeline**. See [Name the pipeline](/content/operate/rc/rdi/define.md#name-the-pipeline) for the naming rules.
+1. Complete **Settings**, including the target database, and select **Continue**.
 1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources](/content/operate/rc/rdi/define.md#pipeline-setup) for naming rules.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
@@ -167,7 +200,7 @@ Repeat the preparation for each source. Keep track of which endpoint service and
 
 If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it. For how traffic flows over PrivateLink, how to connect to an on-premises database over AWS Direct Connect, and how to keep the connection available during failover, see the [AWS PrivateLink reference](/content/operate/rc/rdi/networking/aws-privatelink.md).
 
-The following diagrams show the network setup for the different database setups:
+Choose the diagram and instructions for your source database:
 
 - Database hosted on an AWS EC2 instance:
 
@@ -176,8 +209,10 @@ The following diagrams show the network setup for the different database setups:
 
 - Database hosted on AWS RDS or AWS Aurora:
 
-    ![The network setup for a database hosted on AWS RDS or AWS Aurora.](/images/rc/rdi/rdi-setup-diagram-aurora.png)
-    {width="80%"}
+    ![RDI connects to the RDS or Aurora writer through PrivateLink and an internal network load balancer. Lambda updates the target IP address after an RDS event.](/images/rc/rdi/rdi-setup-diagram-aurora-lambda.svg)
+    {width="100%"}
+
+    Solid arrows show database connections. Dashed arrows show how Lambda updates the target group when the database address changes. Lambda does not carry database traffic.
 
 Select the steps for your database setup.
 
@@ -188,7 +223,7 @@ Select the steps for your database setup.
 
 To set up PrivateLink for a database hosted on an EC2 instance:
 
-1. [Create a network load balancer](#create-network-load-balancer-ec2) that will route incoming HTTP requests to your database.
+1. [Create a network load balancer](#create-network-load-balancer-ec2) that will route incoming TCP connections to your database.
 1. [Create an endpoint service](#create-endpoint-service-ec2) through AWS PrivateLink.
 
 ### Create network load balancer {#create-network-load-balancer-ec2}
@@ -199,29 +234,34 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
+1. Create a security group for the network load balancer in the source database VPC:
+    - **Inbound rules**: Leave empty. You will disable inbound rule checks for PrivateLink traffic in a later step.
+    - **Outbound rules**: Allow TCP to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
+1. In the load balancer settings, select this group under **Security groups**.
 1. In **Listeners and routing**: 
-    1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
+    1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-target-group.html) with the following settings:
         1. In **Specify group details**:
             - **Target type**: Select **Instances**.
-            - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
+            - **Protocol : Port**: Select **TCP**, and then enter the database port (`5432` for PostgreSQL unless you configured another port).
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
+        1. In **Health checks**, select **TCP** and use the traffic port.
         1. In **Register targets**, select the EC2 instance that runs your source database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
     1. Set the following **Listener** properties:
         - **Protocol**: Select **TCP**.
-        - **Port**: Enter your source database's port.
+        - **Port**: Enter your source database's port (`5432` for PostgreSQL unless you configured another port), matching the target group.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
 1. After the network load balancer is active, select **Security**. 
 
-    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+    Select **Edit**, deselect **Enforce inbound rules on PrivateLink traffic**, and select **Save changes**. This allows accepted PrivateLink connections through the load balancer without an inbound CIDR rule. Configure allowed principals and connection acceptance in the endpoint service steps that follow.
 
-1. Select the security group ID to open the Security group settings.
+1. Open the security group attached to your source database.
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
-    - **Type**: Select **HTTP**.
-    - **Source**: Select **Anywhere - IPv4**.
+    - **Type**: Select **Custom TCP**.
+    - **Port range**: Enter the database port (`5432` for PostgreSQL unless you configured another port).
+    - **Source**: Select the network load balancer security group ID. This rule allows both database connections and the TCP health checks configured on the same port.
     Select **Save rules** to save your changes.
-1. Select **Actions** > **Edit Load Balancer Attributes**.
+1. Return to the network load balancer and select **Actions** > **Edit Load Balancer Attributes**.
     - Under **Load balancer targets selection policy** select **Enable cross-zone load balancing**.
     Click the **Save Changes** button.
 
@@ -247,16 +287,14 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 --tab-sep--
 
-To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
+Connect the network load balancer (NLB) directly to your RDS or Aurora database. The database address can change after failover or maintenance. We recommend using the Lambda function to keep the NLB target group up to date.
 
-To connect to your RDS or Aurora database, we recommend using a Lambda function approach. This provides a reliable and secure connection method for all database types.
-
-1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming requests to your database.
+1. [Create a network load balancer](#create-network-load-balancer-rds) that forwards TCP connections to your database.
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
-1. [Set up Lambda function connectivity](#setup-lambda-function) to route requests to your database.
+1. [Set up the Lambda function](#setup-lambda-function) to update the target group when the database address changes.
 
 > [!NOTE]
-> If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide](/content/operate/rc/rdi/rds-proxy.md). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
+> RDS Proxy is not recommended for RDI and does not support PostgreSQL logical replication. If you need this alternative for a compatible database, see the [RDS Proxy setup guide](/content/operate/rc/rdi/rds-proxy.md).
 
 ### Create network load balancer {#create-network-load-balancer-rds}
 
@@ -266,36 +304,41 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - **Scheme**: Select **Internal**.
     - **Load balancer IP address type**: Select **IPv4**.
 1. In **Network mapping**, select the VPC and availability zone associated with your source database.
-1. In **Security groups**, select the security group associated with your source database, or another security group that allows traffic from PrivateLink and allows traffic to the database.
+1. Create a security group for the network load balancer in the source database VPC:
+    - **Inbound rules**: Leave empty. You will disable inbound rule checks for PrivateLink traffic in a later step.
+    - **Outbound rules**: Allow TCP to the database security group on the database port (`5432` for PostgreSQL unless you configured another port).
+1. In the load balancer settings, select this group under **Security groups**.
 1. In **Listeners and routing**:
-    1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-target-group.html) with the following settings:
+    1. Select **Create target group** to [create a target group](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-target-group.html) with the following settings:
         1. In **Specify group details**:
             - **Target type**: Select **IP Addresses**.
-            - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
+            - **Protocol : Port**: Select **TCP**, and then enter the database port (`5432` for PostgreSQL unless you configured another port).
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, enter the static IP address of your database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Health checks**, select **TCP** and use the traffic port.
+        1. In **Register targets**, enter the currently resolved private IPv4 address of your database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
 
-            To get the static IP address of your database, run the following command on an EC2 instance in the same VPC as the database:
+            To get the current private IPv4 address of your database, run the following command on an EC2 instance in the same VPC as the database:
             ```sh
             $ nslookup <database-endpoint>
             ```
-            Replace `<database-endpoint>` with the endpoint of your RDS or Aurora database.
+            Replace `<database-endpoint>` with the writer endpoint of your RDS or Aurora database. The address can change after failover or maintenance. [Configure the existing failover Lambda](#setup-lambda-function) to update the target group when the writer address changes.
     1. Set the following **Listener** properties:
         - **Protocol**: Select **TCP**.
-        - **Port**: Enter your source database's port.
+        - **Port**: Enter your source database's port (`5432` for PostgreSQL unless you configured another port), matching the target group.
         - **Default action**: Select the target group you created in the previous step.
 1. Review the network load balancer settings, and then select **Create load balancer** to continue.
 1. After the network load balancer is active, select **Security**.
 
-    If you selected the same security group as your source database, you must not enforce security group rules on PrivateLink traffic. Select **Edit** and then deselect **Enforce inbound rules on PrivateLink traffic**, and then select **Save changes**.
+    Select **Edit**, deselect **Enforce inbound rules on PrivateLink traffic**, and select **Save changes**. This allows accepted PrivateLink connections through the load balancer without an inbound CIDR rule. Configure allowed principals and connection acceptance in the endpoint service steps that follow.
 
-1. Select the security group ID to open the Security group settings.
+1. Open the security group attached to your source database.
 
 1. Select **Edit inbound rules**, then **Add rule** to add a rule with the following settings:
-    - **Type**: Select **HTTP**.
-    - **Source**: Select **Anywhere - IPv4**.
+    - **Type**: Select **Custom TCP**.
+    - **Port range**: Enter the database port (`5432` for PostgreSQL unless you configured another port).
+    - **Source**: Select the network load balancer security group ID. This rule allows both database connections and the TCP health checks configured on the same port.
     Select **Save rules** to save your changes.
-1. Select **Actions** > **Edit Load Balancer Attributes**.
+1. Return to the network load balancer and select **Actions** > **Edit Load Balancer Attributes**.
     - Under **Load balancer targets selection policy** select **Enable cross-zone load balancing**.
     Click the **Save Changes** button.
 
@@ -319,12 +362,12 @@ After you create the endpoint service, you need to add Redis Cloud as an Allowed
 
 For more details on AWS PrivateLink, see [Share your services through AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html).
 
-### Set up Lambda function connectivity {#setup-lambda-function}
+### Set up Lambda to update database addresses {#setup-lambda-function}
 
 > [!NOTE]
-> Setting up the Lambda function is optional but recommended for production environments. The Lambda function provides automatic failover handling and a more robust connection to your RDS or Aurora database.
+> The Lambda function is optional but recommended for production. Without it, you must update the target group yourself when the database address changes.
 
-The Lambda function monitors RDS failover events and automatically updates the NLB Target Group to point to the new primary instance's IP address. This ensures RDI reconnects automatically after a failover.
+RDS sends event notifications through Amazon Simple Notification Service (SNS). SNS invokes the Lambda function. Lambda looks up the current writer address using the Domain Name System (DNS) and updates the NLB target group. RDI can reconnect after the new database target is ready.
 
 #### Option 1: Use the Redis Terraform module
 

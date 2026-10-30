@@ -80,7 +80,20 @@ are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
 to say that all writes after the first one make no change to the
 overall state).
 
+{{< note >}}
+The delivery guarantee applies to change events captured by RDI. If a Debezium
+collector's saved source position becomes unavailable, a new snapshot cannot replay
+changes whose source log history has expired. Missed deletes can leave stale records
+in the target. See the
+[missed-delete timeline](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes)
+and [recovery guidance](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history).
+{{< /note >}}
+
 ## Checkpointing
+
+The processor checkpoint is separate from the collector's position in source change
+history. See [Understand CDC offsets and source retention](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md)
+for how source retention affects recovery after an interruption.
 
 RDI uses Redis streams to store the sequence of change events
 captured from the sources. The events are then retrieved in order
@@ -130,6 +143,10 @@ It includes:
 The *data plane* contains the processes that actually move the data.
 It includes a *CDC collector* for each source and the *stream processor*, which implement
 the two phases of the pipeline lifecycle (initial cache loading and change streaming).
+Each pipeline has its own data plane processes, while all the pipelines share the control
+plane and the RDI database. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for more information.
 
 The *management plane* provides tools that let you interact
 with the control plane.

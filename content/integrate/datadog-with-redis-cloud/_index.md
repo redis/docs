@@ -18,6 +18,8 @@ weight: 7
 ---
 
 
+Redis Cloud Pro accounts can also connect Datadog with the [native integration]({{< relref "/integrate/datadog-with-redis-cloud/native" >}}), which pushes metrics directly from the Redis Cloud console with no agent to deploy or maintain.
+
 [Datadog](https://www.datadoghq.com/) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 

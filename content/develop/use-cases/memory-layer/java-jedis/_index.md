@@ -57,9 +57,9 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 import com.redis.agentmem.AgentSession;
 import com.redis.agentmem.SessionState;
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 
-JedisPooled jedis = new JedisPooled(new HostAndPort("localhost", 6379));
+RedisClient jedis = RedisClient.create(new HostAndPort("localhost", 6379));
 AgentSession session = new AgentSession(jedis, "agent:session:", 3600, 20);
 
 String threadId = session.newThreadId();

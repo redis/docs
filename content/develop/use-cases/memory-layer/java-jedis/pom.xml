@@ -21,7 +21,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jedis.version>5.2.0</jedis.version>
+    <jedis.version>8.0.2</jedis.version>
     <djl.version>0.33.0</djl.version>
     <json.version>20240303</json.version>
   </properties>

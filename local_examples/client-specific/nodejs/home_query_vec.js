@@ -191,4 +191,4 @@ const jsons = await client.ft.search(
 );
 // STEP_END
 
-await client.quit();
+await client.close();

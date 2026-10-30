@@ -355,6 +355,10 @@ The code below shows these differences, but the index is otherwise very similar 
 the one created previously for hashes:
 
 ```php
+try {
+    $client->ftdropindex("vector_json_idx");
+} catch (Exception $e){}
+
 $jsonSchema = [
     new TextField("$.content", "content"),
     new TagField("$.genre", "genre"),
@@ -476,3 +480,5 @@ See
 [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
+
+{{< embed-md "iris-for-developers.md" >}}

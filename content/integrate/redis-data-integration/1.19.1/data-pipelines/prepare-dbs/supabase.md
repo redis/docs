@@ -152,7 +152,10 @@ CREATE PUBLICATION rdi_publication
 
 Creating the publication explicitly avoids granting table ownership or broad
 publication-creation permissions to the RDI role and limits the publication's
-table scope.
+table scope. Before creating it, [check replica identity](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode)
+for every included table. Updates and deletes on published tables require a usable replica
+identity. Update the publication's table list when you add or remove captured tables;
+`publication.autocreate.mode: disabled` leaves that list under your control.
 
 ## 5. Configure TLS
 

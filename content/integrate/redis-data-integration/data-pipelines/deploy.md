@@ -25,7 +25,9 @@ Before you deploy your pipeline, you must set the authentication secrets for the
 and target databases. Every secret belongs to one database: a source, identified by its
 name in `config.yaml`, or the target. You name that database with the `--db` option of the
 [`redis-di set-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-secret.md)
-command.
+command. Every secret also belongs to one pipeline. The secret commands manage the secrets of
+the `default` pipeline unless you name another pipeline with the `-p` or `--pipeline` option. See
+[Set secrets for each pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#set-secrets-for-each-pipeline).
 
 The table below lists the available secret keys. The username and password are required,
 while the other keys are only relevant for TLS/mTLS connections.
@@ -39,13 +41,33 @@ while the other keys are only relevant for TLS/mTLS connections.
 | `KEY` | (For mTLS only) Private key |
 | `KEY_PASSWORD` | (For mTLS only) Private key password |
 
+RDI also accepts a generic secret key for another connection parameter. The key can contain up to
+63 uppercase letters, digits, and underscores, must start with a letter, and must use the `--db`
+option. The 63-character limit applies to the key you pass to `redis-di set-secret`, excluding
+the generated database prefix. For example, set a source-specific port with
+`redis-di set-secret PORT --db mysql 3306` and reference it as `${MYSQL_DB_PORT}`.
+
+A generic key is a simple value by default. To store it as a file instead, such as an additional
+CA certificate, pass `--type file`. RDI then mounts the file, and the reference resolves to the
+path of the mounted file. For example:
+
+```bash
+redis-di set-secret EXTRA_CA --db mysql --type file --file /path/to/extra-ca.crt
+```
+
+Reference this secret as `${MYSQL_DB_EXTRA_CA}` in `config.yaml`. It resolves to the mounted
+file's path.
+
+The `--file` option only tells the command to read the value from a local file. It works with
+any key, and it does not change the type of the secret.
+
 You can reference a secret in `config.yaml` using an environment variable that is derived from
 the secret key and the database name. The variable name consists of the database name in
 uppercase (with each dash replaced by an underscore), followed by `_DB_`, followed by the key.
 For example, if you set `PASSWORD` with `--db mysql` the corresponding environment variable
 is `MYSQL_DB_PASSWORD`, which the source references as
 `${MYSQL_DB_PASSWORD}`. If you set `PASSWORD` with `--db target`, the environment variable is `TARGET_DB_PASSWORD`. The sample
-[config.yaml file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#example)
+[config.yaml file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#extended-configuration-example)
 shows these references in use, and
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)
 covers the source naming rules.
@@ -104,9 +126,10 @@ pipeline is only partially updated. See [Wait for changes to complete](#wait) be
 
 ### Manage secrets with the CLI
 
-Along with `set-secret`, the CLI has commands to list, inspect, and delete secrets. Because the API
-never returns secret values, these commands show only the secret keys and whether they are set, not
-the stored values.
+Along with `set-secret`, the CLI has commands to list, inspect, and delete secrets. These commands
+show the key, database, type, and configuration reference of each secret, but not its value,
+because the API never returns secret values. The configuration reference is the placeholder to use
+in `config.yaml`.
 
 ```bash
 # List all the secrets of a pipeline, with the database each one belongs to
@@ -115,7 +138,7 @@ redis-di list-secrets
 # List only the secrets of one database
 redis-di list-secrets --db mysql
 
-# Show a single secret and whether it is set
+# Show a single secret and its configuration reference
 redis-di describe-secret PASSWORD --db mysql
 
 # Delete a secret (prompts for confirmation unless you add --force)
@@ -146,7 +169,9 @@ kubectl create secret generic <DB> \
 ```
 
 Where `<DB>` is `<source>-db` for the secrets of a source, or `target-db` for target secrets.
-The examples below use a source named `mysql`, so its secret is `mysql-db`.
+The examples below use a source named `mysql`, so its secret is `mysql-db`. For a pipeline other
+than `default`, prefix each secret name with the pipeline name and two dashes, for example
+`orders--mysql-db` and `orders--target-db` for a pipeline named `orders`.
 
 If you use TLS or mTLS for either the source or target databases, you also need to create the
 `<source>-db-ssl` and/or `target-db-ssl` K8s secrets that contain the certificates used
@@ -281,16 +306,34 @@ kubectl label secret target-db-ssl --namespace=rdi --overwrite \
 ## Deploy a pipeline
 
 When you have created your configuration, including the [jobs](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md), you are
-ready to deploy. Use the
+ready to deploy. A new RDI installation has no pipeline, so create the pipeline with an empty
+configuration first, and then deploy your configuration to it with the
 [`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md)
-command to deploy a pipeline:
+command:
 
 ```bash
+redis-di deploy --empty
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-RDI first validates the configuration and then deploys it if it is correct. You can control the
-validation and what happens after deployment with the following options:
+To validate your configuration against the source and target databases, create an empty pipeline
+first, then deploy your configuration. Running `redis-di deploy --dir` before the pipeline exists
+creates the pipeline, but doesn't run these database checks.
+
+The pipeline name is optional and defaults to `default`. To deploy another pipeline, pass its
+name to both commands:
+
+```bash
+redis-di deploy orders --empty
+redis-di deploy orders --dir <path to pipeline folder>
+```
+
+See [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for the pipeline naming rules.
+
+When you deploy a configuration to an existing pipeline, RDI first validates the configuration
+and then deploys it if it is correct. You can control the validation and what happens after
+deployment with the following options:
 
 - `--dry-run`: Validate the configuration without deploying it. Off by default.
 - `--validate-tables`: Validate the configuration against the source and target databases, for
@@ -308,6 +351,21 @@ reference page for the full list of options.
 
 You can also use [Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 to configure and deploy pipelines for both VM and K8s installations.
+
+## Export a pipeline configuration
+
+Use [`redis-di export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md)
+to write the configuration of a deployed pipeline to a directory, as `config.yaml` and
+`jobs/*.yaml`. You can then edit the files and deploy them again, or deploy them to another
+pipeline or RDI instance:
+
+```bash
+redis-di export --dir <path to pipeline folder>
+redis-di deploy --dir <path to pipeline folder>
+```
+
+The export contains secret references but no secret values, so set the secrets of the
+pipeline first when you deploy the export to another pipeline or RDI instance.
 
 ## Display the pipeline status
 
@@ -327,8 +385,10 @@ To watch the status update live, pair the command with `watch`:
 watch -n 1 redis-di describe
 ```
 
-For a shorter overview, [`redis-di list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)
-prints a one-line summary of the pipeline, and
+Pass a pipeline name, as in `redis-di describe orders`, to display a pipeline other than
+`default`. For a shorter overview,
+[`redis-di list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)
+prints a one-line summary of every pipeline, and
 [`redis-di get`](/content/integrate/redis-data-integration/reference/cli/redis-di-get.md)
 does the same for a single pipeline. See the
 [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
@@ -340,12 +400,17 @@ Use [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/re
 to pause a running pipeline and
 [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md)
 to resume it. Stopping a pipeline halts data processing without deleting the pipeline or its
-configuration, so you can start it again later from where it left off.
+configuration. A Debezium source restarts according to its
+[snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode)
+and the availability of its saved source position.
 
 ```bash
 redis-di stop
 redis-di start
 ```
+
+These commands, like `reset` and `delete`, act on the `default` pipeline unless you pass the name
+of another pipeline, as in `redis-di stop orders`.
 
 To act on a single source instead of the whole pipeline, add `--source`:
 
@@ -360,10 +425,15 @@ Note that a source can only run if its parent pipeline is running. See
 ## Reset a pipeline
 
 Use [`redis-di reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md)
-to return a pipeline to initial full-sync mode. This reloads a fresh
-[snapshot](/content/integrate/redis-data-integration/architecture/_index.md#overview) of the source
-data and then resumes change data capture (CDC), which is useful when the source and target have
-drifted out of sync.
+to clear the pipeline's saved source positions. With the default `initial` snapshot
+mode, a Debezium collector reloads selected source data and then resumes change data capture
+(CDC). Reset does not change the configured
+[snapshot mode](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#choose-a-snapshot-mode).
+Modes that skip existing rows do not reload them after a reset, and `initial_only` mode
+does not capture subsequent changes.
+
+Reset does not flush the target Redis database. A new snapshot can overwrite target
+records, but [missed deletes can leave stale records](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#missed-deletes).
 
 ```bash
 redis-di reset
@@ -375,6 +445,8 @@ pipeline stops while the reset runs and starts again afterwards:
 ```bash
 redis-di reset --source mysql
 ```
+
+If a reset fails, the pipeline stays in the `error` state until a later reset succeeds.
 
 ## Clear a pipeline {#clear-a-pipeline}
 
@@ -403,9 +475,25 @@ deleted either.
 > [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/installation/upgrade.md#redeploying-a-configuration-after-clearing-a-pipeline)
 > for a before and after example.
 
+## Delete a pipeline
+
+Use [`redis-di delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md)
+to delete a pipeline and its data plane components and keys from the RDI database. The command
+keeps the pipeline secrets and does not delete records already written to the target database.
+Pass `--wait=false` to return without waiting for the pipeline to disappear, or use `--timeout` to
+change the maximum wait time.
+
+```bash
+redis-di delete orders
+```
+
+Deleting a pipeline does not affect the other pipelines. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#start-stop-reset-and-delete-a-pipeline)
+for more information.
+
 ## Wait for changes to complete {#wait}
 
-The commands that change a pipeline's state, namely `deploy`, `start`, `stop`, `reset`,
+The commands that change a pipeline's state, namely `deploy`, `start`, `stop`, `reset`, `delete`,
 `set-secret`, and `delete-secret`, do not return as soon as the API accepts the request. By default,
 they wait for the pipeline to finish transitioning to the expected state, polling its status until it
 succeeds, reaches an error, or the `--timeout` (2 minutes by default) elapses. This is usually what
