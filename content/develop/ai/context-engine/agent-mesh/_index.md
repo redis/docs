@@ -32,7 +32,7 @@ Resumable streams let you:
 - **Reconnect to the same work.** The application can keep publishing while the client is disconnected. The client returns with its saved cursor to receive retained updates it missed and follow new ones.
 - **Resume through another serving replica.** Redis gives replicas a shared event log. Replicas with the same Redis configuration and access policy can serve a reconnecting client, independently of which process produced the events.
 
-Resumption recovers event delivery. Your application remains responsible for restarting work if the process executing it stops.
+Resumption recovers event delivery. Your application remains responsible for restarting work if the process executing it stops. With A2A, another process can [take over a Task](/content/develop/ai/context-engine/agent-mesh/a2a-sdk.md#hand-off-a-task-to-another-process) and finish it on the same event log.
 
 ## Choose an integration
 
