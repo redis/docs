@@ -53,7 +53,7 @@ print(
 # STEP_END
 
 # STEP_START zrangebyscore
-res7 = r.zrangebyscore("racer_scores", "-inf", 10)
+res7 = r.zrange("racer_scores", "-inf", 10, byscore=True)
 print(res7)  # >>> ['Ford', 'Sam-Bodden', 'Norem', 'Royce']
 # STEP_END
 
@@ -104,7 +104,7 @@ print(res13)  # >>> 3
 res14 = r.zrange("racer_scores", 0, -1)
 print(res14)  # >>> ['Castilla', 'Ford', 'Norem', 'Prickett', 'Royce', 'Sam-Bodden']
 
-res15 = r.zrangebylex("racer_scores", "[A", "[L")
+res15 = r.zrange("racer_scores", "[A", "[L", bylex=True)
 print(res15)  # >>> ['Castilla', 'Ford']
 # STEP_END
 
