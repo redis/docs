@@ -106,7 +106,7 @@ end
 # A pool of named Worker threads that can be started and stopped.
 #
 # Each worker gets its own RedisJobQueue (built from queue_factory) so its
-# blocking BRPOPLPUSH does not stall any other thread sharing the
+# blocking BLMOVE does not stall any other thread sharing the
 # connection.
 class WorkerPool
   attr_reader :work_latency_ms, :fail_rate, :hang_rate

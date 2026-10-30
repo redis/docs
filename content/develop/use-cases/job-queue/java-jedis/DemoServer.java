@@ -583,7 +583,7 @@ public class DemoServer {
                 + "    <h1>Redis Job Queue Demo</h1>\n"
                 + "    <p class=\"lede\">\n"
                 + "      Enqueue background jobs and watch a pool of workers drain them through Redis.\n"
-                + "      Pending jobs sit in a list; each worker uses <code>BRPOPLPUSH</code> to atomically\n"
+                + "      Pending jobs sit in a list; each worker uses <code>BLMOVE</code> to atomically\n"
                 + "      claim a job and move it to a processing list. Completed jobs move to a short\n"
                 + "      history. If a worker hangs past the " + visibilityMs + " ms visibility timeout,\n"
                 + "      the reclaimer moves its job back to pending so no work is lost.\n"

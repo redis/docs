@@ -38,7 +38,7 @@ The flow looks like this:
 1. The application calls `queue.enqueue(payload)`
 2. The helper writes the job metadata hash and `LPUSH`es the job ID onto the pending list
 3. A worker calls `queue.claim(timeoutMs)`
-4. The helper runs `BRPOPLPUSH` to atomically move the next pending ID into the processing list and writes a per-claim `claim_token` plus `claimed_at_ms` on the hash
+4. The helper runs `BLMOVE` to atomically move the next pending ID into the processing list and writes a per-claim `claim_token` plus `claimed_at_ms` on the hash
 5. The worker runs the job and calls `queue.complete(job, result)` or `queue.fail(job, error)`
 6. `complete` removes the job from the processing list, writes the result, and `LPUSH`es the ID onto the completed history (with `LTRIM` and an `EXPIRE` on the hash for cleanup)
 7. `fail` either retries the job (back to pending) or moves it to the failed list once retries are exhausted
@@ -82,7 +82,7 @@ public class Main {
 }
 ```
 
-Jedis operations are synchronous. The helper acquires a `Jedis` connection per call using `pool.getResource()` inside a try-with-resources block, so connections are returned to the pool even on errors. The blocking `claim()` method holds its own connection for the duration of the `BRPOPLPUSH` wait, which is fine because every other call uses a different connection.
+Jedis operations are synchronous. The helper acquires a `Jedis` connection per call using `pool.getResource()` inside a try-with-resources block, so connections are returned to the pool even on errors. The blocking `claim()` method holds its own connection for the duration of the `BLMOVE` wait, which is fine because every other call uses a different connection.
 
 ### Data model
 
@@ -116,7 +116,7 @@ queue:jobs-jedis:job:9a4f...
 The implementation uses:
 
 * [`LPUSH`](/content/commands/lpush.md) to add new job IDs to the pending list
-* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list
+* [`BLMOVE`](/content/commands/blmove.md) to atomically claim a job into the processing list (the modern replacement for the deprecated [`BRPOPLPUSH`](/content/commands/brpoplpush.md))
 * [`LREM`](/content/commands/lrem.md) to remove a claimed job from the processing list on complete or fail
 * [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history lists
 * [`HSET`](/content/commands/hset.md) / [`HGETALL`](/content/commands/hgetall.md) for job metadata
@@ -152,16 +152,16 @@ public String enqueue(Map<String, Object> payload) {
 
 The payload is stored as a JSON string so the queue can carry arbitrary nested structures without forcing every field into a hash.
 
-## Claiming jobs with BRPOPLPUSH
+## Claiming jobs with BLMOVE
 
-A worker blocks until a job is available, then atomically pops it from the pending list and pushes it onto the processing list. `BRPOPLPUSH` does both in a single Redis call:
+A worker blocks until a job is available, then atomically pops it from the pending list and pushes it onto the processing list. `BLMOVE` does both in a single Redis call (it's the modern replacement for `BRPOPLPUSH`, which is deprecated in Redis 6.2+):
 
 ```java
 public ClaimedJob claim(long timeoutMs) {
     double timeoutSec = Math.max(timeoutMs / 1000.0, 0.1);
     String jobId;
     try (Jedis jedis = pool.getResource()) {
-        jobId = jedis.brpoplpush(pendingKey, processingKey, (int) Math.ceil(timeoutSec));
+        jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
     }
     if (jobId == null) {
         return null;
@@ -265,7 +265,7 @@ public List<String> reclaimStuck() {
 }
 ```
 
-The Lua script also handles a narrower race: a worker that crashed between `BRPOPLPUSH` and writing `claimed_at_ms`. Those jobs are reclaimed after `2 × visibility_ms` using `enqueued_at_ms` as a fallback timer, so they aren't stranded forever.
+The Lua script also handles a narrower race: a worker that crashed between `BLMOVE` and writing `claimed_at_ms`. Those jobs are reclaimed after `2 × visibility_ms` using `enqueued_at_ms` as a fallback timer, so they aren't stranded forever.
 
 ## Stats and history
 
@@ -306,7 +306,7 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 
 Before running the demo, make sure that:
 
-* Redis 6.2 or later is running locally on the default port (6379). Earlier versions still work, since the helper uses commands that have existed since Redis 2.6.
+* Redis 6.2 or later running locally on the default port (6379). `BLMOVE` requires Redis 6.2+; on older servers, replace the call with `BRPOPLPUSH`.
 * Java 17 or later (the demo uses text-block-free string concatenation but still relies on a modern JDK).
 * Jedis 5.x is on the classpath. The smallest workable classpath is the Jedis jar plus its two transitive dependencies, `commons-pool2` and `slf4j-api`.
 
@@ -393,7 +393,7 @@ The demo only reclaims when you click the button. In production, run `reclaimStu
 
 ### Size `JedisPool` for your worker count
 
-`JedisPool` is thread-safe and connections are released back to the pool when the try-with-resources block exits. The demo bumps `maxTotal` to 32 to support the blocking `BRPOPLPUSH` call held by each worker plus the per-request connections used by the HTTP handlers. As a rule of thumb, `maxTotal` should be at least *workers + concurrent HTTP request threads + reclaimer threads + headroom*.
+`JedisPool` is thread-safe and connections are released back to the pool when the try-with-resources block exits. The demo bumps `maxTotal` to 32 to support the blocking `BLMOVE` call held by each worker plus the per-request connections used by the HTTP handlers. As a rule of thumb, `maxTotal` should be at least *workers + concurrent HTTP request threads + reclaimer threads + headroom*.
 
 ### Use a separate Redis database or key prefix per queue
 
@@ -433,7 +433,7 @@ redis-cli --scan --pattern 'queue:jobs-jedis:*' | xargs redis-cli DEL
 This example uses the following Redis commands:
 
 * [`LPUSH`](/content/commands/lpush.md) to enqueue a job ID.
-* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list.
+* [`BLMOVE`](/content/commands/blmove.md) to atomically claim a job into the processing list.
 * [`LREM`](/content/commands/lrem.md) to remove a job from the processing list on complete or fail.
 * [`LRANGE`](/content/commands/lrange.md) and [`LLEN`](/content/commands/llen.md) to read queue depth and list contents.
 * [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history.
