@@ -19,13 +19,11 @@ Select one of Maya's questions to see which parts of the stack answer it. Each q
 
 Every capability in Iris manages the same limited resource: the model's context window. Agent Playbooks returns an approved answer, or a skill preview the agent expands only when it needs the full procedure. Agent Memory decides what's worth keeping from a conversation. Context Gateway returns the result of one tool call instead of a raw query result, and holds large results as handles. Treat "what goes into the next model call" as a budget. Manage it actively. It doesn't take care of itself once a request reaches Iris.
 
-These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: Intent Router to choose the agent, tool, or workflow that handles the message, [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) for published answers and procedures, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) for tool calls to your business data and other systems.
+These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: [Intent Router]({{< relref "/develop/ai/context-engine/intent-router" >}}) to choose the agent, tool, or workflow that handles the message, [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbooks" >}}) for published answers and procedures, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) for tool calls to your business data and other systems.
 
 Context Gateway gives the agent one Model Context Protocol (MCP) endpoint for every tool it's allowed to call. Behind that endpoint are the Gateway's Upstreams: MCP servers you register, and Context Surfaces that generate search tools from a data model over your Redis data. The agent never connects to those systems directly. It calls a tool through the Gateway, and the Gateway sends the call to the Upstream that serves it. In search mode, the agent finds tools with `search_tools` and runs them with `run_tool`, instead of loading every tool into its context.
 
-[Lens]({{< relref "/develop/ai/context-engine/lens" >}}) traces each of these steps, and Agent Mesh keeps the response stream resumable if the client disconnects. Neither supplies context to the model call, so they work alongside every request rather than answering it.
-<!-- TODO: link Intent Router to /develop/ai/context-engine/intent-router when intent-router-docs-align merges into iris-ga-docs. -->
-<!-- TODO: link Agent Mesh to /develop/ai/context-engine/agent-mesh when codex/agent-mesh-preview-docs merges into iris-ga-docs. -->
+[Lens]({{< relref "/develop/ai/context-engine/lens" >}}) traces each of these steps, and [Agent Mesh]({{< relref "/develop/ai/context-engine/agent-mesh" >}}) keeps the response stream resumable if the client disconnects. Neither supplies context to the model call, so they work alongside every request rather than answering it.
 
 ## Two things Iris changes
 
@@ -35,7 +33,7 @@ Context Gateway gives the agent one Model Context Protocol (MCP) endpoint for ev
 
 ## Next steps
 
-- [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbook/concepts" >}})
+- [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbooks/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Gateway concepts]({{< relref "/develop/ai/context-engine/context-gateway/concepts" >}})
 - An [interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) of Agent Memory that runs in your browser

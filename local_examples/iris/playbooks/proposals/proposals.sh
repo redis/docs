@@ -3,7 +3,7 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
@@ -12,12 +12,11 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-proposal-inbox
 CURSOR=''
 while true; do
-  PAGE_ARGS=(--data-urlencode view=inbox --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
+  PAGE_ARGS=(--data-urlencode view=INBOX --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > inbox.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' inbox.json; fi
-  jq '.proposals[] | {proposalId, status, evidenceCount, action}' inbox.json
+  jq '.items[] | {proposalId, state, evidenceCount, action}' inbox.json
   CURSOR=$(jq -r '.nextCursor // empty' inbox.json)
   [[ -n "$CURSOR" ]] || break
 done
@@ -28,13 +27,13 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/search" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data '{"query":"Contact support about a missing refund","minimumScore":0.7,"actionType":"add","entryType":"faq","limit":5}' \
-  | jq '.matches[] | {proposalId: .proposal.proposalId, score, action: .proposal.action}'
+  --data '{"query":"Contact support about a missing refund","minScore":0.7,"actionType":"ADD","entryKind":"FAQ","limit":5}' \
+  | jq '.items[] | {proposalId: .proposal.proposalId, score, action: .proposal.action}'
 # STEP_END
 
 # STEP_START playbook-proposal-create
 cat > proposal.json <<'JSON'
-{"source":{"type":"document","reference":{"documentId":"sample-refund-policy"}},
+{"source":{"kind":"document","reference":{"documentId":"sample-refund-policy"}},
 "action":{"add":{
   "target":{"newEntry":{}},
   "candidate":{"content":{
@@ -52,7 +51,7 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @proposal.json > proposal-created.json
 PROPOSAL_ID=$(jq -er '.proposalId' proposal-created.json)
-jq '{proposalId, proposalRevision}' proposal-created.json
+jq '{proposalId, revision}' proposal-created.json
 # STEP_END
 
 # STEP_START playbook-proposal-evidence
@@ -61,7 +60,7 @@ jq -n --arg observedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
   observedAt: $observedAt,
   producer: {name: "docs-example", promptVersion: "refund-review-v1"},
   source: {
-    type: "document",
+    kind: "document",
     reference: {documentId: "sample-refund-policy"},
     content: {excerpt: "For refund inquiries, collect the order number and request date. Do not request full card details."}
   }
@@ -80,16 +79,16 @@ jq . reviewed.json
 # STEP_END
 
 # STEP_START playbook-proposal-replace
-jq --argjson revision "$(jq -er '.proposalRevision' reviewed.json)" '
+jq --argjson revision "$(jq -er '.revision' reviewed.json)" '
   {action} |
   .action.add.candidate.content.payload.faq.answer += " Do not send full card details." |
-  .expectedProposalRevision = $revision
+  .expectedRevision = $revision
 ' reviewed.json > proposal-update.json
 curl --fail-with-body --silent --show-error \
   -X PATCH "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @proposal-update.json > revised.json
-jq '{proposalRevision, action}' revised.json
+jq '{revision, action}' revised.json
 # STEP_END
 
 # STEP_START playbook-proposal-trash
@@ -97,10 +96,10 @@ curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data "$(jq '{expectedProposalRevision: .proposalRevision}' revised.json)" | jq .status
+  --data "$(jq '{expectedRevision: .revision}' revised.json)" | jq .state
 curl --fail-with-body --silent --show-error \
   -X DELETE "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .status
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .state
 # To purge instead of restoring, DELETE /proposals/$PROPOSAL_ID.
 # STEP_END
 
@@ -108,7 +107,7 @@ curl --fail-with-body --silent --show-error \
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" > final-review.json
-jq '{action, evidence, proposalRevision}' final-review.json
+jq '{action, evidence, revision}' final-review.json
 # STEP_END
 
 # STEP_START playbook-proposal-accept
@@ -116,7 +115,7 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/$PROPOSAL_ID/acceptance" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data "$(jq '{expectedProposalRevision: .proposalRevision}' final-review.json)" > accepted.json
+  --data "$(jq '{expectedRevision: .revision}' final-review.json)" > accepted.json
 ACCEPTED_FAQ_ID=$(jq -er '.result.versionCreated.entryId' accepted.json)
 ACCEPTED_VERSION=$(jq -er '.result.versionCreated.version' accepted.json)
 curl --fail-with-body --silent --show-error \
@@ -136,12 +135,11 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-proposal-history
 CURSOR=''
 while true; do
-  PAGE_ARGS=(--data-urlencode view=trash --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
+  PAGE_ARGS=(--data-urlencode view=TRASH --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > trash.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' trash.json; fi
-  jq '.proposals[] | {proposalId, status, evidenceCount, action}' trash.json
+  jq '.items[] | {proposalId, state, evidenceCount, action}' trash.json
   CURSOR=$(jq -r '.nextCursor // empty' trash.json)
   [[ -n "$CURSOR" ]] || break
 done

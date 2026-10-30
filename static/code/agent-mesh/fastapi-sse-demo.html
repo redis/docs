@@ -141,7 +141,7 @@
     });
     current.addEventListener("stream.gap", () => {
       if (source !== current) return;
-      showError(new Error("Some updates were trimmed. Start a new demo run."));
+      showError(new Error("Some updates are missing. Start a new demo run."));
       ui.status.textContent = "History incomplete";
       ui.reconnect.disabled = true;
     });

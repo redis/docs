@@ -3,7 +3,7 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
@@ -11,7 +11,7 @@ curl --fail-with-body --silent --show-error \
 
 # STEP_START playbook-retrieval-discover
 curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/discover" \
+  -X POST "$PLAYBOOK_API/entries/discover" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Draft a reply for a customer whose refund shows Processing","limit":5}' | jq .
@@ -19,7 +19,7 @@ curl --fail-with-body --silent --show-error \
 
 # STEP_START playbook-retrieval-pin
 curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/discover" \
+  -X POST "$PLAYBOOK_API/entries/discover" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq -n --arg id "$PLAYBOOK_SKILL_ID" '{query: "Draft a reply for a customer whose refund shows Processing", pinnedEntries: [{entryId: $id}], limit: 5}')" > discovery.json
@@ -61,7 +61,7 @@ curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/faqs/search" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
-  --data '{"query":"Where is my refund?","minimumScore":0.75,"limit":3}' | jq .matches
+  --data '{"query":"Where is my refund?","minScore":0.75,"limit":3}' | jq .items
 # STEP_END
 
 # STEP_START playbook-retrieval-filter

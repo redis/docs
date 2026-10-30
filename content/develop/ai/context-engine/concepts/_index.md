@@ -50,12 +50,11 @@ Most requests touch Redis Iris at two points:
 
 Iris draws on whichever of its capabilities the request needs, before the model call:
 
-- **Intent routing.** Intent Router compares the message with your intents' example phrasings and returns the closest intents, each with a score and a target. Your application decides whether and how to dispatch to the target.
-- **Playbook discovery.** [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbook" >}}) matches the agent's task against published entries by semantic similarity. A FAQ returns its full answer. A skill returns a preview, and the agent loads the full instructions only if it needs them.
+- **Intent routing.** [Intent Router]({{< relref "/develop/ai/context-engine/intent-router" >}}) compares the message with your intents' example phrasings and returns the closest intents, each with a score and a target. Your application decides whether and how to dispatch to the target.
+- **Playbook discovery.** [Agent Playbooks]({{< relref "/develop/ai/context-engine/agent-playbooks" >}}) matches the agent's task against published entries by semantic similarity. A FAQ returns its full answer. A skill returns a preview, and the agent loads the full instructions only if it needs them.
 - **Memory recall.** [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) searches session and long-term memory for what's relevant to this conversation or user. You don't need to replay the full transcript to the model.
 - **Governed retrieval.** [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}) calls a tool from a Model Context Protocol (MCP) server or from a Context Surface generated from your data model, instead of running a raw query. For tools you opt in, the Gateway's result cache returns the stored result of an identical call until its time to live (TTL) expires.
 
-<!-- TODO: link Intent Router to /develop/ai/context-engine/intent-router when intent-router-docs-align merges into iris-ga-docs. -->
 
 ### 2. Recording the interaction (writing)
 
@@ -72,8 +71,7 @@ Extraction and proposals run in the background. They don't slow down the respons
 Two Iris services work alongside the request rather than supplying its context:
 
 - **[Lens]({{< relref "/develop/ai/context-engine/lens" >}})** traces each turn. It records what each source returned, what entered the prompt, and how long each step took. Agent Memory, Agent Playbooks, and Context Gateway calls appear in the trace with no extra code.
-- **Agent Mesh** keeps a long agent response deliverable when the client disconnects. It retains the response's events in Redis, so the client reconnects with its last cursor and receives the updates it missed.
-<!-- TODO: link Agent Mesh to /develop/ai/context-engine/agent-mesh when codex/agent-mesh-preview-docs merges into iris-ga-docs. -->
+- **[Agent Mesh]({{< relref "/develop/ai/context-engine/agent-mesh" >}})** keeps a long agent response deliverable when the client disconnects. It retains the response's events in Redis, so the client reconnects with its last cursor and receives the updates it missed.
 
 ## Where context lives
 
@@ -104,7 +102,7 @@ Start small and stay in control of growth. On Redis Cloud, Agent Memory's Quick 
 ## Next steps
 
 - [How a request flows through Redis Iris]({{< relref "/develop/ai/context-engine/concepts/request-flow" >}})
-- [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbook/concepts" >}})
+- [Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbooks/concepts" >}})
 - [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Gateway concepts]({{< relref "/develop/ai/context-engine/context-gateway/concepts" >}})
 - [Lens concepts]({{< relref "/develop/ai/context-engine/lens/concepts" >}})

@@ -65,7 +65,7 @@ async def main():
             if not state["context"]:
                 return {"reply": state["reply"]}
             transport = StreamableHttpTransport(
-                f"{url}/v1/playbooks/{playbook_id}/mcp",
+                f"{url}/iris/data/v1/agent-playbooks/playbooks/{playbook_id}/mcp",
                 headers={"Authorization": f"Bearer {api_key}"},
             )
             async with MCPAdapter(transport) as mcp:

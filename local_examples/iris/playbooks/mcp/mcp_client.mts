@@ -17,7 +17,7 @@ function readResult(value: Awaited<ReturnType<Client["callTool"]>>) {
   if (!text || text.type !== "text") throw new Error("Playbook tool returned no JSON text.");
   return JSON.parse(text.text);
 }
-const url = `${requiredEnv("PLAYBOOK_URL").replace(/\/+$/, "")}/v1/playbooks/${requiredEnv("PLAYBOOK_ID")}/mcp`;
+const url = `${requiredEnv("PLAYBOOK_URL").replace(/\/+$/, "")}/iris/data/v1/agent-playbooks/playbooks/${requiredEnv("PLAYBOOK_ID")}/mcp`;
 const client = new Client({ name: "playbook-example", version: "1.0.0" });
 const transport = new StreamableHTTPClientTransport(new URL(url), {
   requestInit: { headers: { Authorization: `Bearer ${requiredEnv("PLAYBOOK_API_KEY")}` } },

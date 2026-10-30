@@ -51,7 +51,7 @@ async function main() {
       prefixToolNameWithServerName: false,
       servers: {
         playbook: {
-          url: `${url}/v1/playbooks/${playbookId}/mcp`,
+          url: `${url}/iris/data/v1/agent-playbooks/playbooks/${playbookId}/mcp`,
           headers: { Authorization: `Bearer ${apiKey}` },
         },
       },

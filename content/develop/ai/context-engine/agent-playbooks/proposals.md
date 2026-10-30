@@ -34,7 +34,7 @@ For this walkthrough, give `PLAYBOOK_API_KEY` all three permissions and follow t
 
 A key with `read` permission can list, search, and inspect proposals. The inbox contains candidates awaiting review and any acceptance still in progress. Only open candidates can be edited.
 
-For software development kit (SDK) and cURL lists, follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged; an absent `total` means unknown. The command-line interface (CLI) follows cursors automatically. Use `--page` for one page with `items` and `nextCursor`, then `--cursor` to continue.
+For software development kit (SDK) and cURL lists, follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged. Responses return `items` and `nextCursor` and don't include a total count. The command-line interface (CLI) follows cursors automatically. Use `--page` for one page with `items` and `nextCursor`, then `--cursor` to continue.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-inbox" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -46,7 +46,7 @@ Search before submitting another candidate. Compare similar questions to decide 
 
 Write a self-contained question and answer. Add intents for the task and attributes for its audience, then call `create_proposal` with an `add` action targeting `newEntry`. You can supply an entry key for the resulting FAQ and immutable source context that a reviewer can check.
 
-Save the proposal identifier and `proposalRevision`. Use the revision to identify the candidate you edit or accept.
+Save the proposal identifier and `revision`. Use the revision to identify the candidate you edit or accept.
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -54,7 +54,7 @@ The CLI takes a flat FAQ candidate file and a separate source file in JavaScript
 
 ### Handle an existing candidate
 
-If creation or replacement returns `409` with type `/errors/proposal-already-exists`, read the existing proposal. Python exposes its identifier as `error.data.existing_proposal_id` on `PlaybookConflictErrorResponseContent`.
+If creation or replacement returns `409` with type `/errors/proposal-already-exists`, read the existing proposal. The error body names it in `existingId`; Python exposes it as `error.data.existing_id` on `ConflictErrorResponseContent`.
 
 If the open candidate addresses the same need, [attach evidence]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals#attach-evidence" >}}) to it rather than creating another suggestion. Review its current revision before editing or accepting it.
 
@@ -71,7 +71,7 @@ Use `submit_proposal_evidence` to add another observation to an open proposal. F
 
 Include a supporting passage and a reference the reviewer can check. Redis Agent Playbooks does not independently verify caller-supplied attribution. An evidence count measures observations, not correctness or independent users.
 
-Evidence is immutable. Retrying the same identifier and payload returns `alreadyPresent`. Reusing that identifier for changed content returns a conflict. Use a new identifier for a new observation.
+Evidence is immutable. Retrying the same identifier and payload returns the disposition `ALREADY_PRESENT`; new evidence returns `ADDED`. Reusing that identifier for changed content returns a conflict. Use a new identifier for a new observation.
 
 The creation source explains the first suggestion and does not increase `evidenceCount`. Attached evidence stays with the proposal; acceptance does not copy it into the FAQ. Check [evidence limits]({{< relref "/develop/ai/context-engine/agent-playbooks/limits#proposal-and-evidence-limits" >}}) before attaching large passages.
 
@@ -84,7 +84,7 @@ This example attaches a policy excerpt. The cURL and CLI tabs use `openssl` to g
 1. Retrieve the complete proposal and its evidence with `get_proposal`.
 1. Check that the sources support the answer, its conditions, and its intended audience.
 1. Check for sensitive or conversation-specific details that should not become reusable guidance.
-1. Replace the candidate with `replace_proposal` if it needs changes. Supply the complete action and `expectedProposalRevision` for the revision you read.
+1. Replace the candidate with `replace_proposal` if it needs changes. Supply the complete action and `expectedRevision` for the revision you read.
 1. Review the returned candidate and record its new revision.
 
 Editing preserves evidence. If another reviewer changes the candidate, the revision check fails; review the current answer before trying again.
@@ -111,7 +111,7 @@ Test dismissal and restoration before accepting the sample. Purging instead ends
 
 Call `accept_proposal` with the revision you reviewed. Acceptance creates one unpublished FAQ. Use the entry identifier and version in `result.versionCreated` to read that FAQ, then [publish the reviewed version]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#publish-a-version" >}}) with a key that has `publish` permission.
 
-A proposal being accepted (`promoting`) or already accepted (`promoted`) cannot be edited. If acceptance is interrupted, retry it rather than creating another FAQ. The returned receipt is historical: it does not contain the answer or confirm that the FAQ still exists. Inspect the FAQ before acting on a retried result.
+A proposal being accepted (state `PROMOTING`) or already accepted (`PROMOTED`) cannot be edited. If acceptance is interrupted, retry it rather than creating another FAQ. The returned receipt is historical: it does not contain the answer or confirm that the FAQ still exists. Inspect the FAQ before acting on a retried result.
 
 If your client cannot recognize the result type, inspect the result or upgrade the client before publishing.
 

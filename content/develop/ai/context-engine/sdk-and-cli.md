@@ -64,8 +64,9 @@ For every command, see the [redis-iris CLI reference](https://github.com/redis/r
 
 On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris services follow the same steps with their own console pages and `IRIS_<SERVICE>_*` variables.
 
-1. In the Redis Cloud console, go to **Iris AI** > **Agent Playbooks** > **New playbook**. Choose a name, database, and embedding model, then select **Create Playbook**.
-1. On the playbook's **Connect** tab, copy the **Agent endpoint** and the **Playbook ID**. Select **Create agent API key** > **Create key**, and copy the key. It's shown only once.
+1. In the Redis Cloud console, select **Agent Playbooks** under **Iris** in the menu, then select **New playbook**. Choose a name, database, and embedding model, then select **Create Playbook**.
+1. On the playbook's **Settings** tab, in the **General settings** section, copy the **Playbook ID** and the **Agent endpoint** for your region.
+1. In the **Manage API keys** section, select **Manage API keys**. The console opens **Access & Identity**. Create an API key with access to the playbook, grant it `read`, and copy the key. The console shows it only once.
 1. Save the values in a `.env` file:
 
     ```bash

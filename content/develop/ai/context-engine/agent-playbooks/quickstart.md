@@ -42,7 +42,7 @@ jq --version
 
 ## Save connection values
 
-Export these values in the shell where you run the examples. Use the endpoint's base address, including `https://`, without the `/v1/playbooks/...` path.
+Export these values in the shell where you run the examples. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-playbooks/...` path.
 
 ```bash
 export PLAYBOOK_URL='<data-plane-endpoint>'

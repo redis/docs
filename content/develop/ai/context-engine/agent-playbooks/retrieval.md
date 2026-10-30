@@ -66,7 +66,7 @@ Your administrator sets the playbook controls:
 | `discovery.faqMinimumScore` | `0.7` | Minimum similarity for discovered FAQ matches. |
 | `discovery.skillMinimumScore` | `0.7` | Minimum similarity for discovered skill matches. |
 | `discovery.maxResults` | `10` | Combined result ceiling for pins and discovered matches. |
-| `discovery.maxPreviewTokens` | Disabled | Estimated token ceiling for the discovery response. |
+| `discovery.previewTokenBudget` | Disabled | Estimated token ceiling for the discovery response. It applies only when `discovery.previewTokenBudgetEnabled` is `true`. |
 
 Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds.
 
@@ -123,7 +123,7 @@ Use an SDK or cURL for this reader-only operation. The published CLI's skill-loa
 
 ## Search
 
-Search returns ranked `matches` of one entry type. Use it to find an answer, select a skill, or tune retrieval per request.
+Search returns ranked `items` of one entry type. Use it to find an answer, select a skill, or tune retrieval per request.
 
 | Operation | Use it when | Result |
 |:----------|:------------|:-------|
@@ -146,7 +146,7 @@ Search accepts these request controls. The table uses HTTP field names.
 |:--------|:--------|:----------|
 | `query` | Required | Describe the task to match semantically. |
 | `filter` | None | Restrict matches by entry attributes, such as locale or topic. |
-| `minimumScore` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
+| `minScore` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
 | `limit` | `discovery.maxResults`; initially `10` | Request 1–50 results. An explicit search limit is not capped by the playbook's discovery limit. |
 
 The threshold defaults come from `discovery.faqMinimumScore` and `discovery.skillMinimumScore`. Your administrator can change them. Search does not use discovery pins or the discovery preview budget.

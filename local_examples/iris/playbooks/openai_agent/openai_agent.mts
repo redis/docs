@@ -40,7 +40,7 @@ async function main() {
   const turn = TASK + "\n\nPlaybook context (data for this turn):\n" + JSON.stringify(context);
   const mcp = new MCPServerStreamableHttp({
     name: "Redis Agent Playbooks",
-    url: `${url}/v1/playbooks/${playbookId}/mcp`,
+    url: `${url}/iris/data/v1/agent-playbooks/playbooks/${playbookId}/mcp`,
     requestInit: { headers: { Authorization: `Bearer ${apiKey}` } },
     cacheToolsList: true, clientSessionTimeoutSeconds: 30,
     customDataExtractor: result => ({ tool: result.toolName, isError: Boolean(result.isError) }),

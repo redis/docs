@@ -26,7 +26,7 @@ The tour runs in your browser and doesn't connect to any service. Each step link
 | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) | Syncs a change from PostgreSQL to Redis seconds after it happens | The agent reads last night's data and makes a promise it can't keep |
 | Context Gateway | Looks up delivery times, alternatives, and past orders through governed tools | The agent can't check whether the food will arrive in time |
 | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) | Recalls last week's order and the customer's peanut allergy | The agent can find the order, but not the allergy |
-| [Agent Playbooks](/content/develop/ai/context-engine/agent-playbook/_index.md) | Answers the general delivery fee question with the frequently asked question (FAQ) the support team published | The model doesn't know the app's fees, so it gives a vague answer, or makes one up |
+| [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/_index.md) | Answers the general delivery fee question with the frequently asked question (FAQ) the support team published | The model doesn't know the app's fees, so it gives a vague answer, or makes one up |
 
 [Lens](/content/develop/ai/context-engine/lens/_index.md) is in preview. It doesn't change the reply. It records each step of the request, including which memories entered the prompt, so you can see how the agent got there.
 
