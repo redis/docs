@@ -73,7 +73,7 @@ Follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quick
 
 ## Get started with Context Gateway
 
-Context Gateway is available for self-managed deployment on Kubernetes. See [Self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/_index.md), then [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md).
+Context Gateway is available for self-managed deployment on Kubernetes. See [Self-managed Context Gateway](/content/operate/iris/self-managed/context-gateway/_index.md), then [create a Gateway and an agent key](/content/operate/iris/self-managed/context-gateway/api-examples.md).
 
 You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 

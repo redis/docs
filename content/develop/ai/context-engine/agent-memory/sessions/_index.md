@@ -50,7 +50,7 @@ curl --fail-with-body --silent --show-error --request POST \
 
 Send each new message once, using the same session ID throughout the conversation.
 
-The session's `ownerId` comes from the first event's `actorId` and is returned when you retrieve the session. In on-prem deployments with [server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement), the first event's `actorId` must match the authenticated user ID.
+The session's `ownerId` comes from the first event's `actorId` and is returned when you retrieve the session. In on-prem deployments with [server-side ownership enforcement](/content/operate/iris/self-managed/agent-memory/authentication.md#server-side-ownership-enforcement), the first event's `actorId` must match the authenticated user ID.
 
 ## Retrieve conversation context
 
@@ -110,7 +110,7 @@ The session-memory time to live (TTL) controls how long sessions remain availabl
 
 In the Redis Cloud console, open your service's **Configuration** tab and select **Edit**. Set **Short-term TTL** under **Memory configuration**.
 
-See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the session-memory TTL in Redis Cloud.
+See [memory configuration]({{< relref "/operate/iris/cloud/agent-memory/create-service#memory-configuration" >}}) to configure the session-memory TTL in Redis Cloud.
 
 ## Configure automatic summarization
 
@@ -123,7 +123,7 @@ In the Redis Cloud console, open your service's **Configuration** tab and select
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, Redis Agent Memory summarizes the older 10 messages when the session reaches 20 messages and retains the 10 most recent messages in full.
 
-See [automatic summarization]({{< relref "/operate/iris/agent-memory/create-service#automatic-summarization" >}}) to enable summarization and configure both thresholds in Redis Cloud.
+See [automatic summarization]({{< relref "/operate/iris/cloud/agent-memory/create-service#automatic-summarization" >}}) to enable summarization and configure both thresholds in Redis Cloud.
 
 For an example that combines session events with long-term recall, follow the [developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}). For complete schemas, see the [session-memory application programming interface (API) reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/GetSessionMemory).
 

@@ -15,7 +15,7 @@ aliases:
 
 Namespace routing selects a shared namespace for an eligible memory. Admission rules check whether a memory can enter a destination. Use routing to organize shared memories by content, and admission rules to reject content that does not belong in a namespace.
 
-The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. Namespace routing is available in Redis Cloud and enabled in self-managed deployments. Configure a policy to use it for a store. For self-managed process settings, see [Configure namespace routing](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-namespace-routing).
+The policy applies to one store. It targets existing shared namespace resources, using their stable `namespaceId` values. It does not create namespaces or change access permissions. Namespace routing is available in Redis Cloud and enabled in self-managed deployments. Configure a policy to use it for a store. For self-managed process settings, see [Configure namespace routing](/content/operate/iris/self-managed/agent-memory/configuration.md#enable-namespace-routing).
 
 ## Understand placement and admission
 

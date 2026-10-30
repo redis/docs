@@ -15,7 +15,7 @@ Use the Control Plane to create Gateways, register their Upstreams, and decide h
 
 ## Before you begin
 
-These tasks need the Control Plane URL and the admin token, which a platform team holds. See [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md). The admin token manages every Gateway in the deployment, so keep it out of agent and application configuration.
+These tasks need the Control Plane URL and the admin token, which a platform team holds. See [Authentication and authorization](/content/operate/iris/self-managed/context-gateway/authentication.md). The admin token manages every Gateway in the deployment, so keep it out of agent and application configuration.
 
 Export these values in the shell where you run the examples:
 
@@ -48,7 +48,7 @@ Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, i
 
 ### Turn the result cache and result handles on or off
 
-Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/context-gateway/self-managed/configuration.md#result-cache-and-result-handles).
+Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Result cache and result handles](/content/operate/iris/self-managed/context-gateway/configuration.md#result-cache-and-result-handles).
 
 ```json
 {"revision": "<revision>", "cache": "enabled", "compression": "disabled"}
@@ -122,4 +122,4 @@ Delete an Upstream at its current revision. A Gateway can be deleted only when i
 
 A delete marks the Upstream first, then cleans up. If a delete stops after the mark, for example on a timeout, repeat it with the Upstream ID to finish.
 
-Revoke the agent keys for a deleted Gateway. See [Operations](/content/operate/iris/context-gateway/self-managed/operations.md#rotate-credentials).
+Revoke the agent keys for a deleted Gateway. See [Operations](/content/operate/iris/self-managed/context-gateway/operations.md#rotate-credentials).

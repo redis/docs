@@ -17,7 +17,7 @@ A Context Surface is an Upstream that serves the records of a Redis database as 
 
 These tasks need the Control Plane URL and the admin token. The examples use Python, cURL, and the Iris command-line interface (CLI). Export them as shown in [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#before-you-begin).
 
-Your administrator registers the Redis database in the deployment's database registry under an ID, and gives the Control Plane and the Data Plane each a Redis user for it. See [Context Surface databases](/content/operate/iris/context-gateway/self-managed/configuration.md#context-surface-databases). You reference the database by that ID.
+Your administrator registers the Redis database in the deployment's database registry under an ID, and gives the Control Plane and the Data Plane each a Redis user for it. See [Context Surface databases](/content/operate/iris/self-managed/context-gateway/configuration.md#context-surface-databases). You reference the database by that ID.
 
 Read these limits before you create a Surface:
 

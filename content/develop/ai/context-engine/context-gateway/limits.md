@@ -13,7 +13,7 @@ weight: 90
 
 Check these limits and error types when you handle a failed request or a tool result that did not come from the Upstream. Confirm deployment settings with your administrator.
 
-The [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) defines the Model Context Protocol (MCP) tools and their arguments. The [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) defines Control Plane field formats.
+The [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) defines the Model Context Protocol (MCP) tools and their arguments. The [Control Plane API reference](/content/operate/iris/self-managed/context-gateway/control-plane-api-reference.md) defines Control Plane field formats.
 
 ## Tool and result limits
 

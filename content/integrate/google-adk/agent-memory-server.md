@@ -30,7 +30,7 @@ weight: 6
 > [Redis Agent Memory](/content/integrate/google-adk/redis-agent-memory.md)
 > with `backend="redis-agent-memory"`, on
 > [Redis Cloud](/content/operate/rc/context-engine/agent-memory/_index.md) or
-> [self-managed](/content/operate/iris/agent-memory/self-managed/_index.md)
+> [self-managed](/content/operate/iris/self-managed/agent-memory/_index.md)
 > on your own Kubernetes cluster.
 >
 > This page exists only to help existing deployments migrate.
@@ -62,8 +62,8 @@ for the server's own setup and reference material.
 ## Migrate to Redis Agent Memory
 
 1. Provision a Redis Agent Memory store, on
-   [Redis Cloud](/content/operate/iris/agent-memory/create-service.md)
-   or [self-managed](/content/operate/iris/agent-memory/self-managed/_index.md).
+   [Redis Cloud](/content/operate/iris/cloud/agent-memory/create-service.md)
+   or [self-managed](/content/operate/iris/self-managed/agent-memory/_index.md).
    Either gives you a Data Plane endpoint, an API key, and a store ID.
 2. Change `backend` from `opensource-agent-memory` to `redis-agent-memory` on
    every service and tool config, or drop the field, since it is the default.
@@ -118,5 +118,5 @@ switches backends with `REDIS_MEMORY_BACKEND`, so it already runs on
 ## More info
 
 - [Redis Agent Memory](/content/integrate/google-adk/redis-agent-memory.md): the supported backend
-- [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md): run Agent Memory on your own Kubernetes cluster
+- [Self-managed Agent Memory](/content/operate/iris/self-managed/agent-memory/_index.md): run Agent Memory on your own Kubernetes cluster
 - [Agent Memory Server on GitHub](https://github.com/redis/agent-memory-server): the deprecated server's own documentation

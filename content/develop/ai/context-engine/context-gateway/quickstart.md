@@ -22,7 +22,7 @@ Get two Gateways over the sample clinic directory from your administrator, and o
 - A `full` mode Gateway, which lists every tool.
 - A `search` mode Gateway with a Gateway database, which lists `search_tools` and `run_tool` and holds large results as handles.
 
-For self-managed setup, [create the Gateways and the agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md).
+For self-managed setup, [create the Gateways and the agent key](/content/operate/iris/self-managed/context-gateway/api-examples.md).
 
 This walkthrough needs no agent framework or model-provider key.
 

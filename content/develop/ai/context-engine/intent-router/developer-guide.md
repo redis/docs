@@ -65,4 +65,4 @@ Every client raises an error that carries the HTTP status and the problem `type`
 * [Python and CLI package reference](https://pypi.org/project/redis-iris/)
 * [TypeScript client reference](https://www.npmjs.com/package/@redis-iris/intent-router)
 * [Data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md)
-* [Control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md)
+* [Control-plane API reference](/content/operate/iris/self-managed/intent-router/control-plane-api-reference.md)

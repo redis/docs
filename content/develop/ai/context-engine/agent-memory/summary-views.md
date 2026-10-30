@@ -19,9 +19,9 @@ Summary Views differ from [session summarization](/content/develop/ai/context-en
 
 ## Prepare the service and identity
 
-Summary Views are available in Redis Cloud and enabled in self-managed deployments. For self-managed model and capacity settings, see [Configure Summary Views](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-summary-views).
+Summary Views are available in Redis Cloud and enabled in self-managed deployments. For self-managed model and capacity settings, see [Configure Summary Views](/content/operate/iris/self-managed/agent-memory/configuration.md#enable-summary-views).
 
-The examples use a self-managed service with ownership enforcement and [delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, `USER_TOKEN`, and `OWNER_ID` as described there. `OWNER_ID` must match the verified user claim. Install the SDK through the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#install-the-sdk).
+The examples use a self-managed service with ownership enforcement and [delegated user identity](/content/operate/iris/self-managed/agent-memory/authentication.md#delegate-a-user-with-an-agent-key). Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, `USER_TOKEN`, and `OWNER_ID` as described there. `OWNER_ID` must match the verified user claim. Install the SDK through the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#install-the-sdk).
 
 The server assigns the definition's immutable `ownerId`. In on-prem deployments, creation requires an authenticated user ID even with enforcement off. A store credential without user identity cannot create a view by supplying an owner field.
 

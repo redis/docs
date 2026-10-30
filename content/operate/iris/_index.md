@@ -1,6 +1,6 @@
 ---
 title: Redis Iris context engine
-description: Deploy and operate Redis Iris context engine services.
+description: Run Redis Iris on Redis Cloud or on your own infrastructure, and provision its services with the iris CLI.
 linkTitle: Redis Iris context engine
 alwaysopen: false
 categories:
@@ -11,33 +11,15 @@ hideListLinks: true
 weight: 45
 ---
 
-Redis Iris context engine provides managed and self-managed services for building AI applications with persistent memory, semantic caching, and governed access to business data.
+Redis Iris runs as managed services on Redis Cloud or as a self-managed deployment on your own Kubernetes infrastructure. Your agents use the same `redis-iris` SDK and `IRIS_*` settings on either deployment.
 
-Use this section to deploy, configure, and operate Redis Iris services. Developer guides and API integration documentation remain under [Develop with Redis]({{< relref "/develop/ai/context-engine" >}}).
+Use this section to set up and operate Redis Iris. Developer guides and API references are under [Develop with Redis](/content/develop/ai/context-engine/_index.md).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Deploy one MCP endpoint for your agents' tools on your own infrastructure" url="/operate/iris/context-gateway" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Deploy a service that classifies requests into intents on your own infrastructure" url="/operate/iris/intent-router" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Iris on Redis Cloud" description="Create Iris services and their API keys in the Redis Cloud console" url="/operate/iris/cloud" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Self-managed Redis Iris" description="Deploy and operate Iris services on your own Kubernetes cluster" url="/operate/iris/self-managed" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Operate Iris with the CLI" description="Provision services, mint agent keys, and check each hop from a terminal" url="/operate/iris/cli" >}}
 </div>
-
-## Deployment options
-
-Redis Iris services are available as managed services on Redis Cloud. All Redis Iris services are also available for self-managed deployment.
-
-### Redis Cloud
-
-Create and manage Redis Iris services through the Redis Cloud console without deploying the supporting infrastructure yourself.
-
-- [Create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}})
-
-### Self-managed
-
-Deploy Redis Iris services on Kubernetes when you need to operate them on your own infrastructure.
-
-- [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
-- [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
-- [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
 
 ## Agent Mesh SDK beta
 

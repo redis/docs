@@ -11,7 +11,7 @@ title: Redis Context Gateway MCP API reference
 weight: 80
 ---
 
-Agents call Redis Context Gateway through its Model Context Protocol (MCP) endpoint, the Data Plane API. Platform teams manage Gateways and Upstreams through the [Control Plane API](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md).
+Agents call Redis Context Gateway through its Model Context Protocol (MCP) endpoint, the Data Plane API. Platform teams manage Gateways and Upstreams through the [Control Plane API](/content/operate/iris/self-managed/context-gateway/control-plane-api-reference.md).
 
 For how to connect, see [MCP](/content/develop/ai/context-engine/context-gateway/mcp.md). For limits and recovery, see [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md).
 

@@ -13,7 +13,7 @@ weight: 36
 
 ## Redis Cloud
 
-* [Redis Agent Memory on Redis Cloud](/content/operate/iris/agent-memory/_index.md)
+* [Redis Agent Memory on Redis Cloud](/content/operate/iris/cloud/agent-memory/_index.md)
   Store agent memory for AI applications in Redis Cloud.
 
 * [Semantic caching with LangCache on Redis Cloud](/content/operate/iris/langcache/_index.md)

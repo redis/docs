@@ -98,7 +98,7 @@ On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates servi
 
 On a self-managed deployment, the CLI creates services and keys with your operator tokens. Each token is the deployment's static admin token or an access token from your identity provider.
 
-The services deploy on Kubernetes from the shared Redis Helm repository, `https://helm.redis.io/ai`. See [deploy self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md) and [deploy self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md). For a complete project, see the [self-managed project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/onprem).
+The services deploy on Kubernetes from the shared Redis Helm repository, `https://helm.redis.io/ai`. See [deploy self-managed Agent Memory](/content/operate/iris/self-managed/agent-memory/deploy.md) and [deploy self-managed Context Gateway](/content/operate/iris/self-managed/context-gateway/deploy.md). For a complete project, see the [self-managed project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/onprem).
 
 1. Create `iris.toml` with a profile for your deployment. It holds URLs only:
 

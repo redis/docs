@@ -329,7 +329,7 @@ Production-ready agents include built-in reliability features:
 - Access controls: Implement proper authentication and authorization
 - Governed data access: Give agents defined tools instead of direct database access. [Context Gateway](/content/develop/ai/context-engine/context-gateway/concepts.md) serves these tools through one MCP endpoint, so agents never hold database or Upstream credentials.
 - Data retention: Automatic cleanup of personal data per regulations
-- Sensitive data in memory: Keep information such as payment card numbers out of long-term memory. Agent Memory [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) guide automatic extraction away from it
+- Sensitive data in memory: Keep information such as payment card numbers out of long-term memory. Agent Memory [sensitive-data exclusions](/content/operate/iris/cloud/agent-memory/create-service.md#sensitive-data-exclusions) guide automatic extraction away from it
 - Audit logging: Track all data access and modifications
 - Memory integrity: Validate content before it is written to agent memory and verify protected records on read. Memory written from tool results, web pages, or other agents can carry instructions that are replayed into later prompts ([OWASP Top 10 for Agentic Applications, ASI06](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/); [MITRE ATLAS AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000)). [OWASP Agent Memory Guard](https://github.com/OWASP/www-project-agent-memory-guard) is an open-source guard for this with adapters for LangChain, OpenAI Agents SDK, AutoGen, CrewAI, and mem0
 

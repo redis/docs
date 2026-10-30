@@ -15,7 +15,7 @@ Intent Router classifies each incoming user message by intent, so your applicati
 
 ## Before you begin
 
-You need a Router in the `READY` state and an agent key with `write` access to it. `write` includes `read`. To create a Router yourself, see [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md). Platform teams mint agent keys as shown in [Create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
+You need a Router in the `READY` state and an agent key with `write` access to it. `write` includes `read`. To create a Router yourself, see [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md). Platform teams mint agent keys as shown in [Create a Router and an agent key](/content/operate/iris/self-managed/intent-router/api-examples.md).
 
 This walkthrough needs no agent framework or model-provider key.
 

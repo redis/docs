@@ -80,7 +80,7 @@ The SDK examples read `API_KEY` from your environment; replace `<ENDPOINT>` and 
 
 The endpoint must include `https://`. Keep the API key out of source control, application logs, and other unsecured locations.
 
-For a self-managed service with ownership enforcement, use the authenticated client setup in [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and set `OWNER_ID` to the verified user ID before using these examples.
+For a self-managed service with ownership enforcement, use the authenticated client setup in [Delegate a user with an agent key](/content/operate/iris/self-managed/agent-memory/authentication.md#delegate-a-user-with-an-agent-key) and set `OWNER_ID` to the verified user ID before using these examples.
 
 ## Install the SDK
 
@@ -228,7 +228,7 @@ Run the search and inspect `items`. Extraction is asynchronous, so run the searc
 > [!NOTE]
 > **What to expect:** Results similar to `User is a vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.
 
-The extracted memory remains searchable after the session expires, subject to the long-term memory time to live (TTL). You can change the extraction cadence and both TTLs in the [Redis Agent Memory service configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}).
+The extracted memory remains searchable after the session expires, subject to the long-term memory time to live (TTL). You can change the extraction cadence and both TTLs in the [Redis Agent Memory service configuration]({{< relref "/operate/iris/cloud/agent-memory/create-service#memory-configuration" >}}).
 
 ## Next steps
 

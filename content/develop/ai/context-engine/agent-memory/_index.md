@@ -104,12 +104,12 @@ Get started with Redis Agent Memory on Redis Cloud or deploy it with Redis Softw
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Cloud</h3>
     <p>Create a managed Redis Agent Memory service and make your first requests.</p>
-    <p><a href="{{< relref "/operate/iris/agent-memory/create-service" >}}">Open the Redis Cloud setup guide</a></p>
+    <p><a href="{{< relref "/operate/iris/cloud/agent-memory/create-service" >}}">Open the Redis Cloud setup guide</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software</h3>
     <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
-    <p><a href="{{< relref "/operate/iris/agent-memory/self-managed" >}}">Open the self-managed deployment guide</a></p>
+    <p><a href="{{< relref "/operate/iris/self-managed/agent-memory" >}}">Open the self-managed deployment guide</a></p>
   </div>
 </div>
 

@@ -24,7 +24,7 @@ Redis Agent Memory provides two ways to create memories:
 
 Configure the long-term-memory time to live (TTL) separately from the session-memory TTL.
 
-See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
+See [memory configuration]({{< relref "/operate/iris/cloud/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
 
 ## Memory fields
 
@@ -421,7 +421,7 @@ JSON
 
 Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating an eligible record with the same `id` again replaces that record. Access checks and protection for document-managed records still apply.
 
-See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
+See [custom memory types]({{< relref "/operate/iris/cloud/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
 ## Test semantic exclusions
 
@@ -554,4 +554,4 @@ JSON
 > [!WARNING]
 > Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Exclusions do not apply to directly created long-term memories.
 
-See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) for configuration details.
+See [sensitive-data exclusions]({{< relref "/operate/iris/cloud/agent-memory/create-service#sensitive-data-exclusions" >}}) for configuration details.

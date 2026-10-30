@@ -83,8 +83,8 @@ Services available on cloud or self-managed infrastructure for AI applications. 
       </div>
       <ol class="flex flex-wrap items-center gap-x-2 gap-y-2 list-none m-0 px-6 py-4 text-sm text-redis-pen-600 font-geist">
         <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris" >}}">Overview</a><span aria-hidden="true">→</span></li>
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/agent-memory" >}}">Enable Agent Memory</a><span aria-hidden="true">→</span></li>
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/context-gateway" >}}">Deploy Context Gateway</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/cloud/agent-memory" >}}">Enable Agent Memory</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/self-managed/context-gateway" >}}">Deploy Context Gateway</a><span aria-hidden="true">→</span></li>
         <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/langcache" >}}">Enable LangCache</a></li>
       </ol>
     </div>

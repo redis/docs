@@ -31,8 +31,8 @@ not by changing `backend`:
 
 | Deployment | `api_base_url` | Setup |
 |------------|----------------|-------|
-| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service](/content/operate/iris/agent-memory/create-service.md) |
-| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md) |
+| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service](/content/operate/iris/cloud/agent-memory/create-service.md) |
+| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory](/content/operate/iris/self-managed/agent-memory/_index.md) |
 
 > [!NOTE]
 > Running Agent Memory yourself does not mean using the deprecated
@@ -248,6 +248,6 @@ Redis Cloud or self-managed; use the REST tools above.
 - [Integration patterns](/content/integrate/google-adk/integration-patterns.md): Detailed tradeoff comparison of the approaches
 - [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services, no Docker
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md): run Agent Memory on your own Kubernetes cluster
+- [Self-managed Agent Memory](/content/operate/iris/self-managed/agent-memory/_index.md): run Agent Memory on your own Kubernetes cluster
 - [Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md): existing deployments and migration
 

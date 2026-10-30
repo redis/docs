@@ -22,7 +22,7 @@ weight: 10
 
 ### Redis Iris (Context Engine)
 
-- Added self-managed deployment documentation for all four Redis Iris services: [LangCache](/content/operate/iris/langcache/self-managed/_index.md), [Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md), Context Retriever, and [Data Integration](/content/integrate/redis-data-integration/_index.md)
+- Added self-managed deployment documentation for all four Redis Iris services: [LangCache](/content/operate/iris/langcache/self-managed/_index.md), [Agent Memory](/content/operate/iris/self-managed/agent-memory/_index.md), Context Retriever, and [Data Integration](/content/integrate/redis-data-integration/_index.md)
 - Updated [LangCache](/content/develop/ai/context-engine/langcache/_index.md), [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), Context Retriever, and [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) quickstarts with fully managed and self-managed deployment paths
 - Added [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) explaining how agents get context from Redis Iris
 - Added new [AI agent builder](/content/develop/ai/agent-builder/_index.md) templates for knowledge assistants (RAG) and Redis Iris conversational assistants

@@ -42,7 +42,7 @@ Every client requires:
 
 The Python package and the CLI read both from `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY`. When you use HTTP, send the key as a bearer token on every request.
 
-Ask your platform team for these values, or [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md) on a self-managed deployment.
+Ask your platform team for these values, or [create a Gateway and an agent key](/content/operate/iris/self-managed/context-gateway/api-examples.md) on a self-managed deployment.
 
 ## Work with tools
 
@@ -58,4 +58,4 @@ When result handles are on for the Gateway, a large result comes back as a stub 
 * [Python and CLI package reference](https://pypi.org/project/redis-iris/)
 * [TypeScript client reference](https://www.npmjs.com/package/@redis-iris/context-gateway)
 * [Redis Context Gateway MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md)
-* [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md)
+* [Control Plane API reference](/content/operate/iris/self-managed/context-gateway/control-plane-api-reference.md)

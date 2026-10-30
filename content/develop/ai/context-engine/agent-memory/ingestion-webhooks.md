@@ -43,11 +43,11 @@ Configuration, reads, searches, automatic expiration, and store teardown are out
 
 ## Prepare the deployment
 
-Ask your operator to [enable ingestion webhooks](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-ingestion-webhooks) and configure the signing-secret backend.
+Ask your operator to [enable ingestion webhooks](/content/operate/iris/self-managed/agent-memory/configuration.md#enable-ingestion-webhooks) and configure the signing-secret backend.
 
 ## Configure a store policy
 
-Your operator must [configure a store policy](/content/operate/iris/agent-memory/self-managed/api-examples.md#configure-a-webhook-policy), then provide the receiver with its signing keys and key IDs through a secret store. The receiver example reads them from `HOOK_KEYS_JSON`. Enable delivery after the receiver is ready.
+Your operator must [configure a store policy](/content/operate/iris/self-managed/agent-memory/api-examples.md#configure-a-webhook-policy), then provide the receiver with its signing keys and key IDs through a secret store. The receiver example reads them from `HOOK_KEYS_JSON`. Enable delivery after the receiver is ready.
 
 ## Verify callbacks and return decisions
 

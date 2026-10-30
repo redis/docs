@@ -38,7 +38,7 @@ The key's or token's grants must name the Gateway:
 
 MCP read-only and destructive annotations do not limit what `use` allows. Give an agent a Gateway that holds only the tools it should call. Neither the agent key nor the IdP token reaches an Upstream.
 
-For key administration, see [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md).
+For key administration, see [Authentication and authorization](/content/operate/iris/self-managed/context-gateway/authentication.md).
 
 ## Upstreams
 

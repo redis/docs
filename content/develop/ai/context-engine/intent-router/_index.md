@@ -63,7 +63,7 @@ The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, 
 
 ## Get started
 
-Redis Intent Router is available for self-managed deployment on Kubernetes. See [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md), then [create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
+Redis Intent Router is available for self-managed deployment on Kubernetes. See [Self-managed Intent Router](/content/operate/iris/self-managed/intent-router/_index.md), then [create a Router and an agent key](/content/operate/iris/self-managed/intent-router/api-examples.md).
 
 You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 

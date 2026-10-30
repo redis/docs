@@ -19,7 +19,7 @@ Use [session extraction](/content/develop/ai/context-engine/agent-memory/session
 
 ## Prepare the service
 
-MemoryETL is available in Redis Cloud and enabled in self-managed deployments. These examples use a self-managed service. For its model, processing limits, and worker settings, see [Configure document ingestion](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-document-ingestion).
+MemoryETL is available in Redis Cloud and enabled in self-managed deployments. These examples use a self-managed service. For its model, processing limits, and worker settings, see [Configure document ingestion](/content/operate/iris/self-managed/agent-memory/configuration.md#enable-document-ingestion).
 
 Install the SDK using the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#install-the-sdk). Set:
 
@@ -27,11 +27,11 @@ Install the SDK using the [quickstart](/content/develop/ai/context-engine/agent-
 |:---------|:------|
 | `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY` | The Data Plane endpoint, store, and application credential. |
 | `OWNER_ID` | Your application's authenticated user ID for this document. |
-| `USER_TOKEN` | The user's token when self-managed ownership enforcement is enabled. See [delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). |
+| `USER_TOKEN` | The user's token when self-managed ownership enforcement is enabled. See [delegation](/content/operate/iris/self-managed/agent-memory/authentication.md#delegate-a-user-with-an-agent-key). |
 
 ## Create an extractor
 
-Ask your operator to [register a memory type and create a document extractor](/content/operate/iris/agent-memory/self-managed/api-examples.md#create-an-extractor). Set `EXTRACTOR_ID` to the returned extractor ID. Applications use their Data Plane credential to submit documents.
+Ask your operator to [register a memory type and create a document extractor](/content/operate/iris/self-managed/agent-memory/api-examples.md#create-an-extractor). Set `EXTRACTOR_ID` to the returned extractor ID. Applications use their Data Plane credential to submit documents.
 
 ## Submit and track a document
 

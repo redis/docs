@@ -37,7 +37,7 @@ You can think of Redis Agent Memory's tiers as analogous to human memory:
 
 Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends, durable enough to recall in a conversation the agent hasn't seen before.
 
-Redis Agent Memory also maintains an automatically updated summary of each session, as derived session state. It returns this summary separately from long-term memories. You can also define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
+Redis Agent Memory also maintains an automatically updated summary of each session, as derived session state. It returns this summary separately from long-term memories. You can also define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/cloud/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
 
 ## Adding to session memory
 

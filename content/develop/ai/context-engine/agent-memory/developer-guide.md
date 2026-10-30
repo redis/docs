@@ -28,7 +28,7 @@ Every client needs the service endpoint, Store ID, and application programming i
 
 ### Manage a service with the Control Plane SDK
 
-For store and extractor administration, see [Manage a service with the Control Plane SDK](/content/operate/iris/agent-memory/self-managed/api-examples.md#manage-a-service-with-the-control-plane-sdk). Keep operator credentials separate from application credentials.
+For store and extractor administration, see [Manage a service with the Control Plane SDK](/content/operate/iris/self-managed/agent-memory/api-examples.md#manage-a-service-with-the-control-plane-sdk). Keep operator credentials separate from application credentials.
 
 ## Identify users and conversations
 
@@ -51,7 +51,7 @@ Some IDs come from your application; others come from Redis Agent Memory:
 
 For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
-For on-prem deployments, see [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for identity requirements and configuration.
+For on-prem deployments, see [Server-side ownership enforcement](/content/operate/iris/self-managed/agent-memory/authentication.md#server-side-ownership-enforcement) for identity requirements and configuration.
 
 ### Authorize every memory request
 
@@ -120,7 +120,7 @@ When a search returns no matches, `items` is an empty array. In the example, `re
 1. If you expect a custom memory type, check that it is enabled under **Memory types & extraction**. Check that its extraction prompt covers the information in the event.
 1. Compare the request's `ownerId`, `memoryType`, and namespace filters with the IDs and type used for the memory. Start with the owner filter alone to check whether an added filter excludes it.
 
-See [View and edit service configuration]({{< relref "/operate/iris/agent-memory/view-service#configuration-tab" >}}) for the settings. Extraction uses a model, so it may not create a memory for every statement.
+See [View and edit service configuration]({{< relref "/operate/iris/cloud/agent-memory/view-service#configuration-tab" >}}) for the settings. Extraction uses a model, so it may not create a memory for every statement.
 
 A failed request is different from a successful search with no matches. Handle the returned error before you use the result:
 
@@ -222,4 +222,4 @@ Exclusions apply to automatic extraction from session events. They do not apply 
 > [!WARNING]
 > Detector matches are deterministic, but semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
 
-See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.
+See [sensitive-data exclusions]({{< relref "/operate/iris/cloud/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.

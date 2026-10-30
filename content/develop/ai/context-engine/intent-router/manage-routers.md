@@ -15,7 +15,7 @@ Use the control plane to create the Routers that applications author intents in 
 
 ## Before you begin
 
-These tasks need the control-plane URL and its admin token, which a platform team holds. See [Authentication and authorization](/content/operate/iris/intent-router/self-managed/authentication.md). The admin token manages every Router in the deployment, so keep it out of agent and application configuration.
+These tasks need the control-plane URL and its admin token, which a platform team holds. See [Authentication and authorization](/content/operate/iris/self-managed/intent-router/authentication.md). The admin token manages every Router in the deployment, so keep it out of agent and application configuration.
 
 Export these values in the shell where you run the examples:
 
@@ -36,7 +36,7 @@ A Router's embedding model decides how well matching understands wording, and it
 
 Each model reports its `provider`, `model`, and `dimensions`. Pass the same three values as the Router's `vectorSpace`. A self-managed deployment offers one embedding model, configured by your administrator, and holds its provider credentials itself, so `authorization` is `NONE`. Creating a Router with a model that isn't listed fails with `400`.
 
-The model also sets the Router's memory use. The Router's vector index takes about the number of examples multiplied by `dimensions`, multiplied by 4 bytes, plus the index graph. See [Size memory](/content/operate/iris/intent-router/self-managed/prerequisites.md#size-memory).
+The model also sets the Router's memory use. The Router's vector index takes about the number of examples multiplied by `dimensions`, multiplied by 4 bytes, plus the index graph. See [Size memory](/content/operate/iris/self-managed/intent-router/prerequisites.md#size-memory).
 
 ## Create a Router
 
@@ -91,7 +91,7 @@ Suspend a Router to stop it serving without deleting its intents. Data requests 
 
 ## Delete a Router
 
-Deleting a Router permanently removes it, its intents, its examples, and its search index. You can delete a Router in any state. Deleting a Router doesn't revoke its agent keys, because the keys live in the Identity Service, not the control plane. A key whose grant names a deleted Router stays in the Identity Service until you revoke it. Revoke the Router's keys before you delete it, as shown in [Rotate or revoke agent keys](/content/operate/iris/intent-router/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
+Deleting a Router permanently removes it, its intents, its examples, and its search index. You can delete a Router in any state. Deleting a Router doesn't revoke its agent keys, because the keys live in the Identity Service, not the control plane. A key whose grant names a deleted Router stays in the Identity Service until you revoke it. Revoke the Router's keys before you delete it, as shown in [Rotate or revoke agent keys](/content/operate/iris/self-managed/intent-router/api-examples.md#rotate-or-revoke-agent-keys).
 
 {{< clients-example set="iris_intent_router_service" step="router-delete" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
@@ -99,7 +99,7 @@ The delete returns `202` with the Router in `DELETING`, and the data plane finis
 
 ## Issue agent keys
 
-The control plane doesn't issue agent keys. Your platform team issues them with the Redis Iris Identity Service, with a grant on the Router. The CLI mints one with `iris intent-router service key ROUTER_ID --role write --write PATH`, and `iris identity keys` lists, rotates, and revokes them. See [Create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
+The control plane doesn't issue agent keys. Your platform team issues them with the Redis Iris Identity Service, with a grant on the Router. The CLI mints one with `iris intent-router service key ROUTER_ID --role write --write PATH`, and `iris identity keys` lists, rotates, and revokes them. See [Create a Router and an agent key](/content/operate/iris/self-managed/intent-router/api-examples.md).
 
 | Action | What it allows |
 | ------ | -------------- |
