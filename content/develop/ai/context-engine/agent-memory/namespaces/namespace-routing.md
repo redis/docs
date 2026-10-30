@@ -21,10 +21,10 @@ The policy applies to one store. It targets existing shared namespace resources,
 
 | Request | Behavior |
 |:--------|:---------|
-| Create a memory with `namespaceRef` | Use that destination after admission checks. The service never chooses another destination. |
-| Create a memory without `namespace` or `namespaceRef` | Create it without a namespace. Automatic routing does not place it in a shared namespace. |
-| Move a memory with `namespaceRef` | Use that destination after admission checks. |
-| Move a memory without `namespaceRef` | Evaluate automatic routing only if the memory is already in a shared namespace. |
+| Create a memory with `namespaceId` | Use that destination after admission checks. The service never chooses another destination. |
+| Create a memory without `namespaceId` | Create it without a namespace. Automatic routing does not place it in a shared namespace. |
+| Move a memory with `namespaceId` | Use that destination after admission checks. |
+| Move a memory without `namespaceId` | Evaluate automatic routing only if the memory is already in a shared namespace. |
 | Update a memory | Check the merged record against admission at its current destination. An update never chooses another destination. |
 
 An automatic move keeps the current placement and returns a per-item error if routing is disabled, no destination qualifies, or the memory is personal or has no namespace. Inspect both `moved` and `errors` in a move response. Bulk creation also reports failures per record in `errors`. An explicit move to an archived namespace returns `409 Conflict`.
@@ -111,7 +111,7 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespace-routing" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespace-routing" | jq
 
 curl --fail-with-body --silent --show-error \
   --request PUT \
@@ -119,10 +119,10 @@ curl --fail-with-body --silent --show-error \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
     '{policy: {enabled: true, rules: [{id: "travel", enabled: true,
-      action: "accept", destination: {namespaceId: $ns}, strategies: [{
-        kind: "matcher_spec", matcher: {kind: "regex", regex: {pattern: "(?i)travel"}}
+      action: "ACCEPT", destinationNamespaceId: $ns, strategies: [{
+        kind: "MATCHER_SPEC", matcher: {kind: "REGEX", regex: {pattern: "(?i)travel"}}
       }]}]}}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespace-routing" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespace-routing" | jq
 ```
 
 {{< /multitabs >}}
@@ -131,9 +131,9 @@ curl --fail-with-body --silent --show-error \
 
 In this example, `travel` is an accept rule with one strategy, a regex matcher.
 
-An enabled `accept` rule selects a candidate destination. Accept rules run in list order. Every enabled `reject` rule for that destination applies, including rules later in the list. A matching reject vetoes the candidate. Automatic routing then tries another candidate; explicit placement fails rather than choosing another namespace.
+An enabled `ACCEPT` rule selects a candidate destination. Accept rules run in list order. Every enabled `REJECT` rule for that destination applies, including rules later in the list. A matching reject vetoes the candidate. Automatic routing then tries another candidate; explicit placement fails rather than choosing another namespace.
 
-Strategies within a rule run in list order; the first match fires the rule. An accept rule with no strategies always matches. A reject rule with no strategies never matches. Use `matcher_spec` with a `regex` matcher for text patterns, or `llm_prompt` with `llmPrompt` for a model-evaluated instruction. Each strategy must contain only the block for its declared `kind`.
+Strategies within a rule run in list order; the first match fires the rule. An accept rule with no strategies always matches. A reject rule with no strategies never matches. Use `MATCHER_SPEC` with a `REGEX` matcher for text patterns, or `LLM_PROMPT` with `llmPrompt` for a model-evaluated instruction. Each strategy must contain only the block for its declared `kind`.
 
 A store without a saved policy returns an empty, disabled policy. Regular expressions use RE2 syntax. Lookaround, backreferences, invalid expressions, and patterns that can match empty text are not supported. A policy supports up to 32 rules and 8 strategies per rule. See [`PutNamespaceRouting`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/PutNamespaceRouting) for validation and error responses.
 
@@ -146,14 +146,14 @@ SOURCE_NAMESPACE_ID=$(curl --fail-with-body --silent --show-error --request POST
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data '{"name":"routing-source","scope":"SHARED"}' \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId') || exit 1
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId') || exit 1
 export MEMORY_ID='routing-travel-example'
 curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg id "$MEMORY_ID" --arg owner "$OWNER_ID" --arg ns "$SOURCE_NAMESPACE_ID" \
-    '{memories:[{id:$id,ownerId:$owner,text:"Travel policy allows train tickets.",namespaceRef:{namespaceId:$ns}}]}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" | jq
+    '{memories:[{memoryId:$id,ownerId:$owner,text:"Travel policy allows train tickets.",namespaceId:$ns}]}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" | jq
 ```
 
 Continue only if the namespace request succeeds and the memory response has no per-record errors. Run the move in the same shell, or pass the exported `MEMORY_ID` to your SDK process:
@@ -184,7 +184,7 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg id "$MEMORY_ID" '{memoryIds: [$id]}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/move" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/move" | jq
 ```
 
 {{< /multitabs >}}
