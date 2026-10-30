@@ -112,7 +112,7 @@ def main():
 
         results = agent_memory.search_long_term_memory(
             request={
-                "text": "What dietary requirements and food preferences does the user have?",
+                "query": "What dietary requirements and food preferences does the user have?",
                 "filter_": {
                     "owner_id": {
                         "eq": USER_ID,

@@ -50,17 +50,17 @@ async def main():
         store_id=os.environ["STORE_ID"],
         api_key=os.environ["API_KEY"],
     ) as agent_memory:
-        page_token = None
+        cursor = None
         while True:
-            page = await agent_memory.list_session_summaries_async(
-                filter_owner_id=os.environ["OWNER_ID"],
-                sort_by="updatedAt", sort_order="desc",
-                limit=20, page_token=page_token,
+            page = await agent_memory.list_sessions_async(
+                owner_id=os.environ["OWNER_ID"],
+                sort_by="updatedAt", sort_order="DESC",
+                limit=20, cursor=cursor,
             )
             for session in page.items:
                 print(session.model_dump_json(by_alias=True))
-            page_token = page.next_page_token
-            if not page_token:
+            cursor = page.next_cursor
+            if not cursor:
                 break
 
 
@@ -80,20 +80,21 @@ async function main() {
   const agentMemory = new AgentMemory({
     serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
   });
-  let pageToken: string | undefined;
+  let cursor: string | undefined;
   do {
-    const page = await agentMemory.listSessionSummaries(
+    const page = await agentMemory.listSessions(
       20,          // limit
-      pageToken,   // pageToken
-      OWNER_ID,    // filterOwnerId
-      undefined,   // namespaceRef
+      cursor,      // cursor
+      OWNER_ID,    // ownerId
       undefined,   // includeAll
+      undefined,   // options
+      undefined,   // namespaceId
       "updatedAt", // sortBy
-      "desc",      // sortOrder
+      "DESC",      // sortOrder
     );
     console.dir(page.items, { depth: null });
-    pageToken = page.nextPageToken;
-  } while (pageToken);
+    cursor = page.nextCursor;
+  } while (cursor);
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
@@ -102,22 +103,22 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 -tab-sep-
 
 ```sh
-page_token=''
+cursor=''
 while :; do
   page=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
     --data-urlencode "ownerId=$OWNER_ID" \
     --data-urlencode 'sortBy=updatedAt' --data-urlencode 'sortOrder=DESC' \
-    --data-urlencode 'limit=20' --data-urlencode "cursor=$page_token" \
+    --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
     "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions") || break
   printf '%s\n' "$page" | jq '.items'
-  page_token=$(printf '%s\n' "$page" | jq -r '.nextCursor // empty')
-  [ -n "$page_token" ] || break
+  cursor=$(printf '%s\n' "$page" | jq -r '.nextCursor // empty')
+  [ -n "$cursor" ] || break
 done
 ```
 
 {{< /multitabs >}}
 
-Pass each returned `nextCursor` as `cursor`. Keep filters and sort options unchanged; the token is bound to them. Stop when the token is absent. The token is opaque, so URL-encode it in REST requests. Changing a filter or sort requires a new request without the old token.
+Pass each returned `nextCursor` as `cursor`. Keep filters and sort options unchanged; the cursor is bound to them. Stop when the cursor is absent. The cursor is opaque, so URL-encode it in REST requests. Changing a filter or sort requires a new request without the old cursor.
 
 Sessions stored without owner or timestamp metadata can omit `ownerId`, `createdAt`, or `updatedAt`. Handle those missing values when rendering a conversation list. A row's timestamps describe session metadata; they do not promise that background extraction or summarization has completed.

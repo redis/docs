@@ -90,23 +90,23 @@ async def main():
                 ingestion_id=ingestion_id, http_headers=headers,
             )
             status = record.ingestion.status
-            if status.processing in {"succeeded", "partial", "failed"}:
+            if status.processing in {"SUCCEEDED", "PARTIAL", "FAILED"}:
                 print(status.model_dump_json(by_alias=True))
                 break
             await asyncio.sleep(2)
         else:
             raise TimeoutError(f"Continue polling ingestion {ingestion_id}")
 
-        offset = 0
+        cursor = None
         while True:
             page = await memory.list_document_ingestion_outputs_async(
-                ingestion_id=ingestion_id, limit=100, offset=offset, http_headers=headers,
+                ingestion_id=ingestion_id, limit=100, cursor=cursor, http_headers=headers,
             )
-            if not page.memory_ids:
+            print(page.items)
+            cursor = page.next_cursor
+            if not cursor:
                 break
-            print(page.memory_ids)
-            offset += len(page.memory_ids)
-        if status.processing != "succeeded":
+        if status.processing != "SUCCEEDED":
             raise RuntimeError(f"Inspect ingestion {ingestion_id}: {status.processing}")
 
 
@@ -140,7 +140,7 @@ async function main() {
   let processing: string | undefined;
   for (let attempt = 0; attempt < 60; attempt++) {
     const { ingestion } = await memory.getDocumentIngestion(ingestionId, options);
-    if (["succeeded", "partial", "failed"].includes(ingestion.status.processing)) {
+    if (["SUCCEEDED", "PARTIAL", "FAILED"].includes(ingestion.status.processing)) {
       processing = ingestion.status.processing;
       console.dir(ingestion.status, { depth: null });
       finished = true;
@@ -149,14 +149,13 @@ async function main() {
     await delay(2000);
   }
   if (!finished) throw new Error(`Continue polling ingestion ${ingestionId}`);
-  let offset = 0;
-  for (;;) {
-    const page = await memory.listDocumentIngestionOutputs(ingestionId, 100, offset, options);
-    if (!page.memoryIds.length) break;
-    console.log(page.memoryIds);
-    offset += page.memoryIds.length;
-  }
-  if (processing !== "succeeded") throw new Error(`Inspect ingestion ${ingestionId}: ${processing}`);
+  let cursor: string | undefined;
+  do {
+    const page = await memory.listDocumentIngestionOutputs(ingestionId, 100, cursor, options);
+    console.log(page.items);
+    cursor = page.nextCursor;
+  } while (cursor);
+  if (processing !== "SUCCEEDED") throw new Error(`Inspect ingestion ${ingestionId}: ${processing}`);
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
@@ -243,34 +242,34 @@ Set `MEMORY_ID` to one returned output ID. These examples follow both source pag
 {{< multitabs id="document-provenance" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
 ```python
-        source_page_token = None
+        source_cursor = None
         while True:
             links = await memory.list_memory_source_links_async(
                 memory_id=os.environ["MEMORY_ID"], limit=100,
-                page_token=source_page_token, http_headers=headers,
+                cursor=source_cursor, http_headers=headers,
             )
             for source in links.items:
                 print(source.model_dump_json(by_alias=True))
-                evidence_token = source.evidence_next_page_token
-                while evidence_token:
+                evidence_cursor = source.evidence_next_cursor
+                while evidence_cursor:
                     evidence = await memory.list_memory_source_evidence_async(
                         memory_id=os.environ["MEMORY_ID"], source_id=source.source_id,
-                        limit=100, page_token=evidence_token, http_headers=headers,
+                        limit=100, cursor=evidence_cursor, http_headers=headers,
                     )
                     print(evidence.source.model_dump_json(by_alias=True))
-                    evidence_token = evidence.source.evidence_next_page_token
-                reverse_token = None
+                    evidence_cursor = evidence.source.evidence_next_cursor
+                reverse_cursor = None
                 while True:
                     related = await memory.list_source_memories_async(
                         source_id=source.source_id, owner_id=os.environ["OWNER_ID"],
-                        limit=100, page_token=reverse_token, http_headers=headers,
+                        limit=100, cursor=reverse_cursor, http_headers=headers,
                     )
                     print(related.model_dump_json(by_alias=True))
-                    reverse_token = related.next_page_token
-                    if not reverse_token:
+                    reverse_cursor = related.next_cursor
+                    if not reverse_cursor:
                         break
-            source_page_token = links.next_page_token
-            if not source_page_token:
+            source_cursor = links.next_cursor
+            if not source_cursor:
                 break
 ```
 
@@ -279,30 +278,30 @@ Set `MEMORY_ID` to one returned output ID. These examples follow both source pag
 ```typescript
   const memoryId = process.env.MEMORY_ID;
   if (!memoryId) throw new Error("Set MEMORY_ID to an output memory ID.");
-  let sourcePageToken: string | undefined;
+  let sourceCursor: string | undefined;
   do {
-    const links = await memory.listMemorySourceLinks(memoryId, 100, sourcePageToken, options);
+    const links = await memory.listMemorySourceLinks(memoryId, 100, sourceCursor, options);
     for (const source of links.items) {
       console.dir(source, { depth: null });
-      let evidenceToken = source.evidenceNextPageToken;
-      while (evidenceToken) {
+      let evidenceCursor = source.evidenceNextCursor;
+      while (evidenceCursor) {
         const evidence = await memory.listMemorySourceEvidence(
-          memoryId, source.sourceId, 100, evidenceToken, options,
+          memoryId, source.sourceId, 100, evidenceCursor, options,
         );
         console.dir(evidence.source, { depth: null });
-        evidenceToken = evidence.source.evidenceNextPageToken;
+        evidenceCursor = evidence.source.evidenceNextCursor;
       }
-      let reverseToken: string | undefined;
+      let reverseCursor: string | undefined;
       do {
         const related = await memory.listSourceMemories(
-          source.sourceId, OWNER_ID, 100, reverseToken, options,
+          source.sourceId, OWNER_ID, 100, reverseCursor, options,
         );
         console.dir(related.items, { depth: null });
-        reverseToken = related.nextPageToken;
-      } while (reverseToken);
+        reverseCursor = related.nextCursor;
+      } while (reverseCursor);
     }
-    sourcePageToken = links.nextPageToken;
-  } while (sourcePageToken);
+    sourceCursor = links.nextCursor;
+  } while (sourceCursor);
 ```
 
 -tab-sep-

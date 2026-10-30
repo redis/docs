@@ -88,7 +88,7 @@ Omit `query` to retrieve records by filters without a semantic query. For exampl
         recent_memories = agent_memory.search_long_term_memory(request={
             "filter_": {"owner_id": {"eq": USER_ID}},
             "sort_by": "updatedAt",
-            "sort_order": "desc",
+            "sort_order": "DESC",
             "limit": 10,
         })
         show("Recent memories", recent_memories)
@@ -99,7 +99,7 @@ Omit `query` to retrieve records by filters without a semantic query. For exampl
 ```typescript
   const recentMemories = await agentMemory.searchLongTermMemory({
     filter: { ownerId: { eq: userId } },
-    sortBy: "updatedAt", sortOrder: "desc", limit: 10,
+    sortBy: "updatedAt", sortOrder: "DESC", limit: 10,
   });
   console.dir(recentMemories, { depth: null });
 ```
@@ -201,8 +201,8 @@ After enabling the type, add a travel message to a new session. Run this write o
 -tab-sep-
 
 ```typescript
-  await agentMemory.addSessionEvent({
-    sessionId: "trip-preference-session", actorId: userId, role: "USER",
+  await agentMemory.addSessionEvent("trip-preference-session", {
+    actorId: userId, role: "USER",
     content: [{ text: "I am visiting Tokyo and Kyoto next month. I am vegetarian." }],
     createdAt: new Date(),
   });
@@ -228,7 +228,7 @@ Search for the structured memory:
 ```python
         custom_results = agent_memory.search_long_term_memory(
             request={
-                "text": "What are the requirements for the user's trip?",
+                "query": "What are the requirements for the user's trip?",
                 "filter_": {
                     "owner_id": {"eq": USER_ID},
                     "memory_type": {"eq": "trip_preference"},
@@ -243,7 +243,7 @@ Search for the structured memory:
 
 ```typescript
   const customResults = await agentMemory.searchLongTermMemory({
-    text: "What are the requirements for the user's trip?",
+    query: "What are the requirements for the user's trip?",
     filter: {
       ownerId: { eq: userId },
       memoryType: { eq: "trip_preference" },
@@ -357,7 +357,7 @@ If your application already has structured trip data, write it directly using th
 
 ```python
         direct_result = agent_memory.bulk_create_long_term_memories(memories=[{
-            "memoryId": "trip-form-1",
+            "memory_id": "trip-form-1",
             "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
             "owner_id": USER_ID,
             "memory_type": "trip_preference",
@@ -376,7 +376,7 @@ If your application already has structured trip data, write it directly using th
 ```typescript
   const directResult = await agentMemory.bulkCreateLongTermMemories({
     memories: [{
-      id: "trip-form-1",
+      memoryId: "trip-form-1",
       text: "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
       ownerId: userId,
       memoryType: "trip_preference",
@@ -456,8 +456,7 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
 -tab-sep-
 
 ```typescript
-  const sensitiveEvent = await agentMemory.addSessionEvent({
-    sessionId,
+  const sensitiveEvent = await agentMemory.addSessionEvent(sessionId, {
     actorId: userId,
     role: "USER",
     content: [{
@@ -502,7 +501,7 @@ Run the event write once. In the SDK files, comment out event creation and its o
 ```python
         exclusion_results = agent_memory.search_long_term_memory(
             request={
-                "text": "Where is the user staying in Tokyo?",
+                "query": "Where is the user staying in Tokyo?",
                 "filter_": {
                     "owner_id": {"eq": USER_ID},
                 },
@@ -516,7 +515,7 @@ Run the event write once. In the SDK files, comment out event creation and its o
 
 ```typescript
   const exclusionResults = await agentMemory.searchLongTermMemory({
-    text: "Where is the user staying in Tokyo?",
+    query: "Where is the user staying in Tokyo?",
     filter: {
       ownerId: { eq: userId },
     },

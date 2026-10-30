@@ -38,7 +38,7 @@ Shared does not mean a particular team. Enforce team membership in your backend 
 
 ## Create, refresh, and read a view
 
-These examples create one private profile for `OWNER_ID`, request a full refresh, and poll its result. First [create ordinary long-term memories](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) in this self-managed store, using the delegated client and matching `OWNER_ID`. A successful refresh with no matching sources returns `empty`.
+These examples create one private profile for `OWNER_ID`, request a full refresh, and poll its result. First [create ordinary long-term memories](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#create-a-custom-memory-directly) in this self-managed store, using the delegated client and matching `OWNER_ID`. A successful refresh with no matching sources returns `EMPTY`.
 
 Save the view ID for later requests. Creation and refresh are asynchronous; their responses do not contain generated output.
 
@@ -58,32 +58,32 @@ async def main():
         api_key=os.environ["API_KEY"],
     ) as memory:
         view = await memory.create_summary_view_async(
-            name="Travel profile", source="long_term", group_by=[],
+            name="Travel profile", source="LONG_TERM", group_by=[],
             filter_={"owner_id": {"eq": os.environ["OWNER_ID"]}},
-            output={"format_": "text", "instructions": "Summarize the user's travel preferences."},
-            refresh_policy={"mode": "manual"}, http_headers=headers,
+            output={"format_": "TEXT", "instructions": "Summarize the user's travel preferences."},
+            refresh_policy={"mode": "MANUAL"}, http_headers=headers,
         )
-        print("View ID:", view.id)
+        print("View ID:", view.view_id)
         accepted = await memory.refresh_summary_view_async(
-            view_id=view.id, target="full", http_headers=headers,
+            view_id=view.view_id, target="FULL", http_headers=headers,
         )
         print(accepted.model_dump_json(by_alias=True))
         for _ in range(60):
             result = await memory.get_summary_view_result_async(
-                view_id=view.id, include_source_memory_ids=True, http_headers=headers,
+                view_id=view.view_id, include_source_memory_ids=True, http_headers=headers,
             )
-            if result.status == "failed":
+            if result.status == "FAILED":
                 raise RuntimeError(f"Refresh failed: {result.error_code}")
-            if result.status == "empty":
+            if result.status == "EMPTY":
                 print("No matching source memories.")
                 return
-            if result.status == "ready" and not result.stale:
+            if result.status == "READY" and not result.stale:
                 if result.value is None:
                     raise RuntimeError("Ready result omitted its value")
                 print(result.model_dump_json(by_alias=True))
                 return
             await asyncio.sleep(2)
-        raise TimeoutError(f"Continue polling view {view.id}")
+        raise TimeoutError(f"Continue polling view {view.view_id}")
 
 
 asyncio.run(main())
@@ -103,36 +103,36 @@ async function main() {
   const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
   const options = { headers: { "X-Iris-User-Token": USER_TOKEN } };
   const view = await memory.createSummaryView({
-    name: "Travel profile", source: "long_term", groupBy: [],
+    name: "Travel profile", source: "LONG_TERM", groupBy: [],
     filter: { ownerId: { eq: OWNER_ID } },
-    output: { format: "text", instructions: "Summarize the user's travel preferences." },
-    refreshPolicy: { mode: "manual" },
+    output: { format: "TEXT", instructions: "Summarize the user's travel preferences." },
+    refreshPolicy: { mode: "MANUAL" },
   }, options);
-  console.log("View ID:", view.id);
-  console.dir(await memory.refreshSummaryView(view.id, { target: "full" }, options));
+  console.log("View ID:", view.viewId);
+  console.dir(await memory.refreshSummaryView(view.viewId, { target: "FULL" }, options));
   for (let attempt = 0; attempt < 60; attempt++) {
     const result = await memory.getSummaryViewResult(
-      view.id,   // viewId
+      view.viewId, // viewId
       undefined, // ownerId
       undefined, // sessionId
-      undefined, // namespaceRef
+      undefined, // namespaceId
       undefined, // memoryType
       true,      // includeSourceMemoryIds
       options,   // request options
     );
-    if (result.status === "failed") throw new Error(`Refresh failed: ${result.errorCode}`);
-    if (result.status === "empty") {
+    if (result.status === "FAILED") throw new Error(`Refresh failed: ${result.errorCode}`);
+    if (result.status === "EMPTY") {
       console.log("No matching source memories.");
       return;
     }
-    if (result.status === "ready" && !result.stale) {
+    if (result.status === "READY" && !result.stale) {
       if (!result.value) throw new Error("Ready result omitted its value");
       console.dir(result, { depth: null });
       return;
     }
     await delay(2000);
   }
-  throw new Error(`Continue polling view ${view.id}`);
+  throw new Error(`Continue polling view ${view.viewId}`);
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });

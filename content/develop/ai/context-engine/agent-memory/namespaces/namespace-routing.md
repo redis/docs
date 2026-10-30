@@ -59,11 +59,11 @@ async def main():
             "rules": [{
                 "id": "travel",
                 "enabled": True,
-                "action": "accept",
-                "destination": {"namespace_id": os.environ["SHARED_NAMESPACE_ID"]},
+                "action": "ACCEPT",
+                "destination_namespace_id": os.environ["SHARED_NAMESPACE_ID"],
                 "strategies": [{
-                    "kind": "matcher_spec",
-                    "matcher": {"kind": "regex", "regex": {"pattern": "(?i)travel"}},
+                    "kind": "MATCHER_SPEC",
+                    "matcher": {"kind": "REGEX", "regex": {"pattern": "(?i)travel"}},
                 }],
             }],
         })
@@ -91,11 +91,11 @@ async function main() {
     policy: {
       enabled: true,
       rules: [{
-        id: "travel", enabled: true, action: "accept",
-        destination: { namespaceId: SHARED_NAMESPACE_ID },
+        id: "travel", enabled: true, action: "ACCEPT",
+        destinationNamespaceId: SHARED_NAMESPACE_ID,
         strategies: [{
-          kind: "matcher_spec",
-          matcher: { kind: "regex", regex: { pattern: "(?i)travel" } },
+          kind: "MATCHER_SPEC",
+          matcher: { kind: "REGEX", regex: { pattern: "(?i)travel" } },
         }],
       }],
     },
@@ -189,4 +189,4 @@ curl --fail-with-body --silent --show-error \
 
 {{< /multitabs >}}
 
-Add the SDK snippet inside the client block or `main` function from [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). Set `MEMORY_ID` before running it. The example memory must already belong to a shared namespace and contain matching text. The request accepts 1–100 IDs. To choose a destination explicitly, also pass `namespace_ref={"namespace_id": "<namespace-id>"}` in Python or `namespaceRef: { namespaceId: "<namespace-id>" }` in TypeScript or the request body. Explicit placement still runs admission checks.
+Add the SDK snippet inside the client block or `main` function from [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). Set `MEMORY_ID` before running it. The example memory must already belong to a shared namespace and contain matching text. The request accepts 1–100 IDs. To choose a destination explicitly, also pass `namespace_id="<namespace-id>"` in Python, `namespaceId: "<namespace-id>"` in TypeScript, or `"namespaceId"` in the request body. Explicit placement still runs admission checks.
