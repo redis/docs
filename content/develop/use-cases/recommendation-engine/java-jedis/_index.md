@@ -59,11 +59,11 @@ The `Recommender` class wraps the Redis Search index and the retrieval flow
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/recommendation-engine/java-jedis/Recommender.java)):
 
 ```java
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 
-// JedisPooled is a pool-backed UnifiedJedis: it exposes both the
+// RedisClient is a pool-backed client: it exposes both the
 // FT.* search commands and a pipelined() API in one client.
-JedisPooled jedis = new JedisPooled("localhost", 6379);
+RedisClient jedis = RedisClient.create("localhost", 6379);
 Recommender recommender = new Recommender(jedis, "recommend:idx",
         "product:", "user:", 384);
 
@@ -166,7 +166,7 @@ FT.SEARCH recommend:idx
 
 When there's no filter, the pre-filter clause is just `(*)`. `vector_score` is the cosine *distance* (0 means identical, 2 means opposite), so the result is sorted ascending and the top row is the closest candidate to the query.
 
-The Jedis equivalent uses `JedisPooled.ftSearch(String, Query)` with the binary parameter wired through `Query.addParam("vec", floatsToBytes(vec))`:
+The Jedis equivalent uses `RedisClient.ftSearch(String, Query)` with the binary parameter wired through `Query.addParam("vec", floatsToBytes(vec))`:
 
 ```java
 String knn = filterClause + "=>[KNN " + k + " @embedding $vec AS vector_score]";
