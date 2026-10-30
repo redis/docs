@@ -70,9 +70,9 @@ Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
 every time we add an element Redis performs an O(log(N)) operation. That's
 good, so when we ask for sorted elements, Redis does not have to do any work at
-all, it's already sorted. Note that the [`ZRANGE`](/content/commands/zrange.md) order is low to high, while the [`ZREVRANGE`](/content/commands/zrevrange.md) order is high to low:
+all, it's already sorted. Note that the [`ZRANGE`](/content/commands/zrange.md) order is low to high, while adding the `REV` argument makes the order high to low:
 
-{{< clients-example set="ss_tutorial" step="zrange" description="Retrieve members in ascending or descending order using ZRANGE and ZREVRANGE (no sorting needed, already ordered)" buildsUpon="zadd" needs_prereq="true" >}}
+{{< clients-example set="ss_tutorial" step="zrange" description="Retrieve members in ascending or descending order using ZRANGE and ZRANGE with REV (no sorting needed, already ordered)" buildsUpon="zadd" needs_prereq="true" >}}
 > ZRANGE racer_scores 0 -1
 1) "Ford"
 2) "Sam-Bodden"
@@ -80,7 +80,7 @@ all, it's already sorted. Note that the [`ZRANGE`](/content/commands/zrange.md) 
 4) "Royce"
 5) "Castilla"
 6) "Prickett"
-> ZREVRANGE racer_scores 0 -1
+> ZRANGE racer_scores 0 -1 REV
 1) "Prickett"
 2) "Castilla"
 3) "Royce"
@@ -114,10 +114,10 @@ It is possible to return scores as well, using the `WITHSCORES` argument:
 
 Sorted sets are more powerful than this. They can operate on ranges.
 Let's get all the racers with 10 or fewer points. We
-use the [`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md) command to do it:
+use the [`ZRANGE`](/content/commands/zrange.md) command with the `BYSCORE` argument to do it:
 
-{{< clients-example set="ss_tutorial" step="zrangebyscore" description="Query by score range: Retrieve members within a score range using ZRANGEBYSCORE when you need to filter by numeric values" difficulty="intermediate" buildsUpon="zadd" needs_prereq="true" >}}
-> ZRANGEBYSCORE racer_scores -inf 10
+{{< clients-example set="ss_tutorial" step="zrangebyscore" description="Query by score range: Retrieve members within a score range using ZRANGE with BYSCORE when you need to filter by numeric values" difficulty="intermediate" buildsUpon="zadd" needs_prereq="true" >}}
+> ZRANGE racer_scores -inf 10 BYSCORE
 1) "Ford"
 2) "Sam-Bodden"
 3) "Norem"
@@ -171,13 +171,13 @@ inserted with the same identical score (elements are compared with the C
 `memcmp` function, so it is guaranteed that there is no collation, and every
 Redis instance will reply with the same output).
 
-The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`](/content/commands/zrangebylex.md),
-[`ZREVRANGEBYLEX`](/content/commands/zrevrangebylex.md), [`ZREMRANGEBYLEX`](/content/commands/zremrangebylex.md) and [`ZLEXCOUNT`](/content/commands/zlexcount.md).
+The main commands to operate with lexicographical ranges are [`ZRANGE`](/content/commands/zrange.md) with the `BYLEX` argument (add `REV` for reverse order),
+[`ZREMRANGEBYLEX`](/content/commands/zremrangebylex.md) and [`ZLEXCOUNT`](/content/commands/zlexcount.md).
 
 For example, let's add again our list of famous racers, but this time
-using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`](/content/commands/zrangebylex.md) we can ask for lexicographical ranges:
+using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGE`](/content/commands/zrange.md) with `BYLEX` we can ask for lexicographical ranges:
 
-{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGEBYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" >}}
+{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGE with BYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" >}}
 > ZADD racer_scores 0 "Norem" 0 "Sam-Bodden" 0 "Royce" 0 "Castilla" 0 "Prickett" 0 "Ford"
 (integer) 3
 > ZRANGE racer_scores 0 -1
@@ -187,7 +187,7 @@ using a score of zero for all the elements. We'll see that because of the sorted
 4) "Prickett"
 5) "Royce"
 6) "Sam-Bodden"
-> ZRANGEBYLEX racer_scores [A [L
+> ZRANGE racer_scores [A [L BYLEX
 1) "Castilla"
 2) "Ford"
 {{< /clients-example >}}
