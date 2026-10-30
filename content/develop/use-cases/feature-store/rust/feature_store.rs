@@ -423,7 +423,8 @@ impl FeatureStore {
         let mut conn = self.conn.clone();
         let mut iter: AsyncIter<String> = conn.scan_match(&pattern).await?;
         let mut n = 0i64;
-        while let Some(_k) = iter.next_item().await {
+        while let Some(k) = iter.next_item().await {
+            k?;
             n += 1;
         }
         Ok(n)
