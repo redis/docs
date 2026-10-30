@@ -13,7 +13,7 @@ linkTitle: Redis Search
 weight: 20
 ---
 The [RediSearch 2.x module](https://redis.com/blog/introducing-redisearch-2-0/) is a source-available project that lets you build powerful search queries for open source Redis databases.
-When combined with Redis Software, you can use the same protocols and [commands](/content/commands/_index.md?group=search)
+When combined with Redis Software, you can use the same protocols and [commands](/content/commands/_index.md?group=search,suggestion)
 to run geo-replicated queries and full-text searches over efficient in-memory indexes.
 
 ## Index documents
@@ -73,6 +73,6 @@ Because the index on the new shard is created synchronously though, it's expecte
 - [Getting Started with RediSearch 2.0](https://redis.com/blog/getting-started-with-redisearch-2-0/)
 - [Redis Search quick start](/content/develop/get-started/search-tutorial/_index.md)
 - [Redis Search configuration](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md)
-- [Redis Search commands](/content/commands/_index.md?group=search)
+- [Redis Search commands](/content/commands/_index.md?group=search,suggestion)
 - [Redis Search references](/content/develop/ai/search-and-query/advanced-concepts/_index.md)
 - [RediSearch source](https://github.com/RediSearch/RediSearch)

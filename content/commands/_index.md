@@ -42,7 +42,7 @@ alias_query:
 - from: /operate/oss_and_stack/stack-with-enterprise/json/commands
   query: group=json
 - from: /operate/oss_and_stack/stack-with-enterprise/search/commands
-  query: group=search
+  query: group=search,suggestion
 - from: /operate/oss_and_stack/stack-with-enterprise/timeseries/commands
   query: group=timeseries
 ---

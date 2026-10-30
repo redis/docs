@@ -55,7 +55,8 @@ nameFilter.addEventListener('keydown', function (event) {
       visibleCommands = document.querySelectorAll("article.flex.flex-col.gap-2.transition.relative:not([style='display: none;'])")
       if (visibleCommands.length == 1) {
         event.preventDefault();
-        commandHref = visibleCommands[0].getElementsByTagName("a")[0].href
+        // The overlay link, not the card's first <a>: compatibility badges link to a section
+        commandHref = visibleCommands[0].querySelector('a[data-card-link]').href
         window.location.assign(commandHref)
       };
     default:

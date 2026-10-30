@@ -57,11 +57,14 @@
                   {{- $groups = $groups | append (dict "label" (trim (printf "%s %s" $p.label .variant.label) " ") "items" (slice .) "wide" false) -}}
                 {{- end -}}
               {{- end -}}
+              {{- /* The badge icon is the worst status in it, with that status's own icon, so it
+                     matches the command page table: workaround is ⚠️, not ❌. */ -}}
+              {{- $rank := dict "limited" 1 "workaround" 2 "unsupported" 3 -}}
               {{- range $g := $groups -}}
                 {{- $worst := index $statuses "limited" -}}
                 {{- $tips := slice -}}
                 {{- range $g.items -}}
-                  {{- if in (slice "unsupported" "workaround") .key -}}{{- $worst = index $statuses "unsupported" -}}{{- end -}}
+                  {{- if gt (index $rank .key) (index $rank $worst.key) -}}{{- $worst = .status -}}{{- end -}}
                   {{- $tip := .status.label -}}
                   {{- if and $g.wide .variant.label -}}{{- $tip = printf "%s: %s" .variant.label $tip -}}{{- end -}}
                   {{- with .note -}}{{- $tip = printf "%s. %s" $tip (. | $.Page.RenderString | plainify) -}}{{- end -}}
@@ -240,7 +243,7 @@
             {{- end }}{{ end }}
             <div class="grow"></div>
             <div class="text-sm font-mono group-hover:underline px-6">Learn more →</div>
-            <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
+            <a class="absolute inset-0 outline-0" data-card-link href="{{ .RelPermalink }}">
               <span class="sr-only">Read more</span>
             </a>
           </article>
