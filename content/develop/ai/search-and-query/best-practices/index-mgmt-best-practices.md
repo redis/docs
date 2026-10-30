@@ -132,12 +132,14 @@ Monitoring and troubleshooting aliases:
  - Implement scripts to periodically verify document counts and query results. For example, in Python:
 
     ```python
-    import re    
+    import redis
+
     def check_index_readiness(index_name, expected_docs):
         r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-        info = r.execute_command('FT.INFO', index_name)
-        num_docs = int(info[info.index('num_docs') + 1])
-        return num_docs >= expected_d    
+        info = r.ft(index_name).info()
+        num_docs = int(info['num_docs'])
+        return num_docs >= expected_docs
+
     if check_index_readiness('my_new_index', 100000):
         print("Index is fully populated!")
     else:

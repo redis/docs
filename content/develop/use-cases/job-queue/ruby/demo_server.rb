@@ -5,10 +5,10 @@
 # pool of workers drain the queue, simulate worker crashes, and trigger a
 # reclaim sweep that pulls timed-out jobs back to pending.
 
-require 'cgi'
 require 'json'
 require 'optparse'
 require 'redis'
+require 'uri'
 require 'webrick'
 
 require_relative 'job_queue'
@@ -37,8 +37,15 @@ def parse_args(argv)
   opts
 end
 
+# Parse an application/x-www-form-urlencoded body into a Hash of value
+# Arrays. A missing key reads as an empty Array, as CGI.parse did before it
+# was dropped from Ruby's standard library in Ruby 4.
 def parse_form(body)
-  CGI.parse(body.to_s)
+  out = Hash.new { |h, k| h[k] = [] }
+  URI.decode_www_form(body.to_s).each { |k, v| out[k] << v }
+  out
+rescue ArgumentError
+  Hash.new { |h, k| h[k] = [] }
 end
 
 def clamp_int(value, lo, hi, default)
