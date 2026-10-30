@@ -36,7 +36,7 @@ In this example, the publisher side calls `PUBLISH` with a JSON-encoded body and
 The flow looks like this:
 
 1. The application calls `hub.subscribe(name, channels)` or `hub.psubscribe(name, patterns)`
-2. The helper builds a `JedisPubSub` listener and starts a daemon thread that calls `jedis.subscribe(listener, channels...)` (or `psubscribe(...)`) on the shared `RedisClient` — each call borrows a dedicated connection from the pool and blocks for the lifetime of the subscription
+2. The helper borrows a dedicated connection from the `RedisClient` pool, builds a `JedisPubSub` listener, and starts a daemon thread that calls `listener.proceed(connection, channels...)` (or `proceedWithPatterns(...)`) — both calls block for the lifetime of the subscription
 3. The application (or another process) calls `hub.publish(channel, message)`
 4. Redis fans the message out over every subscribing client's open socket
 5. The listener's `onMessage` (or `onPMessage`) callback fires on the subscriber thread, wraps the raw message as a `ReceivedMessage`, and appends it to a per-subscriber ring buffer
@@ -100,8 +100,9 @@ Subscription                            (in-process, one per subscriber)
   isPattern                 boolean
   buffer                    Deque<ReceivedMessage>  (capped, default 50)
   received                  long
-  listener                  JedisPubSub             (subscribed on its own connection)
-  thread                    Thread                  (blocks inside jedis.subscribe())
+  connection                Connection              (borrowed from the pool, one per subscription)
+  listener                  JedisPubSub             (subscribed on that connection)
+  thread                    Thread                  (blocks inside listener.proceed())
 ```
 
 The implementation uses:
@@ -112,7 +113,7 @@ The implementation uses:
 * [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list the channels with at least one active exact-match subscriber
 * [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per channel
 * [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide
-* Jedis' `JedisPubSub` listener subclass plus a dedicated daemon thread per subscriber so the blocking `subscribe()`/`psubscribe()` call does not freeze the rest of the application
+* Jedis' `JedisPubSub` listener subclass plus a dedicated daemon thread per subscriber so the blocking `proceed()`/`proceedWithPatterns()` call does not freeze the rest of the application
 
 ## Publishing messages
 
@@ -144,6 +145,8 @@ public Subscription subscribe(String name, List<String> channels) {
 Inside the `Subscription` constructor, the helper builds a `JedisPubSub` listener, starts the dispatch thread, and blocks until Redis has acknowledged every `SUBSCRIBE` so the very first publish can't race ahead:
 
 ```java
+this.connection = jedis.getPool().getResource();
+
 final CountDownLatch ackLatch = new CountDownLatch(targets.size());
 
 this.listener = new JedisPubSub() {
@@ -159,10 +162,14 @@ this.listener = new JedisPubSub() {
 
 final String[] targetArr = this.targets.toArray(new String[0]);
 this.thread = new Thread(() -> {
-    if (isPattern) {
-        jedis.psubscribe(listener, targetArr);
-    } else {
-        jedis.subscribe(listener, targetArr);
+    try {
+        if (isPattern) {
+            listener.proceedWithPatterns(connection, targetArr);
+        } else {
+            listener.proceed(connection, targetArr);
+        }
+    } finally {
+        connection.close();   // back to the pool
     }
 }, "pubsub-" + name);
 this.thread.setDaemon(true);
@@ -175,8 +182,8 @@ if (!ackLatch.await(2, TimeUnit.SECONDS)) {
 
 A few details matter here:
 
-* `jedis.subscribe(...)` and `jedis.psubscribe(...)` **block the calling thread** until the listener unsubscribes from every target. Running each subscription on its own thread is the only way to keep the rest of the application responsive — there is no "run in background" helper in Jedis.
-* Each `subscribe()` or `psubscribe()` call borrows its own connection from the pool and keeps it until the subscription ends. A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is switched into subscribe-only mode, so other commands on the same connection would fail — `RedisClient` runs those commands on other pooled connections. Sharing one connection across subscribers would also couple their lifetimes — unsubscribing one would tear down the channel for the others.
+* `listener.proceed(...)` and `listener.proceedWithPatterns(...)` **block the calling thread** until the listener unsubscribes from every target. Running each subscription on its own thread is the only way to keep the rest of the application responsive — there is no "run in background" helper in Jedis. `jedis.subscribe(...)` blocks in the same way, but it borrows the connection internally, so the caller has no handle to break it if the unsubscribe never completes.
+* Each `Subscription` borrows its own connection from the pool with `jedis.getPool().getResource()` and keeps it until the subscription ends. A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is switched into subscribe-only mode, so other commands on the same connection would fail — `RedisClient` runs those commands on other pooled connections. Sharing one connection across subscribers would also couple their lifetimes — unsubscribing one would tear down the channel for the others.
 * The constructor waits on a `CountDownLatch` that's decremented once per target inside `onSubscribe` / `onPSubscribe`. Without it, the parent thread could return from `subscribe()` while the spawned worker thread is still about to send the SUBSCRIBE command — and a `PUBLISH` issued immediately afterwards would beat the subscription into Redis.
 * The `JedisPubSub` listener is the same object on both threads: it's safe to call `listener.unsubscribe()` from a different thread because Jedis ships the unsubscribe command back over the listener's own socket. After the unsubscribe round-trip completes, the blocking `subscribe()` call returns and the worker thread exits.
 
@@ -323,15 +330,15 @@ A subscriber that's offline when a message is published misses it permanently. F
 
 ### Give every subscriber its own connection
 
-A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is in subscribe-only mode: any other command on the same connection will fail. Each `subscribe(...)` or `psubscribe(...)` call on a `RedisClient` borrows a connection from the pool and dedicates it to that subscription until it's torn down. The helper does this for you — every `Subscription` makes its own call on its own thread and holds its connection for the subscription's lifetime — but if you write your own subscriber code, the same rule applies.
+A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is in subscribe-only mode: any other command on the same connection will fail. Each `Subscription` borrows a connection from the `RedisClient` pool with `jedis.getPool().getResource()` and dedicates it to that subscription until it's torn down. The helper does this for you — every `Subscription` runs its own listener on its own thread and holds its connection for the subscription's lifetime — but if you write your own subscriber code, the same rule applies.
 
 A related corollary: never let the pool size cap your subscriber count. If you have 100 long-lived subscribers in one process, `ConnectionPoolConfig.setMaxTotal(...)` needs to allow at least 100 connections for the subscribers plus whatever your publishers and bookkeeping calls need. Set it generously; idle subscriber connections cost almost nothing on the Redis side.
 
 ### Unsubscribe through the listener, not the connection
 
-`jedis.subscribe(listener, channels...)` blocks until the listener calls `listener.unsubscribe()` (or `listener.punsubscribe()` for a pattern subscription). It's safe to call those methods from any thread: Jedis ships the unsubscribe command back over the listener's socket, Redis acknowledges, and then the blocking `subscribe()` call returns and the worker thread exits.
+`listener.proceed(connection, channels...)` blocks until the listener calls `listener.unsubscribe()` (or `listener.punsubscribe()` for a pattern subscription). It's safe to call those methods from any thread: Jedis ships the unsubscribe command back over the listener's socket, Redis acknowledges, and then the blocking `subscribe()` call returns and the worker thread exits.
 
-Closing the underlying `Jedis` instance directly works as a fallback — the socket read errors out and the blocking call returns — but it's a less clean shutdown and produces a stack trace in the logs. The helper does both: it calls `listener.unsubscribe()` first, then closes the connection from the worker thread's `finally` block as a belt-and-braces guard.
+Disconnecting the underlying `Connection` directly works as a fallback — the socket read errors out and the blocking call returns — but it's a less clean shutdown and produces a stack trace in the logs. The helper does both: it calls `listener.unsubscribe()` first and, if the worker thread has not exited within a second (for example on a half-open socket), disconnects the connection. The worker thread's `finally` block then returns it to the pool.
 
 ### Choose a topic naming convention up front
 

@@ -1,6 +1,7 @@
 import redis.clients.jedis.BuilderFactory;
 import redis.clients.jedis.CommandArguments;
 import redis.clients.jedis.CommandObject;
+import redis.clients.jedis.Connection;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Protocol;
 import redis.clients.jedis.RedisClient;
@@ -74,7 +75,7 @@ public class RedisPubSubHub {
      *
      * <p>Each {@code Subscription} owns its own {@link JedisPubSub} listener
      * running on a dedicated thread with a dedicated pooled
-     * connection. Subscriptions are independent: closing one does not
+     * {@link Connection}. Subscriptions are independent: closing one does not
      * affect another, even if they share channels.</p>
      */
     public final class Subscription {
@@ -88,6 +89,7 @@ public class RedisPubSubHub {
         private long received = 0;
         private volatile boolean closed = false;
 
+        private final Connection connection;
         private final JedisPubSub listener;
         private final Thread thread;
 
@@ -100,10 +102,13 @@ public class RedisPubSubHub {
             this.isPattern = isPattern;
             this.bufferSize = bufferSize;
 
-            // Each subscribe() call borrows its own pooled connection for as
-            // long as the subscription lasts. Sharing one connection across
-            // subscribers would couple their lifetimes — unsubscribing one
-            // would close the channel for the others.
+            // Each subscriber gets its own pooled connection. Sharing one
+            // connection across subscribers would couple their lifetimes —
+            // unsubscribing one would close the channel for the others. The
+            // helper borrows the connection itself, instead of calling
+            // jedis.subscribe(), so that close() can break it if UNSUBSCRIBE
+            // never completes.
+            this.connection = jedis.getPool().getResource();
 
             // ackLatch is counted down by Jedis once per target after Redis
             // acknowledges the SUBSCRIBE / PSUBSCRIBE. The constructor blocks
@@ -138,16 +143,24 @@ public class RedisPubSubHub {
             this.thread = new Thread(() -> {
                 try {
                     if (isPattern) {
-                        jedis.psubscribe(listener, targetArr);
+                        listener.proceedWithPatterns(connection, targetArr);
                     } else {
-                        jedis.subscribe(listener, targetArr);
+                        listener.proceed(connection, targetArr);
                     }
                 } catch (Exception e) {
+                    // Connection closed by close() is expected on shutdown.
                     // If we never got the first ack through, surface the
                     // failure so the constructor's wait can give up.
                     startupError.compareAndSet(0L, 1L);
                     while (ackLatch.getCount() > 0) {
                         ackLatch.countDown();
+                    }
+                } finally {
+                    // Return the connection to the pool (a broken one is
+                    // discarded rather than reused).
+                    try {
+                        connection.close();
+                    } catch (Exception ignored) {
                     }
                 }
             }, "pubsub-" + name);
@@ -231,7 +244,9 @@ public class RedisPubSubHub {
          * the same socket; after the listener has unsubscribed from every
          * target the blocking {@code subscribe}/{@code psubscribe} call
          * returns, the thread exits, and the connection goes back to the
-         * pool.</p>
+         * pool. If that does not happen within a second (for example on a
+         * half-open socket) the connection is disconnected, which makes the
+         * blocked read fail so the thread can return it.</p>
          */
         public void close() {
             if (closed) {
@@ -252,6 +267,19 @@ public class RedisPubSubHub {
                 thread.join(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+            }
+            if (thread.isAlive()) {
+                // Last resort: dropping the connection forces the
+                // blocking proceed() call to return.
+                try {
+                    connection.disconnect();
+                } catch (Exception ignored) {
+                }
+                try {
+                    thread.join(500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
