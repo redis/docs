@@ -1,6 +1,7 @@
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.args.ListDirection;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 
@@ -219,7 +220,7 @@ public class RedisJobQueue {
         double timeoutSec = Math.max(timeoutMs / 1000.0, 0.1);
         String jobId;
         try (Jedis jedis = pool.getResource()) {
-            jobId = jedis.brpoplpush(pendingKey, processingKey, (int) Math.ceil(timeoutSec));
+            jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
         }
         if (jobId == null) {
             return null;
