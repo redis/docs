@@ -140,6 +140,12 @@ command_flags:
 - readonly
 - module
 - movablekeys
+compatibility:
+  software:
+    general: unsupported
+  cloud:
+    pro: unsupported
+    essentials: unsupported
 complexity: O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples
   per chunk), k = Number of samples that are in the requested range
 description: Query a range across multiple time series in reverse direction, returning
@@ -431,9 +437,7 @@ A `NaN` value can mean that a key had no sample at that timestamp or no samples 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Not supported</span><br /> | <span title="Not supported">&#x274c; Flexible & Annual</span><br /><span title="Not supported">&#x274c; Free & Fixed</nobr></span> |  
+{{< command-compatibility >}}
 
 ## Return information
 

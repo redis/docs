@@ -20,6 +20,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(k) where k is the value of top-k
 description: Return the full list of items in the Top-K sketch
 group: topk
@@ -72,9 +78,7 @@ TOPK.LIST topk WITHCOUNT
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -55,6 +55,13 @@ command_flags:
 - readonly
 - blocking
 - movablekeys
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: 'For each stream mentioned: O(M) with M being the number of elements returned.
   If M is constant (for example, always asking for the first 10 elements with COUNT),
   you can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay
@@ -402,9 +409,7 @@ and semantics.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

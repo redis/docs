@@ -53,6 +53,13 @@ command_flags:
 - write
 - denyoom
 - blocking
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(1)
 description: Pops an element from a list, pushes it to another list and returns it.
   Blocks until an element is available otherwise. Deletes the list if the last element
@@ -154,9 +161,7 @@ Please see the pattern description in the [`LMOVE`](/content/commands/lmove.md) 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

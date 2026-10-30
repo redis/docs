@@ -25,6 +25,15 @@ categories:
 command_flags:
 - write
 - fast
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
+  notes:
+  - Redis Software does not support shared databases due to potential negative performance impacts and blocks any related commands.
 complexity: O(1)
 description: Moves a key to another database.
 group: generic
@@ -72,9 +81,7 @@ The destination database index.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Redis Software does not support shared databases due to potential negative performance impacts and blocks any related commands. |
+{{< command-compatibility >}}
 
 ## Return information
 

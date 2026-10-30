@@ -26,6 +26,15 @@ categories:
 command_flags:
 - write
 - fast
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - For Active-Active or clustered databases, the original key and new key must be in the same hash slot.
 complexity: O(1)
 description: Renames a key only when the target key name doesn't exist.
 group: generic
@@ -105,9 +114,7 @@ redis> GET myotherkey
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | For Active-Active or clustered databases, the original key and new key must be in the same hash slot. |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -17,6 +17,7 @@ const FILTERS = {
     element: document.querySelector('#group-filter'),
     oninput: () => {
       const { value } = FILTERS.group.element;
+      syncDeprecatedFilter();
       if (setDisabledVersions(value)) return;
       FILTERS.version.element.value = '';
       const isCore = FILTERS.group.element.value && FILTERS.group.element.selectedOptions[0].dataset.kind === 'core';
@@ -32,6 +33,10 @@ const FILTERS = {
   version: {
     element: document.querySelector('#version-filter'),
     versionMatch: true
+  },
+  compat: {
+    element: document.querySelector('#compat-filter'),
+    tokenMatch: true
   },
   name: {
     element: document.querySelector('#name-filter'),
@@ -60,6 +65,22 @@ nameFilter.addEventListener('keydown', function (event) {
 
 const hiddenCards = [];
 
+// "Show only deprecated commands" belongs to the main list view, so it's hidden,
+// and cleared, while a group is selected. It's a checkbox, whose value is always
+// "on", so it sits outside FILTERS and round-trips as ?deprecated=true.
+const deprecatedFilter = document.querySelector('#deprecated-filter');
+
+function syncDeprecatedFilter() {
+  if (!deprecatedFilter) return;
+  const onMainView = !FILTERS.group.element.value;
+  document.querySelector('#deprecated-filter-label').classList.toggle('hidden', !onMainView);
+  if (!onMainView && deprecatedFilter.checked) {
+    deprecatedFilter.checked = false;
+    url.searchParams.delete('deprecated');
+    setUrl();
+  }
+}
+
 function setDisabledVersions(value) {
   return FILTERS.version.element.disabled = !value;
 }
@@ -77,8 +98,11 @@ function isVersionGreaterThan(a, b) {
   return true;
 }
 
-function match({ element: { value: filterValue }, versionMatch, partialMatch, alphaMatch }, elementValue) {
-  if (versionMatch) {
+function match({ element: { value: filterValue }, versionMatch, partialMatch, alphaMatch, tokenMatch }, elementValue) {
+  if (tokenMatch) {
+    // data-compat is a space-separated list of products/variants that are not fully supported
+    return (elementValue || '').split(' ').includes(filterValue);
+  } else if (versionMatch) {
     const version = elementValue.substring(elementValue.lastIndexOf('-') + 1);
     return isVersionGreaterThan(version, filterValue);
   } else if (partialMatch) {
@@ -86,8 +110,25 @@ function match({ element: { value: filterValue }, versionMatch, partialMatch, al
   } else if (alphaMatch) {
     return elementValue && elementValue.toLowerCase().startsWith(filterValue.toLowerCase());
   } else {
-    return filterValue === elementValue;
+    // A comma-separated value, such as ?group=bf,cf,cms, matches any of its groups
+    return filterValue.split(',').includes(elementValue);
   }
+}
+
+// A <select> can't hold a value none of its options has, so a multi-group URL
+// value would silently reset to "all". Add an option for the combination,
+// labelled with the groups' own names.
+function addGroupCombination(value) {
+  const select = FILTERS.group.element;
+  if (!value.includes(',') || [...select.options].some(o => o.value === value)) return;
+  const names = value.split(',').map(id => {
+    const option = [...select.options].find(o => o.value === id);
+    return option ? option.textContent.trim() : id;
+  });
+  const option = new Option(names.join(', '), value);
+  const kinds = value.split(',').map(id => [...select.options].find(o => o.value === id)?.dataset.kind);
+  if (kinds.every(kind => kind && kind === kinds[0])) option.dataset.kind = kinds[0];
+  select.add(option);
 }
 
 function filter() {
@@ -108,6 +149,12 @@ function filter() {
 
   for (const element of commandElements) {
     let shouldHide = false;
+
+    if (deprecatedFilter && deprecatedFilter.checked && element.dataset.deprecated !== 'true') {
+      element.style.display = 'none';
+      hiddenCards.push(element);
+      continue;
+    }
 
     for (const [key, filter] of Object.entries(FILTERS)) {
       if (!filter.element.value) continue;
@@ -186,6 +233,7 @@ function initializeFilters() {
 
   for (const [key, { element, oninput }] of Object.entries(FILTERS)) {
     if (url.searchParams.has(key)) {
+      if (key === 'group') addGroupCombination(url.searchParams.get(key));
       element.value = url.searchParams.get(key);
     }
 
@@ -198,6 +246,19 @@ function initializeFilters() {
         url.searchParams.set(key, element.value);
       }
 
+      setUrl();
+      filter();
+    });
+  }
+
+  if (deprecatedFilter) {
+    deprecatedFilter.checked = url.searchParams.get('deprecated') === 'true';
+    deprecatedFilter.addEventListener('change', () => {
+      if (deprecatedFilter.checked) {
+        url.searchParams.set('deprecated', 'true');
+      } else {
+        url.searchParams.delete('deprecated');
+      }
       setUrl();
       filter();
     });

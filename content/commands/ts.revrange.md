@@ -67,6 +67,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(n/m+k) where n = Number of data points, m = Chunk size (data points
   per chunk), k = Number of data points that are in the requested range
 description: Query a range in reverse direction
@@ -354,9 +360,7 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

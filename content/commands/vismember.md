@@ -17,6 +17,13 @@ categories:
 - clients
 command_flags:
 - READONLY
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: supported
+    active_active: unsupported
 complexity: O(1)
 description: Check if an element exists in a vector set.
 function: vismemberCommand
@@ -48,9 +55,7 @@ is the name of the element you want to check for membership.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

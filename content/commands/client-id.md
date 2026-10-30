@@ -17,6 +17,15 @@ command_flags:
 - noscript
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Because Redis Software clustering allows [multiple active proxies](/content/operate/rs/databases/configure/proxy-policy.md), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies.
 complexity: O(1)
 description: Returns the unique client ID of the connection.
 group: connection
@@ -45,9 +54,7 @@ redis> CLIENT ID
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies](/content/operate/rs/databases/configure/proxy-policy.md), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |
+{{< command-compatibility >}}
 
 ## Return information
 

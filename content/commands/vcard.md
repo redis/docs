@@ -9,6 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: supported
+    active_active: unsupported
 complexity: O(1)
 description: Return the number of elements in a vector set.
 group: vector_set
@@ -38,9 +45,7 @@ is the name of the key that holds the vector set.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

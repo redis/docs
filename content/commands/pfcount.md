@@ -22,6 +22,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(1) with a very small average constant time when called with a single
   key. O(N) with N being the number of keys, and much bigger constant times, when
   called with multiple keys.
@@ -129,9 +136,7 @@ More details about the Redis HyperLogLog implementation can be found in [this bl
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

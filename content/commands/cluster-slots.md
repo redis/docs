@@ -15,6 +15,15 @@ categories:
 command_flags:
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). Deprecated as of Redis v7.0.0.
 complexity: O(N) where N is the total number of Cluster nodes
 deprecated_since: 7.0.0
 description: Returns the mapping of cluster slots to nodes.
@@ -130,9 +139,7 @@ Similarly a client library should try if possible to cope with the fact that old
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). Deprecated as of Redis v7.0.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -84,7 +84,9 @@ gitHubRepo = "https://github.com/redis/docs"
 #        the redirect tombstones published at a moved page's old URL. A parser
 #        switching on page_type now meets a value it has not seen, and those
 #        records carry a `moved_to` field, so this is a shape change (DOC-6951).
-aiSchemaVersion = 2
+#   3 -- adds `compatibility` to command page records: Redis Software and Redis
+#        Cloud support per variant, from the page's frontmatter (DOC-7160).
+aiSchemaVersion = 3
 
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]

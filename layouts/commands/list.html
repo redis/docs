@@ -11,7 +11,75 @@
       <section class="prose w-full py-12"> 
         <h1>Commands</h1>
       </section>
-      <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
+      {{- /* Compatibility badges and filter tokens, from each page's `compatibility`
+             frontmatter (see data/compatibility.yaml). A card shows a badge only for
+             what isn't fully supported. A product where nothing is fully supported
+             gets one badge; otherwise each deviating variant gets its own. Filter
+             tokens are "<product>" for the base variants and "<product>-<variant>"
+             for Active-Active and Flex, matching the #compat-filter option values. */ -}}
+      {{- $compat := site.Data.compatibility -}}
+      {{- $statuses := dict -}}
+      {{- range $compat.statuses -}}
+        {{- $statuses = merge $statuses (dict .key .) -}}
+      {{- end -}}
+      {{- $cards := dict -}}
+      {{- $allTokens := slice -}}
+      {{- range where (where .Site.Pages "Section" .Section) ".Params.compatibility" "!=" nil -}}
+        {{- $c := .Params.compatibility -}}
+        {{- $badges := slice -}}
+        {{- $tokens := slice -}}
+        {{- range $p := $compat.products -}}
+          {{- with index $c $p.key -}}
+            {{- $pv := . -}}
+            {{- $present := 0 -}}
+            {{- $bad := slice -}}
+            {{- range $v := $compat.variants -}}
+              {{- with index $pv $v.key -}}
+                {{- $present = add $present 1 -}}
+                {{- $status := . -}}
+                {{- $note := "" -}}
+                {{- if reflect.IsMap . -}}
+                  {{- $status = .status -}}
+                  {{- $note = .note | default "" -}}
+                {{- end -}}
+                {{- if ne $status "supported" -}}
+                  {{- $bad = $bad | append (dict "variant" $v "status" (index $statuses $status) "key" $status "note" $note) -}}
+                  {{- $tokens = $tokens | append (cond (in $compat.base_variants $v.key) $p.key (printf "%s-%s" $p.key $v.key)) -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+            {{- if $bad -}}
+              {{- $groups := slice -}}
+              {{- if eq (len $bad) $present -}}
+                {{- $groups = $groups | append (dict "label" $p.label "items" $bad "wide" true) -}}
+              {{- else -}}
+                {{- range $bad -}}
+                  {{- $groups = $groups | append (dict "label" (trim (printf "%s %s" $p.label .variant.label) " ") "items" (slice .) "wide" false) -}}
+                {{- end -}}
+              {{- end -}}
+              {{- range $g := $groups -}}
+                {{- $worst := index $statuses "limited" -}}
+                {{- $tips := slice -}}
+                {{- range $g.items -}}
+                  {{- if in (slice "unsupported" "workaround") .key -}}{{- $worst = index $statuses "unsupported" -}}{{- end -}}
+                  {{- $tip := .status.label -}}
+                  {{- if and $g.wide .variant.label -}}{{- $tip = printf "%s: %s" .variant.label $tip -}}{{- end -}}
+                  {{- with .note -}}{{- $tip = printf "%s. %s" $tip (. | $.Page.RenderString | plainify) -}}{{- end -}}
+                  {{- $tips = $tips | append $tip -}}
+                {{- end -}}
+                {{- $badges = $badges | append (dict "text" $g.label "emoji" $worst.emoji "tip" $tips) -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $tokens = $tokens | uniq -}}
+        {{- range $tokens -}}
+          {{- $allTokens = $allTokens | append . -}}
+        {{- end -}}
+        {{- $cards = merge $cards (dict .RelPermalink (dict "badges" $badges "tokens" $tokens)) -}}
+      {{- end -}}
+      {{- $allTokens = $allTokens | uniq -}}
+      <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
           <span class="sr-only">Search commands&hellip;</span>
           <svg class="text-redis-ink-900 absolute left-4 w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -58,6 +126,27 @@
           <option value="transactions" data-kind="core">Transactions</option>
           <option value="vector_set" data-kind="core">Vector set</option>
         </select>
+        {{- /* Only filters some command has data for are offered, so a Cloud Flex
+               option appears once any page records Cloud Flex support. */ -}}
+        <select id="compat-filter" class="cursor-pointer transition appearance-none block w-full pl-4 pr-12 py-3 rounded-md bg-clip-padding bg-white hover:bg-red-50/50 focus:bg-red-50/50 border border-redis-ink-900  ring-red-200 focus:ring-red-200 focus:ring-[3px] focus:outline-none text-redis-ink-900/70">
+          <option value>Filter by compatibility&hellip;</option>
+          {{- range $p := $compat.products }}
+            {{- if in $allTokens $p.key }}
+          <option value="{{ $p.key }}">Not fully supported in {{ $p.label }}</option>
+            {{- end }}
+            {{- range $v := $compat.variants }}
+              {{- $token := printf "%s-%s" $p.key $v.key }}
+              {{- if in $allTokens $token }}
+          <option value="{{ $token }}">Not fully supported in {{ $p.label }} {{ $v.label }}</option>
+              {{- end }}
+            {{- end }}
+          {{- end }}
+        </select>
+        {{- /* Main list view only: commands-filters.js hides and clears it once a group is chosen. */}}
+        <label id="deprecated-filter-label" class="col-span-full flex items-center gap-2 text-left text-redis-ink-900 cursor-pointer">
+          <input id="deprecated-filter" type="checkbox" class="h-4 w-4 cursor-pointer accent-redis-red-600">
+          Show only deprecated commands
+        </label>
         <div style="display:none">
           <label for="version-filter">by version</label>
           <select id="version-filter">
@@ -110,6 +199,9 @@
             class="flex flex-col gap-2 transition relative h-full py-4 text-base text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group" 
             data-name="{{ .Title }}" 
             data-group="{{ .Params.group }}"
+            {{- $card := index $cards .RelPermalink }}
+            data-compat="{{ with $card }}{{ delimit .tokens " " }}{{ end }}"
+            data-deprecated="{{ if in (.Params.doc_flags | default slice) "deprecated" }}true{{ end }}"
             data-version
             data-top
           >
@@ -136,6 +228,16 @@
             <p class="px-6">
               {{ .Params.summary }}
             </p>
+            {{- with $card }}{{ with .badges }}
+            <div class="compat-badges px-6">
+              {{- range . }}
+              <div class="deprecated-tooltip-trigger">
+                <a class="compat-badge" href="{{ $page.RelPermalink }}#redis-software-and-redis-cloud-compatibility">{{ .emoji }} {{ .text }}</a>
+                <div class="deprecated-tooltip">{{ delimit .tip "<br />" | safeHTML }}</div>
+              </div>
+              {{- end }}
+            </div>
+            {{- end }}{{ end }}
             <div class="grow"></div>
             <div class="text-sm font-mono group-hover:underline px-6">Learn more →</div>
             <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">

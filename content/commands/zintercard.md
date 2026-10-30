@@ -31,6 +31,13 @@ categories:
 command_flags:
 - readonly
 - movablekeys
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N*K) worst case with N being the smallest input sorted set, K being
   the number of input sorted sets.
 description: Returns the number of members of the intersect of multiple sorted sets.
@@ -115,9 +122,7 @@ redis> ZINTERCARD 2 zset1 zset2 LIMIT 1
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

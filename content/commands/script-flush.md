@@ -29,6 +29,13 @@ categories:
 - clients
 command_flags:
 - noscript
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N) with N being the number of scripts in cache
 description: Removes all server-side Lua scripts from the script cache.
 group: scripting
@@ -69,9 +76,7 @@ Flush the script cache asynchronously (`ASYNC`) or synchronously (`SYNC`). The d
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

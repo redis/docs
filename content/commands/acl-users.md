@@ -19,6 +19,15 @@ command_flags:
 - noscript
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Not supported for [scripts](/content/develop/programmability/_index.md).
 complexity: O(N). Where N is the number of configured users.
 description: Lists all ACL users.
 group: server
@@ -44,9 +53,7 @@ users in the Redis ACL system.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](/content/develop/programmability/_index.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -26,6 +26,13 @@ command_flags:
 - noscript
 - no_async_loading
 - no_multi
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 description: An internal command used in replication.
 group: server
 hidden: false
@@ -60,9 +67,7 @@ The replication offset to resume from.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

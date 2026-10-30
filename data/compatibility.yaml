@@ -1,0 +1,52 @@
+# Labels for the `compatibility` frontmatter on content/commands/*.md pages.
+#
+# Templates read every product, variant, and status label from here, so renaming
+# one is a single edit. Lists, not maps, because Hugo does not keep map order and
+# the order here is the order on the page.
+
+products:
+  - key: software
+    label: Redis Software
+    header: Redis<br />Software
+  - key: cloud
+    label: Redis Cloud
+    header: Redis<br />Cloud
+
+# `general` is a product-wide claim with no per-variant breakdown. It renders as
+# the status word ("Supported") instead of a variant name.
+variants:
+  - key: general
+    label: ""
+  - key: standard
+    label: Standard
+  - key: pro
+    label: Pro
+  - key: essentials
+    label: Essentials
+  - key: active_active
+    label: Active-Active
+  - key: flex
+    label: Flex
+
+# `base` marks the variants a plain "Redis Software" or "Redis Cloud" filter
+# matches; Active-Active and Flex have filters of their own.
+base_variants: [general, standard, pro, essentials]
+
+# `workaround` is "not supported, but there is another way", and always has a note.
+statuses:
+  - key: supported
+    label: Supported
+    entity: "&#x2705;"
+    emoji: "✅"
+  - key: limited
+    label: Limited
+    entity: "&#x26A0;&#xFE0F;"
+    emoji: "⚠️"
+  - key: workaround
+    label: Not supported
+    entity: "&#x26A0;&#xFE0F;"
+    emoji: "⚠️"
+  - key: unsupported
+    label: Not supported
+    entity: "&#x274c;"
+    emoji: "❌"
