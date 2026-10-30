@@ -2,7 +2,7 @@ package com.redis.agentmem;
 
 import org.json.JSONObject;
 import redis.clients.jedis.AbstractTransaction;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.json.Path2;
 import redis.clients.jedis.search.Document;
@@ -97,7 +97,7 @@ public final class LongTermMemory {
      */
     private static final String TAG_SPECIAL = "\\,.<>{}[]\"':;!@#$%^&*()-+=~| ";
 
-    private final JedisPooled jedis;
+    private final RedisClient jedis;
     private final String indexName;
     private final String keyPrefix;
     private final int vectorDim;
@@ -106,7 +106,7 @@ public final class LongTermMemory {
     private final Map<String, Long> ttlByKind;
 
     public LongTermMemory(
-            JedisPooled jedis,
+            RedisClient jedis,
             String indexName,
             String keyPrefix,
             int vectorDim,
