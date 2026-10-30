@@ -52,14 +52,14 @@ Add the Lettuce dependency to your project:
   <dependency>
       <groupId>io.lettuce</groupId>
       <artifactId>lettuce-core</artifactId>
-      <version>6.7.1.RELEASE</version>
+      <version>7.9.0.RELEASE</version>
   </dependency>
   ```
 
 * If you use **Gradle**:
 
   ```groovy
-  implementation 'io.lettuce:lettuce-core:6.7.1.RELEASE'
+  implementation 'io.lettuce:lettuce-core:7.9.0.RELEASE'
   ```
 
 ### Lettuce vs Jedis
@@ -253,16 +253,39 @@ curl -O $BASE/ReactiveRedisLeaderboard.java
 curl -O $BASE/DemoServer.java
 ```
 
+### Get Lettuce and its dependencies
+
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
+
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
+
 ### Start the demo server
 
 A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-lettuce/DemoServer.java)) is included to show the leaderboard in action:
 
 ```bash
 # Compile
-javac -cp lettuce-core-6.7.1.RELEASE.jar AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
+javac -cp 'lib/*' AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
 
 # Run the demo server
-java -cp .:lettuce-core-6.7.1.RELEASE.jar DemoServer
+java -cp '.:lib/*' DemoServer
 ```
 
 The demo uses the async implementation for the HTTP handlers and provides an interactive web interface where you can:
