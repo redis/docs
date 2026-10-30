@@ -68,9 +68,7 @@ Your administrator sets the playbook controls:
 | `discovery.maxResults` | `10` | Combined result ceiling for pins and discovered matches. |
 | `discovery.previewTokenBudget` | Disabled | Estimated token ceiling for the discovery response. It applies only when `discovery.previewTokenBudgetEnabled` is `true`. |
 
-Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds.
-
-<!-- TODO: Link to Agent Playbooks retrieval configuration in the operator guide when available. -->
+Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds in its [discovery policy]({{< relref "/operate/iris/agent-playbook/manage-playbook#discovery-policy" >}}).
 
 ### Pin required knowledge
 

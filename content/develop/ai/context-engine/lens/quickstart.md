@@ -15,7 +15,7 @@ Trace one agent turn with the Redis Iris software development kit (SDK), then fi
 
 ## Before you begin
 
-Get these values from your administrator:
+Get these values. On Redis Cloud, [create Lens and its keys](/content/operate/iris/lens/create-lens.md). Self-managed, get them from your administrator.
 
 - The Iris host, such as `https://iris.example.com`. The SDK sends turns there, and the read client reads them back from there.
 - An ingest key, for sending turns.
@@ -33,6 +33,7 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install redis-iris 'redis-agent-lens>=0.1.0a4'
 ```
+<!-- TODO: confirm the install command; the console uses pip install --pre "redis-iris[llm-tracing]" -->
 
 ## Configure the SDK
 
@@ -74,8 +75,8 @@ A turn is readable a few seconds after its export.
 
 To view it in Lens:
 
-1. Open Lens. If Lens asks for a credential, paste your read key and select **Connect**.
-   <!-- TODO: describe where to open Lens on Redis Cloud and self-managed when the operator pages exist. -->
+1. Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu; Lens uses your console sign-in. Self-managed, Lens asks for a credential: paste your read key and select **Connect**.
+   <!-- TODO: describe where to open Lens self-managed when the operator pages exist. -->
 1. Select the `lens-quickstart` agent.
 1. Select the session that matches the printed session ID.
 1. Expand the turn.

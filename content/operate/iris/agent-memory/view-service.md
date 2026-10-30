@@ -14,41 +14,56 @@ aliases:
 - /operate/rc/agent-memory/view-service/
 ---
 
-After you have [created your first Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
+After you have [created your first Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), select **Agent Memory** under **Iris** in the Redis Cloud console menu to see the **Agent Memory** page.
 
-This page displays a list of all Agent Memory services associated with your account.
+This page lists all Agent Memory services associated with your account, with each service's status, name, store ID, related database, and created date.
 
-![The Agent Memory service in the Agent Memory service list.](/images/rc/agent-memory-service-list.png)
+Select your Agent Memory service from the list to view the service's details. The service's page has these tabs:
 
-Select your Agent Memory service from the list to view the service's details.
+- [**Configuration**](#configuration-tab): view and edit the service's settings, connect an agent, and flush or delete the service.
+- **MemoryETL**: extract long-term memories from documents you upload. This tab has a **Beta** badge.
+- [**API explorer**](#api-explorer-tab): try Agent Memory API requests against the service.
+- **Memory Inspector**: browse the service's sessions and search its long-term memories.
+- [**Metrics**](#metrics-tab): view latency and token usage.
+
+<!-- TODO: MemoryETL and Memory Inspector need their own coverage. -->
+
+Which tabs, sections, and buttons you see depends on your permissions. For example, **Edit**, **Flush**, **Delete**, **Create API key**, **Metrics**, and **Memory Inspector** each need a specific permission.
+<!-- TODO: document which Redis Cloud roles grant each Agent Memory permission. -->
 
 ## Configuration tab
 
-The **Configuration** tab lets you view the details of your Agent Memory service. It contains the following sections:
+The **Configuration** tab lets you view the details of your Agent Memory service.
+
+It starts with a banner for connecting your agent:
+
+- Select **Connect** to see the service's endpoint, its store ID, and **Quick connect** samples for each software development kit (SDK).
+- Select **Create API key** to create a key with access to this service. The button appears only when the service has no active API key. See [Connect and create an API key](/content/operate/iris/agent-memory/create-service.md#connect-and-create-an-api-key).
+- Select **API docs** to open the Agent Memory API documentation.
+
+The banner is followed by these sections:
 
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Redis Agent Memory service.
 - The **AI model and credentials** section shows the model configuration for a service that uses a customer-managed provider key.
 - The **Memory types & extraction** section shows any custom memory types defined for your service.
 - The **Sensitive-data exclusions** section shows the sensitive-data exclusions configured for your service.
-- The **Actions** section lets you flush or delete your Redis Agent Memory service.
+- The **Danger zone** section lets you flush or delete your Redis Agent Memory service.
 
-Some of these settings can be changed after service creation. To do so, select the **Edit** button.
+Some of these settings can be changed after service creation. To do so, select **Edit** in the **General settings** section, make your changes, and select **Save**.
 
 ### General settings
 
 The **General settings** section provides the connection details and general settings for your Agent Memory service.
 
-![The General settings for the Agent Memory service.](/images/rc/agent-memory-view-general.png)
-
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Service name** | The name of your agent memory service. _(Editable)_ |
+| **Service Name** | The name of your agent memory service. _(Editable)_ |
 | **Database** | The name of the database your service uses. |
 | **Store ID** | The unique ID of your Agent Memory store. |
-| **Endpoint** | The base URL for any Agent Memory requests. |
+| **URL List** | The base URL for Agent Memory requests. If the service is available in several regions, select **Show all regions** to see each region's URL. |
 
-Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
+Select the copy button next to the **Store ID** or a URL to copy it to the clipboard.
 
 Follow the [Redis Agent Memory quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to use the connection information and API key.
 
@@ -94,7 +109,7 @@ Because a custom memory type's structure is fixed after creation, only some sett
 | **Extraction prompt** | The extraction strategy prompt for the custom memory type. _(Editable)_ |
 | **Enabled** | Whether the extraction strategy is active. _(Editable)_ |
 
-To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
+To change a custom memory type's name or fields, you must create a new service. You can't delete a custom memory type, remove an existing type's extraction prompt, or add an extraction strategy to a type created without one. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
@@ -116,11 +131,9 @@ Changing exclusions affects memories extracted after you save. Memories already 
 > [!WARNING]
 > Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 
-### Actions
+### Danger zone
 
-The **Actions** section lets you flush or delete your Agent Memory service.
-
-![The actions for the Agent Memory service.](/images/rc/agent-memory-view-actions.png)
+The **Danger zone** section lets you flush or delete your Agent Memory service.
 
 #### Flush memory entries
 
@@ -128,72 +141,59 @@ Flushing the service completely erases all stored memory data while preserving t
 
 To flush the service:
 
-1. Select **Flush**.
+1. Select **Flush**. You can't flush the service while you're editing it, or while it's unavailable.
 
-1. A confirmation dialog will appear. Select **Flush** again to confirm.
+1. In the **Flush all entries** dialog, select **Yes, I want to flush all entries**.
+
+1. Select **Flush** to confirm.
 
 Flushing the service is permanent and cannot be undone, and will result in empty memory retrieval results until new memory is stored.
 
 #### Delete service
 
-Deleting your Agent Memory service permanently deletes all associated memory data, the service configuration, the Agent Memory search index, and any stored model provider key. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
+Deleting your Agent Memory service permanently deletes the service configuration and its short-term sessions. Long-term memories stay in your database.
+<!-- TODO: confirm what deleting a service removes. The console says long-term memories stay in your database. The previous docs said deletion removes all memory data, the search index, any stored model provider key, and access for the service's API keys. -->
 
 To delete your Agent Memory service:
 
-1. Select **Delete**.
+1. Select **Delete**. You can't delete the service while you're editing it.
 
-1. A confirmation dialog will appear. Select the checkbox to confirm that you want to delete the service.
+1. In the **Delete service** dialog, select **Yes, I want to delete this resource**.
 
 1. Select **Delete** again to confirm.
 
 Deleting the Agent Memory service is permanent and cannot be undone.
 
+## API explorer tab
+
+The **API explorer** tab lets you try Agent Memory API requests against your service from the console.
+
 ## Metrics tab
 
-The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service.
+The **Metrics** tab shows performance and usage data for your Agent Memory service. Choose a period of an hour, a day, a week, 30 days, or 90 days.
+
+The **API & reliability** view shows the following:
 
 | Metric | Description |
 |--------|-------------|
 | Short-term Memory Latency | The average time to process a Short-term memory (or Session memory) lookup request.  |
 | Long-term Memory Latency | The average time to process a Long-term memory lookup request. |
 
-## API keys tab
+The view also shows **Latency by phase**, with charts for **Retrieval latency**, **Embedding latency**, and **Generation latency**. Some services don't report phase latency.
 
-The **API keys** tab shows a list of all API keys for your service.
+The **Token consumption** view shows how many large language model (LLM) and embedding tokens the service used, with a breakdown by feature, such as extraction and session summaries. Select **Export** to download the data as a comma-separated values (CSV) file.
 
-![The actions for the Agent Memory service.](/images/rc/agent-memory-view-api-keys.png)
+## Create an API key {#create-an-api-key}
 
-Here, you can generate a new API key or remove any keys that are no longer in use. You can generate or remove service API keys at any time.
+Agents call the Agent Memory API with an API key that has access to the service. To create a key for one service, select **Create API key** or **Connect** in the service's [connect banner](#configuration-tab). To create a key that can reach several services, or to manage existing keys, use **Access & Identity**:
 
-### Generate a new service API key {#replace-service-api-key}
-
-To generate a new service key:
-
+1. In the Redis Cloud console menu, select **Access & Identity** under **Iris**.
 1. Select **New API key**.
+1. Under **Access**, give the key access to your service's memory store under **Agent Memory**.
+1. Select **Create key**.
+1. Copy the key's token.
 
-    ![The New API key button.](/images/rc/agent-memory-new-api-key.png)
-    {width="150px"}
+> [!WARNING]
+> The console shows the key's token only once, when you create it. Save it to a secure location before you close the page. If you lose it, create a new key.
 
-1. Enter a new name for your API key.
-
-    ![The Add API key window.](/images/rc/agent-memory-add-api-key.png)
-    {width="37.5%"}
-
-1. Select **Generate key** to generate your new API key.
-
-1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
-
-    ![The Agent Memory service key window. Use the Copy button to save the service key to the clipboard.](/images/rc/agent-memory-service-key.png)
-    {width="40%"}
-
-    > [!WARNING]
-    > This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
-    >
-    > If you lose the service key value, you will need to generate a new key again.
-
-### Delete API key
-
-To delete an API key, select the **Delete API key** button next to the old key.
-
-![Delete button.](/images/rc/icon-delete-lb.png)
-{width="36px"}
+To remove an agent's access, delete its key in **Access & Identity**.
