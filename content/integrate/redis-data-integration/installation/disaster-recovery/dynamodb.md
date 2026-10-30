@@ -19,8 +19,10 @@ Use an Amazon DynamoDB global table with multi-Region strong consistency (MRSC) 
 leader election between Redis Data Integration (RDI) disaster recovery (DR) sites. A global
 table using the default multi-Region eventual consistency mode cannot prevent two sites from
 acquiring the lease. RDI refuses to start with such a table, or with a table whose key isn't a
-single string named `id`. With a single-Region table, RDI only logs a message at startup, and
-the lease doesn't survive the loss of that Region.
+single string named `id`. If RDI can't describe the table, for example without the
+`dynamodb:DescribeTable` permission, it logs a message and skips these checks. With a
+single-Region table, RDI only logs a message at startup, and the lease doesn't survive the loss
+of that Region.
 
 Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Amazon Web Services (AWS) command-line interface (CLI), authenticated
@@ -181,7 +183,7 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-b
-    standbyMode: false
+    standbyMode: true
     leaseType: dynamodb
     dynamoDBLease:
       region: <aws-replica-region-b>

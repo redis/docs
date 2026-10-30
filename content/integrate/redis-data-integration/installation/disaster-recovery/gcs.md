@@ -26,9 +26,8 @@ that can create buckets and grant access. The RDI operator needs separate runtim
 
 ## Create the bucket
 
-Create a dual-region or multi-region bucket. RDI stores the lease in the object's metadata,
-which Cloud Storage writes synchronously across the regions of such a bucket. A
-single-region bucket does not protect the lease against the loss of that region. RDI doesn't
+Create a dual-region or multi-region bucket. A single-region bucket does not protect the lease
+against the loss of that region. RDI doesn't
 reject a single-region bucket; it only logs a message at startup. Choose a location using
 [Cloud Storage bucket locations](https://cloud.google.com/storage/docs/locations).
 
@@ -45,6 +44,12 @@ location or `US` for a multi-region location. See
 for custom dual-region locations.
 
 RDI creates the lease object; do not create it yourself.
+
+> [!WARNING]
+> Don't apply an Object Lifecycle Management rule that deletes the lease object, such as a rule
+> that deletes objects by age. RDI creates the lease object once and then only updates it, so
+> such a rule eventually deletes it. Another site can then take over, and two sites can briefly
+> lead.
 
 ## Grant the operator access
 
@@ -120,7 +125,7 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-b
-    standbyMode: false
+    standbyMode: true
     leaseType: gcs
     gcsLease:
       bucketName: <lease-bucket>

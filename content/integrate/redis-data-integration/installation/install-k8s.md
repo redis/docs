@@ -20,8 +20,9 @@ This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/
 to install on [Kubernetes](https://kubernetes.io/) (K8s). You can also
 [Install RDI on VMs](/content/integrate/redis-data-integration/installation/install-vm.md).
 
-For a deployment across two sites with an external leader election lease, see
+For a deployment across two sites, see
 [Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md).
+Such a deployment requires an external lease for leader election.
 
 The installation creates the following K8s objects:
 
