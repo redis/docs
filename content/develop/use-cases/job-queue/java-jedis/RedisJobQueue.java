@@ -1,6 +1,5 @@
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.args.ListDirection;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
@@ -120,7 +119,7 @@ public class RedisJobQueue {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final String queueName;
     private final long visibilityMs;
     private final int completedTtl;
@@ -140,18 +139,18 @@ public class RedisJobQueue {
     private long failedTotal = 0;
     private long reclaimedTotal = 0;
 
-    public RedisJobQueue(JedisPool pool) {
-        this(pool, "jobs", 5000, 300, 50, 3);
+    public RedisJobQueue(RedisClient jedis) {
+        this(jedis, "jobs", 5000, 300, 50, 3);
     }
 
     public RedisJobQueue(
-            JedisPool pool,
+            RedisClient jedis,
             String queueName,
             long visibilityMs,
             int completedTtl,
             int completedHistory,
             int maxAttempts) {
-        this.pool = pool;
+        this.jedis = jedis;
         this.queueName = queueName;
         this.visibilityMs = visibilityMs;
         this.completedTtl = completedTtl;
@@ -200,8 +199,7 @@ public class RedisJobQueue {
         meta.put("enqueued_at_ms", Long.toString(now));
         meta.put("claim_token", "");
 
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        try (Pipeline pipe = jedis.pipelined()) {
             pipe.hset(metaKey(jobId), meta);
             pipe.lpush(pendingKey, jobId);
             pipe.sync();
@@ -219,9 +217,7 @@ public class RedisJobQueue {
     public ClaimedJob claim(long timeoutMs) {
         double timeoutSec = Math.max(timeoutMs / 1000.0, 0.1);
         String jobId;
-        try (Jedis jedis = pool.getResource()) {
-            jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
-        }
+        jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
         if (jobId == null) {
             return null;
         }
@@ -230,18 +226,18 @@ public class RedisJobQueue {
         long now = nowMs();
         String mk = metaKey(jobId);
         Map<String, String> meta;
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        redis.clients.jedis.Response<Map<String, String>> resp;
+        try (Pipeline pipe = jedis.pipelined()) {
             Map<String, String> updates = new LinkedHashMap<>();
             updates.put("status", "processing");
             updates.put("claimed_at_ms", Long.toString(now));
             updates.put("claim_token", token);
             pipe.hset(mk, updates);
             pipe.hincrBy(mk, "attempts", 1);
-            redis.clients.jedis.Response<Map<String, String>> resp = pipe.hgetAll(mk);
+            resp = pipe.hgetAll(mk);
             pipe.sync();
-            meta = resp.get();
         }
+        meta = resp.get();
 
         Map<String, Object> payload;
         try {
@@ -274,18 +270,14 @@ public class RedisJobQueue {
                 Integer.toString(completedHistory)
         );
         Object res;
-        try (Jedis jedis = pool.getResource()) {
-            res = jedis.eval(COMPLETE_SCRIPT, keys, args);
-        }
+        res = jedis.eval(COMPLETE_SCRIPT, keys, args);
         if (res == null || !"1".equals(res.toString())) {
             return false;
         }
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, Object> event = new LinkedHashMap<>();
-            event.put("id", job.id);
-            event.put("status", "completed");
-            jedis.publish(eventsChannel, JsonUtil.toJson(event));
-        }
+        Map<String, Object> event = new LinkedHashMap<>();
+        event.put("id", job.id);
+        event.put("status", "completed");
+        jedis.publish(eventsChannel, JsonUtil.toJson(event));
         synchronized (statsLock) {
             completedTotal++;
         }
@@ -308,18 +300,14 @@ public class RedisJobQueue {
                 retry ? "1" : "0"
         );
         Object res;
-        try (Jedis jedis = pool.getResource()) {
-            res = jedis.eval(FAIL_SCRIPT, keys, args);
-        }
+        res = jedis.eval(FAIL_SCRIPT, keys, args);
         if (res == null || "0".equals(res.toString())) {
             return false;
         }
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, Object> event = new LinkedHashMap<>();
-            event.put("id", job.id);
-            event.put("status", retry ? "retry" : "failed");
-            jedis.publish(eventsChannel, JsonUtil.toJson(event));
-        }
+        Map<String, Object> event = new LinkedHashMap<>();
+        event.put("id", job.id);
+        event.put("status", retry ? "retry" : "failed");
+        jedis.publish(eventsChannel, JsonUtil.toJson(event));
         if (!retry) {
             synchronized (statsLock) {
                 failedTotal++;
@@ -334,9 +322,7 @@ public class RedisJobQueue {
         List<String> keys = Arrays.asList(pendingKey, processingKey, metaPrefix);
         List<String> args = Arrays.asList(Long.toString(nowMs()), Long.toString(visibilityMs));
         Object res;
-        try (Jedis jedis = pool.getResource()) {
-            res = jedis.eval(RECLAIM_SCRIPT, keys, args);
-        }
+        res = jedis.eval(RECLAIM_SCRIPT, keys, args);
         List<String> reclaimed = new ArrayList<>();
         if (res instanceof List<?>) {
             for (Object item : (List<Object>) res) {
@@ -356,9 +342,7 @@ public class RedisJobQueue {
     /** Return the metadata hash for a job, or null if missing. */
     public Map<String, Object> getJob(String jobId) {
         Map<String, String> raw;
-        try (Jedis jedis = pool.getResource()) {
-            raw = jedis.hgetAll(metaKey(jobId));
-        }
+        raw = jedis.hgetAll(metaKey(jobId));
         if (raw == null || raw.isEmpty()) {
             return null;
         }
@@ -388,30 +372,22 @@ public class RedisJobQueue {
     /** Return pending job IDs, oldest first. */
     public List<String> listPending() {
         List<String> values;
-        try (Jedis jedis = pool.getResource()) {
-            values = jedis.lrange(pendingKey, 0, -1);
-        }
+        values = jedis.lrange(pendingKey, 0, -1);
         List<String> reversed = new ArrayList<>(values);
         Collections.reverse(reversed);
         return reversed;
     }
 
     public List<String> listProcessing() {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.lrange(processingKey, 0, -1);
-        }
+        return jedis.lrange(processingKey, 0, -1);
     }
 
     public List<String> listCompleted() {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.lrange(completedKey, 0, -1);
-        }
+        return jedis.lrange(completedKey, 0, -1);
     }
 
     public List<String> listFailed() {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.lrange(failedKey, 0, -1);
-        }
+        return jedis.lrange(failedKey, 0, -1);
     }
 
     /** Counters plus current queue depth. */
@@ -420,18 +396,21 @@ public class RedisJobQueue {
         long processing;
         long completed;
         long failed;
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
-            redis.clients.jedis.Response<Long> pendingResp = pipe.llen(pendingKey);
-            redis.clients.jedis.Response<Long> processingResp = pipe.llen(processingKey);
-            redis.clients.jedis.Response<Long> completedResp = pipe.llen(completedKey);
-            redis.clients.jedis.Response<Long> failedResp = pipe.llen(failedKey);
+        redis.clients.jedis.Response<Long> pendingResp;
+        redis.clients.jedis.Response<Long> processingResp;
+        redis.clients.jedis.Response<Long> completedResp;
+        redis.clients.jedis.Response<Long> failedResp;
+        try (Pipeline pipe = jedis.pipelined()) {
+            pendingResp = pipe.llen(pendingKey);
+            processingResp = pipe.llen(processingKey);
+            completedResp = pipe.llen(completedKey);
+            failedResp = pipe.llen(failedKey);
             pipe.sync();
-            pending = pendingResp.get();
-            processing = processingResp.get();
-            completed = completedResp.get();
-            failed = failedResp.get();
         }
+        pending = pendingResp.get();
+        processing = processingResp.get();
+        completed = completedResp.get();
+        failed = failedResp.get();
         Map<String, Object> out = new LinkedHashMap<>();
         synchronized (statsLock) {
             out.put("enqueued_total", enqueuedTotal);
@@ -458,19 +437,17 @@ public class RedisJobQueue {
 
     /** Delete only queue:{name}:* keys via SCAN. */
     public void purge() {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.del(pendingKey, processingKey, completedKey, failedKey);
-            String cursor = ScanParams.SCAN_POINTER_START;
-            ScanParams params = new ScanParams().match(metaPrefix + "*").count(100);
-            do {
-                ScanResult<String> result = jedis.scan(cursor, params);
-                List<String> matched = result.getResult();
-                if (!matched.isEmpty()) {
-                    jedis.del(matched.toArray(new String[0]));
-                }
-                cursor = result.getCursor();
-            } while (!cursor.equals("0"));
-        }
+        jedis.del(pendingKey, processingKey, completedKey, failedKey);
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanParams params = new ScanParams().match(metaPrefix + "*").count(100);
+        do {
+            ScanResult<String> result = jedis.scan(cursor, params);
+            List<String> matched = result.getResult();
+            if (!matched.isEmpty()) {
+                jedis.del(matched.toArray(new String[0]));
+            }
+            cursor = result.getCursor();
+        } while (!cursor.equals("0"));
         resetStats();
     }
 

@@ -53,12 +53,12 @@ The `RedisJobQueue` class wraps the queue operations ([source](https://github.co
 
 ```java
 import java.util.Map;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool pool = new JedisPool("localhost", 6379);
-        RedisJobQueue queue = new RedisJobQueue(pool, "jobs-jedis", 5000, 300, 50, 3);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
+        RedisJobQueue queue = new RedisJobQueue(jedis, "jobs-jedis", 5000, 300, 50, 3);
 
         String jobId = queue.enqueue(Map.of(
                 "kind", "email",
@@ -82,7 +82,7 @@ public class Main {
 }
 ```
 
-Jedis operations are synchronous. The helper acquires a `Jedis` connection per call using `pool.getResource()` inside a try-with-resources block, so connections are returned to the pool even on errors. The blocking `claim()` method holds its own connection for the duration of the `BLMOVE` wait, which is fine because every other call uses a different connection.
+Jedis operations are synchronous. The helper borrows a pooled connection for each call and returns it when the call finishes, and the pipeline calls return theirs when try-with-resources closes them, so connections are returned to the pool even on errors. The blocking `claim()` method holds its own connection for the duration of the `BLMOVE` wait, which is fine because every other call uses a different connection.
 
 ### Data model
 
@@ -140,8 +140,7 @@ public String enqueue(Map<String, Object> payload) {
     meta.put("enqueued_at_ms", Long.toString(now));
     meta.put("claim_token", "");
 
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         pipe.hset(metaKey(jobId), meta);
         pipe.lpush(pendingKey, jobId);
         pipe.sync();
@@ -160,9 +159,7 @@ A worker blocks until a job is available, then atomically pops it from the pendi
 public ClaimedJob claim(long timeoutMs) {
     double timeoutSec = Math.max(timeoutMs / 1000.0, 0.1);
     String jobId;
-    try (Jedis jedis = pool.getResource()) {
-        jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
-    }
+    jobId = jedis.blmove(pendingKey, processingKey, ListDirection.RIGHT, ListDirection.LEFT, timeoutSec);
     if (jobId == null) {
         return null;
     }
@@ -171,18 +168,18 @@ public ClaimedJob claim(long timeoutMs) {
     long now = System.currentTimeMillis();
     String mk = metaKey(jobId);
     Map<String, String> meta;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    Response<Map<String, String>> resp;
+    try (Pipeline pipe = jedis.pipelined()) {
         Map<String, String> updates = new LinkedHashMap<>();
         updates.put("status", "processing");
         updates.put("claimed_at_ms", Long.toString(now));
         updates.put("claim_token", token);
         pipe.hset(mk, updates);
         pipe.hincrBy(mk, "attempts", 1);
-        Response<Map<String, String>> resp = pipe.hgetAll(mk);
+        resp = pipe.hgetAll(mk);
         pipe.sync();
-        meta = resp.get();
     }
+    meta = resp.get();
     // ... parse payload, attempts, and return a ClaimedJob ...
 }
 ```
@@ -206,9 +203,7 @@ public boolean complete(ClaimedJob job, Map<String, Object> result) {
             Integer.toString(completedHistory)
     );
     Object res;
-    try (Jedis jedis = pool.getResource()) {
-        res = jedis.eval(COMPLETE_SCRIPT, keys, args);
-    }
+    res = jedis.eval(COMPLETE_SCRIPT, keys, args);
     if (res == null || !"1".equals(res.toString())) {
         return false;
     }
@@ -237,9 +232,7 @@ public boolean fail(ClaimedJob job, String error) {
             retry ? "1" : "0"
     );
     Object res;
-    try (Jedis jedis = pool.getResource()) {
-        res = jedis.eval(FAIL_SCRIPT, keys, args);
-    }
+    res = jedis.eval(FAIL_SCRIPT, keys, args);
     return res != null && !"0".equals(res.toString());
 }
 ```
@@ -258,9 +251,7 @@ public List<String> reclaimStuck() {
             Long.toString(visibilityMs)
     );
     Object res;
-    try (Jedis jedis = pool.getResource()) {
-        res = jedis.eval(RECLAIM_SCRIPT, keys, args);
-    }
+    res = jedis.eval(RECLAIM_SCRIPT, keys, args);
     // ... unwrap the list of reclaimed IDs ...
 }
 ```
@@ -274,18 +265,18 @@ The Lua script also handles a narrower race: a worker that crashed between `BLMO
 ```java
 public Map<String, Object> stats() {
     long pending, processing, completed, failed;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
-        Response<Long> pendingResp = pipe.llen(pendingKey);
-        Response<Long> processingResp = pipe.llen(processingKey);
-        Response<Long> completedResp = pipe.llen(completedKey);
-        Response<Long> failedResp = pipe.llen(failedKey);
+    Response<Long> pendingResp, processingResp, completedResp, failedResp;
+    try (Pipeline pipe = jedis.pipelined()) {
+        pendingResp = pipe.llen(pendingKey);
+        processingResp = pipe.llen(processingKey);
+        completedResp = pipe.llen(completedKey);
+        failedResp = pipe.llen(failedKey);
         pipe.sync();
-        pending = pendingResp.get();
-        processing = processingResp.get();
-        completed = completedResp.get();
-        failed = failedResp.get();
     }
+    pending = pendingResp.get();
+    processing = processingResp.get();
+    completed = completedResp.get();
+    failed = failedResp.get();
     Map<String, Object> out = new LinkedHashMap<>();
     out.put("enqueued_total", enqueuedTotal);
     out.put("completed_total", completedTotal);
@@ -308,7 +299,7 @@ Before running the demo, make sure that:
 
 * Redis 6.2 or later running locally on the default port (6379). `BLMOVE` requires Redis 6.2+; on older servers, replace the call with `BRPOPLPUSH`.
 * Java 17 or later (the demo uses text-block-free string concatenation but still relies on a modern JDK).
-* Jedis 5.x is on the classpath. The smallest workable classpath is the Jedis jar plus its two transitive dependencies, `commons-pool2` and `slf4j-api`.
+* Jedis 8.x is on the classpath, along with its runtime dependencies: `commons-pool2`, `slf4j-api`, `gson`, `json`, and `redis-authx-core`.
 
 If you use Maven:
 
@@ -316,14 +307,14 @@ If you use Maven:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>5.0.1</version>
+    <version>8.0.2</version>
 </dependency>
 ```
 
 If you use Gradle:
 
 ```groovy
-implementation 'redis.clients:jedis:5.0.1'
+implementation 'redis.clients:jedis:8.0.2'
 ```
 
 ## Running the demo
@@ -347,10 +338,10 @@ curl -O $BASE/JsonUtil.java
 A local demo server is included to show the queue in action ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-jedis/DemoServer.java)). Compile and run with `javac` and `java`, listing each jar on the classpath:
 
 ```bash
-javac -cp jedis-5.0.1.jar:commons-pool2-2.12.1.jar:slf4j-api-2.0.12.jar \
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
       JsonUtil.java RedisJobQueue.java JobWorker.java WorkerPool.java DemoServer.java
 
-java  -cp .:jedis-5.0.1.jar:commons-pool2-2.12.1.jar:slf4j-api-2.0.12.jar \
+java  -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
       DemoServer --port 8793 --visibility-ms 5000
 ```
 
@@ -391,9 +382,9 @@ The visibility timeout has to exceed the longest real job time, with margin. If 
 
 The demo only reclaims when you click the button. In production, run `reclaimStuck()` from a `ScheduledExecutorService` (every few seconds for fast queues, every minute for slow ones), or from each worker before it blocks on `claim()`. Both patterns work as long as *someone* runs the sweep.
 
-### Size `JedisPool` for your worker count
+### Size the connection pool for your worker count
 
-`JedisPool` is thread-safe and connections are released back to the pool when the try-with-resources block exits. The demo bumps `maxTotal` to 32 to support the blocking `BLMOVE` call held by each worker plus the per-request connections used by the HTTP handlers. As a rule of thumb, `maxTotal` should be at least *workers + concurrent HTTP request threads + reclaimer threads + headroom*.
+`RedisClient` is thread-safe and connections are released back to the pool when each call finishes. The demo builds the client with a `ConnectionPoolConfig` and bumps `maxTotal` to 32 to support the blocking `BLMOVE` call held by each worker plus the per-request connections used by the HTTP handlers. As a rule of thumb, `maxTotal` should be at least *workers + concurrent HTTP request threads + reclaimer threads + headroom*.
 
 ### Use a separate Redis database or key prefix per queue
 
