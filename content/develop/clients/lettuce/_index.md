@@ -40,7 +40,7 @@ If you use Maven, add the following dependency to your `pom.xml`:
 <dependency>
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
-    <version>6.7.1.RELEASE</version> <!-- Check for the latest version on Maven Central -->
+    <version>7.9.0.RELEASE</version> <!-- Check for the latest version on Maven Central -->
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ If you use Gradle, include this line in your `build.gradle` file:
 
 ```
 dependencies {
-    compileOnly 'io.lettuce:lettuce-core:6.7.1.RELEASE'
+    compileOnly 'io.lettuce:lettuce-core:7.9.0.RELEASE'
 }
 ```
 
