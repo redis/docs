@@ -19,7 +19,7 @@ async def main():
             query="Where can I see how my refund is progressing?",
             limit=5,
         )
-        for match in results.matches:
+        for match in results.items:
             if match.faq is not None:
                 print(match.faq.answer)
 

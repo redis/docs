@@ -18,12 +18,10 @@ print(playbook.client.get_playbook_health())
 cursor = None
 while True:
     page = playbook.client.list_proposals(
-        view="inbox", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
+        view="INBOX", sort_by="updatedAt", sort_order="DESC", limit=50, cursor=cursor
     )
-    if cursor is None:
-        print("Total inbox proposals:", page.total if page.total is not None else "unknown")
-    for item in page.proposals:
-        print(item.proposal_id, item.status, item.evidence_count, item.action)
+    for item in page.items:
+        print(item.proposal_id, item.state, item.evidence_count, item.action)
     cursor = page.next_cursor
     if cursor is None:
         break
@@ -32,12 +30,12 @@ while True:
 # STEP_START playbook-proposal-search
 related = playbook.client.search_proposals(
     query="Contact support about a missing refund",
-    minimum_score=0.7,
-    action_type="add",
-    entry_type="faq",
+    min_score=0.7,
+    action_type="ADD",
+    entry_kind="FAQ",
     limit=5,
 )
-for match in related.matches:
+for match in related.items:
     print(match.proposal.proposal_id, match.score, match.proposal.action)
 # STEP_END
 
@@ -62,12 +60,12 @@ action = {
 proposal = playbook.client.create_proposal(
     action=action,
     source={
-        "type": "document",
+        "kind": "document",
         "reference": {"documentId": "sample-refund-policy"},
     },
 )
 proposal_id = proposal.proposal_id
-print(proposal_id, proposal.proposal_revision)
+print(proposal_id, proposal.revision)
 # STEP_END
 
 # STEP_START playbook-proposal-evidence
@@ -82,7 +80,7 @@ evidence = playbook.client.submit_proposal_evidence(
     observed_at=observed_at,
     producer={"name": "docs-example", "prompt_version": "refund-review-v1"},
     source={
-        "type": "document",
+        "kind": "document",
         "reference": {"documentId": "sample-refund-policy"},
         "content": {
             "excerpt": (
@@ -108,15 +106,15 @@ revised_action["add"]["candidate"]["content"]["payload"]["faq"]["answer"] += (
 revised = playbook.client.replace_proposal(
     proposal_id=proposal_id,
     action=revised_action,
-    expected_proposal_revision=reviewed.proposal_revision,
+    expected_revision=reviewed.revision,
 )
-print(revised.proposal_revision, revised.action)
+print(revised.revision, revised.action)
 # STEP_END
 
 # STEP_START playbook-proposal-trash
 playbook.client.dismiss_proposal(
     proposal_id=proposal_id,
-    expected_proposal_revision=revised.proposal_revision,
+    expected_revision=revised.revision,
 )
 playbook.client.restore_proposal(proposal_id=proposal_id)
 # To purge a trashed proposal instead of restoring it:
@@ -133,7 +131,7 @@ from redis_agent_playbook import models
 
 accepted = playbook.client.accept_proposal(
     proposal_id=proposal_id,
-    expected_proposal_revision=final_review.proposal_revision,
+    expected_revision=final_review.revision,
 )
 if not isinstance(accepted.result, models.VersionCreated):
     raise ValueError("Review the unrecognized acceptance result before publishing")
@@ -153,12 +151,10 @@ playbook.client.publish_faq(faq_id=receipt.entry_id, version=receipt.version)
 cursor = None
 while True:
     page = playbook.client.list_proposals(
-        view="trash", sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor
+        view="TRASH", sort_by="updatedAt", sort_order="DESC", limit=50, cursor=cursor
     )
-    if cursor is None:
-        print("Total trash proposals:", page.total if page.total is not None else "unknown")
-    for item in page.proposals:
-        print(item.proposal_id, item.status, item.evidence_count, item.action)
+    for item in page.items:
+        print(item.proposal_id, item.state, item.evidence_count, item.action)
     cursor = page.next_cursor
     if cursor is None:
         break

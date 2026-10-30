@@ -47,7 +47,7 @@ const results = await playbook.searchFaqs({
   filter: { eq: { name: "locale", value: "en-US" } },
   limit: 5,
 });
-for (const match of results.matches) {
+for (const match of results.items) {
   if (match.faq) {
     console.log(match.entryId, match.version, match.score, match.faq.answer);
   }
@@ -77,7 +77,7 @@ const updatedResults = await playbook.searchFaqs({
   filter: { eq: { name: "locale", value: "en-US" } },
   limit: 5,
 });
-for (const match of updatedResults.matches) {
+for (const match of updatedResults.items) {
   if (match.entryId === faqId && match.faq) {
     console.log("Published answer:", match.version, match.faq.answer);
   }

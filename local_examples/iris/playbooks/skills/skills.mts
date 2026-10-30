@@ -66,10 +66,9 @@ console.log(await new Response(response.result).text());
 let skillCursor: string | undefined;
 while (true) {
   const page = await playbook.listSkills(
-    "updatedAt", "desc", undefined, undefined, undefined, 50, skillCursor,
+    "updatedAt", "DESC", undefined, undefined, undefined, 50, skillCursor,
   );
-  if (skillCursor === undefined) console.log("Total skills:", page.total ?? "unknown");
-  for (const entry of page.skills) console.log(entry.entryId, entry.latestVersion, entry.publication);
+  for (const entry of page.items) console.log(entry.entryId, entry.latestVersion, entry.publication);
   skillCursor = page.nextCursor;
   if (skillCursor === undefined) break;
 }
@@ -84,7 +83,7 @@ console.log(entry.latestVersion, entry.publication);
 let skillVersionCursor: string | undefined;
 while (true) {
   const page = await playbook.listSkillVersions(skillId, undefined, undefined, 50, skillVersionCursor);
-  for (const item of page.versions) console.log(item.version, item.contentDigest, item.content);
+  for (const item of page.items) console.log(item.version, item.contentDigest, item.content);
   skillVersionCursor = page.nextCursor;
   if (skillVersionCursor === undefined) break;
 }

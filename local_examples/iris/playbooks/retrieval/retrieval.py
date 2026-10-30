@@ -54,8 +54,8 @@ print(skill_results.model_dump_json(by_alias=True, indent=2))
 # STEP_END
 
 # STEP_START playbook-retrieval-threshold
-tuned = playbook.client.search_faqs(query="Where is my refund?", minimum_score=0.75, limit=3)
-print(tuned.matches)
+tuned = playbook.client.search_faqs(query="Where is my refund?", min_score=0.75, limit=3)
+print(tuned.items)
 # STEP_END
 
 # STEP_START playbook-retrieval-filter
