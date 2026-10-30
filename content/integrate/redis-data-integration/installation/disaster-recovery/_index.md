@@ -40,6 +40,18 @@ survive the failure of one RDI instance, and DR to survive the loss of a site.
 
 ![Site A has the source primary and the RDI leader, which captures from it. Source changes replicate to a source replica at site B, where RDI pipelines are in standby. After a takeover, site B's RDI captures from the source at site B. Both sites share an external lease. RDI database endpoints and example target endpoints use Active-Active replication.](/images/rdi/disaster-recovery.svg)
 
+Each RDI instance is in one of three states:
+
+| State | Takes part in leader election | Runs the pipelines | Typical use |
+| :-- | :-- | :-- | :-- |
+| Leader | Yes, and holds the lease | Yes | The active site. |
+| Follower | Yes | No. Takes over when the lease is released or expires. | Automatic failover. |
+| Standby | No. Its `standby_mode` setting is `true`. | No | Manual failover, or a site under maintenance. |
+
+`redis-di info` reports `Leader Election Mode: follower` for both followers and standby
+instances. Check `standby_mode` with `redis-di get-setting standby_mode` to tell them apart.
+The pipelines of any instance that isn't the leader report the `standby` status.
+
 Each site's RDI instance captures from the closest source database that supports snapshots
 and change data capture (CDC). That database is the active source database or a replica of it.
 Which kinds of replica RDI can capture from, and when, depends on the source database. See
@@ -173,8 +185,9 @@ using
 
 ## Choose a failover mode
 
-A follower takes part in leader election and takes over when the leader releases the lease or
-the lease expires. An instance in standby doesn't take part. Choose the mode before you install:
+The failover mode decides whether site B waits as a follower or in standby. See the instance
+states in [Understand the topology](#understand-the-topology). Choose the mode before you
+install:
 
 | Mode | `standbyMode` in the values files | Who starts the takeover? | Use it when |
 | :-- | :-- | :-- | :-- |
@@ -190,9 +203,6 @@ The values files in this guide use automatic failover. After installation, chang
 with the `standby_mode`
 [instance setting](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode),
 which overrides the Helm value. See [Move leadership manually](#move-leadership-manually).
-
-A follower's pipelines report the `standby` status, which is separate from the `standby_mode`
-setting.
 
 ## Configure a lease
 
