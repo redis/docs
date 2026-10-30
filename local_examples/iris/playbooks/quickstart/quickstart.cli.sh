@@ -27,7 +27,7 @@ jq . faq-draft.json
 # STEP_END
 
 # STEP_START playbook-quickstart-publish
-iris --json agent-playbooks faqs get "$FAQ_ID" --version "$VERSION" | jq .content
+iris --json agent-playbooks faqs show "$FAQ_ID" --version "$VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-quickstart-publication
@@ -42,7 +42,7 @@ cat > search.json <<'JSON'
   "limit": 5
 }
 JSON
-iris --json agent-playbooks faqs search --input search.json | jq .matches
+iris --json agent-playbooks faqs search --input search.json | jq .items
 # STEP_END
 
 # STEP_START playbook-quickstart-discover
@@ -61,10 +61,10 @@ jq '.answer += " Support can check the current stage but cannot guarantee a bank
   faq.json > faq-update.json
 iris --json agent-playbooks faqs push faq-update.json > faq-updated.json
 UPDATED_VERSION=$(jq -er '.results[0].version' faq-updated.json)
-iris --json agent-playbooks faqs get "$FAQ_ID" --version "$UPDATED_VERSION" | jq .content
+iris --json agent-playbooks faqs show "$FAQ_ID" --version "$UPDATED_VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-quickstart-republish
 iris agent-playbooks faqs publish "$FAQ_ID" --version "$UPDATED_VERSION"
-iris --json agent-playbooks faqs search --input search.json | jq .matches
+iris --json agent-playbooks faqs search --input search.json | jq .items
 # STEP_END

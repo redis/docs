@@ -9,8 +9,6 @@ categories:
 - iris
 weight: 24
 hideListLinks: true
-bannerText: Documentation review draft.
-bannerChildren: true
 ---
 
 Deploy Redis Intent Router on Kubernetes to give applications a service that classifies text into intents and returns the target to dispatch to.

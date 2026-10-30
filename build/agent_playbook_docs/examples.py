@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "build"))
 from components.example import Example
 from local_examples import get_example_id_from_file, get_language_from_extension
 
-DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
+DOCS = ROOT / "content/develop/ai/context-engine/agent-playbooks"
 SOURCES = ROOT / "local_examples/iris/playbooks"
 GUIDES = ("quickstart", "faqs", "skills", "proposals", "retrieval", "mcp", "limits")
 AGENT_GUIDES = ("openai_agent", "langgraph_agent")

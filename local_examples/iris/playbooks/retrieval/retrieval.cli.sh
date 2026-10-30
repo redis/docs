@@ -37,7 +37,7 @@ iris --json agent-playbooks skills search 'Draft a reply about a reported refund
 # STEP_END
 
 # STEP_START playbook-retrieval-threshold
-iris --json agent-playbooks faqs search 'Where is my refund?' --minimum-score 0.75 --limit 3 | jq .matches
+iris --json agent-playbooks faqs search 'Where is my refund?' --min-score 0.75 --limit 3 | jq .items
 # STEP_END
 
 # STEP_START playbook-retrieval-filter

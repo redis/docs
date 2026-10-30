@@ -9,8 +9,6 @@ description: Classify a user's message into a named intent and get back the targ
 linkTitle: Intent Router
 hideListLinks: true
 weight: 27
-bannerText: Documentation review draft.
-bannerChildren: true
 ---
 
 ## What is Redis Intent Router?
@@ -54,14 +52,14 @@ The Router doesn't run the target. It returns the target, and your application d
 Install the Redis Iris Python package, which includes the `iris` CLI:
 
 ```bash
-pip install 'redis-iris>=1.0.0b1'
+pip install 'redis-iris>=1.0.0'
 ```
 
 Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
 
 {{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. Install it with `npm install @redis-iris/intent-router@beta`. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client.
+The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. Install it with `npm install @redis-iris/intent-router`. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client.
 
 ## Get started
 

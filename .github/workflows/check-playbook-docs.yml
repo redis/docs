@@ -3,7 +3,7 @@ name: Check Playbooks documentation
 on:
   pull_request:
     paths:
-      - 'content/develop/ai/context-engine/agent-playbook/**'
+      - 'content/develop/ai/context-engine/agent-playbooks/**'
       - 'build/agent_playbook_docs/**'
       - 'local_examples/iris/playbooks/**'
       - 'build/components/example.py'
