@@ -273,7 +273,7 @@ for debugging and as a freshness signal in the model itself.
 
 > **HEXPIRE requires Redis 7.4 or later.** `HEXPIRE` and the field-level TTL
 > commands were added in Redis 7.4. Lettuce 6.4 was the first release with
-> the bindings; the demo's `pom.xml` pins 7.5.2.RELEASE.
+> the bindings; the demo's `pom.xml` pins 7.9.0.RELEASE.
 
 ### Inference reads with HMGET
 
@@ -448,7 +448,7 @@ Endpoints:
   demo relies on per-field TTL for the mixed-staleness story.
 * **Java 17 or later.** The demo uses switch expressions with arrow labels
   (`case "..." -> ...`), records, and text blocks.
-* **Lettuce 6.4 or later.** The demo's `pom.xml` pins 7.5.2.RELEASE.
+* **Lettuce 6.4 or later.** The demo's `pom.xml` pins 7.9.0.RELEASE.
   Field-level TTL bindings (`hexpire`, `httl`, `hpersist`) ship from
   Lettuce 6.4.
 
