@@ -3,12 +3,10 @@ package com.redis.semcache;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.protocol.ProtocolVersion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -65,16 +63,6 @@ public final class DemoServer {
                 .withTimeout(Duration.ofSeconds(2))
                 .build();
         RedisClient client = RedisClient.create(uri);
-        // Pin the connection to RESP2 so FT.SEARCH and FT.INFO come
-        // back in the flat alternating-list shape the cache parses.
-        // Lettuce 6.7 negotiates RESP3 by default, which wraps the
-        // search reply in a map keyed by "results", "total_results",
-        // etc. — a richer shape, but one the demo's parser doesn't
-        // need; RESP2 keeps the wire format identical to what the
-        // Python, Node, Go, and Jedis ports already speak.
-        client.setOptions(ClientOptions.builder()
-                .protocolVersion(ProtocolVersion.RESP2)
-                .build());
 
         StatefulRedisConnection<byte[], byte[]> connection;
         try {
