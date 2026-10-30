@@ -6,7 +6,7 @@
         "description": "Administrative API for Intent Router provisioning and lifecycle."
     },
     "paths": {
-        "/iris/v2/intent/models": {
+        "/iris/v1/intent/models": {
             "get": {
                 "description": "Lists the models a Router can be configured with, from deployment configuration. The embedding items are the only valid values of vectorSpace: creating a Router with any other is refused with 400. Empty when none are configured, which offers every vector space (development only).",
                 "operationId": "ListModels",
@@ -22,12 +22,12 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
                         "schema": {
                             "type": "integer",
                             "maximum": 200,
                             "minimum": 1,
-                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
                             "format": "int32"
                         }
                     },
@@ -55,11 +55,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -70,6 +70,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -113,6 +123,26 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -120,20 +150,20 @@
                 ]
             }
         },
-        "/iris/v2/intent/routers": {
+        "/iris/v1/intent/routers": {
             "get": {
-                "description": "Lists the tenant's Routers, oldest first.",
+                "description": "Lists the tenant's Routers ordered by identifier; the cursor names the last Router of the page.",
                 "operationId": "ListRouters",
                 "parameters": [
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
                         "schema": {
                             "type": "integer",
                             "maximum": 200,
                             "minimum": 1,
-                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise.",
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
                             "format": "int32"
                         }
                     },
@@ -161,11 +191,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -176,6 +206,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -216,6 +256,26 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
@@ -252,6 +312,37 @@
                 "responses": {
                     "201": {
                         "description": "CreateRouter 201 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The Router's revision, quoted. Send it back as If-Match.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The Router's revision, quoted. Send it back as If-Match."
+                                }
+                            },
+                            "Idempotent-Replayed": {
+                                "description": "true when this response repeats the one the first request with the same Idempotency-Key got.",
+                                "schema": {
+                                    "type": "boolean",
+                                    "description": "true when this response repeats the one the first request with the same Idempotency-Key got."
+                                }
+                            },
+                            "Location": {
+                                "description": "The path of the new Router.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The path of the new Router."
+                                }
+                            },
+                            "Retry-After": {
+                                "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -261,11 +352,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -276,6 +367,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -310,6 +411,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "IdempotencyKeyReusedError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IdempotencyKeyReusedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -329,6 +440,26 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -336,7 +467,7 @@
                 ]
             }
         },
-        "/iris/v2/intent/routers/{routerId}": {
+        "/iris/v1/intent/routers/{routerId}": {
             "delete": {
                 "description": "Starts deleting a Router and its data: 202 with the Router in the DELETING state, finished asynchronously by the data plane. Deleting a Router that is already gone succeeds with 204 (documented through the OpenAPI overlay).",
                 "operationId": "DeleteRouter",
@@ -356,6 +487,23 @@
                 "responses": {
                     "202": {
                         "description": "DeleteRouter 202 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The Router's revision, quoted.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The Router's revision, quoted."
+                                }
+                            },
+                            "Retry-After": {
+                                "description": "Seconds to wait before reading the Router again. Present while it is DELETING.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before reading the Router again. Present while it is DELETING.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -365,11 +513,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -380,6 +528,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -420,6 +578,26 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
@@ -451,6 +629,23 @@
                 "responses": {
                     "200": {
                         "description": "GetRouter 200 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The Router's revision, quoted. Send it back as If-Match.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The Router's revision, quoted. Send it back as If-Match."
+                                }
+                            },
+                            "Retry-After": {
+                                "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING or DELETING.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING or DELETING.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -460,11 +655,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -475,6 +670,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -515,6 +720,26 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
                                 }
                             }
                         }
@@ -561,6 +786,23 @@
                 "responses": {
                     "200": {
                         "description": "UpdateRouter 200 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The Router's revision after the update, quoted.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The Router's revision after the update, quoted."
+                                }
+                            },
+                            "Retry-After": {
+                                "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING or DELETING.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before reading the Router again. Present while it is PROVISIONING or DELETING.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -570,11 +812,11 @@
                         }
                     },
                     "400": {
-                        "description": "BadRequestError 400 response",
+                        "description": "IntentBadRequestError 400 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
                                 }
                             }
                         }
@@ -585,6 +827,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
                                 }
                             }
                         }
@@ -648,6 +900,26 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -697,52 +969,6 @@
                     "/errors/authentication-failed"
                 ]
             },
-            "BadRequestErrorResponseContent": {
-                "type": "object",
-                "description": "Request validation or input decoding failed.",
-                "properties": {
-                    "title": {
-                        "type": "string",
-                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
-                    },
-                    "status": {
-                        "type": "integer",
-                        "default": 400,
-                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
-                        "format": "int32"
-                    },
-                    "detail": {
-                        "type": "string",
-                        "description": "A human-readable explanation specific to this occurrence of the problem."
-                    },
-                    "instance": {
-                        "type": "string",
-                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
-                    },
-                    "type": {
-                        "$ref": "#/components/schemas/BadRequestErrorType"
-                    },
-                    "fields": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/FieldError"
-                        },
-                        "description": "Optional field-level validation errors."
-                    }
-                },
-                "required": [
-                    "status",
-                    "title",
-                    "type"
-                ]
-            },
-            "BadRequestErrorType": {
-                "type": "string",
-                "description": "Problem type URI for bad request errors.",
-                "enum": [
-                    "/errors/invalid-data"
-                ]
-            },
             "ConflictErrorResponseContent": {
                 "type": "object",
                 "description": "The request conflicts with the current state of the resource.",
@@ -767,6 +993,10 @@
                     },
                     "type": {
                         "$ref": "#/components/schemas/ConflictErrorType"
+                    },
+                    "existingId": {
+                        "type": "string",
+                        "description": "The ID of the existing resource the request collided with, when the conflict names one."
                     }
                 },
                 "required": [
@@ -779,7 +1009,25 @@
                 "type": "string",
                 "description": "Problem type URI for conflict errors.",
                 "enum": [
-                    "/errors/conflict"
+                    "/errors/conflict",
+                    "/errors/entry-not-published",
+                    "/errors/entry-key-conflict",
+                    "/errors/content-limit-exceeded",
+                    "/errors/pinned-entry-unavailable",
+                    "/errors/proposal-already-exists",
+                    "/errors/proposal-evidence-conflict",
+                    "/errors/proposal-evidence-capacity",
+                    "/errors/proposal-trashed",
+                    "/errors/proposal-open",
+                    "/errors/proposal-promotion-locked",
+                    "/errors/extraction-disabled",
+                    "/errors/gateway-mutation-in-progress",
+                    "/errors/surface-mutation-in-progress",
+                    "/errors/namespace-conflict",
+                    "/errors/gateway-not-empty",
+                    "/errors/gateway-deleting",
+                    "/errors/catalog-publication-conflict",
+                    "/errors/summary-view-conflict"
                 ]
             },
             "CreateRouterRequestContent": {
@@ -815,7 +1063,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database to keep this Router's intents, examples and search index in. Create-only. Omit it to use the deployment's default database. Must be one of the databases the deployment offers; some deployments require it."
+                        "description": "The customer database to keep this Router's intents, examples and search index in. Create-only. On-prem, omit it to use the deployment's default database, or name one of the databases the deployment offers; some deployments require it. In the cloud it is required and must be a Redis Cloud database in the caller's account that is active, has a default user and a public endpoint, and runs the Search and Query engine."
                     }
                 },
                 "required": [
@@ -825,7 +1073,6 @@
             },
             "CreateRouterResponseContent": {
                 "type": "object",
-                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
                 "properties": {
                     "routerId": {
                         "type": "string",
@@ -858,7 +1105,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database, which the cloud does not have: there every Router names one of the caller's databases. Never includes endpoints or credentials."
                     },
                     "minScore": {
                         "type": "number",
@@ -879,7 +1126,8 @@
                     },
                     "revision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
                     },
                     "failureReason": {
@@ -903,7 +1151,6 @@
             },
             "DeleteRouterResponseContent": {
                 "type": "object",
-                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
                 "properties": {
                     "routerId": {
                         "type": "string",
@@ -936,7 +1183,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database, which the cloud does not have: there every Router names one of the caller's databases. Never includes endpoints or credentials."
                     },
                     "minScore": {
                         "type": "number",
@@ -957,7 +1204,8 @@
                     },
                     "revision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
                     },
                     "failureReason": {
@@ -1046,35 +1294,73 @@
                 "description": "Problem type URI for failed-dependency errors.",
                 "enum": [
                     "/errors/resource-unavailable",
-                    "/errors/database-out-of-memory"
+                    "/errors/database-out-of-memory",
+                    "/errors/invalid-model-credentials",
+                    "/errors/model-quota-exceeded"
                 ]
             },
             "FieldError": {
                 "type": "object",
-                "description": "Validation error details for a single request field.",
+                "description": "One invalid request member. A body member is named by `pointer`, a path or query parameter by `parameter`; exactly one of the two is present.",
                 "properties": {
-                    "field": {
+                    "pointer": {
                         "type": "string",
-                        "description": "Name of the invalid request field."
+                        "description": "JSON Pointer (RFC 6901) to the invalid body member, such as `/vectorSpace/dimensions`."
                     },
-                    "rule": {
+                    "parameter": {
                         "type": "string",
-                        "description": "Validation rule that was violated."
+                        "description": "Name of the invalid path or query parameter, such as `limit`."
                     },
-                    "message": {
+                    "detail": {
                         "type": "string",
-                        "description": "Human-readable validation error message."
+                        "description": "What is wrong with the member, in fixed words about the rule it broke, never the rejected value."
                     }
                 },
                 "required": [
-                    "field",
-                    "message",
-                    "rule"
+                    "detail"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "The caller is authenticated but not allowed to access the requested resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ForbiddenErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authorization errors.",
+                "enum": [
+                    "/errors/insufficient-permissions"
                 ]
             },
             "GetRouterResponseContent": {
                 "type": "object",
-                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
                 "properties": {
                     "routerId": {
                         "type": "string",
@@ -1107,7 +1393,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database, which the cloud does not have: there every Router names one of the caller's databases. Never includes endpoints or credentials."
                     },
                     "minScore": {
                         "type": "number",
@@ -1128,7 +1414,8 @@
                     },
                     "revision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
                     },
                     "failureReason": {
@@ -1148,6 +1435,132 @@
                     "template",
                     "updatedAt",
                     "vectorSpace"
+                ]
+            },
+            "IdempotencyKeyReusedErrorResponseContent": {
+                "type": "object",
+                "description": "The Idempotency-Key is well formed, but its hash is not the hash of this request's body: the key was used for a different request. Send a new key for a new request.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 422,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IdempotencyKeyReusedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IdempotencyKeyReusedErrorType": {
+                "type": "string",
+                "description": "Problem type URI of a 422 response.",
+                "enum": [
+                    "/errors/idempotency-key-reused"
+                ]
+            },
+            "IntentBadRequestErrorResponseContent": {
+                "type": "object",
+                "description": "The request is invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentBadRequestErrorType"
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        },
+                        "description": "Each request member that broke a rule, and the rule. Present for validation failures."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentBadRequestErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 400 response.",
+                "enum": [
+                    "/errors/invalid-data",
+                    "/errors/invalid-cursor"
+                ]
+            },
+            "IntentServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "description": "The service cannot answer right now; retrying later is expected to work.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentServiceUnavailableErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 503 response.",
+                "enum": [
+                    "/errors/service-unavailable",
+                    "/errors/resource-unavailable"
                 ]
             },
             "ListModelsResponseContent": {
@@ -1295,7 +1708,9 @@
                 "type": "string",
                 "description": "Problem type URI for not-found errors.",
                 "enum": [
-                    "/errors/resource-not-found"
+                    "/errors/resource-not-found",
+                    "/errors/gateway-not-found",
+                    "/errors/upstream-not-found"
                 ]
             },
             "PreconditionFailedErrorResponseContent": {
@@ -1322,6 +1737,10 @@
                     },
                     "type": {
                         "$ref": "#/components/schemas/PreconditionFailedErrorType"
+                    },
+                    "currentRevision": {
+                        "type": "string",
+                        "description": "The resource's current revision, when the service reports it. Read the resource again before retrying; do not send this value back without reading."
                     }
                 },
                 "required": [
@@ -1332,7 +1751,7 @@
             },
             "PreconditionFailedErrorType": {
                 "type": "string",
-                "description": "Problem type URI for precondition-failed errors.",
+                "description": "Problem type URI for a write whose expected revision is no longer current. A write guarded by an If-Match header on an HTTP entity tag uses a different type; see the Identity Service API.",
                 "enum": [
                     "/errors/revision-conflict"
                 ]
@@ -1372,7 +1791,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database, which the cloud does not have: there every Router names one of the caller's databases. Never includes endpoints or credentials."
                     },
                     "minScore": {
                         "type": "number",
@@ -1393,7 +1812,8 @@
                     },
                     "revision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
                     },
                     "failureReason": {
@@ -1510,7 +1930,8 @@
                 "type": "string",
                 "description": "Problem type URI for unexpected internal errors.",
                 "enum": [
-                    "/errors/unexpected-error"
+                    "/errors/unexpected-error",
+                    "/errors/content-integrity-failed"
                 ]
             },
             "UpdateRouterRequestContent": {
@@ -1545,7 +1966,8 @@
                     },
                     "expectedRevision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Makes the update conditional: it is refused with 412 unless this is still the Router's revision. Omit it to update unconditionally."
                     }
                 },
@@ -1553,7 +1975,6 @@
             },
             "UpdateRouterResponseContent": {
                 "type": "object",
-                "description": "A tenant-owned intent router: the configuration and authorization boundary for a set of intents.",
                 "properties": {
                     "routerId": {
                         "type": "string",
@@ -1586,7 +2007,7 @@
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-]+$",
-                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database. Never includes endpoints or credentials."
+                        "description": "The customer database that holds the Router's intents, examples and search index. Chosen when the Router is created and never changed. Absent means the deployment's default database, which the cloud does not have: there every Router names one of the caller's databases. Never includes endpoints or credentials."
                     },
                     "minScore": {
                         "type": "number",
@@ -1607,7 +2028,8 @@
                     },
                     "revision": {
                         "type": "string",
-                        "pattern": "^[0-9a-f]{32}$",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "description": "Changes with every write to the Router, including lifecycle changes. Send it back as expectedRevision to make an update conditional."
                     },
                     "failureReason": {
