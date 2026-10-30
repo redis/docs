@@ -18,6 +18,7 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Deploy one MCP endpoint for your agents' tools on your own infrastructure" url="/operate/iris/context-gateway" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Deploy a service that classifies requests into intents on your own infrastructure" url="/operate/iris/intent-router" >}}
 </div>
 
 ## Deployment options
@@ -36,6 +37,7 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 
 - [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 - [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
+- [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
 
 ## Agent Mesh SDK preview
 
