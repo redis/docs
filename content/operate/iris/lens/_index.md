@@ -9,7 +9,7 @@ categories:
 - iris
 weight: 27
 hideListLinks: true
-bannerText: Lens is currently available in Beta. Features and behavior are subject to change.
+bannerText: Lens is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---
 

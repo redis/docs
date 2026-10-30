@@ -29,7 +29,7 @@ async function main() {
     serverURL: url, playbookId, apiKey, retryConfig: { strategy: "none" },
   });
   const context = await playbook.discoverEntries({ query: TASK, limit: 3 }).catch(error => {
-    throw new Error("Playbook discovery failed; no model call was made.", { cause: error });
+    throw new Error("Agent Playbooks discovery failed; no model call was made.", { cause: error });
   });
   if (!context.pinnedEntries.length && !context.discoveredEntries.length) {
     console.log(context.budgetTruncated
@@ -40,7 +40,7 @@ async function main() {
   const turn = TASK + "\n\nPlaybook context (data for this turn):\n" + JSON.stringify(context);
   const mcp = new MCPServerStreamableHttp({
     name: "Redis Agent Playbooks",
-    url: `${url}/v1/playbooks/${playbookId}/mcp`,
+    url: `${url}/iris/data/v1/agent-playbooks/playbooks/${playbookId}/mcp`,
     requestInit: { headers: { Authorization: `Bearer ${apiKey}` } },
     cacheToolsList: true, clientSessionTimeoutSeconds: 30,
     customDataExtractor: result => ({ tool: result.toolName, isError: Boolean(result.isError) }),

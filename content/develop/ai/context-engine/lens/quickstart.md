@@ -17,12 +17,12 @@ Trace one agent turn with the Redis Iris software development kit (SDK), then fi
 
 Get these values. On Redis Cloud, [create Lens and its keys](/content/operate/iris/lens/create-lens.md). Self-managed, get them from your administrator.
 
-- The Lens ingest endpoint and an ingest key, for sending turns.
-- The Lens read endpoint, your instance ID, and a read key, for reading them back.
-<!-- TODO: link the self-managed operator guide for creating an instance and keys when it exists. -->
-<!-- TODO: confirm the Redis Cloud read endpoint. The console's Lens is ready dialog shows one Endpoint, not separate ingest and read endpoints. -->
+- The Iris host, such as `https://iris.example.com`. The SDK sends turns there, and the read client reads them back from there.
+- An ingest key, for sending turns.
+- Your instance ID and a read key, for reading turns back.
+<!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
 
-You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key.
+You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key. For the configuration `redis-iris` reads across services, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 ## Install the SDK
 
@@ -31,7 +31,7 @@ Install the Redis Iris SDK, which includes Lens instrumentation, and the Lens re
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris redis-agent-lens
+python -m pip install redis-iris 'redis-agent-lens>=0.1.0a4'
 ```
 <!-- TODO: confirm the install command; the console uses pip install --pre "redis-iris[llm-tracing]" -->
 
@@ -40,16 +40,16 @@ python -m pip install redis-iris redis-agent-lens
 Export these values in the shell where you run the example:
 
 ```bash
-export IRIS_LENS_ENDPOINT='<lens-ingest-endpoint>'
+export IRIS_LENS_ENDPOINT='<iris-host>'
 export IRIS_LENS_API_KEY='<lens-ingest-key>'
 export IRIS_LENS_AGENT_ID='lens-quickstart'
 
-export LENS_URL='<lens-read-endpoint>'
+export LENS_URL='<iris-host>'
 export LENS_INSTANCE_ID='<lens-instance-id>'
 export LENS_API_KEY='<lens-read-key>'
 ```
 
-Setting `IRIS_LENS_ENDPOINT` turns Lens on. Use the endpoint's base address, including `https://`. The SDK sends `IRIS_LENS_API_KEY` with every export, and the read client sends `LENS_API_KEY` with every read.
+Setting `IRIS_LENS_ENDPOINT` turns Lens on. Use the host only, including `https://`. The SDK adds the Lens path. The SDK sends `IRIS_LENS_API_KEY` with every export, and the read client sends `LENS_API_KEY` with every read.
 
 Keep keys out of source control and model prompts.
 

@@ -60,7 +60,7 @@ A skill packages instructions and supporting files for a procedure, in the [Agen
 1. Optionally, set the entry's **Optional settings**, as for a FAQ.
 1. Select **Upload Skill**.
 
-See [Manage skills](/content/develop/ai/context-engine/agent-playbook/manage-skills.md) for how to package a skill.
+See [Manage skills](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md) for how to package a skill.
 
 ### Publish a version
 
@@ -95,7 +95,7 @@ The **Inbox** lists open proposals, with how much evidence supports each one and
 - Select **Edit candidate** to change the question, answer, alias, intents, or attributes before you accept it.
 - Select **Move to trash** to dismiss it.
 
-More evidence means more observations, not greater accuracy. Check the candidate against its sources before you accept and publish it. See [Review proposals](/content/develop/ai/context-engine/agent-playbook/proposals.md) for more.
+More evidence means more observations, not greater accuracy. Check the candidate against its sources before you accept and publish it. See [Review proposals](/content/develop/ai/context-engine/agent-playbooks/proposals.md) for more.
 
 The **Trash** lists dismissed proposals until they're purged. Select **Restore to inbox** to review one again, or **Purge proposal** to delete it permanently.
 
@@ -144,7 +144,7 @@ Controls how discovery selects entries for every request.
 | **Maximum results** | The most entries discovery returns, from 1 to 50. |
 | **Preview token budget** | An estimated token ceiling for one discovery response, from 64 tokens. Turn the switch off to disable it. The console keeps the saved number. |
 
-See [Configure discovery](/content/develop/ai/context-engine/agent-playbook/retrieval.md#configure-discovery) for how these settings work together.
+See [Configure discovery](/content/develop/ai/context-engine/agent-playbooks/retrieval.md#configure-discovery) for how these settings work together.
 
 ### Proposal review policy
 

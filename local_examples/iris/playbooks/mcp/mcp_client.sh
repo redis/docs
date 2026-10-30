@@ -1,7 +1,7 @@
 # EXAMPLE: iris_playbook_mcp_client
 # STEP_START playbook-mcp-client
 set -euo pipefail
-MCP_URL="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID/mcp"
+MCP_URL="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID/mcp"
 PROTOCOL_VERSION=2025-11-25
 
 post() {

@@ -34,7 +34,7 @@ When your agent uses Agent Memory, Agent Playbooks, and Context Gateway, a singl
 
 {{< clients-example set="iris_lens_iris_products" step="iris_products_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-The turn shows the memory recall and the Playbook discovery, then any Context Gateway tool calls your agent makes, and the write-back. In asynchronous code, `workflows.aturn()` runs the services' context steps at the same time. The outer `lens.turn()` sets the outcome. When a turn is already open, `workflows.turn()` and `attach()` add their steps to it rather than starting another.
+The turn shows the memory recall and the Agent Playbooks discovery, then any Context Gateway tool calls your agent makes, and the write-back. In asynchronous code, `workflows.aturn()` runs the services' context steps at the same time. The outer `lens.turn()` sets the outcome. When a turn is already open, `workflows.turn()` and `attach()` add their steps to it rather than starting another.
 
 ## LangGraph
 

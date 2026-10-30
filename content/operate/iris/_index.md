@@ -19,6 +19,7 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Agent Playbooks" description="Create a playbook of approved answers and procedures on Redis Cloud" url="/operate/iris/agent-playbook" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Create one MCP endpoint for your agents' tools on Redis Cloud or your own infrastructure" url="/operate/iris/context-gateway" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Deploy a service that classifies requests into intents on your own infrastructure" url="/operate/iris/intent-router" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens" description="Trace your agents' turns on Redis Cloud" url="/operate/iris/lens" >}}
 </div>
 
@@ -41,3 +42,8 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 
 - [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 - [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
+- [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
+
+## Agent Mesh SDK beta
+
+Agent Mesh provides Python SDK integrations for shared agent-to-agent task storage and resumable event delivery. Run it in your application with your own Redis connections. See the [Agent Mesh overview](/content/develop/ai/context-engine/agent-mesh/_index.md) and [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md).

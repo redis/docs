@@ -9,7 +9,7 @@ description: Debug AI agent answers by tracing the context behind each turn, fro
 linkTitle: Lens
 hideListLinks: true
 weight: 27
-bannerText: Lens is currently available in Beta. Features and behavior are subject to change.
+bannerText: Lens is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---
 
@@ -46,8 +46,8 @@ When your agent gives a wrong answer, Lens shows where it went wrong. For exampl
 
 ## Get started
 
-1. Get your Lens endpoints and keys. On Redis Cloud, [create Lens and its keys](/content/operate/iris/lens/create-lens.md). Self-managed, get them from your administrator.
-   <!-- TODO: link the self-managed operator guide for creating an instance and keys when it exists. -->
+1. Get your Lens endpoints and keys from your administrator.
+   <!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
 1. [Trace your first turn](/content/develop/ai/context-engine/lens/quickstart.md).
 
 ## Use Lens

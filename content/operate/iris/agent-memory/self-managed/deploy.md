@@ -365,9 +365,9 @@ its row. The rows are checklist items CL-1 to CL-6.
 | <a id="cl-1"></a>CL-1 | `memory.license.license_path` is set | Server and worker pods `CrashLoopBackOff`; log: `initialize license enforcement: license validation failed; refusing to start: invalid license format` | Set `memory.license.license_path: /etc/redis-agent-memory/license` |
 | <a id="cl-2"></a>CL-2 | `memory.promote_session_memory.strategies.instruct.llm` is set | Worker pods `CrashLoopBackOff` (server stays Ready); log: `promote_session_memory: Strategies: strategies.instruct.llm is required.` | Add the `instruct.llm` block |
 | <a id="cl-3"></a>CL-3 | Each `llm.provider` names an `inference_providers` entry | Server and worker pods `CrashLoopBackOff`; log: `panic: config validation failed: promote_session_memory.strategies.instruct.llm: provider "<name>" is not defined in inference_providers (defined: <names>)` | Add `memory.inference_providers.<name>` or fix the name |
-| <a id="cl-4"></a>CL-4 | `memory.dataplane_client.base_url` is `http://redis-agent-memory:9000` | Pods Ready, but no memories appear; worker log: `getting session memory: Get "http://<wrong-host>:9000/v1/stores/<store-id>/session-memory/..."` … `dial tcp: lookup <wrong-host>` (the rest depends on the cluster DNS) | Set `http://redis-agent-memory:9000` |
+| <a id="cl-4"></a>CL-4 | `memory.dataplane_client.base_url` is `http://redis-agent-memory:9000` | Pods Ready, but no memories appear; worker log: `getting session memory: Get "http://<wrong-host>:9000/iris/data/v1/agent-memory/stores/<store-id>/sessions/..."` … `dial tcp: lookup <wrong-host>` (the rest depends on the cluster DNS) | Set `http://redis-agent-memory:9000` |
 | <a id="cl-5"></a>CL-5 | Any overridden image tags exist in the chosen registry | Pods `ImagePullBackOff`, event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Use the published defaults or valid mirrored tags for each release |
-| <a id="cl-6"></a>CL-6 | `auth.worker_identity` matches the worker (issuer, audience, subject with your namespace) | Pods Ready, but no memories appear; worker log: `memory-dataplane API error: status 401`; the Data Plane logs `401` on `GET /v1/stores/<store-id>/session-memory/<session-id>` with no reason | Fix `issuer` from `/.well-known/openid-configuration` and the namespace in `subject`. The same symptom appears when the Data Plane cannot fetch the cluster JWKS, so also check [worker identity for your platform](#prepare-worker-identity-for-your-platform) |
+| <a id="cl-6"></a>CL-6 | `auth.worker_identity` matches the worker (issuer, audience, subject with your namespace) | Pods Ready, but no memories appear; worker log: `memory-dataplane API error: status 401`; the Data Plane logs `401` on `GET /iris/data/v1/agent-memory/stores/<store-id>/sessions/<session-id>` with no reason | Fix `issuer` from `/.well-known/openid-configuration` and the namespace in `subject`. The same symptom appears when the Data Plane cannot fetch the cluster JWKS, so also check [worker identity for your platform](#prepare-worker-identity-for-your-platform) |
 {{< /table-scrollable >}}
 
 ## 4. Install
@@ -434,13 +434,15 @@ Use the Control Plane admin token:
 kubectl -n <namespace-name> port-forward svc/redis-agent-memory-controlplane 9100:9100
 RAM_ADMIN_TOKEN=$(kubectl -n <namespace-name> get secret \
   redis-agent-memory-controlplane-admin-token -o jsonpath='{.data.token}' | base64 -d)
-curl -sS -X POST http://localhost:9100/v1/stores \
+curl -sS -X POST http://localhost:9100/iris/v1/agent-memory/stores \
   -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"name": "my-store"}'
+  -d '{"name": "my-store", "database": {"databaseId": "<database-id>"}}'
 ```
 
 The response carries `storeId`.
+
+<!-- TODO: The unified Control Plane spec requires `database.databaseId` on CreateStore. Confirm which database ID a self-managed deployment accepts. -->
 
 ## 7. Mint an agent key
 
@@ -473,7 +475,7 @@ The response's `token` is the agent key. It is shown only once.
 ## 8. Make one authenticated call
 
 ```bash
-curl --fail-with-body -sS "http://localhost:9000/v1/stores/<store-id>/health" \
+curl --fail-with-body -sS "http://localhost:9000/iris/data/v1/agent-memory/stores/<store-id>/health" \
   -H "Authorization: Bearer <agent-key>"
 ```
 

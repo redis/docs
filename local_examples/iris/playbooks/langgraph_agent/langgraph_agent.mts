@@ -36,7 +36,7 @@ async function main() {
   });
   async function discover(state: typeof Turn.State) {
     const context = await playbook.discoverEntries({ query: state.task, limit: 3 }).catch(error => {
-      throw new Error("Playbook discovery failed; no model call was made.", { cause: error });
+      throw new Error("Agent Playbooks discovery failed; no model call was made.", { cause: error });
     });
     if (!context.pinnedEntries.length && !context.discoveredEntries.length) {
       return { context: "", reply: context.budgetTruncated
@@ -51,7 +51,7 @@ async function main() {
       prefixToolNameWithServerName: false,
       servers: {
         playbook: {
-          url: `${url}/v1/playbooks/${playbookId}/mcp`,
+          url: `${url}/iris/data/v1/agent-playbooks/playbooks/${playbookId}/mcp`,
           headers: { Authorization: `Bearer ${apiKey}` },
         },
       },

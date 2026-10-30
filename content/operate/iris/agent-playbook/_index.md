@@ -21,4 +21,4 @@ Use Redis Agent Playbooks as a managed service on Redis Cloud.
 
 [Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md), or [view and manage an existing playbook](/content/operate/iris/agent-playbook/manage-playbook.md) and its entries, proposals, and settings.
 
-After setup, use the [developer quickstart](/content/develop/ai/context-engine/agent-playbook/quickstart.md) to publish and retrieve your first FAQ.
+After setup, use the [developer quickstart](/content/develop/ai/context-engine/agent-playbooks/quickstart.md) to publish and retrieve your first FAQ.

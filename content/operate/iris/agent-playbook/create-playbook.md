@@ -86,9 +86,9 @@ Agents read a playbook at its endpoint, with an API key that has access to it.
 
 To set more options, select **Customize in the full page** in the **Create API key** step. The console opens **Access & Identity** with this playbook selected.
 
-For what each action allows, see [Playbooks](/content/develop/ai/context-engine/agent-playbook/concepts.md#playbooks).
+For what each action allows, see [Playbooks](/content/develop/ai/context-engine/agent-playbooks/concepts.md#playbooks).
 
 ## Next steps
 
-- [Publish and retrieve your first FAQ](/content/develop/ai/context-engine/agent-playbook/quickstart.md).
+- [Publish and retrieve your first FAQ](/content/develop/ai/context-engine/agent-playbooks/quickstart.md).
 - [View and manage the playbook](/content/operate/iris/agent-playbook/manage-playbook.md): add FAQs and skills, publish versions, test retrieval, and review proposals.

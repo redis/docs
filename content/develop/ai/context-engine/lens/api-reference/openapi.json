@@ -6,7 +6,7 @@
         "description": "Read-only session and turn API for an Iris Lens instance."
     },
     "paths": {
-        "/v1/instances/{instanceId}/agents": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/agents": {
             "get": {
                 "description": "Lists every agent with at least one retained session, sorted by agent ID. The list spans all retained sessions regardless of range, so a selector can offer any agent the instance can show sessions for. An instance with no sessions returns an empty list.",
                 "operationId": "ListAgents",
@@ -96,7 +96,7 @@
                 }
             }
         },
-        "/v1/instances/{instanceId}/sessions": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/sessions": {
             "get": {
                 "description": "Lists sessions for one agent in newest-activity-first order. Pagination fixes the first page's last-seen upper bound but does not materialize an immutable snapshot: concurrent activity can move sessions out of the remaining result set or change their relative order. Start a new traversal to obtain the current view. A cursor is valid only with the same effective filters used to create it; a mismatch returns BadRequestError.",
                 "operationId": "ListSessions",
@@ -174,13 +174,13 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Maximum rows returned. The server always supplies this value to RediSearch LIMIT.",
+                        "description": "Maximum rows returned.",
                         "schema": {
                             "type": "integer",
                             "default": 50,
                             "maximum": 200,
                             "minimum": 1,
-                            "description": "Maximum rows returned. The server always supplies this value to RediSearch LIMIT.",
+                            "description": "Maximum rows returned.",
                             "format": "int32"
                         }
                     },
@@ -271,7 +271,7 @@
                 }
             }
         },
-        "/v1/instances/{instanceId}/sessions/{sessionId}": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/sessions/{sessionId}": {
             "get": {
                 "description": "Returns the retained turns and outcome facets for a session.",
                 "operationId": "GetSession",
@@ -371,7 +371,7 @@
                 }
             }
         },
-        "/v1/instances/{instanceId}/turns/{turnId}": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/turns/{turnId}": {
             "get": {
                 "description": "Returns one turn. turnId is the turn's OTel trace ID; Lens defines no separate turn identifier.",
                 "operationId": "GetTurn",
@@ -470,7 +470,7 @@
                 }
             }
         },
-        "/v1/instances/{instanceId}/turns/{turnId}/content/{hash}": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/turns/{turnId}/content/{hash}": {
             "get": {
                 "description": "Returns captured content for one turn hash. Before reading the content tier, the service MUST load the addressed turn, verify that the turn references the requested hash, and enforce the turn's logical content expiry. A missing reference or expired logical reference returns a successful expired response with no body, so callers cannot distinguish expiration from a hash that was never stored.",
                 "operationId": "GetContent",
@@ -578,7 +578,7 @@
                 }
             }
         },
-        "/v1/instances/{instanceId}/turns/{turnId}/tools/{spanId}/result": {
+        "/iris/data/v1beta1/lens/instances/{instanceId}/turns/{turnId}/tools/{spanId}/result": {
             "get": {
                 "description": "Classifies only the captured result owned by the addressed Context Retriever span. Authorization, span ownership, and content expiry are enforced before loading the body.",
                 "operationId": "GetContextRetrieverResult",
@@ -691,7 +691,7 @@
         "schemas": {
             "Agent": {
                 "type": "object",
-                "description": "One agent an instance has seen, identified by its raw iris.agent.id. A display label is not part of this contract yet; see the TDD's agents-seen record for the planned telemetry-sourced label.",
+                "description": "One agent an instance has seen, identified by its raw iris.agent.id.",
                 "properties": {
                     "agentId": {
                         "type": "string",
@@ -888,12 +888,12 @@
                     "type": {
                         "$ref": "#/components/schemas/BadRequestErrorType"
                     },
-                    "fields": {
+                    "errors": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/FieldError"
                         },
-                        "description": "Optional field-level validation errors."
+                        "description": "Every invalid request member found, when the failure is about members."
                     }
                 },
                 "required": [
@@ -906,16 +906,21 @@
                 "type": "string",
                 "description": "Problem type URI for bad request errors.",
                 "enum": [
-                    "/errors/invalid-data"
+                    "/errors/invalid-data",
+                    "/errors/invalid-cursor",
+                    "/errors/unknown-request-member",
+                    "/errors/invalid-model-config",
+                    "/errors/model-config-immutable",
+                    "/errors/model-config-not-supported"
                 ]
             },
             "ComponentCallOutcome": {
                 "type": "string",
                 "enum": [
-                    "ok",
-                    "failed",
-                    "cancelled",
-                    "unknown"
+                    "OK",
+                    "FAILED",
+                    "CANCELLED",
+                    "UNKNOWN"
                 ]
             },
             "ComponentOperation": {
@@ -926,7 +931,7 @@
                         "pattern": "^[0-9a-f]{16}$"
                     },
                     "component": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/ToolComponent"
                     },
                     "operation": {
                         "type": "string",
@@ -976,26 +981,26 @@
             "ContentAvailability": {
                 "type": "string",
                 "enum": [
-                    "available",
-                    "expired",
-                    "masked",
-                    "not-captured",
-                    "fetch-failed"
+                    "AVAILABLE",
+                    "EXPIRED",
+                    "MASKED",
+                    "NOT_CAPTURED",
+                    "FETCH_FAILED"
                 ]
             },
             "ContentKind": {
                 "type": "string",
                 "enum": [
-                    "prompt",
-                    "completion",
-                    "tool-arguments",
-                    "tool-result",
-                    "retrieval-document",
-                    "recalled-memory",
-                    "playbook-entry",
-                    "playbook-snapshot",
-                    "memory-snapshot",
-                    "component-input"
+                    "PROMPT",
+                    "COMPLETION",
+                    "TOOL_ARGUMENTS",
+                    "TOOL_RESULT",
+                    "RETRIEVAL_DOCUMENT",
+                    "RECALLED_MEMORY",
+                    "PLAYBOOK_ENTRY",
+                    "PLAYBOOK_SNAPSHOT",
+                    "MEMORY_SNAPSHOT",
+                    "COMPONENT_INPUT"
                 ]
             },
             "ContentReference": {
@@ -1111,8 +1116,7 @@
                         "description": "The retrieval span this entry came from, so a reader can place it in the span tree."
                     },
                     "component": {
-                        "type": "string",
-                        "description": "The component that served the retrieval, from iris.component.name."
+                        "$ref": "#/components/schemas/ToolComponent"
                     },
                     "operation": {
                         "type": "string",
@@ -1231,11 +1235,11 @@
             "ContextRetrieverClassification": {
                 "type": "string",
                 "enum": [
-                    "unavailable",
-                    "unclassified",
-                    "records",
-                    "aggregate",
-                    "tool-error"
+                    "UNAVAILABLE",
+                    "UNCLASSIFIED",
+                    "RECORDS",
+                    "AGGREGATE",
+                    "TOOL_ERROR"
                 ]
             },
             "ContextRetrieverProvenance": {
@@ -1318,33 +1322,31 @@
             "ContextUsageState": {
                 "type": "string",
                 "enum": [
-                    "entered-prompt",
-                    "fetched-not-used",
-                    "invoked-empty",
-                    "not-instrumented"
+                    "ENTERED_PROMPT",
+                    "FETCHED_NOT_USED",
+                    "INVOKED_EMPTY",
+                    "NOT_INSTRUMENTED"
                 ]
             },
             "FieldError": {
                 "type": "object",
-                "description": "Validation error details for a single request field.",
+                "description": "One invalid request member. A body member is named by `pointer`, a path or query parameter by `parameter`; exactly one of the two is present.",
                 "properties": {
-                    "field": {
+                    "pointer": {
                         "type": "string",
-                        "description": "Name of the invalid request field."
+                        "description": "JSON Pointer (RFC 6901) to the invalid body member, such as `/vectorSpace/dimensions`."
                     },
-                    "rule": {
+                    "parameter": {
                         "type": "string",
-                        "description": "Validation rule that was violated."
+                        "description": "Name of the invalid path or query parameter, such as `limit`."
                     },
-                    "message": {
+                    "detail": {
                         "type": "string",
-                        "description": "Human-readable validation error message."
+                        "description": "What is wrong with the member, in fixed words about the rule it broke, never the rejected value."
                     }
                 },
                 "required": [
-                    "field",
-                    "message",
-                    "rule"
+                    "detail"
                 ]
             },
             "ForbiddenErrorResponseContent": {
@@ -1433,17 +1435,17 @@
                         "description": "Nonnegative recorded integer in the exact JavaScript integer range.",
                         "format": "int64"
                     },
-                    "resultCacheStatus": {
+                    "cacheStatus": {
                         "type": "string",
                         "maxLength": 512,
                         "minLength": 1,
-                        "description": "hit when the Gateway reports a result cache hit. Absence does not imply a miss."
+                        "description": "hit when the Gateway reports a cache hit. Absence does not imply a miss."
                     },
-                    "resultCacheAgeMs": {
+                    "cacheAgeMs": {
                         "type": "integer",
                         "maximum": 9007199254740991,
                         "minimum": 0,
-                        "description": "Age of the cached result, present only with resultCacheStatus hit.",
+                        "description": "Age of the cached result, present only with cacheStatus hit.",
                         "format": "int64"
                     },
                     "failureReason": {
@@ -1471,33 +1473,33 @@
                         "description": "Recorded signed integer in the exact JavaScript integer range.",
                         "format": "int64"
                     },
-                    "resultHandleRef": {
+                    "handleRef": {
                         "type": "string",
                         "maxLength": 16,
                         "minLength": 16,
                         "pattern": "^[0-9a-f]{16}$",
                         "description": "Non-capability correlation reference, never a raw handle ID."
                     },
-                    "resultHandleShape": {
+                    "handleShape": {
                         "type": "string",
                         "maxLength": 512,
                         "minLength": 1,
                         "description": "Recorded result shape: collection, document, or text."
                     },
-                    "resultHandleCompleteness": {
+                    "handleCompleteness": {
                         "type": "string",
                         "maxLength": 512,
                         "minLength": 1,
                         "description": "Recorded result completeness: complete, partial, or unknown."
                     },
-                    "resultHandleBytes": {
+                    "handleBytes": {
                         "type": "integer",
                         "maximum": 9007199254740991,
                         "minimum": 0,
                         "description": "Nonnegative recorded integer in the exact JavaScript integer range.",
                         "format": "int64"
                     },
-                    "resultHandleItems": {
+                    "handleItems": {
                         "type": "integer",
                         "maximum": 9007199254740991,
                         "minimum": 0,
@@ -1807,7 +1809,9 @@
                 "type": "string",
                 "description": "Problem type URI for not-found errors.",
                 "enum": [
-                    "/errors/resource-not-found"
+                    "/errors/resource-not-found",
+                    "/errors/gateway-not-found",
+                    "/errors/upstream-not-found"
                 ]
             },
             "OutcomeFacetCount": {
@@ -1986,7 +1990,7 @@
                         "pattern": "^[0-9a-f]{16}$"
                     },
                     "component": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/ToolComponent"
                     },
                     "operation": {
                         "type": "string"
@@ -2043,11 +2047,11 @@
                 "type": "string",
                 "description": "NOT_AVAILABLE: the source was asked and returned no score, as every Agent Memory recall does today. UNSCORED: the caller never supplied one. Neither is a low score.",
                 "enum": [
-                    "high",
-                    "medium",
-                    "low",
-                    "unscored",
-                    "not-available"
+                    "HIGH",
+                    "MEDIUM",
+                    "LOW",
+                    "UNSCORED",
+                    "NOT_AVAILABLE"
                 ]
             },
             "ServiceUnavailableErrorResponseContent": {
@@ -2084,7 +2088,9 @@
             "ServiceUnavailableErrorType": {
                 "type": "string",
                 "enum": [
-                    "/errors/service-unavailable"
+                    "/errors/service-unavailable",
+                    "/errors/playbook-not-ready",
+                    "/errors/resource-unavailable"
                 ]
             },
             "SessionListItem": {
@@ -2154,22 +2160,22 @@
                 "type": "string",
                 "description": "Session-level OR facet. UNSET represents turns that did not record iris.turn.outcome.",
                 "enum": [
-                    "completed",
-                    "failed",
-                    "abandoned",
-                    "refused",
-                    "timeout",
-                    "unset"
+                    "COMPLETED",
+                    "FAILED",
+                    "ABANDONED",
+                    "REFUSED",
+                    "TIMEOUT",
+                    "UNSET"
                 ]
             },
             "SpanKind": {
                 "type": "string",
                 "enum": [
-                    "internal",
-                    "server",
-                    "client",
-                    "producer",
-                    "consumer"
+                    "INTERNAL",
+                    "SERVER",
+                    "CLIENT",
+                    "PRODUCER",
+                    "CONSUMER"
                 ]
             },
             "SpanNode": {
@@ -2242,9 +2248,9 @@
             "SpanStatus": {
                 "type": "string",
                 "enum": [
-                    "unset",
-                    "ok",
-                    "error"
+                    "UNSET",
+                    "OK",
+                    "ERROR"
                 ]
             },
             "TokenUsage": {
@@ -2274,20 +2280,21 @@
             },
             "ToolComponent": {
                 "type": "string",
+                "description": "The Iris component a call belongs to. Every turn member named component uses it.",
                 "enum": [
-                    "agent_memory",
-                    "playbook",
-                    "context_retriever",
-                    "context_gateway"
+                    "AGENT_MEMORY",
+                    "PLAYBOOK",
+                    "CONTEXT_RETRIEVER",
+                    "CONTEXT_GATEWAY"
                 ]
             },
             "ToolOutcome": {
                 "type": "string",
-                "description": "ok means the call returned and does not assert tool success, including an MCP isError result without a Gateway failure entry. A Gateway failure entry can make it failed. Lens keeps the producer's outcome, including invalid_arguments recorded as ok.",
+                "description": "OK means the call returned and does not assert tool success, including an MCP isError result without a Gateway failure entry. A Gateway failure entry can make it FAILED. Lens keeps the producer's outcome, including invalid_arguments recorded as OK.",
                 "enum": [
-                    "ok",
-                    "failed",
-                    "cancelled"
+                    "OK",
+                    "FAILED",
+                    "CANCELLED"
                 ]
             },
             "ToolSpan": {
@@ -2321,11 +2328,11 @@
             "TurnOutcome": {
                 "type": "string",
                 "enum": [
-                    "completed",
-                    "failed",
-                    "abandoned",
-                    "refused",
-                    "timeout"
+                    "COMPLETED",
+                    "FAILED",
+                    "ABANDONED",
+                    "REFUSED",
+                    "TIMEOUT"
                 ]
             },
             "TurnSummary": {
@@ -2418,9 +2425,22 @@
                 "type": "string",
                 "description": "Problem type URI for unexpected internal errors.",
                 "enum": [
-                    "/errors/unexpected-error"
+                    "/errors/unexpected-error",
+                    "/errors/content-integrity-failed"
                 ]
             }
+        },
+        "securitySchemes": {
+            "smithy.api.httpBearerAuth": {
+                "type": "http",
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
+            }
         }
-    }
+    },
+    "security": [
+        {
+            "smithy.api.httpBearerAuth": []
+        }
+    ]
 }
