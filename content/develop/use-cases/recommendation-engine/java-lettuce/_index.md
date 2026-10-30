@@ -178,11 +178,11 @@ FT.SEARCH recommend:idx
 
 When there's no filter, the pre-filter clause is just `(*)`. `vector_score` is the cosine *distance* (0 means identical, 2 means opposite), so the result is sorted ascending and the top row is the closest candidate to the query.
 
-The Lettuce equivalent uses the typed `ftSearch` method on the binary-codec connection's `RediSearchCommands`. The query expression is passed as the value type (`byte[]` on the binary connection, so UTF-8-encoded) and the binary `$vec` parameter goes through `SearchArgs.Builder.param(...)`:
+The Lettuce equivalent uses the typed `ftSearch` method on the binary-codec connection's `RediSearchCommands`. The query expression is an ordinary `String`, and the binary `$vec` parameter goes through `SearchArgs.Builder.param(...)`:
 
 ```java
 String knn = filterClause + "=>[KNN " + k + " @embedding $vec AS vector_score]";
-SearchArgs<String, byte[]> args = SearchArgs.<String, byte[]>builder()
+SearchArgs<String> args = SearchArgs.<String>builder()
         .param("vec", Recommender.floatsToBytes(queryVec))
         .returnField("name").returnField("description")
         .returnField("category").returnField("brand")
@@ -192,9 +192,8 @@ SearchArgs<String, byte[]> args = SearchArgs.<String, byte[]>builder()
         .limit(0, k)
         .dialect(QueryDialects.DIALECT2)
         .build();
-SearchReply<String, byte[]> reply = binConn.sync()
-        .ftSearch("recommend:idx",
-                knn.getBytes(StandardCharsets.UTF_8), args);
+SearchReply<String> reply = binConn.sync()
+        .ftSearch("recommend:idx", knn, args);
 ```
 
 ## Lettuce specifics: binary fields and pipelining
