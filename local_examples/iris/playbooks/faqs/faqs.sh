@@ -3,7 +3,7 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
@@ -52,7 +52,7 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Where can I see how my refund is progressing?","filter":{"eq":{"name":"locale","value":"en-US"}},"limit":5}' \
-  | jq '.matches[] | {entryId, version, score, answer: .faq.answer}'
+  | jq '.items[] | {entryId, version, score, answer: .faq.answer}'
 # STEP_END
 
 # STEP_START playbook-faq-update
@@ -84,12 +84,11 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-faq-list
 CURSOR=''
 while true; do
-  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
+  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-page.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' faq-page.json; fi
-  jq '.faqs[] | {entryId, latestVersion, publication}' faq-page.json
+  jq '.items[] | {entryId, latestVersion, publication}' faq-page.json
   CURSOR=$(jq -r '.nextCursor // empty' faq-page.json)
   [[ -n "$CURSOR" ]] || break
 done
@@ -102,7 +101,7 @@ while true; do
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs/$FAQ_ID/versions" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-versions.json
-  jq '.versions[] | {version, contentDigest, content}' faq-versions.json
+  jq '.items[] | {version, contentDigest, content}' faq-versions.json
   CURSOR=$(jq -r '.nextCursor // empty' faq-versions.json)
   [[ -n "$CURSOR" ]] || break
 done
@@ -114,5 +113,5 @@ jq -n --arg id "$FAQ_ID" '{references: [{entryId: $id}, {entryKey: "refund-statu
     -X POST "$PLAYBOOK_API/entries/lookup" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
     -H 'Content-Type: application/json' --data-binary @- \
-  | jq '{maxVersions, results}'
+  | jq '{maxVersions, items}'
 # STEP_END

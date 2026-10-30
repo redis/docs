@@ -92,7 +92,7 @@ Republish the first version to roll back.
 
 Use `list_faqs` to list entries, including unpublished ones, and `get_faq` to read a summary. Both require `read`. Summaries show the latest version number and any publication, without draft content.
 
-Follow the pagination cursor until it is absent, even after an empty page. Keep filters and sort settings unchanged. The optional first-page `total` is a separately measured count; absence means unknown, not zero. Lists can change while you page through them.
+Follow the pagination cursor until it is absent, even after an empty page. Keep filters and sort settings unchanged. Responses return `items` and `nextCursor` and don't include a total count. Lists can change while you page through them.
 
 CLI lists and version history follow all cursors automatically and return an array. Use `--page` for one page with `nextCursor`, and `--cursor` to continue it. The CLI's version output currently omits `contentDigest`; use an SDK or cURL example when you need that field.
 

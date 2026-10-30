@@ -108,7 +108,7 @@ To verify file content, compare the descriptor's SHA-256 (Secure Hash Algorithm 
 
 Use `list_skills` to inventory entries and `get_skill` to inspect one entry's summary. These operations require `read`; draft content and full version history require `write` or `publish`. To resolve a skill by its entry key or compare latest and published content digests, use the shared [entry lookup operation]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#look-up-entry-state" >}}).
 
-Follow cursors even after empty pages, and keep filters and ordering unchanged. An absent first-page `total` means the count is unknown. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbooks/limits#retrieval-limits" >}}).
+Follow cursors even after empty pages, and keep filters and ordering unchanged. Responses return `items` and `nextCursor` and don't include a total count. See [pagination behavior]({{< relref "/develop/ai/context-engine/agent-playbooks/limits#retrieval-limits" >}}).
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-list" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

@@ -53,7 +53,7 @@ async def main():
     async with MCPServerStreamableHttp(
         name="Redis Agent Playbooks",
         params={
-            "url": f"{url}/v1/playbooks/{playbook_id}/mcp",
+            "url": f"{url}/iris/data/v1/agent-playbooks/playbooks/{playbook_id}/mcp",
             "headers": {"Authorization": f"Bearer {api_key}"},
         },
         cache_tools_list=True,

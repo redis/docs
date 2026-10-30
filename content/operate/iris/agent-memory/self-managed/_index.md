@@ -77,13 +77,13 @@ actions the key can access.
 
 | API surface | Endpoint prefix | Purpose |
 | --- | --- | --- |
-| Session memory | `/v1/stores/{storeId}/session-memory` | Ordered conversation events, session metadata, and session lifecycle operations. |
-| Long-term memory | `/v1/stores/{storeId}/long-term-memory` | Searchable facts, preferences, summaries, and custom memory records. |
-| Namespaces | `/v1/stores/{storeId}/namespaces` | Namespace resources within a store. |
-| Model Context Protocol (MCP) | `/v1/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
-| Store health | `/v1/stores/{storeId}/health` | Read-only health for store-scoped features. |
+| Session memory | `/iris/data/v1/agent-memory/stores/{storeId}/sessions` | Ordered conversation events, session metadata, and session lifecycle operations. |
+| Long-term memory | `/iris/data/v1/agent-memory/stores/{storeId}/memories` | Searchable facts, preferences, summaries, and custom memory records. |
+| Namespaces | `/iris/data/v1/agent-memory/stores/{storeId}/namespaces` | Namespace resources within a store. |
+| Model Context Protocol (MCP) | `/iris/data/v1/agent-memory/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
+| Store health | `/iris/data/v1/agent-memory/stores/{storeId}/health` | Read-only health for store-scoped features. |
 | Service health | `/health/liveness`, `/health/readiness` | Process liveness and readiness to serve requests; neither requires an agent key. |
-| Control Plane | `/v1/stores`, `/v1/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
+| Control Plane | `/iris/v1/agent-memory/stores`, `/iris/v1/agent-memory/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
 | Identity Service | `/v1/api-keys` | Self-managed administration for agent keys. |
 
 Session memory keeps conversation continuity within a session. Long-term memory
