@@ -188,7 +188,7 @@ SearchArgs<String> args = SearchArgs.<String>builder()
         .returnField("category").returnField("brand")
         .returnField("price").returnField("rating")
         .returnField("in_stock").returnField("vector_score")
-        .sortBy(SortByArgs.<String>builder().attribute("vector_score").build())
+        .sortBy(SortByArgs.builder().attribute("vector_score").build())
         .limit(0, k)
         .dialect(QueryDialects.DIALECT2)
         .build();

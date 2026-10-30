@@ -163,18 +163,18 @@ public class Recommender {
      */
     public void createIndex() {
         List<FieldArgs> schema = Arrays.asList(
-                TextFieldArgs.<String>builder().name("name").weight(1L).build(),
+                TextFieldArgs.builder().name("name").weight(1L).build(),
                 // Lettuce's TextField weight is a long: 1 == default weight,
                 // we accept the loss of the 0.5 fractional weight on
                 // description because Lettuce 7 does not expose a double
                 // weight builder.
-                TextFieldArgs.<String>builder().name("description").build(),
-                TagFieldArgs.<String>builder().name("category").build(),
-                TagFieldArgs.<String>builder().name("brand").build(),
-                TagFieldArgs.<String>builder().name("in_stock").build(),
-                NumericFieldArgs.<String>builder().name("price").sortable().build(),
-                NumericFieldArgs.<String>builder().name("rating").sortable().build(),
-                VectorFieldArgs.<String>builder()
+                TextFieldArgs.builder().name("description").build(),
+                TagFieldArgs.builder().name("category").build(),
+                TagFieldArgs.builder().name("brand").build(),
+                TagFieldArgs.builder().name("in_stock").build(),
+                NumericFieldArgs.builder().name("price").sortable().build(),
+                NumericFieldArgs.builder().name("rating").sortable().build(),
+                VectorFieldArgs.builder()
                         .name("embedding")
                         .hnsw()
                         .type(VectorFieldArgs.VectorType.FLOAT32)
@@ -182,7 +182,7 @@ public class Recommender {
                         .distanceMetric(VectorFieldArgs.DistanceMetric.COSINE)
                         .build());
 
-        CreateArgs createArgs = CreateArgs.<String, String>builder()
+        CreateArgs createArgs = CreateArgs.builder()
                 .on(CreateArgs.TargetType.HASH)
                 .withPrefix(keyPrefix)
                 .build();
@@ -344,7 +344,7 @@ public class Recommender {
                 .returnField("rating")
                 .returnField("in_stock")
                 .returnField("vector_score")
-                .sortBy(SortByArgs.<String>builder().attribute("vector_score").build())
+                .sortBy(SortByArgs.builder().attribute("vector_score").build())
                 .limit(0, k)
                 .dialect(QueryDialects.DIALECT2)
                 .build();
@@ -722,7 +722,7 @@ public class Recommender {
                 .returnField("price")
                 .returnField("rating")
                 .returnField("in_stock")
-                .sortBy(SortByArgs.<String>builder().attribute("price").build())
+                .sortBy(SortByArgs.builder().attribute("price").build())
                 .limit(0, limit)
                 .dialect(QueryDialects.DIALECT2)
                 .build();
