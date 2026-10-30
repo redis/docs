@@ -122,6 +122,11 @@ One trap it does **not** guard against: `cargo test` (Rust) and xunit (C#) captu
 so their logs can't be compared with the `>>>` comments. For those clients, make the REMOVE
 asserts cover every printed value — they are the only check the comments get.
 
+Another it does not guard against: in a Lettuce reactive example, a nil reply (a failed
+`SET ... NX`, a missing key) completes as an *empty* `Mono`, so a `doOnNext` assertion after it
+is skipped and the step passes without checking anything. Make something emit — `.hasElement()`
+or `.defaultIfEmpty(...)` — as the `cas_cad` and `setnx_xx` steps do.
+
 ## Known divergence: Java versions
 
 | | jedis | lettuce-sync | lettuce-async / reactive |

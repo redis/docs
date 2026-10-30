@@ -80,7 +80,7 @@ If you have muscle memory or notes from the pre-`clients.tsv` version:
 | ioredis | `npm i ioredis`, ESM | run as `.mjs` (separate `work/ioredis` dir from node-redis) |
 | go | module + `go-redis` | `go test`; needs a sibling `package example_commands` stub |
 | jedis | Maven + `jedis:8.0.2` | surefire include `**/*Example.java` (classes aren't `*Test`) |
-| lettuce-sync / -async / -reactive | Maven + `lettuce-core:6.5.5.RELEASE` | same surefire include |
+| lettuce-sync / -async / -reactive | Maven + `lettuce-core` (sync `6.5.5.RELEASE`, async/reactive `7.7.0.RELEASE`) | same surefire include |
 | ruby | `redis` gem | run script (`raise`/local `assert_equal`) |
 | rust-sync | Cargo + `redis = "1.3"` | file is `#[cfg(test)]` → dropped in `src/lib.rs`, `cargo test` |
 | rust-async | Cargo + `redis` (tokio-comp) + `tokio` | `#[tokio::test]` |
