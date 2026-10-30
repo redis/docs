@@ -153,6 +153,7 @@ The CLI takes each setting from the first of these that sets it: a command optio
 | `service_url` | The service's control plane, which the CLI calls |
 | `url` | The data plane your agent calls. The CLI writes it into `.env` |
 | `identity_url` | The Identity Service that mints this service's keys |
+| `database_id` | Agent Memory only: the database `service create` puts a store in when neither `--database` nor `service.yaml` names one. Default `1` |
 | `[profiles.<name>.identity]` `url`, `tenant` | An Identity Service shared by every service, and its tenant |
 
 `iris.toml` never holds secrets. A token or API key in it stops the CLI with exit code 2. Tokens and keys come only from environment variables or the files the CLI writes.

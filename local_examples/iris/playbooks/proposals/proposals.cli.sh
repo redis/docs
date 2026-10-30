@@ -14,7 +14,7 @@ iris --json agent-playbooks proposals list --view inbox --sort-by updatedAt --so
 
 # STEP_START playbook-proposal-search
 iris --json agent-playbooks proposals search 'Contact support about a missing refund' \
-  --minimum-score 0.7 --action-type add --entry-type faq --limit 5 | jq .matches
+  --min-score 0.7 --action-type add --entry-type faq --limit 5 | jq .items
 # STEP_END
 
 # STEP_START playbook-proposal-create
@@ -34,7 +34,7 @@ cat > proposal-source.json <<'JSON'
 JSON
 iris --json agent-playbooks proposals create proposal-faq.json --source proposal-source.json > proposal-created.json
 PROPOSAL_ID=$(jq -er '.proposalId' proposal-created.json)
-jq '{proposalId, proposalRevision}' proposal-created.json
+jq '{proposalId, revision}' proposal-created.json
 # STEP_END
 
 # STEP_START playbook-proposal-evidence
@@ -54,12 +54,12 @@ iris --json agent-playbooks proposals evidence "$PROPOSAL_ID" "$EVIDENCE_ID" --i
 # STEP_END
 
 # STEP_START playbook-proposal-read
-iris --json agent-playbooks proposals get "$PROPOSAL_ID" > reviewed.json
+iris --json agent-playbooks proposals show "$PROPOSAL_ID" > reviewed.json
 jq . reviewed.json
 # STEP_END
 
 # STEP_START playbook-proposal-replace
-REVISION=$(jq -er '.proposalRevision' reviewed.json)
+REVISION=$(jq -er '.revision' reviewed.json)
 jq '
   .action.add.candidate.content |
   {
@@ -77,11 +77,11 @@ if [[ -n "$ENTRY_KEY" ]]; then
 fi
 iris --json agent-playbooks proposals replace "$PROPOSAL_ID" proposal-update.json \
   --expected-revision "$REVISION" > revised.json
-jq '{proposalRevision, action}' revised.json
+jq '{revision, action}' revised.json
 # STEP_END
 
 # STEP_START playbook-proposal-trash
-REVISION=$(jq -er '.proposalRevision' revised.json)
+REVISION=$(jq -er '.revision' revised.json)
 iris agent-playbooks proposals dismiss "$PROPOSAL_ID" --expected-revision "$REVISION"
 iris agent-playbooks proposals restore "$PROPOSAL_ID"
 # To purge a trashed proposal instead of restoring it:
@@ -89,16 +89,16 @@ iris agent-playbooks proposals restore "$PROPOSAL_ID"
 # STEP_END
 
 # STEP_START playbook-proposal-final-review
-iris --json agent-playbooks proposals get "$PROPOSAL_ID" > final-review.json
-jq '{action, evidence, proposalRevision}' final-review.json
+iris --json agent-playbooks proposals show "$PROPOSAL_ID" > final-review.json
+jq '{action, evidence, revision}' final-review.json
 # STEP_END
 
 # STEP_START playbook-proposal-accept
-REVISION=$(jq -er '.proposalRevision' final-review.json)
+REVISION=$(jq -er '.revision' final-review.json)
 iris --json agent-playbooks proposals accept "$PROPOSAL_ID" --expected-revision "$REVISION" > accepted.json
 ACCEPTED_FAQ_ID=$(jq -er '.result.versionCreated.entryId' accepted.json)
 ACCEPTED_VERSION=$(jq -er '.result.versionCreated.version' accepted.json)
-iris --json agent-playbooks faqs get "$ACCEPTED_FAQ_ID" --version "$ACCEPTED_VERSION" | jq '{entryId, version, content}'
+iris --json agent-playbooks faqs show "$ACCEPTED_FAQ_ID" --version "$ACCEPTED_VERSION" | jq '{entryId, version, content}'
 # STEP_END
 
 # STEP_START playbook-proposal-publish

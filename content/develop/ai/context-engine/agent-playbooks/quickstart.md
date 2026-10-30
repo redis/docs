@@ -19,7 +19,7 @@ Create a playbook API key with `write` and `publish` permissions. Both include `
 
 This walkthrough needs no agent framework or model-provider key.
 
-Follow one tab throughout the page. The Python SDK and command-line interface (CLI) are prereleases. Both require Python 3.11 or later. The cURL and CLI examples use Bash and jq. To connect the CLI to your deployment with a profile, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
+Follow one tab throughout the page. The Python SDK and command-line interface (CLI) require Python 3.11 or later. The cURL and CLI examples use Bash and jq. To connect the CLI to your deployment with a profile, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 **Python and CLI**
 

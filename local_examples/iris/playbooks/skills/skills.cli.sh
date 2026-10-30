@@ -22,7 +22,7 @@ jq . skill-draft.json
 # STEP_END
 
 # STEP_START playbook-skill-review
-iris --json agent-playbooks skills get "$SKILL_ID" --version "$SKILL_VERSION" | jq .content
+iris --json agent-playbooks skills show "$SKILL_ID" --version "$SKILL_VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-skill-publish
@@ -34,11 +34,11 @@ jq '.attributes.channel = "chat"' refund-support-reply/.iris-playbook.json > ski
 mv skill-context.json refund-support-reply/.iris-playbook.json
 iris --json agent-playbooks skills push refund-support-reply > skill-updated.json
 UPDATED_VERSION=$(jq -er '.results[0].version' skill-updated.json)
-iris --json agent-playbooks skills get "$SKILL_ID" --version "$UPDATED_VERSION" | jq .content
+iris --json agent-playbooks skills show "$SKILL_ID" --version "$UPDATED_VERSION" | jq .content
 # STEP_END
 
 # STEP_START playbook-skill-load
-iris --json agent-playbooks skills get "$SKILL_ID" --version "$SKILL_VERSION" > selected-skill.json
+iris --json agent-playbooks skills show "$SKILL_ID" --version "$SKILL_VERSION" > selected-skill.json
 jq -r '.content.payload.skill.instructions' selected-skill.json
 iris agent-playbooks skills resource get "$SKILL_ID" references/reply-template.md \
   --version "$SKILL_VERSION" --output reply-template.txt --force

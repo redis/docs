@@ -12,7 +12,7 @@ from examples import ALL_CLIENTS, CLIENTS, GUIDES, bundle, calls, processed, sou
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DOCS = ROOT / "content/develop/ai/context-engine/agent-playbook"
+DOCS = ROOT / "content/develop/ai/context-engine/agent-playbooks"
 
 
 def test_public_openapi_is_valid():

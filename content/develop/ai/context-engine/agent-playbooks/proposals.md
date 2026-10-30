@@ -17,7 +17,7 @@ Proposals currently add new FAQs. They do not create skills or revise existing e
 
 Start with the walkthrough, or [automate suggestions](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) from Redis Agent Memory or your own application. Suggestions do not affect agent responses until you publish the accepted FAQ.
 
-![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbooks-proposals.svg)
+![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
 {width="700"}
 
 ## Before you begin

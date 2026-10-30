@@ -21,7 +21,7 @@
   /* Top to bottom. `along` marks the parts that work alongside the request rather than answering it. */
   var STACK = [
     { key: "router", name: "Intent Router", role: "Matches the message to an intent you defined" },   // TODO: add doc: "/develop/ai/context-engine/intent-router" when intent-router-docs-align merges
-    { key: "playbooks", name: "Agent Playbooks", role: "Published answers and procedures", doc: "/develop/ai/context-engine/agent-playbook" },
+    { key: "playbooks", name: "Agent Playbooks", role: "Published answers and procedures", doc: "/develop/ai/context-engine/agent-playbooks" },
     { key: "memory", name: "Agent Memory", role: "Session and long-term recall", doc: "/develop/ai/context-engine/agent-memory" },
     { key: "gateway", name: "Context Gateway", role: "Governed tools over your data and MCP servers", doc: "/develop/ai/context-engine/context-gateway" },
     { key: "lens", name: "Lens", role: "Traces each turn", doc: "/develop/ai/context-engine/lens", along: true },

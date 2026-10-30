@@ -9,8 +9,6 @@ description: Create playbooks of reusable skills and answers that agents can dis
 linkTitle: Agent Playbooks
 hideListLinks: true
 weight: 25
-bannerText: Documentation review draft.
-bannerChildren: true
 ---
 
 ## What is Redis Agent Playbooks?

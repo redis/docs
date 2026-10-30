@@ -16,7 +16,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 LOCK = Path(__file__).with_name("source-lock.json")
-SPEC = ROOT / "content/develop/ai/context-engine/agent-playbook/api-reference/openapi.json"
+SPEC = ROOT / "content/develop/ai/context-engine/agent-playbooks/api-reference/openapi.json"
 
 
 def wire_contract(document):
