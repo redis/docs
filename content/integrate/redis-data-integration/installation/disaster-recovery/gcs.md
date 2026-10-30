@@ -17,7 +17,8 @@ weight: 10
 
 Use an object in a Google Cloud Storage (GCS) bucket to coordinate leader election between
 Redis Data Integration (RDI) sites. All sites must use the same bucket and object name.
-Use a different object name for each independent disaster recovery (DR) setup.
+To use one bucket for several disaster recovery (DR) setups, see
+[Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
 
 Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Google Cloud command-line interface (CLI), authenticated as an identity

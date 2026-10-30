@@ -191,8 +191,10 @@ operator:
 
 Use identical `tableName` and `keyName` values at both sites, distinct `instanceID` values,
 and each site's selected replica Region. RDI doesn't check that the Region is a replica rather
-than the witness. The `keyName` default is `rdi-lease`. Use a different
-item key for every independent DR setup that shares the table. RDI creates the lease item.
+than the witness. The `keyName` default is `rdi-lease`. To use one table for several DR
+setups, see
+[Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
+RDI creates the lease item.
 
 ## Install RDI and check access
 

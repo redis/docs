@@ -71,8 +71,9 @@ Cloud Storage (GCS) and Amazon DynamoDB leases for Helm installations. See
 [Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
 for the supported setup and configuration steps.
 
-Both sites capture from the current source primary. After a source failover, the promoted
-source must be able to resume capture from RDI's saved position. See
+Each site captures from its closest source database, which is the active source database or a
+replica of it. After a failover, that database must be able to continue capture from RDI's
+saved position. See
 [Source databases and data after a failover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#source-databases-and-data-after-a-failover).
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?

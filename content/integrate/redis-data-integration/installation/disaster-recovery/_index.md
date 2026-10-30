@@ -38,12 +38,13 @@ survive the failure of one RDI instance, and DR to survive the loss of a site.
 
 ## Understand the topology
 
-![Site A has the source primary and RDI leader. Source changes replicate to site B, where RDI pipelines are in standby. Both RDI sites follow the current source primary and share an external lease. RDI database endpoints and example target endpoints use Active-Active replication.](/images/rdi/disaster-recovery.svg)
+![Site A has the source primary and the RDI leader, which captures from it. Source changes replicate to a source replica at site B, where RDI pipelines are in standby. After a takeover, site B's RDI captures from the source at site B. Both sites share an external lease. RDI database endpoints and example target endpoints use Active-Active replication.](/images/rdi/disaster-recovery.svg)
 
-The source databases in this example use primary-to-replica replication. Both RDI sites
-connect through a source endpoint that follows the current primary. Manage source
-replication, promotion, and endpoint routing separately from RDI failover. The capture path
-from site B's source applies after that source is promoted.
+Each site's RDI instance captures from the closest source database that supports snapshots
+and change data capture (CDC). That database is the active source database or a replica of it.
+Which kinds of replica RDI can capture from, and when, depends on the source database. See
+[Source databases and data after a failover](#source-databases-and-data-after-a-failover).
+Manage source replication, promotion, and endpoint routing separately from RDI failover.
 
 The target in this example also uses Active-Active replication. Configure target availability
 separately; an Active-Active target is not a requirement for RDI leader election.
@@ -54,27 +55,46 @@ failover, do not trigger a change of leader.
 
 ## Source databases and data after a failover
 
-After a source failover, update the source endpoint routing so that every RDI site can reach
-the new primary. Source-specific replication and failover configuration is outside this guide.
+The new leader continues capture only if the source database it connects to can serve RDI's
+saved position. The new leader resumes from the state in its local RDI database instance: the
+collector's saved source position and any change records not yet processed.
 
-The new leader resumes from the state in its local RDI database instance: the collector's saved
-source position and any change records not yet processed.
+The saved position uses the source database's own terms, such as an Oracle system change number
+(SCN) or a PostgreSQL log sequence number (LSN). A position value doesn't identify the database
+history it came from, so RDI doesn't always detect a database with a different history. Capture
+can then fail, or start from the wrong place.
 
-- **Capture continues from the saved position.** If the source still has the change history
-  from that position, no changes are lost. Active-Active replication is asynchronous, so the
-  saved state can lag behind the failed site's state. RDI can then apply some changes to the
-  target again.
-- **Capture can't continue.** For example, a promoted source has no compatible change history
+The following table gives the general requirement for each source. Replication and failover
+details vary by source database, version, and managed service.
+
+<!-- TODO: Confirm the SQL Server and MongoDB rows with engineering (RDSC-6013). -->
+
+| Source | Saved position | The source database at the new leader's site must |
+| :-- | :-- | :-- |
+| Oracle | SCN | Have the same SCN history, such as a physical standby in Oracle Data Guard, and keep the redo and archive logs from the saved SCN. A logical copy, such as one that Oracle GoldenGate maintains, has its own SCNs. |
+| MySQL and MariaDB | Global transaction identifier (GTID) set, or binary log (binlog) file and position | Use GTIDs and contain every transaction in the saved GTID set, with binlogs kept from that point. A replica must also write replicated changes to its own binlog. Binlog file names and positions differ between servers. |
+| PostgreSQL | LSN of the replication slot | Be a promoted physical standby with a synchronized copy of RDI's replication slot. PostgreSQL 17 can synchronize failover slots; versions 14 to 16 need the `pg_failover_slots` extension. RDI can't use the slot copy until the standby is promoted. A logical replica always needs a new snapshot. |
+| SQL Server | LSN | Be the same database with the same transaction log, such as a replica in an Always On availability group. CDC capture must run on the new primary. |
+| MongoDB | Change stream resume token | Belong to the same replica set or sharded cluster, with the saved position still in the oplog. A separate cluster that another tool copies has its own oplog. |
+| Google Cloud Spanner | Change stream position | Spanner is one multi-region database, so both sites capture from it through the same endpoint. The saved position must still be within the change stream's retention period. |
+
+After a takeover, one of the following applies:
+
+- **Capture continues from the saved position.** If the source database still has the change
+  history from that position, no changes are lost. Active-Active replication is asynchronous,
+  so the saved state can lag behind the failed site's state. RDI can then apply some changes to
+  the target again. If the source replicates asynchronously, a promoted source can lack changes
+  that RDI already delivered. The target keeps them, and RDI can't detect this.
+- **Capture can't continue.** For example, the source database has no compatible change history
   or capture state for the saved position.
   [Reset the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#reset-a-pipeline)
   to take a new snapshot. The snapshot restores inserts and updates. Rows deleted from the
   source between the failed site's last processed change and the start of the snapshot remain
   in the target. RDI can't detect them, so delete them from the target yourself.
 
-Before you rely on a source failover, check that the promoted source can resume change data
-capture (CDC) from RDI's saved position. A replicated copy of the source alone does not
-guarantee this. Retain enough source change history to cover capture lag, snapshots, and the
-longest outage you plan to recover from.
+Before you rely on DR, check that the source database at each site can serve RDI's saved
+position. A replicated copy of the source alone does not guarantee this. Retain enough source
+change history to cover capture lag, snapshots, and the longest outage you plan to recover from.
 
 ## Prepare both sites
 
@@ -83,10 +103,10 @@ longest outage you plan to recover from.
   [Active-Active database](/content/operate/rs/databases/active-active/create.md) with an
   instance at each site. It must also meet the
   [RDI database requirements](/content/integrate/redis-data-integration/installation/install-k8s.md#create-the-rdi-database).
-- Give both instances access to the source, their target database, and the same external lease.
-  The lease must remain available when any site fails.
-- [Prepare the source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
-  for CDC, and plan for source failover as described in
+- Give each instance access to its site's source database, its target database, and the same
+  external lease. The lease must remain available when any site fails.
+- [Prepare the source database](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
+  at each site for CDC, and check the requirements in
   [Source databases and data after a failover](#source-databases-and-data-after-a-failover).
 - Keep the clocks at both sites synchronized. Each site checks lease expiry against its own clock.
 
@@ -156,10 +176,15 @@ using
 A follower takes part in leader election and takes over when the leader releases the lease or
 the lease expires. An instance in standby doesn't take part. Choose the mode before you install:
 
-| Mode | `standbyMode` in the values files | Who starts the takeover? |
-| :-- | :-- | :-- |
-| Automatic | `false` at both sites | The follower, after the leader releases the lease or the lease expires. |
-| Manual | `false` at site A, `true` at site B | You, by enabling participation on the destination instance. |
+| Mode | `standbyMode` in the values files | Who starts the takeover? | Use it when |
+| :-- | :-- | :-- | :-- |
+| Automatic | `false` at both sites | The follower, after the leader releases the lease or the lease expires. | The source database at site B can serve the saved position as soon as site B takes over. For example, both sites capture from one Spanner database. |
+| Manual | `false` at site A, `true` at site B | You, by enabling participation on the destination instance. | The source database at site B needs a step first, such as promotion or a check of its change history. For example, a PostgreSQL standby must be promoted before RDI can use its slot copy. |
+
+With manual failover, prepare the source first. Promote the source database at site B or
+confirm that it can serve the saved position, then enable site B. If the position can't carry
+over, reset the pipeline after site B takes over. See
+[Source databases and data after a failover](#source-databases-and-data-after-a-failover).
 
 The values files in this guide use automatic failover. After installation, change the mode
 with the `standby_mode`
@@ -180,14 +205,48 @@ lease settings to both values files, and install RDI:
   use an item in a global table with multi-Region strong consistency (MRSC). An MRSC table
   spans three Amazon Web Services (AWS) Regions, for example two replicas and a witness.
 
-All sites must use the same lease resource and key. Independent DR setups must use different
-lease objects or item keys, even when they share a bucket or table. With more than two sites,
-sites can share a replica Region of the DynamoDB table.
+All sites must use the same lease resource and key. With more than two sites, sites can share a
+replica Region of the DynamoDB table.
 
 > [!WARNING]
 > Set `operator.leaderElection.leaseType` to `gcs` or `dynamodb`, as the provider guides show.
 > The default `redsync` lease keeps the lock in the RDI database. Active-Active replication
 > can't arbitrate it, so every site can become the leader.
+
+### Share a lease store between DR setups
+
+A DR setup uses one lease for all its pipelines. Separate DR setups, such as a production
+setup and a test setup, can share one GCS bucket or DynamoDB table. Give each setup its own
+lease with `gcsLease.objectName` or `dynamoDBLease.keyName`, and use the same value at every
+site of that setup. For example, in the DynamoDB values files of the production setup:
+
+```yaml
+operator:
+  leaderElection:
+    instanceID: prod-site-a
+    dynamoDBLease:
+      tableName: <lease-table>
+      keyName: rdi-prod-lease
+```
+
+And in the values files of the test setup:
+
+```yaml
+operator:
+  leaderElection:
+    instanceID: test-site-a
+    dynamoDBLease:
+      tableName: <lease-table>
+      keyName: rdi-test-lease
+```
+
+Set `keyName` explicitly for every setup, because it defaults to `rdi-lease`. Setups that use
+the same lease compete for it, so only one of them runs its pipelines. Each setup still needs
+its own Kubernetes clusters and Active-Active RDI database.
+
+Every identity with access to the bucket or table can write every lease in it. To stop one
+setup from taking another's lease, restrict each identity to its own lease with an Identity and
+Access Management (IAM) condition, or use a separate bucket or table.
 
 ### Lease timing
 
@@ -244,19 +303,24 @@ redis-di set-context site-b --api-url "https://<site-b-rdi-api-host>" \
    on both instances. RDI does not replicate secrets between them. You can set secrets before
    a pipeline exists. Include the source and target credentials and any certificates.
 
-   For different target endpoints, set a
-   [generic secret](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
-   at each site:
+   When the sites use different source or target endpoints, set the endpoints as
+   [generic secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
+   at each site. For a source named `mysql`:
 
    ```bash
+   redis-di --context site-a set-secret HOST "<site-a-source-host>" \
+     --db mysql --pipeline "<pipeline>"
    redis-di --context site-a set-secret HOST "<site-a-target-host>" \
      --db target --pipeline "<pipeline>"
+   redis-di --context site-b set-secret HOST "<site-b-source-host>" \
+     --db mysql --pipeline "<pipeline>"
    redis-di --context site-b set-secret HOST "<site-b-target-host>" \
      --db target --pipeline "<pipeline>"
    ```
 
-   Reference `${TARGET_DB_HOST}` in the target's `connection.host` in `config.yaml`. The same
-   pipeline configuration then resolves to the local target endpoint at each site.
+   Reference `${MYSQL_DB_HOST}` in the source's `connection.host` and `${TARGET_DB_HOST}` in
+   the target's `connection.host` in `config.yaml`. The same pipeline configuration then
+   resolves to the local endpoints at each site.
 
 1. For a new pipeline, create it empty on the leader, then deploy its configuration. For a
    leader at site A:
@@ -386,22 +450,38 @@ participation on site A alone does not move a lease that site B still holds.
 
 ## Monitor a DR setup
 
-Scrape the operator at both sites and monitor each active pipeline. Use the metric definitions
-and endpoint instructions in [Observability](/content/integrate/redis-data-integration/observability.md).
+Scrape the operator at both sites and monitor the pipelines of the leader. Use the metric
+definitions and endpoint instructions in
+[Observability](/content/integrate/redis-data-integration/observability.md). Before a planned
+move, use the readiness checks in [Move leadership manually](#move-leadership-manually).
+
+### Alert on DR health
+
+Alert on these checks at all times. They show whether one site leads and whether another site
+can take over.
 
 | Check | What to investigate |
 | :-- | :-- |
 | `rdi_operator_is_leader`, labeled by `instance_id` | Expect one leader. If both instances report `0` for more than 2 minutes, check standby settings, lease access, and RDI database connectivity. If both report `1`, investigate duplicate instance IDs or different lease resources immediately. |
 | Missing operator metrics | Check scrape access and instance availability. Missing samples do not mean the instance reports `0`. |
 | Operator logs | RDI has no metric for lease errors. Alert on the `ERROR` messages in [Operator log messages](#operator-log-messages). |
-| Collector `Connected` and `MilliSecondsBehindSource` | Investigate source connectivity and growing capture lag. A source outage alone does not trigger RDI failover. |
-| Collector `SnapshotRunning`, `SnapshotCompleted`, and `SnapshotAborted` | Investigate an unexpected snapshot or failed recovery. Check whether the required source history is still available. |
-| Processor progress, backlog, and rejected records | If source changes continue but delivery stops, inspect pipeline errors, target connectivity, and processing metrics for the selected processor. |
 
 If neither site can access the lease store, restore lease connectivity before expecting
-ingestion to resume. If one site is the leader but its pipelines are unhealthy, inspect the
-pipeline and source or target errors; changing leadership does not establish that those
-dependencies are healthy.
+ingestion to resume.
+
+### Check recovery after a takeover
+
+Watch these checks on the leader, and closely after a takeover. They show whether the new
+leader resumed from the saved position and is catching up.
+
+| Check | What to investigate |
+| :-- | :-- |
+| Collector `Connected` and `MilliSecondsBehindSource` | Investigate source connectivity and growing capture lag. A source outage alone does not trigger RDI failover. |
+| Collector `SnapshotRunning`, `SnapshotCompleted`, and `SnapshotAborted` | Investigate an unexpected snapshot or failed recovery. Check whether the source database has the required change history. |
+| Processor progress, backlog, and rejected records | If source changes continue but delivery stops, inspect pipeline errors, target connectivity, and processing metrics for the selected processor. |
+
+If the leader's pipelines are unhealthy, inspect the pipeline and source or target errors.
+Changing leadership does not establish that those dependencies are healthy.
 
 ### Operator log messages
 
