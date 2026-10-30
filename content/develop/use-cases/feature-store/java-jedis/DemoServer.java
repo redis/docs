@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ConnectionPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 /**
  * Redis feature-store demo server (Jedis + JDK HttpServer).
@@ -35,7 +35,7 @@ public class DemoServer {
     private static FeatureStore store;
     private static StreamingWorker worker;
     private static FeatureStoreDemo demo;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
 
     public static void main(String[] args) throws Exception {
         String host = "127.0.0.1";
@@ -77,13 +77,16 @@ public class DemoServer {
             }
         }
 
-        JedisPoolConfig poolCfg = new JedisPoolConfig();
+        ConnectionPoolConfig poolCfg = new ConnectionPoolConfig();
         poolCfg.setMaxTotal(64);
         poolCfg.setMaxIdle(32);
         poolCfg.setMinIdle(4);
-        jedisPool = new JedisPool(poolCfg, redisHost, redisPort);
+        jedis = RedisClient.builder()
+            .hostAndPort(redisHost, redisPort)
+            .poolConfig(poolCfg)
+            .build();
 
-        store = new FeatureStore(jedisPool, keyPrefix,
+        store = new FeatureStore(jedis, keyPrefix,
             batchTtlSeconds, streamingTtlSeconds);
         worker = new StreamingWorker(store, 1000L, usersPerTick, 1337L);
         demo = new FeatureStoreDemo(store, worker, 42L);
@@ -120,7 +123,7 @@ public class DemoServer {
             System.out.println("\nShutting down...");
             worker.stop();
             server.stop(0);
-            jedisPool.close();
+            jedis.close();
         }));
 
         Thread.currentThread().join();

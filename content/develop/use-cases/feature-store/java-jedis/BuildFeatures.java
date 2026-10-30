@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 /**
  * Synthesize a small batch of users with realistic-looking features
@@ -78,8 +78,8 @@ public class BuildFeatures {
             }
         }
 
-        try (JedisPool pool = new JedisPool(redisHost, redisPort)) {
-            FeatureStore store = new FeatureStore(pool, keyPrefix, ttlSeconds,
+        try (RedisClient jedis = RedisClient.create(redisHost, redisPort)) {
+            FeatureStore store = new FeatureStore(jedis, keyPrefix, ttlSeconds,
                 FeatureStore.DEFAULT_STREAMING_TTL_SECONDS);
             Map<String, Map<String, Object>> rows = synthesizeUsers(count, seed);
             int loaded = store.bulkLoad(rows, ttlSeconds);

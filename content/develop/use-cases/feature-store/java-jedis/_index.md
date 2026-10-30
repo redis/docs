@@ -126,13 +126,16 @@ The `FeatureStore` class wraps the read/write paths
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/feature-store/java-jedis/FeatureStore.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ConnectionPoolConfig;
+import redis.clients.jedis.RedisClient;
 
-JedisPoolConfig cfg = new JedisPoolConfig();
+ConnectionPoolConfig cfg = new ConnectionPoolConfig();
 cfg.setMaxTotal(64);
-JedisPool pool = new JedisPool(cfg, "localhost", 6379);
-FeatureStore store = new FeatureStore(pool,
+RedisClient jedis = RedisClient.builder()
+    .hostAndPort("localhost", 6379)
+    .poolConfig(cfg)
+    .build();
+FeatureStore store = new FeatureStore(jedis,
     "fs:user:",
     24L * 60L * 60L,    // whole-entity TTL aligned with the daily batch cycle
     5L * 60L            // per-field TTL on each streaming feature
@@ -220,8 +223,7 @@ server side but the client only pays one RTT.
 ```java
 public int bulkLoad(Map<String, Map<String, Object>> rows, long ttlSeconds) {
     if (rows.isEmpty()) return 0;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         for (Map.Entry<String, Map<String, Object>> e : rows.entrySet()) {
             String key = keyFor(e.getKey());
             Map<String, String> encoded = encode(e.getValue());
@@ -265,13 +267,13 @@ public void updateStreaming(String entityId, Map<String, Object> fields, long tt
     String[] names = encoded.keySet().toArray(new String[0]);
 
     List<Long> expireCodes;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    Response<List<Long>> expireResp;
+    try (Pipeline pipe = jedis.pipelined()) {
         pipe.hset(key, encoded);
-        Response<List<Long>> expireResp = pipe.hexpire(key, ttlSeconds, names);
+        expireResp = pipe.hexpire(key, ttlSeconds, names);
         pipe.sync();
-        expireCodes = expireResp.get();
     }
+    expireCodes = expireResp.get();
     for (Long code : expireCodes) {
         if (code == null || code != 1L) {
             throw new IllegalStateException(
@@ -309,7 +311,7 @@ in the model itself.
 > **HEXPIRE requires Redis 7.4 or later.** `HEXPIRE` and the field-level TTL
 > commands (`HTTL`, `HPERSIST`, `HEXPIREAT`, `HPEXPIRE`, `HPEXPIREAT`,
 > `HPTTL`, `HEXPIRETIME`, `HPEXPIRETIME`) were added in Redis 7.4. Jedis 5.2
-> was the first release with the bindings; the demo's `pom.xml` pins 6.2.
+> was the first release with the bindings; the demo's `pom.xml` pins 8.0.2.
 > On older Redis builds you would have to put streaming features on their
 > own keys (one key per feature, or one key per feature group) and set a
 > key-level `EXPIRE` instead — at the cost of giving up the single-`HMGET`
@@ -324,17 +326,13 @@ public Map<String, String> getFeatures(String entityId, List<String> fieldNames)
     String key = keyFor(entityId);
     Map<String, String> out = new LinkedHashMap<>();
     if (fieldNames == null) {
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, String> all = jedis.hgetAll(key);
-            if (all != null) out.putAll(all);
-        }
+        Map<String, String> all = jedis.hgetAll(key);
+        if (all != null) out.putAll(all);
         return out;
     }
     if (fieldNames.isEmpty()) return out;
     List<String> values;
-    try (Jedis jedis = pool.getResource()) {
-        values = jedis.hmget(key, fieldNames.toArray(new String[0]));
-    }
+    values = jedis.hmget(key, fieldNames.toArray(new String[0]));
     for (int i = 0; i < fieldNames.size(); i++) {
         String v = values.get(i);
         if (v != null) out.put(fieldNames.get(i), v);
@@ -368,8 +366,7 @@ public Map<String, Map<String, String>> batchGetFeatures(
     }
     String[] names = fieldNames.toArray(new String[0]);
     List<Response<List<String>>> responses = new ArrayList<>(entityIds.size());
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         for (String id : entityIds) {
             responses.add(pipe.hmget(keyFor(id), names));
         }
@@ -513,8 +510,8 @@ pool. The HTML page lets you:
   read time.
 
 The server holds one `FeatureStore` and one `StreamingWorker` for the
-lifetime of the process, plus a `JedisPool` that all handlers borrow
-connections from. Endpoints:
+lifetime of the process, plus a `RedisClient` whose connection pool all
+handlers borrow from. Endpoints:
 
 | Endpoint                  | What it does                                                                        |
 |---------------------------|-------------------------------------------------------------------------------------|
@@ -533,9 +530,9 @@ connections from. Endpoints:
   demo relies on per-field TTL for the mixed-staleness story.
 * **Java 17 or later.** The demo uses switch expressions with arrow
   labels (`case "..." -> ...`), records, and text blocks.
-* **Jedis 5.2 or later.** The demo's `pom.xml` pins
-  `redis.clients:jedis:6.2.0`. Field-level TTL bindings (`hexpire`, `httl`,
-  `hpersist`) ship from Jedis 5.2.
+* **Jedis 8.0 or later.** The demo uses `RedisClient`, and its `pom.xml`
+  pins `redis.clients:jedis:8.0.2`. Field-level TTL bindings (`hexpire`,
+  `httl`, `hpersist`) ship from Jedis 5.2.
 
 If your Redis server is running elsewhere, start the demo with `--redis-host`
 and `--redis-port`.
@@ -607,7 +604,7 @@ is `fs:user:`. Pass `--no-reset` to keep existing data across restarts, or
 
 The guidance below focuses on the production concerns that are specific to
 running a feature store on Redis. For the generic Jedis production checklist
-— `JedisPool` sizing, AUTH/ACL, retry policy, sentinel/cluster failover —
+— connection pool sizing, AUTH/ACL, retry policy, sentinel/cluster failover —
 see the
 [Jedis production usage guide](/content/develop/clients/jedis/produsage.md).
 For TLS specifically, follow the
@@ -679,11 +676,11 @@ The exception is debugging and feature-set discovery, where you genuinely
 want the full hash. The demo's "Inspect" button uses `hgetAll` for exactly
 this reason.
 
-### Size the JedisPool for the request shape
+### Size the connection pool for the request shape
 
 Every `FeatureStore` helper method borrows a connection from the
-`JedisPool` for the duration of one Redis call (or one `Pipeline.sync()`)
-and returns it via the try-with-resources block. One HTTP handler can
+`RedisClient` pool for the duration of one Redis call (or one pipeline,
+until try-with-resources closes it) and returns it afterwards. One HTTP handler can
 therefore borrow several connections sequentially — `/read`, for example,
 makes one `hmget` call, one `httl` call, and one `ttl` call, each of
 which is its own borrow.
