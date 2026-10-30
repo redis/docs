@@ -16,22 +16,24 @@ const service = new IntentRouterService({
 // HIDE_END
 
 // STEP_START models-list
-const models = await service.listModels("EMBEDDING");
+const { result: models } = await service.listModels("EMBEDDING");
 for (const model of models.items) {
   console.log(model.provider, model.model, model.dimensions, model.authorization);
 }
 // STEP_END
 
 // STEP_START router-create
-const created = await service.createRouter({
+const [embedding] = models.items;
+if (!embedding?.dimensions) throw new Error("No embedding model is offered");
+const { result: created } = await service.createRouter({
   name: "support-router",
   description: "Routes support requests to tools and agents.",
   template: "AGENT",
   minScore: 0.7,
   vectorSpace: {
-    provider: models.items[0].provider,
-    model: models.items[0].model,
-    dimensions: models.items[0].dimensions,
+    provider: embedding.provider,
+    model: embedding.model,
+    dimensions: embedding.dimensions,
   },
 });
 const routerId = created.routerId;
@@ -39,22 +41,22 @@ console.log(routerId, created.state, created.revision);
 // STEP_END
 
 // STEP_START router-wait
-let router = await service.getRouter(routerId);
+let router = (await service.getRouter(routerId)).result;
 while (router.state === "PROVISIONING") {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  router = await service.getRouter(routerId);
+  router = (await service.getRouter(routerId)).result;
 }
 console.log(router.routerId, router.state, router.failureReason);
 if (router.state !== "READY") process.exit(1);
 // STEP_END
 
 // STEP_START router-list
-const routers = await service.listRouters();
+const { result: routers } = await service.listRouters();
 for (const item of routers.items) console.log(item.routerId, item.name, item.state);
 // STEP_END
 
 // STEP_START router-update
-const updated = await service.updateRouter(routerId, {
+const { result: updated } = await service.updateRouter(routerId, undefined, {
   minScore: 0.75,
   expectedRevision: router.revision,
 });
@@ -63,12 +65,12 @@ console.log(updated.routerId, updated.minScore, updated.revision);
 
 // STEP_START router-suspend
 for (const state of ["SUSPENDED", "READY"] as const) {
-  const changed = await service.updateRouter(routerId, { state });
+  const { result: changed } = await service.updateRouter(routerId, undefined, { state });
   console.log(changed.routerId, changed.state);
 }
 // STEP_END
 
 // STEP_START router-delete
-const deleted = await service.deleteRouter(routerId);
-console.log(deleted?.routerId, deleted?.state);
+const deleted = (await service.deleteRouter(routerId))?.result;
+if (deleted) console.log(deleted.routerId, deleted.state);
 // STEP_END

@@ -1,7 +1,7 @@
 # EXAMPLE: iris_intent_router_match
 # HIDE_START
 set -euo pipefail
-SEED_API="${IRIS_INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID"
+SEED_API="${IRIS_INTENT_ROUTER_URL%/}/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID"
 curl --fail-with-body --silent --show-error -o /dev/null \
   -X PUT "$SEED_API/intents/track_order" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" \
@@ -19,7 +19,7 @@ curl --fail-with-body --silent --show-error -o /dev/null \
 # HIDE_END
 
 # STEP_START match-options
-ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID"
+ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID"
 curl --fail-with-body --silent --show-error \
   -X POST "$ROUTER_API/match" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" \

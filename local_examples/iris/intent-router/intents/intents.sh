@@ -4,7 +4,7 @@ set -euo pipefail
 # HIDE_END
 
 # STEP_START intent-upsert
-ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID"
+ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID"
 curl --fail-with-body --silent --show-error \
   -X PUT "$ROUTER_API/intents/refund" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" \

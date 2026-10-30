@@ -14,27 +14,27 @@ const router = new IntentRouter({
   apiKey: requiredEnv("IRIS_INTENT_ROUTER_API_KEY"),
   retryConfig: { strategy: "none" },
 });
-console.log(await router.getRouterHealth());
+console.log((await router.getRouterHealth()).result);
 // STEP_END
 
 // STEP_START intents-create
 for (const intent of [
-  await router.upsertIntent("track_order", {
+  await router.upsertIntent("track_order", undefined, undefined, {
     description: "The customer wants to know where an order is.",
     target: { type: "tool", ref: "orders.track", args: { region: "eu" } },
     examples: ["where is my order", "track my package", "has my parcel shipped"],
   }),
-  await router.upsertIntent("refund", {
+  await router.upsertIntent("refund", undefined, undefined, {
     examples: ["i want a refund", "refund my purchase", "i would like my money back"],
   }),
 ]) {
-  console.log(intent.name, intent.exampleCount, intent.revision);
+  console.log(intent.result.name, intent.result.exampleCount, intent.result.revision);
 }
 // STEP_END
 
 // STEP_START match-query
 for (const query of ["where is my order please", "i would like my money back", "zzz qqq"]) {
-  const { items } = await router.match({ query });
+  const { items } = (await router.match({ query })).result;
   if (items.length > 0) {
     console.log(query, "->", items[0].name, items[0].score.toFixed(2), items[0].target);
   } else {
@@ -47,10 +47,10 @@ for (const query of ["where is my order please", "i would like my money back", "
 const added = await router.addExamples("track_order", {
   examples: ["when will my delivery arrive"],
 });
-for (const example of added.items) console.log(example.exampleId, example.text);
+for (const example of added.result.items) console.log(example.exampleId, example.text);
 // STEP_END
 
 // STEP_START intent-update
-const updated = await router.updateIntent("track_order", { minScore: 0.8 });
+const { result: updated } = await router.updateIntent("track_order", undefined, { minScore: 0.8 });
 console.log(updated.name, updated.minScore, updated.revision);
 // STEP_END

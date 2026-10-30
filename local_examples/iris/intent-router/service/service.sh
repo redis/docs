@@ -4,7 +4,7 @@ set -euo pipefail
 # HIDE_END
 
 # STEP_START models-list
-SERVICE_API="${IRIS_INTENT_ROUTER_SERVICE_URL%/}/iris/v2/intent"
+SERVICE_API="${IRIS_INTENT_ROUTER_SERVICE_URL%/}/iris/v1/intent"
 curl --fail-with-body --silent --show-error \
   "$SERVICE_API/models?purpose=EMBEDDING" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_SERVICE_TOKEN" > models.json

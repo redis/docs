@@ -4,7 +4,7 @@ set -euo pipefail
 # HIDE_END
 
 # STEP_START intents-delete
-ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID"
+ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID"
 for name in track_order refund; do
   curl --fail-with-body --silent --show-error \
     -X DELETE "$ROUTER_API/intents/$name" \

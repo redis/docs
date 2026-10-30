@@ -1,7 +1,7 @@
 # EXAMPLE: iris_intent_router_quickstart
 # STEP_START router-connect
 set -euo pipefail
-ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/v2/intent/routers/$IRIS_INTENT_ROUTER_ID"
+ROUTER_API="${IRIS_INTENT_ROUTER_URL%/}/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTER_ID"
 curl --fail-with-body --silent --show-error \
   "$ROUTER_API/health" \
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" | jq .

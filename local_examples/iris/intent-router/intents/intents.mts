@@ -17,7 +17,7 @@ const router = new IntentRouter({
 // HIDE_END
 
 // STEP_START intent-upsert
-const intent = await router.upsertIntent("refund", {
+const { result: intent } = await router.upsertIntent("refund", undefined, undefined, {
   description: "The customer wants their money back.",
   target: { type: "agent", ref: "billing-agent" },
   minScore: 0.75,
@@ -28,7 +28,7 @@ console.log(intent.name, intent.exampleCount, intent.revision);
 // STEP_END
 
 // STEP_START intents-bulk
-const result = await router.addIntents({
+const { result } = await router.addIntents({
   intents: [
     { name: "track_order", examples: ["where is my order", "track my package"] },
     { name: "cancel_order", examples: ["cancel my order", "i changed my mind"] },
@@ -38,13 +38,13 @@ for (const item of result.items) console.log(item.name, item.exampleCount);
 // STEP_END
 
 // STEP_START intents-list
-const page = await router.listIntents(50);
+const { result: page } = await router.listIntents(50);
 for (const item of page.items) console.log(item.name, item.exampleCount);
 console.log("next cursor:", page.nextCursor);
 // STEP_END
 
 // STEP_START intent-patch
-const patched = await router.updateIntent("refund", {
+const { result: patched } = await router.updateIntent("refund", undefined, {
   minScore: null,
   target: { type: "agent", ref: "refunds-agent" },
 });
@@ -52,8 +52,8 @@ console.log(patched.name, patched.target, patched.minScore, patched.revision);
 // STEP_END
 
 // STEP_START intent-conditional
-const current = await router.getIntent("refund");
-const changed = await router.updateIntent("refund", {
+const { result: current } = await router.getIntent("refund");
+const { result: changed } = await router.updateIntent("refund", undefined, {
   description: "The customer wants a refund or a chargeback reversed.",
   expectedRevision: current.revision,
 });
@@ -61,14 +61,14 @@ console.log(changed.name, changed.revision);
 // STEP_END
 
 // STEP_START examples-add
-const added = await router.addExamples("refund", {
+const { result: added } = await router.addExamples("refund", {
   examples: ["send my money back", "i was charged twice"],
 });
 for (const example of added.items) console.log(example.exampleId, example.text);
 // STEP_END
 
 // STEP_START examples-list
-const examples = await router.listExamples("refund", 50);
+const { result: examples } = await router.listExamples("refund", 50);
 for (const example of examples.items) console.log(example.exampleId, example.text);
 // STEP_END
 

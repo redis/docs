@@ -7,5 +7,5 @@ router = IntentRouter.from_env()
 
 # STEP_START intents-delete
 for name in ("track_order", "refund"):
-    router.client.delete_intent(intent_name=name)
+    router.remove(name)
 # STEP_END

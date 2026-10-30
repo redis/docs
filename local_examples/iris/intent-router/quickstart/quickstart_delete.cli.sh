@@ -4,5 +4,7 @@ set -euo pipefail
 # HIDE_END
 
 # STEP_START intents-delete
-iris intent-router intents delete track_order refund --yes
+for name in track_order refund; do
+  iris intent-router intents delete "$name" --yes
+done
 # STEP_END

@@ -1,15 +1,15 @@
 # EXAMPLE: iris_intent_router_intents
 # HIDE_START
-from redis_iris.intent_router import IntentRouter
+from redis_iris.intent_router import IntentRouter, Target
 
 router = IntentRouter.from_env()
 # HIDE_END
 
 # STEP_START intent-upsert
-intent = router.client.upsert_intent(
-    intent_name="refund",
+intent = router.define(
+    "refund",
     description="The customer wants their money back.",
-    target={"type": "agent", "ref": "billing-agent"},
+    target=Target("agent", "billing-agent"),
     min_score=0.75,
     metadata={"owner": "support"},
     examples=["i want a refund", "refund my purchase"],
@@ -18,36 +18,34 @@ print(intent.name, intent.example_count, intent.revision)
 # STEP_END
 
 # STEP_START intents-bulk
-result = router.client.add_intents(
-    intents=[
+added = router.define_many(
+    [
         {"name": "track_order", "examples": ["where is my order", "track my package"]},
         {"name": "cancel_order", "examples": ["cancel my order", "i changed my mind"]},
     ]
 )
-for item in result.items:
+for item in added:
     print(item.name, item.example_count)
 # STEP_END
 
 # STEP_START intents-list
-page = router.client.list_intents(limit=50)
-for item in page.items:
+for item in router.intents():
     print(item.name, item.example_count)
-print("next cursor:", page.next_cursor)
 # STEP_END
 
 # STEP_START intent-patch
-patched = router.client.update_intent(
-    intent_name="refund",
+patched = router.update(
+    "refund",
     min_score=None,
-    target={"type": "agent", "ref": "refunds-agent"},
+    target=Target("agent", "refunds-agent"),
 )
 print(patched.name, patched.target, patched.min_score, patched.revision)
 # STEP_END
 
 # STEP_START intent-conditional
-current = router.client.get_intent(intent_name="refund")
-changed = router.client.update_intent(
-    intent_name="refund",
+current = router.intent("refund")
+changed = router.update(
+    "refund",
     description="The customer wants a refund or a chargeback reversed.",
     expected_revision=current.revision,
 )
@@ -55,29 +53,24 @@ print(changed.name, changed.revision)
 # STEP_END
 
 # STEP_START examples-add
-added = router.client.add_examples(
-    intent_name="refund", examples=["send my money back", "i was charged twice"]
-)
-for example in added.items:
+for example in router.add_examples("refund", ["send my money back", "i was charged twice"]):
     print(example.example_id, example.text)
 # STEP_END
 
 # STEP_START examples-list
-examples = router.client.list_examples(intent_name="refund", limit=50)
-for example in examples.items:
+examples = router.examples("refund")
+for example in examples:
     print(example.example_id, example.text)
 # STEP_END
 
 # STEP_START example-delete
-router.client.delete_example(
-    intent_name="refund", example_id=examples.items[0].example_id
-)
+router.remove_example("refund", examples[0].example_id)
 # STEP_END
 
 # STEP_START intent-delete
-router.client.delete_intent(intent_name="cancel_order")
+router.remove("cancel_order")
 # STEP_END
 
 # STEP_START router-clear
-router.client.clear(scope="INTENTS")
+router.clear()
 # STEP_END
