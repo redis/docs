@@ -11,13 +11,13 @@ title: Connect with MCP
 weight: 60
 ---
 
-Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Redis Agent Playbooks exposes three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}).
+Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Redis Agent Playbooks exposes three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}).
 
 ## Before you begin
 
-Get the data-plane endpoint, playbook identifier, and an API key with `read` permission. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` as shown in [Save connection values]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#save-connection-values" >}}).
+Get the data-plane endpoint, playbook identifier, and an API key with `read` permission. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` as shown in [Save connection values]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#save-connection-values" >}}).
 
-Publish the sample [FAQ]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart" >}}) or [skill]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}) to test discovery. The basic clients use no model-provider key.
+Publish the sample [FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}) or [skill]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) to test discovery. The basic clients use no model-provider key.
 
 For the Python client, use Python 3.10 or later and install these dependencies:
 
@@ -41,7 +41,7 @@ Use a client that supports Streamable HTTP and custom request headers:
 | Setting | Value |
 |:--------|:------|
 | Transport | Streamable HTTP |
-| Endpoint | `<data-plane-base-url>/v1/playbooks/<playbook-id>/mcp` |
+| Endpoint | `<data-plane-base-url>/iris/data/v1/agent-playbooks/playbooks/<playbook-id>/mcp` |
 | Request header | `Authorization: Bearer <reader-api-key>` |
 
 The endpoint must be reachable from the client runtime. A hosted client needs an HTTPS endpoint reachable from its provider; a local address works for clients on the same host. Keep the playbook key in connection settings and out of agent instructions.
@@ -56,7 +56,7 @@ List the tools on an initialized connection to get their input schemas.
 | `load_skill` | The selected skill's `entry_id` and `version`. | Full instructions and resource descriptors. |
 | `fetch_resource` | A returned resource `uri`. | File content, media type, and digest. |
 
-![Discovery returns FAQ answers and skill previews. Loading a selected skill adds its instructions to the context. Fetching a resource adds only the file needed for the task.](/images/ai/context-engine/agent-playbook-disclosure.svg)
+![Discovery returns FAQ answers and skill previews. Loading a selected skill adds its instructions to the context. Fetching a resource adds only the file needed for the task.](/images/ai/context-engine/agent-playbooks-disclosure.svg)
 {width="700"}
 
 Use the tools in this order:
@@ -65,17 +65,17 @@ Use the tools in this order:
 2. Select a skill preview, then load its instructions with the returned identifier and version together.
 3. Fetch supporting files when the instructions or task require them, using their returned URIs.
 
-See [Discovery]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#discovery" >}}) for selection controls. Progressive disclosure loads **skill content** on demand; these three tool definitions remain available on the connection.
+See [Discovery]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#discovery" >}}) for selection controls. Progressive disclosure loads **skill content** on demand; these three tool definitions remain available on the connection.
 
 ## Connect a client
 
-This client connects, lists tools, and prints discovery results for a refund task. For an agent that selects a skill and loads its instructions and files, see [the framework examples]({{< relref "/develop/ai/context-engine/agent-playbook/agent-integration" >}}).
+This client connects, lists tools, and prints discovery results for a refund task. For an agent that selects a skill and loads its instructions and files, see [the framework examples]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}).
 
 Copy the complete program and save it as `mcp_client.py` or `mcp_client.sh`. Run `python mcp_client.py` or `bash mcp_client.sh` with the connection values you exported.
 
 {{< clients-example set="iris_playbook_mcp_client" step="playbook-mcp-client" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-Expect the three tool names followed by the discovery response as JSON. It includes matching FAQ answers and skill previews. Empty `pinnedEntries` and `discoveredEntries` arrays can reflect the query, publication, filters, or [preview budget]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#limit-discovery-previews" >}}). A request or tool error stops the program with an error.
+Expect the three tool names followed by the discovery response as JSON. It includes matching FAQ answers and skill previews. Empty `pinnedEntries` and `discoveredEntries` arrays can reflect the query, publication, filters, or [preview budget]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#limit-discovery-previews" >}}). A request or tool error stops the program with an error.
 
 ## Read skill files as MCP resources
 
@@ -96,4 +96,4 @@ File reads enforce the current publication even with a management key. If public
 - If a tool reports `isError`, inspect its error before using the content. Connection and transport failures can raise separately.
 - If loading fails after a publication change, rediscover once and reassess the returned previews. Preserve returned identifiers and URIs; do not construct replacements.
 
-Keep diagnostic details without logging keys or private content. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for recovery guidance.
+Keep diagnostic details without logging keys or private content. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbooks/limits" >}}) for recovery guidance.

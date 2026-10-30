@@ -29,7 +29,7 @@ zip -r refund-support-reply.zip refund-support-reply
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
@@ -92,12 +92,11 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-skill-list
 CURSOR=''
 while true; do
-  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=desc --data-urlencode limit=50)
+  PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-page.json
-  if [[ -z "$CURSOR" ]]; then jq '.total // "unknown"' skill-page.json; fi
-  jq '.skills[] | {entryId, latestVersion, publication}' skill-page.json
+  jq '.items[] | {entryId, latestVersion, publication}' skill-page.json
   CURSOR=$(jq -r '.nextCursor // empty' skill-page.json)
   [[ -n "$CURSOR" ]] || break
 done
@@ -115,7 +114,7 @@ while true; do
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
     -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-versions.json
-  jq '.versions[] | {version, contentDigest, content}' skill-versions.json
+  jq '.items[] | {version, contentDigest, content}' skill-versions.json
   CURSOR=$(jq -r '.nextCursor // empty' skill-versions.json)
   [[ -n "$CURSOR" ]] || break
 done

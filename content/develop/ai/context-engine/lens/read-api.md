@@ -14,17 +14,17 @@ weight: 35
 Use the Lens read application programming interface (API) to list sessions and read turns from code, for example to export failed turns or build your own reports. The Python examples use the Lens read client:
 
 ```bash
-python -m pip install redis-agent-lens
+python -m pip install 'redis-agent-lens>=0.1.0a4'
 ```
 
 The cURL examples use Bash and jq. Every operation is a `GET` request.
 
 ## Authenticate
 
-Export the read endpoint, your instance ID, and a read key:
+Export the Iris host, your instance ID, and a read key:
 
 ```bash
-export LENS_URL='<lens-read-endpoint>'
+export LENS_URL='<iris-host>'
 export LENS_INSTANCE_ID='<lens-instance-id>'
 export LENS_API_KEY='<lens-read-key>'
 ```

@@ -13,8 +13,8 @@ weight: 50
 
 Retrieve published knowledge for the user's task. Choose a retrieval method:
 
-- [**Discovery**]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#discovery" >}}) combines FAQ answers and skill previews so the agent can choose what to use.
-- [**Search**]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#search" >}}) returns one entry type when your application needs answers or skill previews, with a relevance threshold and result count for each request.
+- [**Discovery**]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#discovery" >}}) combines FAQ answers and skill previews so the agent can choose what to use.
+- [**Search**]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#search" >}}) returns one entry type when your application needs answers or skill previews, with a relevance threshold and result count for each request.
 
 Both methods serve current publications. They exclude drafts, historical versions, and proposals.
 
@@ -22,13 +22,13 @@ Both methods serve current publications. They exclude drafts, historical version
 
 Use a data-plane endpoint, playbook identifier, and API key with `read` permission. Publish the entries you want to retrieve before testing them.
 
-Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}) with a reader key, then append this page's snippets in order. The examples use the published FAQ and skill from the task guides; keep them published until testing is complete.
+Start with the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}) with a reader key, then append this page's snippets in order. The examples use the published FAQ and skill from the task guides; keep them published until testing is complete.
 
 ## Discovery
 
 Discovery returns answers and skill previews within a shared result limit. Pins include required entries; a preview budget limits returned content.
 
-Use Python's `discover` helper, send an HTTP discovery request, or call `discover_entries` through [MCP]({{< relref "/develop/ai/context-engine/agent-playbook/mcp" >}}). Load selected skill instructions and files with [progressive disclosure]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#load-skills-with-progressive-disclosure" >}}).
+Use Python's `discover` helper, send an HTTP discovery request, or call `discover_entries` through [MCP]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp" >}}). Load selected skill instructions and files with [progressive disclosure]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#load-skills-with-progressive-disclosure" >}}).
 
 Request up to five entries for the agent's task:
 
@@ -55,7 +55,7 @@ The request controls are:
 | Control | Use it to |
 |:--------|:----------|
 | `query` | Describe the agent's task. Required even when supplying pins. |
-| `filter` | Restrict semantic matches by attributes. Uses the same [filter expressions as search]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#select-an-audience-with-filters" >}}); pins bypass it. |
+| `filter` | Restrict semantic matches by attributes. Uses the same [filter expressions as search]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#select-an-audience-with-filters" >}}); pins bypass it. |
 | `limit` | Reduce the combined result count. Omission uses `discovery.maxResults`, which also caps an explicit limit. |
 | `pinnedEntries` | Require known published entries, in the order supplied. |
 
@@ -66,7 +66,7 @@ Your administrator sets the playbook controls:
 | `discovery.faqMinimumScore` | `0.7` | Minimum similarity for discovered FAQ matches. |
 | `discovery.skillMinimumScore` | `0.7` | Minimum similarity for discovered skill matches. |
 | `discovery.maxResults` | `10` | Combined result ceiling for pins and discovered matches. |
-| `discovery.maxPreviewTokens` | Disabled | Estimated token ceiling for the discovery response. |
+| `discovery.previewTokenBudget` | Disabled | Estimated token ceiling for the discovery response. It applies only when `discovery.previewTokenBudgetEnabled` is `true`. |
 
 Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds.
 
@@ -80,7 +80,7 @@ Pins bypass similarity thresholds and the request filter. Choose pins for the in
 
 A missing, unpublished, duplicate, or oversized pin fails the request. Use pins to test connectivity or include required content; evaluate semantic relevance without them.
 
-Export the identifier of a published skill, such as the sample in [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}), before cleanup:
+Export the identifier of a published skill, such as the sample in [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}), before cleanup:
 
 ```bash
 export PLAYBOOK_SKILL_ID='<published-skill-entry-id>'
@@ -115,7 +115,7 @@ The preview budget applies only to the first step, not loaded instructions, file
 
 Reader keys can load only the current publication. MCP tools apply this restriction even to management keys. For example, discovery can return version `1`, then loading fails because version `2` was published in the meantime. Rediscover once, select again, and load instructions and files from the newly returned version. Keeping an identifier/version pair does not reserve access to an older publication.
 
-The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect a client]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#connect-a-client" >}}).
+The example loads the skill selected in [Pin required knowledge]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#pin-required-knowledge" >}}), then fetches its reply template. For a complete MCP client example, see [Connect a client]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp#connect-a-client" >}}).
 
 {{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-load" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
@@ -123,7 +123,7 @@ Use an SDK or cURL for this reader-only operation. The published CLI's skill-loa
 
 ## Search
 
-Search returns ranked `matches` of one entry type. Use it to find an answer, select a skill, or tune retrieval per request.
+Search returns ranked `items` of one entry type. Use it to find an answer, select a skill, or tune retrieval per request.
 
 | Operation | Use it when | Result |
 |:----------|:------------|:-------|
@@ -146,7 +146,7 @@ Search accepts these request controls. The table uses HTTP field names.
 |:--------|:--------|:----------|
 | `query` | Required | Describe the task to match semantically. |
 | `filter` | None | Restrict matches by entry attributes, such as locale or topic. |
-| `minimumScore` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
+| `minScore` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
 | `limit` | `discovery.maxResults`; initially `10` | Request 1–50 results. An explicit search limit is not capped by the playbook's discovery limit. |
 
 The threshold defaults come from `discovery.faqMinimumScore` and `discovery.skillMinimumScore`. Your administrator can change them. Search does not use discovery pins or the discovery preview budget.
@@ -159,7 +159,7 @@ For example, override the FAQ search threshold and result count for one request:
 
 ### Select an audience with filters
 
-Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
+Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
 
 Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`.
 
@@ -167,4 +167,4 @@ An equality filter matches a scalar attribute or a member of a list-valued attri
 
 {{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
-Use entry lookup or list operations for management state. Lists use pagination cursors; search and discovery use result limits. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbook/limits" >}}) for request constraints and recovery.
+Use entry lookup or list operations for management state. Lists use pagination cursors; search and discovery use result limits. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbooks/limits" >}}) for request constraints and recovery.

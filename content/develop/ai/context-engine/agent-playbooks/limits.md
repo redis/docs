@@ -13,7 +13,7 @@ weight: 90
 
 Check these limits when preparing content or handling request failures. Confirm deployment overrides with your administrator.
 
-The [API reference]({{< relref "/develop/ai/context-engine/agent-playbook/api-reference" >}}) defines field formats and operation-specific schemas.
+The [API reference]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference" >}}) defines field formats and operation-specific schemas.
 
 ## Content limits
 
@@ -60,11 +60,11 @@ These field and structure limits also apply:
 | Management list page | 1–200 results; default `50` |
 | Entry lookup or bulk deletion | 1–100 entry references or identifiers |
 
-Pins consume discovery slots and preview budget. The preview ceiling applies to discovery rather than type-specific search, loaded instructions, or fetched files. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbook/retrieval" >}}) for the behavior of each setting.
+Pins consume discovery slots and preview budget. The preview ceiling applies to discovery rather than type-specific search, loaded instructions, or fetched files. See [Retrieve knowledge]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval" >}}) for the behavior of each setting.
 
 Follow a list response's next cursor until it is absent, even if a page is empty. Keep the collection, filters, and ordering consistent between pages. Lists reflect concurrent changes and do not represent a fixed snapshot.
 
-Entry and proposal lists can include a separately measured first-page `total`. Absence means unknown, not zero. Cursored pages and version history omit totals. Use the cursor, not the count or page length, to decide when to stop. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
+List responses return `items` and `nextCursor` and do not include a total count. Use the cursor, not the page length, to decide when to stop. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
 
 ## Proposal and evidence limits
 
@@ -83,7 +83,7 @@ Proposal retention does not affect an accepted FAQ's history. Store required rev
 
 ## Handle request errors
 
-HTTP errors include a status and machine-readable `type`. Use the type to choose a recovery action. For MCP, inspect `isError` before reading tool content. See [MCP troubleshooting]({{< relref "/develop/ai/context-engine/agent-playbook/mcp#troubleshoot-the-connection" >}}).
+HTTP errors include a status and machine-readable `type`. Use the type to choose a recovery action. For MCP, inspect `isError` before reading tool content. See [MCP troubleshooting]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp#troubleshoot-the-connection" >}}).
 
 | Status | Meaning | Action |
 |:-------|:--------|:-------|
@@ -92,6 +92,7 @@ HTTP errors include a status and machine-readable `type`. Use the type to choose
 | `403` | The caller lacks access. | Check tenant, playbook, and action grants. `write` does not include `publish`. |
 | `404` | The requested resource is unavailable. | Check identifiers and retention. Rediscover a previously selected skill once. |
 | `409` | Content or review state conflicts with the request. | Inspect the error type and current state before changing the request. |
+| `412` | The proposal revision you supplied is no longer current (`/errors/revision-conflict`). | Read the proposal again, using `currentRevision` from the error, and review the current candidate before resubmitting. |
 | `413` | Content exceeds a payload limit. | Reduce the package, metadata, answer, or evidence payload. |
 | `423` | The playbook is suspended. | Ask the administrator to inspect its state. |
 | `424` | A required dependency failed. | Check playbook health and ask the administrator to inspect the dependency. |
@@ -99,7 +100,7 @@ HTTP errors include a status and machine-readable `type`. Use the type to choose
 | `500` | An internal or content-integrity failure occurred. | Preserve safe diagnostic details and report persistent failures. Stored integrity failures require administrator investigation. |
 | `503` | The service or playbook is unavailable. | Check readiness and use bounded retries for safe operations. |
 
-For example, inspect a failed entry read without retrying it automatically. Use the [client setup]({{< relref "/develop/ai/context-engine/agent-playbook/quickstart#connect-to-the-playbook" >}}) and export the FAQ identifier you want to inspect:
+For example, inspect a failed entry read without retrying it automatically. Use the [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}) and export the FAQ identifier you want to inspect:
 
 ```bash
 export PLAYBOOK_FAQ_ID='<faq-entry-id>'
@@ -117,10 +118,9 @@ The `409` error type identifies the recovery step:
 | `/errors/entry-key-conflict` | Use the existing entry or choose another key. |
 | `/errors/content-limit-exceeded` | Free retained capacity or confirm a higher supported deployment limit. |
 | `/errors/pinned-entry-unavailable` | Correct or remove the pin. |
-| `/errors/proposal-already-exists` | Inspect `existingProposalId` or attach evidence to that proposal. |
+| `/errors/proposal-already-exists` | Inspect `existingId` or attach evidence to that proposal. |
 | `/errors/proposal-evidence-conflict` | Retry the original evidence payload or use a new evidence identifier for a new observation. |
 | `/errors/proposal-evidence-capacity` | Review the proposal with its retained evidence; additional evidence does not fit. |
-| `/errors/proposal-revision-conflict` | Read and review the current candidate before resubmitting. |
 | `/errors/proposal-trashed` | Restore the proposal before modifying or accepting it. |
 | `/errors/proposal-open` | Dismiss the proposal before purging it. |
 | `/errors/proposal-promotion-locked` | Resume acceptance or use its recorded FAQ. Candidate edits and evidence changes are locked. |
@@ -131,7 +131,7 @@ Use bounded retries for reads and transient failures. Proposal acceptance can re
 
 A timeout, including `408`, does not prove a create or append failed. Read state before retrying to avoid another entry or version. Check the Python SDK retry configuration when controlling write retries.
 
-Bulk deletion is not atomic across the batch. Earlier deletions can remain applied after a later failure. Retrying the same batch is safe because absent entries are ignored.
+Bulk deletion is not atomic across the batch. The response lists removed entries in `deleted` and entries it couldn't delete in `errors`. Earlier deletions remain applied after a later failure. Retrying the same batch is safe because absent entries are ignored.
 
 ## Remove content in bulk
 
@@ -139,9 +139,9 @@ Use a key with `write` permission for bulk deletion. Choose the entry type befor
 
 | Task | Python method | HTTP request |
 |:-----|:--------------|:-------------|
-| Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `DELETE /v1/playbooks/{playbookId}/faqs` with an `entryIds` array |
-| Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `DELETE /v1/playbooks/{playbookId}/skills` with an `entryIds` array |
+| Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/faqs/bulk-delete` with an `entryIds` array |
+| Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/skills/bulk-delete` with an `entryIds` array |
 
 Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
 
-For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbook/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbook/manage-skills#withdraw-or-delete-a-skill" >}}).
+For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills#withdraw-or-delete-a-skill" >}}).

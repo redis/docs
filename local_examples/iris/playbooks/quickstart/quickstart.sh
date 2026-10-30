@@ -3,7 +3,7 @@ set -euo pipefail
 
 # STEP_START playbook-connect
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/v1/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
@@ -51,12 +51,12 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Where can I see how my refund is progressing?","filter":{"eq":{"name":"locale","value":"en-US"}},"limit":5}' \
-  | jq '.matches[] | {entryId, version, score, answer: .faq.answer}'
+  | jq '.items[] | {entryId, version, score, answer: .faq.answer}'
 # STEP_END
 
 # STEP_START playbook-quickstart-discover
 curl --fail-with-body --silent --show-error \
-  -X POST "$PLAYBOOK_API/discover" \
+  -X POST "$PLAYBOOK_API/entries/discover" \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Help a customer find their refund status","filter":{"eq":{"name":"topic","value":"refund"}},"limit":5}' | jq .
@@ -83,5 +83,5 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Where can I see how my refund is progressing?","filter":{"eq":{"name":"locale","value":"en-US"}},"limit":5}' \
-  | jq --arg id "$FAQ_ID" '.matches[] | select(.entryId == $id) | {version, answer: .faq.answer}'
+  | jq --arg id "$FAQ_ID" '.items[] | select(.entryId == $id) | {version, answer: .faq.answer}'
 # STEP_END

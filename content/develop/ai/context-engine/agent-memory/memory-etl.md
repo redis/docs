@@ -173,7 +173,7 @@ response=$(curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' --data @ingestion.json \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/document-ingestions") || exit 1
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/document-ingestions") || exit 1
 INGESTION_ID=$(printf '%s' "$response" | jq -er .ingestionId) || exit 1
 printf 'Ingestion ID: %s\n' "$INGESTION_ID"
 
@@ -182,44 +182,43 @@ for attempt in $(seq 1 60); do
   status=$(curl --fail-with-body --silent --show-error \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/document-ingestions/$INGESTION_ID") || exit 1
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/document-ingestions/$INGESTION_ID") || exit 1
   state=$(printf '%s' "$status" | jq -r .ingestion.status.processing)
   case "$state" in
-    succeeded|partial|failed) printf '%s\n' "$status" | jq; finished=true; break ;;
+    SUCCEEDED|PARTIAL|FAILED) printf '%s\n' "$status" | jq; finished=true; break ;;
   esac
   sleep 2
 done
 [ "$finished" = true ] || { printf 'Continue polling %s\n' "$INGESTION_ID"; exit 1; }
 
-offset=0
+cursor=''
 while :; do
   page=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    --data-urlencode 'limit=100' --data-urlencode "offset=$offset" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/document-ingestions/$INGESTION_ID/outputs") || exit 1
-  count=$(printf '%s' "$page" | jq '.memoryIds | length')
-  [ "$count" -gt 0 ] || break
-  printf '%s\n' "$page" | jq .memoryIds
-  offset=$((offset + count))
+    --data-urlencode 'limit=100' --data-urlencode "cursor=$cursor" \
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/document-ingestions/$INGESTION_ID/outputs") || exit 1
+  printf '%s\n' "$page" | jq .items
+  cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
+  [ -n "$cursor" ] || break
 done
-[ "$state" = succeeded ] || { printf 'Inspect ingestion %s: %s\n' "$INGESTION_ID" "$state"; exit 1; }
+[ "$state" = SUCCEEDED ] || { printf 'Inspect ingestion %s: %s\n' "$INGESTION_ID" "$state"; exit 1; }
 ```
 
 {{< /multitabs >}}
 
-REST returns `202 Accepted`; this confirms submission, not successful extraction. In the SDKs, the submission content is under `accepted.result`, while the status read returns `ingestion.status`. Output listing uses `offset` and returns `memoryIds`.
+REST returns `202 Accepted`; this confirms submission, not successful extraction. In the SDKs, the submission content is under `accepted.result`, while the status read returns `ingestion.status`. Output listing returns memory IDs in `items`; pass `nextCursor` as `cursor` for the next page.
 
 ## Interpret results and recover
 
 | Processing state | Meaning and action |
 |:-----------------|:-------------------|
-| `queued` or `running` | Keep polling the saved ingestion ID. Do not create another submission to check progress. |
-| `succeeded` | Processing finished. Inspect `createdCount` and `filteredCount`; success can produce no memories. |
-| `partial` | Some chunks completed before a failure. Inspect `error`, counts, and available output IDs. Earlier writes remain. |
-| `failed` | Inspect `error` and available outputs. Do not assume that every prior write was rolled back. |
+| `QUEUED` or `RUNNING` | Keep polling the saved ingestion ID. Do not create another submission to check progress. |
+| `SUCCEEDED` | Processing finished. Inspect `createdCount` and `filteredCount`; success can produce no memories. |
+| `PARTIAL` | Some chunks completed before a failure. Inspect `error`, counts, and available output IDs. Earlier writes remain. |
+| `FAILED` | Inspect `error` and available outputs. Do not assume that every prior write was rolled back. |
 
-`completedChunks`, `totalChunks`, `extractorId`, and `extractorRevision` help identify what ran. `cleanup` is independent: `pending`, `deleted`, or `failed` describes temporary source cleanup. A successful extraction with failed cleanup needs operator attention; it is not a reason to submit the document again. Extracted memories and provenance can remain after source bytes are deleted.
+`completedChunks`, `totalChunks`, `extractorId`, and `extractorRevision` help identify what ran. `cleanup` is independent: `PENDING`, `DELETED`, or `FAILED` describes temporary source cleanup. A successful extraction with failed cleanup needs operator attention; it is not a reason to submit the document again. Extracted memories and provenance can remain after source bytes are deleted.
 
 Reuse the same idempotency key and original request after a timeout or lost submission response. Changing the input under the same key conflicts. Reusing an immutable document revision with different content also conflicts. Use a new revision for changed content; do not change the bytes merely to force a retry of an existing run.
 
@@ -314,20 +313,20 @@ while :; do
   links=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    --data-urlencode 'limit=100' --data-urlencode "pageToken=$source_token" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/$MEMORY_ID/sources") || exit 1
+    --data-urlencode 'limit=100' --data-urlencode "cursor=$source_token" \
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/$MEMORY_ID/sources") || exit 1
   printf '%s\n' "$links" | jq .items
   printf '%s' "$links" | jq -c '.items[]' | while IFS= read -r source; do
     source_id=$(printf '%s' "$source" | jq -r .sourceId)
-    evidence_token=$(printf '%s' "$source" | jq -r '.evidenceNextPageToken // empty')
+    evidence_token=$(printf '%s' "$source" | jq -r '.evidenceNextCursor // empty')
     while [ -n "$evidence_token" ]; do
       evidence=$(curl --fail-with-body --silent --show-error --get \
         --header "Authorization: Bearer $API_KEY" \
         --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-        --data-urlencode 'limit=100' --data-urlencode "pageToken=$evidence_token" \
-        "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/$MEMORY_ID/sources/$source_id/evidence") || exit 1
+        --data-urlencode 'limit=100' --data-urlencode "cursor=$evidence_token" \
+        "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/$MEMORY_ID/sources/$source_id/evidence") || exit 1
       printf '%s\n' "$evidence" | jq .source
-      evidence_token=$(printf '%s' "$evidence" | jq -r '.source.evidenceNextPageToken // empty')
+      evidence_token=$(printf '%s' "$evidence" | jq -r '.source.evidenceNextCursor // empty')
     done
     reverse_token=''
     while :; do
@@ -335,14 +334,14 @@ while :; do
         --header "Authorization: Bearer $API_KEY" \
         --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
         --data-urlencode "ownerId=$OWNER_ID" --data-urlencode 'limit=100' \
-        --data-urlencode "pageToken=$reverse_token" \
-        "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/sources/$source_id/memories") || exit 1
+        --data-urlencode "cursor=$reverse_token" \
+        "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sources/$source_id/memories") || exit 1
       printf '%s\n' "$related" | jq .items
-      reverse_token=$(printf '%s' "$related" | jq -r '.nextPageToken // empty')
+      reverse_token=$(printf '%s' "$related" | jq -r '.nextCursor // empty')
       [ -n "$reverse_token" ] || break
     done
   done || exit 1
-  source_token=$(printf '%s' "$links" | jq -r '.nextPageToken // empty')
+  source_token=$(printf '%s' "$links" | jq -r '.nextCursor // empty')
   [ -n "$source_token" ] || break
 done
 ```
@@ -351,6 +350,6 @@ done
 
 The evidence response wraps `source`; it does not return a top-level `items` list. The source object contains `evidence` for documents or `sessionEvidence` for sessions. Newer evidence can also include `evidenceId`, `schemaVersion`, `capturedAt`, and `producer`. Handle their absence on legacy data. `capturedAt` is when extraction input was prepared, not when the original event occurred. A retried delivery retains its evidence identity.
 
-For reverse lookup, use `GET /v1/stores/{storeId}/sources/{sourceId}/memories` with `ownerId`, or the corresponding SDK method. Follow its `nextPageToken` independently. Keep every token with the exact query and endpoint that issued it. Tokens expire; restart a query when one is invalid, and URL-encode tokens in REST calls.
+For reverse lookup, use `GET /iris/data/v1/agent-memory/stores/{storeId}/sources/{sourceId}/memories` with `ownerId`, or the corresponding SDK method. Follow its `nextCursor` independently. Keep every token with the exact query and endpoint that issued it. Tokens expire; restart a query when one is invalid, and URL-encode tokens in REST calls.
 
 A source link does not grant access to the original document, session, or another owner's memories. The service checks source and record access separately; sharing an extracted memory does not share the private document it came from.

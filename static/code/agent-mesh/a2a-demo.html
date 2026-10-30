@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Mesh: reconnect without missing updates</title>
+  <style>
+    body { margin: 0; background: #f4f6f8; color: #152336; font: 16px/1.6 system-ui, sans-serif; }
+    main { max-width: 780px; margin: 48px auto; padding: 0 24px; }
+    h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.2; }
+    .eyebrow { color: #516177; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+    .card { background: white; border: 1px solid #d8e0e8; border-radius: 12px; padding: 24px; margin: 24px 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+    button { font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 7px; border: 1px solid #60738a; background: white; color: #152336; cursor: pointer; }
+    button:first-child { background: #b32117; border-color: #b32117; color: white; }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible { outline: 3px solid #2a6bd4; outline-offset: 3px; }
+    #status { font-weight: 650; }
+    #hint, .note { color: #516177; }
+    progress { width: 100%; height: 18px; accent-color: #b32117; }
+    #updates { max-height: 340px; overflow: auto; padding-left: 28px; }
+    #updates li { padding: 4px 0; }
+    #error { color: #a31b16; white-space: pre-wrap; }
+    details { margin-top: 20px; }
+    code { font-size: 13px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">AGENT MESH · LOCAL A2A DEMO</div>
+  <h1>Reconnect without missing updates</h1>
+  <p>A simulated agent produces 20 updates, one per second. Disconnect your subscription, wait a few seconds, and reconnect. The agent keeps working while you are away.</p>
+  <div class="card">
+    <div id="status" role="status" aria-live="polite">Ready to start</div>
+    <p id="hint">Start a task, then disconnect after a few updates arrive.</p>
+    <div class="actions">
+      <button id="start">Start task</button>
+      <button id="disconnect" disabled>Disconnect</button>
+      <button id="reconnect" disabled>Reconnect</button>
+    </div>
+    <label for="progress" id="count">0 of 20 updates received</label>
+    <progress id="progress" value="0" max="20"></progress>
+    <p id="error" role="alert"></p>
+    <ol id="updates" aria-label="Received agent updates"></ol>
+    <details>
+      <summary>What is being resumed?</summary>
+      <p>Task: <code id="task">—</code><br>Last applied cursor: <code id="cursor">—</code></p>
+      <p>The page saves each event cursor after applying its update. Reconnect uses <code>?after=</code> to request the retained events after that cursor. The browser's native <code>EventSource</code> receives the stream.</p>
+    </details>
+  </div>
+  <p class="note">Local demonstration only. There is no sign-in: all requests use one fixed demo owner. Closing a subscription does not cancel agent execution. Replay depends on retained Redis history.</p>
+</main>
+<script>
+  const ui = Object.fromEntries(
+    ["start", "disconnect", "reconnect", "status", "hint", "count", "progress", "updates", "error", "task", "cursor"]
+      .map(id => [id, document.getElementById(id)])
+  );
+  let source = null;
+  let taskId = null;
+  let cursor = null;
+  let starting = false;
+  let received = new Set();
+
+  function closeStream() {
+    if (source) source.close();
+    source = null;
+  }
+
+  function showError(error) {
+    closeStream();
+    ui.error.textContent = error.message;
+    ui.status.textContent = "Connection stopped";
+    ui.hint.textContent = "Reconnect to retry with your saved cursor, or start a new task.";
+    ui.start.disabled = false;
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = !cursor;
+  }
+
+  function addArtifact(artifact) {
+    if (!artifact || received.has(artifact.artifactId)) return;
+    const item = document.createElement("li");
+    item.textContent = (artifact.parts || []).map(part => part.text || "").join("");
+    ui.updates.appendChild(item);
+    received.add(artifact.artifactId);
+    ui.progress.value = received.size;
+    ui.count.textContent = `${received.size} of 20 updates received`;
+    ui.updates.scrollTop = ui.updates.scrollHeight;
+  }
+
+  function connect() {
+    closeStream();
+    ui.error.textContent = "";
+    const suffix = cursor ? `?after=${encodeURIComponent(cursor)}` : "";
+    const current = new EventSource(`/tasks/${encodeURIComponent(taskId)}:subscribe${suffix}`);
+    source = current;
+    ui.status.textContent = cursor ? "Reconnecting from saved cursor…" : "Connecting…";
+    ui.reconnect.disabled = true;
+    current.onopen = () => {
+      ui.status.textContent = "Connected";
+      ui.hint.textContent = "Disconnect, wait a few seconds, then reconnect to catch up.";
+      ui.disconnect.disabled = !cursor;
+    };
+    current.onmessage = event => {
+      if (source !== current) return;
+      try {
+        const frame = JSON.parse(event.data);
+        if (frame.error) throw new Error(frame.error.message || "Subscription failed");
+        if (frame.task) (frame.task.artifacts || []).forEach(addArtifact);
+        if (frame.artifactUpdate) addArtifact(frame.artifactUpdate.artifact);
+        if (event.lastEventId) {
+          cursor = event.lastEventId;
+          ui.cursor.textContent = cursor;
+          ui.disconnect.disabled = false;
+        }
+        const state = frame.statusUpdate?.status?.state || frame.task?.status?.state;
+        if (state === "TASK_STATE_COMPLETED") {
+          closeStream();
+          ui.status.textContent = received.size === 20 ? "Complete — all 20 updates received" : "Task completed";
+          ui.hint.textContent = "The same task continued while disconnected. Its retained updates filled the gap.";
+          ui.start.disabled = false;
+          ui.disconnect.disabled = true;
+          ui.reconnect.disabled = true;
+        } else if (["TASK_STATE_FAILED", "TASK_STATE_CANCELED", "TASK_STATE_REJECTED"].includes(state)) {
+          throw new Error(`Task ended: ${state}`);
+        }
+      } catch (error) { showError(error); }
+    };
+    // Close on errors so manual Reconnect always uses the latest applied cursor.
+    current.onerror = () => {
+      if (source === current) showError(new Error("The event connection closed. Use Reconnect to resume."));
+    };
+  }
+
+  ui.start.onclick = async () => {
+    if (starting) return;
+    starting = true;
+    closeStream();
+    taskId = null;
+    cursor = null;
+    received = new Set();
+    ui.updates.replaceChildren();
+    ui.progress.value = 0;
+    ui.count.textContent = "0 of 20 updates received";
+    ui.task.textContent = "—";
+    ui.cursor.textContent = "—";
+    ui.error.textContent = "";
+    ui.start.disabled = true;
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = true;
+    ui.status.textContent = "Starting task…";
+    try {
+      const response = await fetch("/message:send", {
+        method: "POST", headers: {"Content-Type": "application/json", "A2A-Version": "1.0"},
+        body: JSON.stringify({
+          message: {messageId: crypto.randomUUID(), role: "ROLE_USER", parts: [{text: "Count to twenty"}]},
+          configuration: {returnImmediately: true}
+        })
+      });
+      if (!response.ok) throw new Error(`Could not start task (${response.status})`);
+      const result = await response.json();
+      if (!result.task?.id) throw new Error("The agent did not return a task");
+      taskId = result.task.id;
+      ui.task.textContent = taskId;
+      connect();
+    } catch (error) { showError(error); }
+    finally { starting = false; }
+  };
+  ui.disconnect.onclick = () => {
+    closeStream();
+    ui.status.textContent = "Disconnected — the agent keeps working";
+    ui.hint.textContent = "Wait a few seconds, then select Reconnect to receive the missed updates.";
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = !cursor;
+  };
+  ui.reconnect.onclick = connect;
+  window.addEventListener("pagehide", closeStream);
+</script>
+</body>
+</html>

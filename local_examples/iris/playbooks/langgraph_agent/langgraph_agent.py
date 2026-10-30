@@ -11,7 +11,7 @@ from langchain.mcp import MCPAdapter
 from langchain.messages import ToolMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
-from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
 
 TASK = os.environ.get(
     "AGENT_TASK", "Draft a reply to a customer whose refund status shows Processing."
@@ -39,8 +39,8 @@ async def main():
     url = os.environ["PLAYBOOK_URL"].rstrip("/")
     playbook_id = os.environ["PLAYBOOK_ID"]
     api_key = os.environ["PLAYBOOK_API_KEY"]
-    async with AgentPlaybook(
-        AgentPlaybookSettings(
+    async with AgentPlaybooks(
+        AgentPlaybooksSettings(
             url=url, playbook_id=playbook_id, api_key=api_key
         )
     ) as playbook:
@@ -49,7 +49,7 @@ async def main():
             try:
                 context = await playbook.client.discover_entries_async(query=state["task"], limit=3)
             except Exception as error:
-                raise RuntimeError("Playbook discovery failed; no model call was made.") from error
+                raise RuntimeError("Agent Playbooks discovery failed; no model call was made.") from error
             if not context.pinned_entries and not context.discovered_entries:
                 return {
                     "context": "",
@@ -65,7 +65,7 @@ async def main():
             if not state["context"]:
                 return {"reply": state["reply"]}
             transport = StreamableHttpTransport(
-                f"{url}/v1/playbooks/{playbook_id}/mcp",
+                f"{url}/iris/data/v1/agent-playbooks/playbooks/{playbook_id}/mcp",
                 headers={"Authorization": f"Bearer {api_key}"},
             )
             async with MCPAdapter(transport) as mcp:

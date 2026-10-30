@@ -15,7 +15,7 @@ A Summary View turns selected long-term memories into a reusable text or structu
 
 A **definition** specifies the sources, filters, grouping, output, and refresh policy. A **partition** is one materialized result for an exact combination of grouping values. An ungrouped definition has one result. Results are derived data; they do not enter long-term-memory search or replace the source records.
 
-Summary Views differ from [session summarization](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#configure-automatic-summarization), which compacts conversation events. The supported source is `long_term`. Document-managed MemoryETL records are excluded from Summary View sources.
+Summary Views differ from [session summarization](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#configure-automatic-summarization), which compacts conversation events. The supported source is `LONG_TERM`. Document-managed MemoryETL records are excluded from Summary View sources.
 
 ## Prepare the service and identity
 
@@ -142,32 +142,32 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 
 ```sh
 definition=$(jq -n --arg owner "$OWNER_ID" \
-  '{name:"Travel profile",source:"long_term",groupBy:[],filter:{ownerId:{eq:$owner}},output:{format:"text",instructions:"Summarize travel preferences."},refreshPolicy:{mode:"manual"}}')
+  '{name:"Travel profile",source:"LONG_TERM",groupBy:[],filter:{ownerId:{eq:$owner}},output:{format:"TEXT",instructions:"Summarize travel preferences."},refreshPolicy:{mode:"MANUAL"}}')
 view=$(curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header "X-Iris-User-Token: $USER_TOKEN" \
   --header 'Content-Type: application/json' --data "$definition" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/summary-views") || exit 1
-VIEW_ID=$(printf '%s' "$view" | jq -er .id) || exit 1
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/summary-views") || exit 1
+VIEW_ID=$(printf '%s' "$view" | jq -er .viewId) || exit 1
 printf 'View ID: %s\n' "$VIEW_ID"
 
 curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header "X-Iris-User-Token: $USER_TOKEN" \
-  --header 'Content-Type: application/json' --data '{"target":"full"}' \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/summary-views/$VIEW_ID/refresh" | jq
+  --header 'Content-Type: application/json' --data '{"target":"FULL"}' \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/summary-views/$VIEW_ID/refresh" | jq
 
 for attempt in $(seq 1 60); do
   result=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: $USER_TOKEN" \
     --data-urlencode 'includeSourceMemoryIds=true' \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/summary-views/$VIEW_ID/result") || exit 1
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/summary-views/$VIEW_ID/result") || exit 1
   state=$(printf '%s' "$result" | jq -r .status)
   case "$state" in
-    failed) printf '%s\n' "$result" | jq; exit 1 ;;
-    empty) printf 'No matching source memories.\n'; exit 0 ;;
-    ready)
+    FAILED) printf '%s\n' "$result" | jq; exit 1 ;;
+    EMPTY) printf 'No matching source memories.\n'; exit 0 ;;
+    READY)
       if printf '%s' "$result" | jq -e '.stale == false and .value != null' >/dev/null; then
         printf '%s\n' "$result" | jq
         exit 0
@@ -187,12 +187,12 @@ Text output uses `value.text`; structured output uses `value.data`. Python outpu
 
 | Status | Application behavior |
 |:-------|:---------------------|
-| `cold` | No result is stored for this group. It may not have been generated yet, or it may have been evicted. |
-| `pending` | Work is queued. Previous output may be withheld because its sources changed or became inaccessible. |
-| `ready` | A value is available. Check `stale` and coverage fields. |
-| `empty` | No sources match. There is no generated value. |
-| `refreshing` | New work is running. A last good value can remain. |
-| `failed` | Inspect `errorCode`. A last good value may remain, or `value` may be absent. |
+| `COLD` | No result is stored for this group. It may not have been generated yet, or it may have been evicted. |
+| `PENDING` | Work is queued. Previous output may be withheld because its sources changed or became inaccessible. |
+| `READY` | A value is available. Check `stale` and coverage fields. |
+| `EMPTY` | No sources match. There is no generated value. |
+| `REFRESHING` | New work is running. A last good value can remain. |
+| `FAILED` | Inspect `errorCode`. A last good value may remain, or `value` may be absent. |
 
 `stale` is independent of status. It compares the result with the current definition and source changes. Decide whether to use a last good stale value, wait, or fall back to direct recall. Do not turn an absent value into an empty summary.
 
@@ -200,22 +200,22 @@ Result reads validate contributing source records. Deleted, changed, or newly in
 
 ## Filter and group sources
 
-Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filterOp` defaults to `all`; `any` combines optional filters with OR. Exact partition scope and time-window restrictions apply separately, as do ownership checks in on-prem deployments. Legacy `namespace` labels are unsupported for Summary Views; use `namespaceRef`.
+Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filter.op` defaults to `ALL`; `ANY` combines optional filters with OR. Exact partition scope and time-window restrictions apply separately, as do ownership checks in on-prem deployments. Legacy `namespace` labels are unsupported for Summary Views; use `namespaceId`.
 
-`groupBy` accepts up to four distinct fields: `ownerId`, `sessionId`, `namespaceRef`, and `memoryType`. A result read or `target: partition` refresh must supply exactly those fields. Missing or extra scope fields are invalid. `groupBy: []` creates a singleton; omit all scope fields when reading it.
+`groupBy` accepts up to four distinct fields: `ownerId`, `sessionId`, `namespaceId`, and `memoryType`. A result read or `target: PARTITION` refresh must supply exactly those fields. Missing or extra scope fields are invalid. `groupBy: []` creates a singleton; omit all scope fields when reading it.
 
-For `groupBy: ["ownerId", "namespaceRef"]`, use this partition refresh body:
+For `groupBy: ["ownerId", "namespaceId"]`, use this partition refresh body:
 
 ```json
 {
-  "target": "partition",
-  "scope": {"ownerId":"<user-id>","namespaceRef":"<namespace-id>"}
+  "target": "PARTITION",
+  "scope": {"ownerId":"<user-id>","namespaceId":"<namespace-id>"}
 }
 ```
 
-Send the same scope as query parameters on result reads. Here `namespaceRef` is an ID string, not the `{"namespaceId":"..."}` object used to place a memory. `target: full` reconciles current and previous partitions.
+Send the same scope as query parameters on result reads. `target: FULL` reconciles current and previous partitions.
 
-`evictionPolicy.maxPartitions` bounds grouped results within the deployment limit. Grouped views use the operator's partition limit when the policy is omitted; singleton views omit it. Matching source mutations make a scope recent; reads do not. Evicted scopes can return `cold`. `timeWindowSeconds` selects sources by creation time in a rolling window; it does not change source retention.
+`evictionPolicy.maxPartitions` bounds grouped results within the deployment limit. Grouped views use the operator's partition limit when the policy is omitted; singleton views omit it. Matching source mutations make a scope recent; reads do not. Evicted scopes can return `COLD`. `timeWindowSeconds` selects sources by creation time in a rolling window; it does not change source retention.
 
 ## Choose structured output and continuous refresh
 
@@ -223,23 +223,23 @@ For structured output, replace `output` with:
 
 ```json
 {
-  "format": "structured",
+  "format": "STRUCTURED",
   "instructions": "Summarize only preferences supported by the selected memories.",
   "schema": {
     "fields": [
-      {"name":"cities","type":"list[str]","description":"Cities the user wants to visit"},
-      {"name":"vegetarian","type":"bool","description":"Whether the user has stated a vegetarian diet"}
+      {"name":"cities","type":"STRING_LIST","description":"Cities the user wants to visit"},
+      {"name":"vegetarian","type":"BOOLEAN","description":"Whether the user has stated a vegetarian diet"}
     ]
   }
 }
 ```
 
-The schema accepts 1–50 fields of type `str`, `int`, `float`, `bool`, `list[str]`, `list[float]`, or `object`. Generated fields are optional. Arbitrary JSON Schema, required-field declarations, and nested object schemas are unsupported. Text output must omit `schema`; structured output requires it. Invalid generated data is reported as `OUTPUT_VALIDATION_FAILED`.
+The schema accepts 1–50 fields of type `STRING`, `INTEGER`, `FLOAT`, `BOOLEAN`, `STRING_LIST`, `FLOAT_LIST`, or `OBJECT`. Generated fields are optional. Arbitrary JSON Schema, required-field declarations, and nested object schemas are unsupported. Text output must omit `schema`; structured output requires it. Invalid generated data is reported as `OUTPUT_VALIDATION_FAILED`.
 
 For continuous refresh, use:
 
 ```json
-{"mode":"continuous","debounceSeconds":5,"reconcileIntervalSeconds":60}
+{"mode":"CONTINUOUS","debounceSeconds":5,"reconcileIntervalSeconds":60}
 ```
 
 The reconcile interval is required and must fit deployment limits. Debounce coalesces mutations; reconciliation also handles changes such as a moving time window. Manual mode omits both interval fields. Both modes run asynchronously within queue, source, generation, and concurrency limits.
@@ -257,7 +257,7 @@ Request `includeSourceMemoryIds=true` for the selected source IDs. These identif
 | Update a definition | `update_summary_view_async` | `updateSummaryView` | `PATCH /summary-views/{viewId}` |
 | Delete a definition | `delete_summary_view_async` | `deleteSummaryView` | `DELETE /summary-views/{viewId}` |
 
-REST paths are relative to `/v1/stores/{storeId}`. Lists return `items` and optional `nextPageToken`; pass it as `pageToken` with the same query. Definition states (`active`, `disabled`, `deleting`) are separate from result status.
+REST paths are relative to `/iris/data/v1/agent-memory/stores/{storeId}`. Lists return `items` and optional `nextCursor`; pass it as `cursor` with the same query. Definition states (`ACTIVE`, `DISABLED`, `DELETING`) are separate from result status.
 
 | Change | Effect |
 |:-------|:-------|

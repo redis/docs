@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # STEP_START connect
-LENS_API="${LENS_URL%/}/v1/instances/$LENS_INSTANCE_ID"
+LENS_API="${LENS_URL%/}/iris/data/v1beta1/lens/instances/$LENS_INSTANCE_ID"
 AUTH="Authorization: Bearer $LENS_API_KEY"
 # STEP_END
 
