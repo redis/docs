@@ -43,7 +43,8 @@ public class StringExample {
             // STEP_START setnx_xx
             // Recreate the bike:1 key so this example runs on its own.
             Mono<Void> setnx = reactiveCommands.set("bike:1", "Deimos")
-                    .flatMap(setup -> reactiveCommands.setnx("bike:1", "bike")).doOnNext(v -> {
+                    // A failed NX returns an empty Mono, so check for an element.
+                    .flatMap(setup -> reactiveCommands.set("bike:1", "bike", SetArgs.Builder.nx()).hasElement()).doOnNext(v -> {
                         System.out.println(v); // false (because key already exists)
                         // REMOVE_START
                         assertThat(v).isFalse();

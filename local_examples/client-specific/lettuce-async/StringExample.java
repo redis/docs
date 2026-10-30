@@ -48,10 +48,10 @@ public class StringExample {
             // STEP_START setnx_xx
             // Recreate the bike:1 key so this example runs on its own.
             CompletableFuture<Void> setnx = asyncCommands.set("bike:1", "Deimos")
-                    .thenCompose(setup -> asyncCommands.setnx("bike:1", "bike")).thenCompose(v -> {
-                        System.out.println(v); // >>> false (because key already exists)
+                    .thenCompose(setup -> asyncCommands.set("bike:1", "bike", SetArgs.Builder.nx())).thenCompose(v -> {
+                        System.out.println(v); // >>> null (because key already exists)
                         // REMOVE_START
-                        assertThat(v).isFalse();
+                        assertThat(v).isNull();
                         // REMOVE_END
                         return asyncCommands.get("bike:1");
                     })
