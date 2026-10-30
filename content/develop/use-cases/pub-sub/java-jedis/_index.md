@@ -29,14 +29,14 @@ That gives you:
 * Live server-side introspection through `PUBSUB CHANNELS`, `PUBSUB NUMSUB`, and `PUBSUB NUMPAT`
 * At-most-once delivery: subscribers that are offline when a message is published miss it, so durable state should live in keys or a Stream, not in the pub/sub channel itself
 
-In this example, the publisher side calls `PUBLISH` with a JSON-encoded body and counts how many subscribers Redis reported delivering to. Each in-process subscriber owns its own `Jedis` connection from the pool and a dedicated worker thread that pumps incoming messages into a buffer.
+In this example, the publisher side calls `PUBLISH` with a JSON-encoded body and counts how many subscribers Redis reported delivering to. Each in-process subscriber holds its own pooled connection and a dedicated worker thread that pumps incoming messages into a buffer.
 
 ## How it works
 
 The flow looks like this:
 
 1. The application calls `hub.subscribe(name, channels)` or `hub.psubscribe(name, patterns)`
-2. The helper acquires a dedicated `Jedis` connection from the pool, builds a `JedisPubSub` listener, and starts a daemon thread that calls `jedis.subscribe(listener, channels...)` (or `psubscribe(...)`) — both calls block for the lifetime of the subscription
+2. The helper builds a `JedisPubSub` listener and starts a daemon thread that calls `jedis.subscribe(listener, channels...)` (or `psubscribe(...)`) on the shared `RedisClient` — each call borrows a dedicated connection from the pool and blocks for the lifetime of the subscription
 3. The application (or another process) calls `hub.publish(channel, message)`
 4. Redis fans the message out over every subscribing client's open socket
 5. The listener's `onMessage` (or `onPMessage`) callback fires on the subscriber thread, wraps the raw message as a `ReceivedMessage`, and appends it to a per-subscriber ring buffer
@@ -52,12 +52,12 @@ The `RedisPubSubHub` class wraps the publish, subscribe, and introspection opera
 ```java
 import java.util.List;
 import java.util.Map;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool pool = new JedisPool("localhost", 6379);
-        RedisPubSubHub hub = new RedisPubSubHub(pool);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
+        RedisPubSubHub hub = new RedisPubSubHub(jedis);
 
         // Exact-match subscriber
         hub.subscribe("orders-listener", List.of("orders:new"));
@@ -121,10 +121,7 @@ The implementation uses:
 ```java
 public int publish(String channel, Object message) {
     String payload = JsonUtil.toJson(message);
-    long delivered;
-    try (Jedis jedis = pool.getResource()) {
-        delivered = jedis.publish(channel, payload);
-    }
+    long delivered = jedis.publish(channel, payload);
     publishedTotal.incrementAndGet();
     deliveredTotal.addAndGet(delivered);
     channelPublished.merge(channel, 1L, Long::sum);
@@ -136,7 +133,7 @@ The integer returned by `PUBLISH` is what Redis itself reports — the number of
 
 ## Subscribing to channels
 
-`subscribe()` creates a named in-process `Subscription` that owns its own `Jedis` connection and a dedicated worker thread:
+`subscribe()` creates a named in-process `Subscription` that holds its own pooled connection and a dedicated worker thread:
 
 ```java
 public Subscription subscribe(String name, List<String> channels) {
@@ -147,8 +144,6 @@ public Subscription subscribe(String name, List<String> channels) {
 Inside the `Subscription` constructor, the helper builds a `JedisPubSub` listener, starts the dispatch thread, and blocks until Redis has acknowledged every `SUBSCRIBE` so the very first publish can't race ahead:
 
 ```java
-this.jedis = pool.getResource();
-
 final CountDownLatch ackLatch = new CountDownLatch(targets.size());
 
 this.listener = new JedisPubSub() {
@@ -181,7 +176,7 @@ if (!ackLatch.await(2, TimeUnit.SECONDS)) {
 A few details matter here:
 
 * `jedis.subscribe(...)` and `jedis.psubscribe(...)` **block the calling thread** until the listener unsubscribes from every target. Running each subscription on its own thread is the only way to keep the rest of the application responsive — there is no "run in background" helper in Jedis.
-* Each `Subscription` gets its own `Jedis` connection from the pool. A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is switched into subscribe-only mode, so other commands on the same connection would fail. Sharing one connection across subscribers would also couple their lifetimes — unsubscribing one would tear down the channel for the others.
+* Each `subscribe()` or `psubscribe()` call borrows its own connection from the pool and keeps it until the subscription ends. A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is switched into subscribe-only mode, so other commands on the same connection would fail — `RedisClient` runs those commands on other pooled connections. Sharing one connection across subscribers would also couple their lifetimes — unsubscribing one would tear down the channel for the others.
 * The constructor waits on a `CountDownLatch` that's decremented once per target inside `onSubscribe` / `onPSubscribe`. Without it, the parent thread could return from `subscribe()` while the spawned worker thread is still about to send the SUBSCRIBE command — and a `PUBLISH` issued immediately afterwards would beat the subscription into Redis.
 * The `JedisPubSub` listener is the same object on both threads: it's safe to call `listener.unsubscribe()` from a different thread because Jedis ships the unsubscribe command back over the listener's own socket. After the unsubscribe round-trip completes, the blocking `subscribe()` call returns and the worker thread exits.
 
@@ -217,7 +212,7 @@ hub.patternSubscriberCount();             // PUBSUB NUMPAT
 
 `PUBSUB CHANNELS` only reports channels with at least one exact-match subscriber — pattern subscribers do not appear here. That's a deliberate Redis design choice: a glob like `*` would otherwise show up as a subscriber to every conceivable channel. `PUBSUB NUMPAT` covers the pattern side as a single global count.
 
-Each of these commands acquires a regular (non-subscribe) `Jedis` connection from the pool with try-with-resources, so the bookkeeping calls never compete with the dedicated subscriber connections.
+Each of these commands borrows a regular (non-subscribe) connection from the pool for the duration of the call, so the bookkeeping calls never use the dedicated subscriber connections. `RedisClient` has no `pubsubChannels()`, `pubsubNumSub()`, or `pubsubNumPat()` methods, so the helper sends these three commands with `executeCommand`.
 
 ## Stats and history
 
@@ -247,7 +242,7 @@ public Map<String, Object> stats() {
 
 * Redis 6.2 or later running locally on the default port (6379). Earlier versions still work for plain `PUBLISH`/`SUBSCRIBE`; `PUBSUB NUMPAT` is older than that.
 * Java 17 or later.
-* Jedis 5.x on the classpath. The smallest workable classpath is the Jedis jar plus its two transitive dependencies, `commons-pool2` and `slf4j-api`.
+* Jedis 8.x on the classpath, along with its runtime dependencies: `commons-pool2`, `slf4j-api`, `gson`, `json`, and `redis-authx-core`.
 
 If you use Maven:
 
@@ -255,14 +250,14 @@ If you use Maven:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>5.1.2</version>
+    <version>8.0.2</version>
 </dependency>
 ```
 
 If you use Gradle:
 
 ```groovy
-implementation 'redis.clients:jedis:5.1.2'
+implementation 'redis.clients:jedis:8.0.2'
 ```
 
 ## Running the demo
@@ -279,23 +274,26 @@ curl -O $BASE/DemoServer.java
 curl -O $BASE/JsonUtil.java
 ```
 
-You also need the three jars on the classpath. Grab them from [Maven Central](https://search.maven.org/) — search for `jedis`, `commons-pool2`, and `slf4j-api`, then download each jar from the artefact page — or copy them out of an existing local `~/.m2/repository` checkout if you've used these libraries before:
+You also need the six jars on the classpath. Grab them from [Maven Central](https://search.maven.org/) — search for `jedis`, `commons-pool2`, `slf4j-api`, `gson`, `json`, and `redis-authx-core`, then download each jar from the artefact page — or copy them out of an existing local `~/.m2/repository` checkout if you've used these libraries before:
 
-* `jedis-5.1.2.jar`
-* `commons-pool2-2.12.0.jar`
-* `slf4j-api-2.0.13.jar`
+* `jedis-8.0.2.jar`
+* `commons-pool2-2.13.1.jar`
+* `slf4j-api-1.7.36.jar`
+* `gson-2.14.0.jar`
+* `json-20260719.jar`
+* `redis-authx-core-0.1.1-beta2.jar`
 
-(Any 5.x Jedis release works; the transitive versions of `commons-pool2` and `slf4j-api` are pinned by the Jedis POM, so use the versions listed in the Jedis 5.1.2 [Maven page](https://search.maven.org/artifact/redis.clients/jedis/5.1.2/jar) if you want an exact match. Other recent patch versions of either library work fine.)
+(The versions of the other five jars are pinned by the Jedis POM, so use the versions listed in the Jedis 8.0.2 [Maven page](https://search.maven.org/artifact/redis.clients/jedis/8.0.2/jar) if you want an exact match.)
 
 ### Start the demo server
 
 A local demo server is included to show the hub in action ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/pub-sub/java-jedis/DemoServer.java)). Compile and run with `javac` and `java`, listing each jar on the classpath:
 
 ```bash
-javac -cp jedis-5.1.2.jar:commons-pool2-2.12.0.jar:slf4j-api-2.0.13.jar \
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
       JsonUtil.java RedisPubSubHub.java DemoServer.java
 
-java  -cp .:jedis-5.1.2.jar:commons-pool2-2.12.0.jar:slf4j-api-2.0.13.jar \
+java  -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
       DemoServer --port 8098
 ```
 
@@ -323,11 +321,11 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams](/content/develop/data-types/streams/_index.md) with consumer groups.
 
-### Give every subscriber its own Jedis connection
+### Give every subscriber its own connection
 
-A `Jedis` instance that has called `subscribe(...)` or `psubscribe(...)` is in subscribe-only mode: any other command on the same connection will fail. Always pull the subscriber's connection from the pool with `pool.getResource()` and dedicate it to that subscriber until it's torn down. The helper does this for you — every `Subscription` opens a fresh connection and owns it for the subscription's lifetime — but if you write your own subscriber code, the same rule applies.
+A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is in subscribe-only mode: any other command on the same connection will fail. Each `subscribe(...)` or `psubscribe(...)` call on a `RedisClient` borrows a connection from the pool and dedicates it to that subscription until it's torn down. The helper does this for you — every `Subscription` makes its own call on its own thread and holds its connection for the subscription's lifetime — but if you write your own subscriber code, the same rule applies.
 
-A related corollary: never let the pool size cap your subscriber count. If you have 100 long-lived subscribers in one process, `JedisPoolConfig.setMaxTotal(...)` needs to allow at least 100 connections for the subscribers plus whatever your publishers and bookkeeping calls need. Set it generously; idle subscriber connections cost almost nothing on the Redis side.
+A related corollary: never let the pool size cap your subscriber count. If you have 100 long-lived subscribers in one process, `ConnectionPoolConfig.setMaxTotal(...)` needs to allow at least 100 connections for the subscribers plus whatever your publishers and bookkeeping calls need. Set it generously; idle subscriber connections cost almost nothing on the Redis side.
 
 ### Unsubscribe through the listener, not the connection
 
@@ -349,7 +347,7 @@ The demo caps each subscriber's in-memory message buffer at 50. That's right for
 
 ### Sharded pub/sub on a Redis Cluster
 
-On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. Jedis 5.x exposes `jedis.spublish(...)` and a `JedisShardedPubSub` listener subclass. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
+On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. Jedis 8.x exposes `spublish(...)` and `ssubscribe(...)` on its cluster client (`RedisClusterClient`) and a `JedisShardedPubSub` listener subclass. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
 
 ### Inspect pub/sub state directly in Redis
 

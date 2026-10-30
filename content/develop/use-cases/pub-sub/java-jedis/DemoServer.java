@@ -1,8 +1,8 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ConnectionPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +36,7 @@ public class DemoServer {
     );
 
     private static RedisPubSubHub hub;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
 
     public static void main(String[] args) {
         String host = "127.0.0.1";
@@ -63,19 +63,22 @@ public class DemoServer {
             }
         }
 
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
         poolConfig.setMaxTotal(64);
         poolConfig.setMaxIdle(16);
         poolConfig.setMinIdle(2);
-        jedisPool = new JedisPool(poolConfig, redisHost, redisPort);
-        try (var jedis = jedisPool.getResource()) {
+        jedis = RedisClient.builder()
+                .hostAndPort(redisHost, redisPort)
+                .poolConfig(poolConfig)
+                .build();
+        try {
             jedis.ping();
         } catch (Exception e) {
             System.err.printf("Failed to connect to Redis at %s:%d: %s%n", redisHost, redisPort, e.getMessage());
             System.exit(1);
         }
 
-        hub = new RedisPubSubHub(jedisPool);
+        hub = new RedisPubSubHub(jedis);
         seedDefaultSubscriptions(hub);
 
         HttpServer server;
@@ -100,7 +103,7 @@ public class DemoServer {
             } catch (Exception ignored) {
             }
             try {
-                jedisPool.close();
+                jedis.close();
             } catch (Exception ignored) {
             }
             server.stop(0);

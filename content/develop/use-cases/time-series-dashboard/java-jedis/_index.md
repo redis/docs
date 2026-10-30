@@ -101,7 +101,7 @@ If you use Maven:
 <dependency>
     <groupId>redis.clients</groupId>
     <artifactId>jedis</artifactId>
-    <version>5.0.1</version>
+    <version>8.0.2</version>
 </dependency>
 ```
 
@@ -124,14 +124,14 @@ curl -O $BASE/DemoServer.java
 Compile and run the demo:
 
 ```bash
-javac -cp jedis-5.0.1.jar:commons-pool2-2.12.1.jar SensorSimulator.java RedisTimeSeriesStore.java DemoServer.java
-java -cp .:jedis-5.0.1.jar:commons-pool2-2.12.1.jar DemoServer
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar SensorSimulator.java RedisTimeSeriesStore.java DemoServer.java
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar DemoServer
 ```
 
 The server accepts optional flags if your Redis instance is not on the default host and port:
 
 ```bash
-java -cp .:jedis-5.0.1.jar:commons-pool2-2.12.1.jar DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
 ```
 
 After starting the server, visit `http://localhost:8080`.

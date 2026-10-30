@@ -1,6 +1,9 @@
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.BuilderFactory;
+import redis.clients.jedis.CommandArguments;
+import redis.clients.jedis.CommandObject;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Protocol;
+import redis.clients.jedis.RedisClient;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -70,7 +73,7 @@ public class RedisPubSubHub {
      * A named in-process subscriber bound to one or more channels or patterns.
      *
      * <p>Each {@code Subscription} owns its own {@link JedisPubSub} listener
-     * running on a dedicated thread with a dedicated {@link Jedis}
+     * running on a dedicated thread with a dedicated pooled
      * connection. Subscriptions are independent: closing one does not
      * affect another, even if they share channels.</p>
      */
@@ -85,7 +88,6 @@ public class RedisPubSubHub {
         private long received = 0;
         private volatile boolean closed = false;
 
-        private final Jedis jedis;
         private final JedisPubSub listener;
         private final Thread thread;
 
@@ -98,10 +100,10 @@ public class RedisPubSubHub {
             this.isPattern = isPattern;
             this.bufferSize = bufferSize;
 
-            // Each subscriber gets its own Jedis connection. Sharing one
-            // connection across subscribers would couple their lifetimes —
-            // unsubscribing one would close the channel for the others.
-            this.jedis = pool.getResource();
+            // Each subscribe() call borrows its own pooled connection for as
+            // long as the subscription lasts. Sharing one connection across
+            // subscribers would couple their lifetimes — unsubscribing one
+            // would close the channel for the others.
 
             // ackLatch is counted down by Jedis once per target after Redis
             // acknowledges the SUBSCRIBE / PSUBSCRIBE. The constructor blocks
@@ -141,17 +143,11 @@ public class RedisPubSubHub {
                         jedis.subscribe(listener, targetArr);
                     }
                 } catch (Exception e) {
-                    // Connection closed by close() is expected on shutdown.
                     // If we never got the first ack through, surface the
                     // failure so the constructor's wait can give up.
                     startupError.compareAndSet(0L, 1L);
                     while (ackLatch.getCount() > 0) {
                         ackLatch.countDown();
-                    }
-                } finally {
-                    try {
-                        jedis.close();
-                    } catch (Exception ignored) {
                     }
                 }
             }, "pubsub-" + name);
@@ -234,9 +230,8 @@ public class RedisPubSubHub {
          * <p>Jedis ships {@code UNSUBSCRIBE}/{@code PUNSUBSCRIBE} back over
          * the same socket; after the listener has unsubscribed from every
          * target the blocking {@code subscribe}/{@code psubscribe} call
-         * returns and the thread exits. As a belt-and-braces guard we also
-         * close the {@link Jedis} connection in the {@code finally} block
-         * of the worker thread, which unblocks any read still in flight.</p>
+         * returns, the thread exits, and the connection goes back to the
+         * pool.</p>
          */
         public void close() {
             if (closed) {
@@ -258,19 +253,6 @@ public class RedisPubSubHub {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            if (thread.isAlive()) {
-                // Last resort: dropping the connection forces the
-                // blocking subscribe() call to return.
-                try {
-                    jedis.close();
-                } catch (Exception ignored) {
-                }
-                try {
-                    thread.join(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
         }
 
         public boolean isAlive() {
@@ -288,7 +270,7 @@ public class RedisPubSubHub {
         }
     }
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final int bufferSize;
 
     private final Map<String, Subscription> subscriptions = new ConcurrentHashMap<>();
@@ -298,12 +280,12 @@ public class RedisPubSubHub {
     private final AtomicLong deliveredTotal = new AtomicLong();
     private final Map<String, Long> channelPublished = new ConcurrentHashMap<>();
 
-    public RedisPubSubHub(JedisPool pool) {
-        this(pool, 50);
+    public RedisPubSubHub(RedisClient jedis) {
+        this(jedis, 50);
     }
 
-    public RedisPubSubHub(JedisPool pool, int bufferSize) {
-        this.pool = pool;
+    public RedisPubSubHub(RedisClient jedis, int bufferSize) {
+        this.jedis = jedis;
         this.bufferSize = bufferSize;
     }
 
@@ -318,10 +300,7 @@ public class RedisPubSubHub {
      */
     public int publish(String channel, Object message) {
         String payload = JsonUtil.toJson(message);
-        long delivered;
-        try (Jedis jedis = pool.getResource()) {
-            delivered = jedis.publish(channel, payload);
-        }
+        long delivered = jedis.publish(channel, payload);
         publishedTotal.incrementAndGet();
         deliveredTotal.addAndGet(delivered);
         channelPublished.merge(channel, 1L, Long::sum);
@@ -374,11 +353,13 @@ public class RedisPubSubHub {
 
     /** List server-side channels with at least one subscriber (PUBSUB CHANNELS). */
     public List<String> activeChannels(String pattern) {
-        try (Jedis jedis = pool.getResource()) {
-            List<String> channels = new ArrayList<>(jedis.pubsubChannels(pattern == null ? "*" : pattern));
-            Collections.sort(channels);
-            return channels;
-        }
+        List<String> channels = new ArrayList<>(jedis.executeCommand(new CommandObject<>(
+                new CommandArguments(Protocol.Command.PUBSUB)
+                        .add(Protocol.Keyword.CHANNELS)
+                        .add(pattern == null ? "*" : pattern),
+                BuilderFactory.STRING_LIST)));
+        Collections.sort(channels);
+        return channels;
     }
 
     /**
@@ -392,21 +373,23 @@ public class RedisPubSubHub {
         if (channels == null || channels.isEmpty()) {
             return out;
         }
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, Long> result = jedis.pubsubNumSub(channels.toArray(new String[0]));
-            // Preserve the input ordering so the JSON output is stable.
-            for (String channel : channels) {
-                out.put(channel, result.getOrDefault(channel, 0L));
-            }
+        Map<String, Long> result = jedis.executeCommand(new CommandObject<>(
+                new CommandArguments(Protocol.Command.PUBSUB)
+                        .add(Protocol.Keyword.NUMSUB)
+                        .addObjects((Object[]) channels.toArray(new String[0])),
+                BuilderFactory.PUBSUB_NUMSUB_MAP));
+        // Preserve the input ordering so the JSON output is stable.
+        for (String channel : channels) {
+            out.put(channel, result.getOrDefault(channel, 0L));
         }
         return out;
     }
 
     /** Total active pattern subscriptions across all clients (PUBSUB NUMPAT). */
     public long patternSubscriberCount() {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.pubsubNumPat();
-        }
+        return jedis.executeCommand(new CommandObject<>(
+                new CommandArguments(Protocol.Command.PUBSUB).add(Protocol.Keyword.NUMPAT),
+                BuilderFactory.LONG));
     }
 
     /** Combined publish and subscribe counters plus the current registry size. */
