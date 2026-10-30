@@ -14,7 +14,7 @@ weight: 35
 Use the Lens read application programming interface (API) to list sessions and read turns from code, for example to export failed turns or build your own reports. The Python examples use the Lens read client:
 
 ```bash
-python -m pip install 'redis-agent-lens>=0.1.0a4'
+python -m pip install 'redis-agent-lens>=1.0.0'
 ```
 
 The cURL examples use Bash and jq. Every operation is a `GET` request.
@@ -51,7 +51,7 @@ List one agent's sessions over a time range, newest activity first. This example
 | `range` | Required. A lookback duration such as `24h`, `7d`, or `30d`. |
 | `sessionIdPrefix` | Sessions whose ID starts with this value, ignoring case. At least 2 characters. |
 | `userId` | Sessions with this user ID, ignoring case. |
-| `outcome` | Sessions with a turn that has any of these outcomes. Use `unset` for turns without an outcome. |
+| `outcome` | Sessions with a turn that has any of these outcomes. Use `UNSET` for turns without an outcome. |
 | `limit` | Sessions per page, up to 200. Default 50. |
 | `cursor` | The `nextCursor` value from the previous page. |
 
@@ -79,10 +79,10 @@ Each manifest entry has one of these states:
 
 | State | Meaning |
 | ----- | ------- |
-| `entered-prompt` | At least one result entered the prompt. |
-| `fetched-not-used` | The source returned results, and none entered the prompt. |
-| `invoked-empty` | The source returned no results. |
-| `not-instrumented` | The turn recorded no prompt assembly, or the results had no text to match. |
+| `ENTERED_PROMPT` | At least one result entered the prompt. |
+| `FETCHED_NOT_USED` | The source returned results, and none entered the prompt. |
+| `INVOKED_EMPTY` | The source returned no results. |
+| `NOT_INSTRUMENTED` | The turn recorded no prompt assembly, or the results had no text to match. |
 
 Each candidate in an entry includes its ID, score where the source provides one, and whether it entered the prompt.
 
@@ -92,7 +92,7 @@ Captured text, such as a retrieved document or a model prompt, is stored by cont
 
 {{< clients-example set="iris_lens_read_api" step="get_content" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-The response's `availability` is `available` with the text in `body`, or says why the text isn't available, such as `expired` or `not-captured`. See [retention](/content/develop/ai/context-engine/lens/concepts.md#retention).
+The response's `availability` is `AVAILABLE` with the text in `body`, or says why the text isn't available, such as `EXPIRED` or `NOT_CAPTURED`. See [retention](/content/develop/ai/context-engine/lens/concepts.md#retention).
 
 ## Get a Context Gateway tool result
 
@@ -100,7 +100,7 @@ Read the result of a Context Gateway tool call in a turn, by the step's ID. The 
 
 {{< clients-example set="iris_lens_read_api" step="gateway_result" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-The result classifies what the tool returned, such as `records` or `aggregate`, and includes the returned data.
+The result classifies what the tool returned, such as `RECORDS` or `AGGREGATE`, and includes the returned data.
 
 ## Next steps
 

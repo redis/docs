@@ -17,13 +17,13 @@ for agent in agents.items:
 # STEP_END
 
 # STEP_START list_sessions
-page = client.list_sessions(agent_id="support-bot", range="24h", outcome=["failed"])
+page = client.list_sessions(agent_id="support-bot", range="24h", outcome=["FAILED"])
 print(f"Showing {page.effective_range} of sessions")
 
 sessions = list(page.items)
 while page.next_cursor:
     page = client.list_sessions(
-        agent_id="support-bot", range="24h", outcome=["failed"], cursor=page.next_cursor
+        agent_id="support-bot", range="24h", outcome=["FAILED"], cursor=page.next_cursor
     )
     sessions.extend(page.items)
 
