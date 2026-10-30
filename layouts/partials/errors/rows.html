@@ -1,0 +1,27 @@
+{{- /*
+  The rows of one error-catalog shortcode, shared by the HTML shortcode and
+  its Markdown expansion.
+
+  Input: dict with
+    - "module": core, vectorset, search, json, bloom or timeseries
+    - "code":   comma-separated error codes to keep, such as "SEARCH_SYNTAX"
+                or "ERR,Err". Empty keeps the whole module.
+    - "others": true keeps the messages whose code no other error-catalog
+                call on the page names. Their first word is usually an
+                ordinary word, not a code.
+    - "raw":    the page's raw content, to find those other calls
+
+  Returns the matching entries of layouts/partials/errors/catalog.html.
+*/ -}}
+{{- $catalog := partialCached "errors/catalog.html" site "errors" -}}
+{{- $rows := where $catalog.entries "module" .module -}}
+{{- if .code -}}
+  {{- $rows = where $rows "group" "in" (split .code ",") -}}
+{{- else if .others -}}
+  {{- $named := slice -}}
+  {{- range findRESubmatch (printf `error-catalog\s+module="%s"\s+code="([^"]+)"` .module) .raw -}}
+    {{- range split (index . 1) "," -}}{{- $named = $named | append . -}}{{- end -}}
+  {{- end -}}
+  {{- with $named -}}{{- $rows = where $rows "group" "not in" . -}}{{- end -}}
+{{- end -}}
+{{- return $rows -}}

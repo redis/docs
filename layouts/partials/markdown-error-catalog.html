@@ -1,0 +1,47 @@
+{{- /*
+  Expand error-catalog shortcodes for Markdown/JSON output.
+
+  The HTML shortcode (layouts/shortcodes/error-catalog.html) renders lists
+  of error messages from data/errors.json. AI-facing output needs the same
+  lists as Markdown tables, or the pages that hold them lose most of their body.
+  Both pick their rows with layouts/partials/errors/rows.html.
+
+  Input: dict with:
+    - "RawContent": The Markdown content to process (already HTML-unescaped
+      by the caller, so shortcodes appear as {{< error-catalog ... >}})
+    - "Page": The current Hugo page
+
+  Output: Markdown content with error-catalog shortcodes expanded
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $raw := .RawContent -}}
+
+{{- range $match := (findRE `\{\{<\s*error-catalog\s[^>]*>\}\}` $content) -}}
+  {{- $arg := dict -}}
+  {{- range findRESubmatch `([a-z]+)="([^"]*)"` $match -}}{{- $arg = merge $arg (dict (index . 1) (index . 2)) -}}{{- end -}}
+  {{- $rows := partial "errors/rows.html" (dict
+        "module" $arg.module
+        "code" ($arg.code | default "")
+        "others" (eq $arg.others "true")
+        "raw" $raw) -}}
+  {{- $md := "" -}}
+  {{- if eq $arg.summary "true" -}}
+    {{- $md = printf "%d messages, taken from the source code. %d of them were also seen on a running server." (len $rows) (len (where $rows "verified" true)) -}}
+  {{- else -}}
+    {{- $md = "| Error message | Explanation | Returned by |\n|---|---|---|\n" -}}
+    {{- range $rows -}}
+      {{- /* A message with a backtick needs a longer code span; a pipe would end the cell. */ -}}
+      {{- $msg := replace .message "|" "\\|" -}}
+      {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
+      {{- $cmds := slice -}}
+      {{- range .commands -}}{{- $cmds = $cmds | append (printf "`%s`" .name) -}}{{- end -}}
+      {{- $explain := replace .explain "|" "\\|" -}}
+      {{- with .fix -}}{{- $explain = printf "%s [How to fix it](%s)" $explain (absURL (print . "#how-to-fix-it")) -}}{{- end -}}
+      {{- $md = printf "%s| %s | %s | %s |\n" $md $msg $explain (cond (gt (len $cmds) 0) (delimit $cmds ", ") (.scope | default "Several commands")) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $content = replace $content $match $md 1 -}}
+{{- end -}}
+
+{{- return $content -}}
