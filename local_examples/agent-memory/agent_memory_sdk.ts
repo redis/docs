@@ -55,8 +55,7 @@ async function run() {
   console.log("Store health:");
   console.dir(health, { depth: null });
 
-  const event = await agentMemory.addSessionEvent({
-    sessionId,
+  const event = await agentMemory.addSessionEvent(sessionId, {
     actorId: userId,
     role: "USER",
     content: [{
@@ -103,7 +102,7 @@ async function run() {
   console.dir(health, { depth: null });
 
   const results = await agentMemory.searchLongTermMemory({
-    text: "What dietary requirements and food preferences does the user have?",
+    query: "What dietary requirements and food preferences does the user have?",
     filter: {
       ownerId: {
         eq: userId,

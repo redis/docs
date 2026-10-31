@@ -80,6 +80,6 @@ if __name__ == "__main__":
         "Redis Agent Playbooks data-plane API",
         GROUPS,
     )
-    target = ROOT / "content/develop/ai/context-engine/agent-playbook/api-reference/openapi.json"
+    target = ROOT / "content/develop/ai/context-engine/agent-playbooks/api-reference/openapi.json"
     target.write_text(json.dumps(result, indent=2) + "\n")
     print(target.relative_to(ROOT))

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # STEP_START connect
-LENS_API="${LENS_URL%/}/v1/instances/$LENS_INSTANCE_ID"
+LENS_API="${LENS_URL%/}/iris/data/v1beta1/lens/instances/$LENS_INSTANCE_ID"
 AUTH="Authorization: Bearer $LENS_API_KEY"
 # STEP_END
 
@@ -15,7 +15,7 @@ curl --fail-with-body --silent --show-error "$LENS_API/agents" -H "$AUTH" \
 curl --fail-with-body --silent --show-error -G "$LENS_API/sessions" -H "$AUTH" \
   --data-urlencode "agentId=support-bot" \
   --data-urlencode "range=24h" \
-  --data-urlencode "outcome=failed" > sessions.json
+  --data-urlencode "outcome=FAILED" > sessions.json
 jq '{effectiveRange, nextCursor, sessions: [.items[] | {sessionId, turnCount, lastSeen}]}' sessions.json
 SESSION_ID=$(jq -er '.items[0].sessionId' sessions.json)
 # STEP_END

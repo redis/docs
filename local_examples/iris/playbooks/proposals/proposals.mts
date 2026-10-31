@@ -20,9 +20,8 @@ console.log(await playbook.getPlaybookHealth());
 // STEP_START playbook-proposal-inbox
 let inboxCursor: string | undefined;
 while (true) {
-  const page = await playbook.listProposals("inbox", "updatedAt", "desc", 50, inboxCursor);
-  if (inboxCursor === undefined) console.log("Total inbox proposals:", page.total ?? "unknown");
-  for (const item of page.proposals) console.log(item.proposalId, item.status, item.evidenceCount, item.action);
+  const page = await playbook.listProposals("INBOX", "updatedAt", "DESC", 50, inboxCursor);
+  for (const item of page.items) console.log(item.proposalId, item.state, item.evidenceCount, item.action);
   inboxCursor = page.nextCursor;
   if (inboxCursor === undefined) break;
 }
@@ -31,12 +30,12 @@ while (true) {
 // STEP_START playbook-proposal-search
 const related = await playbook.searchProposals({
   query: "Contact support about a missing refund",
-  minimumScore: 0.7,
-  actionType: "add",
-  entryType: "faq",
+  minScore: 0.7,
+  actionType: "ADD",
+  entryKind: "FAQ",
   limit: 5,
 });
-for (const match of related.matches) console.log(match.proposal.proposalId, match.score, match.proposal.action);
+for (const match of related.items) console.log(match.proposal.proposalId, match.score, match.proposal.action);
 // STEP_END
 
 // STEP_START playbook-proposal-create
@@ -54,12 +53,12 @@ const action = { add: {
 const proposal = await playbook.createProposal({
   action,
   source: {
-    type: "document",
+    kind: "document",
     reference: { documentId: "sample-refund-policy" },
   },
 });
 const proposalId = proposal.proposalId;
-console.log(proposalId, proposal.proposalRevision);
+console.log(proposalId, proposal.revision);
 // STEP_END
 
 // STEP_START playbook-proposal-evidence
@@ -70,7 +69,7 @@ const evidence = await playbook.submitProposalEvidence(proposalId, evidenceId, {
   observedAt,
   producer: { name: "docs-example", promptVersion: "refund-review-v1" },
   source: {
-    type: "document",
+    kind: "document",
     reference: { documentId: "sample-refund-policy" },
     content: { excerpt: "For refund inquiries, collect the order number and request date. Do not request full card details." },
   },
@@ -99,14 +98,14 @@ const revisedAction = { add: {
   } },
 } };
 const revised = await playbook.replaceProposal(proposalId, {
-  action: revisedAction, expectedProposalRevision: reviewed.proposalRevision,
+  action: revisedAction, expectedRevision: reviewed.revision,
 });
-console.log(revised.proposalRevision, revised.action);
+console.log(revised.revision, revised.action);
 // STEP_END
 
 // STEP_START playbook-proposal-trash
 await playbook.dismissProposal(proposalId, {
-  expectedProposalRevision: revised.proposalRevision,
+  expectedRevision: revised.revision,
 });
 await playbook.restoreProposal(proposalId);
 // To purge a trashed proposal instead of restoring it:
@@ -120,7 +119,7 @@ console.log(finalReview.action, finalReview.evidence);
 
 // STEP_START playbook-proposal-accept
 const accepted = await playbook.acceptProposal(proposalId, {
-  expectedProposalRevision: finalReview.proposalRevision,
+  expectedRevision: finalReview.revision,
 });
 if (!("versionCreated" in accepted.result)) {
   throw new Error("Review the unrecognized acceptance result before publishing");
@@ -137,9 +136,8 @@ await playbook.publishFaq(receipt.entryId, { version: receipt.version });
 // STEP_START playbook-proposal-history
 let trashCursor: string | undefined;
 while (true) {
-  const page = await playbook.listProposals("trash", "updatedAt", "desc", 50, trashCursor);
-  if (trashCursor === undefined) console.log("Total trash proposals:", page.total ?? "unknown");
-  for (const item of page.proposals) console.log(item.proposalId, item.status, item.evidenceCount, item.action);
+  const page = await playbook.listProposals("TRASH", "updatedAt", "DESC", 50, trashCursor);
+  for (const item of page.items) console.log(item.proposalId, item.state, item.evidenceCount, item.action);
   trashCursor = page.nextCursor;
   if (trashCursor === undefined) break;
 }

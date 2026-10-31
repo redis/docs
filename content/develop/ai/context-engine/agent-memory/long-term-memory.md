@@ -28,18 +28,18 @@ See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service
 
 ## Memory fields
 
-When you create a memory directly, you must supply `id`, `text`, and `ownerId`. The server sets `createdAt` and `updatedAt`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+When you create a memory directly, you must supply `memoryId`, `text`, and `ownerId`. The server sets `createdAt` and `updatedAt`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 A long-term memory record includes:
 
 | Field | Purpose |
 |:------|:--------|
-| `id` | Unique identifier for the memory. |
+| `memoryId` | Unique identifier for the memory. |
 | `text` | Memory content used for retrieval. |
 | `memoryType` | Built-in or custom memory type. |
 | `sessionId` | Session associated with the memory. |
 | `ownerId` | User or entity associated with the memory. |
-| `namespaceRef` | Optional namespace ID and its current name and path. |
+| `namespaceId` | Optional stable namespace ID. |
 | `attributes` | Custom memory fields and their values. |
 | `topics` | Topic tags used to categorize the memory. |
 | `createdAt` | Time the memory was created. |
@@ -65,9 +65,9 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
 {
-  "text": "What dietary requirements and food preferences does the user have?",
+  "query": "What dietary requirements and food preferences does the user have?",
   "filter": {
     "ownerId": {
       "eq": "$OWNER_ID"
@@ -80,7 +80,7 @@ JSON
 
 ### Filter and sort without semantic search
 
-Omit `text` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:
+Omit `query` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:
 
 {{< multitabs id="filter-only-memory-search" tab1="Python" tab2="TypeScript" tab3="curl" >}}
 
@@ -88,7 +88,7 @@ Omit `text` to retrieve records by filters without a semantic query. For example
         recent_memories = agent_memory.search_long_term_memory(request={
             "filter_": {"owner_id": {"eq": USER_ID}},
             "sort_by": "updatedAt",
-            "sort_order": "desc",
+            "sort_order": "DESC",
             "limit": 10,
         })
         show("Recent memories", recent_memories)
@@ -99,7 +99,7 @@ Omit `text` to retrieve records by filters without a semantic query. For example
 ```typescript
   const recentMemories = await agentMemory.searchLongTermMemory({
     filter: { ownerId: { eq: userId } },
-    sortBy: "updatedAt", sortOrder: "desc", limit: 10,
+    sortBy: "updatedAt", sortOrder: "DESC", limit: 10,
   });
   console.dir(recentMemories, { depth: null });
 ```
@@ -112,30 +112,30 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" \
-    '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "desc", limit: 10}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" | jq
+    '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "DESC", limit: 10}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" | jq
 ```
 
 {{< /multitabs >}}
 
 Use the client and identifiers from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). Add the Python snippet inside the `with` block and the TypeScript snippet inside `run`.
 
-`sortBy` accepts `createdAt` or `updatedAt` only when `text` is absent. `sortOrder` accepts `asc` or `desc`, defaults to `desc`, and requires `sortBy`. Semantic searches remain ranked by similarity and cannot use these sort fields. `limit` accepts 1–100 and defaults to 10. Pass `nextPageToken` as `pageToken` with the same query to continue.
+`sortBy` accepts `createdAt` or `updatedAt` only when `query` is absent. `sortOrder` accepts `ASC` or `DESC`, defaults to descending, and requires `sortBy`. Semantic searches remain ranked by similarity and cannot use these sort fields. `limit` accepts 1–100 and defaults to 50. Pass `nextCursor` as `cursor` with the same query to continue.
 
-Top-level filters use `filterOp: "all"` (AND) by default; `"any"` uses OR. To restrict a query to a user, keep the owner condition mandatory. Do not use `"any"` with separate owner and namespace conditions when both must match. These retrieval filters do not replace application access checks.
+Filter conditions use `filter.op: "ALL"` (AND) by default; `"ANY"` uses OR. To restrict a query to a user, keep the owner condition mandatory. Do not use `"ANY"` with separate owner and namespace conditions when both must match. These retrieval filters do not replace application access checks.
 
-Set `filter.unnamespaced: true` to match records with neither the older `namespace` string label nor a namespace resource. It cannot be combined with `namespace` or `namespaceRef`, and remains mandatory even with `filterOp: "any"`.
+Set `filter.unnamespaced: true` to match records with neither the older `namespace` string label nor a namespace resource. It cannot be combined with `namespaceId`, and remains mandatory even with `op: "ANY"`.
 
 [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) outputs are included in search by default. Set top-level `excludeDocumentManaged: true` to omit them. Returned `documentManaged` records cannot be overwritten through generic memory creation or PATCH requests; use the document-ingestion workflow to manage their content.
 
 For custom fields, use `filter.attributes`, keyed by the field name, with the operators described in [`AttributeFilterClause`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchLongTermMemory). Combine it with `memoryType` to select the registered custom type.
 
-For example, this search request combines the owner, type, and dietary requirement with `filterOp: "all"`. A `list` clause requires every listed value to be present:
+For example, this search request combines the owner, type, and dietary requirement with `op: "ALL"`. A `list` clause requires every listed value to be present:
 
 ```json
 {
-  "filterOp": "all",
   "filter": {
+    "op": "ALL",
     "ownerId": {"eq": "<user-id>"},
     "memoryType": {"eq": "trip_preference"},
     "attributes": {"dietary_requirements": {"list": ["vegetarian"]}}
@@ -201,8 +201,8 @@ After enabling the type, add a travel message to a new session. Run this write o
 -tab-sep-
 
 ```typescript
-  await agentMemory.addSessionEvent({
-    sessionId: "trip-preference-session", actorId: userId, role: "USER",
+  await agentMemory.addSessionEvent("trip-preference-session", {
+    actorId: userId, role: "USER",
     content: [{ text: "I am visiting Tokyo and Kyoto next month. I am vegetarian." }],
     createdAt: new Date(),
   });
@@ -215,8 +215,8 @@ curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{sessionId:"trip-preference-session",actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month. I am vegetarian."}],createdAt:$now}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" | jq
+    '{actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month. I am vegetarian."}],createdAt:$now}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/trip-preference-session/events" | jq
 ```
 
 {{< /multitabs >}}
@@ -228,7 +228,7 @@ Search for the structured memory:
 ```python
         custom_results = agent_memory.search_long_term_memory(
             request={
-                "text": "What are the requirements for the user's trip?",
+                "query": "What are the requirements for the user's trip?",
                 "filter_": {
                     "owner_id": {"eq": USER_ID},
                     "memory_type": {"eq": "trip_preference"},
@@ -243,7 +243,7 @@ Search for the structured memory:
 
 ```typescript
   const customResults = await agentMemory.searchLongTermMemory({
-    text: "What are the requirements for the user's trip?",
+    query: "What are the requirements for the user's trip?",
     filter: {
       ownerId: { eq: userId },
       memoryType: { eq: "trip_preference" },
@@ -262,9 +262,9 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
 {
-  "text": "What are the requirements for the user's trip?",
+  "query": "What are the requirements for the user's trip?",
   "filter": {
     "ownerId": {
       "eq": "$OWNER_ID"
@@ -357,7 +357,7 @@ If your application already has structured trip data, write it directly using th
 
 ```python
         direct_result = agent_memory.bulk_create_long_term_memories(memories=[{
-            "id": "trip-form-1",
+            "memory_id": "trip-form-1",
             "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
             "owner_id": USER_ID,
             "memory_type": "trip_preference",
@@ -376,7 +376,7 @@ If your application already has structured trip data, write it directly using th
 ```typescript
   const directResult = await agentMemory.bulkCreateLongTermMemories({
     memories: [{
-      id: "trip-form-1",
+      memoryId: "trip-form-1",
       text: "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
       ownerId: userId,
       memoryType: "trip_preference",
@@ -399,10 +399,10 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" <<JSON | jq
 {
   "memories": [{
-    "id": "trip-form-1",
+    "memoryId": "trip-form-1",
     "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
     "ownerId": "$OWNER_ID",
     "memoryType": "trip_preference",
@@ -456,8 +456,7 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
 -tab-sep-
 
 ```typescript
-  const sensitiveEvent = await agentMemory.addSessionEvent({
-    sessionId,
+  const sensitiveEvent = await agentMemory.addSessionEvent(sessionId, {
     actorId: userId,
     role: "USER",
     content: [{
@@ -479,9 +478,8 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" <<JSON | jq
 {
-  "sessionId": "$SESSION_ID",
   "actorId": "$OWNER_ID",
   "role": "USER",
   "content": [
@@ -503,7 +501,7 @@ Run the event write once. In the SDK files, comment out event creation and its o
 ```python
         exclusion_results = agent_memory.search_long_term_memory(
             request={
-                "text": "Where is the user staying in Tokyo?",
+                "query": "Where is the user staying in Tokyo?",
                 "filter_": {
                     "owner_id": {"eq": USER_ID},
                 },
@@ -517,7 +515,7 @@ Run the event write once. In the SDK files, comment out event creation and its o
 
 ```typescript
   const exclusionResults = await agentMemory.searchLongTermMemory({
-    text: "Where is the user staying in Tokyo?",
+    query: "Where is the user staying in Tokyo?",
     filter: {
       ownerId: { eq: userId },
     },
@@ -535,9 +533,9 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
 {
-  "text": "Where is the user staying in Tokyo?",
+  "query": "Where is the user staying in Tokyo?",
   "filter": {
     "ownerId": {
       "eq": "$OWNER_ID"

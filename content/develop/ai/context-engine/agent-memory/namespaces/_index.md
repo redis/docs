@@ -13,7 +13,7 @@ weight: 13
 
 Namespaces are optional. Use them to group memories for a project, team, or user. For example, a travel agent can keep a user's trip memories in a personal `travel` namespace.
 
-Create the namespace before writing to it. The response contains a server-generated `namespaceId`. Save this ID and use it in `namespaceRef` on session events and long-term memory writes. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
+Create the namespace before writing to it. The response contains a server-generated `namespaceId`. Save this ID and use it as `namespaceId` on session events and long-term memory writes. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
 
 ## Create a personal namespace
 
@@ -35,7 +35,6 @@ Add this code inside the `with` block. It creates a personal namespace for the u
             })
             namespace_id = created_namespace.namespace.namespace_id
             print(f'export NAMESPACE_ID="{namespace_id}"')
-        namespace_ref = {"namespace_id": namespace_id}
 ```
 
 Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `list_namespaces` with `scope="PERSONAL"` and `owner_id=USER_ID` to find it.
@@ -47,7 +46,7 @@ Start a new session with this namespace. Extracted memories inherit it:
             session_id="travel-planning-with-namespace", actor_id=USER_ID,
             role=models.MessageRole.USER,
             content=[models.Text(text="I am visiting Tokyo and Kyoto next month.")],
-            created_at=datetime.now(timezone.utc), namespace_ref=namespace_ref,
+            created_at=datetime.now(timezone.utc), namespace_id=namespace_id,
         )
 ```
 
@@ -66,7 +65,6 @@ Add this code inside `run`. It creates a personal namespace for the user's trave
     namespaceId = createdNamespace.namespace.namespaceId;
     console.log(`export NAMESPACE_ID="${namespaceId}"`);
   }
-  const namespaceRef = { namespaceId };
 ```
 
 Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `listNamespaces` with `scope: "PERSONAL"` and `ownerId: userId` to find it.
@@ -74,10 +72,10 @@ Run the file once, then run the printed `export` command in your shell before ru
 Start a new session with this namespace. Extracted memories inherit it:
 
 ```typescript
-  await agentMemory.addSessionEvent({
-    sessionId: "travel-planning-with-namespace", actorId: userId, role: "USER",
+  await agentMemory.addSessionEvent("travel-planning-with-namespace", {
+    actorId: userId, role: "USER",
     content: [{ text: "I am visiting Tokyo and Kyoto next month." }],
-    createdAt: new Date(), namespaceRef,
+    createdAt: new Date(), namespaceId,
   });
 ```
 
@@ -92,12 +90,12 @@ NAMESPACE_ID=$(curl --fail-with-body --silent --show-error \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" \
     '{name: "travel", scope: "PERSONAL", ownerId: $owner}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
 export NAMESPACE_ID
 printf '%s\n' "$NAMESPACE_ID"
 ```
 
-Continue only after the request succeeds and prints a namespace ID. Save that ID for later runs. Creating the same namespace again returns `409 Conflict`; use the existing namespace ID instead. If you lose the ID, list personal roots with `GET /v1/stores/{storeId}/namespaces?scope=PERSONAL&ownerId=<owner-id>`.
+Continue only after the request succeeds and prints a namespace ID. Save that ID for later runs. Creating the same namespace again returns `409 Conflict`; use the existing namespace ID instead. If you lose the ID, list personal roots with `GET /iris/data/v1/agent-memory/stores/{storeId}/namespaces?scope=PERSONAL&ownerId=<owner-id>`.
 
 Start a new session with this namespace:
 
@@ -106,8 +104,8 @@ curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg owner "$OWNER_ID" --arg ns "$NAMESPACE_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{sessionId:"travel-planning-with-namespace",actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month."}],createdAt:$now,namespaceRef:{namespaceId:$ns}}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" | jq
+    '{actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month."}],createdAt:$now,namespaceId:$ns}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/travel-planning-with-namespace/events" | jq
 ```
 
 {{< /multitabs >}}
@@ -135,7 +133,6 @@ Add this code inside the `with` block:
             })
             shared_namespace_id = shared_namespace.namespace.namespace_id
             print(f'export SHARED_NAMESPACE_ID="{shared_namespace_id}"')
-        shared_namespace_ref = {"namespace_id": shared_namespace_id}
 ```
 
 Run the file once, then run the printed `export` command in your shell. Later runs reuse the namespace ID.
@@ -154,7 +151,6 @@ Add this code inside `run`:
     sharedNamespaceId = sharedNamespace.namespace.namespaceId;
     console.log(`export SHARED_NAMESPACE_ID="${sharedNamespaceId}"`);
   }
-  const sharedNamespaceRef = { namespaceId: sharedNamespaceId };
 ```
 
 Run the file once, then run the printed `export` command in your shell. Later runs reuse the namespace ID.
@@ -169,7 +165,7 @@ SHARED_NAMESPACE_ID=$(curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data '{"name":"team-travel","scope":"SHARED"}' \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
 export SHARED_NAMESPACE_ID
 printf '%s\n' "$SHARED_NAMESPACE_ID"
 ```
@@ -180,7 +176,7 @@ Continue after the request succeeds and prints a namespace ID. Reuse that ID for
 
 Creating the same root again returns `409 Conflict`. If you lose the ID, list root namespaces with `scope=SHARED` and find `team-travel`.
 
-To add a conversation to this namespace, use a new session ID and set its first event's namespace reference to the shared ID. Use `namespace_ref=shared_namespace_ref` in Python, `namespaceRef: sharedNamespaceRef` in TypeScript, or `"namespaceRef": {"namespaceId": "$SHARED_NAMESPACE_ID"}` in curl. For direct long-term memory creation, set the reference on each record. Creating the namespace does not move existing memories into it.
+To add a conversation to this namespace, use a new session ID and set its first event's namespace ID to the shared ID. Use `namespace_id=shared_namespace_id` in Python, `namespaceId: sharedNamespaceId` in TypeScript, or `"namespaceId": "$SHARED_NAMESPACE_ID"` in curl. For direct long-term memory creation, set the namespace ID on each record. Creating the namespace does not move existing memories into it.
 
 ### Recall shared memories
 
@@ -190,8 +186,8 @@ After writing memories to the shared namespace, search with its namespace ID. Th
 
 ```python
         shared_results = agent_memory.search_long_term_memory(request={
-            "text": "What travel requirements has the team discussed?",
-            "filter_": {"namespace_ref": {"eq": shared_namespace_id}},
+            "query": "What travel requirements has the team discussed?",
+            "filter_": {"namespace_id": {"eq": shared_namespace_id}},
             "limit": 5,
         })
         show("Shared travel memories", shared_results)
@@ -201,8 +197,8 @@ After writing memories to the shared namespace, search with its namespace ID. Th
 
 ```typescript
   const sharedResults = await agentMemory.searchLongTermMemory({
-    text: "What travel requirements has the team discussed?",
-    filter: { namespaceRef: { eq: sharedNamespaceId } },
+    query: "What travel requirements has the team discussed?",
+    filter: { namespaceId: { eq: sharedNamespaceId } },
     limit: 5,
   });
   console.dir(sharedResults, { depth: null });
@@ -216,21 +212,21 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
-    '{text: "What travel requirements has the team discussed?", filter: {namespaceRef: {eq: $ns}}, limit: 5}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" | jq
+    '{query: "What travel requirements has the team discussed?", filter: {namespaceId: {eq: $ns}}, limit: 5}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" | jq
 ```
 
 {{< /multitabs >}}
 
-The namespace filter selects that exact namespace. To search its children too, list them and include their IDs with `filter.namespaceRef.in`.
+The namespace filter selects that exact namespace. To search its children too, list them and include their IDs with `filter.namespaceId.in`.
 
 ## Place and retrieve memories
 
-Pass `namespaceRef: {"namespaceId": "<namespace-id>"}` when you start a session. The first event fixes the session namespace. Later events cannot add or change it. Memories extracted from the session use that namespace, so use a new session ID when adding a namespace to the quickstart example.
+Pass `"namespaceId": "<namespace-id>"` on the first event when you start a session. The first event fixes the session namespace. Later events cannot add or change it. Memories extracted from the session use that namespace, so use a new session ID when adding a namespace to the quickstart example.
 
-For direct long-term memory creation, set `namespaceRef` on each record. To move existing records, use `move_long_term_memories` (Python), `moveLongTermMemories` (TypeScript), or `POST /v1/stores/{storeId}/long-term-memory/move` with their IDs and the destination `namespaceRef`. Check both `moved` and `errors` in the response before treating a batch as complete.
+For direct long-term memory creation, set `namespaceId` on each record. To move existing records, use `move_long_term_memories` (Python), `moveLongTermMemories` (TypeScript), or `POST /iris/data/v1/agent-memory/stores/{storeId}/memories/move` with their IDs and the destination `namespaceId`. Check both `moved` and `errors` in the response before treating a batch as complete.
 
-Search with `filter.namespaceRef.eq` for one namespace or `filter.namespaceRef.in` for several IDs. These filters match exact namespace IDs; they do not expand a parent into its descendants. List the children and include their IDs when you need to search several levels of a hierarchy. Keep the `ownerId` filter when recalling one user's memories.
+Search with `filter.namespaceId.eq` for one namespace or `filter.namespaceId.in` for several IDs. These filters match exact namespace IDs; they do not expand a parent into its descendants. List the children and include their IDs when you need to search several levels of a hierarchy. Keep the `ownerId` filter when recalling one user's memories.
 
 Your application must check that the current user can access each namespace before querying it. In on-prem deployments with ownership enforcement enabled, personal namespace access follows the root owner's authenticated user ID. Shared namespaces are accessible to callers with the required store permission. If a shared namespace is only for one team, enforce that rule in your application or use separate stores and grants. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
@@ -245,7 +241,7 @@ Choose a root scope when you create a namespace:
 
 Create a child with `name` and `parentId`. You can also create a hierarchy with `path`, such as `travel/japan`, and the root scope. Supply `ownerId` for a personal path. Missing path segments are created as needed. Do not combine `path` with `name` or `parentId`.
 
-To create a child, pass this request body to `create_namespace` (Python), `createNamespace` (TypeScript), or `POST /v1/stores/{storeId}/namespaces`:
+To create a child, pass this request body to `create_namespace` (Python), `createNamespace` (TypeScript), or `POST /iris/data/v1/agent-memory/stores/{storeId}/namespaces`:
 
 ```json
 {"name": "japan", "parentId": "<travel-namespace-id>"}
@@ -265,7 +261,7 @@ For runnable examples, see [Create a personal namespace]({{< relref "/develop/ai
 
 | Operation | Behavior |
 |:----------|:---------|
-| List | List roots, or pass `parentId` to list direct children. Sort by `id`, `name`, `createdAt`, or `updatedAt` with `sortBy`; `sortOrder` accepts `asc` or `desc`. Defaults are `id` and `asc`. Follow `nextPageToken` with the same filters and sort options. |
+| List | List roots, or pass `parentId` to list direct children. Sort by `id`, `name`, `createdAt`, or `updatedAt` with `sortBy`; `sortOrder` accepts `ASC` or `DESC`. Defaults are `id` and `ASC`. Follow `nextCursor` with the same filters and sort options. |
 | Get | Retrieve the current name, path, scope, and state by ID. |
 | Rename | Update `name`; continue using the same ID for placement and retrieval. |
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. You cannot unarchive a namespace. |
@@ -281,7 +277,7 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
 
 ```python
         namespaces = agent_memory.list_namespaces(
-            scope="SHARED", limit=20, sort_by="name", sort_order="asc",
+            scope="SHARED", limit=20, sort_by="name", sort_order="ASC",
         )
         show("Shared namespaces", namespaces)
 ```
@@ -294,10 +290,10 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
     "SHARED",  // scope
     undefined, // ownerId
     20,        // limit
-    undefined, // pageToken
+    undefined, // cursor
     undefined, // request options
     "name",    // sortBy
-    "asc",     // sortOrder
+    "ASC",     // sortOrder
   );
   console.dir(namespaces, { depth: null });
 ```
@@ -308,8 +304,8 @@ Use the client from the [quickstart](/content/develop/ai/context-engine/agent-me
 curl --fail-with-body --silent --show-error --get \
   --header "Authorization: Bearer $API_KEY" \
   --data-urlencode 'scope=SHARED' --data-urlencode 'limit=20' \
-  --data-urlencode 'sortBy=name' --data-urlencode 'sortOrder=asc' \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq
+  --data-urlencode 'sortBy=name' --data-urlencode 'sortOrder=ASC' \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespaces" | jq
 ```
 
 {{< /multitabs >}}
@@ -318,4 +314,4 @@ Add the Python snippet inside the `with` block and the TypeScript snippet inside
 
 ## Route and admit shared memories
 
-An explicit namespace destination must pass its admission rules. Direct creation without a namespace stays unassigned. To route an existing shared memory, omit `namespaceRef` from a move request. Personal and unassigned memories are not candidates for automatic routing. See [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md) for policy setup, examples, and per-item errors.
+An explicit namespace destination must pass its admission rules. Direct creation without a namespace stays unassigned. To route an existing shared memory, omit `namespaceId` from a move request. Personal and unassigned memories are not candidates for automatic routing. See [Namespace routing](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md) for policy setup, examples, and per-item errors.

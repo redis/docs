@@ -22,7 +22,7 @@ Ask your administrator to [create the sample Gateways and agent key](/content/op
 - A full mode Gateway exposes each Surface tool directly.
 - A search mode Gateway exposes `search_tools` and `run_tool`, plus the handle tools when compression is enabled. It needs a Gateway database and compression enabled on both the Gateway and the deployment.
 
-The Python walkthrough uses the public Gateway SDK. It needs Python 3.10 or later and no model-provider key. The optional command-line interface (CLI) needs Python 3.11 or later.
+The Python walkthrough uses the public Gateway SDK. It needs Python 3.10 or later and no model-provider key. The optional command-line interface (CLI) needs Python 3.11 or later. To connect the CLI to your deployment with a profile, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 ```bash
 python -m venv .venv

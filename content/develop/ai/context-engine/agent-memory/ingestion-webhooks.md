@@ -190,7 +190,7 @@ A document-input transform replaces its decoded text:
 | `session.append` | `actorId`, `role`, `content`, `createdAt`, and `metadata`. Session identity, owner, and placement stay fixed. |
 | `memory.create` | Editable text, type, session, owner, namespace placement, topics, and attributes. Record count, order, and IDs stay fixed. |
 
-Do not supply both `namespace` and `namespaceRef`. Transformed records must still pass authorization and validation.
+Use `namespaceId` for namespace placement. Transformed records must still pass authorization and validation.
 
 For `memory.create`, `session.builtin`, `session.custom`, and `document.chunk`, `decision: review` can decide each operation separately:
 
@@ -221,12 +221,12 @@ export HOOK_TEST_MEMORY_ID="hook-test-$(openssl rand -hex 12)"
 export HOOK_TEST_REQUEST_ID="hook-request-$(openssl rand -hex 12)"
 jq -n --arg id "$HOOK_TEST_MEMORY_ID" --arg owner "$OWNER_ID" \
   --arg key "$HOOK_TEST_REQUEST_ID" \
-  '{idempotencyKey:$key,memories:[{id:$id,ownerId:$owner,text:"[reject] synthetic webhook test"}]}' > hook-test.json
+  '{idempotencyKey:$key,memories:[{memoryId:$id,ownerId:$owner,text:"[reject] synthetic webhook test"}]}' > hook-test.json
 curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
   --header 'Content-Type: application/json' --data @hook-test.json \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" | jq
 ```
 
 With `memory.create` selected, inspect the per-record result and verify that the rejected record was not created. Use a new key for changed input; editing `hook-test.json` under the same key conflicts.
@@ -274,12 +274,13 @@ async def main():
                 event_id=os.environ["HOOK_EVENT_ID"], http_headers=headers,
             )
             print(event.model_dump_json(by_alias=True))
+            return
         cursor = None
         while True:
             page = await memory.list_ingestion_hook_statuses_async(
                 limit=20, cursor=cursor, http_headers=headers,
             )
-            for status in page.statuses:
+            for status in page.items:
                 print(status.model_dump_json(by_alias=True))
             cursor = page.next_cursor
             if not cursor:
@@ -302,11 +303,14 @@ async function main() {
   const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
   const headers: Record<string, string> = USER_TOKEN ? { "X-Iris-User-Token": USER_TOKEN } : {};
   const options = { headers };
-  if (HOOK_EVENT_ID) console.dir(await memory.getIngestionHookStatus(HOOK_EVENT_ID, options), { depth: null });
+  if (HOOK_EVENT_ID) {
+    console.dir(await memory.getIngestionHookStatus(HOOK_EVENT_ID, options), { depth: null });
+    return;
+  }
   let cursor: string | undefined;
   do {
     const page = await memory.listIngestionHookStatuses(20, cursor, options);
-    console.dir(page.statuses, { depth: null });
+    console.dir(page.items, { depth: null });
     cursor = page.nextCursor;
   } while (cursor);
 }
@@ -321,24 +325,25 @@ if [ -n "${HOOK_EVENT_ID:-}" ]; then
   curl --fail-with-body --silent --show-error \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/ingestion-hooks/events/$HOOK_EVENT_ID" | jq
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/ingestion-hook-events/$HOOK_EVENT_ID" | jq
+else
+  cursor=''
+  while :; do
+    page=$(curl --fail-with-body --silent --show-error --get \
+      --header "Authorization: Bearer $API_KEY" \
+      --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
+      --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
+      "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/ingestion-hook-events") || exit 1
+    printf '%s\n' "$page" | jq .items
+    cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
+    [ -n "$cursor" ] || break
+  done
 fi
-cursor=''
-while :; do
-  page=$(curl --fail-with-body --silent --show-error --get \
-    --header "Authorization: Bearer $API_KEY" \
-    --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/ingestion-hooks/events") || exit 1
-  printf '%s\n' "$page" | jq .statuses
-  cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
-  [ -n "$cursor" ] || break
-done
 ```
 
 {{< /multitabs >}}
 
-Lists return `statuses` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
+Lists return `items` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
 
 Private pending content expires within 24 hours or the earlier operation deadline. Compact status and write receipts remain for seven days after completion or expiry. Status omits private input, generated content, prompts, endpoint configuration, and keys.
 

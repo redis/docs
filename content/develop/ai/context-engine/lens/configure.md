@@ -17,7 +17,7 @@ Configure the Lens module of the Redis Iris software development kit (SDK) with 
 
 | Variable | `LensSettings` field | Description |
 | -------- | -------------------- | ----------- |
-| `IRIS_LENS_ENDPOINT` | `endpoint` | The Lens ingest endpoint. Setting it turns Lens on. |
+| `IRIS_LENS_ENDPOINT` | `endpoint` | The Iris host, such as `https://iris.example.com`. The SDK sends turns to `/iris/data/v1beta1/lens/v1/traces` on it. Setting it turns Lens on. |
 | `IRIS_LENS_API_KEY` | `api_key` (read from the environment only) | The ingest key, sent with every export. |
 | `IRIS_LENS_AGENT_ID` | `agent_id` | The default agent ID for this process. `lens.turn(agent_id=...)` overrides it. |
 | `IRIS_LENS_SERVICE_NAME` | `service_name` | The service name recorded on every step. |
@@ -30,7 +30,7 @@ To configure Lens in code, pass `LensSettings` to `Iris`. The key still comes fr
 from redis_iris import Iris, IrisSettings
 from redis_iris.lens import LensSettings
 
-settings = LensSettings(endpoint="<lens-ingest-endpoint>", agent_id="support-bot")
+settings = LensSettings(endpoint="<iris-host>", agent_id="support-bot")
 iris = Iris(IrisSettings(lens=settings))
 ```
 
@@ -65,8 +65,8 @@ Lens keys have one of three scopes:
 | `read` | People and tools that read turns, in the Lens user interface (UI) or with the read application programming interface (API). |
 | `full` | Both. |
 
-Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from `LENS_API_KEY`. Give each agent an ingest key and each reader a read key, so an agent's key can't read other agents' turns. Your administrator creates keys.
-<!-- TODO: link the operator guide for creating Lens keys when it exists. -->
+Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from `LENS_API_KEY`. Give each agent an ingest key and each reader a read key, so an agent's key can't read other agents' turns. On Redis Cloud, [create keys in the console](/content/operate/iris/lens/create-lens.md#create-api-keys). Self-managed, your administrator creates them.
+<!-- TODO: link the self-managed operator guide for creating Lens keys when it exists. -->
 
 ## Control content capture
 

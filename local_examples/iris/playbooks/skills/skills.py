@@ -2,10 +2,10 @@
 # HIDE_START
 import os
 
-from redis_iris.agent_playbook import AgentPlaybook, AgentPlaybookSettings
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
 
-playbook = AgentPlaybook(
-    AgentPlaybookSettings(
+playbook = AgentPlaybooks(
+    AgentPlaybooksSettings(
         url=os.environ["PLAYBOOK_URL"],
         playbook_id=os.environ["PLAYBOOK_ID"],
         api_key=os.environ["PLAYBOOK_API_KEY"],
@@ -67,10 +67,8 @@ print(response.text)
 # STEP_START playbook-skill-list
 cursor = None
 while True:
-    page = playbook.client.list_skills(sort_by="updatedAt", sort_order="desc", limit=50, cursor=cursor)
-    if cursor is None:
-        print("Total skills:", page.total if page.total is not None else "unknown")
-    for entry in page.skills:
+    page = playbook.client.list_skills(sort_by="updatedAt", sort_order="DESC", limit=50, cursor=cursor)
+    for entry in page.items:
         print(entry.entry_id, entry.latest_version, entry.publication)
     cursor = page.next_cursor
     if cursor is None:
@@ -86,7 +84,7 @@ print(entry.latest_version, entry.publication)
 cursor = None
 while True:
     page = playbook.client.list_skill_versions(skill_id=skill_id, limit=50, cursor=cursor)
-    for item in page.versions:
+    for item in page.items:
         print(item.version, item.content_digest, item.content)
     cursor = page.next_cursor
     if cursor is None:

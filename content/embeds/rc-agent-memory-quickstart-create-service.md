@@ -1,7 +1,6 @@
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).
-1. Select **Agent Memory** from the navigation menu.
-1. If Redis Cloud displays service terms, review and accept them.
-1. Select **Create custom service**.
+1. Select **Agent Memory** under **Iris** in the navigation menu.
+1. Select **Create Agent Memory service**, or **New service** if you already have a service. Then select **Customize settings**.
 1. Enter a service name, select an eligible database, and select its `default` user.
 1. Under **Memory configuration**, enter these values:
 
@@ -12,9 +11,9 @@
     | **Extraction cadence** | `1` minute | How often session events are processed for extraction. One minute is for this quickstart; use a longer production interval unless you need rapid extraction. |
 
 1. Select **Create**.
-1. Copy the Redis Agent Memory API key and store it securely.
+1. On the service's **Configuration** tab, select **Create API key** and [create a key](/content/operate/iris/agent-memory/create-service.md#connect-and-create-an-api-key) with access to the service. Copy the key and store it securely.
 
 > [!WARNING]
-> Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
+> Redis Cloud displays the API key's token only once. If you lose it, create a new key.
 
 The one-minute extraction interval makes the result easier to observe in this example. For screenshots and configuration details, see [create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).

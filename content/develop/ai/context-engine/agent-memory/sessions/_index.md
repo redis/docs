@@ -19,14 +19,14 @@ This page covers adding events, retrieving a conversation, and finding session I
 
 ## Add session events
 
-A session event represents one message from a user, assistant, or system. To add one, send `POST /v1/stores/{storeId}/session-memory/events`, or call `add_session_event` in Python or `addSessionEvent` in TypeScript.
+A session event represents one message from a user, assistant, or system. To append one, send `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions/{sessionId}/events`, which creates the session if it does not exist, or call `add_session_event` in Python or `addSessionEvent` in TypeScript. To start a session with a server-generated ID, send its first event to `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions` instead.
 
 Redis Agent Memory adds the event ID and storage timestamp. The event fields are:
 
 | Field | Who supplies it | Purpose |
 |:------|:----------------|:--------|
 | `eventId` | Server-generated. | Identifies the event. |
-| `sessionId` | Client-supplied, or server-generated when omitted. | Identifies the session that contains the event. |
+| `sessionId` | Client-supplied in the path, or server-generated when you create a session without one. | Identifies the session that contains the event. |
 | `actorId` | Required from the client. | Identifies the user, agent, or other actor that produced the event. |
 | `role` | Required from the client. | Role of the message in the conversation. |
 | `content` | Required from the client. | Message content, including its text. |
@@ -44,8 +44,8 @@ curl --fail-with-body --silent --show-error --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data "$(jq -n --arg session "$SESSION_ID" --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{sessionId:$session,actorId:$owner,role:"USER",content:[{text:"I am vegetarian."}],createdAt:$now}')" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" | jq
+    '{actorId:$owner,role:"USER",content:[{text:"I am vegetarian."}],createdAt:$now}')" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" | jq
 ```
 
 Send each new message once, using the same session ID throughout the conversation.
@@ -59,7 +59,7 @@ When the next message arrives, retrieve the session by its ID before calling the
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID" | jq
 ```
 
 The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
@@ -68,41 +68,41 @@ Your application must check that the current user can access this session before
 
 ## List sessions
 
-To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /v1/stores/{storeId}/sessions`, `list_session_summaries` in Python, or `listSessionSummaries` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
+To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions`, `list_sessions` in Python, or `listSessions` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
 
-For session IDs only, use `GET /v1/stores/{storeId}/session-memory` with an owner or namespace filter. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+Filter the list by owner or namespace. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
 
-For a user's personal conversations, set `filterOwnerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+For a user's personal conversations, set `ownerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned when you [create a namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}):
 
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?namespaceId=$NAMESPACE_ID" | jq
 ```
 
-`namespaceRef` matches the namespace ID exactly, including case. It excludes descendant namespaces, sessions with only the older `namespace` string label, and sessions without a namespace resource.
+`namespaceId` matches the namespace ID exactly, including case. It excludes descendant namespaces, sessions with only the older `namespace` string label, and sessions without a namespace resource.
 
-Add `filterOwnerId` to return sessions that match both the namespace and the owner:
+Add `ownerId` to return sessions that match both the namespace and the owner:
 
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID&filterOwnerId=$OWNER_ID" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?namespaceId=$NAMESPACE_ID&ownerId=$OWNER_ID" | jq
 ```
 
-You can also use `filterOwnerId` alone. To list all sessions, omit both filters and set `includeAll=true`:
+You can also use `ownerId` alone. To list all sessions, omit both filters and set `includeAll=true`:
 
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?includeAll=true" | jq
 ```
 
 Do not combine `includeAll=true` with either filter. A request without a filter must set `includeAll=true`.
 
-The response contains session IDs in `items` and the number of matching sessions in `total`. If the response includes `nextPageToken`, pass it as `pageToken` with the same filters to fetch the next page. See the [List Sessions API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/ListSessions) for pagination limits.
+The response contains session rows in `items` and no total count. If the response includes `nextCursor`, pass it as `cursor` with the same filters to fetch the next page. See the [List Sessions API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/ListSessions) for pagination limits.
 
 ## Configure session retention
 
@@ -175,8 +175,7 @@ Add these events to the session from the quickstart to continue the conversation
   ] as const;
 
   for (const turn of turns) {
-    await agentMemory.addSessionEvent({
-      sessionId,
+    await agentMemory.addSessionEvent(sessionId, {
       actorId: turn.actorId,
       role: turn.role,
       content: [{ text: turn.text }],
@@ -200,11 +199,11 @@ jq -cn --arg user "$OWNER_ID" '[
 ] | .[]' | while IFS= read -r turn; do
   printf '%s' "$turn" | jq --arg session "$SESSION_ID" \
     --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{sessionId:$session,actorId:.actorId,role:.role,content:[{text:.text}],createdAt:$now}' | \
+    '{actorId:.actorId,role:.role,content:[{text:.text}],createdAt:$now}' | \
     curl --fail-with-body --silent --show-error --request POST \
       --header "Authorization: Bearer $API_KEY" \
       --header 'Content-Type: application/json' --data @- \
-      "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" || exit 1
+      "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" || exit 1
 done
 ```
 
@@ -239,7 +238,7 @@ After a short wait, retrieve the session again:
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID" | jq
 ```
 
 {{< /multitabs >}}

@@ -43,8 +43,8 @@ Some IDs come from your application; others come from Redis Agent Memory:
 | Session `ownerId` | The server copies it from the first event's `actorId`. | There is no separate `ownerId` input on a session-event request. Later actors do not change the session owner. |
 | Long-term memory `ownerId` | Your application for direct creation; extraction inherits the session owner. | Use the current user's stable ID for personal memories and owner filters. |
 | `eventId` | The server. | Save it from the event response if you need to refer to that event. |
-| Long-term memory `id` | Your application for direct creation; the server during extraction. | Supply a stable record ID when creating a memory directly. |
-| `namespaceId` | The server when it creates a namespace. | Save it and use it in `namespaceRef`. Supply the user's `ownerId` when creating a personal namespace. |
+| Long-term memory `memoryId` | Your application for direct creation; the server during extraction. | Supply a stable record ID when creating a memory directly. |
+| `namespaceId` | The server when it creates a namespace. | Save it and send it as `namespaceId`. Supply the user's `ownerId` when creating a personal namespace. |
 | Event `createdAt` | Your application. | Send when the message occurred; it is a required event input. |
 | Event `systemTimestamp` | The server. | Records when the event was stored. |
 | Memory `createdAt` and `updatedAt` | The server. | Use the returned timestamps when displaying or sorting memories. |
@@ -57,13 +57,13 @@ For on-prem deployments, see [Server-side ownership enforcement](/content/operat
 
 Your application must decide which memories the user can access. Put these checks in trusted backend code before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories. Cloud store credentials also require these application checks; a Redis Cloud account user is not your application's end user.
 
-* For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `filterOwnerId`. A request from `user-42` must not be able to select `user-99` as its owner.
+* For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `ownerId`. A request from `user-42` must not be able to select `user-99` as its owner.
 * For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
 * For requests that retrieve or change a record by ID, check that the record belongs to the user or to a shared namespace they can access. These endpoints do not all accept an owner filter; a session or memory ID is not proof of permission.
 
 Use the authenticated user on every request to choose the owner filter or the permitted shared namespaces. Search filters limit results; they do not authenticate the user. For examples, see [Namespaces](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md).
 
-Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `filterOp: "any"` matches either condition; it does not require the owner to match. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
+Keep mandatory owner restrictions separate from optional search conditions. Combining an owner and another filter with `op: "ANY"` matches either condition; it does not require the owner to match. `includeAll` on a list request is also a selection option, not permission to enumerate a store.
 
 ## Build context for each agent turn
 
@@ -84,7 +84,7 @@ The following Python example prepares that context. It uses the client, `SESSION
         session = agent_memory.get_session_memory(session_id=SESSION_ID)
         memories = agent_memory.search_long_term_memory(
             request={
-                "text": question,
+                "query": question,
                 "filter_": {"owner_id": {"eq": USER_ID}},
                 "limit": 5,
             },
@@ -203,7 +203,7 @@ See [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/lo
 
 Namespaces are optional. Add them when your application needs to group conversations and memories by user, project, or team.
 
-For example, create a personal `travel` namespace and save its `namespaceId`. Use that ID in `namespaceRef` when starting a session or creating long-term memories. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
+For example, create a personal `travel` namespace and save its `namespaceId`. Use that ID as `namespaceId` when starting a session or creating long-term memories. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
 
 See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for hierarchy, placement, search filters, and management.
 

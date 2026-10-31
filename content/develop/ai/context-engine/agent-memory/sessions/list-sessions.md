@@ -13,24 +13,23 @@ aliases:
 - /develop/ai/context-engine/agent-memory/list-sessions/
 ---
 
-Use session listing to let a user reopen an earlier conversation. The session rows contain IDs and available owner, timestamp, and namespace metadata. They do not contain conversation events or summary text. Retrieve the selected session with `get_session_memory` (Python), `getSessionMemory` (TypeScript), or `GET /v1/stores/{storeId}/session-memory/{sessionId}` to build the agent's conversation context.
+Use session listing to let a user reopen an earlier conversation. The session rows contain IDs and available owner, timestamp, and namespace metadata. They do not contain conversation events or summary text. Retrieve the selected session with `get_session_memory` (Python), `getSessionMemory` (TypeScript), or `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions/{sessionId}` to build the agent's conversation context.
 
 ## Choose a listing operation
 
 | Result you need | REST endpoint | Python method | TypeScript method |
 |:----------------|:--------------|:--------------|:------------------|
-| Session IDs | `GET /v1/stores/{storeId}/session-memory` | `list_sessions` | `listSessions` |
-| Session rows with sorting | `GET /v1/stores/{storeId}/sessions` | `list_session_summaries` | `listSessionSummaries` |
+| Session rows with sorting | `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions` | `list_sessions` | `listSessions` |
 
-The second method's name refers to metadata rows, not generated conversation summaries. Both operations return `items`, `total`, and an optional `nextPageToken`.
+The operation returns `items` and an optional `nextCursor`. It does not return a total count.
 
-For a user's personal conversations, set `filterOwnerId` to the user's authenticated ID. The session owner is the first event's `actorId`. Add `namespaceRef` to require an exact namespace ID as well. It does not include descendants, deprecated namespace labels, or sessions without a namespace resource. Owner and namespace matching is case-sensitive.
+For a user's personal conversations, set `ownerId` to the user's authenticated ID. The session owner is the first event's `actorId`. Add `namespaceId` to require an exact namespace ID as well. It does not include descendants, deprecated namespace labels, or sessions without a namespace resource. Owner and namespace matching is case-sensitive.
 
 A request without filters must set `includeAll=true`. Do not combine `includeAll=true` with either filter. Authorize store-wide or shared namespace listing in your application before making the request. A filter selects records; it does not establish the caller's right to access them.
 
 ## Sort and paginate session rows
 
-The default is `sortBy=updatedAt` and `sortOrder=desc`, so recent activity appears first. `sortBy` accepts `sessionId`, `createdAt`, or `updatedAt`. When omitted, `sortOrder` is `asc` for `sessionId` and `desc` for timestamps. `limit` accepts 1–1000 and defaults to 100.
+The default is `sortBy=updatedAt` and `sortOrder=DESC`, so recent activity appears first. `sortBy` accepts `sessionId`, `createdAt`, or `updatedAt`. `sortOrder` accepts `ASC` or `DESC`. When omitted, it is ascending for `sessionId` and descending for timestamps. `limit` accepts 1–200 and defaults to 100.
 
 Install `redis-agent-memory` for Python or `@redis-iris/agent-memory` for TypeScript. Set `AGENT_MEMORY_URL`, `STORE_ID`, `API_KEY`, and `OWNER_ID` in your shell. See the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service) for connection details.
 
@@ -51,17 +50,17 @@ async def main():
         store_id=os.environ["STORE_ID"],
         api_key=os.environ["API_KEY"],
     ) as agent_memory:
-        page_token = None
+        cursor = None
         while True:
-            page = await agent_memory.list_session_summaries_async(
-                filter_owner_id=os.environ["OWNER_ID"],
-                sort_by="updatedAt", sort_order="desc",
-                limit=20, page_token=page_token,
+            page = await agent_memory.list_sessions_async(
+                owner_id=os.environ["OWNER_ID"],
+                sort_by="updatedAt", sort_order="DESC",
+                limit=20, cursor=cursor,
             )
             for session in page.items:
                 print(session.model_dump_json(by_alias=True))
-            page_token = page.next_page_token
-            if not page_token:
+            cursor = page.next_cursor
+            if not cursor:
                 break
 
 
@@ -81,20 +80,21 @@ async function main() {
   const agentMemory = new AgentMemory({
     serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
   });
-  let pageToken: string | undefined;
+  let cursor: string | undefined;
   do {
-    const page = await agentMemory.listSessionSummaries(
+    const page = await agentMemory.listSessions(
       20,          // limit
-      pageToken,   // pageToken
-      OWNER_ID,    // filterOwnerId
-      undefined,   // namespaceRef
+      cursor,      // cursor
+      OWNER_ID,    // ownerId
       undefined,   // includeAll
+      undefined,   // options
+      undefined,   // namespaceId
       "updatedAt", // sortBy
-      "desc",      // sortOrder
+      "DESC",      // sortOrder
     );
     console.dir(page.items, { depth: null });
-    pageToken = page.nextPageToken;
-  } while (pageToken);
+    cursor = page.nextCursor;
+  } while (cursor);
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
@@ -103,22 +103,22 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 -tab-sep-
 
 ```sh
-page_token=''
+cursor=''
 while :; do
   page=$(curl --fail-with-body --silent --show-error --get \
     --header "Authorization: Bearer $API_KEY" \
-    --data-urlencode "filterOwnerId=$OWNER_ID" \
-    --data-urlencode 'sortBy=updatedAt' --data-urlencode 'sortOrder=desc' \
-    --data-urlencode 'limit=20' --data-urlencode "pageToken=$page_token" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/sessions") || break
+    --data-urlencode "ownerId=$OWNER_ID" \
+    --data-urlencode 'sortBy=updatedAt' --data-urlencode 'sortOrder=DESC' \
+    --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions") || break
   printf '%s\n' "$page" | jq '.items'
-  page_token=$(printf '%s\n' "$page" | jq -r '.nextPageToken // empty')
-  [ -n "$page_token" ] || break
+  cursor=$(printf '%s\n' "$page" | jq -r '.nextCursor // empty')
+  [ -n "$cursor" ] || break
 done
 ```
 
 {{< /multitabs >}}
 
-Pass each returned `nextPageToken` as `pageToken`. Keep filters and sort options unchanged; the token is bound to them. Stop when the token is absent. The token is opaque, so URL-encode it in REST requests. Changing a filter or sort requires a new request without the old token.
+Pass each returned `nextCursor` as `cursor`. Keep filters and sort options unchanged; the cursor is bound to them. Stop when the cursor is absent. The cursor is opaque, so URL-encode it in REST requests. Changing a filter or sort requires a new request without the old cursor.
 
 Sessions stored without owner or timestamp metadata can omit `ownerId`, `createdAt`, or `updatedAt`. Handle those missing values when rendering a conversation list. A row's timestamps describe session metadata; they do not promise that background extraction or summarization has completed.

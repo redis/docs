@@ -47,7 +47,7 @@ Before you use your own key, make sure:
 
 To configure your own model provider key:
 
-1. Start the [custom service creation flow]({{< relref "/operate/iris/agent-memory/create-service" >}}).
+1. [Start creating a service]({{< relref "/operate/iris/agent-memory/create-service" >}}) and select **Customize settings**.
 
 1. In **AI model and credentials (optional)**, select **Bring my own key**.
 

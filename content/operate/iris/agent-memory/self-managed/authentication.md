@@ -24,7 +24,7 @@ grants.
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store and extractor management through the `/v1` admin API and supported `/v2/memory` routes |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store and extractor management through the `/iris/v1/agent-memory` admin API |
 | Control Plane internal token | Identity Service → Control Plane | `memory-internal-token` / `token` in the walkthrough | You provision it for both releases | Checking that the store in a grant exists. Set `controlplane.internalToken.existingSecret` on Memory and `productValidation.products.memory.credential.existingSecret` on Identity Service. |
 | Identity Service control token | Operator → Identity Service (`:9200`) | `ids-control-token` / `token` in the walkthrough | Supplied through `control.existingSecret` on Identity Service; that chart can also generate one | Creating, listing, updating, rotating and revoking agent keys |
 | Data Plane service credential | Data Plane → Identity Service | `memory-dp-credential` / `token` in the walkthrough | You provision it for both releases | Checking agent keys for `memory`. Set `identityService.credential.existingSecret` on Memory and register it in `runtime.serviceCredentials[]` on Identity Service. |
@@ -282,8 +282,8 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
 curl --fail-with-body --silent --show-error --get \
   --header "Authorization: Bearer $API_KEY" \
   --header "X-Iris-User-Token: $USER_TOKEN" \
-  --data-urlencode "filterOwnerId=$OWNER_ID" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/sessions" | jq
+  --data-urlencode "ownerId=$OWNER_ID" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions" | jq
 ```
 
 {{< /multitabs >}}
@@ -313,7 +313,7 @@ for session_id in "$OWN_SESSION_ID" "$OTHER_SESSION_ID" "$SHARED_SESSION_ID"; do
   curl --silent --show-error --output /dev/null --write-out '%{http_code}\n' \
     --header "Authorization: Bearer $API_KEY" \
     --header "X-Iris-User-Token: $USER_TOKEN" \
-    "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$session_id"
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$session_id"
 done
 ```
 
