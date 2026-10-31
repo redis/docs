@@ -6,11 +6,12 @@ aliases:
 ---
 
 
-| Class                                     | Description                                                                                  |
-|-------------------------------------------|----------------------------------------------------------------------------------------------|
-| [SearchIndex](#searchindex-api)           | Primary class to write, read, and search across data structures in Redis.                    |
-| [AsyncSearchIndex](#asyncsearchindex-api) | Async version of the SearchIndex to write, read, and search across data structures in Redis. |
-| [SearchResults](#searchresults-api)       | List of result documents returned by a query, which also reports result completeness.        |
+| Class                                     | Description                                                                                                      |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| [SearchIndex](#searchindex-api)           | Primary class to write, read, and search across data structures in Redis.                                        |
+| [AsyncSearchIndex](#asyncsearchindex-api) | Async version of the SearchIndex to write, read, and search across data structures in Redis.                     |
+| [SearchResults](#searchresults-api)       | List of result documents returned by a query, which also reports result completeness.                            |
+| [BulkResult](#bulkresult-api)             | Outcome of a bulk operation: how many documents matched, how many were processed, and whether the run completed. |
 
 <a id="searchindex-api"></a>
 
@@ -228,10 +229,11 @@ this re-queries from offset 0 each round (the same strategy as
     the run (already-deleted documents stay deleted).
 * **Returns:**
   `matched`/`processed` counts, plus `completed`
-  (False if the runaway backstop tripped) and `dry_run`. Read the
-  fields explicitly (`result.processed`, `result.completed`).
+  (False if the runaway backstop tripped, or if the run stopped on a
+  batch it could not remove) and `dry_run`. Read the fields
+  explicitly (`result.processed`, `result.completed`).
 * **Return type:**
-  BulkResult
+  [BulkResult](#bulkresult)
 
 > [!NOTE]
 > [update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
@@ -289,6 +291,14 @@ slots does not raise `CROSSSLOT`.
   Count of records deleted from Redis.
 * **Return type:**
   int
+
+> [!NOTE]
+> The returned count can be lower than the number of keys requested,
+> either because a key did not exist or, on Redis Cluster, because its
+> `UNLINK` failed — a per-key cluster failure is logged rather than
+> raised so one bad key does not abort the batch, and the count alone
+> cannot tell the two cases apart. A single key passed as a `str` is
+> not batched, so a failure there does propagate to the caller.
 
 #### `exists()`
 
@@ -605,7 +615,7 @@ search-and-indexing concepts guide).
   (always True for update — it runs to completion or raises) and
   `dry_run`.
 * **Return type:**
-  BulkResult
+  [BulkResult](#bulkresult)
 
 > [!NOTE]
 > [drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
@@ -878,7 +888,7 @@ See [drop_by_filter](#drop_by_filter) for full semantics.
   * **allow_all** (*bool*)
   * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
 * **Return type:**
-  *BulkResult*
+  [BulkResult](#bulkresult)
 
 #### `async drop_documents(ids, batch_size=500)`
 
@@ -924,6 +934,14 @@ slots does not raise `CROSSSLOT`.
   Count of records deleted from Redis.
 * **Return type:**
   int
+
+> [!NOTE]
+> The returned count can be lower than the number of keys requested,
+> either because a key did not exist or, on Redis Cluster, because its
+> `UNLINK` failed — a per-key cluster failure is logged rather than
+> raised so one bad key does not abort the batch, and the count alone
+> cannot tell the two cases apart. A single key passed as a `str` is
+> not batched, so a failure there does propagate to the caller.
 
 #### `async exists()`
 
@@ -1223,7 +1241,7 @@ See [update_by_filter](#update_by_filter) for full semantics.
   * **allow_all** (*bool*)
   * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
 * **Return type:**
-  *BulkResult*
+  [BulkResult](#bulkresult)
 
 #### `property client: Redis | RedisCluster | None`
 
@@ -1286,3 +1304,57 @@ can ignore them. Note that operations returning a new list (slicing,
 #### `property complete: bool`
 
 True when no matched documents were dropped from this result set.
+
+<a id="bulkresult-api"></a>
+
+## BulkResult
+
+### `class BulkResult(matched, processed, completed=True, dry_run=False)`
+
+Outcome of a bulk operation ([drop_by_filter](#drop_by_filter) /
+[update_by_filter](#update_by_filter)).
+
+Because bulk operations are not atomic across the match set, the result
+distinguishes how many documents matched from how many were actually
+processed, and whether the run ran to completion. Read the fields
+explicitly (`result.processed` / `result.matched` / `result.completed`).
+
+* **Parameters:**
+  * **matched** (*int*)
+  * **processed** (*int*)
+  * **completed** (*bool*)
+  * **dry_run** (*bool*)
+
+#### `matched`
+
+Documents matching the filter when the run started.
+
+* **Type:**
+  int
+
+#### `processed`
+
+Documents actually deleted/updated (for `dry_run`,
+the number that *would* be processed).
+
+* **Type:**
+  int
+
+#### `completed`
+
+False if the run stopped early — a delete hit its
+runaway backstop under heavy concurrent inserts, or a delete batch
+twice removed nothing (its keys failed to delete, or the index is
+listing documents whose keys are already gone). Re-run to finish;
+check the logged warning first, since the second case will not
+resolve itself.
+
+* **Type:**
+  bool
+
+#### `dry_run`
+
+True if this was a preview and nothing was mutated.
+
+* **Type:**
+  bool

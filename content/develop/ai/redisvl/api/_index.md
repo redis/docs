@@ -24,6 +24,7 @@ Reference documentation for the RedisVL API.
   * [SearchIndex](searchindex/#searchindex)
   * [AsyncSearchIndex](searchindex/#asyncsearchindex)
   * [SearchResults](searchindex/#searchresults)
+  * [BulkResult](searchindex/#bulkresult)
 * [Vector](vector/)
   * [Vector](vector/#id1)
 * [Query](query/)
