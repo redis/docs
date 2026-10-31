@@ -63,7 +63,7 @@ What the agent sees depends on the Gateway's [tool exposure mode](/content/devel
 Use the tools in this order:
 
 1. Search with words that a tool's name, title, or description would contain. Search matches words, not meaning.
-2. Pick a definition and read its input schema. When `truncated` is `true`, narrow the query, or raise `limit` if `returned` is below it.
+2. Pick a definition and read its input schema. When `truncated` is `true`, narrow the query. If `returned` equals `limit`, you can also raise `limit`, up to 100. If `returned` is below `limit`, the response-size cap stopped the results, so increasing `limit` will not help.
 3. Call it through `run_tool`, copying `upstreamId` and `originalName` from the definition's `_meta["com.redis.context-gateway/tool"]`. Do not construct them, and send no other members of that metadata. `run_tool` refuses extra members, such as the catalog revision.
 
 ## Connect a client

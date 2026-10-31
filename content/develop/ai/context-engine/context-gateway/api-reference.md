@@ -96,7 +96,7 @@ The Gateway adds these entries to `_meta`. Read them by key, and ignore members 
 | Key | Where | Members |
 | --- | --- | --- |
 | `com.redis.context-gateway/tool` | Each tool definition | `upstreamId`, `originalName`, and the catalog revision |
-| `com.redis.context-gateway/invocation` | Each tool result | `schemaVersion`, `traceId`, `tool`, `catalogRevision`. `cache` (`status` `hit`, `ageMs`) on a cache hit. `upstream` (`serverName`, `serverVersion`) when known. `upstreamDurationMs` when the call reached the Upstream. |
+| `com.redis.context-gateway/invocation` | Each tool result | `schemaVersion` and `traceId`. `tool` and `catalogRevision` only when an Upstream tool was resolved, not for discovery calls or unresolved targets. `cache` (`status` `hit`, `ageMs`) on a cache hit. `upstream` (`serverName`, `serverVersion`) when known. `upstreamDurationMs` when the call reached the Upstream. |
 | `com.redis.context-gateway/handle` | A handle stub | The handle and its description, without the preview and the next call |
 | `com.redis.context-gateway/failure` | A tool result with its error flag set | `schemaVersion`, `reason`, `completion`, optional `handleOutcome` for capture failures, and when the failure happened at the Upstream, `stage` and `upstreamCode` |
 
