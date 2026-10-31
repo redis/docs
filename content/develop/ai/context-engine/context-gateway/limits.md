@@ -19,20 +19,21 @@ The [API reference](/content/develop/ai/context-engine/context-gateway/api-refer
 
 | Item | Limit or default |
 | --- | --- |
-| Gateway and Upstream display name | 1 to 200 characters |
-| Upstream namespace | 1 to 63 lowercase letters and digits, with single hyphens between them |
+| Gateway and Upstream `name` | 1 to 128 characters, with visible content and no control characters or line breaks |
+| Gateway and Upstream IDs | Server-generated `gw_` and `up_` prefixes followed by 32 lowercase hexadecimal characters. Copy returned IDs rather than constructing them. |
+| Upstream namespace | 1 to 32 lowercase letters and digits, with single hyphens between them |
 | Gateway `databaseId` | 1 to 32 letters, digits, and hyphens |
 | `search_tools` query | 1 to 200 characters. `limit` 1 to 100, default 5. |
-| Result cache time to live (TTL) (`cache.ttlSeconds`) | 1 to 86400 seconds |
-| Result handle threshold | Results over 32 kibibytes (KiB) become handles when the deployment turns handles on. |
-| Largest result a handle holds | 8 mebibytes (MiB). A larger result comes back whole. |
-| Result handle lifetime | 15 minutes by default, at most 24 hours. A tool policy can set 1 to 86400 seconds. |
+| Cache time to live (TTL) (`cache.ttlSeconds`) | 1 to 86400 seconds |
+| Compression threshold | Results over 32 kibibytes (KiB) become handles when the deployment turns handles on. |
+| Largest result a handle holds | 8 mebibytes (MiB) by default. Automatic capture can fall back inline. Explicit capture returns a tool error if it cannot hold the result. |
+| Handle lifetime | 15 minutes by default, at most 24 hours. A tool policy can set 1 to 86400 seconds. |
 | Handle preview | The first 3 items or 2 KiB |
 | Context Surface data model | 1 MiB of JSON |
-| Context Surface tool results | Up to 100 records per call. A handle over a larger answer holds one page and is marked partial. |
+| Context Surface tool results | Up to 100 records per page. Eligible filter/text captures can collect multiple pages, up to 10,000 rows by default, subject to byte and time limits. Semantic/hybrid top-K results are not continued. |
 | Agent key revocation | Takes effect within the Identity Service cache lifetime, 300 seconds by default. |
 
-## Handle tool call failures
+## Tool call failures
 
 A failed call reaches the client as a JSON-RPC error or as a tool result with its error flag set. Act on the `reason`, never on the message or the text: those are written for people and can change in any release.
 
@@ -42,7 +43,7 @@ These happen before any call to an Upstream. `error.data` holds `reason` and a `
 
 | Code | `reason` | Meaning |
 | --- | --- | --- |
-| `-32602` | `unknown_tool` | The Gateway serves no tool with that name or reference. A disabled Upstream and a tool removed by a catalog change also answer this way. |
+| `-32602` | `unknown_tool` | A direct `tools/call` names a tool the Gateway does not expose. List tools again and use a returned name. |
 | `-32602` | `invalid_request` | The request is not a valid tool call. |
 | `-32603` | `gateway_unavailable` | The Gateway could not read its own records. |
 
@@ -52,7 +53,8 @@ The failure entry in `_meta["com.redis.context-gateway/failure"]` holds `reason`
 
 | `reason` | Meaning |
 | --- | --- |
-| `invalid_arguments` | The arguments do not match the tool's input schema. |
+| `unknown_tool` | A `run_tool` or `run_tool_as_handle` target is unknown or inaccessible. The call was `not_dispatched`. |
+| `invalid_arguments` | The arguments do not match the input schema of a Gateway tool or a Context Surface tool. MCP Upstream arguments pass through to the server. |
 | `upstream_unavailable` | The Gateway could not reach the Upstream. |
 | `upstream_credentials_unavailable` | The Gateway could not read the Upstream's credential from the secrets backend. |
 | `upstream_rejected_credentials` | The Upstream refused the credential the Gateway sent. |
@@ -62,51 +64,69 @@ The failure entry in `_meta["com.redis.context-gateway/failure"]` holds `reason`
 | `timeout` | The call did not finish in time. |
 | `connection_lost` | The connection to the Upstream closed during the call. |
 | `unknown_handle` | The handle expired, was released, or belongs to another caller. |
+| `handle_storage_full` | An explicit capture could not store a handle because of a memory admission limit or an out-of-memory response. Release handles, narrow the query, or increase capacity. |
+| `handle_not_created` | An explicit capture could not create a handle for another reason, such as result size, format, or policy. Inspect `handleOutcome` and the explanation. |
 | `gateway_unavailable` | A handle tool could not read the Gateway database. |
 | `embedding_unavailable` | A Context Surface semantic or hybrid search tool could not reach its embedding service. |
 
 | `completion` | Meaning | Retry |
 | --- | --- | --- |
 | `not_dispatched` | The Gateway did not send the call to the Upstream. | Safe to retry after you fix the cause. |
+| `dispatched` | The tool ran, but its result could not be stored as the requested handle. | Do not blindly repeat a tool that changes data. Check the completed operation before deciding whether another call is safe. |
 | `unknown` | The Upstream might have run the call. | Check the Upstream's state before you retry a call that changes data. |
 
-*Example set `iris_gateway_limits`, steps `gateway-error-reason` and `gateway-error-jsonrpc`, in Python (Iris) and cURL (Iris): read the reason from a failed tool result and from a JSON-RPC error.*
+Explicit capture failures include `handleOutcome` with the storage or policy outcome. Their `completion` is `dispatched` when the tool ran, or `not_dispatched` when the Gateway answered from its cache. No handle does not mean that the tool did no work.
 
-A result the cache answered carries `resultCache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. A result without it came from the Upstream.
+With the Python MCP SDK, inspect the error flag before using a result. For example, after `result = await session.call_tool(name, arguments)`:
 
-## Handle request errors
+```python
+if result.is_error:
+    metadata = result.meta or {}
+    failure = metadata.get("com.redis.context-gateway/failure", {})
+    print(failure.get("reason"), failure.get("completion"))
+else:
+    print(result.structured_content)
+```
 
-Control Plane errors are problem details. Act on the HTTP status, the problem `type`, and the `fields[]` paths, not on `detail`.
+Catch JSON-RPC failures separately. They are protocol exceptions rather than tool results. See the complete connection example in the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md).
+
+A result the cache answered carries `cache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. Its absence does not prove that an Upstream call ran: validation or authorization may have refused the call first.
+
+## Control Plane errors
+
+Control Plane errors are problem details. Act on the HTTP status, the problem `type`, and the `errors[]` entries. Each entry identifies a body member with a JSON Pointer in `pointer`, or a path/query argument with `parameter`, and explains the issue in `detail`. Do not parse human-readable details into error codes.
 
 | Status | Problem types | Action |
 | --- | --- | --- |
-| `400` | `/errors/invalid-data` | Correct the fields named in `fields[]`. |
+| `400` | `/errors/invalid-data` | Correct the members named in `errors[]`. |
 | `401` | `/errors/authentication-failed` | Check the admin token. An agent key is not accepted here. |
 | `403` | `/errors/insufficient-permissions` | Use a credential that can administer Gateways. |
 | `404` | `/errors/gateway-not-found`, `/errors/upstream-not-found` | Check identifiers. A Gateway or Upstream being deleted reads as not found. |
 | `408` | `/errors/timeout` | Read the resource before you repeat a write. |
 | `409` | See [Resolve conflicts](#resolve-conflicts). | Read the current state before you repeat the request. |
+| `412` | `/errors/revision-conflict` | Read the resource again, then retry with its current revision. |
+| `413` | `/errors/payload-too-large` | Reduce the request size before retrying. |
 | `422` | `/errors/resource-unavailable` | Updating or refreshing an Upstream found its database or credential unusable. Check the referenced database or credential. |
 | `423` | `/errors/resource-suspended` | The Gateway or its tenant is suspended. Ask your administrator to check its state. |
 | `424` | `/errors/resource-unavailable`, `/errors/database-out-of-memory` | A dependency failed, such as the Upstream or the Gateway database. |
 | `500` | `/errors/unexpected-error` | Keep the trace identifier and report persistent failures. |
 | `503` | `/errors/service-unavailable` | Check readiness and retry with bounded backoff. |
 
-<!-- TODO: Check each action against the operation descriptions in the Control Plane OpenAPI, especially 403. -->
-
 ## Resolve conflicts
 
-Updates and deletes take the resource's current `revision` as `expectedRevision`. A `409` names the conflict:
+Updates and deletes take the resource's current `revision` as `expectedRevision`. Treat revisions as opaque values. A stale revision returns `412` with `/errors/revision-conflict`. Read the resource again before retrying, rather than replaying the same write. Other state conflicts return `409`:
 
 | Problem type | Action |
 | --- | --- |
-| `/errors/revision-conflict` | Another change landed first. Read the Gateway or Upstream again, then send your change with its new `revision`. |
 | `/errors/namespace-conflict` | Another Upstream of the Gateway uses the namespace. Choose another one. |
 | `/errors/gateway-not-empty` | Delete the Gateway's Upstreams before you delete the Gateway. |
 | `/errors/catalog-publication-conflict` | The Upstream changed while its tools were discovered, so nothing was published. Refresh the catalog again. |
+| `/errors/gateway-mutation-in-progress` | Another change to the Gateway's database binding is running. Retry after it completes. |
+| `/errors/surface-mutation-in-progress` | Another change to the Surface is running. Retry after it completes. |
+| `/errors/gateway-deleting` | The Gateway is being deleted and accepts no other change. |
 
 ## Retry uncertain operations
 
-Use bounded retries for reads and for tool calls that report `not_dispatched`. A timeout on a Control Plane write does not prove the write failed. Read the Gateway or Upstream before you repeat it.
+Use bounded retries for reads and for tool calls that report `not_dispatched`. A `dispatched` explicit-capture failure means the tool already ran even though no handle was created. Do not retry a mutating tool just to obtain a handle. A timeout on a Control Plane write does not prove the write failed. Read the Gateway or Upstream before you repeat it.
 
 A delete that stopped partway leaves the Upstream marked for deletion, and reads report it as not found. Repeat the delete with the Upstream ID to finish it.

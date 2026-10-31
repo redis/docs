@@ -22,11 +22,11 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
 - **Serves one endpoint per Gateway:** An agent connects to one Gateway instead of to every MCP server it uses.
 - **Keeps credentials out of agents:** The Gateway stores each Upstream's credential in your secrets backend and sends it on every call.
 - **Turns Redis data into tools:** Optionally, a Context Surface generates tools from a data model over a Redis database.
-- **Scales to large tool sets:** In `search` mode, the agent searches for tools instead of loading every definition.
-- **Handles large and repeated results:** An optional result cache serves repeated calls, and result handles keep large results out of the agent's context.
+- **Scales to large tool sets:** In search mode, the agent searches for tools instead of loading every definition.
+- **Handles large and repeated results:** An optional cache serves repeated calls, and compression keeps large results out of the agent's context.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Gateways, Upstreams, tool exposure modes, and result handles" url="/develop/ai/context-engine/context-gateway/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Gateways, Upstreams, tool exposure modes, caching, and compression" url="/develop/ai/context-engine/context-gateway/concepts" >}}
   {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quickstart" description="List, search, and call your first tools through a Gateway" url="/develop/ai/context-engine/context-gateway/quickstart" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Connect a Gateway to OpenAI Agents SDK or LangGraph" url="/develop/ai/context-engine/context-gateway/agent-integration" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Manage Gateways" description="Register MCP servers and Context Surfaces and set tool policies" url="/develop/ai/context-engine/context-gateway/manage-gateways" >}}
@@ -60,12 +60,18 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
 Install the Redis Iris Python package, which includes the `iris` CLI:
 
 ```bash
-pip install redis-iris
+python -m pip install redis-iris==1.0.0b2
 ```
 
 With a Gateway's MCP endpoint and an agent key in your environment, list and call its tools:
 
-*Short Python example with `ContextGateway.from_env()`, `tools()`, and `call()`, and the same calls with `iris context-gateway tools list` and `tools call`.*
+```bash
+export IRIS_CONTEXT_GATEWAY_URL='<gateway-mcp-endpoint>'
+export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
+iris --json context-gateway tools list
+```
+
+Use the tool names and input schemas returned by discovery. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
 
 The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/context-gateway](https://www.npmjs.com/package/@redis-iris/context-gateway) covers MCP calls and the Control Plane API. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md) to choose a client.
 

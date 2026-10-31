@@ -15,4 +15,6 @@ Use the self-managed Control Plane API to create Gateways, register and update U
 
 [Download the OpenAPI contract]({{< relref "/operate/iris/context-gateway/self-managed/control-plane-api-reference/" >}}openapi-control-plane.json), follow the [administration examples](/content/operate/iris/context-gateway/self-managed/api-examples.md), or review [authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md).
 
+The published contract also includes the Redis Cloud database-list operation, marked `x-deployment: cloud`. That operation is not available on self-managed deployments, which use the configured database registry.
+
 Agent-key management belongs to the Identity Service. Agents call tools through each Gateway's Model Context Protocol (MCP) endpoint, described in the [MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md).
