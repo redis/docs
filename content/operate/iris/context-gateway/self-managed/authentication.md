@@ -15,20 +15,20 @@ hideListLinks: true
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | The Secret in `controlplane.adminToken` / `token` | No | Gateway and Upstream management: `/v1/gateways` |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | The Secret in `controlplane.adminToken` / `token` | No | Gateway and Upstream management: `/iris/v1/context-gateway/gateways` |
 | Control Plane internal token | Identity Service → Control Plane | The Secret in `controlplane.internalToken` / `token` | No | Checking that the Gateway in a grant exists |
 | Data Plane runtime token | Data Plane → Identity Service | The Secret in `dataplane.runtimeToken` / `token` | No | Checking agent keys for `context-gateway` |
-| Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release | Depends on the Identity Service release | Creating, listing, rotating, and revoking agent keys |
+| Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release. By default the Identity Service chart generates it (`control.autoGenerate: true`), so read it from the Secret the chart generates | Yes, by default | Creating, listing, rotating, and revoking agent keys |
 | Agent key | Agent → Data Plane (`:8083`) | None. Returned once when minted or rotated | No | Listing and calling tools on the Gateways its grants name |
 | Identity provider access token | Agent → Data Plane (`:8083`) | None. Issued by your identity provider | No | The Gateways its role or subject grants name |
 
 The admin, internal, and runtime tokens must be distinct. An agent key gets `401` from the Control Plane. No credential that an agent presents is sent to an Upstream.
 
-<!-- TODO: Confirm whether the chart can generate the three tokens at GA, as the Agent Memory chart does. -->
+The chart consumes externally created token files. Provision the admin, internal, and runtime Secrets before installing the release.
 
 ## Control Plane admin token
 
-Every Gateway and Upstream operation needs the admin token in `Authorization: Bearer <token>`. The health routes need no credential.
+The examples use the admin token in `Authorization: Bearer <token>` for Gateway and Upstream operations. Deployments that configure `controlplane.config.auth.oidc` can also authorize administrators with identity provider access tokens. The admin token remains available, and the health routes need no credential.
 
 Load the token from your Secret before you call the Control Plane:
 
@@ -65,12 +65,12 @@ Set these keys under `dataplane.config.auth.oidc`:
 | --- | --- |
 | `enabled` | `true` |
 | `issuer` | Your IdP's issuer URL. |
-| `audience` | The audience that names the Gateway API, or each Gateway's exact URL. |
+| `audience` | Exactly one API identifier for the Data Plane, such as `api://redis-iris`. Tokens audienced at a Gateway's MCP URL are also accepted. |
 | `jwks_uri` | Your IdP's JSON Web Key Set (JWKS) URL. |
 | `user_id_claim` | The claim that identifies a user. `sub` by default, `oid` for Microsoft Entra ID. |
 | `role_mappings` | Maps IdP role or group claim values to Iris roles, such as `gateway_user`. |
 
-Set `dataplane.config.oauth.public_base_url` to the Data Plane's public origin, the same value as `publicBaseURL`. The issuer and key set URLs must use HTTPS.
+`dataplane.config.oauth.public_base_url` defaults to `publicBaseURL`, the Data Plane's public origin. The issuer and key set URLs must use HTTPS.
 
 ### Grant signed-in users access
 

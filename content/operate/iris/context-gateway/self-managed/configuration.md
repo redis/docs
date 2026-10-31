@@ -26,7 +26,7 @@ The chart reads non-secret settings from Helm values and every credential from a
 | `imagePullSecrets` | Credentials for a private registry. |
 | `controlplane.config`, `dataplane.config` | Application settings for each plane. They default to `{}`, so the image's defaults apply. |
 
-*Complete example `gateway-values.yaml`, copied from the chart's `examples/kubernetes-secret.yaml` at release.*
+Start with the complete [deployment values example](/content/operate/iris/context-gateway/self-managed/deploy.md#3-create-gateway-valuesyaml), then apply the settings you need from this page.
 
 ## File references
 
@@ -54,9 +54,7 @@ The admin, internal, and runtime tokens must be distinct. Keep the admin token, 
 | --- | --- |
 | `redis` (default) | A credential Redis connection and a keyring shared by both planes. `credentialStorage.redis.keyFiles` maps each key ID to a file in the keyring, and `activeKeyId` names the key for new writes. |
 | `vault` | Separate writer and reader tokens for the Control Plane and Data Plane. |
-| `aws` | Separate Identity and Access Management (IAM) roles for each plane through workload identity. |
-
-<!-- TODO: Reconcile the chart's `credential_storage` keys with the `secrets` keys in the service README before publishing. -->
+| `aws_secrets_manager` | Separate Identity and Access Management (IAM) roles for each plane through workload identity. |
 
 ## Database registry
 
@@ -104,7 +102,7 @@ The chart renders these as `default_databases.gateway` and `default_databases.su
 
 | Value | Used when | Without it |
 | --- | --- | --- |
-| `defaultDatabases.gatewayDb` | A Gateway create sends no `databaseId`. The response returns the resolved `databaseId`, and `cache` and `compression` default to `enabled` as if you had sent it. An explicit `databaseId` always wins. | A Gateway created without `databaseId` has no database, so the cache and compression are off. |
+| `defaultDatabases.gatewayDb` | A Gateway create sends no `databaseId`. The response's `databaseBinding.databaseId` shows the resolved database, and `cache` and `compression` default to `ENABLED` as if you had sent it. An explicit `databaseId` always wins. | A Gateway created without `databaseId` has no database, so the cache and compression are off. |
 | `defaultDatabases.surfaceDb` | A Context Surface create sends no `contextSurface.databaseId`. An explicit ID always wins. | That create returns `400` on `contextSurface.databaseId`. |
 
 Redis Cloud has no defaults and always requires the database ID.
@@ -113,11 +111,17 @@ Redis Cloud has no defaults and always requires the database ID.
 
 The Gateway database should use `maxmemory-policy noeviction`, and compression also needs the JSON module. The checks differ by where they run:
 
-- At startup, the Data Plane checks the default Gateway database. With `compression.enabled: true` it fails to start when the database does not use `noeviction` or has no JSON module. Otherwise it logs a warning.
-- When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` on the `compression` field, with rule `compression_unsupported` and the reason when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `enabled`.
-- A Gateway create that omits `compression` never fails on this check. When the database cannot hold handles or cannot be reached, the Gateway is stored with `compression` set to `disabled`, and the Control Plane logs why.
+- At startup, the Data Plane checks the default Gateway database. With `compression.enabled: true` it fails to start when the database does not use `noeviction` or has no JSON module. Otherwise it logs a warning. An unreachable default Gateway database only logs a warning at startup.
+- When you turn compression on through the API, the Control Plane checks the Gateway database. The request returns `400` on the `compression` field, with an `errors[]` entry whose `pointer` is `/compression` and whose `detail` explains the problem when the database cannot hold handles, and `503` when it cannot be reached. The same check runs when an update changes `databaseId` while compression stays `ENABLED`.
+- A Gateway create that omits `compression` never fails on this check. When the database cannot hold handles or cannot be reached, the Gateway is stored with `compression` set to `DISABLED`, and the Control Plane logs why.
 
-Size the Gateway database for its TTLs. Handles and cache entries stay until their TTL ends (15 minutes for handles by default), so memory is roughly handle creates per second times the handle TTL times the average handle size, plus cache writes per second times the cache TTL times the average entry size. A stored handle takes about 0.7 of the result size. For example, 3.6 handles per second for 900 seconds at 70 KB each is about 230 MB. Keep the total under 90% of `maxmemory`. Above 90% the Gateway skips new handles and returns large results whole, and at 100% Redis refuses writes with `out_of_memory` while clients still get answers. Lower the TTLs or raise `maxmemory` when it does not fit.
+Size the Gateway database for the rate of stored results, their stored size, and their time to live (TTL). Compression ratios vary with the result, so measure stored bytes for your workload rather than assuming a fixed ratio. Account for cache entries and handles separately.
+
+The cache applies its memory share and 90% guard when the eviction policy is `noeviction` or unreported. Handles require an explicitly reported `noeviction` policy before applying their share and headroom checks. An unreported policy disables handle creation.
+
+By default, cache entries can use 40% of the Gateway database's `maxmemory` and handles can use 50%. `cache.max_memory_share` and `compression.max_memory_share` must each be positive and their sum must not exceed `0.95`, even when a feature is off. A separate database-wide guard stops new writes above 90% of `maxmemory`. These are admission limits, not Redis eviction policies. Use `maxmemory-policy noeviction` and set a finite, positive Redis `maxmemory`: when `maxmemory` is `0` (unlimited), neither the shares nor the 90% guard limits writes.
+
+When a limit is reached, the cache serves the Upstream result without storing a new entry. Automatic handle capture can return the result inline. An explicit `run_tool_as_handle` request that cannot store its result returns a tool error instead of the whole result. Release handles you no longer need, shorten TTLs, or increase database capacity. See [Tool call failures](/content/develop/ai/context-engine/context-gateway/limits.md#tool-call-failures).
 
 Do not point both defaults at the same Redis when compression is on. `noeviction` would then apply to your customer data. The Data Plane logs a warning at startup when the two defaults share an endpoint.
 
@@ -125,24 +129,47 @@ For how to size the Gateway database and the Redis versions it needs, see [Redis
 
 ## Context Surface databases
 
-A Context Surface stores only its database ID. Give each plane its own Redis user on the database, as listed in [Redis users for Surface databases](/content/operate/iris/context-gateway/self-managed/prerequisites.md#redis-users-for-surface-databases), and put each login in that plane's registry entry. To change a password, update the Secret and restart both planes.
+A Context Surface stores only its database ID. Give each plane its own Redis user on the database, as listed in [Redis users for Surface databases](/content/operate/iris/context-gateway/self-managed/prerequisites.md#redis-users-for-surface-databases). The `databaseConnections` registry is shared by both planes, so supply each plane's URL for that database ID through an overlay. Put the Control Plane's login in a `controlplane.overlays` Secret and the Data Plane's login in a `dataplane.overlays` Secret. Overlays load last and override the registry's connection settings:
 
-Semantic and hybrid search tools embed the agent's text before they search. Point the Data Plane at an OpenAI-compatible embedding service:
+```yaml
+databases:
+  clinics:
+    urls:
+      - rediss://<plane-user>:<password>@<host>:<port>
+```
+
+Reference each Secret from `controlplane.overlays` or `dataplane.overlays` with `existingSecret` and `secretKey`, as in the embedding example below. To change a password, update the Secret and restart both planes.
+
+Semantic and hybrid search tools embed the agent's text before they search. Configure an OpenAI-compatible embedding service in a mounted Data Plane overlay. Save a restricted local file named `embedding-secret.yaml`:
+
+```yaml
+context_surface:
+  embedding:
+    endpoint: https://api.openai.com/v1
+    model: text-embedding-3-small
+    api_key: <embedding-provider-api-key>
+```
+
+Omit `api_key` if your provider does not require it. Create a Secret from that file:
+
+```bash
+kubectl -n <namespace-name> create secret generic gateway-embedding --from-file=config.yaml=embedding-secret.yaml
+```
+
+Reference it in your Helm values:
 
 ```yaml
 dataplane:
-  config:
-    context_surface:
-      embedding:
-        endpoint: https://api.openai.com/v1
-        model: text-embedding-3-small
+  overlays:
+    - existingSecret: gateway-embedding
+      secretKey: config.yaml
 ```
 
-<!-- TODO: Confirm how the chart supplies the embedding API key to the Data Plane. -->
+Keep the real key out of `gateway-values.yaml` and source control. The overlay contains application settings under `context_surface`, without a Helm `dataplane.config` wrapper.
 
 Without an embedding service, every other tool still works, and semantic or hybrid search calls fail with `embedding_unavailable`. The embedding client ignores proxy variables and dials the endpoint directly, and with an API key set every endpoint must use HTTPS.
 
-The Data Plane keeps at most two clients for each Surface database. One Surface database sees at most `2 × client.pool_size × Data Plane replicas` connections, so set `client.pool_size` explicitly.
+The Data Plane keeps at most two clients for each Surface database. One Surface database sees at most `2 × client.pool_size × Data Plane replicas` connections, so set `context_surface.client_pool.client.pool_size` explicitly, in a Data Plane overlay like the embedding one.
 
 ## Cache and compression
 
@@ -160,15 +187,43 @@ dataplane:
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `cache.max_entry_bytes` | `262144` | The largest result the cache stores. |
+| `cache.max_entry_bytes` | `262144` | The largest result the cache stores, in bytes. |
+| `cache.max_memory_share` | `0.4` | Fraction of Gateway database `maxmemory` available to cache entries. |
+| `compression.max_memory_share` | `0.5` | Fraction of Gateway database `maxmemory` available to handles. |
 | `compression.ttl` | `15m` | How long a handle lives. At most `24h`. A tool policy can override it. |
 | `compression.inline_max_bytes` | `32768` | Results above this size become handles. |
-| `compression.max_capture_bytes` | `8388608` | Results above this size come back whole. |
-| `compression.preview_items`, `preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
+| `compression.max_capture_bytes` | `8388608` | Maximum captured result size in bytes. Automatic capture can return oversized results inline. Explicit capture fails if no handle can be stored. |
+| `compression.preview_items`, `compression.preview_bytes` | `3`, `2048` | The size of a handle stub's preview. |
+| `compression.max_surface_items` | `10000` | Maximum records collected for a Surface handle. |
+| `compression.max_paged_capture_bytes_in_flight` | `67108864` | Per-process byte budget for Surface pages being collected across captures. |
+| `compression.max_concurrent_paged_captures` | `4` | Maximum captures collecting Surface continuation pages at once per process. |
+| `compression.paged_capture_wait` | `2s` | Maximum wait for a paging slot. |
+| `compression.paged_capture_time_budget` | `2s` | Total paging budget, including the wait for a slot. The request deadline can shorten it. |
 
 These settings turn each feature on for the deployment. Each Gateway then has its own `cache` and `compression` settings, and a feature serves a Gateway only when both the deployment and the Gateway turn it on. Both need the Gateway to have a database, from its `databaseId` or from [the default Gateway database](#default-databases).
 
 The cache still needs a policy for each tool. Compression applies to every eligible result on a Gateway that has it on, unless a tool's policy opts out. See [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
+
+Surface filter and text queries can collect continuation pages into a handle. Capture stops at the row, byte, time, or concurrency limit and returns a partial handle when it has a storable partial result. Read its warning before treating its count as the complete query count. Semantic and hybrid top-K queries are not continued. See [Compression](/content/develop/ai/context-engine/context-gateway/concepts.md#compression).
+
+## Bound Data Plane memory
+
+Set `dataplane.resources.limits.memory` for each pod. At startup, `dataplane.config.memory_limit_ratio` sets the Go runtime's soft memory limit to that fraction of the container limit. The default is `0.7`. An explicit `GOMEMLIMIT` environment value takes precedence. Without a container memory limit, the automatic setting does not apply. This soft limit leaves room for memory outside the Go heap and does not replace the container limit.
+
+## Cache metadata resolutions
+
+The metadata resolution cache is off by default. Enable it only after every Control Plane instance supports invalidating Gateway resolutions after Upstream mutation attempts. Roll out all writers first. Credentials and caller permissions are still checked on every invocation.
+
+```yaml
+dataplane:
+  config:
+    metadata_cache:
+      resolution:
+        enabled: true
+        max_age: 30s
+```
+
+`max_age` defaults to `30s` and must be positive. It bounds stale resolutions when invalidation fails. Keep this configuration under `dataplane.config`, not `shared.config`.
 
 ## Trust a private CA
 

@@ -13,7 +13,7 @@ hideListLinks: true
 
 ## Check service health
 
-Both planes serve `/health/liveness` and `/health/readiness` without a credential. Readiness answers `503` while a token source cannot be read or is empty, or the license is not valid. The response does not name the failed check, so read the plane's logs.
+Both planes serve `/health/liveness` and `/health/readiness` without a credential. The Control Plane's readiness answers `503` while the admin or internal token cannot be read or is empty, or the license is not valid. The Data Plane's readiness does not check its token or the license. An invalid license stops either plane at startup. The response does not name the failed check, so read the plane's logs.
 
 With the ports forwarded as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health):
 
@@ -22,7 +22,9 @@ curl -sS http://localhost:9100/health/readiness
 curl -sS http://localhost:8083/health/readiness
 ```
 
-`iris context-gateway health` probes both planes, and `iris context-gateway service diagnose <gateway-id>` reports a Gateway's setup, including Upstreams with empty catalogs.
+The public service probes are also available at `/iris/v1/context-gateway/health/live` and `/ready` on the Control Plane, and `/iris/data/v1/context-gateway/health/live` and `/ready` on the Data Plane. They require no credential. The operational `/health/*` probes remain available.
+
+`iris context-gateway health` probes the Control Plane, and probes the Data Plane only when given `--url` or a Gateway ID. `iris context-gateway service diagnose <gateway-id>` reports a Gateway's setup, including Upstreams with empty catalogs.
 
 ## Rotate credentials
 
@@ -46,12 +48,12 @@ The keyring is loaded at startup, so each step needs a rollout of both planes:
 
 ## Monitor the cache
 
-A cache hit carries `cache` in the call's invocation metadata. Every other outcome shows only in metrics and traces. `context_gateway_cache_lookups_total` counts lookups by `outcome` (`hit`, `miss`, `bypass`, `error`) and `reason`:
+A cache hit carries `cache` in the call's invocation metadata. Every other outcome shows only in metrics and traces. `iris_context_gateway_cache_lookups_total` counts lookups by `outcome` (`hit`, `miss`, `bypass`, `error`) and `reason`:
 
 | Bypass `reason` | What to check |
 | --- | --- |
 | `not_opted_in` | The tool has no cache policy. |
-| `disabled` | The Gateway's `cache` setting is `disabled`. |
+| `disabled` | The Gateway's `cache` setting is `DISABLED`. |
 | `no_database` | The Gateway has no `databaseId`. |
 | `unknown_database` | The Gateway's database is not registered on the Data Plane. Declare it on both planes. |
 | `vetoed_by_annotation` | The tool's definition says it is not read-only, or that it is destructive. |
@@ -65,13 +67,16 @@ A cache hit carries `cache` in the call's invocation metadata. Every other outco
 | `lookup_failed` | The Gateway database is down, unreachable, or refuses the Data Plane's user. |
 | `unusable_entry` | The entry was written by a newer release. The call's own write replaces it. |
 
-A call whose lookup fails is served from the Upstream.
+A call whose lookup fails is served from the Upstream. Monitor `iris_context_gateway_cache_writes_total` for `skipped_low_memory`, `out_of_memory`, and `failed`. Cache write failures do not turn a successful tool result into a failed call. Repeated failures need a database capacity or connectivity investigation.
 
 ## Watch the Gateway database
 
-When compression is on, alert on `context_gateway_compression_creates_total{outcome="out_of_memory"}`. It means the Gateway database refused a handle write and the agent received the whole result. Raise `maxmemory`, shorten the handle lifetime, or move handles to a dedicated database.
+When compression is on, alert on `iris_context_gateway_compression_creates_total{outcome="out_of_memory"}` and monitor `skipped_low_memory`. These outcomes mean that a handle could not be stored. Automatic capture can return the result inline, but an explicit `run_tool_as_handle` request returns a tool error when it cannot hold the result. Raise `maxmemory`, shorten the handle lifetime, release unneeded handles, or move result storage to a dedicated database.
 
-Above 90 percent of `maxmemory`, the Data Plane pauses handle creation and counts `skipped_low_memory`. Creation resumes when the database has room. The Data Plane also stops holding handles when the database's eviction policy is not `noeviction` or JSON is unavailable.
+The cache and handles have separate memory shares, in addition to the database-wide 90% guard. A feature can reach its share before the database reaches that guard. Creation resumes when there is room. Handle creation also requires `noeviction` and JSON support. See [Gateway database requirements](/content/operate/iris/context-gateway/self-managed/configuration.md#gateway-database-requirements).
+
+A partial Surface handle can also mean that paging reached a row, byte, time, or concurrency limit. Check its warning before increasing limits. The stored count describes only the captured records.
+
 
 ## Update configuration and license Secrets
 
@@ -89,7 +94,9 @@ Upgrade both planes together and roll forward, not back. An older Data Plane can
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
-Gateways stored before the per-Gateway `cache` and `compression` settings read as `enabled` when they have a `databaseId` and `disabled` otherwise, so their behavior does not change. Scripts that remove or add a Gateway's `databaseId`, or set `cache` tool policies, may need the changes in [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
+Update API clients to the unified `/iris/v1/context-gateway` routes and uppercase API values such as `ENABLED`, `DISABLED`, `FULL`, and `SEARCH`. Tool names use `namespace__tool`, and namespaces are limited to 32 characters. Use discovered tool names unchanged.
+
+Update dashboards and alerts to the `iris_context_gateway_*` metrics. The previous metric names have no aliases. Review database updates and tool policies in [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
 
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \

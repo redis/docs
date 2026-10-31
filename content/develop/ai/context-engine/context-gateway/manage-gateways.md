@@ -11,119 +11,212 @@ title: Manage Gateways and Upstreams
 weight: 20
 ---
 
-Use the Control Plane to create Gateways, register their Upstreams, and decide how each tool behaves. Agents see a change on their next request. To serve Redis records as tools, see [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md).
+Use the Control Plane to create Gateways, register Upstreams, and set tool policies. To serve Redis records as tools, see [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md).
 
 ## Before you begin
 
-These tasks need the Control Plane URL and the admin token, which a platform team holds. See [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md). The admin token manages every Gateway in the deployment, so keep it out of agent and application configuration.
+These self-managed examples use Bash, cURL, and jq. Get the Control Plane URL and admin token from your platform team. The admin token manages every Gateway in the deployment. Keep it out of agent and application configuration. See [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md).
 
-Export these values in the shell where you run the examples:
+Export the values and define a helper in the shell where you run the examples:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_SERVICE_URL='<control-plane-url>'
 export IRIS_CONTEXT_GATEWAY_SERVICE_TOKEN='<admin-token>'
+export GATEWAY_API="$IRIS_CONTEXT_GATEWAY_SERVICE_URL/iris/v1/context-gateway"
+umask 077
+
+gateway_api() {
+  local method="$1" path="$2"
+  shift 2
+  curl --fail-with-body --silent --show-error \
+    -X "$method" "$GATEWAY_API$path" \
+    -H "Authorization: Bearer $IRIS_CONTEXT_GATEWAY_SERVICE_TOKEN" \
+    -H 'Content-Type: application/json' "$@"
+}
 ```
 
-The examples use Python (`ContextGateway.from_env().service`), cURL, and the `iris context-gateway` command-line interface (CLI), which all read these variables. Follow one tab throughout the page. To choose a client, see the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md#choose-a-client).
+The [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md#choose-a-client) describes the Python and TypeScript SDKs and the command-line interface (CLI). API enum values are case-sensitive: use `FULL` or `SEARCH`, and `ENABLED` or `DISABLED` in JSON. CLI flags can accept lowercase values.
 
 ## Create a Gateway
 
-Create a Gateway and save its `id` and `mcpEndpoint`. The Gateway serves Model Context Protocol (MCP) at that endpoint immediately.
+Create a Gateway and save its `gatewayId` and `mcpEndpoint`:
 
-*Example set `iris_gateway_manage`, step `gateway-create`, in Python (Iris), cURL (Iris), and CLI (Iris).*
+```bash
+gateway_api POST /gateways \
+  --data '{"name":"Support","toolExposureMode":"FULL","cache":"DISABLED","compression":"DISABLED"}' \
+  > gateway.json
+export GATEWAY_ID="$(jq -er '.gatewayId' gateway.json)"
+jq '{gatewayId, mcpEndpoint, revision}' gateway.json
+```
 
-To use the cache or compression, select a Gateway database with the optional `databaseId`. Your administrator names the available databases. A Gateway that ends up with a database has `cache` and `compression` enabled unless you send them as `disabled`. Sending `enabled` returns `400` when the Gateway would have no database, that is, when you send no `databaseId` and no default applies.
+Gateway IDs start with `gw_`, and Upstream IDs start with `up_`. Copy the returned IDs rather than constructing them.
 
-On a self-managed deployment, your administrator may set a default Gateway database. A create without `databaseId` then uses it, so `cache` and `compression` come back `enabled` unless you send `disabled`. Without a default, the Gateway has no database and both are `disabled`. On create, an explicit `"databaseId": ""` or `null` always returns `400`. Redis Cloud has no default and requires the ID. A Gateway response returns `databaseBinding` with the resolved `databaseId` and the database's `name`. The `name` is absent when the lookup fails. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
+To use cache or compression, select a Gateway database with `databaseId`. On a self-managed deployment, omitting it uses the configured default Gateway database, if there is one. Without either, both features are disabled. An explicit empty string or `null` on create returns `400`. A response exposes the resolved database through `databaseBinding`, including its name when available. See [Default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases).
 
-On a self-managed deployment, sending `"compression": "enabled"` returns `400` on the `compression` field, with rule `compression_unsupported`, when the Gateway database does not use `maxmemory-policy noeviction` or has no JSON module, and `503` when it cannot be reached. A create that omits `compression` is stored with it `disabled` instead of failing.
+When a Gateway is created with a database, cache and compression default to `ENABLED` unless explicitly disabled, subject to the compression capability check. Explicitly enabling compression requires a reachable database with JSON support and `maxmemory-policy noeviction`. An unsuitable database returns `400` with an entry in `errors[]` whose `pointer` names `/compression`. An unreachable database returns `503`. When create omits compression and the check fails, it stores compression as `DISABLED` instead. The example explicitly disables both features for a basic tool-only Gateway.
 
 ## List and inspect Gateways and Upstreams
 
-List the deployment's Gateways and a Gateway's Upstreams, and read one by ID. Every read returns the current `revision`, which updates and deletes need.
+List the first page, then read one Gateway:
 
-*Example step `gateway-list`.*
+```bash
+gateway_api GET '/gateways?limit=50' > gateways.json
+jq '.items[] | {gatewayId, name}' gateways.json
+gateway_api GET "/gateways/$GATEWAY_ID" > gateway.json
+```
+
+Lists return `items` and an optional `nextCursor`. To fetch another page, pass that opaque cursor unchanged and URL-encoded:
+
+```bash
+cursor="$(jq -r '.nextCursor // empty' gateways.json)"
+if [ -n "$cursor" ]; then
+  gateway_api GET /gateways --get \
+    --data-urlencode 'limit=50' --data-urlencode "cursor=$cursor" > gateways-next.json
+fi
+```
+
+Use `/gateways/$GATEWAY_ID/upstreams` to list an Upstream page. Read a resource again before changing it, and copy its `revision` into `expectedRevision`. A stale revision returns `412` with type `/errors/revision-conflict`. Re-read and reconcile your change before retrying. Revisions are opaque values, not counters.
 
 ## Change a Gateway
 
-Update a Gateway's `toolExposureMode` to `full` or `search`, its display name, its `databaseId`, or its `cache` and `compression` settings. Agents see a new mode on their next request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
+Change the name or tool exposure mode with `PATCH`:
 
-*Example step `gateway-update-mode`.*
+```bash
+gateway_api GET "/gateways/$GATEWAY_ID" > gateway.json
+jq '{expectedRevision: .revision, toolExposureMode: "SEARCH"}' gateway.json > update.json
+gateway_api PATCH "/gateways/$GATEWAY_ID" --data-binary @update.json > gateway.json
+```
+
+Agents see the new mode on a subsequent request. See [Tool exposure modes](/content/develop/ai/context-engine/context-gateway/concepts.md#tool-exposure-modes).
 
 ### Turn the cache and compression on or off
 
-Set `cache` or `compression` to `enabled` or `disabled` on a Gateway update. Every Gateway response returns both settings. A Gateway's setting takes effect only when the deployment also turns the feature on. See [Cache and compression](/content/operate/iris/context-gateway/self-managed/configuration.md#cache-and-compression).
+Both features need a Gateway database and the corresponding deployment setting. This example adds a database and explicitly enables both:
 
-```json
-{"revision": "<revision>", "cache": "enabled", "compression": "disabled"}
+```bash
+export GATEWAY_DATABASE_ID='<gateway-database-id>'
+gateway_api GET "/gateways/$GATEWAY_ID" > gateway.json
+jq --arg database "$GATEWAY_DATABASE_ID" \
+  '{expectedRevision: .revision, databaseId: $database, cache: "ENABLED", compression: "ENABLED"}' \
+  gateway.json > update.json
+gateway_api PATCH "/gateways/$GATEWAY_ID" --data-binary @update.json > gateway.json
 ```
 
-| Change | What to send |
+| Change | What to send with `expectedRevision` |
 | --- | --- |
-| Remove the Gateway database | `"databaseId": null` with `"cache": "disabled"` and `"compression": "disabled"` in the same request. Without them, the update returns `400`. |
-| Add a Gateway database to a Gateway that had none | `databaseId` with `"cache": "enabled"`, `"compression": "enabled"`, or both. Adding a database alone keeps both settings as they were, which is `disabled` for a Gateway created without one. |
-| Stop caching or handles for a Gateway | `"disabled"` for that setting. The Gateway stops reading and writing cache entries, or stops creating handles and removes the handle tools from `tools/list`. Stored entries and handles stay until their TTL. |
+| Detach the database | `"databaseId": null` and disable any enabled features in the same request: `"cache": "DISABLED", "compression": "DISABLED"`. |
+| Add a database to a Gateway that had none | `databaseId` and explicitly enable the features you want. Adding a database alone preserves their disabled settings. |
+| Disable a feature | `"DISABLED"` for that setting. Stored entries remain until their TTL expires. Disabling compression removes the handle tools from discovery. |
 
-*Example step `gateway-update-features`.*
+See [Cache and compression](/content/operate/iris/context-gateway/self-managed/configuration.md#cache-and-compression) for the deployment settings and memory limits.
 
 ## Register an MCP server
 
-Register an MCP server as an Upstream with a namespace, its endpoint, and its credential. Any MCP server that serves Streamable HTTP works, including third-party and in-house servers. The Gateway discovers the server's tools during registration.
+Register a Streamable HTTP Model Context Protocol (MCP) server. The endpoint must be reachable from the Gateway and allowed by its outbound policy. This example sends a bearer credential:
 
-*Example step `gateway-register-mcp`.*
+```bash
+export UPSTREAM_URL='<upstream-mcp-url>'
+export UPSTREAM_TOKEN='<upstream-bearer-token>'
+jq -n --arg endpoint "$UPSTREAM_URL" --arg token "$UPSTREAM_TOKEN" '{
+  name: "Support tools", namespace: "support", kind: "MCP",
+  mcp: {endpoint: $endpoint, transport: "streamable-http",
+        authentication: {methods: [{bearer: {value: $token}}]}}
+}' > upstream-create.json
+gateway_api POST "/gateways/$GATEWAY_ID/upstreams" \
+  --data-binary @upstream-create.json > upstream.json
+rm upstream-create.json
+export UPSTREAM_ID="$(jq -er '.upstreamId' upstream.json)"
+jq '{upstreamId, revision, initialCatalogFailure}' upstream.json
+```
 
-| Credential method | What the Gateway sends |
-| --- | --- |
-| `bearer` | `Authorization: Bearer <value>` |
-| `header` | The value in the header you name. |
+For a server that needs no credential, use `"authentication": {"methods": []}`. For a custom header, use a method such as `{"header":{"name":"X-Api-Key","value":"<upstream-key>"}}`. Credential values are write-only. Do not print or retain the temporary request file.
 
-The Control Plane writes the credential value to the secrets backend. Reads of the Upstream never return it.
+Namespaces have at most 32 characters. The Gateway exposes names such as `support__get_ticket`. Copy names from discovery instead of recreating the sanitization rules. Creating an Upstream can return `initialCatalogFailure` when initial discovery fails. Correct the cause and refresh before using its tools.
 
 ## Inspect the tool catalog
 
-List an Upstream's tools to see their qualified names and whether each one can be cached.
+Read the tools and inspect their exact original names before setting policies:
 
-*Example step `gateway-list-tools`.*
+```bash
+gateway_api GET "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID/tools" > tools.json
+jq . tools.json
+```
 
-Refresh the catalog when the Upstream's tools change. A refresh publishes a new catalog revision, and cached results from the old revision are no longer served.
+Refresh after changing the server's tools:
 
-*Example step `gateway-refresh`.*
+```bash
+gateway_api POST "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID/refresh" > upstream.json
+```
+
+A refresh publishes a new catalog revision. Results cached against the previous revision are no longer served.
 
 ## Enable or disable an Upstream
 
-Disable an Upstream to take its tools away from agents without deleting it. Its tools return when you enable it again.
+Disable an Upstream to hide its tools without deleting it. Set `enabled` to `true` to restore it:
 
-*Example step `gateway-disable`.*
+```bash
+gateway_api GET "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" > upstream.json
+jq '{expectedRevision: .revision, enabled: false}' upstream.json > update.json
+gateway_api PATCH "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" \
+  --data-binary @update.json > upstream.json
+```
 
 ## Set tool policies
 
-Set a tool's policies with `toolPolicies` on an Upstream update. The cache is opt-in for each tool. Compression applies to every eligible result while it is on for the Gateway, so a tool policy only opts a tool out or changes its handle lifetime.
+Policy keys are exact original tool names, not the exposed `namespace__tool` names. Cache is opt-in per tool. Compression applies to eligible results while enabled, unless a tool policy excludes the tool or changes its handle lifetime.
 
 | Policy | Member | Effect |
 | --- | --- | --- |
-| `cache` | `ttlSeconds`, 1 to 86400 | Caches the tool's results for that long. |
-| `compression` | `capture: never` | Always returns the tool's results whole, also from `run_tool_as_handle`. |
-| `compression` | `ttlSeconds`, 1 to 86400 | Keeps the tool's handles for that long instead of the deployment's default. |
+| `cache` | `ttlSeconds`, 1 to 86400 | Cache eligible results for this duration. |
+| `compression` | `capture: "NEVER"` | Disable capture. Ordinary calls return inline; an explicit handle request returns a tool error. |
+| `compression` | `ttlSeconds`, 1 to 86400 | Override the handle lifetime. Do not combine with `capture`. |
 
-*Example step `gateway-tool-policy`.*
+This example preserves other policies while configuring one tool. First enable cache for the Gateway and choose a cacheable tool:
 
-- Cache only tools whose data changes more slowly than the time to live (TTL). All callers with access to the Gateway share its cache entries.
-- A tool whose definition says `readOnlyHint: false` or `destructiveHint: true` is never cached.
-- A new or changed `cache` policy returns `400` while the Gateway's `cache` setting is `disabled`, including on a Gateway without a `databaseId`. A stored policy sent back unchanged is kept.
-- When you move an Upstream to a new endpoint, the response lists any policies it removed in `droppedToolPolicies`.
+```bash
+export ORIGINAL_TOOL_NAME='<original-tool-name>'
+gateway_api GET "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" > upstream.json
+jq --arg tool "$ORIGINAL_TOOL_NAME" '{
+  expectedRevision: .revision,
+  toolPolicies: ((.toolPolicies // {}) + {($tool): {cache: {ttlSeconds: 60}}})
+}' upstream.json > update.json
+gateway_api PATCH "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" \
+  --data-binary @update.json > upstream.json
+```
+
+All callers with access to a Gateway share its cache entries. A tool declaring `readOnlyHint: false` or `destructiveHint: true` is not cacheable. New or changed cache policies return `400` while the Gateway's cache is disabled. An unchanged stored policy is retained. Moving an Upstream to another endpoint can remove policies, reported in `droppedToolPolicies`.
 
 ## Rotate an Upstream credential
 
-Update the Upstream with a new credential value. If you rotate a secret in place in Vault or AWS Secrets Manager instead, refresh the catalog so that cached results stop being served.
+Send the replacement authentication configuration at the current revision:
 
-*Example step `gateway-rotate-credential`.*
+```bash
+export UPSTREAM_TOKEN='<replacement-upstream-token>'
+gateway_api GET "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" > upstream.json
+jq --arg token "$UPSTREAM_TOKEN" '{
+  expectedRevision: .revision,
+  mcp: {authentication: {methods: [{bearer: {value: $token}}]}}
+}' upstream.json > credential-update.json
+gateway_api PATCH "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" \
+  --data-binary @credential-update.json > upstream.json
+rm credential-update.json
+unset UPSTREAM_TOKEN
+```
+
+For a credential stored in an external secret backend and rotated there, refresh the catalog after rotation so cached results stop being served.
 
 ## Delete an Upstream or a Gateway
 
-Delete an Upstream at its current revision. A Gateway can be deleted only when it has no Upstreams. With the CLI, `iris context-gateway service delete <gateway-id> --cascade` deletes the Upstreams first.
+Delete each Upstream before deleting its Gateway. The CLI has no `--cascade` flag. These commands delete the selected MCP Upstream, then the Gateway if no other Upstreams remain:
 
-*Example step `gateway-delete`.*
+```bash
+gateway_api GET "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID" > upstream.json
+revision="$(jq -er '.revision | @uri' upstream.json)"
+gateway_api DELETE "/gateways/$GATEWAY_ID/upstreams/$UPSTREAM_ID?expectedRevision=$revision"
 
-A delete marks the Upstream first, then cleans up. If a delete stops after the mark, for example on a timeout, repeat it with the Upstream ID to finish.
+gateway_api GET "/gateways/$GATEWAY_ID" > gateway.json
+revision="$(jq -er '.revision | @uri' gateway.json)"
+gateway_api DELETE "/gateways/$GATEWAY_ID?expectedRevision=$revision"
+```
 
-Revoke the agent keys for a deleted Gateway. See [Operations](/content/operate/iris/context-gateway/self-managed/operations.md#rotate-credentials).
+A delete marks the Upstream before cleanup. If cleanup stops, repeat deletion by ID to finish. Revoke agent keys for a deleted Gateway. See [Operations](/content/operate/iris/context-gateway/self-managed/operations.md#rotate-credentials).
