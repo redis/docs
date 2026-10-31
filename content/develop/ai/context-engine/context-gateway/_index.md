@@ -60,12 +60,18 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
 Install the Redis Iris Python package, which includes the `iris` CLI:
 
 ```bash
-pip install redis-iris
+python -m pip install redis-iris==1.0.0b2
 ```
 
 With a Gateway's MCP endpoint and an agent key in your environment, list and call its tools:
 
-*Short Python example with `ContextGateway.from_env()`, `tools()`, and `call()`, and the same calls with `iris context-gateway tools list` and `tools call`.*
+```bash
+export IRIS_CONTEXT_GATEWAY_URL='<gateway-mcp-endpoint>'
+export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
+iris --json context-gateway tools list
+```
+
+Use the tool names and input schemas returned by discovery. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
 
 The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/context-gateway](https://www.npmjs.com/package/@redis-iris/context-gateway) covers MCP calls and the Control Plane API. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md) to choose a client.
 

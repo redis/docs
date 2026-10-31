@@ -122,5 +122,5 @@ For a disconnected installation, mirror both images to your registry, set each c
 | --- | --- |
 | `tenantId` | One tenant per release, equal to the Identity Service's single tenant ID. |
 | `publicBaseURL` | The Data Plane origin MCP clients reach. |
-| `credentialStorage.provider` | `redis`, `vault`, or `aws`. |
+| `credentialStorage.provider` | `redis`, `vault`, or `aws_secrets_manager`. |
 | `security.profile` | `standard` (default) or `fips`. |

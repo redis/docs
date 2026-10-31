@@ -26,7 +26,7 @@ Install the dependencies for your language as shown in the [quickstart](/content
 | Setting | Value |
 | --- | --- |
 | Transport | Streamable HTTP |
-| Endpoint | `<data-plane-base-url>/v1/gateways/<gateway-id>/mcp` |
+| Endpoint | `<data-plane-base-url>/iris/data/v1/context-gateway/gateways/<gateway-id>/mcp` |
 | Request header | `Authorization: Bearer <agent-key>` or `X-Api-Key: <agent-key>` |
 | Protocol versions | `2026-07-28`, `2025-11-25`, `2025-06-18`, and `2025-03-26` |
 
@@ -53,7 +53,7 @@ What the agent sees depends on the Gateway's [tool exposure mode](/content/devel
 
 ### Search mode
 
-`tools/list` returns two tools:
+`tools/list` returns these discovery tools, plus the handle tools when compression is enabled:
 
 | Tool | Input | Result |
 | --- | --- | --- |
@@ -68,9 +68,7 @@ Use the tools in this order:
 
 ## Connect a client
 
-This client connects, lists tools, and calls one in either mode.
-
-*Example set `iris_gateway_mcp_client`, step `gateway-mcp-client`, in Python (Iris) and cURL (Iris).*
+Follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md#connect-to-the-gateway) for a complete client that connects, lists tools, and calls one in either mode.
 
 ## Read handles
 
@@ -78,7 +76,7 @@ When compression is on for the Gateway, it lists these tools in both modes:
 
 | Tool | What it does |
 | --- | --- |
-| `run_tool_as_handle` | Runs one tool and holds its result whatever its size. In `full` mode it takes the tool's `name`. In `search` mode it takes a `tool` reference, as `run_tool` does. |
+| `run_tool_as_handle` | Runs one tool and requests a handle even below the automatic threshold. Returns a tool error if capture is refused. In full mode it takes the tool's `name`. In search mode it takes a `tool` reference, as `run_tool` does. |
 | `page_results` | Reads a held result in order. |
 | `query_results` | Selects from a held JSON result with a JSONPath expression. |
 | `count_results` | Counts items, selected nodes, or items for each value of one field. |
@@ -89,9 +87,9 @@ When compression is on for the Gateway, it lists these tools in both modes:
 ![A large tool result is stored in the Gateway database, automatically or through run_tool_as_handle, and the agent receives a small stub. The agent reads a page or a query from the stored result, then releases the handle.](/images/ai/context-engine/context-gateway-handles.svg)
 {width="700"}
 
-Any ordinary tool call whose result is over the handle threshold also comes back as a stub, unless the tool's policy opts out. The stub carries the handle in `_meta["com.redis.context-gateway/handle"]`, a short preview, and the next call to make. A result can still come back whole, for example when the Gateway database is low on memory, so check for the handle before you read it.
+An ordinary tool call whose result exceeds the handle threshold can also return a stub, unless the tool's policy opts out. The stub carries the handle in `_meta["com.redis.context-gateway/handle"]`, a short preview, and the next call to make. Automatic capture can still return the whole result, for example when the Gateway database is low on memory, so check for the handle before you read it. Explicit `run_tool_as_handle` calls return a tool error instead of falling back inline.
 
-*Example set `iris_gateway_handles`, steps `gateway-handle-page`, `gateway-handle-query`, `gateway-handle-count`, and `gateway-handle-release`, in Python (Iris) and cURL (Iris).*
+Follow [Read a large result through a handle](/content/develop/ai/context-engine/context-gateway/quickstart.md#4-read-a-large-result-through-a-handle) for page, count, and release calls. Use `query_results` with a `jsonpath` expression to select nodes. Always inspect `completeness` and `warning`: results can represent only part of the source, and paging a stored handle does not fetch uncaptured source records.
 
 Handles are bound to the caller. Another caller's handle, or one that expired or was released, returns a tool error with the reason `unknown_handle`.
 
@@ -103,8 +101,6 @@ A request without a credential receives `401` and a `WWW-Authenticate` header th
 
 The signed-in user still needs a grant on the Gateway. See [Identity provider sign-in](/content/operate/iris/context-gateway/self-managed/authentication.md#identity-provider-sign-in).
 
-<!-- TODO: List the MCP clients verified to complete sign-in. -->
-
 ## Troubleshoot the connection
 
 | Response | Meaning | Action |
@@ -112,7 +108,8 @@ The signed-in user still needs a grant on the Gateway. See [Identity provider si
 | `401` | No credential, or the key or token was not accepted. | Check the key, its expiry, and the header. |
 | `403` | The credential has no grant for this Gateway. | Ask your administrator for a `use` grant. |
 | `404` | No Gateway answers at this URL for your tenant. | Check the full endpoint. |
-| JSON-RPC error with `reason` `unknown_tool` | The tool name is wrong, its Upstream is disabled, or its catalog changed. | List the tools again and use a returned name or reference. |
+| JSON-RPC error with `reason` `unknown_tool` | A direct call names a tool the Gateway does not expose. | List the tools again and use a returned name. |
+| Tool error with `reason` `unknown_tool` and `completion` `not_dispatched` | A target passed through `run_tool` or `run_tool_as_handle` is unknown or inaccessible. | Discover the tools again and copy the returned identity. |
 | Tool result with its error flag set | The tool or its Upstream failed. | Read `reason` and `completion` in the failure metadata. See [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md). |
 
 Give your platform team the `traceId` from a JSON-RPC error's `data` to find the failure in their logs. With the Control Plane token, they can run `iris context-gateway service check <gateway-id>`, which checks the token, the Gateway, the Identity Service, the agent key, and one `tools/list`, in that order, and stops at the first failure. `iris context-gateway service diagnose <gateway-id>` prints a report of the Gateway's setup.

@@ -17,7 +17,7 @@ The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Cont
 
 Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
 
-The chart version that matches these guides is not published yet. Set the chart version and image tags from the approved release manifest when it becomes available.
+Set the chart version and image tags from the approved release manifest. Use a release that includes the unified Gateway API and GA hardening described in these guides.
 
 <!-- TODO: Replace with the published chart version and the global Iris release instructions at GA. -->
 
@@ -52,9 +52,9 @@ Use separately managed Redis deployments for metadata, credentials, and customer
 
 | API surface | Endpoint | Purpose |
 | --- | --- | --- |
-| Gateway MCP | `/v1/gateways/{gatewayId}/mcp` | The Streamable HTTP MCP endpoint for one Gateway. |
-| Protected resource metadata | `/.well-known/oauth-protected-resource/v1/gateways/{gatewayId}/mcp` | Names the identity provider for MCP client sign-in. |
-| Control Plane | `/v1/gateways` | Administration of Gateways and Upstreams. |
+| Gateway MCP | `/iris/data/v1/context-gateway/gateways/{gatewayId}/mcp` | The Streamable HTTP MCP endpoint for one Gateway. |
+| Protected resource metadata | `/.well-known/oauth-protected-resource/iris/data/v1/context-gateway/gateways/{gatewayId}/mcp` | Names the identity provider for MCP client sign-in. |
+| Control Plane | `/iris/v1/context-gateway/gateways` | Administration of Gateways and Upstreams. |
 | Health | `/health/liveness`, `/health/readiness` | Liveness and readiness on both planes. |
 | Identity Service | `/v1/api-keys` | Administration of agent keys. |
 

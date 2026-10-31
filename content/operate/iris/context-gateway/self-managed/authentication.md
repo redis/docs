@@ -15,7 +15,7 @@ hideListLinks: true
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | The Secret in `controlplane.adminToken` / `token` | No | Gateway and Upstream management: `/v1/gateways` |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | The Secret in `controlplane.adminToken` / `token` | No | Gateway and Upstream management: `/iris/v1/context-gateway/gateways` |
 | Control Plane internal token | Identity Service → Control Plane | The Secret in `controlplane.internalToken` / `token` | No | Checking that the Gateway in a grant exists |
 | Data Plane runtime token | Data Plane → Identity Service | The Secret in `dataplane.runtimeToken` / `token` | No | Checking agent keys for `context-gateway` |
 | Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release | Depends on the Identity Service release | Creating, listing, rotating, and revoking agent keys |
@@ -24,11 +24,11 @@ hideListLinks: true
 
 The admin, internal, and runtime tokens must be distinct. An agent key gets `401` from the Control Plane. No credential that an agent presents is sent to an Upstream.
 
-<!-- TODO: Confirm whether the chart can generate the three tokens at GA, as the Agent Memory chart does. -->
+The chart consumes externally created token files. Provision the admin, internal, and runtime Secrets before installing the release.
 
 ## Control Plane admin token
 
-Every Gateway and Upstream operation needs the admin token in `Authorization: Bearer <token>`. The health routes need no credential.
+The examples use the admin token in `Authorization: Bearer <token>` for Gateway and Upstream operations. Deployments that configure `controlplane.config.auth.oidc` can also authorize administrators with identity provider access tokens. The admin token remains available, and the health routes need no credential.
 
 Load the token from your Secret before you call the Control Plane:
 

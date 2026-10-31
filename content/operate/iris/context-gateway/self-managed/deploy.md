@@ -75,7 +75,50 @@ Create a `databaseConnections` Secret for the registered databases. See [Databas
 
 ## 3. Create `gateway-values.yaml`
 
-*Complete values file: `tenantId`, `publicBaseURL`, `identityService.baseURL`, image settings, `credentialStorage.redis.keyFiles` and `activeKeyId`, and the file references from step 2.*
+Save this file, replacing the angle-bracket placeholders with your tenant, public Data Plane origin, and approved release image tags. It uses the Secrets created in step 2 and an Identity Service release named `ids` in the same namespace.
+
+```yaml
+tenantId: <tenant-id>
+publicBaseURL: https://<gateway-host>
+identityService:
+  baseURL: http://ids-iris-identity-service:9200
+  allowInsecureTransport: true
+license:
+  existingSecret: gateway-license
+metadataDB:
+  existingSecret: gateway-metadata
+  secretKey: config.yaml
+credentialStorage:
+  provider: redis
+  redis:
+    connection:
+      existingSecret: gateway-credential-redis
+      secretKey: config.yaml
+    keyring:
+      existingSecret: gateway-keyring
+    keyFiles:
+      k1: k1
+    activeKeyId: k1
+controlplane:
+  image:
+    repository: redislabs/iris-context-gateway-control
+    tag: <control-plane-image-tag>
+  adminToken:
+    existingSecret: gateway-admin
+    secretKey: token
+  internalToken:
+    existingSecret: gateway-grant-validation
+    secretKey: token
+dataplane:
+  image:
+    repository: redislabs/iris-context-gateway-data
+    tag: <data-plane-image-tag>
+  runtimeToken:
+    existingSecret: gateway-runtime
+    secretKey: token
+```
+
+This configuration starts without cache or compression. Add [registered databases](/content/operate/iris/context-gateway/self-managed/configuration.md#database-registry) and feature settings when you need them.
 
 When `identityService.baseURL` is an in-cluster `http://` address, such as `http://ids-iris-identity-service:9200` for an Identity Service release named `ids`, also set `identityService.allowInsecureTransport: true`.
 
@@ -94,8 +137,6 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 | Both component `image.repository` and `image.tag` are set | Pods `ImagePullBackOff` | Set both to the release images. |
 {{< /table-scrollable >}}
 
-<!-- TODO: Replace each symptom with the exact error or log line from a test install. -->
-
 ## 4. Install
 
 ```bash
@@ -108,7 +149,7 @@ helm install gateway redis-ai/redis-context-gateway \
   --wait --timeout 5m
 ```
 
-<!-- TODO: Set the published chart version and confirm the repository and chart name. -->
+Use the chart version and image tags supplied for the same release. A merged server change does not by itself publish a chart or image.
 
 ## 5. Verify pods and health
 
@@ -141,32 +182,29 @@ curl -sS http://localhost:8083/health/readiness
 ## 6. Create a Gateway
 
 ```bash
-curl -sS -X POST http://localhost:9100/v1/gateways \
+umask 077
+curl --fail-with-body --silent --show-error \
+  -X POST http://localhost:9100/iris/v1/context-gateway/gateways \
   -H "Authorization: Bearer <admin-token>" \
   -H "Content-Type: application/json" \
-  -d '{"displayName": "my-gateway"}'
+  -d '{"name": "my-gateway", "toolExposureMode": "FULL"}' > gateway.json
+export GATEWAY_ID="$(jq -er '.gatewayId' gateway.json)"
+export MCP_ENDPOINT="$(jq -er '.mcpEndpoint' gateway.json)"
 ```
 
-The response carries `id` and `mcpEndpoint`.
+The response carries `gatewayId` (a `gw_`-prefixed ID) and `mcpEndpoint`. Use that ID in the grant in step 7. The advertised endpoint must be reachable from the shell that makes the MCP calls.
 
 ## 7. Mint an agent key
 
 ```bash
-curl -sS -X POST http://localhost:9200/v1/api-keys \
+jq -n --arg tenant '<tenant-id>' --arg gateway "$GATEWAY_ID" \
+  '{name:"my-agent-key",grants:[{tenant:$tenant,product:"context-gateway",resourceType:"gateway",resourceId:$gateway,actions:["use"]}]}' > agent-grant.json
+curl --fail-with-body --silent --show-error \
+  -X POST http://localhost:9200/v1/api-keys \
   -H "Authorization: Bearer <identity-service-control-token>" \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "my-agent-key",
-    "grants": [
-      {
-        "tenant": "<tenant-id>",
-        "product": "context-gateway",
-        "resourceType": "gateway",
-        "resourceId": "<gateway-id>",
-        "actions": ["use"]
-      }
-    ]
-  }'
+  --data-binary @agent-grant.json > agent-key.json
+export AGENT_KEY="$(jq -er '.token' agent-key.json)"
 ```
 
 > [!WARNING]
@@ -174,7 +212,31 @@ curl -sS -X POST http://localhost:9200/v1/api-keys \
 
 ## 8. Make one authenticated call
 
-*MCP `initialize` and `tools/list` requests with curl against `mcpEndpoint`. A new Gateway with no Upstreams lists no tools.*
+Send an initialization request to the advertised endpoint. These commands use protocol version `2025-06-18`, which the Gateway supports.
+
+```bash
+curl --fail-with-body --silent --show-error "$MCP_ENDPOINT" \
+  -H "Authorization: Bearer $AGENT_KEY" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"gateway-smoke","version":"1.0"}}}'
+
+curl --fail-with-body --silent --show-error "$MCP_ENDPOINT" \
+  -H "Authorization: Bearer $AGENT_KEY" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H 'Mcp-Protocol-Version: 2025-06-18' \
+  -d '{"jsonrpc":"2.0","method":"notifications/initialized"}'
+
+curl --fail-with-body --silent --show-error "$MCP_ENDPOINT" \
+  -H "Authorization: Bearer $AGENT_KEY" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H 'Mcp-Protocol-Version: 2025-06-18' \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
+```
+
+The Gateway is stateless, so no session ID needs to be retained between these requests. A new full-mode Gateway with no Upstreams and compression off returns an empty tool list. Save the key in your secret manager, then remove `agent-key.json`.
 
 ## Next steps
 
