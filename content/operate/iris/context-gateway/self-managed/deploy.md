@@ -34,6 +34,7 @@ Set these values on the Identity Service release so that it checks Gateway grant
 | `runtime.serviceCredentials[]` | A credential for the Data Plane with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. |
 | `productValidation.products.context-gateway.baseURL` | The Control Plane Service, for example `http://gateway-redis-context-gateway-controlplane:9100`. |
 | `productValidation.products.context-gateway.credential` | The same Secret as `controlplane.internalToken`. |
+| `productValidation.products.context-gateway.enabled` | `true` |
 | `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
 
 If the Identity Service release also serves Agent Memory or Agent Playbooks, add these entries to its existing lists.
@@ -131,9 +132,9 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 | --- | --- | --- |
 | `tenantId` equals the Identity Service's `runtime.apiKeyTenant.singleTenantID` | Pods Ready, but minting an agent key for a Gateway fails | Set both to the same tenant. |
 | `publicBaseURL` is the Data Plane origin that MCP clients reach | `mcpEndpoint` in Gateway responses points to an address clients cannot reach, and identity provider sign-in fails | Set the public origin, including `https://`. |
-| `identityService.allowInsecureTransport` is `true` for an `http://` Identity Service URL | The Data Plane cannot check agent keys | Set it, or use an `https://` URL. |
+| `identityService.allowInsecureTransport` is `true` for an `http://` Identity Service URL | Rendering fails with `HTTP Identity Service requires explicit allowInsecureTransport`. | Set it, or use an `https://` URL. |
 | The admin, internal, and runtime tokens come from three different Secrets or keys | Rendering fails, or the Identity Service cannot check keys | Create three distinct token files. |
-| `license` points to a valid license | `/health/readiness` answers `503` | Mount the license file as issued. |
+| `license` points to a valid license | The Control Plane's `/health/readiness` answers `503`, and an invalid license stops either plane at startup | Mount the license file as issued. |
 | Both component `image.repository` and `image.tag` are set | Pods `ImagePullBackOff` | Set both to the release images. |
 {{< /table-scrollable >}}
 

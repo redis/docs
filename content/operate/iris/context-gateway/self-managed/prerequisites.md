@@ -27,7 +27,7 @@ hideListLinks: true
 | Software | Purpose |
 | --- | --- |
 | Kubernetes cluster and `kubectl` | Run both planes and create Secrets in the installation namespace. |
-| [Helm 3](https://docs.helm.sh/docs/v3/intro/install/) | Install the chart. |
+| [Helm v3.10.3 or later, or Helm 4](https://docs.helm.sh/docs/v3/intro/install/) | Install the chart. |
 | Bash, curl, and jq | Run the API examples. |
 
 <!-- TODO: Confirm the supported Kubernetes versions and platforms for the launch release. -->
@@ -53,7 +53,7 @@ Use `rediss://` URLs with certificate verification. The Federal Information Proc
 
 ### Redis users for Surface databases
 
-Give each plane its own Redis user on every Surface database, and put each login in that plane's registry entry. Both users need the `@connection` commands, `PING`, `INFO`, and `MODULE LIST`.
+Give each plane its own Redis user on every Surface database, and supply each plane's login through its own overlay. See [Context Surface databases](/content/operate/iris/context-gateway/self-managed/configuration.md#context-surface-databases). Both users need the `@connection` commands, `PING`, `INFO`, and `MODULE LIST`.
 
 | Plane | Commands | Keys |
 | --- | --- | --- |
@@ -95,7 +95,7 @@ Configure the ingress for Streamable HTTP:
 
 - Pass the MCP request headers through unchanged, including `Authorization`, `X-Api-Key`, `Accept`, `Mcp-Protocol-Version`, `Mcp-Method`, and `Mcp-Name`.
 - Pass the `WWW-Authenticate` response header, which MCP clients need to start identity provider sign-in.
-- Responses can be server-sent event streams. Turn off response buffering for the Data Plane, and allow read timeouts longer than the slowest tool call.
+- Allow read timeouts longer than the slowest tool call.
 
 ## Credentials and Secrets
 

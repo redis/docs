@@ -13,7 +13,7 @@ hideListLinks: true
 
 ## Check service health
 
-Both planes serve `/health/liveness` and `/health/readiness` without a credential. Readiness answers `503` while a token source cannot be read or is empty, or the license is not valid. The response does not name the failed check, so read the plane's logs.
+Both planes serve `/health/liveness` and `/health/readiness` without a credential. The Control Plane's readiness answers `503` while the admin or internal token cannot be read or is empty, or the license is not valid. The Data Plane's readiness does not check its token or the license. An invalid license stops either plane at startup. The response does not name the failed check, so read the plane's logs.
 
 With the ports forwarded as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health):
 
@@ -24,7 +24,7 @@ curl -sS http://localhost:8083/health/readiness
 
 The public service probes are also available at `/iris/v1/context-gateway/health/live` and `/ready` on the Control Plane, and `/iris/data/v1/context-gateway/health/live` and `/ready` on the Data Plane. They require no credential. The operational `/health/*` probes remain available.
 
-`iris context-gateway health` probes both planes, and `iris context-gateway service diagnose <gateway-id>` reports a Gateway's setup, including Upstreams with empty catalogs.
+`iris context-gateway health` probes the Control Plane, and probes the Data Plane only when given `--url` or a Gateway ID. `iris context-gateway service diagnose <gateway-id>` reports a Gateway's setup, including Upstreams with empty catalogs.
 
 ## Rotate credentials
 
