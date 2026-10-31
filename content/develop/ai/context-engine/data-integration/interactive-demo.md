@@ -13,7 +13,7 @@ weight: 10
 
 Redis Data Integration (RDI) keeps Redis in sync with a relational database, so your app and its agents read from Redis instead of the source. This demo follows a food delivery app that keeps its data in PostgreSQL. You deploy the pipeline, run SQL statements against the source, and see each change reach Redis.
 
-The demo runs in your browser and doesn't connect to an RDI pipeline or a database. The configuration, job file, key names, and `redis-di status` output follow the [RDI documentation](/content/integrate/redis-data-integration/_index.md). The data and timings are illustrative. The customers, restaurants, and orders are the same sample data as the [Context Retriever interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
+The demo runs in your browser and doesn't connect to an RDI pipeline or a database. The configuration, job file, key names, and `redis-di status` output follow the [RDI documentation](/content/integrate/redis-data-integration/_index.md). The data and timings are illustrative. The customers, restaurants, and orders are the same sample data as the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
 
 {{< rdi-demo >}}
 

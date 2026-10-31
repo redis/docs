@@ -343,8 +343,8 @@
 
   function structureNote(structure) {
     return structure === "json" ?
-      "JSON keeps numbers as numbers, so a rating of 4.7 stays 4.7. Context Retriever reads JSON documents, so choose JSON if your agents use it." :
-      "Hashes store every value as a string, so a rating of 4.7 is stored as " + code('"4.7"') + ". Context Retriever reads only JSON documents.";
+      "JSON keeps numbers as numbers, so a rating of 4.7 stays 4.7." :
+      "Hashes store every value as a string, so a rating of 4.7 is stored as " + code('"4.7"') + ".";
   }
   function syncNotes(st, S, done) {
     if (!st.deployed) return ["RDI reads the tables you select and writes each row to Redis under its own key. Choose the default data structure, then deploy the pipeline.",
@@ -393,7 +393,7 @@
   function jobNotes(st, S, done, L) {
     var left = S.keys.filter(function (e) { return e.leftover; }).length;
     if (!st.jobDeployed) return ["With no job file, every table gets default keys. A job file customizes one table. This one gives customers the key " +
-      "pattern " + code("customer:{id}") + ", the key template the Context Retriever demo reads." +
+      "pattern " + code("customer:{id}") + ", the key template the Redis Iris demo reads." +
       " It also removes the email column, so email addresses never reach Redis."];
     var lastAction = st.actions[st.actions.length - 1];
     if (!done) {
@@ -418,7 +418,7 @@
     }
     if (lastAction === "flush" || st.actions.length === ACTIONS.length) {
       notes.push("Give restaurants and orders a job too, with keys like " + code("restaurant:{id}") + ", and " + (st.structure === "json" ?
-        "the documents match the keys the Context Retriever demo reads." : "with JSON as the data structure, the documents match what the Context Retriever demo reads."));
+        "the documents match the keys the Redis Iris demo reads." : "with JSON as the data structure, the documents match what the Redis Iris demo reads."));
     }
     return notes;
   }

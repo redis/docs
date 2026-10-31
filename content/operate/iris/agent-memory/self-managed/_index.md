@@ -9,7 +9,7 @@ description: Deploy, configure, secure, and operate Redis Agent Memory on a self
 linkTitle: Self-managed
 weight: 40
 hideListLinks: true
-bannerText: Redis Agent Memory self-managed is currently in private preview and subject to change. A license key is required to deploy. Contact your Redis representative or [contact sales](https://redis.io/contact/).
+bannerText: A license key is required to deploy. Contact your Redis representative or [contact sales](https://redis.io/contact/).
 bannerChildren: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/
@@ -31,8 +31,8 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The `redis-agent-memory` chart `0.8.0` deploys the Data Plane, workers, and Control Plane.
-Install the `iris-identity-service` chart `0.10.0` as a separate release first, then connect
+The `redis-agent-memory` chart `0.10.2` deploys the Data Plane, workers, and Control Plane.
+Install the `iris-identity-service` chart `0.10.2` as a separate release first, then connect
 Memory to it. Memory does not deploy Identity Service resources or include it as a subchart.
 You provide the Redis databases. Follow [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md)
 to configure both releases.
@@ -77,13 +77,13 @@ actions the key can access.
 
 | API surface | Endpoint prefix | Purpose |
 | --- | --- | --- |
-| Session memory | `/v1/stores/{storeId}/session-memory` | Ordered conversation events, session metadata, and session lifecycle operations. |
-| Long-term memory | `/v1/stores/{storeId}/long-term-memory` | Searchable facts, preferences, summaries, and custom memory records. |
-| Namespaces | `/v1/stores/{storeId}/namespaces` | Namespace resources within a store. |
-| Model Context Protocol (MCP) | `/v1/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
-| Store health | `/v1/stores/{storeId}/health` | Read-only health for store-scoped features. |
+| Session memory | `/iris/data/v1/agent-memory/stores/{storeId}/sessions` | Ordered conversation events, session metadata, and session lifecycle operations. |
+| Long-term memory | `/iris/data/v1/agent-memory/stores/{storeId}/memories` | Searchable facts, preferences, summaries, and custom memory records. |
+| Namespaces | `/iris/data/v1/agent-memory/stores/{storeId}/namespaces` | Namespace resources within a store. |
+| Model Context Protocol (MCP) | `/iris/data/v1/agent-memory/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
+| Store health | `/iris/data/v1/agent-memory/stores/{storeId}/health` | Read-only health for store-scoped features. |
 | Service health | `/health/liveness`, `/health/readiness` | Process liveness and readiness to serve requests; neither requires an agent key. |
-| Control Plane | `/v1/stores`, `/v1/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
+| Control Plane | `/iris/v1/agent-memory/stores`, `/iris/v1/agent-memory/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
 | Identity Service | `/v1/api-keys` | Self-managed administration for agent keys. |
 
 Session memory keeps conversation continuity within a session. Long-term memory
@@ -91,4 +91,4 @@ provides searchable context across sessions.
 
 Long-term memory `memoryType` is an open identifier. When omitted on create,
 Redis Agent Memory stores the record as `semantic`; built-in names include `semantic`,
-`episodic`, `message`, and `session_summary_view`.
+`episodic`, and `message`.

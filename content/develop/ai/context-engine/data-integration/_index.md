@@ -40,7 +40,7 @@ Redis Data Integration (RDI) is a pipeline service, available fully managed on R
       <li>Eliminate stale data: agents always see current business state</li>
       <li>Millisecond query performance from Redis instead of slow source DB calls</li>
       <li>No cache invalidation logic to write or maintain</li>
-      <li>Combine with Context Retriever for governed, always-fresh agent tools</li>
+      <li>Combine with Context Gateway Context Surfaces for always-fresh agent tools</li>
     </ul>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">

@@ -82,12 +82,12 @@ kubectl -n <namespace-name> create secret generic memory-dp-credential \
 RUNTIME_CREDENTIAL_CHECKSUM="$(shasum -a 256 ./memory-dp-token | awk '{print $1}')"
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 0.10.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f values-ids.yaml \
   --set-string "runtime.serviceCredentials[0].existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
 helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.8.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f ram-values.yaml \
   --set-string "identityService.credential.existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
@@ -174,8 +174,8 @@ kubectl -n <namespace-name> rollout restart deployment
 
 Memory and Identity Service have independent release versions. Upgrade each with its own
 values file and verify their shared connection contract afterward. A Memory upgrade does not
-upgrade Identity Service. The published pair documented here is Memory `0.8.0` and Identity
-Service `0.10.0`.
+upgrade Identity Service. The published pair documented here is Memory `0.10.2` and Identity
+Service `0.10.2`.
 
 For updates within a supported release path:
 
@@ -287,15 +287,15 @@ Memory also ships a `values-fips.yaml` overlay. Apply it only to Memory, and con
 Identity Service release's posture separately:
 
 ```bash
-helm pull redis-ai/redis-agent-memory --version 0.8.0 --untar
+helm pull redis-ai/redis-agent-memory --version 0.10.2 --untar
 helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.8.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f ram-values.yaml \
   -f redis-agent-memory/values-fips.yaml
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 0.10.0 \
+  --version 0.10.2 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
@@ -346,7 +346,7 @@ the direct caller also has a valid Redis Agent Memory credential.
 
 The chart includes `networkpolicy.reference.yaml` at the chart root as a
 reference manifest. Get it with
-`helm pull redis-ai/redis-agent-memory --version 0.8.0 --untar`. It is not templated because allowed callers are
+`helm pull redis-ai/redis-agent-memory --version 0.10.2 --untar`. It is not templated because allowed callers are
 environment-specific.
 
 Customize the placeholders before applying it:

@@ -13,7 +13,7 @@ weight: 5
 
 Redis LangCache stores the answers your LLM generates and returns them when someone asks a similar question, so your app doesn't call the LLM again. This demo follows the help assistant of a food delivery app. You choose which questions its customers ask, and the demo shows each search, each cache hit or miss, and what the cache stores.
 
-The demo runs in your browser and doesn't connect to a LangCache service or an LLM. Its requests and responses follow the shapes of the [LangCache API](/content/develop/ai/context-engine/langcache/api-reference.md). The similarity scores, answers, and timings are illustrative. The customers and restaurants come from the same sample data as the [Context Retriever interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
+The demo runs in your browser and doesn't connect to a LangCache service or an LLM. Its requests and responses follow the shapes of the [LangCache API](/content/develop/ai/context-engine/langcache/api-reference.md). The similarity scores, answers, and timings are illustrative. The customers and restaurants come from the same sample data as the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
 
 {{< langcache-demo >}}
 

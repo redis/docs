@@ -26,7 +26,7 @@ Redis is an in-memory data platform purpose-built for the speed and structure th
 - **Vector search**: Store and query vector embeddings using KNN and range queries with metadata filters, across hashes and JSON documents
 - **Semantic caching**: Reduce LLM API costs by reusing cached responses for semantically similar prompts with LangCache
 - **Agent memory**: Give agents short-term session memory and long-term persistent memory that survives across interactions
-- **Structured data access**: Turn your business data into governed tools agents can reliably query with Context Retriever
+- **Tool and data access**: Give agents one endpoint for the tools of your MCP servers and your business data with Context Gateway
 - **Live data sync**: Stream changes from relational databases into Redis in near real time so agents always work with current information
 
 ## Why use Redis for AI and search?
@@ -70,7 +70,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 
 - [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
 - [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Two-tier persistent memory (session and long-term) for agents, available through Python and TypeScript SDKs and a REST API.
-- [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}): Turns your business data into structured, governed tools that agents can reliably use, defined once and reused across all agents.
+- [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Gives agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, and serves your Redis data as tools with Context Surfaces.
 - [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
 
 ## How to's
@@ -82,7 +82,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 1. [**Build an AI agent**]({{< relref "/develop/ai/agent-builder" >}}): Use the interactive agent builder to generate complete working code for conversational assistants and recommendation engines.
 1. [**Add semantic caching**]({{< relref "/develop/ai/context-engine/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
 1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Agent Memory REST API.
-1. [**Access structured business data**]({{< relref "/develop/ai/context-engine/context-retriever" >}}): Use Context Retriever to define your business data as governed tools that any agent can query reliably.
+1. [**Connect tools and business data**]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Use Context Gateway to give any agent one endpoint for your MCP servers and your Redis data.
 1. [**Sync live data to Redis**]({{< relref "/develop/ai/context-engine/data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
 
 #### Learn how to index and query vector embeddings
@@ -139,7 +139,7 @@ The Context Engine provides managed services for agent memory and data access.
 
 * [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Add semantic caching to reduce LLM costs in minutes.
 * [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Add persistent two-tier memory to any agent using the REST API.
-* [Get started with Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}): Expose your business data as governed tools that agents can reliably query.
+* [Get started with Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Give agents one MCP endpoint for the tools of your MCP servers and your Redis data.
 * [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keep Redis in sync with your primary database so agents always have fresh data.
 
 ## Tutorials
@@ -149,7 +149,6 @@ Need a deeper-dive through different use cases and topics?
 * [Agentic RAG](https://github.com/redis-developer/agentic-rag) - A tutorial focused on agentic RAG with LlamaIndex and Amazon Bedrock
 * [Redis Notebooks for LangGraph](https://github.com/redis-developer/langgraph-redis/tree/main/examples) - Working with LangGraph agents and Redis memory
 * [Build a LangGraph travel agent with Redis Agent Memory](https://redis.io/tutorials/redis-agent-memory-with-langgraph/) - Build a LangGraph agent with short-term session memory and long-term persistent memory using Redis Agent Memory
-* [Build a real-time AI agent with Redis Iris](https://redis.io/tutorials/redis-iris-call-agent/) - Combine Redis Agent Memory and Context Retriever to build a wealth advisor agent with persistent memory and structured data access
 * [Build a car dealership agent with Google ADK and Redis Agent Memory](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/) - Build a persistent AI agent using Google ADK and Redis Agent Memory Server with working and long-term memory
 * [Build Google ADK agents with persistent, real-time memory on Redis](https://redis.io/en/blog/build-google-adk-agents-with-persistent-real-time-memory-on-redis/) - Use the `adk-redis` package to integrate Google ADK with Redis for persistent memory, sessions, and semantic caching in production agents
 

@@ -24,6 +24,8 @@ from components.command_enricher import enrich_commands
 EXTENSION_TO_LANGUAGE = {
     '.py': 'python',
     '.js': 'node.js',
+    '.ts': 'typescript',
+    '.mts': 'typescript',
     '.go': 'go',
     '.c': 'c',
     '.h': 'c',
@@ -31,7 +33,8 @@ EXTENSION_TO_LANGUAGE = {
     '.java': 'java',
     '.php': 'php',
     '.rb': 'ruby',
-    '.rs': 'rust'
+    '.rs': 'rust',
+    '.sh': 'bash'
 }
 
 # Language to client name mapping (from config.toml clientsExamples)
@@ -101,7 +104,13 @@ def get_client_name_from_language_and_path(language: str, path: str,
 
     For Python (.py) files, override based on path substrings:
     - If 'redisvl' in path -> RedisVL
+    - If 'agent-memory' in path -> Agent Memory (Python)
+    - If 'iris' in path -> Python (Iris)
     - Otherwise -> Python
+
+    For TypeScript (.ts, .mts) and shell (.sh) files, override based on path substrings:
+    - If 'agent-memory' in path -> Agent Memory (TypeScript)
+    - If 'iris' in path -> TypeScript (Iris) or cURL (Iris)
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
@@ -123,6 +132,20 @@ def get_client_name_from_language_and_path(language: str, path: str,
     if language == 'python':
         if 'redisvl' in path:
             return 'RedisVL'
+        if 'agent-memory' in path:
+            return 'Agent Memory (Python)'
+        if 'iris' in path:
+            return 'Python (Iris)'
+    if language == 'typescript':
+        if 'agent-memory' in path:
+            return 'Agent Memory (TypeScript)'
+        if 'iris' in path:
+            return 'TypeScript (Iris)'
+    if language == 'bash':
+        if 'iris' in path:
+            if path.endswith('.cli.sh'):
+                return 'CLI (Iris)'
+            return 'cURL (Iris)'
     if language == 'c#':
         variant = 'Async' if 'async' in path else 'Sync'
         client = 'NRedisStack' if is_nredisstack_example(content) else 'SE.Redis'

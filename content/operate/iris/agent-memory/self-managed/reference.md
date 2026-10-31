@@ -82,8 +82,8 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 
 | Need | Reference |
 | --- | --- |
-| Helm chart values | `values.yaml` at the chart root (`helm pull redis-ai/redis-agent-memory --version 0.8.0 --untar`) |
-| Identity Service chart values | `helm show values redis-ai/iris-identity-service --version 0.10.0` |
+| Helm chart values | `values.yaml` at the chart root (`helm pull redis-ai/redis-agent-memory --version 0.10.2 --untar`) |
+| Identity Service chart values | `helm show values redis-ai/iris-identity-service --version 0.10.2` |
 | FIPS values overlay | `values-fips.yaml` at the chart root |
 | NetworkPolicy reference | `networkpolicy.reference.yaml` at the chart root |
 | Chart README | `README.md` at the chart root |

@@ -9,13 +9,9 @@ categories:
 - iris
 weight: 10
 hideListLinks: true
-bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 ---
 
 Redis Agent Memory provides persistent session memory and long-term memory for AI agents and applications.
-
-![The Agent Memory page in the Redis Cloud console, with Quick create and Create custom service options.](/images/rc/agent-memory-get-started.png)
-{width="75%" class="border border-redis-pen-300 rounded-lg"}
 
 ## Deployment options
 

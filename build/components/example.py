@@ -24,6 +24,7 @@ TEST_MARKER = {
 PREFIXES = {
     'python': '#',
     'node.js': '//',
+    'typescript': '//',
     'ioredis': '//',
     'java': '//',
     'java-sync': '//',
@@ -39,7 +40,8 @@ PREFIXES = {
     'ruby': '#',
     'rust': '//',
     'rust-sync': '//',
-    'rust-async': '//'
+    'rust-async': '//',
+    'bash': '#'
 }
 
 

@@ -90,10 +90,10 @@ You can build each part of an agent's context layer yourself from Redis data str
 |:--|:--|:--|
 | Remember the user across sessions | Streams, Hashes, and vector search for session and long-term memory | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) stores session events, summarizes long sessions, and extracts long-term memories in the background. |
 | Avoid repeat LLM calls | Vector search plus your own cache logic | [LangCache](/content/develop/ai/context-engine/langcache/_index.md) returns a cached response when a new prompt is semantically similar to a cached one. |
-| Query business data safely | Hand-written tools or generated queries per agent | [Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
+| Query business data safely | Hand-written tools or generated queries per agent | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
 | Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
 
-LangCache, Agent Memory, and Context Retriever are currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
+LangCache is currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
 
 ## Types of agents you can build
 
@@ -327,7 +327,7 @@ Production-ready agents include built-in reliability features:
 
 - Data encryption: Encrypt sensitive data at rest and in transit
 - Access controls: Implement proper authentication and authorization
-- Governed data access: Give agents defined tools instead of direct database access. [Context Retriever](/content/develop/ai/context-engine/context-retriever/concepts.md) generates these tools and uses access tags to filter what each agent can see
+- Governed data access: Give agents defined tools instead of direct database access. [Context Gateway](/content/develop/ai/context-engine/context-gateway/concepts.md) serves these tools through one MCP endpoint, so agents never hold database or Upstream credentials.
 - Data retention: Automatic cleanup of personal data per regulations
 - Sensitive data in memory: Keep information such as payment card numbers out of long-term memory. Agent Memory [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) guide automatic extraction away from it
 - Audit logging: Track all data access and modifications
@@ -377,7 +377,7 @@ Ready to build your AI agent with Redis?
 **Learn more:**
 - [Redis Iris Context Engine — Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) for managed session and long-term agent memory
 - [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) for how memory, caching, and governed data access work together
-- Interactive demos for [Agent Memory](/content/develop/ai/context-engine/agent-memory/interactive-demo.md), [LangCache](/content/develop/ai/context-engine/langcache/interactive-demo.md), and [Context Retriever](/content/develop/ai/context-engine/context-retriever/interactive-demo.md) that run in your browser
+- Interactive demos for [Agent Memory](/content/develop/ai/context-engine/agent-memory/interactive-demo.md), [LangCache](/content/develop/ai/context-engine/langcache/interactive-demo.md) that run in your browser
 - [Redis Vector Search documentation](/content/develop/ai/search-and-query/vectors/_index.md)
 - [RedisVL Python library](/content/develop/clients/redis-vl.md) for vector operations and AI workflows
 - [Redis data structures guide](/content/develop/data-types/_index.md)

@@ -13,7 +13,7 @@ weight: 9
 
 Redis Agent Memory gives an AI agent two tiers of memory. Session memory holds the current conversation, and long-term memory holds what the agent should remember across conversations. This demo follows one customer of a food delivery app through two conversations. You choose what she says, and the demo shows what each tier stores, when it changes, and how long it lasts.
 
-The demo runs in your browser and doesn't connect to an Agent Memory service. Its requests and responses follow the shapes of the [Agent Memory API](/content/develop/ai/context-engine/agent-memory/api-reference.md). The customer, restaurants, and order come from the same sample data as the [Context Retriever interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
+The demo runs in your browser and doesn't connect to an Agent Memory service. Its requests and responses follow the shapes of the [Agent Memory API](/content/develop/ai/context-engine/agent-memory/api-reference.md). The customer, restaurants, and order come from the same sample data as the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
 
 {{< agent-memory-demo >}}
 
@@ -33,4 +33,4 @@ Try different messages to see how they change what the service remembers. Open *
 ## Next steps
 
 - [Create an Agent Memory service](/content/operate/iris/agent-memory/create-service.md) on Redis Cloud.
-- Follow the [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) or the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) to try the same flow with a real service.
+- Follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to try the same example with Python, TypeScript, or curl against a real service.
