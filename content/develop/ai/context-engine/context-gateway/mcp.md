@@ -32,9 +32,9 @@ Install the dependencies for your language as shown in the [quickstart](/content
 
 The endpoint must be reachable from the client runtime. Keep the agent key in connection settings and out of agent instructions.
 
-In Python, `ContextGateway` from the `redis-iris` package opens a session with these settings and sends the agent key as `Authorization: Bearer`.
+In Python, `ContextGateway` from the `redis-context-gateway` package opens a session with these settings and sends the agent key as `Authorization: Bearer`.
 
-The command-line interface (CLI) writes the configuration for Claude Code, Cursor, the Agent Development Kit (ADK), or a generic JSON client. It reads the Gateway's endpoint from the Control Plane, so it needs the Gateway ID and the Control Plane settings:
+The command-line interface (CLI) prints the configuration, or merges it into the client's file with `--write`, for Claude Code, Cursor, the Agent Development Kit (ADK), or a generic JSON client. It reads the Gateway's endpoint from the Control Plane, so it needs the Gateway ID and the Control Plane settings:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_ID='<gateway-id>'
@@ -58,12 +58,12 @@ What the agent sees depends on the Gateway's [tool exposure mode](/content/devel
 | Tool | Input | Result |
 | --- | --- | --- |
 | `search_tools` | `query`, 1 to 200 characters, or `*` for every tool. Optional `limit`, 1 to 100, default 5. | `matched`, `returned`, `truncated`, and the matching tool definitions in ranked order. |
-| `run_tool` | `tool` with `upstreamId` and `originalName`, and the tool's arguments in `toolArgs`. | The tool's result. |
+| `run_tool` | `tool` with `upstreamId` and `originalName`, and the tool's arguments in `toolArgs`. Required. The tool's arguments as an object, `{}` when it takes none. | The tool's result. |
 
 Use the tools in this order:
 
 1. Search with words that a tool's name, title, or description would contain. Search matches words, not meaning.
-2. Pick a definition and read its input schema. When `truncated` is `true`, raise `limit` or narrow the query.
+2. Pick a definition and read its input schema. When `truncated` is `true`, narrow the query, or raise `limit` if `returned` is below it.
 3. Call it through `run_tool`, copying `upstreamId` and `originalName` from the definition's `_meta["com.redis.context-gateway/tool"]`. Do not construct them, and send no other members of that metadata. `run_tool` refuses extra members, such as the catalog revision.
 
 ## Connect a client
@@ -106,12 +106,13 @@ The signed-in user still needs a grant on the Gateway. See [Identity provider si
 | Response | Meaning | Action |
 | --- | --- | --- |
 | `401` | No credential, or the key or token was not accepted. | Check the key, its expiry, and the header. |
-| `403` | The credential has no grant for this Gateway. | Ask your administrator for a `use` grant. |
+| `403` | The credential has no grant for this Gateway, or the Gateway or its tenant is suspended. | Ask your administrator for a `use` grant. |
+| `503` | The Gateway's records could not be read. | Retry with backoff. |
 | `404` | No Gateway answers at this URL for your tenant. | Check the full endpoint. |
 | JSON-RPC error with `reason` `unknown_tool` | A direct call names a tool the Gateway does not expose. | List the tools again and use a returned name. |
 | Tool error with `reason` `unknown_tool` and `completion` `not_dispatched` | A target passed through `run_tool` or `run_tool_as_handle` is unknown or inaccessible. | Discover the tools again and copy the returned identity. |
 | Tool result with its error flag set | The tool or its Upstream failed. | Read `reason` and `completion` in the failure metadata. See [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md). |
 
-Give your platform team the `traceId` from a JSON-RPC error's `data` to find the failure in their logs. With the Control Plane token, they can run `iris context-gateway service check <gateway-id>`, which checks the token, the Gateway, the Identity Service, the agent key, and one `tools/list`, in that order, and stops at the first failure. `iris context-gateway service diagnose <gateway-id>` prints a report of the Gateway's setup.
+Give your platform team the `traceId` from a JSON-RPC error's `data` or from a tool result's `_meta["com.redis.context-gateway/invocation"]` to find the failure in their logs. With the Control Plane token and the Identity Service settings (`--identity` and `--identity-token`), they can run `iris context-gateway service check <gateway-id>`, which checks the token, the Gateway, the Identity Service, the agent key, and one `tools/list`, in that order, and stops at the first failure. `iris context-gateway service diagnose <gateway-id>` prints a report of the Gateway's setup.
 
 Keep diagnostic details without logging keys or tool results that hold private data.

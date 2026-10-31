@@ -25,7 +25,7 @@ For how to connect, see [MCP](/content/develop/ai/context-engine/context-gateway
 | Protocol versions | `2026-07-28`, `2025-11-25`, `2025-06-18`, and `2025-03-26` |
 | Sign-in metadata | `GET <data-plane-base-url>/.well-known/oauth-protected-resource/iris/data/v1/context-gateway/gateways/<gateway-id>/mcp`, served without a credential when the deployment turns on sign-in |
 
-Before any MCP message, the endpoint answers `401` without a valid credential, `404` for a Gateway that does not exist or belongs to another tenant, and `403` without a grant on the Gateway.
+Before any MCP message, the endpoint answers `401` without a valid credential, `404` for a Gateway that does not exist or belongs to another tenant, and `403` when the credential has no grant for this Gateway, or the Gateway or its tenant is suspended. It answers `503` when the Gateway's records could not be read. Retry with backoff.
 
 ## Tools
 
@@ -61,7 +61,7 @@ Listed in search mode only.
 | Argument | Type | Description |
 | --- | --- | --- |
 | `tool` | object | Required. `upstreamId` and `originalName`, copied from a definition's `_meta["com.redis.context-gateway/tool"]`. No other members. |
-| `toolArgs` | object | The tool's arguments, as its input schema describes. |
+| `toolArgs` | object | Required. The tool's arguments as an object, `{}` when it takes none. |
 
 The result is the tool's result.
 
@@ -71,7 +71,7 @@ Listed in both modes when compression is on for the Gateway.
 
 | Tool | Arguments | Result |
 | --- | --- | --- |
-| `run_tool_as_handle` | full mode: `name` and `toolArgs`. search mode: `tool` and `toolArgs`, as `run_tool` takes them. | A stub for the held result, or a tool error when it cannot be held. It never silently falls back to the whole result. |
+| `run_tool_as_handle` | full mode: `name` and `toolArgs`. search mode: `tool` and `toolArgs`, as `run_tool` takes them. | A stub for the held result, or a tool error when it cannot be held. It never silently falls back to the whole result. An Upstream's own tool error is returned as that error. |
 | `page_results` | `handle`, `offset` (default `0`), `limit` | For a collection, items from `offset`, `limit` 1 to 100, default 10. For text, bytes, `limit` up to 16384, default 4096. |
 | `query_results` | `handle`, `jsonpath`, `offset`, `limit` 1 to 100, default 20 | The matches of a JSONPath expression over the held result, in pages. |
 | `count_results` | `handle`, optional `jsonpath` and `groupBy` | Counts captured items or selected nodes. With both arguments, selects nodes first, then groups them by the field. |
@@ -96,7 +96,7 @@ The Gateway adds these entries to `_meta`. Read them by key, and ignore members 
 | Key | Where | Members |
 | --- | --- | --- |
 | `com.redis.context-gateway/tool` | Each tool definition | `upstreamId`, `originalName`, and the catalog revision |
-| `com.redis.context-gateway/invocation` | Each tool result | `cache` with `status` `hit` and `ageMs` when the cache answered. `upstream` and `upstreamDurationMs` when the call reached the Upstream. |
+| `com.redis.context-gateway/invocation` | Each tool result | `schemaVersion`, `traceId`, `tool`, `catalogRevision`. `cache` (`status` `hit`, `ageMs`) on a cache hit. `upstream` (`serverName`, `serverVersion`) when known. `upstreamDurationMs` when the call reached the Upstream. |
 | `com.redis.context-gateway/handle` | A handle stub | The handle and its description, without the preview and the next call |
 | `com.redis.context-gateway/failure` | A tool result with its error flag set | `schemaVersion`, `reason`, `completion`, optional `handleOutcome` for capture failures, and when the failure happened at the Upstream, `stage` and `upstreamCode` |
 

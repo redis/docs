@@ -83,13 +83,13 @@ In search mode the agent calls `search_tools` and receives complete tool definit
 
 A **tool policy** sets optional behavior for one tool of one Upstream. Both behaviors need a Gateway database, selected with the Gateway's `databaseId`.
 
-Each Gateway also turns the cache and compression on or off for all of its tools with two settings, `ENABLED` or `DISABLED`: `cache` for the cache and `compression` for compression. On self-managed deployments, a Gateway created with a database defaults both features to enabled, subject to database capability checks. A Gateway without a database has both disabled. Redis Cloud keeps compression disabled. A feature serves a Gateway only when the Gateway's setting is `ENABLED` and the deployment turns the feature on.
+Each Gateway also turns the cache and compression on or off for all of its tools with two settings, `ENABLED` or `DISABLED`: `cache` for the cache and `compression` for compression. On self-managed deployments, a Gateway created with a database defaults both features to enabled, subject to database capability checks. A Gateway without a database has both disabled. Redis Cloud keeps the cache and compression disabled. A feature serves a Gateway only when the Gateway's setting is `ENABLED` and the deployment turns the feature on.
 
 ### Cache
 
 The cache serves a repeated call from the Gateway database instead of calling the Upstream again. Each tool opts in with a `cache` policy and a time to live (TTL).
 
-A tool can be cached unless its definition says `readOnlyHint: false` or `destructiveHint: true`. An absent hint does not block caching, and no annotation turns caching on. An entry is served until its TTL expires or the Upstream's revision changes.
+A tool can be cached unless its definition says `readOnlyHint: false` or `destructiveHint: true`. An absent hint does not block caching, and no annotation turns caching on. Annotations that are not booleans also block caching. An entry is served until its TTL expires or the Upstream's revision changes.
 
 ![A tool call without a cache policy goes straight to the Upstream. A call with a policy checks for a stored result. If one exists, the Gateway returns it. If not, the Gateway calls the Upstream, stores the result for the TTL, and returns it.](/images/ai/context-engine/context-gateway-result-cache.svg)
 {width="850"}

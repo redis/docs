@@ -19,7 +19,7 @@ The [API reference](/content/develop/ai/context-engine/context-gateway/api-refer
 
 | Item | Limit or default |
 | --- | --- |
-| Gateway and Upstream display name | 1 to 128 characters, with visible content and no control characters or line breaks |
+| Gateway and Upstream `name` | 1 to 128 characters, with visible content and no control characters or line breaks |
 | Gateway and Upstream IDs | Server-generated `gw_` and `up_` prefixes followed by 32 lowercase hexadecimal characters. Copy returned IDs rather than constructing them. |
 | Upstream namespace | 1 to 32 lowercase letters and digits, with single hyphens between them |
 | Gateway `databaseId` | 1 to 32 letters, digits, and hyphens |
@@ -33,7 +33,7 @@ The [API reference](/content/develop/ai/context-engine/context-gateway/api-refer
 | Context Surface tool results | Up to 100 records per page. Eligible filter/text captures can collect multiple pages, up to 10,000 rows by default, subject to byte and time limits. Semantic/hybrid top-K results are not continued. |
 | Agent key revocation | Takes effect within the Identity Service cache lifetime, 300 seconds by default. |
 
-## Handle tool call failures
+## Tool call failures
 
 A failed call reaches the client as a JSON-RPC error or as a tool result with its error flag set. Act on the `reason`, never on the message or the text: those are written for people and can change in any release.
 
@@ -54,7 +54,7 @@ The failure entry in `_meta["com.redis.context-gateway/failure"]` holds `reason`
 | `reason` | Meaning |
 | --- | --- |
 | `unknown_tool` | A `run_tool` or `run_tool_as_handle` target is unknown or inaccessible. The call was `not_dispatched`. |
-| `invalid_arguments` | The arguments do not match the tool's input schema. |
+| `invalid_arguments` | The arguments do not match the input schema of a Gateway tool or a Context Surface tool. MCP Upstream arguments pass through to the server. |
 | `upstream_unavailable` | The Gateway could not reach the Upstream. |
 | `upstream_credentials_unavailable` | The Gateway could not read the Upstream's credential from the secrets backend. |
 | `upstream_rejected_credentials` | The Upstream refused the credential the Gateway sent. |
@@ -92,7 +92,7 @@ Catch JSON-RPC failures separately. They are protocol exceptions rather than too
 
 A result the cache answered carries `cache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. Its absence does not prove that an Upstream call ran: validation or authorization may have refused the call first.
 
-## Handle request errors
+## Control Plane errors
 
 Control Plane errors are problem details. Act on the HTTP status, the problem `type`, and the `errors[]` entries. Each entry identifies a body member with a JSON Pointer in `pointer`, or a path/query argument with `parameter`, and explains the issue in `detail`. Do not parse human-readable details into error codes.
 
@@ -121,6 +121,9 @@ Updates and deletes take the resource's current `revision` as `expectedRevision`
 | `/errors/namespace-conflict` | Another Upstream of the Gateway uses the namespace. Choose another one. |
 | `/errors/gateway-not-empty` | Delete the Gateway's Upstreams before you delete the Gateway. |
 | `/errors/catalog-publication-conflict` | The Upstream changed while its tools were discovered, so nothing was published. Refresh the catalog again. |
+| `/errors/gateway-mutation-in-progress` | Another change to the Gateway's database binding is running. Retry after it completes. |
+| `/errors/surface-mutation-in-progress` | Another change to the Surface is running. Retry after it completes. |
+| `/errors/gateway-deleting` | The Gateway is being deleted and accepts no other change. |
 
 ## Retry uncertain operations
 

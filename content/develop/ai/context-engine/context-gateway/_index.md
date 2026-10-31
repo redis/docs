@@ -22,7 +22,7 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
 - **Serves one endpoint per Gateway:** An agent connects to one Gateway instead of to every MCP server it uses.
 - **Keeps credentials out of agents:** The Gateway stores each Upstream's credential in your secrets backend and sends it on every call.
 - **Turns Redis data into tools:** Optionally, a Context Surface generates tools from a data model over a Redis database.
-- **Scales to large tool sets:** In `search` mode, the agent searches for tools instead of loading every definition.
+- **Scales to large tool sets:** In search mode, the agent searches for tools instead of loading every definition.
 - **Handles large and repeated results:** An optional cache serves repeated calls, and compression keeps large results out of the agent's context.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">

@@ -51,7 +51,7 @@ Every MCP client requires:
 
 The CLI and the `redis_iris` convenience wrapper read `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY`. With the public Python SDK, pass these values to `ContextGateway(url, agent_key)` as the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows. With HTTP, send the credential as a bearer token on every request.
 
-Ask your platform team for these values, or [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md) on a self-managed deployment. Agent credentials do not administer the Control Plane.
+Ask your platform team for these values, or [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md) on a self-managed deployment. Agent credentials do not administer the Control Plane. The SDK requires an `https://` endpoint. Plain HTTP works only for `localhost` or a loopback address.
 
 ## Work with tools
 

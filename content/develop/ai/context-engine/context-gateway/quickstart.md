@@ -42,7 +42,7 @@ export SEARCH_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
 export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
 ```
 
-Keep the agent key out of source control and model prompts. The key needs a `context-gateway` / `gateway` / `use` grant on both Gateways.
+Keep the agent key out of source control and model prompts. The key needs a `context-gateway` / `gateway` / `use` grant on both Gateways. The SDK requires an `https://` endpoint. Plain HTTP works only for `localhost` or a loopback address.
 
 ## Connect to the Gateway
 
