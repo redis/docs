@@ -12,6 +12,12 @@ hideListLinks: true
 weight: 10
 ---
 
+## Q4 2026 (October - December) Updates
+
+### Redis Version Updates
+
+- [Redis 8.12](/content/develop/whats-new/8-12.md) - Compressed (Roaring) bitmaps and the new `BITRANGEINTARRAY` command; expiration on individual set members with `SEXPIRE` and related commands; eviction protection with `BLESS`; SQ8 compression for HNSW vector fields; automatic creation of deep JSON paths; configurable TLS named groups; and performance improvements across Redis core, Search, JSON, and Probabilistic.
+
 ## Q3 2026 (July - September) Updates
 
 ### Redis Version Updates
