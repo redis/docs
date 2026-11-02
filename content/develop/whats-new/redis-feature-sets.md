@@ -17,6 +17,7 @@ To use a new feature introduced in a later feature set, you must upgrade the cor
 
 | Redis feature set | What's new |
 |-------------------|------------|
+| **Feature set version:** 8.12| See [here](/content/develop/whats-new/8-12.md)|
 | **Feature set version:** 8.10| See [here](/content/develop/whats-new/8-10.md)|
 | **Feature set version:** 8.8| See [here](/content/develop/whats-new/8-8.md)|
 | **Feature set version:** 8.6| See [here](/content/develop/whats-new/8-6.md)|
