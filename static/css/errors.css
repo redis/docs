@@ -79,7 +79,6 @@
 .rerr-go:first-child.rerr-go-quiet { margin-left: 0; }
 
 /* ---- list of all error messages ---- */
-.rerr-count { color: #5c707a; font-size: 14px; }
 .rerr-catalog { overflow-x: auto; }
 .rerr-catalog table { width: 100%; table-layout: fixed; }
 .rerr-catalog th.rerr-col-msg { width: 34%; }
@@ -91,7 +90,7 @@
 .rerr-catalog td.rerr-col-explain { font-size: 14px; line-height: 1.5; }
 .rerr-catalog tr:target { background: #fff6d6; }
 .rerr-catalog tr { scroll-margin-top: 96px; }
-.rerr-fix { display: inline-block; font-size: 13px; white-space: nowrap; }
+.rerr-fix { display: block; width: max-content; margin-top: 4px; font-size: 13px; }
 /* On a phone, each row becomes a block: the message, its explanation, then the commands. */
 @media (max-width: 720px) {
   .rerr-catalog table, .rerr-catalog tbody, .rerr-catalog tr, .rerr-catalog td { display: block; width: auto; }

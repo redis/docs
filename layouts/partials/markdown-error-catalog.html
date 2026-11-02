@@ -25,21 +25,16 @@
         "code" ($arg.code | default "")
         "others" (eq $arg.others "true")
         "raw" $raw) -}}
-  {{- $md := "" -}}
-  {{- if eq $arg.summary "true" -}}
-    {{- $md = printf "%d messages, taken from the source code. %d of them were also seen on a running server." (len $rows) (len (where $rows "verified" true)) -}}
-  {{- else -}}
-    {{- $md = "| Error message | Explanation | Returned by |\n|---|---|---|\n" -}}
-    {{- range $rows -}}
-      {{- /* A message with a backtick needs a longer code span; a pipe would end the cell. */ -}}
-      {{- $msg := replace .message "|" "\\|" -}}
-      {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
-      {{- $cmds := slice -}}
-      {{- range .commands -}}{{- $cmds = $cmds | append (printf "`%s`" .name) -}}{{- end -}}
-      {{- $explain := replace .explain "|" "\\|" -}}
-      {{- with .fix -}}{{- $explain = printf "%s [How to fix it](%s)" $explain (absURL (print . "#how-to-fix-it")) -}}{{- end -}}
-      {{- $md = printf "%s| %s | %s | %s |\n" $md $msg $explain (cond (gt (len $cmds) 0) (delimit $cmds ", ") (.scope | default "Several commands")) -}}
-    {{- end -}}
+  {{- $md := "| Error message | Explanation | Returned by |\n|---|---|---|\n" -}}
+  {{- range $rows -}}
+    {{- /* A message with a backtick needs a longer code span; a pipe would end the cell. */ -}}
+    {{- $msg := replace .message "|" "\\|" -}}
+    {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
+    {{- $cmds := slice -}}
+    {{- range .commands -}}{{- $cmds = $cmds | append (printf "`%s`" .name) -}}{{- end -}}
+    {{- $explain := replace .explain "|" "\\|" -}}
+    {{- with .fix -}}{{- $explain = printf "%s [How to fix it](%s)" $explain (absURL (print . "#how-to-fix-it")) -}}{{- end -}}
+    {{- $md = printf "%s| %s | %s | %s |\n" $md $msg $explain (cond (gt (len $cmds) 0) (delimit $cmds ", ") (.scope | default "Several commands")) -}}
   {{- end -}}
   {{- $content = replace $content $match $md 1 -}}
 {{- end -}}

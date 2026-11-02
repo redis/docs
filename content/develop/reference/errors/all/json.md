@@ -17,8 +17,6 @@ weight: 4
 
 These are the error messages of the [JSON](/content/develop/data-types/json/_index.md) commands, such as `JSON.SET` and `JSON.GET`. Many start with `ERR`, and some start with `WRONGTYPE`. Others have no code at all.
 
-{{< error-catalog module="json" summary="true" >}}
-
 ## ERR
 
 Most JSON errors start with the general prefix `ERR`. Many of them say that a path doesn't exist, or that the value at the path isn't the type that the command needs, as in `ERR Path does not exist or not an array`. To fix it, check the path. To see the type of the value at a path, run [`JSON.TYPE`](/content/commands/json.type.md).

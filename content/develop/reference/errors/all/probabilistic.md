@@ -17,8 +17,6 @@ weight: 5
 
 These are the error messages of the [probabilistic data types](/content/develop/data-types/probabilistic/_index.md): Bloom filters, Cuckoo filters, count-min sketches, Top-K, and t-digest. Many start with `ERR`. Others start with the name of the data type, such as `CMS:` or `TopK:`, or have no code at all.
 
-{{< error-catalog module="bloom" summary="true" >}}
-
 ## ERR
 
 Errors from Bloom filters, Cuckoo filters, and t-digest mostly start with the general prefix `ERR`. T-digest errors then say `T-Digest:`, as in `ERR T-Digest: error parsing compression parameter`. Most of these errors are about an argument that's invalid or out of range, such as the capacity or the error rate of a filter. Others say that an item already exists, that a key wasn't found, or that a filter that doesn't scale is full. To fix it, compare your command with the syntax on its command page, such as [`BF.RESERVE`](/content/commands/bf.reserve.md) or [`TDIGEST.CREATE`](/content/commands/tdigest.create.md).

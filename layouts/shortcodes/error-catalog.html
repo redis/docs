@@ -5,7 +5,6 @@
   that can return them. See layouts/partials/errors/catalog.html.
 
   Usage:
-      {{< error-catalog module="search" summary="true" >}}       count line for the module
       {{< error-catalog module="search" code="SEARCH_SYNTAX" >}}  messages with these codes
       {{< error-catalog module="search" others="true" >}}         messages with codes no
                                                                   other call on the page names
@@ -25,9 +24,6 @@
       "raw" .Page.RawContent) -}}
 {{- $v := substr (md5 (os.ReadFile "static/css/errors.css")) 0 10 }}
 <link rel="stylesheet" href="{{ "css/errors.css" | relURL }}?v={{ $v }}">
-{{- if eq (.Get "summary") "true" }}
-<p class="rerr-count">{{ len $rows }} messages, taken from the source code. {{ len (where $rows "verified" true) }} of them were also seen on a running server.</p>
-{{- else }}
 <div class="rerr-catalog">
 <table>
   <thead><tr><th class="rerr-col-msg">Error message</th><th class="rerr-col-explain">Explanation</th><th class="rerr-col-cmds">Returned by</th></tr></thead>
@@ -57,4 +53,3 @@
   </tbody>
 </table>
 </div>
-{{- end }}

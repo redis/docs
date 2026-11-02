@@ -19,8 +19,6 @@ These are the error messages of the Redis server itself. Each one starts with an
 
 When an error happens inside a Lua script or function, Redis adds where it happened to the message, such as `script: <sha1>, on @user_script:1.` Some messages only come from a server that runs as Redis Sentinel, or as part of a cluster.
 
-{{< error-catalog module="core" summary="true" >}}
-
 ## Commands
 
 ### WRONGTYPE

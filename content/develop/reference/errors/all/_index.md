@@ -17,7 +17,7 @@ weight: 100
 
 This section lists every error message that Redis Open Source 8.10 can return to a client. It covers the Redis server, and the features that come with it: vector sets, Redis Search, JSON, probabilistic data types, and time series.
 
-The lists were made from the source code of Redis 8.10.3, Redis Search 8.10.1, JSON 8.10.0, probabilistic data types 8.10.1, and time series 8.10.1. Some of the messages were also checked on a running Redis 8.10.3 server, and each list says how many. Messages can change between versions, so an older or newer server may word an error differently.
+The lists were made from the source code of Redis 8.10.3, Redis Search 8.10.1, JSON 8.10.0, probabilistic data types 8.10.1, and time series 8.10.1. Messages can change between versions, so an older or newer server may word an error differently.
 
 How to read the lists:
 

@@ -17,8 +17,6 @@ weight: 6
 
 These are the error messages of the [time series](/content/develop/data-types/timeseries/_index.md) commands, such as `TS.ADD` and `TS.RANGE`. Most of them start with `ERR TSDB:`. A few start with `TSDB:` alone, and some start with `WRONGTYPE` or `NOPERM`.
 
-{{< error-catalog module="timeseries" summary="true" >}}
-
 ## ERR TSDB:
 
 Most time series errors start with `ERR TSDB:`, followed by the problem. Many say that the command couldn't parse an argument, as in `ERR TSDB: Couldn't parse RETENTION`, or that two arguments can't be used together. Others say that the key doesn't exist, that it already exists, or that it isn't a time series. To fix it, compare your command with the syntax on its command page, such as [`TS.CREATE`](/content/commands/ts.create.md) or [`TS.RANGE`](/content/commands/ts.range.md).

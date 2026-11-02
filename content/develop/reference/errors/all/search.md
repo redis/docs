@@ -19,8 +19,6 @@ These are the error messages of [Redis Search](/content/develop/ai/search-and-qu
 
 A few messages never come back as the reply to a command. Instead, [`FT.INFO`](/content/commands/ft.info.md) shows them as the last error that happened while indexing a document.
 
-{{< error-catalog module="search" summary="true" >}}
-
 ## Query syntax
 
 ### SEARCH_SYNTAX
