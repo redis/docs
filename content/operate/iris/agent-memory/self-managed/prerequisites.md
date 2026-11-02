@@ -45,6 +45,10 @@ license material used by the deployment.
 | kubectl | 1.23+ | Kubernetes CLI |
 | Helm | 3.x | Package manager |
 
+Treat the Redis Agent Memory images as `linux/amd64` unless the release notes for your image
+version declare a multi-architecture manifest. On clusters with ARM64 nodes, schedule Redis Agent
+Memory pods onto AMD64 nodes.
+
 ## Redis databases
 
 The Helm chart does not deploy Redis databases. Provision the Redis databases
@@ -56,6 +60,9 @@ Store Redis must support Search and JSON capabilities because Redis Agent Memory
 creates JSON and vector search indexes for memory data. Job Redis and Metadata
 Redis do not need those capabilities when they are deployed as separate Redis
 databases.
+
+Store Redis must run Redis 7.2.0 through 8.4.x. Job Redis and Metadata Redis must run
+Redis 6.2 or later.
 
 {{< table-scrollable >}}
 | Redis database | Required | Key in the overlay Secret | Purpose |

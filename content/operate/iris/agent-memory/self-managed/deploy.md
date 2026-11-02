@@ -437,12 +437,11 @@ RAM_ADMIN_TOKEN=$(kubectl -n <namespace-name> get secret \
 curl -sS -X POST http://localhost:9100/iris/v1/agent-memory/stores \
   -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"name": "my-store", "database": {"databaseId": "<database-id>"}}'
+  -d '{"name": "my-store", "database": {"databaseId": "1"}}'
 ```
 
-The response carries `storeId`.
-
-<!-- TODO: The unified Control Plane spec requires `database.databaseId` on CreateStore. Confirm which database ID a self-managed deployment accepts. -->
+`database.databaseId` is required. It names an entry in the `databases` registry, here `"1"` from
+`shared.databases` in [step 3](#3-create-ram-valuesyaml) and the overlay. The response carries `storeId`.
 
 ## 7. Mint an agent key
 
