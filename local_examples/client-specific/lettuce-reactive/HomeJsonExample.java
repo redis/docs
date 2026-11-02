@@ -34,8 +34,8 @@ public class HomeJsonExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
-            RediSearchReactiveCommands<String> searchCommands = connection.reactive();
+            RedisReactiveCommands<String, String> reactiveCommands = connection.commands(RedisReactiveCommands.factory());
+            RediSearchReactiveCommands<String> searchCommands = connection.commands(RedisReactiveCommands.factory());
             // ...
             // STEP_END
             // REMOVE_START
