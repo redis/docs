@@ -75,6 +75,16 @@ replicate pipeline data or manage the availability of the source and target data
 or target failures, including a source failover, don't change the leader. See
 [How automatic failover works](#how-automatic-failover-works) for what does.
 
+### RDI database replication
+
+A disaster recovery setup requires Active-Active replication for the RDI database.
+Active-Passive replication for this database is not supported, including configurations with
+manual promotion.
+
+The documented failover procedure assumes that the destination site already has a writable
+RDI database. An Active-Passive setup would require separate database promotion, recovery
+verification, and failback procedures. These procedures have not been validated for RDI.
+
 ## Source databases and data after a failover
 
 The new leader continues capture only if the source database it connects to can serve RDI's
