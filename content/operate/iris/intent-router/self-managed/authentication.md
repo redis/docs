@@ -77,7 +77,7 @@ The Intent Router chart deploys no Identity Service. Install the Identity Servic
 | `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
 
 {{< note >}}
-Identity Service chart `0.10.2` does not accept the `intent` product in `allowedProducts` or `productValidation.products`. Use an Identity Service release that supports Intent Router.
+Use Identity Service chart `1.0.0` or later. Earlier releases don't accept the `intent` product in `allowedProducts` or `productValidation.products`.
 {{< /note >}}
 
 ## Rotate credentials

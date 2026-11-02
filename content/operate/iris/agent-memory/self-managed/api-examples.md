@@ -406,6 +406,7 @@ Agent-key fields:
 | `resourceId` | Set to the store ID. |
 | `actions` | Use `read`, `write`, or both. |
 | `expiresAt` | Optional. Unix seconds after which the key stops authenticating. `0` or omitted means never. |
+| `userId` | Optional. The user that owns the key. Requires `apiKeys.userBinding.enabled: true` on the Identity Service release. |
 | Token | Returned only when you mint or rotate a key. Store it immediately. |
 
 List agent keys:
