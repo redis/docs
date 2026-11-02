@@ -8,13 +8,14 @@ categories:
 - oss
 - rs
 - rc
-description: Add idiomatic Redis connection management and dependency-injection caching
-  to FastAPI apps.
+description: Add idiomatic Redis connection management, dependency-injection caching,
+  rate limiting, and sessions to FastAPI apps.
 group: framework
 hideListLinks: false
 stack: true
-summary: The fastapi-redis-sdk provides automatic connection pooling and dependency-injection
-  caching for FastAPI, with HTTP-native ETag and Cache-Control support.
+summary: The fastapi-redis-sdk provides automatic connection pooling, dependency-injection
+  caching with HTTP-native ETag and Cache-Control support, rate limiting, and server-side
+  sessions for FastAPI.
 type: integration
 weight: 9
 ---
@@ -27,7 +28,8 @@ lifespan and exposes caching as injectable dependencies, including HTTP-native
 [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag),
 [`304 Not Modified`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304),
 and [`Cache-Control`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)
-support.
+support. It also provides distributed [rate limiting](#rate-limiting) and
+[server-side sessions](#sessions).
 
 The SDK is built on the [redis-py](/content/develop/clients/redis-py/_index.md) client,
 so anything redis-py can do is still available to you alongside the caching helpers.
@@ -107,6 +109,7 @@ The most commonly used variables are described in the table below:
 | `REDIS_PASSWORD` | - | Redis password (stored securely as a Pydantic `SecretStr`) |
 | `REDIS_SSL` | `false` | Enable TLS (or use a `rediss://` URL) |
 | `REDIS_CLUSTER` | `false` | Enable [OSS Cluster mode](#cluster-mode) |
+| `REDIS_SENTINEL` | `false` | Enable [Sentinel mode](#sentinel-mode) |
 | `REDIS_PREFIX` | `redis:fastapi` | Global prefix applied to all keys |
 | `REDIS_DEFAULT_TTL` | `0` | Default cache TTL in seconds (`0` = no expiry) |
 | `REDIS_MAX_CONNECTIONS` | - | Maximum pooled connections |
@@ -162,8 +165,9 @@ async def replace_product(product_id: int, body: Product):
     return await db.update(product_id, body)
 ```
 
-Cached responses include an `X-Redis-Cache` header (`HIT` or `MISS`) along with
-`Cache-Control` and `ETag` headers.
+Cached responses include an `X-Redis-Cache` header (`HIT`, `MISS`, or `BYPASS` when the
+response was served but not stored) along with `Cache-Control` and `ETag` headers. If the
+response body depends on the user's session, pass `vary_on_session=True` to `cache()`.
 
 The example below drives a cached endpoint with FastAPI's
 [`TestClient`](https://fastapi.tiangolo.com/reference/testclient/) so you can see the
@@ -206,6 +210,69 @@ the server responds with `304 Not Modified` and no body:
 
 {{< clients-example set="fastapi_tutorial" step="http_caching" lang_filter="Python" description="Use ETag and Cache-Control headers so a revalidation request returns 304 Not Modified" difficulty="intermediate" buildsUpon="cache_hit_miss" />}}
 
+## Rate limiting
+
+Add `.rate_limiting()` to the builder chain, then attach the `rate_limit()` dependency
+to a route. Counters live in Redis, so limits hold across every worker and pod. Stack
+two limits to cap both bursts and sustained traffic. Give each a distinct `scope` so
+their counters stay independent:
+
+```python
+from fastapi import Depends, FastAPI
+from redis_fastapi import FastAPIRedis, rate_limit
+
+app = FastAPI()
+FastAPIRedis(app).lifespan().rate_limiting()
+
+@app.get(
+    "/search",
+    dependencies=[
+        Depends(rate_limit("10/second", scope="search:burst")),
+        Depends(rate_limit("100/minute", scope="search:sustained")),
+    ],
+)
+async def search():
+    return {"results": []}
+```
+
+Limits count per client IP by default. A request that exceeds either limit gets a
+`429 Too Many Requests` response with a `Retry-After` header, and every response carries
+`X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
+
+See the [SDK rate limiting guide](https://redis.github.io/fastapi-redis-sdk/guide/rate-limiting/)
+for custom identifiers, an app-wide limiter, custom `429` responses, and the behavior
+when Redis is unreachable.
+
+## Sessions
+
+Add `.sessions()` to the builder chain to keep session data in Redis. The cookie holds
+only an opaque session ID, and Redis enforces both an idle timeout and an absolute
+timeout. Inject `SessionDep` to read and write the session, and add `valid_session()` to
+return `401` when a request has no live session:
+
+```python
+from fastapi import Depends, FastAPI
+from redis_fastapi import FastAPIRedis, SessionDep, valid_session
+
+app = FastAPI()
+FastAPIRedis(app).lifespan().sessions()
+
+@app.post("/login")
+async def login(session: SessionDep):
+    session["user_id"] = 42  # rotates the session ID after the endpoint completes
+    return {"ok": True}
+
+@app.get("/me", dependencies=[Depends(valid_session())])
+async def me(session: SessionDep):
+    return {"user_id": session.get("user_id")}
+```
+
+Changing the signed-in user rotates the session ID automatically. `request.session`
+also works, so code written for Starlette's `SessionMiddleware` runs unchanged. See the
+[SDK sessions guide](https://redis.github.io/fastapi-redis-sdk/guide/sessions/) for
+timeouts, sign-out everywhere, CSRF (cross-site request forgery) protection, and
+encryption.
+
 ## Cluster mode
 
 To work with an [OSS Cluster](/content/operate/oss_and_stack/management/scaling.md),
@@ -217,6 +284,24 @@ export REDIS_URL=redis://node1:6379,node2:6379,node3:6379
 ```
 
 In cluster mode, `AsyncRedisDep` yields an `AsyncRedisCluster` client.
+
+## Sentinel mode
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+set `REDIS_SENTINEL=true` and list the Sentinels instead of setting `REDIS_URL`. The SDK
+asks the Sentinels for the address of the current primary, and asks again after a
+failover:
+
+```bash
+export REDIS_SENTINEL=true
+export REDIS_SENTINEL_NODES=sentinel1:26379,sentinel2:26379,sentinel3:26379
+export REDIS_SENTINEL_MASTER_NAME=mymaster
+```
+
+Your application code doesn't change. `AsyncRedisDep` yields a standard `AsyncRedis`
+client connected to the current primary. Sentinel mode can't be combined with
+`REDIS_CLUSTER` or `REDIS_URL`. If the Sentinels require authentication, set
+`REDIS_SENTINEL_USERNAME` and `REDIS_SENTINEL_PASSWORD`.
 
 ## Observability
 
