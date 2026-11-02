@@ -99,6 +99,8 @@ When the deployment turns on sign-in, an MCP client can use an access token from
 
 A request without a credential receives `401` and a `WWW-Authenticate` header that points to the Gateway's protected resource metadata. Clients that support MCP authorization read that document, find the IdP, and sign the user in. The IdP's token never reaches an Upstream.
 
+The token must be issued for the Gateway's own API, not for the shared Iris audience that the Iris console uses. A token for the shared audience alone doesn't open a Gateway.
+
 The signed-in user still needs a grant on the Gateway. See [Identity provider sign-in](/content/operate/iris/context-gateway/self-managed/authentication.md#identity-provider-sign-in).
 
 ## Troubleshoot the connection
