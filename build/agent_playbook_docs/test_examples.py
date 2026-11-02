@@ -458,11 +458,12 @@ def fixture_server():
     server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    env = {**os.environ, 'PLAYBOOK_URL': f'http://127.0.0.1:{server.server_port}', 'PLAYBOOK_ID': PB,
-           'PLAYBOOK_API_KEY': 'author-test-key',
+    env = {**os.environ, 'IRIS_AGENT_PLAYBOOKS_URL': f'http://127.0.0.1:{server.server_port}', 'IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID': PB,
+           'IRIS_AGENT_PLAYBOOKS_API_KEY': 'author-test-key',
            'PLAYBOOK_SKILL_ID': state.skill_id, 'PLAYBOOK_FAQ_ID': state.faq_id,
            'OPENAI_API_KEY': 'model-test-key', 'OPENAI_BASE_URL': f'http://127.0.0.1:{server.server_port}/v1',
            'OPENAI_AGENTS_DISABLE_TRACING': '1'}
+    env.pop('IRIS_AGENT_PLAYBOOKS_CONTENT_API_KEY', None)
     yield state, env
     server.shutdown()
     server.server_close()
@@ -482,9 +483,6 @@ def execute(page, suffix, directory, env, source=None):
     if suffix == 'py':
         ast.parse(source)
         command = [sys.executable, str(path)]
-    elif suffix == 'mts':
-        (directory / 'node_modules').symlink_to((HERE / 'node_modules').resolve(), target_is_directory=True)
-        command = [str((HERE / 'node_modules/.bin/tsx').resolve()), str(path)]
     else:
         command = ['bash', str(path)]
     package_sample(directory)
@@ -506,11 +504,56 @@ def normalized(calls):
     return [(name, normalize(body)) for name, body in calls]
 
 
+@pytest.mark.parametrize('interface', ('helper', 'client'))
+def test_discovery_parameter_names_and_default_limit(interface, fixture_server):
+    from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
+
+    state, env = fixture_server
+    query = 'Draft a reply about a refund'
+    filter_ = {'and_': [{'eq': {'name': 'locale', 'value': 'en-US'}}]}
+    with AgentPlaybooks(AgentPlaybooksSettings.from_env(env)) as playbook:
+        if interface == 'helper':
+            result = playbook.discover(query, filter_=filter_, pin=[state.skill_id])
+            assert result.pinned[0].entry_id == state.skill_id
+        else:
+            result = playbook.client.discover_entries(
+                query=query, filter_=filter_, pinned_entries=[{'entry_id': state.skill_id}],
+            )
+            assert result.pinned_entries[0].entry_id == state.skill_id
+    assert not state.errors, state.errors
+    expected = {
+        'query': query, 'filter': {'and': [{'eq': {'name': 'locale', 'value': 'en-US'}}]},
+        'pinnedEntries': [{'entryId': state.skill_id}],
+    }
+    if interface == 'helper':
+        expected['limit'] = 5
+    assert state.calls == [('DiscoverEntries', expected)]
+
+
+@pytest.mark.parametrize('method,operation', (
+    ('search_faqs', 'SearchFaqs'), ('search_skills', 'SearchSkills'),
+))
+def test_search_parameter_names_match_http_contract(method, operation, fixture_server):
+    from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
+
+    state, env = fixture_server
+    with AgentPlaybooks(AgentPlaybooksSettings.from_env(env)) as playbook:
+        getattr(playbook.client, method)(
+            query='Check a refund', min_score=0.75,
+            filter_={'or_': [{'eq': {'name': 'locale', 'value': 'en-US'}}]},
+        )
+    assert not state.errors, state.errors
+    assert state.calls == [(operation, {
+        'query': 'Check a refund', 'minScore': 0.75,
+        'filter': {'or': [{'eq': {'name': 'locale', 'value': 'en-US'}}]},
+    })]
+
+
 @pytest.mark.parametrize('page', [guide for guide in GUIDES if guide != 'mcp'])
 def test_reference_clients_execute_and_send_equivalent_requests(page, fixture_server, tmp_path):
     state, env = fixture_server
     traces = []
-    for suffix in ('py', 'mts', 'sh'):
+    for suffix in ('py', 'sh'):
         fresh = ContractFixture()
         if page == 'proposals':
             for index, status in enumerate(('OPEN', 'OPEN', 'PROMOTED')):
@@ -544,11 +587,11 @@ def test_reference_clients_execute_and_send_equivalent_requests(page, fixture_se
             for cursors in list_calls.values():
                 assert cursors == [None, 'fixture+page/1=', 'fixture+page/2='], list_calls
         traces.append(normalized(state.calls))
-    assert traces[0] == traces[1] == traces[2]
+    assert traces[0] == traces[1]
 
 
 @pytest.mark.parametrize('page', ('quickstart', 'skills'))
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 def test_full_program_copy_retains_published_sample(page, suffix, fixture_server, tmp_path):
     state, env = fixture_server
     path = source_path(page, suffix)
@@ -570,7 +613,7 @@ def test_full_program_copy_retains_published_sample(page, suffix, fixture_server
         assert 'cannot guarantee a bank posting date' in final_answer
 
 
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 def test_proposal_edit_preserves_the_candidate_just_reviewed(suffix, fixture_server, tmp_path, monkeypatch):
     state, env = fixture_server
     original_request = state.request
@@ -600,7 +643,7 @@ def test_proposal_edit_preserves_the_candidate_just_reviewed(suffix, fixture_ser
     )
 
 
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 @pytest.mark.parametrize('json_error', (True, False))
 def test_error_example_reports_failure_and_exits(suffix, json_error, fixture_server, tmp_path, monkeypatch):
     state, env = fixture_server
@@ -625,7 +668,7 @@ def test_error_example_reports_failure_and_exits(suffix, json_error, fixture_ser
     assert [name for name, _ in state.calls] == ['GetPlaybookHealth', 'GetFaq']
 
 
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 @pytest.mark.parametrize('missing', (False, True))
 def test_lookup_example_handles_found_and_missing_references(suffix, missing, fixture_server, tmp_path):
     state, env = fixture_server
@@ -633,12 +676,11 @@ def test_lookup_example_handles_found_and_missing_references(suffix, missing, fi
         env['PLAYBOOK_FAQ_ID'] = 'ent_' + '0' * 32
     else:
         state.entries[state.faq_id]['entryKey'] = 'refund-status'
-    index = ('py', 'mts', 'sh').index(suffix)
+    index = ('py', 'sh').index(suffix)
     setup = next(code for name, code in blocks('quickstart') if name == 'playbook-connect')[index]
     lookup = next(code for name, code in blocks('faqs') if name == 'playbook-faq-lookup')[index]
     binding = (
-        'faq_id = os.environ["PLAYBOOK_FAQ_ID"]',
-        'const faqId = requiredEnv("PLAYBOOK_FAQ_ID");',
+        'import os\nfaq_id = os.environ["PLAYBOOK_FAQ_ID"]',
         'FAQ_ID="$PLAYBOOK_FAQ_ID"',
     )[index]
     source = '\n\n'.join((setup, binding, lookup))
@@ -654,7 +696,7 @@ def test_lookup_example_handles_found_and_missing_references(suffix, missing, fi
 
 def test_displayed_async_python_example(fixture_server, tmp_path):
     state, env = fixture_server
-    env['PLAYBOOK_API_KEY'] = 'reader-test-key'
+    env['IRIS_AGENT_PLAYBOOKS_API_KEY'] = 'reader-test-key'
     source = standalone_python('quickstart', 'Use Python asynchronously')
     result = execute('async_search', 'py', tmp_path, env, source=source)
     assert not state.errors, state.errors
@@ -666,7 +708,7 @@ def test_displayed_async_python_example(fixture_server, tmp_path):
 
 
 @pytest.mark.parametrize('page', ('faqs', 'skills'))
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 def test_full_withdrawal_copy_retains_entry_and_history(page, suffix, fixture_server, tmp_path):
     from copy import deepcopy
     state, env = fixture_server
@@ -683,7 +725,7 @@ def test_full_withdrawal_copy_retains_entry_and_history(page, suffix, fixture_se
 
 
 @pytest.mark.parametrize('page', ('faqs', 'skills'))
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 def test_full_deletion_copy_deletes_only_the_selected_entry(page, suffix, fixture_server, tmp_path):
     state, env = fixture_server
     identifier = state.faq_id if page == 'faqs' else state.skill_id
@@ -714,7 +756,7 @@ def test_live_cleanup_attempts_all_resources_after_an_error(monkeypatch):
     assert len(failures) == 1 and 'temporary connection failure' in failures[0]
 
 
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 @pytest.mark.parametrize('failure', ('stale', 'corrupt'))
 def test_skill_proposal_review_stops_before_accepting_unreviewed_bytes(suffix, failure, fixture_server, tmp_path, monkeypatch):
     state, env = fixture_server
@@ -741,7 +783,7 @@ def test_skill_proposal_review_stops_before_accepting_unreviewed_bytes(suffix, f
         assert 'digest' in (result.stdout + result.stderr).lower()
 
 
-@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('suffix', ('py', 'sh'))
 def test_inventory_example_distinguishes_unavailable_from_zero(suffix, fixture_server, tmp_path, monkeypatch):
     state, env = fixture_server
     original = state.request
@@ -754,7 +796,7 @@ def test_inventory_example_distinguishes_unavailable_from_zero(suffix, fixture_s
         return code, result
 
     monkeypatch.setattr(state, 'request', unavailable_count)
-    index = ('py', 'mts', 'sh').index(suffix)
+    index = ('py', 'sh').index(suffix)
     setup = next(code for name, code in blocks('quickstart') if name == 'playbook-connect')[index]
     counts = next(code for name, code in blocks('faqs') if name == 'playbook-faq-stats')[index]
     result = execute('inventory', suffix, tmp_path, env, source=setup + '\n' + counts)

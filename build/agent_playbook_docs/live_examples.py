@@ -11,6 +11,7 @@ import base64
 import json
 import os
 import re
+import shlex
 from pathlib import Path
 import subprocess
 import sys
@@ -22,7 +23,7 @@ from uuid import uuid4
 
 from redis_agent_playbook import Playbook
 
-from examples import AGENT_GUIDES, GUIDES, agent_scripts, cli_script, full_examples, scripts, skill_package, standalone_python
+from examples import AGENT_GUIDES, GUIDES, agent_scripts, cli_script, connection_setup, full_examples, scripts, skill_package, standalone_python
 
 HERE = Path(__file__).resolve().parent
 
@@ -140,13 +141,12 @@ def run_case(name, case, args, log_dir):
         author_key = create_key(args.ids_url, args.control_token, playbook_id, ["read", "write", "publish", "propose"], args.tenant_id, key_ids)
         with tempfile.TemporaryDirectory(prefix="playbook-live-") as directory:
             directory = Path(directory)
-            (directory / "node_modules").symlink_to(HERE / "node_modules", target_is_directory=True)
             preparation = subprocess.run(["bash", "-euc", skill_package()], cwd=directory,
                                          text=True, capture_output=True, timeout=30)
             if preparation.returncode:
                 raise RuntimeError("Skill package preparation failed")
-            env = {**os.environ, "PLAYBOOK_URL": args.dp_url, "PLAYBOOK_ID": playbook_id,
-                   "PLAYBOOK_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
+            env = {**os.environ, "IRIS_AGENT_PLAYBOOKS_URL": args.dp_url, "IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID": playbook_id,
+                   "IRIS_AGENT_PLAYBOOKS_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
             env["PATH"] = str(Path(sys.executable).parent) + ":" + env["PATH"]
             with Playbook(server_url=args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
                 if guide in ("retrieval", "limits", "async_search", *AGENT_GUIDES):
@@ -159,16 +159,24 @@ def run_case(name, case, args, log_dir):
                                         if resource.path == "references/reply-template.md")
                 if guide in ("retrieval", "limits", "async_search", "mcp", *AGENT_GUIDES):
                     reader_key = create_key(args.ids_url, args.control_token, playbook_id, ["read"], args.tenant_id, key_ids)
-                    env["PLAYBOOK_API_KEY"] = reader_key
+                    env["IRIS_AGENT_PLAYBOOKS_API_KEY"] = reader_key
+                connection = {key: env.pop(key) for key in (
+                    "IRIS_AGENT_PLAYBOOKS_URL", "IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID",
+                    "IRIS_AGENT_PLAYBOOKS_API_KEY",
+                )}
+                env.pop("IRIS_AGENT_PLAYBOOKS_CONTENT_API_KEY", None)
+                dotenv = directory / ".env"
+                dotenv.write_text("".join(f"{key}={shlex.quote(value)}\n" for key, value in connection.items()))
+                dotenv.chmod(0o600)
                 # A file named mcp.py shadows the installed MCP package.
                 path = directory / ("mcp_client.py" if name == "mcp.py" else name)
                 path.write_text(source)
                 command = {
                     "py": [sys.executable, str(path)],
-                    "mts": [str(HERE / "node_modules/.bin/tsx"), str(path)],
                     "sh": ["bash", str(path)],
                     "cli.sh": ["bash", str(path)],
                 }[suffix]
+                command = ["bash", "-euc", connection_setup() + "\nexec " + shlex.join(command)]
                 completed = subprocess.run(command, env=env, cwd=directory, text=True,
                                            capture_output=True, timeout=180)
                 output = completed.stdout + completed.stderr

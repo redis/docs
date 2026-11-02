@@ -3,10 +3,10 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .
 # HIDE_END
 
 # STEP_START playbook-proposal-inbox
@@ -15,7 +15,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode view=INBOX --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > inbox.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > inbox.json
   jq '.items[] | {proposalId, state, evidenceCount, action}' inbox.json
   CURSOR=$(jq -r '.nextCursor // empty' inbox.json)
   [[ -n "$CURSOR" ]] || break
@@ -25,7 +25,7 @@ done
 # STEP_START playbook-proposal-search
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Contact support about a missing refund","minScore":0.7,"actionType":"ADD","entryKind":"FAQ","limit":5}' \
   | jq '.items[] | {proposalId: .proposal.proposalId, score, action: .proposal.action}'
@@ -48,7 +48,7 @@ cat > proposal.json <<'JSON'
 JSON
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @proposal.json > proposal-created.json
 PROPOSAL_ID=$(jq -er '.proposalId' proposal-created.json)
 jq '{proposalId, revision}' proposal-created.json
@@ -67,14 +67,14 @@ jq -n --arg observedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
 }' > evidence.json
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/proposals/$PROPOSAL_ID/evidence/$EVIDENCE_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @evidence.json | jq .disposition
 # STEP_END
 
 # STEP_START playbook-proposal-read
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > reviewed.json
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" > reviewed.json
 jq . reviewed.json
 # STEP_END
 
@@ -86,7 +86,7 @@ jq --arg revision "$(jq -er '.revision' reviewed.json)" '
 ' reviewed.json > proposal-update.json
 curl --fail-with-body --silent --show-error \
   -X PATCH "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @proposal-update.json > revised.json
 jq '{revision, action}' revised.json
 # STEP_END
@@ -94,40 +94,40 @@ jq '{revision, action}' revised.json
 # STEP_START playbook-proposal-trash
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{expectedRevision: .revision}' revised.json)" | jq .state
 curl --fail-with-body --silent --show-error \
   -X DELETE "$PLAYBOOK_API/proposals/$PROPOSAL_ID/dismissal" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .state
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .state
 # To purge instead of restoring, DELETE /proposals/$PROPOSAL_ID.
 # STEP_END
 
 # STEP_START playbook-proposal-final-review
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/proposals/$PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > final-review.json
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" > final-review.json
 jq '{action, evidence, revision}' final-review.json
 # STEP_END
 
 # STEP_START playbook-proposal-accept
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/$PROPOSAL_ID/acceptance" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{expectedRevision: .revision}' final-review.json)" > accepted.json
 ACCEPTED_FAQ_ID=$(jq -er '.result.versionCreated.entryId' accepted.json)
 ACCEPTED_VERSION=$(jq -er '.result.versionCreated.version' accepted.json)
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/faqs/$ACCEPTED_FAQ_ID/versions/$ACCEPTED_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   | jq '{entryId, version, content}'
 # STEP_END
 
 # STEP_START playbook-proposal-publish
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/faqs/$ACCEPTED_FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{version: .result.versionCreated.version}' accepted.json)" | jq .publication
 # STEP_END
@@ -138,7 +138,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode view=TRASH --data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/proposals" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > trash.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > trash.json
   jq '.items[] | {proposalId, state, evidenceCount, action}' trash.json
   CURSOR=$(jq -r '.nextCursor // empty' trash.json)
   [[ -n "$CURSOR" ]] || break
@@ -157,7 +157,7 @@ jq -n --rawfile package <(base64 < refund-support-reply.zip | tr -d '\n') '{
 }' > skill-proposal.json
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @skill-proposal.json > skill-proposal-created.json
 SKILL_PROPOSAL_ID=$(jq -er '.proposalId' skill-proposal-created.json)
 jq '{proposalId, revision}' skill-proposal-created.json
@@ -166,14 +166,14 @@ jq '{proposalId, revision}' skill-proposal-created.json
 # STEP_START playbook-proposal-skill-review
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > skill-reviewed.json
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" > skill-reviewed.json
 jq '.action.add.candidate.content.payload.skill | {manifest, instructions, resources}' skill-reviewed.json
 RESOURCE_ID=$(jq -er '.action.add.candidate.content.payload.skill.resources[] | select(.path == "references/reply-template.md") | .resourceId' skill-reviewed.json)
 SKILL_REVISION=$(jq -er '.revision' skill-reviewed.json)
 curl --fail-with-body --silent --show-error --get \
   "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID/resources/$RESOURCE_ID" \
   --data-urlencode "expectedRevision=$SKILL_REVISION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" --output reply-template.reviewed.md
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" --output reply-template.reviewed.md
 EXPECTED_DIGEST=$(jq -er --arg id "$RESOURCE_ID" '.action.add.candidate.content.payload.skill.resources[] | select(.resourceId == $id) | .digest' skill-reviewed.json)
 ACTUAL_DIGEST="sha256:$(openssl dgst -sha256 reply-template.reviewed.md | awk '{print $NF}')"
 [[ "$ACTUAL_DIGEST" == "$EXPECTED_DIGEST" ]] || { echo 'Proposal resource digest mismatch' >&2; exit 1; }
@@ -183,7 +183,7 @@ cat reply-template.reviewed.md
 # STEP_START playbook-proposal-skill-accept
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID/acceptance" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{expectedRevision: .revision}' skill-reviewed.json)" > skill-accepted.json
 jq -e '.result.versionCreated.entryKind == "SKILL"' skill-accepted.json > /dev/null
@@ -191,13 +191,13 @@ ACCEPTED_SKILL_ID=$(jq -er '.result.versionCreated.entryId' skill-accepted.json)
 ACCEPTED_SKILL_VERSION=$(jq -er '.result.versionCreated.version' skill-accepted.json)
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$ACCEPTED_SKILL_ID/versions/$ACCEPTED_SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .content
 # STEP_END
 
 # STEP_START playbook-proposal-skill-publish
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/skills/$ACCEPTED_SKILL_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{version: .result.versionCreated.version}' skill-accepted.json)" | jq .publication
 # STEP_END

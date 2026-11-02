@@ -225,8 +225,8 @@ def agent_server(request):
     server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    env = {**os.environ, "PLAYBOOK_URL": f"http://127.0.0.1:{server.server_port}", "PLAYBOOK_ID": PB,
-           "PLAYBOOK_API_KEY": "reader-test-key", "OPENAI_API_KEY": "model-test-key",
+    env = {**os.environ, "IRIS_AGENT_PLAYBOOKS_URL": f"http://127.0.0.1:{server.server_port}", "IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID": PB,
+           "IRIS_AGENT_PLAYBOOKS_API_KEY": "reader-test-key", "OPENAI_API_KEY": "model-test-key",
            "OPENAI_BASE_URL": f"http://127.0.0.1:{server.server_port}/v1",
            "OPENAI_AGENTS_DISABLE_TRACING": "1", "LANGSMITH_TRACING": "false"}
     env.pop("AGENT_TASK", None)
@@ -240,19 +240,17 @@ def run_program(framework, suffix, env, tmp_path):
     path = SOURCES / framework / f"{framework}.{suffix}"
     target = tmp_path / path.name
     target.write_text(processed(path)[0])
-    (tmp_path / "node_modules").symlink_to(Path(__file__).parent / "node_modules", target_is_directory=True)
-    command = [sys.executable, str(target)] if suffix == "py" else [str(Path(__file__).parent / "node_modules/.bin/tsx"), str(target)]
+    command = [sys.executable, str(target)]
     return subprocess.run(command, env=env, cwd=tmp_path, text=True, capture_output=True, timeout=90)
 
 
 @pytest.mark.parametrize("framework", ("openai_agent", "langgraph_agent"))
-@pytest.mark.parametrize("suffix", ("py", "mts"))
 @pytest.mark.parametrize("agent_server", ("skill", "competing", "faq", "empty", "budget", "failure", "tool-error", "unsafe-tool-error", "unsafe-discovery-after-error", "unsafe-parallel-error", "stale"), indirect=True)
-def test_agent_discovery_and_selective_loading(framework, suffix, agent_server, tmp_path):
+def test_agent_discovery_and_selective_loading(framework, agent_server, tmp_path):
     state, env = agent_server
     if state.mode == "faq":
         env["AGENT_TASK"] = "Where can I find my refund status?"
-    result = run_program(framework, suffix, env, tmp_path)
+    result = run_program(framework, "py", env, tmp_path)
     output = result.stdout + result.stderr
     assert not state.errors, state.errors
     assert state.events and state.events[0] == "sdk-discover", output
@@ -276,16 +274,14 @@ def test_agent_discovery_and_selective_loading(framework, suffix, agent_server, 
             assert state.events.index("sdk-discover") < state.events.index("model")
 
 
-@pytest.mark.parametrize("suffix", ("py", "mts", "sh"))
+@pytest.mark.parametrize("suffix", ("py", "sh"))
 @pytest.mark.parametrize("agent_server", ("skill", "faq", "empty", "budget", "text-fallback",
                                           "discovery-tool-error", "discovery-rpc-error", "invalid-json"), indirect=True)
 def test_basic_mcp_client(suffix, agent_server, tmp_path):
     state, env = agent_server
     target = tmp_path / f"mcp_client.{suffix}"
     target.write_text(processed(SOURCES / f"mcp/mcp_client.{suffix}")[0])
-    (tmp_path / "node_modules").symlink_to(Path(__file__).parent / "node_modules", target_is_directory=True)
-    command = {"py": [sys.executable, str(target)], "mts": [str(Path(__file__).parent / "node_modules/.bin/tsx"), str(target)],
-               "sh": ["bash", str(target)]}[suffix]
+    command = {"py": [sys.executable, str(target)], "sh": ["bash", str(target)]}[suffix]
     result = subprocess.run(command, env=env, cwd=tmp_path, text=True, capture_output=True, timeout=60)
     assert not state.errors, state.errors
     assert not state.model_requests

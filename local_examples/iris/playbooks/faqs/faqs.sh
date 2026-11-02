@@ -3,10 +3,10 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .
 # HIDE_END
 
 # STEP_START playbook-faq-create
@@ -25,7 +25,7 @@ cat > faq.json <<'JSON'
 JSON
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/faqs" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @faq.json > draft.json
 FAQ_ID=$(jq -er '.entry.entryId' draft.json)
 VERSION=$(jq -er '.version.version' draft.json)
@@ -35,13 +35,13 @@ jq '{entryId: .entry.entryId, version: .version.version, publication: .entry.pub
 # STEP_START playbook-faq-publish
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/faqs/$FAQ_ID/versions/$VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .content
 # STEP_END
 
 # STEP_START playbook-faq-publication
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq -n --argjson version "$VERSION" '{version: $version}')" | jq .publication
 # STEP_END
@@ -49,7 +49,7 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-faq-search
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/faqs/search" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data '{"query":"Where can I see how my refund is progressing?","filter":{"eq":{"name":"locale","value":"en-US"}},"limit":5}' \
   | jq '.items[] | {entryId, version, score, answer: .faq.answer}'
@@ -60,7 +60,7 @@ jq 'del(.entryKey) | .content.payload.faq.answer += " Support can check the curr
   faq.json > faq-update.json
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/faqs/$FAQ_ID/versions" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @faq-update.json > updated.json
 jq .version updated.json
 # STEP_END
@@ -68,7 +68,7 @@ jq .version updated.json
 # STEP_START playbook-faq-republish
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq '{version: .version.version}' updated.json)" | jq .publication
 # STEP_END
@@ -76,7 +76,7 @@ curl --fail-with-body --silent --show-error \
 # STEP_START playbook-faq-rollback
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/faqs/$FAQ_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq -n --argjson version "$VERSION" '{version: $version}')" | jq .publication
 # STEP_END
@@ -87,7 +87,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-page.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > faq-page.json
   jq '.items[] | {entryId, latestVersion, publication}' faq-page.json
   CURSOR=$(jq -r '.nextCursor // empty' faq-page.json)
   [[ -n "$CURSOR" ]] || break
@@ -100,7 +100,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/faqs/$FAQ_ID/versions" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > faq-versions.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > faq-versions.json
   jq '.items[] | {version, contentDigest, content}' faq-versions.json
   CURSOR=$(jq -r '.nextCursor // empty' faq-versions.json)
   [[ -n "$CURSOR" ]] || break
@@ -111,7 +111,7 @@ done
 jq -n --arg id "$FAQ_ID" '{references: [{entryId: $id}, {entryKey: "refund-status"}]}' \
   | curl --fail-with-body --silent --show-error \
     -X POST "$PLAYBOOK_API/entries/lookup" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
     -H 'Content-Type: application/json' --data-binary @- \
   | jq '{maxVersions, items}'
 # STEP_END
@@ -119,6 +119,6 @@ jq -n --arg id "$FAQ_ID" '{references: [{entryId: $id}, {entryKey: "refund-statu
 # STEP_START playbook-faq-stats
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/stats" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   | jq '{observedAt, faqs: (if .faqs.total.available then .faqs.total.value else "unavailable" end), skills: (if .skills.total.available then .skills.total.value else "unavailable" end)}'
 # STEP_END

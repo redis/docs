@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+import sys
 import time
 from urllib.error import HTTPError
 from uuid import uuid4
@@ -144,6 +145,7 @@ def validate(args, record):
         assert not paused.enabled and paused.source.store_id == store_id
         record("pause-retains-source-and-settings")
     finally:
+        original_error = sys.exc_info()[1]
         failures = []
         if binding_id:
             try:
@@ -177,13 +179,13 @@ def validate(args, record):
                 memory_control.delete_store(store_id=store_id)
             except Exception:
                 failures.append("source-store-cleanup")
-        for client in clients:
-            client.__exit__(None, None, None)
-        control.__exit__(None, None, None)
-        if memory_control:
-            memory_control.__exit__(None, None, None)
+        for client in [*clients, control, *([memory_control] if memory_control else [])]:
+            try:
+                client.__exit__(None, None, None)
+            except Exception:
+                failures.append("client-close")
         record("cleanup", "failed" if failures else "passed", ", ".join(failures) or None)
-        if failures:
+        if failures and original_error is None:
             raise RuntimeError("Operator validation cleanup was incomplete")
 
 

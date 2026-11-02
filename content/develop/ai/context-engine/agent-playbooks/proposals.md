@@ -28,7 +28,7 @@ Use an existing playbook and application programming interface (API) keys with t
 - `write` to edit, accept, dismiss, restore, or purge proposals.
 - `publish` to publish the entry returned by acceptance.
 
-For this walkthrough, give `PLAYBOOK_API_KEY` all three permissions and follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}). Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
+For this walkthrough, give `IRIS_AGENT_PLAYBOOKS_API_KEY` all three permissions and follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}). Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
 
 For the skill examples and complete Python or cURL program, first [prepare the sample skill package](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package). The pinned CLI's proposal commands support FAQs; use the SDK or cURL for skill proposals.
 
@@ -38,11 +38,11 @@ A key with `read` permission can list, search, and inspect proposals. The inbox 
 
 For software development kit (SDK) and cURL lists, follow the cursor until it is absent, even after an empty page. Keep the view and sort settings unchanged. Responses return `items` and `nextCursor` and don't include a total count. The command-line interface (CLI) follows cursors automatically. Use `--page` for one page with `items` and `nextCursor`, then `--cursor` to continue.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-inbox" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-inbox" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Search before submitting another candidate. Compare similar questions to decide whether they need the same answer. Proposal search covers open candidates, not trash, accepted proposals, or [published FAQs](/content/develop/ai/context-engine/agent-playbooks/retrieval.md#search).
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-search" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Create a proposal
 
@@ -50,7 +50,7 @@ Write a self-contained question and answer. Add intents for the task and attribu
 
 Save the proposal identifier and `revision`. Use the revision to identify the candidate you edit or accept.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The CLI takes a flat FAQ candidate file and a separate source file in JavaScript Object Notation (JSON), and constructs the proposal action for you.
 
@@ -64,14 +64,18 @@ If the open candidate addresses the same need, [attach evidence]({{< relref "/de
 
 Use `submit_proposal_evidence` to add another observation to an open proposal. For example, attach a policy excerpt that supports the answer or a conversation that reveals a missing condition.
 
-| Field | Purpose |
-|:------|:--------|
-| `evidenceId` | Identifier for this observation. Reuse it for an exact retry. |
-| `observedAt` | Time of the source observation. |
-| `producer` | Application or agent name, with optional prompt version and commit hash. |
-| `source` | Source type, with optional reference and content objects. |
+| HTTP/CLI field | Python argument or dictionary field | Purpose |
+|:---------------|:------------------------------------|:--------|
+| `evidenceId` | `evidence_id` | Required observation identifier: `evd_` followed by 32 lowercase hexadecimal characters. Reuse it for an exact retry. |
+| `observedAt` | `observed_at` | Required time of the source observation. |
+| `producer.name` | `producer["name"]` | Required application or agent name. |
+| `producer.promptVersion` | `producer["prompt_version"]` | Optional prompt version. |
+| `producer.commitSHA` | `producer["commit_sha"]` | Optional commit hash: 40 or 64 lowercase hexadecimal characters. |
+| `source.kind` | `source["kind"]` | Required source label. |
+| `source.reference` | `source["reference"]` | Optional JSON object locating the source. |
+| `source.content` | `source["content"]` | Optional JSON object containing the observation or excerpt. |
 
-Include a supporting passage and a reference the reviewer can check. Redis Agent Playbooks does not independently verify caller-supplied attribution. An evidence count measures observations, not correctness or independent users.
+Include a supporting passage and a reference the reviewer can check. Redis Agent Playbooks do not independently verify caller-supplied attribution. An evidence count measures observations, not correctness or independent users.
 
 Evidence is immutable. Retrying the same identifier and payload returns the disposition `ALREADY_PRESENT`; new evidence returns `ADDED`. Reusing that identifier for changed content returns a conflict. Use a new identifier for a new observation.
 
@@ -79,23 +83,23 @@ The creation source explains the first suggestion and does not increase `evidenc
 
 This example attaches a policy excerpt. The cURL and CLI tabs use `openssl` to generate an identifier.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-evidence" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-evidence" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Review and edit a candidate
 
 1. Retrieve the complete proposal and its evidence with `get_proposal`.
 1. Check that the sources support the answer, its conditions, and its intended audience.
 1. Check for sensitive or conversation-specific details that should not become reusable guidance.
-1. Replace the candidate with `replace_proposal` if it needs changes. Supply the complete action and `expectedRevision` for the revision you read.
+1. Replace the candidate with `replace_proposal` if it needs changes. Supply the complete action and `expected_revision` for the revision you read (`expectedRevision` in HTTP).
 1. Review the returned candidate and record its new revision.
 
 Editing preserves evidence. If another reviewer changes the candidate, the revision check fails; review the current answer before trying again.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-read" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-read" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Add the excerpt's guidance about card details. Preserve the other fields from the proposal you just read.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-replace" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-replace" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Dismiss, restore, or purge
 
@@ -107,7 +111,7 @@ Purge a trashed proposal to remove it permanently. Save any review records your 
 
 Test dismissal and restoration before accepting the sample. Purging instead ends the walkthrough for that proposal.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-trash" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-trash" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Accept and publish
 
@@ -117,15 +121,15 @@ A proposal being accepted (state `PROMOTING`) or already accepted (`PROMOTED`) c
 
 If your client cannot recognize the result type, inspect the result or upgrade the client before publishing.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-final-review" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-final-review" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Accept the reviewed revision.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-accept" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-accept" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Publish the returned FAQ version after review.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-publish" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-publish" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The accepted FAQ remains after this example. Delete it with the [FAQ cleanup procedure]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) using the returned entry identifier when you finish.
 
@@ -133,7 +137,7 @@ The accepted FAQ remains after this example. Delete it with the [FAQ cleanup pro
 
 Use the trash view to inspect dismissed, expired, and accepted proposals while they are retained. Accepted proposals cannot be restored or edited. Purging their review record does not delete the FAQ. An acceptance still in progress remains in the inbox and cannot be purged.
 
-{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-history" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-history" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Review skill proposals
 
@@ -147,7 +151,7 @@ Read the candidate, inspect its instructions, and read the supporting files. Thi
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-review" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-Resource reads require `expectedRevision`. If another reviewer replaces the candidate, a stale resource read or acceptance returns `412` with type `/errors/revision-conflict`. Read and review the new candidate and its files before retrying. To replace a skill candidate, submit a complete ZIP with the retained intents, attributes, and metadata; the normalized response payload is not an upload request.
+Resource reads require `expectedRevision` (`expected_revision` in Python). If another reviewer replaces the candidate, a stale resource read or acceptance returns `412` with type `/errors/revision-conflict`. Read and review the new candidate and its files before retrying. To replace a skill candidate, submit a complete ZIP with the retained intents, attributes, and metadata; the normalized response payload is not an upload request.
 
 Accept the reviewed revision and check the receipt's `entryKind` before selecting a publication operation. A skill receipt identifies an unpublished skill version:
 

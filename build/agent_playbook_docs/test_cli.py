@@ -2,11 +2,13 @@
 
 from copy import deepcopy
 from pathlib import Path
+import shlex
+import subprocess
 import sys
 
 import pytest
 
-from examples import cli_script, processed, source_path
+from examples import cli_script, connection_setup, processed, source_path
 from test_examples import execute, fixture_server
 
 
@@ -36,6 +38,30 @@ def cli_server(fixture_server, monkeypatch):
     return state, env
 
 
+@pytest.mark.parametrize('suffix', ('py', 'cli.sh', 'sh'))
+def test_quickstart_runs_from_documented_dotenv(suffix, cli_server, tmp_path):
+    state, env = cli_server
+    original_ids = set(state.entries)
+    connection = {name: env.pop(name) for name in (
+        'IRIS_AGENT_PLAYBOOKS_URL', 'IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID',
+        'IRIS_AGENT_PLAYBOOKS_API_KEY',
+    )}
+    dotenv = tmp_path / '.env'
+    dotenv.write_text(''.join(f'{name}={shlex.quote(value)}\n' for name, value in connection.items()))
+    dotenv.chmod(0o600)
+    target = tmp_path / f'quickstart.{suffix}'
+    target.write_text(processed(source_path('quickstart', suffix))[0])
+    command = [sys.executable if suffix == 'py' else 'bash', str(target)]
+    result = subprocess.run(['bash', '-euc', connection_setup() + '\nexec ' + shlex.join(command)],
+                            cwd=tmp_path, env=env, text=True, capture_output=True, timeout=30)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not state.errors, state.errors
+    created = [entry for eid, entry in state.entries.items() if eid not in original_ids]
+    assert len(created) == 1
+    assert created[0]['latestVersion'] == created[0]['publication']['version'] == 2
+    assert connection['IRIS_AGENT_PLAYBOOKS_API_KEY'] not in result.stdout + result.stderr
+
+
 @pytest.mark.parametrize('page,copy', [
     ('quickstart', False), ('faqs', False), ('skills', False),
     ('proposals', False), ('retrieval', False), ('quickstart', True), ('skills', True),
@@ -44,14 +70,14 @@ def test_cli_programs_preserve_review_and_publication(page, copy, cli_server, tm
     state, env = cli_server
     original_ids = set(state.entries)
     if page == 'retrieval':
-        env['PLAYBOOK_API_KEY'] = 'reader-test-key'
+        env['IRIS_AGENT_PLAYBOOKS_API_KEY'] = 'reader-test-key'
     source = (processed(source_path(page, 'cli.sh'))[0]
               if copy else cli_script(page))
     result = execute(page, 'cli.sh', tmp_path, env, source=source)
     assert not state.errors, state.errors
     assert result.returncode == 0, result.stdout + result.stderr
     names = [name for name, _ in state.calls]
-    assert env['PLAYBOOK_API_KEY'] not in result.stdout + result.stderr
+    assert env['IRIS_AGENT_PLAYBOOKS_API_KEY'] not in result.stdout + result.stderr
     if page in ('quickstart', 'faqs', 'skills'):
         created = next(entry for eid, entry in state.entries.items() if eid not in original_ids)
         versions = state.versions[created['entryId']]

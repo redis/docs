@@ -52,7 +52,7 @@ These field and structure limits also apply:
 |:-------------------|:-----------------|
 | Search or discovery query | 1–4,096 characters |
 | Type-specific search results | 1–50; omission uses the playbook's result default |
-| Discovery results | 1–50, bounded by `discovery.maxResults`; default `10` |
+| Discovery results | 1–50, bounded by `discovery.maxResults`; service default `10`, unified Python helper default `5` |
 | Similarity thresholds | `0`–`1`; default `0.7` for each entry type |
 | Discovery preview ceiling | Disabled by default; minimum configured value `64` estimated tokens |
 | Filter depth | Five |
@@ -75,11 +75,12 @@ List responses return `items` and `nextCursor` and do not include a total count.
 | Evidence records per proposal | 100 |
 | Total evidence payload per proposal | 256 KiB |
 | Individual evidence payload | 12 KiB |
+| Proposal creation source | 12 KiB |
 | Proposal search results | 1–50; default `10` |
 
 The optional creation source is separate from attached evidence and does not increment `evidenceCount`. Unreviewed proposals leave the inbox at `inboxExpiresAt` and become unavailable after `purgeAt`. With the default policy, creation, new evidence, candidate replacement, and restoration set deadlines of 30 days for inbox review and 60 days for retention. Dismissing a proposal moves it to trash immediately and starts a 30-day retention window. An exact evidence retry does not refresh the deadlines.
 
-Proposal retention does not affect an accepted FAQ's history. Store required review records outside the inbox.
+Proposal retention does not affect an accepted entry's history. Store required review records outside the inbox.
 
 ## Handle request errors
 
@@ -123,7 +124,7 @@ The `409` error type identifies the recovery step:
 | `/errors/proposal-evidence-capacity` | Review the proposal with its retained evidence; additional evidence does not fit. |
 | `/errors/proposal-trashed` | Restore the proposal before modifying or accepting it. |
 | `/errors/proposal-open` | Dismiss the proposal before purging it. |
-| `/errors/proposal-promotion-locked` | Resume acceptance or use its recorded FAQ. Candidate edits and evidence changes are locked. |
+| `/errors/proposal-promotion-locked` | Resume acceptance or use its recorded entry. Candidate edits and evidence changes are locked. |
 
 ## Retry uncertain operations
 
@@ -137,7 +138,7 @@ Bulk deletion is not atomic across the batch. The response lists removed entries
 
 Use a key with `write` permission for bulk deletion. Choose the entry type before sending a request:
 
-| Task | Python method | HTTP request |
+| Task | Python `.client` method | HTTP request |
 |:-----|:--------------|:-------------|
 | Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/faqs/bulk-delete` with an `entryIds` array |
 | Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/skills/bulk-delete` with an `entryIds` array |

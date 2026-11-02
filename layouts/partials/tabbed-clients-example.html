@@ -92,7 +92,7 @@
 {{ end }}
 
 {{ $clientExamples := index $.Site.Data.examples $id }}
-{{ range $client := $.Site.Params.clientsexamples }}
+{{ range $client := ($.Page.Params.exampleclientorder | default $.Site.Params.clientsexamples) }}
     {{ $example := index $clientExamples $client }}
     {{ $clientConfig := index $.Site.Params.clientsconfig $client }}
     {{ $language := index $example "language" }}

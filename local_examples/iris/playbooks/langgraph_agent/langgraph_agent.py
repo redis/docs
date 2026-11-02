@@ -36,14 +36,11 @@ class Turn(TypedDict):
 
 
 async def main():
-    url = os.environ["PLAYBOOK_URL"].rstrip("/")
-    playbook_id = os.environ["PLAYBOOK_ID"]
-    api_key = os.environ["PLAYBOOK_API_KEY"]
-    async with AgentPlaybooks(
-        AgentPlaybooksSettings(
-            url=url, playbook_id=playbook_id, api_key=api_key
-        )
-    ) as playbook:
+    settings = AgentPlaybooksSettings.from_env()
+    url = settings.url.rstrip("/")
+    playbook_id = settings.playbook_id
+    api_key = settings.api_key
+    async with AgentPlaybooks(settings) as playbook:
 
         async def discover(state: Turn):
             try:

@@ -12,8 +12,24 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DESCRIPTIONS = {
+    "ReplaceProposal": (
+        "Replaces an open proposal's candidate with the complete action supplied.\n"
+        "expectedRevision is required and must match the revision you reviewed.\n"
+        "A stale revision returns HTTP 412 /errors/revision-conflict."
+    ),
+    "DismissProposal": (
+        "Moves an open proposal to trash. expectedRevision is optional; when supplied,\n"
+        "a mismatch on an open proposal returns HTTP 412 /errors/revision-conflict.\n"
+        "An already trashed proposal is a successful no-op regardless of revision."
+    ),
+    "GetProposalResource": (
+        "Returns exact candidate file bytes for the requested proposal revision.\n"
+        "The expectedRevision query parameter is required. A stale revision returns\n"
+        "HTTP 412 /errors/revision-conflict; responses must not be cached."
+    ),
     "AcceptProposal": (
         "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\n"
+        "expectedRevision is required and must match the revision you reviewed.\n"
         "Concurrent calls and retries resume or return the proposal's recorded target.\n"
         "A complete target may be visible to management before the proposal reaches\n"
         "promoted, but remains absent from serving until separately published."

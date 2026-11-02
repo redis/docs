@@ -13,7 +13,7 @@ weight: 5
 
 ## Playbooks
 
-Redis Agent Playbooks stores reusable answers and procedures as **entries** inside **playbooks**. A playbook is a registry with its own access grants and retrieval settings. Publish an entry **version** for retrieval, then revise new content while agents use that publication.
+Redis Agent Playbooks store reusable answers and procedures as **entries** inside **playbooks**. A playbook is a registry with its own access grants and retrieval settings. Publish an entry **version** for retrieval, then revise new content while agents use that publication.
 
 Embeddings and semantic search match agent tasks with relevant entries. Discovery settings control similarity thresholds and result limits. Your application supplies the task text and retrieval options.
 
@@ -34,7 +34,7 @@ Playbook API keys can grant these actions:
 
 ## Entries
 
-An entry is a reusable answer or procedure. Redis Agent Playbooks supports two types:
+An entry is a reusable answer or procedure. Redis Agent Playbooks support two types:
 
 - A **FAQ** pairs a question with an answer. Retrieval returns the full answer directly.
 - A **skill (Agent Skill)** packages instructions and optional supporting files for a procedure. Retrieval returns a preview so an agent can decide whether to load the instructions and resources.
@@ -92,7 +92,7 @@ See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/pr
 
 ## Extraction
 
-**Extraction** turns agent interactions into suggested reusable knowledge. Redis Agent Memory stores the conversations; Redis Agent Playbooks uses those conversations to propose answers for review. For example, a support conversation that resolves a refund question can suggest a FAQ for future agents.
+**Extraction** turns agent interactions into suggested reusable knowledge. Redis Agent Memory stores the conversations; Redis Agent Playbooks use those conversations to propose answers for review. For example, a support conversation that resolves a refund question can suggest a FAQ for future agents.
 
 An administrator connects a Redis Agent Memory store to a playbook through an **extraction binding** and enables a background worker. The worker reads eligible idle sessions, derives questions and answers from their events or summaries, and compares them with published FAQs and open proposals. It can create a proposal or attach another observation as evidence to an existing open proposal. An observation already covered by a published FAQ can require no new proposal.
 

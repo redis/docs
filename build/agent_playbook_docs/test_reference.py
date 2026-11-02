@@ -81,15 +81,14 @@ def test_tce_sources_cover_rendered_steps():
                     assert "STEP_START" not in source and "EXAMPLE:" not in source
 
 
-def test_typescript_is_not_published_in_playbook_examples():
+def test_playbook_examples_use_only_the_documented_clients():
     for page in (*GUIDES, "agent-integration"):
         for attrs in calls(page):
             assert "TypeScript (Iris)" not in attrs["lang_filter"].split(",")
     for path in DOCS.glob("*.md"):
         source = path.read_text()
         assert not re.search(r"```(?:typescript|javascript)|\.mts\b|npx tsx|npm install", source), path
-    quickstart = (DOCS / "quickstart.md").read_text()
-    assert "https://www.npmjs.com/package/@redis-iris/agent-playbook" in quickstart
+    assert not list((ROOT / "local_examples/iris/playbooks").rglob("*.mts"))
 
 
 def test_quickstart_headings_work_with_toc_selectors():

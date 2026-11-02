@@ -45,10 +45,6 @@ def check(sdk_repo=None):
     for name in ("python_package", "unified_python_package"):
         if lock[name] not in requirements:
             raise ValueError(f"Documentation requirements differ from {name} in the source lock.")
-    package = json.loads(Path(__file__).with_name("package.json").read_text())
-    ts_name, ts_version = lock["typescript_package"].rsplit("@", 1)
-    if package["dependencies"].get(ts_name) != ts_version:
-        raise ValueError("TypeScript dependency differs from the source lock.")
     expected = lock["data_plane_contract_sha256"]
     if digest(json.loads(SPEC.read_text())) != expected:
         raise ValueError("Docs contract differs from the locked SDK input. Regenerate and review it.")
@@ -62,9 +58,6 @@ def check(sdk_repo=None):
         config = yaml.safe_load((sdk_repo / "playbook-python-sdk/.speakeasy/gen.yaml").read_text())
         if config["python"]["version"] != lock["sdk_generator_version"]:
             raise ValueError("SDK version changed. Review the docs dependency pin.")
-        typescript = json.loads((sdk_repo / "playbook-ts-sdk/package.json").read_text())
-        if f"{typescript['name']}@{typescript['version']}" != lock["typescript_package"]:
-            raise ValueError("TypeScript SDK version changed. Review the docs dependency pin.")
     return lock
 
 

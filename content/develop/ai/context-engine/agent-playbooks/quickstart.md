@@ -19,46 +19,39 @@ Use Redis Agent Playbooks to publish a FAQ, retrieve its answer to “Where can 
 
 This walkthrough needs no agent framework or model-provider key.
 
-Follow one tab throughout the page. The Python SDK and command-line interface (CLI) require Python 3.11 or later. The cURL and CLI examples use Bash and jq. To connect the CLI to your deployment with a profile, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
-
-**Python and CLI**
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install redis-iris==1.0.0b2
-```
-
-{{< note >}}
-The examples use the reviewed beta packages `redis-iris==1.0.0b2` and `redis-agent-playbook==1.0.0b2`. For TypeScript, see the [Redis Agent Playbooks SDK on npm](https://www.npmjs.com/package/@redis-iris/agent-playbook). It is a generated client, not a unified SDK equivalent to Python's `redis-iris` package.
-{{< /note >}}
-
-**HTTP**
-
-```bash
-curl --version
-jq --version
-```
-
-## Save connection values
-
-Copy the **Endpoint** and **Playbook ID** from the console's [Connect dialog](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access). Export them with your authoring key. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-playbooks/...` path.
-
-```bash
-export PLAYBOOK_URL='<data-plane-endpoint>'
-export PLAYBOOK_ID='<playbook-id>'
-export PLAYBOOK_API_KEY='<playbook-api-key>'
-```
-
-Keep keys out of skill files, source control, and model prompts.
-
-The Python examples use the unified `redis-iris` package. `AgentPlaybooks` provides discovery and skill-loading helpers; its public `.client` property exposes the generated SDK for authoring, search, and review. The CLI tab exports the standard `IRIS_AGENT_PLAYBOOKS_*` connection variables and runs `iris agent-playbooks` commands directly. Commands use `--json` when saving a response or processing it with jq.
+Follow one tab throughout the page. The Python SDK and command-line interface (CLI) require Python 3.11 or later. The cURL and CLI examples use Bash and jq.
 
 ## Connect to the playbook
 
-Expand an example to copy the complete program. Save it as `quickstart.py`, `quickstart.sh` (cURL), or `quickstart.cli.sh`, then run `python quickstart.py`, `bash quickstart.sh`, or `bash quickstart.cli.sh`.
+1. For Python or CLI examples, install the unified package:
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-connect" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
+    python -m pip install 'redis-iris>=1.0.0'
+    ```
+
+1. Copy the **Endpoint** and **Playbook ID** from the console's [Connect dialog](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access). Save them with your authoring key in `.env`. Replace the placeholders in this file. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-playbooks/...` path.
+
+    ```dotenv
+    IRIS_AGENT_PLAYBOOKS_URL='<data-plane-endpoint>'
+    IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID='<playbook-id>'
+    IRIS_AGENT_PLAYBOOKS_API_KEY='<playbook-api-key>'
+    ```
+
+1. Load the file in the shell where you run the examples:
+
+    ```bash
+    set -a; source .env; set +a
+    ```
+
+1. Expand an example to copy the complete program. Save it as `quickstart.py`, `quickstart.cli.sh`, or `quickstart.sh` (cURL), then run `python quickstart.py`, `bash quickstart.cli.sh`, or `bash quickstart.sh`.
+
+Keep `.env` out of source control and keys out of skill files and model prompts. Use [`iris.toml` profiles](/content/develop/ai/context-engine/sdk-and-cli.md) for several deployments. All three clients use the authoring key in `.env` for this walkthrough.
+
+`AgentPlaybooks.from_env()` reads the connection values. Its public `.client` property exposes authoring, search, and review operations. The CLI reads the same environment variables and uses `--json` when saving or processing responses.
+
+{{< clients-example set="iris_playbook_quickstart" step="playbook-connect" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Keep the printed identifier for cleanup. SDK and cURL examples create another entry when rerun. The CLI uses `refund-status` as a stable entry key: `faqs push` creates missing content, appends changed content, and skips unchanged content. Start with an unused key for this walkthrough. After an uncertain write, inspect entry state before retrying.
 
@@ -66,7 +59,7 @@ Keep the printed identifier for cleanup. SDK and cURL examples create another en
 
 Create one answer with a locale and topic for retrieval filters. Save the returned entry identifier and version.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-create" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-create" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The first version is `1`, and `publication` is absent or empty. You can review the entry, but search and discovery cannot return it yet.
 
@@ -76,11 +69,11 @@ The CLI prepares a flat FAQ JSON file and validates it locally before pushing it
 
 Read the exact version you created.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-publish" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-publish" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Review the question and answer. Then publish the version you read.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-publication" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-publication" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The publication response identifies the version that agents can retrieve.
 
@@ -88,7 +81,7 @@ The publication response identifies the version that agents can retrieve.
 
 Search with a paraphrase of the stored question.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-search" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Check for your entry identifier, version `1`, and the answer about order history. Scores and rankings vary with the embedding model and other entries. If no match appears, repeat only the search after a short wait, then check the locale filter and [similarity threshold]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#control-relevance-and-result-count" >}}).
 
@@ -96,7 +89,7 @@ Check for your entry identifier, version `1`, and the answer about order history
 
 Discovery returns FAQ answers and skill previews in one request. This example filters for refund guidance to add to the agent's context.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-discover" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-discover" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 With no pins, `pinnedEntries` is empty. Matching published entries appear in `discoveredEntries`. Python exposes these collections as `discovery.pinned` and `discovery.discovered`; `as_prompt()` formats them for agent context. When you add skills later, discovery returns their previews without loading all their instructions.
 
@@ -104,11 +97,11 @@ With no pins, `pinnedEntries` is empty. Matching published entries appear in `di
 
 Append a complete replacement version to the same entry. Include the attributes and intents you want to retain.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-update" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-update" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The identifier stays the same, and search still serves the first publication. Review and publish the new version, then search again.
 
-{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-republish" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-republish" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 The result for your FAQ should now identify version `2` and include the added sentence about bank posting dates. If it still shows version `1` or is absent, repeat only the search.
 
@@ -116,7 +109,7 @@ The result for your FAQ should now identify version `2` and include the added se
 
 Keep the sample published while testing [an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}). Complete-program copies retain the FAQ. When you finish, set `PLAYBOOK_FAQ_ID` to the printed entry identifier and run the deletion example with the same connection values. [Withdraw it]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) instead to retain history.
 
-{{< clients-example set="iris_playbook_quickstart_delete" step="playbook-quickstart-delete" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_quickstart_delete" step="playbook-quickstart-delete" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Use Python asynchronously
 

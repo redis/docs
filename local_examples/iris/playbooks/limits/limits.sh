@@ -3,16 +3,16 @@ set -euo pipefail
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .
 # HIDE_END
 
 # STEP_START playbook-error-type
 STATUS=$(curl --silent --show-error -o response.json -w '%{http_code}' \
   "$PLAYBOOK_API/faqs/$PLAYBOOK_FAQ_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY")
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY")
 if [[ "$STATUS" == 2* ]]; then
   jq . response.json
 else

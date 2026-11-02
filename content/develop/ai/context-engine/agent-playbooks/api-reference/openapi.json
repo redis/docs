@@ -5759,7 +5759,8 @@
         "tags": [
           "Proposals"
         ],
-        "summary": "Replace a proposal candidate"
+        "summary": "Replace a proposal candidate",
+        "description": "Replaces an open proposal's candidate with the complete action supplied.\nexpectedRevision is required and must match the revision you reviewed.\nA stale revision returns HTTP 412 /errors/revision-conflict."
       },
       "delete": {
         "operationId": "PurgeProposal",
@@ -5928,7 +5929,7 @@
     },
     "/iris/data/v1/agent-playbooks/playbooks/{playbookId}/proposals/{proposalId}/resources/{resourceId}": {
       "get": {
-        "description": "Returns exact candidate file bytes for the requested proposal revision. A stale revision returns HTTP 412 /errors/revision-conflict; responses must not be cached.",
+        "description": "Returns exact candidate file bytes for the requested proposal revision.\nThe expectedRevision query parameter is required. A stale revision returns\nHTTP 412 /errors/revision-conflict; responses must not be cached.",
         "operationId": "GetProposalResource",
         "parameters": [
           {
@@ -6148,7 +6149,7 @@
     },
     "/iris/data/v1/agent-playbooks/playbooks/{playbookId}/proposals/{proposalId}/acceptance": {
       "post": {
-        "description": "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\nConcurrent calls and retries resume or return the proposal's recorded target.\nA complete target may be visible to management before the proposal reaches\npromoted, but remains absent from serving until separately published.",
+        "description": "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\nexpectedRevision is required and must match the revision you reviewed.\nConcurrent calls and retries resume or return the proposal's recorded target.\nA complete target may be visible to management before the proposal reaches\npromoted, but remains absent from serving until separately published.",
         "operationId": "AcceptProposal",
         "requestBody": {
           "content": {
@@ -6509,7 +6510,8 @@
         "tags": [
           "Proposals"
         ],
-        "summary": "Dismiss a proposal"
+        "summary": "Dismiss a proposal",
+        "description": "Moves an open proposal to trash. expectedRevision is optional; when supplied,\na mismatch on an open proposal returns HTTP 412 /errors/revision-conflict.\nAn already trashed proposal is a successful no-op regardless of revision."
       },
       "delete": {
         "operationId": "RestoreProposal",

@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import shutil
 import sys
+from textwrap import dedent
 from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -23,14 +24,14 @@ AGENT_GUIDES = ("openai_agent", "langgraph_agent")
 PAGE_NAMES = {"faqs": "manage-faqs", "skills": "manage-skills"}
 CLIENTS = {}
 for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitlines():
-    if row.startswith("iris-") and not row.startswith("iris-cli\t"):
+    if row.split("\t", 1)[0] in ("iris-python", "iris-curl"):
         fields = row.split("\t")
         CLIENTS[fields[6].rsplit(".", 1)[1]] = fields[1]
-assert set(CLIENTS) == {"py", "mts", "sh"}
+assert set(CLIENTS) == {"py", "sh"}
 ALL_CLIENTS = {**CLIENTS, "cli.sh": "CLI (Iris)"}
 CALLS = re.compile(r'\{\{< clients-example\s+([^>]*?)/>\}\}', re.S)
 ATTRS = re.compile(r'(\w+)="([^"]*)"')
-FENCE = re.compile(r"```(?:python|typescript|bash)\n(.*?)\n```", re.S)
+FENCE = re.compile(r"```(?:python|bash)\n(.*?)\n```", re.S)
 
 
 def source_path(page, suffix, action=None):
@@ -76,7 +77,7 @@ def calls(page):
 
 
 def blocks(page):
-    """Collect published shared steps and their retained TypeScript test fixtures."""
+    """Collect the Python and cURL steps published in each walkthrough."""
     result = []
     seen = set()
     for attrs in calls(page):
@@ -99,11 +100,12 @@ def scripts(page, omit=()):
     if page not in ("quickstart", "mcp"):
         setup = next(block for block in blocks("quickstart") if block[0] == "playbook-connect")
         selected.insert(0, setup)
-    result = ["\n\n".join(block[1][i] for block in selected) + "\n" for i in range(3)]
+    result = {suffix: "\n\n".join(block[1][i] for block in selected) + "\n"
+              for i, suffix in enumerate(CLIENTS)}
     if page == "skills":
-        result[2] = skill_package() + "\n\n" + result[2]
-    result[2] = "set -euo pipefail\n\n" + result[2]
-    return dict(zip(CLIENTS, result))
+        result["sh"] = skill_package() + "\n\n" + result["sh"]
+    result["sh"] = "set -euo pipefail\n\n" + result["sh"]
+    return result
 
 
 def full_examples():
@@ -129,12 +131,20 @@ def cli_script(page):
 
 def agent_scripts():
     return {(page, suffix): processed(source_path(page, suffix))[0]
-            for page in AGENT_GUIDES for suffix in ("py", "mts")}
+            for page in AGENT_GUIDES for suffix in ("py",)}
 
 
 def standalone_python(page, heading):
     assert (page, heading) == ("quickstart", "Use Python asynchronously")
     return processed(SOURCES / "async/async_example.py")[0]
+
+
+def connection_setup():
+    """Return the quickstart's shell commands for loading a trusted dotenv file."""
+    for source in re.findall(r"(?ms)^    ```bash\n(.*?)^    ```", (DOCS / "quickstart.md").read_text()):
+        if "source .env" in source:
+            return dedent(source)
+    raise ValueError("The quickstart dotenv loading command is missing")
 
 
 if __name__ == "__main__":

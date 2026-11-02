@@ -1,12 +1,12 @@
 # EXAMPLE: iris_playbook_mcp_client
 # STEP_START playbook-mcp-client
 set -euo pipefail
-MCP_URL="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID/mcp"
+MCP_URL="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID/mcp"
 PROTOCOL_VERSION=2025-11-25
 
 post() {
   curl --fail-with-body --silent --show-error "$MCP_URL" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
     -H 'Content-Type: application/json' \
     -H 'Accept: application/json, text/event-stream' \
     -H "MCP-Protocol-Version: $PROTOCOL_VERSION" \
