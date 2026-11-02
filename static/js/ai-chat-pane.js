@@ -716,8 +716,10 @@
 
   /* --------------------------------------------------------------- ask -- */
 
+  /* The page's own link. A link with its own label, such as the error
+     lookup's, asks about something else. */
   function pageLink() {
-    return document.querySelector('a[data-ai-chat-open]');
+    return document.querySelector('a[data-ai-chat-open]:not([data-ai-chat-label])');
   }
 
   function promptOf(link) {
@@ -727,8 +729,9 @@
   function explain(link) {
     var q = link && promptOf(link);
     if (!q) return;
+    var label = link.getAttribute('data-ai-chat-label');
     var title = link.getAttribute('data-ai-chat-title');
-    ask(q, title ? 'Explain this page: ' + title : 'Explain this page');
+    ask(q, label || (title ? 'Explain this page: ' + title : 'Explain this page'));
   }
 
   /* True if the question went in: it waits while another tab gets an answer. */

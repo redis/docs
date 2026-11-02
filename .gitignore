@@ -44,3 +44,5 @@ package-lock.json
 
 # Claude Code per-machine memory store (belongs in ~/.claude, never committed)
 /.claude/projects/
+# Work files of build/errors/update_errors.py
+/.errors-update/

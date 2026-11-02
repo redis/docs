@@ -121,6 +121,8 @@
        otherwise discard the table -- taking the whole body of every release-notes
        index page with it. */ -}}
 {{- $content = partial "markdown-table-children.html" (dict "RawContent" $content "Page" .Page) -}}
+{{- /* Same for the lists of all error messages, whose body is the list. */ -}}
+{{- $content = partial "markdown-error-catalog.html" (dict "RawContent" $content "Page" .Page) -}}
 {{- /* Unescape again, as Hugo re-escapes partial output. Must cover the same entities
        as the block above, including &#43;, or a "+" in a table cell (a version column
        such as "6.0+", say) reaches the feed as a literal entity. */ -}}
