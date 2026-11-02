@@ -22,7 +22,7 @@ Radar adds high-availability status to the **Databases** list and agent health t
 
 - **High-availability status.** The **Databases** list now shows the high-availability status of each Redis Software database, and a **High availability** summary card counts the databases without it.
 - **Agent health.** **Settings > Agents** now shows warnings for each agent and the collection status of each of its sources.
-- **Dependencies.** Updated Go to fix GO-2026-6809, and updated other dependencies.
+- **Dependencies.** Updated Go to 1.26.10 to fix CVE-2026-111943 (GO-2026-6809), and updated other dependencies.
 
 ### Resolved issues
 
