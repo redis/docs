@@ -25,7 +25,17 @@ Before configuring a multi-namespace deployment, you must have a running [Redis 
 
 ## Create role and role binding for managed namespaces
 
-Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `consumer_role.yaml` and `consumer_role_binding.yaml` file within the managed namespace, as shown in the examples below.
+Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. There are two ways to grant it:
+
+- **Namespace-scoped roles**: Create a `Role` and `RoleBinding` in each managed namespace. Use this method to limit the operator's permissions to specific namespaces.
+- **Cluster-scoped roles**: Create a `ClusterRole` and `ClusterRoleBinding` once for all namespaces. Use this method to simplify multi-namespace management.
+
+> [!NOTE]
+> If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
+
+### Namespace-scoped roles
+
+For each **managed** namespace, create a `consumer_role.yaml` and `consumer_role_binding.yaml` file within the managed namespace, as shown in the examples below.
 
 > [!NOTE]
 > These will need to be reapplied each time you [upgrade](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md). 
@@ -41,14 +51,6 @@ Replace `<service-account-name>` with your own value (defaults to the REC name).
 
 {{<embed-yaml "k8s/multi-ns_role_binding.md" "consumer_role_binding.yaml">}}
 
-> [!NOTE]
-> **Alternative approach**: Instead of creating individual `Role` objects for each namespace, you can create a single `ClusterRole` and bind it with multiple `RoleBinding` objects. This reduces the number of objects and simplifies role management.
->
-> To use this approach:
-> 1. Change `kind: Role` to `kind: ClusterRole` in the role definition above
-> 2. Change `roleRef.kind: Role` to `roleRef.kind: ClusterRole` in the role binding definition above
-> 3. Apply the ClusterRole once globally, then apply a RoleBinding in each managed namespace
-
 Apply the files, replacing `<managed-namespace>` with your own values:
 
 ```sh
@@ -57,7 +59,34 @@ kubectl apply -f consumer_role_binding.yaml -n <managed-namespace>
 ```
 
 > [!NOTE]
-> If the REC is configured to watch a namespace without setting the role and role binding permissions, or a namespace that is not yet created, the operator will fail and halt normal operations.
+> Deleting a managed namespace deletes its `Role` and `RoleBinding`, which revokes the operator's access before it can remove the finalizers on the namespace's REDBs. The REDBs and the namespace then stay in the `Terminating` state. Delete the REDBs before you delete the namespace, or use [cluster-scoped roles](#cluster-scoped-roles).
+
+> [!NOTE]
+> To define the rules once and still grant access per namespace, create a single `ClusterRole` and bind it with a `RoleBinding` in each managed namespace. Set `kind: ClusterRole` in the role definition and `roleRef.kind: ClusterRole` in the role binding, apply the `ClusterRole` once without a namespace, and apply the `RoleBinding` in each managed namespace.
+
+### Cluster-scoped roles
+
+A `ClusterRoleBinding` grants the operator access to all namespaces in the Kubernetes cluster, so you create it once instead of in each managed namespace. The operator still acts only on the namespaces you configure it to manage.
+
+When you delete a managed namespace, the operator retains access to it through the `ClusterRoleBinding`. The operator removes the finalizers on the namespace's REDBs and deletes their databases, and the namespace deletion completes.
+
+> [!WARNING]
+> Deleting a managed namespace deletes its REDBs, including the databases and their data. Back up any data you need first.
+
+1. Create `consumer_cluster_role.yaml`. Start from the `consumer_role.yaml` example in [Namespace-scoped roles](#namespace-scoped-roles) and change `kind: Role` to `kind: ClusterRole`.
+
+1. Create `consumer_cluster_role_binding.yaml`. Start from the `consumer_role_binding.yaml` example in [Namespace-scoped roles](#namespace-scoped-roles) and make these changes:
+
+    - Change `kind: RoleBinding` to `kind: ClusterRoleBinding`.
+    - Change `roleRef.kind: Role` to `roleRef.kind: ClusterRole`.
+    - Replace the placeholders as described in [Namespace-scoped roles](#namespace-scoped-roles).
+
+1. Apply the files once, without specifying a namespace:
+
+    ```sh
+    kubectl apply -f consumer_cluster_role.yaml
+    kubectl apply -f consumer_cluster_role_binding.yaml
+    ```
 
 ## Update Redis Enterprise operator ConfigMap
 
