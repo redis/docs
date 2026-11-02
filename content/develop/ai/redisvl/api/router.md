@@ -78,6 +78,63 @@ Add a reference(s) to an existing route.
 * **Return type:**
   List[str]
 
+#### `async adisconnect()`
+
+Close the async Redis connection opened by the async routing methods.
+
+* **Return type:**
+  None
+
+#### `async aroute(statement=None, vector=None, *, aggregation_method=None)`
+
+Async version of calling the router: match a statement or vector to
+its best route without blocking the event loop.
+
+Embedding uses the vectorizer’s `aembed` and the lookup runs on an
+[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}}) over the same Redis index, so
+it returns the same match as `router(statement)`.
+
+Pass `redis_url` rather than a client to the router if you need
+async routing over SSL, a unix socket, Sentinel or Redis Cluster: those
+clients cannot be converted to their async form. With a vectorizer that
+has no native `aembed`, such as the default `HFTextVectorizer`,
+embedding still blocks the loop; only the Redis call is non-blocking.
+The async client is bound to the event loop that made the first call,
+so call [adisconnect](#adisconnect) before switching loops.
+
+* **Parameters:**
+  * **statement** (*Optional* *[* *str* *]*) – The input statement to be queried.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – The input vector to be queried.
+  * **aggregation_method** (*Optional* *[*[DistanceAggregationMethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
+* **Returns:**
+  The matching route.
+* **Return type:**
+  [RouteMatch](#routematch)
+
+```python
+match = await router.aroute("hi there")
+```
+
+#### `async aroute_many(statement=None, vector=None, *, max_k=None, aggregation_method=None)`
+
+Async version of [route_many](#route_many): return up to `max_k` matching
+routes without blocking the event loop. See [aroute](#aroute) for the
+connection and vectorizer caveats.
+
+* **Parameters:**
+  * **statement** (*Optional* *[* *str* *]*) – The input statement to be queried.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – The input vector to be queried.
+  * **max_k** (*Optional* *[* *int* *]*) – The maximum number of top matches to return.
+  * **aggregation_method** (*Optional* *[*[DistanceAggregationMethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
+* **Returns:**
+  The matching routes and their details.
+* **Return type:**
+  List[[RouteMatch](#routematch)]
+
+```python
+matches = await router.aroute_many("hi there", max_k=2)
+```
+
 #### `clear()`
 
 Delete every route reference, leaving the index in place.
@@ -322,6 +379,16 @@ Update the routing configuration.
 
 * **Parameters:**
   **routing_config** ([RoutingConfig](#routingconfig)) – The new routing configuration.
+
+#### `property aindex: `[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}})`  | None`
+
+The AsyncSearchIndex used by the async routing methods, once created.
+
+* **Returns:**
+  The async search index, or None before the first
+  async call.
+* **Return type:**
+  [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
 
 #### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
