@@ -20,7 +20,7 @@ Redis Data Integration (RDI) sites. All sites must use the same bucket and objec
 To use one bucket for several disaster recovery (DR) setups, see
 [Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
 
-Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
+Before you begin, [create the RDI database at both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Google Cloud command-line interface (CLI), authenticated as an identity
 that can create buckets and grant access. The RDI operator needs separate runtime permissions.
 
@@ -98,11 +98,15 @@ startup, so restart the operator after you replace it:
 kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
 ```
 
+After creating the lease resource and granting access, return to
+[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
+to complete the source, target, and network preparation.
+
 ## Configure both instances
 
 Merge the following settings into the `operator.leaderElection` section of each site's
 values file. Keep the local RDI database connection and other installation settings from
-[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
+[Configure each site's values file](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#configure-each-sites-values-file).
 
 In `rdi-values-site-a.yaml`:
 

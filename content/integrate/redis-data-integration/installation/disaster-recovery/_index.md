@@ -136,23 +136,150 @@ change history to cover capture lag, snapshots, and the longest outage you plan 
 
 ## Prepare both sites
 
-- Create the RDI database as an
-  [Active-Active database](/content/operate/rs/databases/active-active/create.md) with an
-  instance at each site. It must also meet the
-  [RDI database requirements](/content/integrate/redis-data-integration/installation/install-k8s.md#create-the-rdi-database).
-- Install the same RDI version in separate Kubernetes clusters.
-- Give each instance access to its site's source database, its target database, and the same
-  external lease.
-- [Prepare the source database](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
-  at each site for CDC, and check the requirements in
-  [Source databases and data after a failover](#source-databases-and-data-after-a-failover).
-- Keep the clocks at both sites synchronized, for example with Network Time Protocol (NTP). See
-  [Lease timing](#lease-timing).
+1. Create the RDI database as an
+   [Active-Active database](/content/operate/rs/databases/active-active/create.md) with an
+   instance at each site. It must also meet the
+   [RDI database requirements](/content/integrate/redis-data-integration/installation/install-k8s.md#create-the-rdi-database).
+1. [Prepare the external lease](#configure-a-lease).
+1. [Prepare the source database](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
+   at each site for CDC, including the source endpoints and any promotion or routing steps.
+   Check the requirements in
+   [Source databases and data after a failover](#source-databases-and-data-after-a-failover).
+1. Configure target database availability, as described in
+   [Understand the topology](#understand-the-topology).
+1. Configure network access from each RDI instance to its site's source database, its target
+   database, and the same external lease.
+1. Keep the clocks at both sites synchronized, for example with Network Time Protocol (NTP). See
+   [Lease timing](#lease-timing).
 
 This guide sets up new installations. An existing RDI database can't be changed into an
 Active-Active database. To add DR to an existing installation, export each pipeline with
 [`redis-di export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md),
 set up both sites as described here, and deploy the pipelines. They take a new snapshot.
+
+### Configure a lease
+
+RDI needs a lease store that allows at most one leader and stays available when any one site or
+region fails. The lease is one record that the instances at every site read and write. Both
+supported stores meet these requirements:
+
+| Requirement | GCS lease | DynamoDB lease |
+| :-- | :-- | :-- |
+| All sites of a DR setup use one record. | The object that `gcsLease.objectName` names. | The item that `dynamoDBLease.keyName` names. |
+| Each write is conditional. It succeeds only if the lease is free, expired, or held by the writing instance, so two sites can't both acquire it. | Conditional object creation and metadata updates. | Conditional `PutItem` and `DeleteItem` requests. |
+| The store checks each condition against the latest write from any site, not a local copy. | Cloud Storage is strongly consistent. It writes object metadata, which holds the lease, synchronously across the bucket's regions. | Only a global table with multi-Region strong consistency (MRSC) does this. In the default eventual consistency mode, each Region checks its own copy. |
+| The lease survives the loss of any one site or region. | Use a dual-region or multi-region bucket. | Use an MRSC table, which spans three Amazon Web Services (AWS) Regions. A replica Region that can reach neither of the other two rejects writes, so its site stops leading. |
+
+The lease holds the leader's `instanceID` and an expiry time. The leader writes the expiry time
+from its own clock, and other instances compare it with theirs, so keep the clocks at all sites
+synchronized. If no site can reach the store, no instance leads and the pipelines stop.
+
+Choose one provider and follow its guide to create the lease resource and grant operator
+access. Return to [Prepare both sites](#prepare-both-sites) before configuring or installing RDI:
+
+- [Create the GCS bucket](/content/integrate/redis-data-integration/installation/disaster-recovery/gcs.md#create-the-bucket)
+- [Create the DynamoDB table](/content/integrate/redis-data-integration/installation/disaster-recovery/dynamodb.md#create-the-table)
+
+With more than two sites, sites can share a replica Region of the DynamoDB table.
+
+> [!WARNING]
+> Set `operator.leaderElection.leaseType` to `gcs` or `dynamodb`, as the provider guides show.
+> The default `redsync` lease keeps the lock in the RDI database. Each instance of an
+> Active-Active database accepts the lock on its own, so every site can become the leader.
+
+#### Share a lease store between DR setups
+
+A DR setup uses one lease for all its pipelines. Separate DR setups, such as a production
+setup and a test setup, can share one GCS bucket or DynamoDB table. Give each setup its own
+lease with `gcsLease.objectName` or `dynamoDBLease.keyName`, and use the same value at every
+site of that setup. For example, in the DynamoDB values files of the production setup:
+
+```yaml
+operator:
+  leaderElection:
+    instanceID: prod-site-a
+    dynamoDBLease:
+      tableName: <lease-table>
+      keyName: rdi-prod-lease
+```
+
+And in the values files of the test setup:
+
+```yaml
+operator:
+  leaderElection:
+    instanceID: test-site-a
+    dynamoDBLease:
+      tableName: <lease-table>
+      keyName: rdi-test-lease
+```
+
+Set `keyName` explicitly for every setup, because it defaults to `rdi-lease`. Setups that use
+the same lease compete for it, so only one of them runs its pipelines. Each setup still needs
+its own Kubernetes clusters and Active-Active RDI database.
+
+Every identity with access to the bucket or table can write every lease in it. To stop one
+setup from taking another's lease, restrict each identity to its own lease with an Identity and
+Access Management (IAM) condition, or use a separate bucket or table.
+
+#### Lease timing
+
+The lease timings are Helm values under `operator.leaderElection`:
+
+| Helm value | Default | What it controls |
+| :-- | :-- | :-- |
+| `ttl` | `60s` | How long the lease stays valid after the leader last renewed it. |
+| `refreshInterval` | `10s` | How often each instance tries to acquire or renew the lease and reads its runtime settings. |
+| `timeout` | `30s` | Total time for one attempt to acquire, renew, or release the lease, including retries. |
+| `retryPolicy` | `attempts: 3`, `initialInterval: 1s`, `backoffFactor: 2.0` | Retries within `timeout`. |
+| `checkTimeout` | `15s` | Total time to read the runtime settings from the RDI database. |
+| `checkRetryPolicy` | `attempts: 3`, `initialInterval: 1s`, `backoffFactor: 2.0` | Retries within `checkTimeout`. |
+
+- A leader that enters standby releases the lease within `refreshInterval`. A leader that
+  can't read its RDI database for `checkTimeout` also releases it. Another instance acquires
+  it on its next attempt.
+- A leader that fails, restarts, or can't reach the lease store doesn't release the lease.
+  Another instance can acquire it after `ttl`. A leader that restarts and renews within `ttl`
+  keeps the lease.
+- If you change the timings, keep the sum of `timeout`, `checkTimeout`, `refreshInterval`, and
+  the largest clock offset between the sites less than `ttl`. A leader that can't renew the
+  lease then stops leading before another site can acquire it. With the default timings, keep
+  the clocks within 5 seconds of each other. RDI doesn't check this.
+
+RDI doesn't fence a leader that loses its lease. An instance that stops leading removes its
+pipeline components, which can take a minute or more. After a release, another site can
+acquire the lease within `refreshInterval`, so both sites can briefly run pipelines. If the
+leader's operator isn't running, or can't reach its Kubernetes application programming
+interface (API) server, nothing removes the components. They keep running after another site
+takes over, until the operator recovers.
+
+With the default settings, expect another site to take over within about 2 minutes. Pipeline
+startup and catch-up add to the recovery time.
+
+## Install RDI at both sites
+
+Install the same RDI version in separate Kubernetes clusters after preparing both sites.
+
+### Choose a failover mode
+
+The failover mode decides whether site B waits as a follower or in standby. See the instance
+states in [Understand the topology](#understand-the-topology). Choose the mode before you
+install:
+
+| Mode | `standbyMode` in the values files | Who starts the takeover? | Use it when |
+| :-- | :-- | :-- | :-- |
+| Automatic | `false` at both sites, after you enable site B | The follower, after the leader releases the lease or the lease expires. | The source database at site B can serve the saved position as soon as site B takes over. For example, both sites capture from one Spanner database. |
+| Manual | `false` at site A, `true` at site B | You, by enabling participation on the destination instance. | The source database at site B needs a step first, such as promotion or a check of its change history. For example, a PostgreSQL standby must be promoted before RDI can use its slot copy. |
+
+With manual failover, prepare the source first. Promote the source database at site B or
+confirm that it can serve the saved position, then enable site B. If the position can't carry
+over, reset the pipeline after site B takes over. See
+[Source databases and data after a failover](#source-databases-and-data-after-a-failover).
+
+The values files in this guide install site B in standby. After installation, change the mode
+with the `standby_mode`
+[instance setting](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode),
+which overrides the Helm value. See [Move leadership manually](#move-leadership-manually).
 
 ### Configure each site's values file
 
@@ -215,128 +342,17 @@ Keep it across upgrades.
 > settings such as `standby_mode`.
 
 These snippets show the site-specific settings. Complete the other installation settings,
-including Transport Layer Security (TLS) and application programming interface (API) access,
+including Transport Layer Security (TLS) and API access,
 using
 [The `values.yaml` file](/content/integrate/redis-data-integration/installation/install-k8s.md#the-valuesyaml-file).
 
-## Choose a failover mode
+### Configure the lease and install RDI
 
-The failover mode decides whether site B waits as a follower or in standby. See the instance
-states in [Understand the topology](#understand-the-topology). Choose the mode before you
-install:
+Complete the lease settings in both values files, then install RDI and check the operators
+using the guide for your provider:
 
-| Mode | `standbyMode` in the values files | Who starts the takeover? | Use it when |
-| :-- | :-- | :-- | :-- |
-| Automatic | `false` at both sites, after you enable site B | The follower, after the leader releases the lease or the lease expires. | The source database at site B can serve the saved position as soon as site B takes over. For example, both sites capture from one Spanner database. |
-| Manual | `false` at site A, `true` at site B | You, by enabling participation on the destination instance. | The source database at site B needs a step first, such as promotion or a check of its change history. For example, a PostgreSQL standby must be promoted before RDI can use its slot copy. |
-
-With manual failover, prepare the source first. Promote the source database at site B or
-confirm that it can serve the saved position, then enable site B. If the position can't carry
-over, reset the pipeline after site B takes over. See
-[Source databases and data after a failover](#source-databases-and-data-after-a-failover).
-
-The values files in this guide install site B in standby. After installation, change the mode
-with the `standby_mode`
-[instance setting](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode),
-which overrides the Helm value. See [Move leadership manually](#move-leadership-manually).
-
-## Configure a lease
-
-RDI needs a lease store that allows at most one leader and stays available when any one site or
-region fails. The lease is one record that the instances at every site read and write. Both
-supported stores meet these requirements:
-
-| Requirement | GCS lease | DynamoDB lease |
-| :-- | :-- | :-- |
-| All sites of a DR setup use one record. | The object that `gcsLease.objectName` names. | The item that `dynamoDBLease.keyName` names. |
-| Each write is conditional. It succeeds only if the lease is free, expired, or held by the writing instance, so two sites can't both acquire it. | Conditional object creation and metadata updates. | Conditional `PutItem` and `DeleteItem` requests. |
-| The store checks each condition against the latest write from any site, not a local copy. | Cloud Storage is strongly consistent. It writes object metadata, which holds the lease, synchronously across the bucket's regions. | Only a global table with multi-Region strong consistency (MRSC) does this. In the default eventual consistency mode, each Region checks its own copy. |
-| The lease survives the loss of any one site or region. | Use a dual-region or multi-region bucket. | Use an MRSC table, which spans three Amazon Web Services (AWS) Regions. A replica Region that can reach neither of the other two rejects writes, so its site stops leading. |
-
-The lease holds the leader's `instanceID` and an expiry time. The leader writes the expiry time
-from its own clock, and other instances compare it with theirs, so keep the clocks at all sites
-synchronized. If no site can reach the store, no instance leads and the pipelines stop.
-
-Choose one provider and follow its guide to create the lease resource, grant access, add the
-lease settings to both values files, and install RDI:
-
-- [Configure a GCS lease](/content/integrate/redis-data-integration/installation/disaster-recovery/gcs.md)
-- [Configure a DynamoDB lease](/content/integrate/redis-data-integration/installation/disaster-recovery/dynamodb.md)
-
-With more than two sites, sites can share a replica Region of the DynamoDB table.
-
-> [!WARNING]
-> Set `operator.leaderElection.leaseType` to `gcs` or `dynamodb`, as the provider guides show.
-> The default `redsync` lease keeps the lock in the RDI database. Each instance of an
-> Active-Active database accepts the lock on its own, so every site can become the leader.
-
-### Share a lease store between DR setups
-
-A DR setup uses one lease for all its pipelines. Separate DR setups, such as a production
-setup and a test setup, can share one GCS bucket or DynamoDB table. Give each setup its own
-lease with `gcsLease.objectName` or `dynamoDBLease.keyName`, and use the same value at every
-site of that setup. For example, in the DynamoDB values files of the production setup:
-
-```yaml
-operator:
-  leaderElection:
-    instanceID: prod-site-a
-    dynamoDBLease:
-      tableName: <lease-table>
-      keyName: rdi-prod-lease
-```
-
-And in the values files of the test setup:
-
-```yaml
-operator:
-  leaderElection:
-    instanceID: test-site-a
-    dynamoDBLease:
-      tableName: <lease-table>
-      keyName: rdi-test-lease
-```
-
-Set `keyName` explicitly for every setup, because it defaults to `rdi-lease`. Setups that use
-the same lease compete for it, so only one of them runs its pipelines. Each setup still needs
-its own Kubernetes clusters and Active-Active RDI database.
-
-Every identity with access to the bucket or table can write every lease in it. To stop one
-setup from taking another's lease, restrict each identity to its own lease with an Identity and
-Access Management (IAM) condition, or use a separate bucket or table.
-
-### Lease timing
-
-The lease timings are Helm values under `operator.leaderElection`:
-
-| Helm value | Default | What it controls |
-| :-- | :-- | :-- |
-| `ttl` | `60s` | How long the lease stays valid after the leader last renewed it. |
-| `refreshInterval` | `10s` | How often each instance tries to acquire or renew the lease and reads its runtime settings. |
-| `timeout` | `30s` | Total time for one attempt to acquire, renew, or release the lease, including retries. |
-| `retryPolicy` | `attempts: 3`, `initialInterval: 1s`, `backoffFactor: 2.0` | Retries within `timeout`. |
-| `checkTimeout` | `15s` | Total time to read the runtime settings from the RDI database. |
-| `checkRetryPolicy` | `attempts: 3`, `initialInterval: 1s`, `backoffFactor: 2.0` | Retries within `checkTimeout`. |
-
-- A leader that enters standby releases the lease within `refreshInterval`. A leader that
-  can't read its RDI database for `checkTimeout` also releases it. Another instance acquires
-  it on its next attempt.
-- A leader that fails, restarts, or can't reach the lease store doesn't release the lease.
-  Another instance can acquire it after `ttl`. A leader that restarts and renews within `ttl`
-  keeps the lease.
-- If you change the timings, keep the sum of `timeout`, `checkTimeout`, `refreshInterval`, and
-  the largest clock offset between the sites less than `ttl`. A leader that can't renew the
-  lease then stops leading before another site can acquire it. With the default timings, keep
-  the clocks within 5 seconds of each other. RDI doesn't check this.
-
-RDI doesn't fence a leader that loses its lease. An instance that stops leading removes its
-pipeline components, which can take a minute or more. After a release, another site can
-acquire the lease within `refreshInterval`, so both sites can briefly run pipelines. If the
-leader's operator isn't running, or can't reach its Kubernetes API server, nothing removes the
-components. They keep running after another site takes over, until the operator recovers.
-
-With the default settings, expect another site to take over within about 2 minutes. Pipeline
-startup and catch-up add to the recovery time.
+- [Configure both instances for GCS](/content/integrate/redis-data-integration/installation/disaster-recovery/gcs.md#configure-both-instances)
+- [Configure both instances for DynamoDB](/content/integrate/redis-data-integration/installation/disaster-recovery/dynamodb.md#configure-both-instances)
 
 ## Deploy pipelines and secrets
 
@@ -419,8 +435,11 @@ redis-di set-context site-b --api-url "https://<site-b-rdi-api-host>" \
 
    The output is `<none>`.
 
-Before you rely on the setup, test a takeover: move leadership to site B and back, as described
-in [Move leadership manually](#move-leadership-manually).
+## Test a takeover
+
+Move leadership to site B and back, following
+[Move leadership manually](#move-leadership-manually). Verify pipeline health and data delivery
+at each site before you rely on the setup.
 
 ## How automatic failover works
 

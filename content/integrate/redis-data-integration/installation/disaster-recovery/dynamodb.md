@@ -24,7 +24,7 @@ single string named `id`. If RDI can't describe the table, for example without t
 single-Region table, RDI only logs a message at startup, and the lease doesn't survive the loss
 of that Region.
 
-Before you begin, [prepare both sites and their values files](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
+Before you begin, [create the RDI database at both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Amazon Web Services (AWS) command-line interface (CLI), authenticated
 as an identity that can create an MRSC global table. Use a current AWS CLI version 2 that
 supports `--global-table-witness-updates` and `--multi-region-consistency`. If either option
@@ -34,8 +34,9 @@ The RDI operator needs separate runtime permissions.
 To prepare the lease store with Terraform, use the
 [DynamoDB lease Terraform example](https://github.com/redis/rdi-cloud-automation/tree/main/modules/aws-rdi-dynamodb-lease).
 It creates the MRSC global table and operator access policy, and outputs lease settings for
-each replica Region. After applying it, continue with
-[Configure both instances](/content/integrate/redis-data-integration/installation/disaster-recovery/dynamodb.md#configure-both-instances).
+each replica Region. After applying it, complete
+[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites),
+then continue with [Configure both instances](#configure-both-instances).
 
 ## Create the table
 
@@ -155,11 +156,15 @@ operator:
 An operator running outside AWS can use an AWS shared credentials file passed when
 installing RDI.
 
+After creating the lease resource and granting access, return to
+[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
+to complete the source, target, and network preparation.
+
 ## Configure both instances
 
 Merge the following settings into the `operator.leaderElection` section of each site's
 values file. Keep the local RDI database connection and other installation settings from
-[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
+[Configure each site's values file](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#configure-each-sites-values-file).
 
 In `rdi-values-site-a.yaml`:
 
