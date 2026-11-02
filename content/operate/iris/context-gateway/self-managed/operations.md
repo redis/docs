@@ -98,6 +98,8 @@ Update API clients to the unified `/iris/v1/context-gateway` routes and uppercas
 
 Update dashboards and alerts to the `iris_context_gateway_*` metrics. The previous metric names have no aliases. Review database updates and tool policies in [Turn the cache and compression on or off](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#turn-the-cache-and-compression-on-or-off).
 
+If MCP sign-in uses the shared `api://redis-iris` audience, the upgraded Data Plane refuses to start. Move it to an API of its own first, as [Upgrade from the shared audience](/content/operate/iris/context-gateway/self-managed/authentication.md#upgrade-from-the-shared-audience) describes.
+
 ```bash
 helm upgrade gateway redis-ai/redis-context-gateway \
   --version <new-chart-version> \
