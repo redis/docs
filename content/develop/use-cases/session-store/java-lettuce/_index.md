@@ -90,12 +90,13 @@ redisClient.shutdown();
 ```java
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 import java.util.Map;
 
 RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 StatefulRedisConnection<String, String> connection = redisClient.connect();
 
-ReactiveSessionStore store = new ReactiveSessionStore(connection.reactive(), "session:", 1800);
+ReactiveSessionStore store = new ReactiveSessionStore(connection.commands(RedisReactiveCommands.factory()), "session:", 1800);
 
 store.createSession(Map.of(
         "username", "andrew",

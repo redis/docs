@@ -77,7 +77,7 @@ The big mental-model difference for someone arriving from Jedis:
   returns a `RedisFuture<T>` (which is a `CompletionStage<T>` and a
   `Future<T>`). For synchronous code paths the helper blocks with `.get()`;
   for reactive pipelines you'd compose with `.thenApply()` /
-  `.thenCompose()` or use the `.reactive()` API directly.
+  `.thenCompose()` or use the reactive API (`connection.commands(RedisReactiveCommands.factory())`) directly.
 * **Pipelining via connection-level auto-flush.** Lettuce doesn't have a
   `pipelined()`-style builder. Instead, you toggle
   `conn.setAutoFlushCommands(false)` on the connection, queue commands as
