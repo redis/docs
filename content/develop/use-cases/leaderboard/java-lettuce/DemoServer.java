@@ -20,8 +20,8 @@ import java.util.Map;
  * Redis leaderboard demo server using the async Lettuce implementation.
  *
  * Usage:
- *     javac -cp lettuce-core-6.7.1.RELEASE.jar AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
- *     java -cp .:lettuce-core-6.7.1.RELEASE.jar DemoServer [--port PORT] [--redis-host HOST] [--redis-port PORT]
+ *     javac -cp 'lib/*' AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
+ *     java -cp '.:lib/*' DemoServer [--port PORT] [--redis-host HOST] [--redis-port PORT]
  */
 public class DemoServer {
 

@@ -154,7 +154,7 @@ If you use Maven:
 <dependency>
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
-    <version>6.7.1.RELEASE</version>
+    <version>7.9.0.RELEASE</version>
 </dependency>
 ```
 
@@ -173,19 +173,42 @@ curl -O $BASE/ReactiveRedisTimeSeriesStore.java
 curl -O $BASE/DemoServer.java
 ```
 
+### Get Lettuce and its dependencies
+
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
+
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
+
 ### Start the demo server
 
 Compile and run the demo:
 
 ```bash
-javac -cp lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar SensorSimulator.java AsyncRedisTimeSeriesStore.java ReactiveRedisTimeSeriesStore.java DemoServer.java
-java -cp .:lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar DemoServer
+javac -cp 'lib/*' SensorSimulator.java AsyncRedisTimeSeriesStore.java ReactiveRedisTimeSeriesStore.java DemoServer.java
+java -cp '.:lib/*' DemoServer
 ```
 
 The server accepts optional flags if your Redis instance is not on the default host and port:
 
 ```bash
-java -cp .:lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
+java -cp '.:lib/*' DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
 ```
 
 After starting the server, visit `http://localhost:8080`.
