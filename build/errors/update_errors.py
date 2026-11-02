@@ -312,6 +312,22 @@ def anchor(entry, corpus):
     return whole if '\0' not in whole and len(whole) >= 6 and whole in corpus.values else None
 
 
+def in_data(parts, messages):
+    """True when one message in the data has every fixed part of a source string, in order.
+
+    Many messages share a start, such as "wrong number of arguments for '", so
+    finding one part somewhere isn't enough."""
+    for text in messages:
+        at = 0
+        for p in parts:
+            at = text.find(p, at)
+            if at < 0: break
+            at += len(p)
+        else:
+            return True
+    return False
+
+
 @functools.lru_cache(maxsize=4096)
 def file_lines(name, tag, path):
     try:
@@ -423,7 +439,7 @@ def cmd_diff(args):
     log('Base:   ' + ', '.join(f'{k} {v}' for k, v in base.items()))
     log('Target: ' + ', '.join(f'{k} {v}' for k, v in target.items()))
 
-    data_text = '\n'.join(normalize(e['message'], message=True) for e in data['errors'])
+    messages = [normalize(e['message'], message=True) for e in data['errors']]
     new, gone, review, tracked = [], [], [], {}
     untracked = 0
     for name in REPOS:
@@ -466,8 +482,8 @@ def cmd_diff(args):
 
         # Strings near error code that the base release didn't have.
         for value in sorted(cur.errors - old.errors):
-            parts = sorted((p.strip() for p in value.split('\0')), key=len, reverse=True)
-            if ' ' not in value or len(parts[0]) < MIN_ANCHOR or parts[0] in data_text:
+            parts = [p.strip() for p in value.split('\0') if p.strip()]
+            if ' ' not in value or max(map(len, parts), default=0) < MIN_ANCHOR or in_data(parts, messages):
                 continue
             places = cur.where(value)
             new.append({'id': f'new-{len(new) + 1}', 'repo': name, 'string': value.replace('\0', '<?>'),

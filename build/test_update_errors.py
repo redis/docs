@@ -81,6 +81,11 @@ class TestAnchors(unittest.TestCase):
             ['DB index is out of range', 'src/a.c', 5, False], ['DB index is out of range', 'src/b.c', 9, True]]})
         self.assertEqual(c.where('index is out'), [('src/b.c', 9), ('src/a.c', 5)])
 
+    def test_a_new_string_needs_all_its_parts_in_one_message(self):
+        messages = [u.normalize("ERR wrong number of arguments for '<command>' command", message=True)]
+        self.assertTrue(u.in_data(["wrong number of arguments for '", "' command"], messages))
+        self.assertFalse(u.in_data(["wrong number of arguments for '", "' subcommand of '", "'"], messages))
+
 
 class TestRemap(unittest.TestCase):
     def test_duplicate_lines_follow_their_neighbours_and_the_message(self):
