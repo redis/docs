@@ -273,11 +273,12 @@ The reactive version of the rate limiter ([source](https://github.com/redis/docs
 ```java
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 
 RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 StatefulRedisConnection<String, String> connection = redisClient.connect();
 
-ReactiveTokenBucket limiter = new ReactiveTokenBucket(10, 1, 1.0, connection.reactive());
+ReactiveTokenBucket limiter = new ReactiveTokenBucket(10, 1, 1.0, connection.commands(RedisReactiveCommands.factory()));
 
 limiter.allow("user:123")
         .doOnNext(result -> {

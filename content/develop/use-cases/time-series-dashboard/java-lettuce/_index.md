@@ -124,11 +124,12 @@ redisClient.shutdown();
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 
 RedisClient redisClient = RedisClient.create(RedisURI.Builder.redis("localhost", 6379).build());
 StatefulRedisConnection<String, String> connection = redisClient.connect();
 
-ReactiveRedisTimeSeriesStore store = new ReactiveRedisTimeSeriesStore(connection.reactive(), SensorSimulator.SENSORS);
+ReactiveRedisTimeSeriesStore store = new ReactiveRedisTimeSeriesStore(connection.commands(RedisReactiveCommands.factory()), SensorSimulator.SENSORS);
 
 store.ensureSchema()
     .then(store.addSamples(new SensorSimulator(SensorSimulator.SENSORS).nextSamples()))

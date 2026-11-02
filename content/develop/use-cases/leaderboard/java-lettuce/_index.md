@@ -114,6 +114,7 @@ import java.util.Map;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 
 public class Main {
     public static void main(String[] args) {
@@ -121,7 +122,7 @@ public class Main {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
 
         ReactiveRedisLeaderboard board = new ReactiveRedisLeaderboard(
-                connection.reactive(),
+                connection.commands(RedisReactiveCommands.factory()),
                 "leaderboard:demo",
                 100
         );
