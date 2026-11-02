@@ -11,7 +11,7 @@ weight: 60
 hideListLinks: true
 ---
 
-Self-managed Intent Router uses two kinds of credentials. Service tokens authenticate operators and the Intent Router components to each other, and the chart generates them for you by default. Agent keys authenticate applications to the data plane, and each key's grants control which Routers it can use and what it can do on them.
+Self-managed Intent Router uses two kinds of credentials. Service tokens authenticate operators and the Intent Router components to each other. The chart generates the control-plane tokens for you by default. Agent keys authenticate applications to the data plane, and each key's grants control which Routers it can use and what it can do on them.
 
 This page lists each credential and what it unlocks. It also shows how to load the administration tokens and how grants authorize agent keys. It then covers connecting an Identity Service deployed outside this chart and rotating credentials.
 
@@ -22,10 +22,10 @@ This page lists each credential and what it unlocks. It also shows how to load t
 | Control-plane admin token | Operator → control plane (`:9400`) | The Secret in `controlplane.adminToken` | Yes, by default | Router administration: `/iris/v1/intent/routers` and `/iris/v1/intent/models` |
 | Control-plane internal token | Identity Service → control plane | The Secret in `controlplane.internalToken` | Yes, by default | Checking that the Router in a grant exists |
 | Identity Service control token | Operator → Identity Service (`:9200`) | The Secret in `identityService.controlToken` | Yes, by default | Creating, listing, rotating, and revoking agent keys |
-| Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.runtimeToken` | Yes, by default | Checking agent keys for `intent` |
+| Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.credential` / `token` | No. Register it on the Identity Service release | Checking agent keys for `intent` |
 | Agent key | Application → data plane (`:9401`) | None. Returned once when minted or rotated | No | Authoring and matching on the Routers its grants name |
 
-Every token defaults to `autoGenerate: true`: without `existingSecret`, the chart creates a random Secret named `<release>-redis-intent-router-<component>-token`, with the key `token`, keeps it across upgrades, and never rotates it. For a release named `intent`, the admin token is in `intent-redis-intent-router-controlplane-admin-token`. Set `existingSecret` to supply your own, and set the matching `existingSecretChecksum` so the pods roll when the Secret changes. Two credentials can't reference the same Secret key, and rendering fails if they do.
+`controlplane.adminToken` and `controlplane.internalToken` default to `autoGenerate: true`: without `existingSecret`, the chart creates a random Secret named `<release>-redis-intent-router-controlplane-admin-token` or `-internal-token`, with the key `token`, keeps it across upgrades, and never rotates it. For a release named `intent`, the admin token is in `intent-redis-intent-router-controlplane-admin-token`. The chart never generates `identityService.credential`. Set `existingSecret` to supply your own, and set the matching `existingSecretChecksum` so the pods roll when the Secret changes. Two credentials can't reference the same Secret key, and rendering fails if they do.
 
 An agent key gets `401` from the control plane. A key without a grant on a Router, or without the action an operation needs, gets `403` from the data plane. The data plane holds no credential for the control plane: the planes never call each other.
 

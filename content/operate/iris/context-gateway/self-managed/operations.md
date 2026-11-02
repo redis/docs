@@ -90,7 +90,9 @@ Back up Metadata Redis and credential storage together. A Gateway record without
 
 ## Upgrade the chart
 
-Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached.
+Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached. `helm rollback` restores the release's Kubernetes resources only. It does not undo database writes or restore external Secrets.
+
+Chart 0.2.0 renamed the `dataplane.config` blocks `result_cache` to `cache` and `result_handles` to `compression`. Every nested key keeps its name. Move these settings before you upgrade: the values schema rejects the old blocks, and a Data Plane ignores them. Upgrade the chart and images together, because an older image ignores the new keys and leaves both features off. The same release renamed the Gateway fields `resultCache` and `resultHandles` to `cache` and `compression`. Gateways stored under the old names lose their settings and tool policies, so set them again.
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 

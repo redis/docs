@@ -25,9 +25,11 @@ Set these values for every install:
 | `storage.existingSecret` | The Secret that holds the Redis connection overlays. Required. |
 | `license.existingSecret` | The Secret that holds the license. Required. |
 | `inference.models` | The embedding model the deployment offers. Required. |
-| `controlplane.image`, `dataplane.image`, `identityService.image` | An explicit `tag` for each image. The repositories default to `redislabs/iris-intent-router-control`, `redislabs/iris-intent-router-data`, and `redislabs/iris-identity-service`. |
+| `controlplane.image`, `dataplane.image` | An explicit `tag` for each image. The repositories default to `redislabs/iris-intent-router-control` and `redislabs/iris-intent-router-data`. |
 | `controlplane.adminToken`, `controlplane.internalToken` | The control plane's tokens. |
-| `identityService.controlToken`, `identityService.runtimeToken` | The Identity Service's tokens. |
+| `dataplane.identityServiceBaseURL` | The URL of your Identity Service release. The data plane checks agent keys there. Required. |
+| `identityService.credential` | The data plane's runtime credential, registered on the Identity Service release. Required. |
+| `identityService.allowInsecureTransport` | `true` to accept an `http://` Identity Service URL. Default `false`. |
 
 A minimal values file looks like this:
 
@@ -44,19 +46,15 @@ controlplane:
     existingSecret: intent-controlplane-internal
 
 dataplane:
-  allowInsecureIdentityService: true
   image:
     repository: redislabs/iris-intent-router-data
     tag: <tag>
+  identityServiceBaseURL: http://iris-identity-service:9200
 
 identityService:
-  image:
-    repository: redislabs/iris-identity-service
-    tag: <tag>
-  controlToken:
-    existingSecret: intent-identity-control
-  runtimeToken:
-    existingSecret: intent-identity-runtime
+  allowInsecureTransport: true
+  credential:
+    existingSecret: intent-dp-credential
 
 license:
   existingSecret: intent-license
@@ -74,7 +72,7 @@ inference:
 
 To let the chart generate a token instead, delete its `existingSecret` line. See [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
 
-The bundled Identity Service speaks plain Hypertext Transfer Protocol (HTTP) inside the cluster, and the data plane rejects an `http://` introspection URL. Rendering fails until you choose: set `dataplane.identityServiceBaseURL` to an `https://` endpoint, or set `dataplane.allowInsecureIdentityService=true` to accept cleartext introspection on the pod network.
+The `identityService` block holds only `allowInsecureTransport` and `credential`. The chart deploys no Identity Service. An in-cluster Identity Service Service speaks plain Hypertext Transfer Protocol (HTTP), and the chart rejects an `http://` Identity Service URL by default. Rendering fails until you choose: set `dataplane.identityServiceBaseURL` to an `https://` endpoint, or set `identityService.allowInsecureTransport=true` to accept cleartext introspection on the pod network. The FIPS profile refuses `allowInsecureTransport`.
 
 ## Storage Secret
 
@@ -84,7 +82,6 @@ One Secret holds a YAML overlay for each service, merged over the rendered confi
 | --- | --- | --- |
 | `intent-controlplane-storage.yaml` | `storage.controlplaneKey` | `storage.metadata.urls`: Router records. |
 | `intent-dataplane-storage.yaml` | `storage.dataplaneKey` | `storage.redis.urls`: intents, examples, and the per-Router vector indexes. `runtime.redis.urls`: the mailbox Redis, which is the control plane's metadata Redis. |
-| `identity-service-metadata.yaml` | `storage.identityServiceKey` | `metadata.urls`: agent-key records. |
 
 `intent-controlplane-storage.yaml`:
 
@@ -108,13 +105,7 @@ runtime:
       - rediss://<metadata-user>:<metadata-password>@<metadata-host>:6379
 ```
 
-`identity-service-metadata.yaml`:
-
-```yaml
-metadata:
-  urls:
-    - rediss://<identity-user>:<identity-password>@<metadata-host>:6379
-```
+The Identity Service's metadata Redis belongs to the Identity Service release, not to this Secret.
 
 In the mailbox Redis, the data plane reads and writes only the mailbox keys under `storage.keyPrefix`. Nothing else of the control plane's data is touched. Keep real URLs and passwords in the Secret, not in values files.
 
@@ -129,6 +120,7 @@ embedders_connection_details:
   openai:
     base_url: https://api.openai.com/v1
     credentials:
+      type: static
       api_key: <openai-api-key>
 ```
 
@@ -178,6 +170,7 @@ Tune `dataplane.search` for index recall and memory: `hnsw.m`, `hnsw.ef_construc
 | `controlplane.reconcile.interval` | `5s` | How often the control plane reconciles Routers with the data plane's status. |
 | `controlplane.reconcile.provisioningDeadline` | `10m` | How long a new Router can stay `PROVISIONING` before it fails. |
 | `dataplane.pollInterval` | `2s` | How often the data plane reads the mailbox for Router changes. |
+| `dataplane.startupBudget` | `20s` | How long the data plane's first convergence pass can run before it opens its listener. At most `40s`, because the liveness probe restarts the pod 50 seconds after start. Routers the pass doesn't reach are picked up by later passes. |
 
 A Router change reaches the data plane within about one poll interval.
 
@@ -187,10 +180,10 @@ Set `tls.caCertSecret` to a Secret that holds additional certificate authority (
 
 ## FIPS and tracing
 
-Set `security.profile: fips` to select the FIPS runtime. Rendering rejects a FIPS release without explicit HTTP Secure (HTTPS) peers: `dataplane.identityServiceBaseURL` and, with the bundled Identity Service, `identityService.controlPlaneBaseURL`. Use `rediss://` URLs in the storage Secret, including `runtime.redis.urls` and any customer databases: each service checks them when it starts and refuses to run without them. FIPS never allows cleartext Identity Service transport.
+Set `security.profile: fips` to select the FIPS runtime. Rendering rejects a FIPS release unless `dataplane.identityServiceBaseURL` is an explicit HTTP Secure (HTTPS) endpoint, and refuses `identityService.allowInsecureTransport`. Set the FIPS profile and an `https://` grant-validation URL on the Identity Service release too. Use `rediss://` URLs in the storage Secret, including `runtime.redis.urls` and any customer databases. Rendering can't check them, because they live in the Secret, and the data plane refuses to start in the FIPS profile if any of them isn't `rediss://`.
 
 Set `tracing.enabled` and `tracing.otlpGRPCEndpoint` to send spans to your OpenTelemetry collector over the OpenTelemetry Protocol (OTLP). The exporter uses plaintext gRPC, so use a trusted local hop.
 
 ## Scale and schedule the planes
 
-The control plane, data plane, and Identity Service scale independently. Set `replicaCount`, `resources`, `nodeSelector`, `tolerations`, and `affinity` for each in the chart values. The data plane carries the matching load, so scale it first.
+The control plane and data plane scale independently. Set `replicaCount`, `resources`, `nodeSelector`, `tolerations`, and `affinity` for each in the chart values. Scale the Identity Service in its own release. The data plane carries the matching load, so scale it first.

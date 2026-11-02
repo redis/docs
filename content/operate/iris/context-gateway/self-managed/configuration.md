@@ -237,6 +237,8 @@ Both planes serve Prometheus metrics at `/metrics`. Set `shared.config.opentelem
 
 ## Scale and schedule the planes
 
-Each plane starts one replica. Set `replicaCount`, or turn on `autoscaling`, with `resources`, `nodeSelector`, `tolerations`, and `affinity` under `controlplane` and `dataplane`. The probes are chart-managed. Leave headroom for old and new pods during upgrades.
+Each plane starts one replica. Set `replicaCount`, or turn on `autoscaling`, with `resources`, `nodeSelector`, `tolerations`, and `affinity` under `controlplane` and `dataplane`. Autoscaling is off by default, needs Metrics Server, and needs `resources.requests.cpu` or `resources.requests.memory` for each target it uses. Leave headroom for old and new pods during upgrades.
+
+The `startupProbe`, `livenessProbe`, and `readinessProbe` of each plane use `/health/liveness` and `/health/readiness` by default, and accept native Kubernetes probe fields. Set a probe to `null` to turn it off. The default startup probe allows 150 seconds before liveness checks begin.
 
 <!-- TODO: Add qualified production sizing and availability guidance for the launch release. -->

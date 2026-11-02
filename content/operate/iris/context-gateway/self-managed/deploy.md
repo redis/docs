@@ -76,7 +76,7 @@ Create a `databaseConnections` Secret for the registered databases. See [Databas
 
 ## 3. Create `gateway-values.yaml`
 
-Save this file, replacing the angle-bracket placeholders with your tenant, public Data Plane origin, and approved release image tags. It uses the Secrets created in step 2 and an Identity Service release named `ids` in the same namespace.
+Save this file, replacing the angle-bracket placeholders with your tenant and public Data Plane origin. The chart's default images match its version, so the file sets no image values. It uses the Secrets created in step 2 and an Identity Service release named `ids` in the same namespace.
 
 ```yaml
 tenantId: <tenant-id>
@@ -101,9 +101,6 @@ credentialStorage:
       k1: k1
     activeKeyId: k1
 controlplane:
-  image:
-    repository: redislabs/iris-context-gateway-control
-    tag: <control-plane-image-tag>
   adminToken:
     existingSecret: gateway-admin
     secretKey: token
@@ -111,9 +108,6 @@ controlplane:
     existingSecret: gateway-grant-validation
     secretKey: token
 dataplane:
-  image:
-    repository: redislabs/iris-context-gateway-data
-    tag: <data-plane-image-tag>
   runtimeToken:
     existingSecret: gateway-runtime
     secretKey: token
@@ -135,7 +129,7 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 | `identityService.allowInsecureTransport` is `true` for an `http://` Identity Service URL | Rendering fails with `HTTP Identity Service requires explicit allowInsecureTransport`. | Set it, or use an `https://` URL. |
 | The admin, internal, and runtime tokens come from three different Secrets or keys | Rendering fails, or the Identity Service cannot check keys | Create three distinct token files. |
 | `license` points to a valid license | The Control Plane's `/health/readiness` answers `503`, and an invalid license stops either plane at startup | Mount the license file as issued. |
-| Both component `image.repository` and `image.tag` are set | Pods `ImagePullBackOff` | Set both to the release images. |
+| Any `image.repository` or `image.tag` override names an image your cluster can pull | Pods `ImagePullBackOff` | Remove the overrides to use the chart's default images, or mirror those images unchanged. |
 {{< /table-scrollable >}}
 
 ## 4. Install
@@ -150,7 +144,7 @@ helm install gateway redis-ai/redis-context-gateway \
   --wait --timeout 5m
 ```
 
-Use the chart version and image tags supplied for the same release. A merged server change does not by itself publish a chart or image.
+Use a published chart version. A merged server change does not by itself publish a chart or image.
 
 ## 5. Verify pods and health
 

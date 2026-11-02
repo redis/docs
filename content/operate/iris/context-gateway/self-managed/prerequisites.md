@@ -108,13 +108,13 @@ Redis URLs, tokens, keyrings, and the license belong in Kubernetes Secrets or Se
 | Control Plane | `redislabs/iris-context-gateway-control:<control-plane-image-tag>` |
 | Data Plane | `redislabs/iris-context-gateway-data:<data-plane-image-tag>` |
 
-Set both `image.repository` and `image.tag` from the release manifest.
+The chart defaults to these repositories and pins the image tags that match its chart version. Leave `image.repository` and `image.tag` unset for a public install, and override them only to pull from a mirror.
 
 <!-- TODO: Add the published image tags and chart version from the release manifest. -->
 
 ## Air-gapped and private registry installs
 
-For a disconnected installation, mirror both images to your registry, set each component's `image.repository`, and set `imagePullSecrets`. Install from a downloaded chart package instead of the Redis AI Helm repository.
+For a disconnected installation, mirror both images to your registry with their tags unchanged, set each component's `image.repository` and `image.tag`, and set `imagePullSecrets`. Install from a downloaded chart package instead of the Redis AI Helm repository.
 
 ## Helm values to review
 

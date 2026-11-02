@@ -23,15 +23,16 @@ This page is a lookup reference for self-managed Intent Router. It lists the mai
 | `storage.keyPrefix` | `iris:intent` | The Redis key prefix both planes derive their keys from. |
 | `storage.maxRoutersPerTenant` | `128` | Routers the tenant can hold. |
 | `controlplane.reconcile.provisioningDeadline` | `10m` | How long a Router can stay `PROVISIONING` before it fails. |
-| `identityService.runtimeCache.hardTTLSeconds` | `300` | The longest a revoked agent key keeps working. |
 | `license.existingSecret` | None | The Secret with the license. Required. |
 | `inference.models` | None | The deployment's embedding model. Required. |
 | `inference.existingSecret` | None | The Secret with `embedders_connection_details` under the key `inference.yaml`. |
 | `inference.allowLocalModels` | `false` | Allow the development-only `noop` provider. |
-| `identityService.enabled` | `true` | Deploy the bundled Identity Service. |
 | `controlplane.requireDatabase` | `false` | Require every Router to name a customer database. |
-| `dataplane.allowInsecureIdentityService` | `false` | Accept an `http://` Identity Service URL. |
-| `dataplane.identityServiceBaseURL` | None | An `https://` Identity Service endpoint. |
+| `controlplane.image.tag`, `dataplane.image.tag` | None | The image tags. Required. |
+| `dataplane.identityServiceBaseURL` | None | The URL of your Identity Service release. Required. Must be `https://` unless `identityService.allowInsecureTransport` is `true`. |
+| `identityService.allowInsecureTransport` | `false` | Accept an `http://` Identity Service URL. Refused in the FIPS profile. |
+| `identityService.credential.existingSecret` | None | The Secret with the data plane's runtime credential, under the key `token`. Required. |
+| `dataplane.startupBudget` | `20s` | How long the data plane's first convergence pass can run. At most `40s`. |
 | `tests.enabled` | `false` | Add `helm test` pods. |
 | `tracing.enabled` | `false` | Send spans to an OpenTelemetry collector. |
 
