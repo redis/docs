@@ -65,12 +65,24 @@ Set these keys under `dataplane.config.auth.oidc`:
 | --- | --- |
 | `enabled` | `true` |
 | `issuer` | Your IdP's issuer URL. |
-| `audience` | Exactly one API identifier for the Data Plane, such as `api://redis-iris`. Tokens audienced at a Gateway's MCP URL are also accepted. |
+| `audience` | Exactly one API identifier that belongs to the Data Plane alone, such as `api://context-gateway-dp`. Not the shared `api://redis-iris`. Tokens audienced at a Gateway's MCP URL are also accepted. |
 | `jwks_uri` | Your IdP's JSON Web Key Set (JWKS) URL. |
 | `user_id_claim` | The claim that identifies a user. `sub` by default, `oid` for Microsoft Entra ID. |
 | `role_mappings` | Maps IdP role or group claim values to Iris roles, such as `gateway_user`. |
 
 `dataplane.config.oauth.public_base_url` defaults to `publicBaseURL`, the Data Plane's public origin. The issuer and key set URLs must use HTTPS.
+
+Register the Data Plane's audience as a separate API at your IdP. On Microsoft Entra ID, that is a second app registration. Don't use the shared `api://redis-iris` audience that the Control Plane and the Iris UI use. MCP clients hold the sign-in token, and the shared audience would also open Agent Memory and Playbook for the user. The Data Plane refuses to start with `api://redis-iris`. It cannot see a renamed shared audience, so if you renamed it, choose a different value here too. Don't give MCP clients the shared audience or its scope either: a token that carries both audiences still opens Agent Memory and Playbook.
+
+### Upgrade from the shared audience
+
+Earlier chart versions documented `api://redis-iris` for the Data Plane, and the Data Plane now fails at startup with that value. Before you upgrade a deployment that has sign-in turned on with the shared audience:
+
+1. Register the separate API at your IdP and assign roles on it.
+1. Set `dataplane.config.auth.oidc.audience` to the new API identifier.
+1. Upgrade the chart.
+
+MCP clients then need to sign in again to receive tokens for the new audience.
 
 ### Grant signed-in users access
 
