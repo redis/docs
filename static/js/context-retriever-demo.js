@@ -641,7 +641,7 @@
       renderTools(right);
       var idx = el("details", "rcr-card rcr-behind");
       idx.appendChild(el("summary", "", "Behind the scenes: the search indexes the service creates"));
-      idx.appendChild(el("pre", "rcr-code", esc(indexCommands(state.model, state.surface).join("\n\n") || "No indexed fields, so no index is created.")));
+      idx.appendChild(el("pre", "rcr-code", indexHtml()));
       idx.appendChild(el("p", "rcr-note", "Tag fields use the <code>INDEXMISSING</code> option, so the database must run Redis 7.4 or later. " +
         "Tag fields used for access control, which this demo doesn't include, also get <code>INDEXEMPTY</code>. The index names are illustrative."));
       p.appendChild(idx);
@@ -678,7 +678,12 @@
       var right = panels.model.querySelector(".rcr-tools");
       if (right) { renderTools(right); right.classList.remove("rcr-flash"); void right.offsetWidth; right.classList.add("rcr-flash"); }
       var beh = panels.model.querySelector(".rcr-behind pre");
-      if (beh) beh.textContent = indexCommands(state.model, state.surface).join("\n\n") || "No indexed fields, so no index is created.";
+      if (beh) beh.innerHTML = indexHtml();
+    }
+    /* The FT.CREATE commands behind the tools, highlighted, or why there are none. */
+    function indexHtml() {
+      var cmds = indexCommands(state.model, state.surface);
+      return cmds.length ? window.DemoHL.redis(cmds.join("\n\n")) : esc("No indexed fields, so no index is created.");
     }
 
     function entityCard(ent) {
@@ -909,7 +914,7 @@
       body.appendChild(el("pre", "rcr-code rcr-code-sm", jsonHtml(failed ? res : c.result)));
       var cd = el("details", "rcr-curl");
       cd.appendChild(el("summary", "", "Run this call yourself with curl"));
-      cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curlFor(c.name, c.args, c.id))));
+      cd.appendChild(el("pre", "rcr-code rcr-code-sm", window.DemoHL.shell(curlFor(c.name, c.args, c.id))));
       body.appendChild(cd);
       d.appendChild(body);
       return d;

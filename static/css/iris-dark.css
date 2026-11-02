@@ -275,6 +275,17 @@ body.iris-dark main .rcr .ram-type-episodic {
 body.iris-dark main .rcr .rcr-jl {
   color: #ff6b6b;
 }
+/* Syntax highlighting, in Redis Insight's dark Workbench colors. Its @field red is lightened to read on the dark code background. */
+body.iris-dark main .rcr .hl-cmd { color: #c8b5f2; }
+body.iris-dark main .rcr .hl-kw { color: #8cd7b9; }
+body.iris-dark main .rcr .hl-key { color: #de47bb; }
+body.iris-dark main .rcr .hl-field { color: #d65a5e; }
+body.iris-dark main .rcr .hl-query { color: #7b90e0; }
+body.iris-dark main .rcr .hl-op { color: #b9f0f3; }
+body.iris-dark main .rcr .hl-fn { color: #9e7ee8; }
+body.iris-dark main .rcr .hl-str { color: #ce9178; }
+body.iris-dark main .rcr .hl-num,
+body.iris-dark main .rcr .hl-ok { color: #b5cea8; }
 
 /* The Iris overview demo is also .rcr. Its highlighter chips and reply parts keep
    their pastel service colors, so the text on them stays dark. */
