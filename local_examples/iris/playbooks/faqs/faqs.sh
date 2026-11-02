@@ -115,3 +115,10 @@ jq -n --arg id "$FAQ_ID" '{references: [{entryId: $id}, {entryKey: "refund-statu
     -H 'Content-Type: application/json' --data-binary @- \
   | jq '{maxVersions, items}'
 # STEP_END
+
+# STEP_START playbook-faq-stats
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_API/stats" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  | jq '{observedAt, faqs: (if .faqs.total.available then .faqs.total.value else "unavailable" end), skills: (if .skills.total.available then .skills.total.value else "unavailable" end)}'
+# STEP_END

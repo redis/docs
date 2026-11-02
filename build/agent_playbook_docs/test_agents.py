@@ -124,7 +124,7 @@ class AgentFixture(ContractFixture):
         assert self.turn_context["discoveredEntries"]
         for preview in self.turn_context["discoveredEntries"]:
             assert "entryId" in preview and "version" in preview
-            if preview["entryType"] == "skill":
+            if preview["kind"] == "SKILL":
                 assert "name" in preview["skill"] and "uri" in preview["skill"]
                 assert "instructions" not in preview["skill"] and "resources" not in preview["skill"]
         tools = body["tools"]
@@ -255,9 +255,9 @@ def test_agent_discovery_and_selective_loading(framework, suffix, agent_server, 
     result = run_program(framework, suffix, env, tmp_path)
     output = result.stdout + result.stderr
     assert not state.errors, state.errors
-    assert state.events[0] == "sdk-discover"
+    assert state.events and state.events[0] == "sdk-discover", output
     if state.mode == "failure":
-        assert result.returncode != 0 and "Playbook discovery failed" in output
+        assert result.returncode != 0 and "discovery failed" in output
         assert "model" not in state.events
     else:
         assert result.returncode == 0, output

@@ -79,7 +79,7 @@ jq . reviewed.json
 # STEP_END
 
 # STEP_START playbook-proposal-replace
-jq --argjson revision "$(jq -er '.revision' reviewed.json)" '
+jq --arg revision "$(jq -er '.revision' reviewed.json)" '
   {action} |
   .action.add.candidate.content.payload.faq.answer += " Do not send full card details." |
   .expectedRevision = $revision
@@ -143,4 +143,61 @@ while true; do
   CURSOR=$(jq -r '.nextCursor // empty' trash.json)
   [[ -n "$CURSOR" ]] || break
 done
+# STEP_END
+
+# STEP_START playbook-proposal-skill-create
+jq -n --rawfile package <(base64 < refund-support-reply.zip | tr -d '\n') '{
+  action: {add: {
+    target: {newEntry: {}},
+    candidate: {content: {
+      attributes: {locale: "en-US", topic: "refund"},
+      payload: {skillPackage: {packageBase64: $package}}
+    }}
+  }}
+}' > skill-proposal.json
+curl --fail-with-body --silent --show-error \
+  -X POST "$PLAYBOOK_API/proposals" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H 'Content-Type: application/json' --data-binary @skill-proposal.json > skill-proposal-created.json
+SKILL_PROPOSAL_ID=$(jq -er '.proposalId' skill-proposal-created.json)
+jq '{proposalId, revision}' skill-proposal-created.json
+# STEP_END
+
+# STEP_START playbook-proposal-skill-review
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > skill-reviewed.json
+jq '.action.add.candidate.content.payload.skill | {manifest, instructions, resources}' skill-reviewed.json
+RESOURCE_ID=$(jq -er '.action.add.candidate.content.payload.skill.resources[] | select(.path == "references/reply-template.md") | .resourceId' skill-reviewed.json)
+SKILL_REVISION=$(jq -er '.revision' skill-reviewed.json)
+curl --fail-with-body --silent --show-error --get \
+  "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID/resources/$RESOURCE_ID" \
+  --data-urlencode "expectedRevision=$SKILL_REVISION" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" --output reply-template.reviewed.md
+EXPECTED_DIGEST=$(jq -er --arg id "$RESOURCE_ID" '.action.add.candidate.content.payload.skill.resources[] | select(.resourceId == $id) | .digest' skill-reviewed.json)
+ACTUAL_DIGEST="sha256:$(openssl dgst -sha256 reply-template.reviewed.md | awk '{print $NF}')"
+[[ "$ACTUAL_DIGEST" == "$EXPECTED_DIGEST" ]] || { echo 'Proposal resource digest mismatch' >&2; exit 1; }
+cat reply-template.reviewed.md
+# STEP_END
+
+# STEP_START playbook-proposal-skill-accept
+curl --fail-with-body --silent --show-error \
+  -X POST "$PLAYBOOK_API/proposals/$SKILL_PROPOSAL_ID/acceptance" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H 'Content-Type: application/json' \
+  --data "$(jq '{expectedRevision: .revision}' skill-reviewed.json)" > skill-accepted.json
+jq -e '.result.versionCreated.entryKind == "SKILL"' skill-accepted.json > /dev/null
+ACCEPTED_SKILL_ID=$(jq -er '.result.versionCreated.entryId' skill-accepted.json)
+ACCEPTED_SKILL_VERSION=$(jq -er '.result.versionCreated.version' skill-accepted.json)
+curl --fail-with-body --silent --show-error \
+  "$PLAYBOOK_API/skills/$ACCEPTED_SKILL_ID/versions/$ACCEPTED_SKILL_VERSION" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
+# STEP_END
+
+# STEP_START playbook-proposal-skill-publish
+curl --fail-with-body --silent --show-error \
+  -X PUT "$PLAYBOOK_API/skills/$ACCEPTED_SKILL_ID/publication" \
+  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H 'Content-Type: application/json' \
+  --data "$(jq '{version: .result.versionCreated.version}' skill-accepted.json)" | jq .publication
 # STEP_END

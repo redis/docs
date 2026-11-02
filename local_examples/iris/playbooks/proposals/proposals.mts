@@ -142,3 +142,49 @@ while (true) {
   if (trashCursor === undefined) break;
 }
 // STEP_END
+
+// STEP_START playbook-proposal-skill-create
+const { readFile } = await import("node:fs/promises");
+const skillProposal = await playbook.createProposal({ action: { add: {
+  target: { newEntry: {} },
+  candidate: { content: {
+    attributes: { locale: "en-US", topic: "refund" },
+    payload: { skillPackage: {
+      packageBase64: (await readFile("refund-support-reply.zip")).toString("base64"),
+    } },
+  } },
+} } });
+const skillProposalId = skillProposal.proposalId;
+console.log(skillProposalId, skillProposal.revision);
+// STEP_END
+
+// STEP_START playbook-proposal-skill-review
+const { createHash } = await import("node:crypto");
+const skillReview = await playbook.getProposal(skillProposalId);
+if (!("add" in skillReview.action)) throw new Error("Expected an add proposal");
+const skillPayload = skillReview.action.add.candidate.content.payload;
+if (!("skill" in skillPayload)) throw new Error("Expected a skill proposal");
+const candidate = skillPayload.skill;
+console.log(candidate.manifest, candidate.instructions);
+const resource = candidate.resources.find(r => r.path === "references/reply-template.md");
+if (!resource) throw new Error("Reply template is missing");
+const resourceResponse = await playbook.getProposalResource(skillProposalId, resource.resourceId, skillReview.revision);
+const templateBytes = Buffer.from(await new Response(resourceResponse.result).arrayBuffer());
+if ("sha256:" + createHash("sha256").update(templateBytes).digest("hex") !== resource.digest) {
+  throw new Error("Proposal resource digest does not match the reviewed descriptor");
+}
+console.log(templateBytes.toString("utf-8"));
+// STEP_END
+
+// STEP_START playbook-proposal-skill-accept
+const acceptedSkill = await playbook.acceptProposal(skillProposalId, { expectedRevision: skillReview.revision });
+if (!("versionCreated" in acceptedSkill.result)) throw new Error("Review the unrecognized acceptance result before publishing");
+const skillReceipt = acceptedSkill.result.versionCreated;
+if (skillReceipt.entryKind !== "SKILL") throw new Error("Expected a skill receipt");
+const skillVersion = await playbook.getSkillVersion(skillReceipt.entryId, skillReceipt.version);
+console.log(skillReceipt.entryId, skillReceipt.version, skillVersion.content);
+// STEP_END
+
+// STEP_START playbook-proposal-skill-publish
+await playbook.publishSkill(skillReceipt.entryId, { version: skillReceipt.version });
+// STEP_END

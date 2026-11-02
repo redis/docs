@@ -64,7 +64,7 @@ Pins consume discovery slots and preview budget. The preview ceiling applies to 
 
 Follow a list response's next cursor until it is absent, even if a page is empty. Keep the collection, filters, and ordering consistent between pages. Lists reflect concurrent changes and do not represent a fixed snapshot.
 
-List responses return `items` and `nextCursor` and do not include a total count. Use the cursor, not the page length, to decide when to stop. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
+List responses return `items` and `nextCursor` and do not include a total count. Use the cursor, not the page length, to decide when to stop. For separate observed counts, use `get_playbook_stats`; an unavailable count is not zero. See [List entries and inspect history]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#list-entries-and-inspect-history" >}}) for examples.
 
 ## Proposal and evidence limits
 
@@ -142,6 +142,6 @@ Use a key with `write` permission for bulk deletion. Choose the entry type befor
 | Delete selected FAQ entries and all their versions | `delete_faqs(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/faqs/bulk-delete` with an `entryIds` array |
 | Delete selected skills, versions, and files | `delete_skills(entry_ids=...)` | `POST /iris/data/v1/agent-playbooks/playbooks/{playbookId}/skills/bulk-delete` with an `entryIds` array |
 
-Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear entries, proposals, or both through the control plane.
+Bulk deletion accepts 1–100 entry identifiers of the selected type. The data plane does not provide an operation to clear an entire playbook. An administrator can clear content through the control plane or the console's [Danger zone](/content/operate/iris/agent-playbook/manage-playbook.md#danger-zone).
 
 For ordinary sample cleanup, use the single-entry deletion steps in [Manage FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs#withdraw-or-delete-an-faq" >}}) or [Manage skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills#withdraw-or-delete-a-skill" >}}).

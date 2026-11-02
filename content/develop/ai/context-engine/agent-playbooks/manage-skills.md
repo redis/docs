@@ -66,7 +66,7 @@ The CLI uses the skill name as its stable entry key. `skills push` creates missi
 4. Publish the reviewed version with `publish_skill`.
 5. Test retrieval with a reader key, then test the agent's use of the skill.
 
-Uploading a valid package does not publish it automatically. The current [proposal workflow]({{< relref "/develop/ai/context-engine/agent-playbooks/proposals" >}}) creates FAQs, not skills.
+Uploading a valid package does not publish it automatically. To review a suggestion before creating an entry, use a [skill proposal](/content/develop/ai/context-engine/agent-playbooks/proposals.md#review-skill-proposals).
 
 {{< clients-example set="iris_playbook_skills" step="playbook-skill-review" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 

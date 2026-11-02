@@ -58,7 +58,6 @@ class ContractFixture:
         self.mcp_methods = []
         self.model_requests = []
         self.tool_error = tool_error
-        self.omit_totals = False
         self.strict_pagination = True
         self.resource_contents = {DIGEST: FILE_TEXT.encode()}
         self.skill_id = self.create('skill', self.skill_content())['entry']['entryId']
@@ -80,14 +79,14 @@ class ContractFixture:
 
     def create(self, kind, content):
         eid = 'ent_' + f'{len(self.entries) + 1:032x}'
-        self.entries[eid] = {'entryId': eid, 'entryType': kind, 'latestVersion': 0, 'createdAt': NOW, 'updatedAt': NOW}
+        self.entries[eid] = {'entryId': eid, 'kind': kind.upper(), 'latestVersion': 0, 'createdAt': NOW, 'updatedAt': NOW}
         self.versions[eid] = []
         return self.append(eid, content)
 
     def append(self, eid, content):
         entry = self.entries[eid]
         entry['latestVersion'] += 1
-        version = {'entryId': eid, 'entryType': entry['entryType'], 'version': entry['latestVersion'],
+        version = {'entryId': eid, 'entryKind': entry['kind'], 'version': entry['latestVersion'],
                    'createdAt': NOW, 'contentDigest': DIGEST, 'content': deepcopy(content)}
         self.versions[eid].append(version)
         return {'entry': deepcopy(entry), 'version': deepcopy(version)}
@@ -109,7 +108,7 @@ class ContractFixture:
     def preview(self, eid, scored=False):
         entry = self.entries[eid]
         pub = entry['publication']
-        result = {'entryId': eid, 'entryType': entry['entryType'], 'version': pub['version'],
+        result = {'entryId': eid, 'kind': entry['kind'], 'version': pub['version'],
                   'intents': pub['content'].get('intents', []), **pub['content']['payload']}
         if scored:
             result['score'] = 0.95
@@ -138,17 +137,14 @@ class ContractFixture:
         # Exercise empty and short pages without allowing clients to stop early.
         cursor = query.get('cursor')
         if cursor is None:
-            result = {member: [], 'nextCursor': 'fixture+page/1='}
-            if include_total and not self.omit_totals:
-                result['total'] = len(items)
-            return result
+            return {'items': [], 'nextCursor': 'fixture+page/1='}
         if cursor == 'fixture+page/1=':
-            result = {member: deepcopy(items[:1])}
+            result = {'items': deepcopy(items[:1])}
             if len(items) > 1:
                 result['nextCursor'] = 'fixture+page/2='
             return result
         assert cursor == 'fixture+page/2=', query
-        return {member: deepcopy(items[1:])}
+        return {'items': deepcopy(items[1:])}
 
     def proposal_preview(self, proposal):
         preview = deepcopy(proposal)
@@ -156,9 +152,12 @@ class ContractFixture:
         preview.pop('source', None)
         preview.pop('result', None)
         content = preview['action']['add']['candidate']['content']
-        preview['action']['add']['candidate']['content'] = {
-            'payload': {'faq': {'question': content['payload']['faq']['question']}},
-        }
+        payload = content['payload']
+        if 'faq' in payload:
+            candidate = {'faq': {'question': payload['faq']['question']}}
+        else:
+            candidate = {'skill': {key: payload['skill']['manifest'][key] for key in ('name', 'description')}}
+        preview['action']['add']['candidate']['content'] = {'payload': candidate}
         return preview
 
     def mcp(self, body):
@@ -268,7 +267,7 @@ class ContractFixture:
         pid = params.get('proposalId')
         code = 200
         if name == 'GetPlaybookHealth':
-            result = {key: 'ready' for key in ('status', 'metadataRedis', 'contentRedis', 'inference', 'license')}
+            result = {key: 'READY' for key in ('status', 'metadataRedis', 'contentRedis', 'inference', 'license')}
             result['playbookId'] = PB
         elif name in ('CreateFaq', 'CreateSkill'):
             result = self.create('faq' if name == 'CreateFaq' else 'skill', body['content'] if name == 'CreateFaq' else self.parse_package(body))
@@ -293,10 +292,19 @@ class ContractFixture:
         elif name in ('ListFaqs', 'ListSkills'):
             kind = 'faq' if name == 'ListFaqs' else 'skill'
             if self.strict_pagination:
-                assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'desc'
+                assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'DESC'
                 assert query.get('limit') == '50'
-            entries = [entry for entry in self.entries.values() if entry['entryType'] == kind]
+            entries = [entry for entry in self.entries.values() if entry['kind'] == kind.upper()]
             result = self.page(entries, 'faqs' if kind == 'faq' else 'skills', query)
+        elif name == 'GetPlaybookStats':
+            def inventory(kind):
+                entries = [e for e in self.entries.values() if e['kind'] == kind]
+                total = len(entries)
+                published = sum('publication' in e for e in entries)
+                return {label: {'available': True, 'value': count} for label, count in
+                        (('total', total), ('published', published), ('unpublished', total - published))}
+            result = {'observedAt': NOW, 'faqs': inventory('FAQ'), 'skills': inventory('SKILL'),
+                      'proposals': {'inbox': {'available': True, 'value': 0}, 'trash': {'available': True, 'value': 0}}}
         elif name in ('ListFaqVersions', 'ListSkillVersions'):
             if self.strict_pagination:
                 assert query.get('limit') == '50'
@@ -311,7 +319,7 @@ class ContractFixture:
                     results.append({'missing': {'reference': reference}})
                     continue
                 latest = self.versions[entry['entryId']][-1]
-                state = {'entryId': entry['entryId'], 'entryType': entry['entryType'],
+                state = {'entryId': entry['entryId'], 'kind': entry['kind'],
                          'latest': {'version': latest['version'], 'contentDigest': latest['contentDigest']},
                          'versionCount': len(self.versions[entry['entryId']])}
                 if 'entryKey' in entry:
@@ -320,7 +328,7 @@ class ContractFixture:
                     version = self.versions[entry['entryId']][entry['publication']['version'] - 1]
                     state['publication'] = {'version': version['version'], 'contentDigest': version['contentDigest']}
                 results.append({'found': {'reference': reference, 'entry': state}})
-            result = {'results': results, 'maxVersions': 100}
+            result = {'items': results, 'maxVersions': 100}
         elif name in ('WithdrawFaq', 'WithdrawSkill'):
             self.entries[eid].pop('publication', None)
             result = self.entries[eid]
@@ -330,64 +338,83 @@ class ContractFixture:
         elif name in ('DeleteFaqs', 'DeleteSkills'):
             for entry_id in body['entryIds']:
                 del self.entries[entry_id]
-            result = {'deletedEntriesCount': len(body['entryIds'])}
+            result = {'deleted': body['entryIds'], 'errors': []}
         elif name in ('SearchFaqs', 'SearchSkills', 'DiscoverEntries'):
             ids = [key for key, e in self.entries.items() if 'publication' in e]
             if name != 'DiscoverEntries':
                 kind = 'faq' if name == 'SearchFaqs' else 'skill'
-                ids = [key for key in ids if self.entries[key]['entryType'] == kind]
-                result = {'matches': [self.preview(key, True) for key in ids]}
+                ids = [key for key in ids if self.entries[key]['kind'] == kind.upper()]
+                result = {'items': [self.preview(key, True) for key in ids]}
             else:
                 pins = [p['entryId'] for p in body.get('pinnedEntries', [])]
                 result = {'pinnedEntries': [self.preview(key) for key in pins],
                           'discoveredEntries': [self.preview(key, True) for key in ids if key not in pins], 'truncated': False}
         elif name == 'CreateProposal':
             pid = 'prp_' + f'{len(self.proposals) + 1:032x}'
-            result = {'proposalId': pid, 'status': 'open', 'contentDigest': DIGEST, 'proposalRevision': 1,
+            result = {'proposalId': pid, 'state': 'OPEN', 'contentDigest': DIGEST, 'revision': 'revision+1/=',
                       'evidenceCount': 0, 'createdAt': NOW, 'updatedAt': NOW, 'inboxExpiresAt': NOW,
                       'purgeAt': NOW, 'action': body['action'], 'evidence': []}
             if 'source' in body:
                 result['source'] = body['source']
+            payload = result['action']['add']['candidate']['content']['payload']
+            if 'skillPackage' in payload:
+                authored = self.parse_package(payload['skillPackage'])
+                result['action']['add']['candidate']['content']['payload'] = authored['payload']
+                for resource in authored['payload']['skill']['resources']:
+                    resource.pop('uri', None)
             self.proposals[pid] = deepcopy(result)
             code = 201
+        elif name == 'GetProposalResource':
+            proposal = self.proposals[pid]
+            if query['expectedRevision'] != proposal['revision']:
+                return 412, {'status': 412, 'type': '/errors/revision-conflict',
+                             'title': 'Revision conflict', 'currentRevision': proposal['revision']}
+            resource = next(r for r in proposal['action']['add']['candidate']['content']['payload']['skill']['resources']
+                            if r['resourceId'] == params['resourceId'])
+            return 200, self.resource_contents[resource['digest']]
         elif name == 'GetProposal':
             result = deepcopy(self.proposals[pid])
         elif name == 'ListProposals':
-            assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'desc'
+            assert query.get('sortBy') == 'updatedAt' and query.get('sortOrder') == 'DESC'
             assert query.get('limit') == '50'
-            statuses = ('open', 'promoting') if query['view'] == 'inbox' else ('trashed', 'promoted')
-            items = [self.proposal_preview(p) for p in self.proposals.values() if p['status'] in statuses]
+            statuses = ('OPEN', 'PROMOTING') if query['view'] == 'INBOX' else ('TRASHED', 'PROMOTED')
+            items = [self.proposal_preview(p) for p in self.proposals.values() if p['state'] in statuses]
             result = self.page(items, 'proposals', query)
         elif name == 'SearchProposals':
-            result = {'matches': [{'proposal': self.proposal_preview(p), 'score': 0.9}
-                                  for p in self.proposals.values() if p['status'] == 'open']}
+            result = {'items': [{'proposal': self.proposal_preview(p), 'score': 0.9}
+                                  for p in self.proposals.values() if p['state'] == 'OPEN']}
         elif name == 'SubmitProposalEvidence':
             evidence = {**body, 'evidenceId': params['evidenceId']}
             self.proposals[pid]['evidence'].append(evidence)
             self.proposals[pid]['evidenceCount'] += 1
-            result = {'evidenceId': params['evidenceId'], 'disposition': 'added', 'evidenceCount': 1, 'updatedAt': NOW}
+            result = {'evidenceId': params['evidenceId'], 'disposition': 'ADDED', 'evidenceCount': 1, 'updatedAt': NOW}
         elif name in ('ReplaceProposal', 'DismissProposal', 'RestoreProposal'):
             p = self.proposals[pid]
             if name != 'RestoreProposal':
-                assert body['expectedProposalRevision'] == p['proposalRevision']
+                assert body['expectedRevision'] == p['revision']
             if name == 'ReplaceProposal':
                 p['action'] = body['action']
-                p['proposalRevision'] += 1
-            p['status'] = 'trashed' if name == 'DismissProposal' else 'open'
+                p['revision'] = p['revision'] + '-updated'
+            p['state'] = 'TRASHED' if name == 'DismissProposal' else 'OPEN'
             result = deepcopy(p)
         elif name == 'AcceptProposal':
             p = self.proposals[pid]
-            assert p['status'] == 'open'
-            assert body['expectedProposalRevision'] == p['proposalRevision']
-            created = self.create('faq', p['action']['add']['candidate']['content'])
+            assert p['state'] == 'OPEN'
+            assert body['expectedRevision'] == p['revision']
+            content = deepcopy(p['action']['add']['candidate']['content'])
+            kind = 'faq' if 'faq' in content['payload'] else 'skill'
+            if kind == 'skill':
+                for resource in content['payload']['skill']['resources']:
+                    resource['uri'] = 'skill://accepted-version/' + resource['path']
+            created = self.create(kind, content)
             receipt = {
                 'entryId': created['entry']['entryId'],
-                'entryType': 'faq',
+                'entryKind': kind.upper(),
                 'version': created['version']['version'],
                 'contentDigest': created['version']['contentDigest'],
             }
             result = {'result': {'versionCreated': receipt}}
-            p['status'] = 'promoted'
+            p['state'] = 'PROMOTED'
             p['result'] = deepcopy(result['result'])
         else:
             raise AssertionError(name)
@@ -465,33 +492,34 @@ def execute(page, suffix, directory, env, source=None):
 
 
 def normalized(calls):
-    calls = deepcopy(calls)
-    for name, body in calls:
-        if isinstance(body, dict):
-            body.pop('observedAt', None)
-            if 'packageBase64' in body:
-                with ZipFile(io.BytesIO(base64.b64decode(body.pop('packageBase64')))) as archive:
-                    body['files'] = {n: archive.read(n).decode() for n in sorted(archive.namelist()) if not n.endswith('/')}
-    return calls
+    def normalize(value):
+        if isinstance(value, list):
+            return [normalize(item) for item in value]
+        if not isinstance(value, dict):
+            return value
+        result = {key: normalize(item) for key, item in value.items() if key != 'observedAt'}
+        if 'packageBase64' in result:
+            with ZipFile(io.BytesIO(base64.b64decode(result.pop('packageBase64')))) as archive:
+                result['files'] = {name: archive.read(name).decode() for name in sorted(archive.namelist())
+                                   if not name.endswith('/')}
+        return result
+    return [(name, normalize(body)) for name, body in calls]
 
 
-@pytest.mark.parametrize('page,omit_totals',
-                         [(guide, False) for guide in GUIDES if guide != 'mcp'] +
-                         [(guide, True) for guide in ('faqs', 'skills', 'proposals')])
-def test_reference_clients_execute_and_send_equivalent_requests(page, omit_totals, fixture_server, tmp_path):
+@pytest.mark.parametrize('page', [guide for guide in GUIDES if guide != 'mcp'])
+def test_reference_clients_execute_and_send_equivalent_requests(page, fixture_server, tmp_path):
     state, env = fixture_server
     traces = []
     for suffix in ('py', 'mts', 'sh'):
         fresh = ContractFixture()
-        fresh.omit_totals = omit_totals
         if page == 'proposals':
-            for index, status in enumerate(('open', 'open', 'promoted')):
-                _, proposal = fresh.request('POST', f'/v1/playbooks/{PB}/proposals', {'action': {'add': {
+            for index, status in enumerate(('OPEN', 'OPEN', 'PROMOTED')):
+                _, proposal = fresh.request('POST', f'/iris/data/v1/agent-playbooks/playbooks/{PB}/proposals', {'action': {'add': {
                     'target': {'newEntry': {}}, 'candidate': {'content': {'payload': {'faq': {
                         'question': f'Sample review question {index}', 'answer': 'Sample review answer',
                     }}}},
                 }}})
-                fresh.proposals[proposal['proposalId']]['status'] = status
+                fresh.proposals[proposal['proposalId']]['state'] = status
             fresh.calls.clear()
         state.__dict__.update(fresh.__dict__)
         directory = tmp_path / suffix
@@ -515,8 +543,6 @@ def test_reference_clients_execute_and_send_equivalent_requests(page, omit_total
             assert list_calls
             for cursors in list_calls.values():
                 assert cursors == [None, 'fixture+page/1=', 'fixture+page/2='], list_calls
-            if omit_totals:
-                assert 'unknown' in result.stdout
         traces.append(normalized(state.calls))
     assert traces[0] == traces[1] == traces[2]
 
@@ -535,7 +561,7 @@ def test_full_program_copy_retains_published_sample(page, suffix, fixture_server
     assert not any(name.startswith(('Delete', 'Withdraw')) for name, _ in state.calls)
     kind = 'faq' if page == 'quickstart' else 'skill'
     sample = next(entry for entry in state.entries.values()
-                  if entry['entryType'] == kind and entry['entryId'] not in (state.faq_id, state.skill_id))
+                  if entry['kind'] == kind.upper() and entry['entryId'] not in (state.faq_id, state.skill_id))
     assert sample['publication']['version'] == (2 if page == 'quickstart' else 1)
     assert sample['entryId'] in result.stdout
     if page == 'quickstart':
@@ -552,12 +578,12 @@ def test_proposal_edit_preserves_the_candidate_just_reviewed(suffix, fixture_ser
 
     def another_reviewer(method, path, body):
         nonlocal changed
-        if method == 'GET' and re.fullmatch(r'/v1/playbooks/[^/]+/proposals/prp_[0-9a-f]+', path) and not changed:
+        if method == 'GET' and re.fullmatch(r'/iris/data/v1/agent-playbooks/playbooks/[^/]+/proposals/prp_[0-9a-f]+', path) and not changed:
             proposal = state.proposals[path.rsplit('/', 1)[1]]
             content = proposal['action']['add']['candidate']['content']
             content['metadata'] = {'policyRevision': 'reviewed-update'}
             content['payload']['faq']['answer'] += ' Include the support case number if you have one.'
-            proposal['proposalRevision'] += 1
+            proposal['revision'] = proposal['revision'] + '-updated'
             changed = True
         return original_request(method, path, body)
 
@@ -567,7 +593,7 @@ def test_proposal_edit_preserves_the_candidate_just_reviewed(suffix, fixture_ser
     assert result.returncode == 0, result.stdout + result.stderr
     replacement = next(body for name, body in state.calls if name == 'ReplaceProposal')
     content = replacement['action']['add']['candidate']['content']
-    assert replacement['expectedProposalRevision'] == 2
+    assert replacement['expectedRevision'] == 'revision+1/=-updated'
     assert content['metadata'] == {'policyRevision': 'reviewed-update'}
     assert content['payload']['faq']['answer'].endswith(
         ' Include the support case number if you have one. Do not send full card details.'
@@ -684,5 +710,55 @@ def test_live_cleanup_attempts_all_resources_after_an_error(monkeypatch):
     failures = live_examples.cleanup(args, 'test-playbook', ['key-one', 'key-two'])
     assert calls == ['http://identity.invalid/v1/api-keys/key-one',
                      'http://identity.invalid/v1/api-keys/key-two',
-                     'http://control.invalid/v1/playbooks/test-playbook']
+                     'http://control.invalid/iris/v1/agent-playbooks/playbooks/test-playbook']
     assert len(failures) == 1 and 'temporary connection failure' in failures[0]
+
+
+@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+@pytest.mark.parametrize('failure', ('stale', 'corrupt'))
+def test_skill_proposal_review_stops_before_accepting_unreviewed_bytes(suffix, failure, fixture_server, tmp_path, monkeypatch):
+    state, env = fixture_server
+    original = state.request
+
+    def resource_failure(method, path, body):
+        if method == 'GET' and '/proposals/' in path and '/resources/' in path:
+            if failure == 'stale':
+                proposal_id = path.split('/proposals/', 1)[1].split('/', 1)[0]
+                state.proposals[proposal_id]['revision'] += '-changed'
+            code, result = original(method, path, body)
+            return (code, result + b'corrupt') if failure == 'corrupt' else (code, result)
+        return original(method, path, body)
+
+    monkeypatch.setattr(state, 'request', resource_failure)
+    result = execute('proposals', suffix, tmp_path, env)
+    assert not state.errors, state.errors
+    assert result.returncode != 0
+    proposal = next(p for p in state.proposals.values()
+                    if 'skill' in p['action']['add']['candidate']['content']['payload'])
+    assert proposal['state'] == 'OPEN' and 'result' not in proposal
+    assert not any(name == 'PublishSkill' for name, _ in state.calls)
+    if failure == 'corrupt':
+        assert 'digest' in (result.stdout + result.stderr).lower()
+
+
+@pytest.mark.parametrize('suffix', ('py', 'mts', 'sh'))
+def test_inventory_example_distinguishes_unavailable_from_zero(suffix, fixture_server, tmp_path, monkeypatch):
+    state, env = fixture_server
+    original = state.request
+
+    def unavailable_count(method, path, body):
+        code, result = original(method, path, body)
+        if path.endswith('/stats'):
+            result['faqs']['total'] = {'available': False}
+            result['skills']['total'] = {'available': True, 'value': 0}
+        return code, result
+
+    monkeypatch.setattr(state, 'request', unavailable_count)
+    index = ('py', 'mts', 'sh').index(suffix)
+    setup = next(code for name, code in blocks('quickstart') if name == 'playbook-connect')[index]
+    counts = next(code for name, code in blocks('faqs') if name == 'playbook-faq-stats')[index]
+    result = execute('inventory', suffix, tmp_path, env, source=setup + '\n' + counts)
+    assert not state.errors, state.errors
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert 'unavailable' in result.stdout and '0' in result.stdout
+    assert [name for name, _ in state.calls] == ['GetPlaybookHealth', 'GetPlaybookStats']

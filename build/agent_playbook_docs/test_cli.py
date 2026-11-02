@@ -16,9 +16,9 @@ def cli_server(fixture_server, monkeypatch):
     state.strict_pagination = False
     # Reconciliation compares remote digests with local content. Give this
     # schema fixture coherent digests instead of its usual opaque constant.
-    from redis_iris.cli.services.agent_playbook.client import _version
-    from redis_iris.cli.services.agent_playbook.faqs import digest_remote_faq_version
-    from redis_iris.cli.services.agent_playbook.skills import digest_remote_version
+    from redis_iris.cli.services.agent_playbooks.client import _version
+    from redis_iris.cli.services.agent_playbooks.faqs import digest_remote_faq_version
+    from redis_iris.cli.services.agent_playbooks.skills import digest_remote_version
 
     original = state.request
 
@@ -27,7 +27,7 @@ def cli_server(fixture_server, monkeypatch):
             for version in history:
                 normalized = _version(version)
                 digest = (digest_remote_faq_version(normalized)
-                          if version['entryType'] == 'faq' else digest_remote_version(normalized))
+                          if version['entryKind'] == 'FAQ' else digest_remote_version(normalized))
                 version['contentDigest'] = 'sha256:' + digest
         return original(method, path, body)
 
@@ -64,13 +64,13 @@ def test_cli_programs_preserve_review_and_publication(page, copy, cli_server, tm
         assert not any(body.get('version') == 2 for name, body in state.calls
                        if name == 'PublishSkill')
     elif page == 'proposals':
-        accepted = next(p for p in state.proposals.values() if p['status'] == 'promoted')
+        accepted = next(p for p in state.proposals.values() if p['state'] == 'PROMOTED')
         entry_id = accepted['result']['versionCreated']['entryId']
         assert state.entries[entry_id]['publication']['version'] == 1
         assert accepted['evidenceCount'] == 1
         assert names.index('AcceptProposal') < names.index('PublishFaq')
         assert next(body for name, body in state.calls if name == 'AcceptProposal')[
-            'expectedProposalRevision'] == accepted['proposalRevision']
+            'expectedRevision'] == accepted['revision']
         assert names.count('SubmitProposalEvidence') == 1
     else:
         assert not any(name.startswith(('Create', 'Append', 'Publish', 'Lookup', 'GetSkill'))

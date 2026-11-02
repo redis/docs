@@ -15,7 +15,7 @@ Use Redis Agent Playbooks to publish a FAQ, retrieve its answer to “Where can 
 
 ## Before you begin
 
-Create a playbook API key with `write` and `publish` permissions. Both include `read`.
+[Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md) and wait until it is **Ready**. [Create an authoring key](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access) with `write` and `publish` permissions. Both include `read`.
 
 This walkthrough needs no agent framework or model-provider key.
 
@@ -26,11 +26,11 @@ Follow one tab throughout the page. The Python SDK and command-line interface (C
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris
+python -m pip install redis-iris==1.0.0b2
 ```
 
 {{< note >}}
-For TypeScript, see the [Redis Agent Playbooks SDK on npm](https://www.npmjs.com/package/@redis-iris/agent-playbook). It is a generated client, not a unified SDK equivalent to Python's `redis-iris` package.
+The examples use the reviewed beta packages `redis-iris==1.0.0b2` and `redis-agent-playbook==1.0.0b2`. For TypeScript, see the [Redis Agent Playbooks SDK on npm](https://www.npmjs.com/package/@redis-iris/agent-playbook). It is a generated client, not a unified SDK equivalent to Python's `redis-iris` package.
 {{< /note >}}
 
 **HTTP**
@@ -42,7 +42,7 @@ jq --version
 
 ## Save connection values
 
-Export these values in the shell where you run the examples. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-playbooks/...` path.
+Copy the **Endpoint** and **Playbook ID** from the console's [Connect dialog](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access). Export them with your authoring key. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-playbooks/...` path.
 
 ```bash
 export PLAYBOOK_URL='<data-plane-endpoint>'

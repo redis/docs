@@ -98,6 +98,10 @@ CLI lists and version history follow all cursors automatically and return an arr
 
 {{< clients-example set="iris_playbook_faqs" step="playbook-faq-list" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
+For inventory counts, call `get_playbook_stats` with a reader key. Each count has an `available` flag: unavailable is different from zero. Counts are observations, not a fixed snapshot of the lists.
+
+{{< clients-example set="iris_playbook_faqs" step="playbook-faq-stats" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
 To select only published or unpublished entries, set `published` to `true` or `false`. Omit it to include both.
 
 Listing full version history requires `write` or `publish`. Versions arrive newest first. This example uses the FAQ created in this guide:

@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import re
+from urllib.parse import unquote
 from xml.etree import ElementTree
 
 from openapi_spec_validator import validate
@@ -13,20 +14,54 @@ from examples import ALL_CLIENTS, CLIENTS, GUIDES, bundle, calls, processed, sou
 
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "content/develop/ai/context-engine/agent-playbooks"
+OPERATOR_DOCS = ROOT / "content/operate/iris/agent-playbook"
+SHARED_SETUP = ROOT / "content/develop/ai/context-engine/sdk-and-cli.md"
 
 
 def test_public_openapi_is_valid():
     validate(json.loads((DOCS / "api-reference/openapi.json").read_text()))
 
 
-def test_relrefs_resolve():
-    for path in DOCS.rglob("*.md"):
+def heading_ids(source):
+    source = re.sub(r"(?ms)^```.*?^```[^\n]*$", "", source)
+    result = set()
+    for heading in re.findall(r"^#{1,6}\s+(.+)$", source, re.M):
+        explicit = re.search(r"\{#([^}]+)\}", heading)
+        if explicit:
+            result.add(explicit[1])
+        else:
+            heading = re.sub(r"[^\w\s-]", "", heading.lower())
+            result.add(re.sub(r"\s+", "-", heading.strip()))
+    return result
+
+
+def test_documentation_links_anchors_and_images_resolve():
+    pages = [*DOCS.glob("*.md"), *OPERATOR_DOCS.glob("*.md"), SHARED_SETUP]
+    schemas = json.loads((DOCS / "api-reference/openapi.json").read_text())["components"]["schemas"]
+    for path in pages:
         source = path.read_text()
-        for target in re.findall(r'\{\{< relref "([^"]+)" >\}\}', source):
-            page = ROOT / "content" / target.split("#", 1)[0].lstrip("/")
-            assert any(candidate.exists() for candidate in [
-                page.with_suffix(".md"), page / "_index.md", page / "index.md",
-            ]), (path, target)
+        targets = re.findall(r'\{\{< relref "([^"]+)" >\}\}', source)
+        targets += re.findall(r'!?\[[^\]]*\]\(([^)\s]+)\)', source)
+        targets += re.findall(r'\{\{< tile-card[^>]+url="([^"]+)"', source)
+        for target in targets:
+            if target.startswith("/images/"):
+                assert (ROOT / "static" / target.split("#", 1)[0].lstrip("/")).is_file(), (path, target)
+                continue
+            if not target.startswith(("/content/", "/develop/", "/operate/", "#")):
+                continue
+            route, _, anchor = target.partition("#")
+            if not route:
+                page = path
+            else:
+                relative = route.lstrip("/") if route.startswith("/content/") else "content/" + route.lstrip("/")
+                base = ROOT / relative
+                page = next((candidate for candidate in [base, base.with_suffix(".md"), base / "_index.md", base / "index.md"]
+                             if candidate.is_file()), None)
+            assert page is not None, (path, target)
+            if anchor.startswith("schema/"):
+                assert anchor.removeprefix("schema/") in schemas, (path, target)
+            elif anchor:
+                assert unquote(anchor) in heading_ids(page.read_text()), (path, target)
 
 
 def test_source_lock():

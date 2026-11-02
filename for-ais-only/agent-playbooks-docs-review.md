@@ -1,6 +1,14 @@
-# Agent Playbooks developer documentation review
+# Agent Playbooks documentation review
 
-Updated **2026-10-14** after the developer review feedback, rebase onto the current Iris navigation, standard TCE migration, and agent-integration pass. **Ready for local human expert review of the core developer experience.** The extraction pipeline remains outside this work. The changes are prepared for a draft, WIP PR. No publication gate is included; merging to `main` publishes the pages.
+Updated **2026-11-02** on local branch `docs/playbooks-ga-alignment`. Developer and operator content now uses the reviewed `redis-iris==1.0.0b2`, `redis-agent-playbook==1.0.0b2`, and TypeScript `1.0.0-beta.2` contract. The current developer route is plural (`agent-playbooks`); the operator route remains singular (`agent-playbook`).
+
+The GA alignment adds skill-proposal submission, revision-bound resource review, digest verification, acceptance/publication, and inventory counts. It fixes string revision handling in cURL and source attribution in CLI examples. Operator pages now cover authoring versus runtime keys, key replacement, extraction eligibility and pause behavior, and service recovery. Shared setup and developer handoffs use the current console sections. Existing page structure is retained.
+
+Validation: **146 scoped checks**, strict TypeScript compilation, source/contract checks, and the full **20,406-page Hugo build** pass. All **39 live example programs**, including four real-model agent runs, pass with real embeddings on backend `0d9ccad23977a7f0f778253331d6e54a56e8f244`, the SDK's recorded source revision. **Nine operator checks** pass, including grants, key replacement/revocation, suspension/recovery, a real Agent Memory conversation becoming an unpublished FAQ proposal, extraction pause, and cleanup. A fresh Python 3.12 environment installed with the documented pip command also passes Python/CLI quickstart and asynchronous search. Browser checks cover all **15 relevant pages** at 1,440 px and 390 px, **60 example groups / 163 client bindings per width**, and snippet/full-program copy parity.
+
+The existing local deployment's older data-plane image rejects skill proposals with `/errors/unknown-request-member`. A separate local data-plane process built from the recorded backend revision passes those cases; the existing deployment is unchanged. Console labels were checked against Cloud UI source; no live Redis Cloud console session was exercised. The full site build emits existing warnings outside Playbooks. Validation logs and screenshots are in `/tmp/playbooks-ga-validation/`. All disposable playbooks, keys, extraction bindings, and source stores are removed by the live runners.
+
+**Historical review follows.** The October 14 notes describe the earlier alpha baseline. Their deferred-operator plan, singular developer URL, package pins, and old test counts are historical, rather than the current branch's launch scope.
 
 ## First-time developer improvements
 

@@ -58,7 +58,7 @@ def cleanup(args, playbook_id, key_ids):
     failures = []
     targets = [(args.ids_url + "/v1/api-keys/" + key_id, args.control_token)
                for key_id in key_ids]
-    targets.append((args.cp_url + "/v1/playbooks/" + playbook_id, args.admin_token))
+    targets.append((args.cp_url + "/iris/v1/agent-playbooks/playbooks/" + playbook_id, args.admin_token))
     for url, token in targets:
         try:
             request("DELETE", url, token)
@@ -128,7 +128,7 @@ def validate_agent_reply(output, skill_id, template_uri):
 
 def run_case(name, case, args, log_dir):
     guide, suffix, source = case
-    created = request("POST", args.cp_url + "/v1/playbooks", args.admin_token, {
+    created = request("POST", args.cp_url + "/iris/v1/agent-playbooks/playbooks", args.admin_token, {
         "name": "docs-validation-" + uuid4().hex[:12],
         "embedding": {"provider": args.embedding_provider, "model": args.embedding_model,
                       "dimensions": args.embedding_dimensions},
@@ -148,7 +148,7 @@ def run_case(name, case, args, log_dir):
             env = {**os.environ, "PLAYBOOK_URL": args.dp_url, "PLAYBOOK_ID": playbook_id,
                    "PLAYBOOK_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
             env["PATH"] = str(Path(sys.executable).parent) + ":" + env["PATH"]
-            with Playbook(args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
+            with Playbook(server_url=args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
                 if guide in ("retrieval", "limits", "async_search", *AGENT_GUIDES):
                     env["PLAYBOOK_FAQ_ID"] = seed(client, directory, "faq")
                 if guide in ("retrieval", "mcp", *AGENT_GUIDES):
@@ -179,11 +179,11 @@ def run_case(name, case, args, log_dir):
                 if completed.returncode:
                     raise RuntimeError(f"Exit {completed.returncode}; see {name}.log")
                 if name.startswith("quickstart_copy"):
-                    entries = client.list_faqs().faqs
+                    entries = client.list_faqs().items
                     if not any(entry.latest_version == 2 and entry.publication.version == 2 for entry in entries if entry.publication):
                         raise RuntimeError("Quickstart copy did not retain its updated publication")
                 if name.startswith("skills_copy"):
-                    if not any(entry.publication for entry in client.list_skills().skills):
+                    if not any(entry.publication for entry in client.list_skills().items):
                         raise RuntimeError("Skill copy did not retain a publication")
                 if guide == "mcp":
                     context = json.loads(completed.stdout[completed.stdout.index("{"):])

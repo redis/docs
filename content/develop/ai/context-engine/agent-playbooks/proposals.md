@@ -11,11 +11,11 @@ title: Proposals
 weight: 40
 ---
 
-Use proposals to turn answers from agent conversations, documents, or application events into knowledge other agents can reuse. An agent or application suggests an answer; a reviewer checks its evidence before accepting and publishing it as a frequently asked question (FAQ).
+Use proposals to review suggested frequently asked questions (FAQs) and skills before publishing them. An agent or application submits candidate content; a reviewer checks its content, resources, and evidence before acceptance creates an unpublished entry.
 
-Proposals currently add new FAQs. They do not create skills or revise existing entries. To correct an existing answer, use [FAQ versioning](/content/develop/ai/context-engine/agent-playbooks/manage-faqs.md#update-an-answer).
+Proposals create new entries. They do not revise existing entries. To correct existing content, use [FAQ versioning](/content/develop/ai/context-engine/agent-playbooks/manage-faqs.md#update-an-answer) or [skill versioning](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#update-a-skill).
 
-Start with the walkthrough, or [automate suggestions](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) from Redis Agent Memory or your own application. Suggestions do not affect agent responses until you publish the accepted FAQ.
+Start with the FAQ walkthrough or [review a skill proposal](#review-skill-proposals). [Automatic extraction](#automate-proposal-generation) from Redis Agent Memory suggests FAQs only. Neither path affects agent responses until you publish the accepted entry.
 
 ![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
 {width="700"}
@@ -26,9 +26,11 @@ Use an existing playbook and application programming interface (API) keys with t
 
 - `propose` to create candidates and attach evidence.
 - `write` to edit, accept, dismiss, restore, or purge proposals.
-- `publish` to publish the FAQ returned by acceptance.
+- `publish` to publish the entry returned by acceptance.
 
 For this walkthrough, give `PLAYBOOK_API_KEY` all three permissions and follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}). Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
+
+For the skill examples and complete Python or cURL program, first [prepare the sample skill package](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package). The pinned CLI's proposal commands support FAQs; use the SDK or cURL for skill proposals.
 
 ## Find proposals to review
 
@@ -133,6 +135,30 @@ Use the trash view to inspect dismissed, expired, and accepted proposals while t
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-history" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
+## Review skill proposals
+
+Submit the complete skill ZIP in `skillPackage.packageBase64` under `content.payload`. The service validates the archive and returns normalized instructions and resource descriptors. A proposal resource has no published skill URI; read it through the proposal resource operation with the revision you reviewed.
+
+If creation rejects `skillPackage` with `/errors/unknown-request-member`, ask your administrator to check that the service supports your SDK's API contract.
+
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-create" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Read the candidate, inspect its instructions, and read the supporting files. This example verifies the reply template's SHA-256 digest before displaying its text. Do not run scripts merely because archive validation succeeded.
+
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-review" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Resource reads require `expectedRevision`. If another reviewer replaces the candidate, a stale resource read or acceptance returns `412` with type `/errors/revision-conflict`. Read and review the new candidate and its files before retrying. To replace a skill candidate, submit a complete ZIP with the retained intents, attributes, and metadata; the normalized response payload is not an upload request.
+
+Accept the reviewed revision and check the receipt's `entryKind` before selecting a publication operation. A skill receipt identifies an unpublished skill version:
+
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-accept" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Publish the reviewed skill version with `publish_skill`:
+
+{{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-publish" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+The accepted skill remains published. Use its returned entry identifier with the [skill cleanup procedure](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#withdraw-or-delete-a-skill) when you finish. Purging a proposal's review record does not delete its accepted entry.
+
 ## Automate proposal generation
 
 Choose how your application contributes suggestions:
@@ -140,17 +166,17 @@ Choose how your application contributes suggestions:
 - **Redis Agent Memory:** Derive reusable answers from recorded agent conversations through background extraction.
 - **Proposal and evidence APIs:** Generate suggestions from your own sources and triggers, such as resolved support cases or evaluation findings.
 
-Both paths feed the same review inbox. They currently support new FAQs; skill extraction and skill proposals are planned for a future release.
+Both paths feed the same review inbox. Background extraction generates FAQs; your application can submit FAQ or skill proposals. Automatic skill extraction is not supported.
 
 ### Extract FAQs from agent usage in Redis Agent Memory
 
-1. [Record session events in Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/developer-guide.md#work-with-session-memory), including user questions and agent responses under the correct conversation identity. Retrieving playbook knowledge alone does not record an interaction.
-1. Ask your administrator to configure and enable extraction for the source store and destination playbook. Proposal permissions alone do not enable it.
+1. [Record session events in Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/developer-guide.md#build-context-for-each-agent-turn), including user questions and agent responses under the correct conversation identity. Retrieving playbook knowledge alone does not record an interaction.
+1. Ask your administrator to [configure and enable extraction](/content/operate/iris/agent-playbook/manage-playbook.md#automatic-faq-extraction) for the source store and destination playbook. Proposal permissions alone do not enable it.
 1. Let a representative conversation become idle, then [inspect the inbox](/content/develop/ai/context-engine/agent-playbooks/proposals.md#find-proposals-to-review) for suggestions and new evidence.
 
 Each playbook can extract from one whole Redis Agent Memory store in the same tenant; selecting individual namespaces is not supported. Keep source conversations available for extraction and review. Later events in a completed conversation do not automatically trigger another extraction.
 
-Not every conversation produces a proposal. It might still be active, contain no reusable answer, or support an existing FAQ or open candidate. Extraction can add evidence to an open proposal without replacing its answer. It never updates a published FAQ. For timing, eligibility, and troubleshooting, use the operator's extraction guide.
+Not every conversation produces a proposal. It might still be active, contain no reusable answer, or support an existing FAQ or open candidate. Extraction can add evidence to an open proposal without replacing its answer. It never updates a published FAQ. See [extraction setup](/content/operate/iris/agent-playbook/manage-playbook.md#automatic-faq-extraction) and [operator troubleshooting](/content/operate/iris/agent-playbook/manage-playbook.md#troubleshoot-a-playbook) for timing and diagnosis.
 
 ### Review background extraction results
 

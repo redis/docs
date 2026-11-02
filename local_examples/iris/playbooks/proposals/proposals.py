@@ -159,3 +159,62 @@ while True:
     if cursor is None:
         break
 # STEP_END
+
+# STEP_START playbook-proposal-skill-create
+import base64
+from pathlib import Path
+
+skill_proposal = playbook.client.create_proposal(action={
+    "add": {
+        "target": {"new_entry": {}},
+        "candidate": {"content": {
+            "attributes": {"locale": "en-US", "topic": "refund"},
+            "payload": {"skill_package": {
+                "package_base64": base64.b64encode(Path("refund-support-reply.zip").read_bytes()).decode("ascii"),
+            }},
+        }},
+    },
+})
+skill_proposal_id = skill_proposal.proposal_id
+print(skill_proposal_id, skill_proposal.revision)
+# STEP_END
+
+# STEP_START playbook-proposal-skill-review
+import hashlib
+
+skill_review = playbook.client.get_proposal(proposal_id=skill_proposal_id)
+candidate = skill_review.action.add.candidate.content.payload.skill
+print(candidate.manifest, candidate.instructions)
+resource = next(r for r in candidate.resources if r.path == "references/reply-template.md")
+resource_response = playbook.client.get_proposal_resource(
+    proposal_id=skill_proposal_id,
+    resource_id=resource.resource_id,
+    expected_revision=skill_review.revision,
+)
+try:
+    template_bytes = resource_response.result.read()
+finally:
+    resource_response.result.close()
+if "sha256:" + hashlib.sha256(template_bytes).hexdigest() != resource.digest:
+    raise ValueError("Proposal resource digest does not match the reviewed descriptor")
+print(template_bytes.decode("utf-8"))
+# STEP_END
+
+# STEP_START playbook-proposal-skill-accept
+accepted_skill = playbook.client.accept_proposal(
+    proposal_id=skill_proposal_id, expected_revision=skill_review.revision,
+)
+if not isinstance(accepted_skill.result, models.VersionCreated):
+    raise ValueError("Review the unrecognized acceptance result before publishing")
+skill_receipt = accepted_skill.result.version_created
+if skill_receipt.entry_kind != "SKILL":
+    raise ValueError("Expected a skill receipt")
+skill_version = playbook.client.get_skill_version(
+    skill_id=skill_receipt.entry_id, version=skill_receipt.version,
+)
+print(skill_receipt.entry_id, skill_receipt.version, skill_version.content)
+# STEP_END
+
+# STEP_START playbook-proposal-skill-publish
+playbook.client.publish_skill(skill_id=skill_receipt.entry_id, version=skill_receipt.version)
+# STEP_END

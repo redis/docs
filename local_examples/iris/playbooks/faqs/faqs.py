@@ -113,3 +113,10 @@ for result in lookup.items:
     else:
         print("Missing:", result.missing.reference)
 # STEP_END
+
+# STEP_START playbook-faq-stats
+stats = playbook.client.get_playbook_stats()
+print("Observed at:", stats.observed_at)
+for label, count in (("FAQs", stats.faqs.total), ("Skills", stats.skills.total)):
+    print(label, count.value if count.available else "unavailable")
+# STEP_END

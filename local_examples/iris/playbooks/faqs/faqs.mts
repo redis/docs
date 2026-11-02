@@ -105,3 +105,11 @@ for (const result of lookup.items) {
   }
 }
 // STEP_END
+
+// STEP_START playbook-faq-stats
+const stats = await playbook.getPlaybookStats();
+console.log("Observed at:", stats.observedAt);
+for (const [label, count] of [["FAQs", stats.faqs.total], ["Skills", stats.skills.total]] as const) {
+  console.log(label, count.available ? count.value : "unavailable");
+}
+// STEP_END

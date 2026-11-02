@@ -20,6 +20,7 @@ SPEC = ROOT / "content/develop/ai/context-engine/agent-playbooks/api-reference/o
 
 
 def wire_contract(document):
+    """Ignore editorial operation text while comparing transport and model schemas."""
     result = deepcopy(document)
     result["info"].pop("title", None)
     result.pop("tags", None)
@@ -29,6 +30,7 @@ def wire_contract(document):
                 continue
             operation.pop("tags", None)
             operation.pop("summary", None)
+            operation.pop("description", None)
     return result
 
 
@@ -39,6 +41,14 @@ def digest(document):
 
 def check(sdk_repo=None):
     lock = json.loads(LOCK.read_text())
+    requirements = Path(__file__).with_name("requirements.txt").read_text().splitlines()
+    for name in ("python_package", "unified_python_package"):
+        if lock[name] not in requirements:
+            raise ValueError(f"Documentation requirements differ from {name} in the source lock.")
+    package = json.loads(Path(__file__).with_name("package.json").read_text())
+    ts_name, ts_version = lock["typescript_package"].rsplit("@", 1)
+    if package["dependencies"].get(ts_name) != ts_version:
+        raise ValueError("TypeScript dependency differs from the source lock.")
     expected = lock["data_plane_contract_sha256"]
     if digest(json.loads(SPEC.read_text())) != expected:
         raise ValueError("Docs contract differs from the locked SDK input. Regenerate and review it.")

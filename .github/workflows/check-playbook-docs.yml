@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'content/develop/ai/context-engine/agent-playbooks/**'
+      - 'content/develop/ai/context-engine/sdk-and-cli.md'
+      - 'content/operate/iris/agent-playbook/**'
+      - 'static/images/ai/context-engine/agent-playbook-*'
       - 'build/agent_playbook_docs/**'
       - 'local_examples/iris/playbooks/**'
       - 'build/components/example.py'
