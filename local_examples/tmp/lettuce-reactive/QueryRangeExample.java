@@ -28,7 +28,7 @@ public class QueryRangeExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
+            RedisReactiveCommands<String, String> reactiveCommands = connection.commands(RedisReactiveCommands.factory());
             // REMOVE_START
             reactiveCommands.ftDropindex("idx:bicycle").onErrorReturn("Index `idx:bicycle` does not exist").block();
             reactiveCommands.del("bicycle:0", "bicycle:1", "bicycle:2", "bicycle:3", "bicycle:4", "bicycle:5", "bicycle:6",

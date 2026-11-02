@@ -25,7 +25,7 @@ public class TransPipeExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            RedisReactiveCommands<String, String> reactive = connection.reactive();
+            RedisReactiveCommands<String, String> reactive = connection.commands(RedisReactiveCommands.factory());
             // REMOVE_START
             reactive.del("seat:0", "seat:1", "seat:2", "seat:3", "seat:4",
                     "counter:1", "counter:2", "counter:3", "shellpath").block();

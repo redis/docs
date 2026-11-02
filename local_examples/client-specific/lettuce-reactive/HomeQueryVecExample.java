@@ -71,8 +71,8 @@ public class HomeQueryVecExample {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect();
                 StatefulRedisConnection<String, byte[]> binConnection = redisClient
                         .connect(RedisCodec.of(StringCodec.UTF8, ByteArrayCodec.INSTANCE))) {
-            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
-            RedisReactiveCommands<String, byte[]> binReactiveCommands = binConnection.reactive();
+            RedisReactiveCommands<String, String> reactiveCommands = connection.commands(RedisReactiveCommands.factory());
+            RedisReactiveCommands<String, byte[]> binReactiveCommands = binConnection.commands(RedisReactiveCommands.factory());
             // ...
             // STEP_END
             // REMOVE_START
