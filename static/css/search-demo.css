@@ -29,9 +29,6 @@
 .rsq mark.rsq-hit { background: #fde0c2; color: var(--rcr-ink); border-radius: 3px; padding: 0 2px; box-shadow: inset 0 -2px 0 #b35900; }
 .rsq-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
 .rsq-pager .rcr-faint { margin-right: 4px; }
-.rsq-group { display: grid; grid-template-columns: minmax(0, 1fr) minmax(60px, 140px) 4.6em; align-items: center; gap: 10px; padding: 6px 9px; border-radius: 8px; background: var(--rcr-surface-2); }
-.rsq-gname { display: grid; min-width: 0; font-size: 13.5px; }
-.rsq-gname .rsq-meta { margin-left: 0; }
 .rsq-bar { position: relative; height: 8px; border-radius: 4px; background: var(--rcr-line); }
 .rsq-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--rcr-accent); }
 .rsq-val { text-align: right; font-size: 12.5px; }
@@ -49,9 +46,27 @@
 /* The command is one line for redis-cli; it wraps here so all of it is in view. */
 .rsq pre.rsq-pre.rsq-cmdline { white-space: pre-wrap; overflow-wrap: anywhere; }
 
-/* ---- step 4: the groups an aggregation returns ---- */
-.rsq-groups { margin-top: 12px; }
-.rsq .rsq-groups .rsq-group { background: var(--rcr-surface); }
+/* ---- step 4: the orders before grouping, and the groups after ---- */
+.rsq-after { margin-top: 12px; }
+.rsq-before .rcr-count, .rsq-after .rcr-count { white-space: nowrap; }
+/* A line above each group's orders, naming the group. */
+.rsq .rsi-table tr.rsq-grouprow td { padding: 8px 2px 1px; border: 0; background: none; color: var(--rcr-muted); font-size: 12px; font-weight: 600; }
+.rsq .rsi-table tr.rsq-grouprow .rcr-mono { margin-left: 6px; font-size: 11.5px; font-weight: 400; }
+.rsq-gcount { margin-left: 8px; color: var(--rcr-faint); font-weight: 400; }
+/* Pointing at a group or one of its orders marks the group in both tables, over the matched-row highlight
+   that search-index-demo.css, loaded after this file, gives the same rows. */
+.rsq[data-search] .rsi-table tr.is-linked td { border-color: var(--rcr-accent-2); background: rgba(89, 97, 255, .1); }
+.rsq[data-search] .rsi-table tr.rsq-grouprow.is-linked td { background: none; color: var(--rcr-accent-2); }
+.rsq .rsi-table.rsq-result th:first-child { width: 55%; }
+.rsq .rsq-result .rsq-meta { margin-left: 8px; }
+.rsq-cellval { display: grid; grid-template-columns: minmax(40px, 1fr) 4.6em; align-items: center; gap: 10px; }
+@container (max-width: 440px) {
+  .rsq .rsi-table tr.rsq-grouprow { margin-bottom: 0; padding: 6px 2px 0; border: 0; background: none; }
+  .rsq[data-search] .rsi-table tr.is-linked { border-color: var(--rcr-accent-2); background: rgba(89, 97, 255, .1); }
+  .rsq[data-search] .rsi-table tr.is-linked td { background: none; }
+  .rsq[data-search] .rsi-table tr.rsq-grouprow.is-linked { border: 0; background: none; }
+  .rsq .rsi-table.rsq-result th:first-child { display: block; }
+}
 
 /* In the query demo's tables, each field's type sits on its own line under the field name, so long names don't break. */
 .rsq[data-search] .rsi-table th .rsi-type { display: table; margin-top: 2px; }
