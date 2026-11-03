@@ -21,7 +21,7 @@ Get these values. On Redis Cloud, [create Lens and its keys](/content/operate/ir
 - An ingest key, for sending turns.
 - Your instance ID and a read key, for reading turns back.
 
-You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key. For the configuration `redis-iris` reads across services, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
+You also need Python 3.11 or later. The cURL example uses Bash and jq. The example calls OpenAI, so it also needs the `openai` package and an `OPENAI_API_KEY`. Any model client that the `llm-tracing` extra supports works the same way. For the configuration `redis-iris` reads across services, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
 ## Install the SDK
 
@@ -30,10 +30,11 @@ Install the Redis Iris SDK, which includes Lens instrumentation, and the Lens re
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install 'redis-iris>=1.0.0' 'redis-agent-lens>=1.0.0'
+python -m pip install 'redis-iris[llm-tracing]'
+python -m pip install redis-agent-lens
 ```
 
-`redis-agent-lens` is the read client the last step uses. Add the `llm-tracing` extra, `'redis-iris[llm-tracing]>=1.0.0'`, to trace OpenAI, Anthropic, Amazon Bedrock, and LangChain model calls automatically.
+The `llm-tracing` extra traces OpenAI, Anthropic, Amazon Bedrock, and LangChain model calls automatically. `redis-agent-lens` is the read client the last step uses.
 
 ## Configure the SDK
 
@@ -57,7 +58,7 @@ Keep keys out of source control and model prompts.
 
 Expand the example to copy the complete program. Save it as `quickstart.py`, then run `python quickstart.py`.
 
-This turn records a memory recall that returns three memories, then a prompt assembly that uses two of them.
+This turn wraps one OpenAI call. The `llm-tracing` extra records the call as a step in the turn.
 
 {{< clients-example set="iris_lens_quickstart" step="trace_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
@@ -80,7 +81,7 @@ To view it in Lens:
 1. Select the session that matches the printed session ID.
 1. Expand the turn.
 
-The turn shows an **Agent Memory** step with three memories: two marked **Entered prompt** and one marked **Not used**.
+The turn shows the model call as a step, with its prompt, completion, and token counts.
 
 To read the same turn with the read API, set `TURN_ID` for the cURL example first:
 
@@ -90,11 +91,11 @@ export TURN_ID='<printed-turn-id>'
 
 {{< clients-example set="iris_lens_quickstart" step="find_turn" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-The Python example retries until the turn is readable, then prints its outcome and one line per source. The memory recall's source is its store ID:
+The Python example retries until the turn is readable, then prints its outcome and token count:
 
 ```
-Outcome: completed
-quickstart-store: fetched 3, used 2
+Outcome: COMPLETED
+Tokens: <total-tokens>
 ```
 
 ## Next steps

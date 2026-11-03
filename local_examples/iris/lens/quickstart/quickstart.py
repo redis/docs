@@ -1,28 +1,21 @@
 # EXAMPLE: iris_lens_quickstart
 # STEP_START trace_turn
-import os
 import uuid
 
+from openai import OpenAI
 from redis_iris import lens
 
-question = "Where can I see my refund status?"
-memories = [
-    ("mem-1", 0.91, "The customer prefers email updates."),
-    ("mem-2", 0.84, "The customer's refund was issued on May 2."),
-    ("mem-3", 0.42, "The customer asked about gift wrapping in March."),
-]
+lens.init()
+client = OpenAI()
 
 session_id = f"quickstart-{uuid.uuid4().hex[:8]}"
 
 with lens.turn(session_id, user_id="user-1042") as turn:
-    with lens.memory_recall(query=question, store_id="quickstart-store") as recall:
-        recall.results(memories)
-
-    with lens.prompt_assembly() as prompt:
-        prompt.fetched(memories)
-        prompt.used(memories[:2])
-
-    answer = "Your refund was issued on May 2. You'll get an email when it posts."
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input="Where can I see my refund status?",
+    )
+    print(response.output_text)
     turn.set_outcome("completed")
 
 turn_id = turn.trace_id
@@ -36,6 +29,7 @@ if not lens.shutdown(timeout_millis=10_000):
 # STEP_END
 
 # STEP_START find_turn
+import os
 import time
 
 from redis_agent_lens import Lens, errors
@@ -54,6 +48,5 @@ with Lens(
         raise RuntimeError("The turn isn't readable. Check the iris.lens warnings for an export error.")
 
 print(f"Outcome: {detail.outcome.value}")
-for entry in detail.manifest.entries:
-    print(f"{entry.source}: fetched {entry.fetched_count}, used {entry.used_count}")
+print(f"Tokens: {detail.tokens.total}")
 # STEP_END
