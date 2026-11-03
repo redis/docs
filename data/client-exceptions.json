@@ -1,12 +1,14 @@
 {
- "about": "The exception that each client library raises for the error pages in content/develop/reference/errors/common/, and what its message looks like. Keyed by page file name. Both clients were run against a live server, with the same scenarios as build/errors/live_checks.py: redis-py as recorded in build/errors/live_baseline.json, and Jedis on redis:8.10 (server 8.10.2) with the version below.",
+ "about": "The exception that each client library raises for the error pages in content/develop/reference/errors/common/, and what its message looks like. Keyed by page file name. Each client was run against a live server, with the same scenarios as build/errors/live_checks.py: redis-py as recorded in build/errors/live_baseline.json, and the others with build/errors/live_clients.py on redis:8.10 (server 8.10.2), in build/errors/client_baselines/. The notes on MOVED and ASK about cluster clients that follow the redirect come from source.",
  "versions": {
   "redis-py": "7.4.1",
-  "jedis": "8.0.2"
+  "jedis": "8.0.2",
+  "node-redis": "6.3.1"
  },
  "order": [
   "redis-py",
-  "jedis"
+  "jedis",
+  "node-redis"
  ],
  "clients": {
   "redis-py": {
@@ -19,6 +21,12 @@
    "name": "Jedis",
    "package": "redis.clients.jedis.exceptions",
    "generic": "JedisDataException",
+   "basis": "live"
+  },
+  "node-redis": {
+   "name": "node-redis",
+   "package": "redis",
+   "generic": "SimpleError",
    "basis": "live"
   }
  },
@@ -33,6 +41,11 @@
     "class": "JedisAskDataException",
     "message": "ASK <slot> <endpoint>:<port>",
     "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default."
    }
   },
   "busy": {
@@ -42,6 +55,10 @@
    },
    "jedis": {
     "class": "JedisBusyException",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
    }
   },
@@ -53,6 +70,10 @@
    "jedis": {
     "class": "JedisDataException",
     "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "BUSYGROUP Consumer Group name already exists"
    }
   },
   "busykey": {
@@ -62,6 +83,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "BUSYKEY Target key name already exists."
    }
   },
@@ -73,6 +98,10 @@
    "jedis": {
     "class": "JedisClusterException",
     "message": "CLUSTERDOWN The cluster is down"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "CLUSTERDOWN The cluster is down"
    }
   },
   "crossslot": {
@@ -82,6 +111,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "CROSSSLOT Keys in request don't hash to the same slot"
    }
   },
@@ -93,6 +126,10 @@
    "jedis": {
     "class": "JedisConnectionException",
     "message": "Unexpected end of stream."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. ..."
    }
   },
   "err-max-clients": {
@@ -103,6 +140,10 @@
    "jedis": {
     "class": "JedisConnectionException",
     "message": "Unexpected end of stream."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR max number of clients reached"
    }
   },
   "err-not-an-integer": {
@@ -112,6 +153,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "ERR value is not an integer or out of range"
    }
   },
@@ -123,6 +168,10 @@
    "jedis": {
     "class": "JedisDataException",
     "message": "ERR syntax error"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR syntax error"
    }
   },
   "err-unknown-command": {
@@ -133,6 +182,10 @@
    "jedis": {
     "class": "JedisDataException",
     "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
    }
   },
   "err-wrong-number-of-arguments": {
@@ -142,6 +195,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "ERR wrong number of arguments for '<command>' command"
    }
   },
@@ -155,6 +212,11 @@
     "class": "JedisDataException",
     "message": "EXECABORT Transaction discarded because of previous errors.",
     "note": "The errors of the commands that failed to queue are attached to the exception as suppressed exceptions."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR unknown command '<command>'",
+    "note": "`exec()` rejects with the error of the command that failed to queue, not `EXECABORT`."
    }
   },
   "loading": {
@@ -164,6 +226,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "LOADING Redis is loading the dataset in memory"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "LOADING Redis is loading the dataset in memory"
    }
   },
@@ -175,6 +241,10 @@
    "jedis": {
     "class": "JedisDataException",
     "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
    }
   },
   "misconf": {
@@ -184,6 +254,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
    }
   },
@@ -197,6 +271,11 @@
     "class": "JedisMovedDataException",
     "message": "MOVED <slot> <endpoint>:<port>",
     "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default."
    }
   },
   "noauth": {
@@ -207,6 +286,11 @@
    "jedis": {
     "class": "JedisAccessControlException",
     "message": "NOAUTH Authentication required."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time",
+    "note": "node-redis sends `HELLO` when it connects, so `connect()` raises this error, and the message names `HELLO`."
    }
   },
   "nogroup": {
@@ -216,6 +300,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
    }
   },
@@ -227,6 +315,10 @@
    "jedis": {
     "class": "JedisAccessControlException",
     "message": "NOPERM User <username> has no permissions to run the '<command>' command"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command"
    }
   },
   "noreplicas": {
@@ -236,6 +328,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "NOREPLICAS Not enough good replicas to write."
    }
   },
@@ -247,6 +343,10 @@
    "jedis": {
     "class": "JedisNoScriptException",
     "message": "NOSCRIPT No matching script. Please use EVAL."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOSCRIPT No matching script. Please use EVAL."
    }
   },
   "oom": {
@@ -256,6 +356,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'."
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "OOM command not allowed when used memory > 'maxmemory'."
    }
   },
@@ -267,6 +371,10 @@
    "jedis": {
     "class": "JedisDataException",
     "message": "READONLY You can't write against a read only replica."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "READONLY You can't write against a read only replica."
    }
   },
   "tryagain": {
@@ -276,6 +384,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "TRYAGAIN Multiple keys request during rehashing of slot"
    }
   },
@@ -288,6 +400,10 @@
     "class": "JedisAccessControlException",
     "message": "WRONGPASS invalid username-password pair or user is disabled.",
     "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured for the default user\u2026`, which is a `JedisDataException`."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "WRONGPASS invalid username-password pair or user is disabled."
    }
   },
   "wrongtype": {
@@ -297,6 +413,10 @@
    },
    "jedis": {
     "class": "JedisDataException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "node-redis": {
+    "class": "SimpleError",
     "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
    }
   }
