@@ -82,7 +82,6 @@ Set `tenant` to the Agent Playbooks `tenantId`. Don't give the control-plane sub
 
 See the [Redis Agent Memory authentication guide](/content/operate/iris/agent-memory/self-managed/authentication.md) before you change an existing authentication configuration.
 
-<!-- TODO: The Agent Memory configuration page's "Optional Agent Playbooks extraction" section still describes Identity Service subject grants and subject-grant-lookup. Chart 1.0.0 uses the static trust on this page instead; align that section. -->
 
 ## Configure Agent Playbooks extraction
 

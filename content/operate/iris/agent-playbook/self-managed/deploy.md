@@ -13,9 +13,8 @@ hideListLinks: true
 
 Follow these steps to install the Agent Playbooks control plane and data plane with the `redis-agent-playbook` Helm chart, connect them to an Identity Service release, and end with one authenticated call to the data plane.
 
-Install Identity Service as release `ids`, then Agent Playbooks as release `playbook`, in one namespace. These steps use Agent Playbooks chart `1.0.0` and Identity Service chart `0.10.2`. You create the two credentials both releases share and the Identity Service control token; Agent Playbooks generates its admin token. See [Credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#credentials).
+Install Identity Service as release `ids`, then Agent Playbooks as release `playbook`, in one namespace. These steps use Agent Playbooks chart `1.0.0` and Identity Service chart `1.0.0`. You create the two credentials both releases share and the Identity Service control token; Agent Playbooks generates its admin token. See [Credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#credentials).
 
-<!-- TODO: Confirm the Identity Service chart version that ships with Agent Playbooks 1.0.0 at GA. The Agent Playbooks chart requires 0.10.0 or later. -->
 
 Before installing, provide two Transport Layer Security (TLS) endpoints through your hosting environment: one forwarding to `ids-iris-identity-service:9200`, and one forwarding to `playbook-controlplane:9200`. Neither chart terminates TLS. Obtain their certificate authority (CA) certificates as a PEM bundle named `ca.crt`. For a network-isolated lab without TLS, see [Isolated lab without TLS](/content/operate/iris/agent-playbook/self-managed/configuration.md#isolated-lab-without-tls).
 
@@ -91,7 +90,7 @@ If the release also serves Agent Memory, keep its `memory-dp` credential, `memor
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 0.10.2 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
