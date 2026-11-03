@@ -77,7 +77,7 @@ API values are case-sensitive. Use `FULL` or `SEARCH`, and `ENABLED` or `DISABLE
 
 Create a Gateway named Support in search mode. Start with caching and compression disabled so you can connect and verify its tools before configuring result handling.
 
-{{< multitabs id="gateway-admin-create" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-create" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway service create \
@@ -141,7 +141,7 @@ export UPSTREAM_URL='<upstream-mcp-url>'
 export UPSTREAM_TOKEN='<upstream-bearer-token>'
 ```
 
-{{< multitabs id="gateway-admin-register" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-register" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream add \
@@ -203,7 +203,7 @@ The namespace distinguishes this source’s tools from other Upstreams. Namespac
 
 Inspect the Upstream and its catalog:
 
-{{< multitabs id="gateway-admin-tools" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-tools" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream show support
@@ -339,7 +339,7 @@ Get the registered Gateway database ID from your administrator:
 export GATEWAY_DATABASE_ID='<gateway-database-id>'
 ```
 
-{{< multitabs id="gateway-admin-features" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-features" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway service update "$IRIS_CONTEXT_GATEWAY_ID" \
@@ -494,7 +494,7 @@ If you change an Upstream’s endpoint, inspect the response’s `droppedToolPol
 
 Refresh after adding, removing, or changing tools on the MCP server:
 
-{{< multitabs id="gateway-admin-refresh" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-refresh" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream refresh support
@@ -514,7 +514,7 @@ A refresh publishes a new catalog revision. Cached results associated with the p
 
 Temporarily remove the Upstream’s tools from discovery:
 
-{{< multitabs id="gateway-admin-disable" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-disable" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream disable support
@@ -549,7 +549,7 @@ When the source’s bearer token changes, update the registered credential:
 export UPSTREAM_TOKEN='<replacement-upstream-token>'
 ```
 
-{{< multitabs id="gateway-admin-credentials" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-credentials" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream update support --bearer-secret env:UPSTREAM_TOKEN
@@ -586,7 +586,7 @@ If a credential is managed and rotated directly in an external secrets backend, 
 
 Remove all Upstreams before deleting their Gateway. The CLI has no `--cascade` flag.
 
-{{< multitabs id="gateway-admin-delete" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="gateway-admin-delete" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 Delete the Upstream when you no longer want the Gateway to expose its tools:
 

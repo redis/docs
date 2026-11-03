@@ -44,7 +44,7 @@ export IRIS_CONTEXT_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
 export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
 ```
 
-The framework connects directly to the Gateway over MCP, so these examples do not require the Gateway SDK. Use a separate Python environment for each framework. Configure model credentials in the tab for your chosen framework.
+The framework connects directly to the Gateway over MCP, so these examples do not require the Gateway SDK. Use a separate Python environment for each framework. Configure model credentials in the section for your chosen framework.
 
 ## Define the agent's task
 
@@ -103,7 +103,7 @@ These instructions guide the model's behavior. They do not enforce cleanup or co
 <a id="use-openai-agents-sdk"></a>
 <a id="use-langgraph"></a>
 
-{{< multitabs id="gateway-agent-framework" tab1="OpenAI Agents SDK" tab2="LangChain / LangGraph" tab3="Google ADK" >}}
+{{< multitabs id="gateway-agent-framework" tab1="OpenAI Agents SDK" tab2="LangChain / LangGraph" tab3="Google ADK" selector="dropdown" label="Framework" >}}
 
 The OpenAI Agents SDK manages a Streamable HTTP MCP connection from your application runtime.
 

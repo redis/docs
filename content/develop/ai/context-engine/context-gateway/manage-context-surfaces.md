@@ -154,7 +154,7 @@ Then skip to [Verify the generated tools](#verify-the-generated-tools).
 
 Create an Upstream of kind `CONTEXT_SURFACE` with the database ID and data model. The `scheduling` namespace identifies its tools in the Gateway catalog.
 
-{{< multitabs id="surface-create" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-create" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris --json context-gateway upstream add \
@@ -204,7 +204,7 @@ Tools can be published while background indexing is still running. Search result
 
 List the Surface's tool catalog:
 
-{{< multitabs id="surface-tools" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-tools" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream tools "$SURFACE_ID"
@@ -241,7 +241,7 @@ Creating a Surface, updating its model, or refreshing it starts background index
 
 Edit `clinic-model.json`, then submit the complete replacement model. The CLI reads the current revision for the update. With HTTP, read it yourself and send it as `expectedRevision`.
 
-{{< multitabs id="surface-update" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-update" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream update "$SURFACE_ID" --data-model clinic-model.json
@@ -282,7 +282,7 @@ Refresh a Surface to generate tools from its stored model and recreate missing i
 | A database index is missing | Refresh to recreate it. |
 | Stored text contains line breaks | Rewrite the values. A refresh alone does not normalize them. |
 
-{{< multitabs id="surface-refresh" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-refresh" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream refresh "$SURFACE_ID"
@@ -307,7 +307,7 @@ A tool call during a model update or refresh can fail with `upstream_error` whil
 
 Deleting a Surface removes its registration and drops its indexes from the source database. The CLI reads the current revision and asks for confirmation. With HTTP, read the revision before deleting:
 
-{{< multitabs id="surface-delete" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-delete" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream delete "$SURFACE_ID"
@@ -331,7 +331,7 @@ curl --fail-with-body --silent --show-error \
 
 If deletion repeatedly returns `503` because indexes cannot be dropped, remove the registration with the index-cleanup override. This leaves the indexes in the database. Ask your administrator to remove them afterward.
 
-{{< multitabs id="surface-delete-override" tab1="CLI" tab2="HTTP" >}}
+{{< multitabs id="surface-delete-override" tab1="CLI" tab2="HTTP" selector="dropdown" label="Client" >}}
 
 ```bash
 iris context-gateway upstream delete "$SURFACE_ID" --ignore-index-sweep-failure

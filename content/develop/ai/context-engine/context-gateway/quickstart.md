@@ -29,9 +29,9 @@ The directory contains three cardiologists: two at `clinic-a` and one at `clinic
 
 ## 1. Install the client {#install-the-client}
 
-Choose a client and use it throughout the walkthrough.
+Choose a client and use it throughout the walkthrough. Changing a client dropdown updates the other client dropdowns on this page. The Search/Full mode choice is independent.
 
-{{< multitabs id="gateway-install" tab1="Python" tab2="TypeScript" tab3="CLI" >}}
+{{< multitabs id="gateway-install" tab1="Python" tab2="TypeScript" tab3="CLI" selector="dropdown" label="Client" sync="gateway-client" >}}
 
 Use Python 3.11 or later.
 
@@ -80,7 +80,7 @@ Use the returned `mcpEndpoint`, not the administration URL. The Redis SDKs requi
 
 The snippets explain each step of the [complete examples](#complete-examples). Use those programs to run the walkthrough without assembling fragments.
 
-{{< multitabs id="gateway-connect" tab1="Python" tab2="TypeScript" tab3="CLI" >}}
+{{< multitabs id="gateway-connect" tab1="Python" tab2="TypeScript" tab3="CLI" selector="dropdown" label="Client" sync="gateway-client" >}}
 
 ```python
 import json
@@ -190,7 +190,7 @@ iris --json context-gateway tools list
 
 The input schema describes the arguments the tool accepts. You’ll use `tag_conditions` to match the `specialty` field and `limit` to bound the number of returned records.
 
-{{< multitabs id="gateway-inspect" tab1="Python" tab2="TypeScript" tab3="CLI" >}}
+{{< multitabs id="gateway-inspect" tab1="Python" tab2="TypeScript" tab3="CLI" selector="dropdown" label="Client" sync="gateway-client" >}}
 
 ```python
 provider_filter = next(
@@ -230,7 +230,7 @@ Find the tool’s `inputSchema` in the discovery output. Save these arguments in
 
 Python and CLI use the same call in either mode. TypeScript uses the MCP session directly: call `run_tool` with the discovered identity in search mode, or call the tool’s name in full mode.
 
-{{< multitabs id="gateway-call" tab1="Python" tab2="TypeScript" tab3="CLI" >}}
+{{< multitabs id="gateway-call" tab1="Python" tab2="TypeScript" tab3="CLI" selector="dropdown" label="Client" sync="gateway-client" >}}
 
 ```python
 result = gateway.call(
@@ -315,7 +315,7 @@ You’ve discovered and called a tool through Context Gateway. An agent can use 
 
 Run one program using the connection values you set. Each defaults to search mode. Selecting a mode in the program does not reconfigure the Gateway.
 
-{{< multitabs id="gateway-complete" tab1="Python" tab2="TypeScript" tab3="CLI" >}}
+{{< multitabs id="gateway-complete" tab1="Python" tab2="TypeScript" tab3="CLI" selector="dropdown" label="Client" sync="gateway-client" >}}
 
 Save as `quickstart.py`. Change `mode` to `"full"` for a full-mode Gateway. Run `python quickstart.py`.
 

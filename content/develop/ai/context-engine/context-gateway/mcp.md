@@ -96,7 +96,7 @@ Use an existing coding assistant to discover and call Gateway tools without writ
 
 Keep the connection values from [Before you begin](#before-you-begin) in the environment that starts the client. The configuration files reference the key's environment variable rather than storing the key. Merge new server entries into existing configuration files.
 
-{{< multitabs id="gateway-coding-assistants" tab1="Claude Code" tab2="Cursor" tab3="Codex" >}}
+{{< multitabs id="gateway-coding-assistants" tab1="Claude Code" tab2="Cursor" tab3="Codex" selector="dropdown" label="Assistant" >}}
 
 #### Register the Gateway
 
