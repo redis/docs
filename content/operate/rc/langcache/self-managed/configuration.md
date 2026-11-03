@@ -9,6 +9,8 @@ description: Configure the LangCache Data Plane, Control Plane, and Identity Ser
 linkTitle: Configuration
 weight: 20
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/configuration/
 ---
 
 The `langcache` chart splits configuration into two layers for the Data
@@ -134,7 +136,7 @@ identityService:
 
 If you use `identityService.mode: external` instead, there is no Identity
 Service overlay to create here; see
-[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}).
+[Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}}).
 
 ## Multiple overlay Secrets
 
@@ -153,4 +155,4 @@ material.
 ## Next steps
 
 With your overlay Secrets and values ready, continue to
-[Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).
+[Deploy self-managed LangCache]({{< relref "/operate/rc/langcache/self-managed/deploy" >}}).

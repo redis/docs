@@ -9,6 +9,8 @@ description: Deploy self-managed LangCache with the langcache Helm chart.
 linkTitle: Deploy
 weight: 30
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/deploy/
 ---
 
 One `helm install` of the `langcache` chart deploys the Data Plane, the
@@ -17,13 +19,13 @@ external Identity Service. There is no separate lighter-weight install
 path; every self-managed LangCache deployment uses the Data Plane, Control
 Plane, and one Identity Service mode.
 
-Before you begin, review [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}})
+Before you begin, review [prerequisites]({{< relref "/operate/rc/langcache/self-managed/prerequisites" >}})
 and prepare the config overlays described in
-[Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}}).
+[Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}}).
 
 You use three credentials along the way: the Control Plane admin token, the Identity Service
 control token, and an agent key. The chart generates the first two. For what each credential
-unlocks, see [Credentials](/content/operate/iris/langcache/self-managed/authentication.md#credentials).
+unlocks, see [Credentials](/content/operate/rc/langcache/self-managed/authentication.md#credentials).
 
 ## Choose an Identity Service mode
 
@@ -35,7 +37,7 @@ Decide before you install:
 | External | Your suite already runs an Identity Service (for example, alongside self-managed Redis Agent Memory) and you want LangCache to share it. | `identityService.mode: external` |
 
 This guide uses bundled mode. For external mode, see
-[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication#external-identity-service" >}})
+[Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication#external-identity-service" >}})
 for the values and the coordination required with the Identity Service's
 owner.
 
@@ -55,7 +57,7 @@ kubectl -n <namespace-name> create secret generic langcache-license \
 ```
 
 Create the config overlay Secrets described in
-[Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}}):
+[Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}}):
 
 ```bash
 kubectl -n <namespace-name> create secret generic dp-overlay \
@@ -103,7 +105,7 @@ This is a minimal complete install. `controlplane.adminToken`,
 `controlplane.internalToken`, and `identityService.bundled.controlToken`
 all default to `autoGenerate: true`, so the chart mints those tokens for
 you on first install; see
-[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}})
+[Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}})
 to retrieve them, or set `existingSecret` to bring your own.
 
 The chart renders the Control Plane's embedding contract from
@@ -211,12 +213,12 @@ kubectl -n <namespace-name> get secret langcache-identity-service-control-token 
 ```
 
 For the full self-managed admin API schema, see the
-[Control Plane API reference]({{< relref "/operate/iris/langcache/self-managed/control-plane-api-reference" >}}).
+[Control Plane API reference]({{< relref "/operate/rc/langcache/self-managed/control-plane-api-reference" >}}).
 
 Next, mint an agent key through the Identity Service and start calling the
 Data Plane; see
-[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}})
-and [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}}).
+[Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}})
+and [API examples]({{< relref "/operate/rc/langcache/self-managed/api-examples" >}}).
 
 ## Update
 
@@ -230,6 +232,6 @@ helm upgrade langcache redis-ai/langcache \
 
 ## Next steps
 
-- [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}) to mint agent keys and configure the Identity Service mode you chose.
-- [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}}) to start calling the Data Plane.
-- [Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}}) for backups, secret rotation, and FIPS posture.
+- [Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}}) to mint agent keys and configure the Identity Service mode you chose.
+- [API examples]({{< relref "/operate/rc/langcache/self-managed/api-examples" >}}) to start calling the Data Plane.
+- [Operations]({{< relref "/operate/rc/langcache/self-managed/operations" >}}) for backups, secret rotation, and FIPS posture.

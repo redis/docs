@@ -9,6 +9,8 @@ description: Deploy, configure, secure, and operate LangCache on a self-managed 
 linkTitle: Self-managed
 weight: 40
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/
 ---
 
 LangCache is a semantic caching service that stores LLM responses for faster,
@@ -19,9 +21,9 @@ embedding provider and stores a new entry when there is no match.
 This guide covers deployment, configuration, security, and operations for
 self-managed LangCache.
 
-The [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}})
+The [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}})
 is the shared Data Plane API for Redis Cloud and self-managed deployments. The
-[Control Plane API reference]({{< relref "/operate/iris/langcache/self-managed/control-plane-api-reference" >}})
+[Control Plane API reference]({{< relref "/operate/rc/langcache/self-managed/control-plane-api-reference" >}})
 documents the self-managed admin endpoints for caches.
 
 > [!NOTE]
@@ -74,10 +76,10 @@ boundary for cached entries.
 | Control Plane | `/v1/caches`, `/v1/embedding-providers` | Self-managed administration for caches. |
 | Identity Service | `/v1/api-keys` | Mint, list, update, revoke, and rotate agent keys and their cache grants. |
 
-The [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}})
+The [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}})
 reference does not yet document cache health; for that, use
-[API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
+[API examples]({{< relref "/operate/rc/langcache/self-managed/api-examples" >}})
 until the shared schema is updated.
 
-Start with [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}}),
-then follow [Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).
+Start with [prerequisites]({{< relref "/operate/rc/langcache/self-managed/prerequisites" >}}),
+then follow [Deploy self-managed LangCache]({{< relref "/operate/rc/langcache/self-managed/deploy" >}}).

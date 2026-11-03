@@ -89,7 +89,7 @@ You can build each part of an agent's context layer yourself from Redis data str
 | Agent need | Build it yourself with Redis | Redis Iris service |
 |:--|:--|:--|
 | Remember the user across sessions | Streams, Hashes, and vector search for session and long-term memory | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) stores session events, summarizes long sessions, and extracts long-term memories in the background. |
-| Avoid repeat LLM calls | Vector search plus your own cache logic | [LangCache](/content/develop/ai/context-engine/langcache/_index.md) returns a cached response when a new prompt is semantically similar to a cached one. |
+| Avoid repeat LLM calls | Vector search plus your own cache logic | [LangCache](/content/develop/ai/langcache/_index.md) returns a cached response when a new prompt is semantically similar to a cached one. |
 | Query business data safely | Hand-written tools or generated queries per agent | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
 | Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
 
@@ -310,7 +310,7 @@ Production-ready agents include built-in reliability features:
 ### Performance optimization
 
 - Cache frequently accessed information
-- Cache LLM responses semantically, so paraphrased questions skip the model call. [LangCache](/content/develop/ai/context-engine/langcache/_index.md) does this as a managed service
+- Cache LLM responses semantically, so paraphrased questions skip the model call. [LangCache](/content/develop/ai/langcache/_index.md) does this as a managed service
 - Use efficient data structures for fast retrieval
 - Scale resources based on demand
 
@@ -343,7 +343,7 @@ Production-ready agents include built-in reliability features:
 
 ### Cost Optimization
 
-- LLM cost management: Use appropriate models for different tasks, and serve repeat questions from a semantic cache such as [LangCache](/content/develop/ai/context-engine/langcache/_index.md)
+- LLM cost management: Use appropriate models for different tasks, and serve repeat questions from a semantic cache such as [LangCache](/content/develop/ai/langcache/_index.md)
 - Redis memory optimization: Efficient data structures and TTL policies
 - API rate limiting: Prevent excessive external API calls
 - Resource monitoring: Track and optimize compute and storage costs
@@ -377,7 +377,7 @@ Ready to build your AI agent with Redis?
 **Learn more:**
 - [Redis Iris Context Engine — Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) for managed session and long-term agent memory
 - [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) for how memory, caching, and governed data access work together
-- Interactive demos for [Agent Memory](/content/develop/ai/context-engine/agent-memory/interactive-demo.md), [LangCache](/content/develop/ai/context-engine/langcache/interactive-demo.md) that run in your browser
+- Interactive demos for [Agent Memory](/content/develop/ai/context-engine/agent-memory/interactive-demo.md), [LangCache](/content/develop/ai/langcache/interactive-demo.md) that run in your browser
 - [Redis Vector Search documentation](/content/develop/ai/search-and-query/vectors/_index.md)
 - [RedisVL Python library](/content/develop/clients/redis-vl.md) for vector operations and AI workflows
 - [Redis data structures guide](/content/develop/data-types/_index.md)

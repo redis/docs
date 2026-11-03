@@ -9,6 +9,8 @@ description: Review software, Redis, network, Secret, image, and sizing prerequi
 linkTitle: Prerequisites
 weight: 10
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/prerequisites/
 ---
 
 LangCache self-managed is distributed as container images on Docker Hub plus
@@ -45,7 +47,7 @@ exposure, and license material used by the deployment.
 
 The Helm chart does not deploy Redis databases. Provision them outside the
 chart and register them through the Control Plane's and Data Plane's config
-overlays (see [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})).
+overlays (see [Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}})).
 
 Cache Redis must support RediSearch with vector search, because LangCache
 creates a RediSearch vector index per cache. Metadata Redis does not need
@@ -91,7 +93,7 @@ The chart never puts Redis URLs, the database registry, or the embedding
 credential in `values.yaml` or a rendered ConfigMap. Each of the Data Plane,
 Control Plane, and bundled Identity Service reads its own pre-created
 overlay Secret, deep-merged over its rendered base config at runtime. See
-[Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})
+[Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}})
 for the overlay content each component expects.
 
 | Secret | Required when | Default key |
@@ -199,6 +201,6 @@ release-derived names in the verification commands throughout this guide.
 
 ## Next steps
 
-Continue to [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})
+Continue to [Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}})
 to prepare the Data Plane, Control Plane, and Identity Service overlay
-Secrets, then [Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).
+Secrets, then [Deploy self-managed LangCache]({{< relref "/operate/rc/langcache/self-managed/deploy" >}}).

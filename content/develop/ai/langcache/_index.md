@@ -8,11 +8,11 @@ categories:
 description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
-weight: 30
+weight: 35
 bannerText: LangCache is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 aliases:
-- /develop/ai/langcache
+- /develop/ai/context-engine/langcache/
 ---
 
 Cut LLM costs and improve response times with semantic caching.
@@ -20,10 +20,10 @@ Cut LLM costs and improve response times with semantic caching.
 LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly: no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
-  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/langcache/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-developers-64-midnight.png" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/rc/langcache/create-service" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/langcache/api-examples" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-insight-64-duotone.png" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/rc/langcache/monitor-cache" >}}
 </div>
 
 ## What is LangCache?
@@ -80,7 +80,7 @@ POST /v1/caches/{cacheId}/entries
 }
 ```
 
-See the full [LangCache API and SDK examples](/content/develop/ai/context-engine/langcache/api-examples.md) for more.
+See the full [LangCache API and SDK examples](/content/develop/ai/langcache/api-examples.md) for more.
 
 ## LangCache overview
 
@@ -94,7 +94,7 @@ Imagine you’re using an LLM to build an agent to answer questions about your c
 
 These prompts may have slight variations, but they essentially ask the same question. LangCache can help you avoid calling the LLM for each of these prompts by caching the response to the first prompt and returning it for any similar prompts.
 
-To watch a cache answer paraphrased questions, try the [interactive demo](/content/develop/ai/context-engine/langcache/interactive-demo.md).
+To watch a cache answer paraphrased questions, try the [interactive demo](/content/develop/ai/langcache/interactive-demo.md).
 
 Using LangCache as a semantic caching service has the following benefits:
 
@@ -129,13 +129,13 @@ The following diagram displays how you can integrate LangCache into your GenAI a
 1. Your app sends the prompt and the new response to LangCache through the `POST /v1/caches/{cacheId}/entries` endpoint. 
 1. LangCache stores the embedding with the new response in the cache for future use.
 
-See the [LangCache API and SDK examples](/content/develop/ai/context-engine/langcache/api-examples.md) for more information on how to use the LangCache API.
+See the [LangCache API and SDK examples](/content/develop/ai/langcache/api-examples.md) for more information on how to use the LangCache API.
 
 ## Get started
 
 LangCache is currently in preview:
 
-- Public preview on [Redis Cloud](/content/operate/iris/langcache/_index.md)
+- Public preview on [Redis Cloud](/content/operate/rc/langcache/_index.md)
 - Self-managed deployment on Kubernetes, as a private preview
 - Fully-managed [private preview](https://redis.io/langcache/)
 
@@ -148,7 +148,7 @@ LangCache is currently in preview:
 
 -tab-sep-
 
-Self-managed LangCache is available for deployment on Kubernetes as a private preview. See [Self-managed LangCache](/content/operate/iris/langcache/self-managed/_index.md) for deployment, configuration, security, and operations.
+Self-managed LangCache is available for deployment on Kubernetes as a private preview. See [Self-managed LangCache](/content/operate/rc/langcache/self-managed/_index.md) for deployment, configuration, security, and operations.
 
 You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 

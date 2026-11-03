@@ -9,6 +9,8 @@ description: Configure LangCache self-managed Control Plane authentication and D
 linkTitle: Authentication and authorization
 weight: 40
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/authentication/
 ---
 
 The Data Plane always authenticates by introspecting agent keys against an
@@ -146,7 +148,7 @@ this chart has no way to reach into an Identity Service it doesn't own.
 Mint, list, update, revoke, and rotate agent keys directly against the
 Identity Service (not the LangCache Control Plane). In bundled mode, first
 port-forward the Identity Service and read its control token, as in
-[Verify the deployment](/content/operate/iris/langcache/self-managed/deploy.md#verify-the-deployment).
+[Verify the deployment](/content/operate/rc/langcache/self-managed/deploy.md#verify-the-deployment).
 
 ```bash
 IDS_URL="http://localhost:9200"
@@ -177,7 +179,7 @@ are returned only when a key is minted or rotated.
 The Data Plane caches each key check, so a revoked key stops working within
 up to 5 minutes (180 seconds soft, 300 seconds hard,
 `identityService.bundled.runtime.cache.*`). For rotation, see
-[Operations](/content/operate/iris/langcache/self-managed/operations.md).
+[Operations](/content/operate/rc/langcache/self-managed/operations.md).
 
 Grant actions:
 
@@ -223,7 +225,7 @@ Gateway rules:
 ## Next steps
 
 With an admin token, internal token, and agent key in hand, see
-[API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
+[API examples]({{< relref "/operate/rc/langcache/self-managed/api-examples" >}})
 to create a cache and start calling the Data Plane, or
-[Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}})
+[Operations]({{< relref "/operate/rc/langcache/self-managed/operations" >}})
 to rotate these credentials going forward.

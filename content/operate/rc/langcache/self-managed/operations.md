@@ -9,6 +9,8 @@ description: Operate self-managed LangCache with backups, secret rotation, updat
 linkTitle: Operations
 weight: 90
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/operations/
 ---
 
 ## Backups
@@ -96,7 +98,7 @@ the Secret is gone, so either set `autoGenerate: false` and supply a new
 this for you) and let the next `helm upgrade` mint a fresh one.
 
 Rotate agent keys minted for LangCache caches through the Identity Service;
-see [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples#identity-service-api-examples" >}}).
+see [API examples]({{< relref "/operate/rc/langcache/self-managed/api-examples#identity-service-api-examples" >}}).
 Rotation returns a **new** `keyId` with the new token. Use the new `keyId` for later update,
 rotate, and revoke calls. The old key stays valid for `graceSeconds` (default 3600, maximum
 604800), and the response includes `oldExpiresAt`. Revoking the old `keyId` ends its grace
@@ -217,6 +219,6 @@ respective ports (`9000`, `9100`, `9200`) from approved callers only.
 
 ## See also
 
-- [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}}) for the Redis roles being backed up and rotated here.
-- [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}) for how the tokens and agent keys rotated above are used.
-- [Configuration and troubleshooting]({{< relref "/operate/iris/langcache/self-managed/reference" >}}) for symptoms and fixes if a rotation or update doesn't take effect.
+- [Configuration]({{< relref "/operate/rc/langcache/self-managed/configuration" >}}) for the Redis roles being backed up and rotated here.
+- [Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}}) for how the tokens and agent keys rotated above are used.
+- [Configuration and troubleshooting]({{< relref "/operate/rc/langcache/self-managed/reference" >}}) for symptoms and fixes if a rotation or update doesn't take effect.

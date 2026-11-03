@@ -9,16 +9,18 @@ description: Use curl examples with the LangCache self-managed Control Plane, Id
 linkTitle: Self-managed API examples
 weight: 50
 hideListLinks: true
+aliases:
+- /operate/iris/langcache/self-managed/api-examples/
 ---
 
 These examples show self-managed Control Plane, Identity Service, and Data
 Plane requests. They assume agent-key authentication as described in
-[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}).
+[Authentication and authorization]({{< relref "/operate/rc/langcache/self-managed/authentication" >}}).
 
 For the complete shared Data Plane schema, see the
-[LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}).
+[LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}).
 For the self-managed admin schema, see the
-[Control Plane API reference]({{< relref "/operate/iris/langcache/self-managed/control-plane-api-reference" >}}).
+[Control Plane API reference]({{< relref "/operate/rc/langcache/self-managed/control-plane-api-reference" >}}).
 
 ## Control Plane API examples
 
@@ -157,7 +159,7 @@ curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate?graceSeconds=3600" \
 ```
 
 Rotation returns a new `keyId` with the new token. For the grace period and which `keyId` to
-use afterward, see [Secret rotation](/content/operate/iris/langcache/self-managed/operations.md#secret-rotation).
+use afterward, see [Secret rotation](/content/operate/rc/langcache/self-managed/operations.md#secret-rotation).
 
 ## Data Plane API examples
 
@@ -228,6 +230,6 @@ curl -sS "$DP_URL/v1/caches/$CACHE_ID/health" \
 
 For the full request and response schema for cache entries (set, search,
 delete, flush), see the
-[LangCache API reference]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}).
+[LangCache API reference]({{< relref "/develop/ai/langcache/api-reference" >}}).
 That shared reference does not yet cover cache health; the example above
 reflects the same Data Plane API.

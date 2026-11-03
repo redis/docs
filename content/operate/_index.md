@@ -85,7 +85,7 @@ Services available on cloud or self-managed infrastructure for AI applications. 
         <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris" >}}">Overview</a><span aria-hidden="true">→</span></li>
         <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/agent-memory" >}}">Enable Agent Memory</a><span aria-hidden="true">→</span></li>
         <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/context-gateway" >}}">Deploy Context Gateway</a><span aria-hidden="true">→</span></li>
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris/langcache" >}}">Enable LangCache</a></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/langcache" >}}">Enable LangCache</a></li>
       </ol>
     </div>
   </div>

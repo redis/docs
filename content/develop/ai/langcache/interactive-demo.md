@@ -9,11 +9,13 @@ hideListLinks: true
 linktitle: Interactive demo
 title: Redis LangCache interactive demo
 weight: 5
+aliases:
+- /develop/ai/context-engine/langcache/interactive-demo/
 ---
 
 Redis LangCache stores the answers your LLM generates and returns them when someone asks a similar question, so your app doesn't call the LLM again. This demo follows the help assistant of a food delivery app. You choose which questions its customers ask, and the demo shows each search, each cache hit or miss, and what the cache stores.
 
-The demo runs in your browser and doesn't connect to a LangCache service or an LLM. Its requests and responses follow the shapes of the [LangCache API](/content/develop/ai/context-engine/langcache/api-reference.md). The similarity scores, answers, and timings are illustrative. The customers and restaurants come from the same sample data as the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
+The demo runs in your browser and doesn't connect to a LangCache service or an LLM. Its requests and responses follow the shapes of the [LangCache API](/content/develop/ai/langcache/api-reference.md). The similarity scores, answers, and timings are illustrative. The customers and restaurants come from the same sample data as the [Redis Iris interactive demo](/content/develop/ai/context-engine/concepts/interactive-demo.md).
 
 {{< langcache-demo >}}
 
@@ -25,6 +27,6 @@ The demo runs in your browser and doesn't connect to a LangCache service or an L
 
 ## Next steps
 
-- Read [LangCache concepts](/content/develop/ai/context-engine/langcache/concepts.md) to learn how to choose a similarity threshold.
-- [Create a LangCache service](/content/operate/iris/langcache/create-service.md) on Redis Cloud.
-- Use the [LangCache API and SDK](/content/develop/ai/context-engine/langcache/api-examples.md) to search and store entries from your app.
+- Read [LangCache concepts](/content/develop/ai/langcache/concepts.md) to learn how to choose a similarity threshold.
+- [Create a LangCache service](/content/operate/rc/langcache/create-service.md) on Redis Cloud.
+- Use the [LangCache API and SDK](/content/develop/ai/langcache/api-examples.md) to search and store entries from your app.
