@@ -19,10 +19,11 @@
   <thead><tr><th>Client library</th><th>Exception or error type</th><th>Message</th></tr></thead>
   <tbody>
   {{- range $rows }}
+    {{- $row := . }}
     <tr>
       <td>{{ .client }}{{ with .clientNote }}<br>{{ . | markdownify }}{{ end }}</td>
       <td><code>{{ .class }}</code>{{ with .check }}<br>Test with <code>{{ . }}</code>{{ end }}</td>
-      <td><code>{{ .message }}</code>{{ with .note }}<br>{{ . | markdownify }}{{ end }}</td>
+      <td>{{ with .message }}<code>{{ . }}</code>{{ end }}{{ with .note }}{{ if $row.message }}<br>{{ end }}{{ . | markdownify }}{{ end }}</td>
     </tr>
   {{- end }}
   </tbody>

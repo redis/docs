@@ -122,8 +122,11 @@ python3 build/errors/live_clients.py jedis
 python3 build/errors/live_clients.py node_redis --only standalone
 ```
 
-It needs Docker, like `verify`, and the client's tools: Java and Maven for Jedis,
-Node.js and npm for node-redis. Each client is a bridge in `bridges/`: a short
+It needs Docker, like `verify`, and the client's tools: Java and Maven (`jedis`,
+`lettuce_sync`, `lettuce_async`, `lettuce_reactive`), Node.js and npm
+(`node_redis`, `ioredis`), Go (`go_redis`), the .NET SDK (`se_redis_sync`,
+`se_redis_async`), PHP and Composer (`predis`), Ruby (`redis_rb`), and Rust
+(`rust_sync`, `rust_async`). Each client is a bridge in `bridges/`: a short
 Python module and a probe program in the client's language that runs one command
 and prints the exception class and message. The run writes
 `client_baselines/<client>.json`. Copy the classes and messages that the pages

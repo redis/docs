@@ -25,8 +25,8 @@
   {{- $md := "| Client library | Exception or error type | Message |\n|---|---|---|\n" -}}
   {{- range $rows -}}
     {{- $msg := replace .message "|" "\\|" -}}
-    {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
-    {{- with .note -}}{{- $msg = printf "%s %s" $msg . -}}{{- end -}}
+    {{- $msg = cond (eq $msg "") "" (cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg)) -}}
+    {{- with .note -}}{{- $msg = strings.TrimSpace (printf "%s %s" $msg .) -}}{{- end -}}
     {{- $type := printf "`%s`" .class -}}
     {{- with .check -}}{{- $type = printf "%s, test with `%s`" $type . -}}{{- end -}}
     {{- $client := .client -}}
