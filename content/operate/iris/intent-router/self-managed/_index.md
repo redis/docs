@@ -15,7 +15,7 @@ Intent Router classifies each incoming user message by intent, so your applicati
 
 This guide is for that administrator. It covers deploying Intent Router on your own Kubernetes cluster with a Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/intent-router/self-managed/prerequisites.md).
 
-The `redis-intent-router` Helm chart deploys one tenant's Intent Router control plane and data plane. By default it also deploys an Identity Service that issues and checks agent keys. You provide the Redis databases, the embedding provider credentials, and the license.
+The `redis-intent-router` Helm chart deploys one tenant's Intent Router control plane and data plane. It deploys no Identity Service: it connects to an Identity Service release that you install separately, which issues and checks agent keys. You provide the Identity Service release, the Redis databases, the embedding provider credentials, and the license.
 
 Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.
 
@@ -28,7 +28,7 @@ Set the chart version and image tags from the release manifest for your deployme
 | --- | --- | --- |
 | Control plane | Create and manage Routers, and validate agent-key grants. | `9400` |
 | Data plane | Store intents and examples, build each Router's vector index, and serve matching. | `9401` |
-| Identity Service | Issue agent keys and check them for the data plane. | `9200` |
+| Identity Service | Issue agent keys and check them for the data plane. Installed as its own release. | `9200` |
 | Metadata Redis | Store Router records and the mailbox the planes coordinate through. | Customer-provided |
 | Data-plane Redis | Store intents, examples, and a vector index for each Router. Needs Redis Search. | Customer-provided |
 | Embedding provider | Embed examples and queries. | Customer-provided |

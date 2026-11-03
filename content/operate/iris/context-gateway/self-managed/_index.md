@@ -17,7 +17,7 @@ The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Cont
 
 Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API Reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
 
-Set the chart version and image tags from the approved release manifest. Use a release that includes the unified Gateway API and GA hardening described in these guides.
+Set the chart version from the approved release. Each chart release pins its matching Control Plane and Data Plane images by default. Use a release that includes the unified Gateway API and GA hardening described in these guides.
 
 <!-- TODO: Replace with the published chart version and the global Iris release instructions at GA. -->
 

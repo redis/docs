@@ -154,7 +154,7 @@ Operation mapping:
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
 
-This section applies to on-prem deployments. Release 0.10.2 enables ownership enforcement by default in the on-prem server, worker, and chart.
+This section applies to on-prem deployments. Ownership enforcement is off by default in the on-prem server, worker, and chart. Turn it on with `memory.ownership.enabled: true` after you configure a user identity; see [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
 
 | Setting | Personal access | Shared access |
 | --- | --- | --- |
@@ -176,13 +176,13 @@ With enforcement on:
 - A personal namespace child inherits its root's owner.
 - A caller without a user ID can access shared records within its grants, but cannot claim a named personal owner. Ownerless private records are hidden.
 
-Ordinary agent keys created by `POST /v1/api-keys` do not contain a user binding. The API does not accept one or copy the key creator's identity. Use delegation for personal access. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
+Agent keys created by `POST /v1/api-keys` have no user binding by default, and a key never copies its creator's identity. To bind a key to one user, set `apiKeys.userBinding.enabled: true` on the Identity Service release (default `false`) and send `userId` when you mint the key. The control token and a `suite_admin` can set any user ID; other callers can set only their own. The Data Plane then uses that user ID for the key's requests. For an application that acts for many users, use delegation instead. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
 
 An unbound key can pass store health checks and access allowed shared data while personal creation returns `403`. A successful health check does not establish a user identity.
 
 ### Delegate a user with an agent key
 
-Delegation lets an application use its agent key for store permissions and a user's access token for personal identity. This path is supported in on-prem release 0.10.2. It does not add the user's store grants to the key.
+Delegation lets an application use its agent key for store permissions and a user's access token for personal identity. This path is supported in on-prem release 1.0.0. It does not add the user's store grants to the key.
 
 1. Configure your identity provider to issue signed access tokens with an issuer, a compatible user ID claim, and the intended audience. Obtain the user's token through your application's login process.
 1. Configure the Data Plane to trust that issuer and its JSON Web Key Set (JWKS). Use the same tenant as the agent key and store.
@@ -294,7 +294,7 @@ A missing or invalid primary credential, an invalid or expired user token, or a 
 
 ### Enable or change ownership enforcement
 
-For a new deployment, configure the user-identity path before writing personal data. If your application does not use a trusted identity provider, explicitly disable enforcement and apply [backend authorization](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+For a new deployment that enables enforcement, configure the user-identity path before writing personal data. If your application does not use a trusted identity provider, leave enforcement off and apply [backend authorization](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 Before upgrading an existing deployment:
 

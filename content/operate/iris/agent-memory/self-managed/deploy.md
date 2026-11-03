@@ -22,7 +22,7 @@ These steps install Redis Agent Memory with chart-rendered configuration and age
 authentication, and end with one authenticated call to the Data Plane.
 
 Install Identity Service as release `ids`, then Memory as release `redis-agent-memory`.
-These steps use Memory chart `0.10.2` and Identity Service chart `0.10.2` in one namespace.
+These steps use Memory chart `1.0.0` and Identity Service chart `1.0.0` in one namespace.
 You create the shared credentials and Identity Service control token; Memory generates its
 Control Plane admin token. See [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
 
@@ -33,7 +33,7 @@ placeholders with addresses reachable from the calling pods. Obtain their certif
 (CA) certificates as a PEM bundle named `service-ca.crt`; use your organization's trust bundle
 if the endpoints use public certificates.
 
-Ownership enforcement is on by default. Before using an agent key with personal memories, [configure delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key). Applications that authorize users entirely in their backend must explicitly disable ownership enforcement in their Helm values.
+Ownership enforcement is off by default, so your backend must authorize each user's access to personal memories. To have the server enforce owners, [configure delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and set `memory.ownership.enabled: true`.
 
 Before you begin, review the [prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md).
 
@@ -160,7 +160,7 @@ tls:
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 0.10.2 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
@@ -307,12 +307,12 @@ memory:
   session_summarisation:
     enabled: false
 image:
-  tag: "0.10.2"
+  tag: "1.0.0"
 controlplane:
   internalToken:
     existingSecret: memory-internal-token
   image:
-    tag: "0.10.2"
+    tag: "1.0.0"
   config:
     render: true
   configData:
@@ -347,7 +347,7 @@ tls:
   `/etc/identity-service/runtime/memory-dp/token`. Do not hand-set the introspection endpoint or credential under `memory.auth` or `shared.auth`.
 - `tenantId: default` matches `runtime.apiKeyTenant.singleTenantID` in `values-ids.yaml`.
   The Control Plane creates admin-token stores in this tenant.
-- Both charts use application version `0.10.2`. The example pins Memory's Data Plane
+- Both charts use application version `1.0.0`. The example pins Memory's Data Plane
   and Control Plane images to that version.
 
 {{< note >}}
@@ -376,7 +376,7 @@ its row. The rows are checklist items CL-1 to CL-6.
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.10.2 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f ram-values.yaml
 kubectl -n <namespace-name> get pods -w
@@ -388,7 +388,7 @@ If you want Helm to wait, set an explicit timeout that matches the environment:
 
 ```bash
 helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 0.10.2 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f ram-values.yaml \
   --wait \
@@ -437,12 +437,11 @@ RAM_ADMIN_TOKEN=$(kubectl -n <namespace-name> get secret \
 curl -sS -X POST http://localhost:9100/iris/v1/agent-memory/stores \
   -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"name": "my-store", "database": {"databaseId": "<database-id>"}}'
+  -d '{"name": "my-store", "database": {"databaseId": "1"}}'
 ```
 
-The response carries `storeId`.
-
-<!-- TODO: The unified Control Plane spec requires `database.databaseId` on CreateStore. Confirm which database ID a self-managed deployment accepts. -->
+`database.databaseId` is required. It names an entry in the `databases` registry, here `"1"` from
+`shared.databases` in [step 3](#3-create-ram-valuesyaml) and the overlay. The response carries `storeId`.
 
 ## 7. Mint an agent key
 
