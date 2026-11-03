@@ -196,7 +196,7 @@ Give each application team these values. They match the variables in [Configure 
 | `LENS_INSTANCE_ID` | Your `instance.id`, `default` unless you changed it. |
 | `LENS_API_KEY` | A read key for each person or tool that reads turns. |
 
-Give each agent its own ingest key, so one agent's key can't read other agents' turns. Send keys through your secret store, not in chat or tickets.
+Give each agent its own ingest key. If one agent's key leaks, you can [revoke or rotate that key](/content/operate/iris/lens/self-managed/authentication.md) without interrupting your other agents. Send keys through your secret store, not in chat or tickets.
 
 Developers can then [trace their first turn](/content/develop/ai/context-engine/lens/quickstart.md).
 

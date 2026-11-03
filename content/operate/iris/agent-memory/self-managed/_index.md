@@ -103,7 +103,7 @@ After you [deploy](/content/operate/iris/agent-memory/self-managed/deploy.md), t
 1. Install the package:
 
     ```bash
-    pip install 'redis-iris>=1.0.0'
+    pip install 'redis-iris'
     ```
 
 1. Create `iris.toml` with a profile for your deployment. It holds URLs only:

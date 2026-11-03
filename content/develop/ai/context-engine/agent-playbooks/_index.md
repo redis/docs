@@ -60,7 +60,7 @@ See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agen
 1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
     ```bash
-    pip install 'redis-iris>=1.0.0'
+    pip install 'redis-iris'
     ```
 
 1. With `IRIS_AGENT_PLAYBOOKS_URL`, `IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID`, and `IRIS_AGENT_PLAYBOOKS_API_KEY` in your environment, find the published entries that match an agent's task:

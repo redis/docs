@@ -48,7 +48,7 @@ A **Router** holds your intents and is its own access boundary. Each **intent** 
 1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
     ```bash
-    pip install 'redis-iris>=1.0.0'
+    pip install 'redis-iris'
     ```
 
 1. Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:

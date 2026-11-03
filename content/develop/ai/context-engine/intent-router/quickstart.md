@@ -26,7 +26,7 @@ Follow one tab throughout the page. The Python package and the command-line inte
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install 'redis-iris>=1.0.0'
+python -m pip install 'redis-iris'
 ```
 
 **TypeScript**

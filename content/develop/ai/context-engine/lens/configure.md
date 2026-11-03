@@ -65,7 +65,7 @@ Lens keys have one of three scopes:
 | `read` | People and tools that read turns, in the Lens user interface (UI) or with the read application programming interface (API). |
 | `full` | Both. |
 
-Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from `LENS_API_KEY`. Give each agent an ingest key and each reader a read key, so an agent's key can't read other agents' turns. On Redis Cloud, [create keys in the console](/content/operate/iris/lens/create-lens.md#create-api-keys). Self-managed, your administrator [creates them](/content/operate/iris/lens/self-managed/authentication.md#create-api-keys).
+Agents send their key as `IRIS_LENS_API_KEY`. The read client reads its key from `LENS_API_KEY`. Give each agent its own ingest key and each reader a read key. If one agent's key leaks, you can revoke or rotate that key without interrupting your other agents. On Redis Cloud, [create keys in the console](/content/operate/iris/lens/create-lens.md#create-api-keys). Self-managed, your administrator [creates them](/content/operate/iris/lens/self-managed/authentication.md#create-api-keys).
 
 ## Control content capture
 

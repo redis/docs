@@ -105,7 +105,7 @@ Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in 
 1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
     ```bash
-    pip install 'redis-iris>=1.0.0'
+    pip install 'redis-iris'
     ```
 
 1. With `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY` in your environment, record a conversation, then recall what Agent Memory extracted from it:

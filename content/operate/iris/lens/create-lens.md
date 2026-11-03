@@ -58,7 +58,7 @@ Select **Open Lens** to go to Lens, or **I'll do this later** to close the dialo
 
 ## Create API keys
 
-Agents send turns to Lens with an API key that has the `ingest` scope. Readers, such as the [read application programming interface (API)](/content/develop/ai/context-engine/lens/read-api.md) client, need a key with the `read` scope. Give each agent its own ingest key, so an agent's key can't read other agents' turns.
+Agents send turns to Lens with an API key that has the `ingest` scope. Readers, such as the [read application programming interface (API)](/content/develop/ai/context-engine/lens/read-api.md) client, need a key with the `read` scope. An agent that also reads turns needs a key with both, the `full` scope. Give each agent its own key. If one agent's key leaks, you can revoke or rotate that key without interrupting your other agents.
 
 To create an agent's key:
 

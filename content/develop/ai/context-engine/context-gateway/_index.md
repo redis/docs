@@ -67,7 +67,7 @@ A **Gateway** is one MCP endpoint for an agent. Each **Upstream** behind it is a
 1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
     ```bash
-    pip install 'redis-iris>=1.0.0'
+    pip install 'redis-iris'
     ```
 
 1. With `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY` in your environment, find a tool and call it:
