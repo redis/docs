@@ -32,9 +32,10 @@ documents the self-managed admin endpoints for stores.
 ## What you are deploying
 
 The `redis-agent-memory` chart `1.0.0` deploys the Data Plane, workers, and Control Plane.
-Install the `iris-identity-service` chart `1.2.0` as a separate release first, then connect
+Install the `iris-identity-service` chart `1.0.0` as a separate release first, then connect
 Memory to it. Memory does not deploy Identity Service resources or include it as a subchart.
-A unified Redis Iris chart that installs Memory and Identity Service as one release is planned.
+To install Memory, Identity Service, and the UI as one release, use the
+[`redis-iris` Helm chart](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart).
 These pages document the separate releases.
 You provide the Redis databases. Follow [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md)
 to configure both releases.

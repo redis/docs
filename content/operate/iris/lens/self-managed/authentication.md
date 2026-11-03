@@ -113,7 +113,7 @@ controlplane:
 
 | Value | Purpose |
 | --- | --- |
-| `auth.oidc.audience` | The audience the IdP puts in the token's `aud`. Use the same Iris API audience in every Iris chart. On Microsoft Entra ID v2, it's the API's Application (client) ID. Empty and wildcard values are refused. |
+| `auth.oidc.audience` | The audience the IdP puts in the token's `aud`. Use the same Iris API audience in every Iris chart. On Microsoft Entra ID v2, it's the API's Application (client) ID. Empty uses `api://redis-iris`. A wildcard is refused. |
 | `dataplane.oidc.issuer` | Compared with the token's `iss`, and never fetched, so `http://` is allowed. On Active Directory Federation Services (AD FS), use the discovery document's `access_token_issuer`. |
 | `dataplane.oidc.jwksURI` | Fetched for signing keys. Must be `https://` unless `dataplane.oidc.allowInsecureTransport=true`. |
 | `dataplane.oidc.tenantIDClaim` | The claim that names the tenant. Empty treats every token as `tenantId`'s. |

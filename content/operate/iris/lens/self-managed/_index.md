@@ -13,14 +13,13 @@ hideListLinks: true
 
 Lens traces your AI agent turns, so developers can see what each source returned, what entered the prompt, and how each step went. Before developers can send turns, a platform administrator deploys Lens, connects it to an Identity Service, and gives each application an endpoint and API keys.
 
-This guide is for that administrator. It covers deploying Lens on your own Kubernetes cluster with the `redis-lens` Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/lens/self-managed/prerequisites.md).
+This guide is for that administrator. It covers deploying Lens on your own Kubernetes cluster with the `redis-lens` Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/lens/self-managed/prerequisites.md). To install Lens with the Identity Service and the Iris console in one release, see [Install with the Redis Iris suite chart](/content/operate/iris/lens/self-managed/deploy.md#install-with-the-redis-iris-suite-chart).
 
 > [!NOTE]
 > You need a license key to deploy self-managed Lens. Contact your Redis representative or
 > [contact sales](https://redis.io/contact/).
 
-These guides use `redis-lens` chart `0.2.1`.
-<!-- TODO: decide whether to document installing Lens through the redis-iris suite chart once that chart is published; this guide covers a standalone release. -->
+These guides use `redis-lens` chart `1.0.0`.
 
 ## What you deploy
 

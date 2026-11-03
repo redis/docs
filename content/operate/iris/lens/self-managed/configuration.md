@@ -61,22 +61,22 @@ tests:
 | `storage.existingSecret` | `""` | Required. The [storage Secret](#storage-secret). |
 | `storage.keyPrefix` | `iris:lens` | The prefix of every key Lens writes. |
 | `license.existingSecret` | `""` | Required. The license Secret, with the key `license`. |
-| `dataplane.image.repository`, `dataplane.image.tag` | `redislabs/iris-lens-data` | The data-plane and worker image. |
-| `controlplane.image.repository`, `controlplane.image.tag` | `redislabs/iris-lens-control` | The control-plane image. |
+| `dataplane.image.repository`, `dataplane.image.tag` | `redislabs/iris-lens-data`, the chart version | The data-plane and worker image. |
+| `controlplane.image.repository`, `controlplane.image.tag` | `redislabs/iris-lens-control`, the chart version | The control-plane image. |
 | `dataplane.identityServiceBaseURL` | `""` | Required. The Identity Service release's URL. Must be `https://` unless `identityService.allowInsecureTransport=true`. |
 | `identityService.allowInsecureTransport` | `false` | Accept an `http://` Identity Service URL, such as the in-cluster Service. |
 | `identityService.credential.existingSecret` | `""` | Required. The data plane's runtime credential, key `token`. |
 | `controlplane.internalToken.existingSecret` | `""` | The control plane's internal token, key `token`. Set it, because the Identity Service release must mount the same Secret. |
 | `controlplane.adminToken.existingSecret` | `""` | Supply your own admin token. Empty, the chart generates one. |
 | `dataplane.server.replicaCount`, `dataplane.worker.replicaCount`, `controlplane.replicaCount` | `1` | Replicas for each workload. |
+| `podDisruptionBudget.enabled` | `false` | Add a PodDisruptionBudget (`maxUnavailable: 1`) for each Deployment with more than one replica. |
+| `dataplane.server.strategy` | `{}` | The data-plane Deployment's `spec.strategy`, rendered as given. |
 | `tls.caCertSecret` | `""` | A certificate authority (CA) bundle every workload trusts. See [TLS trust](#tls-trust). |
 | `security.profile` | `""` | `fips` runs the Federal Information Processing Standards (FIPS) profile. |
 | `imagePullSecrets` | `[]` | Pull Secrets for a private registry. |
 | `tests.enabled` | `false` | Add `helm test` readiness checks. |
 
-To pull images from a mirror, set each `repository` to your registry and each `tag` to the chart's version.
-
-<!-- TODO: confirm the published chart stamps both image tags with its version, so the install needs no tag values. The repository chart leaves them empty and requires them. -->
+To pull images from a mirror, set each `repository` to your registry. Keep each `tag` at the chart's version.
 
 Every Secret value also has an `existingSecretChecksum`. Set it when you change the Secret's content, so the pods roll. See [Rotate credentials](/content/operate/iris/lens/self-managed/authentication.md#rotate-credentials).
 

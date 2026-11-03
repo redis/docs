@@ -82,7 +82,7 @@ kubectl -n <namespace-name> create secret generic memory-dp-credential \
 RUNTIME_CREDENTIAL_CHECKSUM="$(shasum -a 256 ./memory-dp-token | awk '{print $1}')"
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 1.2.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml \
   --set-string "runtime.serviceCredentials[0].existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
@@ -172,8 +172,8 @@ kubectl -n <namespace-name> rollout restart deployment
 
 ## Updates
 
-Memory and Identity Service have independent release versions. Upgrade each with its own
-values file and verify their shared connection contract afterward. A Memory upgrade does not
+Memory and Identity Service publish at the same version, and a fix release advances both,
+even if one is unchanged. Upgrade each release with its own values file and verify their shared connection contract afterward. A Memory upgrade does not
 upgrade Identity Service. The pair documented here is Memory `1.0.0` and Identity Service `1.0.0`.
 
 For updates within a supported release path:
@@ -294,7 +294,7 @@ helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
   -f redis-agent-memory/values-fips.yaml
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 1.2.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
