@@ -18,12 +18,16 @@ A Context Surface is an Upstream that generates tools from a data model describi
 Creating a Surface does not import records. Load your records into the source database first.
 
 ```mermaid
+---
+config:
+  look: neo
+---
 flowchart LR
-    Records["Records in Redis"] ==> Surface["Context Surface"]
-    Model["Data model"] ==>|Defines entities, fields, and relationships| Surface
-    Surface ==> Tools["Generated read-only tools"]
-    Tools ==> Gateway["Gateway MCP endpoint"]
-    Gateway ==> Agent["Agent"]
+    Records[("Records in Redis")] --> Surface["Context Surface"]
+    Model["Data model"] -->|Defines entities, fields, and relationships| Surface
+    Surface --> Tools["Generated read-only tools"]
+    Tools --> Gateway["Gateway MCP endpoint"]
+    Gateway --> Agent["Agent"]
 ```
 
 ## Before you begin

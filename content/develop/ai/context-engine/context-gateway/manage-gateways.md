@@ -29,6 +29,10 @@ You need:
 Administrative requests configure the Gateway. Agents use a separate credential to discover and call tools through its MCP endpoint.
 
 ```mermaid
+---
+config:
+  look: neo
+---
 flowchart LR
     Admin["Administrator"] -->|"Admin token"| Config["Gateway configuration"]
     Agent["Agent"] -->|"Agent credential"| Gateway["Gateway MCP endpoint"]
