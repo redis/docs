@@ -1,12 +1,12 @@
 <header
   class="sticky top-0 h-[70px] z-50 w-full border-b border-white border-opacity-30 bg-redis-ink-900 text-white font-mono text-[15px] flex justify-center">
   {{/* {{ partial "banner.html" . }} */}}
-  <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 items-center self-center grow">
+  <div class="flex h-[70px] px-4 xl:pl-11 xl:pr-0 items-center self-center grow">
     <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="https://redis.io/">
       {{ partial "icons/logo-script.html" }}
     </a>
     <div class="h-full flex items-center mx-4 grow">
-      <div class="hidden lg:flex flex-row h-full items-center">
+      <div class="hidden xl:flex flex-row h-full items-center">
         <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[22ch] justify-between">
             <div class="relative flex rounded-[20px] border border-white border-opacity-50 px-4 pl-9 py-1 transition-all duration-500 group-hover:border-[#ff4438]">
@@ -27,30 +27,30 @@
           <span class="inline-block ml-2 mt-1 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
         </a>
       </div>
-      <a class="hidden lg:flex group flex-row items-center px-4" href="{{ relURL "develop/tools/" }}"><span
+      <a class="hidden xl:flex group flex-row items-center px-4" href="{{ relURL "develop/tools/" }}"><span
           class="group-hover:font-bold">Tools</span><span class="inline-block ml-2 mt-1 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row items-center px-4" href="{{ relURL "operate/oss_and_stack/" }}"><span
+      <a class="hidden xl:flex group flex-row items-center px-4" href="{{ relURL "operate/oss_and_stack/" }}"><span
           class="group-hover:font-bold">Community</span></a>
-      <a class="hidden lg:flex group flex-row items-center px-4" href="https://redis.io/docs/"><span
+      <a class="hidden xl:flex group flex-row items-center px-4" href="https://redis.io/docs/"><span
           class="font-bold">Docs</span></a>
     </div>
 
     <div class="h-full flex gap-[18px] xl:gap-7 items-center text-center">
-      <button id="search-button" type="button" class="hidden lg:flex items-center gap-2 px-6 py-2 bg-[#163341] text-white rounded-full border border-white border-opacity-30 hover:bg-[#1a3a4a] hover:border-opacity-50 transition-colors">
+      <button id="search-button" type="button" class="hidden xl:flex items-center gap-2 px-6 py-2 bg-[#163341] text-white rounded-full border border-white border-opacity-30 hover:bg-[#1a3a4a] hover:border-opacity-50 transition-colors">
         {{ partial "icons/search.html" }}
         Search
       </button>
-      <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500"
+      <a class="hidden xl:block py-1 transition-colors hover:text-redis-red-500"
         href="https://cloud.redis.io/">Login</a>
 
-      <a class="hidden lg:inline-flex items-center justify-center px-6 py-2 mr-4 border-2 border-redis-red-500 text-white rounded-md hover:bg-redis-red-500 transition-colors"
+      <a class="hidden xl:inline-flex items-center justify-center px-6 py-2 mr-4 border-2 border-redis-red-500 text-white rounded-md hover:bg-redis-red-500 transition-colors"
         href="https://redis.io/try-free/">Sign up</a>
-      <button id="search-button-mobile" type="button" class="lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
+      <button id="search-button-mobile" type="button" class="xl:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open search</span>
         {{ partial "icons/search.html" }}
       </button>
       <button data-menu-toggle aria-expanded="false" type="button"
-        class="menu-toggle lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
+        class="menu-toggle xl:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open main menu</span>
         {{ partial "icons/hamburger.html" }}
       </button>
@@ -58,7 +58,7 @@
 
   </div>
 
-  <nav data-menu
+  <nav data-menu data-menu-container
     class="hidden absolute left-0 top-[70px] h-[calc(100vh-70px)] w-full overflow-y-auto bg-redis-ink-900 pb-12 xl:hidden">
     <ul class="space-y-4 bg-redis-ink-900 p-4">
       <li class="border-b border-b-white border-opacity-30 py-4 last:border-none">

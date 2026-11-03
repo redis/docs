@@ -17,6 +17,14 @@ A playbook is a registry of the frequently asked questions (FAQs) and skills you
 
 The playbook stores its data in a Redis Cloud database. Use one of your databases, or let the console create a free database when you create the playbook. To create one yourself, see [Create a database](/content/operate/rc/databases/create-database/_index.md).
 
+An existing database must be active and have:
+
+- An enabled [default user](/content/operate/rc/security/access-control/data-access-control/default-user.md) with a password.
+- A public endpoint that Agent Playbooks can reach.
+- Support for the JavaScript Object Notation (JSON) data type and Redis Query Engine, with Search version 2.10 or later.
+
+The console lists only databases that meet these requirements.
+
 If the database has a Classless Inter-Domain Routing (CIDR) allow list that blocks Agent Playbooks, you can't create the playbook with it. The console lists the Internet Protocol (IP) addresses to add. Add them under **Security** in the database's settings.
 
 ## Create a playbook
