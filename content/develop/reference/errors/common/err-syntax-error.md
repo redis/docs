@@ -26,6 +26,10 @@ Redis returns this error when it can't make sense of a command's options. The co
 ERR syntax error
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 The `NX` and `XX` options of [`SET`](/content/commands/set.md) can't be used together:

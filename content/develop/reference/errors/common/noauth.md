@@ -19,6 +19,8 @@ error:
   match:
   - Authentication required
   - HELLO must be called with the client already authenticated
+  - AuthenticationError
+  - JedisAccessControlException
 ---
 
 Redis returns this error when the server requires a password, but your connection hasn't sent one yet. Until the connection authenticates, the server refuses almost every command, even `PING`.
@@ -27,9 +29,11 @@ Redis returns this error when the server requires a password, but your connectio
 NOAUTH Authentication required.
 ```
 
-In redis-py, this error is `AuthenticationError: Authentication required.`
-
 If the first command is [`HELLO`](/content/commands/hello.md), the error also says how to authenticate in the same command: `NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time`.
+
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

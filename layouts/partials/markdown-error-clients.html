@@ -1,0 +1,35 @@
+{{- /*
+  Expand error-clients shortcodes for Markdown/JSON output.
+
+  The HTML shortcode (layouts/shortcodes/error-clients.html) renders the
+  exceptions that client libraries raise for an error page. AI-facing output
+  needs the same table as Markdown. Both read the rows from
+  layouts/partials/errors/client-rows.html.
+
+  Input: dict with:
+    - "RawContent": The Markdown content to process
+    - "Page": The current Hugo page
+
+  Output: Markdown content with error-clients shortcodes expanded
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $matches := findRE `\{\{<\s*error-clients\s*>\}\}` $content -}}
+{{- /* A generated page, such as a section without an _index.md, has no .File. */ -}}
+{{- $rows := slice -}}
+{{- if and $matches .Page.File -}}
+  {{- $rows = partial "errors/client-rows.html" .Page.File.TranslationBaseName -}}
+{{- end -}}
+
+{{- range $match := $matches -}}
+  {{- $md := "| Client library | Exception | Message |\n|---|---|---|\n" -}}
+  {{- range $rows -}}
+    {{- $msg := replace .message "|" "\\|" -}}
+    {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
+    {{- with .note -}}{{- $msg = printf "%s %s" $msg . -}}{{- end -}}
+    {{- $md = printf "%s| %s | `%s` | %s |\n" $md .client .class $msg -}}
+  {{- end -}}
+  {{- $content = replace $content $match $md 1 -}}
+{{- end -}}
+
+{{- return $content -}}

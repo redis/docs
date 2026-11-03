@@ -28,6 +28,10 @@ Redis returns this error when a command needs a whole number but gets something 
 ERR value is not an integer or out of range
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 [`INCR`](/content/commands/incr.md) adds 1 to the number stored in a key, so it fails when the key holds text:

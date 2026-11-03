@@ -28,9 +28,11 @@ Redis returns this error when you send a command that changes data to a replica.
 READONLY You can't write against a read only replica.
 ```
 
-In redis-py, this error is `ReadOnlyError: You can't write against a read only replica.`
-
 A Lua function, or a script that starts with a `#!lua` line, gets the same error on a replica before it starts, unless it has the `no-writes` flag. A script without that line gets the error when it calls a command that changes data, with the script's details added to the end.
+
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

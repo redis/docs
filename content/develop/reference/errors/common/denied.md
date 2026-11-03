@@ -28,6 +28,10 @@ DENIED Redis is running in protected mode because protected mode is enabled and 
 
 Some client libraries don't show this message. For example, redis-py only reports `ConnectionError: Connection closed by server.`
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## How to fix it
 
 Protected mode keeps a server that has no password away from the network. The safest fix is to set a password. Protected mode then lets other computers connect, as long as they authenticate:

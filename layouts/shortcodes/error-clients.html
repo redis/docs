@@ -1,0 +1,30 @@
+{{- /*
+  error-clients
+  -------------
+  Lists the exception that each client library raises for the error on this
+  page, from data/client-exceptions.json. The entry is the page's file name,
+  so the shortcode takes no arguments.
+
+  Usage, on a page in errors/common:
+      {{< error-clients >}}
+
+  layouts/partials/markdown-error-clients.html renders the same table for the
+  Markdown output, through the same layouts/partials/errors/client-rows.html.
+*/ -}}
+{{- $rows := partial "errors/client-rows.html" .Page.File.TranslationBaseName -}}
+{{- $v := substr (md5 (os.ReadFile "static/css/errors.css")) 0 10 }}
+<link rel="stylesheet" href="{{ "css/errors.css" | relURL }}?v={{ $v }}">
+<div class="rerr-catalog">
+<table>
+  <thead><tr><th>Client library</th><th>Exception</th><th>Message</th></tr></thead>
+  <tbody>
+  {{- range $rows }}
+    <tr>
+      <td>{{ .client }}</td>
+      <td><code>{{ .class }}</code></td>
+      <td><code>{{ .message }}</code>{{ with .note }}<br>{{ . | markdownify }}{{ end }}</td>
+    </tr>
+  {{- end }}
+  </tbody>
+</table>
+</div>

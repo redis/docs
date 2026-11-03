@@ -27,6 +27,10 @@ Redis returns this error when it doesn't recognize the command you sent. The mes
 ERR unknown command 'FOO', with args beginning with: 'bar'
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 ```

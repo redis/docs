@@ -26,6 +26,10 @@ Redis returns this error when a command has more or fewer arguments than it acce
 ERR wrong number of arguments for 'get' command
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 ```

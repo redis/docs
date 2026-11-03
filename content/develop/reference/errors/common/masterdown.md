@@ -27,7 +27,9 @@ A replica returns this error when it has lost its connection to its primary, and
 MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.
 ```
 
-In redis-py, this error is `MasterDownError: Link with MASTER is down and replica-serve-stale-data is set to 'no'.`
+## In client libraries
+
+{{< error-clients >}}
 
 ## How to fix it
 

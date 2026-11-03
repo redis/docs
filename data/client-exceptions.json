@@ -1,0 +1,304 @@
+{
+ "about": "The exception that each client library raises for the error pages in content/develop/reference/errors/common/, and what its message looks like. Keyed by page file name. Both clients were run against a live server, with the same scenarios as build/errors/live_checks.py: redis-py as recorded in build/errors/live_baseline.json, and Jedis on redis:8.10 (server 8.10.2) with the version below.",
+ "versions": {
+  "redis-py": "7.4.1",
+  "jedis": "8.0.2"
+ },
+ "order": [
+  "redis-py",
+  "jedis"
+ ],
+ "clients": {
+  "redis-py": {
+   "name": "redis-py",
+   "package": "redis.exceptions",
+   "generic": "ResponseError",
+   "basis": "live"
+  },
+  "jedis": {
+   "name": "Jedis",
+   "package": "redis.clients.jedis.exceptions",
+   "generic": "JedisDataException",
+   "basis": "live"
+  }
+ },
+ "errors": {
+  "ask": {
+   "redis-py": {
+    "class": "AskError",
+    "message": "<slot> <endpoint>:<port>",
+    "note": "`RedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "jedis": {
+    "class": "JedisAskDataException",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   }
+  },
+  "busy": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "jedis": {
+    "class": "JedisBusyException",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   }
+  },
+  "busygroup": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   }
+  },
+  "busykey": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "BUSYKEY Target key name already exists."
+   }
+  },
+  "clusterdown": {
+   "redis-py": {
+    "class": "ClusterDownError",
+    "message": "The cluster is down"
+   },
+   "jedis": {
+    "class": "JedisClusterException",
+    "message": "CLUSTERDOWN The cluster is down"
+   }
+  },
+  "crossslot": {
+   "redis-py": {
+    "class": "ClusterCrossSlotError",
+    "message": "Keys in request don't hash to the same slot"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   }
+  },
+  "denied": {
+   "redis-py": {
+    "class": "ConnectionError",
+    "message": "Connection closed by server."
+   },
+   "jedis": {
+    "class": "JedisConnectionException",
+    "message": "Unexpected end of stream."
+   }
+  },
+  "err-max-clients": {
+   "redis-py": {
+    "class": "ConnectionError",
+    "message": "max number of clients reached"
+   },
+   "jedis": {
+    "class": "JedisConnectionException",
+    "message": "Unexpected end of stream."
+   }
+  },
+  "err-not-an-integer": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "value is not an integer or out of range"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR value is not an integer or out of range"
+   }
+  },
+  "err-syntax-error": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "syntax error"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR syntax error"
+   }
+  },
+  "err-unknown-command": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "unknown command '<command>', with args beginning with: <args>"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   }
+  },
+  "err-wrong-number-of-arguments": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "wrong number of arguments for '<command>' command"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   }
+  },
+  "execabort": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "Command # <n> (<command>) of pipeline caused error: <error>",
+    "note": "redis-py raises the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "EXECABORT Transaction discarded because of previous errors.",
+    "note": "The errors of the commands that failed to queue are attached to the exception as suppressed exceptions."
+   }
+  },
+  "loading": {
+   "redis-py": {
+    "class": "BusyLoadingError",
+    "message": "Redis is loading the dataset in memory"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "LOADING Redis is loading the dataset in memory"
+   }
+  },
+  "masterdown": {
+   "redis-py": {
+    "class": "MasterDownError",
+    "message": "Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   }
+  },
+  "misconf": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   }
+  },
+  "moved": {
+   "redis-py": {
+    "class": "MovedError",
+    "message": "<slot> <endpoint>:<port>",
+    "note": "`RedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "jedis": {
+    "class": "JedisMovedDataException",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   }
+  },
+  "noauth": {
+   "redis-py": {
+    "class": "AuthenticationError",
+    "message": "Authentication required."
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "NOAUTH Authentication required."
+   }
+  },
+  "nogroup": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   }
+  },
+  "noperm": {
+   "redis-py": {
+    "class": "NoPermissionError",
+    "message": "User <username> has no permissions to run the '<command>' command"
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command"
+   }
+  },
+  "noreplicas": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   }
+  },
+  "noscript": {
+   "redis-py": {
+    "class": "NoScriptError",
+    "message": "No matching script. Please use EVAL."
+   },
+   "jedis": {
+    "class": "JedisNoScriptException",
+    "message": "NOSCRIPT No matching script. Please use EVAL."
+   }
+  },
+  "oom": {
+   "redis-py": {
+    "class": "OutOfMemoryError",
+    "message": "command not allowed when used memory > 'maxmemory'."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'."
+   }
+  },
+  "readonly": {
+   "redis-py": {
+    "class": "ReadOnlyError",
+    "message": "You can't write against a read only replica."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "READONLY You can't write against a read only replica."
+   }
+  },
+  "tryagain": {
+   "redis-py": {
+    "class": "TryAgainError",
+    "message": "Multiple keys request during rehashing of slot"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   }
+  },
+  "wrongpass": {
+   "redis-py": {
+    "class": "AuthenticationError",
+    "message": "invalid username-password pair or user is disabled."
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured for the default user\u2026`, which is a `JedisDataException`."
+   }
+  },
+  "wrongtype": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   }
+  }
+ }
+}

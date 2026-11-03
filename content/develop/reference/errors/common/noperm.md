@@ -20,6 +20,7 @@ error:
   - has no permissions to run
   - No permissions to access
   - NoPermissionError
+  - JedisAccessControlException
 ---
 
 Redis returns this error when you're authenticated, but your user's access control list (ACL) rules don't allow what you asked for. The message says what was refused, a command or a key:
@@ -29,7 +30,9 @@ NOPERM User app has no permissions to run the 'set' command
 NOPERM No permissions to access a key
 ```
 
-In redis-py, this error is `NoPermissionError`, followed by the message without the `NOPERM` prefix.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

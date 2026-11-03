@@ -30,6 +30,10 @@ WRONGTYPE Operation against a key holding the wrong kind of value
 
 Some commands word this error differently. JSON commands return `Existing key has wrong Redis type`. HyperLogLog commands return `WRONGTYPE Key is not a valid HyperLogLog string value.` for a key that holds a string but not a HyperLogLog.
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 [`GET`](/content/commands/get.md) works with strings, so it fails on a key that holds a list:

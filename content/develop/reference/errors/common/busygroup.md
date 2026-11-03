@@ -26,6 +26,10 @@ Redis returns this error from [`XGROUP CREATE`](/content/commands/xgroup-create.
 BUSYGROUP Consumer Group name already exists
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 ```

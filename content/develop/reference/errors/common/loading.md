@@ -27,7 +27,9 @@ Redis returns this error while it's loading your data into memory. This happens 
 LOADING Redis is loading the dataset in memory
 ```
 
-In redis-py, this error is `BusyLoadingError: Redis is loading the dataset in memory`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 
