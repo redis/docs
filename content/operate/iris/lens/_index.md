@@ -1,6 +1,6 @@
 ---
 title: Lens
-description: Create and operate Lens on Redis Cloud.
+description: Create and operate Lens on Redis Cloud or your own infrastructure.
 linkTitle: Lens
 alwaysopen: false
 categories:

@@ -1,6 +1,6 @@
 ---
 title: Redis Agent Playbooks
-description: Create and operate Redis Agent Playbooks on Redis Cloud.
+description: Create and operate Redis Agent Playbooks on Redis Cloud or your own infrastructure.
 linkTitle: Agent Playbooks
 alwaysopen: false
 categories:

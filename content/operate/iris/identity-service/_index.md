@@ -13,11 +13,23 @@ hideListLinks: true
 
 The Identity Service issues the agent keys that applications and agents present to self-managed Redis Iris services, and checks those keys for each service's data plane. Every self-managed Iris service connects to it, and one Identity Service release can serve all of them.
 
-This guide is for the platform administrator who installs the Identity Service, registers each service with it, and manages agent keys and operator access. The Identity Service is self-managed only. On Redis Cloud, agent keys are managed for you.
+This guide is for the platform administrator who installs the Identity Service, registers each service with it, and manages agent keys and operator access.
 
 > [!NOTE]
 > The Identity Service needs no license key of its own. Each Iris service you connect to it needs a license. Contact your Redis representative or
 > [contact sales](https://redis.io/contact/).
+
+## Deployment options
+
+### Redis Cloud
+
+On Redis Cloud, agent keys are managed for you: there is no Identity Service to deploy. Create each service's agent keys in the Redis Cloud console.
+
+### Self-managed
+
+Deploy the Identity Service on Kubernetes to run it on your own infrastructure, before or alongside the services that use it.
+
+[Start with the deployment guide](/content/operate/iris/identity-service/deploy.md).
 
 ## Which services use it
 

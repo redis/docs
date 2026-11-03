@@ -19,7 +19,7 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Agent Playbooks" description="Create a playbook of published answers and procedures on Redis Cloud or your own infrastructure" url="/operate/iris/agent-playbook" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Create one MCP endpoint for your agents' tools on Redis Cloud or your own infrastructure" url="/operate/iris/context-gateway" >}}
-  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Deploy a service that classifies requests into intents on your own infrastructure" url="/operate/iris/intent-router" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Classify requests into intents on Redis Cloud or your own infrastructure" url="/operate/iris/intent-router" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens (beta)" description="Trace your agents' turns on Redis Cloud or your own infrastructure" url="/operate/iris/lens" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Identity Service" description="Issue and check agent keys for every self-managed Redis Iris service" url="/operate/iris/identity-service" >}}
 </div>
