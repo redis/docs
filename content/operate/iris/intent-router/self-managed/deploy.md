@@ -11,7 +11,7 @@ weight: 50
 hideListLinks: true
 ---
 
-Follow these steps to install the Intent Router control plane, data plane, and Identity Service with the `redis-intent-router` Helm chart, and end with one authenticated match request.
+Follow these steps to install the Intent Router control plane and data plane with the `redis-intent-router` Helm chart, connect them to your Identity Service release, and end with one authenticated match request.
 
 You use three credentials along the way: the control-plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
 
@@ -25,31 +25,45 @@ kubectl create namespace <namespace-name>
 
 ## 2. Create Secrets
 
+### Configure the Identity Service release first
+
+The chart deploys no Identity Service. Set these values on your Identity Service release so that it checks Router grants and accepts the data plane's runtime credential. The examples assume this chart is installed as release `intent` in the same namespace as an Identity Service release named `iris-identity-service`.
+
+| Identity Service value | Setting |
+| --- | --- |
+| `runtime.serviceCredentials[]` | An entry with `name: intent-dp`, `subject: intent-dp`, `allowedOperations: [api-key-introspect]`, `allowedProducts: [intent]`, and the same `existingSecret` and `secretKey` as `identityService.credential`. |
+| `productValidation.products.intent.enabled` | `true` |
+| `productValidation.products.intent.baseURL` | The control-plane Service, `http://intent-redis-intent-router-controlplane:9400`. |
+| `productValidation.products.intent.credential` | The same Secret and key as `controlplane.internalToken`. |
+| `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
+
+Neither chart checks these values against the other. If the Identity Service release also serves other Iris products, add these entries to its existing lists. All products use the one tenant.
+
 ### Create the connection files
 
-Save the three Redis connections as `intent-controlplane-storage.yaml`, `intent-dataplane-storage.yaml`, and `identity-service-metadata.yaml`, as shown in [Storage Secret](/content/operate/iris/intent-router/self-managed/configuration.md#storage-secret). The file names become the Secret's keys.
+Save the two Redis connections as `intent-controlplane-storage.yaml` and `intent-dataplane-storage.yaml`, as shown in [Storage Secret](/content/operate/iris/intent-router/self-managed/configuration.md#storage-secret). The file names become the Secret's keys.
 
 ### Create the Secrets
 
-Generate four distinct tokens, then create the Secrets:
+Generate three distinct tokens, then create the Secrets:
 
 ```bash
 umask 077
-for token in admin-token internal-token identity-control-token identity-runtime-token; do
+for token in admin-token internal-token dp-credential; do
   openssl rand -base64 32 > "$token"
 done
 kubectl -n <namespace-name> create secret generic intent-storage \
   --from-file=intent-controlplane-storage.yaml \
-  --from-file=intent-dataplane-storage.yaml \
-  --from-file=identity-service-metadata.yaml
+  --from-file=intent-dataplane-storage.yaml
 kubectl -n <namespace-name> create secret generic intent-license --from-file=license=./license
 kubectl -n <namespace-name> create secret generic intent-controlplane-admin --from-file=token=./admin-token
 kubectl -n <namespace-name> create secret generic intent-controlplane-internal --from-file=token=./internal-token
-kubectl -n <namespace-name> create secret generic intent-identity-control --from-file=token=./identity-control-token
-kubectl -n <namespace-name> create secret generic intent-identity-runtime --from-file=token=./identity-runtime-token
+kubectl -n <namespace-name> create secret generic intent-dp-credential --from-file=token=./dp-credential
 ```
 
-To let the chart generate a token instead, skip its Secret and delete its `existingSecret` line from the values file. The chart keeps a generated token across upgrades and never rotates it.
+The Identity Service release mounts `intent-controlplane-internal` and `intent-dp-credential` too, so create them in its namespace as well if it runs in another one.
+
+To let the chart generate the admin or internal token instead, skip its Secret and delete its `existingSecret` line from the values file. The chart keeps a generated token across upgrades and never rotates it. The chart never generates `intent-dp-credential`.
 
 For an embedding provider other than `noop`, also create the inference Secret, as shown in [Embedding models](/content/operate/iris/intent-router/self-managed/configuration.md#embedding-models).
 
@@ -65,9 +79,10 @@ Check each value before you install. If one is wrong, you see the symptom in its
 | Check | Symptom | Fix |
 | --- | --- | --- |
 | `tenantId` is set | Rendering fails with a named message | Set the tenant. |
-| Each image has a `repository` and a `tag` | Rendering fails, or pods `ImagePullBackOff` | Set both for all three images. |
-| The four tokens come from four different Secrets or keys | Rendering fails | Create four distinct token files. |
-| `dataplane.identityServiceBaseURL` is `https://`, or `allowInsecureIdentityService` is `true` | Rendering fails | Choose one. |
+| Each image has a `tag` | Rendering fails, or pods `ImagePullBackOff` | Set `controlplane.image.tag` and `dataplane.image.tag`. |
+| The admin token, internal token, and Identity Service credential come from three different Secrets or keys | Rendering fails | Create three distinct token files. |
+| `dataplane.identityServiceBaseURL` is `https://`, or `identityService.allowInsecureTransport` is `true` | Rendering fails | Choose one. |
+| `tenantId` equals the Identity Service's `runtime.apiKeyTenant.singleTenantID` | Minting an agent key for a Router fails | Set both to the same tenant. |
 | `inference.models` lists one model, and `noop` only with `inference.allowLocalModels=true` | Rendering fails | List the one model the deployment offers. |
 | The inference Secret has an `embedders_connection_details` entry named after the model's `provider` | A new Router stays `PROVISIONING` or fails | Add the entry under that provider name. |
 | The data-plane Redis has Search | A new Router is `FAILED` and `failureReason` mentions vector search | Use a Redis 8 build that includes Search, or load the Search and Query engine. |
@@ -92,7 +107,6 @@ To add `helm test` pods that probe each service and run the shared security-prof
 ```bash
 kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-controlplane
 kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-dataplane
-kubectl -n <namespace-name> rollout status deployment/intent-redis-intent-router-identity-service
 ```
 
 Run each port-forward in its own terminal and leave it running:
@@ -106,7 +120,7 @@ kubectl -n <namespace-name> port-forward svc/intent-redis-intent-router-dataplan
 ```
 
 ```bash
-kubectl -n <namespace-name> port-forward svc/intent-redis-intent-router-identity-service 9200:9200
+kubectl -n <namespace-name> port-forward svc/iris-identity-service 9200:9200
 ```
 
 Then check readiness on every service:
