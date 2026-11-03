@@ -28,7 +28,7 @@ You need:
 
 Administrative requests configure the Gateway. Agents use a separate credential to discover and call tools through its MCP endpoint.
 
-```mermaid
+```mermaid {background="transparent"}
 ---
 config:
   look: neo

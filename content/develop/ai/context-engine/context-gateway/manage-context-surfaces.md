@@ -17,7 +17,7 @@ A Context Surface is an Upstream that generates tools from a data model describi
 
 Creating a Surface does not import records. Load your records into the source database first.
 
-```mermaid
+```mermaid {background="transparent"}
 ---
 config:
   look: neo
