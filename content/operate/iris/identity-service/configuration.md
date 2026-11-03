@@ -86,7 +86,7 @@ This table lists the entries for each service, with the release names and Secret
 | Lens | `lens-dataplane` | `[lens]` | `lens` | `http://lens-redis-lens-controlplane:9300` | `lens-dp-credential` | `lens-internal-token` |
 {{< /table-scrollable >}}
 
-The runtime credential Secret is the same Secret that the service's data plane mounts, and the internal token Secret is the same Secret that its control plane mounts. If you install a service under another release name or `fullnameOverride`, change the validator address to match. For the product-side values, see each service's deploy guide.
+The runtime credential Secret is the same Secret that the service's data plane mounts, and the internal token Secret is the same Secret that its control plane mounts. If you install a service under another release name or `fullnameOverride`, change the validator address to match. For the service-side values, see each service's deploy guide.
 
 ### Serve several services from one release
 
