@@ -100,7 +100,7 @@ def test_proposal_diagram_qualifies_default_retention_windows():
     diagram = ElementTree.parse(
         ROOT / "static/images/ai/context-engine/agent-playbook-proposals.svg"
     )
-    labels = [node.text for node in diagram.iter("{http://www.w3.org/2000/svg}text")]
+    labels = [(node.text or "").upper() for node in diagram.iter("{http://www.w3.org/2000/svg}text")]
     assert labels.count("30 DAYS BY DEFAULT") == 2
     assert not any("60 DAYS" in label for label in labels)
 
