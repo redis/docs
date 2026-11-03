@@ -1,6 +1,7 @@
+{{ $transparent := eq (index .Attributes "background") "transparent" }}
 {{ $width := (index .Attributes "width") | default "100%" }}
 <div style="width: {{ $width }};">
-<pre class="mermaid" style="background-color: white; padding: 1rem; border-radius: 0.5rem;">
+<pre class="mermaid" style="background-color: {{ if $transparent }}transparent !important{{ else }}white{{ end }}; padding: 1rem; border-radius: 0.5rem;">
     {{ .Inner | htmlEscape | safeHTML }}
 </pre>
 </div>
