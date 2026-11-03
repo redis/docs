@@ -15,12 +15,11 @@ Trace one agent turn with the Redis Iris software development kit (SDK), then fi
 
 ## Before you begin
 
-Get these values. On Redis Cloud, [create Lens and its keys](/content/operate/iris/lens/create-lens.md). Self-managed, get them from your administrator.
+Get these values. On Redis Cloud, [create Lens and its keys](/content/operate/iris/lens/create-lens.md). Self-managed, get them from your administrator, who [hands them off](/content/operate/iris/lens/self-managed/deploy.md#hand-off-to-developers) after deploying Lens.
 
 - The Iris host, such as `https://iris.example.com`. The SDK sends turns there, and the read client reads them back from there.
 - An ingest key, for sending turns.
 - Your instance ID and a read key, for reading turns back.
-<!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
 
 You also need Python 3.11 or later. The cURL example uses Bash and jq. This walkthrough needs no agent framework or model provider key. For the configuration `redis-iris` reads across services, see [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md).
 
@@ -76,8 +75,7 @@ A turn is readable a few seconds after its export.
 
 To view it in Lens:
 
-1. Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu; Lens uses your console sign-in. Self-managed, Lens asks for a credential: paste your read key and select **Connect**.
-   <!-- TODO: describe where to open Lens self-managed when the operator pages exist. -->
+1. Open Lens. On Redis Cloud, select **Lens** under **Iris** in the console menu; Lens uses your console sign-in. Self-managed, Lens asks for a credential: paste your read key and select **Connect**. Your administrator [connects Lens to the console](/content/operate/iris/lens/self-managed/operations.md#connect-the-console).
 1. Select the `lens-quickstart` agent.
 1. Select the session that matches the printed session ID.
 1. Expand the turn.
