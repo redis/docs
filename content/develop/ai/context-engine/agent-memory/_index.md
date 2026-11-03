@@ -19,7 +19,7 @@ Redis Agent Memory is a memory service for AI applications. It stores ordered co
 
 When enabled, automatic summarization compacts session memory by summarizing older events while retaining recent events in full. Redis Agent Memory extracts long-term memories automatically from session events.
 
-Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
+Access Redis Agent Memory through the `redis-iris` Python SDK, the `iris` CLI, its REST API, or its MCP server. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Overview" description="What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
@@ -28,6 +28,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Sessions" description="Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Long-term memory" description="Recall information across conversations" url="/develop/ai/context-engine/agent-memory/long-term-memory" >}}
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Namespaces" description="Organize your memories" url="/develop/ai/context-engine/agent-memory/namespaces" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="MCP" description="Connect an MCP client to a store" url="/develop/ai/context-engine/agent-memory/mcp" >}}
 </div>
 
 ## Why use Redis Agent Memory?
@@ -115,7 +116,7 @@ Get started with Redis Agent Memory on Redis Cloud or deploy it with Redis Softw
 
 ### Follow the quickstart
 
-After your service is ready, follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}). Choose Python, TypeScript, or curl to explore the same travel planning scenario.
+After your service is ready, follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}). Choose Python, the Iris CLI, or cURL to explore the same travel planning scenario.
 
 ## Explore the documentation
 
@@ -128,6 +129,7 @@ After your service is ready, follow the [quickstart]({{< relref "/develop/ai/con
 * [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md): Materialize text or structured summaries of long-term memories.
 * [Ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md): Review input and generated changes before they are saved.
 * [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}): Organize memories and manage namespace hierarchies.
+* [MCP]({{< relref "/develop/ai/context-engine/agent-memory/mcp" >}}): Let an agent search and curate long-term memory through the store's MCP endpoint.
 
 * [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.
 

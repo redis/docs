@@ -6,6 +6,84 @@
         "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Agent Memory service or store. For self-managed deployments, see the self-managed Agent Memory guide for authentication options.\n"
     },
     "paths": {
+        "/iris/data/v1/agent-memory/health/live": {
+            "get": {
+                "description": "Reports that this API process can answer requests, independently of downstream dependencies.",
+                "operationId": "GetServiceLiveness",
+                "responses": {
+                    "200": {
+                        "description": "GetServiceLiveness 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetServiceLivenessResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/iris/data/v1/agent-memory/health/ready": {
+            "get": {
+                "description": "Evaluates the same serving dependencies as the operational readiness probe. Returns 503 without dependency details when the service cannot serve requests.",
+                "operationId": "GetServiceReadiness",
+                "responses": {
+                    "200": {
+                        "description": "GetServiceReadiness 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetServiceReadinessResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
         "/iris/data/v1/agent-memory/stores/{storeId}/document-ingestions": {
             "post": {
                 "description": "Submit one revisioned document for extraction.",
@@ -279,6 +357,16 @@
                             }
                         }
                     },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "423": {
                         "description": "ResourceSuspendedError 423 response",
                         "content": {
@@ -423,6 +511,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -678,6 +776,16 @@
                             }
                         }
                     },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "423": {
                         "description": "ResourceSuspendedError 423 response",
                         "content": {
@@ -788,6 +896,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -914,6 +1032,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
                                 }
                             }
                         }
@@ -1590,7 +1718,7 @@
                 ]
             },
             "patch": {
-                "description": "Partially updates a long-term memory by its ID. The merged record must pass admission at its destination. Updates never select a different destination automatically.",
+                "description": "Partially updates a long-term memory by its ID. The merged record must pass admission at its destination. Updates never select a different destination automatically. Namespace-only updates preserve the current expiration and are allowed for document-managed memories; their extracted content remains protected.",
                 "operationId": "UpdateLongTermMemory",
                 "requestBody": {
                     "content": {
@@ -1700,12 +1828,32 @@
                             }
                         }
                     },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "413": {
                         "description": "PayloadTooLargeError 413 response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "IngestionHookStoppedError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookStoppedErrorResponseContent"
                                 }
                             }
                         }
@@ -1746,6 +1894,213 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IngestionHookRetryError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookRetryErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Long-Term Memory"
+                ]
+            },
+            "put": {
+                "description": "Creates or fully replaces one manually managed memory, including custom attributes. Omitted optional fields are cleared; memoryType defaults to semantic. Replacement preserves creation time and restarts the store TTL. Destination admission and ownership checks apply. A concurrent write can return a conflict or not-found error; retry after reading the current record. An idempotencyKey replays the saved result during the retry window (at most 24 hours, capped by the store memory TTL); expectedRevision guards replacement against concurrent changes.",
+                "operationId": "UpsertLongTermMemory",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpsertLongTermMemoryRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 35,
+                            "minLength": 35,
+                            "pattern": "^st_[0-9a-f]{32}$",
+                            "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "memoryId",
+                        "in": "path",
+                        "description": "Memory record identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). Client-provided for idempotent long-term memory creation.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "Memory record identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). Client-provided for idempotent long-term memory creation."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpsertLongTermMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpsertLongTermMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "IngestionHookStoppedError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookStoppedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IngestionHookRetryError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookRetryErrorResponseContent"
                                 }
                             }
                         }
@@ -1862,6 +2217,36 @@
                             }
                         }
                     },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "IngestionHookStoppedError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookStoppedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "423": {
                         "description": "ResourceSuspendedError 423 response",
                         "content": {
@@ -1898,6 +2283,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IngestionHookRetryError 503 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IngestionHookRetryErrorResponseContent"
                                 }
                             }
                         }
@@ -2018,6 +2413,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -2181,6 +2586,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -4639,6 +5054,16 @@
                             }
                         }
                     },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "423": {
                         "description": "ResourceSuspendedError 423 response",
                         "content": {
@@ -4773,6 +5198,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -5050,6 +5485,16 @@
                             }
                         }
                     },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -5173,6 +5618,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -5482,6 +5937,16 @@
                             }
                         }
                     },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -5672,6 +6137,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
                                 }
                             }
                         }
@@ -5950,7 +6425,7 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "pattern": "^[ -~]+$",
-                        "description": "Required when the memory.create input hook is selected. Reuse the same key and original request to resume its saved decision."
+                        "description": "Required when the memory.create input hook is selected. Optional otherwise. Reuse the same key and original request to replay its result during the retry window (at most 24 hours, capped by the store memory TTL), including writes without hooks. Reusing a key with a different request returns 409."
                     },
                     "memories": {
                         "type": "array",
@@ -6873,6 +7348,12 @@
                 "type": "object",
                 "description": "A long-term memory record.",
                 "properties": {
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Opaque revision for conditional writes. Legacy search results can omit it; read the memory by ID before a conditional update."
+                    },
                     "memoryId": {
                         "type": "string",
                         "maxLength": 64,
@@ -6981,6 +7462,30 @@
                 },
                 "required": [
                     "policy"
+                ]
+            },
+            "GetServiceLivenessResponseContent": {
+                "type": "object",
+                "description": "A service that can answer the request. Readiness failures use the shared\nHTTP 503 problem response; dependency names and errors are not public.",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/ServiceHealthStatus"
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "GetServiceReadinessResponseContent": {
+                "type": "object",
+                "description": "A service that can answer the request. Readiness failures use the shared\nHTTP 503 problem response; dependency names and errors are not public.",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/ServiceHealthStatus"
+                    }
+                },
+                "required": [
+                    "status"
                 ]
             },
             "GetSessionEventResponseContent": {
@@ -7653,6 +8158,12 @@
                 "type": "object",
                 "description": "A long-term memory record.",
                 "properties": {
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Opaque revision for conditional writes. Legacy search results can omit it; read the memory by ID before a conditional update."
+                    },
                     "memoryId": {
                         "type": "string",
                         "maxLength": 64,
@@ -8250,6 +8761,49 @@
                     "/errors/payload-too-large"
                 ]
             },
+            "PreconditionFailedErrorResponseContent": {
+                "type": "object",
+                "description": "The write named an expected revision (expectedRevision or If-Match) that is no longer current. Read the resource again and retry.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 412,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PreconditionFailedErrorType"
+                    },
+                    "currentRevision": {
+                        "type": "string",
+                        "description": "The resource's current revision, when the service reports it. Read the resource again before retrying; do not send this value back without reading."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "PreconditionFailedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for a write whose expected revision is no longer current. A write guarded by an If-Match header on an HTTP entity tag uses a different type; see the Identity Service API.",
+                "enum": [
+                    "/errors/revision-conflict"
+                ]
+            },
             "PutNamespaceRoutingRequestContent": {
                 "type": "object",
                 "properties": {
@@ -8311,7 +8865,7 @@
             },
             "RegexSpec": {
                 "type": "object",
-                "description": "A regular expression to match against.\n\nEvaluated by RE2, which runs in linear time — so an expensive pattern is not a\ndenial-of-service risk, but lookaround and backreferences are unavailable.\nRejected on write if it does not compile, or if it can match without consuming\ntext: such a pattern matches at every position, so it would exclude every memory\nthe store writes.",
+                "description": "A regular expression to match against.\n\nEvaluated by RE2, which runs in linear time \u2014 so an expensive pattern is not a\ndenial-of-service risk, but lookaround and backreferences are unavailable.\nRejected on write if it does not compile, or if it can match without consuming\ntext: such a pattern matches at every position, so it would exclude every memory\nthe store writes.",
                 "properties": {
                     "pattern": {
                         "type": "string",
@@ -8461,6 +9015,51 @@
                 },
                 "required": [
                     "items"
+                ]
+            },
+            "ServiceHealthStatus": {
+                "type": "string",
+                "enum": [
+                    "UP"
+                ]
+            },
+            "ServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ServiceUnavailableErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/service-unavailable",
+                    "/errors/playbook-not-ready",
+                    "/errors/resource-unavailable"
                 ]
             },
             "SessionEvent": {
@@ -9311,6 +9910,19 @@
                 "type": "object",
                 "description": "Type- and namespace-scoped field update request for a custom-typed long-term memory record.",
                 "properties": {
+                    "idempotencyKey": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[ -~]+$",
+                        "description": "Reuse the same key and original request to replay the saved result during the retry window (at most 24 hours, capped by the store memory TTL). Reusing the key with a different request returns 409."
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Apply the write only if this revision is current. A stale revision returns 412. Omit for an unconditional write."
+                    },
                     "memoryType": {
                         "type": "string",
                         "maxLength": 64,
@@ -9343,6 +9955,19 @@
                 "type": "object",
                 "description": "Partial update request for a long-term memory record.",
                 "properties": {
+                    "idempotencyKey": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[ -~]+$",
+                        "description": "Reuse the same key and original request to replay the saved result during the retry window (at most 24 hours, capped by the store memory TTL). Reusing the key with a different request returns 409."
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Apply the write only if this revision is current. A stale revision returns 412. Omit for an unconditional write."
+                    },
                     "text": {
                         "type": "string",
                         "maxLength": 50000,
@@ -9391,6 +10016,12 @@
                 "type": "object",
                 "description": "A long-term memory record.",
                 "properties": {
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Opaque revision for conditional writes. Legacy search results can omit it; read the memory by ID before a conditional update."
+                    },
                     "memoryId": {
                         "type": "string",
                         "maxLength": 64,
@@ -9644,6 +10275,94 @@
                     "updatedAt",
                     "viewId",
                     "visibility"
+                ]
+            },
+            "UpsertLongTermMemoryRequestContent": {
+                "type": "object",
+                "properties": {
+                    "idempotencyKey": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[ -~]+$",
+                        "description": "Reuse the same key and original request to replay the saved result during the retry window (at most 24 hours, capped by the store memory TTL). Reusing the key with a different request returns 409."
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Apply the write only if this revision is current. A stale revision returns 412. Omit for an unconditional write."
+                    },
+                    "text": {
+                        "type": "string",
+                        "maxLength": 50000,
+                        "minLength": 1,
+                        "description": "Memory text content (1-50000 chars)."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^(?:[\\w+=@-][\\w+=.@-]*|\\.[\\w+=@-][\\w+=.@-]*|\\.\\.[\\w+=.@-]+)$",
+                        "description": "Actor/owner identifier: a user ID (1-64 chars: letters, digits and _+=.@-, not . or .., case-sensitive). Used for users, agents, or other participants."
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Identifier of a long-term memory type.\n\nBuilt-in types include `semantic`, `episodic`, `message`, and `session_summary`.\nThe legacy `session_summary_view` name remains reserved. Search filters for either\nsummary name match both, except on stores with an existing custom `session_summary`\ntype, where each name retains its separate meaning.\nStores may also register custom memory types; this open string accepts any\nregistered type name.\n\nConstraints: 1-64 chars, must start with a letter, followed by letters, digits,\nunderscores, or dashes."
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "description": "Session identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). When the server generates one, it uses 32 lowercase hex characters."
+                    },
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 35,
+                        "minLength": 35,
+                        "pattern": "^ns_[0-9a-f]{32}$",
+                        "description": "Server-generated namespace identifier: ns_ followed by 32 lowercase hex characters."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
+                        },
+                        "maxItems": 50
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
+                    }
+                },
+                "required": [
+                    "ownerId",
+                    "text"
+                ]
+            },
+            "UpsertLongTermMemoryResponseContent": {
+                "type": "object",
+                "properties": {
+                    "memoryId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "description": "Memory record identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). Client-provided for idempotent long-term memory creation."
+                    },
+                    "created": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "created",
+                    "memoryId"
                 ]
             }
         },

@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Connect an application to Redis Agent Memory and work with session memory and long-term memory through Python, TypeScript, or REST.
+description: Connect an application to Redis Agent Memory and use session memory and long-term memory in each agent turn with Python or REST.
 hideListLinks: true
 linktitle: Developer guide
 title: Redis Agent Memory developer guide
@@ -24,7 +24,7 @@ Every client needs the service endpoint, Store ID, and application programming i
 1. In the Redis Cloud console, open your Agent Memory service and select **Configuration**.
 1. Copy the **Endpoint** and **Store ID** into your application's configuration.
 1. Load the API key you saved during service creation from a secret store or environment variable. Keep it out of source control and browser code.
-1. Create the client as shown in [Create the client and check the service health]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#create-the-client-and-check-the-service-health" >}}). Use the Python software development kit (SDK) for Python applications, the TypeScript SDK for JavaScript or TypeScript, or the REST API for other languages.
+1. Set `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY`, then create the client as shown in [Connect to the service]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#connect-to-the-service" >}}). Python applications use `AgentMemory.from_env()` from the `redis-iris` package. Other languages call the REST API.
 
 ### Manage a service with the Control Plane SDK
 
@@ -49,6 +49,8 @@ Some IDs come from your application; others come from Redis Agent Memory:
 | Event `systemTimestamp` | The server. | Records when the event was stored. |
 | Memory `createdAt` and `updatedAt` | The server. | Use the returned timestamps when displaying or sorting memories. |
 
+The Python SDK sets most of these for you. `memory.conversation(owner=..., session_id=...)` writes the owner as the `actorId` of user messages and the `assistant_id` you pass to `AgentMemory.from_env()` as the `actorId` of assistant messages. If you omit `session_id`, it generates one; read it from `conversation.session_id`. `remember` sets `ownerId` and derives a stable `memoryId` from the owner and text unless you pass `memory_id`.
+
 For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
 For on-prem deployments, see [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for identity requirements and configuration.
@@ -57,7 +59,7 @@ For on-prem deployments, see [Server-side ownership enforcement](/content/operat
 
 Your application must decide which memories the user can access. Put these checks in trusted backend code before sending a request to Redis Agent Memory. Store access alone does not restrict a caller to one user's memories. Cloud store credentials also require these application checks; a Redis Cloud account user is not your application's end user.
 
-* For personal searches, set the `ownerId` filter from the authenticated user's ID. For session listing, use `ownerId`. A request from `user-42` must not be able to select `user-99` as its owner.
+* For personal searches, set the `ownerId` filter from the authenticated user's ID. `recall`, `memories`, and `sessions` in the Python SDK set it from their `owner` argument. For session listing, use `ownerId`. A request from `user-42` must not be able to select `user-99` as its owner.
 * For shared memories, check which shared namespaces that user can access, then restrict the query to those namespace IDs. Do not add a personal owner filter to that shared query: it would hide shared memories written by other users.
 * For requests that retrieve or change a record by ID, check that the record belongs to the user or to a shared namespace they can access. These endpoints do not all accept an owner filter; a session or memory ID is not proof of permission.
 
@@ -69,52 +71,39 @@ Keep mandatory owner restrictions separate from optional search conditions. Comb
 
 Suppose a user returns to the travel assistant and asks, "Where should I eat in Kyoto?" The current conversation may contain their travel dates. Long-term memory may contain their vegetarian diet from an earlier chat. The model needs both to give a useful answer.
 
-1. Retrieve session memory with the conversation's `sessionId`.
-1. Search long-term memory using the user's request and an `ownerId` filter.
-1. Build the model context from the session summary, recent events, relevant search results, and the current user message.
+1. Retrieve session memory with the conversation's session ID.
+1. Recall long-term memories that match the user's message, scoped to the user's owner ID.
+1. Build the model context from the session summary, recent events, recalled memories, and the current user message.
 1. Call the model to produce the assistant's response.
-1. Store the new user and assistant messages as session events, with their roles and actor IDs.
+1. Save the new user and assistant messages as session events.
 
-The following Python example prepares that context. It uses the client, `SESSION_ID`, and `USER_ID` from the quickstart. Add it inside the `with` block in `main`, after the health check, and run `python quickstart.py`. It reads existing memory and prints the context without adding an event.
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
 
-```python
-        import json
+The following example runs that cycle for one message. `call_model` stands in for your model provider's chat call. `transcript().as_messages()` returns the summary, if any, and the retained events as chat messages. `recall(...).as_prompt()` renders the recalled memories as a block for the system prompt. A new conversation has no session yet, so the example treats `404` as empty history.
 
-        question = "Where should I eat in Kyoto?"
-        session = agent_memory.get_session_memory(session_id=SESSION_ID)
-        memories = agent_memory.search_long_term_memory(
-            request={
-                "query": question,
-                "filter_": {"owner_id": {"eq": USER_ID}},
-                "limit": 5,
-            },
-        )
+{{< clients-example set="iris_agent_memory_developer_guide" step="agent-memory-turn" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-        context = {
-            "session_summary": session.summary.text if session.summary else None,
-            "recent_events": [
-                event.model_dump(mode="json", by_alias=True)
-                for event in session.events
-            ],
-            "relevant_memories": [memory.text for memory in memories.items],
-            "current_message": question,
-        }
-        print(json.dumps(context, indent=2))
-```
+Treat recalled memories as context, not as instructions. For a complete application example, use the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
 
-Pass this information to your model through your application's existing model call. Keep conversation roles and treat recalled memories as context, not as instructions. For a complete application example, use the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and select **Redis Iris Conversational Assistant**.
+The example saves the question with the user's actor ID and the answer with actor ID `travel-agent`. Both use the same session ID. It saves them after the model call, so the question appears once, as the current message. If you save the question before retrieving the session, it is already in the history; do not add it again.
 
-After the model responds, use the [session-event request]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#1-build-conversation-context-with-session-memory" >}}) to save each new message. Save the question with role `USER` and the user's actor ID. Save the answer with role `ASSISTANT` and actor ID `travel-agent`. Both use the same session ID.
+The context must fit the model's input limit. Count tokens with your model provider's tokenizer and leave room for the answer. The example limits recall to five memories. If the prompt is still too large, use fewer results or enable [session summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#configure-automatic-summarization" >}}). When summarization is enabled, session retrieval returns the summary and recent events separately; `as_messages()` includes both.
 
-In this sequence, the question appears once in `current_message` because it has not been saved yet. If you save it before retrieving the session, it will already be in `recent_events`; omit `current_message` in that case.
+### Use memory hooks in an agent framework
 
-The context must fit the model's input limit. Count tokens with your model provider's tokenizer and leave room for the answer. The example limits recall to five memories. If the prompt is still too large, use fewer results or enable [session summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#configure-automatic-summarization" >}}). When summarization is enabled, session retrieval returns the summary and recent events separately; the example includes both.
+Agent frameworks usually have two extension points: one before the model runs and one after the turn ends. `memory.hooks()` returns a `before` and `after` pair for those points. `before` recalls memories for the message and returns the system-prompt block. `after` saves the user message and the answer to the session.
+
+{{< clients-example set="iris_agent_memory_developer_guide" step="agent-memory-hooks" description="" lang_filter="Python (Iris)" footer="hide" />}}
+
+The hooks do not load the conversation history; the framework keeps it. Pass `shared=[...]` with shared namespace names to recall from those namespaces too. Pass `fail_open=True` to continue without memory when the store is temporarily unavailable.
+
+For LangGraph, `redis_iris.integrations.langgraph.attach(memory, graph)` adds the hooks to a `StateGraph` before you compile it. It takes the owner and session from the run's `configurable.user_id` and `configurable.thread_id`, and requires `redis-iris[langgraph]`. For Google Agent Development Kit (ADK), `redis_iris.integrations.adk.attach(memory, agent)` adds them to an `LlmAgent`'s model callbacks.
 
 ## Handle long-term recall
 
 Extraction runs in the background. Saving "I am vegetarian" as a session event makes the message available in session memory, but an extracted preference may not be searchable yet. The context example includes the session events, so the model can use that statement on the next turn without waiting for extraction.
 
-When a search returns no matches, `items` is an empty array. In the example, `relevant_memories` becomes `[]`; the session history and current question remain available. If you expect a memory but it does not appear:
+When nothing matches, `recall` returns an empty result and `as_prompt()` returns `What we know: nothing yet.` A REST search returns an empty `items` array. The session history and current question remain available. If you expect a memory but it does not appear:
 
 1. Open the service's **Configuration** tab in Redis Cloud and check **Extraction cadence** under **Memory configuration**. Wait at least that interval after adding the event, then search again.
 1. If you expect a custom memory type, check that it is enabled under **Memory types & extraction**. Check that its extraction prompt covers the information in the event.
@@ -134,7 +123,7 @@ A failed request is different from a successful search with no matches. Handle t
 | `403` or a hidden personal-record `404` | Store grants, or on-prem ownership enforcement, prevent the request. | Check grants and authenticated identity. An owner filter cannot grant access. |
 | `409` | A resource conflicts, such as an archived destination or stale revision. | Correct the destination or read the current revision before retrying. |
 | `423` | The resource is suspended. | Restore its availability. |
-| `424` | A dependency failed. | Inspect the typed error and problem type. |
+| `424` | A dependency failed. | Inspect the problem type. See below. |
 | `429` or retryable `5xx` | The request is throttled or temporarily unavailable. | Use bounded backoff and honor retry timing. |
 | Search timeout | Recall did not complete. | Use session context if it is enough to answer. Otherwise, report memory unavailability. |
 | Event-write timeout | The write may already have succeeded. | Retrieve the session before retrying; repeated writes can add duplicate events. |
@@ -142,46 +131,21 @@ A failed request is different from a successful search with no matches. Handle t
 
 Before retrying a write, follow its idempotency or recovery contract.
 
-The operation's response contract determines its `424` exception class. For example, search uses `MemoryFailedDependencyErrorResponseContent`, while store health uses `FailedDependencyErrorResponseContent`. Both can report unavailable resources or database memory exhaustion; the memory response also covers model credentials and quota failures. Inspect the problem type as well as the class. Python exceptions are in `redis_agent_memory.errors`, with problem fields under `error.data`. TypeScript exceptions are in `@redis-iris/agent-memory/models/errors`.
+Every operation reports a `424` as `FailedDependencyErrorResponseContent`, with the problem fields under `error.data`. Its `error.data.type` tells the failures apart: an unavailable resource, database memory exhaustion, invalid model credentials, or an exceeded model quota. The generated client's exceptions are in `redis_iris.agent_memory.errors`.
 
-This complete program checks store health before recall and handles either operation's dependency error separately from an empty `items` array:
+`recall` raises `StoreUnusable` from `redis_iris.errors` instead when the `424` response sets a `*_required` flag, such as `memory_recreation_required` after the store's embedding model changed. That store needs an operator, so retrying does not help. `error.required` lists the flags.
 
-```python
-import asyncio
-import os
+This example fails loudly when the store needs an operator and continues without long-term memory when a dependency is temporarily unavailable:
 
-from redis_agent_memory import AgentMemory, errors
+{{< clients-example set="iris_agent_memory_developer_guide" step="agent-memory-errors" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-
-async def main():
-    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
-    async with AgentMemory(
-        os.environ["AGENT_MEMORY_URL"], store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
-    ) as memory:
-        try:
-            await memory.store_health_async(http_headers=headers)
-            result = await memory.search_long_term_memory_async(
-                request={"filter_": {"owner_id": {"eq": os.environ["OWNER_ID"]}}, "limit": 5},
-                http_headers=headers,
-            )
-        except errors.MemoryFailedDependencyErrorResponseContent as error:
-            print("Memory dependency unavailable:", error.data.title)
-            return
-        except errors.FailedDependencyErrorResponseContent as error:
-            print("Service dependency unavailable:", error.data.title)
-            return
-        print([item.text for item in result.items])
-
-
-asyncio.run(main())
-```
-
-The ingestion-hook `503` retry error and `422` stopped error also have distinct types and recovery rules. See [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). To check the store, use `store_health` (Python) or `storeHealth` (TypeScript).
+The ingestion-hook `503` retry error and `422` stopped error also have distinct types and recovery rules. See [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). To check the store, use `memory.client.store_health()` or `GET /iris/data/v1/agent-memory/stores/{storeId}/health`, as shown in the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#connect-to-the-service" >}}).
 
 ## Create long-term memories
 
 Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; access checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
+
+{{< clients-example set="iris_agent_memory_developer_guide" step="agent-memory-remember" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 See [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}) for creation methods, search fields, retention, and extraction controls.
 
@@ -195,7 +159,7 @@ Use [ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingesti
 
 If your application needs structured values, define a custom memory type. For example, `trip_preference` can capture `destinations`, `travel_period`, `dietary_requirements`, and `food_preferences`.
 
-Enable the type and supply extraction instructions. Search with the `memoryType` and `ownerId` filters, then read each result's `attributes`. Check for missing fields before using them to choose restaurants.
+Enable the type and supply extraction instructions. Search with the `memoryType` and `ownerId` filters, then read each result's `attributes`. In Python, `recall(..., types=["trip_preference"])` narrows recall to that type; use `memory.client.search_long_term_memory` when you need the `attributes`. Check for missing fields before using them to choose restaurants.
 
 See [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}) to define fields, handle extraction results, and create records directly.
 
@@ -203,7 +167,7 @@ See [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/lo
 
 Namespaces are optional. Add them when your application needs to group conversations and memories by user, project, or team.
 
-For example, create a personal `travel` namespace and save its `namespaceId`. Use that ID as `namespaceId` when starting a session or creating long-term memories. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
+For example, create a personal `travel` namespace and save its `namespaceId`. Use that ID as `namespaceId` when starting a session or creating long-term memories. In Python, pass it as `namespace_id` to `memory.conversation` or `memory.remember`. You will also use this ID to search for memories in that namespace. Names and paths can change when you rename a namespace, but its ID stays the same.
 
 See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for hierarchy, placement, search filters, and management.
 
