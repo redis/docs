@@ -38,7 +38,7 @@ Use Python 3.11 or later.
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris==1.0.0b2
+pip install redis-iris
 ```
 
 -tab-sep-
@@ -49,9 +49,11 @@ Use Node.js 22 or later. Create a project and install the TypeScript SDK and run
 mkdir gateway-quickstart
 cd gateway-quickstart
 npm init -y
-npm install @redis-iris/context-gateway@1.0.0-beta.1
+npm install @redis-iris/context-gateway@beta
 npm install --save-dev tsx
 ```
+
+Use the `beta` release channel for these examples. The default `latest` tag currently selects an older alpha release.
 
 -tab-sep-
 
@@ -60,7 +62,7 @@ Use Python 3.11 or later. The same package installs the `iris` command:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris==1.0.0b2
+pip install redis-iris
 ```
 
 {{< /multitabs >}}

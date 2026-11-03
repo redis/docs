@@ -51,7 +51,7 @@ Create an environment and install the [OpenAI Agents SDK](https://openai.github.
 ```bash
 python -m venv .venv-openai-agent
 source .venv-openai-agent/bin/activate
-python -m pip install openai-agents==0.24.0
+python -m pip install openai-agents
 ```
 
 Save this as `clinic_openai.py` and run `python clinic_openai.py`:
@@ -111,7 +111,7 @@ The LangChain `create_agent` API runs its agent loop on LangGraph. This example 
 ```bash
 python -m venv .venv-langgraph-agent
 source .venv-langgraph-agent/bin/activate
-python -m pip install langchain==1.4.7 langchain-openai==1.7.3 langchain-mcp-adapters==0.3.2
+python -m pip install langchain langchain-openai langchain-mcp-adapters
 ```
 
 Save this as `clinic_langgraph.py` and run `python clinic_langgraph.py`:

@@ -60,7 +60,7 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
 Install the Redis Iris Python package, which includes the `iris` CLI:
 
 ```bash
-python -m pip install redis-iris==1.0.0b2
+pip install redis-iris
 ```
 
 With a Gateway's MCP endpoint and an agent key in your environment, list its tools:

@@ -11,7 +11,7 @@ weight: 70
 hideListLinks: true
 ---
 
-Create sample Gateways for full and search mode, register the clinic directory on both, and issue an agent key. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) uses one of these Gateways. The [MCP walkthrough](/content/develop/ai/context-engine/context-gateway/mcp.md#stored-result-example) uses both, including compression on the search-mode Gateway.
+Create sample Gateways for full and search mode, register the clinic directory on both, and issue an agent key. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) uses one of these Gateways. The [MCP walkthrough](/content/develop/ai/context-engine/context-gateway/mcp.md#stored-result-example) uses the search-mode Gateway with compression enabled.
 
 Before you begin, [deploy the chart](/content/operate/iris/context-gateway/self-managed/deploy.md) and [load the admin token](/content/operate/iris/context-gateway/self-managed/authentication.md#control-plane-admin-token).
 
@@ -139,7 +139,7 @@ export IRIS_CONTEXT_GATEWAY_URL="$(jq -er '.mcpEndpoint' front-desk.json)"
 export SEARCH_GATEWAY_URL="$(jq -er '.mcpEndpoint' operations.json)"
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install redis-iris==1.0.0b2
+pip install redis-iris
 ```
 
 Use Python 3.11 or later. Run this program to authenticate and list both catalogs:
@@ -181,7 +181,7 @@ A revoked key stops working within the Identity Service cache lifetime, 300 seco
 
 ## Hand off to a developer
 
-For the quickstart, give the developer the chosen Gateway’s `mcpEndpoint` as `IRIS_CONTEXT_GATEWAY_URL` and the agent key as `IRIS_CONTEXT_GATEWAY_API_KEY`. Use Operations for search mode or Front desk for full mode. For the MCP walkthrough, provide Front desk as `IRIS_CONTEXT_GATEWAY_URL` and Operations as `SEARCH_GATEWAY_URL`. Give platform teams who register Upstreams the Control Plane URL and admin token for [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md). Remove the local key-response files after you save the token.
+For the quickstart, give the developer the chosen Gateway’s `mcpEndpoint` as `IRIS_CONTEXT_GATEWAY_URL` and the agent key as `IRIS_CONTEXT_GATEWAY_API_KEY`. Use Operations for search mode or Front desk for full mode. For the MCP walkthrough, provide Operations as `IRIS_CONTEXT_GATEWAY_URL`. Give platform teams who register Upstreams the Control Plane URL and admin token for [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md). Remove the local key-response files after you save the token.
 
 ## Use the CLI instead
 

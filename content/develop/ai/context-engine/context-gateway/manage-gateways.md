@@ -39,7 +39,7 @@ flowchart LR
 Install the unified Python SDK and CLI:
 
 ```bash
-python -m pip install redis-iris==1.0.0b2
+pip install redis-iris
 ```
 
 Set the administration connection values:
