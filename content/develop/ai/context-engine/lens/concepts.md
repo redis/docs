@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Understand sessions, turns, steps, fetched and used context, outcomes, agents, content capture, and retention in Lens.
+description: Understand sessions, turns, steps, outcomes, agents, content capture, and retention in Lens.
 hideListLinks: true
 linktitle: Concepts
 title: Lens concepts
@@ -40,17 +40,6 @@ Each operation in a turn is a **step**. A turn can include these steps:
 
 Every step records its timing and whether it succeeded. See [Instrument an agent](/content/develop/ai/context-engine/lens/instrument.md) to record each kind of step.
 
-## Fetched and used context
-
-Lens compares what a source returned with what reached the model:
-
-- **Fetched** items are everything a retrieval or memory recall returned.
-- **Used** items are the fetched items that entered the prompt.
-
-When you record prompt assembly, Lens marks each result as entered the prompt or not used, and marks retrievals that returned nothing. This shows when a relevant result was retrieved but dropped, for example at a token limit. Lens keeps this comparison for each turn as its **context manifest**.
-
-Lens also records each result's score where the source provides one. Agent Playbooks discovery results include their similarity score, and Context Gateway results include their hybrid search score. Your own retrievals include the scores you record.
-
 ## Turn outcomes
 
 Set an outcome on each turn to record how it ended. You can then [filter sessions by outcome](/content/develop/ai/context-engine/lens/read-api.md#list-sessions) with the read application programming interface (API).
@@ -73,7 +62,7 @@ Every turn carries an **agent ID**. Set it once per process with `IRIS_LENS_AGEN
 
 Lens captures content by default: prompts, completions, queries, retrieved text, memory text, frequently asked question (FAQ) answers, skill text, and tool inputs and results.
 
-You can turn content capture off. Lens then keeps each step's IDs, content hashes, counts, sizes, timing, and outcome. Fetched and used comparisons still work, because Lens compares hashes. See [Control content capture](/content/develop/ai/context-engine/lens/configure.md#control-content-capture).
+You can turn content capture off. Lens then keeps each step's IDs, content hashes, counts, sizes, timing, and outcome. See [Control content capture](/content/develop/ai/context-engine/lens/configure.md#control-content-capture).
 
 ## Retention
 

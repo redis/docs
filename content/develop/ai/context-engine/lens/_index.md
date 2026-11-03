@@ -20,7 +20,7 @@ Lens is a Redis Iris observability tool that traces your AI agent's turns. A tur
 When your agent gives a wrong answer, Lens shows where it went wrong. For example, you might see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how sessions, turns, steps, and fetched and used context work" url="/develop/ai/context-engine/lens/concepts" >}}
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how sessions, turns, and steps work" url="/develop/ai/context-engine/lens/concepts" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Trace your first turn and read it back" url="/develop/ai/context-engine/lens/quickstart" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Trace agents built with LangGraph, the OpenAI Agents SDK, and more" url="/develop/ai/context-engine/lens/agent-integration" >}}
 </div>
@@ -36,7 +36,7 @@ When your agent gives a wrong answer, Lens shows where it went wrong. For exampl
 
 ## Concepts
 
-Lens groups turns into sessions by agent, and records each turn's steps. See [Lens concepts](/content/develop/ai/context-engine/lens/concepts.md) for fetched and used context.
+Lens groups turns into sessions by agent, and records each turn's steps. See [Lens concepts](/content/develop/ai/context-engine/lens/concepts.md).
 
 1. Your agent opens a turn for each message with the Redis Iris software development kit (SDK).
 1. The SDK records each step in the turn: retrievals, memory recalls, prompt assembly, model calls, tool calls, and Iris service calls.

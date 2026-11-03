@@ -73,7 +73,7 @@ Record which retrieved items entered the prompt. Pass everything you fetched to 
 
 {{< clients-example set="iris_lens_instrument" step="prompt_assembly" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
-Lens matches items by their text, so pass the same items you recorded as results. The turn then shows which results entered the prompt and which weren't used. See [fetched and used context](/content/develop/ai/context-engine/lens/concepts.md#fetched-and-used-context).
+Lens matches items by their text, so pass the same items you recorded as results. The turn then shows which results entered the prompt and which weren't used.
 
 ## Add custom steps
 

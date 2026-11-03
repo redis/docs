@@ -100,6 +100,6 @@ Tokens: <total-tokens>
 
 ## Next steps
 
-- [Learn the concepts](/content/develop/ai/context-engine/lens/concepts.md) behind sessions, turns, and fetched and used context.
+- [Learn the concepts](/content/develop/ai/context-engine/lens/concepts.md) behind sessions, turns, and steps.
 - [Instrument an agent](/content/develop/ai/context-engine/lens/instrument.md) to record retrievals, model calls, and custom steps.
 - [Integrate with an agent framework](/content/develop/ai/context-engine/lens/agent-integration.md) such as LangGraph, the OpenAI Agents SDK, or the Google Agent Development Kit (ADK).
