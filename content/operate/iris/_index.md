@@ -45,6 +45,7 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 - [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
 - [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
 - [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
+- [Identity Service](/content/operate/iris/identity-service/_index.md), which issues and checks agent keys for every self-managed capability
 
 ## Agent Mesh SDK beta
 

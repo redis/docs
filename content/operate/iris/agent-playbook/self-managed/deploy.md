@@ -55,6 +55,8 @@ Both releases mount `playbook-dp-credential` and `playbook-controlplane-internal
 
 ## 3. Install Identity Service first
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 Save this as `values-ids.yaml`:
 
 ```yaml

@@ -27,6 +27,8 @@ kubectl create namespace <namespace-name>
 
 ### Configure the Identity Service release first
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 Set these values on the Identity Service release so that it checks Gateway grants and accepts the Data Plane's runtime token:
 
 | Identity Service value | Setting |

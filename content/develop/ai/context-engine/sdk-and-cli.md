@@ -110,6 +110,7 @@ The capabilities deploy on Kubernetes from the shared Redis Helm repository, [ht
 - [Self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/_index.md)
 - [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md)
 - [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
+- [Identity Service](/content/operate/iris/identity-service/_index.md), which every self-managed capability uses for agent keys
 
 <!-- TODO: link the self-managed project setup example once it is public. -->
 

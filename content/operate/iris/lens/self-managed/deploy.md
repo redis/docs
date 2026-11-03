@@ -54,6 +54,8 @@ Both releases mount `lens-dp-credential` and `lens-internal-token`. You own thes
 
 ## 3. Install the Identity Service
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 Save this as `values-ids.yaml`. It registers the data plane's runtime credential, and points grant validation at the Lens control plane:
 
 ```yaml

@@ -27,6 +27,8 @@ kubectl create namespace <namespace-name>
 
 ### Configure the Identity Service release first
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 The chart deploys no Identity Service. Set these values on your Identity Service release so that it checks Router grants and accepts the data plane's runtime credential. The examples assume this chart is installed as release `intent` in the same namespace as an Identity Service release named `iris-identity-service`.
 
 | Identity Service value | Setting |

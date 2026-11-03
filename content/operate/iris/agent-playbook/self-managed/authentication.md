@@ -144,6 +144,4 @@ The data plane used to accept only the audience `api://playbook-dp`. If your IdP
 
 ## OIDC access to agent-key administration
 
-The Identity Service has its own OIDC policy for its control API, configured on the Identity Service release with `controlAuth.oidc` and `controlAuth.roleBindings`. Configure it when operators must manage agent keys without the Identity Service control token. The control token remains available as a deployment-administration credential.
-
-<!-- TODO: Link to the shared Identity Service self-managed guide for controlAuth once it is published. -->
+The Identity Service has its own OIDC policy for its control API, configured on the Identity Service release with `controlAuth.oidc` and `controlAuth.roleBindings`. Configure it when operators must manage agent keys without the Identity Service control token. The control token remains available as a deployment-administration credential. See [operator sign-in with your identity provider](/content/operate/iris/identity-service/authentication.md#operator-sign-in-with-your-identity-provider) in the Identity Service guide.
