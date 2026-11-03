@@ -175,7 +175,7 @@ If you have more than one destination with these settings,
 then you should consult your database administrator about which one to
 choose for Debezium.
 
-Use the `log.mining.archive.destination.name` property in the connector configuration
+Use the `archive.destination.name` property in the connector configuration
 to select the archive log destination for Debezium.
 
 For example, suppose you have two archive destinations, `LOG_ARCHIVE_DEST_2` and
@@ -186,7 +186,7 @@ use the following setting:
 
 ```json
 {
-    "log.mining.archive.destination.name": "LOG_ARCHIVE_DEST_3"
+    "archive.destination.name": "LOG_ARCHIVE_DEST_3"
 }
 ```
 
