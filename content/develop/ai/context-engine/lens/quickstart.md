@@ -64,12 +64,6 @@ This turn wraps one OpenAI call. The `llm-tracing` extra records the call as a s
 
 The example prints the session ID and the turn ID. Keep both to find the turn.
 
-Lens exports turns in the background. Before a short-lived process exits, flush the export:
-
-{{< clients-example set="iris_lens_quickstart" step="flush" description="" lang_filter="Python (Iris)" footer="hide" />}}
-
-`shutdown()` returns `True` when the flush completes. If an export fails, the SDK logs a warning on the `iris.lens` logger. `shutdown()` also turns Lens off for the rest of the process, so call it only when your program is done tracing.
-
 ## Find the turn
 
 A turn is readable a few seconds after its export.

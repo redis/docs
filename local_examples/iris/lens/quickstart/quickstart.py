@@ -23,11 +23,6 @@ print(f"Session: {session_id}")
 print(f"Turn: {turn_id}")
 # STEP_END
 
-# STEP_START flush
-if not lens.shutdown(timeout_millis=10_000):
-    raise RuntimeError("Lens did not finish flushing the turn")
-# STEP_END
-
 # STEP_START find_turn
 import os
 import time
