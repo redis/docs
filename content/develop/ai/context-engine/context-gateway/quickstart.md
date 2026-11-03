@@ -23,7 +23,7 @@ Python and CLI examples use the unified `redis-iris` package. TypeScript example
 
 You need a Gateway with the sample clinic directory registered as a Context Surface, its Model Context Protocol (MCP) endpoint, and an agent key with permission to use it. Follow the [sample setup guide](/content/operate/iris/context-gateway/self-managed/api-examples.md), or ask your administrator for a prepared sample.
 
-The setup guide creates two Gateways. Choose **Operations** for search mode or **Front desk** for full mode. You only need one endpoint for this walkthrough. Selecting a documentation tab does not change the Gateway’s configuration.
+The setup guide creates two Gateways. Choose **Operations** for search mode or **Front desk** for full mode. You only need one endpoint for this walkthrough. Selecting a documentation option does not change the Gateway’s configuration.
 
 The directory contains three cardiologists: two at `clinic-a` and one at `clinic-b`. Compression is not required for this query.
 
@@ -119,7 +119,7 @@ The CLI reads the same environment variables. Run commands in the shell where yo
 
 Choose the mode configured on your Gateway. In the results, look for `scheduling__filter_provider`.
 
-{{< multitabs id="gateway-discovery" tab1="Search mode" tab2="Full mode" >}}
+{{< multitabs id="gateway-discovery" tab1="Search mode" tab2="Full mode" selector="dropdown" label="Exposure mode" >}}
 
 Search matches words in tool names, titles, and descriptions. This example searches for the sample filter.
 
