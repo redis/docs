@@ -87,7 +87,7 @@ Rendering fails with a named message when:
 - `tenantId`, `storage.existingSecret`, `license.existingSecret`, `dataplane.identityServiceBaseURL`, `identityService.credential.existingSecret`, or an image tag is missing.
 - `inference.models` doesn't list exactly one model, or lists `noop` without `inference.allowLocalModels=true`.
 - `inference.existingSecret` is missing for a provider other than `noop`.
-- Two of the admin token, the internal token, and the Identity Service credential reference the same Secret key.
+- Two of the admin tokens, the internal token, and the Identity Service credential reference the same Secret key.
 - `dataplane.identityServiceBaseURL` isn't `https://` and `identityService.allowInsecureTransport` isn't `true`.
 
 See [Configuration](/content/operate/iris/intent-router/self-managed/configuration.md).
