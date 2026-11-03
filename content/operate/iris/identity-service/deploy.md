@@ -13,9 +13,9 @@ hideListLinks: true
 
 Follow these steps to install the Identity Service with the `iris-identity-service` Helm chart, register your first Iris product with it, and check that its control API accepts your control token.
 
-The examples install chart `1.0.0` as release `ids` in the same namespace as the products, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other products, swap in their entries from [Register products](/content/operate/iris/identity-service/configuration.md#register-products).
+The examples install chart `1.2.0` as release `ids` in the same namespace as the products, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other products, swap in their entries from [Register products](/content/operate/iris/identity-service/configuration.md#register-products).
 
-<!-- TODO: confirm the Identity Service chart version to pin for GA. The product guides pin 1.0.0; the chart source is at 1.2.0, and 1.3.0 with iris#2368 (M6). -->
+<!-- TODO: iris#2368 (M6) moves the chart to 1.3.0. Update the version in every guide when it merges. -->
 
 ## Prerequisites
 
@@ -133,7 +133,7 @@ The chart's values schema is closed: an unknown key, product, or operation fails
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
+  --version 1.2.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```

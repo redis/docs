@@ -89,22 +89,20 @@ productValidation:
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
+  --version 1.2.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
 
-Use version `1.0.0` or later. The Lens control plane doesn't exist yet. Wait until Lens is running before you create keys, because the Identity Service calls the control plane to validate each grant.
+Use version `1.2.0` or later. The Lens control plane doesn't exist yet. Wait until Lens is running before you create keys, because the Identity Service calls the control plane to validate each grant.
 
 ## 4. Install Lens
 
 Write `lens-values.yaml` from [Helm values](/content/operate/iris/lens/self-managed/configuration.md#helm-values), then install the chart:
 
-<!-- TODO: confirm the chart name and version once redis-lens is published to helm.redis.io/ai. -->
-
 ```bash
 helm install lens redis-ai/redis-lens \
-  --version <chart-version> \
+  --version 0.2.1 \
   --namespace <namespace-name> \
   -f lens-values.yaml \
   --wait --timeout 5m

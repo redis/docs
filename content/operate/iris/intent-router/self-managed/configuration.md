@@ -49,7 +49,7 @@ dataplane:
   image:
     repository: redislabs/iris-intent-router-data
     tag: <tag>
-  identityServiceBaseURL: http://iris-identity-service:9200
+  identityServiceBaseURL: http://ids-iris-identity-service:9200
 
 identityService:
   allowInsecureTransport: true

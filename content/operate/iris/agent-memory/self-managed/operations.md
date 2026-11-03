@@ -82,7 +82,7 @@ kubectl -n <namespace-name> create secret generic memory-dp-credential \
 RUNTIME_CREDENTIAL_CHECKSUM="$(shasum -a 256 ./memory-dp-token | awk '{print $1}')"
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
+  --version 1.2.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml \
   --set-string "runtime.serviceCredentials[0].existingSecretChecksum=$RUNTIME_CREDENTIAL_CHECKSUM"
@@ -294,7 +294,7 @@ helm upgrade redis-agent-memory redis-ai/redis-agent-memory \
   -f redis-agent-memory/values-fips.yaml
 
 helm upgrade ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
+  --version 1.2.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```

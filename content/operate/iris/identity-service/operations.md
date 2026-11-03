@@ -89,7 +89,7 @@ iris identity keys show <key-id>
 
 `iris identity keys list` also filters by `--resource-type`. Neither the API nor the CLI ever returns a key's token after it's minted.
 
-<!-- TODO: confirm list pagination. The API reference names nextToken and maxResults on GET /v1/api-keys and the CLI has --limit, --cursor, and --all, but the operator guide says the list has no pages. -->
+The list is paginated. Over HTTP, pass `maxResults` and then each response's `nextToken`. The CLI takes `--limit`, and `--cursor` with the `nextCursor` value it prints; `--all` reads every page.
 
 ### Update, rotate, or revoke a key
 

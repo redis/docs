@@ -18,7 +18,7 @@ aliases:
 Redis Agent Memory is distributed as container images on Docker Hub plus a Helm
 chart in the Redis AI Helm repository. The chart deploys the Redis Agent Memory Data
 Plane, Redis Agent Memory workers, and the Redis Agent Memory Control Plane. Install Identity
-Service separately with the `iris-identity-service` chart `1.0.0` before connecting Memory chart `1.0.0`.
+Service separately with the `iris-identity-service` chart `1.2.0` before connecting Memory chart `1.0.0`.
 
 You provide the Redis databases, provider credentials, Kubernetes exposure, and
 license material used by the deployment.
@@ -132,7 +132,7 @@ To supply a complete configuration file in your own Secret instead, see
 ## Release artifacts and image tags
 
 Memory chart `1.0.0` defaults `image.tag` and `controlplane.image.tag` to `1.0.0`.
-Identity Service chart `1.0.0` defaults its image to its own application version, `1.0.0`.
+Identity Service chart `1.2.0` defaults its image to its own application version, `1.2.0`.
 Set tags explicitly when pinning images or using a mirror. The releases have independent versions.
 
 Both charts are published at `https://helm.redis.io/ai` as `redis-ai/redis-agent-memory`
@@ -156,7 +156,7 @@ Mirror these images into your internal registry:
 
 For this release, `<ram-version>` is `1.0.0` and `<ids-version>` is `1.0.0`.
 Inspect each package with `helm show chart redis-ai/redis-agent-memory --version 1.0.0`
-and `helm show chart redis-ai/iris-identity-service --version 1.0.0`. Memory does not pin
+and `helm show chart redis-ai/iris-identity-service --version 1.2.0`. Memory does not pin
 or install the Identity Service chart.
 
 ```bash

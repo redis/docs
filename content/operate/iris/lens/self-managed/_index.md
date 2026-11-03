@@ -19,7 +19,7 @@ This guide is for that administrator. It covers deploying Lens on your own Kuber
 > You need a license key to deploy self-managed Lens. Contact your Redis representative or
 > [contact sales](https://redis.io/contact/).
 
-<!-- TODO: name the chart version that matches these guides once redis-lens is published to helm.redis.io/ai. The repository chart is 0.2.1 and the release plan proposes 0.3.0 as the first published version. -->
+These guides use `redis-lens` chart `0.2.1`.
 <!-- TODO: decide whether to document installing Lens through the redis-iris suite chart once that chart is published; this guide covers a standalone release. -->
 
 ## What you deploy

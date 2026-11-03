@@ -33,7 +33,7 @@ Set these values on the Identity Service release so that it checks Gateway grant
 
 | Identity Service value | Setting |
 | --- | --- |
-| `runtime.serviceCredentials[]` | A credential for the Data Plane with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. |
+| `runtime.serviceCredentials[]` | A credential for the Data Plane, `name: context-gateway-dp` and `subject: context-gateway-dataplane`, with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. With Data Plane sign-in on, add `subject-grant-lookup` to `allowedOperations`. |
 | `productValidation.products.context-gateway.baseURL` | The Control Plane Service, for example `http://gateway-redis-context-gateway-controlplane:9100`. |
 | `productValidation.products.context-gateway.credential` | The same Secret as `controlplane.internalToken`. |
 | `productValidation.products.context-gateway.enabled` | `true` |
@@ -140,7 +140,7 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install gateway redis-ai/redis-context-gateway \
-  --version <chart-version> \
+  --version 0.2.0 \
   --namespace <namespace-name> \
   -f gateway-values.yaml \
   --wait --timeout 5m

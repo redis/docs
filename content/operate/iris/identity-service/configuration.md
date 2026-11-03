@@ -18,7 +18,7 @@ The Identity Service reads its configuration only when it starts. A changed valu
 To see every value and its default, run:
 
 ```bash
-helm show values redis-ai/iris-identity-service --version 1.0.0
+helm show values redis-ai/iris-identity-service --version 1.2.0
 ```
 
 ## Metadata Redis
@@ -81,7 +81,7 @@ This table lists the entries for each product, with the release names and Secret
 | --- | --- | --- | --- | --- | --- | --- |
 | Agent Memory | `memory-dp` | `[memory]` | `memory` | `http://redis-agent-memory-controlplane:9100` | `memory-dp-credential` | `memory-internal-token` |
 | Agent Playbooks | `playbook-dp` | `[playbook]` | `playbook` | `http://playbook-controlplane:9200` | `playbook-dp-credential` | `playbook-controlplane-internal` |
-| Context Gateway | `context-gateway-dp` | `[context-gateway]` | `context-gateway` | `http://gateway-redis-context-gateway-controlplane:9100` | `gateway-runtime` | `gateway-grant-validation` |
+| Context Gateway | `context-gateway-dp`, subject `context-gateway-dataplane` | `[context-gateway]` | `context-gateway` | `http://gateway-redis-context-gateway-controlplane:9100` | `gateway-runtime` | `gateway-grant-validation` |
 | Intent Router | `intent-dp` | `[intent]` | `intent` | `http://intent-redis-intent-router-controlplane:9400` | `intent-dp-credential` | `intent-controlplane-internal` |
 | Lens | `lens-dataplane` | `[lens]` | `lens` | `http://lens-redis-lens-controlplane:9300` | `lens-dp-credential` | `lens-internal-token` |
 {{< /table-scrollable >}}
@@ -131,7 +131,7 @@ To add a product to a running release:
 
 1. Install the product, or note its control-plane Service and Secret names.
 1. Add the product's runtime credential and validator to `values-ids.yaml`, next to the existing entries.
-1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.0.0 -n <namespace-name> -f values-ids.yaml`.
+1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.2.0 -n <namespace-name> -f values-ids.yaml`.
 1. Check that `GET /v1/products` lists the new product.
 
 Every product on one release uses the same tenant.

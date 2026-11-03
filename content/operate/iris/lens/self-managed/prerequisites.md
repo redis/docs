@@ -20,13 +20,11 @@ Self-managed Lens runs on your Kubernetes cluster and depends on Redis databases
 | Kubernetes | A cluster and a namespace for the release. |
 | Helm | Helm 3. |
 | `kubectl`, `curl`, and `jq` | For the install and administration examples. |
-| Identity Service | The `iris-identity-service` chart, `1.0.0` or later, installed as its own release. |
+| Identity Service | The `iris-identity-service` chart, `1.2.0` or later, installed as its own release. |
 | Redis databases | A records database, a content database, and a metadata Redis, as described in [Redis databases](#redis-databases). |
 | Container images | Docker Hub: `redislabs/iris-lens-data` (data plane and worker) and `redislabs/iris-lens-control` (control plane). |
-| Helm chart | `redis-lens` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
+| Helm chart | `redis-lens` chart `0.2.1` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
-
-<!-- TODO: confirm the redis-lens chart and image tags are published (helm.redis.io/ai and Docker Hub) before GA, and name the version. -->
 
 ## Redis databases
 

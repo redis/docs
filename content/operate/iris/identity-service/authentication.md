@@ -103,7 +103,7 @@ controlAuth:
 
 ### 3. Apply and check
 
-1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.0.0 -n <namespace-name> -f values-ids.yaml`.
+1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.2.0 -n <namespace-name> -f values-ids.yaml`.
 1. Get an access token for an operator from your IdP.
 1. Call the control API with it:
 
@@ -140,7 +140,7 @@ To give IdP users access to a Context Gateway:
    runtime:
      serviceCredentials:
        - name: context-gateway-dp
-         subject: context-gateway-dp
+         subject: context-gateway-dataplane
          allowedOperations: [api-key-introspect, subject-grant-lookup]
          allowedProducts: [context-gateway]
          existingSecret: gateway-runtime
