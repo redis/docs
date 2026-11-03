@@ -111,6 +111,29 @@ checking what Claude did.
 7. **Build the site and open a pull request.** Look at the list pages that
    changed, and at the error lookup on the errors page.
 
+## Check how client libraries report the errors
+
+The "In client libraries" table on each error page comes from
+`data/client-exceptions.json`. `verify` records only the redis-py names. To check
+another client library, run the same checks with that client:
+
+```
+python3 build/errors/live_clients.py jedis
+python3 build/errors/live_clients.py node_redis --only standalone
+```
+
+It needs Docker, like `verify`, and the client's tools: Java and Maven for Jedis,
+Node.js and npm for node-redis. Each client is a bridge in `bridges/`: a short
+Python module and a probe program in the client's language that runs one command
+and prints the exception class and message. The run writes
+`client_baselines/<client>.json`. Copy the classes and messages that the pages
+show into `data/client-exceptions.json` by hand, and add the client to its
+`order` list. The data file says which clients were run live.
+
+To add a client, copy `bridges/jedis.py` and its probe, and make the probe print
+`OK<TAB>value` or `EXC<TAB>class<TAB>message`. The format is in
+`bridges/_common.py`.
+
 ## How the comparison works
 
 The tool reads every string in the C and Rust source of each repository, at
@@ -132,6 +155,8 @@ builds, can't be followed. `diff` says how many.
 - `live_checks.py`: the server checks that `verify` runs.
 - `live_baseline.json`: the replies that the error pages show, from the last
   accepted run.
+- `live_clients.py`, `bridges/` and `client_baselines/`: the same checks run
+  with other client libraries.
 - `explanation-style.md`: how to write an explanation, and the fields of a new
   message.
 - `../test_update_errors.py`: unit tests. Run `python3 build/test_update_errors.py`.
