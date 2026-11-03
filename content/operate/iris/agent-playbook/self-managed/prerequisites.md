@@ -23,14 +23,14 @@ You provide the Identity Service release, the Redis databases, the embedding pro
 
 | Requirement | Purpose |
 | --- | --- |
-| Kubernetes cluster and `kubectl` | Run the services and create Secrets in the deployment namespace. |
-| [Helm 3](https://helm.sh/docs/intro/install/) | Install `redis-ai/redis-agent-playbook` and `redis-ai/iris-identity-service` from `https://helm.redis.io/ai`. |
+| Kubernetes 1.28 or later and `kubectl` | Run the services and create Secrets in the deployment namespace. |
+| [Helm 3](https://helm.sh/docs/intro/install/), version 3.10 or later | Install `redis-ai/redis-agent-playbook` and `redis-ai/iris-identity-service` from `https://helm.redis.io/ai`. Helm 4 isn't supported. |
 | Bash, curl, jq, and OpenSSL | Generate tokens and run the administrative API examples. Use a curl version that supports `--fail-with-body`. |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). An Agent Playbooks license or an Iris suite license that includes Agent Playbooks. |
 | Embedding provider | A provider and model the data plane can reach, with its credentials. |
-| Identity Service | An `iris-identity-service` release, chart `1.2.0` or later, with the Agent Playbooks entries registered. See [Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md#3-install-identity-service-first). |
+| Identity Service | An `iris-identity-service` release, chart `1.0.0`, with the Agent Playbooks entries registered. See [Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md#3-install-identity-service-first). |
 
-<!-- TODO: Confirm the supported Kubernetes versions, platforms, and production sizing for the GA release. The chart states that a supported Kubernetes version matrix is not yet qualified. -->
+<!-- TODO: Confirm the supported platforms and production sizing for the GA release. -->
 
 ## Deployment decisions
 
@@ -62,7 +62,7 @@ Exposing a whole Identity Service also exposes its administration routes. Expose
 
 ### Plan capacity and recovery
 
-The chart starts one replica of each service and leaves `resources` unset for the control plane and data plane. These defaults are not a production sizing recommendation. Set resource requests and limits, and leave capacity for old and new pods during upgrades.
+The chart starts one replica of each service and leaves `resources` unset for the control plane and data plane. These defaults are not a production sizing recommendation. Set resource requests and limits, and leave capacity for old and new pods during upgrades. To keep a service available during node drains, run two or more replicas and set `podDisruptionBudget.enabled: true`, which adds a PodDisruptionBudget with `maxUnavailable: 1` for each Deployment that has more than one replica.
 
 Plan coordinated storage backups in [Operations](/content/operate/iris/agent-playbook/self-managed/operations.md#back-up-the-deployment).
 
@@ -92,8 +92,6 @@ The chart requires an explicit image tag for each plane.
 | Control plane | `redislabs/iris-agent-playbook-control:1.0.0` |
 | Data plane and extraction worker | `redislabs/iris-agent-playbook-data:1.0.0` |
 | Identity Service | The image that its own chart pins. |
-
-<!-- TODO: Confirm the GA image tags. Chart 1.0.0 declares appVersion 1.0.0, but its default image tags are empty. -->
 
 Allow chart downloads, image pulls, Redis connections, and data-plane access to the embedding provider. The data plane and control plane must reach the Identity Service, and the Identity Service must reach the control plane on port `9200`. For a disconnected installation, mirror the images, use a downloaded chart package, and set the image repositories and `imagePullSecrets` in your Helm values.
 

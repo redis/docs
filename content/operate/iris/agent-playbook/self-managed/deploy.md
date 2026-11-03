@@ -13,7 +13,7 @@ hideListLinks: true
 
 Follow these steps to install the Agent Playbooks control plane and data plane with the `redis-agent-playbook` Helm chart, connect them to an Identity Service release, and end with one authenticated call to the data plane.
 
-Install Identity Service as release `ids`, then Agent Playbooks as release `playbook`, in one namespace. These steps use Agent Playbooks chart `1.0.0` and Identity Service chart `1.2.0`. You create the two credentials both releases share and the Identity Service control token; Agent Playbooks generates its admin token. See [Credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#credentials).
+Install Identity Service as release `ids`, then Agent Playbooks as release `playbook`, in one namespace. These steps use Agent Playbooks chart `1.0.0` and Identity Service chart `1.0.0`. You create the two credentials both releases share and the Identity Service control token; Agent Playbooks generates its admin token. See [Credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#credentials).
 
 
 Before installing, provide two Transport Layer Security (TLS) endpoints through your hosting environment: one forwarding to `ids-iris-identity-service:9200`, and one forwarding to `playbook-controlplane:9200`. Neither chart terminates TLS. Obtain their certificate authority (CA) certificates as a PEM bundle named `ca.crt`. For a network-isolated lab without TLS, see [Isolated lab without TLS](/content/operate/iris/agent-playbook/self-managed/configuration.md#isolated-lab-without-tls).
@@ -92,7 +92,7 @@ If the release also serves Agent Memory, keep its `memory-dp` credential, `memor
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.2.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
@@ -183,6 +183,31 @@ curl --fail-with-body -sS \
 ```
 
 The response reports `READY` for the playbook and for its metadata Redis, content Redis, embedding provider, and license. A `401` means the key is wrong, expired, or revoked. A `403` means it has no grant on the playbook.
+
+## Install with the Redis Iris suite chart
+
+The `redis-iris` Helm chart installs Agent Playbooks with the Identity Service and the user interface (UI) in one release. Agent Playbooks is on by default (`global.iris.products.playbook.enabled: true`); set `global.iris.products.<product>.enabled: false` for each other product you don't install. Agent Playbooks values go under the `playbook:` key.
+
+The suite sets these Agent Playbooks values itself. Don't set them under `playbook:`: a value that differs fails the render and names the field.
+
+- `tenantId`, from `global.iris.tenantId`.
+- `license.existingSecret` and `license.secretKey`, from `global.iris.license`.
+- `dataplane.identityServiceBaseURL` and `identityService.allowInsecureTransport`, for the suite's own Identity Service.
+- `identityService.credential` and `controlplane.internalToken`, from the credentials the suite generates or that you supply in `global.iris.secrets`. The admin token is in the Secret `iris-playbook-admin-token`.
+- `auth.oidc.audience`, `dataplane.oidc`, and `controlplane.oidc.enabled`, from `global.iris.auth.oidc` and `global.iris.auth.roleBindings`.
+- The extraction connection and worker settings, from `global.iris.extraction.enabled`. See [Configure background FAQ extraction](/content/operate/iris/agent-playbook/self-managed/extraction.md#extraction-with-the-redis-iris-suite-chart).
+- `fullnameOverride` (`redis-agent-playbook`), the Service ports, `dataplane.strategy`, and `podDisruptionBudget.enabled`, which the suite fixes. The suite runs two data-plane replicas by default.
+
+You still set `playbook.storage.existingSecret`, `playbook.inference.models`, and `playbook.inference.existingSecret` (unless every model is `noop`). Then install:
+
+```bash
+helm install iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+The rest of this guide applies to the values under `playbook:`.
 
 ## Next steps
 

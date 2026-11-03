@@ -26,8 +26,8 @@ Self-managed Intent Router runs on your Kubernetes cluster and depends on Redis 
 
 | Software | Requirement |
 | --- | --- |
-| Kubernetes | A cluster that can run the chart's Deployments, Services, and Secrets. |
-| Helm | Helm 3. |
+| Kubernetes | Kubernetes 1.28 or later. |
+| Helm | Helm 3.10 or later. Helm 4 isn't supported. |
 | `kubectl` | Configured for the cluster and namespace. |
 | `jq` and `curl` | For the administration examples. |
 
@@ -78,7 +78,7 @@ Create these Secrets before you install: the storage Secret that holds the Redis
 
 ## Release artifacts and image tags
 
-The chart requires an explicit `tag` for each image. Rendering fails with a named message when one is missing. Use the image tags from the release manifest for the chart version you install.
+The chart uses two images, `redislabs/iris-intent-router-control` and `redislabs/iris-intent-router-data`, tagged with the chart version, such as `1.0.0`. Rendering fails with a named message when a `tag` is empty. To install from a private registry, mirror both images, then set `controlplane.image.repository`, `dataplane.image.repository`, and `imagePullSecrets`.
 
 ## Helm values to review
 

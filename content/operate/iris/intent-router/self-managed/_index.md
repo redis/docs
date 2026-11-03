@@ -19,7 +19,7 @@ The `redis-intent-router` Helm chart deploys one tenant's Intent Router control 
 
 Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.
 
-These guides use `redis-intent-router` chart `0.1.0`. Set the image tags from the release manifest for your deployment.
+These guides use `redis-intent-router` chart `1.0.0`. Its images are tagged with the chart version, `1.0.0`.
 
 ## What you deploy
 

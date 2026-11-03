@@ -89,12 +89,12 @@ productValidation:
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.2.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```
 
-Use version `1.2.0` or later. The Lens control plane doesn't exist yet. Wait until Lens is running before you create keys, because the Identity Service calls the control plane to validate each grant.
+Use the same version as the Lens chart, `1.0.0`. The Lens control plane doesn't exist yet. Wait until Lens is running before you create keys, because the Identity Service calls the control plane to validate each grant.
 
 ## 4. Install Lens
 
@@ -102,7 +102,7 @@ Write `lens-values.yaml` from [Helm values](/content/operate/iris/lens/self-mana
 
 ```bash
 helm install lens redis-ai/redis-lens \
-  --version 0.2.1 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f lens-values.yaml \
   --wait --timeout 5m
@@ -199,6 +199,35 @@ Give each application team these values. They match the variables in [Configure 
 Give each agent its own ingest key, so one agent's key can't read other agents' turns. Send keys through your secret store, not in chat or tickets.
 
 Developers can then [trace their first turn](/content/develop/ai/context-engine/lens/quickstart.md).
+
+## Install with the Redis Iris suite chart
+
+The `redis-iris` Helm chart installs Lens with the Identity Service and the Iris console in one release. Lens is on by default (`global.iris.products.lens.enabled`), and its values go under the `lens:` key. The chart also installs the other Iris products by default, so set `global.iris.products.<product>.enabled: false` for each one you don't deploy: `memory`, `playbook`, `contextGateway`, or `intent`.
+
+The suite derives these values from `global.iris`. Don't set them under `lens:`: a value that differs fails the render and names the field.
+
+- `tenantId`, from `global.iris.tenantId`.
+- `license.existingSecret` and `license.secretKey`, from `global.iris.license`.
+- `dataplane.identityServiceBaseURL` and `identityService.allowInsecureTransport`, for the suite's Identity Service.
+- `identityService.credential` and `controlplane.internalToken`, the runtime credential and internal token.
+- `auth.oidc.audience`, `dataplane.oidc`, and `controlplane.oidc.enabled`, from `global.iris.auth.oidc` and `global.iris.auth.roleBindings`.
+
+The suite also fixes `fullnameOverride` (`redis-lens`), the Service ports, `instance.id` (`default`), the data-plane rollout strategy, and `podDisruptionBudget.enabled` (`true`), and runs two data-plane replicas by default. The Services are `redis-lens-dataplane` and `redis-lens-controlplane`, the admin token is in the Secret `iris-lens-admin-token`, and the suite adds the console's Lens route. Save the Lens values in `iris-values.yaml`:
+
+```yaml
+lens:
+  storage:
+    existingSecret: lens-storage
+```
+
+```bash
+helm install iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+The rest of this guide applies to the values under `lens:`.
 
 ## Next steps
 

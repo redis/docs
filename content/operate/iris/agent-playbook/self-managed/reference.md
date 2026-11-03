@@ -34,6 +34,9 @@ This page is a lookup reference for self-managed Agent Playbooks. It lists the m
 | `controlplane.image.tag`, `dataplane.image.tag` | None | The image tags. Required. |
 | `controlplane.service.port` | `9200` | The control-plane Service port. |
 | `dataplane.service.port` | `9201` | The data-plane Service port, for REST and MCP. |
+| `controlplane.replicaCount`, `dataplane.replicaCount`, `worker.replicaCount` | `1` | Replicas of each Deployment. |
+| `dataplane.strategy` | `{}` | The data-plane Deployment's rollout `strategy`, rendered as given. |
+| `podDisruptionBudget.enabled` | `false` | Add a PodDisruptionBudget with `maxUnavailable: 1` for each Deployment that has more than one replica. |
 | `controlplane.adminToken.autoGenerate` | `true` | Generate the admin token when `existingSecret` is empty. |
 | `controlplane.internalToken.existingSecret` | None | The internal token shared with the Identity Service. |
 | `controlplane.config.existingSecret` | None | Bring your own control-plane configuration instead of the chart's rendering. |

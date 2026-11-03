@@ -51,9 +51,7 @@ Retention lives in two places, so change both together:
       -d '{"retention":{"streamTrimSeconds":86400,"contentTtlSeconds":259200,"indexRetentionSeconds":1209600}}'
     ```
 
-The windows must satisfy `streamTrimSeconds` < `contentTtlSeconds` ≤ `indexRetentionSeconds`. After the first start, a `PATCH` wins for what the instance record reports.
-
-<!-- TODO: confirm whether helm upgrade with new instance.retention values also updates the instance record, so step 2 is only needed when the record was changed by PATCH. -->
+The windows must satisfy `streamTrimSeconds` < `contentTtlSeconds` ≤ `indexRetentionSeconds`. The control plane records `instance.retention` only when it creates the instance, so `helm upgrade` never changes what the instance record reports.
 
 ## Connect the console
 

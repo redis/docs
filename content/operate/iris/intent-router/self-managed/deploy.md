@@ -96,7 +96,7 @@ Check each value before you install. If one is wrong, you see the symptom in its
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install intent redis-ai/redis-intent-router \
-  --version 0.1.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f intent-values.yaml \
   --wait --timeout 5m
@@ -163,6 +163,42 @@ curl -sS -X POST "$IRIS_INTENT_ROUTER_URL/iris/data/v1/intent/routers/$IRIS_INTE
 ```
 
 A Router with no intents returns `200` and `{"items": []}`. A `401` means the key is wrong, and a `403` means it lacks a grant on the Router. A `409` means the Router isn't `READY` yet.
+
+## Install with the Redis Iris suite chart
+
+The `redis-iris` Helm chart installs Intent Router with the Identity Service and the UI in one release. `global.iris.products.intent.enabled` turns Intent Router on, and is `true` by default. The other products are on by default too, so set `global.iris.products.<product>.enabled: false` for each one you don't install. Put this chart's values under the `intent:` key.
+
+The suite derives these values from `global.iris`. Don't set them under `intent:`: a value that differs fails the render and names the field.
+
+- `tenantId` and `license.*`, from `global.iris.tenantId` and `global.iris.license`.
+- `dataplane.identityServiceBaseURL` and `identityService.allowInsecureTransport`, which point at the suite's Identity Service.
+- `identityService.credential` and `controlplane.internalToken`, which the suite generates or reads from `global.iris.secrets`. The suite registers them and the tenant on its Identity Service, so skip [Configure the Identity Service release first](/content/operate/iris/intent-router/self-managed/deploy.md#configure-the-identity-service-release-first).
+- `auth.oidc.audience`, `dataplane.oidc`, and `controlplane.oidc.enabled`, from `global.iris.auth`.
+
+The suite also fixes `fullnameOverride`, the Service ports, `dataplane.strategy`, and `podDisruptionBudget.enabled`, and runs two data-plane replicas by default. Its Services are `redis-intent-router-controlplane`, `redis-intent-router-dataplane`, and `iris-identity-service`. By default it generates the admin token in the Secret `iris-intent-admin-token`. The suite chart doesn't support the FIPS profile.
+
+You still set the storage Secret and the embedding model:
+
+```yaml
+intent:
+  storage:
+    existingSecret: intent-storage
+  inference:
+    existingSecret: intent-inference
+    models:
+      - provider: openai
+        model: text-embedding-3-small
+        dimensions: 1536
+```
+
+```bash
+helm install iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+The rest of this guide applies to the values under `intent:`.
 
 ## Next steps
 

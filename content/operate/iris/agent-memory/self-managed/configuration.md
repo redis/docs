@@ -327,6 +327,9 @@ must reach the issuer's JWKS and trust its CA; see
 [worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
 Helm replaces lists, so merge these entries with any existing ones.
 
+With the `redis-iris` Helm chart, set `global.iris.extraction.enabled: true` instead. The suite
+derives both entries, and a differing value under `memory:` fails the render.
+
 ## Configure document ingestion {#enable-document-ingestion}
 
 Document ingestion is enabled in self-managed deployments. Configure the server and worker together through chart-rendered values. This example sets explicit processing limits:
