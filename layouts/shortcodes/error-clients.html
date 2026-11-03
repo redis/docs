@@ -16,12 +16,12 @@
 <link rel="stylesheet" href="{{ "css/errors.css" | relURL }}?v={{ $v }}">
 <div class="rerr-catalog">
 <table>
-  <thead><tr><th>Client library</th><th>Exception</th><th>Message</th></tr></thead>
+  <thead><tr><th>Client library</th><th>Exception or error type</th><th>Message</th></tr></thead>
   <tbody>
   {{- range $rows }}
     <tr>
-      <td>{{ .client }}</td>
-      <td><code>{{ .class }}</code></td>
+      <td>{{ .client }}{{ with .clientNote }}<br>{{ . | markdownify }}{{ end }}</td>
+      <td><code>{{ .class }}</code>{{ with .check }}<br>Test with <code>{{ . }}</code>{{ end }}</td>
       <td><code>{{ .message }}</code>{{ with .note }}<br>{{ . | markdownify }}{{ end }}</td>
     </tr>
   {{- end }}

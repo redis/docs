@@ -22,12 +22,16 @@
 {{- end -}}
 
 {{- range $match := $matches -}}
-  {{- $md := "| Client library | Exception | Message |\n|---|---|---|\n" -}}
+  {{- $md := "| Client library | Exception or error type | Message |\n|---|---|---|\n" -}}
   {{- range $rows -}}
     {{- $msg := replace .message "|" "\\|" -}}
     {{- $msg = cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg) -}}
     {{- with .note -}}{{- $msg = printf "%s %s" $msg . -}}{{- end -}}
-    {{- $md = printf "%s| %s | `%s` | %s |\n" $md .client .class $msg -}}
+    {{- $type := printf "`%s`" .class -}}
+    {{- with .check -}}{{- $type = printf "%s, test with `%s`" $type . -}}{{- end -}}
+    {{- $client := .client -}}
+    {{- with .clientNote -}}{{- $client = printf "%s. %s" $client . -}}{{- end -}}
+    {{- $md = printf "%s| %s | %s | %s |\n" $md $client $type $msg -}}
   {{- end -}}
   {{- $content = replace $content $match $md 1 -}}
 {{- end -}}

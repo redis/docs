@@ -3,12 +3,16 @@
  "versions": {
   "redis-py": "7.4.1",
   "jedis": "8.0.2",
-  "node-redis": "6.3.1"
+  "node-redis": "6.3.1",
+  "lettuce": "7.9.0.RELEASE",
+  "go-redis": "9.22.0"
  },
  "order": [
   "redis-py",
   "jedis",
-  "node-redis"
+  "node-redis",
+  "lettuce",
+  "go-redis"
  ],
  "clients": {
   "redis-py": {
@@ -28,6 +32,19 @@
    "package": "redis",
    "generic": "SimpleError",
    "basis": "live"
+  },
+  "lettuce": {
+   "name": "Lettuce",
+   "package": "io.lettuce.core",
+   "generic": "RedisCommandExecutionException",
+   "basis": "live",
+   "note": "The async API wraps the exception in an `ExecutionException` (`get()`) or a `CompletionException` (`join()`)."
+  },
+  "go-redis": {
+   "name": "go-redis",
+   "package": "github.com/redis/go-redis/v9",
+   "generic": "redis.Error",
+   "basis": "live"
   }
  },
  "errors": {
@@ -45,7 +62,19 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "ASK <slot> <endpoint>:<port>",
-    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default."
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default.",
+    "check": "err.message.startsWith('ASK')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`RedisClusterClient` follows the redirect itself, and raises this error after 5 redirects by default."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "check": "redis.IsAskError(err)",
+    "note": "`ClusterClient` follows the redirect itself, and returns this error after `MaxRedirects` attempts (3 by default)."
    }
   },
   "busy": {
@@ -59,7 +88,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "err.message.startsWith('BUSY')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
     "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "redis.HasErrorPrefix(err, \"BUSY\")"
    }
   },
   "busygroup": {
@@ -73,7 +112,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "err.message.startsWith('BUSYGROUP')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
     "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "redis.HasErrorPrefix(err, \"BUSYGROUP\")"
    }
   },
   "busykey": {
@@ -87,7 +136,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "err.message.startsWith('BUSYKEY')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
     "message": "BUSYKEY Target key name already exists."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "redis.HasErrorPrefix(err, \"BUSYKEY\")"
    }
   },
   "clusterdown": {
@@ -101,7 +160,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "err.message.startsWith('CLUSTERDOWN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "CLUSTERDOWN The cluster is down"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "redis.IsClusterDownError(err)"
    }
   },
   "crossslot": {
@@ -115,7 +184,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "err.message.startsWith('CROSSSLOT')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "errors.Is(err, redis.ErrCrossSlot)"
    }
   },
   "denied": {
@@ -129,7 +208,18 @@
    },
    "node-redis": {
     "class": "SimpleError",
-    "message": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. ..."
+    "message": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. ...",
+    "check": "err.message.startsWith('DENIED')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisConnectionException` with the `DENIED` message."
+   },
+   "go-redis": {
+    "class": "io.EOF",
+    "message": "EOF",
+    "note": "The server closes the connection after it sends the error, and go-redis reported `EOF` in our run, not the error text."
    }
   },
   "err-max-clients": {
@@ -144,6 +234,16 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "ERR max number of clients reached"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the message `ERR max number of clients reached`."
+   },
+   "go-redis": {
+    "class": "io.EOF",
+    "message": "EOF",
+    "note": "The server closes the connection after it sends the error, and go-redis reported `EOF` in our run, not the error text."
    }
   },
   "err-not-an-integer": {
@@ -157,6 +257,14 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "go-redis": {
+    "class": "redis.Error",
     "message": "ERR value is not an integer or out of range"
    }
   },
@@ -172,6 +280,14 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "ERR syntax error"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR syntax error"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR syntax error"
    }
   },
   "err-unknown-command": {
@@ -186,6 +302,14 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
    }
   },
   "err-wrong-number-of-arguments": {
@@ -199,6 +323,14 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "go-redis": {
+    "class": "redis.Error",
     "message": "ERR wrong number of arguments for '<command>' command"
    }
   },
@@ -217,6 +349,15 @@
     "class": "SimpleError",
     "message": "ERR unknown command '<command>'",
     "note": "`exec()` rejects with the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "EXECABORT Transaction discarded because of previous errors."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "EXECABORT Transaction discarded because of previous errors.",
+    "check": "redis.IsExecAbortError(err)"
    }
   },
   "loading": {
@@ -230,7 +371,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "err.message.startsWith('LOADING')"
+   },
+   "lettuce": {
+    "class": "RedisLoadingException",
     "message": "LOADING Redis is loading the dataset in memory"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "redis.IsLoadingError(err)"
    }
   },
   "masterdown": {
@@ -244,7 +395,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "err.message.startsWith('MASTERDOWN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "redis.IsMasterDownError(err)"
    }
   },
   "misconf": {
@@ -258,7 +419,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "err.message.startsWith('MISCONF')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "redis.HasErrorPrefix(err, \"MISCONF\")"
    }
   },
   "moved": {
@@ -275,7 +446,19 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "MOVED <slot> <endpoint>:<port>",
-    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default."
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default.",
+    "check": "err.message.startsWith('MOVED')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`RedisClusterClient` follows the redirect itself, and raises this error after 5 redirects by default."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "check": "redis.IsMovedError(err)",
+    "note": "`ClusterClient` follows the redirect itself, and returns this error after `MaxRedirects` attempts (3 by default)."
    }
   },
   "noauth": {
@@ -290,7 +473,18 @@
    "node-redis": {
     "class": "SimpleError",
     "message": "NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time",
-    "note": "node-redis sends `HELLO` when it connects, so `connect()` raises this error, and the message names `HELLO`."
+    "note": "node-redis sends `HELLO` when it connects, so `connect()` raises this error, and the message names `HELLO`.",
+    "check": "err.message.startsWith('NOAUTH')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the message `NOAUTH HELLO must be called with the client already authenticated\u2026`. Lettuce authenticates and sends `HELLO` when it connects, so `connect()` raises this error."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOAUTH Authentication required.",
+    "check": "redis.IsAuthError(err)"
    }
   },
   "nogroup": {
@@ -304,7 +498,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "err.message.startsWith('NOGROUP')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "redis.HasErrorPrefix(err, \"NOGROUP\")"
    }
   },
   "noperm": {
@@ -318,7 +522,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "err.message.startsWith('NOPERM')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "NOPERM User <username> has no permissions to run the '<command>' command"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "redis.IsPermissionError(err)"
    }
   },
   "noreplicas": {
@@ -332,7 +546,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "err.message.startsWith('NOREPLICAS')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "redis.IsNoReplicasError(err)"
    }
   },
   "noscript": {
@@ -346,7 +570,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "err.message.startsWith('NOSCRIPT')"
+   },
+   "lettuce": {
+    "class": "RedisNoScriptException",
     "message": "NOSCRIPT No matching script. Please use EVAL."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "errors.Is(err, redis.ErrNoScript)"
    }
   },
   "oom": {
@@ -360,7 +594,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "err.message.startsWith('OOM')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "OOM command not allowed when used memory > 'maxmemory'."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "redis.IsOOMError(err)"
    }
   },
   "readonly": {
@@ -374,7 +618,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "err.message.startsWith('READONLY')"
+   },
+   "lettuce": {
+    "class": "RedisReadOnlyException",
     "message": "READONLY You can't write against a read only replica."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "redis.IsReadOnlyError(err)"
    }
   },
   "tryagain": {
@@ -388,7 +642,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "err.message.startsWith('TRYAGAIN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "redis.IsTryAgainError(err)"
    }
   },
   "wrongpass": {
@@ -403,7 +667,19 @@
    },
    "node-redis": {
     "class": "SimpleError",
-    "message": "WRONGPASS invalid username-password pair or user is disabled."
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "check": "err.message.startsWith('WRONGPASS')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the server's `WRONGPASS` message. `AUTH` with a password for a user that has none raises `RedisCommandExecutionException` with the `ERR AUTH <password> called without any password configured\u2026` message, and no `RedisConnectionException`."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "check": "redis.IsAuthError(err)",
+    "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured\u2026`, which has no check of its own."
    }
   },
   "wrongtype": {
@@ -417,7 +693,17 @@
    },
    "node-redis": {
     "class": "SimpleError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "err.message.startsWith('WRONGTYPE')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
     "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "redis.HasErrorPrefix(err, \"WRONGTYPE\")"
    }
   }
  }

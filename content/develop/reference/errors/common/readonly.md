@@ -20,6 +20,7 @@ error:
   - You can't write against a read only replica
   - Can not run script with write flag on readonly replica
   - ReadOnlyError
+  - RedisReadOnlyException
 ---
 
 Redis returns this error when you send a command that changes data to a replica. A replica keeps a copy of a primary's data, and by default it's read-only. Only the primary accepts writes.
