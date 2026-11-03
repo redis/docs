@@ -636,5 +636,5 @@ Revoke agent keys that are no longer needed. See [Rotate credentials](/content/o
 
 - [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md): Generate tools for querying Redis data.
 - [Integrate with an agent](/content/develop/ai/context-engine/context-gateway/agent-integration.md): Connect an agent framework.
-- [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md): Look up request and response schemas.
+- [Control Plane API Reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md): Look up request and response schemas.
 - [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md): Diagnose failures and recover from conflicts.

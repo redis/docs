@@ -361,7 +361,7 @@ When compression is enabled on the Gateway, the following tools are available in
 | `aggregate_results` | Calculate the count, sum, minimum, maximum, or average of selected numbers. |
 | `release_results` | Delete a stored result before it expires. |
 
-See the [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for argument schemas.
+See the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for argument schemas.
 
 ### Detect a stored result
 

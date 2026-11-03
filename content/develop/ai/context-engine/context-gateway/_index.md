@@ -94,4 +94,4 @@ Context Gateway is available on Redis Cloud or as a self-managed deployment on K
 - [Connect with MCP](/content/develop/ai/context-engine/context-gateway/mcp.md) from any Streamable HTTP client.
 - [Integrate with an agent](/content/develop/ai/context-engine/context-gateway/agent-integration.md) using OpenAI Agents SDK or LangGraph.
 
-Use the [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for MCP tools and metadata, and [limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md) for constraints and recovery guidance.
+Use the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for MCP tools and metadata, and [limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md) for constraints and recovery guidance.

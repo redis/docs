@@ -15,7 +15,7 @@ aliases:
 
 The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Control Plane and Data Plane. You provide the Identity Service release, the Redis databases, and the license. The chart does not install Identity Service, Redis, Vault, or Secrets Store CSI (Container Storage Interface) Driver resources.
 
-Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
+Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API Reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
 
 Set the chart version and image tags from the approved release manifest. Use a release that includes the unified Gateway API and GA hardening described in these guides.
 

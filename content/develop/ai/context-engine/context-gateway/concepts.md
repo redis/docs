@@ -132,7 +132,7 @@ Capture limits can prevent the Gateway from storing the complete source result. 
 
 Check the result’s completeness information and warnings before treating a count or aggregate as a total.
 
-See the [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for handle tools and [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md) for capture limits and failure behavior.
+See the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for handle tools and [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md) for capture limits and failure behavior.
 
 ## Next steps
 
