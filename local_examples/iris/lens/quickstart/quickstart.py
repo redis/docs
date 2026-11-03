@@ -32,10 +32,10 @@ from redis_agent_lens import Lens, errors
 with Lens(
     server_url=os.environ["LENS_URL"],
     instance_id=os.environ["LENS_INSTANCE_ID"],
-) as client:
+) as reader:
     for _ in range(30):
         try:
-            detail = client.get_turn(turn_id=turn_id)
+            detail = reader.get_turn(turn_id=turn_id)
             break
         except errors.NotFoundErrorResponseContent:
             time.sleep(2)
