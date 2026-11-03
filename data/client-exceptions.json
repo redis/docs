@@ -29,64 +29,98 @@
    "name": "redis-py",
    "package": "redis.exceptions",
    "generic": "ResponseError",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "redis_py"
+   ]
   },
   "jedis": {
    "name": "Jedis",
    "package": "redis.clients.jedis.exceptions",
    "generic": "JedisDataException",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "jedis"
+   ]
   },
   "node-redis": {
    "name": "node-redis",
    "package": "redis",
    "generic": "SimpleError",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "node_redis"
+   ]
   },
   "lettuce": {
    "name": "Lettuce",
    "package": "io.lettuce.core",
    "generic": "RedisCommandExecutionException",
    "basis": "live",
-   "note": "The async API wraps the exception in an `ExecutionException` (`get()`) or a `CompletionException` (`join()`)."
+   "note": "The async API wraps the exception in an `ExecutionException` (`get()`) or a `CompletionException` (`join()`).",
+   "mapping": [
+    "lettuce_sync",
+    "lettuce_async",
+    "lettuce_reactive"
+   ]
   },
   "go-redis": {
    "name": "go-redis",
    "package": "github.com/redis/go-redis/v9",
    "generic": "redis.Error",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "go-redis"
+   ]
   },
   "ioredis": {
    "name": "ioredis",
    "package": "ioredis",
    "generic": "ReplyError",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "ioredis"
+   ]
   },
   "stackexchange-redis": {
    "name": "StackExchange.Redis",
    "package": "StackExchange.Redis",
    "generic": "RedisServerException",
    "basis": "live",
-   "note": "NRedisStack uses StackExchange.Redis, so it raises the same exceptions. The sync and async APIs raise the same exceptions."
+   "note": "NRedisStack uses StackExchange.Redis, so it raises the same exceptions. The sync and async APIs raise the same exceptions.",
+   "mapping": [
+    "nredisstack_sync",
+    "nredisstack_async"
+   ]
   },
   "predis": {
    "name": "Predis",
    "package": "Predis",
    "generic": "Predis\\Response\\ServerException",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "php"
+   ]
   },
   "redis-rb": {
    "name": "redis-rb",
    "package": "Redis",
    "generic": "Redis::CommandError",
-   "basis": "live"
+   "basis": "live",
+   "mapping": [
+    "redis_rb"
+   ]
   },
   "redis-rs": {
    "name": "redis-rs",
    "package": "redis",
    "generic": "ErrorKind::Extension",
    "basis": "live",
-   "note": "The sync and async APIs raise the same errors."
+   "note": "The sync and async APIs raise the same errors.",
+   "mapping": [
+    "redis_rs_sync",
+    "redis_rs_async"
+   ]
   }
  },
  "errors": {
