@@ -30,7 +30,7 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
 
 Redis Iris is a production-ready context engine for AI agents that:
 
-- **Answers recurring questions without a model call**: Agent Playbooks returns the answers and procedures your business published, matched to the agent's task by semantic similarity
+- **Answers recurring questions without a model call**: Agent Playbooks return the answers and procedures your business published, matched to the agent's task by semantic similarity
 - **Adds persistent memory**: Agents remember past interactions and user preferences across sessions
 - **Routes each message**: Intent Router matches a message to the intents you defined and returns the target that handles it
 - **Connects tools and business data**: Context Gateway gives agents one MCP endpoint for the tools of any MCP server and your Redis data

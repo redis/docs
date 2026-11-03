@@ -28,8 +28,6 @@ If your role can't read the playbook's content, you see only the **Configuration
 
 To connect an agent, select **Connect** on the playbook's page. See [Give an agent access](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access).
 
-<!-- TODO: confirm the Connect dialog code samples ship by GA -->
-
 ## Registry tab
 
 The **Registry** tab lists the playbook's entries, with **FAQs** and **Skills** on separate tabs. For each entry, it shows the question or skill name, which version is published, the latest version, and when it was updated. Filter the list by **Publication** to find entries that are published, not published, or have a newer version waiting.
@@ -87,7 +85,7 @@ You can also delete an entry from its page, in the **Danger zone**.
 
 ## Proposals tab
 
-The **Proposals** tab holds suggested FAQs for review. Proposals can come from agents with `propose` access, or from [automatic FAQ extraction](#automatic-faq-extraction).
+The **Proposals** tab supports reviewing suggested FAQs from agents with `propose` access or from [automatic FAQ extraction](#automatic-faq-extraction). To submit and review skill proposals through the API, see [Review skill proposals](/content/develop/ai/context-engine/agent-playbooks/proposals.md#review-skill-proposals).
 
 The **Inbox** lists open proposals, with how much evidence supports each one and when to review it by. Select a proposal to review its candidate question and answer, and its **Supporting evidence**. Then:
 
@@ -123,15 +121,18 @@ Appears only for a playbook that uses a **Bring Your Own** embedding model. It s
 
 ### Automatic FAQ extraction
 
-Extraction turns your agents' conversations in Agent Memory into FAQ proposals for review. The playbook must be **Ready** to create or turn on extraction.
+Extraction turns conversations in Agent Memory into FAQ proposals for review. The playbook must be **Ready**, and you need access to manage the source service. Each playbook reads one whole Agent Memory service in the same account; you can't select individual namespaces.
 
 1. Enter the **Source RAM store ID**, the ID of the Agent Memory service whose conversations to read, or choose one from your account. You can't change it after you create the extraction job.
-    <!-- TODO: confirm the UI term. The console calls the Agent Memory service a "RAM store" here, but the Agent Memory screens and docs don't use that term. -->
 1. Set the **Session inactivity window**, how long after a session's last event it becomes eligible for extraction, from 1 to 1440 minutes. The default is 30 minutes.
 1. Select **Create extraction job**.
 1. Turn extraction on when you're ready.
 
 Extraction suggests FAQs only. It never publishes them: accepted proposals become unpublished FAQs that you review and publish. To stop extraction and remove its settings, use **Remove extraction job** in the [Danger zone](#danger-zone).
+
+Turning extraction off pauses new work and keeps the source connection and settings. Work already in progress can finish. A **Ready** extraction configuration does not confirm that a worker has processed a conversation.
+
+Keep source conversations available until extraction and review finish. A conversation becomes eligible after the inactivity window; that window is not a completion deadline. Active conversations, conversations without reusable answers, and answers already covered by published FAQs might produce no proposal. Extraction can also add evidence to an existing open proposal. Later events in a completed conversation do not automatically trigger extraction again.
 
 ### Discovery policy
 
@@ -160,3 +161,17 @@ Set the **Review window**, how long proposals stay available for review, from 1 
 | **Delete** | Permanently deletes the playbook, with its entries, versions, resources, and proposals. |
 
 You can clear entries or proposals only while the playbook is **Ready**. To confirm clearing or deleting, select the confirmation checkbox in the dialog. None of these actions can be undone. If a clear fails partway, check the playbook's current state before you retry.
+
+## Troubleshoot a playbook
+
+Check the playbook's state in **Configuration** before retrying a failed operation. Keep its identifier and safe error details for support; do not include API keys or conversation content.
+
+| Symptom | Next action |
+|:--------|:------------|
+| Provisioning fails or does not complete | Check the selected database's availability, capacity, and network allow list. Resolve the reported problem before retrying. If the playbook remains failed, contact support with its identifier. |
+| **Suspended** or **Unavailable** | Check the database and any console explanation. Contact your account administrator or support if you can't restore access. Repeated authoring requests do not repair the service. |
+| A **Bring Your Own** model cannot process content | Check or replace the provider key in **Embedding provider credential**, and check provider access to the selected model. The provider key is separate from the agent key. |
+| Requests return `401` or `403` | Verify the endpoint, playbook identifier, key expiry, and action grants. Create a replacement key if the old one expired or was deleted. See [Give an agent access](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access). |
+| Extraction reports a missing or inaccessible source | Restore the Agent Memory service or your permission to manage it, then turn extraction on to check the connection again. To use a different source, remove the existing extraction job and create another. |
+| Extraction is enabled but no proposal appears | Confirm that events were recorded in the selected Agent Memory service, the conversation is idle, and the source is still available. Check the inbox for additional evidence on existing proposals. If the issue persists, contact support with the source and playbook identifiers and observation time. The console's configuration status is not a per-session processing history. |
+| Playground returns no matches | Confirm that the intended versions are published. Check the query, filters, similarity thresholds, and preview budget. See [Retrieve knowledge](/content/develop/ai/context-engine/agent-playbooks/retrieval.md). |

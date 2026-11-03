@@ -6,6 +6,7 @@
 class GenericTabs {
   constructor(container) {
     this.container = container;
+    this.selector = container.querySelector('.content-selector');
     this.tabRadios = container.querySelectorAll('.tab-radio');
     this.tabLabels = container.querySelectorAll('.tab-label');
     this.tabPanels = container.querySelectorAll('.tab-content');
@@ -14,6 +15,23 @@ class GenericTabs {
   }
 
   init() {
+    if (this.selector) {
+      this.selector.addEventListener('change', () => {
+        this.switchToTab(this.selector.selectedIndex);
+        const group = this.container.dataset.selectorSync;
+        if (group) {
+          document.querySelectorAll('.generic-tabs').forEach(container => {
+            if (container === this.container || container.dataset.selectorSync !== group) return;
+            const other = container.querySelector('.content-selector');
+            if (!other) return;
+            const index = Array.from(other.options).findIndex(option => option.value === this.selector.value);
+            if (index >= 0) container.genericTabs.switchToTab(index);
+          });
+        }
+      });
+      this.switchToTab(this.selector.selectedIndex);
+    }
+
     // Add event listeners for radio button changes
     this.tabRadios.forEach((radio, index) => {
       radio.addEventListener('change', (e) => {
@@ -39,6 +57,8 @@ class GenericTabs {
   }
 
   switchToTab(index) {
+    if (this.selector) this.selector.selectedIndex = index;
+
     // Update radio buttons
     this.tabRadios.forEach((radio, i) => {
       radio.checked = i === index;
@@ -100,7 +120,7 @@ class GenericTabs {
 document.addEventListener('DOMContentLoaded', () => {
   const tabContainers = document.querySelectorAll('.generic-tabs');
   tabContainers.forEach(container => {
-    new GenericTabs(container);
+    container.genericTabs = new GenericTabs(container);
   });
 });
 

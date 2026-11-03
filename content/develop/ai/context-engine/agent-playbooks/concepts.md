@@ -13,11 +13,11 @@ weight: 5
 
 ## Playbooks
 
-Redis Agent Playbooks stores reusable answers and procedures as **entries** inside **playbooks**. A playbook is a registry with its own access grants and retrieval settings. Publish an entry **version** for retrieval, then revise new content while agents use that publication.
+Redis Agent Playbooks store reusable answers and procedures as **entries** inside **playbooks**. A playbook is a registry with its own access grants and retrieval settings. Publish an entry **version** for retrieval, then revise new content while agents use that publication.
 
 Embeddings and semantic search match agent tasks with relevant entries. Discovery settings control similarity thresholds and result limits. Your application supplies the task text and retrieval options.
 
-A **proposal** inbox holds suggested answers and evidence from agent interactions for review.
+A **proposal** inbox holds suggested FAQs, skills, and evidence for review.
 
 Access **grants** apply across a playbook. For example, you can give a support agent **read** access to a support playbook and give a content reviewer permission to **write** or **publish**. Use separate playbooks when workloads must not share visibility. Attribute filters help select content within a playbook, but do not replace access grants.
 
@@ -34,7 +34,7 @@ Playbook API keys can grant these actions:
 
 ## Entries
 
-An entry is a reusable answer or procedure. Redis Agent Playbooks supports two types:
+An entry is a reusable answer or procedure. Redis Agent Playbooks support two types:
 
 - A **FAQ** pairs a question with an answer. Retrieval returns the full answer directly.
 - A **skill (Agent Skill)** packages instructions and optional supporting files for a procedure. Retrieval returns a preview so an agent can decide whether to load the instructions and resources.
@@ -78,9 +78,9 @@ For skills, the agent selects a preview, loads its instructions, and fetches sup
 
 A proposal is a suggested playbook entry awaiting expert review. See the [proposal model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/GetProposalResponseContent" >}}) for fields and types.
 
-A human or agent can suggest a question and answer, edit the candidate, or attach evidence.
+A human or agent can suggest a FAQ or skill, edit the candidate, or attach evidence.
 
-Accepting a reviewed proposal *promotes* its candidate into an *unpublished* entry. Proposal workflows currently support FAQs; skills are planned for a future release.
+Accepting a reviewed proposal *promotes* its FAQ or skill candidate into a new *unpublished* entry. Publication remains a separate action. Proposals do not revise existing entries.
 
 ### Evidence
 
@@ -92,10 +92,10 @@ See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/pr
 
 ## Extraction
 
-**Extraction** turns agent interactions into suggested reusable knowledge. Redis Agent Memory stores the conversations; Redis Agent Playbooks uses those conversations to propose answers for review. For example, a support conversation that resolves a refund question can suggest a FAQ for future agents.
+**Extraction** turns agent interactions into suggested reusable knowledge. Redis Agent Memory stores the conversations; Redis Agent Playbooks use those conversations to propose answers for review. For example, a support conversation that resolves a refund question can suggest a FAQ for future agents.
 
 An administrator connects a Redis Agent Memory store to a playbook through an **extraction binding** and enables a background worker. The worker reads eligible idle sessions, derives questions and answers from their events or summaries, and compares them with published FAQs and open proposals. It can create a proposal or attach another observation as evidence to an existing open proposal. An observation already covered by a published FAQ can require no new proposal.
 
-You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same inbox and review process: acceptance creates an unpublished FAQ, and publication makes the reviewed version available to agents.
+You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same review process: acceptance creates an unpublished entry, and publication makes the reviewed version available to agents.
 
-Extraction and proposal generation currently support FAQs. Skill extraction is planned for a future release. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) for both approaches and their review requirements.
+Background extraction supports FAQs. Applications can submit FAQ or skill proposals directly. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) for both approaches and [extraction setup](/content/operate/iris/agent-playbook/manage-playbook.md#automatic-faq-extraction) for administration.

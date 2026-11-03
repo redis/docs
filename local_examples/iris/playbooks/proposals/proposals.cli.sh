@@ -1,9 +1,6 @@
 # EXAMPLE: iris_playbook_proposals
 # HIDE_START
 set -euo pipefail
-export IRIS_AGENT_PLAYBOOKS_URL="$PLAYBOOK_URL"
-export IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID="$PLAYBOOK_ID"
-export IRIS_AGENT_PLAYBOOKS_CONTENT_API_KEY="$PLAYBOOK_API_KEY"
 iris agent-playbooks health
 # HIDE_END
 
@@ -28,7 +25,7 @@ cat > proposal-faq.json <<'JSON'
 JSON
 cat > proposal-source.json <<'JSON'
 {
-  "type": "document",
+  "kind": "document",
   "reference": {"documentId": "sample-refund-policy"}
 }
 JSON
@@ -43,7 +40,7 @@ jq -n --arg observedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
   observedAt: $observedAt,
   producer: {name: "docs-example", promptVersion: "refund-review-v1"},
   source: {
-    type: "document",
+    kind: "document",
     reference: {documentId: "sample-refund-policy"},
     content: {
       excerpt: "For refund inquiries, collect the order number and request date. Do not request full card details."

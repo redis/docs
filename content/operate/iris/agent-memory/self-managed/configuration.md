@@ -43,7 +43,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `databases` | Required. Store Redis, as `databases."1".urls`. |
 | `embedding.models.default_embedding_model`, `embedding.models.dimensions` | Required. The embedding model and its vector size. The Control Plane's `embedding.dimensions` must match. |
 | `auth` | Data Plane authentication. Defaults to `agent_key`. |
-| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `true` in on-prem release 0.10.2. Requires a matching authenticated user ID for personal access; use an agent key with a delegated user token, or explicitly disable enforcement and authorize requests in your backend. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
+| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `false`. When enabled, personal access requires a matching authenticated user ID, such as an agent key with a delegated user token. With it off, authorize requests in your backend. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
 | `inference_providers` | Required when any `llm` block is set. Each entry holds a provider's `endpoint`. |
 | `server` | Data Plane bind address and port. |
 | `license.license_path` | Path where the license Secret is mounted. |
@@ -279,19 +279,53 @@ TLS proxies. See [Network policy](/content/operate/iris/agent-memory/self-manage
 
 ## Optional Agent Playbooks extraction
 
-On the Identity Service release, allow Memory subject grants for Agent Playbooks extraction:
+Agent Playbooks extraction needs no Identity Service subject grants or extra runtime
+operations. Memory trusts the Agent Playbooks workloads through their projected service
+account tokens instead.
+
+On the Data Plane, trust the Agent Playbooks extraction worker as a static read-only subject.
+Add the entry to `memory.auth.jwt_subjects` next to your existing authentication settings;
+keep agent-key authentication and the Memory worker identity:
 
 ```yaml
-subjectGrants:
-  allowed:
-    - product: memory
-      resourceType: mem-store
-      actions: [read, read_all_owners]
+memory:
+  auth:
+    method: agent_key
+    jwt_subjects:
+      - issuer: <service-account-issuer>
+        jwks_uri: https://kubernetes.default.svc/openid/v1/jwks
+        audience: [api://memory-dp]
+        subjects:
+          - subject: system:serviceaccount:<namespace-name>:<playbook-fullname>-worker
+            authority: static
+            roles: [viewer]
+            resources:
+              "mem-store:*": {permissions: [read]}
 ```
 
-Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowedOperations`
-alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
-values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.
+On the Control Plane, trust the Agent Playbooks control plane as a viewer in one tenant, so it
+can list and read source stores. Use the same tenant as the Agent Playbooks `tenantId`. Don't
+give it `suite_admin`, which bypasses Memory's ownership checks:
+
+```yaml
+controlplane:
+  configData:
+    auth:
+      workload_identity:
+        enabled: true
+        issuer: <service-account-issuer>
+        jwks_uri: https://kubernetes.default.svc/openid/v1/jwks
+        audience: [api://memory-cp]
+        subjects:
+          - subject: system:serviceaccount:<namespace-name>:<playbook-fullname>-controlplane
+            tenant: "<playbook-tenant-id>"
+            roles: [viewer]
+```
+
+`<playbook-fullname>` is the Agent Playbooks release's resource name prefix. Both Memory planes
+must reach the issuer's JWKS and trust its CA; see
+[worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
+Helm replaces lists, so merge these entries with any existing ones.
 
 ## Configure document ingestion {#enable-document-ingestion}
 
