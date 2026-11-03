@@ -68,9 +68,10 @@ If a turn doesn't appear in Lens, check these in order:
 
 1. **Lens is configured.** `IRIS_LENS_ENDPOINT` is set in the process, and `IRIS_LENS_ENABLED` isn't `false`. `lens.init()` returns `True` when both are true. With no endpoint, every Lens call does nothing.
 1. **The turn has an agent ID.** Set `IRIS_LENS_AGENT_ID`, pass `agent_id` to `lens.init()`, or pass it to `lens.turn()`. Lens groups every turn by agent.
+1. **The turn has a session ID.** Pass `session_id` to `lens.turn()`. The Lens UI shows only turns that have one.
 1. **The export succeeded.** A short-lived process calls `lens.shutdown()` before it exits. Check the `iris.lens` warnings for a failed export, such as a rejected key.
 1. **The endpoint uses Transport Layer Security (TLS).** Lens refuses an `http://` endpoint that isn't a loopback address. See [Connect over TLS](/content/develop/ai/context-engine/lens/configure.md#connect-over-tls).
-1. **You're looking in the right place.** Select the agent ID the turn used, and a time range that includes it. A turn opened without a session ID appears under the session `unassigned`.
+1. **You're looking in the right place.** Select the agent ID the turn used, and a time range that includes it.
 
 ## Troubleshoot missing steps
 

@@ -2,7 +2,7 @@
 # STEP_START init
 from redis_iris import lens
 
-lens.init(agent_id="support-bot", service_name="support-api")
+lens.init(agent_id="support-bot")
 # STEP_END
 
 # STEP_START open_turn
@@ -26,31 +26,6 @@ documents = [
 with lens.turn(session_id) as turn:
     with lens.retrieval(query=question, data_source="help-center") as search:
         search.results(documents)
-    turn.set_outcome("completed")
-# STEP_END
-
-# STEP_START memory_recall
-memories = [
-    ("mem-1", 0.91, "The customer prefers email updates."),
-    ("mem-2", 0.42, "The customer asked about gift wrapping in March."),
-]
-
-with lens.turn(session_id) as turn:
-    with lens.memory_recall(query=question, store_id="support-memories") as recall:
-        recall.results(memories)
-    turn.set_outcome("completed")
-# STEP_END
-
-# STEP_START prompt_assembly
-with lens.turn(session_id) as turn:
-    with lens.retrieval(query=question, data_source="help-center") as search:
-        search.results(documents)
-    with lens.memory_recall(query=question, store_id="support-memories") as recall:
-        recall.results(memories)
-
-    with lens.prompt_assembly() as prompt:
-        prompt.fetched(documents + memories)
-        prompt.used([documents[0], memories[0]])
     turn.set_outcome("completed")
 # STEP_END
 

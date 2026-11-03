@@ -15,15 +15,17 @@ Record each agent turn and the steps inside it with `redis_iris.lens`, the Lens 
 
 ## Turn Lens on
 
-Call `lens.init()` once at startup. It turns Lens on, traces model calls, and sets the agent ID and service name:
+Call `lens.init()` once at startup. It turns Lens on, traces model calls, and sets the agent ID that Lens groups your turns under:
 
 {{< clients-example set="iris_lens_instrument" step="init" description="" lang_filter="Python (Iris)" footer="hide" />}}
+
+You can set the agent ID with `IRIS_LENS_AGENT_ID` instead, and call `lens.init()` with no arguments. An `agent_id` you pass to `lens.init()` overrides the variable.
 
 Without `lens.init()`, Lens starts at the first Lens or Iris service call when `IRIS_LENS_ENDPOINT` is set, and records everything except model calls. You can also pass Lens settings to `Iris(IrisSettings(lens=...))`. See [Configure Lens](/content/develop/ai/context-engine/lens/configure.md) for every setting.
 
 ## Open a turn
 
-Wrap each agent exchange in `lens.turn()`. Pass the session ID, and optionally a thread ID, a user ID, and an agent ID that overrides the process default:
+Wrap each agent exchange in `lens.turn()` and pass a session ID. The Lens UI shows only turns that have one. Optionally, pass a thread ID, a user ID, and an agent ID that overrides the process default. Pass a user ID to filter sessions by user in the Lens UI and the read API:
 
 {{< clients-example set="iris_lens_instrument" step="open_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
@@ -53,27 +55,13 @@ python -m pip install 'redis-iris[llm-tracing]'
 
 Lens then records calls made through the OpenAI, Anthropic, Amazon Bedrock, and LangChain client libraries, including LangGraph. Each model call records its prompt, completion, and token counts, and the turn records its token totals.
 
-## Record retrievals
+## Record your own retrievals
 
-Wrap your own retrieval in `lens.retrieval()` and record its results as `(id, score, text)` tuples:
+Iris services record their own results. For other sources, such as your own vector search, wrap the call in `lens.retrieval()` and record its results as `(id, score, text)` tuples:
 
 {{< clients-example set="iris_lens_instrument" step="retrieval" description="" lang_filter="Python (Iris)" footer="hide" />}}
 
 Pass `None` as the score for a source that doesn't return one. Lens records it as no score rather than a score of zero.
-
-## Record memory recalls
-
-Wrap a recall from a long-term memory store in `lens.memory_recall()`. The store ID becomes the recall's source:
-
-{{< clients-example set="iris_lens_instrument" step="memory_recall" description="" lang_filter="Python (Iris)" footer="hide" />}}
-
-## Record prompt assembly
-
-Record which retrieved items entered the prompt. Pass everything you fetched to `fetched()` and the items you kept to `used()`:
-
-{{< clients-example set="iris_lens_instrument" step="prompt_assembly" description="" lang_filter="Python (Iris)" footer="hide" />}}
-
-Lens matches items by their text, so pass the same items you recorded as results. The turn then shows which results entered the prompt and which weren't used.
 
 ## Add custom steps
 
