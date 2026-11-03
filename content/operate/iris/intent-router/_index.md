@@ -11,7 +11,7 @@ weight: 24
 hideListLinks: true
 ---
 
-Redis Intent Router classifies text into the intents you define and returns the target to dispatch to.
+Redis Intent Router gives applications a service that classifies text into intents and returns the target to dispatch to.
 
 ## Deployment options
 
@@ -19,7 +19,7 @@ Redis Intent Router classifies text into the intents you define and returns the 
 
 Use Redis Intent Router as a managed service on Redis Cloud.
 
-<!-- TODO: link the Redis Cloud pages for creating and managing a Router when they exist. -->
+[Create an Intent Router](/content/operate/iris/intent-router/create-router.md) and connect an application, or [view and manage an existing Router](/content/operate/iris/intent-router/manage-router.md).
 
 After setup, use the [developer quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md) to define your first intents and match queries.
 

@@ -59,6 +59,11 @@ A **Router** holds your intents and is its own access boundary. Each **intent** 
 
 The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client, and [define intents and match your first queries](/content/develop/ai/context-engine/intent-router/quickstart.md).
 
+Redis Intent Router is available on Redis Cloud and for self-managed deployment on Kubernetes.
+
+- **Redis Cloud:** [Create an Intent Router](/content/operate/iris/intent-router/create-router.md) and an agent key in the Redis Cloud console.
+- **Self-managed:** See [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md), then [create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md). You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
+
 ## Choose how to use it
 
 | Use case | How an intent helps |
