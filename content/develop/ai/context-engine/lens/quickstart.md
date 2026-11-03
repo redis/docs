@@ -30,8 +30,8 @@ Install the Redis Iris SDK, which includes Lens instrumentation, and the Lens re
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install 'redis-iris[llm-tracing]'
-python -m pip install redis-agent-lens
+python -m pip install 'redis-iris[llm-tracing]>=1.0.0'
+python -m pip install 'redis-agent-lens>=1.0.0'
 ```
 
 The `llm-tracing` extra traces OpenAI, Anthropic, Amazon Bedrock, and LangChain model calls automatically. `redis-agent-lens` is the read client the last step uses.

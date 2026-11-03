@@ -131,7 +131,7 @@ Give runtime agents the reader key instead, for [agent integration](/content/dev
 The Iris CLI reads the same variables. Install it with Python 3.11 or later:
 
 ```bash
-python -m pip install 'redis-iris'
+python -m pip install 'redis-iris>=1.0.0'
 ```
 
 Create a playbook and mint a read-only key for it in one step, writing the connection values to `.env`:

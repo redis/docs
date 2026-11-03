@@ -54,7 +54,7 @@ Lens groups turns into sessions by agent, and records each turn's steps. See [Le
 1. Install the Redis Iris Python package:
 
     ```bash
-    pip install 'redis-iris[llm-tracing]'
+    pip install 'redis-iris[llm-tracing]>=1.0.0'
     ```
 
 1. With `IRIS_LENS_ENDPOINT`, `IRIS_LENS_API_KEY`, and `IRIS_LENS_AGENT_ID` in your environment, trace a turn. The example calls OpenAI; use any supported client.
