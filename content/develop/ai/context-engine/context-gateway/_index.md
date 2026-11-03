@@ -5,7 +5,7 @@ categories:
 - docs
 - develop
 - ai
-description: Give an agent one MCP endpoint for the tools of any MCP server, plus tools over your Redis data.
+description: Connect agents to MCP servers and tools over Redis data through one endpoint.
 linkTitle: Context Gateway
 hideListLinks: true
 weight: 22
@@ -18,10 +18,10 @@ aliases:
 
 Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents that:
 
-- **Works with any MCP server:** Attach third-party and in-house MCP servers as Upstreams, not only Redis tools.
-- **Serves one endpoint per Gateway:** An agent connects to one Gateway instead of to every MCP server it uses.
-- **Keeps credentials out of agents:** The Gateway stores each Upstream's credential in your secrets backend and sends it on every call.
-- **Turns Redis data into tools:** Optionally, a Context Surface generates tools from a data model over a Redis database.
+- **Connects MCP servers:** Register third-party and in-house MCP servers that support Streamable HTTP as Upstreams.
+- **Provides one endpoint per Gateway:** Connect your agent to a Gateway to access tools from multiple sources.
+- **Manages Upstream credentials:** Configure credentials on the Gateway so your agent does not need credentials for each connected MCP server.
+- **Makes Redis data available as tools:** A Context Surface generates tools from a data model describing records in Redis.
 - **Scales to large tool sets:** In search mode, the agent searches for tools instead of loading every definition.
 - **Handles large and repeated results:** An optional cache serves repeated calls, and compression keeps large results out of the agent's context.
 
@@ -38,7 +38,7 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
     <ul class="space-y-1 text-redis-pen-600">
-      <li>One MCP connection and one agent key per agent</li>
+      <li>Access tools from multiple sources through one MCP connection</li>
       <li>Tool definitions that fit the context window, through search mode</li>
       <li>Large results read in pages instead of filling the context</li>
       <li>Sign-in with your identity provider for MCP clients that support it</li>
@@ -50,7 +50,7 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
       <li>Upstream credentials stored once, in Vault, AWS Secrets Manager, or encrypted Redis</li>
       <li>Per-Gateway access through Identity Service agent keys</li>
       <li>Python package, <code>iris</code> command-line interface (CLI), and REST API for administration</li>
-      <li>Self-managed on your own Kubernetes</li>
+      <li>Managed deployment on Redis Cloud or self-managed deployment on Kubernetes</li>
     </ul>
   </div>
 </div>
@@ -63,7 +63,7 @@ Install the Redis Iris Python package, which includes the `iris` CLI:
 python -m pip install redis-iris==1.0.0b2
 ```
 
-With a Gateway's MCP endpoint and an agent key in your environment, list and call its tools:
+With a Gateway's MCP endpoint and an agent key in your environment, list its tools:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_URL='<gateway-mcp-endpoint>'
@@ -73,20 +73,21 @@ iris --json context-gateway tools list
 
 Use the tool names and input schemas returned by discovery. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
 
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/context-gateway](https://www.npmjs.com/package/@redis-iris/context-gateway) covers MCP calls and the Control Plane API. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md) to choose a client.
+The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For JavaScript and TypeScript, install the separate [@redis-iris/context-gateway SDK](https://www.npmjs.com/package/@redis-iris/context-gateway) for MCP calls and the Control Plane API. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md) to choose a client.
 
 Follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) to list, search, and call tools, or see [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md) to register your own MCP servers and Context Surfaces.
 
 ## Get started with Context Gateway
 
-Context Gateway is available for self-managed deployment on Kubernetes. See [Self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/_index.md), then [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md).
+Context Gateway is available on Redis Cloud or as a self-managed deployment on Kubernetes.
 
-You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
+- **Redis Cloud:** [Create a Context Gateway](/content/operate/iris/context-gateway/create-gateway.md).
+- **Self-managed:** Follow the [deployment guide](/content/operate/iris/context-gateway/self-managed/_index.md), then [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md). A license key is required for self-managed deployment. [Contact Redis](https://redis.io/contact/) to request access.
 
 ## Manage Gateways and Upstreams
 
 - [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md): create Gateways, register MCP servers, store their credentials, and set tool policies.
-- [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md): serve the records of a Redis database as tools.
+- [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md): generate tools for querying records in Redis.
 
 ## Serve tools at runtime
 

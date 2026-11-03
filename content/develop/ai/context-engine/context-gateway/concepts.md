@@ -13,114 +13,126 @@ aliases:
 - /develop/ai/context-engine/context-retriever/concepts/
 ---
 
-## Gateways
+Redis Context Gateway gives agents access to tools from multiple sources through one Model Context Protocol (MCP) endpoint. You choose which sources to connect and whether agents receive all tool definitions or discover relevant tools as needed.
 
-A **Gateway** is one Model Context Protocol (MCP) endpoint, `/iris/data/v1/context-gateway/gateways/<gateway-id>/mcp` on the Data Plane. It lists and calls the tools of its **Upstreams**. Create a Gateway for each set of tools that an agent or team should see together.
+The Gateway also helps agents work efficiently with tool results. **Caching** reuses results for repeated calls, reducing requests to connected sources. **Compression** stores large results outside the agent’s context and lets the agent retrieve selected portions or calculate counts and aggregates.
 
-![An agent sends one agent key to Context Gateway, which checks it with the Identity Service. The Gateway calls an MCP server and a Context Surface over a Redis database, and reads Upstream credentials from the secrets backend.](/images/ai/context-engine/context-gateway-overview.svg)
-{width="750"}
+This page explains how Gateways, tool sources, discovery modes, caching, and compression work together.
 
-One Helm release serves one tenant, and every Gateway belongs to that tenant. A Gateway of another tenant answers like a Gateway that does not exist.
+## Gateways and Upstreams {#gateways}
 
-### Access
+A **Gateway** brings together a set of tools that an agent or team needs. Each source of tools registered with a Gateway is an **Upstream**.
 
-An agent reaches a Gateway in one of two ways:
+<a id="upstreams"></a>
 
-- An **agent key** from the Identity Service, sent as `Authorization: Bearer <key>` or `X-Api-Key: <key>`.
-- An **identity provider (IdP) access token**, when the deployment turns on sign-in. MCP clients that support MCP authorization find the IdP from the Gateway and sign in by themselves. The token is accepted only in `Authorization: Bearer`.
+Context Gateway supports two kinds of Upstream:
 
-The key's or token's grants must name the Gateway:
-
-| Action | What it allows |
+| Source | What it provides |
 | --- | --- |
-| `use` | List and call every tool on the Gateway, including tools that change data in an Upstream. |
-| `full` | Everything `use` allows. |
+| **MCP server** | Tools from a third-party or in-house server that supports Streamable HTTP. |
+| **Context Surface** | Tools generated from a data model describing records in a Redis database. |
 
-MCP read-only and destructive annotations do not limit what `use` allows. Give an agent a Gateway that holds only the tools it should call. Neither the agent key nor the IdP token reaches an Upstream.
+For example, a support agent might need to look up invoices and search product information. You could register a billing MCP server and a product Context Surface with the same Gateway. The agent then accesses both through one connection.
 
-For key administration, see [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md).
+### Tool names
 
-## Upstreams
+Each Upstream has a **namespace** that distinguishes its tools from tools provided by other sources. For example, the `get_invoice` tool from an Upstream with the namespace `billing` appears as `billing__get_invoice`.
 
-An **Upstream** is a source of tools. A Gateway supports two kinds:
-
-- An **MCP server** (`MCP`): any MCP server the Gateway reaches over Streamable HTTP. It can come from any vendor or from your own team. It does not need to use Redis.
-- A **Context Surface** (`CONTEXT_SURFACE`): tools generated from a data model over the records of a Redis database. See [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md).
-
-Each Upstream has a **namespace**: 1 to 32 lowercase letters and digits, with single hyphens between them. The Control Plane derives it from the Upstream's `name` when you leave it out. A long derived namespace is shortened with a hash suffix. An existing namespace causes a conflict instead of silently choosing another name. The Gateway serves each tool under its qualified name, such as `billing__get_invoice`. Namespaces keep two Upstreams with the same tool name apart.
-
-The Gateway joins the namespace and sanitized tool name with `__`, replacing unsupported tool-name characters with underscores. It refuses catalogs whose names collide after sanitization or exceed 64 characters. Use names returned by discovery unchanged. Search-mode identity still uses the exact `originalName` and `upstreamId` from tool metadata.
-
-An Upstream is enabled when you create it. A disabled Upstream contributes no tools until you enable it again.
+Use the names returned by tool discovery when calling tools.
 
 ### Tool catalogs
 
-The Gateway discovers an Upstream's tools when you register it and stores them as the Upstream's **catalog**. `tools/list` serves the stored catalog and does not contact the Upstream, so an Upstream outage shows up only when an agent calls one of its tools.
+When you register an Upstream, the Gateway discovers its tools and stores their definitions in a **catalog**. Refresh the catalog when you add, remove, or change tools at the source.
 
-Refresh the catalog when the Upstream's tools change. Each refresh publishes a new catalog revision. Changing an Upstream's endpoint or credential also changes its revision.
+The Gateway serves tool discovery requests from this stored catalog. Listing tools does not contact the Upstream or check whether it is available.
 
-### Credentials
+You can disable an Upstream to remove its tools from discovery without deleting its registration.
 
-The Gateway sends each MCP server the credential you register for it, as a bearer token or a named header. Credential values live in the deployment's secrets backend: an encrypted Redis database, HashiCorp Vault, or AWS Secrets Manager. Reads of an Upstream never return them.
+<a id="access"></a>
+<a id="credentials"></a>
 
-Context Surfaces use Redis credentials from the deployment's database registry. See [Context Surface databases](/content/operate/iris/context-gateway/self-managed/configuration.md#context-surface-databases).
+## Access and credentials
 
-## Tool exposure modes
+Agents authenticate to a Gateway using an agent key. Deployments configured for identity provider sign-in also support compatible MCP clients signing in through that provider.
 
-A Gateway's `toolExposureMode` decides what an MCP `tools/list` request returns:
+Access is granted at the Gateway level. An agent with permission to use a Gateway can call every tool it exposes, including tools that modify data. Organize Gateways around the access your agents need. Read-only and destructive tool annotations describe tool behavior but do not restrict access.
 
-| Mode | `tools/list` returns | Use it when |
-| --- | --- | --- |
-| `FULL` (default) | Every tool under its qualified name. | The agent works with a small, known set of tools. |
-| `SEARCH` | `search_tools` and `run_tool`, plus handle tools when compression is enabled. | The Gateway holds more tools than fit in the agent's context. |
+Credentials for connected sources are configured separately. The Gateway uses those credentials when accessing the sources and does not forward the agent’s key or identity provider token.
+
+See [Authentication and authorization](/content/operate/iris/context-gateway/self-managed/authentication.md) for authentication setup and access grants.
+
+## Tool discovery {#tool-exposure-modes}
+
+A Gateway’s **tool exposure mode** determines how an agent discovers and calls tools.
+
+### Full mode
+
+In full mode, the Gateway lists all available tools with their definitions. The agent calls a tool directly using its discovered name, such as `billing__get_invoice`.
+
+Full mode is the default. Use it when the tool definitions fit comfortably in your agent’s context.
+
+### Search mode
+
+In search mode, the agent discovers tools as needed. It uses `search_tools` to find tools relevant to a task, reads the returned definitions to choose a tool and its arguments, then calls the selected tool through `run_tool`.
+
+Search matches query words against tool names, titles, and descriptions. Descriptive tool names and descriptions help agents find the right tools.
+
+Use search mode when you have a large tool set and want to avoid including every definition in the agent’s context. When compression is enabled, the Gateway also exposes tools for working with stored results.
+
+The application programming interface (API) values for these modes are `FULL` and `SEARCH`.
 
 ![In full mode, listing tools returns every tool definition and the agent calls a tool by name. In search mode, listing tools returns search_tools and run_tool, search returns the matching tools, and run_tool calls the chosen one.](/images/ai/context-engine/context-gateway-exposure-modes.svg)
 {width="650"}
 
-In search mode the agent calls `search_tools` and receives complete tool definitions. Search matches the words of the query against each tool's name, title, and description, so write queries with the words a tool's name or description would contain. The agent then calls a tool through `run_tool` with the `upstreamId` and `originalName` from its definition. A mode change applies on the next request.
+## Working with tool results {#tool-policies}
 
-## Tool policies
+Caching and compression address different needs. Caching reuses results across repeated calls. Compression lets an agent work with a large result without receiving it all at once.
 
-A **tool policy** sets optional behavior for one tool of one Upstream. Both behaviors need a Gateway database, selected with the Gateway's `databaseId`.
+Both features require a Redis database configured for the Gateway and must be enabled in both the deployment and the Gateway configuration. Caching and compression are disabled on Redis Cloud in this release.
 
-Each Gateway also turns the cache and compression on or off for all of its tools with two settings, `ENABLED` or `DISABLED`: `cache` for the cache and `compression` for compression. On self-managed deployments, a Gateway created with a database defaults both features to enabled, subject to database capability checks. A Gateway without a database has both disabled. Redis Cloud keeps the cache and compression disabled. A feature serves a Gateway only when the Gateway's setting is `ENABLED` and the deployment turns the feature on.
+### Caching {#cache}
 
-### Cache
+Caching lets the Gateway reuse a previous tool result for a matching call instead of calling the Upstream again.
 
-The cache serves a repeated call from the Gateway database instead of calling the Upstream again. Each tool opts in with a `cache` policy and a time to live (TTL).
+Caching is configured for individual tools through a **tool policy**. The policy’s time to live (TTL) determines how long a cached result can be reused. Choose a TTL that reflects how quickly the source data changes and how much staleness your application can tolerate.
 
-A tool can be cached unless its definition says `readOnlyHint: false` or `destructiveHint: true`. An absent hint does not block caching, and no annotation turns caching on. Annotations that are not booleans also block caching. An entry is served until its TTL expires or the Upstream's revision changes.
+For example, product descriptions may tolerate a longer TTL than inventory availability.
 
 ![A tool call without a cache policy goes straight to the Upstream. A call with a policy checks for a stored result. If one exists, the Gateway returns it. If not, the Gateway calls the Upstream, stores the result for the TTL, and returns it.](/images/ai/context-engine/context-gateway-result-cache.svg)
 {width="850"}
 
-All callers with access to a Gateway share its cache entries.
+Cache entries are shared by callers with access to the same Gateway. Consider that shared access when deciding which tools to cache. Tool annotations alone do not enable caching.
+
+See [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md) for cache configuration and tool eligibility.
 
 ### Compression
 
-A handle holds a large tool result in the Gateway database. When compression is on for a Gateway, eligible results over 32 kibibytes (KiB) are candidates for a handle, subject to storage and capture limits. The agent receives a small stub with the handle and reads the result in pages, queries, counts, or aggregates.
+Compression reduces the amount of tool-result data sent to the agent by storing eligible large results in Redis. The agent receives a small response containing a **handle**, a reference it can use to work with the stored result.
 
-A tool opts out with a `compression` policy of `capture: NEVER`, or sets its own handle lifetime with `ttlSeconds`. An agent can request a handle even below the automatic threshold with `run_tool_as_handle`. If the result cannot be held, this explicit request returns a tool error. Ordinary automatic capture can instead return the original result inline.
+Using that handle, the agent can:
 
-A handle is bound to the caller that created it, and it survives a rotation of that caller's agent key. It ends when the agent releases it or its TTL expires. Handles are bounded by their TTL and the Gateway database's memory.
+- Retrieve a page of records.
+- Select part of the result.
+- Calculate counts and aggregates.
 
-Eligible Surface filter and text queries collect continuation pages within configured limits. A handle can still be partial or have unknown completeness. Read its completeness warning before treating a count or aggregate as the total for the source.
+For example, a product search might return more records than an agent needs to inspect. The agent can count the matches by category, then retrieve a page from the category relevant to the user’s question.
 
-## Key terms
+Compression can capture eligible large results automatically when enabled, with tool policies controlling exceptions and handle lifetime. Agents can also explicitly request a stored result with `run_tool_as_handle`.
 
-| Term | Meaning |
-| --- | --- |
-| Gateway | One MCP endpoint that serves the tools of its Upstreams. |
-| Upstream | An MCP server or Context Surface whose tools a Gateway serves. |
-| Context Surface | An Upstream that serves Redis records as tools from a data model. |
-| Namespace | The prefix that makes an Upstream's tool names unique within a Gateway. |
-| Catalog | The stored list of an Upstream's tools. |
-| Tool policy | Per-tool settings for the cache and compression. |
-| `cache`, `compression` | Per-Gateway settings that turn the cache and compression on or off. |
-| Gateway database | The Redis database that holds cached results and handles. |
+#### Handle lifetime and access
+
+A handle belongs to the caller that created it. It remains available until its TTL expires or the caller releases it.
+
+#### Result completeness
+
+Capture limits can prevent the Gateway from storing the complete source result. A count or aggregate then describes the captured data, which may represent only part of the source result.
+
+Check the result’s completeness information and warnings before treating a count or aggregate as a total.
+
+See the [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for handle tools and [Limits and errors](/content/develop/ai/context-engine/context-gateway/limits.md) for capture limits and failure behavior.
 
 ## Next steps
 
-- [Quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) to list and call your first tools.
-- [MCP](/content/develop/ai/context-engine/context-gateway/mcp.md) to connect any MCP client.
-- [API reference](/content/develop/ai/context-engine/context-gateway/api-reference.md) for every tool, argument, and metadata key.
+- [Quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md): Discover and call your first tools.
+- [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md): Connect tool sources and configure Gateway behavior.
+- [Manage Context Surfaces](/content/develop/ai/context-engine/context-gateway/manage-context-surfaces.md): Generate tools for querying Redis data.
