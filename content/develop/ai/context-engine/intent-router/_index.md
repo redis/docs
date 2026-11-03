@@ -53,6 +53,8 @@ A **Router** holds your intents and is its own access boundary. Each **intent** 
 
 1. Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
 
+{{< clients-example set="iris_intent_router_quickstart" step="router-connect" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+
 {{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
 
 The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client, and [define intents and match your first queries](/content/develop/ai/context-engine/intent-router/quickstart.md).

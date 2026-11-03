@@ -65,6 +65,8 @@ See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agen
 
 1. With `IRIS_AGENT_PLAYBOOKS_URL`, `IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID`, and `IRIS_AGENT_PLAYBOOKS_API_KEY` in your environment, find the published entries that match an agent's task:
 
+{{< clients-example set="iris_playbook_quickstart" step="playbook-connect" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
 {{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-discover" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Follow the [quickstart](/content/develop/ai/context-engine/agent-playbooks/quickstart.md) to publish your first FAQ and retrieve it.
