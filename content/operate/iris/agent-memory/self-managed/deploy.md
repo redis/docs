@@ -22,7 +22,7 @@ These steps install Redis Agent Memory with chart-rendered configuration and age
 authentication, and end with one authenticated call to the Data Plane.
 
 Install Identity Service as release `ids`, then Memory as release `redis-agent-memory`.
-These steps use Memory chart `1.0.0` and Identity Service chart `1.0.0` in one namespace.
+These steps use Memory chart `1.0.0` and Identity Service chart `1.2.0` in one namespace.
 You create the shared credentials and Identity Service control token; Memory generates its
 Control Plane admin token. See [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
 
@@ -126,6 +126,8 @@ metadata:
 
 ### Install Identity Service first
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 Save this as `values-ids.yaml`:
 
 ```yaml
@@ -160,7 +162,7 @@ tls:
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
+  --version 1.2.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```

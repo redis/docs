@@ -68,7 +68,7 @@ AI agents are autonomous systems that combine LLMs with memory, tools, and plann
 
 The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes four services, available fully managed on Redis Cloud or self-managed on your own infrastructure:
 
-- [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
+- [LangCache]({{< relref "/develop/ai/langcache" >}}): Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
 - [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Two-tier persistent memory (session and long-term) for agents, available through Python and TypeScript SDKs and a REST API.
 - [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Gives agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, and serves your Redis data as tools with Context Surfaces.
 - [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
@@ -80,7 +80,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 1. [**Search with vectors**]({{< relref "develop/ai/search-and-query/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/ai/search-and-query/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/ai/search-and-query/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/ai/search-and-query/vectors#filters" >}}).
 1. [**Configure vector queries at runtime**]({{< relref "develop/ai/search-and-query/vectors#runtime-query-parameters" >}}): Select the best filter mode to optimize query execution.
 1. [**Build an AI agent**]({{< relref "/develop/ai/agent-builder" >}}): Use the interactive agent builder to generate complete working code for conversational assistants and recommendation engines.
-1. [**Add semantic caching**]({{< relref "/develop/ai/context-engine/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
+1. [**Add semantic caching**]({{< relref "/develop/ai/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
 1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Agent Memory REST API.
 1. [**Connect tools and business data**]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Use Context Gateway to give any agent one endpoint for your MCP servers and your Redis data.
 1. [**Sync live data to Redis**]({{< relref "/develop/ai/context-engine/data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
@@ -137,7 +137,7 @@ AI agents can act autonomously to plan and execute tasks for the user.
 #### Context Engine
 The Context Engine provides managed services for agent memory and data access.
 
-* [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}): Add semantic caching to reduce LLM costs in minutes.
+* [Get started with LangCache]({{< relref "/develop/ai/langcache" >}}): Add semantic caching to reduce LLM costs in minutes.
 * [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Add persistent two-tier memory to any agent using the REST API.
 * [Get started with Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Give agents one MCP endpoint for the tools of your MCP servers and your Redis data.
 * [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keep Redis in sync with your primary database so agents always have fresh data.

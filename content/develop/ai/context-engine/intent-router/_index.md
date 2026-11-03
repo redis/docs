@@ -8,7 +8,7 @@ categories:
 description: Classify a user's message into a named intent and get back the target your application should dispatch to.
 linkTitle: Intent Router
 hideListLinks: true
-weight: 27
+weight: 24
 ---
 
 ## What is Redis Intent Router?
@@ -36,6 +36,29 @@ For example, a support application can route "where is my package?" to a `track_
 - **Governed access:** Each Router is its own authorization boundary, with separate `read`, `write`, and `full` grants.
 - **Flexible integration:** Use Python, TypeScript, the `iris` command-line interface (CLI), or the Hypertext Transfer Protocol (HTTP) API.
 
+## Concepts
+
+A **Router** holds your intents and is its own access boundary. Each **intent** has example phrasings and an optional **target**, and each match returns intents with a **score** that a threshold on the Router, the intent, or the request can filter. See [Intent Router concepts](/content/develop/ai/context-engine/intent-router/concepts.md).
+
+## Quick example
+
+1. Set up a Router:
+    <!-- TODO: add the Redis Cloud setup link when the Intent Router Cloud pages exist. -->
+    - **Self-managed:** Deploy with [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md), then [create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md). You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
+1. Install the Redis Iris Python package, which includes the `iris` CLI:
+
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
+
+1. Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
+
+{{< clients-example set="iris_intent_router_quickstart" step="router-connect" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+
+{{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+
+The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client, and [define intents and match your first queries](/content/develop/ai/context-engine/intent-router/quickstart.md).
+
 ## Choose how to use it
 
 | Use case | How an intent helps |
@@ -46,28 +69,6 @@ For example, a support application can route "where is my package?" to a `track_
 | Workflow dispatch | Start a pipeline or handler from a natural-language request. |
 
 The Router doesn't run the target. It returns the target, and your application decides how and whether to act on it.
-
-## Quick example
-
-Install the Redis Iris Python package, which includes the `iris` CLI:
-
-```bash
-pip install 'redis-iris>=1.0.0'
-```
-
-Set `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY` as shown in the [quickstart](/content/develop/ai/context-engine/intent-router/quickstart.md#save-connection-values), connect, and define intents:
-
-{{< clients-example set="iris_intent_router_quickstart" step="intents-create" description="" lang_filter="Python (Iris),TypeScript (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
-
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers matching, intent authoring, and Router administration in Python and the CLI. For TypeScript, the generated client [@redis-iris/intent-router](https://www.npmjs.com/package/@redis-iris/intent-router) covers the data plane and the control plane. Install it with `npm install @redis-iris/intent-router`. See the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md) to choose a client.
-
-## Get started
-
-Redis Intent Router is available for self-managed deployment on Kubernetes. See [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md), then [create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md).
-
-You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
-
-Then [define intents and match your first queries](/content/develop/ai/context-engine/intent-router/quickstart.md).
 
 ## Manage Routers and intents
 

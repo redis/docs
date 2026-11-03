@@ -27,7 +27,9 @@ kubectl create namespace <namespace-name>
 
 ### Configure the Identity Service release first
 
-The chart deploys no Identity Service. Set these values on your Identity Service release so that it checks Router grants and accepts the data plane's runtime credential. The examples assume this chart is installed as release `intent` in the same namespace as an Identity Service release named `iris-identity-service`.
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
+The chart deploys no Identity Service. Set these values on your Identity Service release so that it checks Router grants and accepts the data plane's runtime credential. The examples assume this chart is installed as release `intent` in the same namespace as an Identity Service release named `ids`.
 
 | Identity Service value | Setting |
 | --- | --- |
@@ -94,7 +96,7 @@ Check each value before you install. If one is wrong, you see the symptom in its
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install intent redis-ai/redis-intent-router \
-  --version <chart-version> \
+  --version 0.1.0 \
   --namespace <namespace-name> \
   -f intent-values.yaml \
   --wait --timeout 5m
@@ -120,7 +122,7 @@ kubectl -n <namespace-name> port-forward svc/intent-redis-intent-router-dataplan
 ```
 
 ```bash
-kubectl -n <namespace-name> port-forward svc/iris-identity-service 9200:9200
+kubectl -n <namespace-name> port-forward svc/ids-iris-identity-service 9200:9200
 ```
 
 Then check readiness on every service:

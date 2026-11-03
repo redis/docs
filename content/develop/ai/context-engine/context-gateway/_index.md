@@ -55,34 +55,37 @@ Redis Context Gateway is a Model Context Protocol (MCP) gateway for AI agents th
   </div>
 </div>
 
+## Concepts
+
+A **Gateway** is one MCP endpoint for an agent. Each **Upstream** behind it is an MCP server or a **Context Surface**, which generates tools from a data model of records in Redis. In full mode the agent lists every tool; in search mode it searches for the tools it needs. See [Context Gateway concepts](/content/develop/ai/context-engine/context-gateway/concepts.md) for tool policies, caching, and compression.
+
 ## Quick example
 
-Install the Redis Iris Python package, which includes the `iris` CLI:
+1. Set up a Gateway:
+    - **Redis Cloud:** [Create a Context Gateway](/content/operate/iris/context-gateway/create-gateway.md).
+    - **Self-managed:** Follow the [deployment guide](/content/operate/iris/context-gateway/self-managed/_index.md), then [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md). A license key is required for self-managed deployment. [Contact Redis](https://redis.io/contact/) to request access.
+1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
-```bash
-pip install redis-iris
-```
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
 
-With a Gateway's MCP endpoint and an agent key in your environment, list its tools:
+1. With `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY` in your environment, find a tool and call it:
 
-```bash
-export IRIS_CONTEXT_GATEWAY_URL='<gateway-mcp-endpoint>'
-export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
-iris --json context-gateway tools list
-```
+    ```python
+    from redis_iris import ContextGateway
 
-Use the tool names and input schemas returned by discovery. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
+    gateway = ContextGateway.from_env()
 
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For JavaScript and TypeScript, install the separate [@redis-iris/context-gateway SDK](https://www.npmjs.com/package/@redis-iris/context-gateway) for MCP calls and the Control Plane API. See the [client guide](/content/develop/ai/context-engine/context-gateway/mcp.md#choose-a-client) to choose a client.
+    for tool in gateway.search("filter providers by specialty"):
+        print(tool.name, tool.description)
 
-Follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) to list, search, and call tools, or see [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md) to register your own MCP servers and Context Surfaces.
+    result = gateway.call("<tool-name>", {"<argument>": "<value>"})
+    ```
 
-## Get started with Context Gateway
+    From the CLI, `iris --json context-gateway tools list` lists the same tools.
 
-Context Gateway is available on Redis Cloud or as a self-managed deployment on Kubernetes.
-
-- **Redis Cloud:** [Create a Context Gateway](/content/operate/iris/context-gateway/create-gateway.md).
-- **Self-managed:** Follow the [deployment guide](/content/operate/iris/context-gateway/self-managed/_index.md), then [create a Gateway and an agent key](/content/operate/iris/context-gateway/self-managed/api-examples.md). A license key is required for self-managed deployment. [Contact Redis](https://redis.io/contact/) to request access.
+Use the tool names and input schemas returned by discovery. The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For JavaScript and TypeScript, install the [@redis-iris/context-gateway SDK](https://www.npmjs.com/package/@redis-iris/context-gateway); see the [client guide](/content/develop/ai/context-engine/context-gateway/mcp.md#choose-a-client) to choose a client. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
 
 ## Manage Gateways and Upstreams
 

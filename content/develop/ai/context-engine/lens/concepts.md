@@ -77,5 +77,4 @@ You can turn content capture off. Lens then keeps each step's IDs, content hashe
 
 ## Retention
 
-Lens keeps turn structure, timing, scores, and outcomes for the full retention window. Captured text has a shorter window. Your administrator sets both windows.
-<!-- TODO: link the operator retention settings when the operator pages exist. -->
+Lens keeps turn structure, timing, scores, and outcomes for the full retention window. Captured text has a shorter window. Your administrator sets both windows. See [self-managed retention](/content/operate/iris/lens/self-managed/configuration.md#retention).

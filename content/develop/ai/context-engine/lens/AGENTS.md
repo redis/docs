@@ -41,8 +41,8 @@ beta notice; don't add lists of gaps or "coming soon" notes.
 Lens runs on Redis Cloud and self-managed. Pages are deployment-neutral: the same steps
 work on both. Name a deployment only where behavior differs.
 
-Readers get endpoints and keys from their administrator. Until the operator pages exist,
-say so without linking to them, and mark each handoff with a TODO comment.
+Readers get endpoints and keys from their administrator. Link the handoff to the Cloud
+pages or the self-managed guide under `content/operate/iris/lens/self-managed/`.
 
 ## Terms
 

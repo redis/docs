@@ -110,7 +110,7 @@ Redis URLs, tokens, keyrings, and the license belong in Kubernetes Secrets or Se
 
 The chart defaults to these repositories and pins the image tags that match its chart version. Leave `image.repository` and `image.tag` unset for a public install, and override them only to pull from a mirror.
 
-<!-- TODO: Add the published image tags and chart version from the release manifest. -->
+Chart `0.2.0` pins both images to tag `0.1.0`.
 
 ## Air-gapped and private registry installs
 
