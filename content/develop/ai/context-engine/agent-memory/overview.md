@@ -78,4 +78,4 @@ Both paths are supported. Use direct writes for bulk imports or external knowled
 
 - Try the [Agent Memory interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) to watch session memory and long-term memory change during a conversation.
 - [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
-- [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to store a conversation and search extracted memories with Python, TypeScript, or curl. Then [try automatic summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#try-automatic-summarization" >}}) to see how older messages become a summary.
+- [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to store a conversation and search extracted memories with Python, the Iris CLI, or cURL. Then [try automatic summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#try-automatic-summarization" >}}) to see how older messages become a summary.

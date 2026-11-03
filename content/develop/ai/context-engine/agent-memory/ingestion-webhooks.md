@@ -26,7 +26,8 @@ Select each path your policy needs. Selecting creation does not also select upda
 | `session.append` | An application adds a session event. | Accept, reject, or transform. |
 | `memory.create` | An application creates a memory batch. | Accept, reject, transform, or review each operation. |
 | `document.submit` | An application submits a document for extraction. | Accept, reject, or transform. |
-| `memory.update`, `memory.delete`, `memory.move` | An authorized caller changes, deletes, or moves a memory. | Accept or reject. |
+| `memory.update` | An authorized caller updates a memory with either PATCH endpoint, or a bulk move changes a memory's namespace. Each changed record in a bulk move is reviewed separately. | Accept or reject. |
+| `memory.delete` | An authorized caller deletes a memory. | Accept or reject. |
 | `session.summary`, `session.property` | An application or worker writes a session summary or property. | Accept or reject. |
 | `session.delete`, `session.events.delete` | An application explicitly deletes a session or event. | Accept or reject. |
 
@@ -36,8 +37,13 @@ Select each path your policy needs. Selecting creation does not also select upda
 |:-----|:-----------------|:----------|
 | `session.builtin` | Built-in session extraction produces memory changes. | Whole-batch or per-operation decisions. |
 | `session.custom` | Custom session extraction produces memory changes. | Whole-batch or per-operation decisions. |
-| `document.chunk` | Document extraction produces memory changes from a chunk. | Whole-batch or per-operation decisions. |
+| `document.chunk` | Document ingestion reconciles the candidates from every chunk into one final batch. | Whole-batch or per-operation decisions. |
 | `summary_view.refresh` | A Summary View generates a value for publication. | Accept or reject. |
+
+For `memory.update`, `input.namespaceId` is the proposed namespace and `input.previousNamespaceId` is the stored namespace. Both are namespace IDs, omitted when no namespace is assigned.
+
+> [!NOTE]
+> The `memory.move` path was removed. Before upgrading, replace `memory.move` with `memory.update` in each store policy that selects it.
 
 Configuration, reads, searches, automatic expiration, and store teardown are outside content hooks. Empty extraction batches and empty Summary View results have no generated content to review. Authorization runs before content is sent to a receiver; an acceptance cannot grant access or bypass validation.
 
@@ -210,26 +216,15 @@ Return exactly one decision for every proposed operation; missing, duplicate, or
 
 ## Make input retries idempotent
 
-When selected, session append and manual memory creation require `idempotencyKey` containing 1–128 printable ASCII characters. In Python this is `idempotency_key`; TypeScript and REST use `idempotencyKey`. Document ingestion already requires this field.
+When selected, session append and manual memory creation require `idempotencyKey` containing 1–128 printable ASCII characters. In Python this is `idempotency_key`; REST uses `idempotencyKey`. Document ingestion already requires this field. Without a selected hook, the key is optional for manual memory creation. Reusing it with the original request replays the saved result; reusing it with a different request returns `409`.
 
 Save the complete original request, including timestamps, before sending it. After a lost response, reuse that request and key. Changing content under the same key conflicts. Saved acceptance and write receipts let a retry resume without repeating confirmed writes. A manual batch can still have per-record errors.
 
-To try the receiver's rejection marker, use a new memory ID and key with your authenticated owner. Save this synthetic request and repeat only the curl call to test an identical retry:
+To try the receiver's rejection marker, create a memory whose text contains `[reject]`. The examples continue from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md) and use its connection values and `quickstart-user`. Each run uses a new memory ID and key, sends the request, and then repeats the identical request to test a retry. The complete program deletes the test memory if it was created.
 
-```sh
-export HOOK_TEST_MEMORY_ID="hook-test-$(openssl rand -hex 12)"
-export HOOK_TEST_REQUEST_ID="hook-request-$(openssl rand -hex 12)"
-jq -n --arg id "$HOOK_TEST_MEMORY_ID" --arg owner "$OWNER_ID" \
-  --arg key "$HOOK_TEST_REQUEST_ID" \
-  '{idempotencyKey:$key,memories:[{memoryId:$id,ownerId:$owner,text:"[reject] synthetic webhook test"}]}' > hook-test.json
-curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-  --header 'Content-Type: application/json' --data @hook-test.json \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" | jq
-```
+{{< clients-example set="iris_agent_memory_ingestion_webhooks" step="ingestion-webhooks-test-create" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-With `memory.create` selected, inspect the per-record result and verify that the rejected record was not created. Use a new key for changed input; editing `hook-test.json` under the same key conflicts.
+With `memory.create` selected, inspect the per-record result and verify that the rejected record was not created. Without `memory.create` selected, the memory is created and the retry replays the same result. Use a new key for changed input; changing the request under the same key conflicts.
 
 The additional mutation paths and Summary View publication use fresh events rather than this input-replay contract. Retrying them reviews current state again; a lost response after a successful mutation can lead to another review. A callback's acceptance does not promise that its target will remain unchanged until persistence.
 
@@ -237,7 +232,7 @@ The additional mutation paths and Summary View publication use fresh events rath
 
 Callbacks have a five-second limit. Input callbacks have no automatic receiver retry. Interrupted undecided input can be resumed with the same original request and key; receiver failures remain terminal. Abandoned undecided input is cancelled after 60 seconds without a live lease.
 
-Session and document extraction output have at most three total callback attempts, with delays of 30 and 120 seconds within the job deadline. Saved candidates are resumed rather than regenerated. Explicit rejection filters candidates and permits progress; invalid responses or transport failures stop the current batch. Earlier batches may already be saved.
+Session and document extraction output have at most three total callback attempts, with delays of 30 and 120 seconds within the job deadline. Document ingestion sends `document.chunk` one final reconciled batch per ingestion, not one batch per chunk. Its `source.chunkId` is the internal `reconcile-v1` work ID. Saved candidates are resumed rather than regenerated. Explicit rejection filters candidates and permits progress; invalid responses or transport failures stop the current batch. Earlier batches may already be saved.
 
 For `summary_view.refresh`, a recorded rejection, invalid decision, or receiver failure stops that refresh's normal retries. Request a new refresh to generate a new proposal. Interrupted attempts can still be delivered again. Native generation or signing-key lookup failures have their own retry policy.
 
@@ -252,99 +247,12 @@ Session summary and property hooks also apply to worker writes. A rejected summa
 
 Decision `state` and `applyState` are separate. Inspect `applied`, `filtered`, `conflicts`, attempts, safe errors, and retry times. A later failure or an incomplete completion record does not prove earlier writes were rolled back. You cannot manually retry a stopped operation through a retry endpoint.
 
-Use the Data Plane connection values from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). Set `HOOK_EVENT_ID` to inspect one known event, or omit it to list events. Add `USER_TOKEN` for delegated access:
+List hook events and inspect one in detail. The examples print each event's path and states, then read the first event by its ID. For delegated access on a self-managed service, use the authenticated client setup in [delegation](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key).
 
-{{< multitabs id="hook-status" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-import asyncio
-import os
-
-from redis_agent_memory import AgentMemory
-
-
-async def main():
-    headers = {"X-Iris-User-Token": os.environ["USER_TOKEN"]} if os.environ.get("USER_TOKEN") else {}
-    async with AgentMemory(
-        os.environ["AGENT_MEMORY_URL"], store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
-    ) as memory:
-        if os.environ.get("HOOK_EVENT_ID"):
-            event = await memory.get_ingestion_hook_status_async(
-                event_id=os.environ["HOOK_EVENT_ID"], http_headers=headers,
-            )
-            print(event.model_dump_json(by_alias=True))
-            return
-        cursor = None
-        while True:
-            page = await memory.list_ingestion_hook_statuses_async(
-                limit=20, cursor=cursor, http_headers=headers,
-            )
-            for status in page.items:
-                print(status.model_dump_json(by_alias=True))
-            cursor = page.next_cursor
-            if not cursor:
-                break
-
-
-asyncio.run(main())
-```
-
--tab-sep-
-
-```typescript
-import { AgentMemory } from "@redis-iris/agent-memory";
-
-async function main() {
-  const { AGENT_MEMORY_URL, STORE_ID, API_KEY, USER_TOKEN, HOOK_EVENT_ID } = process.env;
-  if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY) {
-    throw new Error("Set AGENT_MEMORY_URL, STORE_ID, and API_KEY.");
-  }
-  const memory = new AgentMemory({ serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY });
-  const headers: Record<string, string> = USER_TOKEN ? { "X-Iris-User-Token": USER_TOKEN } : {};
-  const options = { headers };
-  if (HOOK_EVENT_ID) {
-    console.dir(await memory.getIngestionHookStatus(HOOK_EVENT_ID, options), { depth: null });
-    return;
-  }
-  let cursor: string | undefined;
-  do {
-    const page = await memory.listIngestionHookStatuses(20, cursor, options);
-    console.dir(page.items, { depth: null });
-    cursor = page.nextCursor;
-  } while (cursor);
-}
-
-main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
-```
-
--tab-sep-
-
-```sh
-if [ -n "${HOOK_EVENT_ID:-}" ]; then
-  curl --fail-with-body --silent --show-error \
-    --header "Authorization: Bearer $API_KEY" \
-    --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/ingestion-hook-events/$HOOK_EVENT_ID" | jq
-else
-  cursor=''
-  while :; do
-    page=$(curl --fail-with-body --silent --show-error --get \
-      --header "Authorization: Bearer $API_KEY" \
-      --header "X-Iris-User-Token: ${USER_TOKEN:-}" \
-      --data-urlencode 'limit=20' --data-urlencode "cursor=$cursor" \
-      "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/ingestion-hook-events") || exit 1
-    printf '%s\n' "$page" | jq .items
-    cursor=$(printf '%s' "$page" | jq -r '.nextCursor // empty')
-    [ -n "$cursor" ] || break
-  done
-fi
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_agent_memory_ingestion_webhooks" step="ingestion-webhooks-status" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 Lists return `items` and `nextCursor`. Pass `nextCursor` as `cursor`, even when the page is empty; ownership filtering can produce that result. Keep the same store, credential, and list parameters. The maximum page size is 100.
 
 Private pending content expires within 24 hours or the earlier operation deadline. Compact status and write receipts remain for seven days after completion or expiry. Status omits private input, generated content, prompts, endpoint configuration, and keys.
 
-Each store permits 10,000 hook records and 64 MiB of reserved pending content. Encoded callback requests and responses are limited to 8 MiB; decoded reviewed content is limited to 1 MiB. Hooks on bulk deletion or moves reduce the request limit to four memory IDs when that mutation path is selected; otherwise the native limit is 100. Split larger selected mutations into smaller requests and inspect every result.
+Each store permits 10,000 hook records and 64 MiB of reserved pending content. Encoded callback requests and responses are limited to 8 MiB; decoded reviewed content is limited to 1 MiB. Selecting `memory.delete` limits a bulk deletion to four memory IDs, and selecting `memory.update` limits a bulk move to four memory IDs; otherwise the native limit is 100. Split larger selected mutations into smaller requests and inspect every result.
