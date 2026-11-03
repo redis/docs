@@ -1,21 +1,14 @@
 # EXAMPLE: iris_playbook_limits
 # HIDE_START
-import os
+from redis_iris.agent_playbooks import AgentPlaybooks
 
-from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
-
-playbook = AgentPlaybooks(
-    AgentPlaybooksSettings(
-        url=os.environ["PLAYBOOK_URL"],
-        playbook_id=os.environ["PLAYBOOK_ID"],
-        api_key=os.environ["PLAYBOOK_API_KEY"],
-    )
-)
+playbook = AgentPlaybooks.from_env()
 print(playbook.client.get_playbook_health())
 # HIDE_END
 
 # STEP_START playbook-error-type
 import json
+import os
 from redis_agent_playbook.errors import PlaybookError
 
 try:

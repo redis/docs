@@ -11,11 +11,11 @@ title: Connect with MCP
 weight: 60
 ---
 
-Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Redis Agent Playbooks exposes three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}).
+Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Redis Agent Playbooks expose three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}).
 
 ## Before you begin
 
-Get the data-plane endpoint, playbook identifier, and an API key with `read` permission. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` as shown in [Save connection values]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#save-connection-values" >}}).
+Get the data-plane endpoint, playbook identifier, and an API key with `read` permission. Save and load the `IRIS_AGENT_PLAYBOOKS_*` variables as shown in [Connect to the playbook]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}).
 
 Publish the sample [FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}) or [skill]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) to test discovery. The basic clients use no model-provider key.
 
@@ -48,11 +48,11 @@ The endpoint must be reachable from the client runtime. A hosted client needs an
 
 ## Use the tools
 
-List the tools on an initialized connection to get their input schemas.
+Call `tools/list` on an initialized connection to get the input schemas. MCP tool arguments use different names from some HTTP request fields:
 
 | Tool | Input | Result |
 |:-----|:------|:-------|
-| `discover_entries` | A task query, with optional filters, pins, and result limit. | Published FAQ answers and skill previews, including identifiers and versions. |
+| `discover_entries` | Required `query`; optional `filter`, `pinned_entries`, and `limit`. Each pin uses exactly one `entry_id` or `entry_key`. | Published FAQ answers and skill previews, including identifiers and versions. |
 | `load_skill` | The selected skill's `entry_id` and `version`. | Full instructions and resource descriptors. |
 | `fetch_resource` | A returned resource `uri`. | File content, media type, and digest. |
 

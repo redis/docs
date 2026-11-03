@@ -32,7 +32,7 @@ Use Python's `discover` helper, send an HTTP discovery request, or call `discove
 
 Request up to five entries for the agent's task:
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-discover" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-discover" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Python's unified SDK exposes matches as `discovery.discovered` and pins as `discovery.pinned`. `as_prompt()` renders their context for an agent. The CLI accepts the same JSON discovery request as cURL through `--input FILE` and returns the API response with `--json`.
 
@@ -50,14 +50,16 @@ If pins fill every result slot, discovery returns only the pins. An FAQ preview 
 
 ### Configure discovery
 
-The request controls are:
+Discovery accepts these HTTP or CLI JSON fields and Python `playbook.client.discover_entries` arguments:
 
-| Control | Use it to |
-|:--------|:----------|
-| `query` | Describe the agent's task. Required even when supplying pins. |
-| `filter` | Restrict semantic matches by attributes. Uses the same [filter expressions as search]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#select-an-audience-with-filters" >}}); pins bypass it. |
-| `limit` | Reduce the combined result count. Omission uses `discovery.maxResults`, which also caps an explicit limit. |
-| `pinnedEntries` | Require known published entries, in the order supplied. |
+| HTTP/CLI field | Python argument | Use it to |
+|:---------------|:----------------|:----------|
+| `query` | `query` | Describe the agent's task. Required even when supplying pins. |
+| `filter` | `filter_` | Restrict semantic matches by attributes. Uses the same [filter expressions as search]({{< relref "/develop/ai/context-engine/agent-playbooks/retrieval#select-an-audience-with-filters" >}}); pins bypass it. |
+| `limit` | `limit` | Reduce the combined result count. Omission uses `discovery.maxResults`, which also caps an explicit limit. |
+| `pinnedEntries` | `pinned_entries` | Require published entries in request order. Each reference contains exactly one `entryId` or `entryKey` (`entry_id` or `entry_key` in Python). |
+
+The unified `playbook.discover(question, pin=[...])` helper used in this page accepts entry identifiers or keys as strings. It sends a default `limit` of `5`, still bounded by `discovery.maxResults`. For MCP argument names, see [MCP tools](/content/develop/ai/context-engine/agent-playbooks/mcp.md#use-the-tools).
 
 Your administrator sets the playbook controls:
 
@@ -66,7 +68,8 @@ Your administrator sets the playbook controls:
 | `discovery.faqMinimumScore` | `0.7` | Minimum similarity for discovered FAQ matches. |
 | `discovery.skillMinimumScore` | `0.7` | Minimum similarity for discovered skill matches. |
 | `discovery.maxResults` | `10` | Combined result ceiling for pins and discovered matches. |
-| `discovery.previewTokenBudget` | Disabled | Estimated token ceiling for the discovery response. It applies only when `discovery.previewTokenBudgetEnabled` is `true`. |
+| `discovery.previewTokenBudgetEnabled` | `false` | Enable the discovery preview ceiling. |
+| `discovery.previewTokenBudget` | Unset | Estimated token ceiling, at least `64`. It applies only when `discovery.previewTokenBudgetEnabled` is `true`. |
 
 Discovery has no per-request similarity override. An administrator can adjust the playbook thresholds in its [discovery policy]({{< relref "/operate/iris/agent-playbook/manage-playbook#discovery-policy" >}}).
 
@@ -84,20 +87,20 @@ Export the identifier of a published skill, such as the sample in [Manage skills
 export PLAYBOOK_SKILL_ID='<published-skill-entry-id>'
 ```
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-pin" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-pin" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Limit discovery previews
 
 Use the preview budget to limit the knowledge returned in one discovery response. It excludes model framing, conversation history, loaded instructions, and fetched files. Your application still controls the model's total context.
 
-| Signal | Meaning |
-|:-------|:--------|
-| `truncated: true` | Eligible fetched candidates exceed the slots left after pins. This does not count every match in the playbook. |
-| `budgetTruncated: true` | Matching previews were skipped to fit the token ceiling. |
+| HTTP/CLI field | Unified Python property | Meaning when `true` |
+|:---------------|:------------------------|:--------------------|
+| `truncated` | `truncated` | Eligible fetched candidates exceed the slots left after pins. This does not count every match in the playbook. |
+| `budgetTruncated` | `budget_truncated` | Matching previews were skipped to fit the token ceiling. |
 
 Empty results with `budgetTruncated: true` can mean matches did not fit. Shorten FAQ answers or skill descriptions, or raise the ceiling through your administrator. Increasing the result count does not increase the token budget. Type-specific search does not use this budget.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-budget" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-budget" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Load skills with progressive disclosure
 
@@ -134,18 +137,18 @@ Semantic matching compares your query with the FAQ question or the skill's name 
 
 Retain returned entry identifiers and versions with the content you select.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-search" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Control relevance and result count
 
-Search accepts these request controls. The table uses HTTP field names.
+Search accepts these HTTP fields and Python `playbook.client.search_faqs` or `playbook.client.search_skills` arguments:
 
-| Control | Default | Use it to |
-|:--------|:--------|:----------|
-| `query` | Required | Describe the task to match semantically. |
-| `filter` | None | Restrict matches by entry attributes, such as locale or topic. |
-| `minScore` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
-| `limit` | `discovery.maxResults`; initially `10` | Request 1–50 results. An explicit search limit is not capped by the playbook's discovery limit. |
+| HTTP field | Python argument | Default | Use it to |
+|:-----------|:----------------|:--------|:----------|
+| `query` | `query` | Required | Describe the task to match semantically. |
+| `filter` | `filter_` | None | Restrict matches by entry attributes, such as locale or topic. |
+| `minScore` | `min_score` | The playbook's threshold for that entry type; initially `0.7` | Set a similarity floor from `0` to `1` for this request. |
+| `limit` | `limit` | `discovery.maxResults`; initially `10` | Request 1–50 results. An explicit search limit is not capped by the playbook's discovery limit. |
 
 The threshold defaults come from `discovery.faqMinimumScore` and `discovery.skillMinimumScore`. Your administrator can change them. Search does not use discovery pins or the discovery preview budget.
 
@@ -153,16 +156,16 @@ Similarity ranks matches; it does not measure answer correctness. Test “Where 
 
 For example, override the FAQ search threshold and result count for one request:
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-threshold" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-threshold" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Select an audience with filters
 
 Set attributes when [authoring FAQs]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-faqs" >}}) or [uploading skills]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}). Filter retrieval by those attributes to select a locale, product, or audience.
 
-Filters use exact, typed comparisons. Each filter node has one operator: `eq`, `and`, or `or`.
+Filters use exact, typed comparisons. Each HTTP filter node has one operator: `eq`, `and`, or `or`. Python dictionaries use `and_` and `or_`; `eq` is unchanged.
 
 An equality filter matches a scalar attribute or a member of a list-valued attribute. Boolean `true`, integer `1`, and string `"true"` are different values. Filters do not search metadata and do not replace playbook access grants.
 
-{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),cURL (Iris),CLI (Iris)" footer="hide" />}}
+{{< clients-example set="iris_playbook_retrieval" step="playbook-retrieval-filter" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 Use entry lookup or list operations for management state. Lists use pagination cursors; search and discovery use result limits. See [service limits and errors]({{< relref "/develop/ai/context-engine/agent-playbooks/limits" >}}) for request constraints and recovery.

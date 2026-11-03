@@ -65,15 +65,19 @@ Agents read a playbook at its endpoint, with an API key that has access to it.
 
     This dialog also opens as the second step when you create a playbook.
 
-    <!-- TODO: confirm the Connect dialog code samples ship by GA -->
-
 1. Select **Create an API key**.
 
 1. Enter a **Key name**, or keep the default.
 
-1. Under **What can this key do?**, select `read` to retrieve published content. Also select `propose` if your agent submits proposals.
+1. Under **What can this key do?**, choose the actions for this key:
 
-    <!-- TODO: confirm which actions beyond read and propose the console lists for a playbook, and whether to document them. -->
+    | Use | Actions |
+    |:----|:--------|
+    | Retrieve published knowledge | `read` |
+    | Retrieve knowledge and submit proposals | `read`, `propose` |
+    | Complete the developer authoring quickstart | `write`, `publish` |
+
+    `write`, `publish`, and `propose` each include `read`. Keep the authoring key separate from the key your agent uses at runtime.
 
 1. Choose an **Expiration**. The default is 90 days.
 
@@ -87,6 +91,12 @@ Agents read a playbook at its endpoint, with an API key that has access to it.
 To set more options, select **Customize in the full page** in the **Create API key** step. The console opens **Access & Identity** with this playbook selected.
 
 For what each action allows, see [Playbooks](/content/develop/ai/context-engine/agent-playbooks/concepts.md#playbooks).
+
+To replace an expiring key, create another key with the same grants, update your application's connection settings, and verify a request before removing the old key. Manage existing keys in **Access & Identity**. Deleting a key removes its access after cached authorization expires; it does not withdraw or delete playbook entries.
+
+If **Create an API key** is unavailable, ask your account administrator for permission to manage keys for this playbook. An authoring or publishing grant does not grant permission to administer API keys.
+
+If provisioning fails or the playbook does not become **Ready**, follow [Troubleshoot a playbook](/content/operate/iris/agent-playbook/manage-playbook.md#troubleshoot-a-playbook) before continuing.
 
 ## Next steps
 

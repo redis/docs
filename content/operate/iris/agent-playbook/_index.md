@@ -11,7 +11,7 @@ weight: 15
 hideListLinks: true
 ---
 
-Redis Agent Playbooks stores the answers and procedures your business approves as versioned FAQs and skills, and serves the published versions to your agents.
+Redis Agent Playbooks store the answers and procedures your business approves as versioned FAQs and skills, and serve the published versions to your agents.
 
 ## Deployment options
 

@@ -18,9 +18,9 @@ def read_result(result):
 
 
 async def main():
-    url = f"{os.environ['PLAYBOOK_URL'].rstrip('/')}/iris/data/v1/agent-playbooks/playbooks/{os.environ['PLAYBOOK_ID']}/mcp"
+    url = f"{os.environ['IRIS_AGENT_PLAYBOOKS_URL'].rstrip('/')}/iris/data/v1/agent-playbooks/playbooks/{os.environ['IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID']}/mcp"
     async with httpx2.AsyncClient(
-        headers={"Authorization": f"Bearer {os.environ['PLAYBOOK_API_KEY']}"}
+        headers={"Authorization": f"Bearer {os.environ['IRIS_AGENT_PLAYBOOKS_API_KEY']}"}
     ) as http:
         async with Client(streamable_http_client(url, http_client=http)) as client:
             print("Tools:", [tool.name for tool in (await client.list_tools()).tools])

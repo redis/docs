@@ -1,16 +1,8 @@
 # EXAMPLE: iris_playbook_faqs
 # HIDE_START
-import os
+from redis_iris.agent_playbooks import AgentPlaybooks
 
-from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings
-
-playbook = AgentPlaybooks(
-    AgentPlaybooksSettings(
-        url=os.environ["PLAYBOOK_URL"],
-        playbook_id=os.environ["PLAYBOOK_ID"],
-        api_key=os.environ["PLAYBOOK_API_KEY"],
-    )
-)
+playbook = AgentPlaybooks.from_env()
 print(playbook.client.get_playbook_health())
 # HIDE_END
 
@@ -112,4 +104,11 @@ for result in lookup.items:
         print(state.entry_id, state.version_count, state.latest, state.publication)
     else:
         print("Missing:", result.missing.reference)
+# STEP_END
+
+# STEP_START playbook-faq-stats
+stats = playbook.client.get_playbook_stats()
+print("Observed at:", stats.observed_at)
+for label, count in (("FAQs", stats.faqs.total), ("Skills", stats.skills.total)):
+    print(label, count.value if count.available else "unavailable")
 # STEP_END

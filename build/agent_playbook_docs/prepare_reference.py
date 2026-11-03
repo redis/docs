@@ -1,4 +1,4 @@
-"""Add documentation labels to the public Playbooks data-plane OpenAPI contract.
+"""Add documentation labels and reviewed operation prose to the public contract.
 
 Request/response schemas, routes, security, and operation IDs are preserved.
 Input must be the public Smithy projection, not an internal projection.
@@ -11,6 +11,30 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+DESCRIPTIONS = {
+    "ReplaceProposal": (
+        "Replaces an open proposal's candidate with the complete action supplied.\n"
+        "expectedRevision is required and must match the revision you reviewed.\n"
+        "A stale revision returns HTTP 412 /errors/revision-conflict."
+    ),
+    "DismissProposal": (
+        "Moves an open proposal to trash. expectedRevision is optional; when supplied,\n"
+        "a mismatch on an open proposal returns HTTP 412 /errors/revision-conflict.\n"
+        "An already trashed proposal is a successful no-op regardless of revision."
+    ),
+    "GetProposalResource": (
+        "Returns exact candidate file bytes for the requested proposal revision.\n"
+        "The expectedRevision query parameter is required. A stale revision returns\n"
+        "HTTP 412 /errors/revision-conflict; responses must not be cached."
+    ),
+    "AcceptProposal": (
+        "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\n"
+        "expectedRevision is required and must match the revision you reviewed.\n"
+        "Concurrent calls and retries resume or return the proposal's recorded target.\n"
+        "A complete target may be visible to management before the proposal reaches\n"
+        "promoted, but remains absent from serving until separately published."
+    ),
+}
 GROUPS = {
     "Skills": [
         ("CreateSkill", "Create a skill"), ("ListSkills", "List skills"),
@@ -36,12 +60,16 @@ GROUPS = {
         ("CreateProposal", "Create a proposal"), ("SubmitProposalEvidence", "Submit proposal evidence"),
         ("ListProposals", "List proposals"), ("SearchProposals", "Search proposals"),
         ("GetProposal", "Get a proposal"), ("ReplaceProposal", "Replace a proposal candidate"),
+        ("GetProposalResource", "Read a proposal resource"),
         ("AcceptProposal", "Accept a reviewed proposal"),
         ("DismissProposal", "Dismiss a proposal"), ("RestoreProposal", "Restore a proposal"),
         ("PurgeProposal", "Purge a proposal"),
     ],
     "Maintenance": [
         ("GetPlaybookHealth", "Check playbook health"),
+        ("GetPlaybookStats", "Inspect playbook inventory"),
+        ("GetServiceLiveness", "Check service liveness"),
+        ("GetServiceReadiness", "Check service readiness"),
     ],
 }
 
@@ -63,6 +91,8 @@ def prepare(source, title, groups):
         path, method, operation = operations[op_id]
         operation["tags"] = [group]
         operation["summary"] = label
+        if op_id in DESCRIPTIONS:
+            operation["description"] = DESCRIPTIONS[op_id]
         if path not in ordered:
             ordered[path] = {k: v for k, v in document["paths"][path].items()
                              if not isinstance(v, dict) or "operationId" not in v}

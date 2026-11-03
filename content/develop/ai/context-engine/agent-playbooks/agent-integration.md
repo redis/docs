@@ -26,7 +26,7 @@ Initial SDK discovery replaces routine MCP discovery at the start of the turn. M
 
 ## Before you begin
 
-Follow the [quickstart setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#before-you-begin" >}}) to install the Redis Agent Playbooks SDK. Export `PLAYBOOK_URL`, `PLAYBOOK_ID`, and `PLAYBOOK_API_KEY` using a key with `read` permission. Publish the sample [refund skill]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) and keep it published while testing. Publish the [quickstart FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}) to test answer lookup too.
+Follow the [quickstart setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#before-you-begin" >}}) to install the Redis Agent Playbooks SDK. Save and load the `IRIS_AGENT_PLAYBOOKS_*` connection values in `.env` using a key with `read` permission. Publish the sample [refund skill]({{< relref "/develop/ai/context-engine/agent-playbooks/manage-skills" >}}) and keep it published while testing. Publish the [quickstart FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}) to test answer lookup too.
 
 These programs connect to a playbook from your application runtime, which must reach the SDK and [MCP endpoints]({{< relref "/develop/ai/context-engine/agent-playbooks/mcp#configure-the-connection" >}}). They use `gpt-5-mini` for model calls. Export a provider key separately:
 

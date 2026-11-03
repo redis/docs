@@ -9,11 +9,16 @@ description: Create playbooks of reusable skills and answers that agents can dis
 linkTitle: Agent Playbooks
 hideListLinks: true
 weight: 25
+cascade:
+  exampleClientOrder:
+  - Python (Iris)
+  - CLI (Iris)
+  - cURL (Iris)
 ---
 
-## What is Redis Agent Playbooks?
+## What are Redis Agent Playbooks?
 
-Redis Agent Playbooks lets you create and manage playbooks of curated answers and procedures for AI agents. Each playbook is a registry of entries with its own access grants and retrieval settings.
+Redis Agent Playbooks let you create and manage playbooks of curated answers and procedures for AI agents. Each playbook is a registry of entries with its own access grants and retrieval settings.
 
 Publish an entry version, retrieve it for a task, and prepare revisions while agents use the current publication.
 

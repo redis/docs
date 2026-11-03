@@ -29,10 +29,10 @@ zip -r refund-support-reply.zip refund-support-reply
 
 # HIDE_START
 set -euo pipefail
-PLAYBOOK_API="${PLAYBOOK_URL%/}/iris/data/v1/agent-playbooks/playbooks/$PLAYBOOK_ID"
+PLAYBOOK_API="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID"
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/health" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .
 # HIDE_END
 
 # STEP_START playbook-skill-create
@@ -46,7 +46,7 @@ jq -n --rawfile package package.b64 '{
 }' > skill.json
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/skills" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @skill.json > skill-draft.json
 SKILL_ID=$(jq -er '.entry.entryId' skill-draft.json)
 SKILL_VERSION=$(jq -er '.version.version' skill-draft.json)
@@ -56,13 +56,13 @@ jq .version skill-draft.json
 # STEP_START playbook-skill-review
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq .content
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq .content
 # STEP_END
 
 # STEP_START playbook-skill-publish
 curl --fail-with-body --silent --show-error \
   -X PUT "$PLAYBOOK_API/skills/$SKILL_ID/publication" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' \
   --data "$(jq -n --argjson version "$SKILL_VERSION" '{version: $version}')" | jq .publication
 # STEP_END
@@ -74,19 +74,19 @@ jq --rawfile package package.b64 \
   skill.json > skill-update.json
 curl --fail-with-body --silent --show-error \
   -X POST "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" \
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" \
   -H 'Content-Type: application/json' --data-binary @skill-update.json | jq .version
 # STEP_END
 
 # STEP_START playbook-skill-load
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" > selected-skill.json
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" > selected-skill.json
 jq -r '.content.payload.skill.instructions' selected-skill.json
 RESOURCE_ID=$(jq -er '.content.payload.skill.resources[] | select(.path == "references/reply-template.md") | .resourceId' selected-skill.json)
 curl --fail-with-body --silent --show-error \
   "$PLAYBOOK_API/skills/$SKILL_ID/versions/$SKILL_VERSION/resources/$RESOURCE_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY"
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY"
 # STEP_END
 
 # STEP_START playbook-skill-list
@@ -95,7 +95,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode sortBy=updatedAt --data-urlencode sortOrder=DESC --data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-page.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > skill-page.json
   jq '.items[] | {entryId, latestVersion, publication}' skill-page.json
   CURSOR=$(jq -r '.nextCursor // empty' skill-page.json)
   [[ -n "$CURSOR" ]] || break
@@ -104,7 +104,7 @@ done
 
 # STEP_START playbook-skill-state
 curl --fail-with-body --silent --show-error "$PLAYBOOK_API/skills/$SKILL_ID" \
-  -H "Authorization: Bearer $PLAYBOOK_API_KEY" | jq '{latestVersion, publication}'
+  -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" | jq '{latestVersion, publication}'
 # STEP_END
 
 # STEP_START playbook-skill-history
@@ -113,7 +113,7 @@ while true; do
   PAGE_ARGS=(--data-urlencode limit=50)
   if [[ -n "$CURSOR" ]]; then PAGE_ARGS+=(--data-urlencode "cursor=$CURSOR"); fi
   curl --fail-with-body --silent --show-error --get "$PLAYBOOK_API/skills/$SKILL_ID/versions" \
-    -H "Authorization: Bearer $PLAYBOOK_API_KEY" "${PAGE_ARGS[@]}" > skill-versions.json
+    -H "Authorization: Bearer $IRIS_AGENT_PLAYBOOKS_API_KEY" "${PAGE_ARGS[@]}" > skill-versions.json
   jq '.items[] | {version, contentDigest, content}' skill-versions.json
   CURSOR=$(jq -r '.nextCursor // empty' skill-versions.json)
   [[ -n "$CURSOR" ]] || break

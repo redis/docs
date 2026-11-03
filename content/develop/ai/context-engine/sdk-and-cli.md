@@ -64,9 +64,9 @@ For every command, see the [redis-iris CLI reference](https://github.com/redis/r
 
 On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris services follow the same steps with their own console pages and `IRIS_<SERVICE>_*` variables.
 
-1. In the Redis Cloud console, select **Agent Playbooks** under **Iris** in the menu, then select **New playbook**. Choose a name, database, and embedding model, then select **Create Playbook**.
-1. On the playbook's **Settings** tab, in the **General settings** section, copy the **Playbook ID** and the **Agent endpoint** for your region.
-1. In the **Manage API keys** section, select **Manage API keys**. The console opens **Access & Identity**. Create an API key with access to the playbook, grant it `read`, and copy the key. The console shows it only once.
+1. [Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md) and wait until it is **Ready**.
+1. Select **Connect** on the playbook's page. Copy the **Endpoint** and **Playbook ID**.
+1. [Create an API key](/content/operate/iris/agent-playbook/create-playbook.md#give-an-agent-access) with `read` for runtime retrieval. The authoring quickstart needs a separate key with `write` and `publish`. The console shows each key only once.
 1. Save the values in a `.env` file:
 
     ```bash
@@ -92,11 +92,13 @@ On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates servi
     iris agent-playbooks health
     ```
 
-    A working playbook reports `status: ready`.
+    A working playbook reports `status: READY`.
 
 ## Set up on a self-managed deployment
 
 On a self-managed deployment, the CLI creates services and keys with your operator tokens. Each token is the deployment's static admin token or an access token from your identity provider.
+
+The Playbooks commands in this section require an already deployed Playbooks control plane, data plane, and Identity Service. The [Playbooks Cloud setup guide](/content/operate/iris/agent-playbook/_index.md) covers managed provisioning; the CLI does not install a Playbooks deployment.
 
 The services deploy on Kubernetes from the shared Redis Helm repository, `https://helm.redis.io/ai`. See [deploy self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md) and [deploy self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md). For a complete project, see the [self-managed project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/onprem).
 
