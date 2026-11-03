@@ -23,7 +23,7 @@ The policy applies to one store. It targets existing shared namespace resources,
 |:--------|:---------|
 | Create a memory with `namespaceId` | Use that destination after admission checks. The service never chooses another destination. |
 | Create a memory without `namespaceId` | Create it without a namespace. Automatic routing does not place it in a shared namespace. |
-| Move a memory with `namespaceId` | Use that destination after admission checks. |
+| Move a memory with `namespaceId` | Use that destination after admission checks. This applies to a bulk move and to a single `PATCH` of `namespaceId`. |
 | Move a memory without `namespaceId` | Evaluate automatic routing only if the memory is already in a shared namespace. |
 | Update a memory | Check the merged record against admission at its current destination. An update never chooses another destination. |
 
@@ -31,105 +31,23 @@ An automatic move keeps the current placement and returns a per-item error if ro
 
 ## Configure a policy
 
-1. [Create a shared namespace](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md#create-a-shared-namespace) and save its ID as `SHARED_NAMESPACE_ID`.
-1. Install the software development kit (SDK) for your language.
-1. Set `AGENT_MEMORY_URL`, `STORE_ID`, and `API_KEY` as described in the [developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md#connect-to-a-redis-agent-memory-service).
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
 
-This example accepts text containing `travel` into that namespace, ignoring case. **PUT replaces the entire policy.** Include any existing rules you want to keep in `rules`; the example installs only the `travel` rule.
+The policy routes memories to an existing shared namespace. [Create a shared namespace](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md#create-a-shared-namespace) for the destination and keep its ID:
 
-{{< multitabs id="namespace-routing-policy" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-destination" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-import asyncio
-import os
+Read the current policy before changing it:
 
-from redis_agent_memory import AgentMemory
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-get" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
+This example accepts text containing `travel` into the destination namespace, ignoring case. **PUT replaces the entire policy.** The policy applies to every application that uses the store, so the example keeps the existing rules and replaces only a rule with the same ID. Replacing the policy requires a user credential with an admin role (`suite_admin` or `product_admin`). Agent API keys get `403 Forbidden`, even with full permissions:
 
-async def main():
-    async with AgentMemory(
-        os.environ["AGENT_MEMORY_URL"],
-        store_id=os.environ["STORE_ID"],
-        api_key=os.environ["API_KEY"],
-    ) as agent_memory:
-        current = await agent_memory.get_namespace_routing_async()
-        print(current.model_dump_json(by_alias=True, indent=2))
-        result = await agent_memory.put_namespace_routing_async(policy={
-            "enabled": True,
-            "rules": [{
-                "id": "travel",
-                "enabled": True,
-                "action": "ACCEPT",
-                "destination_namespace_id": os.environ["SHARED_NAMESPACE_ID"],
-                "strategies": [{
-                    "kind": "MATCHER_SPEC",
-                    "matcher": {"kind": "REGEX", "regex": {"pattern": "(?i)travel"}},
-                }],
-            }],
-        })
-        print(result.model_dump_json(by_alias=True, indent=2))
-
-
-asyncio.run(main())
-```
-
--tab-sep-
-
-```typescript
-import { AgentMemory } from "@redis-iris/agent-memory";
-
-async function main() {
-  const { AGENT_MEMORY_URL, STORE_ID, API_KEY, SHARED_NAMESPACE_ID } = process.env;
-  if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !SHARED_NAMESPACE_ID) {
-    throw new Error("Set AGENT_MEMORY_URL, STORE_ID, API_KEY, and SHARED_NAMESPACE_ID.");
-  }
-  const agentMemory = new AgentMemory({
-    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY,
-  });
-  console.dir(await agentMemory.getNamespaceRouting(), { depth: null });
-  const result = await agentMemory.putNamespaceRouting({
-    policy: {
-      enabled: true,
-      rules: [{
-        id: "travel", enabled: true, action: "ACCEPT",
-        destinationNamespaceId: SHARED_NAMESPACE_ID,
-        strategies: [{
-          kind: "MATCHER_SPEC",
-          matcher: { kind: "REGEX", regex: { pattern: "(?i)travel" } },
-        }],
-      }],
-    },
-  });
-  console.dir(result, { depth: null });
-}
-
-main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespace-routing" | jq
-
-curl --fail-with-body --silent --show-error \
-  --request PUT \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg ns "$SHARED_NAMESPACE_ID" \
-    '{policy: {enabled: true, rules: [{id: "travel", enabled: true,
-      action: "ACCEPT", destinationNamespaceId: $ns, strategies: [{
-        kind: "MATCHER_SPEC", matcher: {kind: "REGEX", regex: {pattern: "(?i)travel"}}
-      }]}]}}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespace-routing" | jq
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-put" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 ## How rules are evaluated
 
-In this example, `travel` is an accept rule with one strategy, a regex matcher.
+In this example, `example-travel` is an accept rule with one strategy, a regex matcher.
 
 An enabled `ACCEPT` rule selects a candidate destination. Accept rules run in list order. Every enabled `REJECT` rule for that destination applies, including rules later in the list. A matching reject vetoes the candidate. Automatic routing then tries another candidate; explicit placement fails rather than choosing another namespace.
 
@@ -139,54 +57,33 @@ A store without a saved policy returns an empty, disabled policy. Regular expres
 
 ## Move memories with the policy
 
-To evaluate the policy for an existing shared memory, omit the destination from the move request. First create a test memory in another shared namespace. Run this setup once, after setting `OWNER_ID` to your application user:
+To evaluate the policy for an existing shared memory, omit the destination from the move request. First create a test memory in another shared namespace:
 
-```sh
-SOURCE_NAMESPACE_ID=$(curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data '{"name":"routing-source","scope":"SHARED"}' \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId') || exit 1
-export MEMORY_ID='routing-travel-example'
-curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg id "$MEMORY_ID" --arg owner "$OWNER_ID" --arg ns "$SOURCE_NAMESPACE_ID" \
-    '{memories:[{memoryId:$id,ownerId:$owner,text:"Travel policy allows train tickets.",namespaceId:$ns}]}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" | jq
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-source" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Then move it without a destination:
+
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-move" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+The example memory must already belong to a shared namespace and contain matching text. If routing is disabled or no rule matches, the memory stays where it is and the response reports a per-item error:
+
+```json
+{
+  "moved": [],
+  "errors": [
+    {
+      "memoryId": "example-routing-travel",
+      "status": 400,
+      "title": "Namespace Routing Did Not Match",
+      "detail": "namespace routing matched no destination",
+      "type": "/errors/invalid-data"
+    }
+  ]
+}
 ```
 
-Continue only if the namespace request succeeds and the memory response has no per-record errors. Run the move in the same shell, or pass the exported `MEMORY_ID` to your SDK process:
+The request accepts 1–100 IDs. To choose a destination explicitly, pass `namespaceId`. Explicit placement still runs admission checks:
 
-{{< multitabs id="namespace-routing-move" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_namespace_routing" step="namespace-routing-explicit" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-        moved = await agent_memory.move_long_term_memories_async(
-            memory_ids=[os.environ["MEMORY_ID"]],
-        )
-        print(moved.model_dump_json(by_alias=True, indent=2))
-```
-
--tab-sep-
-
-```typescript
-  const memoryId = process.env.MEMORY_ID;
-  if (!memoryId) throw new Error("Set MEMORY_ID to an existing shared memory ID.");
-  const moved = await agentMemory.moveLongTermMemories({ memoryIds: [memoryId] });
-  console.dir(moved, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg id "$MEMORY_ID" '{memoryIds: [$id]}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/move" | jq
-```
-
-{{< /multitabs >}}
-
-Add the SDK snippet inside the client block or `main` function from [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). Set `MEMORY_ID` before running it. The example memory must already belong to a shared namespace and contain matching text. The request accepts 1–100 IDs. To choose a destination explicitly, also pass `namespace_id="<namespace-id>"` in Python, `namespaceId: "<namespace-id>"` in TypeScript, or `"namespaceId"` in the request body. Explicit placement still runs admission checks.
+To place a single memory, you can also send `PATCH /iris/data/v1/agent-memory/stores/{storeId}/memories/{memoryId}` with only `namespaceId`. The same admission checks apply, and a namespace-only update keeps the memory's current expiration (TTL). See [Place and retrieve memories](/content/develop/ai/context-engine/agent-memory/namespaces/_index.md#place-and-retrieve-memories).

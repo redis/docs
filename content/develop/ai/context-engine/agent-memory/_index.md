@@ -19,7 +19,7 @@ Redis Agent Memory is a memory service for AI applications. It stores ordered co
 
 When enabled, automatic summarization compacts session memory by summarizing older events while retaining recent events in full. Redis Agent Memory extracts long-term memories automatically from session events.
 
-Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
+Access Redis Agent Memory through the `redis-iris` Python SDK, the `iris` CLI, its REST API, or its MCP server. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Overview" description="What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
@@ -28,6 +28,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Sessions" description="Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Long-term memory" description="Recall information across conversations" url="/develop/ai/context-engine/agent-memory/long-term-memory" >}}
   {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Namespaces" description="Organize your memories" url="/develop/ai/context-engine/agent-memory/namespaces" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="MCP" description="Connect an MCP client to a store" url="/develop/ai/context-engine/agent-memory/mcp" >}}
 </div>
 
 ## Why use Redis Agent Memory?
@@ -109,21 +110,13 @@ Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in 
 
 1. With `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY` in your environment, record a conversation, then recall what Agent Memory extracted from it:
 
-    ```python
-    from redis_iris import AgentMemory
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-connect" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-    memory = AgentMemory.from_env()
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-save" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-    convo = memory.conversation(owner="user-1042", session_id="trip-planning")
-    convo.user("I'm going to Tokyo and Kyoto. Also, I'm a vegetarian.")
-    convo.assistant("I'll find vegetarian-friendly restaurants in Tokyo and Kyoto.")
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-recall" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
-    # In a later session, after background extraction:
-    known = memory.recall("Where should this user eat?", owner="user-1042")
-    print(known.as_prompt())
-    ```
-
-Follow the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md) to explore the same travel planning scenario in Python, TypeScript, or curl.
+Follow the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md) to explore the same travel planning scenario in Python, the Iris CLI, or cURL.
 
 ## Explore the documentation
 
@@ -136,6 +129,7 @@ Follow the [quickstart](/content/develop/ai/context-engine/agent-memory/quicksta
 * [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md): Materialize text or structured summaries of long-term memories.
 * [Ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md): Review input and generated changes before they are saved.
 * [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}): Organize memories and manage namespace hierarchies.
+* [MCP]({{< relref "/develop/ai/context-engine/agent-memory/mcp" >}}): Let an agent search and curate long-term memory through the store's MCP endpoint.
 
 * [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.
 

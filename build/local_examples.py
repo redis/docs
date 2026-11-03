@@ -104,13 +104,13 @@ def get_client_name_from_language_and_path(language: str, path: str,
 
     For Python (.py) files, override based on path substrings:
     - If 'redisvl' in path -> RedisVL
-    - If 'agent-memory' in path -> Agent Memory (Python)
     - If 'iris' in path -> Python (Iris)
+    - If 'agent-memory' in path -> Agent Memory (Python)
     - Otherwise -> Python
 
     For TypeScript (.ts, .mts) and shell (.sh) files, override based on path substrings:
-    - If 'agent-memory' in path -> Agent Memory (TypeScript)
     - If 'iris' in path -> TypeScript (Iris) or cURL (Iris)
+    - If 'agent-memory' in path -> Agent Memory (TypeScript)
 
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
@@ -132,15 +132,15 @@ def get_client_name_from_language_and_path(language: str, path: str,
     if language == 'python':
         if 'redisvl' in path:
             return 'RedisVL'
-        if 'agent-memory' in path:
-            return 'Agent Memory (Python)'
         if 'iris' in path:
             return 'Python (Iris)'
-    if language == 'typescript':
         if 'agent-memory' in path:
-            return 'Agent Memory (TypeScript)'
+            return 'Agent Memory (Python)'
+    if language == 'typescript':
         if 'iris' in path:
             return 'TypeScript (Iris)'
+        if 'agent-memory' in path:
+            return 'Agent Memory (TypeScript)'
     if language == 'bash':
         if 'iris' in path:
             if path.endswith('.cli.sh'):

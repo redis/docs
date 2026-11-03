@@ -19,7 +19,7 @@ This page covers adding events, retrieving a conversation, and finding session I
 
 ## Add session events
 
-A session event represents one message from a user, assistant, or system. To append one, send `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions/{sessionId}/events`, which creates the session if it does not exist, or call `add_session_event` in Python or `addSessionEvent` in TypeScript. To start a session with a server-generated ID, send its first event to `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions` instead.
+A session event represents one message from a user, assistant, or system. To append one, send `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions/{sessionId}/events`, which creates the session if it does not exist. In Python, `memory.conversation(owner=..., session_id=...)` returns a conversation whose `user` and `assistant` methods append events. To start a session with a server-generated ID, send its first event to `POST /iris/data/v1/agent-memory/stores/{storeId}/sessions` instead. In Python, omit `session_id` and the SDK generates one; read it from `conversation.session_id`.
 
 Redis Agent Memory adds the event ID and storage timestamp. The event fields are:
 
@@ -34,19 +34,14 @@ Redis Agent Memory adds the event ID and storage timestamp. The event fields are
 | `systemTimestamp` | Server-generated. | Time Redis Agent Memory stored the event. |
 | `metadata` | Optional from the client. | Application-specific information associated with the event. |
 
-1. Set the first event's `actorId` to the signed-in user's account ID from your application. Use the same ID each time this user returns. The server uses it as the session owner. Later events can identify other actors, such as the assistant.
+1. Set the first event's `actorId` to the signed-in user's account ID from your application. Use the same ID each time this user returns. The server uses it as the session owner. Later events can identify other actors, such as the assistant. In Python, `conversation.user` sends the `owner` as `actorId`, and `conversation.assistant` sends the `assistant_id` passed to `AgentMemory.from_env()`.
 1. Supply a `sessionId`, or omit it to let the server create one. Save the returned `event.sessionId` for later requests. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
 1. Set the message's `role`, `content`, and `createdAt` timestamp.
-1. Send the request. For curl, reuse the connection values from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md#save-the-connection-values):
+1. Send the request.
 
-```sh
-curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg session "$SESSION_ID" --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{actorId:$owner,role:"USER",content:[{text:"I am vegetarian."}],createdAt:$now}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" | jq
-```
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
+
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-add" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 Send each new message once, using the same session ID throughout the conversation.
 
@@ -54,51 +49,39 @@ The session's `ownerId` comes from the first event's `actorId` and is returned w
 
 ## Retrieve conversation context
 
-When the next message arrives, retrieve the session by its ID before calling the model. For example, reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}) and run:
+When the next message arrives, retrieve the session by its ID before calling the model:
 
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID" | jq
-```
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-retrieve" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
-The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
+The `events` array contains the retained conversation messages. If older events have been summarized, the response also includes `summary.text`. Pass both to the model with the current user message; in Python, `transcript.as_messages()` returns them as chat messages. See [Build context for each agent turn]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#build-context-for-each-agent-turn" >}}) for an example.
 
-Your application must check that the current user can access this session before retrieving it. The request selects a session by ID; it does not include an owner filter.
+Your application must check that the current user can access this session before using it. The request selects a session by ID; it does not include an owner filter. Compare the returned `ownerId` (`transcript.owner` in Python) with the authenticated user, as the example does.
 
 ## List sessions
 
-To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions`, `list_sessions` in Python, or `listSessions` in TypeScript. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
+To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions`, `memory.sessions(owner)` or `memory.client.list_sessions` in Python, or `iris agent-memory sessions list`. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
 
-Filter the list by owner or namespace. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+Filter the list by owner or namespace.
 
 For a user's personal conversations, set `ownerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
-To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned when you [create a namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}):
+To list one user's session IDs:
 
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?namespaceId=$NAMESPACE_ID" | jq
-```
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-owner" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+To list sessions in one namespace, filter by its stable ID. This example creates a personal namespace, starts a session in it, and lists that namespace's sessions. In an application, [create the namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}) once and save its ID.
+
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-namespace" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 `namespaceId` matches the namespace ID exactly, including case. It excludes descendant namespaces, sessions with only the older `namespace` string label, and sessions without a namespace resource.
 
 Add `ownerId` to return sessions that match both the namespace and the owner:
 
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?namespaceId=$NAMESPACE_ID&ownerId=$OWNER_ID" | jq
-```
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-namespace-owner" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-You can also use `ownerId` alone. To list all sessions, omit both filters and set `includeAll=true`:
+To list all sessions, omit both filters and set `includeAll=true`:
 
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions?includeAll=true" | jq
-```
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-all" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 Do not combine `includeAll=true` with either filter. A request without a filter must set `includeAll=true`.
 
@@ -140,110 +123,18 @@ Follow [Configure automatic summarization](#configure-automatic-summarization). 
 
 Add these events to the session from the quickstart to continue the conversation past the configured threshold:
 
-{{< multitabs id="conversation-turns" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-add-turns" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-        turns = [
-            (models.MessageRole.ASSISTANT, "What dates are you traveling?"),
-            (models.MessageRole.USER, "I arrive on October 10 and leave on October 18."),
-            (models.MessageRole.ASSISTANT, "Would you like formal or casual restaurants?"),
-            (models.MessageRole.USER, "Mostly casual places near public transit."),
-            (models.MessageRole.ASSISTANT, "Do you have a preferred budget?"),
-            (models.MessageRole.USER, "About 40 euros per person."),
-        ]
-
-        for role, text in turns:
-            agent_memory.add_session_event(
-                session_id=SESSION_ID,
-                actor_id=USER_ID if role == models.MessageRole.USER else "travel-agent",
-                role=role,
-                content=[models.Text(text=text)],
-                created_at=datetime.now(timezone.utc),
-            )
-```
-
--tab-sep-
-
-```typescript
-  const turns = [
-    { role: "ASSISTANT", actorId: "travel-agent", text: "What dates are you traveling?" },
-    { role: "USER", actorId: userId, text: "I arrive on October 10 and leave on October 18." },
-    { role: "ASSISTANT", actorId: "travel-agent", text: "Would you like formal or casual restaurants?" },
-    { role: "USER", actorId: userId, text: "Mostly casual places near public transit." },
-    { role: "ASSISTANT", actorId: "travel-agent", text: "Do you have a preferred budget?" },
-    { role: "USER", actorId: userId, text: "About 40 euros per person." },
-  ] as const;
-
-  for (const turn of turns) {
-    await agentMemory.addSessionEvent(sessionId, {
-      actorId: turn.actorId,
-      role: turn.role,
-      content: [{ text: turn.text }],
-      createdAt: new Date(),
-    });
-  }
-```
-
--tab-sep-
-
-Run this command once to append the six turns:
-
-```sh
-jq -cn --arg user "$OWNER_ID" '[
-  {role:"ASSISTANT",actorId:"travel-agent",text:"What dates are you traveling?"},
-  {role:"USER",actorId:$user,text:"I arrive on October 10 and leave on October 18."},
-  {role:"ASSISTANT",actorId:"travel-agent",text:"Would you like formal or casual restaurants?"},
-  {role:"USER",actorId:$user,text:"Mostly casual places near public transit."},
-  {role:"ASSISTANT",actorId:"travel-agent",text:"Do you have a preferred budget?"},
-  {role:"USER",actorId:$user,text:"About 40 euros per person."}
-] | .[]' | while IFS= read -r turn; do
-  printf '%s' "$turn" | jq --arg session "$SESSION_ID" \
-    --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{actorId:.actorId,role:.role,content:[{text:.text}],createdAt:$now}' | \
-    curl --fail-with-body --silent --show-error --request POST \
-      --header "Authorization: Bearer $API_KEY" \
-      --header 'Content-Type: application/json' --data @- \
-      "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" || exit 1
-done
-```
-
-{{< /multitabs >}}
-
-Run these writes once. In the SDK files, comment out the loop before subsequent runs. Summarization runs in the background.
+Run these writes once. Summarization runs in the background.
 
 
 ### Retrieve the summarized session
 
-After a short wait, retrieve the session again:
+Retrieve the session again. The Python and cURL examples check every 10 seconds, for up to two minutes, until a summary appears:
 
-{{< multitabs id="session-summary" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-summary" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-        compacted_session = agent_memory.get_session_memory(
-            session_id=SESSION_ID,
-        )
-        show("Compacted session memory", compacted_session)
-```
-
--tab-sep-
-
-```typescript
-  const compactedSession = await agentMemory.getSessionMemory(sessionId);
-  console.log("Compacted session memory:");
-  console.dir(compactedSession, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID" | jq
-```
-
-{{< /multitabs >}}
-
-Run the retrieval again after a short wait if `summary` is not present. Compare `summary.text` with the recent events. The summary should preserve earlier trip decisions while recent turns remain available in full.
+If `summary` is still missing, run the retrieval again. Compare `summary.text` with the recent events. The summary should preserve earlier trip decisions while recent turns remain available in full.
 
 > [!NOTE]
 > **What to expect:** A `summary` object that preserves details such as Tokyo, Kyoto, the travel dates, and food preferences. `summarizedUpToEventId` identifies the last event covered by the summary, while `events` contains the newer turns that remain in full. The exact summary text can vary.

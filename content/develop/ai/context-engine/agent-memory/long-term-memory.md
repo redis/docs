@@ -26,9 +26,19 @@ Configure the long-term-memory time to live (TTL) separately from the session-me
 
 See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
 
+{{< embed-md "agent-memory-continue-from-quickstart.md" >}}
+
+This example creates three memories for the quickstart user. Direct creation does not wait for background extraction, so the memories are searchable immediately:
+
+{{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-create" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+In Python, `remember` derives a stable memory ID from the owner and text; the cURL example sets each `memoryId` explicitly. Either way, running the example again does not duplicate the memories. A `memoryId` that already exists is rejected for that record and reported in the response's `errors` array, and the stored memory is left unchanged. To change a memory, see [Update a memory](#update-a-memory).
+
+Reuse an `idempotencyKey` with the same request to retry a bulk create safely. Redis Agent Memory replays the saved result during the retry window, which lasts at most 24 hours and no longer than the store's memory TTL. Reusing a key with a different request returns `409 Conflict`.
+
 ## Memory fields
 
-When you create a memory directly, you must supply `memoryId`, `text`, and `ownerId`. The server sets `createdAt` and `updatedAt`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+When you create a memory directly, you supply `memoryId`, `text`, and `ownerId`. The Python SDK's `remember` method derives `memoryId` when you omit it. The server sets `createdAt`, `updatedAt`, and `revision`. During automatic extraction, the server creates the memory ID and content and copies the session owner into `ownerId`. Use that same stable user ID when querying personal memories; see [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
 A long-term memory record includes:
 
@@ -36,12 +46,14 @@ A long-term memory record includes:
 |:------|:--------|
 | `memoryId` | Unique identifier for the memory. |
 | `text` | Memory content used for retrieval. |
-| `memoryType` | Built-in or custom memory type. |
+| `memoryType` | Built-in or custom memory type. Defaults to `semantic`. |
 | `sessionId` | Session associated with the memory. |
 | `ownerId` | User or entity associated with the memory. |
 | `namespaceId` | Optional stable namespace ID. |
 | `attributes` | Custom memory fields and their values. |
 | `topics` | Topic tags used to categorize the memory. |
+| `revision` | Opaque token that changes on every write. Use it for [conditional updates](#update-a-memory). |
+| `documentManaged` | `true` when [MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) created the memory. |
 | `createdAt` | Time the memory was created. |
 | `updatedAt` | Time the memory was last updated. |
 
@@ -57,68 +69,15 @@ For controls that apply during automatic extraction, see [Exclude sensitive data
 
 ### Search by meaning
 
-Use the same connection values and owner ID as the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). This example finds memories about the user’s food preferences:
+This example finds memories about the user's food preferences. `recall` restricts the search to the owner's memories:
 
-{{< clients-example set="agent_memory_sdk" step="search_long_term_memory_basic" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
-{
-  "query": "What dietary requirements and food preferences does the user have?",
-  "filter": {
-    "ownerId": {
-      "eq": "$OWNER_ID"
-    }
-  },
-  "limit": 5
-}
-JSON
-{{< /clients-example >}}
+{{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Filter and sort without semantic search
 
 Omit `query` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:
 
-{{< multitabs id="filter-only-memory-search" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-        recent_memories = agent_memory.search_long_term_memory(request={
-            "filter_": {"owner_id": {"eq": USER_ID}},
-            "sort_by": "updatedAt",
-            "sort_order": "DESC",
-            "limit": 10,
-        })
-        show("Recent memories", recent_memories)
-```
-
--tab-sep-
-
-```typescript
-  const recentMemories = await agentMemory.searchLongTermMemory({
-    filter: { ownerId: { eq: userId } },
-    sortBy: "updatedAt", sortOrder: "DESC", limit: 10,
-  });
-  console.dir(recentMemories, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg owner "$OWNER_ID" \
-    '{filter: {ownerId: {eq: $owner}}, sortBy: "updatedAt", sortOrder: "DESC", limit: 10}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" | jq
-```
-
-{{< /multitabs >}}
-
-Use the client and identifiers from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). Add the Python snippet inside the `with` block and the TypeScript snippet inside `run`.
+{{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-filter" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 `sortBy` accepts `createdAt` or `updatedAt` only when `query` is absent. `sortOrder` accepts `ASC` or `DESC`, defaults to descending, and requires `sortBy`. Semantic searches remain ranked by similarity and cannot use these sort fields. `limit` accepts 1–100 and defaults to 50. Pass `nextCursor` as `cursor` with the same query to continue.
 
@@ -126,7 +85,7 @@ Filter conditions use `filter.op: "ALL"` (AND) by default; `"ANY"` uses OR. To r
 
 Set `filter.unnamespaced: true` to match records with neither the older `namespace` string label nor a namespace resource. It cannot be combined with `namespaceId`, and remains mandatory even with `op: "ANY"`.
 
-[MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) outputs are included in search by default. Set top-level `excludeDocumentManaged: true` to omit them. Returned `documentManaged` records cannot be overwritten through generic memory creation or PATCH requests; use the document-ingestion workflow to manage their content.
+[MemoryETL](/content/develop/ai/context-engine/agent-memory/memory-etl.md) outputs are included in search by default. Set top-level `excludeDocumentManaged: true` to omit them. Returned `documentManaged` records are protected from generic writes: memory creation, `PUT`, and `PATCH` requests cannot change their content. The one exception is a `PATCH` that changes only `namespaceId`, which moves the record and keeps its TTL. Use the document-ingestion workflow to manage their content.
 
 For custom fields, use `filter.attributes`, keyed by the field name, with the operators described in [`AttributeFilterClause`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchLongTermMemory). Combine it with `memoryType` to select the registered custom type.
 
@@ -145,6 +104,47 @@ For example, this search request combines the owner, type, and dietary requireme
 ```
 
 Use exactly one typed clause per attribute: `string`, `number`, `boolean`, or `list`, matching the registered field type.
+
+## Update a memory
+
+Redis Agent Memory provides two ways to change a memory you manage:
+
+* **Partial update:** [`PATCH /memories/{memoryId}`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/UpdateLongTermMemory) changes only the fields you send: `text`, `memoryType`, `topics`, `namespaceId`, `ownerId`, or `sessionId`. It does not change `attributes`. An update that changes only `namespaceId` keeps the memory's current expiration; any other update restarts the long-term-memory TTL.
+* **Replace or create:** [`PUT /memories/{memoryId}`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/UpsertLongTermMemory) creates the memory if it does not exist, or replaces it completely. It requires `text` and `ownerId`. Omitted optional fields, including `attributes`, are cleared, and `memoryType` defaults to `semantic`. Replacement keeps `createdAt` and restarts the TTL. The response's `created` field reports whether the memory was new.
+
+To change a custom memory's `attributes`, replace the record with `PUT`.
+
+The example program first creates a memory that records a seat preference. Read the memory before you change it. The HTTP response's `revision` identifies the version you read:
+
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-get" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Change the text and topics with a partial update:
+
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-patch" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+Replace the whole memory with `PUT`:
+
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-put" description="" lang_filter="cURL (Iris)" footer="hide" />}}
+
+### Prevent lost updates
+
+Send `expectedRevision` with the `revision` you read to apply a `PATCH` or `PUT` only if nobody changed the memory since. A stale revision returns `412 Precondition Failed` with the type `/errors/revision-conflict`. Read the memory again, reapply your change, and retry. Omit `expectedRevision` for an unconditional write. Search results from older records can omit `revision`; read the memory by ID before a conditional update.
+
+This request reuses the revision read before the partial update, so it fails:
+
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-stale-revision" description="" lang_filter="cURL (Iris)" footer="hide" />}}
+
+`PATCH` and `PUT` also accept an `idempotencyKey`. Reuse the key with the same request to retry safely; Redis Agent Memory replays the saved result during the retry window, which lasts at most 24 hours and no longer than the store's memory TTL. Reusing a key with a different request returns `409 Conflict`.
+
+The Python SDK does not yet expose `revision`, `expectedRevision`, update idempotency keys, or the `PUT` operation. Use the HTTP API for replacement and conditional writes.
+
+## Delete memories
+
+Delete memories by ID. This example deletes the memories created in [Create long-term memories](#create-long-term-memories):
+
+{{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-delete" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+To delete every session and memory that a user owns, see [Clean up]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#clean-up" >}}) in the quickstart.
 
 ## Custom memory types
 
@@ -185,100 +185,15 @@ In the Redis Cloud console, open your service’s **Configuration** tab, select 
 Extract trip requirements only when the user states a destination or travel plan. Preserve explicit dietary requirements and food preferences.
 ```
 
-After enabling the type, add a travel message to a new session. Run this write once, then wait at least one extraction interval before searching.
+The examples in this section require the registered type. Until it exists, requests that create a `trip_preference` memory return `400 Bad Request` with the message `memory type "trip_preference" is not registered on this store`.
 
-{{< multitabs id="custom-memory-event" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+After enabling the type, add a travel message to a new session:
 
-```python
-        agent_memory.add_session_event(
-            session_id="trip-preference-session", actor_id=USER_ID,
-            role=models.MessageRole.USER,
-            content=[models.Text(text="I am visiting Tokyo and Kyoto next month. I am vegetarian.")],
-            created_at=datetime.now(timezone.utc),
-        )
-```
+{{< clients-example set="iris_agent_memory_long_term_memory_custom_types" step="custom-memory-event" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
--tab-sep-
+Search for the structured memory. The examples search every 10 seconds until extraction creates one:
 
-```typescript
-  await agentMemory.addSessionEvent("trip-preference-session", {
-    actorId: userId, role: "USER",
-    content: [{ text: "I am visiting Tokyo and Kyoto next month. I am vegetarian." }],
-    createdAt: new Date(),
-  });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data "$(jq -n --arg owner "$OWNER_ID" --arg now "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-    '{actorId:$owner,role:"USER",content:[{text:"I am visiting Tokyo and Kyoto next month. I am vegetarian."}],createdAt:$now}')" \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/trip-preference-session/events" | jq
-```
-
-{{< /multitabs >}}
-
-Search for the structured memory:
-
-{{< multitabs id="custom-memory-search" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-        custom_results = agent_memory.search_long_term_memory(
-            request={
-                "query": "What are the requirements for the user's trip?",
-                "filter_": {
-                    "owner_id": {"eq": USER_ID},
-                    "memory_type": {"eq": "trip_preference"},
-                },
-                "limit": 5,
-            },
-        )
-        show("Trip preference memories", custom_results)
-```
-
--tab-sep-
-
-```typescript
-  const customResults = await agentMemory.searchLongTermMemory({
-    query: "What are the requirements for the user's trip?",
-    filter: {
-      ownerId: { eq: userId },
-      memoryType: { eq: "trip_preference" },
-    },
-    limit: 5,
-  });
-  console.log("Trip preference memories:");
-  console.dir(customResults, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
-{
-  "query": "What are the requirements for the user's trip?",
-  "filter": {
-    "ownerId": {
-      "eq": "$OWNER_ID"
-    },
-    "memoryType": {
-      "eq": "trip_preference"
-    }
-  },
-  "limit": 5
-}
-JSON
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_agent_memory_long_term_memory_custom_types" step="custom-memory-search" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 The `items` array contains records with `memoryType` set to `trip_preference`. Custom fields are inside each record's `attributes` object. For example, a result can include this excerpt:
 
@@ -296,130 +211,19 @@ The `items` array contains records with `memoryType` set to `trip_preference`. C
 
 The values depend on the conversation and extraction model. An application can use `dietary_requirements` to constrain restaurant recommendations, while `food_preferences` helps rank suitable choices. Check that each field is present and has the expected type before using it.
 
-Inspect the structured fields. The SDK examples collect dietary requirements for the next agent turn:
+Inspect the structured fields. The examples collect dietary requirements for the next agent turn:
 
-{{< multitabs id="custom-memory-fields" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-        dietary_requirements = set()
-        if not custom_results.items:
-            print("No matching trip preferences yet. Retry after a short wait.")
-        for memory in custom_results.items:
-            attributes = memory.attributes or {}
-            requirements = attributes.get("dietary_requirements", [])
-            if isinstance(requirements, list):
-                dietary_requirements.update(
-                    value for value in requirements if isinstance(value, str)
-                )
-        print("Restaurant requirements:", sorted(dietary_requirements))
-```
-
--tab-sep-
-
-```typescript
-  const dietaryRequirements = new Set<string>();
-  if (customResults.items.length === 0) {
-    console.log("No matching trip preferences yet. Retry after a short wait.");
-  }
-  for (const memory of customResults.items) {
-    const requirements = memory.attributes?.dietary_requirements;
-    if (Array.isArray(requirements)) {
-      for (const value of requirements) {
-        if (typeof value === "string") dietaryRequirements.add(value);
-      }
-    }
-  }
-  console.log("Restaurant requirements:", [...dietaryRequirements].sort());
-```
-
--tab-sep-
-
-Run the search with this filter in place of the final `jq` command:
-
-```sh
-jq 'if (.items | length) == 0 then
-      {status: "No matching trip preferences yet. Retry after a short wait."}
-    else
-      .items[] | {id, attributes}
-    end'
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_agent_memory_long_term_memory_custom_types" step="custom-memory-fields" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 If results remain empty, check that the type is enabled and that the owner ID matches the stored records. An empty result does not mean the user has no dietary requirements.
 
-
 ### Create a custom memory directly
 
-If your application already has structured trip data, write it directly using the registered `trip_preference` type. This optional example represents data from a form and uses the same user identifier:
+If your application already has structured trip data, write it directly using the registered `trip_preference` type. This example represents data from a form and uses the same user identifier:
 
-{{< multitabs id="direct-memory" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_long_term_memory_custom_types" step="custom-memory-direct" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-        direct_result = agent_memory.bulk_create_long_term_memories(memories=[{
-            "memory_id": "trip-form-1",
-            "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
-            "owner_id": USER_ID,
-            "memory_type": "trip_preference",
-            "attributes": {
-                "destinations": ["Tokyo", "Kyoto"],
-                "travel_period": "next month",
-                "dietary_requirements": ["vegetarian"],
-                "food_preferences": ["spicy food"],
-            },
-        }])
-        show("Directly created trip preference", direct_result)
-```
-
--tab-sep-
-
-```typescript
-  const directResult = await agentMemory.bulkCreateLongTermMemories({
-    memories: [{
-      memoryId: "trip-form-1",
-      text: "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
-      ownerId: userId,
-      memoryType: "trip_preference",
-      attributes: {
-        destinations: ["Tokyo", "Kyoto"],
-        travel_period: "next month",
-        dietary_requirements: ["vegetarian"],
-        food_preferences: ["spicy food"],
-      },
-    }],
-  });
-  console.dir(directResult, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories" <<JSON | jq
-{
-  "memories": [{
-    "memoryId": "trip-form-1",
-    "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
-    "ownerId": "$OWNER_ID",
-    "memoryType": "trip_preference",
-    "attributes": {
-      "destinations": ["Tokyo", "Kyoto"],
-      "travel_period": "next month",
-      "dietary_requirements": ["vegetarian"],
-      "food_preferences": ["spicy food"]
-    }
-  }]
-}
-JSON
-```
-
-{{< /multitabs >}}
-
-Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating an eligible record with the same `id` again replaces that record. Access checks and protection for document-managed records still apply.
+Inspect the response's `errors` array for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating a record whose `memoryId` already exists fails for that record and leaves the stored memory unchanged; use [`PUT`](#update-a-memory) to replace it. Access checks and protection for document-managed records still apply.
 
 See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
@@ -435,118 +239,11 @@ Do not keep passwords, access tokens, recovery codes, payment card information, 
 
 The semantic exclusion prompt tells Redis Agent Memory which information should not be kept in long-term memory. Add an event containing a fictional booking code and information that is safe to retain:
 
-{{< multitabs id="exclusion-event" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+{{< clients-example set="iris_agent_memory_long_term_memory_exclusions" step="exclusion-event" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-```python
-        sensitive_event = agent_memory.add_session_event(
-            session_id=SESSION_ID,
-            actor_id=USER_ID,
-            role=models.MessageRole.USER,
-            content=[models.Text(
-                text=(
-                    "I booked Hotel Sakura in Tokyo. For this example, "
-                    "the fictional booking confirmation code is DEMO-7QX9."
-                ),
-            )],
-            created_at=datetime.now(timezone.utc),
-        )
-        show("Event with excluded information", sensitive_event)
-```
+Search for the safe hotel information. The examples search every 10 seconds until a memory about the hotel appears:
 
--tab-sep-
-
-```typescript
-  const sensitiveEvent = await agentMemory.addSessionEvent(sessionId, {
-    actorId: userId,
-    role: "USER",
-    content: [{
-      text: "I booked Hotel Sakura in Tokyo. For this example, the fictional booking confirmation code is DEMO-7QX9.",
-    }],
-    createdAt: new Date(),
-  });
-  console.log("Event with excluded information:");
-  console.dir(sensitiveEvent, { depth: null });
-```
-
--tab-sep-
-
-```sh
-export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$SESSION_ID/events" <<JSON | jq
-{
-  "actorId": "$OWNER_ID",
-  "role": "USER",
-  "content": [
-    {
-      "text": "I booked Hotel Sakura in Tokyo. For this example, the fictional booking confirmation code is DEMO-7QX9."
-    }
-  ],
-  "createdAt": "$EVENT_CREATED_AT"
-}
-JSON
-```
-
-{{< /multitabs >}}
-
-Run the event write once. In the SDK files, comment out event creation and its output statements before subsequent runs. Wait at least one minute and search for the safe hotel information:
-
-{{< multitabs id="exclusion-search" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-```python
-        exclusion_results = agent_memory.search_long_term_memory(
-            request={
-                "query": "Where is the user staying in Tokyo?",
-                "filter_": {
-                    "owner_id": {"eq": USER_ID},
-                },
-                "limit": 5,
-            },
-        )
-        show("Memories after semantic exclusion", exclusion_results)
-```
-
--tab-sep-
-
-```typescript
-  const exclusionResults = await agentMemory.searchLongTermMemory({
-    query: "Where is the user staying in Tokyo?",
-    filter: {
-      ownerId: { eq: userId },
-    },
-    limit: 5,
-  });
-  console.log("Memories after semantic exclusion:");
-  console.dir(exclusionResults, { depth: null });
-```
-
--tab-sep-
-
-```sh
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/memories/search" <<JSON | jq
-{
-  "query": "Where is the user staying in Tokyo?",
-  "filter": {
-    "ownerId": {
-      "eq": "$OWNER_ID"
-    }
-  },
-  "limit": 5
-}
-JSON
-```
-
-{{< /multitabs >}}
+{{< clients-example set="iris_agent_memory_long_term_memory_exclusions" step="exclusion-search" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 > [!NOTE]
 > **What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code `DEMO-7QX9`. If the code appears, refine the exclusion prompt and test again.

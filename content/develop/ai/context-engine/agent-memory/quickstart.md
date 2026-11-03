@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Store and retrieve a conversation, then recall long-term memory with Python, TypeScript, or curl.
+description: Store and retrieve a conversation, then recall long-term memory with Python, HTTP, or the Iris CLI.
 hideListLinks: true
 linktitle: Quickstart
 title: Redis Agent Memory quickstart
@@ -26,212 +26,89 @@ To complete this quickstart, you need:
 
 {{< embed-md "rc-agent-memory-quickstart-prerequisites.md" >}}
 
-Choose Python, TypeScript, or curl for the examples and use it throughout this page.
-
-{{< multitabs id="prerequisites" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-You also need Python 3.10 or later.
-
--tab-sep-
-
-You also need Node.js and npm.
-
--tab-sep-
-
-You also need a shell with `curl` and `jq` installed.
-
-{{< /multitabs >}}
+Follow one tab throughout the page. The Python SDK and command-line interface (CLI) require Python 3.11 or later. The cURL and CLI examples use Bash and jq. The CLI reads sessions and memories but does not write them, so the CLI tab starts at [Retrieve the conversation](#retrieve-the-conversation).
 
 ## Create a Redis Agent Memory service
 
 {{< embed-md "rc-agent-memory-quickstart-create-service.md" >}}
 
-## Save the connection values
+## Connect to the service
 
-1. Open the Redis Agent Memory service in the Redis Cloud console.
-1. On the **Configuration** tab, copy the **Store ID** and the URL from the **URL List**. This URL is the endpoint.
-1. Export the values for your chosen client in your shell:
+1. For Python or CLI examples, install the unified package:
 
-{{< multitabs id="connection-values" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
+    python -m pip install 'redis-iris==1.0.0b2'
+    ```
 
-```sh
-export API_KEY='<API_KEY>'
-```
+1. Open the Redis Agent Memory service in the Redis Cloud console. On the **Configuration** tab, copy the **Store ID** and the URL from the **URL List**. Save them with your API key in `.env`. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-memory/...` path.
 
--tab-sep-
+    ```dotenv
+    IRIS_AGENT_MEMORY_URL='<data-plane-endpoint>'
+    IRIS_AGENT_MEMORY_STORE_ID='<store-id>'
+    IRIS_AGENT_MEMORY_API_KEY='<api-key>'
+    ```
 
-```sh
-export API_KEY='<API_KEY>'
-```
+1. Load the file in the shell where you run the examples:
 
--tab-sep-
+    ```bash
+    set -a; source .env; set +a
+    ```
 
-```sh
-export AGENT_MEMORY_URL='<ENDPOINT>'
-export STORE_ID='<STORE_ID>'
-export API_KEY='<API_KEY>'
-export SESSION_ID='travel-planning-session'
-export OWNER_ID='quickstart-user'
-```
+1. Expand an example to copy the complete program. Save it as `quickstart.py`, `quickstart.cli.sh`, or `quickstart.sh` (cURL), then run `python quickstart.py`, `bash quickstart.cli.sh`, or `bash quickstart.sh`.
 
-{{< /multitabs >}}
+Keep `.env` out of source control and keys out of application logs and model prompts. Use [`iris.toml` profiles]({{< relref "/develop/ai/context-engine/sdk-and-cli" >}}) for several deployments.
 
-The SDK examples read `API_KEY` from your environment; replace `<ENDPOINT>` and `<STORE_ID>` in each file. The curl examples read all three values from your environment.
-
-The endpoint must include `https://`. Keep the API key out of source control, application logs, and other unsecured locations.
-
-For a self-managed service with ownership enforcement, use the authenticated client setup in [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and set `OWNER_ID` to the verified user ID before using these examples.
-
-## Install the SDK
-
-{{< multitabs id="installation" tab1="Python" tab2="TypeScript" tab3="curl" >}}
-
-Create and activate a virtual environment with [uv](https://docs.astral.sh/uv/):
-
-```sh
-uv venv
-source .venv/bin/activate
-uv pip install redis-agent-memory
-```
-
--tab-sep-
-
-```sh
-mkdir agent-memory-quickstart
-cd agent-memory-quickstart
-npm init -y
-npm install @redis-iris/agent-memory
-npm install --save-dev tsx
-```
-
--tab-sep-
-
-Use `curl` and `jq` directly. No SDK installation is required.
-
-{{< /multitabs >}}
+For a self-managed service with ownership enforcement, use the authenticated client setup in [Delegate a user with an agent key]({{< relref "/operate/iris/agent-memory/self-managed/authentication#delegate-a-user-with-an-agent-key" >}}) and replace `quickstart-user` with the verified user ID.
 
 <a id="check-the-service-health"></a>
+<a id="save-the-connection-values"></a>
 
-## Create the client and check the service health
+`AgentMemory.from_env()` reads the connection values. Its `.client` property exposes every Agent Memory operation; the `conversation`, `recall`, `remember`, and `forget` methods cover the common agent tasks. Check that the overall status and each feature are `HEALTHY`.
 
-1. Create `quickstart.py` or `quickstart.ts` with the complete example for your language.
-1. Replace `<ENDPOINT>` and `<STORE_ID>` with your service values. The endpoint must include `https://`.
-1. Run `python quickstart.py` or `npx tsx quickstart.ts`. For curl, run the command in your configured shell.
-1. Check that the overall `status` and each entry under `features` are healthy.
-
-{{< clients-example set="agent_memory_sdk" step="connect_health_check" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/health" | jq
-{{< /clients-example >}}
-
-The health response reports the status of the selected store's memory features. A healthy response looks like:
-
-```json
-{
-  "status": "healthy",
-  "features": {
-    "background_jobs": {
-      "status": "healthy"
-    },
-    "long_term_memory": {
-      "status": "healthy"
-    },
-    "session_memory": {
-      "status": "healthy"
-    },
-    "source_link": {
-      "status": "healthy"
-    },
-    "store_db": {
-      "status": "healthy"
-    }
-  }
-}
-```
-
-Each SDK example includes its client setup. Replace the file at each step, keeping the same connection values and identifiers. Run curl commands in the shell where you exported the connection values.
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-connect" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 <a id="1-build-conversation-context-with-session-memory"></a>
 
-## Save and retrieve a conversation
+## Save a conversation
 
-Session memory is the conversation transcript. Each message is an event, stored with the conversation's session ID and the sender's actor ID. The first request saves a user's travel plans. The second retrieves the conversation so you can check that the message was stored.
+Session memory is the conversation transcript. Each message is an event, stored with the conversation's session ID and the sender's actor ID. Save a user's travel plans:
 
-1. Replace your SDK quickstart file with the complete example for your language. For curl, run the commands in order.
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-save" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-{{< clients-example set="agent_memory_sdk" step="add_session_event" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
-export EVENT_CREATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+Run the write once. Repeating it with a new idempotency key adds the same message again.
 
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
-{
-  "sessionId": "$SESSION_ID",
-  "actorId": "$OWNER_ID",
-  "role": "USER",
-  "content": [
-    {
-      "text": "I am visiting Tokyo and Kyoto next month. I am vegetarian and prefer spicy food."
-    }
-  ],
-  "createdAt": "$EVENT_CREATED_AT"
-}
-JSON
+## Retrieve the conversation
 
+Retrieve the session to check that the message was stored:
 
-curl --fail-with-body --silent --show-error \
-  --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
-{{< /clients-example >}}
-
-2. For Python, save the file and run `python quickstart.py`. For TypeScript, save the file and run `npx tsx quickstart.ts`.
-3. Find the `events` array in the session response. Check that it contains the travel message, the `USER` role, and the `quickstart-user` actor ID.
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-transcript" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 > [!NOTE]
-> **What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
-
-Run the event write once. Repeating it adds the same message again. The next example searches without repeating the write.
+> **What to expect:** One `USER` event from `quickstart-user` with the travel message. Redis Agent Memory adds an event ID and timestamps, so the application can recover the conversation later using only the session ID.
 
 <a id="2-recall-automatically-extracted-information"></a>
 
 ## Recall an extracted preference
 
-Redis Agent Memory processes session events in the background and creates long-term memories for information that may be useful in later conversations. You configured the extraction cadence to one minute when you created the service.
+Redis Agent Memory processes session events in the background and creates long-term memories for information that may be useful in later conversations. You configured the extraction cadence to one minute when you created the service. The examples search every 10 seconds until a memory appears; the CLI runs one search, so rerun it if the result is empty.
 
-Wait at least one minute. Replace your SDK file with the complete search example, or run the curl command:
-
-{{< clients-example set="agent_memory_sdk" step="search_long_term_memory_basic" footer="hide" dft_tab_name="curl" runnable="false" try_it="false" >}}
-curl --fail-with-body --silent --show-error \
-  --request POST \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
-{
-  "text": "What dietary requirements and food preferences does the user have?",
-  "filter": {
-    "ownerId": {
-      "eq": "$OWNER_ID"
-    }
-  },
-  "limit": 5
-}
-JSON
-{{< /clients-example >}}
-
-Run the search and inspect `items`. Extraction is asynchronous, so run the search again if the array is empty.
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-recall" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 > [!NOTE]
-> **What to expect:** Results similar to `User is a vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.
+> **What to expect:** Results similar to `User is vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.
 
 The extracted memory remains searchable after the session expires, subject to the long-term memory time to live (TTL). You can change the extraction cadence and both TTLs in the [Redis Agent Memory service configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}).
+
+## Clean up
+
+Delete the quickstart session and every memory owned by `quickstart-user`. `forget` is the right-to-erasure operation and cannot be undone.
+
+{{< clients-example set="iris_agent_memory_quickstart_delete" step="agent-memory-quickstart-delete" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Next steps
 
 Generate a complete conversational agent with the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}). Select **Redis Iris Conversational Assistant**, then choose **Python** or **JavaScript**.
 
-Follow the [developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to use memory in an agent’s request cycle. For specific features, see [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}), [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}), and [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}).
+Follow the [developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to use memory in an agent’s request cycle. For specific features, see [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}), [Custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory#custom-memory-types" >}}), [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}), and [MCP]({{< relref "/develop/ai/context-engine/agent-memory/mcp" >}}).
