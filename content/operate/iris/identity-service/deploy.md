@@ -5,15 +5,15 @@ categories:
 - docs
 - operate
 - iris
-description: Install the Identity Service as its own Helm release, register a product with it, and check that it answers.
+description: Install the Identity Service as its own Helm release, register a service with it, and check that it answers.
 linkTitle: Deploy
 weight: 50
 hideListLinks: true
 ---
 
-Follow these steps to install the Identity Service with the `iris-identity-service` Helm chart, register your first Iris product with it, and check that its control API accepts your control token.
+Follow these steps to install the Identity Service with the `iris-identity-service` Helm chart, register your first Iris service with it, and check that its control API accepts your control token.
 
-The examples install chart `1.2.0` as release `ids` in the same namespace as the products, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other products, swap in their entries from [Register products](/content/operate/iris/identity-service/configuration.md#register-products).
+The examples install chart `1.2.0` as release `ids` in the same namespace as the services, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other services, swap in their entries from [Register services](/content/operate/iris/identity-service/configuration.md#register-services).
 
 <!-- TODO: iris#2368 (M6) moves the chart to 1.3.0. Update the version in every guide when it merges. -->
 
@@ -21,17 +21,17 @@ The examples install chart `1.2.0` as release `ids` in the same namespace as the
 
 | Requirement | Details |
 | --- | --- |
-| Kubernetes | A cluster and a namespace for the release. The tested layout puts the Identity Service in the same namespace as the products, because they share Secrets. |
+| Kubernetes | A cluster and a namespace for the release. The tested layout puts the Identity Service in the same namespace as the services, because they share Secrets. |
 | Helm | Helm 3, with the Redis AI repository `https://helm.redis.io/ai`. |
 | Image | `redislabs/iris-identity-service` from Docker Hub, or a copy in your private registry. By default, the chart deploys the image tag that matches its version. |
 | Metadata Redis | A Redis database for the Identity Service. Turn on persistence (append-only file or RDB snapshots) and keep its data on durable storage. It holds every agent key, so back it up. See [Metadata Redis](/content/operate/iris/identity-service/configuration.md#metadata-redis). |
-| Tenant | One tenant ID for the installation, for example `default`. Every product release sets the same value as its `tenantId`. You can't change it later. |
-| Product details | For each product you register: its control-plane Service address, its control-plane internal token Secret, and its data-plane runtime credential Secret. Each product's deploy guide names them. |
-| Transport Layer Security (TLS) | The Identity Service has no TLS listener. For production, put a TLS endpoint in front of it and of each product control plane. |
+| Tenant | One tenant ID for the installation, for example `default`. Every service release sets the same value as its `tenantId`. You can't change it later. |
+| Service details | For each service you register: its control-plane Service address, its control-plane internal token Secret, and its data-plane runtime credential Secret. Each service's deploy guide names them. |
+| Transport Layer Security (TLS) | The Identity Service has no TLS listener. For production, put a TLS endpoint in front of it and of each service control plane. |
 
 ## 1. Create the namespace
 
-Skip this step if the products' namespace already exists.
+Skip this step if the services' namespace already exists.
 
 ```bash
 kubectl create namespace <namespace-name>
@@ -64,21 +64,21 @@ kubectl create namespace <namespace-name>
 
    To let the chart generate the token instead, skip this step and omit `control` from the values file. The chart then creates `ids-iris-identity-service-control-token` and keeps it across upgrades and uninstalls.
 
-1. Create the product's data-plane runtime credential. The data plane and the Identity Service both mount it:
+1. Create the service's data-plane runtime credential. The data plane and the Identity Service both mount it:
 
    ```bash
    kubectl -n <namespace-name> create secret generic memory-dp-credential \
      --from-literal=token="$(openssl rand -hex 32)"
    ```
 
-1. Create the product's control-plane internal token. The control plane and the Identity Service both mount it:
+1. Create the service's control-plane internal token. The control plane and the Identity Service both mount it:
 
    ```bash
    kubectl -n <namespace-name> create secret generic memory-internal-token \
      --from-literal=token="$(openssl rand -hex 32)"
    ```
 
-Every credential needs its own value. The Identity Service doesn't start when two credentials have the same value. If you already followed a product's deploy guide, these Secrets exist: reuse them.
+Every credential needs its own value. The Identity Service doesn't start when two credentials have the same value. If you already followed a service's deploy guide, these Secrets exist: reuse them.
 
 ## 4. Create `values-ids.yaml`
 
@@ -114,16 +114,16 @@ productValidation:
 
 ## Before you install: check your values
 
-The chart's values schema is closed: an unknown key, product, or operation fails the install. Check each value before you install. If one is wrong, you see the symptom in its row.
+The chart's values schema is closed: an unknown key, service, or operation fails the install. Check each value before you install. If one is wrong, you see the symptom in its row.
 
 {{< table-scrollable >}}
 | Check | Symptom | Fix |
 | --- | --- | --- |
 | `metadata.existingSecret` is set | Rendering fails | Name the metadata Secret. |
-| `runtime.serviceCredentials` has at least one entry | Rendering fails | Add an entry for each product data plane. |
-| `productValidation.products` has at least one enabled product | Rendering fails | Add a validator for each product control plane. |
+| `runtime.serviceCredentials` has at least one entry | Rendering fails | Add an entry for each service data plane. |
+| `productValidation.products` has at least one enabled service | Rendering fails | Add a validator for each service control plane. |
 | The control token, runtime credentials, and internal tokens use different Secret keys and different values | Rendering fails, or the pod doesn't start | Create a separate Secret for each. |
-| `runtime.apiKeyTenant.singleTenantID` equals each product's `tenantId` | Minting a key fails with `400`, or agents get `403` | Set the same tenant in every release. |
+| `runtime.apiKeyTenant.singleTenantID` equals each service's `tenantId` | Minting a key fails with `400`, or agents get `403` | Set the same tenant in every release. |
 | A numeric tenant ID is a string | Rendering fails, or the tenant doesn't match | Quote it in YAML, or use `--set-string`. |
 {{< /table-scrollable >}}
 
@@ -138,7 +138,7 @@ helm install ids redis-ai/iris-identity-service \
   -f values-ids.yaml
 ```
 
-The product's control plane can be missing at this point. The Identity Service starts without it, but minting a key for that product fails until the control plane answers grant validation.
+The service's control plane can be missing at this point. The Identity Service starts without it, but minting a key for that service fails until the control plane answers grant validation.
 
 ## 6. Verify the release
 
@@ -170,16 +170,16 @@ The product's control plane can be missing at this point. The Identity Service s
 
    If the chart generated the token, read `ids-iris-identity-service-control-token` instead. `helm status ids -n <namespace-name>` prints the command for your release.
 
-1. List the registered products. The response names each product that has a grant validator:
+1. List the registered services. The response names each service that has a grant validator:
 
    ```bash
    curl -sS -H "Authorization: Bearer $IRIS_IDENTITY_TOKEN" "$IRIS_IDENTITY_URL/v1/products"
    ```
 
-A passing `helm test` doesn't prove that the release can mint keys. Minting needs the product's control plane. After you install the product, mint a key as its deploy guide shows, or as described in [Mint an agent key](/content/operate/iris/identity-service/operations.md#mint-an-agent-key).
+A passing `helm test` doesn't prove that the release can mint keys. Minting needs the service's control plane. After you install the service, mint a key as its deploy guide shows, or as described in [Mint an agent key](/content/operate/iris/identity-service/operations.md#mint-an-agent-key).
 
 ## Next steps
 
-- Install the product and connect its data plane to `http://ids-iris-identity-service:9200`, or to the Identity Service's TLS endpoint.
-- [Register more products](/content/operate/iris/identity-service/configuration.md#register-products) on the same release.
+- Install the service and connect its data plane to `http://ids-iris-identity-service:9200`, or to the Identity Service's TLS endpoint.
+- [Register more services](/content/operate/iris/identity-service/configuration.md#register-services) on the same release.
 - [Let operators sign in with your identity provider](/content/operate/iris/identity-service/authentication.md#operator-sign-in-with-your-identity-provider), so they don't share the control token.

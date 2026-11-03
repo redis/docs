@@ -58,7 +58,7 @@ The chart creates `ClusterIP` Services. Your platform owns ingress, network poli
 
 The data-plane Service on port `9201` serves both REST and MCP. To expose MCP, route `/iris/data/v1/agent-playbooks/playbooks/{playbookId}/mcp` to the data-plane Service and keep the complete path, the `Authorization` header, the request body, and the MCP and `Accept` headers. MCP messages use `POST`. The transport is stateless, so an authenticated `GET` or `DELETE` returns `405`.
 
-Exposing a whole Identity Service Service also exposes its administration routes. Expose only the routes your applications need.
+Exposing a whole Identity Service also exposes its administration routes. Expose only the routes your applications need.
 
 ### Plan capacity and recovery
 

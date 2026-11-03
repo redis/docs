@@ -138,10 +138,6 @@ On the data plane, explicitly mapped `product_admin` and `suite_admin` users rec
 
 The planes cache the JWKS for 10 minutes and allow 5 minutes of clock skew. If a key refresh fails and no cached key validates the token, the request fails with a temporary service error rather than an authentication error. A signed token normally stays usable until it expires. Account for these fixed defaults when you set token lifetimes and retire an IdP signing key.
 
-### Upgrade with OIDC enabled
-
-The data plane used to accept only the audience `api://playbook-dp`. If your IdP still issues that audience, set `auth.oidc.audience: api://playbook-dp` before you upgrade, or every token is rejected. `controlplane.oidc.audience` no longer exists, and the render fails if it's still set. A `controlplane.delegatedAuth` block also fails the render: move its `enabled` setting to `controlplane.oidc.enabled`.
-
 ## OIDC access to agent-key administration
 
 The Identity Service has its own OIDC policy for its control API, configured on the Identity Service release with `controlAuth.oidc` and `controlAuth.roleBindings`. Configure it when operators must manage agent keys without the Identity Service control token. The control token remains available as a deployment-administration credential. See [operator sign-in with your identity provider](/content/operate/iris/identity-service/authentication.md#operator-sign-in-with-your-identity-provider) in the Identity Service guide.

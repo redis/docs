@@ -21,6 +21,7 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Create one MCP endpoint for your agents' tools on Redis Cloud or your own infrastructure" url="/operate/iris/context-gateway" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Deploy a service that classifies requests into intents on your own infrastructure" url="/operate/iris/intent-router" >}}
   {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens (beta)" description="Trace your agents' turns on Redis Cloud or your own infrastructure" url="/operate/iris/lens" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Identity Service" description="Issue and check agent keys for every self-managed Redis Iris service" url="/operate/iris/identity-service" >}}
 </div>
 
 ## Deployment options
@@ -45,7 +46,7 @@ Deploy Redis Iris services on Kubernetes when you need to operate them on your o
 - [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
 - [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
 - [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
-- [Identity Service](/content/operate/iris/identity-service/_index.md), which issues and checks agent keys for every self-managed capability
+- [Identity Service](/content/operate/iris/identity-service/_index.md), which issues and checks agent keys for every self-managed service
 
 ## Agent Mesh SDK beta
 

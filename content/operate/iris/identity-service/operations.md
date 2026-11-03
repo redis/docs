@@ -11,7 +11,7 @@ weight: 90
 hideListLinks: true
 ---
 
-This page covers the daily work on an Identity Service release: managing agent keys for every product, rotating credentials, and finding who changed what. It also covers upgrades, backups of the metadata Redis, uninstalling, and troubleshooting.
+This page covers the daily work on an Identity Service release: managing agent keys for every service, rotating credentials, and finding who changed what. It also covers upgrades, backups of the metadata Redis, uninstalling, and troubleshooting.
 
 The examples use release `ids` and a port-forward to its Service:
 
@@ -38,11 +38,11 @@ Readiness returns `503` while the Identity Service can't reach the metadata Redi
 
 ## Manage agent keys
 
-The control API manages the keys of every product. The `iris` command-line interface (CLI) reads `IRIS_IDENTITY_URL` and `IRIS_IDENTITY_TOKEN`. To set it up, see [Set up on a self-managed deployment](/content/develop/ai/context-engine/sdk-and-cli.md#set-up-on-a-self-managed-deployment).
+The control API manages the keys of every service. The `iris` command-line interface (CLI) reads `IRIS_IDENTITY_URL` and `IRIS_IDENTITY_TOKEN`. To set it up, see [Set up on a self-managed deployment](/content/develop/ai/context-engine/sdk-and-cli.md#set-up-on-a-self-managed-deployment).
 
 ### Mint an agent key
 
-Find the resource ID in the product's control plane first, for example an Agent Memory store ID. Then mint the key:
+Find the resource ID in the service's control plane first, for example an Agent Memory store ID. Then mint the key:
 
 ```bash
 curl -sS -X POST "$IRIS_IDENTITY_URL/v1/api-keys" \
@@ -67,9 +67,9 @@ Optional fields:
 - `expiresAt`: when the key stops working, in Unix seconds. Omitted or `0` means never.
 - `userId`: the user that owns the key. It needs `apiKeys.userBinding.enabled: true`.
 
-For the grant of each product, see [Agent keys and grants](/content/operate/iris/identity-service/authentication.md#agent-keys-and-grants). With the CLI, each product's own command mints its keys, because it knows the grant the product needs. For example, `iris intent-router service key` mints a key for a Router.
+For the grant of each service, see [Agent keys and grants](/content/operate/iris/identity-service/authentication.md#agent-keys-and-grants). With the CLI, each service's own command mints its keys, because it knows the grant the service needs. For example, `iris intent-router service key` mints a key for a Router.
 
-Before the Identity Service stores the key, it asks the product's control plane to validate the grant. A `400` means the resource doesn't exist in the tenant or an action isn't valid. A `424` means the Identity Service can't reach the control plane or its internal token is wrong.
+Before the Identity Service stores the key, it asks the service's control plane to validate the grant. A `400` means the resource doesn't exist in the tenant or an action isn't valid. A `424` means the Identity Service can't reach the control plane or its internal token is wrong.
 
 ### List and inspect keys
 
@@ -120,7 +120,7 @@ iris identity keys rotate <key-id> --grace 1h --write .env --env <variable-name>
 iris identity keys revoke <key-id>
 ```
 
-`rotate` writes the new key to the dotenv file with mode `0600` and never prints it. `revoke` asks for confirmation unless you pass `--yes`, and `--product <product>` refuses keys that grant another product.
+`rotate` writes the new key to the dotenv file with mode `0600` and never prints it. `revoke` asks for confirmation unless you pass `--yes`, and `--product <product>` refuses keys that grant another service.
 
 | Operation | Use it when | What happens to the token | When the agent notices |
 | --- | --- | --- | --- |
@@ -136,7 +136,7 @@ The Identity Service reads the control token, the runtime credentials, and the i
 | --- | --- |
 | Control token | Put a new value in your Secret. For a generated token, delete its Secret and run `helm upgrade`. |
 | Runtime credential | Update the Secret that the Identity Service and the data plane share, then change `existingSecretChecksum` on both releases and run `helm upgrade` on both. To avoid failed calls, follow [Rotate a runtime credential without failed calls](#rotate-a-runtime-credential-without-failed-calls). |
-| Internal token | Update the Secret that the Identity Service and the control plane share, then change `productValidation.products.<product>.credential.existingSecretChecksum` and the product's matching checksum, and run `helm upgrade` on both. |
+| Internal token | Update the Secret that the Identity Service and the control plane share, then change `productValidation.products.<product>.credential.existingSecretChecksum` and the service's matching checksum, and run `helm upgrade` on both. |
 | Policy overlays | The Identity Service reads them only at startup. Change `secrets.checksum` and run `helm upgrade`. |
 | Metadata Redis credential | Follow [Rotate the metadata Redis credential](#rotate-the-metadata-redis-credential). |
 | Agent key | [Rotate it](#update-rotate-or-revoke-a-key) through the control API. |
@@ -200,7 +200,7 @@ The log never contains tokens. A request rejected before it reaches the service,
 ## Upgrade
 
 1. Read the release notes for the chart version.
-1. Upgrade each product's control plane first. A newer Identity Service can send grant fields that an older control plane doesn't know.
+1. Upgrade each service's control plane first. A newer Identity Service can send grant fields that an older control plane doesn't know.
 1. Upgrade the Identity Service release with the same values file:
 
    ```bash
@@ -210,7 +210,7 @@ The log never contains tokens. A request rejected before it reaches the service,
      -f values-ids.yaml
    ```
 
-1. Run `helm test ids -n <namespace-name>`, then mint and revoke a test key for each product.
+1. Run `helm test ids -n <namespace-name>`, then mint and revoke a test key for each service.
 
 `helm rollback` restores the workload and its values. It doesn't change generated Secrets or the keys and grants in the metadata Redis.
 
@@ -239,7 +239,7 @@ Stop the Identity Service during the move. If it keeps running after the copy, i
 The Identity Service reads the metadata Redis connection only at startup.
 
 1. In Redis, add the new user or password, and keep the old one valid.
-1. Update the metadata Secret, and every product Secret that uses the same Redis.
+1. Update the metadata Secret, and every service Secret that uses the same Redis.
 1. Restart the Identity Service, and wait until it's ready:
 
    ```bash
@@ -247,7 +247,7 @@ The Identity Service reads the metadata Redis connection only at startup.
    kubectl -n <namespace-name> rollout status deployment/ids-iris-identity-service
    ```
 
-1. Restart the product control planes, then their data planes and workers, if they use the same Redis.
+1. Restart the service control planes, then their data planes and workers, if they use the same Redis.
 1. Run `helm test ids -n <namespace-name>`.
 1. Remove the old credential from Redis.
 
@@ -261,7 +261,7 @@ While the metadata Redis is down, the Identity Service turns unready, and no age
 helm uninstall ids --namespace <namespace-name>
 ```
 
-Uninstalling keeps the Secrets that the chart generated, such as the control token, and keeps every key in the metadata Redis. Products can't check agent keys while the Identity Service is gone. To remove everything, delete the generated Secrets, the Secrets you created, and the metadata Redis data.
+Uninstalling keeps the Secrets that the chart generated, such as the control token, and keeps every key in the metadata Redis. Services can't check agent keys while the Identity Service is gone. To remove everything, delete the generated Secrets, the Secrets you created, and the metadata Redis data.
 
 ## Troubleshooting
 
@@ -273,15 +273,15 @@ The Identity Service returns errors as RFC 7807 problem documents. The `type` fi
 | Readiness returns `503` | The Identity Service can't reach the metadata Redis. | Check the URL, user, password, and Transport Layer Security (TLS) settings in the metadata Secret. |
 | The pod doesn't start | Two credentials share a value, or a value isn't valid. | Read the first error line in the pod log. It names the field. |
 | `401` on the control API | Wrong control token, or the operator token has the wrong issuer, audience, or signature, or expired. | Compare the token's `iss` and `aud` claims with `controlAuth.oidc`. |
-| `403` on the control API | The caller has no role for this operation or product. | Check `controlAuth.roleBindings` and the groups in the token. |
+| `403` on the control API | The caller has no role for this operation or service. | Check `controlAuth.roleBindings` and the groups in the token. |
 | `503` on the control API | The Identity Service can't read its token file or reach the JSON Web Key Set (JWKS) URI. | Check the Secret mount and the network path to your identity provider (IdP). |
 | `404` for a key that exists | The key is in another tenant. | Check the caller's tenant. |
 | `400` that names the tenant | The grant names a tenant other than `singleTenantID`. | Omit `tenant`, or set it to `singleTenantID`. |
-| `400` from grant validation | The resource doesn't exist in the tenant, or an action isn't valid. | Check the resource ID in the product's control plane, and that the product's `tenantId` equals `singleTenantID`. |
+| `400` from grant validation | The resource doesn't exist in the tenant, or an action isn't valid. | Check the resource ID in the service's control plane, and that the service's `tenantId` equals `singleTenantID`. |
 | `424` when minting | The Identity Service can't call the validator: the control plane is down, the address is wrong, or the internal token doesn't match. | Check `productValidation.products.<product>` and the control-plane logs. |
-| Agents get `403` with a valid key | The key's tenant isn't the product's tenant, or the key has no grant for the resource or action. | Compare `singleTenantID` with the product's `tenantId`, and check the key's grants. |
+| Agents get `403` with a valid key | The key's tenant isn't the service's tenant, or the key has no grant for the resource or action. | Compare `singleTenantID` with the service's `tenantId`, and check the key's grants. |
 | Agents get `503`, and the data-plane log shows `service-credential-rejected` | The data plane's runtime credential doesn't match the Identity Service entry. | Compare the data plane's Secret with the Identity Service entry's Secret. |
-| Agents get `503`, and the data-plane log shows `service-credential-insufficient-permissions` | The runtime credential lacks the operation or product. | Add it to the entry's `allowedOperations` or `allowedProducts`. |
+| Agents get `503`, and the data-plane log shows `service-credential-insufficient-permissions` | The runtime credential lacks the operation or service. | Add it to the entry's `allowedOperations` or `allowedProducts`. |
 | A user with a subject grant gets `403` | The issuer or subject differs from the token, or the shape isn't in `subjectGrants.allowed`. | Compare the token's `iss` and `sub` claims with the grant. |
 | A revoked key still works | The data plane's key cache. | Wait up to `runtime.cache.hardTtlSeconds`. |
 {{< /table-scrollable >}}

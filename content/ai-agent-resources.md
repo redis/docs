@@ -141,7 +141,7 @@ the page it resolves to:
   "ambiguous_count": 27,
   "shadowed_count": 10,
   "redirects": [
-    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/langcache/", "moved_on": "2026-05-11"}
+    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/", "moved_on": "2026-05-11"}
   ],
   "ambiguous": [
     {"from": "/develop/use/pipelining", "candidates": ["https://redis.io/docs/latest/develop/using-commands/", "https://redis.io/docs/latest/develop/using-commands/pipelining/"]}

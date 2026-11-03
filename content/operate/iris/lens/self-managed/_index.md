@@ -11,7 +11,7 @@ weight: 40
 hideListLinks: true
 ---
 
-Lens traces your AI agents' turns, so developers can see what each source returned, what entered the prompt, and how each step went. Before developers can send turns, a platform administrator deploys Lens, connects it to an Identity Service, and gives each application an endpoint and API keys.
+Lens traces your AI agent turns, so developers can see what each source returned, what entered the prompt, and how each step went. Before developers can send turns, a platform administrator deploys Lens, connects it to an Identity Service, and gives each application an endpoint and API keys.
 
 This guide is for that administrator. It covers deploying Lens on your own Kubernetes cluster with the `redis-lens` Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/lens/self-managed/prerequisites.md).
 

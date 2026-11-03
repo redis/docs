@@ -11,11 +11,11 @@ title: Set up Redis Iris with the SDK and CLI
 weight: 7
 ---
 
-The [`redis-iris`](https://pypi.org/project/redis-iris/) package is the Python software development kit (SDK) for every Redis Iris capability, plus the `iris` command-line interface (CLI), which creates services, mints keys, and checks connections. Your agent reads only `IRIS_*` environment variables, so the same code runs on Redis Cloud and on a self-managed deployment.
+The [`redis-iris`](https://pypi.org/project/redis-iris/) package is the Python software development kit (SDK) for every Redis Iris service, plus the `iris` command-line interface (CLI), which creates services, mints keys, and checks connections. Your agent reads only `IRIS_*` environment variables, so the same code runs on Redis Cloud and on a self-managed deployment.
 
-Start with a capability's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), [Intent Router](/content/develop/ai/context-engine/intent-router/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
+Start with a service's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), [Intent Router](/content/develop/ai/context-engine/intent-router/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
 
-`redis-iris` covers Python and the CLI. For JavaScript and TypeScript, each capability has its own `@redis-iris/*` npm package, shown in its quickstart.
+`redis-iris` covers Python and the CLI. For JavaScript and TypeScript, each service has its own `@redis-iris/*` npm package, shown in its quickstart.
 
 ## Install the SDK and CLI
 
@@ -29,10 +29,10 @@ iris --version
 
 ## Learn the command shape
 
-Every command has the same shape. Shared options go before the capability name:
+Every command has the same shape. Shared options go before the service name:
 
 ```bash
-iris [shared options] <capability> <noun> <verb> [arguments] [options]
+iris [shared options] <service> <noun> <verb> [arguments] [options]
 ```
 
 For example, this command syncs a folder of FAQs to a playbook:
@@ -44,27 +44,27 @@ iris --json --profile suite agent-playbooks faqs sync ./faqs --publish changed
 | Part | Role | What it does |
 |---|---|---|
 | `--json --profile suite` | Shared options | Print the result as one JSON value, and use the `suite` profile from `iris.toml`. |
-| `agent-playbooks` | Capability | Target Agent Playbooks. |
+| `agent-playbooks` | Service | Target Agent Playbooks. |
 | `faqs sync` | Noun and verb | Make the playbook's FAQs match the files. |
 | `./faqs` | Argument | The folder of FAQ files to sync. |
 | `--publish changed` | Option | Publish the new version of each FAQ that changed. Other FAQs keep their published version. |
 
-| Capability group | What it manages |
+| Service group | What it manages |
 |---|---|
 | `agent-memory` | Agent Memory stores, memories, and sessions |
 | `agent-playbooks` | Agent Playbooks, FAQs, skills, proposals, and extraction from Agent Memory |
 | `context-gateway` | Context Gateways, their upstreams and tool policies, and tool calls |
 | `intent-router` | Intent Routers, intents, examples, and matching |
-| `identity` | Agent keys for every capability: list, rotate, and revoke |
+| `identity` | Agent keys for every service: list, rotate, and revoke |
 
-`--json` prints one JSON value, `--no-input` never prompts, and `--profile` selects a configuration profile. Run `iris <capability> <noun> <verb> --help` for each command's options.
+`--json` prints one JSON value, `--no-input` never prompts, and `--profile` selects a configuration profile. Run `iris <service> <noun> <verb> --help` for each command's options.
 
-`iris --help` lists every capability group, and `--help` at any level lists its commands, so the CLI is its own reference.
+`iris --help` lists every service group, and `--help` at any level lists its commands, so the CLI is its own reference.
 <!-- TODO: link a public CLI reference when one exists. The redis-iris repository is not public. -->
 
 ## Set up on Redis Cloud
 
-On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris capabilities follow the same steps with their own console pages and `IRIS_<CAPABILITY>_*` variables. To see how the pieces fit together first, read [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md).
+On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris services follow the same steps with their own console pages and `IRIS_<SERVICE>_*` variables. To see how the pieces fit together first, read [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md).
 
 1. [Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md) and wait until it is **Ready**.
 1. Select **Connect** on the playbook's page. Copy the **Endpoint** and **Playbook ID**.
@@ -103,14 +103,14 @@ On a self-managed deployment, the CLI creates services and keys with your operat
 
 The Playbooks commands in this section require an already deployed Playbooks control plane, data plane, and Identity Service. The CLI does not install a deployment.
 
-The capabilities deploy on Kubernetes from the shared Redis Helm repository, [https://helm.redis.io/ai](https://helm.redis.io/ai). Each has its own self-managed guide:
+The services deploy on Kubernetes from the shared Redis Helm repository, [https://helm.redis.io/ai](https://helm.redis.io/ai). Each has its own self-managed guide:
 
 - [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md)
 - [Self-managed Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/_index.md)
 - [Self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/_index.md)
 - [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md)
 - [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
-- [Identity Service](/content/operate/iris/identity-service/_index.md), which every self-managed capability uses for agent keys
+- [Identity Service](/content/operate/iris/identity-service/_index.md), which every self-managed service uses for agent keys
 
 <!-- TODO: link the self-managed project setup example once it is public. -->
 

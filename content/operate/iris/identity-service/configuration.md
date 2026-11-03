@@ -5,13 +5,13 @@ categories:
 - docs
 - operate
 - iris
-description: Configure the Identity Service metadata Redis, tenant, product registration, agent-key settings, and TLS.
+description: Configure the Identity Service metadata Redis, tenant, service registration, agent-key settings, and TLS.
 linkTitle: Configuration
 weight: 30
 hideListLinks: true
 ---
 
-You configure the Identity Service with the Helm values of its own release, in `values-ids.yaml`. No product chart reads these values or checks them against its own, so keep the Secret names, Service addresses, and tenant consistent across releases yourself.
+You configure the Identity Service with the Helm values of its own release, in `values-ids.yaml`. No service chart reads these values or checks them against its own, so keep the Secret names, Service addresses, and tenant consistent across releases yourself.
 
 The Identity Service reads its configuration only when it starts. A changed value rolls the pod at `helm upgrade`. A changed Secret that you own doesn't roll the pod unless you also change its checksum value. See [Rotate credentials](/content/operate/iris/identity-service/operations.md#rotate-credentials).
 
@@ -61,23 +61,23 @@ For GitOps tools such as Argo CD or Flux, supply the control token with `control
 | --- | --- | --- |
 | `runtime.apiKeyTenant.singleTenantID` | `""` | The one tenant of the installation, for example `default`. |
 
-Set `singleTenantID` to the same value as the `tenantId` of every product release. The Identity Service adds this tenant to each grant that names no tenant, and rejects a grant that names another tenant with `400`.
+Set `singleTenantID` to the same value as the `tenantId` of every service release. The Identity Service adds this tenant to each grant that names no tenant, and rejects a grant that names another tenant with `400`.
 
-A tenant ID is 1 to 256 characters, without `|` or control characters. Matching is exact and case-sensitive. For a numeric ID, quote it in YAML or set it with `--set-string`, so Helm keeps it as a string. You can't change the tenant after you mint keys: keys, grants, and product data keep the old ID.
+A tenant ID is 1 to 256 characters, without `|` or control characters. Matching is exact and case-sensitive. For a numeric ID, quote it in YAML or set it with `--set-string`, so Helm keeps it as a string. You can't change the tenant after you mint keys: keys, grants, and service data keep the old ID.
 
 <!-- TODO: an empty singleTenantID puts the Identity Service in multi-tenant mode, which only Agent Memory supports, as a preview. Decide whether to document it before GA. -->
 
-## Register products
+## Register services
 
-Each product needs two entries on the Identity Service release:
+Each service needs two entries on the Identity Service release:
 
-- A runtime credential in `runtime.serviceCredentials`, so the product's data plane can check agent keys.
-- A grant validator in `productValidation.products.<product>`, so the Identity Service can check the product's resources before it stores a grant.
+- A runtime credential in `runtime.serviceCredentials`, so the service's data plane can check agent keys.
+- A grant validator in `productValidation.products.<product>`, so the Identity Service can check the service's resources before it stores a grant.
 
-This table lists the entries for each product, with the release names and Secret names that the products' deploy guides use:
+This table lists the entries for each service, with the release names and Secret names used in the associated deployment guide:
 
 {{< table-scrollable >}}
-| Product | `serviceCredentials` `name` and `subject` | `allowedProducts` | Validator key | Validator `baseURL` | Runtime credential Secret | Internal token Secret |
+| Service | `serviceCredentials` `name` and `subject` | `allowedProducts` | Validator key | Validator `baseURL` | Runtime credential Secret | Internal token Secret |
 | --- | --- | --- | --- | --- | --- | --- |
 | Agent Memory | `memory-dp` | `[memory]` | `memory` | `http://redis-agent-memory-controlplane:9100` | `memory-dp-credential` | `memory-internal-token` |
 | Agent Playbooks | `playbook-dp` | `[playbook]` | `playbook` | `http://playbook-controlplane:9200` | `playbook-dp-credential` | `playbook-controlplane-internal` |
@@ -86,11 +86,11 @@ This table lists the entries for each product, with the release names and Secret
 | Lens | `lens-dataplane` | `[lens]` | `lens` | `http://lens-redis-lens-controlplane:9300` | `lens-dp-credential` | `lens-internal-token` |
 {{< /table-scrollable >}}
 
-The runtime credential Secret is the same Secret that the product's data plane mounts, and the internal token Secret is the same Secret that its control plane mounts. If you install a product under another release name or `fullnameOverride`, change the validator address to match. For the product-side values, see each product's deploy guide.
+The runtime credential Secret is the same Secret that the service's data plane mounts, and the internal token Secret is the same Secret that its control plane mounts. If you install a service under another release name or `fullnameOverride`, change the validator address to match. For the product-side values, see each service's deploy guide.
 
-### Serve several products from one release
+### Serve several services from one release
 
-One release serves every product. Write all entries in one values file. Helm replaces lists instead of merging them, so each `helm upgrade` must restate every `serviceCredentials` entry, not only the new one.
+One release serves every service. Write all entries in one values file. Helm replaces lists instead of merging them, so each `helm upgrade` must restate every `serviceCredentials` entry, not only the new one.
 
 This example serves Agent Memory and Intent Router:
 
@@ -127,14 +127,14 @@ productValidation:
         secretKey: token
 ```
 
-To add a product to a running release:
+To add a service to a running release:
 
-1. Install the product, or note its control-plane Service and Secret names.
-1. Add the product's runtime credential and validator to `values-ids.yaml`, next to the existing entries.
+1. Install the service, or note its control-plane Service and Secret names.
+1. Add the service's runtime credential and validator to `values-ids.yaml`, next to the existing entries.
 1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.2.0 -n <namespace-name> -f values-ids.yaml`.
-1. Check that `GET /v1/products` lists the new product.
+1. Check that `GET /v1/products` lists the new service.
 
-Every product on one release uses the same tenant.
+Every service on one release uses the same tenant.
 
 ### Runtime credential fields
 
@@ -143,7 +143,7 @@ Every product on one release uses the same tenant.
 | `name` | Required. Unique, 1 to 44 lowercase letters, digits, and dashes, with no trailing dash. It also names the mount directory. |
 | `subject` | Required. The identity the data plane authenticates as. |
 | `allowedOperations` | Required. One or more of the operations in the next table. |
-| `allowedProducts` | Required. The products whose keys this credential may check. |
+| `allowedProducts` | Required. The services whose keys this credential may check. |
 | `existingSecret`, `secretKey` | The shared Secret and its key (default `token`). |
 | `existingSecretChecksum` | Optional. Change it to roll the pod after you edit the Secret. |
 | `autoGenerate`, `generatedSecretName` | For development only. The chart generates the token instead of reading your Secret. |
@@ -160,13 +160,13 @@ Every product on one release uses the same tenant.
 | Field | Meaning |
 | --- | --- |
 | `enabled` | Default `true`. A disabled entry renders nothing. |
-| `baseURL` | Required. An absolute `http://` or `https://` URL of the product's control plane, with no user information, query, or fragment. |
+| `baseURL` | Required. An absolute `http://` or `https://` URL of the service's control plane, with no user information, query, or fragment. |
 | `credential.existingSecret`, `credential.secretKey` | Required. The control plane's internal token Secret and its key (default `token`). |
 | `credential.existingSecretChecksum` | Optional. Change it to roll the pod after you edit the Secret. |
 
 The Identity Service calls the validator with a 5-second timeout and doesn't follow redirects. If the control plane doesn't answer, minting fails with `424`.
 
-`runtime.unscopedGrantsProduct` names the product that owns grants stored before grants carried a product. Set it to `memory` when the release serves Agent Memory. When set, it must name an enabled validator.
+`runtime.unscopedGrantsProduct` names the service that owns grants stored before grants carried a service. Set it to `memory` when the release serves Agent Memory. When set, it must name an enabled validator.
 
 ## Agent keys and the key cache
 
@@ -197,8 +197,8 @@ See [Authentication and authorization](/content/operate/iris/identity-service/au
   ```
 
 - **Federal Information Processing Standards (FIPS).** Set `security.profile: fips`. The Identity Service then refuses to start unless the metadata Redis URL is `rediss://` and every validator `baseURL` is `https://`.
-- **Network.** The chart deploys no NetworkPolicy and no Ingress. Let only the product planes, your operators, and your automation reach port `9200`. The health routes need no credential, so don't expose them outside the cluster.
-- **Another namespace.** If the Identity Service runs in another namespace than a product, use fully qualified Service names, such as `http://redis-agent-memory-controlplane.<product-namespace>.svc:9100`, and create each shared Secret in both namespaces with the same value.
+- **Network.** The chart deploys no NetworkPolicy and no Ingress. Let only the service planes, your operators, and your automation reach port `9200`. The health routes need no credential, so don't expose them outside the cluster.
+- **Another namespace.** If the Identity Service runs in another namespace than a service, use fully qualified Service names, such as `http://redis-agent-memory-controlplane.<product-namespace>.svc:9100`, and create each shared Secret in both namespaces with the same value.
 
 ## Availability and resources
 
@@ -212,11 +212,11 @@ See [Authentication and authorization](/content/operate/iris/identity-service/au
 
 <!-- TODO: lands with iris#2368 (M6); confirm before GA. Chart 1.3.0 adds podDisruptionBudget.enabled (default false), which creates a PodDisruptionBudget with maxUnavailable: 1 when replicaCount is above 1. Add it to this table once it ships in the chart version the guides pin. -->
 
-Readiness checks the metadata Redis, and liveness doesn't. When the metadata Redis is unreachable, the pod turns unready and stops receiving traffic, but Kubernetes doesn't restart it. Readiness doesn't check the product control planes, so one product's outage doesn't take the Identity Service out of service.
+Readiness checks the metadata Redis, and liveness doesn't. When the metadata Redis is unreachable, the pod turns unready and stops receiving traffic, but Kubernetes doesn't restart it. Readiness doesn't check the service control planes, so one service's outage doesn't take the Identity Service out of service.
 
 ## Configuration overlays
 
-- **`configData`** adds Identity Service settings that have no Helm value. The chart owns the credential, product, tenant, cache, and key settings, and refuses credential wiring in `configData`. Set operator policy either in `controlAuth` or in `configData.auth`, never both.
+- **`configData`** adds Identity Service settings that have no Helm value. The chart owns the credential, service, tenant, cache, and key settings, and refuses credential wiring in `configData`. Set operator policy either in `controlAuth` or in `configData.auth`, never both.
 - **Policy overlays** are Secrets that hold more configuration, such as role bindings, named by `secrets.secretName` and `secrets.additionalSecrets`. Each Secret holds the overlay under the key `overlay.yaml` (`secrets.overlayKey`). The Identity Service loads them in order, after the metadata Secret. An overlay can't change the control token, the runtime credentials, or the validators. Change `secrets.checksum` to roll the pod after you edit an overlay Secret.
 
-Role bindings in overlays merge by issuer, claim value, scope, and product. A later binding replaces a matching one, and a binding with `role: none` removes it.
+Role bindings in overlays merge by issuer, claim value, scope, and service. A later binding replaces a matching one, and a binding with `role: none` removes it.

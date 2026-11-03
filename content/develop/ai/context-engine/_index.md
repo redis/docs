@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Redis Iris is a suite of managed and self-managed services that give your customers accurate, consistent experiences with your AI agents with memory, published answers and procedures, intent routing, governed access to tools and business data, and turn-by-turn tracing.
+description: Redis Iris is a suite of managed and self-managed services that give your customers accurate, consistent experiences with your AI agents by providing memories, approved answers, governed access to business data, and turn-by-turn tracing.
 hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
@@ -30,17 +30,16 @@ Redis Iris eliminates the infrastructure burden of building context-aware AI age
 
 ## What is Redis Iris?
 
-Redis Iris is a context engine for AI agents. Each capability solves one problem, and you can use one or all of them:
+Redis Iris is a production-ready context engine for AI agents that:
 
-- **Agent Memory** keeps conversations and durable facts about each user, so agents remember across sessions.
-- **Agent Playbooks** serve the FAQs and procedures your team published, matched to the agent's task, so recurring questions get consistent answers.
-- **Context Gateway** gives agents one MCP endpoint for the tools of any MCP server and your Redis data.
-- **Intent Router** matches each message to an intent you defined and returns the target that handles it, with no model call.
-- **Lens** (beta) traces each turn, from what each source returned to what entered the prompt.
-- **Agent Mesh** (beta) keeps an agent's response stream resumable when the client disconnects.
-- **Data Integration** streams live changes from relational databases into Redis within seconds.
-
-Use them on Redis Cloud, or deploy them on your own Kubernetes cluster. Each capability's operator guide covers both.
+- **Adds persistent memory**: Agents remember past interactions and user preferences across sessions
+- **Answers recurring questions without a model call**: Agent Playbooks return the answers and procedures your business published, matched to the agent's task by semantic similarity
+- **Connects tools and business data**: Context Gateway gives agents one MCP endpoint for the tools of any MCP server and your Redis data
+- **Routes each message**: Intent Router matches a message to the intents you defined and returns the target that handles it
+- **Shows why an agent answered the way it did**: Lens (beta) traces each turn, from what each source returned to what entered the prompt
+- **Keeps long responses deliverable**: Agent Mesh (beta) keeps an agent's response stream resumable when the client disconnects
+- **Keeps data fresh**: Data Integration streams live changes from relational databases into Redis within seconds
+- **Deploys your way**: Check each service’s operator guide for its managed and self-managed deployment options.
 
 ## Why use Redis Iris?
 
