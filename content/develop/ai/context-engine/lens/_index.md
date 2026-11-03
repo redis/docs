@@ -34,7 +34,9 @@ When your agent gives a wrong answer, Lens shows where it went wrong. For exampl
 - **You control content capture:** Capture prompts and retrieved text for debugging, or keep only IDs, hashes, and counts.
 - **Background export:** Lens exports in the background, so your agent never waits for it. If an export fails, the error stays out of your agent's code.
 
-## How it works
+## Concepts
+
+Lens groups turns into sessions by agent, and records each turn's steps. See [Lens concepts](/content/develop/ai/context-engine/lens/concepts.md) for fetched and used context.
 
 1. Your agent opens a turn for each message with the Redis Iris software development kit (SDK).
 1. The SDK records each step in the turn: retrievals, memory recalls, prompt assembly, model calls, tool calls, and Iris service calls.
@@ -44,11 +46,22 @@ When your agent gives a wrong answer, Lens shows where it went wrong. For exampl
 ![Your agent and the Iris services it calls record steps through the Redis Iris SDK. The SDK exports each turn to Lens, where you inspect it in the Lens UI or query it with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
 {width="700"}
 
-## Get started
+## Quick example
 
-1. Get your Lens endpoints and keys from your administrator.
-   <!-- TODO: link the operator guides for creating an instance and keys when they exist. -->
-1. [Trace your first turn](/content/develop/ai/context-engine/lens/quickstart.md).
+1. Set up a Lens instance and get its endpoints and keys:
+    - **Redis Cloud:** [Create Lens](/content/operate/iris/lens/create-lens.md).
+    - **Self-managed:** [Deploy Lens on Kubernetes](/content/operate/iris/lens/self-managed/_index.md).
+1. Install the Redis Iris Python package:
+
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
+
+1. With `IRIS_LENS_ENDPOINT`, `IRIS_LENS_API_KEY`, and `IRIS_LENS_AGENT_ID` in your environment, trace a turn:
+
+{{< clients-example set="iris_lens_quickstart" step="trace_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
+
+Follow the [quickstart](/content/develop/ai/context-engine/lens/quickstart.md) to read the turn back.
 
 ## Use Lens
 

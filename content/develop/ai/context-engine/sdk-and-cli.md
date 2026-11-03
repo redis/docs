@@ -11,11 +11,11 @@ title: Set up Redis Iris with the SDK and CLI
 weight: 7
 ---
 
-The `redis-iris` package is a Python software development kit (SDK) with one object per Redis Iris service, plus the `iris` command-line interface (CLI), which creates services, mints keys, and checks connections. Your agent reads only `IRIS_*` environment variables, so the same code runs on Redis Cloud and on a self-managed deployment.
+The [`redis-iris`](https://pypi.org/project/redis-iris/) package is the Python software development kit (SDK) for every Redis Iris capability, plus the `iris` command-line interface (CLI), which creates services, mints keys, and checks connections. Your agent reads only `IRIS_*` environment variables, so the same code runs on Redis Cloud and on a self-managed deployment.
 
-Start with a service's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
+Start with a capability's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), [Intent Router](/content/develop/ai/context-engine/intent-router/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
 
-The unified `redis-iris` package is for Python and the CLI. JavaScript and TypeScript use separate product SDKs. For Context Gateway, install `@redis-iris/context-gateway` as shown in its [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md#install-the-client).
+`redis-iris` covers Python and the CLI. For JavaScript and TypeScript, each capability has its own `@redis-iris/*` npm package, shown in its quickstart.
 
 ## Install the SDK and CLI
 
@@ -29,10 +29,10 @@ iris --version
 
 ## Learn the command shape
 
-Every command has the same shape. Shared options go before the service name:
+Every command has the same shape. Shared options go before the capability name:
 
 ```bash
-iris [shared options] <service> <noun> <verb> [arguments] [options]
+iris [shared options] <capability> <noun> <verb> [arguments] [options]
 ```
 
 For example, this command syncs a folder of FAQs to a playbook:
@@ -44,27 +44,27 @@ iris --json --profile suite agent-playbooks faqs sync ./faqs --publish changed
 | Part | Role | What it does |
 |---|---|---|
 | `--json --profile suite` | Shared options | Print the result as one JSON value, and use the `suite` profile from `iris.toml`. |
-| `agent-playbooks` | Service | Target Agent Playbooks. |
+| `agent-playbooks` | Capability | Target Agent Playbooks. |
 | `faqs sync` | Noun and verb | Make the playbook's FAQs match the files. |
 | `./faqs` | Argument | The folder of FAQ files to sync. |
 | `--publish changed` | Option | Publish the new version of each FAQ that changed. Other FAQs keep their published version. |
 
-| Service group | What it manages |
+| Capability group | What it manages |
 |---|---|
 | `agent-memory` | Agent Memory stores, memories, and sessions |
 | `agent-playbooks` | Agent Playbooks, FAQs, skills, proposals, and extraction from Agent Memory |
 | `context-gateway` | Context Gateways, their upstreams and tool policies, and tool calls |
 | `intent-router` | Intent Routers, intents, examples, and matching |
-| `identity` | Agent keys for every service: list, rotate, and revoke |
+| `identity` | Agent keys for every capability: list, rotate, and revoke |
 
-`--json` prints one JSON value, `--no-input` never prompts, and `--profile` selects a configuration profile. Run `iris <service> <noun> <verb> --help` for each command's options.
+`--json` prints one JSON value, `--no-input` never prompts, and `--profile` selects a configuration profile. Run `iris <capability> <noun> <verb> --help` for each command's options.
 
-For every command, see the [redis-iris CLI reference](https://github.com/redis/redis-iris#the-cli), or give your coding agent that link.
-<!-- TODO: point to a full command reference in redis-iris when it exists. The README's CLI section shows examples and links the per-service CLI guides. -->
+`iris --help` lists every capability group, and `--help` at any level lists its commands, so the CLI is its own reference.
+<!-- TODO: link a public CLI reference when one exists. The redis-iris repository is not public. -->
 
 ## Set up on Redis Cloud
 
-On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris services follow the same steps with their own console pages and `IRIS_<SERVICE>_*` variables.
+On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates services and keys, and the CLI checks the connection. These steps use Agent Playbooks. The other Redis Iris capabilities follow the same steps with their own console pages and `IRIS_<CAPABILITY>_*` variables. To see how the pieces fit together first, read [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md).
 
 1. [Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md) and wait until it is **Ready**.
 1. Select **Connect** on the playbook's page. Copy the **Endpoint** and **Playbook ID**.
@@ -77,7 +77,8 @@ On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates servi
     IRIS_AGENT_PLAYBOOKS_API_KEY=<agent-api-key>
     ```
 
-1. Optional, but recommended: create `iris.toml` with a cloud profile, and add `IRIS_PROFILE=cloud` and `IRIS_CONFIG=./iris.toml` to `.env`. One `iris.toml` holds the URLs for every Redis Iris service you use, so the CLI and SDK manage them together, and switching deployments means switching one profile. See the [Redis Cloud project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/cloud).
+1. Optional, but recommended: create `iris.toml` with a cloud profile, and add `IRIS_PROFILE=cloud` and `IRIS_CONFIG=./iris.toml` to `.env`. One `iris.toml` holds the URLs for every Redis Iris service you use, so the CLI and SDK manage them together, and switching deployments means switching one profile.
+    <!-- TODO: link the Redis Cloud project setup example once it is public. -->
 
     ```toml
     [profiles.cloud]
@@ -100,9 +101,17 @@ On Redis Cloud, the [Redis Cloud console](https://cloud.redis.io/) creates servi
 
 On a self-managed deployment, the CLI creates services and keys with your operator tokens. Each token is the deployment's static admin token or an access token from your identity provider.
 
-The Playbooks commands in this section require an already deployed Playbooks control plane, data plane, and Identity Service. The [Playbooks Cloud setup guide](/content/operate/iris/agent-playbook/_index.md) covers managed provisioning; the CLI does not install a Playbooks deployment.
+The Playbooks commands in this section require an already deployed Playbooks control plane, data plane, and Identity Service. The CLI does not install a deployment.
 
-The services deploy on Kubernetes from the shared Redis Helm repository, `https://helm.redis.io/ai`. See [deploy self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md) and [deploy self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md). For a complete project, see the [self-managed project setup example](https://github.com/redis/redis-iris/tree/main/examples/project_setup/onprem).
+The capabilities deploy on Kubernetes from the shared Redis Helm repository, [https://helm.redis.io/ai](https://helm.redis.io/ai). Each has its own self-managed guide:
+
+- [Self-managed Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md)
+- [Self-managed Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/_index.md)
+- [Self-managed Context Gateway](/content/operate/iris/context-gateway/self-managed/_index.md)
+- [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md)
+- [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
+
+<!-- TODO: link the self-managed project setup example once it is public. -->
 
 1. Create `iris.toml` with a profile for your deployment. It holds URLs only:
 
@@ -164,8 +173,5 @@ The CLI takes each setting from the first of these that sets it: a command optio
 
 ## More information
 
-- [The `iris` CLI in the redis-iris README](https://github.com/redis/redis-iris#the-cli)
-- [Configuration guide](https://github.com/redis/redis-iris/blob/main/docs/user_guides/configuration.md)
-- [Provision without the UI](https://github.com/redis/redis-iris/blob/main/docs/user_guides/provision-without-the-ui.md)
-- [Starter configuration for Redis Cloud and self-managed projects](https://github.com/redis/redis-iris/tree/main/examples/project_setup)
-- [redis-iris examples](https://github.com/redis/redis-iris/tree/main/examples), including adding Redis Iris to an agent you already have
+- [redis-iris on PyPI](https://pypi.org/project/redis-iris/)
+- [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md)

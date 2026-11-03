@@ -8,7 +8,7 @@ categories:
 description: Create playbooks of reusable skills and answers that agents can discover and load for a task.
 linkTitle: Agent Playbooks
 hideListLinks: true
-weight: 25
+weight: 15
 cascade:
   exampleClientOrder:
   - Python (Iris)
@@ -39,7 +39,9 @@ A FAQ gives an agent a validated answer, such as where a customer can find their
 - **Governed collaboration:** Separate reading, writing, publishing, and proposing with playbook access grants.
 - **Flexible integration:** Retrieve entries through Python, HTTP, or Model Context Protocol (MCP).
 
-## Choose what to publish
+## Concepts
+
+A playbook holds two kinds of entries:
 
 | Entry | Use it for                                                                         | What the agent receives                                              |
 | ----- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -50,10 +52,22 @@ A publisher selects the version of each **entry** agents receive. Your applicati
 
 See [Redis Agent Playbooks concepts]({{< relref "/develop/ai/context-engine/agent-playbooks/concepts" >}}) for versions, publication, and review.
 
-## Get started
+## Quick example
 
-1. [Create a playbook]({{< relref "/operate/iris/agent-playbook/create-playbook" >}}) on Redis Cloud.
-2. [Publish and retrieve your first FAQ]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart" >}}).
+1. Set up a playbook:
+    - **Redis Cloud:** [Create a playbook](/content/operate/iris/agent-playbook/create-playbook.md).
+    - **Self-managed:** [Deploy Agent Playbooks on Kubernetes](/content/operate/iris/agent-playbook/self-managed/_index.md).
+1. Install the Redis Iris Python package, which includes the `iris` CLI:
+
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
+
+1. With `IRIS_AGENT_PLAYBOOKS_URL`, `IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID`, and `IRIS_AGENT_PLAYBOOKS_API_KEY` in your environment, find the published entries that match an agent's task:
+
+{{< clients-example set="iris_playbook_quickstart" step="playbook-quickstart-discover" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+Follow the [quickstart](/content/develop/ai/context-engine/agent-playbooks/quickstart.md) to publish your first FAQ and retrieve it.
 
 ## Manage playbook entries
 
