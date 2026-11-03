@@ -11,7 +11,7 @@ weight: 70
 hideListLinks: true
 ---
 
-Create the two Gateways the [developer quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) uses, register the sample clinic directory on both, issue one agent key, and hand the connection values to a developer.
+Create sample Gateways for full and search mode, register the clinic directory on both, and issue an agent key. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) uses one of these Gateways. The [MCP walkthrough](/content/develop/ai/context-engine/context-gateway/mcp.md#stored-result-example) uses both, including compression on the search-mode Gateway.
 
 Before you begin, [deploy the chart](/content/operate/iris/context-gateway/self-managed/deploy.md) and [load the admin token](/content/operate/iris/context-gateway/self-managed/authentication.md#control-plane-admin-token).
 
@@ -139,25 +139,22 @@ export IRIS_CONTEXT_GATEWAY_URL="$(jq -er '.mcpEndpoint' front-desk.json)"
 export SEARCH_GATEWAY_URL="$(jq -er '.mcpEndpoint' operations.json)"
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install 'redis-context-gateway==1.0.0b1'
+python -m pip install redis-iris==1.0.0b2
 ```
 
-Run this Python program to authenticate and list both catalogs:
+Use Python 3.11 or later. Run this program to authenticate and list both catalogs:
 
 ```python
-import asyncio
 import os
 
-from redis_context_gateway import ContextGateway
+from redis_iris import ContextGateway
 
-async def main():
-    for setting in ("IRIS_CONTEXT_GATEWAY_URL", "SEARCH_GATEWAY_URL"):
-        client = ContextGateway(os.environ[setting], os.environ["IRIS_CONTEXT_GATEWAY_API_KEY"])
-        async with client.connect() as session:
-            result = await session.list_tools()
-            print(setting, [tool.name for tool in result.tools])
-
-asyncio.run(main())
+for setting in ("IRIS_CONTEXT_GATEWAY_URL", "SEARCH_GATEWAY_URL"):
+    gateway = ContextGateway.from_env({
+        "IRIS_CONTEXT_GATEWAY_URL": os.environ[setting],
+        "IRIS_CONTEXT_GATEWAY_API_KEY": os.environ["IRIS_CONTEXT_GATEWAY_API_KEY"],
+    })
+    print(setting, [tool.name for tool in gateway.tools()])
 ```
 
 The full-mode catalog includes `scheduling__filter_provider`. The search-mode catalog includes `search_tools`, `run_tool`, and the handle tools, including `run_tool_as_handle` and `count_results`. Continue with the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) to call the sample tools.
@@ -184,11 +181,11 @@ A revoked key stops working within the Identity Service cache lifetime, 300 seco
 
 ## Hand off to a developer
 
-Give the developer the front desk Gateway's `mcpEndpoint` as `IRIS_CONTEXT_GATEWAY_URL`, the operations Gateway's `mcpEndpoint` as `SEARCH_GATEWAY_URL`, and the agent key as `IRIS_CONTEXT_GATEWAY_API_KEY`. Give platform teams who register Upstreams the Control Plane URL and admin token for [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md). Remove the local key-response files after you save the token.
+For the quickstart, give the developer the chosen Gateway’s `mcpEndpoint` as `IRIS_CONTEXT_GATEWAY_URL` and the agent key as `IRIS_CONTEXT_GATEWAY_API_KEY`. Use Operations for search mode or Front desk for full mode. For the MCP walkthrough, provide Front desk as `IRIS_CONTEXT_GATEWAY_URL` and Operations as `SEARCH_GATEWAY_URL`. Give platform teams who register Upstreams the Control Plane URL and admin token for [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md). Remove the local key-response files after you save the token.
 
 ## Use the CLI instead
 
-The `iris context-gateway` command-line interface (CLI) in the [redis-iris package](https://pypi.org/project/redis-iris/) also manages Gateways. Install the version pinned in the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md#use-the-cli). With `IRIS_IDENTITY_URL` and `IRIS_IDENTITY_TOKEN` exported, create a Gateway, mint its agent key, and write the developer's environment file in one command:
+The `iris context-gateway` command-line interface (CLI) in the [redis-iris package](https://pypi.org/project/redis-iris/) also manages Gateways. Install the version pinned in the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md#install-the-client). With `IRIS_IDENTITY_URL` and `IRIS_IDENTITY_TOKEN` exported, create a Gateway, mint its agent key, and write the developer's environment file in one command:
 
 ```bash
 iris context-gateway service create --name front-desk --write-env .env

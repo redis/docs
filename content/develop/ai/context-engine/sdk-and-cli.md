@@ -15,6 +15,8 @@ The `redis-iris` package is a Python software development kit (SDK) with one obj
 
 Start with a service's quickstart: [Agent Memory](/content/develop/ai/context-engine/agent-memory/quickstart.md), [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/quickstart.md), [Context Gateway](/content/develop/ai/context-engine/context-gateway/quickstart.md), or [Lens](/content/develop/ai/context-engine/lens/quickstart.md). This page covers the setup they share.
 
+The unified `redis-iris` package is for Python and the CLI. JavaScript and TypeScript use separate product SDKs. For Context Gateway, install `@redis-iris/context-gateway` as shown in its [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md#install-the-client).
+
 ## Install the SDK and CLI
 
 Both require Python 3.11 or later.

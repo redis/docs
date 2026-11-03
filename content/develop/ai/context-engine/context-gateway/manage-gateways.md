@@ -35,7 +35,7 @@ gateway_api() {
 }
 ```
 
-The [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md#choose-a-client) describes the Python and TypeScript SDKs and the command-line interface (CLI). API enum values are case-sensitive: use `FULL` or `SEARCH`, and `ENABLED` or `DISABLED` in JSON. CLI flags can accept lowercase values.
+The [client guide](/content/develop/ai/context-engine/context-gateway/mcp.md#choose-a-client) describes the Python and TypeScript SDKs and the command-line interface (CLI). API enum values are case-sensitive: use `FULL` or `SEARCH`, and `ENABLED` or `DISABLED` in JSON. CLI flags can accept lowercase values.
 
 ## Create a Gateway
 

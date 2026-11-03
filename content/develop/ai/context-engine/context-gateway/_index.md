@@ -73,7 +73,7 @@ iris --json context-gateway tools list
 
 Use the tool names and input schemas returned by discovery. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) shows calls in full and search mode.
 
-The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For JavaScript and TypeScript, install the separate [@redis-iris/context-gateway SDK](https://www.npmjs.com/package/@redis-iris/context-gateway) for MCP calls and the Control Plane API. See the [developer guide](/content/develop/ai/context-engine/context-gateway/developer-guide.md) to choose a client.
+The [redis-iris package](https://pypi.org/project/redis-iris/) covers MCP calls and Gateway administration in Python and the CLI. For JavaScript and TypeScript, install the separate [@redis-iris/context-gateway SDK](https://www.npmjs.com/package/@redis-iris/context-gateway) for MCP calls and the Control Plane API. See the [client guide](/content/develop/ai/context-engine/context-gateway/mcp.md#choose-a-client) to choose a client.
 
 Follow the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) to list, search, and call tools, or see [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md) to register your own MCP servers and Context Surfaces.
 

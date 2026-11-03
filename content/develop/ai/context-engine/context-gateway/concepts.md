@@ -34,6 +34,9 @@ Context Gateway supports two kinds of Upstream:
 
 For example, a support agent might need to look up invoices and search product information. You could register a billing MCP server and a product Context Surface with the same Gateway. The agent then accesses both through one connection.
 
+![An agent sends one agent key to Context Gateway, which checks it with the Identity Service. The Gateway calls an MCP server and a Context Surface over a Redis database, and reads Upstream credentials from the secrets backend.](/images/ai/context-engine/context-gateway-overview.svg)
+{width="750"}
+
 ### Tool names
 
 Each Upstream has a **namespace** that distinguishes its tools from tools provided by other sources. For example, the `get_invoice` tool from an Upstream with the namespace `billing` appears as `billing__get_invoice`.

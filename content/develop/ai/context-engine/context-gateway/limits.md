@@ -88,9 +88,36 @@ else:
     print(result.structured_content)
 ```
 
-Catch JSON-RPC failures separately. They are protocol exceptions rather than tool results. See the complete connection example in the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md).
+Catch JSON-RPC failures separately. They are protocol exceptions rather than tool results. See the complete connection example in [Connect with MCP](/content/develop/ai/context-engine/context-gateway/mcp.md#connect-a-client).
 
 A result the cache answered carries `cache` with `status` `hit` and `ageMs` in `_meta["com.redis.context-gateway/invocation"]`. Its absence does not prove that an Upstream call ran: validation or authorization may have refused the call first.
+
+### Python client errors {#python-client-errors}
+
+With `redis_iris.ContextGateway`, `call()` returns a `ToolResult` when the tool ran and returned its own result, including a tool error. A Gateway refusal marked `not_dispatched` raises `ToolError`. Rejected credentials or a missing Gateway raise `ConfigurationError`. Protocol failures, network failures, and timeouts can raise other exceptions.
+
+After creating `gateway` and discovering a tool, handle these cases separately:
+
+```python
+from redis_iris.errors import ConfigurationError, ToolError
+
+try:
+    result = gateway.call(tool_name, arguments)
+except ConfigurationError as error:
+    print("Check the Gateway endpoint and credentials:", error)
+except ToolError as error:
+    print("The Gateway did not dispatch the call:", error.reason)
+else:
+    if result.is_error:
+        failure = result.meta.get("com.redis.context-gateway/failure", {})
+        print(failure.get("reason"), failure.get("completion"), result.as_text())
+    else:
+        print(result.data)
+```
+
+A raw session obtained through `gateway.client.connect()` returns MCP result objects instead. Use `is_error`, `structured_content`, and `meta` as in the raw-session example. Keep transport and protocol exceptions separate from successful responses with an error flag.
+
+Do not infer retry safety from the exception class alone when completion is uncertain. Follow [Retry uncertain operations](#retry-uncertain-operations).
 
 ## Control Plane errors
 

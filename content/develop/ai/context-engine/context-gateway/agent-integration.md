@@ -22,7 +22,7 @@ These examples ask the sample clinic directory from the [quickstart](/content/de
 
 ## Before you begin
 
-Complete the [quickstart setup](/content/develop/ai/context-engine/context-gateway/quickstart.md#before-you-begin). Use the search-mode Gateway, with compression enabled, and an agent key granted access to it:
+Complete the [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md). This agent example additionally requires compression: use the search-mode **Operations** Gateway from the [sample setup](/content/operate/iris/context-gateway/self-managed/api-examples.md), with a compatible Gateway database and compression enabled on both the Gateway and the deployment. Use an agent key granted access to that Gateway:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
