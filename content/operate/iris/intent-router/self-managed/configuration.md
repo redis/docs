@@ -49,7 +49,7 @@ dataplane:
   image:
     repository: redislabs/iris-intent-router-data
     tag: <tag>
-  identityServiceBaseURL: http://iris-identity-service:9200
+  identityServiceBaseURL: http://ids-iris-identity-service:9200
 
 identityService:
   allowInsecureTransport: true
@@ -187,3 +187,5 @@ Set `tracing.enabled` and `tracing.otlpGRPCEndpoint` to send spans to your OpenT
 ## Scale and schedule the planes
 
 The control plane and data plane scale independently. Set `replicaCount`, `resources`, `nodeSelector`, `tolerations`, and `affinity` for each in the chart values. Scale the Identity Service in its own release. The data plane carries the matching load, so scale it first.
+
+Each plane runs one replica by default. Set `podDisruptionBudget.enabled=true` to add a PodDisruptionBudget with `maxUnavailable: 1` for each plane that runs more than one replica. `dataplane.strategy` sets the data-plane Deployment's rollout strategy, for example `RollingUpdate` with `maxUnavailable: 0` and `maxSurge: 1`.

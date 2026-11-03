@@ -1,0 +1,11 @@
+---
+Title: Agent Playbooks control-plane API reference
+linkTitle: Control-plane API reference
+layout: apireference
+type: page
+weight: 80
+params:
+  sourcefile: ./openapi-control-plane.json
+  sortOperationsAlphabetically: false
+  schemaDefinitionsTagName: Data models
+---

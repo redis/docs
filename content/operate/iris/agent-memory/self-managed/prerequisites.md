@@ -41,9 +41,9 @@ license material used by the deployment.
 
 | Software | Minimum version | Purpose |
 | -------- | --------------- | ------- |
-| Kubernetes | 1.23+ | Orchestration |
+| Kubernetes | 1.28+ | Orchestration |
 | kubectl | 1.23+ | Kubernetes CLI |
-| Helm | 3.x | Package manager |
+| Helm | 3.10+ (Helm 4 is not supported in this release) | Package manager |
 
 Treat the Redis Agent Memory images as `linux/amd64` unless the release notes for your image
 version declare a multi-architecture manifest. On clusters with ARM64 nodes, schedule Redis Agent
@@ -133,7 +133,7 @@ To supply a complete configuration file in your own Secret instead, see
 
 Memory chart `1.0.0` defaults `image.tag` and `controlplane.image.tag` to `1.0.0`.
 Identity Service chart `1.0.0` defaults its image to its own application version, `1.0.0`.
-Set tags explicitly when pinning images or using a mirror. The releases have independent versions.
+Set tags explicitly when pinning images or using a mirror. Both charts publish at the same version.
 
 Both charts are published at `https://helm.redis.io/ai` as `redis-ai/redis-agent-memory`
 and `redis-ai/iris-identity-service`. Their standard images are
@@ -278,7 +278,8 @@ namespace.
 | API server capacity | `server.resources`, `server.autoscaling.*` | Tuning request capacity or memory footprint. |
 | Worker capacity | `worker.resources`, `worker.autoscaling.*` | Tuning background job throughput. |
 | Scheduling | `server.nodeSelector`, `worker.nodeSelector`, `server.affinity`, `worker.affinity`, `server.tolerations`, `worker.tolerations` | Controlling pod placement. |
-| Networking | `service.type`, `ingress.*` | Exposing Redis Agent Memory outside the cluster. |
+| Networking | `service.type`, `ingress.*` | Exposing Redis Agent Memory outside the cluster. The Ingress sets no controller annotations by default and routes paths without rewriting, so it works on any controller, such as ingress-nginx or Traefik. Set `ingress.className` (default `nginx`) to your controller's class. |
+| Availability | `podDisruptionBudget.enabled`, `server.strategy` | Adding a PodDisruptionBudget (`maxUnavailable: 1`, off by default) to each Deployment that keeps more than one pod, or setting the Data Plane's rollout strategy. |
 | Naming | `fullnameOverride` | Keeping resource names at `redis-agent-memory*`. |
 | Service account | `serviceAccount.*` | Matching customer namespace security policy. |
 | Worker authentication | `workerAuth.*`, `worker.serviceAccount.*`, `worker.serviceAccount.token.*` | Giving Redis Agent Memory workers a Kubernetes projected service-account token for authenticated Data Plane callbacks. |

@@ -8,7 +8,7 @@ description: Create resumable event streams with Agent Mesh through A2A or FastA
 hideListLinks: true
 linktitle: Agent Mesh
 title: Redis Agent Mesh
-weight: 40
+weight: 28
 bannerText: Redis Agent Mesh is currently in beta. Features and behavior are subject to change.
 bannerChildren: true
 ---

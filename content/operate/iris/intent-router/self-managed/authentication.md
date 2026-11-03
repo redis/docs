@@ -22,7 +22,7 @@ This page lists each credential and what it unlocks. It also shows how to load t
 | Control-plane admin token | Operator → control plane (`:9400`) | The Secret in `controlplane.adminToken` | Yes, by default | Router administration: `/iris/v1/intent/routers` and `/iris/v1/intent/models` |
 | Control-plane internal token | Identity Service → control plane | The Secret in `controlplane.internalToken` | Yes, by default | Checking that the Router in a grant exists |
 | Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release with `control.*`. That chart generates `<fullname>-control-token` by default | Yes, by the Identity Service release | Creating, listing, rotating, and revoking agent keys |
-| Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.runtimeToken` | Yes, by default | Checking agent keys for `intent` |
+| Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.credential` / `token` | No. Register it on the Identity Service release | Checking agent keys for `intent` |
 | Agent key | Application → data plane (`:9401`) | None. Returned once when minted or rotated | No | Authoring and matching on the Routers its grants name |
 
 `controlplane.adminToken` and `controlplane.internalToken` default to `autoGenerate: true`: without `existingSecret`, the chart creates a random Secret named `<release>-redis-intent-router-controlplane-admin-token` or `-internal-token`, with the key `token`, keeps it across upgrades, and never rotates it. For a release named `intent`, the admin token is in `intent-redis-intent-router-controlplane-admin-token`. The chart never generates `identityService.credential`. Set `existingSecret` to supply your own, and set the matching `existingSecretChecksum` so the pods roll when the Secret changes. Two credentials can't reference the same Secret key, and rendering fails if they do.
@@ -33,13 +33,13 @@ An agent key gets `401` from the control plane. A key without a grant on a Route
 
 Every Router operation needs the admin token in `Authorization: Bearer <token>`, and every agent-key operation needs the Identity Service control token. The health routes need no credential.
 
-Load both from their Secrets before you call the control plane or the Identity Service. The admin token uses the Secret name from [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#2-create-secrets). The control token example assumes an Identity Service release named `iris-identity-service` that generates its control token; with `control.existingSecret`, read that Secret instead:
+Load both from their Secrets before you call the control plane or the Identity Service. The admin token uses the Secret name from [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#2-create-secrets). The control token example assumes an Identity Service release named `ids` that generates its control token; with `control.existingSecret`, read that Secret instead:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \
   intent-controlplane-admin -o jsonpath='{.data.token}' | base64 --decode)"
 export IRIS_IDENTITY_TOKEN="$(kubectl -n <namespace-name> get secret \
-  iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 --decode)"
+  ids-iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
 ## Router authorization and grants
@@ -77,7 +77,7 @@ The Intent Router chart deploys no Identity Service. Install the Identity Servic
 | `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
 
 {{< note >}}
-Use Identity Service chart `1.0.0` or later. Earlier releases don't accept the `intent` product in `allowedProducts` or `productValidation.products`.
+Use the Identity Service chart with the same version as this chart, such as `1.0.0`. Releases before `1.0.0` don't accept the `intent` product in `allowedProducts` or `productValidation.products`.
 {{< /note >}}
 
 ## Rotate credentials

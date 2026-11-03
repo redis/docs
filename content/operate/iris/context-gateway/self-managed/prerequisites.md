@@ -26,11 +26,11 @@ hideListLinks: true
 
 | Software | Purpose |
 | --- | --- |
-| Kubernetes cluster and `kubectl` | Run both planes and create Secrets in the installation namespace. |
-| [Helm v3.10.3 or later, or Helm 4](https://docs.helm.sh/docs/v3/intro/install/) | Install the chart. |
+| Kubernetes 1.28 or later, and `kubectl` | Run both planes and create Secrets in the installation namespace. |
+| [Helm 3, v3.10.3 or later](https://docs.helm.sh/docs/v3/intro/install/) | Install the chart. |
 | Bash, curl, and jq | Run the API examples. |
 
-<!-- TODO: Confirm the supported Kubernetes versions and platforms for the launch release. -->
+<!-- TODO: Confirm the supported platforms for the launch release. -->
 
 ## Redis databases
 
@@ -89,7 +89,7 @@ On an OSS Redis Cluster, also grant `+cluster|slots` to both users. Search comma
 | Identity Service | Control Plane | Grant validation. |
 | Operators | Control Plane and Identity Service | Administration. Keep both private. |
 
-The chart creates `ClusterIP` services. Your platform owns ingress, network policy, and TLS termination.
+The chart creates `ClusterIP` services. It can also create an Ingress for the Data Plane with `dataplane.ingress`, which is off by default. See [Helm values](/content/operate/iris/context-gateway/self-managed/configuration.md#helm-values). Your platform owns the ingress controller, network policy, Domain Name System (DNS) records, and Transport Layer Security (TLS) certificates.
 
 Configure the ingress for Streamable HTTP:
 
@@ -110,7 +110,7 @@ Redis URLs, tokens, keyrings, and the license belong in Kubernetes Secrets or Se
 
 The chart defaults to these repositories and pins the image tags that match its chart version. Leave `image.repository` and `image.tag` unset for a public install, and override them only to pull from a mirror.
 
-<!-- TODO: Add the published image tags and chart version from the release manifest. -->
+Chart `1.0.0` pins both images to tag `1.0.0`.
 
 ## Air-gapped and private registry installs
 

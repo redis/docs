@@ -24,8 +24,7 @@ Check these limits when you design IDs and read large sessions, and use the erro
 | Sessions per listed range | Up to 10,000. Narrow the range or add filters to list more. |
 | Turns per session read | Up to 10,000. |
 
-Your administrator can change the ingest request size and sets the retention windows.
-<!-- TODO: link the operator guide for Lens limits and retention when it exists. -->
+Your administrator can change the ingest request size and sets the retention windows. See [self-managed retention](/content/operate/iris/lens/self-managed/configuration.md#retention).
 
 ## How Lens exports
 

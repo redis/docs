@@ -41,9 +41,9 @@ Access Redis Agent Memory through the `redis-iris` Python SDK, the `iris` CLI, i
 * **Multi-session recall:** Retrieve relevant memories across conversations and filter results by owner, session, namespace, topic, or memory type.
 * **Custom memory types:** Define memory types for your business domain, with structured fields and instructions that control what Redis Agent Memory extracts.
 
-## Two-tier memory model
+## Concepts
 
-Redis Agent Memory provides two memory tiers:
+Redis Agent Memory provides two memory tiers. See the [overview](/content/develop/ai/context-engine/agent-memory/overview.md) for how they relate to sessions, owners, and namespaces.
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
   <div class="p-5 border border-redis-pen-300 rounded-lg">
@@ -97,26 +97,26 @@ Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in 
   </div>
 </div>
 
-## Get started with Redis Agent Memory {#get-started}
+## Quick example {#get-started}
 
-Get started with Redis Agent Memory on Redis Cloud or deploy it with Redis Software.
+1. Set up an Agent Memory store:
+    - **Redis Cloud:** [Create an Agent Memory service on Redis Cloud](/content/operate/iris/agent-memory/create-service.md).
+    - **Self-managed:** [Deploy Agent Memory on Kubernetes](/content/operate/iris/agent-memory/self-managed/_index.md).
+1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Cloud</h3>
-    <p>Create a managed Redis Agent Memory service and make your first requests.</p>
-    <p><a href="{{< relref "/operate/iris/agent-memory/create-service" >}}">Open the Redis Cloud setup guide</a></p>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software</h3>
-    <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
-    <p><a href="{{< relref "/operate/iris/agent-memory/self-managed" >}}">Open the self-managed deployment guide</a></p>
-  </div>
-</div>
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
 
-### Follow the quickstart
+1. With `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY` in your environment, record a conversation, then recall what Agent Memory extracted from it:
 
-After your service is ready, follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}). Choose Python, the Iris CLI, or cURL to explore the same travel planning scenario.
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-connect" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-save" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
+
+{{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-quickstart-recall" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+Follow the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md) to explore the same travel planning scenario in Python, the Iris CLI, or cURL.
 
 ## Explore the documentation
 

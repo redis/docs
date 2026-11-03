@@ -19,6 +19,7 @@ The chart reads non-secret settings from Helm values and every credential from a
 | --- | --- |
 | `tenantId` | The deployment's tenant. Must equal the Identity Service's single tenant ID. |
 | `publicBaseURL` | The Data Plane's public origin, used in every Gateway's `mcpEndpoint`. |
+| `dataplane.ingress` | An optional Ingress for the Data Plane, off by default. When on, `hosts` must include the `publicBaseURL` host and route `/` with `pathType: Prefix`, `annotations` must not rewrite paths, and for an `https://` origin a `tls` entry with a `secretName` must cover that host. Otherwise rendering fails. |
 | `identityService.baseURL` | The Identity Service runtime API that checks agent keys. |
 | `identityService.allowInsecureTransport` | `true` for an in-cluster `http://` Identity Service URL. Default `false`. |
 | `profile` | `prod` (default) or `dev` logging. |
@@ -238,6 +239,8 @@ Both planes serve Prometheus metrics at `/metrics`. Set `shared.config.opentelem
 ## Scale and schedule the planes
 
 Each plane starts one replica. Set `replicaCount`, or turn on `autoscaling`, with `resources`, `nodeSelector`, `tolerations`, and `affinity` under `controlplane` and `dataplane`. Autoscaling is off by default, needs Metrics Server, and needs `resources.requests.cpu` or `resources.requests.memory` for each target it uses. Leave headroom for old and new pods during upgrades.
+
+Set `podDisruptionBudget.enabled: true` to give each plane that keeps more than one pod a PodDisruptionBudget with `maxUnavailable: 1`. `dataplane.strategy` sets the Data Plane Deployment's rollout strategy.
 
 The `startupProbe`, `livenessProbe`, and `readinessProbe` of each plane use `/health/liveness` and `/health/readiness` by default, and accept native Kubernetes probe fields. Set a probe to `null` to turn it off. The default startup probe allows 150 seconds before liveness checks begin.
 

@@ -543,7 +543,6 @@ The SDK retains all events until the run expires. A writer that exceeds
 The demo sets `REDIS_STREAM_DONE_TTL=3600`; replay still ends at the run's
 original lifetime. Application state in your own database has separate retention.
 
-See the [SDK reference](https://github.com/redis/redis-iris/blob/main/docs/core/agent-mesh-sse.md)
-for facade exports and upstream signatures, and the
+See the
 [beta limits](/content/develop/ai/context-engine/agent-mesh/_index.md#requirements-and-limits)
 for deployment qualification.

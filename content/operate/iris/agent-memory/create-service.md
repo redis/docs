@@ -6,8 +6,8 @@ categories:
 - iris
 description: Create an Agent Memory service in Redis Cloud to store working and long-term memory for AI agents.
 hideListLinks: true
-linktitle: Create service
-title: Create an Agent Memory service
+linktitle: Create Cloud service
+title: Create an Agent Memory service on Redis Cloud
 weight: 5
 aliases:
 - /operate/rc/context-engine/agent-memory/create-service/

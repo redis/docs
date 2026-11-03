@@ -27,11 +27,13 @@ kubectl create namespace <namespace-name>
 
 ### Configure the Identity Service release first
 
+For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+
 Set these values on the Identity Service release so that it checks Gateway grants and accepts the Data Plane's runtime token:
 
 | Identity Service value | Setting |
 | --- | --- |
-| `runtime.serviceCredentials[]` | A credential for the Data Plane with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. |
+| `runtime.serviceCredentials[]` | A credential for the Data Plane, `name: context-gateway-dp` and `subject: context-gateway-dataplane`, with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. With Data Plane sign-in on, add `subject-grant-lookup` to `allowedOperations`. |
 | `productValidation.products.context-gateway.baseURL` | The Control Plane Service, for example `http://gateway-redis-context-gateway-controlplane:9100`. |
 | `productValidation.products.context-gateway.credential` | The same Secret as `controlplane.internalToken`. |
 | `productValidation.products.context-gateway.enabled` | `true` |
@@ -138,7 +140,7 @@ Check each value in `gateway-values.yaml` before you install. If one is wrong, y
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install gateway redis-ai/redis-context-gateway \
-  --version <chart-version> \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f gateway-values.yaml \
   --wait --timeout 5m
@@ -232,6 +234,44 @@ curl --fail-with-body --silent --show-error "$MCP_ENDPOINT" \
 ```
 
 The Gateway is stateless, so no session ID needs to be retained between these requests. A new full-mode Gateway with no Upstreams and compression off returns an empty tool list. Save the key in your secret manager, then remove `agent-key.json`.
+
+## Install with the Redis Iris suite chart
+
+The `redis-iris` Helm chart installs Context Gateway with the Identity Service and the user interface (UI) in one release. Context Gateway is on by default, and `global.iris.products.contextGateway.enabled: false` leaves it out. Put the Context Gateway values under the `contextGateway:` key.
+
+The suite derives these values from `global.iris` and registers Context Gateway with its Identity Service. Leave them unset under `contextGateway:`, because a value that differs fails the render:
+
+- `tenantId` and `license`
+- `identityService.baseURL` and `identityService.allowInsecureTransport`
+- `dataplane.runtimeToken` and `controlplane.internalToken`, which the suite supplies as Kubernetes Secrets
+- `controlplane.config.auth.oidc`, when `global.iris.auth.oidc` sets an issuer
+
+The suite also fixes `fullnameOverride`, both `service.port` values, `dataplane.strategy`, and `podDisruptionBudget.enabled`. `tls.caBundle` defaults to `global.tls.caCertSecret`. The Data Plane defaults to two replicas, and `controlplane.adminToken` reads the `iris-context-gateway-admin-token` Secret, which the suite generates by default.
+
+You set `publicBaseURL`, which must be an `https://` origin with no path, the metadata and credential storage references, and either `dataplane.ingress` or your own routing to `redis-context-gateway-dataplane:8083`:
+
+```yaml
+contextGateway:
+  publicBaseURL: https://mcp.example.com
+  metadataDB:
+    existingSecret: gateway-metadata
+  credentialStorage:
+    provider: redis
+    redis:
+      connection:
+        existingSecret: gateway-credential-redis
+      keyring:
+        existingSecret: gateway-keyring
+```
+
+```bash
+helm install iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+The rest of this guide applies to the values under `contextGateway:`, except the Identity Service settings in step 2, which the suite configures. In the `kubectl` commands, use the suite's fixed names: `redis-context-gateway-controlplane`, `redis-context-gateway-dataplane`, and `iris-identity-service`.
 
 ## Next steps
 

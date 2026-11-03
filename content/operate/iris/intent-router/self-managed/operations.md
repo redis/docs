@@ -67,7 +67,7 @@ helm upgrade intent redis-ai/redis-intent-router \
   --wait --timeout 5m
 ```
 
-Set the image tags from the release manifest for the new chart version. Check readiness on every service afterward.
+Set the image tags to the new chart version. Check readiness on every service afterward.
 
 ## Uninstall the chart
 

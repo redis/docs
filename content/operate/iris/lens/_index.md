@@ -1,6 +1,6 @@
 ---
 title: Lens
-description: Create and operate Lens on Redis Cloud.
+description: Create and operate Lens on Redis Cloud or your own infrastructure.
 linkTitle: Lens
 alwaysopen: false
 categories:
@@ -24,3 +24,9 @@ Use Lens as a managed service on Redis Cloud.
 [Create Lens](/content/operate/iris/lens/create-lens.md), connect your agent, and open Lens in the Redis Cloud console.
 
 After setup, use the [developer quickstart](/content/develop/ai/context-engine/lens/quickstart.md) to trace your first turn.
+
+### Self-managed
+
+Deploy Lens on Kubernetes to run it on your own infrastructure.
+
+[Start with the self-managed deployment guide](/content/operate/iris/lens/self-managed/_index.md).
