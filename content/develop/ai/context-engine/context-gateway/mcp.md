@@ -90,11 +90,148 @@ The token must be issued for the Gateway's own API. A token issued only for the 
 
 The IdP token is not forwarded to an Upstream. See [Identity provider sign-in](/content/operate/iris/context-gateway/self-managed/authentication.md#identity-provider-sign-in) for deployment configuration.
 
+### Connect a coding assistant
+
+Use an existing coding assistant to discover and call Gateway tools without writing an agent application. These examples use agent-key authentication and the search-mode clinic Gateway from the [sample setup](/content/operate/iris/context-gateway/self-managed/api-examples.md). Compression is not required for this first request.
+
+Keep the connection values from [Before you begin](#before-you-begin) in the environment that starts the client. The configuration files reference the key's environment variable rather than storing the key. Merge new server entries into existing configuration files.
+
+{{< multitabs id="gateway-coding-assistants" tab1="Claude Code" tab2="Cursor" tab3="Codex" >}}
+
+#### Register the Gateway
+
+Set the endpoint and agent key before starting Claude Code:
+
+```bash
+export IRIS_CONTEXT_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
+export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
+```
+
+Add this server entry to `.mcp.json` in your project root:
+
+```json
+{
+  "mcpServers": {
+    "context-gateway": {
+      "type": "http",
+      "url": "${IRIS_CONTEXT_GATEWAY_URL}",
+      "headers": {
+        "Authorization": "Bearer ${IRIS_CONTEXT_GATEWAY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Start Claude Code from that directory and environment:
+
+```bash
+claude
+```
+
+Approve the project MCP configuration when prompted. Run `/mcp`, open `context-gateway`, and inspect its connection status and tools. For search mode, expect `search_tools` and `run_tool`. See [Claude Code MCP configuration](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcpjson).
+
+#### Make a first request
+
+```text
+Use context-gateway to find the provider filter in the sample clinic
+directory. Inspect its input schema and filter for cardiologists.
+Copy the discovered upstreamId and originalName into run_tool's tool
+reference. Report the returned provider IDs and any completeness
+limitations. If the intended tool is ambiguous, ask me to choose it.
+```
+
+Inspect the tool calls in the conversation to confirm that Claude discovered and invoked the filter.
+
+-tab-sep-
+
+#### Register the Gateway
+
+Set these variables in the environment that starts Cursor, then restart Cursor from that environment:
+
+```bash
+export IRIS_CONTEXT_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
+export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
+```
+
+Add this server entry to `.cursor/mcp.json` in your project:
+
+```json
+{
+  "mcpServers": {
+    "context-gateway": {
+      "url": "${env:IRIS_CONTEXT_GATEWAY_URL}",
+      "headers": {
+        "Authorization": "Bearer ${env:IRIS_CONTEXT_GATEWAY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Cursor uses `${env:NAME}` for environment variables. Remote server entries do not load an `envFile`. See [Cursor MCP configuration](https://cursor.com/docs/mcp#config-interpolation).
+
+Open **Customize**, enable `context-gateway`, and inspect **Available Tools**. For search mode, expect `search_tools` and `run_tool`.
+
+#### Make a first request
+
+In an Agent chat, enter:
+
+```text
+Use context-gateway to find the provider filter in the sample clinic
+directory. Inspect its input schema and filter for cardiologists.
+Copy the discovered upstreamId and originalName into run_tool's tool
+reference. Report the returned provider IDs and any completeness
+limitations. If the intended tool is ambiguous, ask me to choose it.
+```
+
+Expand the tool calls to inspect their arguments and results.
+
+-tab-sep-
+
+#### Register the Gateway
+
+Set the connection values in the terminal where you run Codex:
+
+```bash
+export IRIS_CONTEXT_GATEWAY_URL='<search-mode-gateway-mcp-endpoint>'
+export IRIS_CONTEXT_GATEWAY_API_KEY='<agent-key>'
+
+codex mcp add context-gateway \
+  --url "$IRIS_CONTEXT_GATEWAY_URL" \
+  --bearer-token-env-var IRIS_CONTEXT_GATEWAY_API_KEY
+```
+
+The native Codex command saves the endpoint and the key's environment-variable name in `~/.codex/config.toml`. The Iris CLI does not have a `--client codex` option. See [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp#streamable-http-servers).
+
+Check the saved registration, then start Codex from the same environment:
+
+```bash
+codex mcp get context-gateway
+codex
+```
+
+Run `/mcp` to inspect the active server and its tools. For search mode, expect `search_tools` and `run_tool`. Registration alone does not verify that the Gateway is reachable.
+
+#### Make a first request
+
+```text
+Use context-gateway to find the provider filter in the sample clinic
+directory. Inspect its input schema and filter for cardiologists.
+Copy the discovered upstreamId and originalName into run_tool's tool
+reference. Report the returned provider IDs and any completeness
+limitations. If the intended tool is ambiguous, ask me to choose it.
+```
+
+Inspect the tool calls to confirm that Codex used the Gateway's returned tool identity.
+
+{{< /multitabs >}}
+
+In full mode, expect qualified tool names instead of `search_tools` and `run_tool`. Ask the assistant to inspect and call the discovered provider filter directly. See [Discover and call tools](#use-the-tools).
+
 ### Generate client configuration with the CLI
 
-The CLI can generate connection configuration for Claude Code, Cursor, the Agent Development Kit (ADK), or a generic JSON client.
-
-It reads the Gateway endpoint from the Control Plane, so this command requires the administration connection settings described in [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#before-you-begin), as well as the Gateway ID:
+If you have administration access, the Iris CLI can look up a Gateway's endpoint and generate configuration for Claude Code, Cursor, Google Agent Development Kit (ADK), or a generic JSON client. For self-managed deployments, configure the administration connection described in [Manage Gateways and Upstreams](/content/develop/ai/context-engine/context-gateway/manage-gateways.md#before-you-begin), then set the Gateway ID:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_ID='<gateway-id>'
@@ -102,9 +239,9 @@ export IRIS_CONTEXT_GATEWAY_ID='<gateway-id>'
 iris context-gateway connect --client claude-code
 ```
 
-Use `--client cursor`, `adk`, or `json` for another client. By default, the command prints the configuration. Add `--write <path>` to merge it into the client's configuration file, for example `--write .mcp.json` for Claude Code.
+Use `--client cursor`, `adk`, or `json` for another format. By default, the command prints configuration or a registration command. For Claude Code or Cursor, add `--write <path>` to merge the entry into a file, such as `--write .mcp.json` or `--write .cursor/mcp.json`. The parent directory must exist.
 
-The generated configuration reads the agent key from an environment variable. It does not contain the key itself.
+Generated client templates reference the agent-key environment variable. The generic JSON format describes the header value your client must supply rather than assuming it supports environment-variable expansion.
 
 ### Open a Python MCP session {#connect-a-client}
 
@@ -204,6 +341,8 @@ A tool error is different from a connection or protocol failure, which can raise
 When compression is enabled, a successful call may return a handle to a stored result instead of the entire result.
 
 ## Work with stored results {#read-handles}
+
+<a id="work-with-stored-results"></a>
 
 Stored results let an agent inspect a large tool response without bringing all of it into its context. The Gateway stores the result and returns a small response containing a handle, a preview, and a suggested next call.
 
