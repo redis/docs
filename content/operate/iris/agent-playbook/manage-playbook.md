@@ -21,7 +21,7 @@ A playbook's page has the following tabs:
 
 - [**Configuration**](#configuration-tab): the playbook's settings, credentials, extraction, and retrieval policy.
 - [**Registry**](#registry-tab): the playbook's frequently asked questions (FAQs) and skills, and their versions.
-- [**Proposals**](#proposals-tab): suggested FAQs waiting for review.
+- [**Proposals**](#proposals-tab): suggested FAQs and skills waiting for review.
 - [**Playground**](#playground-tab): a test of what an agent retrieves for a query.
 
 If your role can't read the playbook's content, you see only the **Configuration** tab.
@@ -85,15 +85,21 @@ You can also delete an entry from its page, in the **Danger zone**.
 
 ## Proposals tab
 
-The **Proposals** tab supports reviewing suggested FAQs from agents with `propose` access or from [automatic FAQ extraction](#automatic-faq-extraction). To submit and review skill proposals through the API, see [Review skill proposals](/content/develop/ai/context-engine/agent-playbooks/proposals.md#review-skill-proposals).
+The **Proposals** tab lists FAQ and skill proposals from agents with `propose` access. [Automatic FAQ extraction](#automatic-faq-extraction) adds FAQ proposals only.
 
-The **Inbox** lists open proposals, with how much evidence supports each one and when to review it by. Select a proposal to review its candidate question and answer, and its **Supporting evidence**. Then:
+The **Inbox** lists open proposals, with how much evidence supports each one and when to review it by. Select a proposal to review its candidate and **Supporting evidence**.
 
-- Select **Accept as draft FAQ** to create an unpublished FAQ version from the candidate. Review it, then [publish it](#publish-a-version) when it's ready.
-- Select **Edit candidate** to change the question, answer, alias, intents, or attributes before you accept it.
+For a FAQ, review the question and answer. For a skill, review its name, description, and **Instructions**. Use **Download** under **Resources** to inspect its supporting files. The console verifies that downloaded files match the reviewed proposal.
+
+After review:
+
+- Select **Accept as draft FAQ** or **Accept as draft Skill** to create an unpublished version from the candidate. Review it, then [publish it](#publish-a-version) when it's ready.
+- For a FAQ, select **Edit candidate** to change the question, answer, alias, intents, or attributes before you accept it.
 - Select **Move to trash** to dismiss it.
 
-More evidence means more observations, not greater accuracy. Check the candidate against its sources before you accept and publish it. See [Review proposals](/content/develop/ai/context-engine/agent-playbooks/proposals.md) for more.
+If the proposal changes during review, select **Reload proposal** and review the updated candidate and files before accepting it.
+
+More evidence means more observations, not greater accuracy. Check the candidate against its sources before you accept and publish it. For review through the API, see [Review proposals](/content/develop/ai/context-engine/agent-playbooks/proposals.md).
 
 The **Trash** lists dismissed proposals until they're purged. Select **Restore to inbox** to review one again, or **Purge proposal** to delete it permanently.
 
