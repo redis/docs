@@ -47,11 +47,14 @@ curl -sS -X POST "$CP_URL/iris/v1/agent-memory/stores" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-store",
-    "database": { "databaseId": "<database-id>" }
+    "database": { "databaseId": "1" }
   }'
 ```
 
-<!-- TODO: The unified Control Plane spec requires `database.databaseId` on CreateStore and does not mark it Redis Cloud only. Confirm which database ID a self-managed deployment accepts here, and whether the exclusions example also needs it. -->
+`database.databaseId` is required on every create request. It names an entry in the
+`databases` registry of the Data Plane and Control Plane configuration. The
+[deploy walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+configures one entry, `"1"`.
 
 The response is the full store record. It includes these fields, among others:
 
@@ -95,6 +98,7 @@ curl -sS -X POST "$CP_URL/iris/v1/agent-memory/stores" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-store",
+    "database": { "databaseId": "1" },
     "longTermMemoryExclusions": {
       "enabled": true,
       "builtInDetectors": {
@@ -396,12 +400,13 @@ Agent-key fields:
 | Endpoint | Use `/v1/api-keys`. |
 | `name` | Required. |
 | `grants` | Required. |
-| `tenant` | Your tenant ID. Use the same tenant on every grant of a key. Any string is accepted. Use `1` if you manage stores with the Control Plane admin token. |
+| `tenant` | The installation's tenant: the same value as Memory's `tenantId` and the Identity Service's `runtime.apiKeyTenant.singleTenantID`, for example `default`. Use the same tenant on every grant of a key. When `singleTenantID` is set, an omitted `tenant` gets that value and any other tenant returns `400`. |
 | `product` | Use `memory`. |
 | `resourceType` | Use `mem-store`. |
 | `resourceId` | Set to the store ID. |
 | `actions` | Use `read`, `write`, or both. |
 | `expiresAt` | Optional. Unix seconds after which the key stops authenticating. `0` or omitted means never. |
+| `userId` | Optional. The user that owns the key. Requires `apiKeys.userBinding.enabled: true` on the Identity Service release. |
 | Token | Returned only when you mint or rotate a key. Store it immediately. |
 
 List agent keys:
@@ -457,7 +462,7 @@ Response:
 
 Rotation returns a new `keyId` with the new token. Use the new `keyId` for later updates,
 rotations, and revocations. The old key stays valid for `graceSeconds`, which defaults to 3600 and
-has a chart maximum of 604800 (`identityService.apiKeys.maxRotateGraceSeconds`). `oldExpiresAt` is
+has a chart maximum of 604800 (`apiKeys.maxRotateGraceSeconds` on the Identity Service release). `oldExpiresAt` is
 when the old key stops working. Revoking the old `keyId` ends its grace period early.
 
 Revoke an agent key:

@@ -21,7 +21,7 @@ This page lists each credential and what it unlocks. It also shows how to load t
 | --- | --- | --- | --- | --- |
 | Control-plane admin token | Operator → control plane (`:9400`) | The Secret in `controlplane.adminToken` | Yes, by default | Router administration: `/iris/v1/intent/routers` and `/iris/v1/intent/models` |
 | Control-plane internal token | Identity Service → control plane | The Secret in `controlplane.internalToken` | Yes, by default | Checking that the Router in a grant exists |
-| Identity Service control token | Operator → Identity Service (`:9200`) | The Secret in `identityService.controlToken` | Yes, by default | Creating, listing, rotating, and revoking agent keys |
+| Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release with `control.*`. That chart generates `<fullname>-control-token` by default | Yes, by the Identity Service release | Creating, listing, rotating, and revoking agent keys |
 | Identity Service runtime token | Data plane → Identity Service | The Secret in `identityService.runtimeToken` | Yes, by default | Checking agent keys for `intent` |
 | Agent key | Application → data plane (`:9401`) | None. Returned once when minted or rotated | No | Authoring and matching on the Routers its grants name |
 
@@ -33,13 +33,13 @@ An agent key gets `401` from the control plane. A key without a grant on a Route
 
 Every Router operation needs the admin token in `Authorization: Bearer <token>`, and every agent-key operation needs the Identity Service control token. The health routes need no credential.
 
-Load both from their Secrets before you call the control plane or the Identity Service. With the Secret names from [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#2-create-secrets):
+Load both from their Secrets before you call the control plane or the Identity Service. The admin token uses the Secret name from [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#2-create-secrets). The control token example assumes an Identity Service release named `iris-identity-service` that generates its control token; with `control.existingSecret`, read that Secret instead:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \
   intent-controlplane-admin -o jsonpath='{.data.token}' | base64 --decode)"
 export IRIS_IDENTITY_TOKEN="$(kubectl -n <namespace-name> get secret \
-  intent-identity-control -o jsonpath='{.data.token}' | base64 --decode)"
+  iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
 ## Router authorization and grants
@@ -62,20 +62,24 @@ An agent key needs a grant on each Router it uses:
 
 A grant can't use a wildcard resource ID and can't carry constraints. The Identity Service mints a key only for a Router that exists in the tenant. It asks the control plane to confirm this through the grant-validation callback, authenticated with the internal token.
 
-The data plane checks every key with the Identity Service, which caches the answer. A revoked key stops working within the Identity Service's cache lifetime, `identityService.runtimeCache.hardTTLSeconds`, 300 seconds by default. The [API examples](/content/operate/iris/intent-router/self-managed/api-examples.md#mint-an-agent-key) show the complete request.
+The data plane checks every key with the Identity Service, which caches the answer. A revoked key stops working within the Identity Service's cache lifetime, `runtime.cache.hardTtlSeconds` on the Identity Service release, 300 seconds by default. The [API examples](/content/operate/iris/intent-router/self-managed/api-examples.md#mint-an-agent-key) show the complete request.
 
 ## Configure the Identity Service
 
-When you deploy the bundled Identity Service, the chart configures it. To use an Identity Service deployed elsewhere, set `identityService.enabled=false`, point `dataplane.identityServiceBaseURL` at it, and set `identityService.runtimeToken.existingSecret` to the runtime token it accepts. Then set these values in that Identity Service's release, so it checks grants and accepts the data plane's runtime token:
+The Intent Router chart deploys no Identity Service. Install the Identity Service as its own release, point `dataplane.identityServiceBaseURL` at it, and set `identityService.credential.existingSecret` to the runtime credential it accepts. For an `http://` in-cluster URL, also set `identityService.allowInsecureTransport=true`; the FIPS profile refuses it. Then set these values in the Identity Service release, so it checks grants and accepts the data plane's runtime credential:
 
 | Identity Service value | Setting |
 | --- | --- |
-| `runtime.serviceCredentials[]` | An entry for the data plane with a `name` and `subject` (for example `intent-dataplane`), `allowedOperations: [api-key-introspect]`, `allowedProducts: [intent]`, and `existingSecret` set to the same Secret as `identityService.runtimeToken`. |
+| `runtime.serviceCredentials[]` | An entry for the data plane with a `name` and `subject` (for example `intent-dp`), `allowedOperations: [api-key-introspect]`, `allowedProducts: [intent]`, and the same `existingSecret` and `secretKey` as `identityService.credential`. |
 | `productValidation.products.intent.enabled` | `true` |
 | `productValidation.products.intent.baseURL` | The control-plane Service, for example `http://intent-redis-intent-router-controlplane:9400`. |
 | `productValidation.products.intent.credential.existingSecret` | The same Secret as `controlplane.internalToken`. |
 | `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
 
+{{< note >}}
+Use Identity Service chart `1.0.0` or later. Earlier releases don't accept the `intent` product in `allowedProducts` or `productValidation.products`.
+{{< /note >}}
+
 ## Rotate credentials
 
-To rotate a token, update its Secret and its `existingSecretChecksum` and run `helm upgrade`, so the pods roll. When the Identity Service runs in its own release, rotate the internal token there at the same time, because the two must match. Rotate an agent key with the Identity Service, as shown in [Rotate or revoke agent keys](/content/operate/iris/intent-router/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
+To rotate a token, update its Secret and its `existingSecretChecksum` and run `helm upgrade`, so the pods roll. Rotate the internal token on the Identity Service release at the same time, because the two must match. Rotate an agent key with the Identity Service, as shown in [Rotate or revoke agent keys](/content/operate/iris/intent-router/self-managed/api-examples.md#rotate-or-revoke-agent-keys).
