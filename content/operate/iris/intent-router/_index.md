@@ -1,6 +1,6 @@
 ---
 title: Redis Intent Router
-description: Deploy and operate Redis Intent Router on your own infrastructure.
+description: Deploy and operate Redis Intent Router on Redis Cloud or your own infrastructure.
 linkTitle: Intent Router
 alwaysopen: false
 categories:
@@ -11,9 +11,19 @@ weight: 24
 hideListLinks: true
 ---
 
-Deploy Redis Intent Router on Kubernetes to give applications a service that classifies text into intents and returns the target to dispatch to.
+Redis Intent Router gives applications a service that classifies text into intents and returns the target to dispatch to.
 
-## Self-managed
+## Deployment options
+
+### Redis Cloud
+
+Use Redis Intent Router as a managed service on Redis Cloud.
+
+[Create an Intent Router](/content/operate/iris/intent-router/create-router.md) and connect an application, or [view and manage an existing Router](/content/operate/iris/intent-router/manage-router.md).
+
+### Self-managed
+
+Deploy Redis Intent Router on Kubernetes to run it on your own infrastructure.
 
 [Start with the self-managed deployment guide](/content/operate/iris/intent-router/self-managed/_index.md).
 
