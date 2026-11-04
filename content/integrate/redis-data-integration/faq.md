@@ -41,6 +41,16 @@ supported source databases:
 For the complete list of supported source databases and versions, see
 [Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
 
+## How long can RDI stop before it needs a new snapshot?
+
+There is no fixed safe duration. RDI can resume only while the source still provides
+its required change history and capture state. Existing capture lag, source write
+volume, and database retention settings all affect that window. See
+[Plan for the whole interruption](/content/integrate/redis-data-integration/cdc-offsets-and-retention.md#plan-for-the-whole-interruption)
+for retention planning and
+[Recover from unavailable source log history](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history)
+if the collector cannot resume.
+
 ## How much data can RDI process?
 
 RDI uses the concept of *processing units*. Each processing unit uses 1 CPU core and can process

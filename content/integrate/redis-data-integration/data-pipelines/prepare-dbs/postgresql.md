@@ -212,6 +212,12 @@ slot storage. A finite slot limit can protect disk space at the cost of losing
 required history. Increasing the limit after that history is removed does not
 restore it. Do not drop or recreate an RDI slot as a routine disk-cleanup step.
 
+If `wal_status` is `lost`, the slot is no longer usable, even though it still appears
+in `pg_replication_slots`. See
+[Recover from unavailable source log history](/content/integrate/redis-data-integration/troubleshooting.md#unavailable-source-history)
+before planning a new snapshot or slot recreation. For the other status values, see
+the [PostgreSQL slot state reference](https://www.postgresql.org/docs/16/view-pg-replication-slots.html).
+
 The slot's `confirmed_flush_lsn` is the position the collector has acknowledged.
 PostgreSQL starts logical streaming at the requested position or
 `confirmed_flush_lsn`, whichever is later. Moving only RDI's saved offset backward
