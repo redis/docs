@@ -252,6 +252,12 @@ questions:
                     id: stringOutcome
 ```
 
+#### Compare memory use
+
+How much memory each type needs depends on your data. To compare the types for one of your own records, use the calculator.
+
+{{< sizing-calculator >}}
+
 ### Collections
 
 You would normally store collection data using the set or sorted set
