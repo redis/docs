@@ -19,19 +19,8 @@ With PrivateLink, the pipeline and your database are in separate address spaces 
 
 The VPC endpoint belongs to the workspace. Sources in different pipelines reuse it when they connect to the same endpoint service.
 
-```mermaid {width="100%"}
-graph TB
-    subgraph rc["Redis Cloud"]
-        subgraph workspace["Data Integration workspace"]
-            sourceA["Pipeline A source"] --> endpoint["Shared VPC endpoint"]
-            sourceB["Pipeline B source"] --> endpoint
-        end
-    end
-    subgraph vpc["Your AWS VPC"]
-        nlb["<b>Network Load Balancer</b><br/>(private IPs)"] --> db["<b>Source database</b>"]
-    end
-    endpoint -->|PrivateLink| nlb
-```
+![Sources in two pipelines connect through a shared workspace VPC endpoint and PrivateLink to a Network Load Balancer and source database in your AWS VPC.](/images/rc/rdi/rdi-privatelink-traffic.svg)
+{width="100%"}
 
 The following table shows which address each component sees:
 
@@ -51,23 +40,8 @@ Your source database does not have to run inside the VPC. It can be anywhere you
 
 The core rule is the same in every case: the NLB uses an IP address target that is reachable from the VPC, and the database receives the connection from the NLB's private IP address. The database never sees a Redis Cloud address.
 
-```mermaid {width="100%"}
-graph TB
-    subgraph rc["Redis Cloud"]
-        subgraph workspace["Data Integration workspace"]
-            sourceA["Pipeline A source"] --> endpoint["Shared VPC endpoint"]
-            sourceB["Pipeline B source"] --> endpoint
-        end
-    end
-    subgraph vpc["Your AWS VPC"]
-        nlb["<b>NLB</b><br/>(IP target)"]
-    end
-    subgraph net["Network reachable from the VPC"]
-        db["<b>Source database</b>"]
-    end
-    endpoint -->|PrivateLink| nlb
-    nlb -->|Private route| db
-```
+![Sources in two pipelines connect through a shared workspace VPC endpoint and PrivateLink to an NLB, which uses a private route to reach a source database outside your VPC.](/images/rc/rdi/rdi-privatelink-external-database.svg)
+{width="100%"}
 
 To set this up:
 

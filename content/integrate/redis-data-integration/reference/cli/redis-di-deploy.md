@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
 ---
 
 Deploys a pipeline, creating it or updating it from the configuration in the `--dir` directory. The
@@ -38,16 +38,16 @@ pipeline empty first and then deploy the configuration, as shown in the [example
 
 ## Options
 
-| Option              | Description                                                                          |
-| :------------------ | :----------------------------------------------------------------------------------- |
-| `--dir`             | Directory containing the pipeline configuration (default `.`).                       |
+| Option              | Description                                                                                             |
+| :------------------ | :------------------------------------------------------------------------------------------------------ |
+| `--dir`             | Directory containing the pipeline configuration (default `.`).                                          |
 | `--empty`           | Deploy an empty configuration instead of loading one from a directory. Cannot be combined with `--dir`. |
-| `--dry-run`         | Validate the configuration without deploying.                                        |
-| `--validate-tables` | Validate the configuration against the source and target databases (default `true`). |
-| `--validate-cdc`    | Validate the CDC configuration of the source databases.                              |
-| `--start`           | Start the pipeline after deploying (default `true`, or `false` with `--empty`).      |
-| `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                  |
-| `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).    |
+| `--dry-run`         | Validate the configuration without deploying.                                                           |
+| `--validate-tables` | Validate the configuration against the source and target databases (default `true`).                    |
+| `--validate-cdc`    | Validate the CDC configuration of the source databases.                                                 |
+| `--start`           | Start the pipeline after deploying (default `true`, or `false` with `--empty`).                         |
+| `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                                     |
+| `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).                       |
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).

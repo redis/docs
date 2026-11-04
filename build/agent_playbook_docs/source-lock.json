@@ -1,0 +1,14 @@
+{
+  "sdk_repository": "git@github.com:redis/iris-sdks",
+  "sdk_revision": "8ae98bca70b8833452e76e108bab0bdaf17e1aa4",
+  "python_package": "redis-agent-playbook==1.0.0b2",
+  "unified_python_package": "redis-iris==1.0.0b2",
+  "unified_sdk_repository": "https://github.com/redis/redis-iris",
+  "unified_sdk_revision": "c6bba849e290a23ba7d6ccf3f2be5e3398394d33",
+  "sdk_generator_version": "1.0.0-beta.2",
+  "sdk_contract_path": "openapi-playbook.json",
+  "data_plane_contract_sha256": "bc97a2408422b2c3fd543f04283603be48e1c3a636076d81eb46be089d679510",
+  "sdk_example_overlay_path": ".speakeasy/playbook/overlay-code-samples.yaml",
+  "sdk_example_overlay_sha256": "25099e77fc591e76da0cae17969bd36ef969a2393319351f3385f03c3a4e4c51",
+  "service_revision": "0d9ccad23977a7f0f778253331d6e54a56e8f244"
+}

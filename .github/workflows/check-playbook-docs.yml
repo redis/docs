@@ -1,0 +1,38 @@
+name: Check Playbooks documentation
+
+on:
+  pull_request:
+    paths:
+      - 'content/develop/ai/context-engine/agent-playbooks/**'
+      - 'content/develop/ai/context-engine/sdk-and-cli.md'
+      - 'content/operate/iris/agent-playbook/**'
+      - 'static/images/ai/context-engine/agent-playbook-*'
+      - 'build/agent_playbook_docs/**'
+      - 'local_examples/iris/playbooks/**'
+      - 'build/components/example.py'
+      - 'build/local_examples.py'
+      - 'build/example-test-harness/clients.tsv'
+      - 'config.toml'
+      - 'layouts/partials/process-markdown-content.html'
+      - 'layouts/partials/tabbed-clients-example.html'
+      - 'layouts/_default/apireference.html'
+      - '.github/workflows/check-playbook-docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: build/agent_playbook_docs/requirements.txt
+      - run: python -m pip install -r build/agent_playbook_docs/requirements.txt
+      - run: python build/agent_playbook_docs/check_sdk_source.py
+      - run: python build/agent_playbook_docs/examples.py build/agent_playbook_docs/.generated
+      - run: python -m pytest build/agent_playbook_docs --rootdir . -q

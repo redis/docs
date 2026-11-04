@@ -1,0 +1,64 @@
+/* =========================================================================
+   Redis Iris request flow: which part of the stack answers which question
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so the Iris demos share one look. Scoped under `.irf`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+/* One colour per component, matching the Iris tour's colours for the same services. */
+.irf .irf-c-router, .irf .irf-k-router { --c: #b0306a; --c-bg: #f6d6e5; }
+.irf .irf-c-playbooks, .irf .irf-k-playbooks { --c: #b35900; --c-bg: #fde0c2; }
+.irf .irf-c-memory, .irf .irf-k-memory { --c: #1a7f4b; --c-bg: #cfeedd; }
+.irf .irf-c-gateway, .irf .irf-k-gateway { --c: #6a4cff; --c-bg: #e3ddff; }
+.irf .irf-c-lens, .irf .irf-c-mesh, .irf .irf-k-along { --c: #5c707a; --c-bg: #e8ebec; }
+
+/* Stack on the left, questions on the right; stacked on a narrow screen. The overlay draws the dot's trail. */
+.irf-board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 56px; align-items: start; margin-bottom: 14px; }
+@container (max-width: 560px) { .irf-board { grid-template-columns: minmax(0, 1fr); } }
+.irf-over { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.irf-trail { fill: none; stroke: #ff4438; stroke-width: 1.5; stroke-dasharray: 4 4; opacity: .55; transition: opacity .6s; }
+.irf-glow { fill: #ff4438; opacity: .35; }
+.irf-core { fill: #ff4438; }
+
+/* ---- the stack ---- */
+.irf-stack { display: grid; gap: 6px; }
+.irf-stack .rcr-lbl, .irf-asks .rcr-lbl { margin-bottom: 2px; }
+.irf-comp {
+  position: relative; display: grid; gap: 1px; border: 1px solid var(--rcr-line); border-left: 4px solid var(--c); border-radius: 8px;
+  background: var(--rcr-surface); padding: 8px 12px; transition: background .3s, border-color .3s, box-shadow .3s;
+}
+.irf-comp.is-along { border-style: dashed; border-left-style: solid; }
+.irf-comp.is-lit { background: var(--c); border-color: var(--c); box-shadow: 0 2px 8px rgba(9, 26, 35, .18); }
+.irf-comp.is-lit .irf-name, .irf-comp.is-lit .irf-role { color: #fff; }
+.irf-name { font-weight: 600; font-size: 14px; transition: color .3s; }
+.irf-role { font-size: 12.5px; color: var(--rcr-muted); transition: color .3s; }
+.irf-tag {
+  position: absolute; top: 8px; right: 10px; font-family: var(--rcr-mono); font-size: 11px; font-weight: 600; color: var(--c);
+  background: #fff; border-radius: 999px; padding: 1px 8px; opacity: 0; transition: opacity .3s;
+}
+.irf-comp.is-lit .irf-tag:not(:empty) { opacity: 1; }
+.irf-along { margin-top: 6px; font-size: 12px; font-style: italic; color: var(--rcr-faint); }
+.irf-base { margin-top: 4px; text-align: center; font-weight: 600; font-size: 13px; color: #fff; background: #091a23; border-radius: 8px; padding: 7px 12px; }
+
+/* ---- the questions ---- */
+.irf-asks { display: grid; gap: 10px; align-content: start; }
+.irf .irf-ask {
+  margin: 0; cursor: pointer; text-align: left; font: inherit; font-size: 14px; line-height: 1.45; color: #fff;
+  background: #163341; border: 1px solid #163341; border-radius: 14px 14px 4px 14px; padding: 10px 14px; transition: background .2s, border-color .2s, box-shadow .2s;
+}
+.irf .irf-ask:hover { border-color: var(--rcr-accent); }
+.irf .irf-ask.is-on { background: #091a23; border-color: var(--rcr-accent); box-shadow: 0 0 0 2px rgba(255, 68, 56, .35); }
+
+/* ---- what happened ---- */
+.irf-detail { display: grid; gap: 8px; }
+.irf-q { font-weight: 600; font-size: 15px; }
+.irf-row { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 10px; font-size: 13.5px; align-items: baseline; }
+@container (max-width: 560px) { .irf-row { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.irf-rk { font-weight: 600; font-size: 12.5px; color: var(--c, var(--rcr-muted)); }
+.irf-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; }
+.irf .irf-doc { color: var(--rcr-accent-2); text-decoration: none; }
+.irf .irf-doc:hover { text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  .irf-comp, .irf-tag, .irf-trail, .irf .irf-ask, .irf-name, .irf-role { transition: none; }
+}

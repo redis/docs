@@ -23,8 +23,8 @@ public class BitmapExample {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect();
                 StatefulRedisConnection<byte[], byte[]> bytesConnection = redisClient.connect(ByteArrayCodec.INSTANCE)) {
 
-            RedisReactiveCommands<String, String> reactive = connection.reactive();
-            RedisReactiveCommands<byte[], byte[]> reactiveBytes = bytesConnection.reactive();
+            RedisReactiveCommands<String, String> reactive = connection.commands(RedisReactiveCommands.factory());
+            RedisReactiveCommands<byte[], byte[]> reactiveBytes = bytesConnection.commands(RedisReactiveCommands.factory());
 
             // REMOVE_START
             reactive.del("pings:2024-01-01-00:00", "A", "B", "C", "R").block();

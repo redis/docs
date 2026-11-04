@@ -39,7 +39,7 @@ import io.lettuce.core.api.async.RedisAsyncCommands;
  * <p>{@code HEXPIRE} and {@code HTTL} require Redis 7.4 or later.
  * Lettuce exposes them as {@code hexpire} / {@code httl} on
  * {@code RedisAsyncCommands} from 6.4 onwards; the demo pins
- * 7.5.2.RELEASE.</p>
+ * 7.9.0.RELEASE.</p>
  *
  * <h2>Lettuce vs. Jedis</h2>
  *

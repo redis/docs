@@ -155,7 +155,7 @@ SAMPLE_DOCS = [
             'answer when cosine similarity exceeds a configurable threshold to reduce LLM API costs. '
             'Agent Memory offers two-tier persistent memory with a session layer for recent turns and '
             'a long-term layer backed by vector search, available as a REST API and Python SDK. '
-            'Context Retriever exposes structured business data as governed tools that agents can '
+            'Context Gateway exposes structured business data as governed tools that agents can '
             'query reliably without writing custom retrieval logic. Data Integration keeps a Redis '
             'Cloud database in sync with relational databases in near real time using Change Data '
             'Capture, so agents always query fresh data.'

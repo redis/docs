@@ -53,6 +53,7 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 | Rendering fails with `requires identityService.credential.existingSecret` | The endpoint is configured but the runtime credential Secret is missing | Name the existing Secret also registered on Identity Service as `memory-dp`. |
 | Rendering fails with `must be https://` or `identityService.allowInsecureTransport=true is refused under the fips security profile` | The runtime endpoint uses HTTP without an allowed exception, or insecure transport is enabled under FIPS | Use an HTTPS endpoint. An HTTP exception requires `identityService.allowInsecureTransport: true` and is refused under FIPS. |
 | Rendering fails with `is chart-owned` for an introspection field | An endpoint, credential, or transport flag was hand-set under `memory.auth` or `shared.auth` | Use `dataplane.identityServiceBaseURL` and `identityService.credential` for chart-rendered configuration; cache settings remain configurable. |
+| Rendering fails with `memory.auth.oidc.issuer and memory.auth.oidc.jwks_uri are required when memory.auth.oidc.enabled is true` | Data Plane OIDC is enabled without its issuer or JWKS URL, which the Data Plane needs to start | Set both under `memory.auth.oidc`, or supply them in your own configuration with `config.existingSecret`. |
 | Rendering or startup refuses `auth.method: none` | Authentication is disabled outside the development profile | Use agent-key authentication. For isolated development only, set both `memory.profile: dev` and `memory.auth.method: none`; supplied configuration files use `profile: dev` and `auth.method: none`. |
 | Docker pull fails for the configured image tag | Image tag is wrong or has not been published to the configured registry | Use the image tag listed for the release on Docker Hub or provided by Redis. |
 | Server and worker pods `CrashLoopBackOff`; log: `license validation failed; refusing to start: invalid license format` | `memory.license.license_path` is not set | See [CL-1](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-1). |
@@ -82,8 +83,8 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 
 | Need | Reference |
 | --- | --- |
-| Helm chart values | `values.yaml` at the chart root (`helm pull redis-ai/redis-agent-memory --version 0.8.0 --untar`) |
-| Identity Service chart values | `helm show values redis-ai/iris-identity-service --version 0.10.0` |
+| Helm chart values | `values.yaml` at the chart root (`helm pull redis-ai/redis-agent-memory --version 1.0.0 --untar`) |
+| Identity Service chart values | `helm show values redis-ai/iris-identity-service --version 1.0.0` |
 | FIPS values overlay | `values-fips.yaml` at the chart root |
 | NetworkPolicy reference | `networkpolicy.reference.yaml` at the chart root |
 | Chart README | `README.md` at the chart root |

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="284" viewBox="0 0 640 284" role="img" aria-labelledby="title desc">
+  <title id="title">Version lifecycle: operator steps and what agents retrieve</title>
+  <desc id="desc">Six operator steps left to right: create entry, publish v1, append v2, publish v2, publish v1, withdraw. Two rows show versions v1 and v2; a red cell is the published version and an outlined cell is an unpublished draft or history. Below, agents retrieve: nothing, v1, v1, v2, v1, nothing.</desc>
+  <defs>
+    <linearGradient id="border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ee0000"/>
+      <stop offset="100%" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#b9b9b9"/>
+    </filter>
+  </defs>
+  <style>
+    text { font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; fill: #333333; }
+    .node { fill: #ffffff; stroke: url(#border); stroke-width: 1; filter: url(#shadow); }
+    .detail { font-size: 14px; fill: #56616b; }
+    .published { fill: #ee0000; }
+    .published-label { fill: #ffffff; }
+    .rule { stroke: #cbd1d5; stroke-width: 1; }
+  </style>
+  <text class="detail" x="12" y="24">Operator steps</text>
+  <g text-anchor="middle">
+    <text x="60" y="52">Create</text>
+    <text x="60" y="73">entry</text>
+    <rect class="node" x="18" y="90" width="84" height="30"/>
+    <text x="60" y="111">v1</text>
+    <text x="60" y="224">nothing</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="164" y="52">Publish</text>
+    <text x="164" y="73">v1</text>
+    <rect class="published" x="122" y="90" width="84" height="30"/>
+    <text class="published-label" x="164" y="111">v1</text>
+    <text x="164" y="224">v1</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="268" y="52">Append</text>
+    <text x="268" y="73">v2</text>
+    <rect class="published" x="226" y="90" width="84" height="30"/>
+    <text class="published-label" x="268" y="111">v1</text>
+    <rect class="node" x="226" y="132" width="84" height="30"/>
+    <text x="268" y="153">v2</text>
+    <text x="268" y="224">v1</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="372" y="52">Publish</text>
+    <text x="372" y="73">v2</text>
+    <rect class="node" x="330" y="90" width="84" height="30"/>
+    <text x="372" y="111">v1</text>
+    <rect class="published" x="330" y="132" width="84" height="30"/>
+    <text class="published-label" x="372" y="153">v2</text>
+    <text x="372" y="224">v2</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="476" y="52">Publish</text>
+    <text x="476" y="73">v1</text>
+    <rect class="published" x="434" y="90" width="84" height="30"/>
+    <text class="published-label" x="476" y="111">v1</text>
+    <rect class="node" x="434" y="132" width="84" height="30"/>
+    <text x="476" y="153">v2</text>
+    <text x="476" y="224">v1</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="580" y="52">Withdraw</text>
+    <rect class="node" x="538" y="90" width="84" height="30"/>
+    <text x="580" y="111">v1</text>
+    <rect class="node" x="538" y="132" width="84" height="30"/>
+    <text x="580" y="153">v2</text>
+    <text x="580" y="224">nothing</text>
+  </g>
+  <path class="rule" d="M12 180 H628"/>
+  <text class="detail" x="12" y="201">Agents retrieve</text>
+  <rect class="published" x="12" y="252" width="18" height="14"/>
+  <text class="detail" x="40" y="264">published</text>
+  <rect class="node" x="144" y="252" width="18" height="14"/>
+  <text class="detail" x="172" y="264">unpublished draft or history</text>
+</svg>

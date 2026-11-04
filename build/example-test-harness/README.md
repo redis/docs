@@ -80,7 +80,7 @@ If you have muscle memory or notes from the pre-`clients.tsv` version:
 | ioredis | `npm i ioredis`, ESM | run as `.mjs` (separate `work/ioredis` dir from node-redis) |
 | go | module + `go-redis` | `go test`; needs a sibling `package example_commands` stub |
 | jedis | Maven + `jedis:8.0.2` | surefire include `**/*Example.java` (classes aren't `*Test`) |
-| lettuce-sync / -async / -reactive | Maven + `lettuce-core` (sync `6.5.5.RELEASE`, async/reactive `7.7.0.RELEASE`) | same surefire include |
+| lettuce-sync / -async / -reactive | Maven + `lettuce-core` (`7.9.0.RELEASE`) | same surefire include |
 | ruby | `redis` gem | run script (`raise`/local `assert_equal`) |
 | rust-sync | Cargo + `redis = "1.3"` | file is `#[cfg(test)]` → dropped in `src/lib.rs`, `cargo test` |
 | rust-async | Cargo + `redis` (tokio-comp) + `tokio` | `#[tokio::test]` |
@@ -90,8 +90,7 @@ If you have muscle memory or notes from the pre-`clients.tsv` version:
 ## Gotchas learned
 
 - **Version pins matter.** `redis-rs` is now **1.x** (`1.3`), not `0.27` — the old pin failed
-  to compile `flushall` in a REMOVE block. Portable: Jedis 8.0.2, Lettuce 6.5.5
-  (sync; async/reactive 7.7.0), StackExchange.Redis 3.0.0.
+  to compile `flushall` in a REMOVE block. Portable: Jedis 8.0.2, Lettuce 7.9.0, StackExchange.Redis 3.0.0.
 - **Surefire only runs `*Test`/`*Tests` by default** — these classes are `*Example`, so the
   POMs add an explicit `<include>`. First run looked green with **zero tests** without it.
   `fidelity/pom-lettuce-async.xml` and `pom-lettuce-reactive.xml` shipped without it and were
@@ -160,11 +159,9 @@ You only need to touch `run.sh` when:
 | | portable | fidelity |
 |---|---|---|
 | jedis | 8.0.2 | 8.0.2 |
-| lettuce-core (sync) | 6.5.5.RELEASE | 7.4.0.RELEASE |
-| lettuce-core (async/reactive) | 7.7.0.RELEASE | 7.7.0.RELEASE |
+| lettuce-core (sync, async, reactive) | 7.9.0.RELEASE | 7.9.0.RELEASE |
 
-Jedis and Lettuce async/reactive run the same version in both modes. Jedis moved to 8.0.2
+Jedis and Lettuce run the same version in both modes. Jedis moved to 8.0.2
 in DOC-7213, once the examples dropped `JedisPooled` and `new UnifiedJedis(String)`, which
-Jedis 8.0 removed. **lettuce-sync is not yet reconciled**, so a lettuce-sync example can pass
-in one mode and fail in the other. Settling on one version per client means running both Java toolchains
-against `search_quickstart`, `geoindex`, and the Java-heavy command sets.
+Jedis 8.0 removed. Lettuce moved to 7.9.0 in DOC-7227, which added the typed
+`zrange(key, ZRange.byScore(..))` form and reshaped the search API.
