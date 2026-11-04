@@ -27,8 +27,15 @@ pipx install redis-iris            # the iris CLI, in its own environment
 iris --version
 ```
 
-> [!TIP]
-> Using a coding agent? The [Redis agent skills](https://github.com/redis/agent-skills) teach it to add Redis Iris to your project. Start with `add-redis-iris`: it detects your agent's framework and routes to the right service skill, `add-agent-memory`, `add-agent-playbooks`, `add-context-gateway`, `add-intent-router`, or `add-lens`. Install the skills with `npx skills add redis/agent-skills`.
+## Agent setup
+
+Install the [Redis agent skills](https://github.com/redis/agent-skills) for your coding agent:
+
+```bash
+npx skills add redis/agent-skills
+```
+
+Then ask your agent, for example: "Add Redis Agent Memory to this app."
 
 ## Learn the command shape
 
