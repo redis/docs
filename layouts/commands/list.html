@@ -193,7 +193,33 @@
           </select>
         </div>
       </form>
-      
+      {{- /* Badge key. The sample badges reuse the card classes, and every status, product,
+             and variant name comes from data/compatibility.yaml, so the key can't drift
+             from the badges it explains. */}}
+      {{- $software := index (where $compat.products "key" "software") 0 }}
+      {{- $cloud := index (where $compat.products "key" "cloud") 0 }}
+      {{- $aa := index (where $compat.variants "key" "active_active") 0 }}
+      {{- $flex := index (where $compat.variants "key" "flex") 0 }}
+      <details id="badge-key" class="mb-8 text-redis-ink-900 border border-redis-pen-300 rounded-md">
+        <summary class="cursor-pointer px-4 py-3 font-medium">About the badges</summary>
+        <div class="flex flex-col gap-4 px-4 pb-4 text-sm">
+          <p>Badges flag deprecated commands, and commands that {{ $software.label }} or {{ $cloud.label }} doesn't fully support. Hover over a badge for details. Select a compatibility badge to open the command's compatibility table.</p>
+          <dl class="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 items-center m-0">
+            <dt><span class="deprecated-badge">Deprecated</span></dt>
+            <dd class="m-0">The command is deprecated. Where there's a replacement, hover over the badge to see it.</dd>
+            {{- range $s := $compat.statuses }}
+              {{- if $s.description }}
+            <dt><span class="compat-badge">{{ $s.emoji }} {{ $software.label }}</span></dt>
+            <dd class="m-0">{{ $s.description }}</dd>
+              {{- end }}
+            {{- end }}
+          </dl>
+          <p>Both ⚠️ statuses use the same icon. Hover over the badge to see which one applies, and any notes.</p>
+          <p>A badge that names only a product, such as <span class="compat-badge">❌ {{ $cloud.label }}</span>, means nothing in that product's column of the command's compatibility table is fully supported. A badge that also names a variant, such as <span class="compat-badge">❌ {{ $software.label }} {{ $aa.label }}</span> or <span class="compat-badge">⚠️ {{ $software.label }} {{ $flex.label }}</span>, means only that kind of database is affected.</p>
+          <p>A command with no compatibility badge is supported everywhere its compatibility table lists. Not every table lists every variant, so check the table when a variant such as {{ $flex.label }} matters to you. To list the commands a product or variant doesn't fully support, use <strong>Filter by compatibility</strong>.</p>
+        </div>
+      </details>
+
       {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">

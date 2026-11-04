@@ -33,6 +33,7 @@ variants:
 base_variants: [general, standard, pro, essentials]
 
 # `workaround` is "not supported, but there is another way", and always has a note.
+# `description` is the explanation in the badge key on the commands page.
 statuses:
   - key: supported
     label: Supported
@@ -42,11 +43,14 @@ statuses:
     label: Limited
     entity: "&#x26A0;&#xFE0F;"
     emoji: "⚠️"
+    description: "Supported, with limitations."
   - key: workaround
     label: Not supported
     entity: "&#x26A0;&#xFE0F;"
     emoji: "⚠️"
+    description: "Not supported, but there's another way to get the same result."
   - key: unsupported
     label: Not supported
     entity: "&#x274c;"
     emoji: "❌"
+    description: "Not supported."
