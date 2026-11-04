@@ -43,7 +43,7 @@ A **Router** holds your intents and is its own access boundary. Each **intent** 
 ## Quick example
 
 1. Set up a Router:
-    <!-- TODO: add the Redis Cloud setup link when the Intent Router Cloud pages exist. -->
+    - **Redis Cloud:** [Create an Intent Router](/content/operate/iris/intent-router/create-router.md).
     - **Self-managed:** Deploy with [Self-managed Intent Router](/content/operate/iris/intent-router/self-managed/_index.md), then [create a Router and an agent key](/content/operate/iris/intent-router/self-managed/api-examples.md). You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 1. Install the Redis Iris Python package, which includes the `iris` CLI:
 
