@@ -1,8 +1,8 @@
 import json
 
-from redis_iris import ContextGateway
+from redis_iris import Iris
 
-gateway = ContextGateway.from_env()
+gateway = Iris.from_env().context_gateway()
 
 mode = "search"  # Use "full" for a full-mode Gateway.
 if mode == "search":

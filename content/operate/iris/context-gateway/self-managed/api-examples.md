@@ -147,13 +147,13 @@ Use Python 3.11 or later. Run this program to authenticate and list both catalog
 ```python
 import os
 
-from redis_iris import ContextGateway
+from redis_iris import Iris
 
 for setting in ("IRIS_CONTEXT_GATEWAY_URL", "SEARCH_GATEWAY_URL"):
-    gateway = ContextGateway.from_env({
+    gateway = Iris.from_env({
         "IRIS_CONTEXT_GATEWAY_URL": os.environ[setting],
         "IRIS_CONTEXT_GATEWAY_API_KEY": os.environ["IRIS_CONTEXT_GATEWAY_API_KEY"],
-    })
+    }).context_gateway()
     print(setting, [tool.name for tool in gateway.tools()])
 ```
 

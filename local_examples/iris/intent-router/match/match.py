@@ -1,8 +1,9 @@
 # EXAMPLE: iris_intent_router_match
 # HIDE_START
-from redis_iris.intent_router import IntentRouter, Target
+from redis_iris import Iris
+from redis_iris.intent_router import Target
 
-router = IntentRouter.from_env()
+router = Iris.from_env().intent_router()
 router.define(
     "track_order",
     description="The customer wants to know where an order is.",

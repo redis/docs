@@ -2,10 +2,10 @@
 # HIDE_START
 import uuid
 
-from redis_iris.agent_memory import AgentMemory
+from redis_iris import Iris
 
 OWNER_ID = "quickstart-user"
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 # HIDE_END
 
 # STEP_START ingestion-webhooks-test-create

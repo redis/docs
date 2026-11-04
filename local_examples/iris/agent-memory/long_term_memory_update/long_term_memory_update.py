@@ -1,10 +1,10 @@
 # EXAMPLE: iris_agent_memory_long_term_memory_update
 # HIDE_START
-from redis_iris.agent_memory import AgentMemory
+from redis_iris import Iris
 
 OWNER_ID = "quickstart-user"
 MEMORY_ID = "example-seat-preference"
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 memory.client.bulk_create_long_term_memories(memories=[{
     "memory_id": MEMORY_ID,
     "text": "The user prefers a window seat.",

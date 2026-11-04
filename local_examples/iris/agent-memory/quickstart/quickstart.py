@@ -2,16 +2,16 @@
 # STEP_START agent-memory-connect
 import time
 
-from redis_iris.agent_memory import AgentMemory
+from redis_iris import Iris
 
 OWNER_ID = "quickstart-user"
 SESSION_ID = "travel-planning-session"
 
-memory = AgentMemory.from_env()
-health = memory.client.store_health()
-print(health.status.value)
-for name, feature in health.features.items():
-    print(f"  {name}: {feature.status.value}")
+memory = Iris.from_env().agent_memory()
+health = memory.health()
+print(health.status)
+for name, status in health.features.items():
+    print(f"  {name}: {status}")
 # STEP_END
 
 # STEP_START agent-memory-quickstart-save

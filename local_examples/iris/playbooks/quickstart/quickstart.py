@@ -1,8 +1,8 @@
 # EXAMPLE: iris_playbook_quickstart
 # STEP_START playbook-connect
-from redis_iris.agent_playbooks import AgentPlaybooks
+from redis_iris import Iris
 
-playbook = AgentPlaybooks.from_env()
+playbook = Iris.from_env().agent_playbooks()
 print(playbook.client.get_playbook_health())
 # STEP_END
 

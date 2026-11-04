@@ -5,7 +5,7 @@ import os
 import time
 from pathlib import Path
 
-from redis_iris.agent_memory import AgentMemory
+from redis_iris import Iris
 
 OWNER_ID = "quickstart-user"
 EXTRACTOR_ID = os.environ["EXTRACTOR_ID"]
@@ -13,7 +13,7 @@ notes = Path("trip-notes.md")
 if not notes.exists():
     notes.write_text("Trip to Kyoto, April 3 to April 10. I am vegetarian and want to try local tofu dishes.\n")
 
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 # HIDE_END
 
 # STEP_START memory-etl-submit

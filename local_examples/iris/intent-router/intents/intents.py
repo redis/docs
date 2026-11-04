@@ -1,8 +1,9 @@
 # EXAMPLE: iris_intent_router_intents
 # HIDE_START
-from redis_iris.intent_router import IntentRouter, Target
+from redis_iris import Iris
+from redis_iris.intent_router import Target
 
-router = IntentRouter.from_env()
+router = Iris.from_env().intent_router()
 # HIDE_END
 
 # STEP_START intent-upsert

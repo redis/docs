@@ -2,11 +2,12 @@
 # HIDE_START
 import time
 
-from redis_iris.agent_memory import AgentMemory, models
+from redis_iris import Iris
+from redis_iris.agent_memory import models
 
 OWNER_ID = "quickstart-user"
 
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 # HIDE_END
 
 # STEP_START summary-view-seed

@@ -41,7 +41,7 @@ Data-plane requests need:
 * The Router's ID, which starts with `rtr_`.
 * An agent key with a grant on the Router, sent as a bearer token on every request. Matching needs `read`, and authoring needs `write`.
 
-Export them as `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY`. The CLI reads these variables, and in Python `IntentRouter.from_env()` builds a client from them. The TypeScript client doesn't read the environment, so the examples pass the same values to its constructor.
+Export them as `IRIS_INTENT_ROUTER_URL`, `IRIS_INTENT_ROUTER_ID`, and `IRIS_INTENT_ROUTER_API_KEY`. The CLI reads these variables, and in Python `Iris.from_env().intent_router()` builds a client from them. The TypeScript client doesn't read the environment, so the examples pass the same values to its constructor.
 
 Administration requests go to the control plane and need its URL and the admin token, which your platform team holds. The Python package and the CLI read them from `IRIS_INTENT_ROUTER_SERVICE_URL` and `IRIS_INTENT_ROUTER_SERVICE_TOKEN`. See [Manage Routers](/content/develop/ai/context-engine/intent-router/manage-routers.md#before-you-begin).
 

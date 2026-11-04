@@ -1,6 +1,6 @@
 import asyncio
 
-from redis_iris import ContextGateway
+from redis_iris import Iris
 
 TOOL_META_KEY = "com.redis.context-gateway/tool"
 HANDLE_META_KEY = "com.redis.context-gateway/handle"
@@ -20,7 +20,7 @@ def checked(result):
 
 
 async def main():
-    gateway = ContextGateway.from_env()
+    gateway = Iris.from_env().context_gateway()
 
     async with gateway.client.connect() as session:
         # Find the filter and inspect its schema.

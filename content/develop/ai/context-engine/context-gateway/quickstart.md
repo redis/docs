@@ -49,7 +49,7 @@ Use Node.js 22 or later. Create a project and install the TypeScript SDK and run
 mkdir gateway-quickstart
 cd gateway-quickstart
 npm init -y
-npm install @redis-iris/context-gateway@beta
+npm install @redis-iris/context-gateway
 npm install --save-dev tsx
 ```
 
@@ -87,7 +87,7 @@ import json
 
 from redis_iris import ContextGateway
 
-gateway = ContextGateway.from_env()
+gateway = Iris.from_env().context_gateway()
 ```
 
 `from_env()` reads the connection values. The SDK manages MCP sessions for discovery and calls.
@@ -324,7 +324,7 @@ import json
 
 from redis_iris import ContextGateway
 
-gateway = ContextGateway.from_env()
+gateway = Iris.from_env().context_gateway()
 
 mode = "search"  # Use "full" for a full-mode Gateway.
 if mode == "search":

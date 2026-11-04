@@ -1,8 +1,8 @@
 # EXAMPLE: iris_intent_router_service
 # HIDE_START
-from redis_iris.intent_router import IntentRouter
+from redis_iris import Iris
 
-service = IntentRouter.from_env().service
+service = Iris.from_env().intent_router().service
 # HIDE_END
 
 # STEP_START models-list

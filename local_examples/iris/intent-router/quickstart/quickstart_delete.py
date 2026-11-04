@@ -1,8 +1,8 @@
 # EXAMPLE: iris_intent_router_quickstart_delete
 # HIDE_START
-from redis_iris.intent_router import IntentRouter
+from redis_iris import Iris
 
-router = IntentRouter.from_env()
+router = Iris.from_env().intent_router()
 # HIDE_END
 
 # STEP_START intents-delete

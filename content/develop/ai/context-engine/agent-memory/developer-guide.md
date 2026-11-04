@@ -24,7 +24,7 @@ Every client needs the service endpoint, Store ID, and application programming i
 1. In the Redis Cloud console, open your Agent Memory service and select **Configuration**.
 1. Copy the **Endpoint** and **Store ID** into your application's configuration.
 1. Load the API key you saved during service creation from a secret store or environment variable. Keep it out of source control and browser code.
-1. Set `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY`, then create the client as shown in [Connect to the service]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#connect-to-the-service" >}}). Python applications use `AgentMemory.from_env()` from the `redis-iris` package. Other languages call the REST API.
+1. Set `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY`, then create the client as shown in [Connect to the service]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#connect-to-the-service" >}}). Python applications use `Iris.from_env().agent_memory()` from the `redis-iris` package. Other languages call the REST API.
 
 ### Manage a service with the Control Plane SDK
 
@@ -49,7 +49,7 @@ Some IDs come from your application; others come from Redis Agent Memory:
 | Event `systemTimestamp` | The server. | Records when the event was stored. |
 | Memory `createdAt` and `updatedAt` | The server. | Use the returned timestamps when displaying or sorting memories. |
 
-The Python SDK sets most of these for you. `memory.conversation(owner=..., session_id=...)` writes the owner as the `actorId` of user messages and the `assistant_id` you pass to `AgentMemory.from_env()` as the `actorId` of assistant messages. If you omit `session_id`, it generates one; read it from `conversation.session_id`. `remember` sets `ownerId` and derives a stable `memoryId` from the owner and text unless you pass `memory_id`.
+The Python SDK sets most of these for you. `memory.conversation(owner=..., session_id=...)` writes the owner as the `actorId` of user messages and the `assistant_id` you pass to `Iris.from_env().agent_memory()` as the `actorId` of assistant messages. If you omit `session_id`, it generates one; read it from `conversation.session_id`. `remember` sets `ownerId` and derives a stable `memoryId` from the owner and text unless you pass `memory_id`.
 
 For example, the quickstart uses `quickstart-user` as the user's ID and `travel-planning-session` for one conversation. Replace the user ID with your authenticated account ID in an application. IDs must follow the format in the [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 

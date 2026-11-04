@@ -2,12 +2,13 @@
 # HIDE_START
 import time
 
-from redis_iris.agent_memory import AgentMemory, models
+from redis_iris import Iris
+from redis_iris.agent_memory import models
 
 OWNER_ID = "quickstart-user"
 SESSION_ID = "travel-planning-session"
 
-memory = AgentMemory.from_env(assistant_id="travel-agent")
+memory = Iris.from_env().agent_memory(assistant_id="travel-agent")
 # HIDE_END
 
 # STEP_START agent-memory-sessions-add

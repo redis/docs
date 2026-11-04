@@ -1,11 +1,11 @@
 # EXAMPLE: iris_playbook_async
 # STEP_START playbook-async-search
 import asyncio
-from redis_iris.agent_playbooks import AgentPlaybooks
+from redis_iris import Iris
 
 
 async def main():
-    async with AgentPlaybooks.from_env() as playbook:
+    async with Iris.from_env().agent_playbooks() as playbook:
         results = await playbook.client.search_faqs_async(
             query="Where can I see how my refund is progressing?",
             limit=5,

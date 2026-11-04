@@ -24,7 +24,7 @@ export IRIS_INTENT_ROUTER_SERVICE_URL='<control-plane-url>'
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN='<admin-token>'
 ```
 
-The examples use Python (`IntentRouter.from_env().service`), TypeScript (`IntentRouterService`), cURL, and the `iris intent-router service` commands, which all read these variables. The Python and TypeScript clients return each response as `result`, next to its `headers`.
+The examples use Python (`Iris.from_env().intent_router().service`), TypeScript (`IntentRouterService`), cURL, and the `iris intent-router service` commands, which all read these variables. The Python and TypeScript clients return each response as `result`, next to its `headers`.
 
 `iris intent-router service create` also needs the data-plane URL in `IRIS_INTENT_ROUTER_URL`, because it prints the `IRIS_INTENT_ROUTER_*` values an application needs. With `--write-env PATH` or `--json`, it also mints an agent key through the Identity Service, which needs `IRIS_IDENTITY_URL` and `IRIS_IDENTITY_TOKEN`. The CLI example creates the Router without a key. Follow one tab throughout the page. To choose a client, see the [developer guide](/content/develop/ai/context-engine/intent-router/developer-guide.md#choose-a-client).
 

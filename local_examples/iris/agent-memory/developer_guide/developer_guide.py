@@ -1,12 +1,13 @@
 # EXAMPLE: iris_agent_memory_developer_guide
 # HIDE_START
-from redis_iris.agent_memory import AgentMemory, Recall, errors
+from redis_iris import Iris
+from redis_iris.agent_memory import Recall, errors
 from redis_iris.errors import StoreUnusable
 
 OWNER_ID = "quickstart-user"
 SESSION_ID = "travel-planning-session"
 
-memory = AgentMemory.from_env(assistant_id="travel-agent")
+memory = Iris.from_env().agent_memory(assistant_id="travel-agent")
 # HIDE_END
 
 # STEP_START agent-memory-turn

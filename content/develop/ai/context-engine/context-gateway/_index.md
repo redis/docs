@@ -73,9 +73,9 @@ A **Gateway** is one MCP endpoint for an agent. Each **Upstream** behind it is a
 1. With `IRIS_CONTEXT_GATEWAY_URL` and `IRIS_CONTEXT_GATEWAY_API_KEY` in your environment, find a tool and call it:
 
     ```python
-    from redis_iris import ContextGateway
+    from redis_iris import Iris
 
-    gateway = ContextGateway.from_env()
+    gateway = Iris.from_env().context_gateway()
 
     for tool in gateway.search("filter providers by specialty"):
         print(tool.name, tool.description)

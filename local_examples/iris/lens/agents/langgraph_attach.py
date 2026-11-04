@@ -2,7 +2,7 @@
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, MessagesState, StateGraph
 
-from redis_iris import lens
+from redis_iris import Iris, lens
 
 lens.init(agent_id="support-bot")
 model = ChatOpenAI(model="gpt-4o-mini")
@@ -18,10 +18,9 @@ graph.add_edge(START, "assistant")
 graph.add_edge("assistant", END)
 
 # STEP_START langgraph_attach
-from redis_iris import AgentMemory
 from redis_iris.integrations.langgraph import attach
 
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 app = attach(memory, graph).compile()
 
 result = app.invoke(

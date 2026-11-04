@@ -39,7 +39,7 @@ Follow one tab throughout the page. The Python SDK and command-line interface (C
     ```bash
     python -m venv .venv
     source .venv/bin/activate
-    python -m pip install 'redis-iris==1.0.0b2'
+    python -m pip install 'redis-iris>=1.0.0'
     ```
 
 1. Open the Redis Agent Memory service in the Redis Cloud console. On the **Configuration** tab, copy the **Store ID** and the URL from the **URL List**. Save them with your API key in `.env`. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-memory/...` path.
@@ -65,7 +65,7 @@ For a self-managed service with ownership enforcement, use the authenticated cli
 <a id="check-the-service-health"></a>
 <a id="save-the-connection-values"></a>
 
-`AgentMemory.from_env()` reads the connection values. Its `.client` property exposes every Agent Memory operation; the `conversation`, `recall`, `remember`, and `forget` methods cover the common agent tasks. Check that the overall status and each feature are `HEALTHY`.
+`Iris.from_env().agent_memory()` reads the connection values. Its `.client` property exposes every Agent Memory operation; the `conversation`, `recall`, `remember`, and `forget` methods cover the common agent tasks. Check that the overall status and each feature are `HEALTHY`.
 
 {{< clients-example set="iris_agent_memory_quickstart" step="agent-memory-connect" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 

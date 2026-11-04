@@ -43,7 +43,7 @@ Use `redis-iris` for the Python SDK and Iris command-line interface (CLI). For J
 | --- | --- | --- |
 | Python 3.11 or later | Discovering and calling tools through `redis_iris.ContextGateway`, or opening a direct MCP session through `gateway.client.connect()`. | `pip install redis-iris` |
 | CLI, with Python 3.11 or later | Discovering, inspecting, and calling tools from a shell. | Included in `redis-iris`. |
-| TypeScript, with Node.js 22 or later | Opening MCP sessions through `ContextGateway` from `@redis-iris/context-gateway`. | `npm install @redis-iris/context-gateway@beta` |
+| TypeScript, with Node.js 22 or later | Opening MCP sessions through `ContextGateway` from `@redis-iris/context-gateway`. | `npm install @redis-iris/context-gateway` |
 | An existing MCP client or agent framework | Connecting with the Gateway endpoint and credentials. | Use the client's dependencies. A Redis SDK is not required. |
 
 The npm `beta` tag selects the release used by these examples. The default `latest` tag currently selects an older alpha release.
@@ -254,7 +254,7 @@ from redis_iris import ContextGateway
 
 
 async def main():
-    gateway = ContextGateway.from_env()
+    gateway = Iris.from_env().context_gateway()
 
     async with gateway.client.connect() as session:
         listed = await session.list_tools()
@@ -448,7 +448,7 @@ def checked(result):
 
 
 async def main():
-    gateway = ContextGateway.from_env()
+    gateway = Iris.from_env().context_gateway()
 
     async with gateway.client.connect() as session:
         # Find the filter and inspect its schema.

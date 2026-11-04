@@ -49,7 +49,7 @@ Follow one tab throughout the page. The Python SDK and command-line interface (C
 
 Keep `.env` out of source control and keys out of skill files and model prompts. Use [`iris.toml` profiles](/content/develop/ai/context-engine/sdk-and-cli.md) for several deployments. All three clients use the authoring key in `.env` for this walkthrough.
 
-`AgentPlaybooks.from_env()` reads the connection values. Its public `.client` property exposes authoring, search, and review operations. The CLI reads the same environment variables and uses `--json` when saving or processing responses.
+`Iris.from_env().agent_playbooks()` reads the connection values. Its public `.client` property exposes authoring, search, and review operations. The CLI reads the same environment variables and uses `--json` when saving or processing responses.
 
 {{< clients-example set="iris_playbook_quickstart" step="playbook-connect" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 

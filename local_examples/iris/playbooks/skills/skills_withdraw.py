@@ -2,9 +2,9 @@
 # HIDE_START
 import os
 
-from redis_iris.agent_playbooks import AgentPlaybooks
+from redis_iris import Iris
 
-playbook = AgentPlaybooks.from_env()
+playbook = Iris.from_env().agent_playbooks()
 print(playbook.client.get_playbook_health())
 skill_id = os.environ["PLAYBOOK_SKILL_ID"]
 # HIDE_END

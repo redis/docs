@@ -34,7 +34,7 @@ Redis Agent Memory adds the event ID and storage timestamp. The event fields are
 | `systemTimestamp` | Server-generated. | Time Redis Agent Memory stored the event. |
 | `metadata` | Optional from the client. | Application-specific information associated with the event. |
 
-1. Set the first event's `actorId` to the signed-in user's account ID from your application. Use the same ID each time this user returns. The server uses it as the session owner. Later events can identify other actors, such as the assistant. In Python, `conversation.user` sends the `owner` as `actorId`, and `conversation.assistant` sends the `assistant_id` passed to `AgentMemory.from_env()`.
+1. Set the first event's `actorId` to the signed-in user's account ID from your application. Use the same ID each time this user returns. The server uses it as the session owner. Later events can identify other actors, such as the assistant. In Python, `conversation.user` sends the `owner` as `actorId`, and `conversation.assistant` sends the `assistant_id` passed to `Iris.from_env().agent_memory()`.
 1. Supply a `sessionId`, or omit it to let the server create one. Save the returned `event.sessionId` for later requests. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
 1. Set the message's `role`, `content`, and `createdAt` timestamp.
 1. Send the request.

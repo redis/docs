@@ -54,7 +54,7 @@ export IRIS_INTENT_ROUTER_API_KEY='<agent-key>'
 
 Keep keys out of source control and model prompts.
 
-The Python examples use `IntentRouter` from the unified `redis-iris` package. `IntentRouter.from_env()` reads these variables, and its methods, such as `define`, `match`, `add_examples`, and `update`, return plain values such as `Intent` and `Matches`. The TypeScript examples pass the same values to the generated `@redis-iris/intent-router` client, whose methods take positional arguments with the request body after the path and header values, and return `{ headers, result }`. The CLI tab runs `iris intent-router` commands, which read the same variables. CLI commands use `--json` when saving a response or processing it with jq.
+The Python examples use `Iris` from the unified `redis-iris` package. `Iris.from_env().intent_router()` reads these variables, and its methods, such as `define`, `match`, `add_examples`, and `update`, return plain values such as `Intent` and `Matches`. The TypeScript examples pass the same values to the generated `@redis-iris/intent-router` client, whose methods take positional arguments with the request body after the path and header values, and return `{ headers, result }`. The CLI tab runs `iris intent-router` commands, which read the same variables. CLI commands use `--json` when saving a response or processing it with jq.
 
 ## Connect to the Router
 

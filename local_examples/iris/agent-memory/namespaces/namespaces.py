@@ -1,10 +1,11 @@
 # EXAMPLE: iris_agent_memory_namespaces
 # HIDE_START
-from redis_iris.agent_memory import AgentMemory, models
+from redis_iris import Iris
+from redis_iris.agent_memory import models
 
 OWNER_ID = "quickstart-user"
 
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 print(memory.client.store_health().status.value)
 # HIDE_END
 

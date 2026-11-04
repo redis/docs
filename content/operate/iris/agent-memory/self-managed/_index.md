@@ -150,9 +150,9 @@ After you [deploy](/content/operate/iris/agent-memory/self-managed/deploy.md), t
 Your application reads the same `.env`. With the Python SDK:
 
 ```python
-from redis_iris import AgentMemory
+from redis_iris import Iris
 
-memory = AgentMemory.from_env()
+memory = Iris.from_env().agent_memory()
 convo = memory.conversation(owner="user-1042", session_id="support-thread-1")
 convo.user("Please send updates by email.")
 print(memory.recall("How does this user want updates?", owner="user-1042").as_prompt())
