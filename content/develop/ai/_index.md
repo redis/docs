@@ -71,7 +71,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 - [LangCache]({{< relref "/develop/ai/langcache" >}}): Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
 - [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Two-tier persistent memory (session and long-term) for agents, available through Python and TypeScript SDKs and a REST API.
 - [Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Gives agents one Model Context Protocol (MCP) endpoint for the tools of any MCP server, and serves your Redis data as tools with Context Surfaces.
-- [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
+- [Data Integration]({{< relref "/integrate/redis-data-integration" >}}): Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
 
 ## How to's
 
@@ -83,7 +83,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 1. [**Add semantic caching**]({{< relref "/develop/ai/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
 1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Agent Memory REST API.
 1. [**Connect tools and business data**]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Use Context Gateway to give any agent one endpoint for your MCP servers and your Redis data.
-1. [**Sync live data to Redis**]({{< relref "/develop/ai/context-engine/data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
+1. [**Sync live data to Redis**]({{< relref "/integrate/redis-data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
 
 #### Learn how to index and query vector embeddings
 * [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
@@ -140,7 +140,7 @@ The Context Engine provides managed services for agent memory and data access.
 * [Get started with LangCache]({{< relref "/develop/ai/langcache" >}}): Add semantic caching to reduce LLM costs in minutes.
 * [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Add persistent two-tier memory to any agent using the REST API.
 * [Get started with Context Gateway]({{< relref "/develop/ai/context-engine/context-gateway" >}}): Give agents one MCP endpoint for the tools of your MCP servers and your Redis data.
-* [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}): Keep Redis in sync with your primary database so agents always have fresh data.
+* [Get started with Data Integration]({{< relref "/integrate/redis-data-integration" >}}): Keep Redis in sync with your primary database so agents always have fresh data.
 
 ## Tutorials
 Need a deeper-dive through different use cases and topics?
