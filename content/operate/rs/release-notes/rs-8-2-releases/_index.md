@@ -15,7 +15,7 @@ weight: 66
 
 > [!NOTE]
 > Redis database version 8.0 is a short-term support (STS) release and reaches end of life on December 1, 2026.
-> Redis database version 6.2 is a long-term support (LTS) release reaches end of life on April 1, 2027.  See
+> Redis database version 6.2 is a long-term support (LTS) release and reaches end of life on April 1, 2027. See
 > [database version support models](/content/operate/rs/installing-upgrading/product-lifecycle.md#database-version-support-models).
 >
 > After those dates, databases running these versions no longer receive security patches or
