@@ -5,6 +5,8 @@ from _common import parse, sh
 
 KEY = 'ioredis'
 VERSION = '5.11.1'
+# ioredis waits while the server is loading its data, so the loading step turns its ready check off.
+STEP_ENV = {'loading': {'IOREDIS_READY_CHECK': '0'}}
 HERE = Path(__file__).parent
 
 

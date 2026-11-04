@@ -12,7 +12,7 @@ baseline. It doesn't touch live_baseline.json. data/client-exceptions.json is
 written by hand from the result, and `update_errors.py check` fails when it
 disagrees with the baselines.
 """
-import argparse, importlib.util, json, os, sys
+import argparse, functools, importlib.util, json, os, sys
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -56,6 +56,12 @@ def main():
     lc.py_err = py_err
     lc.CLIENT_KEY = bridge.KEY
     lc.EXTRA_META = {bridge.KEY: version}
+    # A bridge can set environment variables for a step, such as ioredis, which waits
+    # while the server is loading unless its ready check is off.
+    for i, step in enumerate(lc.STEPS):
+        env = getattr(bridge, 'STEP_ENV', {}).get(step.__name__)
+        if env:
+            lc.STEPS[i] = with_env(step, env)
     baseline_path = HERE / 'client_baselines' / f'{a.client}.json'
     out = Path(a.out) if a.out else baseline_path if a.accept else HERE.parents[1] / '.errors-update' / 'clients' / f'{a.client}.json'
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -78,6 +84,21 @@ def main():
               'python3 build/errors/update_errors.py check')
     elif changes or old is None:
         print(f'\nWrote {out}. Check data/client-exceptions.json, then save it with --accept.')
+
+
+def with_env(step, env):
+    """`step`, run with the environment variables `env` set."""
+    @functools.wraps(step)
+    def run():
+        old = {k: os.environ.get(k) for k in env}
+        os.environ.update(env)
+        try:
+            return step()
+        finally:
+            for k, v in old.items():
+                if v is None: os.environ.pop(k, None)
+                else: os.environ[k] = v
+    return run
 
 
 def changed(baseline, results, key):

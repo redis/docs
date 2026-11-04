@@ -31,13 +31,18 @@ Jedis organizes exceptions in a hierarchy rooted at `JedisException`, which exte
         "JedisRedirectionException":
             "JedisMovedDataException":
             "JedisAskDataException":
-        "AbortedTransactionException":
         "JedisAccessControlException":
         "JedisNoScriptException":
-    "JedisClusterException":
-        "JedisClusterOperationException":
-        "JedisConnectionException":
-        "JedisValidationException":
+        "JedisBusyException":
+        "JedisClusterException":
+        "JedisBroadcastException":
+        "JedisProtocolNotSupportedException":
+    "JedisClusterOperationException":
+        "ClusterAggregationException":
+            "UnsupportedAggregationException":
+    "JedisConnectionException":
+    "JedisValidationException":
+    "JedisCacheException":
     "InvalidURIException":
 ```
 
