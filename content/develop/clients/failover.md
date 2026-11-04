@@ -20,6 +20,7 @@ topics:
 relatedPages:
 - /develop/clients/dotnet/failover
 - /develop/clients/jedis/failover
+- /develop/clients/nodejs/failover
 - /develop/clients/redis-py/failover
 scope: overview
 weight: 50
@@ -42,6 +43,7 @@ along with their release state and available features.
 | [redis-py](/content/develop/clients/redis-py/failover.md) | Yes  (Preview) | Yes | Yes | Yes |
 | [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes (Preview) | Yes | No | Yes |
 | [StackExchange.Redis](/content/develop/clients/dotnet/failover.md) | Yes | Yes | Yes | Yes |
+| [node-redis](/content/develop/clients/nodejs/failover.md) | Yes (Preview) | Yes | Yes | Yes |
 
 ## Concepts
 
