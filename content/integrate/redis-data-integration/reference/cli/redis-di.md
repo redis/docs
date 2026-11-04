@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di/
 ---
 
 `redis-di` is the command line tool that manages Redis Data Integration (RDI). It is a thin client
@@ -50,8 +50,8 @@ password through an environment variable keeps it out of your shell history.
 
 ## Commands
 
-| Command                                                                                                                        | Description                                                              |
-| :----------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| Command                                                                                                                  | Description                                                              |
+| :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
 | [`info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)                                       | Displays information about the RDI deployment                            |
 | [`list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)                                       | Lists all pipelines                                                      |
 | [`get`](/content/integrate/redis-data-integration/reference/cli/redis-di-get.md)                                         | Gets a pipeline                                                          |
