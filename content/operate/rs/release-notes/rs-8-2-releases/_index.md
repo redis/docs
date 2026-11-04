@@ -13,6 +13,19 @@ toc: 'true'
 weight: 66
 ---
 
+> [!NOTE]
+> Redis database version 8.0 reaches end of life on December 1, 2026, and
+> Redis database version 6.2 reaches end of life on April 1, 2027. After those
+> dates, databases running these versions no longer receive security patches or
+> bug fixes on any Redis Software cluster version, and support for
+> version-specific issues is limited per your subscription agreement.
+>
+> Upgrade affected databases to a supported database version. Upgrading from
+> Redis 6.2 to Redis 7.2 or later includes the
+> [Redis 7.2 breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#redis-72-breaking-changes).
+> See the [database version end-of-life schedule](/content/operate/rs/installing-upgrading/product-lifecycle.md#database-version-end-of-life-schedule)
+> and [Upgrade a Redis Software database](/content/operate/rs/installing-upgrading/upgrading/upgrade-database.md).
+
 ​[​Redis Software version 8.2](https://redis.io/downloads/#Redis_Software) is now available!
 
 ## Highlights

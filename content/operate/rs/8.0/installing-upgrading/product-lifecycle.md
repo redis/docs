@@ -106,7 +106,7 @@ Redis database versions use a **MAJOR.MINOR.PATCH** versioning scheme:
 
 Redis database versions follow the same support model on Redis Software as on [Redis Cloud](/content/operate/rc/databases/version-management/_index.md) and [Redis Open Source](/content/operate/oss_and_stack/install/version-mgmt.md):
 
-- **Long-term support (LTS)**: The second minor version and the last minor version of each major version. LTS versions receive security updates and critical bug fixes for 5 years after release.
+- **Long-term support (LTS)**: The second minor version and the last minor version of each major version. LTS versions get 5 years of extended support, including security updates and major bug fixes.
 
 - **Short-term support (STS)**: All other minor versions, including the first release of a major version. STS versions are supported for 6 months after the next minor version is released.
 

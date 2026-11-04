@@ -107,7 +107,7 @@ Redis database versions use a **MAJOR.MINOR.PATCH** versioning scheme:
 
 Redis database versions follow the same support model on Redis Software as on [Redis Cloud](/content/operate/rc/databases/version-management/_index.md) and [Redis Open Source](/content/operate/oss_and_stack/install/version-mgmt.md):
 
-- **Long-term support (LTS)**: The second minor version and the last minor version of each major version. LTS versions receive security updates and critical bug fixes for 5 years after release.
+- **Long-term support (LTS)**: The second minor version and the last minor version of each major version. LTS versions get 5 years of extended support, including security updates and major bug fixes.
 
 - **Short-term support (STS)**: All other minor versions, including the first release of a major version. STS versions are supported for 6 months after the next minor version is released.
 
@@ -128,6 +128,7 @@ To stay on one database version in production for a long time, use an LTS versio
 
 | Redis database version | Support model | End of life (EOL) |
 | --- | --- | --- |
+| Redis 8.8 | STS | TBD |
 | Redis 8.6 | STS | TBD |
 | Redis 8.4 | STS | January 1, 2027 |
 | Redis 8.2 | LTS | September 1, 2030 |
@@ -139,6 +140,7 @@ To stay on one database version in production for a long time, use an LTS versio
 The following timeline chart shows the general availability (GA) release date and end-of-life date for each Redis database version:
 
 ```timeline {title="Redis database version lifecycle"}
+8.8: May 2026 - TBD
 8.6: Feb 2026 - TBD
 8.4: Nov 2025 - Jan 1, 2027
 8.2: Aug 2025 - Sep 1, 2030
