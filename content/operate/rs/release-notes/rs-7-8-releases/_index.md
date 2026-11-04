@@ -13,6 +13,16 @@ toc: 'true'
 weight: 69
 ---
 
+> [!NOTE]
+> Redis Software 7.8 reaches end of life on May 30, 2027. After that date,
+> 7.8.x clusters no longer receive security patches, bug fixes, or maintenance
+> releases, and support for 7.8-specific issues is limited per your subscription
+> agreement.
+>
+> Plan your upgrade to a supported version. See the
+> [supported upgrade paths](/content/operate/rs/references/upgrade-paths.md)
+> and the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule).
+
 ​[​Redis Software version 7.8](https://redis.io/downloads/#software) is now available!
 
 ## Highlights

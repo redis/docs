@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: The product lifecycle of Redis Software cluster versions.
+description: The product lifecycle of Redis Software cluster versions and bundled Redis database versions.
 linkTitle: Product lifecycle
 weight: 100
 tocEmbedHeaders: true
@@ -87,3 +87,52 @@ For detailed upgrade instructions, see [Upgrade a Redis Software cluster](/conte
 Each cluster version of Redis Software includes a set of Redis database versions as follows:
 
 {{<embed-md "rs-bundled-db-versions.md">}}
+
+## Redis database version lifecycle
+
+Redis database versions have their own end-of-life dates, separate from the cluster version lifecycle. A database can reach end of life while the cluster version it runs on is still supported.
+
+### Database version numbers
+
+Redis database versions use a **MAJOR.MINOR.PATCH** versioning scheme:
+
+- **Major versions**: Significant changes that may include breaking changes (for example, Redis 7 → Redis 8).
+
+- **Minor versions**: New features and improvements within a major version (for example, 8.2 → 8.4 → 8.6).
+
+- **Patch versions**: Bug fixes and security updates (for example, 8.2.1 → 8.2.2).
+
+### Database version support models
+
+Redis database versions follow the same support model on Redis Software as on [Redis Cloud](/content/operate/rc/databases/version-management/_index.md) and [Redis Open Source](/content/operate/oss_and_stack/install/version-mgmt.md):
+
+- **Long-term support (LTS)**: The second minor version and the last minor version of each major version. LTS versions receive security updates and critical bug fixes for 5 years after release.
+
+- **Short-term support (STS)**: All other minor versions, including the first release of a major version. STS versions are supported for 6 months after the next minor version is released.
+
+For example:
+
+| Redis database version | Release in the major version | Support model |
+| --- | --- | --- |
+| 8.0 | First release | STS |
+| 8.2 | Second minor release | LTS |
+| 8.4, 8.6, and later intermediate releases | Intermediate minor release | STS |
+| Last 8.x release | Last minor release | LTS |
+
+An STS database version loses support at its own end-of-life date, even when the cluster version it runs on is still supported. Before an STS version reaches end of life, upgrade the database to a later STS or LTS version within the same major version. Minor versions within a major version don't introduce breaking changes.
+
+To stay on one database version in production for a long time, use an LTS version, such as Redis 8.2.
+
+### Database version end-of-life schedule
+
+| Redis database version | Support model | End of life (EOL) |
+| --- | --- | --- |
+| Redis 8.6 | STS | TBD |
+| Redis 8.4 | STS | January 1, 2027 |
+| Redis 8.2 | LTS | September 1, 2030 |
+| Redis 8.0 | STS | December 1, 2026 |
+| Redis 7.4 | LTS | December 1, 2029 |
+| Redis 7.2 | LTS | December 1, 2029 |
+| Redis 6.2 | LTS | April 1, 2027 |
+
+To upgrade a database, see [Upgrade a Redis Software database](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-database.md) or [Upgrade an Active-Active database](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-active-active.md).
