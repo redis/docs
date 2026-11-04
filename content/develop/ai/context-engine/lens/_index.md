@@ -43,8 +43,8 @@ Lens groups turns into sessions by agent, and records each turn's steps. See [Le
 1. Lens assembles the turn and groups it into sessions by agent.
 1. You inspect the turn in the Lens user interface (UI) or query it with the read application programming interface (API).
 
-![Your agent and the Iris services it calls record steps through the Redis Iris SDK. The SDK exports each turn to Lens, where you inspect it in the Lens UI or query it with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
-{width="700"}
+![Your agent sends its turns to Lens through the Redis Iris SDK, and the Iris services it calls record their own steps in the same turn. You inspect sessions in the Lens UI or query turns with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
+{width="750"}
 
 ## Quick example
 

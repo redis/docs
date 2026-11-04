@@ -21,9 +21,6 @@ A **session** groups the turns of one conversation. A **thread** is a sequence o
 
 Use opaque values, such as internal IDs or hashes, for session, thread, user, and agent IDs.
 
-![One turn shown as steps on a timeline. A memory recall and an Agent Playbooks discovery run at the same time. Prompt assembly uses 3 of the 4 recalled memories and drops 1. A model call, a Context Gateway tool call, and a second model call follow, and the turn ends with the outcome completed.](/images/ai/context-engine/lens-turn.svg)
-{width="700"}
-
 ## What a turn records
 
 Each operation in a turn is a **step**. A turn can include these steps:
@@ -32,7 +29,6 @@ Each operation in a turn is a **step**. A turn can include these steps:
 | ---- | ----------------- |
 | Retrieval | The query, the data source, and each result's ID, score, and text. |
 | Memory recall | A retrieval from long-term memory, with the same details. |
-| Prompt assembly | Which retrieved items entered the prompt. |
 | Model call | The prompt, the completion, and token counts. |
 | Tool call | The tool, its input, its result, and how long it took. |
 | Iris service call | Agent Memory, Agent Playbooks, and Context Gateway calls. These services record their own steps. |
