@@ -13,7 +13,7 @@ tocEmbedHeaders: true
 
 Flex allows your dataset to span both high-performance RAM and cost-efficient dedicated Flash memory. Flex automatically manages data placement between the two tiers, keeping frequently accessed (“hot”) data in RAM for sub-millisecond latency, while moving less active (“warm”) data to Flash to optimize capacity and cost. This dual memory architecture delivers predictable performance at scale, enabling larger datasets without compromising speed or operational simplicity.
 
-Flex databases are currently compatible with most existing Redis applications, except for applications that use Time Series. [Redis Search](/content/develop/ai/search-and-query/_index.md) is available on Flex databases on Redis Cloud Pro as a beta feature; see [Redis Search on Flex](#redis-search-on-flex-beta).
+Flex databases are currently compatible with most existing Redis applications, except for applications that use Time Series. [Redis Search](/content/develop/ai/search-and-query/_index.md) is available on Flex databases on Redis Cloud Pro in preview; see [Redis Search on Flex](#redis-search-on-flex-beta).
 
 Flex is available on both Redis Cloud Essentials and Redis Cloud Pro.
 
@@ -34,22 +34,43 @@ For workloads that require durability and recovery across restarts or failures, 
 
 ## Best practices and limitations
 
-### Redis Search on Flex (Beta)
+### Redis Search on Flex (Preview) {#redis-search-on-flex-beta}
 
-[Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is available as a beta feature on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
+[Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is available in preview on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
 
-To use it, enable the beta flag for Redis Search on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with a Redis Search index on tiered storage.
+Redis Search on Flex stores search indexes on flash, so large indexes don't need to fit in RAM. You use the same Redis Search commands and client libraries as you do with an in-memory database.
 
-The beta supports:
+To use it, enable the preview flag for Redis Search on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with Redis database version 8.8 or later and a Redis Search index on tiered storage. You can turn on Redis Search on Flex only when you create the database. You can't add it to an existing Flex database.
 
-- HASH documents
+The preview supports:
+
+- HASH documents, and JSON documents without multi-value fields
 - `TEXT` fields, including prefix, infix, suffix, wildcard, and fuzzy matching
-- `TAG` fields
-- `VECTOR` fields with `HNSW` and `FLAT` indexes
-- Loading fields from the keyspace with `SORTBY` and `RETURN`
+- `TAG`, `NUMERIC`, `GEO`, and `VECTOR` fields
+- `HNSW` vector indexes with `FLOAT32` and `FLOAT16` vectors. When you create an `HNSW` vector field, you must set the `M`, `EF_CONSTRUCTION`, `EF_RUNTIME`, and `RERANK` attributes.
+- Loading fields from the keyspace with the `SORTBY` and `RETURN` options of `FT.SEARCH`
 - High availability, persistence, backup, and upgrades
 
-JSON documents, `NUMERIC` and `GEO` fields, `FT.AGGREGATE`, `FT.HYBRID`, and background indexing aren't yet available for Redis Search on Flex, even though they're available for Redis Search on Redis Software today. As a beta feature, the supported feature set will continue to expand ahead of general availability.
+Redis Search on Flex doesn't support some Redis Search commands, field types, and options. If you use one of them, the command returns an error. For command support, see [Redis Search commands](/content/operate/oss_and_stack/stack-with-enterprise/search/commands.md).
+
+Redis Search on Flex doesn't support:
+
+- `FT.ALTER`, `FT.HYBRID`, and `FT.TAGVALS`. To change an index schema, drop the index and create it again.
+- The `DD` option of `FT.DROPINDEX`.
+- Cursors, including `FT.CURSOR READ`, `FT.CURSOR DEL`, and the `WITHCURSOR` option of `FT.AGGREGATE`.
+- Synonyms, spell check, dictionaries, and autocomplete suggestions: `FT.SYNUPDATE`, `FT.SYNDUMP`, `FT.SPELLCHECK`, `FT.DICTADD`, `FT.DICTDEL`, `FT.DICTDUMP`, `FT.SUGADD`, `FT.SUGGET`, `FT.SUGDEL`, and `FT.SUGLEN`.
+- `GEOSHAPE` fields.
+- `FLAT` and `SVS-VAMANA` vector indexes, and `FLOAT64`, `BFLOAT16`, `INT8`, and `UINT8` vectors.
+- The `WITHSUFFIXTRIE`, `NOINDEX`, `SORTABLE`, and `UNF` field options.
+- `FT.CREATE` options other than `ON`, `PREFIX`, `FILTER`, `LANGUAGE`, `LANGUAGE_FIELD`, `SCORE`, `SCORE_FIELD`, `STOPWORDS`, and `SKIPINITIALSCAN`.
+- Prefix, suffix, infix, and wildcard queries on `TAG` fields.
+- The `SUMMARIZE`, `HIGHLIGHT`, `WITHOUTCOUNT`, `SLOP`, and `INORDER` options of `FT.SEARCH`, `DIALECT 4`, and the `HAMMING` scorer.
+
+Filtered vector queries must set a [filter mode](/content/develop/ai/search-and-query/vectors/_index.md#filter-mode) with `HYBRID_POLICY`. Redis Search on Flex doesn't select one automatically.
+
+Hash field expiration isn't reflected in the index or in query results. In `FT.AGGREGATE`, numeric values from fields that aren't in the index schema sort as strings. To sort them numerically, convert them with `APPLY to_number(@<field>)`.
+
+Redis Search on Flex keeps some index data in RAM, even when the index is stored on flash. Set the [RAM percentage](#ram-percentage) to at least 20% for databases that use Redis Search on Flex. The number of indexes, the number of fields in each index, your query patterns, and your read and write mix all affect how much RAM and CPU you need. Reading index data from flash adds latency, so also set a [query performance factor](/content/operate/rc/databases/configuration/advanced-capabilities.md#query-performance-factor) to run queries on more CPUs.
 
 Terraform support for Redis Search on Flex is available at Preview level.
 
