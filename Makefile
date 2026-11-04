@@ -107,6 +107,13 @@ check_aliases:
 check_aliases_fix:
 	@python3 build/check_missing_aliases.py --all --fix
 
+# Report internal links whose target page or heading anchor doesn't exist.
+# Needs a built site: run `make hugo` (or the full `make all`) first. Unlike
+# check_aliases this reads public/, because heading anchors come from Hugo's own
+# output rather than from a reimplemented slug rule.
+check_internal_anchors:
+	@python3 build/check_internal_anchors.py
+
 clean:
 	@rm -Rf ./public/
 	@rm -Rf ./resources/
