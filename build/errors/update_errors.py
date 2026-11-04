@@ -681,6 +681,50 @@ def needs_section(module, group):
     return module in ('core', 'vectorset') or group.startswith('SEARCH_')
 
 
+# Each bridge's baseline file, and the client of data/client-exceptions.json that it covers.
+CLIENT_BASELINES = {'jedis': 'jedis', 'node_redis': 'node-redis', 'lettuce_sync': 'lettuce',
+                    'lettuce_async': 'lettuce', 'lettuce_reactive': 'lettuce', 'go_redis': 'go-redis',
+                    'ioredis': 'ioredis', 'se_redis_sync': 'stackexchange-redis',
+                    'se_redis_async': 'stackexchange-redis', 'predis': 'predis', 'redis_rb': 'redis-rb',
+                    'rust_sync': 'redis-rs', 'rust_async': 'redis-rs'}
+
+
+def check_clients():
+    """Problems in data/client-exceptions.json: a missing entry, or a class that the last live run didn't see."""
+    problems = []
+    path = ROOT / 'data' / 'client-exceptions.json'
+    data = json.loads(path.read_text())
+    pages = {p.stem for p in (PAGES / 'common').glob('*.md') if p.name != '_index.md'}
+    for page in sorted(pages - set(data['errors'])):
+        problems.append(f'client-exceptions.json: no entry for common/{page}.md')
+    for page in sorted(set(data['errors']) - pages):
+        problems.append(f'client-exceptions.json: the entry {page} has no page in common/')
+    for client in data['order']:
+        if client not in data['clients'] or client not in data['versions']:
+            problems.append(f'client-exceptions.json: {client} is in "order" but not in "clients" or "versions"')
+    for page, row in data['errors'].items():
+        for client in sorted(set(row) - set(data['order'])):
+            problems.append(f'client-exceptions.json: {page} has an entry for {client}, which isn\'t in "order"')
+
+    # The names must be the ones that the last live run of each client recorded.
+    for bridge, client in CLIENT_BASELINES.items():
+        baseline_path = Path(__file__).parent / 'client_baselines' / f'{bridge}.json'
+        if not baseline_path.exists():
+            problems.append(f'client_baselines/{bridge}.json is missing, so {client} wasn\'t checked live')
+            continue
+        baseline = json.loads(baseline_path.read_text())
+        for page, row in data['errors'].items():
+            entry = row.get(client)
+            replies = [r for k, v in baseline.get(page, {}).items() if k not in ('raw', 'notes') for r in v]
+            if not entry or not replies or entry['class'] == '(none)':
+                continue
+            name = re.sub(r'\W+$', '', entry['class']).split('::')[-1].split('.')[-1]
+            if not any(name in r for r in replies):
+                problems.append(f'client-exceptions.json: {page}/{client} says {entry["class"]}, but the last '
+                                f'{bridge} run got {replies[0][:100]!r}')
+    return problems
+
+
 def check(data):
     """Problems that need fixing, and notes worth a look."""
     problems, notes = [], []
@@ -738,6 +782,8 @@ def check(data):
                 return re.fullmatch('.+'.join(map(re.escape, PLACEHOLDER.split(msg))), text)
             if not any(same(e['message']) for e in messages):
                 problems.append(f'common/{page.name}: no message in the data matches the page\'s message: {text}')
+
+    problems += check_clients()
 
     # The versions that the pages name.
     index = (PAGES / 'all' / '_index.md').read_text()

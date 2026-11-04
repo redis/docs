@@ -267,5 +267,19 @@ class TestLiveChecks(unittest.TestCase):
         self.assertEqual([p for p, _ in self.lc.compare(baseline, results)], ['_failures', 'oom'])
 
 
+class TestClientChecks(unittest.TestCase):
+    def test_changed_ignores_numbers_and_flags_names(self):
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'errors', 'bridges'))
+        import live_clients
+        old = {'_meta': {}, 'moved': {'raw': ['-MOVED 1 h:6570'], 'jedis': ['E: MOVED 1 h:6570']}}
+        same = {'_meta': {}, 'moved': {'raw': ['-MOVED 2 h:6571'], 'jedis': ['E: MOVED 2 h:6571']}}
+        diff = {'_meta': {}, 'moved': {'raw': ['-MOVED 2 h:6571'], 'jedis': ['F: MOVED 2 h:6571']}}
+        self.assertEqual(live_clients.changed(old, same, 'jedis'), [])
+        self.assertEqual([p for p, _ in live_clients.changed(old, diff, 'jedis')], ['moved'])
+
+    def test_the_committed_client_data_matches_the_baselines(self):
+        self.assertEqual(u.check_clients(), [])
+
+
 if __name__ == '__main__':
     unittest.main()

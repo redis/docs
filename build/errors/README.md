@@ -118,8 +118,7 @@ The "In client libraries" table on each error page comes from
 another client library, run the same checks with that client:
 
 ```
-python3 build/errors/live_clients.py jedis
-python3 build/errors/live_clients.py node_redis --only standalone
+python3 build/errors/live_clients.py jedis --image redis:8.12.0 --version 8.0.3
 ```
 
 It needs Docker, like `verify`, and the client's tools: Java and Maven (`jedis`,
@@ -128,10 +127,14 @@ It needs Docker, like `verify`, and the client's tools: Java and Maven (`jedis`,
 `se_redis_async`), PHP and Composer (`predis`), Ruby (`redis_rb`), and Rust
 (`rust_sync`, `rust_async`). Each client is a bridge in `bridges/`: a short
 Python module and a probe program in the client's language that runs one command
-and prints the exception class and message. The run writes
-`client_baselines/<client>.json`. Copy the classes and messages that the pages
-show into `data/client-exceptions.json` by hand, and add the client to its
-`order` list. The data file says which clients were run live.
+and prints the exception class and message. The run lists the pages where the
+client's reply, or the server's, differs from `client_baselines/<client>.json`.
+Copy the classes and messages that changed into `data/client-exceptions.json` by
+hand, and the client's version into its `versions`. Then save the run with
+`--accept`, which needs a full run, so it can't be combined with `--only`.
+`update_errors.py check` fails when the data names a class that the baselines
+didn't see, and when a page has no entry. Run the clients one at a time, because
+they share the Docker ports.
 
 To add a client, copy `bridges/jedis.py` and its probe, and make the probe print
 `OK<TAB>value` or `EXC<TAB>class<TAB>message`. The format is in
