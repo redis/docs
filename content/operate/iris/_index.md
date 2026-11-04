@@ -26,7 +26,7 @@ Use this section to deploy, configure, and operate Redis Iris services. Develope
 
 ## Deployment options
 
-Redis Iris services are available as managed services on Redis Cloud. Agent Memory, Context Gateway, and Intent Router are also available for self-managed deployment.
+Redis Iris services are available as managed services on Redis Cloud. Every service is also available for self-managed deployment.
 
 ### Redis Cloud
 
@@ -40,7 +40,7 @@ Create and manage Redis Iris services through the Redis Cloud console without de
 
 ### Self-managed
 
-Deploy Redis Iris services on Kubernetes when you need to operate them on your own infrastructure.
+Deploy Redis Iris services on Kubernetes when you need to operate them on your own infrastructure. [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md) with one Helm release, then configure each service from its guide:
 
 - [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 - [Self-managed Redis Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/_index.md)

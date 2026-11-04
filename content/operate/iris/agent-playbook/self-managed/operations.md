@@ -181,9 +181,9 @@ If the worker is enabled, also run `kubectl -n <namespace-name> rollout status d
 
 - **`0.1.x`**: those charts bundled the Identity Service. `helm upgrade` to `1.0.0` is unsupported. Install a separate Identity Service release that uses the same metadata Redis and key namespace, so existing agent keys keep working, then install `1.0.0` with the connection values. Remove every old `identityService.*` key except `allowInsecureTransport` and `credential`, and remove `storage.identityServiceKey`; the schema rejects them.
 - **Embedding configuration**: the data plane and control plane reject the legacy `inference.models[].client` field. Keep only `provider`, `model`, and `dimensions` in `inference.models`, and move endpoints and credentials into `embedders_connection_details` in the [embedding Secret](/content/operate/iris/agent-playbook/self-managed/configuration.md#embedding-configuration). Keep the same vector-space identity.
-- **OIDC audience**: see [Upgrade with OIDC enabled](/content/operate/iris/agent-playbook/self-managed/authentication.md#upgrade-with-oidc-enabled).
+- **OIDC audience**: see [Configure operator OIDC access](/content/operate/iris/agent-playbook/self-managed/authentication.md#configure-operator-oidc-access).
 
-<!-- TODO: Confirm whether upgrades from the published 0.10.2 chart to 1.0.0 are supported, and document any steps for the unified /iris/v1/agent-playbooks API routes. -->
+Upgrades from the published `0.10.x` preview charts aren't supported. Reinstall with the suite chart against the same Redis databases, as [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install) describes.
 
 ## Uninstall
 

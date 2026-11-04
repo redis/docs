@@ -11,6 +11,9 @@ weight: 50
 hideListLinks: true
 ---
 
+> [!NOTE]
+> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+
 Follow these steps to install the Intent Router control plane and data plane with the `redis-intent-router` Helm chart, connect them to your Identity Service release, and end with one authenticated match request.
 
 You use three credentials along the way: the control-plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).

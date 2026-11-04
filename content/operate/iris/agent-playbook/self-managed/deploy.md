@@ -11,6 +11,9 @@ weight: 50
 hideListLinks: true
 ---
 
+> [!NOTE]
+> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+
 Follow these steps to install the Agent Playbooks control plane and data plane with the `redis-agent-playbook` Helm chart, connect them to an Identity Service release, and end with one authenticated call to the data plane.
 
 Install Identity Service as release `ids`, then Agent Playbooks as release `playbook`, in one namespace. These steps use Agent Playbooks chart `1.0.0` and Identity Service chart `1.0.0`. You create the two credentials both releases share and the Identity Service control token; Agent Playbooks generates its admin token. See [Credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#credentials).

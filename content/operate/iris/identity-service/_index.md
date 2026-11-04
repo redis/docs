@@ -11,6 +11,9 @@ weight: 29
 hideListLinks: true
 ---
 
+> [!NOTE]
+> The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install, always installs the Identity Service and registers each service with it. Installing the `iris-identity-service` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `identityService:` key.
+
 The Identity Service issues the agent keys that applications and agents present to self-managed Redis Iris services, and checks those keys for each service's data plane. Every self-managed Iris service connects to it, and one Identity Service release can serve all of them.
 
 This guide is for the platform administrator who installs the Identity Service, registers each service with it, and manages agent keys and operator access.

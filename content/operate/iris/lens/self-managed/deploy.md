@@ -11,6 +11,9 @@ weight: 50
 hideListLinks: true
 ---
 
+> [!NOTE]
+> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+
 Follow these steps to install an Identity Service release and the `redis-lens` chart, check the deployment with a read key, and give developers the settings their agents need.
 
 The examples use a Lens release named `lens` and an Identity Service release named `ids`, in the same namespace. With these names, the Lens Services are `lens-redis-lens-dataplane` and `lens-redis-lens-controlplane`, and the Identity Service is `ids-iris-identity-service`. If you choose other names, change them everywhere they appear, in both releases.

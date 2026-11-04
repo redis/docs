@@ -11,6 +11,9 @@ weight: 50
 hideListLinks: true
 ---
 
+> [!NOTE]
+> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+
 These steps install the Context Gateway Control Plane and Data Plane with the `redis-context-gateway` Helm chart, and end with one authenticated Model Context Protocol (MCP) call.
 
 You use three credentials along the way: the Control Plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/context-gateway/self-managed/authentication.md#credentials).

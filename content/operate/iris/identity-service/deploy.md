@@ -11,11 +11,12 @@ weight: 50
 hideListLinks: true
 ---
 
+> [!NOTE]
+> The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install, always installs the Identity Service and registers each service with it. Installing the `iris-identity-service` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `identityService:` key.
+
 Follow these steps to install the Identity Service with the `iris-identity-service` Helm chart, register your first Iris service with it, and check that its control API accepts your control token.
 
-The examples install chart `1.2.0` as release `ids` in the same namespace as the services, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other services, swap in their entries from [Register services](/content/operate/iris/identity-service/configuration.md#register-services).
-
-<!-- TODO: iris#2368 (M6) moves the chart to 1.3.0. Update the version in every guide when it merges. -->
+The examples install chart `1.0.0` as release `ids` in the same namespace as the services, so the Service is `ids-iris-identity-service:9200`. They register Agent Memory. For the other services, swap in their entries from [Register services](/content/operate/iris/identity-service/configuration.md#register-services).
 
 ## Prerequisites
 
@@ -133,7 +134,7 @@ The chart's values schema is closed: an unknown key, service, or operation fails
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install ids redis-ai/iris-identity-service \
-  --version 1.2.0 \
+  --version 1.0.0 \
   --namespace <namespace-name> \
   -f values-ids.yaml
 ```

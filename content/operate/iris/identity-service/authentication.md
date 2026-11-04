@@ -103,7 +103,7 @@ controlAuth:
 
 ### 3. Apply and check
 
-1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.2.0 -n <namespace-name> -f values-ids.yaml`.
+1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.0.0 -n <namespace-name> -f values-ids.yaml`.
 1. Get an access token for an operator from your IdP.
 1. Call the control API with it:
 

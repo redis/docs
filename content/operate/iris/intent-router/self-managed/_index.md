@@ -11,6 +11,9 @@ weight: 40
 hideListLinks: true
 ---
 
+> [!NOTE]
+> Install Intent Router with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-intent-router` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `intent:` key.
+
 Intent Router classifies each incoming user message by intent, so your application can send it to the right agent, workflow, or handler. Developers define intents with example phrases, and their applications send messages to a Router to find the closest match. Before developers can do that, a platform administrator deploys Intent Router and creates Routers and agent keys for them.
 
 This guide is for that administrator. It covers deploying Intent Router on your own Kubernetes cluster with a Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/intent-router/self-managed/prerequisites.md).

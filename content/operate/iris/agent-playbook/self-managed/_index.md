@@ -13,6 +13,9 @@ bannerText: A license key is required to deploy. Contact your Redis representati
 bannerChildren: true
 ---
 
+> [!NOTE]
+> Install Agent Playbooks with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-agent-playbook` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `playbook:` key.
+
 Redis Agent Playbooks store the answers and procedures your business approves as versioned FAQs and skills, and serve the published versions to your agents. Developers author entries and review proposals in a playbook; agents retrieve published entries over REST or the Model Context Protocol (MCP). Before developers can do that, a platform administrator deploys Agent Playbooks and creates playbooks and agent keys for them.
 
 This guide is for that administrator. It covers deploying Agent Playbooks on your own Kubernetes cluster with a Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/agent-playbook/self-managed/prerequisites.md).

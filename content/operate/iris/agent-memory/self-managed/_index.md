@@ -15,6 +15,9 @@ aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/
 ---
 
+> [!NOTE]
+> Install Agent Memory with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-agent-memory` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `memory:` key.
+
 Redis Agent Memory provides persistent memory for AI agents and
 applications. Applications write conversation events and long-term memories to
 Redis Agent Memory, then query Redis Agent Memory for relevant context before calling an LLM.

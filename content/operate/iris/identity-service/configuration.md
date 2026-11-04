@@ -18,7 +18,7 @@ The Identity Service reads its configuration only when it starts. A changed valu
 To see every value and its default, run:
 
 ```bash
-helm show values redis-ai/iris-identity-service --version 1.2.0
+helm show values redis-ai/iris-identity-service --version 1.0.0
 ```
 
 ## Metadata Redis
@@ -131,7 +131,7 @@ To add a service to a running release:
 
 1. Install the service, or note its control-plane Service and Secret names.
 1. Add the service's runtime credential and validator to `values-ids.yaml`, next to the existing entries.
-1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.2.0 -n <namespace-name> -f values-ids.yaml`.
+1. Run `helm upgrade ids redis-ai/iris-identity-service --version 1.0.0 -n <namespace-name> -f values-ids.yaml`.
 1. Check that `GET /v1/products` lists the new service.
 
 Every service on one release uses the same tenant.
@@ -209,8 +209,7 @@ See [Authentication and authorization](/content/operate/iris/identity-service/au
 | `nodeSelector`, `affinity`, `tolerations` | Empty | Pod scheduling. |
 | `image.repository`, `image.tag` | `redislabs/iris-identity-service`, the chart version | Set them to pull from a private registry. |
 | `imagePullSecrets` | `[]` | Pull Secrets for a private registry. |
-
-<!-- TODO: lands with iris#2368 (M6); confirm before GA. Chart 1.3.0 adds podDisruptionBudget.enabled (default false), which creates a PodDisruptionBudget with maxUnavailable: 1 when replicaCount is above 1. Add it to this table once it ships in the chart version the guides pin. -->
+| `podDisruptionBudget.enabled` | `false` | Add a PodDisruptionBudget with `maxUnavailable: 1` when `replicaCount` is above `1`. |
 
 Readiness checks the metadata Redis, and liveness doesn't. When the metadata Redis is unreachable, the pod turns unready and stops receiving traffic, but Kubernetes doesn't restart it. Readiness doesn't check the service control planes, so one service's outage doesn't take the Identity Service out of service.
 

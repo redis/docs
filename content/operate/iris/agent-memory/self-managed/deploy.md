@@ -18,6 +18,9 @@ aliases:
 - /operate/iris/agent-memory/self-managed/deploy-static/
 ---
 
+> [!NOTE]
+> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+
 These steps install Redis Agent Memory with chart-rendered configuration and agent-key
 authentication, and end with one authenticated call to the Data Plane.
 
