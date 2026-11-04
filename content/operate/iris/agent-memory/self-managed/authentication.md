@@ -242,8 +242,8 @@ async def main():
             api_key=os.environ["API_KEY"],
             async_client=transport,
         ) as memory:
-            page = await memory.list_session_summaries_async(
-                filter_owner_id=os.environ["OWNER_ID"], limit=20,
+            page = await memory.list_sessions_async(
+                owner_id=os.environ["OWNER_ID"], limit=20,
             )
             print(page.model_dump_json(by_alias=True))
 
@@ -270,7 +270,7 @@ async function main() {
   const memory = new AgentMemory({
     serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
   });
-  console.dir(await memory.listSessionSummaries(20, undefined, OWNER_ID), { depth: null });
+  console.dir(await memory.listSessions(20, undefined, OWNER_ID), { depth: null });
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });

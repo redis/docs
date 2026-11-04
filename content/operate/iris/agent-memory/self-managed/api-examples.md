@@ -258,7 +258,7 @@ async def main():
         extractor = await service.create_extractor_async(
             store_id=os.environ["STORE_ID"],
             name="Travel guide facts", memory_type="document_fact",
-            source="documents", strategy="custom",
+            source="DOCUMENTS", strategy="CUSTOM",
             prompt="Extract useful travel facts. Keep each fact in one memory.",
         )
         print(extractor.model_dump_json(by_alias=True))
@@ -282,7 +282,7 @@ async function main() {
   });
   console.dir(await service.createExtractor(STORE_ID, {
     name: "Travel guide facts", memoryType: "document_fact",
-    source: "documents", strategy: "custom",
+    source: "DOCUMENTS", strategy: "CUSTOM",
     prompt: "Extract useful travel facts. Keep each fact in one memory.",
   }), { depth: null });
 }
