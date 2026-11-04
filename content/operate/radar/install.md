@@ -204,6 +204,15 @@ The RPM installs native binaries and needs no container runtime. It also install
 
    `radar doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
 
+   To encrypt the connection between the proxy and the API server too, have the API server serve HTTPS itself. Set both of these in `/etc/mcm/mcm.env`:
+
+   ```text
+   HTTP_TLS_CERT_FILE=/etc/mcm/tls/tls.crt
+   HTTP_TLS_KEY_FILE=/etc/mcm/tls/tls.key
+   ```
+
+   Each is a PEM file: the certificate chain and its private key. Make both readable by the `mcm` user but not world-readable, for example owned by `root:mcm` with mode `0640`. If you set only one, the API server doesn't start. Configure the proxy to connect to the API server over HTTPS and to trust this certificate. Restart `mcm-api.service` after you set them or replace the files, then run `radar doctor`, which checks readiness over HTTPS.
+
    > [!WARNING]
    > Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
 
@@ -376,6 +385,19 @@ To install from a chart package file instead, such as on a cluster with no inter
    ```
 
    Radar marks the browser session cookie as secure by default, so serve Radar over HTTPS. Over plain HTTP the browser rejects the cookie and sign-in fails.
+
+   To encrypt traffic all the way to the API server, have it serve HTTPS itself. Create a `kubernetes.io/tls` Secret in the release namespace, for example with cert-manager, and set these values:
+
+   ```yaml
+   app:
+     tls:
+       enabled: true
+       existingSecret: <your-tls-secret>
+   ingress:
+     backendTLS: <your-ingress-controller>
+   ```
+
+   Set `ingress.backendTLS` to the Ingress controller in front of Radar: `ingress-nginx`, `haproxy`, `traefik`, `gce`, or `alb`. The chart then configures that controller to connect to the API server over HTTPS, so don't add your own backend-protocol annotation. If you configure backend TLS outside the chart, set it to `manual`. Helm rejects an Ingress with HTTPS on the API server until you set `ingress.backendTLS`. The certificate must name the Service the controller connects to, unless the controller skips upstream verification. You can't combine this with the OpenShift Route. Restart the API pod after you rotate the certificate.
 
    <br>
 

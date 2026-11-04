@@ -14,6 +14,28 @@ This page lists what changed in each Redis Radar release on Redis Cloud. Redis C
 
 To get started with Redis Cloud's hosted Radar, see [Redis Radar on Redis Cloud]({{< relref "/operate/rc/radar" >}}).
 
+## 2026.11.1
+
+Radar adds high-availability status to the **Databases** list and agent health to **Settings > Agents**, and fixes gaps in agent and Redis Cloud collection.
+
+### Enhancements
+
+- **High-availability status.** The **Databases** list now shows the high-availability status of each Redis Software database, and a **High availability** summary card counts the databases without it.
+- **Agent health.** **Settings > Agents** now shows warnings for each agent and the collection status of each of its sources.
+- **Dependencies.** Updated Go to 1.26.10 to fix CVE-2026-111943 (GO-2026-6809), and updated other dependencies.
+
+### Resolved issues
+
+- **Edited managed-agent sources.** A managed agent no longer stops collecting after you edit one of its sources. If you edited a source before this release, save it again.
+- **Managed agents with no sources.** A managed agent with no sources no longer fails its heartbeat.
+- **Agent source failures.** A failed source no longer marks the other sources of its agent as failed.
+- **Interrupted collections.** Redis Open Source and Redis Cloud connections no longer stop collecting when a worker stops during a collection.
+- **Redis Cloud collection timeouts.** Redis Cloud collections no longer fail after 1 minute.
+- **Removed cluster resources.** Nodes, shards, alerts, and database health no longer stay in Radar after a Redis Software cluster stops reporting them.
+- **Active-Active summary through an agent.** Redis Software clusters connected through an agent now show their Active-Active summary.
+- **Redis Open Source through an agent.** Redis Open Source sources connected through an agent now show their connection and databases.
+- **Redis Cloud endpoints.** Radar now collects from a Redis Open Source connection that points to a Redis Cloud database endpoint.
+
 ## 2026.10.1
 
 Radar adds readable alert descriptions and a complete usage export, and fixes stale indicators and gaps in Redis Cloud discovery.
