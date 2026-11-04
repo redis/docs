@@ -9,11 +9,14 @@ description: Deploy, configure, secure, and operate Redis Agent Memory on a self
 linkTitle: Self-managed
 weight: 40
 hideListLinks: true
-bannerText: Redis Agent Memory self-managed is currently in private preview and subject to change. A license key is required to deploy. Contact your Redis representative or [contact sales](https://redis.io/contact/).
+bannerText: A license key is required to deploy. Contact your Redis representative or [contact sales](https://redis.io/contact/).
 bannerChildren: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/
 ---
+
+> [!NOTE]
+> Install Agent Memory with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-agent-memory` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `memory:` key.
 
 Redis Agent Memory provides persistent memory for AI agents and
 applications. Applications write conversation events and long-term memories to
@@ -31,9 +34,12 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The `redis-agent-memory` chart `0.8.0` deploys the Data Plane, workers, and Control Plane.
-Install the `iris-identity-service` chart `0.10.0` as a separate release first, then connect
+The `redis-agent-memory` chart `1.0.0` deploys the Data Plane, workers, and Control Plane.
+Install the `iris-identity-service` chart `1.0.0` as a separate release first, then connect
 Memory to it. Memory does not deploy Identity Service resources or include it as a subchart.
+To install Memory, Identity Service, and the UI as one release, use the
+[`redis-iris` Helm chart](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart).
+These pages document the separate releases.
 You provide the Redis databases. Follow [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md)
 to configure both releases.
 
@@ -77,13 +83,13 @@ actions the key can access.
 
 | API surface | Endpoint prefix | Purpose |
 | --- | --- | --- |
-| Session memory | `/v1/stores/{storeId}/session-memory` | Ordered conversation events, session metadata, and session lifecycle operations. |
-| Long-term memory | `/v1/stores/{storeId}/long-term-memory` | Searchable facts, preferences, summaries, and custom memory records. |
-| Namespaces | `/v1/stores/{storeId}/namespaces` | Namespace resources within a store. |
-| Model Context Protocol (MCP) | `/v1/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
-| Store health | `/v1/stores/{storeId}/health` | Read-only health for store-scoped features. |
+| Session memory | `/iris/data/v1/agent-memory/stores/{storeId}/sessions` | Ordered conversation events, session metadata, and session lifecycle operations. |
+| Long-term memory | `/iris/data/v1/agent-memory/stores/{storeId}/memories` | Searchable facts, preferences, summaries, and custom memory records. |
+| Namespaces | `/iris/data/v1/agent-memory/stores/{storeId}/namespaces` | Namespace resources within a store. |
+| Model Context Protocol (MCP) | `/iris/data/v1/agent-memory/stores/{storeId}/mcp` | The MCP streamable-HTTP endpoint for a store. |
+| Store health | `/iris/data/v1/agent-memory/stores/{storeId}/health` | Read-only health for store-scoped features. |
 | Service health | `/health/liveness`, `/health/readiness` | Process liveness and readiness to serve requests; neither requires an agent key. |
-| Control Plane | `/v1/stores`, `/v1/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
+| Control Plane | `/iris/v1/agent-memory/stores`, `/iris/v1/agent-memory/detectors` | Self-managed administration for stores, and the catalog of built-in sensitive-data detectors. |
 | Identity Service | `/v1/api-keys` | Self-managed administration for agent keys. |
 
 Session memory keeps conversation continuity within a session. Long-term memory
@@ -91,4 +97,68 @@ provides searchable context across sessions.
 
 Long-term memory `memoryType` is an open identifier. When omitted on create,
 Redis Agent Memory stores the record as `semantic`; built-in names include `semantic`,
-`episodic`, `message`, and `session_summary_view`.
+`episodic`, and `message`.
+
+## Create a store with the CLI and SDK
+
+After you [deploy](/content/operate/iris/agent-memory/self-managed/deploy.md), the `iris` CLI in the [`redis-iris`](https://pypi.org/project/redis-iris/) package creates a store, mints its agent key, and checks every hop. The [Control Plane API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md) show the same steps over HTTP.
+
+1. Install the package:
+
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
+
+1. Create `iris.toml` with a profile for your deployment. It holds URLs only:
+
+    ```toml
+    [profiles.suite]
+    kind = "self-managed"
+
+    [profiles.suite.agent_memory]
+    service_url = "<control-plane-url>"
+    url = "<data-plane-url>"
+    identity_url = "<identity-service-url>"
+    ```
+
+1. Put the operator tokens in `.env.admin`, separate from your application's `.env`:
+
+    ```bash
+    IRIS_CONFIG=./iris.toml
+    IRIS_PROFILE=suite
+    IRIS_AGENT_MEMORY_SERVICE_TOKEN=<control-plane-admin-token>
+    IRIS_IDENTITY_TOKEN=<identity-service-control-token>
+    ```
+
+1. Load the tokens and do a dry run. It sends nothing:
+
+    ```bash
+    set -a; source .env.admin; set +a
+    iris agent-memory service create --name support-memory --dry-run
+    ```
+
+1. Create the store. The CLI mints its agent key and writes `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY` to `.env` without printing the key:
+
+    ```bash
+    iris agent-memory service create --name support-memory --write-env .env
+    ```
+
+1. Check every hop, from the Control Plane to a read with the agent key:
+
+    ```bash
+    set -a; source .env; set +a
+    iris agent-memory service check "$IRIS_AGENT_MEMORY_STORE_ID" --env-file .env
+    ```
+
+Your application reads the same `.env`. With the Python SDK:
+
+```python
+from redis_iris import AgentMemory
+
+memory = AgentMemory.from_env()
+convo = memory.conversation(owner="user-1042", session_id="support-thread-1")
+convo.user("Please send updates by email.")
+print(memory.recall("How does this user want updates?", owner="user-1042").as_prompt())
+```
+
+See [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md) for profiles and credentials.

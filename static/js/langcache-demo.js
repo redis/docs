@@ -12,7 +12,7 @@
    stale.
 
    Request bodies, response envelopes, and status codes follow the LangCache
-   OpenAPI spec (content/develop/ai/context-engine/langcache/api-reference/
+   OpenAPI spec (content/develop/ai/langcache/api-reference/
    api.yaml) and the defaults on the create-service page. Modelled rather
    than observed: the similarity scores (a hand-made table, not embeddings),
    the LLM's answers, and the timings and token counts. When several entries

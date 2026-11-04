@@ -1,0 +1,28 @@
+{{- /*
+  iris-request-flow
+  -----------------
+  Which part of the Redis Iris stack answers which question: the stack on
+  the left, questions from the Iris tour's story on the right. Selecting a
+  question sends a dot to Intent Router and on to the components that
+  answer it. Runs entirely in the browser; no service is called.
+
+  Usage (no arguments):
+      {{< iris-request-flow >}}
+
+  Base styles come from context-retriever-demo.css so the Iris demos share
+  one look; iris-request-flow.css adds this demo's pieces.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/iris-request-flow.css" "js/iris-request-flow.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/iris-request-flow.css" | relURL }}?v={{ index $v "css/iris-request-flow.css" }}">
+<script defer src="{{ "js/iris-request-flow.js" | relURL }}?v={{ index $v "js/iris-request-flow.js" }}"></script>
+
+{{- /* data-base carries the site's base path, so the docs links work under a /docs/latest/ subpath. */}}
+<div class="rcr irf" data-irf data-base="{{ "/" | relURL }}">
+  <noscript><p>This interactive diagram needs JavaScript.</p></noscript>
+</div>

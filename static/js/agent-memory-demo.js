@@ -326,7 +326,7 @@
       }).join("") + '</svg><span class="ram-sr">' + n + "</span></span>";
   }
 
-  /* Pretty JSON with light syntax colouring (same as the Context Retriever demo). */
+  /* Pretty JSON with light syntax colouring. */
   function jsonHtml(v) {
     var s = JSON.stringify(v, null, 2);
     return esc(s).replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?)/g,
@@ -481,11 +481,11 @@
       return [s1Gone ? "The assistant found Thursday's order in long-term memory, even though the session it came from is gone." :
         "The assistant found Thursday's order in long-term memory, without reading the Thursday session.",
         allergyNote(plan, mems),
-        "Placing the order again would go through the app's own data, for example through Context Retriever."];
+        "Placing the order again would go through the app's own data, for example through Context Gateway."];
     }
     return ["Maya didn't repeat any of her preferences. The assistant knows them because it searched long-term memory before it replied.",
       allergyNote(plan, mems),
-      "The restaurant suggestion comes from the app's own data, for example through Context Retriever."];
+      "The restaurant suggestion comes from the app's own data, for example through Context Gateway."];
   }
 
   /* -------------------------------------------------------------------- UI */

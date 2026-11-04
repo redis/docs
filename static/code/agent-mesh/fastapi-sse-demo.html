@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Mesh: reconnect without missing updates</title>
+  <style>
+    body { margin: 0; background: #f4f6f8; color: #152336; font: 16px/1.6 system-ui, sans-serif; }
+    main { max-width: 780px; margin: 48px auto; padding: 0 24px; }
+    h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.2; }
+    .eyebrow { color: #516177; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+    .card { background: white; border: 1px solid #d8e0e8; border-radius: 12px; padding: 24px; margin: 24px 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+    button { font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 7px; border: 1px solid #60738a; background: white; color: #152336; cursor: pointer; }
+    button:first-child { background: #b32117; border-color: #b32117; color: white; }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible { outline: 3px solid #2a6bd4; outline-offset: 3px; }
+    #status { font-weight: 650; }
+    #hint, .note { color: #516177; }
+    progress { width: 100%; height: 18px; accent-color: #b32117; }
+    #updates { max-height: 340px; overflow: auto; padding-left: 28px; }
+    #updates li { padding: 4px 0; }
+    #error { color: #a31b16; white-space: pre-wrap; }
+    details { margin-top: 20px; }
+    code { font-size: 13px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">AGENT MESH · LOCAL FASTAPI SSE DEMO</div>
+  <h1>Resume your agent’s progress</h1>
+  <p>A simulated travel agent works on your request and streams its progress. Disconnect, wait a few seconds, and reconnect to catch up and receive the answer. The agent keeps working while you are away.</p>
+  <p><strong>Your request:</strong> “Plan a day in Rome with sightseeing, a museum, and time for breaks.”</p>
+  <p class="note">The agent uses scripted steps and a sample answer. No model account or live travel lookup is required.</p>
+  <div class="card">
+    <div id="status" role="status" aria-live="polite">Ready to start</div>
+    <p id="hint">Start the agent, then disconnect after a few updates arrive.</p>
+    <div class="actions">
+      <button id="start">Start agent</button>
+      <button id="disconnect" disabled>Disconnect</button>
+      <button id="reconnect" disabled>Reconnect</button>
+    </div>
+    <label for="progress" id="count">0 of 20 events received</label>
+    <progress id="progress" value="0" max="20"></progress>
+    <p id="error" role="alert"></p>
+    <ol id="updates" aria-label="Received progress events"></ol>
+    <section id="result" hidden aria-live="polite">
+      <h2>Your agent’s answer</h2>
+      <p id="answer"></p>
+    </section>
+    <details>
+      <summary>What is being resumed?</summary>
+      <p>Agent run: <code id="job">—</code><br>Last applied cursor: <code id="cursor">—</code></p>
+      <p>The page saves each event cursor after applying its update. Reconnect uses <code>?after=</code> to request the retained events after that cursor. The browser's native <code>EventSource</code> receives the stream.</p>
+    </details>
+  </div>
+  <p class="note">Local demonstration only. There is no sign-in: all requests use one fixed demo owner. Your application runs the simulated agent; Agent Mesh retains and delivers its events. Closing a subscription does not cancel the agent. Replay depends on retained Redis history.</p>
+</main>
+<script>
+  const ui = Object.fromEntries(
+    ["start", "disconnect", "reconnect", "status", "hint", "count", "progress", "updates", "error", "job", "cursor", "result", "answer"]
+      .map(id => [id, document.getElementById(id)])
+  );
+  let source = null;
+  let jobId = null;
+  let cursor = null;
+  let starting = false;
+  let received = new Set();
+
+  function closeStream() {
+    if (source) source.close();
+    source = null;
+  }
+
+  function showError(error) {
+    closeStream();
+    ui.error.textContent = error.message;
+    ui.status.textContent = "Connection stopped";
+    ui.hint.textContent = "Reconnect to retry with your saved cursor, or start a new agent run.";
+    ui.start.disabled = false;
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = !cursor;
+  }
+
+  function saveCursor(event) {
+    if (event.lastEventId) {
+      cursor = event.lastEventId;
+      ui.cursor.textContent = cursor;
+      ui.disconnect.disabled = false;
+    }
+  }
+
+  function connect() {
+    closeStream();
+    ui.error.textContent = "";
+    const suffix = cursor ? `?after=${encodeURIComponent(cursor)}` : "";
+    const current = new EventSource(`/jobs/${encodeURIComponent(jobId)}/events${suffix}`);
+    source = current;
+    ui.status.textContent = cursor ? "Reconnecting from saved cursor…" : "Connecting…";
+    ui.reconnect.disabled = true;
+    current.onopen = () => {
+      if (source !== current) return;
+      ui.status.textContent = "Connected";
+      ui.hint.textContent = "Disconnect, wait a few seconds, then reconnect to catch up.";
+      ui.disconnect.disabled = !cursor;
+    };
+    current.addEventListener("progress", event => {
+      if (source !== current) return;
+      try {
+        const {number, message} = JSON.parse(event.data);
+        if (!Number.isInteger(number) || number < 1 || number > 20 || typeof message !== "string" || !message.trim()) throw new Error("Invalid progress event");
+        if (!received.has(number)) {
+          const item = document.createElement("li");
+          item.textContent = message;
+          ui.updates.appendChild(item);
+          received.add(number);
+          ui.progress.value = received.size;
+          ui.count.textContent = `${received.size} of 20 events received`;
+          ui.updates.scrollTop = ui.updates.scrollHeight;
+        }
+        saveCursor(event);
+      } catch (error) { showError(error); }
+    });
+    current.addEventListener("completed", event => {
+      if (source !== current) return;
+      let answer;
+      try {
+        const result = JSON.parse(event.data);
+        if (result.count !== 20 || typeof result.answer !== "string" || !result.answer.trim()) throw new Error("Invalid agent completion event");
+        answer = result.answer;
+      } catch (error) { showError(error); return; }
+      ui.answer.textContent = answer;
+      ui.result.hidden = false;
+      saveCursor(event);
+      closeStream();
+      ui.status.textContent = received.size === 20 ? "Complete — all 20 events received" : "Agent completed";
+      ui.hint.textContent = "The same agent run continued while disconnected. Its retained progress and answer filled the gap.";
+      ui.start.disabled = false;
+      ui.disconnect.disabled = true;
+      ui.reconnect.disabled = true;
+    });
+    current.addEventListener("stream.gap", () => {
+      if (source !== current) return;
+      showError(new Error("Some updates are missing. Start a new demo run."));
+      ui.status.textContent = "History incomplete";
+      ui.reconnect.disabled = true;
+    });
+    current.addEventListener("stream.end", event => {
+      if (source !== current) return;
+      try {
+        showError(new Error(`Run ended: ${JSON.parse(event.data).reason}`));
+        ui.status.textContent = "Agent stopped";
+        ui.reconnect.disabled = true;
+      } catch (error) { showError(error); }
+    });
+    current.addEventListener("stream.error", event => {
+      if (source !== current) return;
+      try {
+        showError(new Error(JSON.parse(event.data).code));
+        ui.status.textContent = "Connection requires attention";
+        ui.reconnect.disabled = true;
+      } catch (error) { showError(error); }
+    });
+
+    current.onerror = () => {
+      if (source === current) showError(new Error("The event connection closed. Use Reconnect to resume."));
+    };
+  }
+
+  ui.start.onclick = async () => {
+    if (starting) return;
+    starting = true;
+    closeStream();
+    jobId = null;
+    cursor = null;
+    received = new Set();
+    ui.updates.replaceChildren();
+    ui.result.hidden = true;
+    ui.answer.textContent = "";
+    ui.progress.value = 0;
+    ui.count.textContent = "0 of 20 events received";
+    ui.job.textContent = "—";
+    ui.cursor.textContent = "—";
+    ui.error.textContent = "";
+    ui.start.disabled = true;
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = true;
+    ui.status.textContent = "Starting agent…";
+    try {
+      const response = await fetch("/jobs", {method: "POST"});
+      if (!response.ok) throw new Error(`Could not start agent (${response.status})`);
+      const result = await response.json();
+      if (!result.job_id) throw new Error("The application did not return a job ID");
+      jobId = result.job_id;
+      ui.job.textContent = jobId;
+      connect();
+    } catch (error) { showError(error); }
+    finally { starting = false; }
+  };
+  ui.disconnect.onclick = () => {
+    closeStream();
+    ui.status.textContent = "Disconnected — the agent keeps working";
+    ui.hint.textContent = "Wait a few seconds, then select Reconnect to receive the missed events.";
+    ui.disconnect.disabled = true;
+    ui.reconnect.disabled = !cursor;
+  };
+  ui.reconnect.onclick = connect;
+  window.addEventListener("pagehide", closeStream);
+</script>
+</body>
+</html>

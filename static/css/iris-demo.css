@@ -9,11 +9,15 @@
 .iris .iris-svc-cache { --svc: #b35900; --svc-bg: rgba(179, 89, 0, .09); }
 .iris .iris-svc-memory { --svc: #1a7f4b; --svc-bg: rgba(26, 127, 75, .09); }
 .iris .iris-svc-retriever { --svc: #6a4cff; --svc-bg: rgba(106, 76, 255, .09); }
-.iris .iris-svc-rdi { --svc: #0b7a99; --svc-bg: rgba(11, 122, 153, .09); }
+.iris .iris-svc-router { --svc: #b0306a; --svc-bg: rgba(176, 48, 106, .09); }
+.iris .iris-svc-lens { --svc: #ff4438; }   /* Lens adds no part to the reply, so its colour only marks its step */
 
 /* ---- the stage: the Iris architecture diagram from redis.io/iris ---- */
 .iris-stagewrap { position: relative; margin-bottom: 12px; }
-.iris-stage { position: relative; aspect-ratio: 893 / 570; border-radius: 11px; overflow: hidden; background: #0D212C; }
+/* On the tour page, the drawing is a little narrower than the step cards below it, and centred; full width on phones. */
+.iris:not(.iris-preview) .iris-stagewrap { max-width: 75%; margin-left: auto; margin-right: auto; }
+@media (max-width: 640px) { .iris:not(.iris-preview) .iris-stagewrap { max-width: 100%; } }
+.iris-stage { position: relative; aspect-ratio: 613.5 / 423.5;   /* VIEW in iris-demo.js */ border-radius: 11px; overflow: hidden; background: #0D212C; }
 /* The four published versions of the drawing, stacked twice. In a stack, a step shows the versions it needs and the
    script sets how they blend; isolation keeps that blend inside the stack. The new stack fades in over the old one. */
 .iris-artset { position: absolute; inset: 0; isolation: isolate; opacity: 0; transition: opacity .45s; }
@@ -26,20 +30,23 @@
 .iris-pk-core { fill: #fff; }
 /* Maya, the user, in the drawing's own style. Her link to the agent is dimmed, as the drawing dims a link, except on the steps she's part of. */
 .iris-maya { pointer-events: none; }
-.iris-maya-name { font-family: "Space Mono", var(--rcr-mono); font-size: 8.4px; letter-spacing: .3px; fill: #fff; }
+.iris-maya-name, .iris-relabel-name { font-family: "Space Mono", var(--rcr-mono); font-size: 8.4px; letter-spacing: .3px; fill: #fff; }
+/* The current service names over the drawing's published labels, shown with their lit version. */
+.iris-relabel { opacity: 0; transition: opacity .45s; pointer-events: none; }
+.iris-relabel.is-on { opacity: 1; }
+/* Agent Playbooks' disc, redrawn with its icon: dimmed as the drawing dims a service, at 40%, unless it's lit. */
+.iris-pbdisc { pointer-events: none; }
+.iris-pbdisc-art { opacity: .4; transition: opacity .45s; }
+.iris-pbdisc.is-lit .iris-pbdisc-art { opacity: 1; }
 .iris-maya-link { opacity: .4; transition: opacity .45s; }
 .iris-maya-link circle { opacity: 0; transition: opacity .45s; }
 .iris-maya-link.is-lit, .iris-maya-link.is-lit circle { opacity: 1; }
-/* The Data Integration gear, turning as on redis.io/iris, in the drawing's own colors. Dimmed like the drawing dims it. */
-.iris-gear { pointer-events: none; }
-.iris-gear-patch { fill: #0D212C; }
-.iris-gear-back, .iris-gear-walls path { fill: #351D22; }
-.iris-gear-face { fill: #89302E; }
-.iris-gear-walls path, .iris-gear-face { stroke: #FF4438; stroke-width: .84px; stroke-linejoin: round; stroke-linecap: round; }
-.iris-gear-body, .iris-gear-ahead { transition: opacity .45s; }
-.iris-gear:not(.is-lit) .iris-gear-body { opacity: .4; }
-.iris-gear-ahead.is-dim, .iris-gear:not(.is-lit) .iris-gear-ahead.is-lit { opacity: 0; }
-.iris-gear:not(.is-lit) .iris-gear-ahead.is-dim { opacity: 1; }
+/* Intent Router's and Lens's discs, dimmed like the drawing dims a service, with their labels only while they're lit. */
+.iris-router-disc, .iris-router-label, .iris-lensfig-disc, .iris-lensfig-label { transition: opacity .45s; }
+.iris-router:not(.is-lit) .iris-router-disc, .iris-lensfig:not(.is-lit) .iris-lensfig-disc { opacity: .4; }
+.iris-router:not(.is-lit) .iris-router-label, .iris-lensfig:not(.is-lit) .iris-lensfig-label { opacity: 0; }
+/* The patch over the drawing's Data Integration corner, in the drawing's background colour. */
+.iris-cover { fill: #0D212C; pointer-events: none; }
 .iris-tag {
   position: absolute; pointer-events: none; white-space: nowrap; font-family: var(--rcr-mono); font-size: 10px; font-weight: 600;
   color: #091a23; background: #fff; border-radius: 6px; padding: 3px 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
@@ -55,10 +62,7 @@
   fill: none; stroke: #FF4438; stroke-width: 2px; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none;
   transform-box: fill-box; transform-origin: center;
 }
-.iris-stage.is-step-rdi .iris-pulse { animation: iris-pulse 1.8s ease-out infinite; }
-.iris-stagewrap:has(.iris-pgbtn:hover) .iris-ring[data-src="pg"]:not(.iris-pulse),
 .iris-stagewrap:has(.iris-redisbtn:hover) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; }
-.iris-stagewrap:has(.iris-pgbtn:focus-visible) .iris-ring[data-src="pg"]:not(.iris-pulse),
 .iris-stagewrap:has(.iris-redisbtn:focus-visible) .iris-ring[data-src="redis"]:not(.iris-pulse) { opacity: 1; stroke: #fff; stroke-width: 2.5px; }
 @keyframes iris-pulse { 0% { opacity: .95; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
 
@@ -141,6 +145,7 @@
 .iris-stephead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: 11.5px; color: var(--rcr-faint); }
 .iris-count { font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--svc, var(--rcr-muted)); }
 .iris .iris-clock { font-size: 11.5px; }
+.iris-badge { font-size: 11px; font-weight: 600; border: 1px solid currentColor; border-radius: 4px; padding: 0 6px; color: var(--svc, var(--rcr-muted)); }
 .iris-title { font-size: 17px; font-weight: 700; line-height: 1.3; margin: 4px 0 6px; color: var(--rcr-ink); }
 .iris-text { font-size: 14px; line-height: 1.55; color: var(--rcr-muted); max-width: 68ch; }
 .iris-fact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 10px; padding: 9px 11px; border-radius: 8px; background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); font-size: 13px; }
@@ -174,10 +179,10 @@
 .iris .iris-replymsg { max-width: 100%; line-height: 1.65; background: #fff; }
 /* A highlighter in four clearly different hues, so each part reads as its service at a glance. */
 .iris-src { border-radius: 3px; padding: 1px 3px; background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-.iris-src-rdi { --src: #0b7a99; --src-bg: #cdebf4; }
 .iris-src-retriever { --src: #6a4cff; --src-bg: #e3ddff; }
 .iris-src-memory { --src: #1a7f4b; --src-bg: #cfeedd; }
 .iris-src-cache { --src: #b35900; --src-bg: #fde0c2; }
+.iris-src-router { --src: #b0306a; --src-bg: #f6d6e5; }
 /* The key: one chip per service, styled like its parts of the reply. */
 .iris-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .iris-legend .rcr-lbl { flex-basis: 100%; }
@@ -195,6 +200,54 @@
 .iris-reply.is-picking .iris-src.is-on { color: var(--rcr-ink); background: var(--src-bg); box-shadow: inset 0 -2px 0 var(--src), 0 0 0 1px var(--src); }
 .iris-totals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-size: 13px; color: var(--rcr-muted); }
 .iris-totals b { color: var(--rcr-ink); }
+
+/* ---- the Lens step: the turn as a timeline of steps, and what Lens recorded for the selected one ---- */
+.iris-lens { gap: 8px; }
+.iris-lensmodes { display: flex; flex-wrap: wrap; gap: 6px; }
+.iris-lensnote:empty { position: absolute; }   /* out of the grid's gaps, but still there for screen readers as a live region */
+.iris .iris-lensmode.is-on { color: #fff; background: var(--svc); border-color: var(--svc); }
+.iris .iris-lensbug { margin: 0; font-size: 13px; line-height: 1.5; color: var(--rcr-ink); border-left: 3px solid var(--rcr-bad); padding: 1px 0 1px 9px; }
+.iris-lenshead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 12px; color: var(--rcr-muted); }
+.iris-lenshead b { color: var(--rcr-ink); font-weight: 600; }
+.iris-nw { white-space: nowrap; }
+.iris-timeline { display: grid; gap: 1px; }
+.iris .iris-trow {
+  display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr) 4.2em; align-items: center; gap: 8px; width: 100%; margin: 0;
+  padding: 4px 6px; border: 1px solid transparent; border-radius: 6px; background: transparent; font: inherit; font-size: 12.5px; line-height: 1.35;
+  text-align: left; color: var(--rcr-ink); cursor: pointer;
+}
+.iris .iris-trow:hover { background: var(--rcr-surface); }
+.iris .iris-trow.is-on { background: var(--rcr-surface); border-color: var(--rcr-line-strong); }
+.iris-tname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.iris-top { font-weight: 400; color: var(--rcr-muted); }
+.iris .iris-top.iris-bad { font-weight: 700; color: var(--rcr-bad); }
+.iris-ttrack { position: relative; height: 8px; border-radius: 4px; background: var(--rcr-line); }
+.iris-tbar { position: absolute; top: 0; bottom: 0; min-width: 3px; border-radius: 4px; background: var(--src, var(--rcr-faint)); }
+.iris-tms { text-align: right; color: var(--rcr-muted); }
+/* On a narrow screen, each step's bar goes under its name, which can wrap. */
+@container (max-width: 520px) {
+  .rcr .iris-trow { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; }
+  .rcr .iris-tname { white-space: normal; }
+  .rcr .iris-ttrack { grid-column: 1 / -1; grid-row: 2; height: 6px; }
+}
+.iris-tdetail { display: grid; gap: 5px; padding-top: 8px; border-top: 1px solid var(--rcr-line); font-size: 13px; }
+.iris-tdhead { font-weight: 700; font-size: 12.5px; }
+.iris .iris-tdetail p { margin: 0; font-size: inherit; line-height: 1.5; }   /* not the page's paragraph size */
+.iris-tresult { display: grid; grid-template-columns: 8.2em minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.iris-mark { justify-self: start; white-space: nowrap; font-size: 10.5px; font-weight: 700; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; color: var(--rcr-ok); }
+.iris-tresult.is-unused .iris-mark, .iris-tresult.is-unused > span:last-child { color: var(--rcr-bad); }
+.iris-tio { display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 3px 10px; align-items: baseline; }
+.iris .iris-tio code { justify-self: start; }
+.iris-tintents { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 10px; align-items: baseline; }   /* an intent's name never wraps */
+.iris .iris-tintents code { justify-self: start; }
+.iris-tintents .iris-kv { overflow-wrap: anywhere; }
+/* On a phone, each mark goes in front of its result instead of in a column of its own, and each intent's score and target go under its name. */
+@container (max-width: 400px) {
+  .rcr .iris-tresult { display: block; }
+  .rcr .iris-tresult .iris-mark { display: inline-block; margin-right: 6px; }
+  .rcr .iris-tintents { grid-template-columns: minmax(0, 1fr); gap: 1px; }
+  .rcr .iris-tintents .iris-kv { margin-bottom: 4px; }
+}
 
 /* ---- what if a service were missing ---- */
 .iris-whatif { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
@@ -226,8 +279,19 @@
 .iris .iris-dot.is-on { background: var(--rcr-accent); transform: scale(1.25); }
 
 @media (prefers-reduced-motion: reduce) {
-  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle { transition: none; }
+  .iris-artset, .iris-tag, .iris-maya-link, .iris-maya-link circle, .iris-relabel, .iris-router-disc, .iris-router-label, .iris-lensfig-disc, .iris-lensfig-label, .iris-pbdisc-art { transition: none; }
   .iris-window, .iris-backdrop, .iris-flip.is-flipped .iris-new { animation: none; }
-  .iris-stage.is-step-rdi .iris-pulse { animation: none; opacity: 1; }
   .iris-chip.is-new { animation: none; }
 }
+
+/* ---- preview: the stage alone, as a link to the tour ---- */
+.iris-preview-link { display: block; max-width: 70%; margin: 8px 0 24px; text-decoration: none; border-radius: 11px; }
+@media (max-width: 640px) { .iris-preview-link { max-width: 100%; } }   /* a part of a phone screen is too small to read */
+.iris-preview-link:focus-visible { outline: 3px solid #FF4438; outline-offset: 3px; }
+.iris-preview .iris-stagewrap { margin-bottom: 0; }
+.iris-preview .iris-hit { pointer-events: none; }
+.iris-preview-cue {
+  display: inline-block; margin-top: 8px; font-family: var(--rcr-mono); font-size: 13px; font-weight: 600; color: #fff;
+  background: #091A23; border: 1px solid #5C707A; border-radius: 6px; padding: 5px 10px; transition: background .2s, border-color .2s;
+}
+.iris-preview-link:hover .iris-preview-cue, .iris-preview-link:focus-visible .iris-preview-cue { background: #FF4438; border-color: #FF4438; }

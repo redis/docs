@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="248" viewBox="0 0 640 248" role="img" aria-labelledby="title desc">
+  <title id="title">Agent session: task, discovery by your app, agent turn with MCP tools, reply; all against one playbook</title>
+  <desc id="desc">Left to right: a task with input context arrives; your app discovers context through the SDK and receives FAQs and skill previews; the agent turn runs the model with MCP tools and loads a skill on demand; the agent response goes back. Below, one playbook of published entries serves discover_entries from the app and load_skill and fetch_resource from the agent.</desc>
+  <defs>
+    <linearGradient id="border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ee0000"/>
+      <stop offset="100%" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#b9b9b9"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#0b0b0b"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; fill: #333333; }
+    .node { fill: #ffffff; stroke: url(#border); stroke-width: 1; filter: url(#shadow); }
+    .detail { font-size: 14px; fill: #56616b; }
+    .code { font-family: "Courier New", monospace; font-size: 13px; }
+    .edge { fill: none; stroke: #0b0b0b; stroke-width: 1; marker-end: url(#arrow); }
+    .exchange { marker-start: url(#arrow); }
+  </style>
+  <g text-anchor="middle">
+    <rect class="node" x="12" y="24" width="104" height="80"/>
+    <text x="64" y="58">Task</text>
+    <text class="detail" x="64" y="82">input context</text>
+
+    <rect class="node" x="146" y="24" width="150" height="80"/>
+    <text x="221" y="50">Discover</text>
+    <text class="detail" x="221" y="73">your app · SDK</text>
+    <text class="detail" x="221" y="94">FAQs + previews</text>
+
+    <rect class="node" x="326" y="24" width="164" height="80"/>
+    <text x="408" y="50">Agent turn</text>
+    <text class="detail" x="408" y="73">model · MCP tools</text>
+    <text class="detail" x="408" y="94">loads skills</text>
+
+    <rect class="node" x="520" y="36" width="108" height="56" rx="16"/>
+    <text x="574" y="59">Reply</text>
+    <text class="detail" x="574" y="79">agent response</text>
+
+    <rect class="node" x="164" y="184" width="336" height="52"/>
+    <text x="332" y="206">Playbook</text>
+    <text class="detail" x="332" y="226">published entries only</text>
+  </g>
+
+  <path class="edge" d="M116 64 H144"/>
+  <path class="edge" d="M296 64 H324"/>
+  <path class="edge" d="M490 64 H518"/>
+  <path class="edge exchange" d="M221 106 V182"/>
+  <text class="code" x="233" y="148">discover_entries</text>
+  <path class="edge exchange" d="M408 106 V182"/>
+  <text class="code" x="420" y="138">load_skill</text>
+  <text class="code" x="420" y="160">fetch_resource</text>
+</svg>
