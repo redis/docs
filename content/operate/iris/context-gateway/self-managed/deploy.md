@@ -30,13 +30,13 @@ kubectl create namespace <namespace-name>
 
 ### Configure the Identity Service release first
 
-For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
+These values apply to a standalone Identity Service release. The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md) sets them for you, and fails the render if a value you set differs from the one it derives. See [What the chart sets for you](/content/operate/iris/identity-service/self-managed/deploy.md#what-the-chart-sets-for-you).
 
 Set these values on the Identity Service release so that it checks Gateway grants and accepts the Data Plane's runtime token:
 
 | Identity Service value | Setting |
 | --- | --- |
-| `runtime.serviceCredentials[]` | A credential for the Data Plane, `name: context-gateway-dp` and `subject: context-gateway-dataplane`, with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. |
+| `runtime.serviceCredentials[]` | A credential for the Data Plane, `name: context-gateway-dp` and `subject: context-gateway-dataplane`, with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. The `redis-iris` suite sets this credential and fails the render if you set it. |
 | `productValidation.products.context-gateway.baseURL` | The Control Plane Service, for example `http://gateway-redis-context-gateway-controlplane:9100`. |
 | `productValidation.products.context-gateway.credential` | The same Secret as `controlplane.internalToken`. |
 | `productValidation.products.context-gateway.enabled` | `true` |

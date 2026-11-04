@@ -57,7 +57,7 @@ A data plane caches each key check. After you revoke a key, it can keep working 
 
 ### Subject grants
 
-The control API also has routes for subject grants, `/v1/subject-grants`. In a `redis-iris` installation, no data plane reads subject grants, so they have no effect. IdP users get access from their roles in each service, and agents use agent keys.
+The control API also has routes for subject grants, `/v1/subject-grants`. They have no effect in a `redis-iris` installation. By default the chart allows no subject-grant shape, so the Identity Service refuses new subject grants. The chart also gives no data plane the `subject-grant-lookup` operation, so no data plane reads them. IdP users get access from their roles in each service, and agents use agent keys.
 
 ## Tenants
 

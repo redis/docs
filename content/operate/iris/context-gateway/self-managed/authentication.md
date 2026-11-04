@@ -20,7 +20,7 @@ hideListLinks: true
 | Data Plane runtime token | Data Plane → Identity Service | The Secret in `dataplane.runtimeToken` / `token` | No | Checking agent keys for `context-gateway` |
 | Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release. By default the Identity Service chart generates it (`control.autoGenerate: true`), so read it from the Secret the chart generates | Yes, by default | Creating, listing, rotating, and revoking agent keys |
 | Agent key | Agent → Data Plane (`:8083`) | None. Returned once when minted or rotated | No | Listing and calling tools on the Gateways its grants name |
-| Identity provider access token | Agent → Data Plane (`:8083`) | None. Issued by your identity provider | No | Every Gateway in the tenant, with the `gateway_user` role |
+| Identity provider access token | Agent → Data Plane (`:8083`) | None. Issued by your identity provider | No | With the `gateway_user` role, every Gateway in the tenant. Without it, none |
 
 The admin, internal, and runtime tokens must be distinct. An agent key gets `401` from the Control Plane. No credential that an agent presents is sent to an Upstream.
 
@@ -88,7 +88,7 @@ MCP clients then need to sign in again to receive tokens for the new audience.
 
 Map an IdP group to the `gateway_user` role in `role_mappings`. The role grants `use` on every Gateway in the tenant.
 
-Signed-in users can't be limited to selected Gateways: Identity Service [subject grants](/content/operate/iris/identity-service/self-managed/authentication.md#subject-grants) have no effect in a `redis-iris` installation. To give an agent access to selected Gateways only, give it an agent key with a grant for each one.
+In a `redis-iris` installation the Data Plane can't read Identity Service [subject grants](/content/operate/iris/identity-service/self-managed/authentication.md#subject-grants), so they have no effect. Signed-in users can't be limited to selected Gateways, and a signed-in user without `gateway_user` can't use any Gateway. To give an agent access to selected Gateways only, give it an agent key with a grant for each one.
 
 <!-- TODO: Add the tested settings for Okta, Microsoft Entra ID, Auth0, and Keycloak. -->
 
