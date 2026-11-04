@@ -49,11 +49,9 @@ Use Node.js 22 or later. Create a project and install the TypeScript SDK and run
 mkdir gateway-quickstart
 cd gateway-quickstart
 npm init -y
-npm install @redis-iris/context-gateway@beta
+npm install @redis-iris/context-gateway
 npm install --save-dev tsx
 ```
-
-Use the `beta` release channel for these examples. The default `latest` tag currently selects an older alpha release.
 
 -tab-sep-
 
