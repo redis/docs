@@ -153,13 +153,32 @@ Use admin token mode for evaluation, or as the break-glass path when your IdP is
 
 ## 4. Run the preflight
 
-The chart includes a preflight that checks the Kubernetes version, baseline sizing, the Metrics API, the console's IngressClass, and that the workload identity issuer is reachable. Run it with the [`kubectl preflight`](https://troubleshoot.sh/docs/#installation) plugin, v0.124.0 or later:
+The chart includes a preflight that checks the cluster before an install. It reads no Secret value, prints none, and creates no permissions.
+
+| Check | Result |
+| --- | --- |
+| Kubernetes version | Fails below 1.28. |
+| Baseline sizing: 3 worker nodes, with 12 vCPU and 24 GiB allocatable in total | Warns below each figure. Control-plane nodes don't count. |
+| Metrics API | Warns when it's missing, because the HorizontalPodAutoscalers can't scale. |
+| Ingress class, with `ui.ingress.enabled` | Fails when no IngressClass named `global.iris.ingress.className` exists. |
+| Credential keys, with `global.iris.secrets.generate: false` | Fails for each enabled service whose `<service>-dp` or `<service>` key is missing or empty in the supplied Secrets. |
+| Workload identity, for Agent Memory, and for Agent Playbooks with extraction | Fails when `global.iris.workloadIdentity.issuer` isn't the cluster's ServiceAccount issuer, or when its JSON Web Key Set (JWKS) isn't reachable without a credential. |
+
+Run it with the [`kubectl preflight`](https://troubleshoot.sh/docs/#installation) plugin, v0.124.0 or later. Older versions only warn on the ingress class check. The namespace must exist:
 
 ```bash
 helm template iris redis-ai/redis-iris --version 1.0.0 -n <namespace-name> -f iris-values.yaml \
   --show-only templates/preflight.yaml \
   | yq '.stringData["preflight.yaml"]' | kubectl preflight -
 ```
+
+After the install, run it again from the Secret the chart creates:
+
+```bash
+kubectl preflight secret/<namespace-name>/iris-preflight
+```
+
+On Amazon EKS, set both `global.iris.workloadIdentity` fields from the cluster's OIDC issuer: `issuer` from `aws eks describe-cluster --query cluster.identity.oidc.issuer`, and `jwksURI` as `<issuer>/keys`.
 
 On clusters that refuse anonymous access to the ServiceAccount issuer, such as kubeadm clusters, the workload identity check fails and prints the binding to create. The chart creates no cluster-scoped permissions:
 
@@ -207,17 +226,27 @@ By default, the chart generates every shared credential once, as Secrets it keep
 kubectl -n <namespace-name> get secret iris-memory-admin-token -o jsonpath='{.data.token}' | base64 -d
 ```
 
-To rotate a credential, change its Secret in place. A rollback never restores an old value. To start over after `helm uninstall`, delete the Secrets yourself:
-
-```bash
-kubectl -n <namespace-name> delete secret -l app.kubernetes.io/component=credentials,app.kubernetes.io/name=redis-iris
-```
+To rotate a credential, change its Secret in place. A rollback never restores an old value. `helm uninstall` keeps these Secrets, so a reinstall reuses them. To start over, delete them as described in [Uninstall](/content/operate/iris/self-managed/operations.md#uninstall).
 
 To supply your own credentials, for example for an offline render with Argo CD or Flux, set `global.iris.renderMode: gitops` and `global.iris.secrets.generate: false`. Then name two Secrets: `global.iris.secrets.dataplaneServiceCredentials.existingSecret`, with a `<service>-dp` key for each installed service, and `global.iris.secrets.controlplaneInternalTokens.existingSecret`, with a `<service>` key for each.
 
 ## Availability
 
-The chart runs two replicas of the Identity Service, the console, and every data plane, and one of each control plane. Data planes roll one surge pod at a time and remove an old pod only when the new one is ready, so leave room for one extra pod. Every Deployment with more than one replica gets a PodDisruptionBudget with `maxUnavailable: 1`. The rollout strategy and the PodDisruptionBudgets are fixed. Replica counts are yours to size.
+Rolling upgrades and node drains keep every data plane serving.
+
+| Setting | Value | Can you change it? |
+| --- | --- | --- |
+| Data-plane rollout | `RollingUpdate`, with `maxUnavailable: 0` and `maxSurge: 1`, also under a HorizontalPodAutoscaler | No. Another strategy fails the render and names the field. |
+| PodDisruptionBudgets | `maxUnavailable: 1`, for each Deployment that keeps more than one pod | No. |
+| Replicas | Two for the Identity Service, the console gateway and sign-in service, and the Agent Playbooks, Lens, Context Gateway, and Intent Router data planes. The Agent Memory server and worker autoscale from 2 to 10 and from 2 to 5. One for each control plane and for the Agent Playbooks and Lens workers. | Yes. Size them for your load. |
+
+A rollout starts one new pod, and removes an old one only when the new one is ready, so leave room for one extra pod in your requests and quota. Without that room, the rollout waits, with every old pod still serving. A stopping pod keeps accepting requests for 5 seconds after it receives `SIGTERM`, while it leaves its Services' endpoints. It then finishes the requests in flight within the rest of its 30-second grace period.
+
+A Deployment with one replica gets no PodDisruptionBudget, so a node drain evicts its pod. Scale it to two to keep it serving through drains.
+
+## Operate the suite
+
+To upgrade, roll back, rotate the metadata Redis credential, restore a lost namespace, remove a service, or uninstall, see [Operate the Redis Iris suite](/content/operate/iris/self-managed/operations.md).
 
 ## Move from a preview or standalone install
 
