@@ -22,7 +22,12 @@ When single sign-on is activated, users can sign in to the Redis Software Cluste
 
 Before users can sign in to the Cluster Manager UI with SSO, the identity provider admin needs to set up these users on the IdP side with matching email addresses.
 
-With just-in-time (JIT) user provisioning, Redis Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control](/content/operate/rs/security/access-control/_index.md) during account creation.
+With just-in-time (JIT) user provisioning, Redis Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control](/content/operate/rs/security/access-control/_index.md).
+
+As of Redis Software version 8.2.6, Redis Software checks `redisRoleMapping` each time a JIT-provisioned user signs in and replaces the user's roles with the mapped roles. Role changes you make in the identity provider take effect at the user's next sign-in, and roles you assign to these users in Redis Software are replaced. If the attribute is missing or contains no valid role UIDs, the sign-in fails and the user's roles are removed. Users who existed in Redis Software before you set up SSO keep their existing roles.
+
+> [!NOTE]
+> Redis Software removes a JIT-provisioned user's roles even if that user is the cluster's only admin. Keep at least one admin user that you created in Redis Software instead of through JIT provisioning, so you can still manage the cluster if the identity provider's role mapping changes.
 
 ### IdP-initiated SSO
 
@@ -216,7 +221,7 @@ Set up a SAML app to integrate Redis Software with your identity provider:
     | firstName | User's first name |
     | lastName | User's last name |
     | email | User's email address (used as the username in the Redis Software Cluster Manager UI and must contain ASCII characters only.) |
-    | redisRoleMapping | String array that includes the role UID for role-based access control in Redis Software. Only used for just-in-time (JIT) user provisioning. If a user already exists in Redis Software, this attribute is ignored and their existing roles are preserved. |
+    | redisRoleMapping | String array that includes the role UIDs for role-based access control in Redis Software. Redis Software assigns these roles when it creates a user with just-in-time (JIT) provisioning and reassigns them each time that user signs in. Values that don't match a role UID in the cluster are ignored. For users who existed in Redis Software before you set up SSO, this attribute is ignored and their existing roles are preserved. |
 
     > [!NOTE]
     > To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
@@ -339,7 +344,7 @@ After single sign-on is activated for Redis Software, you can create new Redis S
 
 1. In the identity provider's admin console, create a new user profile with a valid email address that contains ASCII characters only. See your identity provider's documentation for detailed instructions.
 
-1. Configure the `redisRoleMapping` and assign a Redis Software role UID to the user.
+1. Configure the `redisRoleMapping` and assign a Redis Software role UID to the user. Keep this attribute configured after the user's first sign-in, because Redis Software checks it each time the user signs in.
 
     > [!NOTE]
     > To see a list of available role UIDs in your cluster, use a REST API request to [get all roles](/content/operate/rs/references/rest-api/requests/roles/_index.md#get-all-roles):
