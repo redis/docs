@@ -118,7 +118,7 @@ assert str(citiesResult) == (
 # STEP_START query3
 req = aggregations.AggregateRequest("*").group_by(
     '@city', reducers.count().alias('count')
-).sort_by(aggregations.Asc('@city'))
+)
 
 aggResult = r.ft("idx:users").aggregate(req).rows
 print(aggResult)
