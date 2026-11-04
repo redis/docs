@@ -8,14 +8,32 @@
   Usage, on a page in errors/common:
       {{< error-clients >}}
 
-  layouts/partials/markdown-error-clients.html renders the same table for the
-  Markdown output, through the same layouts/partials/errors/client-rows.html.
+  With generic="true" it lists the class that each client raises for an error
+  that it has no class of its own for, and works on any page:
+      {{< error-clients generic="true" >}}
+
+  layouts/partials/markdown-error-clients.html renders the same tables for the
+  Markdown output. The per-page rows come from layouts/partials/errors/client-rows.html.
 */ -}}
-{{- $rows := partial "errors/client-rows.html" .Page.File.TranslationBaseName -}}
+{{- $generic := eq (.Get "generic") "true" -}}
 {{- $v := substr (md5 (os.ReadFile "static/css/errors.css")) 0 10 }}
 <link rel="stylesheet" href="{{ "css/errors.css" | relURL }}?v={{ $v }}">
 <div class="rerr-catalog">
 <table>
+{{- if $generic }}
+  {{- $data := index site.Data "client-exceptions" }}
+  <thead><tr><th>Client library</th><th>Exception or error type</th></tr></thead>
+  <tbody>
+  {{- range $id := $data.order }}
+    {{- $client := index $data.clients $id }}
+    <tr>
+      <td>{{ $client.name }}</td>
+      <td><code>{{ $client.generic }}</code>{{ with $client.note }}<br>{{ . | markdownify }}{{ end }}</td>
+    </tr>
+  {{- end }}
+  </tbody>
+{{- else }}
+  {{- $rows := partial "errors/client-rows.html" .Page.File.TranslationBaseName }}
   <thead><tr><th>Client library</th><th>Exception or error type</th><th>Message</th></tr></thead>
   <tbody>
   {{- range $rows }}
@@ -27,5 +45,6 @@
     </tr>
   {{- end }}
   </tbody>
+{{- end }}
 </table>
 </div>
