@@ -61,7 +61,7 @@ Create these Secrets in the release namespace. Each service guide lists that ser
 | Secret | Key | Holds |
 | --- | --- | --- |
 | `iris-license` | `license.key` | The suite license. |
-| `ids-metadata` | `metadata.yaml` | The Identity Service metadata Redis connection. See [Create the metadata Secret](/content/operate/iris/identity-service/deploy.md#2-create-the-metadata-secret). |
+| `ids-metadata` | `metadata.yaml` | The Identity Service metadata Redis connection. See [Create the metadata Secret](/content/operate/iris/identity-service/self-managed/deploy.md#2-create-the-metadata-secret). |
 | `cluster-ca` | `ca.crt` | The certificate authority (CA) bundle every component trusts: the cluster CA from the `kube-root-ca.crt` ConfigMap, plus any private CA your Redis or IdP uses. |
 | `iris-ui-oidc` | `client-secret` | The console's client secret at your IdP. Register the redirect URI `<public-url>/auth/callback`. |
 | `ui-session-redis` | `urls` | The Redis URL for console sessions. |

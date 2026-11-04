@@ -89,7 +89,7 @@ MCP clients then need to sign in again to receive tokens for the new audience.
 Grant signed-in users access in either way:
 
 - Map an IdP group to the `gateway_user` role. The role grants `use` on every Gateway in the tenant.
-- Assign Identity Service subject grants to individual users for selected Gateways, with `POST /v1/subject-grants/apply` on the Identity Service. See [subject grants](/content/operate/iris/identity-service/authentication.md#subject-grants) for the request. A subject grant names the IdP's issuer, the user's `user_id_claim` value, and the same product, resource type, Gateway ID, and `use` action as an agent-key grant.
+- Assign Identity Service subject grants to individual users for selected Gateways, with `POST /v1/subject-grants/apply` on the Identity Service. See [subject grants](/content/operate/iris/identity-service/self-managed/authentication.md#subject-grants) for the request. A subject grant names the IdP's issuer, the user's `user_id_claim` value, and the same product, resource type, Gateway ID, and `use` action as an agent-key grant.
 
 A specific subject grant cannot narrow the all-Gateway role, and removing a subject grant does not remove access that a role gives. To restrict a user to selected Gateways, don't map them to `gateway_user`.
 
