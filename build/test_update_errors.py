@@ -277,8 +277,26 @@ class TestClientChecks(unittest.TestCase):
         self.assertEqual(live_clients.changed(old, same, 'jedis'), [])
         self.assertEqual([p for p, _ in live_clients.changed(old, diff, 'jedis')], ['moved'])
 
+    def test_changed_reports_a_page_that_a_run_lost_or_gained(self):
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'errors', 'bridges'))
+        import live_clients
+        page = {'raw': ['-MOVED 1 h:6570'], 'jedis': ['E: MOVED 1 h:6570']}
+        old = {'_meta': {}, 'moved': page}
+        self.assertIn('no replies this time', live_clients.changed(old, {'_meta': {}}, 'jedis')[0][1])
+        self.assertIn('no baseline yet', live_clients.changed({'_meta': {}}, old, 'jedis')[0][1])
+
     def test_the_committed_client_data_matches_the_baselines(self):
         self.assertEqual(u.check_clients(), [])
+
+    def test_a_wrong_redis_py_class_is_a_problem(self):
+        real = json.loads((u.ROOT / 'data' / 'client-exceptions.json').read_text())
+        real['errors']['readonly']['redis-py']['class'] = 'ReadOnlyException'
+        read_text = u.Path.read_text
+        with patch.object(u.Path, 'read_text', autospec=True,
+                          side_effect=lambda p, *a, **k: json.dumps(real) if p.name == 'client-exceptions.json'
+                          else read_text(p, *a, **k)):
+            problems = u.check_clients()
+        self.assertTrue(any('readonly/redis-py says ReadOnlyException' in p for p in problems), problems)
 
 
 if __name__ == '__main__':

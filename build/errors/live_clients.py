@@ -105,7 +105,12 @@ def changed(baseline, results, key):
     """The pages whose server reply or whose client's reply differs: [(page, what changed)]."""
     out = []
     for page in sorted((set(baseline) | set(results)) - {'_meta', '_failures'}):
-        if page not in baseline or page not in results: continue
+        if page not in results:
+            out.append((page, 'no replies this time, so --accept would drop it from the baseline'))
+            continue
+        if page not in baseline:
+            out.append((page, 'no baseline yet. Check it by hand'))
+            continue
         for kind in ('raw', key):
             a, b = baseline[page].get(kind, []), results[page].get(kind, [])
             if lc._same(a) != lc._same(b):

@@ -707,10 +707,13 @@ def check_clients():
             problems.append(f'client-exceptions.json: {page} has an entry for {client}, which isn\'t in "order"')
 
     # The names must be the ones that the last live run of each client recorded.
+    # redis-py is recorded by `verify`, in live_baseline.json, and the others by live_clients.py.
+    sources = {'redis_py': ('redis-py', Path(__file__).parent / 'live_baseline.json')}
     for bridge, client in CLIENT_BASELINES.items():
-        baseline_path = Path(__file__).parent / 'client_baselines' / f'{bridge}.json'
+        sources[bridge] = (client, Path(__file__).parent / 'client_baselines' / f'{bridge}.json')
+    for bridge, (client, baseline_path) in sources.items():
         if not baseline_path.exists():
-            problems.append(f'client_baselines/{bridge}.json is missing, so {client} wasn\'t checked live')
+            problems.append(f'{baseline_path.name} is missing, so {client} wasn\'t checked live')
             continue
         baseline = json.loads(baseline_path.read_text())
         for page, row in data['errors'].items():
