@@ -87,7 +87,7 @@ Eligible Context Surface filter and text queries can capture continuation pages.
 
 Ordinary automatic capture can return the original inline result when it cannot store a handle. An explicit `run_tool_as_handle` request instead returns a tool error. Release unused handles or narrow the query before requesting another one. Check `completion` first: an explicit capture failure marked `dispatched` means the tool already ran, so retrying a mutating tool can repeat its effect.
 
-The released CLI `redis-iris==1.0.0b2` accepts either `--jsonpath` or `--group-by` for its count command, but not both. Use a direct MCP call for combined selection and grouping.
+The `iris` CLI accepts either `--jsonpath` or `--group-by` for its count command, but not both. Use a direct MCP call for combined selection and grouping.
 
 ## Metadata keys
 

@@ -39,7 +39,7 @@ Follow one tab throughout the page. The Python SDK and command-line interface (C
     ```bash
     python -m venv .venv
     source .venv/bin/activate
-    python -m pip install 'redis-iris==1.0.0b2'
+    python -m pip install 'redis-iris>=1.0.0'
     ```
 
 1. Open the Redis Agent Memory service in the Redis Cloud console. On the **Configuration** tab, copy the **Store ID** and the URL from the **URL List**. Save them with your API key in `.env`. Use the endpoint's base address, including `https://`, without the `/iris/data/v1/agent-memory/...` path.
