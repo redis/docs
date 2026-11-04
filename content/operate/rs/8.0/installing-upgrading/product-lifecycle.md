@@ -135,4 +135,16 @@ To stay on one database version in production for a long time, use an LTS versio
 | Redis 7.2 | LTS | December 1, 2029 |
 | Redis 6.2 | LTS | April 1, 2027 |
 
+The following timeline chart shows the general availability (GA) release date and end-of-life date for each Redis database version:
+
+```timeline {title="Redis database version lifecycle"}
+8.6: Feb 2026 - TBD
+8.4: Nov 2025 - Jan 1, 2027
+8.2: Aug 2025 - Sep 1, 2030
+8.0: May 2025 - Dec 1, 2026
+7.4: Jul 2024 - Dec 1, 2029
+7.2: Aug 2023 - Dec 1, 2029
+6.2: Feb 2021 - Apr 1, 2027
+```
+
 To upgrade a database, see [Upgrade a Redis Software database](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-database.md) or [Upgrade an Active-Active database](/content/operate/rs/8.0/installing-upgrading/upgrading/upgrade-active-active.md).
