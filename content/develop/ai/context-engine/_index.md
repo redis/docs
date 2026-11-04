@@ -6,8 +6,8 @@ categories:
 - ai
 description: Redis Iris is a suite of managed and self-managed services that give your customers accurate, consistent experiences with your AI agents by providing memories, approved answers, governed access to business data, and turn-by-turn tracing.
 hideListLinks: true
-linktitle: Redis Iris context engine
-title: Redis Iris context engine
+linktitle: Redis Iris
+title: Redis Iris
 weight: 30
 ---
 
