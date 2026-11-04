@@ -57,13 +57,13 @@ The `RedisSemanticCache` class wraps the Redis Search index and the lookup / wri
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-jedis/src/main/java/com/redis/semcache/RedisSemanticCache.java)):
 
 ```java
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import com.redis.semcache.RedisSemanticCache;
 import com.redis.semcache.LocalEmbedder;
 import com.redis.semcache.LookupResult;
 import com.redis.semcache.CacheHit;
 
-JedisPooled jedis = new JedisPooled("localhost", 6379);
+RedisClient jedis = RedisClient.create("localhost", 6379);
 LocalEmbedder embedder = LocalEmbedder.create();   // sentence-transformers/all-MiniLM-L6-v2
 
 RedisSemanticCache cache = new RedisSemanticCache(

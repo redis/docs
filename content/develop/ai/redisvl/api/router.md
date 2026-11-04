@@ -78,6 +78,63 @@ Add a reference(s) to an existing route.
 * **Return type:**
   List[str]
 
+#### `async adisconnect()`
+
+Close the async Redis connection opened by the async routing methods.
+
+* **Return type:**
+  None
+
+#### `async aroute(statement=None, vector=None, *, aggregation_method=None)`
+
+Async version of calling the router: match a statement or vector to
+its best route without blocking the event loop.
+
+Embedding uses the vectorizer’s `aembed` and the lookup runs on an
+[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}}) over the same Redis index, so
+it returns the same match as `router(statement)`.
+
+Pass `redis_url` rather than a client to the router if you need
+async routing over SSL, a unix socket, Sentinel or Redis Cluster: those
+clients cannot be converted to their async form. With a vectorizer that
+has no native `aembed`, such as the default `HFTextVectorizer`,
+embedding still blocks the loop; only the Redis call is non-blocking.
+The async client is bound to the event loop that made the first call,
+so call [adisconnect](#adisconnect) before switching loops.
+
+* **Parameters:**
+  * **statement** (*Optional* *[* *str* *]*) – The input statement to be queried.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – The input vector to be queried.
+  * **aggregation_method** (*Optional* *[*[DistanceAggregationMethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
+* **Returns:**
+  The matching route.
+* **Return type:**
+  [RouteMatch](#routematch)
+
+```python
+match = await router.aroute("hi there")
+```
+
+#### `async aroute_many(statement=None, vector=None, *, max_k=None, aggregation_method=None)`
+
+Async version of [route_many](#route_many): return up to `max_k` matching
+routes without blocking the event loop. See [aroute](#aroute) for the
+connection and vectorizer caveats.
+
+* **Parameters:**
+  * **statement** (*Optional* *[* *str* *]*) – The input statement to be queried.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – The input vector to be queried.
+  * **max_k** (*Optional* *[* *int* *]*) – The maximum number of top matches to return.
+  * **aggregation_method** (*Optional* *[*[DistanceAggregationMethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
+* **Returns:**
+  The matching routes and their details.
+* **Return type:**
+  List[[RouteMatch](#routematch)]
+
+```python
+matches = await router.aroute_many("hi there", max_k=2)
+```
+
 #### `clear()`
 
 Delete every route reference, leaving the index in place.
@@ -119,6 +176,26 @@ Get references for an existing semantic router route.
   Number of objects deleted
 * **Return type:**
   int
+* **Raises:**
+  * **ValueError** – If no references match the given route/ids/keys.
+  * [**PartialDeletionError**]({{< relref "exceptions/#partialdeletionerror" >}}) – If some keys could not be unlinked. Raised only
+        after the surviving references have been reconciled and persisted,
+        so a retry picks up exactly what is left.
+
+> [!NOTE]
+> Deleting every reference of a route removes the route itself, matching
+> [remove_route](#remove_route). A route with no references cannot match anything,
+> and [Route](#route) rejects an empty
+> reference list, so persisting one would produce a config that
+> [from_existing](#from_existing) can no longer load.
+
+> [!NOTE]
+> On Redis Cluster keys are unlinked one at a time and a per-key failure
+> is logged rather than raised. References whose key failed to unlink are
+> deliberately *kept* in the persisted route config: the hash is still in
+> the index and the router would keep matching it, so dropping it from
+> the config would leave the router claiming a reference is gone while
+> still routing to it.
 
 #### `classmethod from_dict(data, **kwargs)`
 
@@ -228,6 +305,12 @@ reads.
 
 * **Parameters:**
   **route_name** (*str*) – Name of the route to remove.
+* **Raises:**
+  [**PartialDeletionError**]({{< relref "exceptions/#partialdeletionerror" >}}) – If some of the route’s reference keys could not
+      be unlinked. The route is then kept with exactly those references
+      and the config persisted before raising, so the router keeps
+      describing what the index can still match and a retry removes the
+      remainder.
 * **Return type:**
   None
 
@@ -296,6 +379,16 @@ Update the routing configuration.
 
 * **Parameters:**
   **routing_config** ([RoutingConfig](#routingconfig)) – The new routing configuration.
+
+#### `property aindex: `[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}})`  | None`
+
+The AsyncSearchIndex used by the async routing methods, once created.
+
+* **Returns:**
+  The async search index, or None before the first
+  async call.
+* **Return type:**
+  [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
 
 #### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
@@ -381,7 +474,7 @@ self is explicitly positional-only to allow self as a field name.
 
 #### `distance_threshold: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=2)])]`
 
-Distance threshold for matching the route.
+Maximum distance for matching the route, inclusive.
 
 #### `metadata: dict[str, Any]`
 

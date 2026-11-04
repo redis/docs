@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import redis.clients.jedis.AbstractPipeline;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.search.Document;
@@ -72,18 +72,18 @@ public class Recommender {
     public static final String DEFAULT_KEY_PREFIX = "product:";
     public static final String DEFAULT_USER_KEY_PREFIX = "user:";
 
-    private final JedisPooled client;
+    private final RedisClient client;
     private final String indexName;
     private final String keyPrefix;
     private final String userKeyPrefix;
     private final int vectorDim;
 
-    public Recommender(JedisPooled client) {
+    public Recommender(RedisClient client) {
         this(client, DEFAULT_INDEX_NAME, DEFAULT_KEY_PREFIX,
                 DEFAULT_USER_KEY_PREFIX, VECTOR_DIM_DEFAULT);
     }
 
-    public Recommender(JedisPooled client, String indexName, String keyPrefix,
+    public Recommender(RedisClient client, String indexName, String keyPrefix,
                        String userKeyPrefix, int vectorDim) {
         if (client == null) {
             throw new IllegalArgumentException("client is required");

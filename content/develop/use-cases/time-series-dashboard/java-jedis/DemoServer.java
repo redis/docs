@@ -14,9 +14,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.exceptions.JedisDataException;
 
 /**
@@ -37,12 +36,9 @@ public final class DemoServer {
     public static void main(String[] args) throws Exception {
         Arguments parsed = Arguments.parse(args);
 
-        JedisPool jedisPool = new JedisPool(
-                new HostAndPort(parsed.redisHost(), parsed.redisPort()),
-                DefaultJedisClientConfig.builder().build()
-        );
+        RedisClient jedis = RedisClient.create(new HostAndPort(parsed.redisHost(), parsed.redisPort()));
 
-        RedisTimeSeriesStore store = new RedisTimeSeriesStore(jedisPool, SensorSimulator.SENSORS);
+        RedisTimeSeriesStore store = new RedisTimeSeriesStore(jedis, SensorSimulator.SENSORS);
         try {
             store.ensureSchema();
         } catch (JedisDataException exception) {
@@ -88,7 +84,7 @@ public final class DemoServer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             ingestExecutor.shutdownNow();
             server.stop(0);
-            jedisPool.close();
+            jedis.close();
         }));
 
         System.out.println("Dashboard running at http://localhost:" + parsed.port());

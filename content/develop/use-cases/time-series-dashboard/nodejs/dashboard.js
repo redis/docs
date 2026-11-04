@@ -501,7 +501,7 @@ async function main() {
   const shutdown = async () => {
     clearInterval(intervalId);
     server.close(async () => {
-      await redisClient.disconnect();
+      await redisClient.destroy();
       process.exit(0);
     });
   };

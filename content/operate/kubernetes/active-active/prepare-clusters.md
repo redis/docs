@@ -21,9 +21,11 @@ Before you prepare your clusters to participate in an Active-Active database, ma
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
-3. Configure the REC [`ingressOrRoutes` field](/content/operate/kubernetes/networking/ingressorroutespec.md) and [create DNS records](/content/operate/kubernetes/networking/ingressorroutespec.md#configure-dns/).
+3. Configure the REC [`ingressOrRouteSpec` field](/content/operate/kubernetes/networking/ingressorroutespec.md) and [create DNS records](/content/operate/kubernetes/networking/ingressorroutespec.md#configure-dns/).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
    * Database hostname suffix (`.db-<rec-name>-<rec-namespace>.<subdomain>`)
+
+   To use the Kubernetes Gateway API instead, see [Expose Active-Active databases](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases). Gateway API routing also requires `replicationPort` in each RedisEnterpriseRemoteCluster (RERC).
 
 Next you'll [collect credentials](#collect-rec-credentials) for your participating clusters and create secrets for the RedisEnterprsieRemoteCluster (RERC) to use.
 

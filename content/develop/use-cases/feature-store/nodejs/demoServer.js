@@ -815,7 +815,7 @@ async function main() {
     console.log(`\nReceived ${signal}, shutting down...`);
     await worker.stop();
     server.close();
-    await client.quit();
+    await client.close();
     process.exit(0);
   };
   process.on("SIGINT", () => shutdown("SIGINT"));

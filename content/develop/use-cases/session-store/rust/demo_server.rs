@@ -15,7 +15,7 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use redis::{aio::Connection, Client};
+use redis::{aio::MultiplexedConnection, Client};
 use serde::Serialize;
 use session_store::RedisSessionStore;
 use std::{collections::HashMap, env, sync::Arc};
@@ -23,7 +23,7 @@ use tokio::sync::Mutex;
 
 #[derive(Clone)]
 struct AppState {
-    redis_connection: Arc<Mutex<Connection>>,
+    redis_connection: Arc<Mutex<MultiplexedConnection>>,
     store: RedisSessionStore,
 }
 
@@ -55,7 +55,7 @@ async fn main() {
         std::process::exit(1);
     });
 
-    let connection = client.get_async_connection().await.unwrap_or_else(|e| {
+    let connection = client.get_multiplexed_async_connection().await.unwrap_or_else(|e| {
         eprintln!("Failed to connect to Redis at {}: {}", redis_url, e);
         std::process::exit(1);
     });

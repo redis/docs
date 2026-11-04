@@ -254,13 +254,26 @@ curl -O $BASE/RedisPubSubHub.java
 curl -O $BASE/DemoServer.java
 ```
 
-You also need a `lib/` directory containing the Lettuce client and its runtime dependencies — at minimum:
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
 
-* `lettuce-core-6.x.jar`
-* `netty-buffer-4.1.x.jar`, `netty-codec-4.1.x.jar`, `netty-common-4.1.x.jar`, `netty-handler-4.1.x.jar`, `netty-resolver-4.1.x.jar`, `netty-transport-4.1.x.jar`, `netty-transport-native-unix-common-4.1.x.jar`
-* `reactor-core-3.x.jar`, `reactive-streams-1.0.x.jar`
-
-The simplest way to collect them is with Maven. Create a minimal `pom.xml` declaring `io.lettuce:lettuce-core` as the only dependency, then run `mvn dependency:copy-dependencies -DoutputDirectory=lib`.
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
 
 ### Start the demo server
 

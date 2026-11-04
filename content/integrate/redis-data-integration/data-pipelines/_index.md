@@ -96,7 +96,9 @@ Follow the steps described in the sections below to prepare and run an RDI pipel
 
 The following example uses a single-source pipeline. See
 [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)
-for details on how to capture multiple sources in one pipeline.
+for details on how to capture multiple sources in one pipeline, and
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md)
+for details on how to run several pipelines side by side.
 
 ### 1. Prepare the source database
 

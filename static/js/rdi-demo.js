@@ -679,7 +679,7 @@
       var cfg = remember(el("details", "rdi-file"), "config");
       cfg.appendChild(el("summary", "", "Show " + code("config.yaml")));
       cfg.appendChild(el("pre", "rcr-code rdi-yaml", '<span class="rdi-yamlbody">' + configYaml(st.structure).split("\n").map(function (l) {
-        return '<span class="rdi-line">' + esc(l) + "</span>"; }).join("") + "</span>"));
+        return '<span class="rdi-line">' + window.DemoHL.yaml(l) + "</span>"; }).join("") + "</span>"));
       files.appendChild(cfg);
       if (st.deployed && ctx.done) {
         var stx = remember(el("details", "rdi-file"), "status");
@@ -820,7 +820,7 @@
         li.appendChild(el("div", "rdi-stephead", '<span class="rdi-stepnum">' + (i + 1) + '</span><span class="rdi-stepstage">' + esc(x.stage) +
           "</span>" + esc(x.title)));
         var body = el("div", "rdi-stepbody");
-        if (x.sql) body.appendChild(el("code", "rdi-stepsql", esc(x.sql)));
+        if (x.sql) body.appendChild(el("code", "rdi-stepsql", window.DemoHL.sql(x.sql)));
         if (x.text) body.appendChild(el("div", "rdi-steptext", x.text));
         if (x.diff.length) body.appendChild(el("div", "rdi-diff", x.diff.map(function (f) {
           return '<div><span class="rcr-mono rdi-dfield">' + esc(f.field) + '</span> <span class="rcr-mono rdi-from">' + esc(f.from) +
@@ -911,7 +911,7 @@
         "through the pipeline into Redis."));
       p.appendChild(pipelineCard(ctx));
       p.appendChild(optionsCard("Run a statement in PostgreSQL", STATEMENTS, function (s) { return st.ran.indexOf(s.key) >= 0; },
-        function (s) { return "<code>" + esc(sqlOf(s)) + "</code>"; }, runStatement));
+        function (s) { return "<code>" + window.DemoHL.sql(sqlOf(s)) + "</code>"; }, runStatement));
       var ran = st.ran.map(function (k) { return byKey(STATEMENTS, k); });
       if (ran.length) p.appendChild(changesCard(ctx, ran, STATEMENTS.length));
       p.appendChild(grid(sourceCard(ctx), redisCard(ctx)));
@@ -961,7 +961,7 @@
         var start = /^transform:/.test(line) ? 1 : /^      key:/.test(line) ? 2 : 0;
         if (start) block = start;
         else if (/^output:/.test(line)) block = 0;
-        html += '<span class="rdi-line' + (block ? " rdi-ann" : "") + '">' + (start ? '<span class="rdi-annmark">' + start + "</span>" : "") + esc(line) + "</span>";
+        html += '<span class="rdi-line' + (block ? " rdi-ann" : "") + '">' + (start ? '<span class="rdi-annmark">' + start + "</span>" : "") + window.DemoHL.yaml(line) + "</span>";
       });
       /* YAML depends on indentation, so lines never wrap: the file scrolls
          sideways instead, and the body spans the widest line so the

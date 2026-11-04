@@ -65,10 +65,10 @@
       },
       {
         "type": "func_main_opening",
-        "pattern": "^func\\s+main\\(\\)\\s*\\{\\s*$",
+        "pattern": "^func\\s+(main|Example\\w*)\\(\\)\\s*\\{\\s*$",
         "end_pattern": "^\\}\\s*$",
         "keep_content": false,
-        "description": "Remove func main() wrapper"
+        "description": "Remove func main() or func ExampleXxx() wrapper"
       },
       {
         "type": "closing_braces",

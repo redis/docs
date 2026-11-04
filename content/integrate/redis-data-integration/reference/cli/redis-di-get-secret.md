@@ -8,9 +8,9 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Gets a single secret of a pipeline and prints it in the compact `list-secrets` table format. The API
-never returns secret values, so the output shows only the key and whether it is set, not the stored
-value.
+Gets a single secret of a pipeline and prints it in the compact `list-secrets` table format. The
+output shows the key, database, type, and configuration reference of the secret, but not its value,
+because the API never returns secret values.
 
 ## Usage
 

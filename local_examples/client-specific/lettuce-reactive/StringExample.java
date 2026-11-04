@@ -24,7 +24,7 @@ public class StringExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
+            RedisReactiveCommands<String, String> reactiveCommands = connection.commands(RedisReactiveCommands.factory());
 
             // STEP_START set_get
             Mono<Void> setAndGet = reactiveCommands.set("bike:1", "Deimos").doOnNext(v -> {
@@ -43,7 +43,8 @@ public class StringExample {
             // STEP_START setnx_xx
             // Recreate the bike:1 key so this example runs on its own.
             Mono<Void> setnx = reactiveCommands.set("bike:1", "Deimos")
-                    .flatMap(setup -> reactiveCommands.setnx("bike:1", "bike")).doOnNext(v -> {
+                    // A failed NX returns an empty Mono, so check for an element.
+                    .flatMap(setup -> reactiveCommands.set("bike:1", "bike", SetArgs.Builder.nx()).hasElement()).doOnNext(v -> {
                         System.out.println(v); // false (because key already exists)
                         // REMOVE_START
                         assertThat(v).isFalse();

@@ -34,6 +34,10 @@ complete each step.
 > [!NOTE]
 > Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Snowflake as a source database.
 
+When you configure a Snowflake source, RDI can test the connection and let you browse
+schemas, tables, and columns before you start replication. Use this discovery to confirm
+that the RDI role can access the objects you want to replicate.
+
 ```checklist {id="snowflakelist"}
 - [ ] [Set up Snowflake permissions](#1-set-up-snowflake-permissions)
 - [ ] [Configure authentication](#2-configure-authentication)
@@ -197,7 +201,6 @@ sources:
       riotx:
         poll: "30s"
         snapshot: "INITIAL"              # Or "NEVER" to skip initial snapshot
-        # streamPrefix: "data:"          # Optional: Redis stream prefix
         # streamLimit: 100000            # Optional: Max stream length
         # keyColumns:                    # Recommended: stable key columns
         #   - "id"
@@ -252,7 +255,6 @@ Configure under `sources.<name>.advanced.riotx`:
 |----------------|---------|-------------|----------------------------------------------|
 | `poll`         | string  | `"30s"`     | Polling interval for stream changes          |
 | `snapshot`     | string  | `"INITIAL"` | Snapshot mode: `INITIAL` or `NEVER`          |
-| `streamPrefix` | string  | `"data:"`   | Prefix for the Redis stream written by RDI   |
 | `streamLimit`  | integer | -           | Maximum stream length (XTRIM MAXLEN)         |
 | `keyColumns`   | array   | -           | Stable source columns to use as message keys |
 | `clearOffset`  | boolean | `false`     | Clear existing offset on start               |

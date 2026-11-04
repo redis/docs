@@ -50,12 +50,12 @@ The `RedisSessionStore` class wraps the basic session operations
 
 ```java
 import java.util.Map;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool jedisPool = new JedisPool("localhost", 6379);
-        RedisSessionStore store = new RedisSessionStore(jedisPool, "session:", 1800);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
+        RedisSessionStore store = new RedisSessionStore(jedis, "session:", 1800);
 
         String sessionId = store.createSession(Map.of(
                 "username", "andrew",
@@ -67,12 +67,12 @@ public class Main {
 
         store.incrementField(sessionId, "page_views", 1);
         store.deleteSession(sessionId);
-        jedisPool.close();
+        jedis.close();
     }
 }
 ```
 
-Jedis operations are synchronous, and `JedisPool` gives you safe connection reuse across requests.
+Jedis operations are synchronous, and `RedisClient` gives you safe connection reuse across requests.
 
 ### Data model
 
@@ -121,8 +121,7 @@ public String createSession(Map<String, String> data, Integer ttl) {
     payload.put("last_accessed_at", now);
     payload.put("session_ttl", String.valueOf(sessionTtl));
 
-    try (Jedis jedis = jedisPool.getResource()) {
-        Pipeline pipeline = jedis.pipelined();
+    try (Pipeline pipeline = jedis.pipelined()) {
         pipeline.hset(key, payload);
         pipeline.expire(key, sessionTtl);
         pipeline.sync();
@@ -138,18 +137,17 @@ When the application reads a session, it refreshes the configured TTL so active 
 public Map<String, String> getSession(String sessionId, boolean refreshTtl) {
     String key = sessionKey(sessionId);
 
-    try (Jedis jedis = jedisPool.getResource()) {
-        Map<String, String> session = jedis.hgetAll(key);
-        if (!isValidSession(session)) {
-            return null;
-        }
+    Map<String, String> session = jedis.hgetAll(key);
+    if (!isValidSession(session)) {
+        return null;
+    }
 
-        if (!refreshTtl) {
-            return session;
-        }
+    if (!refreshTtl) {
+        return session;
+    }
 
-        int sessionTtl = normalizeTtl(Integer.valueOf(session.get("session_ttl")));
-        Pipeline pipeline = jedis.pipelined();
+    int sessionTtl = normalizeTtl(Integer.valueOf(session.get("session_ttl")));
+    try (Pipeline pipeline = jedis.pipelined()) {
         pipeline.hset(key, "last_accessed_at", timestamp());
         pipeline.expire(key, sessionTtl);
         Response<Map<String, String>> refreshed = pipeline.hgetAll(key);
@@ -175,14 +173,14 @@ Before running the demo, make sure that:
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>5.2.0</version>
+      <version>8.0.2</version>
   </dependency>
   ```
 
 * If you use **Gradle**:
 
   ```groovy
-  implementation 'redis.clients:jedis:5.2.0'
+  implementation 'redis.clients:jedis:8.0.2'
   ```
 
 If your Redis server is running elsewhere, start the demo with `--redis-host` and `--redis-port`.
@@ -205,8 +203,10 @@ curl -O $BASE/DemoServer.java
 From that directory:
 
 ```bash
-javac -cp jedis-5.2.0.jar RedisSessionStore.java DemoServer.java
-java -cp .:jedis-5.2.0.jar DemoServer
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    RedisSessionStore.java DemoServer.java
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    DemoServer
 ```
 
 The demo server uses standard Java libraries for HTTP handling:

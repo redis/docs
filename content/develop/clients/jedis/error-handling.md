@@ -133,7 +133,7 @@ for a full description):
 
 ```java
 try (RedisClient jedis = RedisClient.create()) {
-    jedis.setex(key, 3600, value);
+    jedis.set(key, value, SetParams.setParams().ex(3600));
 } catch (JedisConnectionException e) {
     logger.warn("Failed to cache " + key + ", continuing without cache");
     // Application continues normally

@@ -20,6 +20,7 @@ Downloads a support package to the specified path. If you do not specify a path,
 rladmin cluster debug_info
         [ node <ID> ]
         [ path <path> ]
+        [ fqdn ]
 ```
 
 ### Parameters
@@ -28,6 +29,7 @@ rladmin cluster debug_info
 |-----------|------------|-------------|
 | node | integer | Downloads a support package for the specified node |
 | path | filepath | Specifies the location where the support package should download |
+| fqdn | | Includes the cluster's fully qualified domain name (FQDN) in the support package file name, for example `debuginfo.<cluster-fqdn>.<timestamp>.tar.gz` (as of Redis Software version 8.2.6) |
 
 ### Returns
 

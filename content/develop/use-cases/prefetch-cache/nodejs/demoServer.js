@@ -681,7 +681,7 @@ async function main() {
     await sync.stop();
     server.close();
     try {
-      await client.quit();
+      await client.close();
     } catch (_e) {
       // ignore
     }

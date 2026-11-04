@@ -130,7 +130,8 @@ The example configuration contains the following data:
   MongoDB, Oracle, PostgreSQL, or SQL Server. Use `flink` for Google Cloud
   Spanner. Use `riotx` for Snowflake. Use `external` when you provide and manage
   the collector. RDI doesn't create collector resources for an `external` source,
-  so omit the other properties in the source section.
+  so omit the other properties in the source section. RDI still validates the jobs of an
+  `external` source. External sources require the Flink processor.
 - `connection`: The connection details for the source database: `type`, `host`, `port`,
   and credentials (`user` and `password`).
   See the [configuration file reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#sourcesconnection)

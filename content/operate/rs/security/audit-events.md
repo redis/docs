@@ -81,7 +81,8 @@ rladmin cluster config auditing db_conns \
     audit_address <address> \
     audit_port <port> \
     audit_reconnect_interval <interval in seconds> \
-    audit_reconnect_max_attempts <number of attempts>
+    audit_reconnect_max_attempts <number of attempts> \
+    audit_queue_max_bytes <bytes>
 ```
 
 {{< /multitabs >}}
@@ -182,9 +183,18 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
 
 -tab-sep-
 
-To enable command and connection auditing using `rladmin`:
+To enable command and connection auditing and configure filters using `rladmin`:
 
 ```
+rladmin tune db db:<id|name> audit_settings username_filter usernames application-user
+rladmin tune db db:<id|name> audit_settings username_filter filter_type inclusive
+rladmin tune db db:<id|name> audit_settings username_filter allow_while_username_unknown disabled
+rladmin tune db db:<id|name> audit_settings username_filter enabled enabled
+rladmin tune db db:<id|name> audit_settings source_ip_filter ip_addresses ""
+rladmin tune db db:<id|name> audit_settings source_ip_filter cidr_ranges 10.20.0.0/16
+rladmin tune db db:<id|name> audit_settings source_ip_filter filter_type inclusive
+rladmin tune db db:<id|name> audit_settings source_ip_filter enabled enabled
+rladmin tune db db:<id|name> audit_settings max_total_key_bytes 131072
 rladmin tune db db:<id|name> audit_settings audit_mode connection_and_crud
 ```
 

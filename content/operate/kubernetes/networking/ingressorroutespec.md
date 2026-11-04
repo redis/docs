@@ -14,6 +14,8 @@ An Ingress is an API resource that provides a standardized and flexible way to m
 > [!WARNING]
 > The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio.
 
+To use the Kubernetes Gateway API instead, see [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md). It covers [migrating from `ingressOrRouteSpec`](/content/operate/kubernetes/networking/gateway-api.md#migrate-from-ingressorroutespec) without downtime.
+
 ## Install Ingress controller
 
 Redis Enterprise for Kubernetes supports the Ingress controllers below:

@@ -37,7 +37,7 @@ public class HomeJsonExample {
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisAsyncCommands<String, String> asyncCommands = connection.async();
-            RediSearchAsyncCommands<String, String> searchCommands = connection.async();
+            RediSearchAsyncCommands<String> searchCommands = connection.async();
             // ...
             // STEP_END
             // REMOVE_START
@@ -67,11 +67,11 @@ public class HomeJsonExample {
             // STEP_END
 
             // STEP_START make_index
-            List<FieldArgs<String>> schema = Arrays.asList(TextFieldArgs.<String> builder().name("$.name").as("name").build(),
-                    NumericFieldArgs.<String> builder().name("$.age").as("age").build(),
-                    TagFieldArgs.<String> builder().name("$.city").as("city").build());
+            List<FieldArgs> schema = Arrays.asList(TextFieldArgs.builder().name("$.name").as("name").build(),
+                    NumericFieldArgs.builder().name("$.age").as("age").build(),
+                    TagFieldArgs.builder().name("$.city").as("city").build());
 
-            CreateArgs<String, String> createArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs createArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("user:").build();
 
             CompletableFuture<Void> make_index = searchCommands.ftCreate("idx:users", createArgs, schema)
@@ -114,9 +114,9 @@ public class HomeJsonExample {
             CompletableFuture.allOf(addUser1, addUser2, addUser3).join();
 
             // STEP_START query1
-            CompletableFuture<SearchReply<String, String>> query1 = searchCommands.ftSearch("idx:users", "Paul @age:[30 40]")
+            CompletableFuture<SearchReply<String>> query1 = searchCommands.ftSearch("idx:users", "Paul @age:[30 40]")
                     .thenApply(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
                             System.out.println(result.getId());
@@ -131,20 +131,20 @@ public class HomeJsonExample {
             // STEP_END
 
             // STEP_START query2
-            SearchArgs<String, String> query2Args = SearchArgs.<String, String> builder().returnField("city").build();
-            CompletableFuture<SearchReply<String, String>> query2 = searchCommands.ftSearch("idx:users", "Paul", query2Args)
+            SearchArgs<String> query2Args = SearchArgs.<String> builder().returnField("city").build();
+            CompletableFuture<SearchReply<String>> query2 = searchCommands.ftSearch("idx:users", "Paul", query2Args)
                     .thenApply(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
-                            System.out.printf("ID: %s, City: %s\n", result.getId(), result.getFields().get("city"));
+                            System.out.printf("ID: %s, City: %s\n", result.getId(), result.getFields().get("city").asString());
                         });
                         // >>> ID: user:1, City: London
                         // >>> ID: user:3, City: Tel Aviv
                         // REMOVE_START
                         assertThat(res.getCount()).isEqualTo(2);
                         assertThat(results.stream().map(result -> {
-                            return String.format("ID: %s, City: %s", result.getId(), result.getFields().get("city"));
+                            return String.format("ID: %s, City: %s", result.getId(), result.getFields().get("city").asString());
                         }).sorted().toArray()).containsExactly("ID: user:1, City: London", "ID: user:3, City: Tel Aviv");
                         // REMOVE_END
                         return res;
@@ -152,16 +152,16 @@ public class HomeJsonExample {
             // STEP_END
 
             // STEP_START query3
-            AggregateArgs<String, String> aggArgs = AggregateArgs.<String, String> builder()
+            AggregateArgs aggArgs = AggregateArgs.builder()
                     .groupBy(GroupBy.<String, String> of("@city").reduce(Reducer.<String, String> count().as("count")))
                     .sortBy("@city", SortDirection.ASC).build();
-            CompletableFuture<AggregationReply<String, String>> query3 = searchCommands.ftAggregate("idx:users", "*", aggArgs)
+            CompletableFuture<AggregationReply<String>> query3 = searchCommands.ftAggregate("idx:users", "*", aggArgs)
                     .thenApply(res -> {
-                        List<SearchReply<String, String>> replies = res.getReplies();
+                        List<SearchReply<String>> replies = res.getReplies();
                         replies.forEach(reply -> {
                             reply.getResults().forEach(result -> {
-                                System.out.printf("City: %s, Count: %s\n", result.getFields().get("city"),
-                                        result.getFields().get("count"));
+                                System.out.printf("City: %s, Count: %s\n", result.getFields().get("city").asString(),
+                                        result.getFields().get("count").asString());
                             });
                             // >>> City: London, Count: 1
                             // >>> City: Tel Aviv, Count: 2
@@ -170,8 +170,8 @@ public class HomeJsonExample {
                         assertThat(replies.size()).isEqualTo(1);
                         assertThat(replies.get(0).getResults().size()).isEqualTo(2);
                         assertThat(replies.get(0).getResults().stream().map(result -> {
-                            return String.format("City: %s, Count: %s", result.getFields().get("city"),
-                                    result.getFields().get("count"));
+                            return String.format("City: %s, Count: %s", result.getFields().get("city").asString(),
+                                    result.getFields().get("count").asString());
                         }).toArray()).containsExactly("City: London, Count: 1", "City: Tel Aviv, Count: 2");
                         // REMOVE_END
                         return res;
@@ -181,11 +181,11 @@ public class HomeJsonExample {
             CompletableFuture.allOf(query1, query2, query3).join();
 
             // STEP_START make_hash_index
-            List<FieldArgs<String>> hashSchema = Arrays.asList(TextFieldArgs.<String> builder().name("name").build(),
-                    NumericFieldArgs.<String> builder().name("age").build(),
-                    TagFieldArgs.<String> builder().name("city").build());
+            List<FieldArgs> hashSchema = Arrays.asList(TextFieldArgs.builder().name("name").build(),
+                    NumericFieldArgs.builder().name("age").build(),
+                    TagFieldArgs.builder().name("city").build());
 
-            CreateArgs<String, String> hashCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.HASH)
+            CreateArgs hashCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.HASH)
                     .withPrefix("huser:").build();
 
             CompletableFuture<Void> makeHashIndex = searchCommands.ftCreate("hash-idx:users", hashCreateArgs, hashSchema)
@@ -247,9 +247,9 @@ public class HomeJsonExample {
             CompletableFuture.allOf(addHashUser1, addHashUser2, addHashUser3).join();
 
             // STEP_START query1_hash
-            CompletableFuture<SearchReply<String, String>> query1Hash = searchCommands
+            CompletableFuture<SearchReply<String>> query1Hash = searchCommands
                     .ftSearch("hash-idx:users", "Paul @age:[30 40]").thenApply(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
                             System.out.println(result.getId());
@@ -283,11 +283,12 @@ public class HomeJsonExample {
             // REMOVE_START
             himportUsers.forEach(f -> assertThat(f.toCompletableFuture().join()).isEqualTo("OK"));
             assertThat(asyncCommands.objectEncoding("huser:3").toCompletableFuture().join()).startsWith("template");
-            SearchReply<String, String> himportQueryRes = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
+            SearchReply<String> himportQueryRes = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
                     .toCompletableFuture().join();
             assertThat(himportQueryRes.getCount()).isEqualTo(1);
             assertThat(himportQueryRes.getResults().get(0).getId()).isEqualTo("huser:3");
-            assertThat(himportQueryRes.getResults().get(0).getFields()).containsOnly(
+            assertThat(himportQueryRes.getResults().get(0).getFields().entrySet().stream().collect(
+                    java.util.stream.Collectors.toMap(Map.Entry::getKey, e -> e.getValue().asString()))).containsOnly(
                     Map.entry("name", "Paul Zamir"), Map.entry("email", "paul.zamir@example.com"),
                     Map.entry("age", "35"), Map.entry("city", "Tel Aviv"));
             // REMOVE_END

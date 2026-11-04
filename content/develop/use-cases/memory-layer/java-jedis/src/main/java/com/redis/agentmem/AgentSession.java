@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.AbstractTransaction;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,13 +38,13 @@ public final class AgentSession {
     /** Default rolling-window size. */
     public static final int DEFAULT_MAX_TURNS = 20;
 
-    private final JedisPooled jedis;
+    private final RedisClient jedis;
     private final String keyPrefix;
     private final long defaultTtlSeconds;
     private final int maxTurns;
 
     public AgentSession(
-            JedisPooled jedis,
+            RedisClient jedis,
             String keyPrefix,
             long defaultTtlSeconds,
             int maxTurns) {

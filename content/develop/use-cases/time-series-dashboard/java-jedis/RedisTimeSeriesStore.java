@@ -4,9 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import redis.clients.jedis.Connection;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.CommandArguments;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.commands.ProtocolCommand;
 import redis.clients.jedis.exceptions.JedisDataException;
 
@@ -19,11 +18,11 @@ public final class RedisTimeSeriesStore {
     public static final int BUCKET_MS = 3_000;
     public static final int RETENTION_MS = 12_000;
 
-    private final JedisPool jedisPool;
+    private final RedisClient jedis;
     private final List<SensorSimulator.SensorDefinition> sensors;
 
-    public RedisTimeSeriesStore(JedisPool jedisPool, List<SensorSimulator.SensorDefinition> sensors) {
-        this.jedisPool = jedisPool;
+    public RedisTimeSeriesStore(RedisClient jedis, List<SensorSimulator.SensorDefinition> sensors) {
+        this.jedis = jedis;
         this.sensors = sensors;
     }
 
@@ -39,8 +38,8 @@ public final class RedisTimeSeriesStore {
                 args.add(value);
             });
 
-            try (Jedis jedis = jedisPool.getResource()) {
-                executeCommand(jedis.getConnection(), TimeSeriesCommand.TS_CREATE, args.toArray(String[]::new));
+            try {
+                executeCommand(TimeSeriesCommand.TS_CREATE, args.toArray(String[]::new));
             } catch (JedisDataException exception) {
                 if (!exception.getMessage().toLowerCase().contains("key already exists")) {
                     throw exception;
@@ -62,9 +61,7 @@ public final class RedisTimeSeriesStore {
             args.add(String.valueOf(sample.value()));
         }
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            executeCommand(jedis.getConnection(), TimeSeriesCommand.TS_MADD, args.toArray(String[]::new));
-        }
+        executeCommand(TimeSeriesCommand.TS_MADD, args.toArray(String[]::new));
     }
 
     public Map<String, Object> dashboardSnapshot() {
@@ -122,16 +119,13 @@ public final class RedisTimeSeriesStore {
     }
 
     private List<Map<String, Object>> range(SensorSimulator.SensorDefinition sensor, long startMs, long endMs) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Object response = executeCommand(
-                    jedis.getConnection(),
-                    TimeSeriesCommand.TS_RANGE,
-                    sensor.key(),
-                    String.valueOf(startMs),
-                    String.valueOf(endMs)
-            );
-            return parsePoints(response);
-        }
+        Object response = executeCommand(
+                TimeSeriesCommand.TS_RANGE,
+                sensor.key(),
+                String.valueOf(startMs),
+                String.valueOf(endMs)
+        );
+        return parsePoints(response);
     }
 
     private List<Map<String, Object>> aggregate(
@@ -139,26 +133,23 @@ public final class RedisTimeSeriesStore {
             long startMs,
             long endMs,
             String aggregation) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Object response = executeCommand(
-                    jedis.getConnection(),
-                    TimeSeriesCommand.TS_RANGE,
-                    sensor.key(),
-                    String.valueOf(startMs),
-                    String.valueOf(endMs),
-                    "ALIGN",
-                    "0",
-                    "AGGREGATION",
-                    aggregation,
-                    String.valueOf(BUCKET_MS)
-            );
-            return parsePoints(response);
-        }
+        Object response = executeCommand(
+                TimeSeriesCommand.TS_RANGE,
+                sensor.key(),
+                String.valueOf(startMs),
+                String.valueOf(endMs),
+                "ALIGN",
+                "0",
+                "AGGREGATION",
+                aggregation,
+                String.valueOf(BUCKET_MS)
+        );
+        return parsePoints(response);
     }
 
     private Map<String, Object> latest(SensorSimulator.SensorDefinition sensor) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Object response = executeCommand(jedis.getConnection(), TimeSeriesCommand.TS_GET, sensor.key());
+        try {
+            Object response = executeCommand(TimeSeriesCommand.TS_GET, sensor.key());
             if (!(response instanceof List<?> values) || values.size() < 2) {
                 return null;
             }
@@ -202,9 +193,8 @@ public final class RedisTimeSeriesStore {
         return parsed;
     }
 
-    private Object executeCommand(Connection connection, ProtocolCommand command, String... args) {
-        connection.sendCommand(command, args);
-        return connection.getOne();
+    private Object executeCommand(ProtocolCommand command, String... args) {
+        return jedis.executeCommand(new CommandArguments(command).addObjects((Object[]) args));
     }
 
     private long asLong(Object value) {

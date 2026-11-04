@@ -56,6 +56,10 @@ are stored in `dlq:data:{rdi}:postgresql.public.users`, and those for the `dbo.u
 the `inventory` database of a source named `sqlserver` are stored in
 `dlq:data:{rdi}:sqlserver.inventory.dbo.users`.
 
+These examples show the keys of the `default` pipeline. The keys of any other pipeline contain
+its hash tag instead of `{rdi}`, such as `dlq:data:{orders_f2t}:postgresql.public.users`. See
+[Name your pipelines](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#name-your-pipelines).
+
 The dead-letter queue endpoints and the CLI report table names are in the same form,
 so you can easily attribute a rejected record to the source it came from. Sources that existed
 before the upgrade to RDI v2.0.0 or above do not have the source segment

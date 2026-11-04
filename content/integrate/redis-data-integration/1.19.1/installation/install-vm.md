@@ -22,7 +22,10 @@ your source database. You can also
 [Install RDI on Kubernetes](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md).
 
 > [!NOTE]
-> We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
+> These docs are for RDI v1.19.1. The latest version is RDI v{{< rdi-version >}}, and we
+> recommend you upgrade to it if you can. Before you do, check the
+> [release notes](/content/integrate/redis-data-integration/release-notes/_index.md)
+> to make sure the latest version still supports your setup.
 
 ## Create the RDI database
 
@@ -151,12 +154,12 @@ Follow the steps below for each of your VMs.
 > [Using the mount command](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/5/html/deployment_guide/chap-using_the_mount_command) in the Red Hat documentation to learn how to remount a partition.
 
 1.  Download the RDI installer from the
-    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.19.1.tar.gz)
     (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
     folder.
 
     ```bash
-    export RDI_VERSION={{< rdi-version >}}
+    export RDI_VERSION=1.19.1
     wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-$RDI_VERSION.tar.gz
     tar -xvf rdi-installation-$RDI_VERSION.tar.gz
     ```

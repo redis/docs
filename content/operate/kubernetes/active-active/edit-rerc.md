@@ -30,6 +30,8 @@ kubectl patch rerc rerc-ohare --type merge --patch \
 '{"spec":{"dbFqdnSuffix": ".example2-cluster-rec-chicago-ns-illinois.example.com"}}'
 ```
 
+The `replicationPort` field, used for [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md#expose-active-active-databases), is an exception. Set it on every copy of the RERC, on every participating cluster, not only on the local RERC.
+
 ## Update RERC secret
 
 If the credentials are changed or updated for a REC participating cluster, you need to manually edit the RERC secret and apply it to all participating clusters.

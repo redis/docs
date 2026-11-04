@@ -82,6 +82,18 @@ Stop the affected source before deleting its records and allow its pending recor
 
 No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source](/content/operate/rc/rdi/view-edit.md#remove-source).
 
+## Multiple pipelines
+
+### Should I add a source or a pipeline? {#source-or-pipeline}
+
+Add a source to an existing pipeline when the source writes to the same target database and you manage it together with the other sources. Create a separate pipeline when the data goes to a different target database, when you need different processor properties, or when you want to stop, reset, or change some of the data without restarting the rest. For example, [resetting one source](#reset-one-source) restarts its whole pipeline, but it doesn't restart any other pipeline. See [Add pipelines to a workspace](/content/operate/rc/rdi/create-workspace.md#add-pipelines-to-a-workspace).
+
+### Does an action on one pipeline affect the other pipelines? {#pipeline-isolation}
+
+No. Deploying, stopping, starting, resetting, editing, or deleting a pipeline doesn't change the other pipelines of the workspace. The exception is **Flush target database**, which deletes all the data in the target database, including the records of every other pipeline that writes to it.
+
+The pipelines of a workspace share its network capacity and its RDI database, so a pipeline with a heavy load can reduce the capacity left for the others. See [Scale a Cloud RDI pipeline](/content/operate/rc/rdi/scale-pipeline.md).
+
 ## Capacity and network planning
 
 ### What CIDR range should I use for Cloud RDI?
@@ -126,7 +138,7 @@ RDI usage is measured in RDI processing units (RPUs). The usage consists of:
 
 | Component | RPUs |
 | :-- | --: |
-| Workspace with a deployed pipeline | 1 |
+| Workspace with at least one deployed pipeline | 1 |
 | Each running source collector | 2 |
 | Each running processor replica | 2 |
 
@@ -134,11 +146,13 @@ Usage is measured every minute and billed using the peak usage in each hour. Add
 
 For example, one workspace with one source and one processor replica uses `1 + 2 + 2 = 5 RPUs`. With two sources and one processor replica, it uses `1 + 4 + 2 = 7 RPUs`. Adding a second processor replica increases that to `1 + 4 + 4 = 9 RPUs`.
 
+The workspace charge applies once, however many pipelines you deploy in the workspace. Each pipeline adds the RPUs of its own collectors and processor replicas. For example, a workspace with two deployed pipelines, each with one source and one processor replica, uses `1 + (2 + 2) + (2 + 2) = 9 RPUs`.
+
 These examples cover RDI usage. Target Redis database and applicable network charges are separate.
 
 ### How does stopping sources or the pipeline affect billing? {#stopping-and-billing}
 
-Stopping a source removes its collector usage, but the processor and workspace remain billable. Stopping every source individually still leaves the processor running. Stopping the whole pipeline also stops the processor, but the workspace charge continues while the pipeline remains deployed.
+Stopping a source removes its collector usage, but the processor and workspace remain billable. Stopping every source individually still leaves the processor running. Stopping the whole pipeline also stops the processor, but the workspace charge continues while any pipeline of the workspace remains deployed.
 
 The following examples assume one workspace, two sources, and one processor replica. Each state must apply for a full billing hour after the stop has completed:
 

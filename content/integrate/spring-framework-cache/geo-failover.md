@@ -213,6 +213,7 @@ public class CacheController {
 
 ```java
 import redis.clients.jedis.MultiDbClient;
+import redis.clients.jedis.params.SetParams;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -233,7 +234,7 @@ public class CacheController {
         String value = redis.get(key);          // runs against the active endpoint
         if (value == null) {
             value = expensiveLookup(key);        // compute the value on a miss
-            redis.setex(key, 60, value);         // SET with a 60s TTL
+            redis.set(key, value, SetParams.setParams().ex(60));  // SET with a 60s TTL
         }
         return value;
     }

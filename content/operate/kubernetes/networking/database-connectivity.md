@@ -107,7 +107,7 @@ auth <password>
 
 ## External database access
 
-To access databases from outside the Kubernetes cluster, you need to configure external routing. Currently supported methods for external access are ingress controllers or OpenShift routes.
+To access databases from outside the Kubernetes cluster, you need to configure external routing. Currently supported methods for external access are ingress controllers or OpenShift routes. Active-Active databases can also use [Gateway API routing](/content/operate/kubernetes/networking/gateway-api.md).
 
 ### Ingress controllers
 

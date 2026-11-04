@@ -116,7 +116,7 @@ pub async fn bulk_load(
     }
     if loaded > 0 {
         let mut conn = self.conn.clone();
-        pipe.query_async::<_, ()>(&mut conn).await?;
+        pipe.query_async::<()>(&mut conn).await?;
     }
     self.stats.prefetched.fetch_add(loaded, Ordering::Relaxed);
     Ok(loaded)
@@ -172,7 +172,7 @@ pub async fn apply_change(&self, change: &ChangeEvent) -> RedisResult<()> {
                 .del(&cache_key).ignore()
                 .hset_multiple(&cache_key, &pairs).ignore()
                 .expire(&cache_key, self.cfg.ttl_seconds).ignore()
-                .query_async::<_, ()>(&mut conn).await?;
+                .query_async::<()>(&mut conn).await?;
         }
         "delete" => {
             let _: i64 = conn.del(&cache_key).await?;
@@ -270,7 +270,7 @@ Before running the demo, make sure that:
 
 * Redis is running and accessible. By default, the demo connects to `localhost:6379`.
 * You have a working [Rust toolchain](https://www.rust-lang.org/tools/install) (`cargo` 1.70+).
-* The demo's `Cargo.toml` pins the `redis` crate at 0.24+ with the `tokio-comp`, `aio`, and `connection-manager` features; `cargo build` will pull the rest of the dependency graph.
+* The demo's `Cargo.toml` pins the `redis` crate at 1.8 with the `tokio-comp`, `aio`, and `connection-manager` features; `cargo build` will pull the rest of the dependency graph.
 
 If your Redis server is running elsewhere, start the demo with `--redis-host` and `--redis-port`.
 
@@ -384,7 +384,7 @@ If multiple applications share a Redis deployment, prefix cache keys with the ap
 
 ### Use `ConnectionManager`, not a bare connection
 
-`redis::aio::ConnectionManager` is the recommended async connection type for redis-rs. It is cheap to clone (the demo passes a clone to every async task), reconnects automatically on transient failures, and pipelines commands behind the scenes. A bare `redis::aio::Connection` is not `Clone` and cannot be safely shared across tokio tasks. If you need a true connection pool — for example, to fan out heavy `MULTI`/`EXEC` traffic across multiple sockets — use [`deadpool-redis`](https://crates.io/crates/deadpool-redis) or [`bb8-redis`](https://crates.io/crates/bb8-redis).
+`redis::aio::ConnectionManager` is the recommended async connection type for redis-rs. It is cheap to clone (the demo passes a clone to every async task), reconnects automatically on transient failures, and pipelines commands behind the scenes. A bare `redis::aio::MultiplexedConnection` is also cheap to clone, but it does not reconnect: once the underlying socket drops, every clone fails until you open a new connection. If you need a true connection pool — for example, to fan out heavy `MULTI`/`EXEC` traffic across multiple sockets — use [`deadpool-redis`](https://crates.io/crates/deadpool-redis) or [`bb8-redis`](https://crates.io/crates/bb8-redis).
 
 ### Inspect cached entries directly in Redis
 

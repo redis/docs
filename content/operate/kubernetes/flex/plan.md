@@ -82,12 +82,12 @@ Redis Flex supports:
 - All standard Redis data types
 - Redis JSON
 - Redis probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K)
+- Redis Search, in preview. See [Redis Search on Flex](/content/operate/kubernetes/flex/_index.md#redis-search-on-flex).
 
 ### Not supported
 
 Redis Flex doesn't support:
 
-- Redis Query Engine (RQE)
 - RedisTimeSeries
 - Active-Active databases
 

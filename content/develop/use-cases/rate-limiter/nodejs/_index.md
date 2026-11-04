@@ -156,7 +156,7 @@ if (allowed) {
 }
 
 // Disconnect when done
-await client.disconnect();
+await client.destroy();
 ```
 
 Because `node-redis` operations are asynchronous, the `allow()` method returns a Promise. Use `await` or `.then()` to handle the result.

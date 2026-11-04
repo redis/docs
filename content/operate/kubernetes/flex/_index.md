@@ -56,13 +56,40 @@ This design delivers predictable latency and throughput as datasets grow beyond 
 
 ## Compatibility
 
-Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K).
+Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K). [Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is in preview. See [Redis Search on Flex](#redis-search-on-flex).
 
 The following features are not yet supported with Flex:
 
-- Redis Query Engine (RQE)
 - Time series
 - Active-Active
+
+## Redis Search on Flex
+
+Redis Search on Flex stores search indexes on flash, so large indexes don't need to fit in RAM. You use the same Redis Search commands and client libraries as you do with an in-memory database.
+
+> [!NOTE]
+> Redis Search on Flex is in preview and supports a subset of Redis Search features. For supported features and limitations, see [Index and search data in Flex databases](/content/operate/rs/flex/search.md). For command support, see [Redis Search commands](/content/operate/oss_and_stack/stack-with-enterprise/search/commands.md).
+
+To use Redis Search on Flex, you need Redis Software for Kubernetes version 8.2.6 or later and Redis database version 8.8 or later.
+
+To turn on Redis Search on Flex, set `searchOnBigstore` and `isRof` to `true` when you create a Flex database:
+
+```yaml
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: <database-name>
+spec:
+  memorySize: <memory-size>
+  isRof: true
+  rofRamSize: <ram-size>
+  redisVersion: "8.8"
+  searchOnBigstore: true
+```
+
+You can't change `searchOnBigstore` after you create the database.
+
+Set `rofRamSize` to at least 20% of `memorySize` for databases that use Redis Search on Flex.
 
 ## When to use Flex
 

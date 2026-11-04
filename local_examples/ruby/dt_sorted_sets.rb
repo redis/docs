@@ -41,7 +41,7 @@ assert_equal(6, r.zcard('racer_scores'))
 res4 = r.zrange('racer_scores', 0, -1)
 puts res4.inspect # >>> ["Ford", "Sam-Bodden", "Norem", "Royce", "Castilla", "Prickett"]
 
-res5 = r.zrevrange('racer_scores', 0, -1)
+res5 = r.zrange('racer_scores', 0, -1, rev: true)
 puts res5.inspect # >>> ["Prickett", "Castilla", "Royce", "Norem", "Sam-Bodden", "Ford"]
 # STEP_END
 
@@ -69,7 +69,7 @@ assert_equal([
 # REMOVE_END
 
 # STEP_START zrangebyscore
-res7 = r.zrangebyscore('racer_scores', '-inf', 10)
+res7 = r.zrange('racer_scores', '-inf', 10, byscore: true)
 puts res7.inspect # >>> ["Ford", "Sam-Bodden", "Norem", "Royce"]
 # STEP_END
 
@@ -125,7 +125,7 @@ puts res13 # >>> 3
 res14 = r.zrange('racer_scores', 0, -1)
 puts res14.inspect # >>> ["Castilla", "Ford", "Norem", "Prickett", "Royce", "Sam-Bodden"]
 
-res15 = r.zrangebylex('racer_scores', '[A', '[L')
+res15 = r.zrange('racer_scores', '[A', '[L', bylex: true)
 puts res15.inspect # >>> ["Castilla", "Ford"]
 # STEP_END
 

@@ -30,5 +30,5 @@ console.log(JSON.stringify(userSession, null, 2));
 // STEP_END
 
 // STEP_START close
-await client.quit();
+await client.close();
 // STEP_END

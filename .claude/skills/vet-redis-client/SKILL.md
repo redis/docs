@@ -42,6 +42,8 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 **If more than one band still applies, score the lowest one** and say in the evidence cell that the row needs repair. A reviewer mid-review cannot rewrite the rubric, and two scorers resolving the same overlap by reading order is the failure this whole section exists to prevent. Prefer restructuring a row around the single axis it measures over appending another "or" clause to a band — an appended clause closes one case and opens an edge against every neighbouring band.
 
+**Write a Warn band as "neither Pass nor Fail", with examples, not as an enumerated list.** In `/vet-redis-tool`, almost every band gap came from a Warn list that missed a case. Likewise, a Fail band for something not observed must say where it is observable, or every project the instrument can't see falls into it.
+
 **A Fail requires positive evidence of the deficiency, from an instrument known to work for that ecosystem.** Where the figure does not exist, or the only instrument available is blind to the project's ecosystem, score **Warn** and name the gap — not Fail, and not Pass. This rule takes precedence over every band in the tables below: if a band's wording would produce a Fail on nothing more than a missing or unmeasurable reading, the score is Warn and the evidence cell says which instrument was blind. Absence of a claim is not evidence of absence of the thing claimed.
 
 ### A. Maintenance

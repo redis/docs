@@ -83,9 +83,9 @@ If a configured alert threshold is reached or a running service stops, an alert 
 
 ## View node health {#view-node-health}
 
-On the **Nodes** screen of the Cluster Manager UI, you can click on a node to go to its **Node configuration** tab and view node health details.
+On the **Nodes** screen of the Cluster Manager UI, you can click on a node to go to its **Node configuration** tab and view node health details. The **Provisional RAM** column on the **Nodes** screen shows how much memory is available to create new shards on each node.
 
-![Node configuration screen.](/images/rs/screenshots/nodes/node-config-screen.png)
+![Node configuration screen.](/images/rs/screenshots/nodes/node-config-screen-provisional-ram.png)
 
 ### Verify nodes
 
@@ -109,7 +109,7 @@ On the **Nodes** screen, click **Verify all nodes**.
 
 ### Node storage
 
-The **Node storage** section of the **Node configuration** tab provides memory usage details, including used memory, free memory, and total memory for RAM, flash, persistent storage, and ephemeral storage on the node.
+The **Node storage** section of the **Node configuration** tab provides memory usage details, including used memory, free memory, and total memory for RAM, flash, persistent storage, and ephemeral storage on the node. The **Provisional RAM** card shows the memory available to create new shards on the node. For details, see the `PROVISIONAL_RAM` description in [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#returns-nodes).
 
 ### Services
 

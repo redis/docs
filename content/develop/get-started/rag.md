@@ -74,6 +74,7 @@ In summary, Redis offers a powerful and efficient platform for implementing RAG.
 - [RAG with Redis and SpringAI](https://redis.io/blog/building-a-rag-application-with-redis-and-spring-ai/)
 - [Build a multimodal RAG app with LangChain and Redis](https://redis.io/blog/explore-the-new-multimodal-rag-template-from-langchain-and-redis/)
 - [Get hands-on with advanced Redis AI Recipes](https://github.com/redis-developer/redis-ai-resources)
+- [Redis Iris](/content/develop/ai/context-engine/_index.md), for managed memory and context for AI agents
 
 ## Continue learning with Redis University
 

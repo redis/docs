@@ -34,6 +34,7 @@ redis-di set-secret <key> [value] [flags]
 | :----------------- | :-------------------------------------------------------------------------------- |
 | `-p`, `--pipeline` | Pipeline to target (default `default`).                                           |
 | `--db`             | Database the secret belongs to: a source name, or `target`.                       |
+| `--type`           | Secret type, `simple` or `file`, for a key whose type is not fixed. `CACERT`, `CERT`, and `KEY` are always `file`, the other standard keys are always `simple`, and a generic key is `simple` unless you pass `--type file`. |
 | `--file`           | Read the secret value from the file at this path.                                 |
 | `--literal`        | Use this literal string as the secret value.                                      |
 | `--wait`           | Wait for the pipeline to reach the expected state (default `true`).               |
@@ -50,6 +51,12 @@ redis-di set-secret USERNAME --db mysql myuser
 
 # Value from a file (for example, a certificate)
 redis-di set-secret CACERT --db mysql --file /path/to/myca.crt
+
+# Generic key stored as a file
+redis-di set-secret EXTRA_CA --db mysql --type file --file /path/to/extra-ca.crt
+
+# Secret of a pipeline other than default
+redis-di set-secret PASSWORD --db mysql -p orders
 
 # Value read from an interactive prompt
 redis-di set-secret PASSWORD --db mysql

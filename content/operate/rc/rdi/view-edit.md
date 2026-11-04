@@ -13,7 +13,7 @@ hideListLinks: true
 weight: 4
 ---
 
-To manage a pipeline, select it from your workspace on the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
+To manage a pipeline, select it from your workspace on the **Data Integration** page or from the **Data Integration** tab of your subscription or database. If the workspace runs several pipelines, the actions on this page apply only to the pipeline you selected. The exception is [flushing the target database](#flush-the-target-database), which also deletes the records of any other pipeline that writes to the same database.
 
 The pipeline page has the following tabs:
 
@@ -140,7 +140,9 @@ Select a source in the **Sources** list to see its connection status, snapshot p
 
 ### View metrics endpoints
 
-On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+On **Metrics**, select **Connect to Prometheus** to view the available collector and processor endpoints of the pipeline. Add the required endpoints to your Prometheus configuration. Select the relevant source when inspecting per-source metrics.
+
+Each pipeline has its own endpoints. The paths of a pipeline other than `default` start with the pipeline name, for example `/orders/processor/metrics` for the processor and `/orders/collector-<source>/metrics` for a collector of the `orders` pipeline. All pipelines report the same metric names, and scraping these endpoints adds no label that identifies the pipeline. If you scrape several pipelines, add a `pipeline` label to the scrape job of each pipeline in your Prometheus configuration, for example with the `labels` of its `static_configs`.
 
 Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering](/content/operate/rc/security/vpc-peering.md) or [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md). See [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md) for more information.
 
@@ -265,7 +267,7 @@ Stopping the pipeline pauses processing for all sources. To resume, open **Pipel
 
 ## Flush the target database
 
-Flushing permanently deletes **all data** from the target database, including records from every source and data written outside RDI. It does not reset source positions or automatically reload the data.
+Flushing permanently deletes **all data** from the target database, including records from every source, records from any other pipeline that writes to the same database, and data written outside RDI. It does not reset source positions or automatically reload the data.
 
 1. [Stop the pipeline](#stop-and-restart-data-pipeline) and wait until it is stopped.
 1. Open **Pipeline actions** and select **Flush target database**. This action is disabled while the pipeline is running.
@@ -284,4 +286,4 @@ To refill the target, follow [How do I reload data after a flush?](/content/oper
 1. Open the pipeline's actions menu and select **Delete pipeline**.
 1. Review and confirm the deletion.
 
-Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. You can then [delete the workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) when it is no longer needed.
+Deleted pipelines cannot be recovered. If the pipeline has an associated setup draft, deletion also removes that draft. Deleting a pipeline doesn't affect the other pipelines of the workspace. When you delete the last pipeline of the workspace, you can also select **Delete the entire workspace as well** to [delete the workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace) in the same step. Otherwise, you can delete the workspace later when it is no longer needed.

@@ -18,11 +18,11 @@
 #   independent of consumer-group state.
 # * Trim the stream with XTRIM to bound retention.
 
-require 'cgi'
 require 'json'
 require 'optparse'
 require 'redis'
 require 'thread'
+require 'uri'
 require 'webrick'
 
 require_relative 'event_stream'
@@ -185,8 +185,15 @@ def parse_args(argv)
   opts
 end
 
+# Parse an application/x-www-form-urlencoded body into a Hash of value
+# Arrays. A missing key reads as an empty Array, as CGI.parse did before it
+# was dropped from Ruby's standard library in Ruby 4.
 def parse_form(body)
-  CGI.parse(body.to_s)
+  out = Hash.new { |h, k| h[k] = [] }
+  URI.decode_www_form(body.to_s).each { |k, v| out[k] << v }
+  out
+rescue ArgumentError
+  Hash.new { |h, k| h[k] = [] }
 end
 
 def clamp_int(value, lo, hi, default)
@@ -705,7 +712,7 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
     when '/trim'           then handle_trim(req, res)
     when '/reset'
       count = @demo.reset
-      send_json(res, 'consumers' => count)
+      send_json(res, { 'consumers' => count })
     else
       res.status = 404
       res.body = 'not found'
@@ -725,7 +732,7 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
       [picked, fake_payload]
     end
     ids = @stream.produce_batch(events)
-    send_json(res, 'produced' => ids.length, 'ids' => ids)
+    send_json(res, { 'produced' => ids.length, 'ids' => ids })
   end
 
   def handle_add_worker(req, res)
@@ -740,7 +747,7 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
       send_json(res, { 'error' => "#{group}/#{name} already exists" }, status: 409)
       return
     end
-    send_json(res, 'group' => group, 'name' => name)
+    send_json(res, { 'group' => group, 'name' => name })
   end
 
   def handle_remove_worker(req, res)
@@ -767,7 +774,7 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
       return
     end
     worker.crash_next(count)
-    send_json(res, 'queued' => count)
+    send_json(res, { 'queued' => count })
   end
 
   def handle_autoclaim(req, res)
@@ -790,18 +797,19 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
     # in production they would be routed to a dead-letter store for
     # offline inspection.
     result = worker.reap_idle_pel
-    send_json(res,
-              'claimed' => result[:claimed],
-              'processed' => result[:processed],
-              'deleted' => result[:deleted_ids],
-              'min_idle_ms' => @stream.claim_min_idle_ms)
+    send_json(res, {
+      'claimed' => result[:claimed],
+      'processed' => result[:processed],
+      'deleted' => result[:deleted_ids],
+      'min_idle_ms' => @stream.claim_min_idle_ms
+    })
   end
 
   def handle_trim(req, res)
     params = parse_form(req.body)
     maxlen = clamp_int((params['maxlen'] || ['0']).first || '0', 0, 1_000_000_000, 0)
     deleted = @stream.trim_maxlen(maxlen)
-    send_json(res, 'deleted' => deleted, 'maxlen' => maxlen)
+    send_json(res, { 'deleted' => deleted, 'maxlen' => maxlen })
   end
 
   def handle_replay(req, res)
@@ -810,11 +818,12 @@ class StreamingServlet < WEBrick::HTTPServlet::AbstractServlet
     end_id = (query['end'].to_s.empty? ? '+' : query['end'])
     limit = clamp_int(query['count'].to_s.empty? ? '20' : query['count'], 1, 500, 20)
     entries = @stream.replay(start_id: start_id, end_id: end_id, count: limit)
-    send_json(res,
-              'start' => start_id,
-              'end' => end_id,
-              'limit' => limit,
-              'entries' => entries.map { |id, fields| { 'id' => id, 'fields' => fields } })
+    send_json(res, {
+      'start' => start_id,
+      'end' => end_id,
+      'limit' => limit,
+      'entries' => entries.map { |id, fields| { 'id' => id, 'fields' => fields } }
+    })
   end
 
   # ---- State assembly ---------------------------------------------

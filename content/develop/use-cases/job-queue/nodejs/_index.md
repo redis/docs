@@ -77,7 +77,7 @@ async function main() {
   // In a periodic sweeper:
   const reclaimed = await queue.reclaimStuck();
 
-  await client.quit();
+  await client.close();
 }
 
 main().catch(console.error);

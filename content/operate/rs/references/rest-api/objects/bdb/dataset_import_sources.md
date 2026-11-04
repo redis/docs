@@ -61,6 +61,7 @@ Any additional required parameters may differ based on the import location type.
 |----------|------|-------------|
 | access_key_id | string | The AWS Access Key ID with access to the bucket |
 | bucket_name | string | S3 bucket name |
+| encryption | object | Customer-provided encryption key (SSE-C) configuration for a source encrypted with a customer key. Valid only when passed directly to the [import action]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}) — the request fails if you include it in a database's persisted `dataset_import_sources`. See [Customer-provided encryption keys (SSE-C)](#sse-c) below. (optional) |
 | filename | string | RDB filename, including the file extension. |
 | region_name | string | Amazon S3 region name (optional) |
 | secret_access_key | string | The AWS Secret Access that matches the Access Key ID |
@@ -85,6 +86,15 @@ To connect to an S3-compatible storage location:
     ```
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
+
+#### Customer-provided encryption keys (SSE-C) {#sse-c}
+
+| Key name | Type | Description |
+|----------|------|-------------|
+| type | string | Must be `"sse-c"`. |
+| sse_customer_key | string | Base64-encoded encryption key that decodes to exactly 32 bytes (AES-256). |
+
+SSE-C is request-scoped: it's accepted only when passed directly to an [import]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}) action, never as part of a database's persisted `dataset_import_sources` configuration.
 
 ### Google Cloud Storage
 

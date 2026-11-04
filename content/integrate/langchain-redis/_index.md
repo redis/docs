@@ -36,3 +36,5 @@ Redis integration with LangChain enables you to build sophisticated AI applicati
 ## Getting Started
 
 Learn how to [build AI chatbots with Redis and LangChain](https://redis.io/learn/howtos/solutions/vector/gen-ai-chatbot) for enhanced AI experiences.
+
+For managed session and long-term memory that your agents keep across conversations, see [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md).

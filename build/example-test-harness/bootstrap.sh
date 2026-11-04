@@ -102,7 +102,7 @@ set -uo pipefail
 # that package or the build fails before any test runs.
 [ -f lib.go ] || printf 'package example_commands\n' > lib.go
 go mod tidy >/dev/null 2>&1
-go test -v ./...; rc=$?
+go test -count=1 -v ./...; rc=$?
 rm -f go.sum
 exit $rc
 EOF

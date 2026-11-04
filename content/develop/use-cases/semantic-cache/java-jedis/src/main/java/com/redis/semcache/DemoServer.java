@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import redis.clients.jedis.ConnectionPoolConfig;
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,13 +63,14 @@ public final class DemoServer {
         poolConfig.setMaxTotal(16);
         poolConfig.setMaxIdle(4);
         poolConfig.setMinIdle(1);
-        JedisPooled jedis = new JedisPooled(
-                poolConfig,
-                new HostAndPort(args.redisHost, args.redisPort),
-                redis.clients.jedis.DefaultJedisClientConfig.builder()
+        RedisClient jedis = RedisClient.builder()
+                .hostAndPort(new HostAndPort(args.redisHost, args.redisPort))
+                .poolConfig(poolConfig)
+                .clientConfig(redis.clients.jedis.DefaultJedisClientConfig.builder()
                         .socketTimeoutMillis(2000)
                         .connectionTimeoutMillis(2000)
-                        .build());
+                        .build())
+                .build();
         try {
             jedis.ping();
         } catch (Exception ex) {

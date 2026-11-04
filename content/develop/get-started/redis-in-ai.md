@@ -33,7 +33,7 @@ Explore how Redis optimizes various GenAI applications through specific use case
 
 ### Optimizing AI Agent Performance
 
-Redis improves session persistence and caching for conversational agents managing high interaction volumes. See the [Flowise Conversational Agent with Redis](https://redis.io/learn/howtos/solutions/flowise/conversational-agent) tutorial and demo for implementation details.
+Redis improves session persistence and caching for conversational agents managing high interaction volumes. See the [Flowise Conversational Agent with Redis](https://redis.io/learn/howtos/solutions/flowise/conversational-agent) tutorial and demo for implementation details. For managed session and long-term memory, see [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md).
 
 ### Chatbot Development and Management
 

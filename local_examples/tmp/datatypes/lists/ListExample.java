@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 // REMOVE_END
 // HIDE_START
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.args.ListDirection;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class ListExample {
 
     @Test
     public void run() {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         // HIDE_END
         // REMOVE_START

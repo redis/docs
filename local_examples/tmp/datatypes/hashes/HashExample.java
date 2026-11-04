@@ -2,7 +2,7 @@
 // BINDER_ID java-dt-hash
 package io.redis.examples;
 
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ public class HashExample {
 
   @Test
   public void run() {
-    try (UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379")) {
+    try (RedisClient jedis = RedisClient.create("redis://localhost:6379")) {
       // REMOVE_START
       jedis.del("bike:1", "bike:1:stats");
       // REMOVE_END

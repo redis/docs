@@ -230,5 +230,5 @@ assert.deepEqual(himportQueryResult.documents[0].value, {
 // REMOVE_END
 
 // STEP_START close
-await client.quit();
+await client.close();
 // STEP_END

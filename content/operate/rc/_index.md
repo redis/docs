@@ -28,6 +28,8 @@ Use the [Quick start](/content/operate/rc/rc-quickstart.md) to learn how to crea
 
 You can also use [Vercel's Redis Cloud integration](https://vercel.com/marketplace/redis-cloud) or [Heroku's Redis Cloud add-on](https://elements.heroku.com/addons/rediscloud) to quickly add a Redis database to your project.
 
+To add AI agent services, such as Agent Memory, to your Redis Cloud account, see [Redis Iris](/content/operate/iris/_index.md).
+
 ## Databases
 Create and manage [Redis databases](/content/operate/rc/databases/_index.md) in the cloud.
 - [Create database](/content/operate/rc/databases/create-database/_index.md)

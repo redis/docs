@@ -41,7 +41,7 @@ This design delivers predictable latency and throughput as datasets grow beyond 
 
 ## Compatibility
 
-Flex is compatible with the Redis API and supports all [Redis data types](/content/develop/data-types/_index.md), including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K). [Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is in beta.
+Flex is compatible with the Redis API and supports all [Redis data types](/content/develop/data-types/_index.md), including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K). [Redis Search](/content/develop/ai/search-and-query/_index.md) on Flex databases is in preview. See [Index and search data in Flex databases](/content/operate/rs/flex/search.md).
 
 The following features are not yet supported with Flex:
 
@@ -89,3 +89,4 @@ For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering](/content/ope
 - [Plan your deployment](/content/operate/rs/flex/plan.md): Review hardware requirements, sizing guidelines, and limitations.
 - [Get started](/content/operate/rs/flex/get-started.md): Configure Flex on your cluster.
 - [Scale your deployment](/content/operate/rs/flex/scale.md): Learn scaling strategies and best practices.
+- [Index and search data](/content/operate/rs/flex/search.md): Store Redis Search indexes on flash.

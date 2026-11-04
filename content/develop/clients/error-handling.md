@@ -244,7 +244,7 @@ Use this when the operation is not critical to your application.
 
 ```python
 try:
-    r.setex(key, 3600, value)
+    r.set(key, value, ex=3600)
 except redis.ConnectionError:
     logger.warning(f"Failed to cache {key}, continuing without cache")
     # Application continues normally

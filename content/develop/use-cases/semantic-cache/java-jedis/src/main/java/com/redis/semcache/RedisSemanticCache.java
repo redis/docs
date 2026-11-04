@@ -1,7 +1,7 @@
 package com.redis.semcache;
 
 import redis.clients.jedis.AbstractTransaction;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.search.Document;
@@ -63,7 +63,7 @@ public final class RedisSemanticCache {
      */
     private static final String TAG_SPECIAL = "\\,.<>{}[]\"':;!@#$%^&*()-+=~| ";
 
-    private final JedisPooled jedis;
+    private final RedisClient jedis;
     private final String indexName;
     private final String keyPrefix;
     private final int vectorDim;
@@ -71,7 +71,7 @@ public final class RedisSemanticCache {
     private final long defaultTtlSeconds;
 
     public RedisSemanticCache(
-            JedisPooled jedis,
+            RedisClient jedis,
             String indexName,
             String keyPrefix,
             int vectorDim,

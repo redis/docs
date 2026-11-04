@@ -48,7 +48,7 @@ Add the `redis` crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["script", "tokio-comp"] }
+redis = { version = "1.8", features = ["script", "tokio-comp"] }
 tokio = { version = "1", features = ["full"] }
 ```
 

@@ -75,6 +75,7 @@ To view documentation earlier than version 7.4, see the archived website:
 - [Redis Cloud](/content/operate/rc/_index.md)
 - [Redis Open Source](/content/operate/oss_and_stack/_index.md)
 - [Redis Stack](/content/operate/oss_and_stack/stack-with-enterprise/_index.md)
+- [Redis Iris](/content/operate/iris/_index.md), to run AI agent services such as Agent Memory with your Redis Software deployment
 - [Glossary](/content/glossary/_index.md)
 
 ## Continue learning with Redis University

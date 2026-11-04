@@ -662,7 +662,7 @@ async function main() {
     pool.stop();
     server.close();
     try {
-      await client.quit();
+      await client.close();
     } catch {
       // ignore
     }

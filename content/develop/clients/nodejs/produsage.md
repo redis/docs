@@ -45,7 +45,7 @@ for more information and an example of setting an error handler.
 
 ### Handling reconnections
 
-When the socket closes unexpectedly (without calling the `quit()` or `disconnect()` methods),
+When the socket closes unexpectedly (without calling the `close()` or `destroy()` methods),
 the client can automatically restore the connection.  A simple
 [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy
 for reconnection is enabled by default, but you can replace this with your

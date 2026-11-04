@@ -4,8 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.exceptions.JedisNoScriptException;
 
 /**
@@ -20,8 +19,8 @@ import redis.clients.jedis.exceptions.JedisNoScriptException;
  *
  * <p>Example usage:</p>
  * <pre>{@code
- * JedisPool pool = new JedisPool("localhost", 6379);
- * TokenBucket limiter = new TokenBucket(10, 1.0, 1.0, pool);
+ * RedisClient jedis = RedisClient.create("localhost", 6379);
+ * TokenBucket limiter = new TokenBucket(10, 1.0, 1.0, jedis);
  * RateLimitResult result = limiter.allow("user:123");
  * if (result.allowed()) {
  *     System.out.println("Request allowed. " + result.remaining() + " tokens remaining.");
@@ -85,7 +84,7 @@ public class TokenBucket {
     private final int capacity;
     private final double refillRate;
     private final double refillInterval;
-    private final JedisPool jedisPool;
+    private final RedisClient jedis;
     private String scriptSha;
     private boolean scriptLoaded;
 
@@ -95,13 +94,13 @@ public class TokenBucket {
      * @param capacity       maximum number of tokens in the bucket (default: 10)
      * @param refillRate     number of tokens added per refill interval (default: 1.0)
      * @param refillInterval time in seconds between refills (default: 1.0)
-     * @param jedisPool      Jedis connection pool for Redis operations
+     * @param jedis          pooled Jedis client for Redis operations
      */
-    public TokenBucket(int capacity, double refillRate, double refillInterval, JedisPool jedisPool) {
+    public TokenBucket(int capacity, double refillRate, double refillInterval, RedisClient jedis) {
         this.capacity = capacity;
         this.refillRate = refillRate;
         this.refillInterval = refillInterval;
-        this.jedisPool = jedisPool;
+        this.jedis = jedis;
         this.scriptSha = sha1Hex(TOKEN_BUCKET_SCRIPT);
         this.scriptLoaded = false;
     }
@@ -109,10 +108,10 @@ public class TokenBucket {
     /**
      * Creates a token bucket with default parameters (capacity=10, refillRate=1.0, refillInterval=1.0).
      *
-     * @param jedisPool Jedis connection pool for Redis operations
+     * @param jedis pooled Jedis client for Redis operations
      */
-    public TokenBucket(JedisPool jedisPool) {
-        this(10, 1.0, 1.0, jedisPool);
+    public TokenBucket(RedisClient jedis) {
+        this(10, 1.0, 1.0, jedis);
     }
 
     /**
@@ -138,15 +137,13 @@ public class TokenBucket {
         );
 
         List<Long> result;
-        try (Jedis jedis = jedisPool.getResource()) {
-            try {
-                // Try EVALSHA first (faster if script is cached)
-                result = (List<Long>) jedis.evalsha(scriptSha, keys, args);
-            } catch (JedisNoScriptException e) {
-                // Script not in cache, fall back to EVAL and reload
-                result = (List<Long>) jedis.eval(TOKEN_BUCKET_SCRIPT, keys, args);
-                scriptLoaded = false;
-            }
+        try {
+            // Try EVALSHA first (faster if script is cached)
+            result = (List<Long>) jedis.evalsha(scriptSha, keys, args);
+        } catch (JedisNoScriptException e) {
+            // Script not in cache, fall back to EVAL and reload
+            result = (List<Long>) jedis.eval(TOKEN_BUCKET_SCRIPT, keys, args);
+            scriptLoaded = false;
         }
 
         boolean allowed = result.get(0) == 1L;
@@ -157,10 +154,8 @@ public class TokenBucket {
     /** Ensures the Lua script is loaded into Redis. */
     private void ensureScriptLoaded() {
         if (!scriptLoaded) {
-            try (Jedis jedis = jedisPool.getResource()) {
-                scriptSha = jedis.scriptLoad(TOKEN_BUCKET_SCRIPT);
-                scriptLoaded = true;
-            }
+            scriptSha = jedis.scriptLoad(TOKEN_BUCKET_SCRIPT);
+            scriptLoaded = true;
         }
     }
 

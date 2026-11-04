@@ -84,7 +84,8 @@ commands to create and select contexts rather than editing the file by hand.
 Pipeline-scoped commands take the pipeline name as an optional positional argument that defaults to
 `default`, for example `redis-di start [pipeline]`. Sub-resource commands (for a secret, DLQ, or job)
 take their own key or name as the positional argument and target the pipeline with the `-p` / `--pipeline`
-option, which also defaults to `default`.
+option, which also defaults to `default`. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md) for more information.
 
 There are two command options that select a particular database of the pipeline. The secret commands take `--db` with
 a source name or `target` to address that database's secrets, and the `start`, `stop`, and `reset` commands take
@@ -99,8 +100,16 @@ The commands group as follows:
   [`describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md) (alias `status`),
   [`deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md) (alias `set`),
   [`start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md),
-  [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md), and
-  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md).
+  [`stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md),
+  [`reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md),
+  [`delete`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete.md), and
+  [`export`](/content/integrate/redis-data-integration/reference/cli/redis-di-export.md).
+- **Instance settings**: [`list-settings`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-settings.md),
+  [`get-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-setting.md),
+  [`set-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-setting.md), and
+  [`delete-setting`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-setting.md).
+  See [RDI instance settings](/content/integrate/redis-data-integration/reference/instance-settings.md)
+  for the available settings.
 - **Secrets**: [`list-secrets`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-secrets.md),
   [`get-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-secret.md),
   [`describe-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-secret.md),

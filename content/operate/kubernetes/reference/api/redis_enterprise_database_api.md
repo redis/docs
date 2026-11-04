@@ -104,6 +104,17 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specauthorizedsubjects">authorizedSubjects</a></td>
+        <td>[]object</td>
+        <td>
+          Client certificate subjects authorized to connect when clientCertSubjectValidationType is
+'SanCn' or 'FullSubject', which require at least one entry. Maps to the database's
+'authorized_subjects' setting. Subject attributes are case-sensitive.
+If neither field was ever set, the operator leaves the database setting unchanged; otherwise
+an omitted value means an empty list (see status.managedFields).<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specbackup">backup</a></td>
         <td>object</td>
         <td>
@@ -115,6 +126,24 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>[]string</td>
         <td>
           The Secrets containing TLS Client Certificate to use for Authentication<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>clientCertSubjectValidationType</td>
+        <td>enum</td>
+        <td>
+          Additional validation of client certificate subjects during mutual TLS authentication.
+Maps to the database's 'client_cert_subject_validation_type' setting.
+'Disabled' performs no subject validation; 'SanCn' requires the certificate's Subject
+Alternative Name (SAN) DNS entries or Common Name (CN) to match an authorizedSubjects entry;
+'FullSubject' requires the full certificate subject to match an entry.
+Applies only to client certificates validated through a CA certificate listed in
+clientAuthenticationCertificates; listed leaf certificates skip this validation.
+Required when authorizedSubjects is set. If neither field was ever set, the operator leaves
+the database setting unchanged; otherwise an omitted value means 'Disabled'
+(see status.managedFields).<br/>
+          <br/>
+            <i>Enum</i>: Disabled, SanCn, FullSubject<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -157,6 +186,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>boolean</td>
         <td>
           Allows connections with the default user. When disabled, the DatabaseSecret is not created or updated.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>disconnectClientsOnPasswordRemoval</td>
+        <td>boolean</td>
+        <td>
+          Controls whether the proxy disconnects clients of this database whose password was removed. Effective only when the cluster-level setting is "Auto" (see the RedisEnterpriseCluster field of the same name). The operator takes ownership of this BDB setting once the field is set (recorded in status.managedFields); removing the field afterwards resets the BDB to the false default. Requires Redis Enterprise 8.0 or newer.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -246,6 +282,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
+        <td>replicaReadOnly</td>
+        <td>boolean</td>
+        <td>
+          Boolean (default: false); If true, enables an Active-Passive setup where Replica Of databases only allow read operations. Only configurable during database creation and cannot be changed later.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specreplicasources">replicaSources</a></td>
         <td>[]object</td>
         <td>
@@ -302,6 +345,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>integer</td>
         <td>
           Number of database server-side shards.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specsharding">sharding</a></td>
+        <td>object</td>
+        <td>
+          Sharding-related configuration. The number of shards and their placement are controlled by the existing top-level shardCount and shardsPlacement. Not supported for Active-Active databases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1059,6 +1109,66 @@ the characters '&', '<', '>' or '"'. At most 512 usernames are allowed.<br/>
 </table>
 
 
+### spec.authorizedSubjects[]
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+An X.509 certificate subject (distinguished name) authorized to authenticate using a client certificate.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>CN</td>
+        <td>string</td>
+        <td>
+          Common Name (CN) component of the certificate subject. Required.<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>C</td>
+        <td>string</td>
+        <td>
+          Country (C) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>L</td>
+        <td>string</td>
+        <td>
+          Locality (L) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>O</td>
+        <td>string</td>
+        <td>
+          Organization (O) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>OU</td>
+        <td>[]string</td>
+        <td>
+          Organizational Unit (OU) components of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ST</td>
+        <td>string</td>
+        <td>
+          State or province (ST) component of the certificate subject.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.backup
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -1640,6 +1750,93 @@ Redis Enterprise Role and ACL Binding
 </table>
 
 
+### spec.sharding
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Sharding-related configuration. The number of shards and their placement are controlled by the existing top-level shardCount and shardsPlacement. Not supported for Active-Active databases.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>asmScaling</td>
+        <td>boolean</td>
+        <td>
+          Enables smooth scaling via Atomic Slot Migration: shardCount then accepts any value, in any direction, including decreasing the count. Requires autoShardsBalancing. Not supported for Active-Active or Redis-on-Flash databases.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>autoShardsBalancing</td>
+        <td>boolean</td>
+        <td>
+          Enables RS shard balancing for this database, including background auto-rebalancing: RS may move data between shards on its own whenever their imbalance exceeds the configured thresholds, see autoShardsBalancingSettings. Requires hashingPolicy OssSharding and a database Redis version of 8.4 or above. Note: enabling this also turns on the database's internal cluster mode (redis_cluster_enabled), which RS requires for balancing. Cluster mode stays on when balancing is disabled again - RS won't allow disabling it once the database has shards with split slot ranges.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specshardingautoshardsbalancingsettings">autoShardsBalancingSettings</a></td>
+        <td>object</td>
+        <td>
+          Optional tuning of autoShardsBalancing. Every field has a default, which is used both when the settings are absent and when an individual field is unset. The settings are ignored while autoShardsBalancing is off.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>hashingPolicy</td>
+        <td>enum</td>
+        <td>
+          Hashing policy for a sharded database. Defaults to ShardKeyRegex (regex-based hashing) when absent. Note: once the database has shards with split slot ranges, RS won't allow reverting from OssSharding back to ShardKeyRegex.<br/>
+          <br/>
+            <i>Enum</i>: ShardKeyRegex, OssSharding<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.sharding.autoShardsBalancingSettings
+<sup><sup>[↩ Parent](#specsharding)</sup></sup>
+
+Optional tuning of autoShardsBalancing. Every field has a default, which is used both when the settings are absent and when an individual field is unset. The settings are ignored while autoShardsBalancing is off.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>gracePeriodSeconds</td>
+        <td>integer</td>
+        <td>
+          The imbalance must persist for this long before a rebalance starts. Defaults to 120 when unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>shardImbalanceThreshold</td>
+        <td>int or string</td>
+        <td>
+          Rebalance only when a shard deviates from its ideal size by at least this much. The effective trigger is the larger of this and shardImbalanceThresholdPercentage. Defaults to 300Mi when unset. Values below the Redis Enterprise minimum (50Mi) are rejected by the cluster.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>shardImbalanceThresholdPercentage</td>
+        <td>integer</td>
+        <td>
+          Rebalance only when a shard deviates from its ideal size by at least this percent. The effective trigger is the larger of this and shardImbalanceThreshold. Defaults to 20 when unset.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.upgradeSpec
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -1698,6 +1895,13 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         <td>integer</td>
         <td>
           BigStore version for Redis on Flash databases (1 for Auto Tiering, 2 for Redis Flex). Read-only field populated from RS.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#statusconditions">conditions</a></td>
+        <td>[]object</td>
+        <td>
+          Conditions hold the latest observations of the database's state, e.g. the ScalingInProgress condition while a shardCount change is applied.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1766,6 +1970,15 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         </td>
         <td>false</td>
       </tr><tr>
+        <td>observedShardCount</td>
+        <td>integer</td>
+        <td>
+          The database's current shard count, as reported by the Redis Enterprise cluster.<br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>redisEnterpriseCluster</td>
         <td>string</td>
         <td>
@@ -1794,6 +2007,13 @@ apply to every database in the Redis Enterprise Cluster).<br/>
         <td>map[string]integer</td>
         <td>
           Aggregated statuses of shards<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>shardSyncStatuses</td>
+        <td>map[string]integer</td>
+        <td>
+          Aggregated sync statuses of shards ('in_progress' / 'idle' / 'link_down')<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1914,6 +2134,73 @@ Information on the database's periodic backup
         <td>string</td>
         <td>
           Time of last successful backup<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.conditions[]
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+Condition contains details for one aspect of the current state of this API Resource.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>lastTransitionTime</td>
+        <td>string</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: date-time<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>message</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>reason</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>status</td>
+        <td>enum</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Enum</i>: True, False, Unknown<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>type</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>observedGeneration</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+            <i>Minimum</i>: 0<br/>
         </td>
         <td>false</td>
       </tr></tbody>

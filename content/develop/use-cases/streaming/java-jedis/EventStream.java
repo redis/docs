@@ -4,9 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.CommandArguments;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.commands.ProtocolCommand;
@@ -57,7 +57,7 @@ public class EventStream {
     public static final int DEFAULT_MAXLEN_APPROX = 10_000;
     public static final int DEFAULT_CLAIM_MIN_IDLE_MS = 15_000;
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final String streamKey;
     private final int maxlenApprox;
     private final int claimMinIdleMs;
@@ -67,15 +67,15 @@ public class EventStream {
     private long ackedTotal;
     private long claimedTotal;
 
-    public EventStream(JedisPool pool) {
-        this(pool, DEFAULT_STREAM_KEY, DEFAULT_MAXLEN_APPROX, DEFAULT_CLAIM_MIN_IDLE_MS);
+    public EventStream(RedisClient jedis) {
+        this(jedis, DEFAULT_STREAM_KEY, DEFAULT_MAXLEN_APPROX, DEFAULT_CLAIM_MIN_IDLE_MS);
     }
 
-    public EventStream(JedisPool pool, String streamKey, int maxlenApprox, int claimMinIdleMs) {
-        if (pool == null) {
-            throw new IllegalArgumentException("pool is required");
+    public EventStream(RedisClient jedis, String streamKey, int maxlenApprox, int claimMinIdleMs) {
+        if (jedis == null) {
+            throw new IllegalArgumentException("jedis is required");
         }
-        this.pool = pool;
+        this.jedis = jedis;
         this.streamKey = (streamKey == null || streamKey.isEmpty())
                 ? DEFAULT_STREAM_KEY : streamKey;
         this.maxlenApprox = maxlenApprox > 0 ? maxlenApprox : DEFAULT_MAXLEN_APPROX;
@@ -137,9 +137,8 @@ public class EventStream {
      */
     public List<String> produceBatch(List<Map.Entry<String, Map<String, String>>> events) {
         List<String> ids = new ArrayList<>(events.size());
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
-            List<Response<StreamEntryID>> responses = new ArrayList<>(events.size());
+        List<Response<StreamEntryID>> responses = new ArrayList<>(events.size());
+        try (Pipeline pipe = jedis.pipelined()) {
             for (Map.Entry<String, Map<String, String>> event : events) {
                 Map<String, String> fields = encodeFields(event.getKey(), event.getValue());
                 XAddParams params = new XAddParams()
@@ -148,10 +147,10 @@ public class EventStream {
                 responses.add(pipe.xadd(streamKey, params, fields));
             }
             pipe.sync();
-            for (Response<StreamEntryID> resp : responses) {
-                StreamEntryID id = resp.get();
-                ids.add(id == null ? null : id.toString());
-            }
+        }
+        for (Response<StreamEntryID> resp : responses) {
+            StreamEntryID id = resp.get();
+            ids.add(id == null ? null : id.toString());
         }
         synchronized (statsLock) {
             producedTotal += ids.size();
@@ -185,7 +184,7 @@ public class EventStream {
      * {@code BUSYGROUP} errors (group already exists) are swallowed.</p>
      */
     public void ensureGroup(String group, String startId) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             jedis.xgroupCreate(streamKey, group, new StreamEntryID(startId), true);
         } catch (JedisDataException exc) {
             if (exc.getMessage() == null || !exc.getMessage().contains("BUSYGROUP")) {
@@ -195,7 +194,7 @@ public class EventStream {
     }
 
     public long deleteGroup(String group) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             return jedis.xgroupDestroy(streamKey, group);
         } catch (JedisDataException exc) {
             return 0L;
@@ -212,20 +211,17 @@ public class EventStream {
      * that recovery path).</p>
      */
     public List<Entry> consume(String group, String consumer, int count, long blockMs) {
-        try (Jedis jedis = pool.getResource()) {
-            XReadGroupParams params = new XReadGroupParams()
-                    .count(count)
-                    .block((int) blockMs);
-            Map<String, StreamEntryID> streams = new LinkedHashMap<>();
-            // ``UNRECEIVED_ENTRY`` is the Jedis sentinel that serialises
-            // to the special ID ``>``: "deliver entries this group has
-            // not yet delivered to anyone". Same field name across 5.x
-            // and 6.x; 6.x also exposes it as ``XREADGROUP_UNDELIVERED_ENTRY``.
-            streams.put(streamKey, StreamEntryID.UNRECEIVED_ENTRY);
-            List<Map.Entry<String, List<StreamEntry>>> result =
-                    jedis.xreadGroup(group, consumer, params, streams);
-            return flattenEntries(result);
-        }
+        XReadGroupParams params = new XReadGroupParams()
+                .count(count)
+                .block((int) blockMs);
+        Map<String, StreamEntryID> streams = new LinkedHashMap<>();
+        // ``XREADGROUP_UNDELIVERED_ENTRY`` is the Jedis sentinel that
+        // serialises to the special ID ``>``: "deliver entries this group
+        // has not yet delivered to anyone".
+        streams.put(streamKey, StreamEntryID.XREADGROUP_UNDELIVERED_ENTRY);
+        List<Map.Entry<String, List<StreamEntry>>> result =
+                jedis.xreadGroup(group, consumer, params, streams);
+        return flattenEntries(result);
     }
 
     /**
@@ -239,14 +235,12 @@ public class EventStream {
      * consumer (or {@code XAUTOCLAIM}) handed to it.</p>
      */
     public List<Entry> consumeOwnPel(String group, String consumer, int count) {
-        try (Jedis jedis = pool.getResource()) {
-            XReadGroupParams params = new XReadGroupParams().count(count);
-            Map<String, StreamEntryID> streams = new LinkedHashMap<>();
-            streams.put(streamKey, new StreamEntryID(0L, 0L));
-            List<Map.Entry<String, List<StreamEntry>>> result =
-                    jedis.xreadGroup(group, consumer, params, streams);
-            return flattenEntries(result);
-        }
+        XReadGroupParams params = new XReadGroupParams().count(count);
+        Map<String, StreamEntryID> streams = new LinkedHashMap<>();
+        streams.put(streamKey, new StreamEntryID(0L, 0L));
+        List<Map.Entry<String, List<StreamEntry>>> result =
+                jedis.xreadGroup(group, consumer, params, streams);
+        return flattenEntries(result);
     }
 
     public long ack(String group, List<String> ids) {
@@ -258,9 +252,7 @@ public class EventStream {
             entryIds[i] = new StreamEntryID(ids.get(i));
         }
         long acked;
-        try (Jedis jedis = pool.getResource()) {
-            acked = jedis.xack(streamKey, group, entryIds);
-        }
+        acked = jedis.xack(streamKey, group, entryIds);
         synchronized (statsLock) {
             ackedTotal += acked;
         }
@@ -289,25 +281,23 @@ public class EventStream {
         List<Entry> claimedAll = new ArrayList<>();
         List<String> deletedAll = new ArrayList<>();
         String cursor = (startId == null || startId.isEmpty()) ? "0-0" : startId;
-        try (Jedis jedis = pool.getResource()) {
-            for (int page = 0; page < maxPages; page++) {
-                // Use sendCommand to get the raw 3-element reply
-                // (next-id, claimed-entries, deleted-ids). Jedis 6's
-                // typed xautoclaim wrapper hides the deleted-ids slot.
-                Object raw = jedis.sendCommand(
-                        XAutoClaimRaw.XAUTOCLAIM,
-                        streamKey, group, consumer,
-                        Integer.toString(claimMinIdleMs),
-                        cursor,
-                        "COUNT", Integer.toString(pageCount));
-                ParsedAutoClaim parsed = parseAutoClaim(raw);
-                claimedAll.addAll(parsed.claimed);
-                deletedAll.addAll(parsed.deletedIds);
-                if ("0-0".equals(parsed.nextCursor)) {
-                    break;
-                }
-                cursor = parsed.nextCursor;
+        for (int page = 0; page < maxPages; page++) {
+            // Use executeCommand to get the raw 3-element reply
+            // (next-id, claimed-entries, deleted-ids). Jedis 6's
+            // typed xautoclaim wrapper hides the deleted-ids slot.
+            Object raw = jedis.executeCommand(
+                    new CommandArguments(XAutoClaimRaw.XAUTOCLAIM).addObjects(
+                            streamKey, group, consumer,
+                            Integer.toString(claimMinIdleMs),
+                            cursor,
+                            "COUNT", Integer.toString(pageCount)));
+            ParsedAutoClaim parsed = parseAutoClaim(raw);
+            claimedAll.addAll(parsed.claimed);
+            deletedAll.addAll(parsed.deletedIds);
+            if ("0-0".equals(parsed.nextCursor)) {
+                break;
             }
+            cursor = parsed.nextCursor;
         }
         synchronized (statsLock) {
             claimedTotal += claimedAll.size();
@@ -404,7 +394,7 @@ public class EventStream {
      * and is exposed only for explicit cleanup.</p>
      */
     public long deleteConsumer(String group, String consumer) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             return jedis.xgroupDelConsumer(streamKey, group, consumer);
         } catch (JedisDataException exc) {
             return 0L;
@@ -427,27 +417,25 @@ public class EventStream {
      */
     public int handoverPending(String group, String fromConsumer, String toConsumer, int batch) {
         int total = 0;
-        try (Jedis jedis = pool.getResource()) {
-            while (true) {
-                XPendingParams params = new XPendingParams()
-                        .idle(0L)
-                        .count(batch)
-                        .consumer(fromConsumer);
-                List<StreamPendingEntry> rows = jedis.xpending(streamKey, group, params);
-                if (rows == null || rows.isEmpty()) {
-                    break;
-                }
-                StreamEntryID[] ids = new StreamEntryID[rows.size()];
-                for (int i = 0; i < rows.size(); i++) {
-                    ids[i] = rows.get(i).getID();
-                }
-                XClaimParams claimParams = new XClaimParams();
-                List<StreamEntry> claimed = jedis.xclaim(
-                        streamKey, group, toConsumer, 0L, claimParams, ids);
-                total += (claimed == null ? 0 : claimed.size());
-                if (rows.size() < batch) {
-                    break;
-                }
+        while (true) {
+            XPendingParams params = new XPendingParams()
+                    .idle(0L)
+                    .count(batch)
+                    .consumer(fromConsumer);
+            List<StreamPendingEntry> rows = jedis.xpending(streamKey, group, params);
+            if (rows == null || rows.isEmpty()) {
+                break;
+            }
+            StreamEntryID[] ids = new StreamEntryID[rows.size()];
+            for (int i = 0; i < rows.size(); i++) {
+                ids[i] = rows.get(i).getID();
+            }
+            XClaimParams claimParams = new XClaimParams();
+            List<StreamEntry> claimed = jedis.xclaim(
+                    streamKey, group, toConsumer, 0L, claimParams, ids);
+            total += (claimed == null ? 0 : claimed.size());
+            if (rows.size() < batch) {
+                break;
             }
         }
         synchronized (statsLock) {
@@ -469,14 +457,12 @@ public class EventStream {
      * stream.</p>
      */
     public List<Entry> replay(String startId, String endId, int count) {
-        try (Jedis jedis = pool.getResource()) {
-            List<StreamEntry> rows = jedis.xrange(streamKey, startId, endId, count);
-            return toEntries(rows);
-        }
+        List<StreamEntry> rows = jedis.xrange(streamKey, startId, endId, count);
+        return toEntries(rows);
     }
 
     public long length() {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             return jedis.xlen(streamKey);
         } catch (JedisDataException exc) {
             return 0L;
@@ -484,7 +470,7 @@ public class EventStream {
     }
 
     public long trimMaxlen(long maxlen) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             XTrimParams params = new XTrimParams().maxLen(maxlen).approximateTrimming();
             return jedis.xtrim(streamKey, params);
         } catch (JedisDataException exc) {
@@ -493,7 +479,7 @@ public class EventStream {
     }
 
     public long trimMinid(String minid) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             XTrimParams params = new XTrimParams().minId(minid).approximateTrimming();
             return jedis.xtrim(streamKey, params);
         } catch (JedisDataException exc) {
@@ -512,7 +498,7 @@ public class EventStream {
         info.put("last_generated_id", null);
         info.put("first_entry_id", null);
         info.put("last_entry_id", null);
-        try (Jedis jedis = pool.getResource()) {
+        try {
             StreamInfo raw = jedis.xinfoStream(streamKey);
             if (raw == null) {
                 return info;
@@ -532,7 +518,7 @@ public class EventStream {
 
     public List<Map<String, Object>> infoGroups() {
         List<Map<String, Object>> out = new ArrayList<>();
-        try (Jedis jedis = pool.getResource()) {
+        try {
             List<StreamGroupInfo> rows = jedis.xinfoGroups(streamKey);
             if (rows == null) {
                 return out;
@@ -557,7 +543,7 @@ public class EventStream {
 
     public List<Map<String, Object>> infoConsumers(String group) {
         List<Map<String, Object>> out = new ArrayList<>();
-        try (Jedis jedis = pool.getResource()) {
+        try {
             List<StreamConsumerInfo> rows = jedis.xinfoConsumers2(streamKey, group);
             if (rows == null) {
                 return out;
@@ -578,7 +564,7 @@ public class EventStream {
     /** Per-entry PEL view (id, consumer, idle, deliveries). */
     public List<Map<String, Object>> pendingDetail(String group, int count) {
         List<Map<String, Object>> out = new ArrayList<>();
-        try (Jedis jedis = pool.getResource()) {
+        try {
             XPendingParams params = new XPendingParams()
                     .start(StreamEntryID.MINIMUM_ID)
                     .end(StreamEntryID.MAXIMUM_ID)
@@ -603,7 +589,7 @@ public class EventStream {
 
     /** Reverse-range tail read, used by the demo to render the most recent entries. */
     public List<Entry> tail(int count) {
-        try (Jedis jedis = pool.getResource()) {
+        try {
             List<StreamEntry> rows = jedis.xrevrange(streamKey, "+", "-", count);
             return toEntries(rows);
         } catch (JedisDataException exc) {
@@ -635,9 +621,7 @@ public class EventStream {
 
     /** Drop the stream key entirely. Used by the demo's reset path. */
     public void deleteStream() {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.del(streamKey);
-        }
+        jedis.del(streamKey);
     }
 
     // ------------------------------------------------------------------

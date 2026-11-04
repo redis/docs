@@ -664,12 +664,13 @@
     if (note && focusLost) note.focus({ preventScroll: true });
   }
 
-  /* The fields the chat page sends. origin is the page the rating was given
-     on, as for the docs' own page ratings (feedback.html); the chat page sends
-     its own URL there. */
+  /* The same fields the chat page sends. origin is the chat page's URL too.
+     DocuSight keeps a rating only if its origin starts with
+     https://redis.io/chat/, and drops any other while still answering 200.
+     It still records the page, because it stores the Referer header too. */
   function sendRating(m, kind, comment, token) {
     var data = {
-      origin: location.origin + location.pathname,
+      origin: location.origin + '/chat/',
       question: m.q || '',
       answer: decode(m.text),
       comment: comment,
@@ -715,8 +716,10 @@
 
   /* --------------------------------------------------------------- ask -- */
 
+  /* The page's own link. A link with its own label, such as the error
+     lookup's, asks about something else. */
   function pageLink() {
-    return document.querySelector('a[data-ai-chat-open]');
+    return document.querySelector('a[data-ai-chat-open]:not([data-ai-chat-label])');
   }
 
   function promptOf(link) {
@@ -726,8 +729,9 @@
   function explain(link) {
     var q = link && promptOf(link);
     if (!q) return;
+    var label = link.getAttribute('data-ai-chat-label');
     var title = link.getAttribute('data-ai-chat-title');
-    ask(q, title ? 'Explain this page: ' + title : 'Explain this page');
+    ask(q, label || (title ? 'Explain this page: ' + title : 'Explain this page'));
   }
 
   /* True if the question went in: it waits while another tab gets an answer. */

@@ -5,10 +5,10 @@
 # pool of workers drain the queue, simulate worker crashes, and trigger a
 # reclaim sweep that pulls timed-out jobs back to pending.
 
-require 'cgi'
 require 'json'
 require 'optparse'
 require 'redis'
+require 'uri'
 require 'webrick'
 
 require_relative 'job_queue'
@@ -37,8 +37,15 @@ def parse_args(argv)
   opts
 end
 
+# Parse an application/x-www-form-urlencoded body into a Hash of value
+# Arrays. A missing key reads as an empty Array, as CGI.parse did before it
+# was dropped from Ruby's standard library in Ruby 4.
 def parse_form(body)
-  CGI.parse(body.to_s)
+  out = Hash.new { |h, k| h[k] = [] }
+  URI.decode_www_form(body.to_s).each { |k, v| out[k] << v }
+  out
+rescue ArgumentError
+  Hash.new { |h, k| h[k] = [] }
 end
 
 def clamp_int(value, lo, hi, default)
@@ -224,7 +231,7 @@ def html_page(visibility_ms)
         <h1>Redis Job Queue Demo</h1>
         <p class="lede">
           Enqueue background jobs and watch a pool of workers drain them through Redis.
-          Pending jobs sit in a list; each worker uses <code>BRPOPLPUSH</code> to atomically
+          Pending jobs sit in a list; each worker uses <code>BLMOVE</code> to atomically
           claim a job and move it to a processing list. Completed jobs move to a short
           history. If a worker hangs past the #{visibility_ms} ms visibility timeout,
           the reclaimer moves its job back to pending so no work is lost.

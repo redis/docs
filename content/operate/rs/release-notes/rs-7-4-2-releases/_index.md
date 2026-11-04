@@ -204,6 +204,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     This issue was fixed in [Redis Enterprise Software version 7.4.2-169](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169.md).
 
+- RS219531: Upgrading a cluster from Redis Software version 7.4.x to version 8.2.0 can fail. To upgrade, first upgrade to Redis Software version 8.0.x, and then upgrade to version 8.2.0. For details, see the [Redis Software 8.2.0 known issues](/content/operate/rs/release-notes/rs-8-2-releases/_index.md#known-issues).
+
 ## Known limitations
 
 #### New Cluster Manager UI limitations

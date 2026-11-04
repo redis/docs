@@ -75,6 +75,25 @@ The request body should contain a JSON object with the following export paramete
 
 The above request initiates an export operation to the specified location.
 
+##### Example JSON body with a customer-provided encryption key (SSE-C)
+
+```json
+{
+    "export_location": {
+        "type": "s3",
+        "bucket_name": "backups",
+        "access_key_id": "XXXXXXXXXXXXX",
+        "secret_access_key": "XXXXXXXXXXXXXXXX",
+        "encryption": {
+            "type": "sse-c",
+            "sse_customer_key": "<base64-encoded 32-byte key>"
+        }
+    }
+}
+```
+
+`encryption` is available only for S3 and S3-compatible `export_location` values. See [backup_location/export_location]({{< relref "/operate/rs/references/rest-api/objects/bdb/backup_location" >}}) for the field details.
+
 ### Response {#post-response}
 
 Returns a status code.

@@ -119,7 +119,7 @@ impl PrefetchCache {
         }
         if loaded > 0 {
             let mut conn = self.conn.clone();
-            pipe.query_async::<_, ()>(&mut conn).await?;
+            pipe.query_async::<()>(&mut conn).await?;
         }
         self.stats.prefetched.fetch_add(loaded, Ordering::Relaxed);
         Ok(loaded)
@@ -191,7 +191,7 @@ impl PrefetchCache {
                     .ignore()
                     .expire(&cache_key, self.cfg.ttl_seconds)
                     .ignore()
-                    .query_async::<_, ()>(&mut conn)
+                    .query_async::<()>(&mut conn)
                     .await?;
             }
             "delete" => {
@@ -230,7 +230,7 @@ impl PrefetchCache {
         {
             let mut iter: AsyncIter<String> = conn.scan_match(&pattern).await?;
             while let Some(key) = iter.next_item().await {
-                keys.push(key);
+                keys.push(key?);
             }
         }
         if keys.is_empty() {
@@ -256,7 +256,7 @@ impl PrefetchCache {
         let mut out: Vec<String> = Vec::new();
         let mut iter: AsyncIter<String> = conn.scan_match(&pattern).await?;
         while let Some(key) = iter.next_item().await {
-            out.push(self.strip_prefix(&key).to_string());
+            out.push(self.strip_prefix(&key?).to_string());
         }
         out.sort();
         Ok(out)

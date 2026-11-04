@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 //REMOVE_END
 
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.CompareCondition;
 
@@ -20,7 +20,7 @@ public class StringExample {
 
   @Test
   public void run() {
-    try (UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379")) {
+    try (RedisClient jedis = RedisClient.create("redis://localhost:6379")) {
 
       // STEP_START set_get
       String res1 = jedis.set("bike:1", "Deimos");
@@ -38,8 +38,8 @@ public class StringExample {
       // Recreate the bike:1 key so this example runs on its own.
       jedis.set("bike:1", "Deimos");
 
-      Long res3 = jedis.setnx("bike:1", "bike");
-      System.out.println(res3); // 0 (because key already exists)
+      String res3 = jedis.set("bike:1", "bike", SetParams.setParams().nx());
+      System.out.println(res3); // null (because key already exists)
       System.out.println(jedis.get("bike:1")); // Deimos (value is unchanged)
       String res4 = jedis.set("bike:1", "bike", SetParams.setParams().xx()); // set the value to "bike" if it
       // already
@@ -48,7 +48,7 @@ public class StringExample {
       // STEP_END
 
       // REMOVE_START
-      assertEquals(0L, res3.longValue());
+      assertNull(res3);
       assertEquals("OK", res4);
       // REMOVE_END
 

@@ -365,7 +365,7 @@ async function main() {
   const shutdown = async (signal) => {
     console.log(`\nReceived ${signal}, shutting down...`);
     server.close();
-    try { await client.disconnect(); } catch {}
+    try { await client.destroy(); } catch {}
     process.exit(0);
   };
   process.on('SIGINT', () => shutdown('SIGINT'));

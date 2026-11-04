@@ -38,7 +38,7 @@ to a Redis database.
 > | `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
 > | `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
 >
-> The old client classes are now considered deprecated.
+> Jedis 8.0 removed `JedisPooled` and the public `UnifiedJedis` constructors, and the other old classes are deprecated.
 
 `Jedis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
@@ -52,7 +52,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>7.2.0</version>
+      <version>8.0.2</version>
   </dependency>
   ```
 
@@ -64,7 +64,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:7.2.0'
+      implementation 'redis.clients:jedis:8.0.2'
       //...
   }
   ```
