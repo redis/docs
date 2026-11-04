@@ -408,7 +408,6 @@ assert len(res) == 6
 req = (
     aggregations.AggregateRequest("*")
     .group_by("@category", reducers.avg("@price").alias("avg_price"))
-    .sort_by(aggregations.Desc("@avg_price"))
 )
 res = index.aggregate(req).rows
 print(res)
