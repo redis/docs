@@ -57,6 +57,8 @@ for a more detailed discussion of these errors and their causes.
 | `redis.ResponseError` | Invalid command or Redis error response | ❌ | Fix the command or arguments |
 | `redis.DataError` | Data serialization/deserialization issues | ⚠️ | Log, invalidate cache, fetch fresh data |
 
+For the redis-py exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

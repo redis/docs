@@ -59,6 +59,8 @@ for a more detailed discussion of these errors and their causes.
 | `JedisDataException` | Problem with data being sent or received | ❌ | Fix the data or command |
 | `JedisException` | Unexpected errors (catch-all) | ❌ | Log and investigate |
 
+For the Jedis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

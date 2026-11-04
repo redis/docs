@@ -51,6 +51,8 @@ redis-rs provides a `RedisError` type with various error kinds. Common error kin
 See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
+For the redis-rs exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview
