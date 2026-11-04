@@ -1,0 +1,52 @@
+{{- /*
+  Expand error-clients shortcodes for Markdown/JSON output.
+
+  The HTML shortcode (layouts/shortcodes/error-clients.html) renders the
+  exceptions that client libraries raise for an error page, or, with
+  generic="true", the class they raise for any other error. AI-facing output
+  needs the same tables as Markdown. The per-page rows come from
+  layouts/partials/errors/client-rows.html.
+
+  Input: dict with:
+    - "RawContent": The Markdown content to process
+    - "Page": The current Hugo page
+
+  Output: Markdown content with error-clients shortcodes expanded
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $matches := findRE `\{\{<\s*error-clients(\s+generic="true")?\s*>\}\}` $content -}}
+{{- /* A generated page, such as a section without an _index.md, has no .File. */ -}}
+{{- $rows := slice -}}
+{{- if and $matches .Page.File -}}
+  {{- $rows = partial "errors/client-rows.html" .Page.File.TranslationBaseName -}}
+{{- end -}}
+{{- $data := index site.Data "client-exceptions" -}}
+
+{{- range $match := $matches -}}
+  {{- $md := "" -}}
+  {{- if in $match "generic" -}}
+    {{- $md = "| Client library | Exception or error type |\n|---|---|\n" -}}
+    {{- range $id := $data.order -}}
+      {{- $client := index $data.clients $id -}}
+      {{- $type := printf "`%s`" $client.generic -}}
+      {{- with $client.note -}}{{- $type = printf "%s. %s" $type . -}}{{- end -}}
+      {{- $md = printf "%s| %s | %s |\n" $md $client.name $type -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $md = "| Client library | Exception or error type | Message |\n|---|---|---|\n" -}}
+    {{- range $rows -}}
+      {{- $msg := replace .message "|" "\\|" -}}
+      {{- $msg = cond (eq $msg "") "" (cond (in $msg "`") (printf "`` %s ``" $msg) (printf "`%s`" $msg)) -}}
+      {{- with .note -}}{{- $msg = strings.TrimSpace (printf "%s %s" $msg .) -}}{{- end -}}
+      {{- $type := printf "`%s`" .class -}}
+      {{- with .check -}}{{- $type = printf "%s, test with `%s`" $type . -}}{{- end -}}
+      {{- $client := .client -}}
+      {{- with .clientNote -}}{{- $client = printf "%s. %s" $client . -}}{{- end -}}
+      {{- $md = printf "%s| %s | %s | %s |\n" $md $client $type $msg -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $content = replace $content $match $md 1 -}}
+{{- end -}}
+
+{{- return $content -}}

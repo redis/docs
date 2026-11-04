@@ -28,6 +28,10 @@ Redis returns this error when a stream command uses a consumer group that doesn'
 NOGROUP No such key 'mystream' or consumer group 'mygroup' in XREADGROUP with GROUP option
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 ```

@@ -18,6 +18,7 @@ error:
   message: MOVED <slot> <endpoint>:<port>
   match:
   - MovedError
+  - JedisMovedDataException
 ---
 
 A Redis cluster returns this error when you send a command to a node that doesn't serve the key. The error tells you which node does. A client that supports clusters reads the error, sends the command again to the right node, and updates its map of the cluster.
@@ -28,7 +29,9 @@ A cluster splits keys into 16384 hash slots, and each primary node serves some o
 MOVED 12182 127.0.0.1:6463
 ```
 
-In redis-py, this error is `MovedError: 12182 127.0.0.1:6463`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

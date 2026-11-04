@@ -20,6 +20,10 @@ C = 'redis-docs-error-checks'
 CRUN = '/tmp/rerr'
 PORTS = '127.0.0.1:6550-6575:6550-6575'
 results = {}
+# What rec() files a client's exception under. live_clients.py sets these to run the same
+# checks with another client library, and leaves live_baseline.json alone.
+CLIENT_KEY = 'redis_py'
+EXTRA_META = {}
 
 
 class _Missing(Exception):
@@ -108,7 +112,7 @@ class Conn:
 def rec(key, raw=None, py=None, note=None):
     r = results.setdefault(key, {})
     if raw is not None: r.setdefault('raw', []).append(raw)
-    if py is not None: r.setdefault('redis_py', []).append(py)
+    if py is not None: r.setdefault(CLIENT_KEY, []).append(py)
     if note: r.setdefault('notes', []).append(note)
     print(key, raw, py, flush=True)
 
@@ -430,7 +434,7 @@ def run(image, out, only=()):
         dx('mkdir', '-p', CRUN, user='root'); dx('chown', 'redis', CRUN, user='root')
         ver = dx('redis-server', '--version').stdout.strip()
         results['_meta'] = {'redis': ver, 'redis_py': redis.__version__ if redis else None,
-                            'date': time.strftime('%Y-%m-%d')}
+                            'date': time.strftime('%Y-%m-%d'), **EXTRA_META}
         for step in STEPS:
             if only and step.__name__ not in only: continue
             try:

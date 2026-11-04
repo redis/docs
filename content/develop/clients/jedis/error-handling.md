@@ -31,13 +31,18 @@ Jedis organizes exceptions in a hierarchy rooted at `JedisException`, which exte
         "JedisRedirectionException":
             "JedisMovedDataException":
             "JedisAskDataException":
-        "AbortedTransactionException":
         "JedisAccessControlException":
         "JedisNoScriptException":
-    "JedisClusterException":
-        "JedisClusterOperationException":
-        "JedisConnectionException":
-        "JedisValidationException":
+        "JedisBusyException":
+        "JedisClusterException":
+        "JedisBroadcastException":
+        "JedisProtocolNotSupportedException":
+    "JedisClusterOperationException":
+        "ClusterAggregationException":
+            "UnsupportedAggregationException":
+    "JedisConnectionException":
+    "JedisValidationException":
+    "JedisCacheException":
     "InvalidURIException":
 ```
 
@@ -53,6 +58,8 @@ for a more detailed discussion of these errors and their causes.
 | `JedisAccessControlException` | Authentication failure or permission denied | ❌ | Fix credentials or permissions |
 | `JedisDataException` | Problem with data being sent or received | ❌ | Fix the data or command |
 | `JedisException` | Unexpected errors (catch-all) | ❌ | Log and investigate |
+
+For the Jedis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
 
 ## Applying error handling patterns
 

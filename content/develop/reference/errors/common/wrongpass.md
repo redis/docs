@@ -19,6 +19,8 @@ error:
   match:
   - invalid username-password pair
   - called without any password configured
+  - AuthenticationError
+  - JedisAccessControlException
 ---
 
 Redis returns this error from [`AUTH`](/content/commands/auth.md) or [`HELLO`](/content/commands/hello.md) when it can't authenticate you. For security, the message is the same in each of these cases:
@@ -31,7 +33,9 @@ Redis returns this error from [`AUTH`](/content/commands/auth.md) or [`HELLO`](/
 WRONGPASS invalid username-password pair or user is disabled.
 ```
 
-In redis-py, this error is `AuthenticationError: invalid username-password pair or user is disabled.`
+## In client libraries
+
+{{< error-clients >}}
 
 ## How to fix it
 

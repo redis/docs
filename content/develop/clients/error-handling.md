@@ -31,6 +31,8 @@ Redis errors fall into four main categories. The table below provides a quick ov
 | [Data errors](#data-errors) | Serialization failures, corrupted data, type mismatches | Sometimes (depends on data source) | `JSONDecodeError`, `SerializationError`, `WRONGTYPE` |
 | [Resource errors](#resource-errors) | Memory limit, pool exhausted, too many connections, key eviction | Sometimes (some are temporary) | `OOM`, pool timeout, `LOADING` |
 
+To look up a specific server error message, and the exception that each client library raises for it, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ### Connection errors
 
 Connection errors occur when your application cannot communicate with Redis. These are typically temporary and often recoverable.

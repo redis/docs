@@ -27,7 +27,9 @@ A Redis cluster returns this error when one command uses keys that belong to dif
 CROSSSLOT Keys in request don't hash to the same slot
 ```
 
-In redis-py, this error is `ClusterCrossSlotError: Keys in request don't hash to the same slot`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

@@ -36,6 +36,10 @@ Redis returns this error when it can't save your data to disk. So that you notic
     MISCONF Errors writing to the AOF file: No space left on device
     ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## How to fix it
 
 1. Find out why saving failed. The Redis log gives the reason, for example:

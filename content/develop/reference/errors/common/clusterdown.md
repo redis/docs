@@ -20,6 +20,7 @@ error:
   - Hash slot not served
   - The cluster is down
   - ClusterDownError
+  - JedisClusterException
 ---
 
 A Redis cluster returns this error when it can't serve your command. The message has two versions:
@@ -32,7 +33,9 @@ CLUSTERDOWN The cluster is down
 - `Hash slot not served` means that no node serves the key's hash slot. This happens when some slots were never assigned to a node, for example, in a cluster you haven't finished setting up.
 - `The cluster is down` means that the cluster is in a failed state. By default, a cluster stops serving commands when any hash slot has no working node. For example, this happens when a primary node fails and has no replica to take its place.
 
-In redis-py, this error is `ClusterDownError: The cluster is down` or `ClusterDownError: Hash slot not served`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

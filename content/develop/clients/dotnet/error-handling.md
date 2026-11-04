@@ -36,6 +36,8 @@ app reliability.
 See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
+For the StackExchange.Redis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

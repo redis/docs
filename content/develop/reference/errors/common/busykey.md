@@ -26,6 +26,10 @@ Redis returns this error when [`RESTORE`](/content/commands/restore.md) would cr
 BUSYKEY Target key name already exists.
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 ```

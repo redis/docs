@@ -111,6 +111,35 @@ checking what Claude did.
 7. **Build the site and open a pull request.** Look at the list pages that
    changed, and at the error lookup on the errors page.
 
+## Check how client libraries report the errors
+
+The "In client libraries" table on each error page comes from
+`data/client-exceptions.json`. `verify` records only the redis-py names. To check
+another client library, run the same checks with that client:
+
+```
+python3 build/errors/live_clients.py jedis --image redis:8.12.0 --version 8.0.3
+```
+
+It needs Docker, like `verify`, and the client's tools: Java and Maven (`jedis`,
+`lettuce_sync`, `lettuce_async`, `lettuce_reactive`), Node.js and npm
+(`node_redis`, `ioredis`), Go (`go_redis`), the .NET SDK (`se_redis_sync`,
+`se_redis_async`), PHP and Composer (`predis`), Ruby (`redis_rb`), and Rust
+(`rust_sync`, `rust_async`). Each client is a bridge in `bridges/`: a short
+Python module and a probe program in the client's language that runs one command
+and prints the exception class and message. The run lists the pages where the
+client's reply, or the server's, differs from `client_baselines/<client>.json`.
+Copy the classes and messages that changed into `data/client-exceptions.json` by
+hand, and the client's version into its `versions`. Then save the run with
+`--accept`, which needs a full run, so it can't be combined with `--only`.
+`update_errors.py check` fails when the data names a class that the baselines
+didn't see, and when a page has no entry. Run the clients one at a time, because
+they share the Docker ports.
+
+To add a client, copy `bridges/jedis.py` and its probe, and make the probe print
+`OK<TAB>value` or `EXC<TAB>class<TAB>message`. The format is in
+`bridges/_common.py`.
+
 ## How the comparison works
 
 The tool reads every string in the C and Rust source of each repository, at
@@ -132,6 +161,8 @@ builds, can't be followed. `diff` says how many.
 - `live_checks.py`: the server checks that `verify` runs.
 - `live_baseline.json`: the replies that the error pages show, from the last
   accepted run.
+- `live_clients.py`, `bridges/` and `client_baselines/`: the same checks run
+  with other client libraries.
 - `explanation-style.md`: how to write an explanation, and the fields of a new
   message.
 - `../test_update_errors.py`: unit tests. Run `python3 build/test_update_errors.py`.

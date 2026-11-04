@@ -78,6 +78,7 @@
               {{ else }}
                 <p class="text-slate-500 italic">No method signature available for this client.</p>
               {{ end }}
+              {{ partial "components/api-methods-errors.html" (dict "commandName" $commandName "mappingId" $mappingId) }}
             </div>
             {{ $first = false }}
           {{ end }}

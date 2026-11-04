@@ -18,6 +18,7 @@ error:
   message: ASK <slot> <endpoint>:<port>
   match:
   - AskError
+  - JedisAskDataException
 ---
 
 A Redis cluster returns this error while a hash slot is moving from one node to another, for example, while you reshard the cluster. The key you asked for isn't on the node you sent the command to, so it may already be on the new node. The error gives the slot number and the new node's address:
@@ -26,7 +27,9 @@ A Redis cluster returns this error while a hash slot is moving from one node to 
 ASK 8000 127.0.0.1:6461
 ```
 
-In redis-py, this error is `AskError: 8000 127.0.0.1:6461`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

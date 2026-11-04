@@ -28,6 +28,10 @@ A replica only counts if it's up to date. Each replica reports to its primary ev
 NOREPLICAS Not enough good replicas to write.
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## How to fix it
 
 1. On the primary, run [`INFO replication`](/content/commands/info.md). `connected_slaves` shows how many replicas are connected. Each `slave0`, `slave1`, and so on line shows a replica's address and its `lag` in seconds.

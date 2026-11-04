@@ -28,9 +28,11 @@ A Redis cluster returns this error when a command with several keys runs while t
 TRYAGAIN Multiple keys request during rehashing of slot
 ```
 
-In redis-py, this error is `TryAgainError: Multiple keys request during rehashing of slot`.
-
 A similar error, `TRYAGAIN Slot is being trimmed`, means that a write reached a node while it was deleting all the keys of the slot, for example, after `SFLUSH`. It's temporary too.
+
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

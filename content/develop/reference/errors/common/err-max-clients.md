@@ -28,7 +28,9 @@ ERR max number of clients reached
 
 In a cluster, the connections from other cluster nodes count toward the limit too, and the message is `ERR max number of clients + cluster connections reached`.
 
-In redis-py, this error is `ConnectionError: max number of clients reached`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## How to fix it
 

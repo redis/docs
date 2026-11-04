@@ -55,3 +55,9 @@ The [list of all error messages](/content/develop/reference/errors/all/_index.md
 - [JSON](/content/develop/reference/errors/all/json.md)
 - [Probabilistic data types](/content/develop/reference/errors/all/probabilistic.md)
 - [Time series](/content/develop/reference/errors/all/time-series.md)
+
+## Errors without their own exception class
+
+Most client libraries have their own exception class for only a few prefixes. They raise every other error as one general server-error class, and you tell the errors apart by the prefix in the message. This table shows that class for each client library. For the class of a specific error, see its [common error](/content/develop/reference/errors/common/_index.md) page.
+
+{{< error-clients generic="true" >}}

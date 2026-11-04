@@ -113,7 +113,46 @@ page's example and text. If a change would remove or soften a limitation that
 the page states, flag it to the user instead of changing it. Then save the new
 replies with `--accept`.
 
-## 5. Finish
+## 5. Recheck the client libraries
+
+Each error page has an "In client libraries" table, from
+`data/client-exceptions.json`. A new Redis release can change what a client
+raises, as can a new client release. `check` already fails when the data names a
+class that the last run of a client didn't see, or when a page has no entry. This
+step refreshes those runs. Skip it only if the user says so, and say in the
+summary that you did.
+
+1. Read `versions` in `data/client-exceptions.json` and find each client's latest
+   release on its registry. Ask the user before you move a client to a new
+   major version, because its API may have changed.
+2. Run each client's bridge on the new Redis image, one at a time, because they
+   share the Docker ports 6550-6575. Run them outside the sandbox, as they need
+   Docker, the network and local ports. Each takes about two minutes:
+
+   ```
+   python3 build/errors/live_clients.py <bridge> --image redis:<version> [--version <client version>]
+   ```
+
+   The bridges are `jedis`, `lettuce_sync`, `lettuce_async`, `lettuce_reactive`,
+   `node_redis`, `ioredis`, `go_redis`, `se_redis_sync`, `se_redis_async`,
+   `predis`, `redis_rb`, `rust_sync` and `rust_async`. redis-py is covered by
+   step 4. `build/errors/README.md` lists the toolchain each one needs. If one
+   is missing, ask the user to install it rather than skipping the client.
+3. Each run lists the pages where the client's reply, or the server's, differs
+   from `client_baselines/<bridge>.json`. For each page, update the entry in
+   `data/client-exceptions.json`: the class, the message, `check` and `note`.
+   Update the client's version in `versions`. Then save the run by running the
+   same command with `--accept`. It refuses a run in which a step failed.
+4. For a new page in `common/`, add an entry for every client in `order`, with
+   the live result. Use `"class": "(none)"` for a client that raises nothing. If
+   the page's error names a class that the lookup should match, extend the
+   page's `match` list.
+
+A few rows depend on timing or on a restricted user, such as `denied` and max
+clients, and can differ between runs. Run those again before you change a page
+for them.
+
+## 6. Finish
 
 Run `python3 build/errors/update_errors.py check` and
 `python3 build/test_update_errors.py`, both of which must pass. Then tell the
@@ -123,6 +162,7 @@ user, in a few lines:
 - the new error codes,
 - which explanations are `inferred`, and why,
 - any upstream bugs you found, such as a message with the wrong code or a typo,
-- the pages that `verify` flagged, and what you changed.
+- the pages that `verify` flagged, and what you changed,
+- the clients whose replies changed, and the client versions you moved.
 
 Don't commit or open a pull request unless the user asks.

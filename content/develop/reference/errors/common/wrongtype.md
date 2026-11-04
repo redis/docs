@@ -20,6 +20,7 @@ error:
   - Operation against a key holding the wrong kind of value
   - Existing key has wrong Redis type
   - Key is not a valid HyperLogLog string value
+  - WrongTypeError
 ---
 
 Redis returns this error when you run a command on a key that holds a different data type than the command works with. Each key holds one data type, such as a string, a list, or a hash, and each command works with only one of them.
@@ -29,6 +30,10 @@ WRONGTYPE Operation against a key holding the wrong kind of value
 ```
 
 Some commands word this error differently. JSON commands return `Existing key has wrong Redis type`. HyperLogLog commands return `WRONGTYPE Key is not a valid HyperLogLog string value.` for a key that holds a string but not a HyperLogLog.
+
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

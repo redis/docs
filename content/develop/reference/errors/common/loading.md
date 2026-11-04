@@ -19,6 +19,7 @@ error:
   match:
   - Redis is loading the dataset in memory
   - BusyLoadingError
+  - RedisLoadingException
 ---
 
 Redis returns this error while it's loading your data into memory. This happens when the server starts and reads its data files from disk. It can also happen on a replica while it loads a full copy of the data from its primary. Most commands fail until loading finishes.
@@ -27,7 +28,9 @@ Redis returns this error while it's loading your data into memory. This happens 
 LOADING Redis is loading the dataset in memory
 ```
 
-In redis-py, this error is `BusyLoadingError: Redis is loading the dataset in memory`.
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 

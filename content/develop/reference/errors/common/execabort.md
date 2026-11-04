@@ -28,6 +28,10 @@ Redis returns this error from [`EXEC`](/content/commands/exec.md) when a command
 EXECABORT Transaction discarded because of previous errors.
 ```
 
+## In client libraries
+
+{{< error-clients >}}
+
 ## Example
 
 Between [`MULTI`](/content/commands/multi.md) and `EXEC`, Redis queues each command to run later. A command with an error, such as an unknown command name, is rejected instead of queued. `EXEC` then refuses to run the transaction:
@@ -52,7 +56,5 @@ If Redis refuses the `EXEC` command itself, the message gives the reason after a
 ```
 EXECABORT Transaction discarded because of: NOPERM User <username> has no permissions to run the 'exec' command
 ```
-
-In redis-py, a transaction pipeline raises the error of the command that failed, rather than `EXECABORT`. For example: `Command # 1 (FOO) of pipeline caused error: unknown command 'FOO'`.
 
 Errors that happen while `EXEC` runs the commands don't discard the transaction. For example, a [`WRONGTYPE`](/content/develop/reference/errors/common/wrongtype.md) error makes only that command fail. The other commands still run, and `EXEC` returns the error in its list of replies. See [Errors inside a transaction](/content/develop/using-commands/transactions.md#errors-inside-a-transaction).

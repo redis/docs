@@ -21,6 +21,7 @@ error:
   - Redis is busy running a module command
   - UNKILLABLE
   - Script killed by user
+  - JedisBusyException
 ---
 
 Redis returns this error when a Lua script or function has run for longer than the `busy-reply-threshold` setting, which is 5 seconds by default. While a script runs, Redis doesn't run any other command. So instead of making other clients wait, Redis answers almost every command with this error, even `PING`.
@@ -30,6 +31,10 @@ BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN N
 ```
 
 For a function, the message names `FUNCTION KILL` instead of `SCRIPT KILL`. A module command that runs for a long time causes a similar error: `BUSY Redis is busy running a module command.`
+
+## In client libraries
+
+{{< error-clients >}}
 
 ## Example
 
