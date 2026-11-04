@@ -1,7 +1,7 @@
 ---
-title: Redis Iris context engine
+title: Redis Iris
 description: Create, deploy, and operate Redis Iris context engine services on Redis Cloud or your own infrastructure.
-linkTitle: Redis Iris context engine
+linkTitle: Redis Iris
 alwaysopen: false
 categories:
 - docs
