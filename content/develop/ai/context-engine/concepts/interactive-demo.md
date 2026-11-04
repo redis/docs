@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Step through one agent request across Data Integration, Context Gateway, Agent Memory, and Agent Playbooks, then take a service away to see what the agent loses.
+description: Step through one agent request across Intent Router, Agent Playbooks, Agent Memory, and Context Gateway, then take a service away to see what the agent loses.
 hideListLinks: true
 linktitle: Interactive demo
 title: Redis Iris interactive demo
@@ -23,12 +23,12 @@ The tour runs in your browser and doesn't connect to any service. Each step link
 
 | Service | What it does in this request | Without it |
 |:--|:--|:--|
-| [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) | Syncs a change from PostgreSQL to Redis seconds after it happens | The agent reads last night's data and makes a promise it can't keep |
+| [Intent Router](/content/develop/ai/context-engine/intent-router/_index.md) | Matches the message to the `reorder` and `delivery_fee` intents in milliseconds, without a model call | The reply is the same, but a model call has to work out what the customer wants first, which adds time and tokens |
 | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) | Looks up delivery times, alternatives, and past orders through governed tools | The agent can't check whether the food will arrive in time |
 | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) | Recalls last week's order and the customer's peanut allergy | The agent can find the order, but not the allergy |
 | [Agent Playbooks](/content/develop/ai/context-engine/agent-playbooks/_index.md) | Answers the general delivery fee question with the frequently asked question (FAQ) the support team published | The model doesn't know the app's fees, so it gives a vague answer, or makes one up |
 
-[Lens](/content/develop/ai/context-engine/lens/_index.md) is in beta. It doesn't change the reply. It records each step of the request, including which memories entered the prompt, so you can see how the agent got there.
+[Lens](/content/develop/ai/context-engine/lens/_index.md) and [Agent Mesh](/content/develop/ai/context-engine/agent-mesh/_index.md) are in beta, and neither changes the reply. Lens records each step of the request, including which memories entered the prompt, so you can see how the agent got there. Agent Mesh isn't part of the tour. It keeps a long agent response deliverable when the client disconnects, so the client can reconnect and receive the updates it missed.
 
 ## Next steps
 
