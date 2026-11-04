@@ -18,11 +18,10 @@
 .iris:not(.iris-preview) .iris-stagewrap { max-width: 75%; margin-left: auto; margin-right: auto; }
 @media (max-width: 640px) { .iris:not(.iris-preview) .iris-stagewrap { max-width: 100%; } }
 .iris-stage { position: relative; aspect-ratio: 613.5 / 423.5;   /* VIEW in iris-demo.js */ border-radius: 11px; overflow: hidden; background: #0D212C; }
-/* The four published versions of the drawing, stacked twice. In a stack, a step shows the versions it needs and the
-   script sets how they blend; isolation keeps that blend inside the stack. The new stack fades in over the old one. */
+/* The published versions of the drawing, in two stacks. In a stack, a step shows the versions it needs as background
+   images, and the script sets how they blend. The new stack fades in over the old one. */
 .iris-artset { position: absolute; inset: 0; isolation: isolate; opacity: 0; transition: opacity .45s; }
-.iris .iris-art { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; margin: 0; opacity: 0; pointer-events: none; user-select: none; }
-.iris .iris-art.is-on { opacity: 1; }
+.iris .iris-art { position: absolute; margin: 0; background-size: 100% 100%; background-repeat: no-repeat; pointer-events: none; user-select: none; }
 .iris-over { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .iris-route { fill: none; stroke: none; }
 .iris-hit { fill: transparent; cursor: pointer; }
