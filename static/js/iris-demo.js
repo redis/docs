@@ -674,22 +674,19 @@
     var box = el("div", "iris-stage");
     box.setAttribute("role", "img");
     /* Two stacks of the versions. A step blends its versions in the stack that isn't showing, then
-       fades that stack in over the other, so a half-faded version never blends the wrong way. */
+       fades that stack in over the other, so a half-faded version never blends the wrong way.
+       Each stack is one element with the versions as its background images, blended with
+       background-blend-mode. Stacked images blended with mix-blend-mode would do the same, but Chrome
+       draws them at a lower resolution, and "darken" then thins the labels' text. */
     var sets = [0, 1].map(function () {
-      var set = el("div", "iris-artset"), layers = {};
-      ["retriever", "cache", "memory"].forEach(function (k) {
-        var img = el("img", "iris-art");
-        img.style.left = vx(0); img.style.top = vy(0); img.style.width = vw(ART_W); img.style.height = vh(ART_H);
-        img.src = artBase + ART[k];
-        img.alt = "";
-        img.decoding = "async";
-        img.draggable = false;
-        set.appendChild(img);
-        layers[k] = img;
-      });
+      var set = el("div", "iris-artset"), art = el("div", "iris-art");
+      art.style.left = vx(0); art.style.top = vy(0); art.style.width = vw(ART_W); art.style.height = vh(ART_H);
+      set.appendChild(art);
       box.appendChild(set);
-      return { el: set, layers: layers };
+      return { el: set, art: art };
     });
+    /* Load every version up front, so the first step that uses one doesn't wait for it. */
+    var preload = ["retriever", "cache", "memory"].map(function (k) { var i = new Image(); i.src = artBase + ART[k]; return i; });
     var cur = sets[1];
     var NS = "http://www.w3.org/2000/svg";
     var over = document.createElementNS(NS, "svg");
@@ -750,13 +747,11 @@
 
     /* Show some versions of the drawing: the first one as is, the rest blended onto it. */
     function compose(keys, blend) {
-      var first = true, next = cur === sets[0] ? sets[1] : sets[0];
-      ["retriever", "cache", "memory"].forEach(function (k) {
-        var on = keys.indexOf(k) >= 0, img = next.layers[k];
-        img.classList.toggle("is-on", on);
-        img.style.mixBlendMode = on && !first ? (blend || "lighten") : "normal";
-        if (on) first = false;
-      });
+      var next = cur === sets[0] ? sets[1] : sets[0];
+      var shown = ["retriever", "cache", "memory"].filter(function (k) { return keys.indexOf(k) >= 0; });
+      next.art.style.backgroundImage = shown.map(function (k) { return 'url("' + artBase + ART[k] + '")'; }).join(", ");
+      next.art.style.backgroundBlendMode = shown.length > 1 ? (blend || "lighten") : "normal";
+      next.art.dataset.versions = shown.join(" ");   // what the stack shows, for the tests
       /* The showing stack stays put underneath; the new one starts clear on top and fades in. */
       cur.el.style.transition = "none";
       cur.el.style.opacity = "1";
