@@ -45,7 +45,7 @@ Choose Redis when your application needs:
 
 Example: A live analytics dashboard that ingests events via Streams, maintains counters in Sorted Sets, caches computed results, and performs real-time vector similarity search on user behavior patterns.
 
-You don't have to replace Postgres to get these benefits. [Redis Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) streams changes from PostgreSQL and other relational databases into Redis within seconds. Postgres stays your system of record, and your application or agents read from Redis.
+You don't have to replace Postgres to get these benefits. [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}) streams changes from PostgreSQL and other relational databases into Redis within seconds. Postgres stays your system of record, and your application or agents read from Redis.
 
 ## Decision matrix
 

@@ -91,7 +91,7 @@ You can build each part of an agent's context layer yourself from Redis data str
 | Remember the user across sessions | Streams, Hashes, and vector search for session and long-term memory | [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) stores session events, summarizes long sessions, and extracts long-term memories in the background. |
 | Avoid repeat LLM calls | Vector search plus your own cache logic | [LangCache](/content/develop/ai/langcache/_index.md) returns a cached response when a new prompt is semantically similar to a cached one. |
 | Query business data safely | Hand-written tools or generated queries per agent | [Context Gateway](/content/develop/ai/context-engine/context-gateway/_index.md) generates tools from a data model you define once. Agents call them over MCP (Model Context Protocol), and agent keys limit what each agent can reach. |
-| Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
+| Keep that data current | Your own sync jobs from the source database | [Data Integration](/content/integrate/redis-data-integration/_index.md) streams changes from relational databases into Redis within seconds. |
 
 LangCache is currently in preview. To see where each service fits in a single request, see [how a request flows through Redis Iris](/content/develop/ai/context-engine/concepts/request-flow.md).
 
