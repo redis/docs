@@ -60,7 +60,7 @@ RDI pipelines are defined through configuration. You specify which source databa
 
 See the [RDI quick start](/content/operate/rc/rdi/quick-start.md) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
 
-To watch a pipeline sync a PostgreSQL database without setting one up, try the [interactive demo](/content/develop/ai/context-engine/data-integration/interactive-demo.md).
+To watch a pipeline sync a PostgreSQL database without setting one up, try the [interactive demo](/content/integrate/redis-data-integration/interactive-demo.md).
 
 ## Redis Data Integration overview
 

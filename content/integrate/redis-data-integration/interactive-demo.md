@@ -3,12 +3,17 @@ Title: Redis Data Integration interactive demo
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- integrate
+- rs
+- rdi
 description: Deploy an RDI pipeline for a PostgreSQL database, follow inserts, updates, and deletes into Redis, and change a table's keys with a job file.
+group: di
 linkTitle: Interactive demo
 hideListLinks: true
-weight: 10
+type: integration
+weight: 15
+aliases:
+- /develop/ai/context-engine/data-integration/interactive-demo/
 ---
 
 Redis Data Integration (RDI) keeps Redis in sync with a relational database, so your app and its agents read from Redis instead of the source. This demo follows a food delivery app that keeps its data in PostgreSQL. You deploy the pipeline, run SQL statements against the source, and see each change reach Redis.
