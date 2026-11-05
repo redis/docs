@@ -92,6 +92,34 @@ async function main() {
       embedding: Buffer.from(new Float32Array(mockEmbedding(ITEMS[0][1])).buffer),
     });
 
+    // Twelve other-repository items closer to the query than any in-repo item must not crowd the
+    // in-repo matches out of the neighbors.
+    // The query adds words the in-repo item lacks, so the other-repository items match it better.
+    const nearQuery = 'Rewrite the sorted set tutorial to use ZRANGE with BYSCORE and REV for leaderboard scores and ranks';
+    for (let i = 0; i < 12; i++) {
+      await client.hSet(`memory:other_repo_pr_${100 + i}`, {
+        id: `other_repo_pr_${100 + i}`, type: 'pr_summary', repo: 'other/repo', title: `${nearQuery} ${i}`,
+        body_summary: nearQuery, source_url: `https://github.com/other/repo/pull/${100 + i}`,
+        created_at: '2026-01-01T00:00:00Z', tags: '',
+        embedding: Buffer.from(new Float32Array(mockEmbedding(`${nearQuery} ${i}\n${nearQuery}\n`)).buffer),
+      });
+    }
+    const crowded = query({ QUERY_TEXT: nearQuery }).results;
+    assert.ok(crowded.length >= 1 && /sorted set tutorial/.test(crowded[0].title), 'other repos do not crowd out in-repo matches');
+    assert.ok(crowded.every(x => x.sourceUrl.includes(`/${REPO}/`)), 'only items from this repository');
+
+    // A limit above FT.SEARCH's default of 10 rows is honored.
+    for (let i = 0; i < 14; i++) {
+      const title = `Update client example number ${i} for the shared tutorial`;
+      await client.hSet(`memory:test_repo_pr_${200 + i}`, {
+        id: `test_repo_pr_${200 + i}`, type: 'pr_summary', repo: REPO, title,
+        body_summary: title, source_url: `https://github.com/${REPO}/pull/${200 + i}`,
+        created_at: '2026-01-01T00:00:00Z', tags: '',
+        embedding: Buffer.from(new Float32Array(mockEmbedding(`${title}\n${title}\n`)).buffer),
+      });
+    }
+    assert.strictEqual(query({ QUERY_TEXT: 'Update client example for the shared tutorial', QUERY_MAX_DISTANCE: '1.9', QUERY_LIMIT: '13' }).results.length, 13, 'limit above 10');
+
     const before = await client.dbSize();
     const q = 'Move the job-queue Jedis use case to RedisClient and close pipelines';
 

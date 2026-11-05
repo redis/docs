@@ -57,6 +57,7 @@ async function githubGet(path, token) {
       'X-GitHub-Api-Version': '2022-11-28',
     },
   });
+  if (!res.ok) console.error(`GitHub API ${res.status} for ${path}`);
   return res.ok ? res.json() : null;
 }
 
@@ -88,6 +89,9 @@ async function fullTextFor(item, token) {
     return {};
   }
 }
+
+// Escape every character that is special in a TAG filter, such as the "/" and "-" in a repo name.
+const escapeTag = s => s.replace(/[^A-Za-z0-9_]/g, c => '\\' + c);
 
 function report(query, files, results) {
   // One line that `gh run view --log` output can be grepped for and parsed.
@@ -134,10 +138,14 @@ async function main() {
     }
 
     const blob = Buffer.from(new Float32Array(await embed(searchText, OPENAI_API_KEY)).buffer);
+    // Filter to this repository inside the search, so other repositories' items cannot use up the
+    // neighbors, and set LIMIT because FT.SEARCH returns only 10 rows by default.
+    const k = Math.max(10, limit * 2);
     const found = await client.ft.search(
       INDEX_NAME,
-      `*=>[KNN ${Math.max(10, limit * 2)} @embedding $BLOB AS score]`,
+      `@repo:{${escapeTag(GITHUB_REPOSITORY)}}=>[KNN ${k} @embedding $BLOB AS score]`,
       {
+        LIMIT: { from: 0, size: k },
         PARAMS: { BLOB: blob },
         RETURN: ['type', 'title', 'body_summary', 'source_url', 'created_at', 'score', 'repo'],
         SORTBY: { BY: 'score', DIRECTION: 'ASC' },
