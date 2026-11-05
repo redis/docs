@@ -65,7 +65,7 @@ A tenant is a boundary for keys, grants, and service data, such as one customer 
 
 The Identity Service has no tenant object, and no API creates, lists, or deletes tenants. A tenant is only an ID that each key, grant, and service resource carries.
 
-A `redis-iris` release serves one tenant, set once in `global.iris.tenantId`. The chart gives this ID to the Identity Service and to each service. To serve more than one tenant, install one release for each tenant, each in its own namespace. For a preview of several tenants in one Agent Memory installation, see [Serve more than one tenant with Agent Memory](/content/operate/iris/identity-service/self-managed/multi-tenant.md).
+A `redis-iris` release serves one tenant, set once in `global.iris.tenantId`. The chart gives this ID to the Identity Service and to each service. To serve more than one tenant, install one release for each tenant, each in its own namespace.
 
 | Task | What to do |
 | --- | --- |

@@ -246,7 +246,7 @@ The Identity Service returns errors as RFC 7807 problem documents. The `type` fi
 
 ## Limits
 
-- **One tenant for each release.** For more than one tenant, install one release for each tenant. Several tenants in one Agent Memory installation is a [preview](/content/operate/iris/identity-service/self-managed/multi-tenant.md).
+- **One tenant for each release.** For more than one tenant, install one release for each tenant.
 - **One IdP for each release.** Every operator signs in through the IdP in `global.iris.auth.oidc`. A tenant can't bring its own IdP.
 - **Subject grants have no effect** in a `redis-iris` installation.
 - **No FIPS.** The suite chart doesn't support the Federal Information Processing Standards (FIPS) profile.

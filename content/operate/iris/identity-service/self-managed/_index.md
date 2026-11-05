@@ -11,8 +11,8 @@ weight: 40
 hideListLinks: true
 ---
 
-> [!NOTE]
-> The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install, always installs the Identity Service. Installing the `iris-identity-service` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `identityService:` key, and the shared values under `global.iris`.
+
+> The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md) is the supported self-managed install and always installs the Identity Service. Installing the `iris-identity-service` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `identityService:` key, and the shared values under `global.iris`.
 
 The Identity Service is the one place where a self-managed Redis Iris installation keeps the credentials of agents and applications. It does three things:
 
@@ -108,4 +108,3 @@ sequenceDiagram
 - [Rotate credentials, find who did what, upgrade, and back up](/content/operate/iris/identity-service/self-managed/operations.md).
 - [Recover from a lockout](/content/operate/iris/identity-service/self-managed/authentication.md#recover-from-a-lockout).
 - [Troubleshoot the deployment](/content/operate/iris/identity-service/self-managed/operations.md#troubleshooting).
-- [Serve more than one tenant with Agent Memory (preview)](/content/operate/iris/identity-service/self-managed/multi-tenant.md).

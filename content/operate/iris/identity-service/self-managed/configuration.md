@@ -40,7 +40,7 @@ For persistence, backups, and access control, see [Metadata Redis](/content/oper
 | `identityService.control.existingSecret` | `iris-identity-service-control-token` | The Secret with the token. The chart generates it. To use your own token, create this Secret before the install, or name another Secret. |
 | `identityService.control.secretKey` | `token` | The key in that Secret. |
 
-The control token always works, also when operator sign-in is on. Give only a small group access to its Secret.
+The control token always works, even when operator sign-in is on. Give only a small group access to its Secret.
 
 ## Tenant
 
