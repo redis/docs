@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "latency_doctor(**kwargs)",
-        "params": [
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String latencyDoctor()",

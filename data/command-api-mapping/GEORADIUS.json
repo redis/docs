@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "georadius(, name: KeyT,, longitude: float,, latitude: float,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Optional[KeyT] = None,, store_dist: Optional[KeyT] = None,, any: bool = False,)",
+        "signature": "georadius(name: KeyT, longitude: float, latitude: float, radius: float, unit: Optional[str] = None, withdist: bool = False, withcoord: bool = False, withhash: bool = False, count: Optional[int] = None, sort: Optional[str] = None, store: Optional[KeyT] = None, store_dist: Optional[KeyT] = None, any: bool = False)",
         "params": [
           {
             "name": "name",

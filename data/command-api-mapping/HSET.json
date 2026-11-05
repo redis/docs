@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hset(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,)",
+        "signature": "hset(name: str, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None, items: Optional[list] = None)",
         "params": [
           {
             "name": "name",

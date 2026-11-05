@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "msetex(, mapping: Mapping[AnyKeyT, EncodableT],, data_persist_option: Optional[DataPersistOptions] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, keepttl: bool = False,)",
+        "signature": "msetex(mapping: Mapping[AnyKeyT, EncodableT], data_persist_option: Optional[DataPersistOptions] = None, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, keepttl: bool = False)",
         "params": [
           {
             "name": "mapping",

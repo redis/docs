@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "lpos(, name: KeyT,, value: str,, rank: Optional[int] = None,, count: Optional[int] = None,, maxlen: Optional[int] = None,)",
+        "signature": "lpos(name: KeyT, value: str, rank: Optional[int] = None, count: Optional[int] = None, maxlen: Optional[int] = None)",
         "params": [
           {
             "name": "name",

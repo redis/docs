@@ -1,36 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "hello(protover: Optional[int] = None, auth: Optional[Tuple[str, str]] = None, clientname: Optional[str] = None, **kwargs)",
-        "params": [
-          {
-            "name": "protover",
-            "type": "Optional[int]",
-            "description": "Protocol version"
-          },
-          {
-            "name": "auth",
-            "type": "Optional[Tuple[str, str]]",
-            "description": "Optional authentication (username, password)"
-          },
-          {
-            "name": "clientname",
-            "type": "Optional[str]",
-            "description": "Optional client name"
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "ResponseT",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [],
     "go-redis": [
       {

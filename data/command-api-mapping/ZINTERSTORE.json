@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zinterstore(, dest: KeyT,, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,)",
+        "signature": "zinterstore(dest: KeyT, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None)",
         "params": [
           {
             "name": "dest",

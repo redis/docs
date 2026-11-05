@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xrevrange(, name: KeyT,, max: StreamIdT = \"+\",, min: StreamIdT = \"-\",, count: Optional[int] = None,)",
+        "signature": "xrevrange(name: KeyT, max: StreamIdT = \"+\", min: StreamIdT = \"-\", count: Optional[int] = None)",
         "params": [
           {
             "name": "name",

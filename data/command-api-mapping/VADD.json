@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "vadd(, key: KeyT,, vector: Union[List[float], bytes],, element: str,, reduce_dim: Optional[int] = None,, cas: Optional[bool] = False,, quantization: Optional[QuantizationOptions] = None,, ef: Optional[Number] = None,, attributes: Optional[Union[dict, str]] = None,, numlinks: Optional[int] = None,)",
+        "signature": "vadd(key: KeyT, vector: Union[List[float], bytes], element: str, reduce_dim: Optional[int] = None, cas: Optional[bool] = False, quantization: Optional[QuantizationOptions] = None, ef: Optional[Number] = None, attributes: Optional[Union[dict, str]] = None, numlinks: Optional[int] = None)",
         "params": [
           {
             "name": "key",

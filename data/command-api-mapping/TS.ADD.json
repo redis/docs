@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "add(, key: KeyT,, timestamp: Union[int, str],, value: Union[Number, str],, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,, on_duplicate: Optional[str] = None,)",
+        "signature": "add(key: KeyT, timestamp: Union[int, str], value: Union[Number, str], retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None, on_duplicate: Optional[str] = None)",
         "params": [
           {
             "name": "key",

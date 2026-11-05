@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "vsim(, key: KeyT,, input: Union[List[float], bytes, str],, with_scores: Optional[bool] = False,, with_attribs: Optional[bool] = False,, count: Optional[int] = None,, ef: Optional[Number] = None,, filter: Optional[str] = None,, filter_ef: Optional[str] = None,, truth: Optional[bool] = False,, no_thread: Optional[bool] = False,, epsilon: Optional[Number] = None,)",
+        "signature": "vsim(key: KeyT, input: Union[List[float], bytes, str], with_scores: Optional[bool] = False, with_attribs: Optional[bool] = False, count: Optional[int] = None, ef: Optional[Number] = None, filter: Optional[str] = None, filter_ef: Optional[str] = None, truth: Optional[bool] = False, no_thread: Optional[bool] = False, epsilon: Optional[Number] = None)",
         "params": [
           {
             "name": "key",

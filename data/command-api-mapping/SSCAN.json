@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "sscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,)",
+        "signature": "sscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None)",
         "params": [
           {
             "name": "name",

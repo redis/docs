@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xdelex(, name: KeyT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+        "signature": "xdelex(name: KeyT, *ids: StreamIdT, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\")",
         "params": [
           {
             "name": "name",

@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "command_info(*args, **kwargs)",
-        "params": [
-          {
-            "name": "*args",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "List<Object> commandInfo(String... commands)",

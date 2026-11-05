@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "mrevrange(, from_time: Union[int, str],, to_time: Union[int, str],, filters: List[str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, with_labels: Optional[bool] = False,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, groupby: Optional[str] = None,, reduce: Optional[str] = None,, select_labels: Optional[List[str]] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+        "signature": "mrevrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
         "params": [
           {
             "name": "from_time",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitcount(, key: KeyT,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+        "signature": "bitcount(key: KeyT, start: Optional[int] = None, end: Optional[int] = None, mode: Optional[str] = None)",
         "params": [
           {
             "name": "key",

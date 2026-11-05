@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zunion(, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zunion(keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "keys",

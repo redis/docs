@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "arrpop(, name: str,, path: Optional[str] = Path.root_path(),, index: Optional[int] = -1,)",
+        "signature": "arrpop(name: str, path: Optional[str] = Path.root_path(), index: Optional[int] = -1)",
         "params": [
           {
             "name": "name",

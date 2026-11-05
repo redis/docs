@@ -479,6 +479,7 @@
     "redis_rs_async": "generic_only"
   },
   "COMMAND DOCS": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -515,6 +516,7 @@
     "redis_rs_async": "generic_only"
   },
   "COMMAND INFO": {
+    "redis_py": "unsupported",
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
@@ -596,6 +598,7 @@
     "redis_rs_async": "generic_only"
   },
   "FAILOVER": {
+    "redis_py": "unsupported",
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
@@ -662,6 +665,7 @@
     "redis_rs_async": "generic_only"
   },
   "FT.EXPLAINCLI": {
+    "redis_py": "unsupported",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
@@ -796,6 +800,7 @@
     "nredisstack_async": "generic_only"
   },
   "HELLO": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "lettuce_sync": "unsupported",
     "lettuce_async": "unsupported",
@@ -831,6 +836,7 @@
     "redis_rs_async": "generic_only"
   },
   "LATENCY DOCTOR": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -839,6 +845,7 @@
     "redis_rs_async": "generic_only"
   },
   "LATENCY GRAPH": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -862,6 +869,7 @@
     "redis_rs_async": "generic_only"
   },
   "LATENCY HISTOGRAM": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
@@ -912,6 +920,7 @@
     "redis_rs_async": "generic_only"
   },
   "MEMORY DOCTOR": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -1150,6 +1159,7 @@
     "redis_rs_async": "generic_only"
   },
   "SCRIPT DEBUG": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "go-redis": "generic_only",
     "lettuce_sync": "unsupported",

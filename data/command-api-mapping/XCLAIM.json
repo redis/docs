@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]],, idle: Optional[int] = None,, time: Optional[int] = None,, retrycount: Optional[int] = None,, force: bool = False,, justid: bool = False,)",
+        "signature": "xclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]], idle: Optional[int] = None, time: Optional[int] = None, retrycount: Optional[int] = None, force: bool = False, justid: bool = False)",
         "params": [
           {
             "name": "name",

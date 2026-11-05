@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "blmpop(, timeout: float,, numkeys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+        "signature": "blmpop(timeout: float, numkeys: int, *args: str, direction: str, count: Optional[int] = 1)",
         "params": [
           {
             "name": "timeout",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",

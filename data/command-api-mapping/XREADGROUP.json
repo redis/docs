@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xreadgroup(, groupname: str,, consumername: str,, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,, noack: bool = False,, claim_min_idle_time: Optional[int] = None,)",
+        "signature": "xreadgroup(groupname: str, consumername: str, streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, noack: bool = False, claim_min_idle_time: Optional[int] = None)",
         "params": [
           {
             "name": "groupname",

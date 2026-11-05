@@ -2,10 +2,10 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "dictdump(dict_name: str)",
+        "signature": "dict_dump(name: str)",
         "params": [
           {
-            "name": "dict_name",
+            "name": "name",
             "type": "str",
             "description": "The dictionary name"
           }

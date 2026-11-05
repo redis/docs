@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hexpire(, name: KeyT,, seconds: ExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "signature": "hexpire(name: KeyT, seconds: ExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
         "params": [
           {
             "name": "name",

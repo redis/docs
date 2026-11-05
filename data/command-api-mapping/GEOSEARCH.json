@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "geosearch(, name: KeyT,, member: Union[FieldT, None] = None,, longitude: Union[float, None] = None,, latitude: Union[float, None] = None,, unit: str = \"m\",, radius: Union[float, None] = None,, width: Union[float, None] = None,, height: Union[float, None] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, withcoord: bool = False,, withdist: bool = False,, withhash: bool = False,)",
+        "signature": "geosearch(name: KeyT, member: Union[FieldT, None] = None, longitude: Union[float, None] = None, latitude: Union[float, None] = None, unit: str = \"m\", radius: Union[float, None] = None, width: Union[float, None] = None, height: Union[float, None] = None, sort: Optional[str] = None, count: Optional[int] = None, any: bool = False, withcoord: bool = False, withdist: bool = False, withhash: bool = False)",
         "params": [
           {
             "name": "name",

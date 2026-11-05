@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xautoclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, start_id: StreamIdT = \"0-0\",, count: Optional[int] = None,, justid: bool = False,)",
+        "signature": "xautoclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, start_id: StreamIdT = \"0-0\", count: Optional[int] = None, justid: bool = False)",
         "params": [
           {
             "name": "name",

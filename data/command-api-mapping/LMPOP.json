@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "lmpop(, num_keys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+        "signature": "lmpop(num_keys: int, *args: str, direction: str, count: Optional[int] = 1)",
         "params": [
           {
             "name": "num_keys",

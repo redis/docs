@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "arrindex(, name: str,, path: str,, scalar: int,, start: Optional[int] = None,, stop: Optional[int] = None,)",
+        "signature": "arrindex(name: str, path: str, scalar: int, start: Optional[int] = None, stop: Optional[int] = None)",
         "params": [
           {
             "name": "name",

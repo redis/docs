@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "createrule(, source_key: KeyT,, dest_key: KeyT,, aggregation_type: str,, bucket_size_msec: int,, align_timestamp: Optional[int] = None,)",
+        "signature": "createrule(source_key: KeyT, dest_key: KeyT, aggregation_type: str, bucket_size_msec: int, align_timestamp: Optional[int] = None)",
         "params": [
           {
             "name": "source_key",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xadd(, name: KeyT,, fields: Dict[FieldT, EncodableT],, id: StreamIdT = \"*\",, maxlen: Optional[int] = None,, approximate: bool = True,, nomkstream: bool = False,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,, idmpauto: Optional[str] = None,, idmp: Optional[tuple[str, bytes]] = None,)",
+        "signature": "xadd(name: KeyT, fields: Dict[FieldT, EncodableT], id: StreamIdT = \"*\", maxlen: Optional[int] = None, approximate: bool = True, nomkstream: bool = False, minid: Union[StreamIdT, None] = None, limit: Optional[int] = None, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None, idmpauto: Optional[str] = None, idmp: Optional[tuple[str, bytes]] = None)",
         "params": [
           {
             "name": "name",

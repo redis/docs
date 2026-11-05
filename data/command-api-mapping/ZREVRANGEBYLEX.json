@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrangebylex(, name: KeyT,, max: EncodableT,, min: EncodableT,, start: Optional[int] = None,, num: Optional[int] = None,)",
+        "signature": "zrevrangebylex(name: KeyT, max: EncodableT, min: EncodableT, start: Optional[int] = None, num: Optional[int] = None)",
         "params": [
           {
             "name": "name",

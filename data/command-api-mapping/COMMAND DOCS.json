@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "command_docs(*commands, **kwargs)",
-        "params": [
-          {
-            "name": "*commands",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "dict",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "Map<String, Object> commandDocs(String... commands)",

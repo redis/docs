@@ -10018,7 +10018,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "bitcount(, key: KeyT,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+          "signature": "bitcount(key: KeyT, start: Optional[int] = None, end: Optional[int] = None, mode: Optional[str] = None)",
           "params": [
             {
               "name": "key",
@@ -10861,7 +10861,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "bitfield(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, default_overflow: Optional[str] = None,)",
+          "signature": "bitfield(key: KeyT, default_overflow: Optional[str] = None)",
           "params": [
             {
               "name": "key",
@@ -11274,7 +11274,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "bitfield_ro(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, encoding: str,, offset: BitfieldOffsetT,, items: Optional[list] = None,)",
+          "signature": "bitfield_ro(key: KeyT, encoding: str, offset: BitfieldOffsetT, items: Optional[list] = None)",
           "params": [
             {
               "name": "key",
@@ -12588,7 +12588,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "bitpos(, key: KeyT,, bit: int,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+          "signature": "bitpos(key: KeyT, bit: int, start: Optional[int] = None, end: Optional[int] = None, mode: Optional[str] = None)",
           "params": [
             {
               "name": "key",
@@ -13635,7 +13635,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "blmove(, first_list: str,, second_list: str,, timeout: int,, src: str = \"LEFT\",, dest: str = \"RIGHT\",)",
+          "signature": "blmove(first_list: str, second_list: str, timeout: int, src: str = \"LEFT\", dest: str = \"RIGHT\")",
           "params": [
             {
               "name": "first_list",
@@ -14437,7 +14437,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "blmpop(, timeout: float,, numkeys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+          "signature": "blmpop(timeout: float, numkeys: int, *args: str, direction: str, count: Optional[int] = 1)",
           "params": [
             {
               "name": "timeout",
@@ -16441,7 +16441,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "bzmpop(, timeout: float,, numkeys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+          "signature": "bzmpop(timeout: float, numkeys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
           "params": [
             {
               "name": "timeout",
@@ -27556,27 +27556,7 @@
   },
   "COMMAND DOCS": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "command_docs(*commands, **kwargs)",
-          "params": [
-            {
-              "name": "*commands",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "dict",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "Map<String, Object> commandDocs(String... commands)",
@@ -27985,27 +27965,7 @@
   },
   "COMMAND INFO": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "command_info(*args, **kwargs)",
-          "params": [
-            {
-              "name": "*args",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Any",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "List<Object> commandInfo(String... commands)",
@@ -31542,7 +31502,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+          "signature": "delex(name: KeyT, ifeq: Optional[Union[bytes, str]] = None, ifne: Optional[Union[bytes, str]] = None, ifdeq: Optional[str] = None, ifdne: Optional[str] = None)",
           "params": [
             {
               "name": "name",
@@ -35869,42 +35829,7 @@
   },
   "FAILOVER": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "failover(option: str | None = None, target_host: str | None = None, target_port: int | None = None, timeout: int | None = None, **kwargs)",
-          "params": [
-            {
-              "name": "option",
-              "type": "str | None",
-              "description": ""
-            },
-            {
-              "name": "target_host",
-              "type": "str | None",
-              "description": ""
-            },
-            {
-              "name": "target_port",
-              "type": "int | None",
-              "description": ""
-            },
-            {
-              "name": "timeout",
-              "type": "int | None",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String failover()",
@@ -39678,10 +39603,10 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "dictadd(dict_name: str, *terms: str)",
+          "signature": "dict_add(name: str, *terms: str)",
           "params": [
             {
-              "name": "dict_name",
+              "name": "name",
               "type": "str",
               "description": "The dictionary name"
             },
@@ -39921,10 +39846,10 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "dictdel(dict_name: str, *terms: str)",
+          "signature": "dict_del(name: str, *terms: str)",
           "params": [
             {
-              "name": "dict_name",
+              "name": "name",
               "type": "str",
               "description": "The dictionary name"
             },
@@ -40164,10 +40089,10 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "dictdump(dict_name: str)",
+          "signature": "dict_dump(name: str)",
           "params": [
             {
-              "name": "dict_name",
+              "name": "name",
               "type": "str",
               "description": "The dictionary name"
             }
@@ -41002,22 +40927,7 @@
   },
   "FT.EXPLAINCLI": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "explain_cli(query: Union[str, Query])",
-          "params": [
-            {
-              "name": "query",
-              "type": "Union[str, Query]",
-              "description": "The query to explain"
-            }
-          ],
-          "returns": {
-            "type": "List[str]",
-            "description": "The execution plan in CLI format"
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "List<String> ftExplainCli(String indexName, Query query)",
@@ -46344,7 +46254,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "geoadd(, name: KeyT,, values: Sequence[EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,)",
+          "signature": "geoadd(name: KeyT, values: Sequence[EncodableT], nx: bool = False, xx: bool = False, ch: bool = False)",
           "params": [
             {
               "name": "name",
@@ -49404,7 +49314,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "georadius(, name: KeyT,, longitude: float,, latitude: float,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Optional[KeyT] = None,, store_dist: Optional[KeyT] = None,, any: bool = False,)",
+          "signature": "georadius(name: KeyT, longitude: float, latitude: float, radius: float, unit: Optional[str] = None, withdist: bool = False, withcoord: bool = False, withhash: bool = False, count: Optional[int] = None, sort: Optional[str] = None, store: Optional[KeyT] = None, store_dist: Optional[KeyT] = None, any: bool = False)",
           "params": [
             {
               "name": "name",
@@ -50635,7 +50545,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "georadiusbymember(, name: KeyT,, member: FieldT,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Union[KeyT, None] = None,, store_dist: Union[KeyT, None] = None,, any: bool = False,)",
+          "signature": "georadiusbymember(name: KeyT, member: FieldT, radius: float, unit: Optional[str] = None, withdist: bool = False, withcoord: bool = False, withhash: bool = False, count: Optional[int] = None, sort: Optional[str] = None, store: Union[KeyT, None] = None, store_dist: Union[KeyT, None] = None, any: bool = False)",
           "params": [
             {
               "name": "name",
@@ -51490,7 +51400,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "geosearch(, name: KeyT,, member: Union[FieldT, None] = None,, longitude: Union[float, None] = None,, latitude: Union[float, None] = None,, unit: str = \"m\",, radius: Union[float, None] = None,, width: Union[float, None] = None,, height: Union[float, None] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, withcoord: bool = False,, withdist: bool = False,, withhash: bool = False,)",
+          "signature": "geosearch(name: KeyT, member: Union[FieldT, None] = None, longitude: Union[float, None] = None, latitude: Union[float, None] = None, unit: str = \"m\", radius: Union[float, None] = None, width: Union[float, None] = None, height: Union[float, None] = None, sort: Optional[str] = None, count: Optional[int] = None, any: bool = False, withcoord: bool = False, withdist: bool = False, withhash: bool = False)",
           "params": [
             {
               "name": "name",
@@ -52441,7 +52351,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "geosearchstore(, dest: KeyT,, name: KeyT,, member: Optional[FieldT] = None,, longitude: Optional[float] = None,, latitude: Optional[float] = None,, unit: str = \"m\",, radius: Optional[float] = None,, width: Optional[float] = None,, height: Optional[float] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, storedist: bool = False,)",
+          "signature": "geosearchstore(dest: KeyT, name: KeyT, member: Optional[FieldT] = None, longitude: Optional[float] = None, latitude: Optional[float] = None, unit: str = \"m\", radius: Optional[float] = None, width: Optional[float] = None, height: Optional[float] = None, sort: Optional[str] = None, count: Optional[int] = None, any: bool = False, storedist: bool = False)",
           "params": [
             {
               "name": "dest",
@@ -54697,7 +54607,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "getex(, name: KeyT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+          "signature": "getex(name: KeyT, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, persist: bool = False)",
           "params": [
             {
               "name": "name",
@@ -56658,37 +56568,7 @@
   },
   "HELLO": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "hello(protover: Optional[int] = None, auth: Optional[Tuple[str, str]] = None, clientname: Optional[str] = None, **kwargs)",
-          "params": [
-            {
-              "name": "protover",
-              "type": "Optional[int]",
-              "description": "Protocol version"
-            },
-            {
-              "name": "auth",
-              "type": "Optional[Tuple[str, str]]",
-              "description": "Optional authentication (username, password)"
-            },
-            {
-              "name": "clientname",
-              "type": "Optional[str]",
-              "description": "Optional client name"
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "ResponseT",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [],
       "go-redis": [
         {
@@ -57146,7 +57026,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hexpire(, name: KeyT,, seconds: ExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+          "signature": "hexpire(name: KeyT, seconds: ExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
           "params": [
             {
               "name": "name",
@@ -58202,7 +58082,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hexpireat(, name: KeyT,, unix_time_seconds: AbsExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+          "signature": "hexpireat(name: KeyT, unix_time_seconds: AbsExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
           "params": [
             {
               "name": "name",
@@ -60770,7 +60650,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hgetex(, name: KeyT,, *keys: str,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+          "signature": "hgetex(name: KeyT, *keys: str, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, persist: bool = False)",
           "params": [
             {
               "name": "name",
@@ -66573,7 +66453,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hpexpire(, name: KeyT,, milliseconds: ExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+          "signature": "hpexpire(name: KeyT, milliseconds: ExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
           "params": [
             {
               "name": "name",
@@ -67630,7 +67510,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hpexpireat(, name: KeyT,, unix_time_milliseconds: AbsExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+          "signature": "hpexpireat(name: KeyT, unix_time_milliseconds: AbsExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
           "params": [
             {
               "name": "name",
@@ -69335,7 +69215,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, no_values: Union[bool, None] = None,)",
+          "signature": "hscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, no_values: Union[bool, None] = None)",
           "params": [
             {
               "name": "name",
@@ -70151,7 +70031,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hset(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,)",
+          "signature": "hset(name: str, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None, items: Optional[list] = None)",
           "params": [
             {
               "name": "name",
@@ -70869,7 +70749,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hsetex(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, data_persist_option: Optional[HashDataPersistOptions] = None,, keepttl: bool = False,)",
+          "signature": "hsetex(name: str, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None, items: Optional[list] = None, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, data_persist_option: Optional[HashDataPersistOptions] = None, keepttl: bool = False)",
           "params": [
             {
               "name": "name",
@@ -75266,7 +75146,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "arrindex(, name: str,, path: str,, scalar: int,, start: Optional[int] = None,, stop: Optional[int] = None,)",
+          "signature": "arrindex(name: str, path: str, scalar: int, start: Optional[int] = None, stop: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -76818,7 +76698,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "arrpop(, name: str,, path: Optional[str] = Path.root_path(),, index: Optional[int] = -1,)",
+          "signature": "arrpop(name: str, path: Optional[str] = Path.root_path(), index: Optional[int] = -1)",
           "params": [
             {
               "name": "name",
@@ -79071,7 +78951,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "merge(, name: str,, path: str,, obj: JsonType,, decode_keys: Optional[bool] = False,)",
+          "signature": "merge(name: str, path: str, obj: JsonType, decode_keys: Optional[bool] = False)",
           "params": [
             {
               "name": "name",
@@ -81115,7 +80995,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "set(, name: str,, path: str,, obj: JsonType,, nx: Optional[bool] = False,, xx: Optional[bool] = False,, decode_keys: Optional[bool] = False,)",
+          "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False)",
           "params": [
             {
               "name": "name",
@@ -83800,22 +83680,7 @@
   },
   "LATENCY DOCTOR": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "latency_doctor(**kwargs)",
-          "params": [
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String latencyDoctor()",
@@ -83899,27 +83764,7 @@
   },
   "LATENCY GRAPH": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "latency_graph(event: str, **kwargs)",
-          "params": [
-            {
-              "name": "event",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String latencyGraph(String event)",
@@ -84021,27 +83866,7 @@
   },
   "LATENCY HISTOGRAM": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "latency_histogram(*events, **kwargs)",
-          "params": [
-            {
-              "name": "*events",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "dict",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [],
       "go-redis": [],
       "node_redis": [
@@ -84544,7 +84369,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "stralgo(, algo: Literal[\"LCS\"],, value1: KeyT,, value2: KeyT,, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\",, len: bool = False,, idx: bool = False,, minmatchlen: Optional[int] = None,, withmatchlen: bool = False,, **kwargs,)",
+          "signature": "stralgo(algo: Literal[\"LCS\"], value1: KeyT, value2: KeyT, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\", len: bool = False, idx: bool = False, minmatchlen: Optional[int] = None, withmatchlen: bool = False, **kwargs)",
           "params": [
             {
               "name": "algo",
@@ -84598,7 +84423,7 @@
           }
         },
         {
-          "signature": "lcs(, key1: str,, key2: str,, len: Optional[bool] = False,, idx: Optional[bool] = False,, minmatchlen: Optional[int] = 0,, withmatchlen: Optional[bool] = False,)",
+          "signature": "lcs(key1: str, key2: str, len: Optional[bool] = False, idx: Optional[bool] = False, minmatchlen: Optional[int] = 0, withmatchlen: Optional[bool] = False)",
           "params": [
             {
               "name": "key1",
@@ -86967,7 +86792,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "lmpop(, num_keys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+          "signature": "lmpop(num_keys: int, *args: str, direction: str, count: Optional[int] = 1)",
           "params": [
             {
               "name": "num_keys",
@@ -87474,7 +87299,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "lpop(, name: KeyT,, count: Optional[int] = None,)",
+          "signature": "lpop(name: KeyT, count: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -88057,7 +87882,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "lpos(, name: KeyT,, value: str,, rank: Optional[int] = None,, count: Optional[int] = None,, maxlen: Optional[int] = None,)",
+          "signature": "lpos(name: KeyT, value: str, rank: Optional[int] = None, count: Optional[int] = None, maxlen: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -91892,22 +91717,7 @@
   },
   "MEMORY DOCTOR": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "memory_doctor(**kwargs)",
-          "params": [
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String memoryDoctor()",
@@ -94668,7 +94478,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "msetex(, mapping: Mapping[AnyKeyT, EncodableT],, data_persist_option: Optional[DataPersistOptions] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, keepttl: bool = False,)",
+          "signature": "msetex(mapping: Mapping[AnyKeyT, EncodableT], data_persist_option: Optional[DataPersistOptions] = None, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, keepttl: bool = False)",
           "params": [
             {
               "name": "mapping",
@@ -102463,7 +102273,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "rpop(, name: KeyT,, count: Optional[int] = None,)",
+          "signature": "rpop(name: KeyT, count: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -105596,22 +105406,7 @@
   },
   "SCRIPT DEBUG": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "script_debug(*args)",
-          "params": [
-            {
-              "name": "*args",
-              "type": "Any",
-              "description": "Debug mode arguments"
-            }
-          ],
-          "returns": {
-            "type": "None",
-            "description": "No return value"
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [],
       "go-redis": [],
       "node_redis": [
@@ -107776,7 +107571,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+          "signature": "set(name: KeyT, value: EncodableT, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, nx: bool = False, xx: bool = False, keepttl: bool = False, get: bool = False, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, ifeq: Optional[Union[bytes, str]] = None, ifne: Optional[Union[bytes, str]] = None, ifdeq: Optional[str] = None, ifdne: Optional[str] = None)",
           "params": [
             {
               "name": "name",
@@ -117770,7 +117565,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "sscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,)",
+          "signature": "sscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -125248,7 +125043,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "add(, key: KeyT,, timestamp: Union[int, str],, value: Union[Number, str],, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,, on_duplicate: Optional[str] = None,)",
+          "signature": "add(key: KeyT, timestamp: Union[int, str], value: Union[Number, str], retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None, on_duplicate: Optional[str] = None)",
           "params": [
             {
               "name": "key",
@@ -125639,7 +125434,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "alter(, key: KeyT,, retention_msecs: Optional[int] = None,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+          "signature": "alter(key: KeyT, retention_msecs: Optional[int] = None, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
           "params": [
             {
               "name": "key",
@@ -125888,7 +125683,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "create(, key: KeyT,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+          "signature": "create(key: KeyT, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
           "params": [
             {
               "name": "key",
@@ -126185,7 +125980,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "createrule(, source_key: KeyT,, dest_key: KeyT,, aggregation_type: str,, bucket_size_msec: int,, align_timestamp: Optional[int] = None,)",
+          "signature": "createrule(source_key: KeyT, dest_key: KeyT, aggregation_type: str, bucket_size_msec: int, align_timestamp: Optional[int] = None)",
           "params": [
             {
               "name": "source_key",
@@ -126489,7 +126284,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "decrby(, key: KeyT,, value: Number,, timestamp: Optional[Union[int, str]] = None,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+          "signature": "decrby(key: KeyT, value: Number, timestamp: Optional[Union[int, str]] = None, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
           "params": [
             {
               "name": "key",
@@ -127357,7 +127152,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "incrby(, key: KeyT,, value: Number,, timestamp: Optional[Union[int, str]] = None,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+          "signature": "incrby(key: KeyT, value: Number, timestamp: Optional[Union[int, str]] = None, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
           "params": [
             {
               "name": "key",
@@ -127946,7 +127741,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "mget(, filters: List[str],, with_labels: Optional[bool] = False,, select_labels: Optional[List[str]] = None,, latest: Optional[bool] = False,)",
+          "signature": "mget(filters: List[str], with_labels: Optional[bool] = False, select_labels: Optional[List[str]] = None, latest: Optional[bool] = False)",
           "params": [
             {
               "name": "filters",
@@ -128151,7 +127946,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "mrange(, from_time: Union[int, str],, to_time: Union[int, str],, filters: List[str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, with_labels: Optional[bool] = False,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, groupby: Optional[str] = None,, reduce: Optional[str] = None,, select_labels: Optional[List[str]] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+          "signature": "mrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
           "params": [
             {
               "name": "from_time",
@@ -128585,7 +128380,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "mrevrange(, from_time: Union[int, str],, to_time: Union[int, str],, filters: List[str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, with_labels: Optional[bool] = False,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, groupby: Optional[str] = None,, reduce: Optional[str] = None,, select_labels: Optional[List[str]] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+          "signature": "mrevrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
           "params": [
             {
               "name": "from_time",
@@ -129140,7 +128935,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "range(, key: KeyT,, from_time: Union[int, str],, to_time: Union[int, str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+          "signature": "range(key: KeyT, from_time: Union[int, str], to_time: Union[int, str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
           "params": [
             {
               "name": "key",
@@ -129519,7 +129314,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "revrange(, key: KeyT,, from_time: Union[int, str],, to_time: Union[int, str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+          "signature": "revrange(key: KeyT, from_time: Union[int, str], to_time: Union[int, str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
           "params": [
             {
               "name": "key",
@@ -130895,7 +130690,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "vadd(, key: KeyT,, vector: Union[List[float], bytes],, element: str,, reduce_dim: Optional[int] = None,, cas: Optional[bool] = False,, quantization: Optional[QuantizationOptions] = None,, ef: Optional[Number] = None,, attributes: Optional[Union[dict, str]] = None,, numlinks: Optional[int] = None,)",
+          "signature": "vadd(key: KeyT, vector: Union[List[float], bytes], element: str, reduce_dim: Optional[int] = None, cas: Optional[bool] = False, quantization: Optional[QuantizationOptions] = None, ef: Optional[Number] = None, attributes: Optional[Union[dict, str]] = None, numlinks: Optional[int] = None)",
           "params": [
             {
               "name": "key",
@@ -134963,7 +134758,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "vsim(, key: KeyT,, input: Union[List[float], bytes, str],, with_scores: Optional[bool] = False,, with_attribs: Optional[bool] = False,, count: Optional[int] = None,, ef: Optional[Number] = None,, filter: Optional[str] = None,, filter_ef: Optional[str] = None,, truth: Optional[bool] = False,, no_thread: Optional[bool] = False,, epsilon: Optional[Number] = None,)",
+          "signature": "vsim(key: KeyT, input: Union[List[float], bytes, str], with_scores: Optional[bool] = False, with_attribs: Optional[bool] = False, count: Optional[int] = None, ef: Optional[Number] = None, filter: Optional[str] = None, filter_ef: Optional[str] = None, truth: Optional[bool] = False, no_thread: Optional[bool] = False, epsilon: Optional[Number] = None)",
           "params": [
             {
               "name": "key",
@@ -136575,7 +136370,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xackdel(, name: KeyT,, groupname: GroupT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+          "signature": "xackdel(name: KeyT, groupname: GroupT, *ids: StreamIdT, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\")",
           "params": [
             {
               "name": "name",
@@ -137343,7 +137138,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xadd(, name: KeyT,, fields: Dict[FieldT, EncodableT],, id: StreamIdT = \"*\",, maxlen: Optional[int] = None,, approximate: bool = True,, nomkstream: bool = False,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,, idmpauto: Optional[str] = None,, idmp: Optional[tuple[str, bytes]] = None,)",
+          "signature": "xadd(name: KeyT, fields: Dict[FieldT, EncodableT], id: StreamIdT = \"*\", maxlen: Optional[int] = None, approximate: bool = True, nomkstream: bool = False, minid: Union[StreamIdT, None] = None, limit: Optional[int] = None, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None, idmpauto: Optional[str] = None, idmp: Optional[tuple[str, bytes]] = None)",
           "params": [
             {
               "name": "name",
@@ -138701,7 +138496,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xautoclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, start_id: StreamIdT = \"0-0\",, count: Optional[int] = None,, justid: bool = False,)",
+          "signature": "xautoclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, start_id: StreamIdT = \"0-0\", count: Optional[int] = None, justid: bool = False)",
           "params": [
             {
               "name": "name",
@@ -139609,7 +139404,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xcfgset(, name: KeyT,, idmp_duration: Optional[int] = None,, idmp_maxsize: Optional[int] = None,)",
+          "signature": "xcfgset(name: KeyT, idmp_duration: Optional[int] = None, idmp_maxsize: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -139810,7 +139605,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]],, idle: Optional[int] = None,, time: Optional[int] = None,, retrycount: Optional[int] = None,, force: bool = False,, justid: bool = False,)",
+          "signature": "xclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]], idle: Optional[int] = None, time: Optional[int] = None, retrycount: Optional[int] = None, force: bool = False, justid: bool = False)",
           "params": [
             {
               "name": "name",
@@ -141341,7 +141136,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xdelex(, name: KeyT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+          "signature": "xdelex(name: KeyT, *ids: StreamIdT, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\")",
           "params": [
             {
               "name": "name",
@@ -141820,7 +141615,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xgroup_create(, name: KeyT,, groupname: GroupT,, id: StreamIdT = \"$\",, mkstream: bool = False,, entries_read: Optional[int] = None,)",
+          "signature": "xgroup_create(name: KeyT, groupname: GroupT, id: StreamIdT = \"$\", mkstream: bool = False, entries_read: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -144529,7 +144324,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xgroup_setid(, name: KeyT,, groupname: GroupT,, id: StreamIdT,, entries_read: Optional[int] = None,)",
+          "signature": "xgroup_setid(name: KeyT, groupname: GroupT, id: StreamIdT, entries_read: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -147942,7 +147737,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xrange(, name: KeyT,, min: StreamIdT = \"-\",, max: StreamIdT = \"+\",, count: Optional[int] = None,)",
+          "signature": "xrange(name: KeyT, min: StreamIdT = \"-\", max: StreamIdT = \"+\", count: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -148755,7 +148550,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xread(, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,)",
+          "signature": "xread(streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None)",
           "params": [
             {
               "name": "streams",
@@ -149473,7 +149268,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xreadgroup(, groupname: str,, consumername: str,, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,, noack: bool = False,, claim_min_idle_time: Optional[int] = None,)",
+          "signature": "xreadgroup(groupname: str, consumername: str, streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, noack: bool = False, claim_min_idle_time: Optional[int] = None)",
           "params": [
             {
               "name": "groupname",
@@ -150457,7 +150252,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xrevrange(, name: KeyT,, max: StreamIdT = \"+\",, min: StreamIdT = \"-\",, count: Optional[int] = None,)",
+          "signature": "xrevrange(name: KeyT, max: StreamIdT = \"+\", min: StreamIdT = \"-\", count: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -151464,7 +151259,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xtrim(, name: KeyT,, maxlen: Optional[int] = None,, approximate: bool = True,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,)",
+          "signature": "xtrim(name: KeyT, maxlen: Optional[int] = None, approximate: bool = True, minid: Union[StreamIdT, None] = None, limit: Optional[int] = None, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None)",
           "params": [
             {
               "name": "name",
@@ -152586,7 +152381,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zadd(, name: KeyT,, mapping: Mapping[AnyKeyT, EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,, incr: bool = False,, gt: bool = False,, lt: bool = False,)",
+          "signature": "zadd(name: KeyT, mapping: Mapping[AnyKeyT, EncodableT], nx: bool = False, xx: bool = False, ch: bool = False, incr: bool = False, gt: bool = False, lt: bool = False)",
           "params": [
             {
               "name": "name",
@@ -157041,7 +156836,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zinterstore(, dest: KeyT,, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,)",
+          "signature": "zinterstore(dest: KeyT, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None)",
           "params": [
             {
               "name": "dest",
@@ -158537,7 +158332,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zmpop(, num_keys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+          "signature": "zmpop(num_keys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
           "params": [
             {
               "name": "num_keys",
@@ -161219,7 +161014,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrange(, name: KeyT,, start: EncodableT,, end: EncodableT,, desc: bool = False,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,, byscore: bool = False,, bylex: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+          "signature": "zrange(name: KeyT, start: EncodableT, end: EncodableT, desc: bool = False, withscores: bool = False, score_cast_func: Union[type, Callable] = float, byscore: bool = False, bylex: bool = False, offset: Optional[int] = None, num: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -162573,7 +162368,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrangebylex(, name: KeyT,, min: EncodableT,, max: EncodableT,, start: Optional[int] = None,, num: Optional[int] = None,)",
+          "signature": "zrangebylex(name: KeyT, min: EncodableT, max: EncodableT, start: Optional[int] = None, num: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -163412,7 +163207,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrangebyscore(, name: KeyT,, min: ZScoreBoundT,, max: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zrangebyscore(name: KeyT, min: ZScoreBoundT, max: ZScoreBoundT, start: Optional[int] = None, num: Optional[int] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -164508,7 +164303,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrangestore(, dest: KeyT,, name: KeyT,, start: EncodableT,, end: EncodableT,, byscore: bool = False,, bylex: bool = False,, desc: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+          "signature": "zrangestore(dest: KeyT, name: KeyT, start: EncodableT, end: EncodableT, byscore: bool = False, bylex: bool = False, desc: bool = False, offset: Optional[int] = None, num: Optional[int] = None)",
           "params": [
             {
               "name": "dest",
@@ -165082,7 +164877,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrank(, name: KeyT,, value: EncodableT,, withscore: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zrank(name: KeyT, value: EncodableT, withscore: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -167721,7 +167516,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrevrange(, name: KeyT,, start: int,, end: int,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zrevrange(name: KeyT, start: int, end: int, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -168350,7 +168145,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrevrangebylex(, name: KeyT,, max: EncodableT,, min: EncodableT,, start: Optional[int] = None,, num: Optional[int] = None,)",
+          "signature": "zrevrangebylex(name: KeyT, max: EncodableT, min: EncodableT, start: Optional[int] = None, num: Optional[int] = None)",
           "params": [
             {
               "name": "name",
@@ -168984,7 +168779,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrevrangebyscore(, name: KeyT,, max: ZScoreBoundT,, min: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zrevrangebyscore(name: KeyT, max: ZScoreBoundT, min: ZScoreBoundT, start: Optional[int] = None, num: Optional[int] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -170035,7 +169830,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zrevrank(, name: KeyT,, value: EncodableT,, withscore: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zrevrank(name: KeyT, value: EncodableT, withscore: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -170455,7 +170250,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "name",
@@ -171661,7 +171456,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zunion(, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+          "signature": "zunion(keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
           "params": [
             {
               "name": "keys",
@@ -172138,7 +171933,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "zunionstore(, dest: KeyT,, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,)",
+          "signature": "zunionstore(dest: KeyT, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None)",
           "params": [
             {
               "name": "dest",

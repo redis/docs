@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "lpop(, name: KeyT,, count: Optional[int] = None,)",
+        "signature": "lpop(name: KeyT, count: Optional[int] = None)",
         "params": [
           {
             "name": "name",
