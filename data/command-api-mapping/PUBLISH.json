@@ -92,13 +92,133 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "publish(channel: RedisArgument, message: RedisArgument)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long publish(K channel, V message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> publish(K channel, V message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> publish(K channel, V message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
     "ioredis": [],
-    "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_sync": [
+      {
+        "signature": "publish(channel: K, message: E)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "publish(channel: K, message: E)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
     "nredisstack_sync": [
       {

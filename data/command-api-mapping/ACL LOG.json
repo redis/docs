@@ -82,9 +82,78 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<Map<String, Object>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List<Map<K,Object>> list of security events."
+        }
+      },
+      {
+        "signature": "List<Map<String, Object>> aclLog(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List<Map<K, Object>> list of security events."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List<Map<K,Object>> list of security events."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> aclLog(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List<Map<K, Object>> list of security events."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Map<String, Object>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "Map<K,Object> list of security events."
+        }
+      },
+      {
+        "signature": "Flux<Map<String, Object>> aclLog(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "Map<K, Object> list of security events."
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
     "php": [
@@ -108,7 +177,53 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_log(count: isize)",
+        "params": [
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_log_reset()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_log(count: isize)",
+        "params": [
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_log_reset()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ]
   }
 }

@@ -82,8 +82,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Save(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SaveAsync(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "bgrewriteaof()",

@@ -63,7 +63,27 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientPause(timeout: number, mode?: 'WRITE' | 'ALL')",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "'WRITE' | 'ALL'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientPause(long timeout)",

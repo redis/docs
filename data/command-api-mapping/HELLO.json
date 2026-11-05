@@ -32,8 +32,63 @@
       }
     ],
     "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
+    "go-redis": [
+      {
+        "signature": "Hello(ctx context.Context, ver int, username, password, clientName string) *MapStringInterfaceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "ver",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "password",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "clientName",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "hello(protover?: RespVersions, options?: HelloOptions)",
+        "params": [
+          {
+            "name": "protover",
+            "type": "RespVersions",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "HelloOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "HelloReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],

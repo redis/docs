@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_delslotsrange(*slots: EncodableT)",
+        "params": [
+          {
+            "name": "*slots",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterDelSlotsRange(int... ranges)",
@@ -43,7 +58,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterDelSlotsRange(ranges: SlotRange | Array<SlotRange>)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "SlotRange | Array<SlotRange>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterDelSlotsRange(Range<Integer>... ranges)",
@@ -94,7 +124,22 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "delSlotsRange(int ...$startEndSlots)",
+        "params": [
+          {
+            "name": "$startEndSlots",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

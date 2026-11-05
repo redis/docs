@@ -177,7 +177,53 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_cat()",
+        "params": [],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_cat_categoryname(categoryname: K)",
+        "params": [
+          {
+            "name": "categoryname",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_cat()",
+        "params": [],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_cat_categoryname(categoryname: K)",
+        "params": [
+          {
+            "name": "categoryname",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ]
   }
 }

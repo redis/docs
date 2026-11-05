@@ -182,7 +182,27 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "list(string $libraryNamePattern = null, bool $withCode = false)",
+        "params": [
+          {
+            "name": "$libraryNamePattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$withCode",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "Role Role(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Role",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<Role> RoleAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Role>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "role()",

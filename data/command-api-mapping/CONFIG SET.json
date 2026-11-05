@@ -246,8 +246,58 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void ConfigSet(RedisValue setting, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "setting",
+            "type": "RedisValue",
+            "description": "The setting name."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The new setting value."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task ConfigSetAsync(RedisValue setting, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "setting",
+            "type": "RedisValue",
+            "description": "The setting name."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The new setting value."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "config($subcommand, $argument = null)",

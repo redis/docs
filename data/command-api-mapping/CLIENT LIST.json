@@ -112,8 +112,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "ClientInfo[] ClientList(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "ClientInfo[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<ClientInfo[]> ClientListAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<ClientInfo[]>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "client(string $subcommand, ...$args)",

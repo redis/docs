@@ -79,9 +79,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "V echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
     "nredisstack_sync": [
       {
         "signature": "RedisValue Echo(RedisValue message, CommandFlags flags = CommandFlags.None)",

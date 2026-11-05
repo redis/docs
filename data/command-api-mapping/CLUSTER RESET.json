@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_reset(soft: bool = True, target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "soft",
+            "type": "bool = True",
+            "description": ""
+          },
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterReset()",
@@ -55,7 +75,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterReset(options?: ClusterResetOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "ClusterResetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterReset(boolean hard)",

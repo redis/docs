@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void ConfigRewrite(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task ConfigRewriteAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "config($subcommand, $argument = null)",

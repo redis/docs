@@ -58,10 +58,70 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "pubSubShardNumSub(channels?: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Record<string, NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Map<K, Long> pubsubShardNumsub(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "Map<K, Long>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Map<K, Long>> pubsubShardNumsub(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<K, Long>>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Map<K, Long>> pubsubShardNumsub(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<K, Long>>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
     "redis_rs_async": [],

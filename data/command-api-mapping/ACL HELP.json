@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "acl_help(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[bytes | str]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
     "go-redis": [],
     "node_redis": [],
@@ -30,7 +45,25 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_help()",
+        "params": [],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_help()",
+        "params": [],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ]
   }
 }

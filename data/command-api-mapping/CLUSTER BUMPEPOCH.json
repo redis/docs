@@ -1,9 +1,27 @@
 {
   "api_calls": {
     "redis_py": [],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String clusterBumpEpoch()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "BUMPED if the epoch was incremented, or STILL if the node already has the greatest config epoch in the cluster."
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterBumpEpoch()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterBumpepoch()",

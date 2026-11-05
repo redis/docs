@@ -37,9 +37,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<String> ftTagvals(String index, String fieldName)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name containing the tag field"
+          },
+          {
+            "name": "fieldName",
+            "type": "String",
+            "description": "the name of the Tag field defined in the index schema"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "a list of all distinct values indexed in the specified tag field. The list contains the raw tag values as they were indexed (lowercase, whitespace removed)."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<String>> ftTagvals(String index, String fieldName)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name containing the tag field"
+          },
+          {
+            "name": "fieldName",
+            "type": "String",
+            "description": "the name of the Tag field defined in the index schema"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<String>>",
+          "description": "a list of all distinct values indexed in the specified tag field. The list contains the raw tag values as they were indexed (lowercase, whitespace removed)."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<String> ftTagvals(String index, String fieldName)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name containing the tag field"
+          },
+          {
+            "name": "fieldName",
+            "type": "String",
+            "description": "the name of the Tag field defined in the index schema"
+          }
+        ],
+        "returns": {
+          "type": "Flux<String>",
+          "description": "a list of all distinct values indexed in the specified tag field. The list contains the raw tag values as they were indexed (lowercase, whitespace removed)."
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTTagVals(ctx context.Context, index string, field string)",

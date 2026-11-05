@@ -3,7 +3,16 @@
     "redis_py": [],
     "jedis": [],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "restoreAsking()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],

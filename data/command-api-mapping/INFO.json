@@ -159,8 +159,86 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "IGrouping<string, KeyValuePair<string, string>>[] Info(RedisValue section = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "section",
+            "type": "RedisValue",
+            "description": "The info section to get, if getting a specific one."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "IGrouping<string, KeyValuePair<string, string>>[]",
+          "description": "A grouping of key/value pairs, grouped by their section header."
+        }
+      },
+      {
+        "signature": "string? InfoRaw(RedisValue section = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "section",
+            "type": "RedisValue",
+            "description": "The info section to get, if getting a specific one."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The entire raw INFO string."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<IGrouping<string, KeyValuePair<string, string>>[]> InfoAsync(RedisValue section = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "section",
+            "type": "RedisValue",
+            "description": "The info section to get, if getting a specific one."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<IGrouping<string, KeyValuePair<string, string>>[]>",
+          "description": "A grouping of key/value pairs, grouped by their section header."
+        }
+      },
+      {
+        "signature": "Task<string?> InfoRawAsync(RedisValue section = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "section",
+            "type": "RedisValue",
+            "description": "The info section to get, if getting a specific one."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": "The entire raw INFO string."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "info(string ...$section = null)",

@@ -1,19 +1,284 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "redis_py": [
+      {
+        "signature": "unsubscribe(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "void unsubscribe()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void unsubscribe(byte[]... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void unsubscribe(String... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "(*PubSub).Unsubscribe(ctx context.Context, channels ...string) error",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "channels",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "error",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "unsubscribe<T extends boolean = false>(channels?: string | Array<string>, listener?: PubSubListener<T>, bufferMode?: T)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "string | Array<string>",
+            "description": ""
+          },
+          {
+            "name": "listener",
+            "type": "PubSubListener<T>",
+            "description": ""
+          },
+          {
+            "name": "bufferMode",
+            "type": "T",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "void unsubscribe(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "the channels"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Void> unsubscribe(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "the channels"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Void>",
+          "description": "RedisFuture<Void> Future to synchronize unsubscribe completion."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Void> unsubscribe(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "the channels."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Void>",
+          "description": "Mono<Void> Mono for unsubscribe command."
+        }
+      }
+    ],
     "ioredis": [],
-    "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_sync": [
+      {
+        "signature": "unsubscribe(channel: T)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "T",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult<()>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "unsubscribe(channel_name: impl ToRedisArgs)",
+        "params": [
+          {
+            "name": "channel_name",
+            "type": "impl ToRedisArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult<()>",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Unsubscribe(RedisChannel channel, Action<RedisChannel, RedisValue>? handler = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel that was subscribed to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>?",
+            "description": "The handler to no longer invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void UnsubscribeAll(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task UnsubscribeAsync(RedisChannel channel, Action<RedisChannel, RedisValue>? handler = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel that was subscribed to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>?",
+            "description": "The handler to no longer invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Task UnsubscribeAllAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "unsubscribe(string ...$channels)",
+        "params": [
+          {
+            "name": "$channels",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
     "redis_rb": [
       {
         "signature": "unsubscribe(*channels)",

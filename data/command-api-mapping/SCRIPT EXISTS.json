@@ -135,8 +135,86 @@
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool ScriptExists(string script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "string",
+            "description": "The text of the script to check for on the server."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bool ScriptExists(byte[] sha1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "byte[]",
+            "description": "The SHA1 of the script to check for on the server."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> ScriptExistsAsync(string script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "string",
+            "description": "The text of the script to check for on the server."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Task<bool> ScriptExistsAsync(byte[] sha1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "byte[]",
+            "description": "The SHA1 of the script to check for on the server."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "script($subcommand, $argument = null)",

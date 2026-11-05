@@ -77,8 +77,48 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "LatencyHistoryEntry[] LatencyHistory(string eventName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "eventName",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "LatencyHistoryEntry[]",
+          "description": "An array of latency history entries."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<LatencyHistoryEntry[]> LatencyHistoryAsync(string eventName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "eventName",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<LatencyHistoryEntry[]>",
+          "description": "An array of latency history entries."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "latency(string $subcommand, ...$args)",

@@ -209,7 +209,27 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "restore(string $value, string $policy = null)",
+        "params": [
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$policy",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

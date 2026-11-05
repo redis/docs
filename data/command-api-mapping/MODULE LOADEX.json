@@ -52,7 +52,27 @@
         }
       }
     ],
-    "go-redis": [],
+    "go-redis": [
+      {
+        "signature": "ModuleLoadex(ctx context.Context, conf *ModuleLoadexConfig) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "conf",
+            "type": "*ModuleLoadexConfig",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
     "node_redis": [],
     "lettuce_sync": [],
     "lettuce_async": [],

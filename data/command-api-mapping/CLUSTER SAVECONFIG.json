@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_save_config(target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterSaveConfig()",
@@ -27,7 +42,16 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterSaveConfig()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterSaveconfig()",

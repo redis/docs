@@ -56,7 +56,27 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "LOLWUT(version?: number, ...optionalArguments: Array<number>)",
+        "params": [
+          {
+            "name": "version",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "...optionalArguments",
+            "type": "Array<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],

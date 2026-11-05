@@ -26,9 +26,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Map<String, List<String>> ftSyndump(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, List<String>>",
+          "description": "a map where keys are synonym terms and values are lists of group IDs containing that synonym"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Map<String, List<String>>> ftSyndump(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<String, List<String>>>",
+          "description": "a map where keys are synonym terms and values are lists of group IDs containing that synonym"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Map<String, List<String>>> ftSyndump(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<String, List<String>>>",
+          "description": "a map where keys are synonym terms and values are lists of group IDs containing that synonym"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSynDump(ctx context.Context, index string)",

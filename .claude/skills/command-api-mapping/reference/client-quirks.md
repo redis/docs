@@ -151,6 +151,32 @@ Translation rules:
 - Return type is generally `RedisResult<T>` (sync) / a future of it (async).
 - `///` doc comments → descriptions when present.
 
+## Receivers that aren't the obvious client (DOC-7263)
+- **redis_py:** `cluster_*` methods exist only on `RedisCluster`; subscribe methods are on the
+  `PubSub` object (`r.pubsub()`); FT.HYBRID is `r.ft(...).hybrid_search`. Some methods are
+  stubs that raise `NotImplementedError`. Read the body, not the name.
+- **node_redis:** `select`, `quit`, `reset`, `monitor` and the subscribe family are methods on
+  `RedisClient`, not command files, and are `undefined` on a cluster client. `LOLWUT` is
+  registered uppercase only. Commands in `@redis/search` and similar need that package.
+- **go-redis:** `CLIENT SETINFO` and `HELLO` are on `StatefulCmdable`/`*Conn`, not `Cmdable`.
+  `HotKeys*` is on `*Client` only. `Monitor` is on the `cmdable` struct but not the
+  `Cmdable` interface. Subscribe methods return `*PubSub`; unsubscribe is on `*PubSub`.
+- **jedis:** `cluster*` methods are on `Jedis` only (not `UnifiedJedis` or `RedisClient`).
+  `unsubscribe`/`punsubscribe`/`sunsubscribe` are on the callback objects
+  (`JedisPubSubBase`, `JedisShardedPubSubBase`), `ssubscribe`/`spublish` on the cluster clients.
+- **lettuce:** subscribe methods are on the pub/sub connection interfaces. `RediSearchCommands`
+  takes only `K` (no `V`).
+- **nredisstack:** server commands are on `IServer` (`FooAsync` twins), subscribe on
+  `ISubscriber`, sharded pub/sub through `RedisChannel.Sharded(...)`. `Save(SaveType)` covers
+  SAVE, BGSAVE and BGREWRITEAOF.
+- **php (predis):** a container subcommand reached only through `__call` (no `@method` in
+  `src/Command/Container/*.php`) is `generic_only`, not a typed method. Consumer methods
+  (`pubSubLoop()`) are the typed home for PSUBSCRIBE/PUNSUBSCRIBE.
+- **redis_rs:** methods come from `implement_commands!` and are generated for four traits.
+  `HotkeysCommands`/`AsyncHotkeysCommands` are separate traits. Some methods need a feature
+  (`acl`, `script` default on; `search_unfinished` is not stable). Async cluster connections
+  carry SSUBSCRIBE/SUNSUBSCRIBE.
+
 ## General
 - **Never invent descriptions.** Empty string beats a plausible-but-unverified sentence.
 - **Confirm the command exists** in the client before adding it; preview commands may be

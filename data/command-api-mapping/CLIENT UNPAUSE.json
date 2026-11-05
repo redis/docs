@@ -42,7 +42,16 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientUnpause()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientUnpause()",

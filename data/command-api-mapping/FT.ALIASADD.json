@@ -37,9 +37,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftAliasadd(String alias, String index)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to create"
+          },
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the target index name that the alias will point to"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the alias was successfully created"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftAliasadd(String alias, String index)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to create"
+          },
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the target index name that the alias will point to"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the alias was successfully created"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftAliasadd(String alias, String index)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to create"
+          },
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the target index name that the alias will point to"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the alias was successfully created"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTAliasAdd(ctx context.Context, index string, alias string)",

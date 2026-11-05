@@ -13,7 +13,27 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "pubsub($subcommand, $argument)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "mixed",
+            "description": ""
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

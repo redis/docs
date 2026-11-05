@@ -76,6 +76,35 @@ For each command in the set you're mapping:
    ```
    Spot-check one command in the rendered table if you can run the site.
 
+## Sweeping empty lists (DOC-7263)
+
+An empty list (`"redis_py": []`) renders "No method signature available for this client."
+A missing key renders the same text, so removing a key changes nothing on the page. The tab
+only lists the clients in `$clientOrder` in `api-methods-tab.html`: ioredis, RedisVL and
+Ruby never render, so filling them has no visible effect.
+
+Classify each empty (command, client) against the **released** client, not the file:
+
+- `real_gap`: a typed method exists but the mapping has no signature. Fill it.
+- `generic_only`: reachable only through `execute_command`, `call`, `Do`, `sendCommand`,
+  `executeRaw`, `redis::cmd` or container magic dispatch with no typed `@method`. Leave empty.
+- `unsupported`: no way to call it, the method throws or panics (`Quit`/`Sync` in go-redis,
+  `memory_doctor` in redis-py), it is `[Obsolete(error: true)]` (SE.Redis `SlaveOf`), or it
+  is client-side and sends no command (`SELECT` as `GetDatabase`, `CLUSTER KEYSLOT`).
+- Bare container rows (`ACL`, `CLIENT`, `CLUSTER`, `CONFIG`, `LATENCY`, `MEMORY`, `MODULE`,
+  `SLOWLOG`, `FUNCTION`, `SCRIPT`, `PUBSUB`) stay empty: the subcommand rows carry the
+  signatures. `HOTKEYS` is not one: check whether its subcommand files already exist.
+
+A name match is a hypothesis. Read the method, and check a sample of hits before trusting a
+count. Typed methods on a non-obvious receiver (`StatefulCmdable`, `IServer`, a `PubSub`
+object, a callback object) still count as `real_gap`: cite the receiver in your report.
+
+To fill many at once, write one fragment per client (`{command: [signatures]}`) outside the
+repo, verify every signature by compiling or reflecting against the released artifact, then
+apply with a script that replaces only lists that are currently `[]`, refuses any file that
+does not round-trip through `json.dumps(indent=2, ensure_ascii=False)`, and keeps each
+file's trailing whitespace. Assert the before and after empty counts.
+
 ## Guardrails
 
 - **Match the live client IDs exactly**, including `go-redis` (hyphen) and `node_redis`,

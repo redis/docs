@@ -66,9 +66,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "SearchReply<K> ftSearch(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          }
+        ],
+        "returns": {
+          "type": "SearchReply<K>",
+          "description": "the result of the search command containing matching documents, see SearchReply"
+        }
+      },
+      {
+        "signature": "SearchReply<K> ftSearch(String index, String query, SearchArgs<K> args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          },
+          {
+            "name": "args",
+            "type": "SearchArgs<K>",
+            "description": "the search arguments containing advanced options and filters"
+          }
+        ],
+        "returns": {
+          "type": "SearchReply<K>",
+          "description": "the result of the search command containing matching documents and metadata, see SearchReply"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<SearchReply<K>> ftSearch(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<SearchReply<K>>",
+          "description": "the result of the search command containing matching documents, see SearchReply"
+        }
+      },
+      {
+        "signature": "RedisFuture<SearchReply<K>> ftSearch(String index, String query, SearchArgs<K> args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          },
+          {
+            "name": "args",
+            "type": "SearchArgs<K>",
+            "description": "the search arguments containing advanced options and filters"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<SearchReply<K>>",
+          "description": "the result of the search command containing matching documents and metadata, see SearchReply"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<SearchReply<K>> ftSearch(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          }
+        ],
+        "returns": {
+          "type": "Mono<SearchReply<K>>",
+          "description": "the result of the search command containing matching documents, see SearchReply"
+        }
+      },
+      {
+        "signature": "Mono<SearchReply<K>> ftSearch(String index, String query, SearchArgs<K> args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string following RediSearch query syntax"
+          },
+          {
+            "name": "args",
+            "type": "SearchArgs<K>",
+            "description": "the search arguments containing advanced options and filters"
+          }
+        ],
+        "returns": {
+          "type": "Mono<SearchReply<K>>",
+          "description": "the result of the search command containing matching documents and metadata, see SearchReply"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSearch(ctx context.Context, index string, query string)",

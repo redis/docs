@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_delslots(*slots: EncodableT)",
+        "params": [
+          {
+            "name": "*slots",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[bool]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterDelSlots(final int... slots)",
@@ -38,7 +53,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterDelSlots(slots: number | Array<number>)",
+        "params": [
+          {
+            "name": "slots",
+            "type": "number | Array<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterDelSlots(int... slots)",

@@ -32,9 +32,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftAliasdel(String alias)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to remove"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the alias was successfully removed"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftAliasdel(String alias)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to remove"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the alias was successfully removed"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftAliasdel(String alias)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "String",
+            "description": "the alias name to remove"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the alias was successfully removed"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTAliasDel(ctx context.Context, alias string)",

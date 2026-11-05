@@ -21,7 +21,46 @@
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "long spublish(byte[] channel, byte[] message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spublish(String channel, String message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "SPublish(ctx context.Context, channel string, message interface{})",
@@ -48,16 +87,186 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "sPublish(channel: RedisArgument, message: RedisArgument)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long spublish(K shardChannel, V message)",
+        "params": [
+          {
+            "name": "shardChannel",
+            "type": "K",
+            "description": "the shard channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> spublish(K shardChannel, V message)",
+        "params": [
+          {
+            "name": "shardChannel",
+            "type": "K",
+            "description": "the shard channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> spublish(K shardChannel, V message)",
+        "params": [
+          {
+            "name": "shardChannel",
+            "type": "K",
+            "description": "the shard channel type: key."
+          },
+          {
+            "name": "message",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of clients that received the message."
+        }
+      }
+    ],
     "ioredis": [],
-    "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_sync": [
+      {
+        "signature": "spublish(channel: K, message: E)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "spublish(channel: K, message: E)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long Publish(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to publish to."
+          },
+          {
+            "name": "message",
+            "type": "RedisValue",
+            "description": "The message to send."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of clients that received the message *on the destination server*, note that this doesn't mean much in a cluster as clients can get the message through other nodes."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> PublishAsync(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to publish to."
+          },
+          {
+            "name": "message",
+            "type": "RedisValue",
+            "description": "The message to publish."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of clients that received the message *on the destination server*, note that this doesn't mean much in a cluster as clients can get the message through other nodes."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "spublish(string $shardChannel, string $message)",

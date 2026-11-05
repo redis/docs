@@ -139,8 +139,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "CommandTrace[] SlowlogGet(int count = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of items to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "CommandTrace[]",
+          "description": "The slow command traces as recorded by the Redis server."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<CommandTrace[]> SlowlogGetAsync(int count = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of items to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<CommandTrace[]>",
+          "description": "The slow command traces as recorded by the Redis server."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "slowlog(string $operation, ?int $length = null)",

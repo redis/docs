@@ -206,7 +206,37 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_deluser(usernames: &'a [K])",
+        "params": [
+          {
+            "name": "usernames",
+            "type": "&'a [K]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_deluser(usernames: &'a [K])",
+        "params": [
+          {
+            "name": "usernames",
+            "type": "&'a [K]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ]
   }
 }

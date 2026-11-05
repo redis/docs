@@ -32,9 +32,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long ftSuglen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ftSuglen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ftSuglen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the current size of the suggestion dictionary"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSugLen(ctx context.Context, key string)",

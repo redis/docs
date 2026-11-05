@@ -27,13 +27,58 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "quit()",
+        "params": [],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String quit()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply always OK."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> quit()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply always OK."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> quit()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply always OK."
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "quit()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

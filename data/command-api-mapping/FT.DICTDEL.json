@@ -42,9 +42,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDictDel(ctx context.Context, dict string, terms ...interface{})",

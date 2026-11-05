@@ -81,7 +81,27 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "replicaOf(host: string, port: number)",
+        "params": [
+          {
+            "name": "host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String replicaof(String host, int port)",
@@ -170,7 +190,27 @@
       }
     ],
     "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_async": [
+      {
+        "signature": "Task ReplicaOfAsync(EndPoint master, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "master",
+            "type": "EndPoint",
+            "description": "Endpoint of the new primary to replicate from."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "replicaof(string $host, int $port)",

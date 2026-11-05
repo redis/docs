@@ -52,9 +52,171 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftSynupdate(String index, String synonymGroupId, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK if executed correctly"
+        }
+      },
+      {
+        "signature": "String ftSynupdate(String index, String synonymGroupId, SynUpdateArgs args, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "args",
+            "type": "SynUpdateArgs",
+            "description": "the synupdate arguments (skipInitialScan)"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK if executed correctly"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftSynupdate(String index, String synonymGroupId, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK if executed correctly"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> ftSynupdate(String index, String synonymGroupId, SynUpdateArgs args, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "args",
+            "type": "SynUpdateArgs",
+            "description": "the synupdate arguments (skipInitialScan)"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK if executed correctly"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftSynupdate(String index, String synonymGroupId, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK if executed correctly"
+        }
+      },
+      {
+        "signature": "Mono<String> ftSynupdate(String index, String synonymGroupId, SynUpdateArgs args, String... terms)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "the synonym group identifier"
+          },
+          {
+            "name": "args",
+            "type": "SynUpdateArgs",
+            "description": "the synupdate arguments (skipInitialScan)"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK if executed correctly"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSynUpdate(ctx context.Context, index string, synGroupId interface{}, terms ...interface{})",

@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisResult MemoryStats(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult",
+          "description": "An array reply of memory stat metrics and values."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult> MemoryStatsAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult>",
+          "description": "An array reply of memory stat metrics and values."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "memory(string $subcommand, ...$args)",

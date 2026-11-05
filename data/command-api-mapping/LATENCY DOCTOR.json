@@ -40,8 +40,38 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string LatencyDoctor(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "The full text result of latency doctor."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string> LatencyDoctorAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string>",
+          "description": "The full text result of latency doctor."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "latency(string $subcommand, ...$args)",

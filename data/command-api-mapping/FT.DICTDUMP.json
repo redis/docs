@@ -32,9 +32,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<String> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<String>> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<String>>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<String> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Flux<String>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDictDump(ctx context.Context, dict string)",

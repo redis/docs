@@ -160,11 +160,119 @@
       }
     ],
     "ioredis": [],
-    "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_sync": [
+      {
+        "signature": "load_script(script: &'a crate::Script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "&'a crate::Script",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "load_script(script: &'a crate::Script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "&'a crate::Script",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "byte[] ScriptLoad(string script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "string",
+            "description": "The script to load."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "The SHA1 of the loaded script."
+        }
+      },
+      {
+        "signature": "LoadedLuaScript ScriptLoad(LuaScript script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "LuaScript",
+            "description": "The script to load."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "LoadedLuaScript",
+          "description": "The loaded script, ready for rapid reuse based on the SHA1."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<byte[]> ScriptLoadAsync(string script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "string",
+            "description": "The script to load."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<byte[]>",
+          "description": "The SHA1 of the loaded script."
+        }
+      },
+      {
+        "signature": "Task<LoadedLuaScript> ScriptLoadAsync(LuaScript script, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "script",
+            "type": "LuaScript",
+            "description": "The script to load."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<LoadedLuaScript>",
+          "description": "The loaded script, ready for rapid reuse based on the SHA1."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "script($subcommand, $argument = null)",

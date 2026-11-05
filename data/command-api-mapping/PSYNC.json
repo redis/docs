@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "psync(replicationid: str, offset: int)",
+        "params": [
+          {
+            "name": "replicationid",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
     "go-redis": [],
     "node_redis": [],

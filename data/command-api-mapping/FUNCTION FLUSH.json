@@ -126,7 +126,22 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "flush(?string $mode = null)",
+        "params": [
+          {
+            "name": "$mode",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

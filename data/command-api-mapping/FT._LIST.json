@@ -20,9 +20,36 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<String> ftList()",
+        "params": [],
+        "returns": {
+          "type": "List<String>",
+          "description": "a list of index names"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<String>> ftList()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<String>>",
+          "description": "a list of index names"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<String> ftList()",
+        "params": [],
+        "returns": {
+          "type": "Flux<String>",
+          "description": "a list of index names"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FT_List(ctx context.Context)",

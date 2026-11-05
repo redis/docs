@@ -145,7 +145,37 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_getuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<acl::AclInfo>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_getuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<acl::AclInfo>)",
+          "description": ""
+        }
+      }
+    ]
   }
 }
