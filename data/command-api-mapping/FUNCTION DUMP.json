@@ -10,7 +10,16 @@
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "byte[] functionDump()",
+        "params": [],
+        "returns": {
+          "type": "byte[]",
+          "description": "the serialized payload"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FunctionDump(ctx context.Context)",
@@ -73,7 +82,16 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "dump()",
+        "params": [],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

@@ -105,7 +105,25 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_whoami()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_whoami()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ]
   }
 }

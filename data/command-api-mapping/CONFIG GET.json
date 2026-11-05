@@ -183,8 +183,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyValuePair<string, string>[] ConfigGet(RedisValue pattern = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of config values to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "KeyValuePair<string, string>[]",
+          "description": "All matching configuration parameters."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<KeyValuePair<string, string>[]> ConfigGetAsync(RedisValue pattern = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of config values to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<KeyValuePair<string, string>[]>",
+          "description": "All matching configuration parameters."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "config($subcommand, $argument = null)",

@@ -66,16 +66,140 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "pubSubChannels(pattern?: RedisArgument)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<K> pubsubChannels()",
+        "params": [],
+        "returns": {
+          "type": "List<K>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      },
+      {
+        "signature": "List<K> pubsubChannels(K channel)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<K>> pubsubChannels()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<K>> pubsubChannels(K channel)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<K> pubsubChannels()",
+        "params": [],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "K array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      },
+      {
+        "signature": "Flux<K> pubsubChannels(K channel)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "K array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisChannel[] SubscriptionChannels(RedisChannel pattern = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisChannel",
+            "description": "The channel name pattern to get channels for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "RedisChannel[]",
+          "description": "a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisChannel[]> SubscriptionChannelsAsync(RedisChannel pattern = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisChannel",
+            "description": "The channel name pattern to get channels for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisChannel[]>",
+          "description": "a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "pubsub($subcommand, $argument)",

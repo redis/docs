@@ -42,9 +42,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "AggregationReply<K> ftAggregate(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          }
+        ],
+        "returns": {
+          "type": "AggregationReply<K>",
+          "description": "the result of the aggregate command containing processed results, see SearchReply"
+        }
+      },
+      {
+        "signature": "AggregationReply<K> ftAggregate(String index, String query, AggregateArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          },
+          {
+            "name": "args",
+            "type": "AggregateArgs",
+            "description": "the aggregate arguments defining the processing pipeline and operations"
+          }
+        ],
+        "returns": {
+          "type": "AggregationReply<K>",
+          "description": "the result of the aggregate command containing processed and transformed results, see SearchReply"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<AggregationReply<K>> ftAggregate(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<AggregationReply<K>>",
+          "description": "the result of the aggregate command containing processed results, see SearchReply"
+        }
+      },
+      {
+        "signature": "RedisFuture<AggregationReply<K>> ftAggregate(String index, String query, AggregateArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          },
+          {
+            "name": "args",
+            "type": "AggregateArgs",
+            "description": "the aggregate arguments defining the processing pipeline and operations"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<AggregationReply<K>>",
+          "description": "the result of the aggregate command containing processed and transformed results, see SearchReply"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<AggregationReply<K>> ftAggregate(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          }
+        ],
+        "returns": {
+          "type": "Mono<AggregationReply<K>>",
+          "description": "the result of the aggregate command containing processed results, see SearchReply"
+        }
+      },
+      {
+        "signature": "Mono<AggregationReply<K>> ftAggregate(String index, String query, AggregateArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the base filtering query that retrieves documents for aggregation"
+          },
+          {
+            "name": "args",
+            "type": "AggregateArgs",
+            "description": "the aggregate arguments defining the processing pipeline and operations"
+          }
+        ],
+        "returns": {
+          "type": "Mono<AggregationReply<K>>",
+          "description": "the result of the aggregate command containing processed and transformed results, see SearchReply"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTAggregate(ctx context.Context, index string, query string)",

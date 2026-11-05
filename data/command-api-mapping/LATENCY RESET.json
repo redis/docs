@@ -85,8 +85,48 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long LatencyReset(string[]? eventNames = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "eventNames",
+            "type": "string[]?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of events that were reset."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> LatencyResetAsync(string[]? eventNames = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "eventNames",
+            "type": "string[]?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of events that were reset."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "latency(string $subcommand, ...$args)",

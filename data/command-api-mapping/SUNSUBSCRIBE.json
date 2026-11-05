@@ -1,18 +1,230 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "redis_py": [
+      {
+        "signature": "sunsubscribe(*args, target_node=None)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "target_node",
+            "type": "Any = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "void sunsubscribe()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void sunsubscribe(byte[]... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void sunsubscribe(String... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "(*PubSub).SUnsubscribe(ctx context.Context, channels ...string) error",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "channels",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "error",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "sUnsubscribe<T extends boolean = false>(channels?: string | Array<string>, listener?: PubSubListener<T>, bufferMode?: T)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "string | Array<string>",
+            "description": ""
+          },
+          {
+            "name": "listener",
+            "type": "PubSubListener<T>",
+            "description": ""
+          },
+          {
+            "name": "bufferMode",
+            "type": "T",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "void sunsubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the channels"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Void> sunsubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the shard channels"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Void>",
+          "description": "RedisFuture<Void> Future to synchronize unsubscribe completion."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Void> sunsubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the channels."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Void>",
+          "description": "Mono<Void> Mono for unsubscribe command."
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_async": [
+      {
+        "signature": "sunsubscribe(channel_name: impl ToRedisArgs)",
+        "params": [
+          {
+            "name": "channel_name",
+            "type": "impl ToRedisArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult<()>",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Unsubscribe(RedisChannel channel, Action<RedisChannel, RedisValue>? handler = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel that was subscribed to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>?",
+            "description": "The handler to no longer invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task UnsubscribeAsync(RedisChannel channel, Action<RedisChannel, RedisValue>? handler = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel that was subscribed to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>?",
+            "description": "The handler to no longer invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "sunsubscribe(?string ...$shardChannels = null)",

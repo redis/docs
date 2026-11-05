@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_myid(target_node: TargetNodesT)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterMyId()",
@@ -27,7 +42,16 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterMyId()",
+        "params": [],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterMyId()",

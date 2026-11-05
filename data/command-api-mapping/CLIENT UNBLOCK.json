@@ -101,7 +101,27 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientUnblock(clientId: number | `${number}`, mode?: ClientUnblockMode)",
+        "params": [
+          {
+            "name": "clientId",
+            "type": "number | `${number}`",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "ClientUnblockMode",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "Long clientUnblock(long id, UnblockType type)",

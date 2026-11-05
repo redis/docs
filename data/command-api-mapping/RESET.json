@@ -16,9 +16,27 @@
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String reset()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "reset()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],

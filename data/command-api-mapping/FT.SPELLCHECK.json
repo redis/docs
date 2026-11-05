@@ -76,9 +76,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "SpellCheckResult ftSpellcheck(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          }
+        ],
+        "returns": {
+          "type": "SpellCheckResult",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      },
+      {
+        "signature": "SpellCheckResult ftSpellcheck(String index, String query, SpellCheckArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          },
+          {
+            "name": "args",
+            "type": "SpellCheckArgs",
+            "description": "the spellcheck arguments (distance, terms, dialect)"
+          }
+        ],
+        "returns": {
+          "type": "SpellCheckResult",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<SpellCheckResult> ftSpellcheck(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<SpellCheckResult>",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      },
+      {
+        "signature": "RedisFuture<SpellCheckResult> ftSpellcheck(String index, String query, SpellCheckArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          },
+          {
+            "name": "args",
+            "type": "SpellCheckArgs",
+            "description": "the spellcheck arguments (distance, terms, dialect)"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<SpellCheckResult>",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<SpellCheckResult> ftSpellcheck(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          }
+        ],
+        "returns": {
+          "type": "Mono<SpellCheckResult>",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      },
+      {
+        "signature": "Mono<SpellCheckResult> ftSpellcheck(String index, String query, SpellCheckArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index with the indexed terms"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to check for spelling errors"
+          },
+          {
+            "name": "args",
+            "type": "SpellCheckArgs",
+            "description": "the spellcheck arguments (distance, terms, dialect)"
+          }
+        ],
+        "returns": {
+          "type": "Mono<SpellCheckResult>",
+          "description": "spell check result containing misspelled terms and their suggestions"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSpellCheck(ctx context.Context, index string, query string)",

@@ -71,9 +71,171 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long ftSugadd(K key, String suggestion, double score)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      },
+      {
+        "signature": "Long ftSugadd(K key, String suggestion, double score, SugAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          },
+          {
+            "name": "args",
+            "type": "SugAddArgs",
+            "description": "the suggestion add arguments (INCR, deprecated PAYLOAD)"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ftSugadd(K key, String suggestion, double score)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> ftSugadd(K key, String suggestion, double score, SugAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          },
+          {
+            "name": "args",
+            "type": "SugAddArgs",
+            "description": "the suggestion add arguments (INCR, deprecated PAYLOAD)"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ftSugadd(K key, String suggestion, double score)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      },
+      {
+        "signature": "Mono<Long> ftSugadd(K key, String suggestion, double score, SugAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to index"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "the floating point number of the suggestion string's weight"
+          },
+          {
+            "name": "args",
+            "type": "SugAddArgs",
+            "description": "the suggestion add arguments (INCR, deprecated PAYLOAD)"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the current size of the suggestion dictionary after adding the suggestion"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSugAdd(ctx context.Context, key string, suggestion string, score float64)",

@@ -82,8 +82,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long DatabaseSize(int database = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database ID."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> DatabaseSizeAsync(int database = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database ID."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "dbsize()",

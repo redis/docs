@@ -58,10 +58,70 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "select(db: number)",
+        "params": [
+          {
+            "name": "db",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String select(int db)",
+        "params": [
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database number"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> select(int db)",
+        "params": [
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database number"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> select(int db)",
+        "params": [
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database number"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
     "php": [

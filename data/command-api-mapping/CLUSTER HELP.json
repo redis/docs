@@ -1,6 +1,31 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster(cluster_arg, *args, **kwargs)",
+        "params": [
+          {
+            "name": "cluster_arg",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
     "go-redis": [],
     "node_redis": [],

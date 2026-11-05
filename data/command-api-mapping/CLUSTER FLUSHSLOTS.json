@@ -1,9 +1,27 @@
 {
   "api_calls": {
     "redis_py": [],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String clusterFlushSlots()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterFlushSlots()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterFlushslots()",

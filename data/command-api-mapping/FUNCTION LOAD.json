@@ -223,7 +223,27 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "load(string $functionCode, bool $replace = false)",
+        "params": [
+          {
+            "name": "$functionCode",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$replace",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

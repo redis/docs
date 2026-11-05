@@ -42,7 +42,16 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientId()",
+        "params": [],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "Long clientId()",
@@ -96,7 +105,25 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "client_id()",
+        "params": [],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "client_id()",
+        "params": [],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      }
+    ]
   }
 }

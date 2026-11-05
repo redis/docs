@@ -1,9 +1,59 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
+    "redis_py": [
+      {
+        "signature": "cluster_set_config_epoch(epoch: int, target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "epoch",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clusterSetConfigEpoch(long configEpoch)",
+        "params": [
+          {
+            "name": "configEpoch",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterSetConfigEpoch(configEpoch: number)",
+        "params": [
+          {
+            "name": "configEpoch",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterSetConfigEpoch(long configEpoch)",

@@ -78,7 +78,22 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "delete(string $libraryName)",
+        "params": [
+          {
+            "name": "$libraryName",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

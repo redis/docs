@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_addslots(target_node: TargetNodesT, *slots: EncodableT)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "*slots",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterAddSlots(final int... slots)",

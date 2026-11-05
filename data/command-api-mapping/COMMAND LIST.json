@@ -55,13 +55,108 @@
         }
       }
     ],
-    "go-redis": [],
-    "node_redis": [],
+    "go-redis": [
+      {
+        "signature": "CommandList(ctx context.Context, filter *FilterBy) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "filter",
+            "type": "*FilterBy",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "commandList(options?: CommandListOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "CommandListOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string[] CommandList(RedisValue? moduleName = null, RedisValue? category = null, RedisValue? pattern = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "moduleName",
+            "type": "RedisValue?",
+            "description": "The module name to filter the command list by."
+          },
+          {
+            "name": "category",
+            "type": "RedisValue?",
+            "description": "The category to filter the command list by."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue?",
+            "description": "The pattern to filter the command list by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "string[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string[]> CommandListAsync(RedisValue? moduleName = null, RedisValue? category = null, RedisValue? pattern = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "moduleName",
+            "type": "RedisValue?",
+            "description": "The module name to filter the command list by."
+          },
+          {
+            "name": "category",
+            "type": "RedisValue?",
+            "description": "The category to filter the command list by."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue?",
+            "description": "The pattern to filter the command list by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<string[]>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "command(string $subcommand, ...$args)",

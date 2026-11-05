@@ -27,12 +27,51 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "memoryDoctor()",
+        "params": [],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string MemoryDoctor(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "The full text result of memory doctor."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string> MemoryDoctorAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string>",
+          "description": "The full text result of memory doctor."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "memory(string $subcommand, ...$args)",

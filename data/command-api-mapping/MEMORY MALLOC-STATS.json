@@ -27,12 +27,51 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "memoryMallocStats()",
+        "params": [],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string? MemoryAllocatorStats(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The full text result of memory allocation stats."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string?> MemoryAllocatorStatsAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": "The full text result of memory allocation stats."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "memory(string $subcommand, ...$args)",

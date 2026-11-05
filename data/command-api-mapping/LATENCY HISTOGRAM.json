@@ -23,7 +23,22 @@
     ],
     "jedis": [],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "latencyHistogram(...commands: string[])",
+        "params": [
+          {
+            "name": "...commands",
+            "type": "string[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Record<string, { calls: number, histogram_usec: Record<string, number> }>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],

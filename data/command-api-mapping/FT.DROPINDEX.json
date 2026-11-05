@@ -46,9 +46,111 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftDropindex(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      },
+      {
+        "signature": "String ftDropindex(String index, boolean deleteDocuments)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "deleteDocuments",
+            "type": "boolean",
+            "description": "if true, delete the indexed documents as well; if false, preserve documents"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftDropindex(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> ftDropindex(String index, boolean deleteDocuments)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "deleteDocuments",
+            "type": "boolean",
+            "description": "if true, delete the indexed documents as well; if false, preserve documents"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftDropindex(String index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      },
+      {
+        "signature": "Mono<String> ftDropindex(String index, boolean deleteDocuments)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "deleteDocuments",
+            "type": "boolean",
+            "description": "if true, delete the indexed documents as well; if false, preserve documents"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was successfully dropped"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDropIndex(ctx context.Context, index string)",

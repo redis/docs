@@ -47,7 +47,27 @@
         }
       }
     ],
-    "go-redis": [],
+    "go-redis": [
+      {
+        "signature": "ClientSetInfo(ctx context.Context, info LibraryInfo) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "info",
+            "type": "LibraryInfo",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
     "node_redis": [],
     "lettuce_sync": [
       {
@@ -114,7 +134,27 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "setInfo(string $modifier = null, string $value = null)",
+        "params": [
+          {
+            "name": "$modifier",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

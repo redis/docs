@@ -1,6 +1,31 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_meet(host: str, port: int, target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "host",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterMeet(final String ip, final int port)",

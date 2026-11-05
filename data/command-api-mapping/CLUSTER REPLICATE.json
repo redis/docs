@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_replicate(target_nodes: TargetNodesT, node_id: str)",
+        "params": [
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "node_id",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterReplicate(final String nodeId)",

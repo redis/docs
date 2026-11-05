@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_keyslot(key: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "long clusterKeySlot(final String key)",

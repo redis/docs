@@ -173,8 +173,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void FlushAllDatabases(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task FlushAllDatabasesAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "flushall()",
@@ -185,7 +215,53 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "flushall()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushall_options(options: &'a FlushAllOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "&'a FlushAllOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "flushall()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushall_options(options: &'a FlushAllOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "&'a FlushAllOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ]
   }
 }

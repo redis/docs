@@ -1,18 +1,294 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "redis_py": [
+      {
+        "signature": "ssubscribe(*args: ChannelT | Subscription, target_node: Any = None, **kwargs: PubSubHandler)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "ChannelT | Subscription",
+            "description": ""
+          },
+          {
+            "name": "target_node",
+            "type": "Any = None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "PubSubHandler",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "void ssubscribe(BinaryJedisShardedPubSub jedisPubSub, byte[]... channels)",
+        "params": [
+          {
+            "name": "jedisPubSub",
+            "type": "BinaryJedisShardedPubSub",
+            "description": ""
+          },
+          {
+            "name": "channels",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void ssubscribe(JedisShardedPubSub jedisPubSub, String... channels)",
+        "params": [
+          {
+            "name": "jedisPubSub",
+            "type": "JedisShardedPubSub",
+            "description": ""
+          },
+          {
+            "name": "channels",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "(*Client).SSubscribe(ctx context.Context, channels ...string) *PubSub",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "channels",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*PubSub",
+          "description": ""
+        }
+      },
+      {
+        "signature": "(*PubSub).SSubscribe(ctx context.Context, channels ...string) error",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "channels",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "error",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "sSubscribe<T extends boolean = false>(channels: string | Array<string>, listener: PubSubListener<T>, bufferMode?: T)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "string | Array<string>",
+            "description": ""
+          },
+          {
+            "name": "listener",
+            "type": "PubSubListener<T>",
+            "description": ""
+          },
+          {
+            "name": "bufferMode",
+            "type": "T",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "void ssubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the channels"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Void> ssubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the shard channels"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Void>",
+          "description": "RedisFuture<Void> Future to synchronize subscribe completion"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Void> ssubscribe(K... shardChannels)",
+        "params": [
+          {
+            "name": "shardChannels",
+            "type": "K...",
+            "description": "the channels."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Void>",
+          "description": "Mono<Void> Mono for subscribe command."
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
-    "redis_rs_async": [],
+    "redis_rs_async": [
+      {
+        "signature": "ssubscribe(channel_name: impl ToRedisArgs)",
+        "params": [
+          {
+            "name": "channel_name",
+            "type": "impl ToRedisArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult<()>",
+          "description": ""
+        }
+      }
+    ],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Subscribe(RedisChannel channel, Action<RedisChannel, RedisValue> handler, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to subscribe to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>",
+            "description": "The handler to invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ChannelMessageQueue Subscribe(RedisChannel channel, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The redis channel to subscribe to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "ChannelMessageQueue",
+          "description": "A channel that represents this source."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SubscribeAsync(RedisChannel channel, Action<RedisChannel, RedisValue> handler, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to subscribe to."
+          },
+          {
+            "name": "handler",
+            "type": "Action<RedisChannel, RedisValue>",
+            "description": "The handler to invoke when a message is received on channel."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Task<ChannelMessageQueue> SubscribeAsync(RedisChannel channel, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The redis channel to subscribe to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<ChannelMessageQueue>",
+          "description": "A channel that represents this source."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "ssubscribe(string ...$shardChannels)",

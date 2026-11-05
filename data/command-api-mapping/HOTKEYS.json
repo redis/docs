@@ -1,12 +1,312 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "hotkeys_start(metrics: List[HotkeysMetricsTypes], count: int | None = None, duration: int | None = None, sample_ratio: int | None = None, slots: List[int] | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "metrics",
+            "type": "List[HotkeysMetricsTypes]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int | None = None",
+            "description": ""
+          },
+          {
+            "name": "duration",
+            "type": "int | None = None",
+            "description": ""
+          },
+          {
+            "name": "sample_ratio",
+            "type": "int | None = None",
+            "description": ""
+          },
+          {
+            "name": "slots",
+            "type": "List[int] | None = None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeys_stop(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeys_reset(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeys_get(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[dict[str | bytes, Any]]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "HotKeysStart(ctx context.Context, args *HotKeysStartArgs) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "args",
+            "type": "*HotKeysStartArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HotKeysStop(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HotKeysReset(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HotKeysGet(ctx context.Context) *HotKeysCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*HotKeysCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "hotkeysStart(options: HotkeysStartOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "HotkeysStartOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeysStop()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'> | NullReply",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeysReset()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "HotkeysGetReply | null",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String hotkeysStart(HotkeysArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "HotkeysArgs",
+            "description": "tracking arguments."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "String hotkeysStop()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "String hotkeysReset()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "HotkeysReply hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "HotkeysReply",
+          "description": "HotkeysReply with tracking data, or null if no tracking session."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> hotkeysStart(HotkeysArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "HotkeysArgs",
+            "description": "tracking arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> hotkeysStop()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> hotkeysReset()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "RedisFuture<HotkeysReply> hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<HotkeysReply>",
+          "description": "HotkeysReply with tracking data, or null if no tracking session."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> hotkeysStart(HotkeysArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "HotkeysArgs",
+            "description": "tracking arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "Mono<String> hotkeysStop()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "Mono<String> hotkeysReset()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK."
+        }
+      },
+      {
+        "signature": "Mono<HotkeysReply> hotkeysGet()",
+        "params": [],
+        "returns": {
+          "type": "Mono<HotkeysReply>",
+          "description": "HotkeysReply with tracking data, or null if no tracking session."
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
     "php": [],

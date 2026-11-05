@@ -47,9 +47,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "AggregationReply<K> ftCursorread(String index, Cursor cursor, int count)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of results to read; overrides the COUNT from FT.AGGREGATE"
+          }
+        ],
+        "returns": {
+          "type": "AggregationReply<K>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      },
+      {
+        "signature": "AggregationReply<K> ftCursorread(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "AggregationReply<K>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<AggregationReply<K>> ftCursorread(String index, Cursor cursor, int count)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of results to read; overrides the COUNT from FT.AGGREGATE"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<AggregationReply<K>>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      },
+      {
+        "signature": "RedisFuture<AggregationReply<K>> ftCursorread(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<AggregationReply<K>>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<AggregationReply<K>> ftCursorread(String index, Cursor cursor, int count)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of results to read; overrides the COUNT from FT.AGGREGATE"
+          }
+        ],
+        "returns": {
+          "type": "Mono<AggregationReply<K>>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      },
+      {
+        "signature": "Mono<AggregationReply<K>> ftCursorread(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "Mono<AggregationReply<K>>",
+          "description": "the next batch of results; see AggregationReply"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTCursorRead(ctx context.Context, index string, cursorId int, count int)",

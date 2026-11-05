@@ -42,9 +42,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean ftSugdel(K key, String suggestion)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the string was found and deleted, false otherwise"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> ftSugdel(K key, String suggestion)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the string was found and deleted, false otherwise"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> ftSugdel(K key, String suggestion)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "String",
+            "description": "the suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the string was found and deleted, false otherwise"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSugDel(ctx context.Context, key string, suggestion string)",

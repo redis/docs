@@ -37,9 +37,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftExplain(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the execution plan as a string"
+        }
+      },
+      {
+        "signature": "String ftExplain(String index, String query, ExplainArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          },
+          {
+            "name": "args",
+            "type": "ExplainArgs",
+            "description": "the explain arguments (dialect)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the execution plan as a string"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftExplain(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "the execution plan as a string"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> ftExplain(String index, String query, ExplainArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          },
+          {
+            "name": "args",
+            "type": "ExplainArgs",
+            "description": "the explain arguments (dialect)"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "the execution plan as a string"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftExplain(String index, String query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "the execution plan as a string"
+        }
+      },
+      {
+        "signature": "Mono<String> ftExplain(String index, String query, ExplainArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the search query to explain"
+          },
+          {
+            "name": "args",
+            "type": "ExplainArgs",
+            "description": "the explain arguments (dialect)"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "the execution plan as a string"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTExplain(ctx context.Context, index string, query string)",

@@ -71,9 +71,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftCreate(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      },
+      {
+        "signature": "String ftCreate(String index, CreateArgs arguments, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "arguments",
+            "type": "CreateArgs",
+            "description": "the index CreateArgs containing configuration options"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftCreate(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> ftCreate(String index, CreateArgs arguments, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "arguments",
+            "type": "CreateArgs",
+            "description": "the index CreateArgs containing configuration options"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftCreate(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      },
+      {
+        "signature": "Mono<String> ftCreate(String index, CreateArgs arguments, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "arguments",
+            "type": "CreateArgs",
+            "description": "the index CreateArgs containing configuration options"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the searchable fields and their types"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was created successfully"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTCreate(ctx context.Context, index string, options *FTCreateOptions, schema ...*FieldSchema)",

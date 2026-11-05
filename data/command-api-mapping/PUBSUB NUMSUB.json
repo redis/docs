@@ -58,16 +58,116 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "pubSubNumSub(channels?: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Record<string, NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Map<K, Long> pubsubNumsub(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "Map<K, Long>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Map<K, Long>> pubsubNumsub(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<K, Long>>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Map<K, Long>> pubsubNumsub(K... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "K...",
+            "description": "channel keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<K, Long>>",
+          "description": "array-reply a list of channels and number of subscribers for every channel."
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long SubscriptionSubscriberCount(RedisChannel channel, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to get a subscriber count for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of subscribers on this server."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> SubscriptionSubscriberCountAsync(RedisChannel channel, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to get a subscriber count for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of subscribers on this server."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "pubsub($subcommand, $argument)",

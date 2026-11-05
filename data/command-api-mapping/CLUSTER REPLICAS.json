@@ -1,9 +1,59 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
+    "redis_py": [
+      {
+        "signature": "cluster_replicas(node_id: str, target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "node_id",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "dict[str, ClusterNodeDetail]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> clusterReplicas(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterReplicas(nodeId: RedisArgument)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterReplicas(String nodeId)",

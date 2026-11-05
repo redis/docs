@@ -56,9 +56,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftAlter(String index, boolean skipInitialScan, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "boolean",
+            "description": "if true, skip scanning and indexing existing documents; if false, scan and index existing documents with the new attributes"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      },
+      {
+        "signature": "String ftAlter(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftAlter(String index, boolean skipInitialScan, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "boolean",
+            "description": "if true, skip scanning and indexing existing documents; if false, scan and index existing documents with the new attributes"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> ftAlter(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftAlter(String index, boolean skipInitialScan, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "boolean",
+            "description": "if true, skip scanning and indexing existing documents; if false, scan and index existing documents with the new attributes"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      },
+      {
+        "signature": "Mono<String> ftAlter(String index, List<FieldArgs> fieldArgs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "fieldArgs",
+            "type": "List<FieldArgs>",
+            "description": "the FieldArgs list defining the new searchable fields and their types to add"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the index was successfully altered"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTAlter(ctx context.Context, index string, skipInitialScan bool, definition []interface{})",

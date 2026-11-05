@@ -67,8 +67,53 @@
         }
       }
     ],
-    "go-redis": [],
-    "node_redis": [],
+    "go-redis": [
+      {
+        "signature": "ClientTracking(ctx context.Context, on bool, opt *ClientTrackingOptions) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "on",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "*ClientTrackingOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "clientTracking<M extends boolean>(mode: M, options?: M extends true ? ClientTrackingOptions : never)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "M extends true ? ClientTrackingOptions : never",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientTracking(TrackingArgs args)",

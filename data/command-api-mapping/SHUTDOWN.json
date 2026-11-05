@@ -195,7 +195,27 @@
         }
       }
     ],
-    "nredisstack_sync": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Shutdown(ShutdownMode shutdownMode = ShutdownMode.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "shutdownMode",
+            "type": "ShutdownMode",
+            "description": "The mode of the shutdown."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
     "nredisstack_async": [],
     "php": [
       {

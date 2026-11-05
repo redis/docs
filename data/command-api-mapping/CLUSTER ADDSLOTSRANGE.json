@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_addslotsrange(target_node: TargetNodesT, *slots: EncodableT)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "*slots",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterAddSlotsRange(int... ranges)",
@@ -43,7 +63,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterAddSlotsRange(ranges: SlotRange | Array<SlotRange>)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "SlotRange | Array<SlotRange>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterAddSlotsRange(Range<Integer>... ranges)",
@@ -94,7 +129,22 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "addSlotsRange(int ...$startEndSlots)",
+        "params": [
+          {
+            "name": "$startEndSlots",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

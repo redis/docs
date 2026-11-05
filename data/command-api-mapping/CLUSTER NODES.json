@@ -1,6 +1,15 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_nodes()",
+        "params": [],
+        "returns": {
+          "type": "dict[str, ClusterNodeDetail]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterNodes()",
@@ -73,8 +82,66 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "ClusterConfiguration? ClusterNodes(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "ClusterConfiguration?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "string? ClusterNodesRaw(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<ClusterConfiguration?> ClusterNodesAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<ClusterConfiguration?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Task<string?> ClusterNodesRawAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": ""
+        }
+      }
+    ],
     "php": [],
     "redis_rs_sync": [],
     "redis_rs_async": []

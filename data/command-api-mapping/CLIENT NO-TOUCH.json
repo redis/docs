@@ -38,10 +38,70 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "node_redis": [
+      {
+        "signature": "clientNoTouch(value: boolean)",
+        "params": [
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientNoTouch(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn no-touch mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientNoTouch(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn no-touch mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientNoTouch(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn no-touch mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
     "php": [

@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_failover(target_node: TargetNodesT, option: str | None = None)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "str | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterFailover()",
@@ -41,7 +61,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterFailover(options?: ClusterFailoverOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "ClusterFailoverOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterFailover(boolean force)",

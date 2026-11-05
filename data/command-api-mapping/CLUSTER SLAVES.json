@@ -1,12 +1,92 @@
 {
   "api_calls": {
     "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
+    "jedis": [
+      {
+        "signature": "List<String> clusterSlaves(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterSlaves(ctx context.Context, nodeID string) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "nodeID",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
     "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<String> clusterSlaves(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "node id of the master node"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "List<String> array-reply list of replicas. The command returns data in the same format as clusterNodes() but one line per replica."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<String>> clusterSlaves(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "node id of the master node"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<String>>",
+          "description": "List<String> array-reply list of replicas. The command returns data in the same format as clusterNodes() but one line per replica."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<String> clusterSlaves(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "node id of the master node"
+          }
+        ],
+        "returns": {
+          "type": "Flux<String>",
+          "description": "List<String> array-reply list of replicas. The command returns data in the same format as clusterNodes() but one line per replica."
+        }
+      }
+    ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
     "php": [],

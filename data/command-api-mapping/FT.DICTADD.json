@@ -42,9 +42,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long ftDictadd(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new terms that were added"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ftDictadd(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new terms that were added"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ftDictadd(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new terms that were added"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDictAdd(ctx context.Context, dict string, terms ...interface{})",

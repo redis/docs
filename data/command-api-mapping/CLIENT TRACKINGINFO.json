@@ -27,7 +27,16 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientTrackingInfo()",
+        "params": [],
+        "returns": {
+          "type": "TrackingInfo",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "TrackingInfo clientTrackinginfo()",

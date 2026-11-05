@@ -1,8 +1,47 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "go-redis": [],
+    "redis_py": [
+      {
+        "signature": "cluster_shards(target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ClusterShardsResponse",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<ClusterShardInfo> clusterShards()",
+        "params": [],
+        "returns": {
+          "type": "List<ClusterShardInfo>",
+          "description": "a list of shards, with each shard containing two objects, 'slots' and 'nodes'."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterShards(ctx context.Context) *ClusterShardsCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*ClusterShardsCmd",
+          "description": ""
+        }
+      }
+    ],
     "node_redis": [],
     "lettuce_sync": [
       {
@@ -36,7 +75,16 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "shards()",
+        "params": [],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

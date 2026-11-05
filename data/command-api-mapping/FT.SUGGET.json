@@ -86,9 +86,141 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<Suggestion> ftSugget(K key, String prefix)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          }
+        ],
+        "returns": {
+          "type": "List<Suggestion>",
+          "description": "a list of suggestions matching the prefix"
+        }
+      },
+      {
+        "signature": "List<Suggestion> ftSugget(K key, String prefix, SugGetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          },
+          {
+            "name": "args",
+            "type": "SugGetArgs",
+            "description": "the suggestion get arguments (FUZZY, WITHSCORES, deprecated WITHPAYLOADS, MAX)"
+          }
+        ],
+        "returns": {
+          "type": "List<Suggestion>",
+          "description": "a list of suggestions matching the prefix, optionally with scores and payloads"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Suggestion>> ftSugget(K key, String prefix)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Suggestion>>",
+          "description": "a list of suggestions matching the prefix"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Suggestion>> ftSugget(K key, String prefix, SugGetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          },
+          {
+            "name": "args",
+            "type": "SugGetArgs",
+            "description": "the suggestion get arguments (FUZZY, WITHSCORES, deprecated WITHPAYLOADS, MAX)"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Suggestion>>",
+          "description": "a list of suggestions matching the prefix, optionally with scores and payloads"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Suggestion> ftSugget(K key, String prefix)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Suggestion>",
+          "description": "a list of suggestions matching the prefix"
+        }
+      },
+      {
+        "signature": "Flux<Suggestion> ftSugget(K key, String prefix, SugGetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "the prefix to complete on"
+          },
+          {
+            "name": "args",
+            "type": "SugGetArgs",
+            "description": "the suggestion get arguments (FUZZY, WITHSCORES, deprecated WITHPAYLOADS, MAX)"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Suggestion>",
+          "description": "a list of suggestions matching the prefix, optionally with scores and payloads"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTSugGet(ctx context.Context, key string, prefix string)",

@@ -1,9 +1,136 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
+    "redis_py": [
+      {
+        "signature": "cluster_setslot(target_node: TargetNodesT, node_id: str, slot_id: int, state: str)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "node_id",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "slot_id",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "state",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clusterSetSlotNode(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String clusterSetSlotMigrating(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String clusterSetSlotImporting(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String clusterSetSlotStable(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterSetSlot(slot: number, state: ClusterSlotState, nodeId?: RedisArgument)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "state",
+            "type": "ClusterSlotState",
+            "description": ""
+          },
+          {
+            "name": "nodeId",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterSetSlotImporting(int slot, String nodeId)",

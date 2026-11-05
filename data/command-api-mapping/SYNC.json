@@ -1,6 +1,15 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "sync()",
+        "params": [],
+        "returns": {
+          "type": "bytes",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
     "go-redis": [],
     "node_redis": [],

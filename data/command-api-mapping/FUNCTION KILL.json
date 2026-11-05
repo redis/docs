@@ -82,7 +82,16 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "kill()",
+        "params": [],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

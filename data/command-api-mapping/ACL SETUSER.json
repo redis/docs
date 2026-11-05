@@ -240,7 +240,75 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_setuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_setuser_rules(username: K, rules: &'a [acl::Rule])",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "&'a [acl::Rule]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_setuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_setuser_rules(username: K, rules: &'a [acl::Rule])",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "&'a [acl::Rule]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ]
   }
 }
