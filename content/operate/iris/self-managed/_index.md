@@ -167,7 +167,7 @@ The chart includes a preflight that checks the cluster before an install. It rea
 Run it with the [`kubectl preflight`](https://troubleshoot.sh/docs/#installation) plugin, v0.124.0 or later. Older versions only warn on the ingress class check. The namespace must exist:
 
 ```bash
-helm template iris redis-ai/redis-iris --version 1.0.0 -n <namespace-name> -f iris-values.yaml \
+helm template iris redis-ai/redis-iris --version <chart-version> -n <namespace-name> -f iris-values.yaml \
   --show-only templates/preflight.yaml \
   | yq '.stringData["preflight.yaml"]' | kubectl preflight -
 ```
