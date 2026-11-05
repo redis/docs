@@ -397,17 +397,17 @@
     var keys = Math.max(0, Math.round(input.keys || 0));
     var keyLen = bytes(input.keyName || '');
     var ttl = !!input.ttl;
-    var doc = null, error = null;
+    var node = null, error = null;
     try {
-      doc = parseJson(input.text);
-      if (doc.t !== 'object') doc = null;
+      node = parseJson(input.text);
     } catch (e) {
       error = e;
     }
+    var doc = node && node.t === 'object' ? node : null;
     var rows = {};
-    var stringText = doc ? toText(doc) : (function () {
-      try { var v = JSON.parse(input.text); return typeof v === 'string' ? v : input.text; } catch (e) { return input.text; }
-    })();
+    // Valid JSON is sized compact, and a JSON string as its contents; any other
+    // text exactly as typed.
+    var stringText = !node ? input.text : node.t === 'string' ? node.v : toText(node);
     rows.string = stringValue(stringText, keyLen, ttl);
     rows.string.data = bytes(stringText);
     if (doc) {
