@@ -26,9 +26,6 @@ With just-in-time (JIT) user provisioning, Redis Software automatically creates 
 
 As of Redis Software version 8.2.6, Redis Software checks `redisRoleMapping` each time a JIT-provisioned user signs in and replaces the user's roles with the mapped roles. Role changes you make in the identity provider take effect at the user's next sign-in, and roles you assign to these users in Redis Software are replaced. If the attribute is missing or contains no valid role UIDs, the sign-in fails and the user's roles are removed. Users who existed in Redis Software before you set up SSO keep their existing roles.
 
-> [!NOTE]
-> Redis Software removes a JIT-provisioned user's roles even if that user is the cluster's only admin. Keep at least one admin user that you created in Redis Software instead of through JIT provisioning, so you can still manage the cluster if the identity provider's role mapping changes.
-
 ### IdP-initiated SSO
 
 With IdP-initiated single sign-on, you can select the Redis Software application after you sign in to your [identity provider (IdP)](https://en.wikipedia.org/wiki/Identity_provider). This redirects you to the Redis Software Cluster Manager UI and signs you in.
