@@ -6,31 +6,36 @@ categories:
 - docs
 - operate
 - rc
-description: Create a Redis cache database, an RDI workspace, and a data pipeline with the Redis Cloud API.
+description: Create a Pro subscription, a Redis cache database, an RDI workspace, and a data pipeline with the Redis Cloud API.
 hideListLinks: true
 weight: 2
 ---
 
-Use the Redis Cloud application programming interface (API) to create a cache database, provision a Redis Data Integration (RDI) workspace, and deploy a pipeline. This guide uses PostgreSQL as an example. See [all supported source databases](/content/operate/rc/rdi/_index.md#prerequisites) and their [preparation instructions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
+Use the Redis Cloud application programming interface (API) to create a Pro subscription and cache database, provision a Redis Data Integration (RDI) workspace, and deploy a pipeline. This guide uses PostgreSQL as an example. See [all supported source databases](/content/operate/rc/rdi/_index.md#prerequisites) and their [preparation instructions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
 
 Terraform creates only the source database's Amazon Web Services (AWS) connectivity and secrets.
 
 ## Before you start
 
-You need an [AWS Pro subscription](/content/operate/rc/api/examples/manage-subscriptions.md#create-a-pro-subscription) without an RDI workspace, [API account and user keys](/content/operate/rc/api/get-started/manage-api-keys.md), Bash, `curl`, `jq`, Git, Terraform, and the AWS command-line interface (CLI). Use an API user key for an account Owner. Use the same AWS region for the subscription and source connectivity.
+You need a Redis Cloud account with a payment method, [API account and user keys](/content/operate/rc/api/get-started/manage-api-keys.md), Bash, `curl`, `jq`, Git, Terraform, and the AWS command-line interface (CLI). Use an Owner's API user key: the [role permissions table](/content/operate/rc/security/access-control/access-management.md#team-management-roles) shows that Managers cannot use the REST API and Viewers have read-only access. Use the same AWS region for the subscription and source connectivity.
 
 Prepare an existing [Amazon Relational Database Service (RDS) PostgreSQL source](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-aur-pgsql.md) with logical replication, a replication user, and a publication containing your selected tables. This example captures `public.products`, with columns `id`, `name`, and `price`, using `id` as its primary key and `rdi_publication` as its publication.
 
 ## Fill in your inputs
 
-Edit this block once. Use the RDS instance identifier for `SOURCE_RDS_ID`, or the cluster identifier and `db-cluster` for Aurora. Enter the passwords when prompted, then run the remaining blocks in the same Bash session.
+Edit this block once. Find `PAYMENT_METHOD_ID` with [`GET /v1/payment-methods`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getAccountPaymentMethods). Choose an unused `/24` Classless Inter-Domain Routing (CIDR) range for `SUBSCRIPTION_CIDR`. The region and availability zone IDs default to `eu-central-1`.
+
+Use the RDS instance identifier for `SOURCE_RDS_ID`, or the cluster identifier and `db-cluster` for Aurora. Enter the passwords when prompted, then run the remaining blocks in the same Bash session.
 
 ```bash
 set -euo pipefail
 umask 077
-export SUBSCRIPTION_ID='<subscription-id>'
+export SUBSCRIPTION_NAME=rdi-api-example
+export PAYMENT_METHOD_ID='<payment-method-id>'
+export SUBSCRIPTION_CIDR=10.0.0.0/24
 export DATABASE_NAME=rdi-api-cache PIPELINE_NAME=postgres-example
-export AWS_REGION='<aws-region>' AWS_PROFILE='<aws-profile>'
+export AWS_REGION=eu-central-1 AWS_PROFILE='<aws-profile>'
+export AWS_AVAILABILITY_ZONES='["euc1-az1","euc1-az2","euc1-az3"]'
 export RESOURCE_NAME=rdi-api-example
 export AWS_RESOURCE_TAGS='{"owner":"<owner>","team":"<team>"}'
 export SOURCE_HOST='<rds-hostname>' SOURCE_PORT=5432
@@ -55,7 +60,6 @@ Creation requests can return before resources are ready. These helpers retry tem
 
 ```bash
 API=https://api.redislabs.com/v1
-WORKSPACE="$API/subscriptions/$SUBSCRIPTION_ID/data-integration-workspace"
 RUN_DIR="$PWD/rdi-api-example"
 mkdir -p "$RUN_DIR"
 cd "$RUN_DIR"
@@ -92,6 +96,31 @@ wait_for() {
 
 </details>
 
+## Create the subscription
+
+[Create an AWS Pro subscription](/content/operate/rc/api/examples/manage-subscriptions.md#create-a-pro-subscription) with multi-zone replication. The API requires an initial database; this example creates a 0.1 GB bootstrap database.
+
+```bash
+jq -n '{name:env.SUBSCRIPTION_NAME, paymentMethodId:(env.PAYMENT_METHOD_ID|tonumber),
+  cloudProviders:[{provider:"AWS", regions:[{region:env.AWS_REGION,
+    multipleAvailabilityZones:true,
+    preferredAvailabilityZones:(env.AWS_AVAILABILITY_ZONES|fromjson),
+    networking:{deploymentCIDR:env.SUBSCRIPTION_CIDR}}]}],
+  databases:[{name:(env.DATABASE_NAME+"-bootstrap"), protocol:"redis",
+    datasetSizeInGb:0.1, replication:true,
+    throughputMeasurement:{by:"operations-per-second", value:1000}}]
+}' > subscription-request.json
+cloud POST "$API/subscriptions" --data-binary @subscription-request.json > subscription-task.json
+TASK_ID=$(jq -er '.taskId' subscription-task.json)
+wait_for "$API/tasks/$TASK_ID" '.status == "processing-completed"' \
+  '.status == "processing-error"' > subscription-task.json
+SUBSCRIPTION_ID=$(jq -er '.response.resourceId' subscription-task.json)
+export SUBSCRIPTION_ID
+wait_for "$API/subscriptions/$SUBSCRIPTION_ID" '.status == "active"' \
+  '.status == "error"' > subscription.json
+WORKSPACE="$API/subscriptions/$SUBSCRIPTION_ID/data-integration-workspace"
+```
+
 ## Create the cache database
 
 Create a 1 GB database with replication, 1,000 operations per second, least recently used eviction, no persistence, and Transport Layer Security (TLS). Set throughput explicitly; the API default is higher.
@@ -114,7 +143,7 @@ wait_for "$DATABASE_URL" '.status == "active"' \
 
 ## Create the workspace
 
-Ask for an unused Classless Inter-Domain Routing (CIDR) range, then create the workspace. See [workspace network requirements](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace) before overriding the suggestion. The workspace returns the roles needed for source connectivity and secrets.
+Ask for an unused CIDR range, then create the workspace. See [workspace network requirements](/content/operate/rc/rdi/create-workspace.md#create-a-data-integration-workspace) before overriding the suggestion. The workspace returns the roles needed for source connectivity and secrets.
 
 During provisioning, the subscription can become `pending`, and its workspace URL returns `404`. Poll the account-level workspace list during that period, then confirm the subscription and workspace are ready:
 
@@ -237,4 +266,4 @@ Open the pipeline's [Dashboard](/content/operate/rc/rdi/view-edit.md#dashboard) 
 | Secrets mount times out | Read the existing pipeline and wait for reconciliation. Retry the mount step, not pipeline creation. |
 | Pipeline name already exists | Read or update the existing pipeline instead of repeating its creation request. |
 
-See [billing](/content/operate/rc/rdi/faq.md#billing). When finished, [delete the pipeline](/content/operate/rc/rdi/view-edit.md#delete-pipeline), delete the [workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace), and remove unused source connectivity with `terraform -chdir="$TF_DIR" destroy -var-file="$RUN_DIR/source.tfvars.json"`. Delete the target database and the separate CA secret if you no longer need them. The existing source database remains intact.
+See [billing](/content/operate/rc/rdi/faq.md#billing). When finished, [delete the pipeline](/content/operate/rc/rdi/view-edit.md#delete-pipeline), delete the [workspace](/content/operate/rc/rdi/create-workspace.md#delete-workspace), and remove unused source connectivity with `terraform -chdir="$TF_DIR" destroy -var-file="$RUN_DIR/source.tfvars.json"`. Delete the target database, bootstrap database, and separate CA secret if you no longer need them. Then [delete the empty subscription](/content/operate/rc/api/examples/manage-subscriptions.md#delete-a-pro-subscription). The existing source database remains intact.
