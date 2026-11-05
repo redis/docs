@@ -442,7 +442,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITPOS(key: RedisArgument, bit: BitValue, start?: number, end?: number, mode?: 'BYTE' | 'BIT')",
+        "signature": "bitPos(key: RedisArgument, bit: BitValue, start?: number, end?: number, mode?: 'BYTE' | 'BIT')",
         "params": [
           {
             "name": "key",
@@ -471,7 +471,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -158,7 +158,7 @@
     ],
     "node_redis": [
       {
-        "signature": "INCRBY(...args: Parameters<typeof parseIncrByArguments>)",
+        "signature": "client.ts.incrBy(...args: Parameters<typeof parseIncrByArguments>)",
         "params": [
           {
             "name": "...args",
@@ -167,7 +167,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

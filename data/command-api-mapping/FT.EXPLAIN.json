@@ -200,7 +200,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPLAIN(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "signature": "client.ft.explain(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
         "params": [
           {
             "name": "index",
@@ -219,7 +219,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "The execution plan"
         }
       }

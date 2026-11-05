@@ -203,7 +203,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MRANGE(fromTimestamp: Timestamp, toTimestamp: Timestamp, filter: RedisVariadicArgument, options?: TsRangeOptions)",
+        "signature": "client.ts.mRange(fromTimestamp: Timestamp, toTimestamp: Timestamp, filter: RedisVariadicArgument, options?: TsRangeOptions)",
         "params": [
           {
             "name": "fromTimestamp",

@@ -175,7 +175,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZINTER(keys: ZInterKeysType, options?: ZInterOptions)",
+        "signature": "zInter(keys: ZInterKeysType, options?: ZInterOptions)",
         "params": [
           {
             "name": "keys",
@@ -189,7 +189,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MSET(toSet: MSetArguments)",
+        "signature": "mSet(toSet: MSetArguments)",
         "params": [
           {
             "name": "toSet",
@@ -126,7 +126,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

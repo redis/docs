@@ -234,7 +234,7 @@
     ],
     "node_redis": [
       {
-        "signature": "AGGREGATE(index: RedisArgument, query: RedisArgument, options?: FTAggregateOptions)",
+        "signature": "client.ft.aggregate(index: RedisArgument, query: RedisArgument, options?: FTAggregateOptions)",
         "params": [
           {
             "name": "index",
@@ -253,7 +253,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<AggregateResult>",
+          "type": "AggregateResult",
           "description": "The aggregation results"
         }
       }

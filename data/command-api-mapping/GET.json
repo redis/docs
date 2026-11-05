@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GET(key: RedisArgument)",
+        "signature": "get(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -112,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

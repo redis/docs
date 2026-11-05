@@ -416,7 +416,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEOSEARCH(key: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchOptions)",
+        "signature": "geoSearch(key: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchOptions)",
         "params": [
           {
             "name": "key",
@@ -440,7 +440,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

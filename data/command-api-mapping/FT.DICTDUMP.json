@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTDUMP(dictionary: RedisArgument)",
+        "signature": "client.ft.dictDump(dictionary: RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -112,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "All terms in the dictionary"
         }
       }

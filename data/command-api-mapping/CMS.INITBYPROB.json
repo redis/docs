@@ -77,7 +77,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.INITBYPROB(key, error, probability)",
+        "signature": "client.cms.initByProb(key, error, probability)",
         "params": [
           {
             "name": "key",

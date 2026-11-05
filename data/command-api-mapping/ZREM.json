@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREM(key: RedisArgument, member: RedisVariadicArgument)",
+        "signature": "zRem(key: RedisArgument, member: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -85,7 +85,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.LOADCHUNK(key: RedisArgument, iterator: number, data: RedisArgument)",
+        "signature": "client.cf.loadChunk(key: RedisArgument, iterator: number, data: RedisArgument)",
         "params": [
           {
             "name": "key",

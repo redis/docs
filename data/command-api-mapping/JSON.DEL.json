@@ -222,7 +222,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DEL(key: RedisArgument, options?: JsonDelOptions)",
+        "signature": "client.json.del(key: RedisArgument, options?: JsonDelOptions)",
         "params": [
           {
             "name": "key",
@@ -236,7 +236,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTADD(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "signature": "client.ft.dictAdd(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "Number of terms added"
         }
       }

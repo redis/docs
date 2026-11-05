@@ -227,7 +227,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SINTERCARD(keys: RedisVariadicArgument, options?: SInterCardOptions | number)",
+        "signature": "sInterCard(keys: RedisVariadicArgument, options?: SInterCardOptions | number)",
         "params": [
           {
             "name": "keys",
@@ -241,7 +241,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

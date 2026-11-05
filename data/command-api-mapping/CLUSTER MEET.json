@@ -75,13 +75,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, host: string, port: number)",
+        "signature": "clusterMeet(host: string, port: number)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "host",
             "type": "string",

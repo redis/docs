@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HDEL(key: RedisArgument, field: RedisVariadicArgument)",
+        "signature": "hDel(key: RedisArgument, field: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

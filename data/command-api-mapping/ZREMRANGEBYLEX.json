@@ -244,7 +244,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREMRANGEBYLEX(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
+        "signature": "zRemRangeByLex(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
         "params": [
           {
             "name": "key",
@@ -263,7 +263,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

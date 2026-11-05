@@ -216,7 +216,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RESTORE(key: RedisArgument, ttl: number, serializedValue: RedisArgument, options?: RestoreOptions)",
+        "signature": "restore(key: RedisArgument, ttl: number, serializedValue: RedisArgument, options?: RestoreOptions)",
         "params": [
           {
             "name": "key",
@@ -240,7 +240,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

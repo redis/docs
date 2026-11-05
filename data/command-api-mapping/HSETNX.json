@@ -187,7 +187,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HSETNX(key: RedisArgument, field: RedisArgument, value: RedisArgument)",
+        "signature": "hSetNX(key: RedisArgument, field: RedisArgument, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<0 | 1>",
           "description": ""
         }
       }

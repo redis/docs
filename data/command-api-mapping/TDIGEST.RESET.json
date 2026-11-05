@@ -51,7 +51,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.RESET(key)",
+        "signature": "client.tDigest.reset(key)",
         "params": [
           {
             "name": "key",

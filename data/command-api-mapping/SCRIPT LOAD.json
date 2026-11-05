@@ -64,7 +64,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<BlobStringReply>",
+          "type": "BlobStringReply",
           "description": "SHA1 digest of the script"
         }
       }

@@ -184,7 +184,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SPOP(key: RedisArgument)",
+        "signature": "sPop(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -193,7 +193,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

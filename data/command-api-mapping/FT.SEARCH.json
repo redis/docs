@@ -258,7 +258,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SEARCH(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "signature": "client.ft.search(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
         "params": [
           {
             "name": "index",
@@ -277,7 +277,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<FTSearchResult>",
+          "type": "FTSearchResult",
           "description": "The search results"
         }
       }

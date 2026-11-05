@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GETBIT(key: RedisArgument, offset: number)",
+        "signature": "getBit(key: RedisArgument, offset: number)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<BitValue>",
           "description": ""
         }
       }

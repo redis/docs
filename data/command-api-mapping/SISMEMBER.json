@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SISMEMBER(key: RedisArgument, member: RedisArgument)",
+        "signature": "sIsMember(key: RedisArgument, member: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

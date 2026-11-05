@@ -284,7 +284,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEODIST(key: RedisArgument, member1: RedisArgument, member2: RedisArgument, unit?: GeoUnits)",
+        "signature": "geoDist(key: RedisArgument, member1: RedisArgument, member2: RedisArgument, unit?: GeoUnits)",
         "params": [
           {
             "name": "key",

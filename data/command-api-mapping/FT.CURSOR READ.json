@@ -215,7 +215,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CURSOR_READ(index: RedisArgument, cursorId: number, options?: { COUNT?: number })",
+        "signature": "client.ft.cursorRead(index: RedisArgument, cursorId: number, options?: { COUNT?: number })",
         "params": [
           {
             "name": "index",
@@ -234,7 +234,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<AggregateResult>",
+          "type": "AggregateResult",
           "description": "The aggregation results"
         }
       }

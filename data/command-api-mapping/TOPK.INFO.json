@@ -51,7 +51,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOPK.INFO(key)",
+        "signature": "client.topK.info(key)",
         "params": [
           {
             "name": "key",

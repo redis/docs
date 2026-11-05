@@ -351,7 +351,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PFMERGE(destination: RedisArgument, sources?: RedisVariadicArgument)",
+        "signature": "pfMerge(destination: RedisArgument, sources?: RedisVariadicArgument)",
         "params": [
           {
             "name": "destination",

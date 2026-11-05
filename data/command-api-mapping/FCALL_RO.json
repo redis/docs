@@ -99,7 +99,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<ReplyUnion>",
+          "type": "ReplyUnion",
           "description": "Function execution result"
         }
       }

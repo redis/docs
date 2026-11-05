@@ -355,7 +355,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XREVRANGE(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+        "signature": "xRevRange(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
         "params": [
           {
             "name": "key",

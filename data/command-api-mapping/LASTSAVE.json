@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LASTSAVE()",
+        "signature": "lastSave()",
         "params": [],
         "returns": {
           "type": "NumberReply",

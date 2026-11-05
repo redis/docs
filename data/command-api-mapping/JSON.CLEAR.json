@@ -222,7 +222,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CLEAR(key: RedisArgument, options?: JsonClearOptions)",
+        "signature": "client.json.clear(key: RedisArgument, options?: JsonClearOptions)",
         "params": [
           {
             "name": "key",
@@ -236,7 +236,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPIREAT(key: RedisArgument, timestamp: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "expireAt(key: RedisArgument, timestamp: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -176,7 +176,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

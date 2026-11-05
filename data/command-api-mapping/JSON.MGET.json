@@ -233,7 +233,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MGET(keys: Array<RedisArgument>, path: RedisArgument)",
+        "signature": "client.json.mGet(keys: Array<RedisArgument>, path: RedisArgument)",
         "params": [
           {
             "name": "keys",

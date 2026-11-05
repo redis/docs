@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "WAIT(numberOfReplicas: number, timeout: number)",
+        "signature": "wait(numberOfReplicas: number, timeout: number)",
         "params": [
           {
             "name": "numberOfReplicas",
@@ -84,7 +84,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

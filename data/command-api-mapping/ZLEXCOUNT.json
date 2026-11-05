@@ -244,7 +244,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZLEXCOUNT(key: RedisArgument, min: RedisArgument, max: RedisArgument)",
+        "signature": "zLexCount(key: RedisArgument, min: RedisArgument, max: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -263,7 +263,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

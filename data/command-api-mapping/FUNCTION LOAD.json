@@ -107,7 +107,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<BlobStringReply>",
+          "type": "BlobStringReply",
           "description": "Library name"
         }
       }

@@ -51,7 +51,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.INFO(key)",
+        "signature": "client.cms.info(key)",
         "params": [
           {
             "name": "key",

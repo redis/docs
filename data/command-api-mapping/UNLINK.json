@@ -97,7 +97,7 @@
     ],
     "node_redis": [
       {
-        "signature": "UNLINK(keys: RedisVariadicArgument)",
+        "signature": "unlink(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",
@@ -106,7 +106,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

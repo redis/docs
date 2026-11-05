@@ -458,7 +458,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BZMPOP(timeout: number, ...args: ZMPopArguments)",
+        "signature": "bzmPop(timeout: number, ...args: ZMPopArguments)",
         "params": [
           {
             "name": "timeout",

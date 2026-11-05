@@ -457,7 +457,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGEBYLEX(key: RedisArgument, min: RedisArgument, max: RedisArgument, options?: ZRangeByLexOptions)",
+        "signature": "zRangeByLex(key: RedisArgument, min: RedisArgument, max: RedisArgument, options?: ZRangeByLexOptions)",
         "params": [
           {
             "name": "key",
@@ -481,7 +481,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

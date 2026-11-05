@@ -360,7 +360,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XRANGE(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+        "signature": "xRange(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
         "params": [
           {
             "name": "key",

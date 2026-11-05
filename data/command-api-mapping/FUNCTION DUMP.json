@@ -41,7 +41,7 @@
         "signature": "functionDump()",
         "params": [],
         "returns": {
-          "type": "Promise<BlobStringReply>",
+          "type": "BlobStringReply",
           "description": "Serialized payload of all libraries"
         }
       }

@@ -552,7 +552,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VSIM(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)",
+        "signature": "vSim(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)",
         "params": [
           {
             "name": "key",
@@ -571,7 +571,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

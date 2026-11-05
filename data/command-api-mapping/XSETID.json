@@ -2,7 +2,7 @@
   "api_calls": {
     "node_redis": [
       {
-        "signature": "XSETID(key: RedisArgument, lastId: RedisArgument, options?: XSetIdOptions)",
+        "signature": "xSetId(key: RedisArgument, lastId: RedisArgument, options?: XSetIdOptions)",
         "params": [
           {
             "name": "key",
@@ -21,7 +21,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

@@ -222,7 +222,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZPOPMIN(key: RedisArgument)",
+        "signature": "zPopMin(key: RedisArgument)",
         "params": [
           {
             "name": "key",

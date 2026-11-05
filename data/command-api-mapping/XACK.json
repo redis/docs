@@ -211,7 +211,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XACK(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument)",
+        "signature": "xAck(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -230,7 +230,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

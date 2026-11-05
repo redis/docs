@@ -112,7 +112,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.ADD(key: RedisArgument, item: RedisArgument)",
+        "signature": "client.bf.add(key: RedisArgument, item: RedisArgument)",
         "params": [
           {
             "name": "key",

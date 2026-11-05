@@ -165,7 +165,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MGET(keys: Array<RedisArgument>)",
+        "signature": "mGet(keys: Array<RedisArgument>)",
         "params": [
           {
             "name": "keys",
@@ -174,7 +174,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Array<BlobStringReply | NullReply>",
           "description": ""
         }
       }

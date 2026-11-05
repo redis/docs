@@ -214,7 +214,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: BfInsertOptions)",
+        "signature": "client.bf.insert(key: RedisArgument, items: RedisVariadicArgument, options?: BfInsertOptions)",
         "params": [
           {
             "name": "key",

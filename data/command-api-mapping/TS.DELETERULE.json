@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DELETERULE(sourceKey: RedisArgument, destinationKey: RedisArgument)",
+        "signature": "client.ts.deleteRule(sourceKey: RedisArgument, destinationKey: RedisArgument)",
         "params": [
           {
             "name": "sourceKey",
@@ -84,7 +84,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

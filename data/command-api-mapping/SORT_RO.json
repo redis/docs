@@ -114,7 +114,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SORT_RO(key: RedisArgument, options?: SortOptions)",
+        "signature": "sortRo(key: RedisArgument, options?: SortOptions)",
         "params": [
           {
             "name": "key",

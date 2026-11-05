@@ -300,7 +300,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GET(key: RedisArgument, options?: JsonGetOptions)",
+        "signature": "client.json.get(key: RedisArgument, options?: JsonGetOptions)",
         "params": [
           {
             "name": "key",

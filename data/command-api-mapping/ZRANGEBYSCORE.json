@@ -622,7 +622,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGEBYSCORE(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
+        "signature": "zRangeByScore(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
         "params": [
           {
             "name": "key",
@@ -646,12 +646,12 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       },
       {
-        "signature": "ZRANGEBYSCORE_WITHSCORES(...args: Parameters<typeof ZRANGEBYSCORE.parseCommand>)",
+        "signature": "zRangeByScoreWithScores(...args: Parameters<typeof ZRANGEBYSCORE.parseCommand>)",
         "params": [
           {
             "name": "...args",

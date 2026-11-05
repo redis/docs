@@ -109,7 +109,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: CfInsertOptions)",
+        "signature": "client.cf.insert(key: RedisArgument, items: RedisVariadicArgument, options?: CfInsertOptions)",
         "params": [
           {
             "name": "key",

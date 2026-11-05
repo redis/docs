@@ -274,7 +274,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LRANGE(key: RedisArgument, start: number, stop: number)",
+        "signature": "lRange(key: RedisArgument, start: number, stop: number)",
         "params": [
           {
             "name": "key",
@@ -293,7 +293,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

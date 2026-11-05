@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SDIFFSTORE(destination: RedisArgument, keys: RedisVariadicArgument)",
+        "signature": "sDiffStore(destination: RedisArgument, keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "destination",
@@ -171,7 +171,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

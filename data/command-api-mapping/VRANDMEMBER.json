@@ -217,7 +217,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VRANDMEMBER(key: RedisArgument, count?: number)",
+        "signature": "vRandMember(key: RedisArgument, count?: number)",
         "params": [
           {
             "name": "key",
@@ -231,7 +231,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | ArrayReply<BlobStringReply> | NullReply",
           "description": ""
         }
       }

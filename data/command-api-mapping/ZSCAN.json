@@ -458,7 +458,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "zScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",

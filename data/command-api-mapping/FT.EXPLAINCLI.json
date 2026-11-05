@@ -68,7 +68,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPLAINCLI(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "signature": "client.ft.explainCli(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
         "params": [
           {
             "name": "index",
@@ -87,7 +87,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "The execution plan in CLI format"
         }
       }

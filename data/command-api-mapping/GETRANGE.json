@@ -163,7 +163,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GETRANGE(key: RedisArgument, start: number, end: number)",
+        "signature": "getRange(key: RedisArgument, start: number, end: number)",
         "params": [
           {
             "name": "key",
@@ -182,7 +182,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

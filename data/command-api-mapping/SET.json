@@ -502,7 +502,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SET(key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
+        "signature": "set(key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
         "params": [
           {
             "name": "key",
@@ -521,7 +521,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'> | BlobStringReply | NullReply",
           "description": ""
         }
       }

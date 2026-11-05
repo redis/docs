@@ -511,7 +511,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HEXPIRE(key: RedisArgument, fields: RedisVariadicArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "hExpire(key: RedisArgument, fields: RedisVariadicArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -535,7 +535,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<HashExpiration>",
           "description": ""
         }
       }

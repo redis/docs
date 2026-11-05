@@ -410,7 +410,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "sScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",

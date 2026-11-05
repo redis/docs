@@ -373,7 +373,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRAPPEND(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "signature": "client.json.arrAppend(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)",
         "params": [
           {
             "name": "key",
@@ -397,7 +397,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

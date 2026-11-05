@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.QUERY(key, items)",
+        "signature": "client.cms.query(key, items)",
         "params": [
           {
             "name": "key",

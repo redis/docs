@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOPK.COUNT(key, items)",
+        "signature": "client.topK.count(key, items)",
         "params": [
           {
             "name": "key",

@@ -68,10 +68,10 @@
     ],
     "node_redis": [
       {
-        "signature": "_LIST()",
+        "signature": "client.ft._LIST()",
         "params": [],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "A list of all existing indexes"
         }
       }

@@ -193,7 +193,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XINFO_STREAM(key: RedisArgument)",
+        "signature": "xInfoStream(key: RedisArgument)",
         "params": [
           {
             "name": "key",

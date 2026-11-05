@@ -187,7 +187,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREMRANGEBYRANK(key: RedisArgument, start: number, stop: number)",
+        "signature": "zRemRangeByRank(key: RedisArgument, start: number, stop: number)",
         "params": [
           {
             "name": "key",
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

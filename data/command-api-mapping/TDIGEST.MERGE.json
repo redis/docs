@@ -100,7 +100,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.MERGE(destination, numKeys, sourceKeys, options?)",
+        "signature": "client.tDigest.merge(destination, numKeys, sourceKeys, options?)",
         "params": [
           {
             "name": "destination",

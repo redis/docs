@@ -105,6 +105,11 @@
         "signature": "HotKeysStart(ctx context.Context, args *HotKeysStartArgs)",
         "params": [
           {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
             "name": "args",
             "type": "*HotKeysStartArgs",
             "description": ""

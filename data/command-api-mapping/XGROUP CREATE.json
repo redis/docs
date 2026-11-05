@@ -317,7 +317,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_CREATE(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupCreateOptions)",
+        "signature": "xGroupCreate(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupCreateOptions)",
         "params": [
           {
             "name": "key",
@@ -341,7 +341,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

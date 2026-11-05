@@ -178,7 +178,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CREATERULE(sourceKey: RedisArgument, destinationKey: RedisArgument, aggregationType: TimeSeriesAggregationType, bucketDuration: number, alignTimestamp?: number)",
+        "signature": "client.ts.createRule(sourceKey: RedisArgument, destinationKey: RedisArgument, aggregationType: TimeSeriesAggregationType, bucketDuration: number, alignTimestamp?: number)",
         "params": [
           {
             "name": "sourceKey",
@@ -207,7 +207,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

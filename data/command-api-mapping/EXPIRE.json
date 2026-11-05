@@ -253,7 +253,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPIRE(key: RedisArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "expire(key: RedisArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -272,7 +272,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

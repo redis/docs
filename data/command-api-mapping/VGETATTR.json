@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VGETATTR(key: RedisArgument, element: RedisArgument)",
+        "signature": "vGetAttr(key: RedisArgument, element: RedisArgument)",
         "params": [
           {
             "name": "key",

@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZSCORE(key: RedisArgument, member: RedisArgument)",
+        "signature": "zScore(key: RedisArgument, member: RedisArgument)",
         "params": [
           {
             "name": "key",

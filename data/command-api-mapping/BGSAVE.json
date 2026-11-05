@@ -57,7 +57,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BGSAVE(options?: BgSaveOptions)",
+        "signature": "bgSave(options?: BgSaveOptions)",
         "params": [
           {
             "name": "options",

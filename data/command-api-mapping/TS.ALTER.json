@@ -95,7 +95,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ALTER(key: RedisArgument, options?: TsAlterOptions)",
+        "signature": "client.ts.alter(key: RedisArgument, options?: TsAlterOptions)",
         "params": [
           {
             "name": "key",
@@ -109,7 +109,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

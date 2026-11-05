@@ -443,7 +443,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRINDEX(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonArrIndexOptions)",
+        "signature": "client.json.arrIndex(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonArrIndexOptions)",
         "params": [
           {
             "name": "key",
@@ -467,7 +467,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

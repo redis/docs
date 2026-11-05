@@ -245,7 +245,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DELEX(key: RedisArgument, options?: { condition: DelexCondition; matchValue: RedisArgument })",
+        "signature": "delEx(key: RedisArgument, options?: { condition: DelexCondition; matchValue: RedisArgument })",
         "params": [
           {
             "name": "key",
@@ -259,7 +259,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<1 | 0>",
           "description": ""
         }
       }

@@ -41,7 +41,7 @@
         "signature": "functionStats()",
         "params": [],
         "returns": {
-          "type": "Promise<FunctionStatsReply>",
+          "type": "FunctionStatsReply",
           "description": "Function execution statistics and engine information"
         }
       }

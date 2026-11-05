@@ -55,7 +55,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.INFO(key: RedisArgument)",
+        "signature": "client.cf.info(key: RedisArgument)",
         "params": [
           {
             "name": "key",

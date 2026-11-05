@@ -277,7 +277,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZINTERSTORE(destination: RedisArgument, keys: ZKeys, options?: ZInterOptions)",
+        "signature": "zInterStore(destination: RedisArgument, keys: ZKeys, options?: ZInterOptions)",
         "params": [
           {
             "name": "destination",
@@ -296,7 +296,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

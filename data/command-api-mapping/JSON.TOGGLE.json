@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOGGLE(key: RedisArgument, path: RedisArgument)",
+        "signature": "client.json.toggle(key: RedisArgument, path: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | NullReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

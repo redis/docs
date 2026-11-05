@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XCFGSET(key: RedisArgument, options?: XCfgSetOptions)",
+        "signature": "xCfgSet(key: RedisArgument, options?: XCfgSetOptions)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

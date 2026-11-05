@@ -494,7 +494,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XTRIM(key: RedisArgument, strategy: 'MAXLEN' | 'MINID', threshold: number | string, options?: XTrimOptions)",
+        "signature": "xTrim(key: RedisArgument, strategy: 'MAXLEN' | 'MINID', threshold: number | string, options?: XTrimOptions)",
         "params": [
           {
             "name": "key",
@@ -518,7 +518,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

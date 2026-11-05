@@ -255,7 +255,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XREAD(streams: XReadStreams, options?: XReadOptions)",
+        "signature": "xRead(streams: XReadStreams, options?: XReadOptions)",
         "params": [
           {
             "name": "streams",

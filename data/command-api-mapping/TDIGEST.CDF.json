@@ -67,7 +67,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.CDF(key, values)",
+        "signature": "client.tDigest.cdf(key, values)",
         "params": [
           {
             "name": "key",

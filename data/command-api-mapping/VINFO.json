@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VINFO(key: RedisArgument)",
+        "signature": "vInfo(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,7 +126,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "VInfoReplyMap",
           "description": ""
         }
       }

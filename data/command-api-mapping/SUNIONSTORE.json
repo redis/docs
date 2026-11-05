@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUNIONSTORE(destination: RedisArgument, keys: RedisVariadicArgument)",
+        "signature": "sUnionStore(destination: RedisArgument, keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "destination",
@@ -171,7 +171,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

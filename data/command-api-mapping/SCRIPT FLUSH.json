@@ -67,7 +67,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<SimpleStringReply<'OK'>>",
+          "type": "SimpleStringReply<'OK'>",
           "description": "Status response"
         }
       }

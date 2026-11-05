@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HSTRLEN(key: RedisArgument, field: RedisArgument)",
+        "signature": "hStrLen(key: RedisArgument, field: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

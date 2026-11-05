@@ -67,7 +67,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.QUANTILE(key, quantiles)",
+        "signature": "client.tDigest.quantile(key, quantiles)",
         "params": [
           {
             "name": "key",

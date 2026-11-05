@@ -559,7 +559,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGE(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
+        "signature": "zRange(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
         "params": [
           {
             "name": "key",
@@ -583,12 +583,12 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       },
       {
-        "signature": "ZRANGE_WITHSCORES(...args: Parameters<typeof ZRANGE.parseCommand>)",
+        "signature": "zRangeWithScores(...args: Parameters<typeof ZRANGE.parseCommand>)",
         "params": [
           {
             "name": "...args",

@@ -132,7 +132,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SCAN(cursor: number, options?: ScanOptions)",
+        "signature": "scan(cursor: number, options?: ScanOptions)",
         "params": [
           {
             "name": "cursor",

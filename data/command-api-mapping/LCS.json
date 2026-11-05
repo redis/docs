@@ -216,7 +216,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LCS(key1: RedisArgument, key2: RedisArgument)",
+        "signature": "lcs(key1: RedisArgument, key2: RedisArgument)",
         "params": [
           {
             "name": "key1",
@@ -230,7 +230,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply",
           "description": ""
         }
       }

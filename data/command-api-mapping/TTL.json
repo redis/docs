@@ -69,7 +69,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TTL(key: RedisArgument)",
+        "signature": "ttl(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -78,7 +78,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -60,13 +60,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message: RedisArgument)",
+        "signature": "echo(message: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",

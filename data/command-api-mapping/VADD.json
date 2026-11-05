@@ -585,7 +585,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VADD(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)",
+        "signature": "vAdd(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)",
         "params": [
           {
             "name": "key",

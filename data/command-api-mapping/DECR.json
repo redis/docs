@@ -241,7 +241,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DECR(key: RedisArgument)",
+        "signature": "decr(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -250,12 +250,12 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       },
       {
-        "signature": "DECRBY(key: RedisArgument, decrement: number)",
+        "signature": "decrBy(key: RedisArgument, decrement: number)",
         "params": [
           {
             "name": "key",
@@ -269,7 +269,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

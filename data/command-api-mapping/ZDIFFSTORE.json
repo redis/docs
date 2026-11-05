@@ -190,7 +190,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZDIFFSTORE(destination: RedisArgument, inputKeys: RedisVariadicArgument)",
+        "signature": "zDiffStore(destination: RedisArgument, inputKeys: RedisVariadicArgument)",
         "params": [
           {
             "name": "destination",
@@ -204,7 +204,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
