@@ -33,10 +33,6 @@ Both the operator and the RedisEnterpriseCluster (REC) resource need access to e
 | --- | --- | --- |
 | Use it to | Limit the operator's permissions to specific namespaces | Simplify multi-namespace management |
 | Setup | Create a `Role` and `RoleBinding` in each managed namespace | Create a `ClusterRole` and `ClusterRoleBinding` once for all namespaces |
-| [Deleting a managed namespace](#delete-a-managed-namespace) | Delete its REDBs first, or the REDBs and the namespace stay in the `Terminating` state | The operator deletes the REDBs and their databases, and the namespace deletion completes |
-
-> [!WARNING]
-> If the operator is configured to watch a namespace that hasn't been created, or a namespace without role and role binding permissions, it will fail and halt normal operations.
 
 ### Namespace-scoped roles
 
@@ -88,7 +84,7 @@ A `ClusterRoleBinding` grants the operator access to all namespaces in the Kuber
 
 There are two methods of updating the operator ConfigMap (`operator-environment-config`) to specify which namespaces to manage.
 
-- Namespace label: Configure the operator to watch for a namespace label and add this label to managed namespaces (available in versions 6.4.2-4 or later).
+- Namespace label: Configure the operator to watch for a namespace label and add this label to managed namespaces.
 - Explicit namespace list: Configure the operator with an explicit list of namespaces to manage.
 
 You can create this ConfigMap manually before deployment, or it will be created automatically after the operator was deployed.
@@ -97,8 +93,6 @@ You can create this ConfigMap manually before deployment, or it will be created 
 > Create the namespace and give the operator access to it **before** you configure the operator to watch it. See [Create role and role binding for managed namespaces](#create-role-and-role-binding-for-managed-namespaces). If the operator is configured to watch a namespace that doesn't exist or that it can't access, it will fail and halt normal operations.
 
 ### Namespace label
-
-This method is only in versions 6.4.2-4 or later.
 
 1. Create the `cluster_role_binding.yaml` and `cluster_role.yaml` files. Replace the `<rec-namespace>` with the namespace the Redis Enterprise cluster (REC) resides in.
 
