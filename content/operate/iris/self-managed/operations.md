@@ -26,7 +26,7 @@ The suite keeps no state in the cluster beyond Secrets. Data, agent keys, and qu
      --version <chart-version> \
      --namespace <namespace-name> \
      -f iris-values.yaml \
-     --atomic
+     --atomic --timeout 15m
    ```
 
 1. Verify the release:
@@ -37,7 +37,7 @@ The suite keeps no state in the cluster beyond Secrets. Data, agent keys, and qu
 
 Helm upgrades every component at the same time. Upgrade within one minor version, or from the last patch of the previous minor version to the new minor version. Don't skip a minor version.
 
-With `--atomic`, Helm returns to the previous revision by itself when the upgrade doesn't become ready. A value that the new version refuses fails the render, names the field, and applies nothing.
+With `--atomic`, Helm returns to the previous revision by itself when the upgrade doesn't become ready. It reverts Kubernetes resources and Helm values, but it doesn't undo writes to Redis. A value that the new version refuses fails the render, names the field, and applies nothing.
 
 ### Recover an interrupted upgrade
 
@@ -45,16 +45,16 @@ An upgrade whose client was interrupted leaves the release in `pending-upgrade`,
 
 ```bash
 helm history iris --namespace <namespace-name>
-helm rollback iris <revision> --namespace <namespace-name> --wait
+helm rollback iris <revision> --namespace <namespace-name> --wait --timeout 15m
 ```
 
 ## Roll back
 
 ```bash
-helm rollback iris <revision> --namespace <namespace-name> --wait
+helm rollback iris <revision> --namespace <namespace-name> --wait --timeout 15m
 ```
 
-A rollback restores the workloads and the values of that revision. It never restores a credential: the generated Secrets aren't part of the release, so a rotated or revoked value stays rotated or revoked. It also doesn't change the keys and grants in the metadata Redis. The same version rules as for an upgrade apply.
+A rollback restores the workloads and the values of that revision. It doesn't undo data or metadata written to Redis. It never restores a credential: the generated Secrets aren't part of the release, so a rotated or revoked value stays rotated or revoked. The same version rules as for an upgrade apply.
 
 Keep the chart of each version you install, so you can roll back without the repository:
 
@@ -66,7 +66,7 @@ helm pull redis-ai/redis-iris --version <chart-version>
 
 The metadata Redis holds the Identity Service's keys, every service's metadata, the Agent Memory job queue, and the console's session store. The components read its URLs, credentials included, only at startup, so a new credential reaches them through restarts in a fixed order. Nothing is unavailable during the rotation, because both users work until you delete the old one.
 
-These values name the Secrets that hold the metadata Redis connection. Update every one that your values set:
+These values name Secrets that can hold the metadata Redis connection. Check every one that your values set:
 
 | Component | Values field | What it holds |
 | --- | --- | --- |
@@ -80,14 +80,8 @@ These values name the Secrets that hold the metadata Redis connection. Update ev
 | Intent Router | `intent.storage.existingSecret` | `storage.metadata` for the control plane, and `runtime.redis` for the data plane |
 | Iris console, with IdP sign-in | `ui.sso.redis.existingSecret` | The session store URLs |
 
-1. Create a second database user with the same permissions as the current one. On Redis Software, add the user to the database's role. On Redis Open Source:
-
-   ```bash
-   redis-cli --user <current-user> --pass <current-password> ACL SETUSER <new-user> on '><new-password>' '~*' '&*' '+@all'
-   redis-cli --user <current-user> --pass <current-password> ACL SAVE
-   ```
-
-1. Write the new user and password into every Secret in the table, in place, with `kubectl apply` or your secret manager.
+1. Create a second database user with the same permissions as the current one. On Redis Software, add the user to the database's role. On Redis Open Source, connect as an access control list (ACL) administrator and reproduce the current application user's command, key, and channel rules. Don't grant `+@all`, `~*`, or `&*` unless the current user already has those permissions. Persist the rules with `ACL SAVE` for an external ACL file, or `CONFIG REWRITE` for `redis.conf`. On a Redis Open Source cluster, apply and verify the user on every node.
+1. Write the new user and password into each connection entry in the table that points to the metadata Redis, in place, with `kubectl apply` or your secret manager. Leave entries for other Redis databases unchanged.
 1. Restart the components in this order, and wait for each group to finish before the next. This function skips a Deployment you didn't install, such as a disabled service, the Agent Playbooks worker without extraction, `iris-ui-auth` without IdP sign-in, or the Agent Memory queue monitor:
 
    ```bash
@@ -178,7 +172,7 @@ Restore into a namespace with the same name. Workload identity trusts the Servic
 
 1. Run `helm test iris --namespace <namespace-name> --logs`, then read a known record with an existing agent key.
 
-If the generated credential Secrets are lost too, the databases still hold the data, but the services and the Identity Service no longer share their runtime credentials and internal tokens. Install again with the same values: the chart generates new credentials, and agent keys keep working, because the Identity Service keeps them in its database.
+If the chart-generated credential Secrets are lost, first recreate every customer-supplied Secret referenced by your values from its backup or external secret manager. Install again with the same values. The chart generates new suite credentials. Existing agent keys keep working only if the Identity Service metadata database survives. This recovery path is documented but hasn't been tested.
 
 ## Remove a service permanently
 
